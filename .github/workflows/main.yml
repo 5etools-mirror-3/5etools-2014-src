@@ -2,6 +2,8 @@ name: Build and Upload Release
 
 on:
    push:
+      branches:
+         - main  # Ensure this covers the branch `wei/pull` syncs to
       tags:
          - 'v**'
 
