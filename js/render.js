@@ -3167,13 +3167,13 @@ Renderer.utils = class {
 
 	/**
 	 * @param entry Data entry to search for fluff on, e.g. a monster
-	 * @param prop The fluff index reference prop, e.g. `"monsterFluff"`
+	 * @param fluffProp The fluff index reference prop, e.g. `"monsterFluff"`
 	 */
-	static async pGetPredefinedFluff (entry, prop) {
+	static async pGetPredefinedFluff (entry, fluffProp, {lockToken2 = null} = {}) {
 		if (!entry.fluff) return null;
 
-		const mappedProp = `_${prop}`;
-		const mappedPropAppend = `_append${prop.uppercaseFirst()}`;
+		const mappedProp = `_${fluffProp}`;
+		const mappedPropAppend = `_append${fluffProp.uppercaseFirst()}`;
 		const fluff = {};
 
 		const assignPropsIfExist = (fromObj, ...props) => {
@@ -3185,28 +3185,29 @@ Renderer.utils = class {
 		assignPropsIfExist(entry.fluff, "name", "type", "entries", "images");
 
 		if (entry.fluff[mappedProp]) {
-			const fromList = [
-				...((await PrereleaseUtil.pGetBrewProcessed())[prop] || []),
-				...((await BrewUtil2.pGetBrewProcessed())[prop] || []),
-			]
-				.find(it =>
-					it.name === entry.fluff[mappedProp].name
-					&& it.source === entry.fluff[mappedProp].source,
-				);
+			const fromList = await DataLoader.pCacheAndGet(
+				fluffProp,
+				entry.source,
+				UrlUtil.URL_TO_HASH_BUILDER[fluffProp](entry.fluff[mappedProp]),
+				{
+					lockToken2,
+					isCopy: true,
+				},
+			);
 			if (fromList) {
 				assignPropsIfExist(fromList, "name", "type", "entries", "images");
 			}
 		}
 
 		if (entry.fluff[mappedPropAppend]) {
-			const fromList = [
-				...((await PrereleaseUtil.pGetBrewProcessed())[prop] || []),
-				...((await BrewUtil2.pGetBrewProcessed())[prop] || []),
-			]
-				.find(it =>
-					it.name === entry.fluff[mappedPropAppend].name
-					&& it.source === entry.fluff[mappedPropAppend].source,
-				);
+			const fromList = await DataLoader.pCacheAndGet(
+				fluffProp,
+				entry.source,
+				UrlUtil.URL_TO_HASH_BUILDER[mappedPropAppend](entry.fluff[mappedProp]),
+				{
+					lockToken2,
+				},
+			);
 			if (fromList) {
 				if (fromList.entries) {
 					fluff.entries = MiscUtil.copyFast(fluff.entries || []);
@@ -3245,13 +3246,13 @@ Renderer.utils = class {
 
 	// TODO(Future) move into `DataLoader`; cleanup `lockToken2` usage
 	static async pGetFluff ({entity, pFnPostProcess, fluffProp, lockToken2 = null} = {}) {
-		const predefinedFluff = await Renderer.utils.pGetPredefinedFluff(entity, fluffProp);
+		const predefinedFluff = await Renderer.utils.pGetPredefinedFluff(entity, fluffProp, {lockToken2});
 		if (predefinedFluff) {
 			if (pFnPostProcess) return pFnPostProcess(predefinedFluff);
 			return predefinedFluff;
 		}
 
-		const fluff = await Renderer.utils._pGetFluff({entity, fluffProp});
+		const fluff = await Renderer.utils._pGetFluff({entity, fluffProp, lockToken2});
 		if (!fluff) return null;
 
 		if (pFnPostProcess) return pFnPostProcess(fluff);

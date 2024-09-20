@@ -2,7 +2,7 @@
 
 // in deployment, `IS_DEPLOYED = "<version number>";` should be set below.
 globalThis.IS_DEPLOYED = undefined;
-globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.4"/* 5ETOOLS_VERSION__CLOSE */;
+globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.5"/* 5ETOOLS_VERSION__CLOSE */;
 globalThis.DEPLOYED_IMG_ROOT = undefined;
 // for the roll20 script to set
 globalThis.IS_VTT = false;
@@ -6286,6 +6286,12 @@ globalThis.DataUtil = {
 		// endregion
 	},
 
+	classFeature: class extends _DataUtilPropConfigMultiSource {
+		static _PAGE = "classFeature";
+		static _DIR = "class";
+		static _PROP = "classFeature";
+	},
+
 	classFluff: class extends _DataUtilPropConfigMultiSource {
 		static _PAGE = UrlUtil.PG_CLASSES;
 		static _DIR = "class";
@@ -6299,6 +6305,12 @@ globalThis.DataUtil = {
 		static async loadJSON () {
 			return DataUtil.class.loadJSON();
 		}
+	},
+
+	subclassFeature: class extends _DataUtilPropConfigMultiSource {
+		static _PAGE = "subclassFeature";
+		static _DIR = "class";
+		static _PROP = "subclassFeature";
 	},
 
 	subclassFluff: class extends _DataUtilPropConfigMultiSource {

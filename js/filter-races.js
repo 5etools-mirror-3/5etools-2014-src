@@ -111,7 +111,7 @@ class PageFilterRaces extends PageFilterBase {
 		});
 		this._miscFilter = new Filter({
 			header: "Miscellaneous",
-			items: ["Base Race", "Key Race", "Lineage", "Modified Copy", "Reprinted", "SRD", "Basic Rules", "Legacy", "Has Images", "Has Info"],
+			items: ["Base Race", "Key Race", "Lineage", "Modified Copy", "Reprinted", "Legacy", "Has Images", "Has Info"],
 			isMiscFilter: true,
 			// N.b. "Reprinted" is not red by default, as we assume tastes vary w.r.t. ability score style
 		});
@@ -167,6 +167,7 @@ class PageFilterRaces extends PageFilterBase {
 		this._conditionImmuneFilter.addItem(r._fCondImm);
 		this._ageFilter.addItem(r._fAge);
 		this._languageFilter.addItem(r._fLangs);
+		this._miscFilter.addItem(r._fMisc);
 	}
 
 	async _pPopulateBoxOptions (opts) {

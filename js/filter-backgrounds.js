@@ -23,7 +23,7 @@ class PageFilterBackgrounds extends PageFilterBase {
 		this._otherBenefitsFilter = new Filter({header: "Other Benefits"});
 		this._miscFilter = new Filter({
 			header: "Miscellaneous",
-			items: ["Has Info", "Has Images", "SRD", "Basic Rules", "Legacy"],
+			items: ["Has Info", "Has Images", "Legacy"],
 			isMiscFilter: true,
 			deselFn: PageFilterBase.defaultMiscellaneousDeselFn.bind(PageFilterBase),
 		});
@@ -55,7 +55,6 @@ class PageFilterBackgrounds extends PageFilterBase {
 		});
 		bg._fLangs = languages;
 
-		bg._fMisc = [];
 		this._mutateForFilters_commonMisc(bg);
 		bg._fOtherBenifits = [];
 		if (bg.feats) bg._fOtherBenifits.push("Feat");
@@ -75,6 +74,7 @@ class PageFilterBackgrounds extends PageFilterBase {
 		this._languageFilter.addItem(bg._fLangs);
 		this._asiFilter.addItem(bg.ability);
 		this._otherBenefitsFilter.addItem(bg._fOtherBenifits);
+		this._miscFilter.addItem(bg._fMisc);
 	}
 
 	async _pPopulateBoxOptions (opts) {
