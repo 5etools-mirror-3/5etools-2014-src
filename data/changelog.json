@@ -2779,5 +2779,10 @@
 		"ver": "1.210.5",
 		"date": "2024-09-20",
 		"txt": "- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.6",
+		"date": "2024-09-21",
+		"txt": "- Fixed header \"Toggle Visibility\" (`[-]`) buttons failing to collapse inline text in some cases\n- Fixed DM Screen panel \"Add Tab\" button failing to register clicks\n- (Brew) Fixed Blocklist crash when specific homebrews are loaded\n- (Fixed typos/added tags)"
 	}
 ]

@@ -2970,6 +2970,8 @@ Renderer.utils = class {
 		}).join("; ")}`;
 	}
 
+	static getReprintedAsHtml (it) { return Renderer.utils._getReprintedAsHtmlOrText(it); }
+
 	static _getReprintedAsHtmlOrText (ent, {isText} = {}) {
 		if (!ent.reprintedAs) return "";
 
@@ -2980,13 +2982,14 @@ Renderer.utils = class {
 				const uid = it.uid ?? it;
 				const tag_ = it.tag ?? tag;
 
-				const {name, source, displayText} = DataUtil.proxy.unpackUid(ent.__prop, uid, tag_);
+				const unpacked = DataUtil.proxy.unpackUid(ent.__prop, uid, tag_);
+				const {name, source, displayText} = unpacked;
 
 				if (isText) {
 					return `${Renderer.stripTags(displayText || name)} in ${Parser.sourceJsonToAbv(source)}`;
 				}
 
-				const asTag = `{@${tag_} ${uid}${displayText ? `|${displayText}` : ""}}`;
+				const asTag = `{@${tag_} ${uid}}`;
 
 				return `${Renderer.get().render(asTag)} in <i class="help-subtle" title="${Parser.sourceJsonToFull(source).qq()}">${Parser.sourceJsonToAbv(source)}</i>`;
 			})
@@ -4075,6 +4078,22 @@ Renderer.utils = class {
 				};
 			}
 
+			case "@subclass": {
+				const unpacked = DataUtil.subclass.unpackUid(text);
+
+				const classPageHash = `${UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CLASSES]({name: unpacked.className, source: unpacked.classSource})}${HASH_PART_SEP}${UrlUtil.getClassesPageStatePart({subclass: unpacked})}`;
+
+				return {
+					name: unpacked.name,
+					displayText: unpacked.displayText,
+
+					page: UrlUtil.PG_CLASSES,
+					source: unpacked.source,
+					hash: classPageHash,
+					hashPreEncoded: true,
+				};
+			}
+
 			case "@classFeature": {
 				const unpacked = DataUtil.class.unpackUidClassFeature(text);
 
@@ -5133,6 +5152,19 @@ Renderer.tag = class {
 		page = UrlUtil.PG_DEITIES;
 	};
 
+	static _TagPipedDisplayTextFifth = class extends this._TagBaseAt {
+		_getStripped (tag, text) {
+			const parts = Renderer.splitTagByPipe(text);
+			return parts.length >= 5 ? parts[4] : parts[0];
+		}
+	};
+
+	static TagSubclass = class extends this._TagPipedDisplayTextFifth {
+		tagName = "subclass";
+		defaultSource = Parser.SRC_PHB;
+		page = UrlUtil.PG_CLASSES;
+	};
+
 	static _TagPipedDisplayTextSixth = class extends this._TagBaseAt {
 		_getStripped (tag, text) {
 			const parts = Renderer.splitTagByPipe(text);
@@ -5337,9 +5369,11 @@ Renderer.tag = class {
 		new this.TagCard(),
 		new this.TagDeity(),
 
-		new this.TagClassFeature({tagName: "classFeature"}),
+		new this.TagSubclass(),
 
-		new this.TagSubclassFeature({tagName: "subclassFeature"}),
+		new this.TagClassFeature(),
+
+		new this.TagSubclassFeature(),
 
 		new this.TagHomebrew(),
 
@@ -5452,7 +5486,22 @@ Renderer.events = class {
 				if (
 					eleToCheck.classList.contains("rd__b-special")
 					|| (eleToCheck.classList.contains("rd__h") && !eleToCheck.classList.contains("rd__h--3"))
-					|| (eleToCheck.classList.contains("rd__b") && !eleToCheck.classList.contains("rd__b--3"))
+				) break;
+
+				if (
+					!eleToCheck.classList.contains("rd__b")
+					|| eleToCheck.classList.contains("rd__b--3")
+				) {
+					eleNxt.classList.toggle("rd__ele-toggled-hidden", !isShow);
+					eleNxt = eleNxt.nextElementSibling;
+					continue;
+				}
+
+				// For blocks, even if the block is a higher-level entry, it may not contain a higher-level header (i.e., it's just a wrapper)
+				//   Break only if the block has a higher-level header
+				if (
+					[...eleToCheck.querySelectorAll(".rd__h")]
+						.some(eleSub => eleSub.classList.contains("rd__h--0") || eleSub.classList.contains("rd__h--1") || eleSub.classList.contains("rd__h--2"))
 				) break;
 			}
 

@@ -2,7 +2,7 @@
 
 // in deployment, `IS_DEPLOYED = "<version number>";` should be set below.
 globalThis.IS_DEPLOYED = undefined;
-globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.5"/* 5ETOOLS_VERSION__CLOSE */;
+globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.6"/* 5ETOOLS_VERSION__CLOSE */;
 globalThis.DEPLOYED_IMG_ROOT = undefined;
 // for the roll20 script to set
 globalThis.IS_VTT = false;
@@ -6182,6 +6182,7 @@ globalThis.DataUtil = {
 			classSource = classSource || (opts.isLower ? Parser.SRC_PHB.toLowerCase() : Parser.SRC_PHB);
 			source = source || (opts.isLower ? Parser.SRC_PHB.toLowerCase() : Parser.SRC_PHB);
 			return {
+				name: shortName, // (For display purposes only)
 				shortName,
 				className,
 				classSource,
@@ -6305,6 +6306,10 @@ globalThis.DataUtil = {
 		static async loadJSON () {
 			return DataUtil.class.loadJSON();
 		}
+
+		static unpackUid (uid, opts) {
+			return DataUtil.class.unpackUidSubclass(uid, opts);
+		}
 	},
 
 	subclassFeature: class extends _DataUtilPropConfigMultiSource {
@@ -6377,6 +6382,10 @@ globalThis.DataUtil = {
 		static getNormalizedUid (uid, tag) {
 			const {name, pantheon, source} = this.unpackUidDeity(uid, tag, {isLower: true});
 			return [name, pantheon, source].join("|");
+		}
+
+		static unpackUid (uid, opts) {
+			return this.unpackUidDeity(uid, opts);
 		}
 
 		static unpackUidDeity (uid, opts) {
