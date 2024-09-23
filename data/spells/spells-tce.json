@@ -308,6 +308,7 @@
 			],
 			"miscTags": [
 				"ADV",
+				"SCT",
 				"SGT"
 			],
 			"hasFluffImages": true
@@ -1146,6 +1147,7 @@
 				"intelligence"
 			],
 			"miscTags": [
+				"SCT",
 				"SGT"
 			],
 			"areaTags": [
