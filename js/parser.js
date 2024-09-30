@@ -252,8 +252,10 @@ Parser.getAbilityModifier = function (abilityScore) {
 	return `${modifier}`;
 };
 
-Parser.getSpeedString = (ent, {isMetric = false, isSkipZeroWalk = false, isLongForm = false} = {}) => {
+Parser.getSpeedString = (ent, {isMetric = false, isSkipZeroWalk = false, isLongForm = false, styleHint = null} = {}) => {
 	if (ent.speed == null) return "\u2014";
+
+	styleHint ||= VetoolsConfig.get("styleSwitcher", "style");
 
 	const unit = isMetric
 		? Parser.metric.getMetricUnit({originalUnit: "ft.", isShortForm: !isLongForm})
@@ -264,7 +266,7 @@ Parser.getSpeedString = (ent, {isMetric = false, isSkipZeroWalk = false, isLongF
 
 		Parser.SPEED_MODES
 			.filter(mode => !ent.speed.hidden?.includes(mode))
-			.forEach(mode => Parser._getSpeedString_addSpeedMode({ent, prop: mode, stack, isMetric, isSkipZeroWalk, unit}));
+			.forEach(mode => Parser._getSpeedString_addSpeedMode({ent, prop: mode, stack, isMetric, isSkipZeroWalk, unit, styleHint}));
 
 		if (ent.speed.choose && !ent.speed.hidden?.includes("choose")) {
 			joiner = "; ";
@@ -277,12 +279,12 @@ Parser.getSpeedString = (ent, {isMetric = false, isSkipZeroWalk = false, isLongF
 	return (isMetric ? Parser.metric.getMetricNumber({originalValue: ent.speed, originalUnit: Parser.UNT_FEET}) : ent.speed)
 		+ (ent.speed === "Varies" ? "" : ` ${unit} `);
 };
-Parser._getSpeedString_addSpeedMode = ({ent, prop, stack, isMetric, isSkipZeroWalk, unit}) => {
-	if (ent.speed[prop] || (!isSkipZeroWalk && prop === "walk")) Parser._getSpeedString_addSpeed({prop, speed: ent.speed[prop] || 0, isMetric, unit, stack});
-	if (ent.speed.alternate && ent.speed.alternate[prop]) ent.speed.alternate[prop].forEach(speed => Parser._getSpeedString_addSpeed({prop, speed, isMetric, unit, stack}));
+Parser._getSpeedString_addSpeedMode = ({ent, prop, stack, isMetric, isSkipZeroWalk, unit, styleHint}) => {
+	if (ent.speed[prop] || (!isSkipZeroWalk && prop === "walk")) Parser._getSpeedString_addSpeed({prop, speed: ent.speed[prop] || 0, isMetric, unit, stack, styleHint});
+	if (ent.speed.alternate && ent.speed.alternate[prop]) ent.speed.alternate[prop].forEach(speed => Parser._getSpeedString_addSpeed({prop, speed, isMetric, unit, stack, styleHint}));
 };
-Parser._getSpeedString_addSpeed = ({prop, speed, isMetric, unit, stack}) => {
-	const ptName = prop === "walk" ? "" : `${prop} `;
+Parser._getSpeedString_addSpeed = ({prop, speed, isMetric, unit, stack, styleHint}) => {
+	const ptName = prop === "walk" ? "" : `${prop[styleHint === "classic" ? "toString" : "toTitleCase"]()} `;
 	const ptValue = Parser._getSpeedString_getVal({prop, speed, isMetric});
 	const ptUnit = speed === true ? "" : ` ${unit}`;
 	const ptCondition = Parser._getSpeedString_getCondition({speed});

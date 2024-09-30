@@ -479,6 +479,9 @@ globalThis.Renderer = function () {
 				// misc
 				case "code": this._renderCode(entry, textStack, meta, options); break;
 				case "hr": this._renderHr(entry, textStack, meta, options); break;
+
+				// raw
+				case "wrappedHtml": textStack[0] += entry.html; break;
 			}
 
 			meta._typeStack.pop();
@@ -944,12 +947,12 @@ globalThis.Renderer = function () {
 			const len = entry.entries.length;
 			for (let i = 0; i < len; ++i) {
 				meta.depth = 2;
-				const toRender = i === 0 ? {type: "inlineBlock", entries: [headerSpan, entry.entries[i]]} : entry.entries[i];
+				const toRender = i === 0 ? {type: "inlineBlock", entries: [{type: "wrappedHtml", html: headerSpan}, entry.entries[i]]} : entry.entries[i];
 				this._recursiveRender(toRender, textStack, meta, {prefix: "<p>", suffix: "</p>"});
 			}
 			meta.depth = cacheDepth;
 		} else {
-			this._recursiveRender({type: "inlineBlock", entries: [headerSpan]}, textStack, meta, {prefix: "<p>", suffix: "</p>"});
+			this._recursiveRender({type: "inlineBlock", entries: [{type: "wrappedHtml", html: headerSpan}]}, textStack, meta, {prefix: "<p>", suffix: "</p>"});
 		}
 		textStack[0] += `</${this.wrapperTag}>`;
 	};
@@ -1408,11 +1411,11 @@ globalThis.Renderer = function () {
 		if (entry.entries) {
 			const len = entry.entries.length;
 			for (let i = 0; i < len; ++i) {
-				const toRender = i === 0 ? {type: "inlineBlock", entries: [headerSpan, entry.entries[i]]} : entry.entries[i];
+				const toRender = i === 0 ? {type: "inlineBlock", entries: [{type: "wrappedHtml", html: headerSpan}, entry.entries[i]]} : entry.entries[i];
 				this._recursiveRender(toRender, textStack, meta, {prefix: "<p>", suffix: "</p>"});
 			}
 		} else {
-			this._recursiveRender({type: "inlineBlock", entries: [headerSpan]}, textStack, meta, {prefix: "<p>", suffix: "</p>"});
+			this._recursiveRender({type: "inlineBlock", entries: [{type: "wrappedHtml", html: headerSpan}]}, textStack, meta, {prefix: "<p>", suffix: "</p>"});
 		}
 		textStack[0] += `</${this.wrapperTag}>`;
 
@@ -9540,9 +9543,15 @@ Renderer.monster = class {
 		return cpy;
 	}
 
-	static getRenderedLanguages (languages) {
+	static getRenderedLanguages (languages, {styleHint = null} = {}) {
+		styleHint ||= VetoolsConfig.get("styleSwitcher", "style");
+
 		if (typeof languages === "string") languages = [languages]; // handle legacy format
-		return languages ? languages.map(it => Renderer.get().render(it)).join(", ") : "\u2014";
+		if (!languages?.length) return "\u2014";
+
+		const out = languages.map(it => Renderer.get().render(it)).join(", ");
+		if (styleHint === "classic") return out;
+		return out.uppercaseFirst();
 	}
 
 	static initParsed (mon) {
@@ -13138,7 +13147,7 @@ Renderer.hover = class {
 	static handleInlineMouseOver (evt, ele, entry, opts) {
 		Renderer.hover._doInit();
 
-		entry = entry || JSON.parse(ele.dataset.vetEntry);
+		entry = entry || JSON.parse(ele.getAttribute("data-vet-entry"));
 
 		let meta = Renderer.hover._handleGenericMouseOverStart({evt, ele});
 		if (meta == null) return;

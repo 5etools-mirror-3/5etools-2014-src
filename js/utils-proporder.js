@@ -1546,6 +1546,7 @@ PropOrder._FEAT = [
 	"conditionImmune",
 
 	"senses",
+	"bonusSenses",
 
 	"additionalSpells",
 
@@ -2062,9 +2063,11 @@ PropOrder._OPTIONALFEATURE = [
 	"conditionImmune",
 
 	"senses",
+	"bonusSenses",
 
 	"additionalSpells",
 
+	"featProgression",
 	"optionalfeatureProgression",
 
 	"consumes",

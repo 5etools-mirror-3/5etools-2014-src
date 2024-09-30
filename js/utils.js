@@ -2,7 +2,7 @@
 
 // in deployment, `IS_DEPLOYED = "<version number>";` should be set below.
 globalThis.IS_DEPLOYED = undefined;
-globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.7"/* 5ETOOLS_VERSION__CLOSE */;
+globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.8"/* 5ETOOLS_VERSION__CLOSE */;
 globalThis.DEPLOYED_IMG_ROOT = undefined;
 // for the roll20 script to set
 globalThis.IS_VTT = false;
@@ -154,6 +154,10 @@ String.prototype.toCamelCase = String.prototype.toCamelCase || function () {
 	}).join("");
 };
 
+String.prototype.toSingle = String.prototype.toSingle || function () {
+	return this.replace(/i?e?s$/i, "");
+};
+
 String.prototype.toPlural = String.prototype.toPlural || function () {
 	let plural;
 	if (StrUtil.IRREGULAR_PLURAL_WORDS[this.toLowerCase()]) plural = StrUtil.IRREGULAR_PLURAL_WORDS[this.toLowerCase()];
@@ -168,7 +172,7 @@ String.prototype.toPlural = String.prototype.toPlural || function () {
 };
 
 String.prototype.escapeQuotes = String.prototype.escapeQuotes || function () {
-	return this.replace(/'/g, `&apos;`).replace(/"/g, `&quot;`).replace(/</g, `&lt;`).replace(/>/g, `&gt;`);
+	return this.replace(/&/g, `&amp;`).replace(/'/g, `&apos;`).replace(/"/g, `&quot;`).replace(/</g, `&lt;`).replace(/>/g, `&gt;`);
 };
 
 String.prototype.qq = String.prototype.qq || function () {
@@ -176,7 +180,7 @@ String.prototype.qq = String.prototype.qq || function () {
 };
 
 String.prototype.unescapeQuotes = String.prototype.unescapeQuotes || function () {
-	return this.replace(/&apos;/g, `'`).replace(/&quot;/g, `"`).replace(/&lt;/g, `<`).replace(/&gt;/g, `>`);
+	return this.replace(/&apos;/g, `'`).replace(/&quot;/g, `"`).replace(/&lt;/g, `<`).replace(/&gt;/g, `>`).replace(/&amp;/g, `&`);
 };
 
 String.prototype.uq = String.prototype.uq || function () {
@@ -8070,6 +8074,8 @@ if (typeof window !== "undefined") window.addEventListener("rivet.active", () =>
  * @constructor
  */
 globalThis.VeLock = function ({name = null, isDbg = false} = {}) {
+	this._MSG_PAD_LEN = 8;
+
 	this._name = name;
 	this._isDbg = isDbg;
 	this._lockMeta = null;
@@ -8082,14 +8088,14 @@ globalThis.VeLock = function ({name = null, isDbg = false} = {}) {
 		if (token != null && this._lockMeta?.token === token) {
 			++this._lockMeta.depth;
 			// eslint-disable-next-line no-console
-			if (this._isDbg) console.warn(`Lock "${this._name || "(unnamed)"}" add (now ${this._lockMeta.depth}) at ${this._getCaller()}`);
+			if (this._isDbg) console.warn(`Lock ${"add".padEnd(this._MSG_PAD_LEN, " ")} "${this._name || "(unnamed)"}" (now ${this._lockMeta.depth}) at ${this._getCaller()}`);
 			return token;
 		}
 
 		while (this._lockMeta) await this._lockMeta.lock;
 
 		// eslint-disable-next-line no-console
-		if (this._isDbg) console.warn(`Lock "${this._name || "(unnamed)"}" acquired at ${this._getCaller()}`);
+		if (this._isDbg) console.warn(`Lock ${"acquired".padEnd(this._MSG_PAD_LEN, " ")} "${this._name || "(unnamed)"}" at ${this._getCaller()}`);
 
 		let unlock = null;
 		const lock = new Promise(resolve => unlock = resolve);
@@ -8108,12 +8114,12 @@ globalThis.VeLock = function ({name = null, isDbg = false} = {}) {
 
 		if (this._lockMeta.depth > 0) {
 			// eslint-disable-next-line no-console
-			if (this._isDbg) console.warn(`Lock "${this._name || "(unnamed)"}" sub (now ${this._lockMeta.depth - 1}) at ${this._getCaller()}`);
+			if (this._isDbg) console.warn(`Lock ${"sub".padEnd(this._MSG_PAD_LEN, " ")} "${this._name || "(unnamed)"}" (now ${this._lockMeta.depth - 1}) at ${this._getCaller()}`);
 			return --this._lockMeta.depth;
 		}
 
 		// eslint-disable-next-line no-console
-		if (this._isDbg) console.warn(`Lock "${this._name || "(unnamed)"}" released at ${this._getCaller()}`);
+		if (this._isDbg) console.warn(`Lock ${"released".padEnd(this._MSG_PAD_LEN, " ")} "${this._name || "(unnamed)"}" at ${this._getCaller()}`);
 
 		const lockMeta = this._lockMeta;
 		this._lockMeta = null;
