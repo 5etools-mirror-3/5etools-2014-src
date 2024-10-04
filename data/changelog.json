@@ -2794,5 +2794,10 @@
 		"ver": "1.210.8",
 		"date": "2024-09-30",
 		"txt": "- Fixed search modals (e.g. DM Screen search) hiding loaded partnered content\n- Fixed rare case where \"Get link to filters\" button could fail to produce a valid link\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.9",
+		"date": "2024-10-04",
+		"txt": "- Added adventure/book links to list page \"Info\"/\"Images\" tab source/page headers (previously only available in the \"Stats\" tab)\n- Added \"Copy Link to Filters (Extensible)\" option to list pages, to explicitly copy \"old style\" filter links\n- (Brew) Improved search text generation performance when using `stats: ...`/`info: ...`/`text: ...` on large lists\n- (Fixed typos/added tags)"
 	}
 ]
