@@ -10,31 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout main branch
-      uses: actions/checkout@v3  # Updated to v3 to resolve Node.js deprecation warnings
+    - name: Checkout repository
+      uses: actions/checkout@v3
       with:
-        fetch-depth: 0        # Fetch all history for all branches and tags
+        fetch-depth: 0  # Fetch all branches and history
         ref: main
-
-    - name: Check out custom changes branch
-      run: |
-        git fetch origin  # Fetches all branches from your fork
-        git checkout orcnog
-        - name: Checkout main branch
 
     - name: Set up Git
       run: |
-        git --version  # Ensure git is available
         git config --global user.email "orcnog@gmail.com"
         git config --global user.name "orcnog"
 
-    - name: Check out custom changes branch
+    - name: Fetch all branches and checkout 'orcnog'
       run: |
+        git fetch origin  # Fetches all branches
         git checkout orcnog
 
     - name: Attempt to rebase custom changes
-      run: | #should notify me on a failure out of the box
-        git rebase main
+      run: git rebase main
 
     - name: Push changes back to custom branch (if rebase was successful)
       if: success()
