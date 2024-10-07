@@ -21,6 +21,11 @@ jobs:
       - name: Fetch upstream
         run: git fetch upstream
 
+      - name: Set committer identity
+        run: |
+          git config --global user.email "orcnog@gmail.com" # Use my email
+          git config --global user.name "orcnog" # Use my name
+
       - name: Merge upstream changes
         run: git merge upstream/main --allow-unrelated-histories
 
