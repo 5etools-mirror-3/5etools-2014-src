@@ -1,0 +1,34 @@
+name: Reapply My Custom Changes After Sync
+
+on:
+  push:
+    branches:
+      - main  # Detects Pull app sync to main branch
+
+jobs:
+  reapply-changes:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch all branches and history
+        ref: main
+
+    - name: Set up Git
+      run: |
+        git config --global user.email "orcnog@gmail.com"
+        git config --global user.name "orcnog"
+
+    - name: Fetch all branches and checkout 'orcnog'
+      run: |
+        git fetch origin  # Fetches all branches
+        git checkout orcnog
+
+    - name: Attempt to rebase custom changes
+      run: git rebase main
+
+    - name: Push changes back to custom branch (if rebase was successful)
+      if: success()
+      run: git push origin orcnog --force-with-lease

@@ -1,7 +1,9 @@
-name: Build and Deploy Pages
+name: Build and Deploy Pages, Fix Img Sources
 
 on:
    push:
+      branches:
+         - main  # Ensure this covers the branch `wei/pull` syncs to
       tags:
          - 'v**'
 
@@ -58,7 +60,7 @@ jobs:
          -  name: Build SEO Pages
             env:
                VET_SEO_IS_DEV_MODE: true
-               VET_BASE_SITE_URL: https://5e.orcnog.com/
+               VET_BASE_SITE_URL: https://5etools-mirror-2.github.io/
                VET_SEO_IS_SKIP_UA_ETC: true
             run: |
                npm run build:seo -- ${{ github.ref_name }}
