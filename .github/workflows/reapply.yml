@@ -13,7 +13,14 @@ jobs:
     - name: Checkout main branch
       uses: actions/checkout@v3  # Updated to v3 to resolve Node.js deprecation warnings
       with:
+        fetch-depth: 0        # Fetch all history for all branches and tags
         ref: main
+
+    - name: Check out custom changes branch
+      run: |
+        git fetch origin  # Fetches all branches from your fork
+        git checkout orcnog
+        - name: Checkout main branch
 
     - name: Set up Git
       run: |
@@ -26,14 +33,9 @@ jobs:
         git checkout orcnog
 
     - name: Attempt to rebase custom changes
-      run: |
-        git rebase main || git rebase --abort
+      run: | #should notify me on a failure out of the box
+        git rebase main
 
     - name: Push changes back to custom branch (if rebase was successful)
       if: success()
       run: git push origin orcnog --force-with-lease
-
-    - name: Send failure email if rebase fails
-      if: failure()
-      run: |
-        echo "Rebase failed due to conflicts. Please resolve manually." | mail -s "GitHub Action: Rebase Failure" orcnog@gmail.com
