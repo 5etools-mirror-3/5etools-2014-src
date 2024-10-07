@@ -31,3 +31,17 @@ jobs:
 
       - name: Push changes
         run: git push origin main
+
+      - name: Sync Repos Action
+        uses: AzulGarza/sync-repos@v1.0.9
+        with:
+          target-repo: orcnog/orcnog.github.io
+          target-path: /
+          source-path: /
+          branch-name: mirror-3
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'Commit message'
+          base-branch: main
+          label: documentation
+          user-email: orcnog@gmail.com
+          user-name: orcnog
