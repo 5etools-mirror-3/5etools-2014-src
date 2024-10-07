@@ -11,17 +11,19 @@ jobs:
 
     steps:
     - name: Checkout main branch
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3  # Updated to v3 to resolve Node.js deprecation warnings
       with:
         ref: main
 
     - name: Set up Git
       run: |
+        git --version  # Ensure git is available
         git config --global user.email "orcnog@gmail.com"
         git config --global user.name "orcnog"
 
     - name: Check out custom changes branch
-      run: git checkout orcnog
+      run: |
+        git checkout orcnog
 
     - name: Attempt to rebase custom changes
       run: |
