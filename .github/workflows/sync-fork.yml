@@ -1,0 +1,28 @@
+name: Sync Fork
+
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Runs every Sunday at midnight (UTC)
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 5etools-mirror-3 repo
+        uses: actions/checkout@v3
+        with:
+          repository: orcnog/5etools-mirror-3
+          ref: main
+
+      - name: Add upstream
+        run: git remote add upstream https://github.com/5etools-mirror-3/5etools-2014-src.git # The original repo URL (the fork source)
+
+      - name: Fetch upstream
+        run: git fetch upstream
+
+      - name: Merge upstream changes
+        run: git merge upstream/main
+
+      - name: Push changes
+        run: git push origin main
