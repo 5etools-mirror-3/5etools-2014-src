@@ -1,11 +1,11 @@
 "use strict";
 
 class DecksSublistManager extends SublistManager {
-	static get _ROW_TEMPLATE () {
+	static _getRowTemplate () {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-12 pl-0",
+				css: "bold ve-col-12 px-0",
 				colStyle: "",
 			}),
 		];
@@ -15,7 +15,7 @@ class DecksSublistManager extends SublistManager {
 		const cellsText = [ent.name];
 
 		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst--border lst__row-inner">
+			<a href="#${hash}" class="lst__row-border lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
 		</div>`)
@@ -134,9 +134,9 @@ class DecksPage extends ListPage {
 		const source = Parser.sourceJsonToAbv(ent.source);
 		const hash = UrlUtil.autoEncodeHash(ent);
 
-		eleLi.innerHTML = `<a href="#${hash}" class="lst--border lst__row-inner">
-			<span class="ve-col-10 bold pl-0">${ent.name}</span>
-			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(ent.source)} pr-0" title="${Parser.sourceJsonToFull(ent.source)}" ${Parser.sourceJsonToStyle(ent.source)}>${source}</span>
+		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
+			<span class="ve-col-10 bold pl-0 pr-1">${ent.name}</span>
+			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(ent.source)} pl-1 pr-0" title="${Parser.sourceJsonToFull(ent.source)}" ${Parser.sourceJsonToStyle(ent.source)}>${source}</span>
 		</a>`;
 
 		const listItem = new ListItem(
@@ -169,7 +169,7 @@ class DecksPage extends ListPage {
 		const $wrpControls = $(`<div class="ve-flex mt-auto" data-name="deck-wrp-controls"></div>`)
 			.prependTo(this._$wrpTabs);
 
-		const $btnDraw = $(`<button class="btn btn-xs btn-primary bb-0 bbr-0 bbl-0" title="Draw a Card (SHIFT to Skip Replacement; CTRL to Skip Animation)"><i class="fas fa-fw fa-cards"></i></button>`)
+		const $btnDraw = $(`<button class="ve-btn ve-btn-xs ve-btn-primary bb-0 bbr-0 bbl-0" title="Draw a Card (SHIFT to Skip Replacement; CTRL to Skip Animation)"><i class="fas fa-fw fa-cards"></i></button>`)
 			.click(async evt => {
 				const cards = this._compCardState.getUndrawnCards(ent);
 				if (!cards.length) return JqueryUtil.doToast({content: "All cards have already been drawn!", type: "warning"});
@@ -198,19 +198,19 @@ class DecksPage extends ListPage {
 				}
 			});
 
-		const $btnReset = $(`<button class="btn btn-xs btn-default bb-0 bbr-0 bbl-0" title="Reset Deck"><i class="fas fa-fw fa-undo-alt"></i></button>`)
+		const $btnReset = $(`<button class="ve-btn ve-btn-xs ve-btn-default bb-0 bbr-0 bbl-0" title="Reset Deck"><i class="fas fa-fw fa-undo-alt"></i></button>`)
 			.click(async () => {
 				await this._compCardState.pResetDeck(ent);
 				JqueryUtil.doToast("Reset deck!");
 			});
 
 		// region List vs Grid view
-		const $btnViewList = this._compSettings ? $(`<button class="btn btn-xs btn-default bb-0 bbr-0 bbl-0" title="Card List View"><i class="fas fa-fw fa-list"></i></button>`)
+		const $btnViewList = this._compSettings ? $(`<button class="ve-btn ve-btn-xs ve-btn-default bb-0 bbr-0 bbl-0" title="Card List View"><i class="fas fa-fw fa-list"></i></button>`)
 			.click(() => {
 				this._compSettings.pSet("cardLayout", "list").then(null);
 			}) : null;
 
-		const $btnViewGrid = this._compSettings ? $(`<button class="btn btn-xs btn-default bb-0 bbr-0 bbl-0" title="Card Grid View"><i class="fas fa-fw fa-grid-2"></i></button>`)
+		const $btnViewGrid = this._compSettings ? $(`<button class="ve-btn ve-btn-xs ve-btn-default bb-0 bbr-0 bbl-0" title="Card Grid View"><i class="fas fa-fw fa-grid-2"></i></button>`)
 			.click(() => {
 				this._compSettings.pSet("cardLayout", "grid").then(null);
 			}) : null;
@@ -225,12 +225,12 @@ class DecksPage extends ListPage {
 		// endregion
 
 		$$($wrpControls)`<div class="ve-flex">
-			<div class="ve-flex-v-center btn-group">
+			<div class="ve-flex-v-center ve-btn-group">
 				${$btnDraw}
 				${$btnReset}
 			</div>
 
-			<div class="ve-flex-v-center btn-group ml-2">
+			<div class="ve-flex-v-center ve-btn-group ml-2">
 				${$btnViewList}
 				${$btnViewGrid}
 			</div>

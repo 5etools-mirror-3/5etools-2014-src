@@ -1,113 +1,85 @@
-"use strict";
+import {VetoolsConfig} from "./utils-config/utils-config-config.js";
+import {SITE_STYLE__CLASSIC} from "./consts.js";
 
-class RenderBestiary {
+/** @abstract */
+class _RenderBestiaryImplBase {
+	_style;
+
 	/**
-	 * @param mon Creature data.
-	 * @param [options]
-	 * @param [options.$btnScaleCr] CR scaler button.
-	 * @param [options.$btnResetScaleCr] CR scaler reset button.
-	 * @param [options.selSummonSpellLevel] Summon spell level selector.
-	 * @param [options.selSummonClassLevel] Summon spell level selector.
-	 * @param [options.isSkipExcludesRender] If the "this entity is blocklisted" display should be skipped.
+	 * @param {object} mon
+	 * @param [opts]
+	 * @param {jQuery} [opts.$btnScaleCr]
+	 * @param {jQuery} [opts.$btnResetScaleCr]
+	 * @param {HTMLElementModified} [opts.selSummonSpellLevel]
+	 * @param {HTMLElementModified} [opts.selSummonClassLevel]
+	 * @param {boolean} [opts.isSkipExcludesRender]
+	 * @param {boolean} [opts.isSkipTokenRender]
+	 *
+	 * @return {jQuery}
 	 */
-	static $getRenderedCreature (mon, options) {
+	$getRenderedCreature (mon, opts) {
+		opts ||= {};
+
+		Renderer.monster.initParsed(mon);
 		const renderer = Renderer.get();
+
 		return Renderer.monster.getRenderWithPlugins({
 			renderer,
 			mon,
-			fn: () => RenderBestiary._$getRenderedCreature(mon, options, renderer),
+			fn: () => this._$getRenderedCreature({mon, opts, renderer}),
 		});
 	}
 
-	static _$getRenderedCreature (mon, options, renderer) {
-		options = options || {};
-		Renderer.monster.initParsed(mon);
-
-		const fnGetSpellTraits = Renderer.monster.getSpellcastingRenderedTraits.bind(Renderer.monster, renderer);
-		const allTraits = Renderer.monster.getOrderedTraits(mon, {fnGetSpellTraits});
-		const allActions = Renderer.monster.getOrderedActions(mon, {fnGetSpellTraits});
-		const allBonusActions = Renderer.monster.getOrderedBonusActions(mon, {fnGetSpellTraits});
-		const allReactions = Renderer.monster.getOrderedReactions(mon, {fnGetSpellTraits});
-		const legGroup = DataUtil.monster.getMetaGroup(mon);
-
-		const renderedVariants = Renderer.monster.getRenderedVariants(mon, {renderer});
-
-		const htmlSourceAndEnvironment = this._$getRenderedCreature_getHtmlSourceAndEnvironment(mon, legGroup);
-
-		const hasToken = Renderer.monster.hasToken(mon);
-		const extraThClasses = hasToken ? ["mon__name--token"] : null;
-
-		const ptsResource = mon.resource?.length
-			? mon.resource
-				.map(res => `<tr><td colspan="6"><div ${hasToken ? `class="mon__wrp-avoid-token"` : ""}><strong>${res.name}</strong> ${Renderer.monster.getRenderedResource(res)}</div></td></tr>`)
-			: [];
-
-		return $$`
-		${Renderer.utils.getBorderTr()}
-		${!options.isSkipExcludesRender ? Renderer.utils.getExcludedTr({entity: mon, dataProp: "monster", page: UrlUtil.PG_BESTIARY}) : null}
-		${Renderer.utils.getNameTr(mon, {controlRhs: mon.soundClip ? RenderBestiary._getPronunciationButton(mon) : "", extraThClasses, page: UrlUtil.PG_BESTIARY, extensionData: {_scaledCr: mon._scaledCr, _scaledSpellSummonLevel: mon._scaledSpellSummonLevel, _scaledClassSummonLevel: mon._scaledClassSummonLevel}})}
-		<tr><td colspan="6">
-			<div ${hasToken ? `class="mon__wrp-size-type-align--token"` : ""}><i>${Renderer.monster.getTypeAlignmentPart(mon)}</i></div>
-		</td></tr>
-		<tr><td class="divider" colspan="6"><div></div></td></tr>
-
-		<tr><td colspan="6"><div ${hasToken ? `class="mon__wrp-avoid-token"` : ""}><strong>Armor Class</strong> ${mon.ac == null ? "\u2014" : Parser.acToFull(mon.ac)}</div></td></tr>
-		<tr><td colspan="6"><div ${hasToken ? `class="mon__wrp-avoid-token"` : ""}><strong>Hit Points</strong> ${mon.hp == null ? "\u2014" : Renderer.monster.getRenderedHp(mon.hp)}</div></td></tr>
-		${ptsResource.join("")}
-		<tr><td colspan="6"><strong>Speed</strong> ${Parser.getSpeedString(mon)}</td></tr>
-		<tr><td class="divider" colspan="6"><div></div></td></tr>
-
-		${Renderer.monster.getRenderedAbilityScores(mon)}
-		<tr><td class="divider" colspan="6"><div></div></td></tr>
-
-		${mon.save ? `<tr><td colspan="6"><strong>Saving Throws</strong> ${Renderer.monster.getSavesPart(mon)}</td></tr>` : ""}
-		${mon.skill ? `<tr><td colspan="6"><strong>Skills</strong> ${Renderer.monster.getSkillsString(renderer, mon)}</td></tr>` : ""}
-		${mon.vulnerable ? `<tr><td colspan="6"><strong>Damage Vulnerabilities</strong> ${Parser.getFullImmRes(mon.vulnerable)}</td></tr>` : ""}
-		${mon.resist ? `<tr><td colspan="6"><strong>Damage Resistances</strong> ${Parser.getFullImmRes(mon.resist)}</td></tr>` : ""}
-		${mon.immune ? `<tr><td colspan="6"><strong>Damage Immunities</strong> ${Parser.getFullImmRes(mon.immune)}</td></tr>` : ""}
-		${mon.conditionImmune ? `<tr><td colspan="6"><strong>Condition Immunities</strong> ${Parser.getFullCondImm(mon.conditionImmune)}</td></tr>` : ""}
-		<tr><td colspan="6"><strong>Senses</strong> ${Renderer.monster.getSensesPart(mon)}</td></tr>
-		<tr><td colspan="6"><strong>Languages</strong> ${Renderer.monster.getRenderedLanguages(mon.languages)}</td></tr>
-
-		<tr class="relative">
-			${this._$getRenderedCreature_$getTdChallenge(mon, options)}
-			${this._$getRenderedCreature_getTdPb(mon, options)}
-		</tr>
-
-		<tr>${options.selSummonSpellLevel ? $$`<td colspan="6"><strong>Spell Level</strong> ${options.selSummonSpellLevel}</td>` : ""}</tr>
-		<tr>${options.selSummonClassLevel ? $$`<td colspan="6"><strong>Class Level</strong> ${options.selSummonClassLevel}</td>` : ""}</tr>
-
-		${allTraits?.length ? `<tr><td class="divider" colspan="6"><div></div></td></tr>${RenderBestiary._getRenderedSection({prop: "trait", entries: allTraits})}` : ""}
-		${allActions?.length ? `${this._getRenderedSectionHeader({mon, title: "Actions", prop: "action"})}
-		${RenderBestiary._getRenderedSection({mon, prop: "action", entries: allActions})}` : ""}
-		${allBonusActions?.length ? `${this._getRenderedSectionHeader({mon, title: "Bonus Actions", prop: "bonus"})}
-		${RenderBestiary._getRenderedSection({mon, prop: "bonus", entries: allBonusActions})}` : ""}
-		${allReactions?.length ? `${this._getRenderedSectionHeader({mon, title: "Reactions", prop: "reaction"})}
-		${RenderBestiary._getRenderedSection({mon, prop: "reaction", entries: allReactions})}` : ""}
-		${mon.legendary ? `${this._getRenderedSectionHeader({mon, title: "Legendary Actions", prop: "legendary"})}
-		${RenderBestiary._getRenderedSection({mon, prop: "legendary", entries: mon.legendary, fnGetHeader: Renderer.monster.getLegendaryActionIntro.bind(Renderer.monster)})}` : ""}
-		${mon.mythic ? `${this._getRenderedSectionHeader({mon, title: "Mythic Actions", prop: "mythic"})}
-		${RenderBestiary._getRenderedSection({mon, prop: "mythic", entries: mon.mythic})}` : ""}
-
-		${legGroup && legGroup.lairActions ? `<tr><td colspan="6" class="mon__stat-header-underline"><h3 class="mon__sect-header-inner">Lair Actions</h3></td></tr>
-		${RenderBestiary._getRenderedSection({prop: "lairaction", entries: legGroup.lairActions, depth: -1})}` : ""}
-		${legGroup && legGroup.regionalEffects ? `<tr><td colspan="6" class="mon__stat-header-underline"><h3 class="mon__sect-header-inner">Regional Effects</h3></td></tr>
-		${RenderBestiary._getRenderedSection({prop: "regionaleffect", entries: legGroup.regionalEffects, depth: -1})}` : ""}
-
-		${renderedVariants ? `<tr><td colspan=6>${renderedVariants}</td></tr>` : ""}
-		${mon.footer ? `<tr><td colspan=6 class="mon__sect-row-inner">${renderer.render({entries: mon.footer})}</td></tr>` : ""}
-		${mon.summonedBySpell ? `<tr><td colspan="6"><b>Summoned By:</b> ${renderer.render(`{@spell ${mon.summonedBySpell}}`)}</td></tr>` : ""}
-		${htmlSourceAndEnvironment.length === 2 ? `<tr><td colspan="6">${htmlSourceAndEnvironment[1]}</td></tr>` : ""}
-		<tr><td colspan="6">${htmlSourceAndEnvironment[0]}</td></tr>
-		${Renderer.utils.getBorderTr()}`;
+	/**
+	 * @abstract
+	 *
+	 * @param {object} mon
+	 * @param opts
+	 * @param {jQuery} [opts.$btnScaleCr]
+	 * @param {jQuery} [opts.$btnResetScaleCr]
+	 * @param {HTMLElementModified} [opts.selSummonSpellLevel]
+	 * @param {HTMLElementModified} [opts.selSummonClassLevel]
+	 * @param {boolean} [opts.isSkipExcludesRender]
+	 * @param {boolean} [opts.isSkipTokenRender]
+	 * @param {Renderer} renderer
+	 *
+	 * @return {jQuery}
+	 */
+	_$getRenderedCreature ({mon, opts, renderer}) {
+		throw new Error("Unimplemented!");
 	}
 
-	static _getRenderedSectionHeader ({mon, title, prop}) {
+	/* -------------------------------------------- */
+
+	_isInlinedToken ({mon, opts}) {
+		return !opts.isSkipTokenRender && Renderer.monster.hasToken(mon);
+	}
+
+	_getBtnPronounce ({mon}) {
+		return `<button class="ve-btn ve-btn-xs ve-btn-default stats__btn-name-pronounce lst-is-exporting-image__hidden no-print ml-2 mb-2 ve-self-flex-end">
+			<span class="glyphicon glyphicon-volume-up stats__icn-pronounce-name"></span>
+			<audio class="ve-hidden" preload="none" data-name="aud-pronounce">
+			   <source src="${Renderer.utils.getEntryMediaUrl(mon, "soundClip", "audio")}" type="audio/mpeg">
+			</audio>
+		</button>`;
+	}
+
+	/* -------------------------------------------- */
+
+	_getRenderedSectionHeader ({mon, title, prop}) {
 		const propNote = `${prop}Note`;
-		return `<tr><td colspan="6" class="mon__stat-header-underline"><h3 class="mon__sect-header-inner">${title}${mon[propNote] ? ` (<span class="small">${mon[propNote]}</span>)` : ""}</h3></td></tr>`;
+		return `<tr><td colspan="6"><h3 class="stats__sect-header-inner">${title}${mon[propNote] ? ` (<span class="small">${mon[propNote]}</span>)` : ""}</h3></td></tr>`;
 	}
 
-	static _getRenderedSection ({mon = null, prop, entries, depth = 1, fnGetHeader = null}) {
+	/**
+	 * @param {?object} mon
+	 * @param prop
+	 * @param entries
+	 * @param depth
+	 * @param fnGetHeader
+	 * @return {string}
+	 */
+	_getRenderedSection ({mon = null, prop, entries, depth = 1, fnGetHeader = null}) {
 		const renderer = Renderer.get();
 		const renderStack = [];
 
@@ -144,47 +116,204 @@ class RenderBestiary {
 			? (fnGetHeader ? fnGetHeader(mon) : Renderer.monster.getSectionIntro(mon, {prop}))
 			: "";
 
-		return `${ptHeader ? `<tr><td colspan="6">${ptHeader}</td></tr>` : ""}
-			<tr><td colspan="6" class="mon__sect-row-inner">${renderStack.join("")}</td></tr>`;
+		return `${ptHeader ? `<tr><td colspan="6" class="stats__sect-row-inner">${ptHeader}</td></tr>` : ""}
+			<tr><td colspan="6" class="stats__sect-row-inner">${renderStack.join("")}</td></tr>`;
 	}
 
-	static _getPronunciationButton (mon) {
-		return `<button class="btn btn-xs btn-default btn-name-pronounce ml-2 mb-2 ve-self-flex-end">
-			<span class="glyphicon glyphicon-volume-up name-pronounce-icon"></span>
-			<audio class="name-pronounce" preload="none">
-			   <source src="${Renderer.utils.getEntryMediaUrl(mon, "soundClip", "audio")}" type="audio/mpeg">
-			</audio>
-		</button>`;
+	/* -------------------------------------------- */
+
+	_getCommonHtmlParts (
+		{
+			mon,
+			renderer,
+
+			isSkipExcludesRender,
+
+			isInlinedToken,
+
+			entsAction,
+			entsBonusAction,
+			entsReaction,
+			legGroup,
+		},
+	) {
+		return {
+			htmlPtIsExcluded: this._getCommonHtmlParts_isExcluded({mon, isSkipExcludesRender}),
+			htmlPtName: this._getCommonHtmlParts_name({mon, isInlinedToken}),
+			htmlPtSizeTypeAlignment: this._getCommonHtmlParts_sizeTypeAlignment({mon, isInlinedToken}),
+
+			htmlPtHitPoints: this._getCommonHtmlParts_hitPoints({mon, isInlinedToken}),
+			htmlPtsResources: this._getCommonHtmlParts_resources({mon, isInlinedToken}),
+			htmlPtSpeed: this._getCommonHtmlParts_speed({mon, isInlinedToken}),
+
+			htmlPtAbilityScores: this._getHtmlParts_abilityScores({mon, renderer}),
+
+			htmlPtSkills: this._getCommonHtmlParts_skills({mon, renderer}),
+			htmlPtVulnerabilities: this._getCommonHtmlParts_vulnerabilities({mon}),
+			htmlPtResistances: this._getCommonHtmlParts_resistances({mon}),
+			htmlPtSenses: this._getCommonHtmlParts_senses({mon}),
+			htmlPtLanguages: this._getCommonHtmlParts_languages({mon}),
+
+			htmlPtActions: this._getCommonHtmlParts_actions({mon, entsAction}),
+			htmlPtBonusActions: this._getCommonHtmlParts_bonusActions({mon, entsBonusAction}),
+			htmlPtReactions: this._getCommonHtmlParts_reactions({mon, entsReaction}),
+			htmlPtLegendaryActions: this._getCommonHtmlParts_legendaryActions({mon}),
+			htmlPtMythicActions: this._getCommonHtmlParts_mythicActions({mon}),
+
+			htmlPtLairActions: this._getCommonHtmlParts_lairActions({legGroup}),
+			htmlPtRegionalEffects: this._getCommonHtmlParts_regionalEffects({legGroup}),
+
+			htmlPtFooterExtended: this._getCommonHtmlParts_footerExtended({mon, renderer, legGroup}),
+		};
 	}
 
-	static _$getRenderedCreature_$getTdChallenge (mon, options) {
-		if (Parser.crToNumber(mon.cr) >= VeCt.CR_UNKNOWN) return `<td colspan="3"><strong>Challenge</strong> <span>\u2014</span></td>`;
+	/* ----- */
 
-		return $$`<td colspan="3"><strong>Challenge</strong>
-			<span>${Parser.monCrToFull(mon.cr, {isMythic: !!mon.mythic})}</span>
-			${options.$btnScaleCr || ""}
-			${options.$btnResetScaleCr || ""}
-		</td>`;
+	_getCommonHtmlParts_isExcluded ({mon, isSkipExcludesRender}) {
+		if (isSkipExcludesRender) return "";
+		return Renderer.utils.getExcludedTr({entity: mon, dataProp: "monster", page: UrlUtil.PG_BESTIARY});
 	}
 
-	static _$getRenderedCreature_getTdPb (mon, options) {
-		if (!mon.pbNote && Parser.crToNumber(mon.cr) >= VeCt.CR_CUSTOM) {
-			return `<td colspan="3"></td>`;
-		}
-
-		return `<td colspan="3" class="text-right"><strong>Proficiency Bonus</strong> ${mon.pbNote ?? UiUtil.intToBonus(Parser.crToPb(mon.cr), {isPretty: true})}</td>`;
+	_getCommonHtmlParts_name ({mon, isInlinedToken}) {
+		return Renderer.utils.getNameTr(
+			mon,
+			{
+				controlRhs: mon.soundClip ? this._getBtnPronounce({mon}) : "",
+				isInlinedToken,
+				page: UrlUtil.PG_BESTIARY,
+				extensionData: {
+					_scaledCr: mon._scaledCr,
+					_scaledSpellSummonLevel: mon._scaledSpellSummonLevel,
+					_scaledClassSummonLevel: mon._scaledClassSummonLevel,
+				},
+			},
+		);
 	}
 
-	static _$getRenderedCreature_getHtmlSourceAndEnvironment (mon, legGroup) {
+	_getCommonHtmlParts_sizeTypeAlignment ({mon, isInlinedToken}) {
+		return `<tr><td colspan="6"><div ${isInlinedToken ? `class="stats__wrp-avoid-token"` : ""}><i>${Renderer.monster.getTypeAlignmentPart(mon)}</i></div></td></tr>`;
+	}
+
+	/* ----- */
+
+	_getCommonHtmlParts_hitPoints ({mon, isInlinedToken}) {
+		const label = this._style === "classic" ? "Hit Points" : "HP";
+		const ptTitle = this._style === "classic" ? "" : `title="Hit Points"`;
+		const rendered = mon.hp == null ? "\u2014" : Renderer.monster.getRenderedHp(mon.hp);
+		return `<tr><td colspan="6"><div ${isInlinedToken ? `class="stats__wrp-avoid-token"` : ""}><strong ${ptTitle}>${label}</strong> ${rendered}</div></td></tr>`;
+	}
+
+	_getCommonHtmlParts_resources ({mon, isInlinedToken}) {
+		return mon.resource?.length
+			? mon.resource
+				.map(res => `<tr><td colspan="6"><div ${isInlinedToken ? `class="stats__wrp-avoid-token"` : ""}><strong>${res.name}</strong> ${Renderer.monster.getRenderedResource(res)}</div></td></tr>`)
+			: [];
+	}
+
+	_getCommonHtmlParts_speed ({mon, isInlinedToken}) {
+		return `<tr><td colspan="6"><div ${this._style !== "classic" && isInlinedToken ? `class="stats__wrp-avoid-token"` : ""}><strong>Speed</strong> ${Parser.getSpeedString(mon, {styleHint: this._style})}</div></td></tr>`;
+	}
+
+	/* ----- */
+
+	_getHtmlParts_abilityScores ({mon, renderer}) {
+		return Renderer.monster.getRenderedAbilityScores(mon, {style: this._style, renderer});
+	}
+
+	/* ----- */
+
+	_getCommonHtmlParts_skills ({mon, renderer}) {
+		return mon.skill ? `<tr><td colspan="6"><strong>Skills</strong> ${Renderer.monster.getSkillsString(renderer, mon)}</td></tr>` : "";
+	}
+
+	_getCommonHtmlParts_vulnerabilities ({mon}) {
+		const label = this._style === "classic" ? "Damage Vulnerabilities" : "Vulnerabilities";
+		return mon.vulnerable ? `<tr><td colspan="6"><strong>${label}</strong> ${Parser.getFullImmRes(mon.vulnerable, {isTitleCase: this._style !== "classic"})}</td></tr>` : "";
+	}
+
+	_getCommonHtmlParts_resistances ({mon}) {
+		const label = this._style === "classic" ? "Damage Resistances" : "Resistances";
+		return mon.resist ? `<tr><td colspan="6"><strong>${label}</strong> ${Parser.getFullImmRes(mon.resist, {isTitleCase: this._style !== "classic"})}</td></tr>` : "";
+	}
+
+	_getCommonHtmlParts_senses ({mon}) {
+		return `<tr><td colspan="6"><strong>Senses</strong> ${Renderer.monster.getSensesPart(mon, {isTitleCase: this._style !== "classic"})}</td></tr>`;
+	}
+
+	_getCommonHtmlParts_languages ({mon}) {
+		return `<tr><td colspan="6"><strong>Languages</strong> ${Renderer.monster.getRenderedLanguages(mon.languages, {styleHint: this._style})}</td></tr>`;
+	}
+
+	/* ----- */
+
+	_getCommonHtmlParts_actions ({mon, entsAction}) {
+		return `${entsAction?.length ? `${this._getRenderedSectionHeader({mon, title: "Actions", prop: "action"})}
+		${this._getRenderedSection({mon, prop: "action", entries: entsAction})}` : ""}`;
+	}
+
+	_getCommonHtmlParts_bonusActions ({mon, entsBonusAction}) {
+		return `${entsBonusAction?.length ? `${this._getRenderedSectionHeader({mon, title: "Bonus Actions", prop: "bonus"})}
+		${this._getRenderedSection({mon, prop: "bonus", entries: entsBonusAction})}` : ""}`;
+	}
+
+	_getCommonHtmlParts_reactions ({mon, entsReaction}) {
+		return `${entsReaction?.length ? `${this._getRenderedSectionHeader({mon, title: "Reactions", prop: "reaction"})}
+		${this._getRenderedSection({mon, prop: "reaction", entries: entsReaction})}` : ""}`;
+	}
+
+	_getCommonHtmlParts_legendaryActions ({mon}) {
+		return `${mon.legendary ? `${this._getRenderedSectionHeader({mon, title: "Legendary Actions", prop: "legendary"})}
+		${this._getRenderedSection({mon, prop: "legendary", entries: mon.legendary, fnGetHeader: Renderer.monster.getLegendaryActionIntro.bind(Renderer.monster)})}` : ""}`;
+	}
+
+	_getCommonHtmlParts_mythicActions ({mon}) {
+		return `${mon.mythic ? `${this._getRenderedSectionHeader({mon, title: "Mythic Actions", prop: "mythic"})}
+		${this._getRenderedSection({mon, prop: "mythic", entries: mon.mythic})}` : ""}`;
+	}
+
+	/* ----- */
+
+	_getCommonHtmlParts_lairActions ({legGroup}) {
+		return `${legGroup && legGroup.lairActions ? `<tr><td colspan="6"><h3 class="stats__sect-header-inner stats__sect-header-inner--non-statblock">Lair Actions</h3></td></tr>
+		${this._getRenderedSection({prop: "lairaction", entries: legGroup.lairActions, depth: -1})}` : ""}`;
+	}
+
+	_getCommonHtmlParts_regionalEffects ({legGroup}) {
+		return `${legGroup && legGroup.regionalEffects ? `<tr><td colspan="6"><h3 class="stats__sect-header-inner stats__sect-header-inner--non-statblock">Regional Effects</h3></td></tr>
+		${this._getRenderedSection({prop: "regionaleffect", entries: legGroup.regionalEffects, depth: -1})}` : ""}`;
+	}
+
+	/* ----- */
+
+	_getCommonHtmlParts_footerExtended ({mon, renderer, legGroup}) {
+		const renderedVariants = Renderer.monster.getRenderedVariants(mon, {renderer});
+
+		const htmlSourceAndEnvironment = this._getHtmlPartsourceAndEnvironment(mon, legGroup);
+
+		const ptVariants = renderedVariants ? `<tr><td colspan="6">${renderedVariants}</td></tr>` : "";
+
+		const ptFooter = `${mon.footer ? `<tr><td colspan="6" class="stats__sect-row-inner">${renderer.render({entries: mon.footer})}</td></tr>` : ""}
+		${mon.summonedBySpell ? `<tr><td colspan="6"><b>Summoned By:</b> ${renderer.render(`{@spell ${mon.summonedBySpell}}`)}</td></tr>` : ""}
+		${htmlSourceAndEnvironment.length === 2 ? `<tr><td colspan="6">${htmlSourceAndEnvironment[1]}</td></tr>` : ""}
+		<tr><td colspan="6">${htmlSourceAndEnvironment[0]}</td></tr>`.trim();
+
+		return `${ptVariants}
+		${ptFooter.length ? `<tr><td colspan="6" class="p-0 pt-3"></td></tr>` : ""}
+		${ptFooter}`;
+	}
+
+	_getHtmlPartsourceAndEnvironment (mon, legGroup) {
 		const srcCpy = {
 			source: mon.source,
 			page: mon.page,
 			srd: mon.srd,
+			srd52: mon.srd52,
 			sourceSub: mon.sourceSub,
 			otherSources: mon.otherSources,
 			additionalSources: mon.additionalSources,
 			externalSources: mon.externalSources,
 			reprintedAs: mon.reprintedAs,
+			__prop: mon.__prop,
 		};
 		const additional = mon.additionalSources ? MiscUtil.copy(mon.additionalSources) : [];
 		if (mon.variant?.length) {
@@ -202,16 +331,241 @@ class RenderBestiary {
 		}
 		srcCpy.additionalSources = additional;
 
-		const pageTrInner = Renderer.utils.getSourceAndPageTrHtml(srcCpy, {tag: "creature", fnUnpackUid: (uid) => DataUtil.generic.unpackUid(uid, "creature")});
+		const pageTrInner = Renderer.utils.getSourceAndPageTrHtml(srcCpy);
 		if (!mon.environment?.length) return [pageTrInner];
-		return [pageTrInner, `<div class="mb-1 mt-2"><b>Environment:</b> ${Renderer.monster.getRenderedEnvironment(mon.environment)}</div>`];
+		return [pageTrInner, `<div><b>Environment:</b> ${Renderer.monster.getRenderedEnvironment(mon.environment)}</div>`];
+	}
+
+	/* -------------------------------------------- */
+
+	_$getTdChallenge (mon, opts) {
+		const ptLabel = `<strong ${this._style === "classic" ? "" : `title="Challenge Rating"`}>${this._style !== "classic" ? "CR" : "Challenge"}</strong>`;
+
+		if (Parser.crToNumber(mon.cr) >= VeCt.CR_UNKNOWN) return `<td colspan="${this._style !== "classic" ? "6" : "3"}">${ptLabel} <span>\u2014</span></td>`;
+
+		return $$`<td colspan="${this._style !== "classic" ? "6" : "3"}">${ptLabel}
+			<span>${Renderer.monster.getChallengeRatingPart(mon, {style: this._style})}</span>
+			${opts.$btnScaleCr || ""}
+			${opts.$btnResetScaleCr || ""}
+		</td>`;
+	}
+}
+
+class _RenderBestiaryImplClassic extends _RenderBestiaryImplBase {
+	_style = SITE_STYLE__CLASSIC;
+
+	/* -------------------------------------------- */
+
+	_getHtmlParts (
+		{
+			mon,
+			renderer,
+
+			isInlinedToken,
+
+			entsTrait,
+		},
+	) {
+		return {
+			htmlPtArmorClass: this._getHtmlParts_armorClass({mon, renderer, isInlinedToken}),
+
+			htmlPtSavingThrows: this._getHtmlParts_savingThrows({mon}),
+			htmlPtDamageImmunities: this._getHtmlParts_damageImmunities({mon}),
+			htmlPtConditionImmunities: this._getHtmlParts_conditionImmunities({mon}),
+
+			htmlPtPb: this._getHtmlParts_pb({mon}),
+
+			htmlPtTraits: this._getHtmlParts_traits({mon, entsTrait}),
+		};
+	}
+
+	/* ----- */
+
+	_getHtmlParts_armorClass ({mon, renderer, isInlinedToken}) {
+		return `<tr><td colspan="6"><div ${isInlinedToken ? `class="stats__wrp-avoid-token"` : ""}><strong>Armor Class</strong> ${mon.ac == null ? "\u2014" : Parser.acToFull(mon.ac, {renderer})}</div></td></tr>`;
+	}
+
+	/* ----- */
+
+	_getHtmlParts_savingThrows ({mon}) {
+		return mon.save ? `<tr><td colspan="6"><strong>Saving Throws</strong> ${Renderer.monster.getSavesPart(mon)}</td></tr>` : "";
+	}
+
+	_getHtmlParts_damageImmunities ({mon}) {
+		return mon.immune ? `<tr><td colspan="6"><strong>Damage Immunities</strong> ${Parser.getFullImmRes(mon.immune)}</td></tr>` : "";
+	}
+
+	_getHtmlParts_conditionImmunities ({mon}) {
+		return mon.conditionImmune ? `<tr><td colspan="6"><strong>Condition Immunities</strong> ${Parser.getFullCondImm(mon.conditionImmune)}</td></tr>` : "";
+	}
+
+	/* ----- */
+
+	_getHtmlParts_pb ({mon}) {
+		const ptPb = Renderer.monster.getPbPart(mon);
+		if (!ptPb) return `<td colspan="3"></td>`;
+		return `<td colspan="3" class="ve-text-right"><strong>Proficiency Bonus</strong> ${ptPb}</td>`;
+	}
+
+	/* ----- */
+
+	_getHtmlParts_traits ({mon, entsTrait}) {
+		return `${entsTrait?.length ? `<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider mb-0"></div></td></tr>` : ""}
+		${entsTrait?.length ? this._getRenderedSection({prop: "trait", entries: entsTrait}) : ""}`;
+	}
+
+	/* -------------------------------------------- */
+
+	_$getRenderedCreature ({mon, opts, renderer}) {
+		const isInlinedToken = this._isInlinedToken({mon, opts});
+
+		const {
+			entsTrait,
+			entsAction,
+			entsBonusAction,
+			entsReaction,
+			legGroup,
+		} = Renderer.monster.getSubEntries(mon, {renderer});
+
+		const {
+			htmlPtIsExcluded,
+			htmlPtName,
+			htmlPtSizeTypeAlignment,
+
+			htmlPtHitPoints,
+			htmlPtsResources,
+			htmlPtSpeed,
+
+			htmlPtAbilityScores,
+
+			htmlPtSkills,
+			htmlPtVulnerabilities,
+			htmlPtResistances,
+			htmlPtSenses,
+			htmlPtLanguages,
+
+			htmlPtActions,
+			htmlPtBonusActions,
+			htmlPtReactions,
+			htmlPtLegendaryActions,
+			htmlPtMythicActions,
+
+			htmlPtLairActions,
+			htmlPtRegionalEffects,
+
+			htmlPtFooterExtended,
+		} = this._getCommonHtmlParts({
+			mon,
+			renderer,
+
+			isSkipExcludesRender: opts.isSkipExcludesRender,
+
+			isInlinedToken,
+
+			entsAction,
+			entsBonusAction,
+			entsReaction,
+			legGroup,
+		});
+
+		const {
+			htmlPtArmorClass,
+
+			htmlPtSavingThrows,
+			htmlPtDamageImmunities,
+			htmlPtConditionImmunities,
+
+			htmlPtPb,
+
+			htmlPtTraits,
+		} = this._getHtmlParts({
+			mon,
+			renderer,
+
+			isInlinedToken,
+
+			entsTrait,
+		});
+
+		return $$`
+		${Renderer.utils.getBorderTr()}
+
+		${htmlPtIsExcluded}
+		${htmlPtName}
+		${htmlPtSizeTypeAlignment}
+
+		<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider ${isInlinedToken ? `stats__wrp-avoid-token` : ""}"></div></td></tr>
+
+		${htmlPtArmorClass}
+		${htmlPtHitPoints}
+		${htmlPtsResources.join("")}
+		${htmlPtSpeed}
+
+		<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider"></div></td></tr>
+
+		${htmlPtAbilityScores}
+
+		<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider"></div></td></tr>
+
+		${htmlPtSavingThrows}
+		${htmlPtSkills}
+		${htmlPtVulnerabilities}
+		${htmlPtResistances}
+		${htmlPtDamageImmunities}
+		${htmlPtConditionImmunities}
+		${htmlPtSenses}
+		${htmlPtLanguages}
+
+		<tr class="relative">
+			${this._$getTdChallenge(mon, opts)}
+			${htmlPtPb}
+		</tr>
+
+		<tr>${opts.selSummonSpellLevel ? $$`<td colspan="6"><strong class="mr-2">Spell Level</strong> ${opts.selSummonSpellLevel}</td>` : ""}</tr>
+		<tr>${opts.selSummonClassLevel ? $$`<td colspan="6"><strong class="mr-2">Class Level</strong> ${opts.selSummonClassLevel}</td>` : ""}</tr>
+
+		${htmlPtTraits}
+		${htmlPtActions}
+		${htmlPtBonusActions}
+		${htmlPtReactions}
+		${htmlPtLegendaryActions}
+		${htmlPtMythicActions}
+
+		${htmlPtLairActions}
+		${htmlPtRegionalEffects}
+
+		${htmlPtFooterExtended}
+
+		${Renderer.utils.getBorderTr()}`;
+	}
+}
+
+export class RenderBestiary {
+	static _RENDER_CLASSIC = new _RenderBestiaryImplClassic();
+
+	/**
+	 * @param {object} mon Creature data.
+	 * @param [opts]
+	 * @param [opts.$btnScaleCr] CR scaler button.
+	 * @param [opts.$btnResetScaleCr] CR scaler reset button.
+	 * @param [opts.selSummonSpellLevel] Summon spell level selector.
+	 * @param [opts.selSummonClassLevel] Summon spell level selector.
+	 * @param [opts.isSkipExcludesRender] If the "this entity is blocklisted" display should be skipped.
+	 * @param [opts.isSkipTokenRender]
+	 */
+	static $getRenderedCreature (mon, opts) {
+		const styleHint = VetoolsConfig.get("styleSwitcher", "style");
+		switch (styleHint) {
+			case SITE_STYLE__CLASSIC: return this._RENDER_CLASSIC.$getRenderedCreature(mon, opts);
+			default: throw new Error(`Unhandled style "${styleHint}"!`);
+		}
 	}
 
 	static $getRenderedLegendaryGroup (legGroup) {
 		return $$`
 		${Renderer.utils.getBorderTr()}
 		${Renderer.utils.getNameTr(legGroup)}
-		<tr class="text"><td colspan="6" class="text">
+		<tr><td colspan="6">
 			${legGroup.lairActions && legGroup.lairActions.length ? Renderer.get().render({type: "entries", entries: [{type: "entries", name: "Lair Actions", entries: legGroup.lairActions}]}) : ""}
 			${legGroup.regionalEffects && legGroup.regionalEffects.length ? Renderer.get().render({type: "entries", entries: [{type: "entries", name: "Regional Effects", entries: legGroup.regionalEffects}]}) : ""}
 			${legGroup.mythicEncounter && legGroup.mythicEncounter.length ? Renderer.get().render({type: "entries", entries: [{type: "entries", name: `<i title="This will display the creature's name when this legendary group is referenced from a creature statblock." class="help-subtle">&lt;Creature Name&gt;</i> as a Mythic Encounter`, entries: legGroup.mythicEncounter}]}) : ""}

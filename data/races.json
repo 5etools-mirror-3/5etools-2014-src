@@ -725,7 +725,9 @@
 			},
 			"darkvision": 60,
 			"traitTags": [
-				"Improved Resting"
+				"Improved Resting",
+				"Tool Proficiency",
+				"Weapon Proficiency"
 			],
 			"skillProficiencies": [
 				{
@@ -4101,7 +4103,7 @@
 					"name": "Militia Training",
 					"type": "entries",
 					"entries": [
-						"You have proficiency in {@filter simple weapons|items|source=phb|category=basic|type=simple weapon;melee weapon=u~u~sand}."
+						"You have proficiency in {@filter simple weapons|items|source=phb|category=basic|type=simple weapon;melee weapon=sand}."
 					]
 				},
 				{
@@ -6188,7 +6190,7 @@
 					"type": "entries",
 					"name": "Creature Type",
 					"entries": [
-						"You are a Humanoid.You are also considered a goblinoid for any prerequisite or effect that requires you to be a goblinoid."
+						"You are a Humanoid. You are also considered a goblinoid for any prerequisite or effect that requires you to be a goblinoid."
 					]
 				},
 				{
@@ -9629,7 +9631,7 @@
 					"name": "Woodland Hunter",
 					"type": "entries",
 					"entries": [
-						"Your accuracy allows you to treat three-quarters cover as half cover and half cover as no cover."
+						"Your accuracy allows you to treat {@quickref Cover||3||three-quarters cover} as {@quickref Cover||3||half cover} and {@quickref Cover||3||half cover} as no cover."
 					]
 				},
 				{
@@ -9950,7 +9952,7 @@
 					"type": "entries",
 					"name": "Child of the Sea",
 					"entries": [
-						"You can breathe air and water, and you have a resistance to cold damage."
+						"You can breathe air and water, and you have resistance to cold damage."
 					]
 				},
 				{

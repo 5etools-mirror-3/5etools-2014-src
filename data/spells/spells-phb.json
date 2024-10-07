@@ -283,6 +283,7 @@
 				"beast"
 			],
 			"miscTags": [
+				"SCT",
 				"SGT"
 			],
 			"areaTags": [
@@ -1379,6 +1380,7 @@
 				"charisma"
 			],
 			"miscTags": [
+				"SCT",
 				"SGT"
 			],
 			"areaTags": [
@@ -1485,6 +1487,7 @@
 				"charisma"
 			],
 			"miscTags": [
+				"SCT",
 				"SGT"
 			],
 			"areaTags": [
@@ -1581,7 +1584,8 @@
 				"This spell bestows hope and vitality. Choose any number of creatures within range. For the duration, each target has advantage on Wisdom saving throws and death saving throws, and regains the maximum number of hit points possible from any healing."
 			],
 			"miscTags": [
-				"ADV"
+				"ADV",
+				"HL"
 			],
 			"areaTags": [
 				"MT"
@@ -1760,7 +1764,7 @@
 					"type": "entries",
 					"name": "Interposing Hand",
 					"entries": [
-						"The hand interposes itself between you and a creature you choose until you give the hand a different command. The hand moves to stay between you and the target, providing you with half cover against the target. The target can't move through the hand's space if its Strength score is less than or equal to the hand's Strength score. If its Strength score is higher than the hand's Strength score, the target can move toward you through the hand's space, but that space is {@quickref difficult terrain||3} for the target."
+						"The hand interposes itself between you and a creature you choose until you give the hand a different command. The hand moves to stay between you and the target, providing you with {@quickref Cover||3||half cover} against the target. The target can't move through the hand's space if its Strength score is less than or equal to the hand's Strength score. If its Strength score is higher than the hand's Strength score, the target can move toward you through the hand's space, but that space is {@quickref difficult terrain||3} for the target."
 					]
 				}
 			],
@@ -1827,7 +1831,7 @@
 				}
 			],
 			"entries": [
-				"You create a vertical wall of whirling, razor-sharp blades made of magical energy. The wall appears within range and lasts for the duration. You can make a straight wall up to 100 feet long, 20 feet high, and 5 feet thick, or a ringed wall up to 60 feet in diameter, 20 feet high, and 5 feet thick. The wall provides three-quarters cover to creatures behind it, and its space is {@quickref difficult terrain||3}.",
+				"You create a vertical wall of whirling, razor-sharp blades made of magical energy. The wall appears within range and lasts for the duration. You can make a straight wall up to 100 feet long, 20 feet high, and 5 feet thick, or a ringed wall up to 60 feet in diameter, 20 feet high, and 5 feet thick. The wall provides {@quickref Cover||3||three-quarters cover} to creatures behind it, and its space is {@quickref difficult terrain||3}.",
 				"When a creature enters the wall's area for the first time on a turn or starts its turn there, the creature must make a Dexterity saving throw. On a failed save, the creature takes {@damage 6d10} slashing damage. On a successful save, the creature takes half as much damage."
 			],
 			"damageInflict": [
@@ -1936,6 +1940,9 @@
 						"When you cast this spell using a spell slot of 2nd level or higher, you can target one additional creature for each slot level above 1st."
 					]
 				}
+			],
+			"miscTags": [
+				"SCT"
 			],
 			"areaTags": [
 				"MT"
@@ -2111,6 +2118,7 @@
 				"constitution"
 			],
 			"miscTags": [
+				"SCT",
 				"SGT"
 			],
 			"areaTags": [
@@ -2478,6 +2486,7 @@
 			],
 			"miscTags": [
 				"OBJ",
+				"SCT",
 				"SGT"
 			],
 			"areaTags": [
@@ -2547,6 +2556,7 @@
 				"humanoid"
 			],
 			"miscTags": [
+				"SCT",
 				"SGT"
 			],
 			"areaTags": [
@@ -3135,6 +3145,7 @@
 				"plant"
 			],
 			"miscTags": [
+				"SCT",
 				"SGT"
 			],
 			"areaTags": [
@@ -4278,7 +4289,7 @@
 				"OBJ"
 			],
 			"areaTags": [
-				"N"
+				"C"
 			]
 		},
 		{
@@ -4525,6 +4536,9 @@
 						"When you cast this spell using a spell slot of 4th level or higher, the interrupted spell has no effect if its level is less than or equal to the level of the spell slot you used."
 					]
 				}
+			],
+			"miscTags": [
+				"SGT"
 			]
 		},
 		{
@@ -6560,6 +6574,7 @@
 			],
 			"miscTags": [
 				"ADV",
+				"SCT",
 				"THP"
 			],
 			"areaTags": [
@@ -6841,7 +6856,7 @@
 			],
 			"miscTags": [
 				"PS",
-				"SGT"
+				"SCT"
 			]
 		},
 		{
@@ -7407,7 +7422,6 @@
 			],
 			"miscTags": [
 				"PRM",
-				"SGT",
 				"SMN"
 			]
 		},
@@ -7527,6 +7541,9 @@
 			"entries": [
 				"You sense the presence of any trap within range that is within line of sight. A trap, for the purpose of this spell, includes anything that would inflict a sudden or unexpected effect you consider harmful or undesirable, which was specifically intended as such by its creator. Thus, the spell would sense an area affected by the {@spell alarm} spell, a {@spell glyph of warding}, or a mechanical pit trap, but it would not reveal a natural weakness in the floor, an unstable ceiling, or a hidden sinkhole.",
 				"This spell merely reveals that a trap is present. You don't learn the location of each trap, but you do learn the general nature of the danger posed by a trap you sense."
+			],
+			"miscTags": [
+				"SGT"
 			]
 		},
 		{
@@ -8091,6 +8108,9 @@
 						"When you cast this spell using a spell slot of 4th level or higher, you can target one additional creature for each slot level above 3rd."
 					]
 				}
+			],
+			"miscTags": [
+				"SCT"
 			],
 			"areaTags": [
 				"ST"
@@ -8948,6 +8968,9 @@
 			],
 			"savingThrow": [
 				"dexterity"
+			],
+			"miscTags": [
+				"DFT"
 			],
 			"areaTags": [
 				"Q"
@@ -9980,7 +10003,8 @@
 				"frightened"
 			],
 			"miscTags": [
-				"ADV"
+				"ADV",
+				"HL"
 			],
 			"areaTags": [
 				"MT"
@@ -10035,6 +10059,7 @@
 				"frightened"
 			],
 			"miscTags": [
+				"SCT",
 				"THP"
 			],
 			"areaTags": [
@@ -10169,6 +10194,7 @@
 				"plant"
 			],
 			"miscTags": [
+				"SCT",
 				"SGT"
 			],
 			"areaTags": [
@@ -10239,6 +10265,7 @@
 				"humanoid"
 			],
 			"miscTags": [
+				"SCT",
 				"SGT"
 			],
 			"areaTags": [
@@ -10399,9 +10426,6 @@
 						"When you cast this spell using a spell slot of 3rd or 4th level, you can maintain your {@status concentration} on the spell for up to 8 hours. When you use a spell slot of 5th level or higher, you can maintain your {@status concentration} on the spell for up to 24 hours."
 					]
 				}
-			],
-			"abilityCheck": [
-				"wisdom"
 			],
 			"miscTags": [
 				"AAD",
@@ -10707,7 +10731,8 @@
 				"You can use a particular special component to create only one prison at a time. If you cast the spell again using the same component, the target of the first casting is immediately freed from its binding."
 			],
 			"conditionInflict": [
-				"restrained"
+				"restrained",
+				"unconscious"
 			],
 			"savingThrow": [
 				"wisdom"
@@ -10947,6 +10972,9 @@
 			"conditionInflict": [
 				"invisible"
 			],
+			"miscTags": [
+				"SCT"
+			],
 			"areaTags": [
 				"ST"
 			]
@@ -11110,6 +11138,7 @@
 				"After 60 days, there is a cumulative {@chance 5|||Effect ends!|Effect continues} chance per day that the spell's effect ends. This effect ends if you cast this spell again, if the smaller replica chest is destroyed, or if you choose to end the spell as an action. If the spell ends and the larger chest is on the Ethereal Plane, it is irretrievably lost."
 			],
 			"miscTags": [
+				"OBJ",
 				"PRM"
 			]
 		},
@@ -11591,6 +11620,9 @@
 						"When you cast this spell using a spell slot of 2nd level or higher, you can target one additional creature for each slot level above 1st."
 					]
 				}
+			],
+			"miscTags": [
+				"SCT"
 			],
 			"areaTags": [
 				"ST"
@@ -13945,6 +13977,9 @@
 				"If you cast this spell using 1 action, choose a point within range. All normal plants in a 100-foot radius centered on that point become thick and overgrown. A creature moving through the area must spend 4 feet of movement for every 1 foot it moves.",
 				"You can exclude one or more areas of any size within the spell's area from being affected.",
 				"If you cast this spell over 8 hours, you enrich the land. All plants in a half-mile radius centered on a point within range become enriched for 1 year. The plants yield twice the normal amount of food when harvested."
+			],
+			"miscTags": [
+				"DFT"
 			]
 		},
 		{
@@ -15554,7 +15589,19 @@
 				"Casting this spell to restore life to a creature that has been dead for one year or longer taxes you greatly. Until you finish a long rest, you can't cast spells again, and you have disadvantage on all attack rolls, ability checks, and saving throws."
 			],
 			"affectsCreatureType": [
-				"undead"
+				"aberration",
+				"beast",
+				"celestial",
+				"construct",
+				"dragon",
+				"elemental",
+				"fey",
+				"fiend",
+				"giant",
+				"humanoid",
+				"monstrosity",
+				"ooze",
+				"plant"
 			],
 			"miscTags": [
 				"HL"
@@ -16190,7 +16237,8 @@
 				"You can set a condition for the spell to end early. The condition can be anything you choose, but it must occur or be visible within 1 mile of the target. Examples include \"after 1,000 years\" or \"when the {@creature tarrasque} awakens.\" This spell also ends if the target takes any damage."
 			],
 			"conditionInflict": [
-				"invisible"
+				"invisible",
+				"unconscious"
 			],
 			"miscTags": [
 				"OBJ"
@@ -16243,20 +16291,6 @@
 				"You retain the benefit of any features from your class, race, or other source and can use them, provided that your new form is physically capable of doing so. You can't use any special senses you have (for example, {@sense darkvision}) unless your new form also has that sense. You can only speak if the creature can normally speak.",
 				"When you transform, you choose whether your equipment falls to the ground, merges into the new form, or is worn by it. Worn equipment functions as normal. The DM determines whether it is practical for the new form to wear a piece of equipment, based on the creature's shape and size. Your equipment doesn't change shape or size to match the new form, and any equipment that the new form can't wear must either fall to the ground or merge into your new form. Equipment that merges has no effect in that state.",
 				"During this spell's duration, you can use your action to assume a different form following the same restrictions and rules for the original form, with one exception: if your new form has more hit points than your current one, your hit points remain at their current value."
-			],
-			"affectsCreatureType": [
-				"aberration",
-				"beast",
-				"celestial",
-				"dragon",
-				"elemental",
-				"fey",
-				"fiend",
-				"giant",
-				"humanoid",
-				"monstrosity",
-				"ooze",
-				"plant"
 			]
 		},
 		{
@@ -16450,6 +16484,9 @@
 			],
 			"entries": [
 				"The wood of a {@item club|phb} or {@item quarterstaff|phb} you are holding is imbued with nature's power. For the duration, you can use your spellcasting ability instead of Strength for the attack and damage rolls of melee attacks using that weapon, and the weapon's damage die becomes a {@dice d8}. The weapon also becomes magical, if it isn't already. The spell ends if you cast it again or if you let go of the weapon."
+			],
+			"miscTags": [
+				"AAD"
 			]
 		},
 		{
@@ -16559,6 +16596,9 @@
 			},
 			"entries": [
 				"For the duration, no sound can be created within or pass through a 20-foot-radius sphere centered on a point you choose within range. Any creature or object entirely inside the sphere is immune to thunder damage, and creatures are {@condition deafened} while entirely inside it. Casting a spell that includes a verbal component is impossible there."
+			],
+			"damageImmune": [
+				"thunder"
 			],
 			"conditionInflict": [
 				"deafened"
@@ -16791,6 +16831,7 @@
 				"constitution"
 			],
 			"miscTags": [
+				"DFT",
 				"OBS"
 			],
 			"areaTags": [
@@ -18174,6 +18215,9 @@
 					]
 				}
 			],
+			"damageInflict": [
+				"force"
+			],
 			"miscTags": [
 				"OBJ",
 				"RO",
@@ -18956,6 +19000,7 @@
 				"If you command the servant to perform a task that would move it more than 60 feet away from you, the spell ends."
 			],
 			"miscTags": [
+				"SMN",
 				"UBA"
 			]
 		},
@@ -19170,9 +19215,6 @@
 			"entries": [
 				"An invisible wall of force springs into existence at a point you choose within range. The wall appears in any orientation you choose, as a horizontal or vertical barrier or at an angle. It can be free floating or resting on a solid surface. You can form it into a hemispherical dome or a sphere with a radius of up to 10 feet, or you can shape a flat surface made up of ten 10-foot-by-10-foot panels. Each panel must be contiguous with another panel. In any form, the wall is 1/4 inch thick. It lasts for the duration. If the wall cuts through a creature's space when it appears, the creature is pushed to one side of the wall (your choice which side).",
 				"Nothing can physically pass through the wall. It is immune to all damage and can't be dispelled by {@spell dispel magic}. A {@spell disintegrate} spell destroys the wall instantly, however. The wall also extends into the Ethereal Plane, blocking ethereal travel through the wall."
-			],
-			"damageImmune": [
-				"force"
 			],
 			"areaTags": [
 				"W"
@@ -19563,6 +19605,9 @@
 			"abilityCheck": [
 				"strength"
 			],
+			"miscTags": [
+				"DFT"
+			],
 			"areaTags": [
 				"C"
 			],
@@ -19818,7 +19863,7 @@
 				}
 			],
 			"entries": [
-				"A beam of crackling, blue energy lances out toward a creature within range, forming a sustained arc of lightning between you and the target. Make a ranged spell attack against that creature. On a hit, the target takes {@damage 1d12} lightning damage, and on each of your turns for the duration, you can use your action to deal {@damage 1d12} lightning damage to the target automatically. The spell ends if you use your action to do anything else. The spell also ends if the target is ever outside the spell's range or if it has total cover from you."
+				"A beam of crackling, blue energy lances out toward a creature within range, forming a sustained arc of lightning between you and the target. Make a ranged spell attack against that creature. On a hit, the target takes {@damage 1d12} lightning damage, and on each of your turns for the duration, you can use your action to deal {@damage 1d12} lightning damage to the target automatically. The spell ends if you use your action to do anything else. The spell also ends if the target is ever outside the spell's range or if it has {@quickref Cover||3||total cover} from you."
 			],
 			"entriesHigherLevel": [
 				{

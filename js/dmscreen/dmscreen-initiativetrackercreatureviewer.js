@@ -73,7 +73,7 @@ export class InitiativeTrackerCreatureViewer extends BaseComponent {
 	}
 
 	_render_$getStgConnect () {
-		const $btnConnect = $(`<button class="btn btn-primary min-w-200p">Connect to Tracker</button>`)
+		const $btnConnect = $(`<button class="ve-btn ve-btn-primary min-w-200p">Connect to Tracker</button>`)
 			.on("click", async () => {
 				const $elesData = DmScreenUtil.$getPanelDataElements({board: this._board, type: PANEL_TYP_INITIATIVE_TRACKER});
 
@@ -91,7 +91,7 @@ export class InitiativeTrackerCreatureViewer extends BaseComponent {
 				</select>`)
 					.on("change", () => $selTracker.removeClass("error-background"));
 
-				const $btnSubmit = $(`<button class="btn btn-primary btn-xs">Connect</button>`)
+				const $btnSubmit = $(`<button class="ve-btn ve-btn-primary ve-btn-xs">Connect</button>`)
 					.on("click", () => {
 						const ix = Number($selTracker.val());
 						if (!~ix) {

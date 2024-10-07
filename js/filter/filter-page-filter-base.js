@@ -1,5 +1,7 @@
-import {FilterItem} from "./filter-item.js";
+import {FilterItemClassSubclass} from "./filter-item.js";
+import {MISC_FILTER_VALUE__BASIC_RULES_2014, MISC_FILTER_VALUE__FREE_RULES_2024, MISC_FILTER_VALUE__SRD_5_1, MISC_FILTER_VALUE__SRD_5_2} from "./filter-constants.js";
 
+/** @abstract */
 export class PageFilterBase {
 	static defaultSourceSelFn (val) {
 		// Assume the user wants to select their loaded homebrew by default
@@ -7,6 +9,10 @@ export class PageFilterBase {
 		return SourceUtil.getFilterGroup(val) === SourceUtil.FILTER_GROUP_STANDARD
 			|| (SourceUtil.getFilterGroup(val) === SourceUtil.FILTER_GROUP_PARTNERED && (typeof BrewUtil2 === "undefined" || BrewUtil2.hasSourceJson(val)))
 			|| SourceUtil.getFilterGroup(val) === SourceUtil.FILTER_GROUP_HOMEBREW;
+	}
+
+	static defaultMiscellaneousDeselFn (val) {
+		return val === "Reprinted";
 	}
 
 	constructor (opts) {
@@ -23,13 +29,24 @@ export class PageFilterBase {
 		this.addToFilters(entity, isExcluded, opts);
 	}
 
+	/** @abstract */
 	static mutateForFilters (entity, opts) { throw new Error("Unimplemented!"); }
+	/** @abstract */
 	addToFilters (entity, isExcluded, opts) { throw new Error("Unimplemented!"); }
+	/** @abstract */
 	toDisplay (values, entity) { throw new Error("Unimplemented!"); }
-	async _pPopulateBoxOptions () { throw new Error("Unimplemented!"); }
+	/** @abstract */
+	async _pPopulateBoxOptions (opts) { throw new Error("Unimplemented!"); }
+
+	async _pPopulateBoxBaseOptions (opts) {
+		opts.namespaceSnapshots = this._getNamespaceSnapshots();
+	}
+
+	_getNamespaceSnapshots () { return this.constructor.name; }
 
 	async pInitFilterBox (opts) {
 		opts = opts || {};
+		await this._pPopulateBoxBaseOptions(opts);
 		await this._pPopulateBoxOptions(opts);
 		this._filterBox = new FilterBox(opts);
 		await this._filterBox.pDoLoadState();
@@ -52,18 +69,16 @@ export class PageFilterBase {
 
 		const opts = {
 			item: name,
-			userData: {
-				group: SourceUtil.getFilterGroup(classSource || Parser.SRC_PHB),
-			},
+			group: SourceUtil.getFilterGroup(classSource || Parser.SRC_PHB),
 		};
 
 		if (isVariantClass) {
 			opts.nest = definedInSource ? Parser.sourceJsonToFull(definedInSource) : "Unknown";
-			opts.userData.equivalentClassName = `${nm}${sourceSuffix}`;
-			opts.userData.definedInSource = definedInSource;
+			opts.equivalentClassName = `${nm}${sourceSuffix}`;
+			opts.definedInSource = definedInSource;
 		}
 
-		return new FilterItem(opts);
+		return new FilterItemClassSubclass(opts);
 	}
 
 	static _getSubclassFilterItem ({className, classSource, subclassShortName, subclassName, subclassSource, subSubclassName, isVariantClass, definedInSource}) {
@@ -74,21 +89,21 @@ export class PageFilterBase {
 			classSource: subclassSource,
 		});
 
-		return new FilterItem({
+		return new FilterItemClassSubclass({
 			item: `${className}: ${classFilterItem.item}${subSubclassName ? `, ${subSubclassName}` : ""}`,
 			nest: className,
-			userData: {
-				group,
-			},
+			group,
 		});
 	}
 
-	static _isReprinted ({reprintedAs, tag, page, prop}) {
-		return reprintedAs?.length && reprintedAs.some(it => {
-			const {name, source} = DataUtil.generic.unpackUid(it?.uid ?? it, tag);
-			const hash = UrlUtil.URL_TO_HASH_BUILDER[page]({name, source});
-			return !ExcludeUtil.isExcluded(hash, prop, source, {isNoCount: true});
-		});
+	static _isReprinted (ent) {
+		if (!ent?.reprintedAs?.length) return false;
+		return ent.reprintedAs
+			.some(it => {
+				const unpacked = DataUtil.proxy.unpackUid(ent.__prop, it?.uid ?? it, Parser.getPropTag(ent.__prop));
+				const hash = UrlUtil.URL_TO_HASH_BUILDER[ent.__prop](unpacked);
+				return !ExcludeUtil.isExcluded(hash, ent.__prop, unpacked.source, {isNoCount: true});
+			});
 	}
 
 	static getListAliases (ent) {
@@ -97,5 +112,24 @@ export class PageFilterBase {
 
 	static _hasFluff (ent) { return ent.hasFluff || ent.fluff?.entries; }
 	static _hasFluffImages (ent) { return ent.hasFluffImages || ent.fluff?.images; }
+
+	static _mutateForFilters_commonMisc (ent) {
+		ent._fMisc = [];
+
+		if (ent.srd) ent._fMisc.push(MISC_FILTER_VALUE__SRD_5_1);
+		if (ent.basicRules) ent._fMisc.push(MISC_FILTER_VALUE__BASIC_RULES_2014);
+
+		if (ent.srd52) ent._fMisc.push(MISC_FILTER_VALUE__SRD_5_2);
+		if (ent.freeRules2024) ent._fMisc.push(MISC_FILTER_VALUE__FREE_RULES_2024);
+
+		if (SourceUtil.isLegacySourceWotc(ent.source)) ent._fMisc.push("Legacy");
+
+		if (ent.isReprinted) ent._fMisc.push("Reprinted");
+
+		if (this._hasFluff(ent)) ent._fMisc.push("Has Info");
+		if (this._hasFluffImages(ent)) ent._fMisc.push("Has Images");
+
+		if (this._isReprinted(ent)) ent._fMisc.push("Reprinted");
+	}
 	// endregion
 }

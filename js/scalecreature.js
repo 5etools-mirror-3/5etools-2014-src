@@ -1765,10 +1765,35 @@ globalThis.ScaleCreature = {
 
 		const guessMod = () => {
 			name = name.toLowerCase();
-			content = content.replace(/{@atk ([A-Za-z,]+)}/gi, (_, p1) => Renderer.attackTagToFull(p1)).toLowerCase();
 
-			const isMeleeOrRangedWep = content.includes("melee or ranged weapon attack:");
-			if (isMeleeOrRangedWep) {
+			let isMeleeOrRangedWeapon = false;
+			let isMeleeWeapon = false;
+			let isRangedWeapon = false;
+
+			const mutTypeFlags = (tags) => {
+				if (tags.includes("m") && tags.includes("r")) return isMeleeOrRangedWeapon = true;
+				if (tags.includes("m")) return isMeleeWeapon = true;
+				if (tags.includes("r")) return isRangedWeapon = true;
+			};
+
+			content
+				.replace(/{@atk (?<tags>[^}]+)}/g, (...m) => {
+					const {tags} = m.at(-1);
+					if (!tags.includes("w")) return;
+
+					mutTypeFlags(tags);
+				})
+				.replace(/{@atkr (?<tags>[^}]+)}/g, (...m) => {
+					const {tags} = m.at(-1);
+					// Note that for `@atkr` tags, "Weapon" is not generally included, so treat everything as a weapon
+					//   during this initial pass.
+					mutTypeFlags(tags);
+				})
+			;
+
+			content = content.toLowerCase();
+
+			if (isMeleeOrRangedWeapon) {
 				const wtf = this._wepThrownFinesse.find(it => content.includes(it));
 				if (wtf) return "dex";
 
@@ -1781,15 +1806,13 @@ globalThis.ScaleCreature = {
 				return null;
 			}
 
-			const isMeleeWep = content.includes("melee weapon attack:");
-			if (isMeleeWep) {
+			if (isMeleeWeapon) {
 				const wf = this._wepFinesse.find(it => content.includes(it));
 				if (wf) return "dex";
 				return "str";
 			}
 
-			const isRangedWep = content.includes("ranged weapon attack:");
-			if (isRangedWep) {
+			if (isRangedWeapon) {
 				const wt = this._wepThrown.find(it => content.includes(it));
 				if (wt) return "str"; // this should realistically only catch Nets
 				return "dex";
@@ -2505,8 +2528,8 @@ globalThis.ScaleCreature = {
 	},
 };
 
-globalThis.ScaleSummonedCreature = {
-	_mutSimpleSpecialAcItem (acItem) {
+globalThis.ScaleSummonedCreature = class {
+	static _mutSimpleSpecialAcItem (acItem) {
 		// Try to convert to "from" AC
 		const mSimpleNatural = /^(\d+) \(natural armor\)$/i.exec(acItem.special);
 		if (mSimpleNatural) {
@@ -2514,10 +2537,10 @@ globalThis.ScaleSummonedCreature = {
 			acItem.ac = Number(mSimpleNatural[1]);
 			acItem.from = ["natural armor"];
 		}
-	},
+	}
 
 	/** */
-	_mutSimpleSpecialHp (mon) {
+	static _mutSimpleSpecialHp (mon) {
 		if (!mon.hp?.special) return;
 
 		const cleanHp = mon.hp.special.toLowerCase().replace(/ /g, "");
@@ -2531,18 +2554,18 @@ globalThis.ScaleSummonedCreature = {
 			average: Number(mHp.groups.averagePart),
 			formula: `${mHp.groups.dicePart}${mHp.groups.bonusPart ? mHp.groups.bonusPart.replace(/[-+]/g, " $0 ") : ""}`,
 		};
-	},
+	}
 };
 
-globalThis.ScaleSpellSummonedCreature = {
-	async scale (mon, toSpellLevel) {
+globalThis.ScaleSpellSummonedCreature = class extends globalThis.ScaleSummonedCreature {
+	static async scale (mon, toSpellLevel) {
 		mon = MiscUtil.copyFast(mon);
 
 		if (!mon.summonedBySpell || mon.summonedBySpellLevel == null) return mon;
 
 		ScaleSpellSummonedCreature._WALKER = ScaleSpellSummonedCreature._WALKER || MiscUtil.getWalker({keyBlocklist: MiscUtil.GENERIC_WALKER_ENTRIES_KEY_BLOCKLIST});
 
-		const state = new ScaleSpellSummonedCreature.State({});
+		const state = new ScaleSpellSummonedCreature._State({});
 
 		mon._displayName = `${mon.name} (${Parser.getOrdinalForm(toSpellLevel)}-Level Spell)`;
 
@@ -2559,9 +2582,9 @@ globalThis.ScaleSpellSummonedCreature = {
 		mon._isScaledSpellSummon = true;
 
 		return mon;
-	},
+	}
 
-	_scale_ac (mon, toSpellLevel, state) {
+	static _scale_ac (mon, toSpellLevel, state) {
 		if (!mon.ac) return;
 
 		mon.ac = mon.ac.map(it => {
@@ -2569,23 +2592,31 @@ globalThis.ScaleSpellSummonedCreature = {
 
 			it.special = it.special
 				// "11 + the level of the spell (natural armor)"
-				.replace(/(\d+)\s*\+\s*the level of the spell/g, (...m) => Number(m[1]) + toSpellLevel)
+				// "11 + the spell's level"
+				// "10 + 1 per spell level"
+				.replace(/(\d+)\s*\+\s*(?:the level of the spell|the spell's level|1 per spell level)/g, (...m) => Number(m[1]) + toSpellLevel)
 			;
 
-			ScaleSummonedCreature._mutSimpleSpecialAcItem(it);
+			this._mutSimpleSpecialAcItem(it);
 
 			return it;
 		});
-	},
+	}
 
-	_scale_hp (mon, toSpellLevel, state) {
+	static _scale_hp (mon, toSpellLevel, state) {
 		if (!mon.hp?.special) return;
 
 		mon.hp.special = mon.hp.special
 			// "40 + 10 for each spell level above 4th"
-			.replace(/(\d+)\s*\+\s*(\d+) for each spell level above (\d+)(?:st|nd|rd|th)/g, (...m) => {
+			// "40 + 10 for each spell level above 4"
+			.replace(/(\d+)\s*\+\s*(\d+) for each spell level above (\d+)(?:st|nd|rd|th)?/g, (...m) => {
 				const [, hpBase, hpPlus, spLevelMin] = m;
 				return Number(hpBase) + (Number(hpPlus) * (toSpellLevel - Number(spLevelMin)));
+			})
+			// "5 + 10 per spell level"
+			.replace(/(\d+)\s*\+\s*(\d+) per spell level/g, (...m) => {
+				const [, hpBase, hpPlus] = m;
+				return Number(hpBase) + (Number(hpPlus) * Number(toSpellLevel));
 			})
 			// "equal the aberration's Constitution modifier + your spellcasting ability modifier + ten times the spell's level"
 			.replace(/(ten) times the spell's level/g, (...m) => {
@@ -2594,10 +2625,29 @@ globalThis.ScaleSpellSummonedCreature = {
 			})
 		;
 
-		ScaleSummonedCreature._mutSimpleSpecialHp(mon);
-	},
+		// "20 (Air only) or 30 (Land and Water only) + 5 for each spell level above 2"
+		mon.hp.special = mon.hp.special
+			// Simplify bonus
+			.replace(/\+\s*(\d+) for each spell level above (\d+)(?:st|nd|rd|th)?/g, (...m) => {
+				const [, hpPlus, spLevelMin] = m;
+				const bonus = Number(hpPlus) * (toSpellLevel - Number(spLevelMin));
+				if (!bonus) return "";
+				return `+ ${bonus}`;
+			})
+			.trim()
+			// Apply bonus
+			.replace(/^(?<ptsModes>(?:\d+ \([^)]+\)(?:,? or )?)+) \+\s*(?<bonus>\d+)$/g, (...m) => {
+				const {ptsModes, bonus} = m.at(-1);
+				const bonusNum = Number(bonus);
+				return ptsModes
+					.replace(/(\d+)(?= \([^)]+\))/g, (...m) => Number(m[0]) + bonusNum);
+			})
+		;
 
-	_scale_genericEntries (mon, toSpellLevel, state, prop) {
+		this._mutSimpleSpecialHp(mon);
+	}
+
+	static _scale_genericEntries (mon, toSpellLevel, state, prop) {
 		if (!mon[prop]) return;
 		mon[prop] = ScaleSpellSummonedCreature._WALKER.walk(
 			mon[prop],
@@ -2621,23 +2671,23 @@ globalThis.ScaleSpellSummonedCreature = {
 				},
 			},
 		);
-	},
+	}
 
-	_scale_traits (mon, toSpellLevel, state) { this._scale_genericEntries(mon, toSpellLevel, state, "trait"); },
-	_scale_actions (mon, toSpellLevel, state) { this._scale_genericEntries(mon, toSpellLevel, state, "action"); },
-	_scale_bonusActions (mon, toSpellLevel, state) { this._scale_genericEntries(mon, toSpellLevel, state, "bonus"); },
-	_scale_reactions (mon, toSpellLevel, state) { this._scale_genericEntries(mon, toSpellLevel, state, "reaction"); },
+	static _scale_traits (mon, toSpellLevel, state) { this._scale_genericEntries(mon, toSpellLevel, state, "trait"); }
+	static _scale_actions (mon, toSpellLevel, state) { this._scale_genericEntries(mon, toSpellLevel, state, "action"); }
+	static _scale_bonusActions (mon, toSpellLevel, state) { this._scale_genericEntries(mon, toSpellLevel, state, "bonus"); }
+	static _scale_reactions (mon, toSpellLevel, state) { this._scale_genericEntries(mon, toSpellLevel, state, "reaction"); }
 
-	State: function () {
+	static _State = class {
 		// (Implement as required)
 		// this.whatever = null;
-	},
+	};
 
-	_WALKER: null,
+	static _WALKER = null;
 };
 
-globalThis.ScaleClassSummonedCreature = {
-	async scale (mon, toClassLevel) {
+globalThis.ScaleClassSummonedCreature = class extends globalThis.ScaleSummonedCreature {
+	static async scale (mon, toClassLevel) {
 		mon = MiscUtil.copyFast(mon);
 
 		if (!mon.summonedByClass || toClassLevel < 1) return mon;
@@ -2645,7 +2695,7 @@ globalThis.ScaleClassSummonedCreature = {
 		ScaleClassSummonedCreature._WALKER = ScaleClassSummonedCreature._WALKER || MiscUtil.getWalker({keyBlocklist: MiscUtil.GENERIC_WALKER_ENTRIES_KEY_BLOCKLIST});
 
 		const className = mon.summonedByClass.split("|")[0].toTitleCase();
-		const state = new ScaleClassSummonedCreature.State({
+		const state = new ScaleClassSummonedCreature._State({
 			className,
 			proficiencyBonus: Parser.levelToPb(toClassLevel),
 		});
@@ -2670,9 +2720,9 @@ globalThis.ScaleClassSummonedCreature = {
 		mon._isScaledClassSummon = true;
 
 		return mon;
-	},
+	}
 
-	_scale_ac (mon, toClassLevel, state) {
+	static _scale_ac (mon, toClassLevel, state) {
 		if (!mon.ac) return;
 
 		mon.ac = mon.ac.map(it => {
@@ -2684,13 +2734,13 @@ globalThis.ScaleClassSummonedCreature = {
 				.replace(/(\d+)\s*(\+|plus)\s*PB\b/g, (...m) => Number(m[1]) + state.proficiencyBonus)
 			;
 
-			ScaleSummonedCreature._mutSimpleSpecialAcItem(it);
+			this._mutSimpleSpecialAcItem(it);
 
 			return it;
 		});
-	},
+	}
 
-	_scale_getConvertedPbString (state, str, {isBonus = false} = {}) {
+	static _scale_getConvertedPbString (state, str, {isBonus = false} = {}) {
 		let out = str
 			.replace(/\bplus\b/gi, "+")
 			.replace(/(\b|[-+])PB\b/g, `$1${state.proficiencyBonus}`)
@@ -2728,29 +2778,29 @@ globalThis.ScaleClassSummonedCreature = {
 
 		if (!isNaN(outSimplified) && isBonus) return UiUtil.intToBonus(outSimplified);
 		return outSimplified;
-	},
+	}
 
-	_scale_savesSkills (mon, toClassLevel, state, prop) {
+	static _scale_savesSkills (mon, toClassLevel, state, prop) {
 		mon[prop] = Object.entries(mon[prop])
 			.mergeMap(([k, v]) => {
 				if (typeof v !== "string") return {[k]: v};
 				return {[k]: this._scale_getConvertedPbString(state, v, {isBonus: true})};
 			});
-	},
+	}
 
-	_scale_saves (mon, toClassLevel, state) {
+	static _scale_saves (mon, toClassLevel, state) {
 		if (!mon.save) return;
 		this._scale_savesSkills(mon, toClassLevel, state, "save");
-	},
+	}
 
-	_scale_skills (mon, toClassLevel, state) {
+	static _scale_skills (mon, toClassLevel, state) {
 		if (mon.passive != null) mon.passive = this._scale_getConvertedPbString(state, `${mon.passive}`);
 
 		if (!mon.skill) return;
 		this._scale_savesSkills(mon, toClassLevel, state, "skill");
-	},
+	}
 
-	_scale_hp (mon, toClassLevel, state) {
+	static _scale_hp (mon, toClassLevel, state) {
 		if (!mon.hp?.special) return;
 
 		let basePart = mon.hp.special; let hdPart = ""; let yourAbilModPart = "";
@@ -2773,7 +2823,8 @@ globalThis.ScaleClassSummonedCreature = {
 
 		basePart = basePart
 			// "5 + five times your ranger level"
-			.replace(/(?<base>\d+)\s*\+\s*(?<perLevel>\d+|[a-z]+) times your (?:(?<className>[^(]*) )?level/g, (...m) => {
+			// "5 plus five times your Ranger level"
+			.replace(/(?<base>\d+)\s*(?:\+|plus)\s*(?<perLevel>\d+|[a-z]+) times your (?:(?<className>[^(]*) )?level/g, (...m) => {
 				const numTimes = isNaN(m.last().perLevel) ? Parser.textToNumber(m.last().perLevel) : Number(m.last().perLevel);
 				return `${Number(m.last().base) + (numTimes * toClassLevel)}`;
 			})
@@ -2807,10 +2858,10 @@ globalThis.ScaleClassSummonedCreature = {
 			mon.hp.special = `${basePart}${hdPart ? ` (${hdPart})` : ""}`.trim();
 		}
 
-		ScaleSummonedCreature._mutSimpleSpecialHp(mon);
-	},
+		this._mutSimpleSpecialHp(mon);
+	}
 
-	_scale_genericEntries (mon, toClassLevel, state, prop) {
+	static _scale_genericEntries (mon, toClassLevel, state, prop) {
 		if (!mon[prop]) return;
 		mon[prop] = ScaleClassSummonedCreature._WALKER.walk(
 			mon[prop],
@@ -2836,23 +2887,25 @@ globalThis.ScaleClassSummonedCreature = {
 				},
 			},
 		);
-	},
+	}
 
-	_scale_traits (mon, toClassLevel, state) { this._scale_genericEntries(mon, toClassLevel, state, "trait"); },
-	_scale_actions (mon, toClassLevel, state) { this._scale_genericEntries(mon, toClassLevel, state, "action"); },
-	_scale_bonusActions (mon, toClassLevel, state) { this._scale_genericEntries(mon, toClassLevel, state, "bonus"); },
-	_scale_reactions (mon, toClassLevel, state) { this._scale_genericEntries(mon, toClassLevel, state, "reaction"); },
+	static _scale_traits (mon, toClassLevel, state) { this._scale_genericEntries(mon, toClassLevel, state, "trait"); }
+	static _scale_actions (mon, toClassLevel, state) { this._scale_genericEntries(mon, toClassLevel, state, "action"); }
+	static _scale_bonusActions (mon, toClassLevel, state) { this._scale_genericEntries(mon, toClassLevel, state, "bonus"); }
+	static _scale_reactions (mon, toClassLevel, state) { this._scale_genericEntries(mon, toClassLevel, state, "reaction"); }
 
-	_scale_pbNote (mon, toClassLevel, state) {
+	static _scale_pbNote (mon, toClassLevel, state) {
 		if (!mon.pbNote) return;
 
 		mon.pbNote = mon.pbNote.replace(/equals your bonus\b/, (...m) => `${m[0]} (${UiUtil.intToBonus(state.proficiencyBonus, {isPretty: true})})`);
-	},
+	}
 
-	State: function ({className, proficiencyBonus}) {
-		this.className = className;
-		this.proficiencyBonus = proficiencyBonus;
-	},
+	static _State = class {
+		constructor ({className, proficiencyBonus}) {
+			this.className = className;
+			this.proficiencyBonus = proficiencyBonus;
+		}
+	};
 
-	_WALKER: null,
+	static _WALKER = null;
 };

@@ -43,7 +43,7 @@
 				"armor": [
 					"light",
 					"medium",
-					"{@item shield|phb|shields}"
+					"shield"
 				],
 				"weapons": [
 					"simple"
@@ -130,7 +130,7 @@
 					"armor": [
 						"light",
 						"medium",
-						"{@item shield|phb|shields}"
+						"shield"
 					]
 				}
 			},
@@ -2324,7 +2324,7 @@
 			"header": 2,
 			"entries": [
 				"Starting at 2nd level, you can use your Channel Divinity to harness the powers of night, clouding the vision of your foes in a shroud of darkness.",
-				"As an action, you present your holy symbol causing any source of mundane or magical light within 30 feet of you to be extinguished. Additionally, each hostile creature within 30 feet of you must make a Constitution saving throw. A creature who fails the saving throw is {@condition blinded} for a number of rounds equal to your cleric level. A creature blinded in this way gets a new saving throw at the end of each of its turns to remove the effect. A creature that has total cover from you is not affected."
+				"As an action, you present your holy symbol causing any source of mundane or magical light within 30 feet of you to be extinguished. Additionally, each hostile creature within 30 feet of you must make a Constitution saving throw. A creature who fails the saving throw is {@condition blinded} for a number of rounds equal to your cleric level. A creature blinded in this way gets a new saving throw at the end of each of its turns to remove the effect. A creature that has {@quickref Cover||3||total cover} from you is not affected."
 			]
 		},
 		{
@@ -2819,7 +2819,7 @@
 			},
 			"entries": [
 				"Starting at 2nd level, you can use your Channel Divinity to harness sunlight, banishing darkness and dealing radiant damage to your foes.",
-				"As an action, you present your holy symbol, and any magical darkness within 30 feet of you is dispelled. Additionally, each hostile creature within 30 feet of you must make a Constitution saving throw. A creature takes radiant damage equal to {@dice 2d10} + your cleric level on a failed saving throw, and half as much damage on a successful one. A creature that has total cover from you is not affected."
+				"As an action, you present your holy symbol, and any magical darkness within 30 feet of you is dispelled. Additionally, each hostile creature within 30 feet of you must make a Constitution saving throw. A creature takes radiant damage equal to {@dice 2d10} + your cleric level on a failed saving throw, and half as much damage on a successful one. A creature that has {@quickref Cover||3||total cover} from you is not affected."
 			]
 		},
 		{
@@ -5037,7 +5037,7 @@
 			"header": 2,
 			"entries": [
 				"{@i 17th-level Twilight Domain feature}",
-				"The twilight that you summon offers a protective embrace: you and your allies have half cover while in the sphere created by your Twilight Sanctuary."
+				"The twilight that you summon offers a protective embrace: you and your allies have {@quickref Cover||3||half cover} while in the sphere created by your Twilight Sanctuary."
 			]
 		},
 		{
@@ -5157,7 +5157,7 @@
 				"name": "Channel Divinity"
 			},
 			"entries": [
-				"Starting at 2nd level, you can use your Channel Divinity to form a supernatural bond with a creature you can see, or with a creature for which you possess a blood sample. This bond lasts for 1 hour or until your {@condition concentration} is broken (as if concentrating on a spell).",
+				"Starting at 2nd level, you can use your Channel Divinity to form a supernatural bond with a creature you can see, or with a creature for which you possess a blood sample. This bond lasts for 1 hour or until your {@status concentration} is broken (as if concentrating on a spell).",
 				"While the bond is in effect, you can use an action to learn the target's approximate distance and direction from you, as well as its current hit points and any conditions affecting it, as long as the target is within 10 miles of you. Alternatively, you can use your action to attempt to connect with the target's senses. You take {@damage 2d6} necrotic damage and the target makes a Constitution {@quickref saving throws|PHB|2|1|saving throw} against your spell save DC. On a successful save, the bond ends. On a failure, you can choose to either see or hear through the target's senses for a number of minutes equal to your Wisdom modifier (minimum 1 minute). During this time, you are {@condition blinded} or {@condition deafened} (respectively) with regard to your own senses. When the connection ends, the bond is lost.",
 				"Regardless of the outcome, the target feels a wave of unease pass over it when it makes this save."
 			]
@@ -5187,7 +5187,7 @@
 					]
 				},
 				"An animated corpse or an {@condition unconscious} creature takes its turn immediately after yours, but can't move or take actions unless you command it to do so. Its statistics are the same as when it was alive or conscious.",
-				"An affected living creature makes a new {@quickref saving throws|PHB|2|1|saving throw} at the end of each of its turns, ending the effect on itself on a success. For any target, your control lasts for 1 minute or until your {@condition concentration} is broken (as if concentrating on a spell)."
+				"An affected living creature makes a new {@quickref saving throws|PHB|2|1|saving throw} at the end of each of its turns, ending the effect on itself on a success. For any target, your control lasts for 1 minute or until your {@status concentration} is broken (as if concentrating on a spell)."
 			]
 		},
 		{
@@ -5402,7 +5402,7 @@
 				"name": "Channel Divinity"
 			},
 			"entries": [
-				"Starting at 6th level, you can use your Channel Divinity to invoke the twofold arcana of Exandria's moons. By expending one use of Channel Divinity, you can cast a second {@condition concentration} spell while already concentrating on a first spell, as long as both spells are on your list of Moon Domain spells. If you need to make a Constitution {@quickref saving throws|PHB|2|1|saving throw} to maintain your {@condition concentration} on both spells, you make the save with {@quickref Advantage and Disadvantage|PHB|2|0|disadvantage}. On a failure, you lose {@condition concentration} on both spells."
+				"Starting at 6th level, you can use your Channel Divinity to invoke the twofold arcana of Exandria's moons. By expending one use of Channel Divinity, you can cast a second {@status concentration} spell while already concentrating on a first spell, as long as both spells are on your list of Moon Domain spells. If you need to make a Constitution {@quickref saving throws|PHB|2|1|saving throw} to maintain your {@status concentration} on both spells, you make the save with {@quickref Advantage and Disadvantage|PHB|2|0|disadvantage}. On a failure, you lose {@status concentration} on both spells."
 			]
 		},
 		{
@@ -5693,7 +5693,7 @@
 			"level": 1,
 			"header": 1,
 			"entries": [
-				"At 1st level, you gain the ability to occasionally sense the presence of the undead, whose existence is an insult to the natural cycle of life. As an action, you can open your awareness to magically detect undead. Until the end of your next turn, you know the location of any undead within 60 feet of you that isn't behind total cover and that isn't protected from divination magic. This sense doesn't tell you anything about a creature's capabilities or identity.",
+				"At 1st level, you gain the ability to occasionally sense the presence of the undead, whose existence is an insult to the natural cycle of life. As an action, you can open your awareness to magically detect undead. Until the end of your next turn, you know the location of any undead within 60 feet of you that isn't behind {@quickref Cover||3||total cover} and that isn't protected from divination magic. This sense doesn't tell you anything about a creature's capabilities or identity.",
 				"You can use this feature a number of times equal to your Wisdom modifier (minimum of once). You regain all expended uses when you finish a long rest."
 			]
 		},

@@ -15,7 +15,7 @@
 			"weaponCategory": "martial",
 			"age": "futuristic",
 			"property": [
-				"AF",
+				"AF|DMG",
 				"RLD",
 				"2H"
 			],
@@ -67,7 +67,7 @@
 			"weaponCategory": "martial",
 			"age": "modern",
 			"property": [
-				"AF",
+				"AF|DMG",
 				"RLD"
 			],
 			"range": "50/150",
@@ -88,8 +88,8 @@
 			"weaponCategory": "martial",
 			"age": "modern",
 			"property": [
-				"AF",
-				"BF",
+				"AF|DMG",
+				"BF|DMG",
 				"RLD",
 				"2H"
 			],
@@ -400,7 +400,7 @@
 			"name": "Energy Cell",
 			"source": "DMG",
 			"page": 268,
-			"type": "AF",
+			"type": "AF|DMG",
 			"rarity": "none",
 			"weight": 0.3125,
 			"age": "futuristic",
@@ -727,7 +727,7 @@
 			"weaponCategory": "martial",
 			"age": "modern",
 			"property": [
-				"AF",
+				"AF|DMG",
 				"RLD",
 				"2H"
 			],
@@ -776,6 +776,7 @@
 			],
 			"dmg1": "1d12",
 			"dmgType": "P",
+			"lance": true,
 			"weapon": true,
 			"entries": [
 				{
@@ -797,7 +798,7 @@
 			"weaponCategory": "martial",
 			"age": "futuristic",
 			"property": [
-				"AF",
+				"AF|DMG",
 				"RLD"
 			],
 			"range": "40/120",
@@ -818,7 +819,7 @@
 			"weaponCategory": "martial",
 			"age": "futuristic",
 			"property": [
-				"AF",
+				"AF|DMG",
 				"RLD",
 				"2H"
 			],
@@ -1027,7 +1028,7 @@
 			"name": "Modern Bullet",
 			"source": "DMG",
 			"page": 268,
-			"type": "AF",
+			"type": "AF|DMG",
 			"rarity": "none",
 			"weight": 0.1,
 			"age": "modern",
@@ -1039,7 +1040,7 @@
 			"name": "Modern Bullets (10)",
 			"source": "DMG",
 			"page": 268,
-			"type": "AF",
+			"type": "AF|DMG",
 			"rarity": "none",
 			"weight": 1,
 			"age": "modern",
@@ -1080,7 +1081,7 @@
 			"weaponCategory": "martial",
 			"age": "renaissance",
 			"property": [
-				"AF",
+				"AF|DMG",
 				"LD",
 				"2H"
 			],
@@ -1190,7 +1191,7 @@
 			"weaponCategory": "martial",
 			"age": "renaissance",
 			"property": [
-				"AF",
+				"AF|DMG",
 				"LD"
 			],
 			"range": "30/90",
@@ -1253,6 +1254,7 @@
 			],
 			"dmg1": "1d8",
 			"dmgType": "P",
+			"rapier": true,
 			"sword": true,
 			"weapon": true
 		},
@@ -1260,7 +1262,7 @@
 			"name": "Renaissance Bullet",
 			"source": "DMG",
 			"page": 268,
-			"type": "AF",
+			"type": "AF|DMG",
 			"rarity": "none",
 			"weight": 0.2,
 			"value": 30,
@@ -1273,7 +1275,7 @@
 			"name": "Renaissance Bullets (10)",
 			"source": "DMG",
 			"page": 268,
-			"type": "AF",
+			"type": "AF|DMG",
 			"rarity": "none",
 			"weight": 2,
 			"value": 300,
@@ -1298,7 +1300,7 @@
 			"weaponCategory": "martial",
 			"age": "modern",
 			"property": [
-				"AF",
+				"AF|DMG",
 				"RLD"
 			],
 			"range": "40/120",
@@ -1463,7 +1465,7 @@
 			"weaponCategory": "martial",
 			"age": "modern",
 			"property": [
-				"AF",
+				"AF|DMG",
 				"RLD",
 				"2H"
 			],
@@ -1843,41 +1845,25 @@
 	],
 	"itemProperty": [
 		{
-			"abbreviation": "Vst",
-			"source": "TDCSR",
-			"page": 200,
+			"abbreviation": "2H",
+			"source": "PHB",
+			"page": 147,
+			"template": "{{prop_name_lower}}",
 			"entries": [
 				{
 					"type": "entries",
-					"name": "Vestige of Divergence",
-					"page": 200,
+					"name": "Two-Handed",
 					"entries": [
-						"{@note This item is a Vestige of Divergence, see {@book Tal'Dorei Treasures|TDCSR|5|Vestiges of Divergence} for more information.}"
+						"This weapon requires two hands to use. This property is relevant only when you attack with the weapon, not when you simply hold it."
 					]
 				}
-			],
-			"template": "Vestige"
-		},
-		{
-			"abbreviation": "ER",
-			"source": "TDCSR",
-			"page": 195,
-			"entriesTemplate": [
-				{
-					"type": "entries",
-					"name": "Extended Reach",
-					"page": 195,
-					"entries": [
-						"This weapon adds {{item.reach}} feet to your reach when you attack with it. This property also determines your reach for {@action opportunity attack|PHB|opportunity attacks} with an Extended Reach weapon."
-					]
-				}
-			],
-			"template": "{{prop_name}} ({{item.reach}}\u00A0ft.)"
+			]
 		},
 		{
 			"abbreviation": "A",
 			"source": "PHB",
 			"page": 146,
+			"template": "{{prop_name_lower}} ({{item.range}}\u00A0ft.)",
 			"entries": [
 				{
 					"type": "entries",
@@ -1887,13 +1873,13 @@
 						"If you use a weapon that has the ammunition property to make a melee attack, you treat the weapon as an improvised weapon. A sling must be loaded to deal any damage when used in this way."
 					]
 				}
-			],
-			"template": "{{prop_name}} ({{item.range}}\u00A0ft.)"
+			]
 		},
 		{
 			"abbreviation": "AF",
 			"source": "DMG",
 			"page": 267,
+			"template": "{{prop_name_lower}} ({{item.range}}\u00A0ft.)",
 			"entries": [
 				{
 					"type": "entries",
@@ -1903,13 +1889,13 @@
 						"If you use a weapon that has the ammunition property to make a melee attack, you treat the weapon as an improvised weapon. A sling must be loaded to deal any damage when used in this way."
 					]
 				}
-			],
-			"template": "{{prop_name}} ({{item.range}}\u00A0ft.)"
+			]
 		},
 		{
 			"abbreviation": "BF",
 			"source": "DMG",
 			"page": 267,
+			"template": "{{prop_name_lower}}",
 			"entries": [
 				{
 					"type": "entries",
@@ -1921,9 +1907,26 @@
 			]
 		},
 		{
+			"abbreviation": "ER",
+			"source": "TDCSR",
+			"page": 195,
+			"template": "{{prop_name_lower}} ({{item.reach}}\u00A0ft.)",
+			"entriesTemplate": [
+				{
+					"type": "entries",
+					"name": "Extended Reach",
+					"page": 195,
+					"entries": [
+						"This weapon adds {{item.reach}} feet to your reach when you attack with it. This property also determines your reach for {@action opportunity attack|PHB|opportunity attacks} with an Extended Reach weapon."
+					]
+				}
+			]
+		},
+		{
 			"abbreviation": "F",
 			"source": "PHB",
 			"page": 147,
+			"template": "{{prop_name_lower}}",
 			"entries": [
 				{
 					"type": "entries",
@@ -1938,6 +1941,7 @@
 			"abbreviation": "H",
 			"source": "PHB",
 			"page": 147,
+			"template": "{{prop_name_lower}}",
 			"entries": [
 				{
 					"type": "entries",
@@ -1952,6 +1956,7 @@
 			"abbreviation": "L",
 			"source": "PHB",
 			"page": 147,
+			"template": "{{prop_name_lower}}",
 			"entries": [
 				{
 					"type": "entries",
@@ -1966,6 +1971,7 @@
 			"abbreviation": "LD",
 			"source": "PHB",
 			"page": 147,
+			"template": "{{prop_name_lower}}",
 			"entries": [
 				{
 					"type": "entries",
@@ -1980,6 +1986,7 @@
 			"abbreviation": "R",
 			"source": "PHB",
 			"page": 147,
+			"template": "{{prop_name_lower}}",
 			"entries": [
 				{
 					"type": "entries",
@@ -1994,6 +2001,7 @@
 			"abbreviation": "RLD",
 			"source": "DMG",
 			"page": 267,
+			"template": "{{prop_name_lower}} ({{item.reload}} shots)",
 			"entries": [
 				{
 					"type": "entries",
@@ -2002,19 +2010,20 @@
 						"A limited number of shots can be made with a weapon that has the reload property. A character must then reload it using an action or a bonus action (the character's choice)."
 					]
 				}
-			],
-			"template": "{{prop_name}} ({{item.reload}} shots)"
+			]
 		},
 		{
+			"name": "special",
 			"abbreviation": "S",
 			"source": "PHB",
 			"page": 147,
-			"name": "special"
+			"template": "{{prop_name_lower}}"
 		},
 		{
 			"abbreviation": "T",
 			"source": "PHB",
 			"page": 147,
+			"template": "{{prop_name_lower}} ({{item.range}}\u00A0ft.)",
 			"entries": [
 				{
 					"type": "entries",
@@ -2023,27 +2032,13 @@
 						"If a weapon has the thrown property, you can throw the weapon to make a ranged attack. If the weapon is a melee weapon, you use the same ability modifier for that attack roll and damage roll that you would use for a melee attack with the weapon. For example, if you throw a handaxe, you use your Strength, but if you throw a dagger, you can use either your Strength or your Dexterity, since the dagger has the finesse property."
 					]
 				}
-			],
-			"template": "{{prop_name}} ({{item.range}}\u00A0ft.)"
-		},
-		{
-			"abbreviation": "2H",
-			"source": "PHB",
-			"page": 147,
-			"entries": [
-				{
-					"type": "entries",
-					"name": "Two-Handed",
-					"entries": [
-						"This weapon requires two hands to use. This property is relevant only when you attack with the weapon, not when you simply hold it."
-					]
-				}
 			]
 		},
 		{
 			"abbreviation": "V",
 			"source": "PHB",
 			"page": 147,
+			"template": "{{prop_name_lower}} ({{item.dmg2}})",
 			"entries": [
 				{
 					"type": "entries",
@@ -2052,48 +2047,176 @@
 						"This weapon can be used with one or two hands. A damage value in parentheses appears with the property\u2014the damage when the weapon is used with two hands to make a melee attack."
 					]
 				}
-			],
-			"template": "{{prop_name}} ({{item.dmg2}})"
+			]
+		},
+		{
+			"abbreviation": "Vst",
+			"source": "TDCSR",
+			"page": 200,
+			"template": "Vestige",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Vestige of Divergence",
+					"page": 200,
+					"entries": [
+						"{@note This item is a Vestige of Divergence, see {@book Tal'Dorei Treasures|TDCSR|5|Vestiges of Divergence} for more information.}"
+					]
+				}
+			]
 		}
 	],
 	"itemType": [
 		{
+			"name": "Treasure",
+			"abbreviation": "$",
+			"source": "DMG",
+			"page": 133
+		},
+		{
+			"name": "Treasure (Art Object)",
+			"abbreviation": "$A",
+			"source": "DMG",
+			"page": 133
+		},
+		{
+			"name": "Treasure (Coinage)",
+			"abbreviation": "$C",
+			"source": "PHB",
+			"page": 143
+		},
+		{
+			"name": "Treasure (Gemstone)",
+			"abbreviation": "$G",
+			"source": "DMG",
+			"page": 133
+		},
+		{
+			"name": "Ammunition",
+			"abbreviation": "A",
+			"source": "PHB",
+			"page": 148
+		},
+		{
+			"name": "Ammunition",
+			"abbreviation": "AF",
+			"source": "DMG",
+			"page": 267
+		},
+		{
+			"name": "Vehicle (Air)",
+			"abbreviation": "AIR",
+			"source": "DMG",
+			"page": 119,
+			"_copy": {
+				"abbreviation": "SHP",
+				"source": "DMG"
+			}
+		},
+		{
+			"name": "Artisan's Tools",
+			"abbreviation": "AT",
+			"source": "PHB",
+			"page": 154,
+			"entries": [
+				"These special tools include the items needed to pursue a craft or trade. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency."
+			]
+		},
+		{
+			"name": "Explosive",
+			"abbreviation": "EXP",
+			"source": "DMG",
+			"page": 267
+		},
+		{
+			"name": "Food and Drink",
+			"abbreviation": "FD",
+			"source": "PHB",
+			"page": 158
+		},
+		{
+			"name": "Adventuring Gear",
+			"abbreviation": "G",
+			"source": "PHB",
+			"page": 148
+		},
+		{
+			"name": "Gaming Set",
+			"abbreviation": "GS",
+			"source": "PHB",
+			"page": 154,
+			"entries": [
+				"If you are proficient with a gaming set, you can add your proficiency bonus to ability checks you make to play a game with that set. Each type of gaming set requires a separate proficiency."
+			]
+		},
+		{
+			"name": "Generic Variant",
+			"abbreviation": "GV",
+			"source": "DMG",
+			"page": 135
+		},
+		{
+			"name": "Heavy Armor",
+			"abbreviation": "HA",
+			"source": "PHB",
+			"page": 145
+		},
+		{
+			"name": "Illegal Drug",
 			"abbreviation": "IDG",
 			"source": "TDCSR",
-			"name": "Illegal Drug",
 			"page": 85,
 			"entriesTemplate": [
 				"{@note This item is an illegal drug; see {@variantrule Illegal Drugs|TDCSR} for more information.}"
 			]
 		},
 		{
-			"abbreviation": "AT",
-			"source": "PHB",
-			"page": 154,
-			"name": "Artisan's Tools",
-			"entries": [
-				"These special tools include the items needed to pursue a craft or trade. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency."
-			]
-		},
-		{
-			"abbreviation": "GS",
-			"source": "PHB",
-			"page": 154,
-			"name": "Gaming Set",
-			"entries": [
-				"If you are proficient with a gaming set, you can add your proficiency bonus to ability checks you make to play a game with that set. Each type of gaming set requires a separate proficiency."
-			]
-		},
-		{
+			"name": "Instrument",
 			"abbreviation": "INS",
 			"source": "PHB",
 			"page": 154,
-			"name": "Instrument",
 			"entries": [
 				"If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency."
 			]
 		},
 		{
+			"name": "Light Armor",
+			"abbreviation": "LA",
+			"source": "PHB",
+			"page": 144
+		},
+		{
+			"name": "Melee Weapon",
+			"abbreviation": "M",
+			"source": "PHB",
+			"page": 146
+		},
+		{
+			"name": "Medium Armor",
+			"abbreviation": "MA",
+			"source": "PHB",
+			"page": 144
+		},
+		{
+			"name": "Mount",
+			"abbreviation": "MNT",
+			"source": "PHB",
+			"page": 155
+		},
+		{
+			"name": "Other",
+			"abbreviation": "OTH",
+			"source": "PHB",
+			"page": 143
+		},
+		{
+			"name": "Potion",
+			"abbreviation": "P",
+			"source": "PHB",
+			"page": 148
+		},
+		{
+			"name": "Ranged Weapon",
 			"abbreviation": "R",
 			"source": "PHB",
 			"page": 146,
@@ -2108,20 +2231,40 @@
 			]
 		},
 		{
-			"abbreviation": "TG",
-			"source": "PHB",
-			"page": 146,
-			"name": "Trade Good",
-			"entries": [
-				"Most wealth is not in coins. It is measured in livestock, grain, land, rights to collect taxes, or rights to resources (such as a mine or a forest).",
-				"Guilds, nobles, and royalty regulate trade. Chartered companies are granted rights to conduct trade along certain routes, to send merchant ships to various ports, or to buy or sell specific goods. Guilds set prices for the goods or services that they control, and determine who may or may not offer those goods and services. Merchants commonly exchange trade goods without using currency."
-			]
+			"name": "Rod",
+			"abbreviation": "RD",
+			"source": "DMG",
+			"page": 139
 		},
 		{
+			"name": "Ring",
+			"abbreviation": "RG",
+			"source": "DMG",
+			"page": 139
+		},
+		{
+			"name": "Shield",
+			"abbreviation": "S",
+			"source": "PHB",
+			"page": 144
+		},
+		{
+			"name": "Scroll",
+			"abbreviation": "SC",
+			"source": "DMG",
+			"page": 139
+		},
+		{
+			"name": "Spellcasting Focus",
+			"abbreviation": "SCF",
+			"source": "PHB",
+			"page": 148
+		},
+		{
+			"name": "Vehicle (Water)",
 			"abbreviation": "SHP",
 			"source": "DMG",
 			"page": 119,
-			"name": "Vehicle (Water)",
 			"entries": [
 				{
 					"type": "entries",
@@ -2164,70 +2307,51 @@
 			]
 		},
 		{
-			"abbreviation": "AIR",
+			"name": "Vehicle (Space)",
+			"abbreviation": "SPC",
+			"source": "AAG",
+			"page": 24
+		},
+		{
+			"name": "Tool",
+			"abbreviation": "T",
+			"source": "PHB",
+			"page": 154
+		},
+		{
+			"name": "Tack and Harness",
+			"abbreviation": "TAH",
+			"source": "PHB",
+			"page": 155
+		},
+		{
+			"name": "Trade Good",
+			"abbreviation": "TG",
+			"source": "PHB",
+			"page": 146,
+			"entries": [
+				"Most wealth is not in coins. It is measured in livestock, grain, land, rights to collect taxes, or rights to resources (such as a mine or a forest).",
+				"Guilds, nobles, and royalty regulate trade. Chartered companies are granted rights to conduct trade along certain routes, to send merchant ships to various ports, or to buy or sell specific goods. Guilds set prices for the goods or services that they control, and determine who may or may not offer those goods and services. Merchants commonly exchange trade goods without using currency."
+			]
+		},
+		{
+			"name": "Vehicle (Land)",
+			"abbreviation": "VEH",
+			"source": "PHB",
+			"page": 155
+		},
+		{
+			"name": "Wand",
+			"abbreviation": "WD",
 			"source": "DMG",
-			"page": 119,
-			"name": "Vehicle (Air)",
-			"_copy": {
-				"abbreviation": "SHP",
-				"source": "DMG"
-			}
+			"page": 139
 		}
 	],
 	"itemTypeAdditionalEntries": [
 		{
-			"appliesTo": "INS",
+			"name": "Gaming Set",
 			"source": "XGE",
-			"entries": [
-				"Proficiency with a musical instrument indicates you are familiar with the techniques used to play it. You also have knowledge of some songs commonly performed with that instrument.",
-				{
-					"type": "entries",
-					"name": "History",
-					"entries": [
-						"Your expertise aids you in recalling lore related to your instrument."
-					]
-				},
-				{
-					"type": "entries",
-					"name": "Performance",
-					"entries": [
-						"Your ability to put on a good show is improved when you incorporate an instrument into your act."
-					]
-				},
-				{
-					"type": "entries",
-					"name": "Compose a Tune",
-					"entries": [
-						"As part of a long rest, you can compose a new tune and lyrics for your instrument. You might use this ability to impress a noble or spread scandalous rumors with a catchy tune."
-					]
-				},
-				{
-					"type": "table",
-					"caption": "Musical Instrument",
-					"colLabels": [
-						"Activity",
-						"DC"
-					],
-					"colStyles": [
-						"col-10",
-						"col-2 text-center"
-					],
-					"rows": [
-						[
-							"Identify a tune",
-							"10"
-						],
-						[
-							"Improvise a tune",
-							"20"
-						]
-					]
-				}
-			]
-		},
-		{
-			"appliesTo": "GS",
-			"source": "XGE",
+			"appliesTo": "GS|PHB",
 			"entries": [
 				"Proficiency with a gaming set applies to one type of game, such as Three-Dragon Ante or games of chance that use dice.",
 				{
@@ -2281,30 +2405,60 @@
 					]
 				}
 			]
+		},
+		{
+			"name": "Instrument",
+			"source": "XGE",
+			"appliesTo": "INS|PHB",
+			"entries": [
+				"Proficiency with a musical instrument indicates you are familiar with the techniques used to play it. You also have knowledge of some songs commonly performed with that instrument.",
+				{
+					"type": "entries",
+					"name": "History",
+					"entries": [
+						"Your expertise aids you in recalling lore related to your instrument."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Performance",
+					"entries": [
+						"Your ability to put on a good show is improved when you incorporate an instrument into your act."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Compose a Tune",
+					"entries": [
+						"As part of a long rest, you can compose a new tune and lyrics for your instrument. You might use this ability to impress a noble or spread scandalous rumors with a catchy tune."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Musical Instrument",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Identify a tune",
+							"10"
+						],
+						[
+							"Improvise a tune",
+							"20"
+						]
+					]
+				}
+			]
 		}
 	],
 	"itemEntry": [
-		{
-			"name": "Ring of Resistance",
-			"source": "DMG",
-			"entriesTemplate": [
-				"You have resistance to {{item.resist}} damage while wearing this ring. The ring is set with {{item.detail1}}."
-			]
-		},
-		{
-			"name": "Armor of Resistance",
-			"source": "DMG",
-			"entriesTemplate": [
-				"You have resistance to {{item.resist}} damage while you wear this armor."
-			]
-		},
-		{
-			"name": "Potion of Resistance",
-			"source": "DMG",
-			"entriesTemplate": [
-				"When you drink this potion, you gain resistance to {{item.resist}} damage for 1 hour."
-			]
-		},
 		{
 			"name": "Absorbing Tattoo",
 			"source": "TCE",
@@ -2335,6 +2489,13 @@
 			]
 		},
 		{
+			"name": "Armor of Resistance",
+			"source": "DMG",
+			"entriesTemplate": [
+				"You have resistance to {{item.resist}} damage while you wear this armor."
+			]
+		},
+		{
 			"name": "Chromatic Rose",
 			"source": "WBtW",
 			"entriesTemplate": [
@@ -2348,6 +2509,20 @@
 			"source": "DMG",
 			"entriesTemplate": [
 				"As an action, a character can throw a grenade at a point up to 60 feet away. With a grenade launcher, the character can propel the grenade up to 120 feet away."
+			]
+		},
+		{
+			"name": "Potion of Resistance",
+			"source": "DMG",
+			"entriesTemplate": [
+				"When you drink this potion, you gain resistance to {{item.resist}} damage for 1 hour."
+			]
+		},
+		{
+			"name": "Ring of Resistance",
+			"source": "DMG",
+			"entriesTemplate": [
+				"You have resistance to {{item.resist}} damage while wearing this ring. The ring is set with {{item.detail1}}."
 			]
 		}
 	]

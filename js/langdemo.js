@@ -61,7 +61,7 @@ class LangDemoUi {
 				.change(() => saveContext())
 				.val(value);
 
-			const $btnDel = $(`<button class="btn btn-xs btn-danger" tabindex="-1"><span class="glyphicon glyphicon-trash"></span></button>`)
+			const $btnDel = $(`<button class="ve-btn ve-btn-xs ve-btn-danger" tabindex="-1"><span class="glyphicon glyphicon-trash"></span></button>`)
 				.click(() => {
 					const ix = LangDemoUi._metasContext.indexOf(out);
 					if (~ix) {
@@ -77,7 +77,7 @@ class LangDemoUi {
 		};
 
 		LangDemoUi._$wrpContext = $(`#wrp_context`);
-		const $btnAdd = $(`<button class="btn btn-xs btn-default">Add Context</button>`)
+		const $btnAdd = $(`<button class="ve-btn ve-btn-xs ve-btn-default">Add Context</button>`)
 			.click(() => addContextRow());
 		$$`<div class="mb-2 ve-flex-v-center">${$btnAdd}</div>`.appendTo(LangDemoUi._$wrpContext);
 

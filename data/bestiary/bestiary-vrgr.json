@@ -92,7 +92,7 @@
 				{
 					"name": "Entrapping Pod",
 					"entries": [
-						"{@atk mw} {@hit 7} to hit, reach 5 ft., one Medium or smaller creature {@condition grappled} by the plant. {@h}22 ({@damage 4d8 + 4}) acid damage, and the target is pulled into the plant's space and enveloped by the pod, and the grapple ends. While enveloped, the target is {@condition restrained}, and it has total cover against attacks and effects originating outside the pod. The enveloped target must also immediately succeed on a {@dc 16} Constitution saving throw or be {@condition stunned} by the plant's sapping enzymes until it is removed from the pod or the plant dies. The enveloped target doesn't require air and gains 1 level of {@condition exhaustion} for each hour it spends in the pod. If the target dies while enveloped, it immediately emerges from the pod as a living podling, wearing or carrying all of the original creature's equipment.",
+						"{@atk mw} {@hit 7} to hit, reach 5 ft., one Medium or smaller creature {@condition grappled} by the plant. {@h}22 ({@damage 4d8 + 4}) acid damage, and the target is pulled into the plant's space and enveloped by the pod, and the grapple ends. While enveloped, the target is {@condition restrained}, and it has {@quickref Cover||3||total cover} against attacks and effects originating outside the pod. The enveloped target must also immediately succeed on a {@dc 16} Constitution saving throw or be {@condition stunned} by the plant's sapping enzymes until it is removed from the pod or the plant dies. The enveloped target doesn't require air and gains 1 level of {@condition exhaustion} for each hour it spends in the pod. If the target dies while enveloped, it immediately emerges from the pod as a living podling, wearing or carrying all of the original creature's equipment.",
 						"As an action, a creature within 5 feet of the bodytaker plant that is outside the pod can open the pod and pull the target free with a successful {@dc 15} Strength check. If the plant dies, the target is no longer {@condition restrained} and can escape from the pod by spending 10 feet of movement, exiting {@condition prone}. The plant has one pod, which can envelop one creature at a time."
 					]
 				}
@@ -4656,7 +4656,7 @@
 					"name": "Flesh Entomb {@recharge 5}",
 					"entries": [
 						"The zombie flings a detached clump of corpses at a creature it can see within 30 feet of it. The target must succeed on a {@dc 16} Strength saving throw or take 16 ({@damage 3d10}) bludgeoning damage, and if the target is a Large or smaller creature, it becomes entombed in dead flesh.",
-						"A creature entombed in the dead flesh is {@condition restrained}, has total cover against attacks and other effects outside the dead flesh, and takes 10 ({@damage 3d6}) necrotic damage at the start of each of its turns. The creature can be freed if the dead flesh is destroyed. The dead flesh is a Large object with AC 10, 25 hit points, and immunity to poison and psychic damage."
+						"A creature entombed in the dead flesh is {@condition restrained}, has {@quickref Cover||3||total cover} against attacks and other effects outside the dead flesh, and takes 10 ({@damage 3d6}) necrotic damage at the start of each of its turns. The creature can be freed if the dead flesh is destroyed. The dead flesh is a Large object with AC 10, 25 hit points, and immunity to poison and psychic damage."
 					]
 				}
 			],

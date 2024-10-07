@@ -34,6 +34,7 @@ export class UtilSearchIndex {
 			isIncludeTag: true,
 			isIncludeUid: true,
 			isIncludeImg: true,
+			isIncludeFoundryExtras: true,
 		};
 		return UtilSearchIndex._pGetIndex({opts, optsAddToIndex, doLogging, noFilter});
 	}

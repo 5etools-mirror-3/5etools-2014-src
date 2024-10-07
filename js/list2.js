@@ -142,12 +142,16 @@ class List {
 		this._isDirty = true;
 	}
 
-	init () {
+	init ({isLazySearch = false} = {}) {
 		if (this._isInit) return;
 
 		// This should only be run after all the elements are ready from page load
 		if (this._$iptSearch) {
-			UiUtil.bindTypingEnd({$ipt: this._$iptSearch, fnKeyup: () => this.search(this._$iptSearch.val())});
+			UiUtil.bindTypingEnd({
+				$ipt: this._$iptSearch,
+				fnKeyup: () => this.search(this._$iptSearch.val()),
+				timeout: isLazySearch ? UiUtil.TYPE_TIMEOUT_LAZY_MS : UiUtil.TYPE_TIMEOUT_MS,
+			});
 			this._searchTerm = List.getCleanSearchTerm(this._$iptSearch.val());
 			this._init_bindKeydowns();
 

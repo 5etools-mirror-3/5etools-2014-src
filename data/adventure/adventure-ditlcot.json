@@ -6340,7 +6340,7 @@
 											]
 										},
 										"The indentations are the rock-cyst burrows of four cave morays\u2014sluglike scavengers that slither between the burrow entrances through tunnels in the rock. The cave morays use the {@creature giant poisonous snake} stat block. They use their reach to bite at prey from the safety of their burrows.",
-										"Cave morays inside their burrows have {@book three-quarters cover|PHB|9|Cover}. A creature within 5 feet of a burrow can pull a cave moray from its burrow by grappling it. If removed from its burrow, a cave moray frantically tries to escape back to its hole.",
+										"Cave morays inside their burrows have {@quickref cover||3||three-quarters cover}. A creature within 5 feet of a burrow can pull a cave moray from its burrow by grappling it. If removed from its burrow, a cave moray frantically tries to escape back to its hole.",
 										"Loud sounds here, including the din of battle, draw the attention of the fomorians in area L11. The cave morays retreat into their burrows when the fomorians arrive."
 									]
 								},

@@ -117,7 +117,7 @@
 									"name": "5-6: Stink Bomb Shield",
 									"type": "item",
 									"entries": [
-										"The bubbles transform into a foul-smelling cloud of gas that surrounds and shields the target. The target has half cover until the gas disappears at the start of Coral's next turn."
+										"The bubbles transform into a foul-smelling cloud of gas that surrounds and shields the target. The target has {@quickref Cover||3||half cover} until the gas disappears at the start of Coral's next turn."
 									]
 								}
 							]

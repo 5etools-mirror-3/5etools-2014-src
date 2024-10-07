@@ -1,5 +1,5 @@
 import {FilterBase} from "./filter-filter-base.js";
-import {FilterBox} from "../filter-box.js";
+import {PILL_STATE__IGNORE, PILL_STATE__YES, PILL_STATES} from "../filter-constants.js";
 
 export class RangeFilter extends FilterBase {
 	/**
@@ -64,7 +64,7 @@ export class RangeFilter extends FilterBase {
 		// endregion
 	}
 
-	set isUseDropdowns (val) { this._meta.isUseDropdowns = !!val; }
+	set isUseDropdowns (val) { this._uiMeta.isUseDropdowns = !!val; }
 
 	getSaveableState () {
 		return {
@@ -132,12 +132,70 @@ export class RangeFilter extends FilterBase {
 		return out.length ? out : null;
 	}
 
+	/* -------------------------------------------- */
+
 	_isAtDefaultPosition ({nxtState = null} = {}) {
 		const state = nxtState?.[this.header]?.state || this.__state;
 		return state.min === state.curMin && state.max === state.curMax;
 	}
 
-	// `meta` is not included, as it is used purely for UI
+	_getDefaultItemState (k, {isIgnoreSnapshot = false}) {
+		if (isIgnoreSnapshot) return this._getDefaultState_base(k);
+
+		const fromSnapshot = this._getDefaultState_snapshot(k);
+		if (fromSnapshot != null) return fromSnapshot;
+
+		return this._getDefaultState_base(k);
+	}
+
+	_getDefaultState_base (k) {
+		switch (k) {
+			case "curMin": return this._state.min;
+			case "curMax": return this._state.max;
+			case "min": return this._state.min;
+			case "max": return this._state.max;
+			default: throw new Error(`Unhandled state key "${k}"`);
+		}
+	}
+
+	_getDefaultState_snapshot (k) {
+		switch (k) {
+			case "curMin": {
+				const curMinSnapshot = this._snapshotManager?.getResolvedValue(this.header, "state", "curMin") ?? this._state.min;
+				const minSnapshot = this._snapshotManager?.getResolvedValue(this.header, "state", "min") ?? this._state.min;
+				if (curMinSnapshot === minSnapshot) return this._state.min;
+				return curMinSnapshot;
+			}
+			case "curMax": {
+				const curMaxSnapshot = this._snapshotManager?.getResolvedValue(this.header, "state", "curMax") ?? this._state.max;
+				const maxSnapshot = this._snapshotManager?.getResolvedValue(this.header, "state", "max") ?? this._state.max;
+				if (curMaxSnapshot === maxSnapshot) return this._state.max;
+				return curMaxSnapshot;
+			}
+			case "min": return Math.min(this._state.min, this._snapshotManager?.getResolvedValue(this.header, "state", "min") ?? this._state.min);
+			case "max": return Math.max(this._state.max, this._snapshotManager?.getResolvedValue(this.header, "state", "max") ?? this._state.max);
+
+			default: throw new Error(`Unhandled state key "${k}"`);
+		}
+	}
+
+	_getStateNotDefault ({nxtState = null, isIgnoreSnapshot = false}) {
+		return this._getStateNotDefault_generic({nxtState, isIgnoreSnapshot});
+	}
+
+	/* -------------------------------------------- */
+
+	getSnapshots () { return this._getSnapshots_generic(); }
+
+	/* -------------------------------------------- */
+
+	_mutNextState_fromSnapshots ({nxtState, snapshots = null}) { return this._mutNextState_fromSnapshots_generic({nxtState, snapshots}); }
+	_mutNextState_fromSnapshots_state ({nxtState, snapshot}) { return this._mutNextState_fromSnapshots_state_generic({nxtState, snapshot}); }
+	_mutNextState_fromSnapshots_meta ({nxtState, snapshot}) { return this._mutNextState_fromSnapshots_meta_generic({nxtState, snapshot}); }
+
+	/* -------------------------------------------- */
+
+	// TODO(Future) add `_meta` if required
 	getFilterTagPart () {
 		if (this._isAtDefaultPosition()) return null;
 
@@ -156,19 +214,38 @@ export class RangeFilter extends FilterBase {
 		return `${this.header}=[&${labelLow};&${labelHigh}]`;
 	}
 
-	getDisplayStatePart ({nxtState = null} = {}) {
+	/* -------------------------------------------- */
+
+	getDisplayStatePart ({nxtState = null, isIgnoreSnapshot = false} = {}) {
 		if (this._isAtDefaultPosition({nxtState})) return null;
 
-		const {summary} = this._getDisplaySummary({nxtState});
+		const {summary} = this._getDisplaySummary({nxtState, isIgnoreSnapshot, isPlainText: true});
 
-		return `${this.header}: ${summary}`;
+		return `${this._getDisplayStatePart_getHeader({isPlainText: true})}${summary}`;
+	}
+
+	getDisplayStatePartsHtml ({nxtState = null, isIgnoreSnapshot = false} = {}) {
+		if (this._isAtDefaultPosition({nxtState})) return [];
+
+		const {summary} = this._getDisplaySummary({nxtState, isIgnoreSnapshot});
+
+		return [
+			`${this._getDisplayStatePart_getHeader()}${summary}`,
+		];
+	}
+
+	/* -------------------------------------------- */
+
+	getSnapshotPreviews (snapshots) {
+		/* Implement if required */
+		return [];
 	}
 
 	getNextStateFromSubhashState (state) {
 		const nxtState = this._getNextState_base();
 
 		if (state == null) {
-			this._mutNextState_reset(nxtState);
+			this._mutNextState_reset({nxtState});
 			return nxtState;
 		}
 
@@ -206,7 +283,7 @@ export class RangeFilter extends FilterBase {
 			}
 		});
 
-		if (!hasState) this._mutNextState_reset(nxtState);
+		if (!hasState) this._mutNextState_reset({nxtState});
 
 		return nxtState;
 	}
@@ -228,22 +305,24 @@ export class RangeFilter extends FilterBase {
 			this,
 			"isUseDropdowns",
 			{
-				$ele: $(`<button class="btn btn-default btn-xs mr-2">Show as Dropdowns</button>`),
-				stateName: "meta",
-				stateProp: "_meta",
+				$ele: $(`<button class="ve-btn ve-btn-default ve-btn-xs mr-2">Show as Dropdowns</button>`),
+				stateName: "uiMeta",
+				stateProp: "_uiMeta",
 			},
 		);
-		const $btnReset = $(`<button class="btn btn-default btn-xs">Reset</button>`).click(() => this.reset());
+		const $btnReset = $(`<button class="ve-btn ve-btn-default ve-btn-xs">Reset</button>`).click(() => this.reset());
 		const $wrpBtns = $$`<div>${$btnForceMobile}${$btnReset}</div>`;
 
 		const $wrpSummary = $(`<div class="ve-flex-v-center fltr__summary_item fltr__summary_item--include"></div>`).hideVe();
 
-		const $btnShowHide = $(`<button class="btn btn-default btn-xs ml-2 ${this._meta.isHidden ? "active" : ""}">Hide</button>`)
-			.click(() => this._meta.isHidden = !this._meta.isHidden);
+		const btnShowHide = this._getBtnShowHide();
 		const hkIsHidden = () => {
-			$btnShowHide.toggleClass("active", this._meta.isHidden);
-			$wrpBtns.toggleVe(!this._meta.isHidden);
-			$wrpSummary.toggleVe(this._meta.isHidden);
+			btnShowHide.toggleClass("active", this._uiMeta.isHidden);
+			$wrpBtns.toggleVe(!this._uiMeta.isHidden);
+			$wrpSummary.toggleVe(this._uiMeta.isHidden);
+
+			// Skip updating renders if results would be invisible
+			if (!this._uiMeta.isHidden) return;
 
 			// render summary
 			const {summaryTitle, summary} = this._getDisplaySummary();
@@ -251,18 +330,22 @@ export class RangeFilter extends FilterBase {
 				.title(summaryTitle)
 				.text(summary);
 		};
-		this._addHook("meta", "isHidden", hkIsHidden);
+		this._addHook("uiMeta", "isHidden", hkIsHidden);
+		this._addHookAll("state", hkIsHidden);
 		hkIsHidden();
 
 		return $$`
 		<div class="ve-flex-v-center">
 			${$wrpBtns}
 			${$wrpSummary}
-			${$btnShowHide}
+			<div class="ve-btn-group ve-flex-v-center ml-2">
+				${btnShowHide}
+				${this._getBtnMenu()}
+			</div>
 		</div>`;
 	}
 
-	_getDisplaySummary ({nxtState = null} = {}) {
+	_getDisplaySummary ({nxtState = null, isIgnoreSnapshot = false, isPlainText = false} = {}) {
 		const cur = this.getValues({nxtState})[this.header];
 
 		const isRange = !cur.isMinVal && !cur.isMaxVal;
@@ -296,11 +379,11 @@ export class RangeFilter extends FilterBase {
 		const $wrpSlider = $$`<div class="fltr__wrp-pills fltr__wrp-pills--flex"></div>`;
 		const $wrpDropdowns = $$`<div class="fltr__wrp-pills fltr__wrp-pills--flex"></div>`;
 		const hookHidden = () => {
-			$wrpSlider.toggleVe(!this._meta.isHidden && !this._meta.isUseDropdowns);
-			$wrpDropdowns.toggleVe(!this._meta.isHidden && !!this._meta.isUseDropdowns);
+			$wrpSlider.toggleVe(!this._uiMeta.isHidden && !this._uiMeta.isUseDropdowns);
+			$wrpDropdowns.toggleVe(!this._uiMeta.isHidden && !!this._uiMeta.isUseDropdowns);
 		};
-		this._addHook("meta", "isHidden", hookHidden);
-		this._addHook("meta", "isUseDropdowns", hookHidden);
+		this._addHook("uiMeta", "isHidden", hookHidden);
+		this._addHook("uiMeta", "isUseDropdowns", hookHidden);
 		hookHidden();
 
 		// region Slider
@@ -423,21 +506,21 @@ export class RangeFilter extends FilterBase {
 		this.__$wrpMini = opts.$wrpMini;
 
 		// region Mini pills
-		this._$btnMiniGt = this._$btnMiniGt || $(`<div class="fltr__mini-pill" state="ignore"></div>`)
+		this._$btnMiniGt = this._$btnMiniGt || $(`<div class="fltr__mini-pill" data-state="${PILL_STATES[PILL_STATE__IGNORE]}"></div>`)
 			.click(() => {
 				this._state.curMin = this._state.min;
 				this._filterBox.fireChangeEvent();
 			});
 		this._$btnMiniGt.appendTo(this.__$wrpMini);
 
-		this._$btnMiniLt = this._$btnMiniLt || $(`<div class="fltr__mini-pill" state="ignore"></div>`)
+		this._$btnMiniLt = this._$btnMiniLt || $(`<div class="fltr__mini-pill" data-state="${PILL_STATES[PILL_STATE__IGNORE]}"></div>`)
 			.click(() => {
 				this._state.curMax = this._state.max;
 				this._filterBox.fireChangeEvent();
 			});
 		this._$btnMiniLt.appendTo(this.__$wrpMini);
 
-		this._$btnMiniEq = this._$btnMiniEq || $(`<div class="fltr__mini-pill" state="ignore"></div>`)
+		this._$btnMiniEq = this._$btnMiniEq || $(`<div class="fltr__mini-pill" data-state="${PILL_STATES[PILL_STATE__IGNORE]}"></div>`)
 			.click(() => {
 				this._state.curMin = this._state.min;
 				this._state.curMax = this._state.max;
@@ -456,24 +539,24 @@ export class RangeFilter extends FilterBase {
 
 		const handleMiniUpdate = () => {
 			if (this._state.curMin === this._state.curMax) {
-				this._$btnMiniGt.attr("state", FilterBox._PILL_STATES[0]);
-				this._$btnMiniLt.attr("state", FilterBox._PILL_STATES[0]);
+				this._$btnMiniGt.attr("data-state", PILL_STATES[PILL_STATE__IGNORE]);
+				this._$btnMiniLt.attr("data-state", PILL_STATES[PILL_STATE__IGNORE]);
 
 				this._$btnMiniEq
-					.attr("state", this._isAtDefaultPosition() ? FilterBox._PILL_STATES[0] : FilterBox._PILL_STATES[1])
+					.attr("data-state", this._isAtDefaultPosition() ? PILL_STATES[PILL_STATE__IGNORE] : PILL_STATES[PILL_STATE__YES])
 					.text(`${this.header} = ${this._getDisplayText(this._state.curMin, {isBeyondMax: this._isAllowGreater && this._state.curMin === this._state.max})}`);
 			} else {
 				if (this._state.min !== this._state.curMin) {
-					this._$btnMiniGt.attr("state", FilterBox._PILL_STATES[1])
+					this._$btnMiniGt.attr("data-state", PILL_STATES[PILL_STATE__YES])
 						.text(`${this.header} ≥ ${this._getDisplayText(this._state.curMin)}`);
-				} else this._$btnMiniGt.attr("state", FilterBox._PILL_STATES[0]);
+				} else this._$btnMiniGt.attr("data-state", PILL_STATES[PILL_STATE__IGNORE]);
 
 				if (this._state.max !== this._state.curMax) {
-					this._$btnMiniLt.attr("state", FilterBox._PILL_STATES[1])
+					this._$btnMiniLt.attr("data-state", PILL_STATES[PILL_STATE__YES])
 						.text(`${this.header} ≤ ${this._getDisplayText(this._state.curMax)}`);
-				} else this._$btnMiniLt.attr("state", FilterBox._PILL_STATES[0]);
+				} else this._$btnMiniLt.attr("data-state", PILL_STATES[PILL_STATE__IGNORE]);
 
-				this._$btnMiniEq.attr("state", FilterBox._PILL_STATES[0]);
+				this._$btnMiniEq.attr("data-state", PILL_STATES[PILL_STATE__IGNORE]);
 			}
 		};
 		// endregion
@@ -518,8 +601,8 @@ export class RangeFilter extends FilterBase {
 		return {[this.header]: out};
 	}
 
-	_mutNextState_reset (nxtState, {isResetAll = false} = {}) {
-		if (isResetAll) this._mutNextState_resetBase(nxtState, {isResetAll});
+	_mutNextState_reset ({nxtState, isResetAll = false}) {
+		if (isResetAll) this._mutNextState_resetBase({nxtState, isResetAll});
 		nxtState[this.header].state.curMin = nxtState[this.header].state.min;
 		nxtState[this.header].state.curMax = nxtState[this.header].state.max;
 	}
@@ -632,9 +715,13 @@ export class RangeFilter extends FilterBase {
 
 	getDefaultMeta () {
 		// Key order is important, as @filter tags depend on it
+		return {};
+	}
+
+	getDefaultUiMeta () {
 		const out = {
-			...super.getDefaultMeta(),
-			...RangeFilter._DEFAULT_META,
+			...super.getDefaultUiMeta(),
+			...RangeFilter._DEFAULT_UI_META,
 		};
 		if (Renderer.hover.isSmallScreen()) out.isUseDropdowns = true;
 		return out;
@@ -653,6 +740,6 @@ export class RangeFilter extends FilterBase {
 		return isVisible;
 	}
 }
-RangeFilter._DEFAULT_META = {
+RangeFilter._DEFAULT_UI_META = {
 	isUseDropdowns: false,
 };

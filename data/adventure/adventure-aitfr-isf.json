@@ -453,7 +453,7 @@
 					"name": "Collapsing Floors",
 					"page": 7,
 					"entries": [
-						"The floors in areas 10, 11, and 12 are precarious. For every 20 feet of movement across these floors by a creature bearing more than 100 pounds (including itself), there is a {@chance 25|25 percent} chance that the floor groans and crumbles away into area 14. If a trapped stele activates in these areas, there is a {@chance 50|50 percent} chance the floor immediately collapses.",
+						"The floors in areas 10, 11, and 12 are precarious. For every 20 feet of movement across these floors by a creature bearing more than 100 pounds (including itself), there is a {@chance 25} chance that the floor groans and crumbles away into area 14. If a trapped stele activates in these areas, there is a {@chance 50} chance the floor immediately collapses.",
 						"A successful DC 10 Strength ({@skill Athletics}) check allows someone to collapse the floor intentionally. A crowbar or other leverage grants advantage on the check.",
 						"Creatures in or beneath the area when the floor collapses must attempt a DC 15 Dexterity saving throw, taking 22 ({@damage 4d10}) bludgeoning damage on a failure, or half as much on a success. A creature that succeeds on the saving throw within 5 feet of the walls can choose to cling to the nearest wall to avoid damage and a fall. Otherwise, any creature in this area when the floor gives way tumbles down into area 14.",
 						{

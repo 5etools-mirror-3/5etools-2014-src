@@ -10889,7 +10889,7 @@
 									"id": "207",
 									"entries": [
 										"At the end of a street of mostly collapsed buildings is a canted door with a bugbear marionette hanging next to it. Gouged into the door frame is the word \"Krek\" (a Goblin word meaning \"this for that\" or \"trade\").",
-										"The walls of the shop on the other side of the door have caved in, and the space that remains is filled with piles of junk and well-worn adventuring gear. The shop's proprietor is an {@creature oni} disguised as an old hobgoblin named Kinrob. If a character is looking to procure an item on the Adventuring Gear table or the Tools table in {@book chapter 5|PHB|5|Adventuring Gear} of the {@book Player's Handbook|PHB}, there's a {@chance 25|25 percent} chance that Kinrob has the item in question and will trade it for one or more items of equal or greater value.",
+										"The walls of the shop on the other side of the door have caved in, and the space that remains is filled with piles of junk and well-worn adventuring gear. The shop's proprietor is an {@creature oni} disguised as an old hobgoblin named Kinrob. If a character is looking to procure an item on the Adventuring Gear table or the Tools table in {@book chapter 5|PHB|5|Adventuring Gear} of the {@book Player's Handbook|PHB}, there's a {@chance 25} chance that Kinrob has the item in question and will trade it for one or more items of equal or greater value.",
 										"Kinrob's true nature is a well-known \"secret\" in the Legion of Azrok, and fear of the oni has rendered the surrounding neighborhood a ghost town. Azrok placates the oni by giving it newborn goblins to feed on. The first time the characters visit Kinrob, a {@creature bugbear} enters to deliver a goblin child in a basket, then skulks away. Kinrob puts the meal aside until its business with the characters is concluded, then politely shows them the door.",
 										{
 											"type": "entries",
@@ -12542,7 +12542,7 @@
 										"{@b Tripwires}. The uneven rock floor is dotted with small stalagmites, between which run nearly {@condition invisible} trip wires made of webbing. These web strands set off hidden rockfall traps."
 									]
 								},
-								"The driders in {@area area 10|259|x} have strung thin web strands between some of the stalagmites, creating trip wires. Any creature that enters a square marked T on the map has a {@chance 50|50 percent} chance of breaking a strand and triggering a trap that releases rocks from a hidden crevice in the ceiling. If a trap triggers, all creatures occupying the trapped square must succeed on a DC 14 Dexterity saving throw or be struck by a falling rock for 5 ({@dice 1d10}) bludgeoning damage. In addition, the sound of the falling rocks alerts the driders in {@area area 10|259|x}.",
+								"The driders in {@area area 10|259|x} have strung thin web strands between some of the stalagmites, creating trip wires. Any creature that enters a square marked T on the map has a {@chance 50} chance of breaking a strand and triggering a trap that releases rocks from a hidden crevice in the ceiling. If a trap triggers, all creatures occupying the trapped square must succeed on a DC 14 Dexterity saving throw or be struck by a falling rock for 5 ({@dice 1d10}) bludgeoning damage. In addition, the sound of the falling rocks alerts the driders in {@area area 10|259|x}.",
 								"A character adjacent to a trapped square or in a trapped square can spot the trip wires with a successful DC 17 Wisdom ({@skill Perception}) check, then track the thin webs to the point in the ceiling where the rocks are hidden. Once it is spotted, a rockfall trap can be disabled with a successful DC 12 Dexterity check by a creature in the trapped square; failing this check triggers the trap.",
 								{
 									"type": "entries",
@@ -21681,7 +21681,7 @@
 											"id": "3fc",
 											"entries": [
 												"{@creature Otto|WDMM} the faerie dragon spends much of its time stalking the castle hallways (areas {@area 18|3fd}, {@area 28|41a}, and {@area 38|435}) and takes regular naps in {@area area 43a|441|x}. While awake, the faerie dragon prefers to remain {@condition invisible} and likes to play pranks on guests.",
-												"{@creature Otto|WDMM}'s favorite prank is to sneak up on a guest, engulf it in a cloud of euphoria gas, and sneak away while remaining {@condition invisible} the whole time. Its second favorite prank is to cast mage hand and use the spectral appendage to tap guests on the shoulder. Any time it performs such a prank, the faerie dragon has a {@chance 25|25 percent} chance of betraying its location with a giggle or a snicker. The faerie dragon must then relocate itself on its next turn to keep from being caught.",
+												"{@creature Otto|WDMM}'s favorite prank is to sneak up on a guest, engulf it in a cloud of euphoria gas, and sneak away while remaining {@condition invisible} the whole time. Its second favorite prank is to cast mage hand and use the spectral appendage to tap guests on the shoulder. Any time it performs such a prank, the faerie dragon has a {@chance 25} chance of betraying its location with a giggle or a snicker. The faerie dragon must then relocate itself on its next turn to keep from being caught.",
 												"Casting a spell that requires concentration causes the faerie dragon to become visible\u2014after which it can move, cast a spell that doesn't require concentration (such as color spray or hallucinatory terrain), and use its bonus action to turn {@condition invisible} again. {@creature Otto|WDMM} is careful about casting spells that require concentration, because it can't concentrate on the spell and stay {@condition invisible} at the same time. It normally casts mirror image before casting a spell that requires concentration, trusting that its images will protect it while it maintains concentration on the spell. If {@creature Otto|WDMM} succeeds in incapacitating a guest, it tries to remove the guest's weapons and gear, then spends the next hour hiding these items throughout the castle.",
 												"{@creature Otto|WDMM} reserves its polymorph spell for a truly dangerous adversary, turning that enemy into a frog before making a hasty escape.",
 												"If the characters get rid of {@creature Maddgoth's homunculus|WDMM}, the faerie dragon takes a shine to them and offers to pay them 50 gp for each trinket they deliver to it. {@creature Otto|WDMM} collects trinkets and has a secret stash of coins (see {@area area 43b|443|x})."
@@ -21697,7 +21697,7 @@
 							"page": 102,
 							"id": "3fd",
 							"entries": [
-								"There is a {@chance 50|50 percent} chance that {@creature Maddgoth's homunculus|WDMM} is stalking these halls. The last thing it wants are more invaders in its master's abode, so it attacks. When killed, it melts away and re-forms in {@area area 25|40a|x}."
+								"There is a {@chance 50} chance that {@creature Maddgoth's homunculus|WDMM} is stalking these halls. The last thing it wants are more invaders in its master's abode, so it attacks. When killed, it melts away and re-forms in {@area area 25|40a|x}."
 							]
 						},
 						{
@@ -22373,7 +22373,7 @@
 									"page": 107,
 									"id": "443",
 									"entries": [
-										"{@creature Otto|WDMM}'s most prized possessions fill this cluttered space. These treasures are spread across tables that have been stacked atop one another, forming makeshift shelves that scrape the 20-foot-high ceiling and threaten to topple at any moment. Any character who tries to get at a hard-to-reach item has a {@chance 50|50 percent} chance of setting into motion a Rube Goldberg-esque cascade of tables and baubles. When everything comes tumbling down, every creature in the room must make a DC 15 Dexterity saving throw, taking 10 ({@dice 3d6}) bludgeoning damage on a failed save, or half as much damage on a successful one.",
+										"{@creature Otto|WDMM}'s most prized possessions fill this cluttered space. These treasures are spread across tables that have been stacked atop one another, forming makeshift shelves that scrape the 20-foot-high ceiling and threaten to topple at any moment. Any character who tries to get at a hard-to-reach item has a {@chance 50} chance of setting into motion a Rube Goldberg-esque cascade of tables and baubles. When everything comes tumbling down, every creature in the room must make a DC 15 Dexterity saving throw, taking 10 ({@dice 3d6}) bludgeoning damage on a failed save, or half as much damage on a successful one.",
 										{
 											"type": "entries",
 											"name": "Treasure",
@@ -22421,7 +22421,7 @@
 							"page": 108,
 							"id": "448",
 							"entries": [
-								"{@creature Otto|WDMM} removed anything it considered valuable from this chamber but periodically returns to see if it missed anything. If the faerie dragon hasn't been encountered and defeated elsewhere, there is a {@chance 25|25 percent} chance that it's here when the characters arrive, in which case the door to the room is open. If {@creature Otto|WDMM} is not present, the door is closed and has a silver coin lodged in its frame (see {@area area 19|3fe|x}). The room's features are as follows:",
+								"{@creature Otto|WDMM} removed anything it considered valuable from this chamber but periodically returns to see if it missed anything. If the faerie dragon hasn't been encountered and defeated elsewhere, there is a {@chance 25} chance that it's here when the characters arrive, in which case the door to the room is open. If {@creature Otto|WDMM} is not present, the door is closed and has a silver coin lodged in its frame (see {@area area 19|3fe|x}). The room's features are as follows:",
 								{
 									"type": "inset",
 									"id": "449",
@@ -26608,7 +26608,7 @@
 							"page": 124,
 							"id": "4e3",
 							"entries": [
-								"There's a {@chance 50|50 percent} chance that a red-robed tiefling {@creature mage} named Violence (see \"{@area The Horned Sisters|4af|x}\") is here, serving a detention for threatening a guest lecturer. The area contains the following:",
+								"There's a {@chance 50} chance that a red-robed tiefling {@creature mage} named Violence (see \"{@area The Horned Sisters|4af|x}\") is here, serving a detention for threatening a guest lecturer. The area contains the following:",
 								{
 									"type": "inset",
 									"id": "4e4",
@@ -26915,7 +26915,7 @@
 							"page": 127,
 							"id": "501",
 							"entries": [
-								"These chambers are claimed by Wormriddle the night hag (see \"{@area Wormriddle the Night Hag|4a8|x}\"). If she hasn't already been encountered and defeated elsewhere, there's a {@chance 50|50 percent} chance she's in {@area area 23b|503|x}. Otherwise, she's in {@area area 23c|506|x}.",
+								"These chambers are claimed by Wormriddle the night hag (see \"{@area Wormriddle the Night Hag|4a8|x}\"). If she hasn't already been encountered and defeated elsewhere, there's a {@chance 50} chance she's in {@area area 23b|503|x}. Otherwise, she's in {@area area 23c|506|x}.",
 								"The hag's {@spell plane shift} spell doesn't work in Undermountain, but she can use her {@i heartstone} to escape to the Ethereal Plane if outmatched. The flesh golems in {@area area 23c|506|x} form Wormriddle's first line of defense. If they're defeated, the hag seeks out the headmaster, who directs the hag to round up the students and form a posse to hunt down and destroy the interlopers.",
 								{
 									"type": "entries",
@@ -27104,7 +27104,7 @@
 									"page": 128,
 									"id": "50f",
 									"entries": [
-										"The first time the characters reach the midpoint of this hall, they hear a double door slam shut, either to the northeast ({@chance 30|30 percent} chance) or the southwest ({@chance 70|70 percent} chance). The sound is a harmless illusory regional effect created by Halaster (see \"{@area Halaster's Lair|bb9|x}\")."
+										"The first time the characters reach the midpoint of this hall, they hear a double door slam shut, either to the northeast ({@chance 30} chance) or the southwest ({@chance 70} chance). The sound is a harmless illusory regional effect created by Halaster (see \"{@area Halaster's Lair|bb9|x}\")."
 									]
 								},
 								{
@@ -30436,7 +30436,7 @@
 											]
 										},
 										"The glass altar is a Large object with AC 11, 55 hit points, immunity to damage from nonmagical weapons that aren't adamantine, and immunity to acid, poison, and psychic damage.",
-										"The gray oozes attack all creatures that enter the room using their Psychic Crush action option (see the \"Variant: Psychic Gray Oozes\" sidebar in the \"Oozes\" entry in the {@book Monster Manual|MM}). While contained in the altar, the oozes have total cover, their speed is 0 feet, and they can't attack with their pseudopods."
+										"The gray oozes attack all creatures that enter the room using their Psychic Crush action option (see the \"Variant: Psychic Gray Oozes\" sidebar in the \"Oozes\" entry in the {@book Monster Manual|MM}). While contained in the altar, the oozes have {@quickref Cover||3||total cover}, their speed is 0 feet, and they can't attack with their pseudopods."
 									]
 								},
 								{
@@ -35681,7 +35681,7 @@
 											"type": "list",
 											"items": [
 												"The tower's stone doors are reinforced and barred from the inside. Siege weapons are needed to break them down.",
-												"Arrow slits on the first and second floors provide three-quarters cover to those standing behind them. The rooftop battlements provide variable cover, depending on the angle of attack.",
+												"Arrow slits on the first and second floors provide {@quickref Cover||3||three-quarters cover} to those standing behind them. The rooftop battlements provide variable cover, depending on the angle of attack.",
 												"Iron ladders and trapdoors connect each level of a tower, and the trapdoor in the roof can be bolted shut from below. Breaking through a bolted trapdoor requires a successful DC 27 Strength ({@skill Athletics}) check.",
 												"Each tower contains eight male drow (four on each of the first and second floors) who fire light crossbows through the arrow slits. This attack is the same as the drow's hand crossbow attack, except it has a range of 80/320 feet and deals 6 ({@dice 1d8 + 2}) piercing damage.",
 												"A male drow mage stands watch on the rooftop.",
@@ -36033,7 +36033,7 @@
 										},
 										"Erelal wears a flowing black and silver gown instead of armor, giving her AC 12, but is still armed with her scourge. The male drow with her are Chaszantar and Ulgreth, two sycophants vying to become her new consort. They both wear spider silk togas instead of armor, giving them AC 12.",
 										"Erelal is a mere thirty days away from giving birth to her eleventh child, but she refuses to let her pregnancy interfere with her work: the destruction of House Auvryndar and the conquest of Undermountain. A string of military defeats has left Erelal in no mood to entertain visitors, and her brother has yet to make good on his promise to enslave the minotaurs of the Maze Level. Visitors who have business or grievances with Erelal are dealt with as quickly as possible. Those who come to her with frivolous affairs are scolded, threatened, and sent away with a stern warning not to trouble her again.",
-										"If she is threatened, Erelal tries to summon a {@creature yochlol} demon to defend her. If the shrine of Lolth in this chamber is intact, the demon summoning has a {@chance 90|90 percent} chance of success. Erelal then hinders her enemies with a {@spell darkness} spell before taking the safest exit. Giant spiders that she summons with the {@spell conjure animals} spell use their {@sense blindsight} to target enemies that are engulfed in magical darkness. If her defeat is inevitable and escape proves impossible, Erelal makes whatever concessions she must to save herself and her unborn child.",
+										"If she is threatened, Erelal tries to summon a {@creature yochlol} demon to defend her. If the shrine of Lolth in this chamber is intact, the demon summoning has a {@chance 90} chance of success. Erelal then hinders her enemies with a {@spell darkness} spell before taking the safest exit. Giant spiders that she summons with the {@spell conjure animals} spell use their {@sense blindsight} to target enemies that are engulfed in magical darkness. If her defeat is inevitable and escape proves impossible, Erelal makes whatever concessions she must to save herself and her unborn child.",
 										"Erelal's older brother is clad in a long gray robe with black, web-like tracery. Drivvin has convinced his sister that he has the power to enslave the minotaurs, which would enable House Freth to defeat the forces of House Auvryndar and secure its power in Undermountain. But, having realized that he can't summon a goristro demon alone, the archmage understands that accepting Halaster's offer and his promise of assistance is the only way his plan will succeed. Drivvin knows that if he leaves his sister to become Halaster's apprentice\u2014even though that act is ultimately for her own gain\u2014he will be cast out from his family. Drivvin is looking for the right time to break the news to his sister, whose recent defeats at the hands of House Auvryndar have made her despondent.",
 										"Drivvin is a drow {@creature archmage}, with these changes:",
 										{
@@ -37169,7 +37169,7 @@
 														],
 														[
 															"5\u20136",
-															"The dodecahedron casts {@spell ray of frost} (+5 to hit), targeting a random creature within 60 feet of it that doesn't have total cover against the attack."
+															"The dodecahedron casts {@spell ray of frost} (+5 to hit), targeting a random creature within 60 feet of it that doesn't have {@quickref Cover||3||total cover} against the attack."
 														],
 														[
 															"7\u20138",
@@ -37316,8 +37316,8 @@
 										"{@b Central Chamber}. In the heart of the warren is a 30-foot-wide, 40-foot-long, 10-foot-high chamber containing four dead hobgoblins. Ten {@creature Lava Child|WDMM|lava children} (see {@adventure appendix A|WDMM|25}) hide in the walls and emerge to attack anyone who enters the room."
 									]
 								},
-								"The rust monsters tend to ignore other creatures that maintain a respectful distance. If a character wearing metal armor or carrying a metal shield walks within 5 feet of a rust monster, there's a {@chance 30|30 percent} chance that the creature attacks the character with the intention of devouring the armor or shield.",
-								"The lava children walk through the scrap metal as though it doesn't exist. They regard Zox as a trusted friend and, at his request, attack creatures that enter the central chamber. The lava children pursue fleeing creatures as far as the warren entrances before disappearing back into the scrap metal. While they are hidden in the metal walls, the lava children have total cover.",
+								"The rust monsters tend to ignore other creatures that maintain a respectful distance. If a character wearing metal armor or carrying a metal shield walks within 5 feet of a rust monster, there's a {@chance 30} chance that the creature attacks the character with the intention of devouring the armor or shield.",
+								"The lava children walk through the scrap metal as though it doesn't exist. They regard Zox as a trusted friend and, at his request, attack creatures that enter the central chamber. The lava children pursue fleeing creatures as far as the warren entrances before disappearing back into the scrap metal. While they are hidden in the metal walls, the lava children have {@quickref Cover||3||total cover}.",
 								"The hobgoblins were sent to find and kill {@creature Zox Clammersham|WDMM} but fell prey to the lava children. A character who examines the corpses and succeeds on a DC 10 Wisdom ({@skill Medicine}) check ascertains that the hobgoblins were killed two days ago. A search of the hobgoblin corpses reveals that one has a charcoal sketch of {@creature Zox Clammersham|WDMM} on a crumpled-up sheet of parchment."
 							]
 						},
@@ -39362,7 +39362,7 @@
 											]
 										},
 										"The crawlers are natural enemies of the creature in {@area area 2a|709|x}, which recently killed one of them with a blow from its war pick. They ignore characters who keep a respectful distance.",
-										"A character who studies the fungus and succeeds on a DC 10 Intelligence ({@skill Nature}) check can distinguish edible varieties from poisonous ones, and also ascertains that the spore clouds are harmless. A character unaware of this information who eats fungus has a {@chance 50|50 percent} chance of consuming a poisonous variety and must succeed on a DC 10 Constitution saving throw or be {@condition poisoned} for {@dice 1d4} hours."
+										"A character who studies the fungus and succeeds on a DC 10 Intelligence ({@skill Nature}) check can distinguish edible varieties from poisonous ones, and also ascertains that the spore clouds are harmless. A character unaware of this information who eats fungus has a {@chance 50} chance of consuming a poisonous variety and must succeed on a DC 10 Constitution saving throw or be {@condition poisoned} for {@dice 1d4} hours."
 									]
 								},
 								{
@@ -39708,7 +39708,7 @@
 										"{@b Double Door}. A 20-foot-tall double door blocks the hallway to the north. Leering skulls are carved around the door."
 									]
 								},
-								"The scrap metal came from level 13. Whenever the characters leave this area and return, there is a {@chance 20|20 percent} chance that Hrossk, the {@creature fire giant} metalsmith in {@area area 11|721|x}, is here to collect a choice piece of scrap iron and bring it to area 12 to be melted down and recast."
+								"The scrap metal came from level 13. Whenever the characters leave this area and return, there is a {@chance 20} chance that Hrossk, the {@creature fire giant} metalsmith in {@area area 11|721|x}, is here to collect a choice piece of scrap iron and bring it to area 12 to be melted down and recast."
 							]
 						},
 						{
@@ -42915,7 +42915,7 @@
 									"page": 201,
 									"id": "7c5",
 									"entries": [
-										"Whenever a creature on the bridge crosses the midpoint of the span, there is a {@chance 25|25 percent} chance that the lava pool below spouts a fireball that explodes at a point centered on that creature. The effect is that of a {@spell fireball} spell (save DC 19) cast using a 7th-level spell slot. It deals 42 ({@dice 12d6}) fire damage on a failed saving throw, or half as much damage on a successful one."
+										"Whenever a creature on the bridge crosses the midpoint of the span, there is a {@chance 25} chance that the lava pool below spouts a fireball that explodes at a point centered on that creature. The effect is that of a {@spell fireball} spell (save DC 19) cast using a 7th-level spell slot. It deals 42 ({@dice 12d6}) fire damage on a failed saving throw, or half as much damage on a successful one."
 									]
 								}
 							]
@@ -44139,7 +44139,7 @@
 											"entries": [
 												"{@creature Ashtyrranthor|WDMM}'s innate spellcasting ability is Charisma. She can innately cast the following spells, requiring no material components:",
 												"1/day each: {@spell alarm}, {@spell detect magic}, {@spell gaseous form}, {@spell misty step}, {@spell passwall}, {@spell see invisibility}",
-												"{@creature Ashtyrranthor|WDMM} spends most of her time on the outer surface of the asteroid, prowling through the wreckage of spacefaring vessels that crashed into Stardock long ago. If combat breaks out inside Crèche K'liir, there is a {@chance 10|10 percent} chance that she hears the disturbance. She investigates immediately, joining the battle in progress and using her {@spell gaseous form}, {@spell misty step}, and {@spell passwall} spells to enter hard-to-reach locations. {@creature Ashtyrranthor|WDMM} also keeps a specific watch over {@area areas 12f|857|x}, {@area 13|85a}, and {@area 16a|864} from outside the asteroid. If she sees trouble or intruders in those areas, she attacks at once.",
+												"{@creature Ashtyrranthor|WDMM} spends most of her time on the outer surface of the asteroid, prowling through the wreckage of spacefaring vessels that crashed into Stardock long ago. If combat breaks out inside Crèche K'liir, there is a {@chance 10} chance that she hears the disturbance. She investigates immediately, joining the battle in progress and using her {@spell gaseous form}, {@spell misty step}, and {@spell passwall} spells to enter hard-to-reach locations. {@creature Ashtyrranthor|WDMM} also keeps a specific watch over {@area areas 12f|857|x}, {@area 13|85a}, and {@area 16a|864} from outside the asteroid. If she sees trouble or intruders in those areas, she attacks at once.",
 												{
 													"type": "inset",
 													"name": "Crystal Golems",
@@ -48410,7 +48410,7 @@
 										"Any creature that enters a psipod's bronze cylinder must succeed on a DC 17 Constitution saving throw or fall {@condition unconscious}, lulled into that state by a soothing psionic vibration that the ulitharid produces. A creature that succeeds on the saving throw must repeat it at the end of each of its turns unit it exits the cylinder.",
 										"While in a psipod, an {@condition unconscious} creature finds itself drawn into a simulated reality created by the ulitharid (see the \"Alterdeep\" sidebar) and can survive in this state for the remainder of its natural life, its mind and body nourished by the psipod's psychic energy. If the psipod is shut down, or if the {@condition unconscious} creature is removed from it, the creature can repeat the DC 17 Constitution saving throw at the end of each of its turns, waking on a success. The creature also awakens if it takes damage in the real world, but not if it takes damage in the Waterdeep simulation.",
 										"A psipod shuts down if it is disabled or destroyed. To disable a psipod, a creature must disconnect three of the eight copper wires connecting it to the metal panels in the floor. The mind flayers' schematic pads identify which three wires to disconnect on each psipod. (The combination of wires varies from one psipod to another.) If wires are torn out at random, roll a {@dice d8} three times (rerolling duplicate results) to determine which three wires shut down that particular psipod, then roll a {@dice d8} for each wire that is disconnected to see if it's one of the correct ones. Disconnecting a wrong wire triggers a magical surge that targets all creatures within 5 feet of the psipod except the one inside it. A targeted creature must make a DC 17 Wisdom saving throw, taking 22 ({@dice 4d10}) psychic damage on a failed save, or half as much damage on a successful one. A magical surge from one psipod has no effect on the others.",
-										"All the psipods shut down if the ulitharid dies or leaves the crystal throne in area 12g. Each psipod is a Large object with AC 15, 50 hit points, and immunity to poison and psychic damage. A creature inside a psipod has total cover against attacks originating from outside the capsule.",
+										"All the psipods shut down if the ulitharid dies or leaves the crystal throne in area 12g. Each psipod is a Large object with AC 15, 50 hit points, and immunity to poison and psychic damage. A creature inside a psipod has {@quickref Cover||3||total cover} against attacks originating from outside the capsule.",
 										{
 											"type": "inset",
 											"name": "Alterdeep",
@@ -52273,7 +52273,7 @@
 												"Chest 5 contains a matching set of five copper goblets with silver filigree (25 gp each), a black coral necklace (250 gp), and a mummified elven hand wearing two gem-studded gold rings (250 gp each).",
 												"Crates 1 through 3 contain {@condition poisoned} rations. A character who inspects these rations and succeeds on a DC 10 Wisdom ({@skill Survival}) check can tell that they're unfit to eat. Any creature that ingests a helping of {@condition poisoned} rations must succeed on a DC 15 Constitution saving throw or be {@condition poisoned} for 24 hours.",
 												"Crate 4 contains 60 days of edible dry rations.",
-												"Crate 5 is stamped with the symbol of a smiling gnome face encircled with the words \"KRICKENHOF'S KRAFTWERKS\" in carnival letters. Packed in peanuts are three gnome inventions: a spring-loaded pogo stick (25 gp), a wind-up tomato masher (125 gp), and a strap-on helmet with a wooden propeller mounted to the top of it. This {@item propeller helm|wdmm} is an uncommon wondrous item to which only a Small humanoid can attune. While worn, the helm allows its wearer to use an action to cast the {@spell levitate} spell, requiring no components. The helm's propeller spins and whirs loudly until the spell ends. Each time the spell ends, there is a {@chance 50|50 percent} chance that the helm loses its magic and becomes nonmagical."
+												"Crate 5 is stamped with the symbol of a smiling gnome face encircled with the words \"KRICKENHOF'S KRAFTWERKS\" in carnival letters. Packed in peanuts are three gnome inventions: a spring-loaded pogo stick (25 gp), a wind-up tomato masher (125 gp), and a strap-on helmet with a wooden propeller mounted to the top of it. This {@item propeller helm|wdmm} is an uncommon wondrous item to which only a Small humanoid can attune. While worn, the helm allows its wearer to use an action to cast the {@spell levitate} spell, requiring no components. The helm's propeller spins and whirs loudly until the spell ends. Each time the spell ends, there is a {@chance 50} chance that the helm loses its magic and becomes nonmagical."
 											]
 										}
 									]
@@ -54199,7 +54199,7 @@
 									"page": 258,
 									"id": "9e0",
 									"entries": [
-										"Two {@creature Stone Golem||stone golems} carved to resemble Halaster (see \"{@area Stonecloaks|9ba|x}\") stand east of the two columns of rock that support the 20-foot-high ceiling of this otherwise empty cave. Characters who enter the area through the northwest tunnel can't see the golems right away because the rock columns provide total cover.",
+										"Two {@creature Stone Golem||stone golems} carved to resemble Halaster (see \"{@area Stonecloaks|9ba|x}\") stand east of the two columns of rock that support the 20-foot-high ceiling of this otherwise empty cave. Characters who enter the area through the northwest tunnel can't see the golems right away because the rock columns provide {@quickref Cover||3||total cover}.",
 										"The golems are hostile toward any creature that doesn't look like Halaster. A character disguised as Halaster can make a Charisma ({@skill Deception}) check contested by the golems' Wisdom ({@skill Insight}) check, with advantage on the check if the portrayal is particularly convincing. On a successful check, the golem won't attack that character unless the character attacks it."
 									]
 								},
@@ -54338,7 +54338,7 @@
 												]
 											]
 										},
-										"Each time an object is removed from the statue's cupped hands, there is a {@chance 20|20 percent} chance that the white toadstools growing out of the statue's broken head release a cloud of milky-white spores. The cloud fills a 20-foot-radius sphere centered on the statue and lasts for 1 minute. Any creature that starts its turn in the cloud must succeed on a DC 15 Constitution saving throw or contract a disease called blinding sickness, which lasts until cured with a {@spell lesser restoration} spell or similar magic. Pain grips the diseased creature's mind, and its eyes turn milky white. Until the disease is cured, the creature is {@condition blinded} and has disadvantage on Wisdom checks and Wisdom saving throws.",
+										"Each time an object is removed from the statue's cupped hands, there is a {@chance 20} chance that the white toadstools growing out of the statue's broken head release a cloud of milky-white spores. The cloud fills a 20-foot-radius sphere centered on the statue and lasts for 1 minute. Any creature that starts its turn in the cloud must succeed on a DC 15 Constitution saving throw or contract a disease called blinding sickness, which lasts until cured with a {@spell lesser restoration} spell or similar magic. Pain grips the diseased creature's mind, and its eyes turn milky white. Until the disease is cured, the creature is {@condition blinded} and has disadvantage on Wisdom checks and Wisdom saving throws.",
 										"Sunlight or any effect that deals fire damage or radiant damage destroys the toadstools."
 									]
 								},
@@ -54471,7 +54471,7 @@
 												"{@b Stalagmites}. The cavern floor is level and dotted with stalagmites 10 to 15 feet high."
 											]
 										},
-										"Each time the characters visit this area, there is a {@chance 25|25 percent} chance that Halaster links to the Runestone and uses it to spy on the main cavern. If he sees the characters and has any reason to want them dead, Halaster casts spells with a suitably long range at them through the Runestone, including {@spell Bigby's hand}, {@spell chain lightning}, {@spell fireball}, and {@spell meteor swarm}, as the opportunity presents itself. See {@area area 14|9fb|x} for information on the Runestone."
+										"Each time the characters visit this area, there is a {@chance 25} chance that Halaster links to the Runestone and uses it to spy on the main cavern. If he sees the characters and has any reason to want them dead, Halaster casts spells with a suitably long range at them through the Runestone, including {@spell Bigby's hand}, {@spell chain lightning}, {@spell fireball}, and {@spell meteor swarm}, as the opportunity presents itself. See {@area area 14|9fb|x} for information on the Runestone."
 									]
 								},
 								{
@@ -54996,7 +54996,7 @@
 									"page": 266,
 									"id": "a27",
 									"entries": [
-										"Released here by Halaster, this {@creature remorhaz} creeps up on the characters and attacks. There is a {@chance 50|50 percent} chance that a passing duergar patrol (see above) hears the ruckus and arrives on the scene at the end of the third round of combat. If the remorhaz is still around, the duergar help defeat it. Afterward, the duergar grumble that the remorhaz is but the latest monstrosity the Mad Mage has loosed in the mines. They otherwise behave as any other duergar patrol."
+										"Released here by Halaster, this {@creature remorhaz} creeps up on the characters and attacks. There is a {@chance 50} chance that a passing duergar patrol (see above) hears the ruckus and arrives on the scene at the end of the third round of combat. If the remorhaz is still around, the duergar help defeat it. Afterward, the duergar grumble that the remorhaz is but the latest monstrosity the Mad Mage has loosed in the mines. They otherwise behave as any other duergar patrol."
 									]
 								}
 							]
@@ -63662,7 +63662,7 @@
 							"id": "b9f",
 							"entries": [
 								"A cheery rock gnome named Krystaleen runs this shop. She is the niece of the pawnshop's previous owner, Thimblewine, who died of old age a few years ago.",
-								"Krystaleen buys reusable goods from visitors at normal cost (as listed in the {@i Player's Handbook}). If the characters are looking to buy a nonmagical item, there is a {@chance 10|10 percent} chance that Krystaleen has such an item in stock. All merchandise is sold at five times the normal cost."
+								"Krystaleen buys reusable goods from visitors at normal cost (as listed in the {@i Player's Handbook}). If the characters are looking to buy a nonmagical item, there is a {@chance 10} chance that Krystaleen has such an item in stock. All merchandise is sold at five times the normal cost."
 							]
 						},
 						{
@@ -63821,7 +63821,7 @@
 							"page": 308,
 							"id": "baf",
 							"entries": [
-								"Darum and Duram Ghaz, a pair of shield dwarf brothers, sell junk salvaged from the River Sargauth. There is a {@chance 50|50 percent} chance that the shop is closed and the brothers are away on a salvage mission."
+								"Darum and Duram Ghaz, a pair of shield dwarf brothers, sell junk salvaged from the River Sargauth. There is a {@chance 50} chance that the shop is closed and the brothers are away on a salvage mission."
 							]
 						},
 						{

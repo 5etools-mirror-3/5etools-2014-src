@@ -14481,7 +14481,7 @@
 												"Floating in the middle of the ruined villa is a huge, jellyfish-like creature with barbed tentacles. Its bell is covered with a crystalline lattice and has a greataxe with veins of ruidium arcing up the blade wedged in it. Beneath the bell, a tendrilous crimson mass crackles with energy and provides shelter for a school of tiny, sharp-toothed fish."
 											]
 										},
-										"A {@creature death embrace|CRCotN} (see {@adventure appendix A|CRCotN|8}) has made its lair in the ruins of this once magnificent location and attacks anyone who comes within reach of its tentacles. A {@creature swarm of sorrowfish|CRCotN} (see {@adventure appendix A|CRCotN|8}) lurks among the tendrils of the {@creature death embrace|CRCotN}, gaining {@quickref cover|PHB|3|0|half cover}. When the {@creature death embrace|CRCotN} {@action grapple||grapples} a creature, the swarm loses its cover and the sorrowfish emerge to feed on the {@condition grappled} creature.",
+										"A {@creature death embrace|CRCotN} (see {@adventure appendix A|CRCotN|8}) has made its lair in the ruins of this once magnificent location and attacks anyone who comes within reach of its tentacles. A {@creature swarm of sorrowfish|CRCotN} (see {@adventure appendix A|CRCotN|8}) lurks among the tendrils of the {@creature death embrace|CRCotN}, gaining {@quickref cover||3||half cover}. When the {@creature death embrace|CRCotN} {@action grapple||grapples} a creature, the swarm loses its cover and the sorrowfish emerge to feed on the {@condition grappled} creature.",
 										{
 											"type": "entries",
 											"name": "Treasure",

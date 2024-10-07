@@ -647,7 +647,7 @@
 			"entries": [
 				"A ram consists of a movable gallery equipped with a heavy log suspended from two roof beams by chains.",
 				"The log is shod in iron and used to batter through doors and barricades.",
-				"It takes a minimum of four Medium creatures to operate a ram. Because of the gallery roof, these operators have total cover against attacks from above."
+				"It takes a minimum of four Medium creatures to operate a ram. Because of the gallery roof, these operators have {@quickref Cover||3||total cover} against attacks from above."
 			],
 			"actionEntries": [
 				{
@@ -684,7 +684,7 @@
 				"psychic"
 			],
 			"entries": [
-				"A siege tower is a mobile wooden structure with a beam frame and slats in its walls. Large wooden wheels or rollers allow the tower to be pushed or pulled by soldiers or beasts of burden. Medium or smaller creatures can use the siege tower to reach the top of walls up to 40 feet high. A creature in the tower has total cover from attacks outside the tower."
+				"A siege tower is a mobile wooden structure with a beam frame and slats in its walls. Large wooden wheels or rollers allow the tower to be pushed or pulled by soldiers or beasts of burden. Medium or smaller creatures can use the siege tower to reach the top of walls up to 40 feet high. A creature in the tower has {@quickref Cover||3||total cover} from attacks outside the tower."
 			],
 			"hasToken": true
 		},

@@ -13,8 +13,8 @@ class RenderTrapsHazards {
 		${Renderer.utils.getBorderTr()}
 		${Renderer.utils.getExcludedTr({entity: it, dataProp: it.__prop})}
 		${Renderer.utils.getNameTr(it, {page: UrlUtil.PG_TRAPS_HAZARDS})}
-		${subtitle ? `<tr class="text"><td colspan="6"><i>${Renderer.traphazard.getSubtitle(it)}</i></td>` : ""}
-		<tr class="text"><td colspan="6">${renderStack.join("")}${trapPart}</td></tr>
+		${subtitle ? `<tr><td colspan="6" class="pb-2"><i>${Renderer.traphazard.getSubtitle(it)}</i></td>` : ""}
+		<tr><td colspan="6">${renderStack.join("")}${trapPart}</td></tr>
 		${Renderer.utils.getPageTr(it)}
 		${Renderer.utils.getBorderTr()}`;
 	}

@@ -195,7 +195,7 @@
 			"name": "+1 Rod of the Pact Keeper",
 			"source": "DMG",
 			"page": 197,
-			"type": "RD",
+			"type": "RD|DMG",
 			"tier": "major",
 			"rarity": "uncommon",
 			"reqAttune": "by a warlock",
@@ -220,7 +220,7 @@
 			"source": "DMG",
 			"page": 212,
 			"srd": true,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "major",
 			"rarity": "uncommon",
 			"reqAttune": "by a spellcaster",
@@ -232,7 +232,7 @@
 			"weight": 1,
 			"bonusSpellAttack": "+1",
 			"entries": [
-				"While you are holding this wand, you gain a +1 bonus to spell attack rolls. In addition, you ignore half cover when making a spell attack."
+				"While you are holding this wand, you gain a +1 bonus to spell attack rolls. In addition, you ignore {@quickref Cover||3||half cover} when making a spell attack."
 			],
 			"lootTables": [
 				"Magic Item Table F"
@@ -463,7 +463,7 @@
 			"name": "+2 Rod of the Pact Keeper",
 			"source": "DMG",
 			"page": 197,
-			"type": "RD",
+			"type": "RD|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": "by a warlock",
@@ -528,7 +528,7 @@
 			"source": "DMG",
 			"page": 212,
 			"srd": true,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": "by a spellcaster",
@@ -540,7 +540,7 @@
 			"weight": 1,
 			"bonusSpellAttack": "+2",
 			"entries": [
-				"While you are holding this wand, you gain a +2 bonus to spell attack rolls. In addition, you ignore half cover when making a spell attack."
+				"While you are holding this wand, you gain a +2 bonus to spell attack rolls. In addition, you ignore {@quickref Cover||3||half cover} when making a spell attack."
 			],
 			"lootTables": [
 				"Magic Item Table G"
@@ -747,7 +747,7 @@
 			"name": "+3 Rod of the Pact Keeper",
 			"source": "DMG",
 			"page": 197,
-			"type": "RD",
+			"type": "RD|DMG",
 			"tier": "major",
 			"rarity": "very rare",
 			"reqAttune": "by a warlock",
@@ -772,7 +772,7 @@
 			"source": "DMG",
 			"page": 212,
 			"srd": true,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "major",
 			"rarity": "very rare",
 			"reqAttune": "by a spellcaster",
@@ -784,7 +784,7 @@
 			"weight": 1,
 			"bonusSpellAttack": "+3",
 			"entries": [
-				"While you are holding this wand, you gain a +3 bonus to spell attack rolls. In addition, you ignore half cover when making a spell attack."
+				"While you are holding this wand, you gain a +3 bonus to spell attack rolls. In addition, you ignore {@quickref Cover||3||half cover} when making a spell attack."
 			],
 			"lootTables": [
 				"Magic Item Table H"
@@ -999,6 +999,64 @@
 			"hasFluffImages": true
 		},
 		{
+			"name": "Aerenal Trinket",
+			"source": "ERLW",
+			"page": 134,
+			"type": "G",
+			"rarity": "none",
+			"entries": [
+				{
+					"caption": "Trinkets from Aerenal",
+					"colLabels": [
+						"d8",
+						"Trinket"
+					],
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"rows": [
+						[
+							"1",
+							"A bronzewood ring inscribed with the Elvish word for \"hope\""
+						],
+						[
+							"2",
+							"A dried flower; if it's placed in water, it blooms"
+						],
+						[
+							"3",
+							"An ebony locket; when it's opened, an elven voice whispers \"Always\""
+						],
+						[
+							"4",
+							"A tiny skull carved from dark wood"
+						],
+						[
+							"5",
+							"A finger bone inscribed with an unknown sigil"
+						],
+						[
+							"6",
+							"An ivory flute which produces no sound"
+						],
+						[
+							"7",
+							"A small journal made from preserved leaves"
+						],
+						[
+							"8",
+							"A book of poetry written by undead elves"
+						]
+					],
+					"type": "table"
+				}
+			],
+			"miscTags": [
+				"TT"
+			]
+		},
+		{
 			"name": "Agony (Awakened)",
 			"source": "TDCSR",
 			"_copy": {
@@ -1059,7 +1117,7 @@
 			"weight": 2,
 			"weaponCategory": "martial",
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d8",
 			"dmgType": "B",
@@ -1120,7 +1178,7 @@
 			"name": "Airship",
 			"source": "DMG",
 			"page": 119,
-			"type": "AIR",
+			"type": "AIR|DMG",
 			"rarity": "none",
 			"value": 2000000,
 			"crew": 10,
@@ -1584,7 +1642,7 @@
 			]
 		},
 		{
-			"name": "Ale (Gallon)",
+			"name": "Ale (gallon)",
 			"source": "PHB",
 			"page": 158,
 			"srd": true,
@@ -1597,7 +1655,7 @@
 			]
 		},
 		{
-			"name": "Ale (Mug)",
+			"name": "Ale (mug)",
 			"source": "PHB",
 			"page": 158,
 			"srd": true,
@@ -1613,7 +1671,7 @@
 			"name": "Alexandrite",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 50000,
 			"entries": [
@@ -1624,7 +1682,7 @@
 			"name": "Amber",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 10000,
 			"entries": [
@@ -1645,7 +1703,7 @@
 			"name": "Amethyst",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 10000,
 			"entries": [
@@ -1734,7 +1792,7 @@
 			"name": "Amulet of dinosaur feathers (Sun Empire)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -2195,7 +2253,7 @@
 			"name": "Aquamarine",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 50000,
 			"entries": [
@@ -2305,6 +2363,72 @@
 			]
 		},
 		{
+			"name": "Argonnessen Trinket",
+			"source": "ERLW",
+			"page": 134,
+			"type": "G",
+			"rarity": "none",
+			"entries": [
+				{
+					"caption": "Trinkets from Argonnessen",
+					"colLabels": [
+						"d10",
+						"Trinket"
+					],
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"rows": [
+						[
+							"1",
+							"A pierced dragon scale on a cord"
+						],
+						[
+							"2",
+							"A statuette of a dragon carved from black bone"
+						],
+						[
+							"3",
+							"A dragon's tooth, engraved with an unknown sigil"
+						],
+						[
+							"4",
+							"A child's doll of a dragon, woven from leather cords"
+						],
+						[
+							"5",
+							"A dagger carved from a dragon's talon"
+						],
+						[
+							"6",
+							"A brass disk bearing the silhouette of a black dragon"
+						],
+						[
+							"7",
+							"A small egg-shaped piece of polished bone"
+						],
+						[
+							"8",
+							"A bone fragment with brass inlaid runes"
+						],
+						[
+							"9",
+							"A leather pouch filled with tiny draconic teeth"
+						],
+						[
+							"10",
+							"A single large seed that's warm to the touch"
+						]
+					],
+					"type": "table"
+				}
+			],
+			"miscTags": [
+				"TT"
+			]
+		},
+		{
 			"name": "Armor of Invulnerability",
 			"source": "DMG",
 			"page": 152,
@@ -2386,7 +2510,7 @@
 			"reqAttune": true,
 			"weight": 45,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"ac": 14,
 			"bonusAc": "+1",
@@ -2921,7 +3045,7 @@
 			"name": "Azorius Guild Signet",
 			"source": "GGR",
 			"page": 178,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"recharge": "dawn",
@@ -3021,7 +3145,7 @@
 			"name": "Azuremite",
 			"source": "TDCSR",
 			"page": 141,
-			"type": "IDG",
+			"type": "IDG|TDCSR",
 			"rarity": "unknown (magic)",
 			"entries": [
 				"The ruins of this sprawling city are now known as the Crystalfen Caverns. These caves are home to scattered veins of {@item azuremite|TDCSR}, a gorgeous blue crystal that formed from millennia of psychic energies existing near element deposits. Curious explorers who discovered the veins found that, when mined and refined into a fine dust, the {@item azuremite|TDCSR} powder is a strong mind-altering agent and induces temporary visions and other psychic phenomena.",
@@ -3035,7 +3159,7 @@
 			"name": "Azurite",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 1000,
 			"entries": [
@@ -3621,7 +3745,7 @@
 			"name": "Banded Agate",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 1000,
 			"entries": [
@@ -4181,7 +4305,7 @@
 			"name": "Bejeweled ivory drinking horn with gold filigree",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -4189,7 +4313,7 @@
 			"name": "Bejeweled ivory drinking horn with gold inlay (Brazen Coalition)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -4274,7 +4398,7 @@
 				{
 					"type": "list",
 					"items": [
-						"As a bonus action, you can expend 1 charge to detect the presence of aberrations, celestials, constructs, elementals, fey, fiends, or undead within 60 feet of you. If such creatures are present and don't have total cover from you, the bells ring softly, their tone indicating the creature types present.",
+						"As a bonus action, you can expend 1 charge to detect the presence of aberrations, celestials, constructs, elementals, fey, fiends, or undead within 60 feet of you. If such creatures are present and don't have {@quickref Cover||3||total cover} from you, the bells ring softly, their tone indicating the creature types present.",
 						"As an action, you can expend 1 charge to cast {@spell protection from evil and good}."
 					]
 				}
@@ -4680,7 +4804,7 @@
 			"name": "Black Opal",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 100000,
 			"entries": [
@@ -4691,7 +4815,7 @@
 			"name": "Black Pearl",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 50000,
 			"entries": [
@@ -4717,7 +4841,7 @@
 			"name": "Black Sapphire",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 500000,
 			"entries": [
@@ -4728,7 +4852,7 @@
 			"name": "Black velvet mask stitched with silver thread",
 			"source": "DMG",
 			"page": 134,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -5069,7 +5193,7 @@
 				"F",
 				"L",
 				"T",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"range": "20/60",
 			"dmg1": "1d4",
@@ -5165,7 +5289,7 @@
 			"name": "Blast Scepter",
 			"source": "WDMM",
 			"page": 310,
-			"type": "RD",
+			"type": "RD|DMG",
 			"scfType": "arcane",
 			"rarity": "very rare",
 			"reqAttune": true,
@@ -5419,7 +5543,7 @@
 			"name": "Bloodstone",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 5000,
 			"entries": [
@@ -5530,7 +5654,7 @@
 			"name": "Blue Quartz",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 1000,
 			"entries": [
@@ -5541,7 +5665,7 @@
 			"name": "Blue Sapphire",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 100000,
 			"entries": [
@@ -5552,7 +5676,7 @@
 			"name": "Blue Spinel",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 50000,
 			"entries": [
@@ -5595,7 +5719,7 @@
 			"name": "Bomb",
 			"source": "DMG",
 			"page": 268,
-			"type": "EXP",
+			"type": "EXP|DMG",
 			"rarity": "none",
 			"weight": 1,
 			"value": 15000,
@@ -5611,7 +5735,7 @@
 			"name": "Bombard",
 			"source": "AAG",
 			"page": 26,
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"value": 5000000,
 			"crew": 12,
@@ -6160,7 +6284,7 @@
 			"name": "Boros Guild Signet",
 			"source": "GGR",
 			"page": 178,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"recharge": "dawn",
@@ -6210,7 +6334,7 @@
 			"name": "Bottle stopper cork embossed with gold leaf and set with amethysts",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -6268,7 +6392,7 @@
 			"name": "Box of turquoise animal figurines",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -6414,7 +6538,7 @@
 			"name": "Brass mug with jade inlay",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -6620,7 +6744,7 @@
 			"name": "Bronze crown",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -6649,7 +6773,7 @@
 			"name": "Bronze spyglass (Brazen Coalition)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -6885,7 +7009,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"recharge": "restShort",
 			"rechargeAmount": "{@dice 1d4}",
@@ -7346,7 +7470,7 @@
 			"name": "Carnelian",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 5000,
 			"entries": [
@@ -7704,7 +7828,7 @@
 			"name": "Carved bone statuette",
 			"source": "DMG",
 			"page": 134,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -7712,7 +7836,7 @@
 			"name": "Carved harp of exotic wood with ivory inlay and zircon gems",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -7720,7 +7844,7 @@
 			"name": "Carved ivory statuette",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -7728,7 +7852,7 @@
 			"name": "Carved jade statuette (River Heralds)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -7852,7 +7976,7 @@
 			"name": "Ceremonial electrum dagger with a black pearl in the pommel",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -7860,7 +7984,7 @@
 			"name": "Ceremonial silver dagger with gold pommel and black pearl (Legion of Dusk)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -7882,7 +8006,7 @@
 			"name": "Chalcedony",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 5000,
 			"entries": [
@@ -7952,7 +8076,7 @@
 							"type": "list",
 							"items": [
 								"Mounting or dismounting a chariot costs you 5 feet of movement, rather than a number of feet equal to half your speed.",
-								"Being mounted on a chariot grants you half cover.",
+								"Being mounted on a chariot grants you {@quickref Cover||3||half cover}.",
 								"A chariot's speed is equal to the speed of the slowest creature pulling it.",
 								"If multiple creatures are pulling the chariot, they all act on the same initiative, and they must take the same action on their turn."
 							]
@@ -8001,7 +8125,7 @@
 				"_mod": {
 					"entries": {
 						"mode": "appendArr",
-						"items": "Each time you expend a charge from this wand, there is a {@chance 50|50 percent} chance that nothing happens and the charge is wasted."
+						"items": "Each time you expend a charge from this wand, there is a {@chance 50} chance that nothing happens and the charge is wasted."
 					}
 				}
 			}
@@ -8158,7 +8282,7 @@
 			"name": "Chrysoberyl",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 10000,
 			"entries": [
@@ -8169,7 +8293,7 @@
 			"name": "Chrysoprase",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 5000,
 			"entries": [
@@ -8263,7 +8387,7 @@
 			],
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"ability": {
 				"cha": -2
@@ -8377,7 +8501,7 @@
 			"name": "Citrine",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 5000,
 			"entries": [
@@ -8677,7 +8801,7 @@
 			"name": "Cloth-of-gold vestments",
 			"source": "DMG",
 			"page": 134,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -8685,7 +8809,7 @@
 			"name": "Cloth-of-gold vestments (Legion of Dusk)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -8971,7 +9095,7 @@
 			]
 		},
 		{
-			"name": "Common Wine (Pitcher)",
+			"name": "Common Wine (pitcher)",
 			"source": "PHB",
 			"page": 158,
 			"srd": true,
@@ -9040,7 +9164,7 @@
 		{
 			"name": "Concussion Grenade",
 			"source": "QftIS",
-			"type": "EXP",
+			"type": "EXP|DMG",
 			"rarity": "none",
 			"hasRefs": true,
 			"entries": [
@@ -9116,7 +9240,7 @@
 				"H",
 				"LD",
 				"2H",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"range": "100/400",
 			"dmg1": "1d10",
@@ -9391,7 +9515,7 @@
 			"name": "Copper chalice with silver filigree",
 			"source": "DMG",
 			"page": 134,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -9420,7 +9544,7 @@
 			"name": "Copper stein with silver filigree (Brazen Coalition)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -9436,7 +9560,7 @@
 			"name": "Coral",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 10000,
 			"entries": [
@@ -10285,7 +10409,7 @@
 			"name": "Damselfly Ship",
 			"source": "AAG",
 			"page": 28,
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"value": 2000000,
 			"crew": 9,
@@ -10357,7 +10481,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"entries": [
 				"These mithral-frame goggles with clear diamond lenses were used by the evoker Danoth Oro to spot {@condition invisible} enemies and scout areas from afar.",
@@ -10673,7 +10797,7 @@
 			"reqAttune": true,
 			"weight": 13,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"ac": 12,
 			"bonusAc": "+1",
@@ -11903,7 +12027,7 @@
 			},
 			"grantsProficiency": true,
 			"entries": [
-				"Usually found in a box or pouch, this deck contains a number of cards made of ivory or vellum. Most ({@chance 75|75 percent}) of these decks have only thirteen cards, but the rest have twenty-two.",
+				"Usually found in a box or pouch, this deck contains a number of cards made of ivory or vellum. Most ({@chance 75}) of these decks have only thirteen cards, but the rest have twenty-two.",
 				"Before you draw a card, you must declare how many cards you intend to draw and then draw them randomly (you can use an altered deck of playing cards to simulate the deck). Any cards drawn in excess of this number have no effect. Otherwise, as soon as you draw a card from the deck, its magic takes effect. You must draw each card no more than 1 hour after the previous draw. If you fail to draw the chosen number, the remaining number of cards fly from the deck on their own and take effect all at once.",
 				"Once a card is drawn, it fades from existence. Unless the card is the {@card Fool|Deck of Many Things} or the {@card Jester|Deck of Many Things}, the card reappears in the deck, making it possible to draw the same card twice.",
 				{
@@ -13960,7 +14084,7 @@
 			"name": "Diamond",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 500000,
 			"entries": [
@@ -14034,7 +14158,7 @@
 			"name": "Dimir Guild Signet",
 			"source": "GGR",
 			"page": 178,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"recharge": "dawn",
@@ -14344,7 +14468,7 @@
 						],
 						[
 							"5\u20136",
-							"The dodecahedron casts {@spell ray of frost} (+5 to hit), targeting a random creature within 60 feet of it that doesn't have total cover against the attack."
+							"The dodecahedron casts {@spell ray of frost} (+5 to hit), targeting a random creature within 60 feet of it that doesn't have {@quickref Cover||3||total cover} against the attack."
 						],
 						[
 							"7\u20138",
@@ -15106,7 +15230,7 @@
 			"name": "Dynamite",
 			"source": "TDCSR",
 			"page": 100,
-			"type": "EXP",
+			"type": "EXP|DMG",
 			"rarity": "none",
 			"value": 10000,
 			"range": "30",
@@ -15123,7 +15247,7 @@
 			"name": "Dynamite (stick)",
 			"source": "DMG",
 			"page": 268,
-			"type": "EXP",
+			"type": "EXP|DMG",
 			"rarity": "none",
 			"weight": 1,
 			"age": "modern",
@@ -15840,7 +15964,7 @@
 			"name": "Embroidered glove set with jewel chips",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -15848,7 +15972,7 @@
 			"name": "Embroidered silk and velvet mantle set with numerous moonstones",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -15856,7 +15980,7 @@
 			"name": "Embroidered silk handkerchief",
 			"source": "DMG",
 			"page": 134,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -15864,7 +15988,7 @@
 			"name": "Emerald",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 100000,
 			"entries": [
@@ -16256,7 +16380,7 @@
 			"name": "Eye Agate",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 1000,
 			"entries": [
@@ -16350,7 +16474,7 @@
 			"name": "Eye patch with a mock eye set in blue sapphire and moonstone",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -16358,7 +16482,7 @@
 			"name": "Eye patch with a mock eye set in blue sapphire and moonstone (Brazen Coalition)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -16493,7 +16617,7 @@
 			"name": "Failed Experiment Wand",
 			"source": "AI",
 			"page": 162,
-			"type": "WD",
+			"type": "WD|DMG",
 			"rarity": "rare",
 			"reqAttune": "by a spellcaster",
 			"reqAttuneTags": [
@@ -16784,7 +16908,7 @@
 			"name": "Feathered mantle with emerald clasp (Sun Empire)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -16853,7 +16977,7 @@
 				"A",
 				"H",
 				"2H",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"range": "150/600",
 			"dmg1": "1d8",
@@ -17640,7 +17764,7 @@
 			"name": "Fine gold chain set with a fire opal",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -17648,7 +17772,7 @@
 			"name": "Fine gold chain with fire opals (Legion of Dusk)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -17656,7 +17780,7 @@
 			"name": "Fine robe with dinosaur feathers and silver embroidery (Sun Empire)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -17664,12 +17788,12 @@
 			"name": "Fine steel rapier with gold filigree hilt (Legion of Dusk)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
 		{
-			"name": "Fine Wine (Bottle)",
+			"name": "Fine Wine (bottle)",
 			"source": "PHB",
 			"page": 158,
 			"srd": true,
@@ -17685,7 +17809,7 @@
 			"name": "Finely articulated jade glove (River Heralds)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -17710,7 +17834,7 @@
 			"name": "Fire Opal",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 100000,
 			"entries": [
@@ -17990,7 +18114,7 @@
 							"type": "list",
 							"items": [
 								"Mounting or dismounting a chariot costs you 5 feet of movement, rather than a number of feet equal to half your speed.",
-								"Being mounted on a chariot grants you half cover.",
+								"Being mounted on a chariot grants you {@quickref Cover||3||half cover}.",
 								"A chariot's speed is equal to the speed of the slowest creature pulling it.",
 								"If multiple creatures are pulling the chariot, they all act on the same initiative, and they must take the same action on their turn."
 							]
@@ -18045,7 +18169,7 @@
 			"name": "Flying Fish Ship",
 			"source": "AAG",
 			"page": 30,
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"value": 2000000,
 			"crew": 10,
@@ -18211,7 +18335,7 @@
 			"name": "Fragmentation Grenade",
 			"source": "DMG",
 			"page": 268,
-			"type": "EXP",
+			"type": "EXP|DMG",
 			"rarity": "none",
 			"weight": 1,
 			"age": "modern",
@@ -18222,6 +18346,64 @@
 			],
 			"miscTags": [
 				"CNS"
+			]
+		},
+		{
+			"name": "Frostfell and Everice Trinket",
+			"source": "ERLW",
+			"page": 136,
+			"type": "G",
+			"rarity": "none",
+			"entries": [
+				{
+					"caption": "Trinkets from the Frostfell and Everice",
+					"colLabels": [
+						"d8",
+						"Trinket"
+					],
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"rows": [
+						[
+							"1",
+							"A small prism carved from ice that doesn't melt"
+						],
+						[
+							"2",
+							"A rusted iron coin, depicting a dwarf lord and the worlds \"Five Rex Undra\""
+						],
+						[
+							"3",
+							"A pair of eight-sided dice carved from ice that doesn't melt"
+						],
+						[
+							"4",
+							"A swatch of silvery fur that's cold to the touch, possibly from a winter wolf"
+						],
+						[
+							"5",
+							"A snowball; it doesn't melt and can't be compressed into ice"
+						],
+						[
+							"6",
+							"A tiny white dragon sculpted from ice that doesn't melt"
+						],
+						[
+							"7",
+							"A key carved from ice that doesn't melt"
+						],
+						[
+							"8",
+							"A single scale from a white dragon"
+						]
+					],
+					"type": "table"
+				}
+			],
+			"miscTags": [
+				"TT"
 			]
 		},
 		{
@@ -18315,7 +18497,7 @@
 			"name": "Garnet",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 10000,
 			"entries": [
@@ -18589,6 +18771,57 @@
 			]
 		},
 		{
+			"name": "Giant Trinket",
+			"source": "BGG",
+			"page": 16,
+			"type": "G",
+			"rarity": "none",
+			"entries": [
+				"While exploring your home, you discovered some trivial remnant of the ancient inhabitants, as determined by rolling on the Giant Trinkets table. The items in parentheses are the normal-sized objects most analogous to the described giant trinkets.",
+				{
+					"caption": "Giant Trinkets",
+					"colLabels": [
+						"d6",
+						"Giant Trinket"
+					],
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"rows": [
+						[
+							"1",
+							"A giant's toothpick (a {@item dagger|PHB})"
+						],
+						[
+							"2",
+							"A giant's handkerchief (a {@item blanket|PHB})"
+						],
+						[
+							"3",
+							"A giant's marble (a crystal orb)"
+						],
+						[
+							"4",
+							"A giant's match (a {@item torch|PHB})"
+						],
+						[
+							"5",
+							"A giant's letter opener (a {@item longsword|PHB})"
+						],
+						[
+							"6",
+							"A giant's thimble (an {@item iron pot|PHB})"
+						]
+					],
+					"type": "table"
+				}
+			],
+			"miscTags": [
+				"TT"
+			]
+		},
+		{
 			"name": "Ginger",
 			"source": "PHB",
 			"page": 157,
@@ -18843,7 +19076,7 @@
 			"name": "Gluebomb",
 			"source": "TDCSR",
 			"page": 100,
-			"type": "EXP",
+			"type": "EXP|DMG",
 			"rarity": "none",
 			"value": 5000,
 			"range": "30",
@@ -18959,7 +19192,7 @@
 			"name": "Gold basin with rubies (Legion of Dusk)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -18967,7 +19200,7 @@
 			"name": "Gold bird cage with electrum filigree",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -19001,7 +19234,7 @@
 			"name": "Gold chalice (Legion of Dusk)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -19009,7 +19242,7 @@
 			"name": "Gold chalice set with emeralds (Legion of Dusk)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -19017,7 +19250,7 @@
 			"name": "Gold circlet set with four aquamarines",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -19025,7 +19258,7 @@
 			"name": "Gold cup set with emeralds",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -19033,7 +19266,7 @@
 			"name": "Gold dragon comb set with red garnets as eyes",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -19062,7 +19295,7 @@
 			"name": "Gold jewelry box with platinum filigree",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -19070,7 +19303,7 @@
 			"name": "Gold jewelry box with platinum filigree (Brazen Coalition)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -19078,7 +19311,7 @@
 			"name": "Gold locket with a painted portrait inside",
 			"source": "DMG",
 			"page": 134,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -19086,7 +19319,7 @@
 			"name": "Gold locket with a painted portrait inside (Legion of Dusk)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -19094,7 +19327,7 @@
 			"name": "Gold music box",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -19102,7 +19335,7 @@
 			"name": "Gold music box (Brazen Coalition)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -19110,7 +19343,7 @@
 			"name": "Gold pendant with black onyx (Legion of Dusk)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -19118,7 +19351,7 @@
 			"name": "Gold ring set with bloodstones",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -19126,7 +19359,7 @@
 			"name": "Gold ring with turquoise (Legion of Dusk)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -19142,7 +19375,7 @@
 			"name": "Gold-plated ceremonial helmet and pauldrons (Legion of Dusk)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -19150,7 +19383,7 @@
 			"name": "Gold-plated sextant with topaz (Brazen Coalition)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -19158,7 +19391,7 @@
 			"name": "Golgari Guild Signet",
 			"source": "GGR",
 			"page": 178,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"recharge": "dawn",
@@ -19547,7 +19780,7 @@
 			"wondrous": true,
 			"weight": 3,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"entries": [
 				"Several of these spellbooks with gilded pages and silver-plated covers were created during the Age of Arcanum, but only one has been found since the Calamity ended. The book has an infinite number of pages, is three inches thick, eight inches wide, twelve inches long, and weighs three pounds.",
@@ -19648,7 +19881,7 @@
 			"weaponCategory": "martial",
 			"property": [
 				"V",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d8",
 			"dmgType": "B",
@@ -19740,7 +19973,7 @@
 			"name": "Gruul Guild Signet",
 			"source": "GGR",
 			"page": 178,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"recharge": "dawn",
@@ -19841,7 +20074,7 @@
 			"name": "Gunpowder Horn",
 			"source": "DMG",
 			"page": 268,
-			"type": "EXP",
+			"type": "EXP|DMG",
 			"rarity": "none",
 			"weight": 2,
 			"value": 3500,
@@ -19858,7 +20091,7 @@
 			"name": "Gunpowder Keg",
 			"source": "DMG",
 			"page": 268,
-			"type": "EXP",
+			"type": "EXP|DMG",
 			"rarity": "none",
 			"weight": 20,
 			"value": 25000,
@@ -19994,7 +20227,7 @@
 					"source": "SjA"
 				}
 			],
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"value": 4000000,
 			"crew": 15,
@@ -20530,7 +20763,7 @@
 				"This bulky, eyeless helmet is made for a {@creature pit fiend} but magically resizes to fit the heads of other wearers.",
 				"While wearing the helm, you can see out of it as though you weren't wearing it. In addition, you know the exact location and type of all devils within 1,000 feet of you. You can telepathically communicate with a devil within range, or you can broadcast your thoughts to all devils within range. The devils receiving your broadcasted thoughts have no special means of replying to them.",
 				"The helm has 3 charges. As an action, you can expend 1 charge to cast {@spell dominate monster} (save DC 21), which affects devils only. (The spell fails and the charge is wasted if you target any creature that's not a devil.) If a devil can see you when you cast this spell on it, the devil knows you tried to charm it. The helm regains all its charges 24 hours after its last charge is expended.",
-				"If you are not a devil, using the helm's {@spell dominate monster} property in the Nine Hells has a {@chance 20|20 percent} chance of attracting a {@creature narzugon|MTF}, which arrives on the back of a {@creature nightmare} mount in {@dice 1d4} hours. The narzugon tries to recover the helm, killing you if necessary to obtain it. If it gets the helm, the narzugon tries to deliver it to its infernal master."
+				"If you are not a devil, using the helm's {@spell dominate monster} property in the Nine Hells has a {@chance 20} chance of attracting a {@creature narzugon|MTF}, which arrives on the back of a {@creature nightmare} mount in {@dice 1d4} hours. The narzugon tries to recover the helm, killing you if necessary to obtain it. If it gets the helm, the narzugon tries to deliver it to its infernal master."
 			],
 			"attachedSpells": [
 				"dominate monster"
@@ -20721,7 +20954,7 @@
 			"rechargeAmount": "{@dice 1d3}",
 			"charges": 3,
 			"entries": [
-				"While wearing this helm, you know whether there is a celestial or fiend within 30 feet of you, as well as where the creature is located, provided the creature isn't behind total cover.",
+				"While wearing this helm, you know whether there is a celestial or fiend within 30 feet of you, as well as where the creature is located, provided the creature isn't behind {@quickref Cover||3||total cover}.",
 				"Whenever you finish a long rest while wearing the helm, you can pray to one of the gods listed on the Helm of the Gods table and store the listed spell in the helm, replacing any spell that is already stored there. The save DC for the spell is 13.",
 				"The helm has 3 charges. To cast a spell from the helm, you must expend 1 charge, and the helm regains {@dice 1d3} charges daily at dawn.",
 				{
@@ -20878,7 +21111,7 @@
 			"name": "Hematite",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 1000,
 			"entries": [
@@ -21212,7 +21445,7 @@
 			"reqAttune": true,
 			"weight": 13,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"ac": 12,
 			"bonusWeapon": "+1",
@@ -21430,7 +21663,7 @@
 			],
 			"weight": 6,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"ac": 2,
 			"bonusAc": "+1",
@@ -21704,7 +21937,7 @@
 			"name": "Horned Ring",
 			"source": "WDMM",
 			"page": 108,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "very rare",
 			"reqAttune": true,
 			"entries": [
@@ -22637,7 +22870,7 @@
 			"source": "DMG",
 			"page": 175,
 			"srd": true,
-			"type": "RD",
+			"type": "RD|DMG",
 			"tier": "minor",
 			"rarity": "uncommon",
 			"weight": 2,
@@ -22661,7 +22894,7 @@
 			"weaponCategory": "martial",
 			"property": [
 				"F",
-				"ER"
+				"ER|TDCSR"
 			],
 			"dmg1": "1d4",
 			"dmgType": "S",
@@ -22822,7 +23055,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"grantsProficiency": true,
 			"bonusWeapon": "+1",
@@ -24079,7 +24312,7 @@
 			"name": "Izzet Guild Signet",
 			"source": "GGR",
 			"page": 178,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"recharge": "dawn",
@@ -24118,7 +24351,7 @@
 			"name": "Jacinth",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 500000,
 			"entries": [
@@ -24129,7 +24362,7 @@
 			"name": "Jade",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 10000,
 			"entries": [
@@ -24140,7 +24373,7 @@
 			"name": "Jade bowl (River Heralds)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -24148,7 +24381,7 @@
 			"name": "Jade breastplate (River Heralds)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -24156,7 +24389,7 @@
 			"name": "Jade game board with solid gold playing pieces",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -24164,7 +24397,7 @@
 			"name": "Jade headpiece (River Heralds)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -24190,7 +24423,7 @@
 			"name": "Jade sword with amber (River Heralds)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -24198,7 +24431,7 @@
 			"name": "Jade totem with diamond eyes (River Heralds)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -24221,7 +24454,7 @@
 			"name": "Jasper",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 5000,
 			"entries": [
@@ -24355,7 +24588,7 @@
 			"name": "Jet",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 10000,
 			"entries": [
@@ -24414,7 +24647,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"bonusAc": "+1",
 			"recharge": "dawn",
@@ -24498,7 +24731,7 @@
 			"name": "Jeweled anklet",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -24506,7 +24739,7 @@
 			"name": "Jeweled anklet (Brazen Coalition)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -24514,7 +24747,7 @@
 			"name": "Jeweled gold crown",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -24522,7 +24755,7 @@
 			"name": "Jeweled platinum ring",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -24939,6 +25172,72 @@
 			"hasFluffImages": true
 		},
 		{
+			"name": "Khyber Trinket",
+			"source": "ERLW",
+			"page": 135,
+			"type": "G",
+			"rarity": "none",
+			"entries": [
+				{
+					"caption": "Trinkets from Khyber",
+					"colLabels": [
+						"d10",
+						"Trinket"
+					],
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"rows": [
+						[
+							"1",
+							"A pressed flower with vivid green petals; when you smell it, you hear eerie music"
+						],
+						[
+							"2",
+							"A tiny ball of putty; if you set it down, it begins to slowly crawl around"
+						],
+						[
+							"3",
+							"A perpetually warm disk of dark iron"
+						],
+						[
+							"4",
+							"A small journal with leathery pages; any words you write in it slowly disappear"
+						],
+						[
+							"5",
+							"A four-sided die carved with strange markings"
+						],
+						[
+							"6",
+							"A cameo with the silhouette of an unknown species"
+						],
+						[
+							"7",
+							"A preserved finger with purple flesh and four joints"
+						],
+						[
+							"8",
+							"A perfectly preserved eye; if you set it down, it rotates to follow your movement"
+						],
+						[
+							"9",
+							"A small box; when opened, you alone hear screaming"
+						],
+						[
+							"10",
+							"A preserved insect; you've never seen another like it"
+						]
+					],
+					"type": "table"
+				}
+			],
+			"miscTags": [
+				"TT"
+			]
+		},
+		{
 			"name": "Kiss of the Changebringer (Awakened)",
 			"source": "TDCSR",
 			"_copy": {
@@ -24997,7 +25296,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"bonusSavingThrow": "+1",
 			"entries": [
@@ -25240,7 +25539,7 @@
 			"name": "Lamprey Ship",
 			"source": "AAG",
 			"page": 34,
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"value": 2000000,
 			"crew": 15,
@@ -25347,7 +25646,7 @@
 			"name": "Lapis Lazuli",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 1000,
 			"entries": [
@@ -25358,7 +25657,7 @@
 			"name": "Large gold bracelet",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -25366,7 +25665,7 @@
 			"name": "Large gold bracelet (Legion of Dusk)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -25374,7 +25673,7 @@
 			"name": "Large jade totem (River Heralds)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -25382,7 +25681,7 @@
 			"name": "Large well-made tapestry",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -25390,7 +25689,7 @@
 			"name": "Large well-made tapestry (Legion of Dusk)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -25472,7 +25771,7 @@
 			"property": [
 				"F",
 				"R",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d4",
 			"dmgType": "S",
@@ -26006,7 +26305,7 @@
 			"name": "Living Ship",
 			"source": "AAG",
 			"page": 36,
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"value": 2500000,
 			"crew": 5,
@@ -26226,6 +26525,57 @@
 			"entries": [
 				"The Lorehold Primer is a magic textbook created at Strixhaven's Lorehold College. The primer has 3 charges, and it regains {@dice 1d3} expended charges daily at dawn. If you make an Intelligence ({@skill History}) or Intelligence ({@skill Religion}) check while holding the primer, you can expend 1 charge to give yourself {@dice 1d4} bonus to the check, immediately after you roll the {@dice d20}.",
 				"In addition, if you study the primer at the end of a long rest, you can choose one 1st-level spell from the cleric or wizard spell list. Before you finish your next long rest, you can cast the chosen spell once without a spell slot if you are holding the primer. Your spellcasting ability for this spell is your choice of Intelligence, Wisdom, or Charisma."
+			]
+		},
+		{
+			"name": "Lorehold Trinket",
+			"source": "SCC",
+			"page": 31,
+			"type": "G",
+			"rarity": "none",
+			"entries": [
+				"When you make your character, you may roll once on the Lorehold Trinkets table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket.",
+				{
+					"caption": "Lorehold Trinkets",
+					"colLabels": [
+						"d6",
+						"Trinket"
+					],
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"rows": [
+						[
+							"1",
+							"A map made of concentric circles that can be rotated around the page"
+						],
+						[
+							"2",
+							"A puzzle box bedecked with amber"
+						],
+						[
+							"3",
+							"A dented brass compass with a red needle"
+						],
+						[
+							"4",
+							"The head of a broken statue that houses the consciousness of a snarky sage"
+						],
+						[
+							"5",
+							"A sheet of parchment embossed with tactile lettering, glowing red"
+						],
+						[
+							"6",
+							"A broken dagger with a wavy blade and a serpentine hilt"
+						]
+					],
+					"type": "table"
+				}
+			],
+			"miscTags": [
+				"TT"
 			]
 		},
 		{
@@ -26461,7 +26811,7 @@
 			"weaponCategory": "martial",
 			"age": "renaissance",
 			"property": [
-				"AF",
+				"AF|DMG",
 				"LD",
 				"2H"
 			],
@@ -26514,7 +26864,7 @@
 			"name": "Lute crafted of exotic wood with mother-of-pearl inlay and zircon gems (Brazen Coalition)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -26708,7 +27058,7 @@
 			"weight": 4,
 			"weaponCategory": "simple",
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d6",
 			"dmgType": "B",
@@ -26869,7 +27219,7 @@
 			"name": "Malachite",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 1000,
 			"entries": [
@@ -27071,7 +27421,7 @@
 			"name": "Marble font with gold inlay (Legion of Dusk)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -27255,7 +27605,7 @@
 			"name": "Masterpiece painting in mahogany frame with gold inlay (Legion of Dusk)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -27561,7 +27911,7 @@
 					"entries": [
 						"Two creatures can be attuned to the servant at a time. If a third creature tries to attune to it, nothing happens.",
 						"The servant's controls are accessed by a hatch in its upper back, which is easily opened while there are no creatures attuned to the artifact.",
-						"Attuning to the artifact requires two hours, which can be undertaken as part of a long rest, during which time you must be inside the servant, interacting with its controls. While crew members are attuning themselves, any creature or structure outside and within 50 feet of the servant has a {@chance 25|25 percent} chance of being accidentally targeted by one of its Destructive Fist attacks once during the attunement. This process must be undergone every time a creature attunes itself to the artifact."
+						"Attuning to the artifact requires two hours, which can be undertaken as part of a long rest, during which time you must be inside the servant, interacting with its controls. While crew members are attuning themselves, any creature or structure outside and within 50 feet of the servant has a {@chance 25} chance of being accidentally targeted by one of its Destructive Fist attacks once during the attunement. This process must be undergone every time a creature attunes itself to the artifact."
 					]
 				},
 				{
@@ -27569,7 +27919,7 @@
 					"name": "Controlling the Servant",
 					"entries": [
 						"While any creatures are attuned to the artifact, attuned creatures can open the hatch as easily as any other door. Other creatures can open the hatch as an action with a successful DC 25 Dexterity check using {@item thieves' tools|PHB}. A {@spell knock} spell cast on the hatch also opens it until the start of the caster's next turn.",
-						"A creature can enter or exit through the hatch by spending 10 feet of movement. Those inside the servant have total cover from effects originating outside it. The controls within it allow creatures to see outside without obstruction.",
+						"A creature can enter or exit through the hatch by spending 10 feet of movement. Those inside the servant have {@quickref Cover||3||total cover} from effects originating outside it. The controls within it allow creatures to see outside without obstruction.",
 						"While you are inside the servant, you can command it by using the controls. During your turn (for either attuned creature), you can command it in the following ways:",
 						{
 							"type": "list",
@@ -28449,7 +28799,7 @@
 			"name": "Moonstone",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 5000,
 			"entries": [
@@ -28472,11 +28822,77 @@
 			"name": "Moss Agate",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 1000,
 			"entries": [
 				"A translucent pink or yellow-white with mossy gray or green markings gemstone."
+			]
+		},
+		{
+			"name": "Mournland Trinket",
+			"source": "ERLW",
+			"page": 222,
+			"type": "G",
+			"rarity": "none",
+			"entries": [
+				{
+					"caption": "Mournland Trinkets",
+					"colLabels": [
+						"d10",
+						"Trinket"
+					],
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"rows": [
+						[
+							"1",
+							"The favorite childhood toy of one of the adventurers, floating in midair"
+						],
+						[
+							"2",
+							"A tin whistle that makes beautiful colors and patterns magically appear when it's played"
+						],
+						[
+							"3",
+							"A toy lightning rail car"
+						],
+						[
+							"4",
+							"A glass eye"
+						],
+						[
+							"5",
+							"A silver lapel pin of a finely detailed gorgon's head with ruby eyes"
+						],
+						[
+							"6",
+							"A monocle that can be used as a telescope"
+						],
+						[
+							"7",
+							"A six-inch-tall mechanical marmoset in need of minor repairs"
+						],
+						[
+							"8",
+							"A small medallion made of silver, depicting a tower with an eye at the top of it and other smaller eyes embedded in the sides"
+						],
+						[
+							"9",
+							"A cloak pin made of iron in the shape of two hammers joined by a semicircular haft"
+						],
+						[
+							"10",
+							"A wooden dinosaur toy that has movable legs"
+						]
+					],
+					"type": "table"
+				}
+			],
+			"miscTags": [
+				"TT"
 			]
 		},
 		{
@@ -28679,7 +29095,7 @@
 			"weaponCategory": "martial",
 			"property": [
 				"V",
-				"Vst",
+				"Vst|TDCSR",
 				"F"
 			],
 			"dmg1": "1d8",
@@ -28781,7 +29197,7 @@
 			"name": "Nautiloid",
 			"source": "AAG",
 			"page": 38,
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"value": 5000000,
 			"crew": 20,
@@ -28905,7 +29321,7 @@
 			"name": "Necklace of electrum medallions with red and blue tournalines (Brazen Coalition)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -28934,7 +29350,7 @@
 			"name": "Necklace of jade and pink pearls (River Heralds)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -29026,7 +29442,7 @@
 			"name": "Necklace string of small pink pearls",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -29245,7 +29661,7 @@
 			"name": "Nether Scroll of Azumar",
 			"source": "CM",
 			"page": 210,
-			"type": "SC",
+			"type": "SC|DMG",
 			"rarity": "legendary",
 			"entries": [
 				"Unlike most scrolls, a Nether Scroll of Azumar is not a consumable magic item. It takes 30 days of concentrated study\u2014at least 8 hours per day\u2014to attempt to understand this scroll. After completing this study, you must make a DC 25 Intelligence ({@skill Arcana}) check. If this check fails, you take {@damage 16d10} psychic damage, and you can attempt the check again after another 30 days of concentrated study.",
@@ -29264,7 +29680,7 @@
 			"name": "Netherese Ring of Protection",
 			"source": "PaBTSO",
 			"page": 50,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "rare",
 			"reqAttune": true,
 			"bonusAc": "+1",
@@ -29366,7 +29782,7 @@
 			"name": "Nightspider",
 			"source": "AAG",
 			"page": 40,
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"value": 5000000,
 			"crew": 25,
@@ -29463,7 +29879,7 @@
 			"dmgType": "P",
 			"entries": [
 				"When you nock an arrow on this bow, it whispers in Elvish, \"Swift defeat to my enemies.\" When you use this weapon to make a ranged attack, you can, as a command phrase, say, \"Swift death to you who have wronged me.\" The target of your attack becomes your sworn enemy until it dies or until dawn seven days later. You can have only one such sworn enemy at a time. When your sworn enemy dies, you can choose a new one after the next dawn.",
-				"When you make a ranged attack roll with this weapon against your sworn enemy, you have advantage on the roll. In addition, your target gains no benefit from cover, other than total cover, and you suffer no disadvantage due to long range. If the attack hits, your sworn enemy takes an extra {@damage 3d6} piercing damage.",
+				"When you make a ranged attack roll with this weapon against your sworn enemy, you have advantage on the roll. In addition, your target gains no benefit from cover, other than {@quickref Cover||3||total cover}, and you suffer no disadvantage due to long range. If the attack hits, your sworn enemy takes an extra {@damage 3d6} piercing damage.",
 				"While your sworn enemy lives, you have disadvantage on attack rolls with all other weapons."
 			],
 			"ammoType": "arrow|phb",
@@ -29476,7 +29892,7 @@
 			"name": "Obsidian",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 1000,
 			"entries": [
@@ -29503,7 +29919,7 @@
 			"name": "Obsidian statuette with gold fittings and inlay",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -29719,7 +30135,7 @@
 			"name": "Old masterpiece painting",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -29738,7 +30154,7 @@
 			"name": "Oloore Root Teabag",
 			"source": "TDCSR",
 			"page": 85,
-			"type": "IDG",
+			"type": "IDG|TDCSR",
 			"rarity": "unknown",
 			"value": 10000,
 			"entries": [
@@ -29756,7 +30172,7 @@
 			"name": "Onyx",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 5000,
 			"entries": [
@@ -29767,7 +30183,7 @@
 			"name": "Opal",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 100000,
 			"entries": [
@@ -30119,7 +30535,7 @@
 					"items": [
 						"You gain a +2 bonus to attack and damage rolls made with it.",
 						"When you roll a 20 on an attack roll with this weapon against an {@creature orc}, that {@creature orc} must succeed on a DC 17 Constitution saving throw or drop to 0 hit points.",
-						"You can't be {@status surprised} by {@creature orc||orcs} while you're not {@condition incapacitated}. You are also aware when {@creature orc||orcs} are within 120 feet of you and aren't behind total cover, although you don't know their location.",
+						"You can't be {@status surprised} by {@creature orc||orcs} while you're not {@condition incapacitated}. You are also aware when {@creature orc||orcs} are within 120 feet of you and aren't behind {@quickref Cover||3||total cover}, although you don't know their location.",
 						"You and any of your friends within 30 feet of you can't be {@condition frightened} while you're not {@condition incapacitated}."
 					]
 				},
@@ -30153,7 +30569,7 @@
 					"items": [
 						"Undead within 30 feet of the figurine can't be turned.",
 						"Dead creatures within 30 feet of the figurine can't be brought back to life.",
-						"A creature that holds the figurine while praying to Orcus for at least 1 hour has a {@chance 10|10 percent} chance of summoning a smoky avatar of the demon lord. Once this avatar is summoned, it can't be summoned again for 30 days. Orcus's avatar has the statistics of a {@creature wraith} except that it's chaotic evil. It attacks all non-undead creatures it encounters, and it disappears after 1 hour or when reduced to 0 hit points."
+						"A creature that holds the figurine while praying to Orcus for at least 1 hour has a {@chance 10} chance of summoning a smoky avatar of the demon lord. Once this avatar is summoned, it can't be summoned again for 30 days. Orcus's avatar has the statistics of a {@creature wraith} except that it's chaotic evil. It attacks all non-undead creatures it encounters, and it disappears after 1 hour or when reduced to 0 hit points."
 					]
 				}
 			],
@@ -30254,7 +30670,7 @@
 			"name": "Orzhov Guild Signet",
 			"source": "GGR",
 			"page": 178,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"recharge": "dawn",
@@ -30504,7 +30920,7 @@
 			"name": "Painted gold child's sarcophagus",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -30512,7 +30928,7 @@
 			"name": "Painted gold war mask",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -30590,7 +31006,7 @@
 			"name": "Pair of engraved bone dice",
 			"source": "DMG",
 			"page": 134,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -30598,7 +31014,7 @@
 			"name": "Pair of engraved bone dice (Brazen Coalition)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -30721,7 +31137,7 @@
 			"name": "Pearl",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 10000,
 			"entries": [
@@ -30944,7 +31360,7 @@
 			"name": "Peridot",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 50000,
 			"entries": [
@@ -30976,7 +31392,7 @@
 			"name": "Pewter mug with green spinels (Brazen Coalition)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -31409,7 +31825,7 @@
 			"reqAttune": true,
 			"weight": 65,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"ac": 18,
 			"strength": "15",
@@ -31517,7 +31933,7 @@
 			"name": "Platinum bracelet set with a sapphire",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -31525,7 +31941,7 @@
 			"name": "Platinum headdress with topaz sun symbol (Sun Empire)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 250000
 		},
@@ -31533,7 +31949,7 @@
 			"name": "Platinum ring with yellow sapphire (Sun Empire)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -31576,7 +31992,7 @@
 			"name": "Platinum staff topped with amber (Sun Empire)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -33266,6 +33682,57 @@
 			]
 		},
 		{
+			"name": "Prismari Trinket",
+			"source": "SCC",
+			"page": 32,
+			"type": "G",
+			"rarity": "none",
+			"entries": [
+				"When you make your character, you may roll once on the Prismari Trinkets table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket.",
+				{
+					"caption": "Prismari Trinkets",
+					"colLabels": [
+						"d6",
+						"Trinket"
+					],
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"rows": [
+						[
+							"1",
+							"A pair of rose-tinted glasses with glittery frames"
+						],
+						[
+							"2",
+							"A stoppered glass bottle that, when opened, plays a brassy orchestral piece"
+						],
+						[
+							"3",
+							"A quartet of hovering water motes in a vial"
+						],
+						[
+							"4",
+							"A bandolier of watercolor paints"
+						],
+						[
+							"5",
+							"A tiara capped with a crystal that crackles with harmless lightning"
+						],
+						[
+							"6",
+							"An iridescent quill"
+						]
+					],
+					"type": "table"
+				}
+			],
+			"miscTags": [
+				"TT"
+			]
+		},
+		{
 			"name": "Prismatic Well",
 			"source": "NRH-AT",
 			"page": 8,
@@ -33332,7 +33799,7 @@
 			],
 			"wondrous": true,
 			"entries": [
-				"While worn, the helm allows its wearer to use an action to cast the {@spell levitate} spell, requiring no components. The helm's propeller spins and whirs loudly until the spell ends. Each time the spell ends, there is a {@chance 50|50 percent} chance that the helm loses its magic and becomes nonmagical."
+				"While worn, the helm allows its wearer to use an action to cast the {@spell levitate} spell, requiring no components. The helm's propeller spins and whirs loudly until the spell ends. Each time the spell ends, there is a {@chance 50} chance that the helm loses its magic and becomes nonmagical."
 			]
 		},
 		{
@@ -33481,7 +33948,7 @@
 			"name": "Purging Rod",
 			"source": "DoDk",
 			"page": 230,
-			"type": "RD",
+			"type": "RD|DMG",
 			"rarity": "uncommon",
 			"entries": [
 				"Once per day while holding this rod, you can use an action to cast {@spell purge contamination|DoDk}. After casting the spell, roll {@dice 1d20}. On a 1, the rod melts into sludge."
@@ -33517,7 +33984,7 @@
 			"wondrous": true,
 			"recharge": "dawn",
 			"entries": [
-				"As an action, you can hold this card aloft and magically disable each trap within 60 feet of you that isn't behind {@book total cover|PHB|9|Cover}. A trap, for the purpose of this property, includes any object or mechanism that would inflict a sudden effect that was intended by its maker to cause harm or inconvenience. If the trap is the effect of a spell, such as {@spell Alarm}, that trap is suppressed for 10 minutes instead of being disabled. Once this property is used, it can't be used again until the next dawn."
+				"As an action, you can hold this card aloft and magically disable each trap within 60 feet of you that isn't behind {@quickref cover||3||total cover}. A trap, for the purpose of this property, includes any object or mechanism that would inflict a sudden effect that was intended by its maker to cause harm or inconvenience. If the trap is the effect of a spell, such as {@spell Alarm}, that trap is suppressed for 10 minutes instead of being disabled. Once this property is used, it can't be used again until the next dawn."
 			],
 			"hasFluffImages": true
 		},
@@ -33579,7 +34046,7 @@
 			"property": [
 				"H",
 				"2H",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "2d6",
 			"dmgType": "B",
@@ -33855,10 +34322,61 @@
 			]
 		},
 		{
+			"name": "Quandrix Trinket",
+			"source": "SCC",
+			"page": 33,
+			"type": "G",
+			"rarity": "none",
+			"entries": [
+				"When you make your character, you may roll once on the Quandrix Trinkets table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket.",
+				{
+					"caption": "Quandrix Trinkets",
+					"colLabels": [
+						"d6",
+						"Trinket"
+					],
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"rows": [
+						[
+							"1",
+							"A small succulent in a dodecahedral clay pot"
+						],
+						[
+							"2",
+							"A blue knit hat that looks a bit like a bottle folding in on itself"
+						],
+						[
+							"3",
+							"A model hypercube carved from green crystal, showcasing the fourth dimension"
+						],
+						[
+							"4",
+							"A crumpled test on the theory of gravity manipulation, with a failing grade on the front and the name of a famous Quandrix professor"
+						],
+						[
+							"5",
+							"A blue tetrahedron that, when tapped twice, projects a recording of an old mathematics lecture"
+						],
+						[
+							"6",
+							"A round bread roll cut so that someone could spread butter on both halves without ever lifting the knife"
+						]
+					],
+					"type": "table"
+				}
+			],
+			"miscTags": [
+				"TT"
+			]
+		},
+		{
 			"name": "Quartz",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 5000,
 			"entries": [
@@ -33927,7 +34445,7 @@
 			"name": "Radiance",
 			"source": "CM",
 			"page": 87,
-			"type": "WD",
+			"type": "WD|DMG",
 			"rarity": "unknown (magic)",
 			"reqAttune": "by a spellcaster",
 			"reqAttuneTags": [
@@ -33937,7 +34455,7 @@
 			],
 			"bonusSpellAttack": "+1",
 			"entries": [
-				"While holding this wand, you gain a +1 bonus to spell attack rolls. In addition, you ignore half cover when making a spell attack. Radiance is in the form of an exquisite golden hand mirror.",
+				"While holding this wand, you gain a +1 bonus to spell attack rolls. In addition, you ignore {@quickref Cover||3||half cover} when making a spell attack. Radiance is in the form of an exquisite golden hand mirror.",
 				"While surrounded by darkness, it sheds dim light in a 5-foot radius. A creature that is attuned to Radiance can use a bonus action while holding the mirror to cast the {@spell enhance ability} spell, choosing itself and no other creature as the spell's target. Once this property of the wand is used, it can't be used again until the next dawn."
 			],
 			"attachedSpells": [
@@ -33977,7 +34495,7 @@
 			"name": "Rakdos Guild Signet",
 			"source": "GGR",
 			"page": 178,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"recharge": "dawn",
@@ -34433,7 +34951,7 @@
 			"name": "Rhodochrosite",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 1000,
 			"entries": [
@@ -34469,7 +34987,7 @@
 			"page": 192,
 			"srd": true,
 			"basicRules": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"resist": [
 				"acid"
 			],
@@ -34487,7 +35005,7 @@
 			"source": "DMG",
 			"page": 190,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"resist": [
 				"lightning"
 			],
@@ -34531,7 +35049,7 @@
 			"name": "Ring of Amity",
 			"source": "BGG",
 			"page": 115,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "very rare",
 			"reqAttune": true,
 			"entries": [
@@ -34554,7 +35072,7 @@
 			"source": "DMG",
 			"page": 189,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"recharge": "dawn",
@@ -34587,7 +35105,7 @@
 			"page": 192,
 			"srd": true,
 			"basicRules": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"resist": [
 				"cold"
 			],
@@ -34604,7 +35122,7 @@
 			"name": "Ring of Collecting",
 			"source": "CoA",
 			"page": 268,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "very rare",
 			"reqAttune": true,
 			"entries": [
@@ -34619,7 +35137,7 @@
 			"source": "DMG",
 			"page": 190,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "legendary",
 			"reqAttune": true,
@@ -34638,7 +35156,7 @@
 			"source": "DMG",
 			"page": 190,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"resist": [
 				"acid"
 			],
@@ -34678,7 +35196,7 @@
 			"page": 191,
 			"srd": true,
 			"basicRules": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": true,
@@ -34698,7 +35216,7 @@
 			"source": "DMG",
 			"page": 191,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": true,
@@ -34715,7 +35233,7 @@
 			"source": "DMG",
 			"page": 190,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"immune": [
 				"fire"
 			],
@@ -34757,7 +35275,7 @@
 			"page": 192,
 			"srd": true,
 			"basicRules": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"resist": [
 				"fire"
 			],
@@ -34776,7 +35294,7 @@
 			"page": 192,
 			"srd": true,
 			"basicRules": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"resist": [
 				"force"
 			],
@@ -34794,7 +35312,7 @@
 			"source": "DMG",
 			"page": 191,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": true,
@@ -34814,7 +35332,7 @@
 			"source": "DMG",
 			"page": 191,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "legendary",
 			"reqAttune": true,
@@ -34831,7 +35349,7 @@
 			"source": "DMG",
 			"page": 191,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "uncommon",
 			"reqAttune": true,
@@ -34854,7 +35372,7 @@
 			"page": 192,
 			"srd": true,
 			"basicRules": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"resist": [
 				"lightning"
 			],
@@ -34872,7 +35390,7 @@
 			"source": "DMG",
 			"page": 191,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "uncommon",
 			"reqAttune": true,
@@ -34895,7 +35413,7 @@
 			"page": 192,
 			"srd": true,
 			"basicRules": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"resist": [
 				"necrotic"
 			],
@@ -34912,7 +35430,7 @@
 			"name": "Ring of Obscuring",
 			"source": "EGW",
 			"page": 269,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"recharge": "dawn",
@@ -34932,7 +35450,7 @@
 			"page": 192,
 			"srd": true,
 			"basicRules": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"resist": [
 				"poison"
 			],
@@ -34951,7 +35469,7 @@
 			"page": 191,
 			"srd": true,
 			"basicRules": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": true,
@@ -34974,7 +35492,7 @@
 			"page": 192,
 			"srd": true,
 			"basicRules": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"resist": [
 				"psychic"
 			],
@@ -34991,7 +35509,7 @@
 			"name": "Ring of Puzzler's Wit",
 			"source": "BMT",
 			"page": 37,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "uncommon",
 			"recharge": "dawn",
 			"rechargeAmount": "{@dice 1d4 - 1}",
@@ -35007,7 +35525,7 @@
 			"page": 192,
 			"srd": true,
 			"basicRules": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"resist": [
 				"radiant"
 			],
@@ -35024,7 +35542,7 @@
 			"name": "Ring of Red Fury",
 			"source": "CRCotN",
 			"page": 214,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "very rare",
 			"reqAttune": true,
 			"modifySpeed": {
@@ -35079,7 +35597,7 @@
 			"source": "DMG",
 			"page": 191,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "very rare",
 			"reqAttune": true,
@@ -35096,7 +35614,7 @@
 			"source": "DMG",
 			"page": 192,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "very rare",
 			"reqAttune": "outdoors at night",
@@ -35145,7 +35663,7 @@
 			"source": "DMG",
 			"page": 192,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": true,
@@ -35164,7 +35682,7 @@
 			"source": "DMG",
 			"page": 193,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "legendary",
 			"reqAttune": true,
@@ -35181,7 +35699,7 @@
 			"source": "DMG",
 			"page": 193,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "minor",
 			"rarity": "uncommon",
 			"modifySpeed": {
@@ -35201,7 +35719,7 @@
 			"source": "DMG",
 			"page": 193,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "very rare",
 			"reqAttune": true,
@@ -35220,7 +35738,7 @@
 			"name": "Ring of Temporal Salvation",
 			"source": "EGW",
 			"page": 269,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "rare",
 			"reqAttune": true,
 			"entries": [
@@ -35231,7 +35749,7 @@
 			"name": "Ring of the Copycat",
 			"source": "CoA",
 			"page": 268,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "legendary",
 			"reqAttune": true,
 			"entries": [
@@ -35242,7 +35760,7 @@
 			"name": "Ring of the Orator",
 			"source": "PaBTSO",
 			"page": 219,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"recharge": "dawn",
@@ -35258,7 +35776,7 @@
 			"source": "DMG",
 			"page": 193,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": true,
@@ -35282,7 +35800,7 @@
 			"source": "DMG",
 			"page": 193,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "legendary",
 			"entries": [
@@ -35302,7 +35820,7 @@
 			"page": 192,
 			"srd": true,
 			"basicRules": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"resist": [
 				"thunder"
 			],
@@ -35319,7 +35837,7 @@
 			"name": "Ring of Treachery",
 			"source": "CoA",
 			"page": 269,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "very rare",
 			"reqAttune": true,
 			"recharge": "restLong",
@@ -35333,7 +35851,7 @@
 			"name": "Ring of Truth Telling",
 			"source": "WDH",
 			"page": 192,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"entries": [
@@ -35345,7 +35863,7 @@
 			"source": "DMG",
 			"page": 193,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"resist": [
 				"cold"
 			],
@@ -35365,7 +35883,7 @@
 			"source": "DMG",
 			"page": 190,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "legendary",
 			"reqAttune": true,
@@ -35401,7 +35919,7 @@
 			"source": "DMG",
 			"page": 193,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "uncommon",
 			"entries": [
@@ -35419,7 +35937,7 @@
 			"name": "Ring of Winter",
 			"source": "ToA",
 			"page": 207,
-			"type": "RG",
+			"type": "RG|DMG",
 			"immune": [
 				"cold"
 			],
@@ -35508,7 +36026,7 @@
 			"source": "DMG",
 			"page": 193,
 			"srd": true,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": true,
@@ -35800,7 +36318,7 @@
 			"source": "DMG",
 			"page": 195,
 			"srd": true,
-			"type": "RD",
+			"type": "RD|DMG",
 			"tier": "major",
 			"rarity": "very rare",
 			"reqAttune": true,
@@ -35821,7 +36339,7 @@
 			"source": "DMG",
 			"page": 196,
 			"srd": true,
-			"type": "RD",
+			"type": "RD|DMG",
 			"tier": "major",
 			"rarity": "very rare",
 			"reqAttune": true,
@@ -35867,7 +36385,7 @@
 			"name": "Rod of Hellish Flames",
 			"source": "BMT",
 			"page": 37,
-			"type": "RD",
+			"type": "RD|DMG",
 			"resist": [
 				"fire",
 				"necrotic"
@@ -35920,7 +36438,7 @@
 			"page": 196,
 			"srd": true,
 			"baseItem": "mace|phb",
-			"type": "RD",
+			"type": "RD|DMG",
 			"typeAlt": "M",
 			"tier": "major",
 			"rarity": "legendary",
@@ -35983,7 +36501,7 @@
 			"name": "Rod of Resurrection",
 			"source": "DMG",
 			"page": 197,
-			"type": "RD",
+			"type": "RD|DMG",
 			"tier": "major",
 			"rarity": "legendary",
 			"reqAttune": "by a cleric, druid, or paladin",
@@ -36019,7 +36537,7 @@
 			"name": "Rod of Retribution",
 			"source": "EGW",
 			"page": 269,
-			"type": "RD",
+			"type": "RD|DMG",
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"weight": 2,
@@ -36036,7 +36554,7 @@
 			"source": "DMG",
 			"page": 197,
 			"srd": true,
-			"type": "RD",
+			"type": "RD|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": true,
@@ -36054,7 +36572,7 @@
 			"source": "DMG",
 			"page": 197,
 			"srd": true,
-			"type": "RD",
+			"type": "RD|DMG",
 			"tier": "major",
 			"rarity": "very rare",
 			"weight": 2,
@@ -36072,7 +36590,7 @@
 			"source": "VEoR",
 			"page": 8,
 			"baseItem": "quarterstaff|PHB",
-			"type": "RD",
+			"type": "RD|DMG",
 			"rarity": "artifact",
 			"reqAttune": true,
 			"weight": 4,
@@ -36193,7 +36711,7 @@
 			"name": "Rod of the Vonindod",
 			"source": "SKT",
 			"page": 236,
-			"type": "RD",
+			"type": "RD|DMG",
 			"rarity": "rare",
 			"reqAttune": true,
 			"weight": 100,
@@ -36371,7 +36889,7 @@
 			"name": "Ruby",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 500000,
 			"entries": [
@@ -36400,7 +36918,7 @@
 			"name": "Ruby Rod of Asmodeus",
 			"source": "CoA",
 			"page": 274,
-			"type": "RD",
+			"type": "RD|DMG",
 			"rarity": "artifact",
 			"reqAttune": true,
 			"bonusWeapon": "+2",
@@ -36618,7 +37136,7 @@
 			"property": [
 				"T",
 				"V",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"range": "20/60",
 			"dmg1": "1d6",
@@ -36913,7 +37431,7 @@
 			"name": "Sage's Signet (Bear)",
 			"source": "BMT",
 			"page": 37,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "very rare",
 			"reqAttune": "by a spellcaster",
 			"reqAttuneTags": [
@@ -36935,7 +37453,7 @@
 			"name": "Sage's Signet (Hart)",
 			"source": "BMT",
 			"page": 37,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "very rare",
 			"reqAttune": "by a spellcaster",
 			"reqAttuneTags": [
@@ -36957,7 +37475,7 @@
 			"name": "Sage's Signet (Lion)",
 			"source": "BMT",
 			"page": 37,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "very rare",
 			"reqAttune": "by a spellcaster",
 			"reqAttuneTags": [
@@ -36979,7 +37497,7 @@
 			"name": "Sage's Signet (Serpent)",
 			"source": "BMT",
 			"page": 37,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "rare",
 			"reqAttune": "by a spellcaster",
 			"reqAttuneTags": [
@@ -37001,7 +37519,7 @@
 			"name": "Sage's Signet (Songbird)",
 			"source": "BMT",
 			"page": 37,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "rare",
 			"reqAttune": "by a spellcaster",
 			"reqAttuneTags": [
@@ -37023,7 +37541,7 @@
 			"name": "Sage's Signet (Wolf)",
 			"source": "BMT",
 			"page": 37,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "very rare",
 			"reqAttune": "by a spellcaster",
 			"reqAttuneTags": [
@@ -37191,11 +37709,69 @@
 			"name": "Sardonyx",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 5000,
 			"entries": [
 				"An opaque bands of red and white gemstone."
+			]
+		},
+		{
+			"name": "Sarlona Trinket",
+			"source": "ERLW",
+			"page": 138,
+			"type": "G",
+			"rarity": "none",
+			"entries": [
+				{
+					"caption": "Trinkets from Sarlona",
+					"colLabels": [
+						"d8",
+						"Trinket"
+					],
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"rows": [
+						[
+							"1",
+							"A polished crystal sphere; when you clutch it in your fist, a telepathic voice recites a story in your mind"
+						],
+						[
+							"2",
+							"A teardrop pendant made from polished shell; when you hold it, you see the image of a young Riedran man"
+						],
+						[
+							"3",
+							"A six-sided crystal die; when you roll it, you feel a surge of emotion for six seconds"
+						],
+						[
+							"4",
+							"A sealed vial filled with faintly luminescent blue mist"
+						],
+						[
+							"5",
+							"A crystal disk engraved with a labyrinthine pattern"
+						],
+						[
+							"6",
+							"A leather-bound collection of kalashtar poetry called {@i Shards of the Light}"
+						],
+						[
+							"7",
+							"A sphere of polished crystal; when you hold it in your palm, you feel that it knows you and understands you"
+						],
+						[
+							"8",
+							"A cup and ball toy; when you successfully catch the ball in the cup, you feel a momentary surge of joy"
+						]
+					],
+					"type": "table"
+				}
+			],
+			"miscTags": [
+				"TT"
 			]
 		},
 		{
@@ -37397,7 +37973,7 @@
 			"name": "Scorpion Ship",
 			"source": "AAG",
 			"page": 42,
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"value": 2500000,
 			"crew": 12,
@@ -37504,7 +38080,7 @@
 			"name": "Scroll of Protection from Aberrations",
 			"source": "DMG",
 			"page": 199,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "rare",
 			"entries": [
@@ -37518,7 +38094,7 @@
 			"name": "Scroll of Protection from Beasts",
 			"source": "DMG",
 			"page": 199,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "rare",
 			"entries": [
@@ -37532,7 +38108,7 @@
 			"name": "Scroll of Protection from Celestials",
 			"source": "DMG",
 			"page": 199,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "rare",
 			"entries": [
@@ -37546,7 +38122,7 @@
 			"name": "Scroll of Protection from Elementals",
 			"source": "DMG",
 			"page": 199,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "rare",
 			"entries": [
@@ -37560,7 +38136,7 @@
 			"name": "Scroll of Protection from Fey",
 			"source": "DMG",
 			"page": 199,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "rare",
 			"entries": [
@@ -37574,7 +38150,7 @@
 			"name": "Scroll of Protection from Fiends",
 			"source": "DMG",
 			"page": 199,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "rare",
 			"entries": [
@@ -37588,7 +38164,7 @@
 			"name": "Scroll of Protection from Plants",
 			"source": "DMG",
 			"page": 199,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "rare",
 			"entries": [
@@ -37602,7 +38178,7 @@
 			"name": "Scroll of Protection from Undead",
 			"source": "DMG",
 			"page": 199,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "rare",
 			"entries": [
@@ -37616,7 +38192,7 @@
 			"name": "Scroll of Tarrasque Summoning",
 			"source": "IDRotF",
 			"page": 315,
-			"type": "SC",
+			"type": "SC|DMG",
 			"rarity": "legendary",
 			"entries": [
 				"Using an action to read the scroll causes the {@creature tarrasque} (see the creature's entry in the Monster Manual) to appear in an unoccupied space you can see within 1 mile of you. The tarrasque disappears when it drops to 0 hit points and is hostile toward all creatures other than itself."
@@ -37629,7 +38205,7 @@
 			"name": "Scroll of the Comet",
 			"source": "IDRotF",
 			"page": 315,
-			"type": "SC",
+			"type": "SC|DMG",
 			"rarity": "legendary",
 			"entries": [
 				"By using an action to read the scroll, you cause a comet to fall from the sky and crash to the ground at a point you can see up to 1 mile away from you. You must be outdoors when you use the scroll, or nothing happens and the scroll is wasted.",
@@ -37648,6 +38224,64 @@
 			"type": "G",
 			"rarity": "none",
 			"value": 50
+		},
+		{
+			"name": "Secondhand Steal Trinket",
+			"source": "BMT",
+			"page": 108,
+			"type": "G",
+			"rarity": "none",
+			"entries": [
+				{
+					"caption": "Secondhand Steals",
+					"colLabels": [
+						"d8",
+						"Secondhand Steal"
+					],
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"rows": [
+						[
+							"1",
+							"A pair of small, rose-tinted glasses with round lenses"
+						],
+						[
+							"2",
+							"A droopy potted plant in an old boot"
+						],
+						[
+							"3",
+							"A rusty metal goblet shaped like a frog opening its mouth to the sky"
+						],
+						[
+							"4",
+							"A wide-brimmed, palm-frond sunhat that has been chewed on"
+						],
+						[
+							"5",
+							"A utensil shaped like a fork on one end and a spoon on the other"
+						],
+						[
+							"6",
+							"A thick, sun-yellowed book on seasonal agriculture written in Halfling"
+						],
+						[
+							"7",
+							"A well-used squeaky toy in the shape of a garden gnome with a red hat"
+						],
+						[
+							"8",
+							"A glass statuette of a rust monster"
+						]
+					],
+					"type": "table"
+				}
+			],
+			"miscTags": [
+				"TT"
+			]
 		},
 		{
 			"name": "Seeker Dart",
@@ -37685,7 +38319,7 @@
 			"name": "Selesnya Guild Signet",
 			"source": "GGR",
 			"page": 178,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"recharge": "dawn",
@@ -38512,7 +39146,7 @@
 					"type": "entries",
 					"name": "Freeing Gargauth",
 					"entries": [
-						"Casting {@spell dispel evil and good} on the shield has a {@chance 1|1 percent} chance of freeing the pit fiend, or automatically succeeds if the spell is cast by a {@creature solar}, a {@creature planetar}, or an archdevil. A god can release the pit fiend by touching the shield and speaking Gargauth's name. When released, Gargauth appears in a random, unoccupied space as close to the shield as possible."
+						"Casting {@spell dispel evil and good} on the shield has a {@chance 1} chance of freeing the pit fiend, or automatically succeeds if the spell is cast by a {@creature solar}, a {@creature planetar}, or an archdevil. A god can release the pit fiend by touching the shield and speaking Gargauth's name. When released, Gargauth appears in a random, unoccupied space as close to the shield as possible."
 					]
 				}
 			],
@@ -38664,7 +39298,7 @@
 			"name": "Shrike Ship",
 			"source": "AAG",
 			"page": 44,
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"value": 2000000,
 			"crew": 11,
@@ -38715,7 +39349,7 @@
 			"name": "Silk robe with gold embroidery",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -38786,7 +39420,7 @@
 			"weaponCategory": "martial",
 			"property": [
 				"F",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d8",
 			"dmgType": "P",
@@ -38915,7 +39549,7 @@
 			"name": "Silver and gold brooch",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -38923,7 +39557,7 @@
 			"name": "Silver chalice set with moonstones",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -38952,7 +39586,7 @@
 			"name": "Silver ewer",
 			"source": "DMG",
 			"page": 134,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -38960,7 +39594,7 @@
 			"name": "Silver headdress with amber and red-coral feathers (Sun Empire)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -38968,7 +39602,7 @@
 			"name": "Silver medallion (Sun Empire)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -38976,7 +39610,7 @@
 			"name": "Silver necklace with a gemstone pendant",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -38984,7 +39618,7 @@
 			"name": "Silver necklace with an amber pendant (Sun Empire)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 25000
 		},
@@ -38992,7 +39626,7 @@
 			"name": "Silver shoulder piece with amber and garnet (Sun Empire)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -39026,7 +39660,7 @@
 			"name": "Silver-plated steel longsword with jet set in hilt",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -39051,10 +39685,61 @@
 			]
 		},
 		{
+			"name": "Silverquill Trinket",
+			"source": "SCC",
+			"page": 35,
+			"type": "G",
+			"rarity": "none",
+			"entries": [
+				"When you make your character, you may roll once on the Silverquill Trinkets table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket.",
+				{
+					"caption": "Silverquill Trinkets",
+					"colLabels": [
+						"d6",
+						"Trinket"
+					],
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"rows": [
+						[
+							"1",
+							"A black leather notebook filled with half-finished poems"
+						],
+						[
+							"2",
+							"A set of flashcards detailing different colloquialisms and their meanings"
+						],
+						[
+							"3",
+							"A canteen that makes any liquid drunk from it taste sweet"
+						],
+						[
+							"4",
+							"A forged permission slip granting access to the special archives of Strixhaven's libraries"
+						],
+						[
+							"5",
+							"A stylish silver pin that references a famous series of novels about warlocks"
+						],
+						[
+							"6",
+							"A stack of small pieces of parchment, each enchanted to stick to whatever surface it's pressed against and peel off easily"
+						]
+					],
+					"type": "table"
+				}
+			],
+			"miscTags": [
+				"TT"
+			]
+		},
+		{
 			"name": "Simic Guild Signet",
 			"source": "GGR",
 			"page": 178,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"recharge": "dawn",
@@ -39254,7 +39939,7 @@
 			"entries": [
 				"These bat-like wings were first used by the {@book Air Ashari|TDCSR|3|Zephrah} to soar through the sky. They are constructed of either leather and bone, or cloth and wood, and are set onto a sturdy wooden pole that helps their user remain stable during flight.",
 				"While these wings are open and you are riding the skysail, you can glide through the air. You have a flying speed of 60 feet, but you must descend at least 10 feet by the end of each of your turns and you can't gain altitude.",
-				"Additionally, while in contact with the skysail, you can use an action to cast the {@spell fly} spell on yourself, with a duration of 1 minute and requiring no {@condition concentration}.",
+				"Additionally, while in contact with the skysail, you can use an action to cast the {@spell fly} spell on yourself, with a duration of 1 minute and requiring no {@status concentration}.",
 				"The spell ends if you lose physical contact with the skysail. Once this property is used, it can't be used again until the next dawn, or unless the skysail is immersed in powerful magic of elemental air. (This includes magic such as that found at the top of the {@book Summit Peaks|TDCSR|3|Summit Peaks} near the rift of air in {@book Zephrah|TDCSR|3|Zephrah}, or on the Elemental Plane of Air).",
 				"When the skysail is not in use, its wings can be retracted, and its pole can be used as a {@item quarterstaff|PHB}."
 			],
@@ -39268,7 +39953,7 @@
 			"name": "Skyship",
 			"source": "EGW",
 			"page": 72,
-			"type": "AIR",
+			"type": "AIR|DMG",
 			"rarity": "none",
 			"value": 10000000,
 			"crewMin": 6,
@@ -39283,7 +39968,7 @@
 			"name": "Skyship",
 			"source": "TDCSR",
 			"page": 137,
-			"type": "AIR",
+			"type": "AIR|DMG",
 			"rarity": "none",
 			"value": 10000000,
 			"crewMin": 6,
@@ -39335,7 +40020,7 @@
 		{
 			"name": "Sleep Grenade",
 			"source": "QftIS",
-			"type": "EXP",
+			"type": "EXP|DMG",
 			"rarity": "none",
 			"hasRefs": true,
 			"entries": [
@@ -39486,7 +40171,7 @@
 			"name": "Small gold bracelet",
 			"source": "DMG",
 			"page": 134,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -39494,7 +40179,7 @@
 			"name": "Small gold idol",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
 		},
@@ -39502,7 +40187,7 @@
 			"name": "Small gold statuette set with rubies",
 			"source": "DMG",
 			"page": 135,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -39510,7 +40195,7 @@
 			"name": "Small mirror set in a painted wooden frame",
 			"source": "DMG",
 			"page": 134,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -39592,7 +40277,7 @@
 			"name": "Smoke Grenade",
 			"source": "DMG",
 			"page": 268,
-			"type": "EXP",
+			"type": "EXP|DMG",
 			"rarity": "none",
 			"weight": 2,
 			"age": "modern",
@@ -39860,7 +40545,7 @@
 			"name": "Space Galleon",
 			"source": "AAG",
 			"page": 46,
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"value": 3000000,
 			"crew": 20,
@@ -40389,7 +41074,7 @@
 			"page": 200,
 			"srd": true,
 			"basicRules": true,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "common",
 			"entries": [
@@ -40413,7 +41098,7 @@
 			"page": 201,
 			"srd": true,
 			"basicRules": true,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "uncommon",
 			"entries": [
@@ -40438,7 +41123,7 @@
 			"page": 202,
 			"srd": true,
 			"basicRules": true,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "uncommon",
 			"entries": [
@@ -40462,7 +41147,7 @@
 			"page": 203,
 			"srd": true,
 			"basicRules": true,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "rare",
 			"entries": [
@@ -40486,7 +41171,7 @@
 			"page": 204,
 			"srd": true,
 			"basicRules": true,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "rare",
 			"entries": [
@@ -40510,7 +41195,7 @@
 			"page": 205,
 			"srd": true,
 			"basicRules": true,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "very rare",
 			"entries": [
@@ -40534,7 +41219,7 @@
 			"page": 206,
 			"srd": true,
 			"basicRules": true,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "very rare",
 			"entries": [
@@ -40558,7 +41243,7 @@
 			"page": 207,
 			"srd": true,
 			"basicRules": true,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "very rare",
 			"entries": [
@@ -40583,7 +41268,7 @@
 			"page": 208,
 			"srd": true,
 			"basicRules": true,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "legendary",
 			"entries": [
@@ -40607,7 +41292,7 @@
 			"page": 199,
 			"srd": true,
 			"basicRules": true,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "common",
 			"entries": [
@@ -40703,7 +41388,7 @@
 			"name": "Spellpiercing Wand",
 			"source": "DoDk",
 			"page": 232,
-			"type": "WD",
+			"type": "WD|DMG",
 			"rarity": "uncommon",
 			"reqAttune": "by a spellcaster",
 			"reqAttuneTags": [
@@ -40959,7 +41644,7 @@
 			"name": "Spindle of Fate",
 			"source": "BMT",
 			"page": 38,
-			"type": "WD",
+			"type": "WD|DMG",
 			"rarity": "legendary",
 			"reqAttune": true,
 			"recharge": "dawn",
@@ -41002,7 +41687,7 @@
 			"name": "Spinel",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 10000,
 			"entries": [
@@ -41087,7 +41772,7 @@
 			"weaponCategory": "simple",
 			"property": [
 				"V",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d6",
 			"dmgType": "B",
@@ -41207,7 +41892,7 @@
 			"name": "Spymaster's Signet",
 			"source": "DoDk",
 			"page": 233,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "legendary",
 			"reqAttune": true,
 			"entries": [
@@ -41234,7 +41919,7 @@
 					"source": "SjA"
 				}
 			],
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"value": 2500000,
 			"crew": 13,
@@ -42467,7 +43152,7 @@
 			"name": "Star Moth",
 			"source": "AAG",
 			"page": 50,
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"value": 4000000,
 			"crew": 13,
@@ -42544,7 +43229,7 @@
 			"weaponCategory": "martial",
 			"property": [
 				"V",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d8",
 			"dmgType": "S",
@@ -42624,7 +43309,7 @@
 			"name": "Star rose quartz",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 5000,
 			"entries": [
@@ -42635,7 +43320,7 @@
 			"name": "Star Ruby",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 100000,
 			"entries": [
@@ -42646,7 +43331,7 @@
 			"name": "Star Sapphire",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 100000,
 			"entries": [
@@ -42770,7 +43455,7 @@
 			"name": "Stink Bomb",
 			"source": "TDCSR",
 			"page": 100,
-			"type": "EXP",
+			"type": "EXP|DMG",
 			"rarity": "none",
 			"value": 2500,
 			"range": "30",
@@ -43158,7 +43843,7 @@
 			"name": "Stonky's ring",
 			"source": "CM",
 			"page": 132,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "unknown (magic)",
 			"reqAttune": true,
 			"entries": [
@@ -43229,7 +43914,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"ability": {
 				"static": {
@@ -43370,7 +44055,7 @@
 			"name": "Sun amulet on a beaded chain (Sun Empire)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -43527,6 +44212,7 @@
 				{
 					"type": "list",
 					"items": [
+						"While grasping the hilt, you can use a bonus action to cause a blade of pure radiance to spring into existence, or make the blade disappear. While the blade exists, this magic longsword has the finesse property. If you are proficient with shortswords or longswords, you are proficient with the Sunsword.",
 						"You gain a +2 bonus to attack and damage rolls made with this weapon, which deals radiant damage instead of slashing damage. When you hit an undead with it, that target takes an extra {@damage 1d8} radiant damage.",
 						"The sword's luminous blade emits bright light in a 15-foot radius and dim light for an additional 15 feet. The light is sunlight. While the blade persists, you can use an action to expand or reduce its radius of bright and dim light by 5 feet each, to a maximum of 30 feet each or a minimum of 10 feet each."
 					]
@@ -43566,7 +44252,7 @@
 			"name": "Suude (Blue)",
 			"source": "TDCSR",
 			"page": 85,
-			"type": "IDG",
+			"type": "IDG|TDCSR",
 			"rarity": "unknown (magic)",
 			"entries": [
 				"Exandria's most infamous drug, {@item suude|TDCSR} is a glittering powder made from {@book residuum|TDCSR|3|An Enchanting Export}. It was first developed by power-hungry archmages in the {@book Age of Arcanum|TDCSR|1|Age of Arcanum} as an incense burned to enhance focus during ritual spellcasting. The secret to its refinement has been lost and rediscovered a variety of times since the {@book Calamity|TDCSR|1|The Calamity}, and many different types of {@item suude|TDCSR} have been developed by arcanists in search of ever-greater power. It has terrible addictive and mentally degenerative properties, even when used sparingly.",
@@ -43582,7 +44268,7 @@
 			"name": "Suude (Brown)",
 			"source": "TDCSR",
 			"page": 85,
-			"type": "IDG",
+			"type": "IDG|TDCSR",
 			"rarity": "unknown (magic)",
 			"entries": [
 				"Exandria's most infamous drug, {@item suude|TDCSR} is a glittering powder made from {@book residuum|TDCSR|3|An Enchanting Export}. It was first developed by power-hungry archmages in the {@book Age of Arcanum|TDCSR|1|Age of Arcanum} as an incense burned to enhance focus during ritual spellcasting. The secret to its refinement has been lost and rediscovered a variety of times since the {@book Calamity|TDCSR|1|The Calamity}, and many different types of {@item suude|TDCSR} have been developed by arcanists in search of ever-greater power. It has terrible addictive and mentally degenerative properties, even when used sparingly.",
@@ -43598,7 +44284,7 @@
 			"name": "Suude (Red)",
 			"source": "TDCSR",
 			"page": 85,
-			"type": "IDG",
+			"type": "IDG|TDCSR",
 			"rarity": "unknown (magic)",
 			"entries": [
 				"Exandria's most infamous drug, {@item suude|TDCSR} is a glittering powder made from {@book residuum|TDCSR|3|An Enchanting Export}. It was first developed by power-hungry archmages in the {@book Age of Arcanum|TDCSR|1|Age of Arcanum} as an incense burned to enhance focus during ritual spellcasting. The secret to its refinement has been lost and rediscovered a variety of times since the {@book Calamity|TDCSR|1|The Calamity}, and many different types of {@item suude|TDCSR} have been developed by arcanists in search of ever-greater power. It has terrible addictive and mentally degenerative properties, even when used sparingly.",
@@ -44791,7 +45477,7 @@
 			"name": "Teleporter Ring",
 			"source": "WDH",
 			"page": 157,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "unknown (magic)",
 			"entries": [
 				"As an action, a creature wearing a teleporter ring can activate the teleportation circle either in area K22 or area E1, teleporting itself and up to six other willing creatures from one circle to the other."
@@ -44851,7 +45537,7 @@
 			"name": "Tentacle Rod",
 			"source": "DMG",
 			"page": 208,
-			"type": "RD",
+			"type": "RD|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": true,
@@ -44911,7 +45597,7 @@
 			"weight": 4,
 			"weaponCategory": "martial",
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d8",
 			"dmgType": "P",
@@ -45085,7 +45771,7 @@
 					"type": "entries",
 					"name": "Wish",
 					"entries": [
-						"The Infernal Machine has the ability to bend the nature of reality, with the proper combination of controls recreating the effect of a {@spell wish} spell (including all side effects). Due to the complex nature of its programming, this feature can be used only once per month. Each time this effect is used, there is a cumulative {@chance 10|10 percent} chance of the Infernal Machine malfunctioning, necessitating seven days' worth of repairs and reprogramming, as well as the expenditure of 500 gp in parts, before it can be used again. When these repairs are done, the cumulative chance of malfunction returns to 10 percent."
+						"The Infernal Machine has the ability to bend the nature of reality, with the proper combination of controls recreating the effect of a {@spell wish} spell (including all side effects). Due to the complex nature of its programming, this feature can be used only once per month. Each time this effect is used, there is a cumulative {@chance 10} chance of the Infernal Machine malfunctioning, necessitating seven days' worth of repairs and reprogramming, as well as the expenditure of 500 gp in parts, before it can be used again. When these repairs are done, the cumulative chance of malfunction returns to 10 percent."
 					]
 				},
 				{
@@ -45868,7 +46554,7 @@
 			"weaponCategory": "martial",
 			"age": "renaissance",
 			"property": [
-				"AF",
+				"AF|DMG",
 				"LD"
 			],
 			"range": "30/90",
@@ -45926,7 +46612,7 @@
 			"name": "Tiger Eye",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 1000,
 			"entries": [
@@ -46149,7 +46835,7 @@
 			"name": "Tiny jade figurine (River Heralds)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -46208,7 +46894,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"ability": {
 				"static": {
@@ -46379,7 +47065,7 @@
 			"name": "Topaz",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 50000,
 			"entries": [
@@ -46457,7 +47143,7 @@
 			"name": "Tourmaline",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 10000,
 			"entries": [
@@ -46492,7 +47178,7 @@
 			"name": "Treasure chest crafted of exotic wood with gold fittings and opals (Brazen Coalition)",
 			"source": "PSX",
 			"page": 25,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 750000
 		},
@@ -48053,8 +48739,7 @@
 			"property": [
 				"F",
 				"L",
-				"T",
-				"Vst"
+				"T"
 			],
 			"range": "20/60",
 			"dmg1": "1d6",
@@ -48129,8 +48814,7 @@
 			"reqAttune": true,
 			"weaponCategory": "martial",
 			"property": [
-				"F",
-				"Vst"
+				"F"
 			],
 			"dmg1": "1d8",
 			"dmgType": "C",
@@ -48228,7 +48912,7 @@
 			"name": "Turquoise",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 1000,
 			"entries": [
@@ -48239,7 +48923,7 @@
 			"name": "Turtle Ship",
 			"source": "AAG",
 			"page": 52,
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"value": 4000000,
 			"crew": 16,
@@ -48295,7 +48979,7 @@
 			"name": "Tyrant Ship",
 			"source": "AAG",
 			"page": 54,
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"crew": 10,
 			"vehAc": 17,
@@ -48391,7 +49075,7 @@
 			"name": "Velvet doublet with gold buttons (Legion of Dusk)",
 			"source": "PSX",
 			"page": 24,
-			"type": "$A",
+			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 2500
 		},
@@ -48467,7 +49151,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"entries": [
 				"This patchy cloak was pieced together from the pelts of rats found feasting on the dead in Blightshore and is dotted with the bloated corpses of magically preserved insects along its seams.",
@@ -48829,7 +49513,7 @@
 			"source": "DMG",
 			"page": 209,
 			"srd": true,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": "by a spellcaster",
@@ -48872,7 +49556,7 @@
 			"name": "Wand of Conducting",
 			"source": "XGE",
 			"page": 140,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "minor",
 			"rarity": "common",
 			"weight": 1,
@@ -48889,7 +49573,7 @@
 			"source": "DMG",
 			"page": 210,
 			"srd": true,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": true,
@@ -48910,7 +49594,7 @@
 			"name": "Wand of Entangle",
 			"source": "TftYP",
 			"page": 229,
-			"type": "WD",
+			"type": "WD|DMG",
 			"rarity": "uncommon",
 			"reqAttune": "by a spellcaster",
 			"reqAttuneTags": [
@@ -48935,7 +49619,7 @@
 			"source": "DMG",
 			"page": 210,
 			"srd": true,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": true,
@@ -48973,7 +49657,7 @@
 			"source": "DMG",
 			"page": 210,
 			"srd": true,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": "by a spellcaster",
@@ -49003,7 +49687,7 @@
 			"source": "DMG",
 			"page": 211,
 			"srd": true,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": "by a spellcaster",
@@ -49034,7 +49718,7 @@
 			"page": 211,
 			"srd": true,
 			"basicRules": true,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "minor",
 			"rarity": "uncommon",
 			"weight": 1,
@@ -49061,7 +49745,7 @@
 			"page": 211,
 			"srd": true,
 			"basicRules": true,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "major",
 			"rarity": "uncommon",
 			"weight": 1,
@@ -49085,7 +49769,7 @@
 			"source": "DMG",
 			"page": 227,
 			"baseItem": "mace|phb",
-			"type": "WD",
+			"type": "WD|DMG",
 			"typeAlt": "M",
 			"rarity": "artifact",
 			"reqAttune": true,
@@ -49183,7 +49867,7 @@
 			"source": "DMG",
 			"page": 211,
 			"srd": true,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": "by a spellcaster",
@@ -49210,7 +49894,7 @@
 			"source": "DMG",
 			"page": 211,
 			"srd": true,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "major",
 			"rarity": "very rare",
 			"reqAttune": "by a spellcaster",
@@ -49239,7 +49923,7 @@
 			"name": "Wand of Pyrotechnics",
 			"source": "XGE",
 			"page": 140,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "minor",
 			"rarity": "common",
 			"weight": 1,
@@ -49255,7 +49939,7 @@
 			"name": "Wand of Scowls",
 			"source": "XGE",
 			"page": 140,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "minor",
 			"rarity": "common",
 			"weight": 1,
@@ -49272,7 +49956,7 @@
 			"source": "DMG",
 			"page": 211,
 			"srd": true,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "minor",
 			"rarity": "uncommon",
 			"weight": 1,
@@ -49294,7 +49978,7 @@
 			"name": "Wand of Silence",
 			"source": "GHLoE",
 			"page": 111,
-			"type": "WD",
+			"type": "WD|DMG",
 			"rarity": "uncommon",
 			"reqAttune": "by a spellcaster",
 			"reqAttuneTags": [
@@ -49316,7 +50000,7 @@
 			"name": "Wand of Smiles",
 			"source": "XGE",
 			"page": 140,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "minor",
 			"rarity": "common",
 			"weight": 1,
@@ -49332,7 +50016,7 @@
 			"name": "Wand of Viscid Globs",
 			"source": "OotA",
 			"page": 223,
-			"type": "WD",
+			"type": "WD|DMG",
 			"rarity": "rare",
 			"reqAttune": true,
 			"weight": 1,
@@ -49351,7 +50035,7 @@
 			"source": "DMG",
 			"page": 212,
 			"srd": true,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "major",
 			"rarity": "uncommon",
 			"reqAttune": "by a spellcaster",
@@ -49386,7 +50070,7 @@
 					"page": 178
 				}
 			],
-			"type": "WD",
+			"type": "WD|DMG",
 			"rarity": "rare",
 			"reqAttune": true,
 			"weight": 1,
@@ -49409,7 +50093,7 @@
 			"source": "DMG",
 			"page": 212,
 			"srd": true,
-			"type": "WD",
+			"type": "WD|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": "by a spellcaster",
@@ -49652,7 +50336,7 @@
 			"name": "Wasp Ship",
 			"source": "AAG",
 			"page": 56,
-			"type": "SPC",
+			"type": "SPC|AAG",
 			"rarity": "none",
 			"value": 2000000,
 			"crew": 5,
@@ -50116,7 +50800,7 @@
 				"F",
 				"L",
 				"T",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"range": "20/60",
 			"dmg1": "1d4",
@@ -50483,7 +51167,7 @@
 			"weight": 2,
 			"weaponCategory": "martial",
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d8",
 			"dmgType": "P",
@@ -50917,6 +51601,57 @@
 			]
 		},
 		{
+			"name": "Witherbloom Trinket",
+			"source": "SCC",
+			"page": 36,
+			"type": "G",
+			"rarity": "none",
+			"entries": [
+				"When you make your character, you may roll once on the Witherbloom Trinkets table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket.",
+				{
+					"caption": "Witherbloom Trinkets",
+					"colLabels": [
+						"d6",
+						"Trinket"
+					],
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"rows": [
+						[
+							"1",
+							"A black bird-shaped mask, trimmed with glowing green thread"
+						],
+						[
+							"2",
+							"A set of rabbit bones"
+						],
+						[
+							"3",
+							"A pair of thick knee-high waders, stained with muck and moss"
+						],
+						[
+							"4",
+							"A slimy green tentacle, which occasionally wriggles"
+						],
+						[
+							"5",
+							"A notebook containing waterproof paper"
+						],
+						[
+							"6",
+							"A necklace of five small vials, each filled with luminescent white liquid"
+						]
+					],
+					"type": "table"
+				}
+			],
+			"miscTags": [
+				"TT"
+			]
+		},
+		{
 			"name": "Woodcarver's Tools",
 			"source": "PHB",
 			"page": 154,
@@ -51070,7 +51805,7 @@
 			],
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"bonusWeapon": "+1",
 			"entries": [
@@ -51166,7 +51901,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"entries": [
 				"This loop of golden thorns is inset with dozens of gems representing the five colors of Tiamat.",
@@ -51435,6 +52170,64 @@
 			]
 		},
 		{
+			"name": "Xen'drik Trinket",
+			"source": "ERLW",
+			"page": 140,
+			"type": "G",
+			"rarity": "none",
+			"entries": [
+				{
+					"caption": "Trinkets from Xen'drik",
+					"colLabels": [
+						"d8",
+						"Trinket"
+					],
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"rows": [
+						[
+							"1",
+							"A punched ticket for a voyage from Sharn to Stormreach"
+						],
+						[
+							"2",
+							"A scorpion's barb engraved with a single Elvish letter"
+						],
+						[
+							"3",
+							"A copper coin so big you could use it as a dinner plate"
+						],
+						[
+							"4",
+							"An image of an elf warrior engraved on a giant's tooth"
+						],
+						[
+							"5",
+							"A single page from a giant wizard's spellbook, bearing an incomplete spell"
+						],
+						[
+							"6",
+							"A scrap of parchment, part of a map of Stormreach"
+						],
+						[
+							"7",
+							"A small book titled {@i Feersome Beests of Zendrik}"
+						],
+						[
+							"8",
+							"A scrimshaw carving of a sahuagin"
+						]
+					],
+					"type": "table"
+				}
+			],
+			"miscTags": [
+				"TT"
+			]
+		},
+		{
 			"name": "Yahcha",
 			"source": "ToA",
 			"page": 205,
@@ -51449,7 +52242,7 @@
 			"name": "Yellow Sapphire",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 100000,
 			"entries": [
@@ -51541,7 +52334,7 @@
 			"name": "Zeal",
 			"source": "TDCSR",
 			"page": 85,
-			"type": "IDG",
+			"type": "IDG|TDCSR",
 			"rarity": "unknown",
 			"value": 15000,
 			"entries": [
@@ -51556,7 +52349,7 @@
 			"name": "Zircon",
 			"source": "DMG",
 			"page": 134,
-			"type": "$G",
+			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 5000,
 			"entries": [
@@ -51699,7 +52492,7 @@
 			"weight": 2,
 			"weaponCategory": "martial",
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d8",
 			"dmgType": "B",
@@ -51738,7 +52531,7 @@
 			"name": "Armor of Resistance",
 			"source": "DMG",
 			"page": 162,
-			"type": "GV",
+			"type": "GV|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": true,
@@ -51831,7 +52624,7 @@
 			"reqAttune": true,
 			"weight": 45,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"ac": 14,
 			"bonusAc": "+1",
@@ -51952,7 +52745,7 @@
 				"F",
 				"L",
 				"T",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"range": "20/60",
 			"dmg1": "1d4",
@@ -51974,7 +52767,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"recharge": "restShort",
 			"charges": 4,
@@ -52093,7 +52886,7 @@
 			],
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"entries": [
 				"When you don this circlet of gnarled onyx, black barbs dig into your head, imparting power to you as the circlet twists your appearance to amuse the {@deity The Spider Queen|Exandria|TDCSR}. The current resting place of the Circlet of Barbed Vision is unknown, but rumor has it that a spectral assassin known as {@creature Jourrael, the Caedogeist|TDCSR|the Inevitable End} seeks this relic."
@@ -52120,7 +52913,7 @@
 				"H",
 				"LD",
 				"2H",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"range": "100/400",
 			"dmg1": "1d10",
@@ -52172,7 +52965,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"entries": [
 				"These mithral-frame goggles with clear diamond lenses were used by the evoker Danoth Oro to spot {@condition invisible} enemies and scout areas from afar."
@@ -52202,7 +52995,7 @@
 			"reqAttune": true,
 			"weight": 13,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"ac": 12,
 			"bonusAc": "+1",
@@ -52289,7 +53082,7 @@
 			"name": "Dragon's Wrath Weapon",
 			"source": "FTD",
 			"page": 25,
-			"type": "GV",
+			"type": "GV|DMG",
 			"rarity": "varies",
 			"reqAttune": true,
 			"entries": [
@@ -52495,7 +53288,7 @@
 				"A",
 				"H",
 				"2H",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"range": "150/600",
 			"dmg1": "1d8",
@@ -52589,7 +53382,7 @@
 			"wondrous": true,
 			"weight": 3,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"entries": [
 				"Several of these spellbooks with gilded pages and silver-plated covers were created during the Age of Arcanum, but only one has been found since the Calamity ended. The book has an infinite number of pages, is three inches thick, eight inches wide, twelve inches long, and weighs three pounds."
@@ -52614,7 +53407,7 @@
 			"weaponCategory": "martial",
 			"property": [
 				"V",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d8",
 			"dmgType": "B",
@@ -52656,7 +53449,7 @@
 			"name": "Guild Signet",
 			"source": "GGR",
 			"page": 178,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"charges": 3,
@@ -52686,7 +53479,7 @@
 			"reqAttune": true,
 			"weight": 13,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"ac": 12,
 			"entries": [
@@ -52739,7 +53532,7 @@
 			],
 			"weight": 6,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"ac": 2,
 			"bonusAc": "+3",
@@ -52846,7 +53639,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"grantsProficiency": true,
 			"entries": [
@@ -52942,7 +53735,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"recharge": "dawn",
 			"entries": [
@@ -52969,7 +53762,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"bonusSavingThrow": "+1",
 			"entries": [
@@ -52999,7 +53792,7 @@
 			"property": [
 				"F",
 				"R",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d4",
 			"dmgType": "S",
@@ -53029,7 +53822,7 @@
 			"weight": 4,
 			"weaponCategory": "simple",
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d6",
 			"dmgType": "B",
@@ -53142,7 +53935,7 @@
 			"weaponCategory": "martial",
 			"property": [
 				"V",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d8",
 			"dmgType": "S",
@@ -53243,7 +54036,7 @@
 			"reqAttune": true,
 			"weight": 65,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"ac": 18,
 			"strength": "15",
@@ -53371,7 +54164,7 @@
 			"property": [
 				"H",
 				"2H",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "2d6",
 			"dmgType": "B",
@@ -53452,7 +54245,7 @@
 			"name": "Ring of Elemental Command",
 			"source": "DMG",
 			"page": 190,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "legendary",
 			"reqAttune": true,
@@ -53468,7 +54261,7 @@
 			"name": "Ring of Resistance",
 			"source": "DMG",
 			"page": 192,
-			"type": "RG",
+			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": true,
@@ -53571,7 +54364,7 @@
 			"property": [
 				"T",
 				"V",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"range": "20/60",
 			"dmg1": "1d6",
@@ -53591,7 +54384,7 @@
 			"name": "Sage's Signet",
 			"source": "BMT",
 			"page": 37,
-			"type": "RG",
+			"type": "RG|DMG",
 			"rarity": "varies",
 			"reqAttune": "by a spellcaster",
 			"reqAttuneTags": [
@@ -53683,7 +54476,7 @@
 			"name": "Scroll of Protection",
 			"source": "DMG",
 			"page": 199,
-			"type": "SC",
+			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "rare",
 			"items": [
@@ -53794,7 +54587,7 @@
 			"weaponCategory": "martial",
 			"property": [
 				"F",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d8",
 			"dmgType": "P",
@@ -53842,7 +54635,7 @@
 			"name": "Spell Scroll",
 			"source": "DMG",
 			"page": 200,
-			"type": "SC",
+			"type": "SC|DMG",
 			"rarity": "varies",
 			"items": [
 				"Spell Scroll (Cantrip)",
@@ -53897,7 +54690,7 @@
 			"weaponCategory": "simple",
 			"property": [
 				"V",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d6",
 			"dmgType": "B",
@@ -53941,7 +54734,7 @@
 			"weaponCategory": "martial",
 			"property": [
 				"V",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d8",
 			"dmgType": "S",
@@ -53975,7 +54768,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"ability": {
 				"static": {
@@ -53995,7 +54788,7 @@
 			"name": "Suude",
 			"source": "TDCSR",
 			"page": 85,
-			"type": "IDG",
+			"type": "IDG|TDCSR",
 			"rarity": "unknown (magic)",
 			"entries": [
 				"Exandria's most infamous drug, {@item suude|TDCSR} is a glittering powder made from {@book residuum|TDCSR|3|An Enchanting Export}. It was first developed by power-hungry archmages in the {@book Age of Arcanum|TDCSR|1|Age of Arcanum} as an incense burned to enhance focus during ritual spellcasting. The secret to its refinement has been lost and rediscovered a variety of times since the {@book Calamity|TDCSR|1|The Calamity}, and many different types of {@item suude|TDCSR} have been developed by arcanists in search of ever-greater power. It has terrible addictive and mentally degenerative properties, even when used sparingly.",
@@ -54056,7 +54849,7 @@
 			"weight": 4,
 			"weaponCategory": "martial",
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d8",
 			"dmgType": "P",
@@ -54088,7 +54881,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"ability": {
 				"static": {
@@ -54198,7 +54991,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"entries": [
 				"This patchy cloak was pieced together from the pelts of rats found feasting on the dead in Blightshore and is dotted with the bloated corpses of magically preserved insects along its seams."
@@ -54226,7 +55019,7 @@
 				"F",
 				"L",
 				"T",
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"range": "20/60",
 			"dmg1": "1d4",
@@ -54254,7 +55047,7 @@
 			"weight": 2,
 			"weaponCategory": "martial",
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"dmg1": "1d8",
 			"dmgType": "P",
@@ -54280,7 +55073,7 @@
 			],
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"bonusWeapon": "+3",
 			"entries": [
@@ -54304,7 +55097,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"property": [
-				"Vst"
+				"Vst|TDCSR"
 			],
 			"entries": [
 				"This loop of golden thorns is inset with dozens of gems representing the five colors of Tiamat."

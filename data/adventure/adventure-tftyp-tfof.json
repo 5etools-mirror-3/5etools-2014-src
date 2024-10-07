@@ -471,7 +471,7 @@
 										],
 										[
 											"2",
-											"Bored, retired adventurer, claims to have explored dungeon of note and can describe first few areas ({@chance 20|20 percent} chance of an accurate description)"
+											"Bored, retired adventurer, claims to have explored dungeon of note and can describe first few areas ({@chance 20} chance of an accurate description)"
 										],
 										[
 											"3",
@@ -479,7 +479,7 @@
 										],
 										[
 											"4",
-											"Con artist, selling fake treasure maps (but a {@chance 10|10 percent} chance that a map is genuine)"
+											"Con artist, selling fake treasure maps (but a {@chance 10} chance that a map is genuine)"
 										],
 										[
 											"5",
@@ -503,7 +503,7 @@
 										],
 										[
 											"10",
-											"Elminster, incognito; {@chance 10|10 percent} chance he is on an errand of cosmic importance; otherwise, he's pressing Durnan for gossip"
+											"Elminster, incognito; {@chance 10} chance he is on an errand of cosmic importance; otherwise, he's pressing Durnan for gossip"
 										]
 									]
 								}
@@ -2797,7 +2797,7 @@
 											"name": "Developments",
 											"page": 38,
 											"entries": [
-												"The orcs use the rock outcroppings on their side for shelter from attacks, gaining half cover. They throw their javelins at characters trying to cross the bridge, or at those who hang back to cast spells or make ranged attacks. A character on the bridge who is hit by an attack must make a saving throw to avoid a fall, just as if the character's Dexterity ({@skill Acrobatics}) check to move along the bridge had failed by 5 or more.",
+												"The orcs use the rock outcroppings on their side for shelter from attacks, gaining {@quickref Cover||3||half cover}. They throw their javelins at characters trying to cross the bridge, or at those who hang back to cast spells or make ranged attacks. A character on the bridge who is hit by an attack must make a saving throw to avoid a fall, just as if the character's Dexterity ({@skill Acrobatics}) check to move along the bridge had failed by 5 or more.",
 												"If an intruder gets at least two-thirds of the way across the bridge, one orc breaks cover to move through the double doors into {@adventure area 5|TftYP-TFoF|1|5. Orc Cave} and get help. The other tries to hinder the characters by chopping at the bridge's support ropes with its greataxe. Each rope has 8 hit points and AC 11. If one support rope is cut, the DC of the Dexterity ({@skill Acrobatics}) check to cross the bridge increases to 12, and characters on the bridge must immediately make a saving throw to avoid falling as described above. If both ropes are cut, the east end of the bridge drops into the crevasse and slams into the cliff wall on the west side. Any characters on the bridge take 7 ({@dice 2d6}) bludgeoning damage from the impact with the wall and must make successful DC 12 Strength or Dexterity saving throws to avoid losing their grip and falling if they aren't otherwise secured."
 											],
 											"id": "057"
@@ -2822,7 +2822,7 @@
 							"name": "4 and 4a. Archers' Stations",
 							"page": 39,
 							"entries": [
-								"The dwarves carved out chambers on either side of the entryway so they could rain arrows down on attackers that approached the front door of their stronghold. The arrow slits are 15 feet or more above the floor of {@adventure areas 1|TftYP-TFoF|1|1. End of the Trail} and {@adventure 2|TftYP-TFoF|1|2. The Dwarf-Door} and are impassible for creatures larger than Tiny. They grant three-quarters cover to the orcs stationed behind them.",
+								"The dwarves carved out chambers on either side of the entryway so they could rain arrows down on attackers that approached the front door of their stronghold. The arrow slits are 15 feet or more above the floor of {@adventure areas 1|TftYP-TFoF|1|1. End of the Trail} and {@adventure 2|TftYP-TFoF|1|2. The Dwarf-Door} and are impassible for creatures larger than Tiny. They grant {@quickref Cover||3||three-quarters cover} to the orcs stationed behind them.",
 								"The secret doors in area 3 provide access to these locations.",
 								{
 									"type": "insetReadaloud",
@@ -13400,7 +13400,7 @@
 											"page": 58,
 											"entries": [
 												"When Nightscale becomes aware of intruders, the {@creature young black dragon} slips into the water, quietly swimming to a point near the three stepping stones shown on the map. Any character watching the lake can make a Wisdom ({@skill Perception}) check contested by the dragon's Dexterity ({@skill Stealth}) check. On a successful check, the character catches a glimpse of a serpentine form moving in the darkness.",
-												"The dragon takes full advantage of her aquatic environment and never offers an easy target to enemies. She begins combat at a range of 20 to 30 feet, raising only her head and part of her neck above the water (granting her three-quarters cover) and breathing acid. Then she submerges and waits for her breath weapon to recharge. Nightscale doesn't resort to melee combat unless she is confronted underwater. If the dragon is reduced to 40 hit points or fewer, she tries to escape through the passage in {@adventure area 54|TftYP-TFoF|1|54. The Dragon's Passage}."
+												"The dragon takes full advantage of her aquatic environment and never offers an easy target to enemies. She begins combat at a range of 20 to 30 feet, raising only her head and part of her neck above the water (granting her {@quickref Cover||3||three-quarters cover}) and breathing acid. Then she submerges and waits for her breath weapon to recharge. Nightscale doesn't resort to melee combat unless she is confronted underwater. If the dragon is reduced to 40 hit points or fewer, she tries to escape through the passage in {@adventure area 54|TftYP-TFoF|1|54. The Dragon's Passage}."
 											],
 											"id": "157"
 										},

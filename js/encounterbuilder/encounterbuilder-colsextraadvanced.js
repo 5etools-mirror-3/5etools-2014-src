@@ -24,7 +24,7 @@ export class EncounterBuilderRenderableCollectionColsExtraAdvanced extends Rende
 		</div>`
 			.appendTo(this._rdState.$wrpHeadersAdvanced);
 
-		const $btnDelete = $(`<button class="btn btn-xxs ecgen-player__btn-inline w-40p btn-danger no-shrink mt-n2 bt-0 btl-0 btr-0" title="Remove Column" tabindex="-1"><span class="glyphicon-trash glyphicon"></span></button>`)
+		const $btnDelete = $(`<button class="ve-btn ve-btn-xxs ecgen-player__btn-inline w-40p ve-btn-danger no-shrink mt-n2 bt-0 btl-0 btr-0" title="Remove Column" tabindex="-1"><span class="glyphicon-trash glyphicon"></span></button>`)
 			.click(() => this._comp.doRemoveColExtraAdvanced(colExtra.id));
 
 		const $wrpFooter = $$`<div class="w-40p ve-flex-v-baseline ve-flex-h-center no-shrink no-grow mr-1">

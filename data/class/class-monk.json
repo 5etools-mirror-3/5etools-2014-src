@@ -747,7 +747,7 @@
 			"classSource": "PHB",
 			"level": 1,
 			"entries": [
-				"Your practice of martial arts gives you mastery of combat styles that use unarmed strikes and monk weapons, which are {@item shortsword|phb|shortswords} and any {@filter simple melee weapons that don't have the two-handed or heavy property|items|source=phb|category=basic|type=simple weapon;melee weapon=u~u~sand|property=!heavy;!two-handed}.",
+				"Your practice of martial arts gives you mastery of combat styles that use unarmed strikes and monk weapons, which are {@item shortsword|phb|shortswords} and any {@filter simple melee weapons that don't have the two-handed or heavy property|items|source=phb|category=basic|type=simple weapon;melee weapon=sand|property=!heavy;!two-handed}.",
 				"You gain the following benefits while you are unarmed or wielding only monk weapons and you aren't wearing armor or wielding a {@item shield|phb}.",
 				{
 					"type": "list",
@@ -1421,7 +1421,7 @@
 						{
 							"type": "item",
 							"name": "Blindsight",
-							"entry": "You gain {@sense blindsight} out to 10 feet. Within that range, you can effectively see anything that isn't behind total cover, even if you're {@condition blinded} or in darkness. Moreover, you can see an {@condition invisible} creature within that range, unless the creature successfully hides from you."
+							"entry": "You gain {@sense blindsight} out to 10 feet. Within that range, you can effectively see anything that isn't behind {@quickref Cover||3||total cover}, even if you're {@condition blinded} or in darkness. Moreover, you can see an {@condition invisible} creature within that range, unless the creature successfully hides from you."
 						},
 						{
 							"type": "item",
@@ -2666,7 +2666,7 @@
 			"header": 2,
 			"entries": [
 				"At 11th level, you gain the ability to create an orb of light that erupts into a devastating explosion. As an action, you magically create an orb and hurl it at a point you choose within 150 feet, where it erupts into a sphere of radiant light for a brief but deadly instant.",
-				"Each creature in that 20-foot-radius sphere must succeed on a Constitution saving throw or take {@damage 2d6} radiant damage. A creature doesn't need to make the save if the creature is behind total cover that is opaque.",
+				"Each creature in that 20-foot-radius sphere must succeed on a Constitution saving throw or take {@damage 2d6} radiant damage. A creature doesn't need to make the save if the creature is behind {@quickref Cover||3||total cover} that is opaque.",
 				"You can increase the sphere's damage by spending ki points. Each point you spend, to a maximum of 3, increases the damage by {@dice 2d6}."
 			]
 		},

@@ -18459,7 +18459,7 @@
 											"name": "Trapped Chest",
 											"id": "259",
 											"entries": [
-												"An unlocked treasure chest stands against the room's south wall. When a creature opens this chest's lid, poison-tipped darts shoot from a spring-loaded mechanism attached to the lid's underside. Each creature within 10 feet of the chest that isn't behind {@book total cover|PHB|9|Cover} takes 2 ({@dice 1d4}) piercing damage and must succeed on a DC 15 Constitution saving throw or take 22 ({@dice 4d10}) poison damage and have the {@condition poisoned} condition for 1 hour.",
+												"An unlocked treasure chest stands against the room's south wall. When a creature opens this chest's lid, poison-tipped darts shoot from a spring-loaded mechanism attached to the lid's underside. Each creature within 10 feet of the chest that isn't behind {@quickref cover||3||total cover} takes 2 ({@dice 1d4}) piercing damage and must succeed on a DC 15 Constitution saving throw or take 22 ({@dice 4d10}) poison damage and have the {@condition poisoned} condition for 1 hour.",
 												"A character who succeeds on a DC 20 Intelligence ({@skill Investigation}) check while examining the chest spots the trap mechanism. As an action, a character can use thieves' tools to make a DC 15 Dexterity ({@skill Sleight of Hand}) check to disarm the trap. Failing this check triggers the trap."
 											]
 										},

@@ -1760,7 +1760,7 @@
 											"name": "Target at range caught in melee combat\u2014does that target get some kind of cover or do I get disadvantage?",
 											"id": "0c5",
 											"entries": [
-												"Your target has half cover if another creature is between you and the target."
+												"Your target has {@quickref Cover||3||half cover} if another creature is between you and the target."
 											]
 										},
 										{
@@ -2118,7 +2118,7 @@
 											"name": "How does barkskin work with shields, cover, and other modifiers to AC?",
 											"id": "0eb",
 											"entries": [
-												"{@spell Barkskin} specifies that your AC can't be lower than 16 while you are affected by the spell. This means you effectively ignore any modifiers to your AC\u2014including your Dexterity modifier, your armor, a shield, and cover\u2014unless your AC is higher than 16. For example, if your AC is normally 14, it's 16 while {@spell barkskin} is on you. If your AC is normally 15 and you have half cover, your AC is 17; {@spell barkskin} isn't relevant in this case."
+												"{@spell Barkskin} specifies that your AC can't be lower than 16 while you are affected by the spell. This means you effectively ignore any modifiers to your AC\u2014including your Dexterity modifier, your armor, a shield, and cover\u2014unless your AC is higher than 16. For example, if your AC is normally 14, it's 16 while {@spell barkskin} is on you. If your AC is normally 15 and you have {@quickref Cover||3||half cover}, your AC is 17; {@spell barkskin} isn't relevant in this case."
 											]
 										},
 										{
@@ -2605,7 +2605,7 @@
 											"type": "entries",
 											"name": "If you are affecting a target with telekinesis and an ally put you inside Otiluke's resilient sphere, can you continue affecting the target or other targets with the existing telekinesis spell?",
 											"entries": [
-												"You can maintain your telekinetic grip on a target you were already affecting, but you can't affect a new target. The sphere provides total cover that stops you from targeting anything outside it."
+												"You can maintain your telekinetic grip on a target you were already affecting, but you can't affect a new target. The sphere provides {@quickref Cover||3||total cover} that stops you from targeting anything outside it."
 											],
 											"id": "15d"
 										},
@@ -2630,7 +2630,7 @@
 											"name": "Whenever you cast wish, do you always have a 33 percent chance of never casting it again?",
 											"id": "117",
 											"entries": [
-												"If you cast {@spell wish} to duplicate a spell of level 0\u20138, there are no detrimental effects. However, if you do anything other than duplicate a spell of level 0\u20138, you suffer the stress described in the final paragraph of the spell. As soon as that stress affects you, there is a {@chance 33|33 percent} chance that you are unable to cast {@spell wish} again."
+												"If you cast {@spell wish} to duplicate a spell of level 0\u20138, there are no detrimental effects. However, if you do anything other than duplicate a spell of level 0\u20138, you suffer the stress described in the final paragraph of the spell. As soon as that stress affects you, there is a {@chance 33} chance that you are unable to cast {@spell wish} again."
 											]
 										}
 									]

@@ -1,5 +1,6 @@
 import {ConfigSettingsGroup} from "./util-config-settings-group.js";
 import {ConfigSettingBoolean, ConfigSettingEnum, ConfigSettingExternal} from "./utils-config-setting-base.js";
+import {SITE_STYLE__CLASSIC, SITE_STYLE_DISPLAY} from "../consts.js";
 
 const settingsGroupStyleSwitcher = new ConfigSettingsGroup({
 	groupId: "styleSwitcher",
@@ -15,6 +16,18 @@ const settingsGroupStyleSwitcher = new ConfigSettingsGroup({
 				_getEleExternal () { return StyleSwitcher.getSelStyle(); }
 			}
 		)(),
+		new ConfigSettingEnum({
+			configId: "style",
+			name: "Style",
+			help: `The styling to be applied when rendering specific information (stat blocks, etc.).`,
+			isRowLabel: true,
+			isReloadRequired: true,
+			default: SITE_STYLE__CLASSIC,
+			values: [
+				SITE_STYLE__CLASSIC,
+			],
+			fnDisplay: it => SITE_STYLE_DISPLAY[it] || it,
+		}),
 		new (
 			class extends ConfigSettingExternal {
 				_configId = "isWideMode";

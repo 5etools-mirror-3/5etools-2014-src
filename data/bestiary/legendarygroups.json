@@ -405,7 +405,7 @@
 				{
 					"type": "insetReadaloud",
 					"entries": [
-						"The nightmarish arachnid unleashes a shriek that sounds like a thousand spider carapaces scarring slate. In response, the ground ripples and bursts over the monster, revealing itself as a {@item wave} of countless spiders. The tiny arachnids swarm the larger horror, girding it in skittering bodies."
+						"The nightmarish arachnid unleashes a shriek that sounds like a thousand spider carapaces scarring slate. In response, the ground ripples and bursts over the monster, revealing itself as a wave of countless spiders. The tiny arachnids swarm the larger horror, girding it in skittering bodies."
 					]
 				},
 				"Fighting Arasta as a mythic encounter is equivalent to taking on two challenge rating 21 creatures in one encounter. Award a party 66,000 XP for defeating Arasta after she uses Armor of Spiders."
@@ -590,7 +590,7 @@
 										"type": "item",
 										"name": "Protective Burrow",
 										"entries": [
-											"Baalzebul uses his burrow speed to dig into the ground. He gains half-cover when buried 10 feet and three-quarters cover at 20 feet."
+											"Baalzebul uses his burrow speed to dig into the ground. He gains half-cover when buried 10 feet and {@quickref Cover||3||three-quarters cover} at 20 feet."
 										]
 									}
 								]
@@ -628,7 +628,7 @@
 					"items": [
 						"Baalzebul casts his innate hold monster.",
 						"Baalzebul emits slime in a 5-foot radius centered on him. Any creature that starts their turn standing in this slime is considered {@condition grappled} and must use their action to succeed on DC 17 Strength ({@skill Athletics}) check to break free.",
-						"Baalzebul uses half his burrow speed to dig into the ground. He gains half-cover when buried 10 feet and three-quarters cover when at 20 feet."
+						"Baalzebul uses half his burrow speed to dig into the ground. He gains half-cover when buried 10 feet and {@quickref Cover||3||three-quarters cover} when at 20 feet."
 					]
 				}
 			],
@@ -1303,7 +1303,7 @@
 								{
 									"type": "item",
 									"name": "Misleading Mirage",
-									"entry": "Until initiative count 20 on the next round, at each intersection or branching passage in the lair, a creature other than the dragon has a {@chance 50|50 percent} chance of going in a different direction from the direction it intends."
+									"entry": "Until initiative count 20 on the next round, at each intersection or branching passage in the lair, a creature other than the dragon has a {@chance 50} chance of going in a different direction from the direction it intends."
 								},
 								{
 									"type": "item",
@@ -1372,7 +1372,7 @@
 				{
 					"type": "list",
 					"items": [
-						"A strong wind blows around the dragon. Each creature within 60 feet of the dragon must succeed on a {@dc 15} Strength saving throw or be pushed 15 feet away from the dragon and knocked {@condition prone}. Gases and vapors are dispersed by the wind, and unprotected flames are extinguished. Protected flames; such as lanterns, have a {@chance 50|50 percent} chance of being extinguished.",
+						"A strong wind blows around the dragon. Each creature within 60 feet of the dragon must succeed on a {@dc 15} Strength saving throw or be pushed 15 feet away from the dragon and knocked {@condition prone}. Gases and vapors are dispersed by the wind, and unprotected flames are extinguished. Protected flames; such as lanterns, have a {@chance 50} chance of being extinguished.",
 						"A cloud of sand swirls about in a 20-foot-radius sphere centered on a point the dragon can see within 120 feet of it. The cloud spreads around corners. Each creature in it must succeed on a {@dc 15} Constitution saving throw or be {@condition blinded} for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 					]
 				},
@@ -1393,7 +1393,7 @@
 								{
 									"type": "item",
 									"name": "Blast of Wind",
-									"entry": "A mighty wind sweeps through the lair in a direction of the dragon's choice, blowing along a line 40 feet wide and 100 feet long. Each creature in that area except the dragon must succeed on a DC 15 Strength saving throw or be pushed 15 feet in the wind's direction and be knocked {@condition prone}. Gases and vapors are dispersed by the wind, and unprotected flames are extinguished. Protected flames, such as lanterns, have a {@chance 50|50 percent} chance of being extinguished. If the dragon is within the area of the wind, it can choose to be pushed 15 feet in the wind's direction, and the wind can't knock the dragon {@condition prone}."
+									"entry": "A mighty wind sweeps through the lair in a direction of the dragon's choice, blowing along a line 40 feet wide and 100 feet long. Each creature in that area except the dragon must succeed on a DC 15 Strength saving throw or be pushed 15 feet in the wind's direction and be knocked {@condition prone}. Gases and vapors are dispersed by the wind, and unprotected flames are extinguished. Protected flames, such as lanterns, have a {@chance 50} chance of being extinguished. If the dragon is within the area of the wind, it can choose to be pushed 15 feet in the wind's direction, and the wind can't knock the dragon {@condition prone}."
 								},
 								{
 									"type": "item",
@@ -1942,7 +1942,7 @@
 							"type": "item",
 							"name": "Illusory Duplicate",
 							"entries": [
-								"Demogorgon creates an illusory duplicate of himself, which appears in his space and lasts until initiative count 20 of the next round. On his turn, Demogorgon can move the illusory duplicate a distance equal to his walking speed (no action required). The first time a creature or an object interacts physically with Demogorgon (for example, by hitting him with an attack), there is a {@chance 50|50 percent} chance that the illusory duplicate is affected, not Demogorgon, in which case the illusion disappears."
+								"Demogorgon creates an illusory duplicate of himself, which appears in his space and lasts until initiative count 20 of the next round. On his turn, Demogorgon can move the illusory duplicate a distance equal to his walking speed (no action required). The first time a creature or an object interacts physically with Demogorgon (for example, by hitting him with an attack), there is a {@chance 50} chance that the illusory duplicate is affected, not Demogorgon, in which case the illusion disappears."
 							]
 						}
 					]
@@ -1989,7 +1989,7 @@
 				{
 					"type": "list",
 					"items": [
-						"Demogorgon creates an illusory duplicate of himself, which appears in his own space and lasts until initiative count 20 of the next round. On his turn, Demogorgon can move the illusory duplicate a distance equal to his walking speed (no action required). The first time a creature or object interacts physically with Demogorgon (for example, hitting him with an attack), there is a {@chance 50|50 percent} chance that it is the illusory duplicate that is being affected, not Demogorgon himself, in which case the illusion disappears.",
+						"Demogorgon creates an illusory duplicate of himself, which appears in his own space and lasts until initiative count 20 of the next round. On his turn, Demogorgon can move the illusory duplicate a distance equal to his walking speed (no action required). The first time a creature or object interacts physically with Demogorgon (for example, hitting him with an attack), there is a {@chance 50} chance that it is the illusory duplicate that is being affected, not Demogorgon himself, in which case the illusion disappears.",
 						"Demogorgon casts the {@spell darkness} spell four times at its lowest level, targeting different areas with the spell. Demogorgon doesn't need to concentrate on the spells, which end on initiative count 20 of the next round."
 					]
 				}
@@ -2502,7 +2502,7 @@
 						{
 							"type": "item",
 							"name": "Chaotic Aura",
-							"entry": "The faerie dragon creates misdirecting currents of air and magic around itself. Until initiative count 20 on the next round, whenever a ranged attack roll misses the dragon, reroll the attack against a random creature within 30 feet of the dragon that doesn't have total cover against the attack."
+							"entry": "The faerie dragon creates misdirecting currents of air and magic around itself. Until initiative count 20 on the next round, whenever a ranged attack roll misses the dragon, reroll the attack against a random creature within 30 feet of the dragon that doesn't have {@quickref Cover||3||total cover} against the attack."
 						},
 						{
 							"type": "item",
@@ -4786,7 +4786,7 @@
 					"type": "list",
 					"items": [
 						"Food instantly molders and water instantly evaporates when brought into the lair. Other non magical drinks are spoiled - wine turning to vinegar, for instance.",
-						"{@spell Divination} spells cast within the lair by creatures other than the mummy lord have a {@chance 25|25 percent} chance to provide misleading results, as determined by the DM. If a {@spell divination} spell already has a chance to fail or become unreliable when cast multiple times, that chance increases by 25 percent.",
+						"{@spell Divination} spells cast within the lair by creatures other than the mummy lord have a {@chance 25} chance to provide misleading results, as determined by the DM. If a {@spell divination} spell already has a chance to fail or become unreliable when cast multiple times, that chance increases by 25 percent.",
 						"A creature that takes treasure from the lair is cursed until the treasure is returned. The cursed target has disadvantage on all saving throws. The curse lasts until removed by a {@spell remove curse} spell or other magic."
 					]
 				},
@@ -6056,7 +6056,7 @@
 					"type": "list",
 					"items": [
 						"The dragon creates fog as if it had cast the {@spell fog cloud} spell. The fog lasts until initiative count 20 on the next round.",
-						"A blisteringly cold wind blows through the lair near the dragon. Each creature within 120 feet of the dragon must succeed on a {@dc 15} Constitution saving throw or take 5 ({@damage 1d10}) cold damage. Gases and vapors are dispersed by the wind, and unprotected flames are extinguished. Protected flames, such as lanterns, have a {@chance 50|50 percent} chance of being extinguished."
+						"A blisteringly cold wind blows through the lair near the dragon. Each creature within 120 feet of the dragon must succeed on a {@dc 15} Constitution saving throw or take 5 ({@damage 1d10}) cold damage. Gases and vapors are dispersed by the wind, and unprotected flames are extinguished. Protected flames, such as lanterns, have a {@chance 50} chance of being extinguished."
 					]
 				},
 				{
@@ -6250,7 +6250,7 @@
 							"type": "item",
 							"name": "Gale",
 							"entries": [
-								"The giant creates a 60-foot-long, 10-foot-wide line of strong wind (or strong current within water) originating from a point anywhere in its lair. Each creature in that line must succeed on a {@dc 18} Strength saving throw or be pushed 15 feet in the direction the wind is blowing. The gust disperses gas or vapor, and it extinguishes candles, torches, and similar unprotected flames in its area. Protected flames, such as those of lanterns, have a {@chance 50|50 percent} chance of being extinguished."
+								"The giant creates a 60-foot-long, 10-foot-wide line of strong wind (or strong current within water) originating from a point anywhere in its lair. Each creature in that line must succeed on a {@dc 18} Strength saving throw or be pushed 15 feet in the direction the wind is blowing. The gust disperses gas or vapor, and it extinguishes candles, torches, and similar unprotected flames in its area. Protected flames, such as those of lanterns, have a {@chance 50} chance of being extinguished."
 							]
 						}
 					]
@@ -6299,7 +6299,7 @@
 					"items": [
 						"The giant creates a thunderclap centered on a point anywhere in its lair. Each creature within 20 feet of that point must succeed on a {@dc 18} Constitution saving throw or be {@condition deafened} until the end of its next turn.",
 						"The giant creates a 20-foot-radius sphere of fog (or murky water within water) centered on a point anywhere in its lair. The sphere spreads around corners, and its area is heavily obscured. The fog lasts until the giant disperses it (no action required), and it can't be dispersed by wind.",
-						"The giant creates a 60-foot-long, 10-foot-wide line of strong wind ( or strong current within water) originating from a point anywhere in its lair. Each creature in that line must succeed on a {@dc 18} Strength saving throw or be pushed 15 feet in the direction the wind is blowing. The gust disperses gas or vapor, and it extinguishes candles, torches, and similar unprotected flames in its area. Protected flames, such as those of lanterns, have a {@chance 50|50 percent} chance of being extinguished."
+						"The giant creates a 60-foot-long, 10-foot-wide line of strong wind ( or strong current within water) originating from a point anywhere in its lair. Each creature in that line must succeed on a {@dc 18} Strength saving throw or be pushed 15 feet in the direction the wind is blowing. The gust disperses gas or vapor, and it extinguishes candles, torches, and similar unprotected flames in its area. Protected flames, such as those of lanterns, have a {@chance 50} chance of being extinguished."
 					]
 				}
 			],
@@ -6637,7 +6637,7 @@
 					"type": "list",
 					"items": [
 						"Food instantly molders and water instantly evaporates when brought into the lair. Other nonmagical drinks are spoiled\u2014wine turning to vinegar, for instance.",
-						"{@spell Divination} spells cast within the lair by creatures other than Valin have a {@chance 25|25 percent} chance to provide misleading results, as determined by the DM. If a {@spell divination} spell already has a chance to fail or become unreliable when cast multiple times, that chance increases by 25 percent.",
+						"{@spell Divination} spells cast within the lair by creatures other than Valin have a {@chance 25} chance to provide misleading results, as determined by the DM. If a {@spell divination} spell already has a chance to fail or become unreliable when cast multiple times, that chance increases by 25 percent.",
 						"A creature that takes treasure from the lair is cursed until the treasure is returned. The cursed target has disadvantage on all saving throws. The curse lasts until removed by a {@spell remove curse} spell or other magic."
 					]
 				},
@@ -6855,7 +6855,7 @@
 								{
 									"type": "item",
 									"name": "Mirror Ice",
-									"entry": "The icy surfaces in the dragon's lair reflect light like mirrors, giving creatures in the lair other than the dragon disadvantage on Dexterity ({@skill Stealth}) checks made to hide. In addition, at each intersection or branching passage, any creature other than the dragon has a {@chance 50|50 percent} chance of going in a different direction from the direction it intends."
+									"entry": "The icy surfaces in the dragon's lair reflect light like mirrors, giving creatures in the lair other than the dragon disadvantage on Dexterity ({@skill Stealth}) checks made to hide. In addition, at each intersection or branching passage, any creature other than the dragon has a {@chance 50} chance of going in a different direction from the direction it intends."
 								}
 							]
 						}

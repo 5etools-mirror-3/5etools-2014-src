@@ -41,14 +41,14 @@ export class GetBrewUi {
 
 			const btnPage = e_({
 				tag: "button",
-				clazz: `btn btn-default w-100 btn-xs`,
+				clazz: `ve-btn ve-btn-default w-100 ve-btn-xs`,
 				text: `Select for Page...`,
 				click: evt => ContextUtil.pOpenMenu(evt, menu),
 			});
 
 			e_({
 				tag: "div",
-				clazz: `btn-group mr-2 w-100 ve-flex-v-center`,
+				clazz: `ve-btn-group mr-2 w-100 ve-flex-v-center`,
 				children: [
 					btnPage,
 				],
@@ -79,7 +79,7 @@ export class GetBrewUi {
 			});
 			this._miscFilter = new Filter({
 				header: "Miscellaneous",
-				items: ["Sample"],
+				items: ["Partnered", "Sample"],
 				deselFn: it => it === "Sample",
 			});
 		}
@@ -88,6 +88,7 @@ export class GetBrewUi {
 			brewInfo._fMisc = [];
 			if (brewInfo._brewAuthor && brewInfo._brewAuthor.toLowerCase().startsWith("sample -")) brewInfo._fMisc.push("Sample");
 			if (brewInfo.sources?.some(ab => ab.startsWith(Parser.SRC_UA_ONE_PREFIX))) brewInfo._fMisc.push("One D&D");
+			if (brewInfo._brewIsPartnered) brewInfo._fMisc.push("Partnered");
 		}
 
 		addToFilters (it, isExcluded) {
@@ -152,7 +153,7 @@ export class GetBrewUi {
 		}
 	}
 
-	static _sortUrlList_byName (a, b) { return SortUtil.ascSortLower(a._brewName, b._brewName); }
+	static _sortUrlList_byName (a, b) { return SortUtil.ascSortLowerPropNumeric("_brewName", a, b); }
 	static _sortUrlList_orFallback (a, b, fn, prop) { return fn(a[prop], b[prop]) || this._sortUrlList_byName(a, b); }
 
 	constructor ({brewUtil, isModal} = {}) {
@@ -165,7 +166,7 @@ export class GetBrewUi {
 	}
 
 	async pInit () {
-		this._dataList = await this._brewUtil.pGetCombinedIndexes();
+		this._dataList = (await this._brewUtil.pGetCombinedIndexes()) || [];
 	}
 
 	async pHandlePreCloseModal ({rdState}) {
@@ -190,13 +191,13 @@ export class GetBrewUi {
 
 		rdState.pageFilter = new this.constructor._PageFilterGetBrew({brewUtil: this._brewUtil});
 
-		const $btnAddSelected = $(`<button class="btn ${this._brewUtil.STYLE_BTN} btn-sm ve-col-0-5 ve-text-center" disabled title="Add Selected"><span class="glyphicon glyphicon-save"></button>`);
+		const $btnAddSelected = $(`<button class="ve-btn ${this._brewUtil.STYLE_BTN} ve-btn-sm ve-col-0-5 ve-text-center" disabled title="Add Selected"><span class="glyphicon glyphicon-save"></button>`);
 
-		const $wrpRows = $$`<div class="list smooth-scroll max-h-unset"><div class="lst__row ve-flex-col"><div class="lst__wrp-cells lst--border lst__row-inner ve-flex w-100"><i>Loading...</i></div></div></div>`;
+		const $wrpRows = $$`<div class="list smooth-scroll max-h-unset"><div class="lst__row ve-flex-col"><div class="lst__wrp-cells lst__row-border lst__row-inner ve-flex w-100"><i>Loading...</i></div></div></div>`;
 
-		const $btnFilter = $(`<button class="btn btn-default btn-sm">Filter</button>`);
+		const $btnFilter = $(`<button class="ve-btn ve-btn-default ve-btn-sm">Filter</button>`);
 
-		const $btnToggleSummaryHidden = $(`<button class="btn btn-default" title="Toggle Filter Summary Display"><span class="glyphicon glyphicon-resize-small"></span></button>`);
+		const $btnToggleSummaryHidden = $(`<button class="ve-btn ve-btn-default" title="Toggle Filter Summary Display"><span class="glyphicon glyphicon-resize-small"></span></button>`);
 
 		const $iptSearch = $(`<input type="search" class="search manbrew__search form-control w-100 lst__search lst__search--no-border-h" placeholder="Find ${this._brewUtil.DISPLAY_NAME}...">`)
 			.keydown(evt => this._pHandleKeydown_iptSearch(evt, rdState));
@@ -207,22 +208,22 @@ export class GetBrewUi {
 			type: "checkbox",
 		});
 
-		const $btnReset = $(`<button class="btn btn-default btn-sm">Reset</button>`);
+		const $btnReset = $(`<button class="ve-btn ve-btn-default ve-btn-sm">Reset</button>`);
 
-		const $wrpMiniPills = $(`<div class="fltr__mini-view btn-group"></div>`);
+		const $wrpMiniPills = $(`<div class="fltr__mini-view ve-btn-group"></div>`);
 
 		const btnSortAddedPublished = this._brewUtil.IS_PREFER_DATE_ADDED
-			? `<button class="ve-col-1-4 sort btn btn-default btn-xs" data-sort="added">Added</button>`
-			: `<button class="ve-col-1-4 sort btn btn-default btn-xs" data-sort="published">Published</button>`;
+			? `<button class="ve-col-1-4 sort ve-btn ve-btn-default ve-btn-xs" data-sort="added">Added</button>`
+			: `<button class="ve-col-1-4 sort ve-btn ve-btn-default ve-btn-xs" data-sort="published">Published</button>`;
 
-		const $wrpSort = $$`<div class="filtertools manbrew__filtertools btn-group input-group input-group--bottom ve-flex no-shrink">
-			<label class="ve-col-0-5 pr-0 btn btn-default btn-xs ve-flex-vh-center">${rdState.cbAll}</label>
-			<button class="ve-col-3-5 sort btn btn-default btn-xs" data-sort="name">Name</button>
-			<button class="ve-col-3 sort btn btn-default btn-xs" data-sort="author">Author</button>
-			<button class="ve-col-1-2 sort btn btn-default btn-xs" data-sort="category">Category</button>
-			<button class="ve-col-1-4 sort btn btn-default btn-xs" data-sort="modified">Modified</button>
+		const $wrpSort = $$`<div class="filtertools manbrew__filtertools ve-btn-group input-group input-group--bottom ve-flex no-shrink">
+			<label class="ve-col-0-5 pr-0 ve-btn ve-btn-default ve-btn-xs ve-flex-vh-center">${rdState.cbAll}</label>
+			<button class="ve-col-3-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
+			<button class="ve-col-3 sort ve-btn ve-btn-default ve-btn-xs" data-sort="author">Author</button>
+			<button class="ve-col-1-2 sort ve-btn ve-btn-default ve-btn-xs" data-sort="category">Category</button>
+			<button class="ve-col-1-4 sort ve-btn ve-btn-default ve-btn-xs" data-sort="modified">Modified</button>
 			${btnSortAddedPublished}
-			<button class="sort btn btn-default btn-xs ve-grow" disabled>Source</button>
+			<button class="sort ve-btn ve-btn-default ve-btn-xs ve-grow" disabled>Source</button>
 		</div>`;
 
 		$$($wrp)`
@@ -323,7 +324,7 @@ export class GetBrewUi {
 
 		const eleLi = e_({
 			tag: "div",
-			clazz: `lst__row lst__row-inner not-clickable lst--border lst__row--focusable no-select`,
+			clazz: `lst__row lst__row-inner not-clickable lst__row-border lst__row--focusable no-select`,
 			children: [
 				e_({
 					tag: "div",

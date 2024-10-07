@@ -1,4 +1,4 @@
-"use strict";
+import {RenderOptionalFeatures} from "./render-optionalfeatures.js";
 
 class OptionalFeaturesSublistManager extends SublistManager {
 	constructor () {
@@ -9,26 +9,26 @@ class OptionalFeaturesSublistManager extends SublistManager {
 		});
 	}
 
-	static get _ROW_TEMPLATE () {
+	static _getRowTemplate () {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-4 pl-0",
+				css: "bold ve-col-4 pl-0 pr-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "Type",
-				css: "ve-col-2 ve-text-center",
+				css: "ve-col-2 px-1 ve-text-center",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "Prerequisite",
-				css: "ve-col-4-5",
+				css: "ve-col-4-5 px-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "Level",
-				css: "ve-col-1-5 ve-text-center pr-0",
+				css: "ve-col-1-5 ve-text-center pl-1 pr-0",
 				colStyle: "text-center",
 			}),
 		];
@@ -45,7 +45,7 @@ class OptionalFeaturesSublistManager extends SublistManager {
 		];
 
 		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst--border lst__row-inner">
+			<a href="#${hash}" class="lst__row-border lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
 		</div>`)
@@ -108,17 +108,17 @@ class OptionalFeaturesPage extends ListPage {
 		const prerequisite = Renderer.utils.prerequisite.getHtml(it.prerequisite, {isListMode: true, blocklistKeys: new Set(["level"])});
 		const level = Renderer.optionalfeature.getListPrerequisiteLevelText(it.prerequisite);
 
-		eleLi.innerHTML = `<a href="#${hash}" class="lst--border lst__row-inner">
-			<span class="ve-col-0-3 px-0 ve-flex-vh-center lst__btn-toggle-expand ve-self-flex-stretch">[+]</span>
+		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
+			<span class="ve-col-0-3 px-0 ve-flex-vh-center lst__btn-toggle-expand ve-self-flex-stretch no-select">[+]</span>
 			<span class="bold ve-col-3 px-1">${it.name}</span>
-			<span class="ve-col-1-5 ve-text-center" title="${it._dFeatureType}">${it._lFeatureType}</span>
-			<span class="ve-col-4-7">${prerequisite}</span>
-			<span class="ve-col-1 ve-text-center">${level}</span>
-			<span class="ve-col-1-5 ${Parser.sourceJsonToSourceClassname(it.source)} ve-text-center pr-0" title="${Parser.sourceJsonToFull(it.source)}" ${Parser.sourceJsonToStyle(it.source)}>${source}</span>
+			<span class="ve-col-1-5 px-1 ve-text-center" title="${it._dFeatureType.join(", ").qq()}">${it._lFeatureType}</span>
+			<span class="ve-col-4-7 px-1">${prerequisite}</span>
+			<span class="ve-col-1 px-1 ve-text-center">${level}</span>
+			<span class="ve-col-1-5 ${Parser.sourceJsonToSourceClassname(it.source)} ve-text-center pl-1 pr-0" title="${Parser.sourceJsonToFull(it.source)}" ${Parser.sourceJsonToStyle(it.source)}>${source}</span>
 		</a>
-		<div class="ve-flex ve-hidden relative lst__wrp-preview">
-			<div class="vr-0 absolute lst__vr-preview"></div>
-			<div class="ve-flex-col py-3 ml-4 lst__wrp-preview-inner"></div>
+		<div class="ve-flex ve-hidden relative accordion__wrp-preview">
+			<div class="vr-0 absolute accordion__vr-preview"></div>
+			<div class="ve-flex-col py-3 ml-4 accordion__wrp-preview-inner"></div>
 		</div>`;
 
 		const listItem = new ListItem(
@@ -177,3 +177,5 @@ class OptionalFeaturesPage extends ListPage {
 const optionalFeaturesPage = new OptionalFeaturesPage();
 optionalFeaturesPage.sublistManager = new OptionalFeaturesSublistManager();
 window.addEventListener("load", () => optionalFeaturesPage.pOnLoad());
+
+globalThis.dbg_page = optionalFeaturesPage;

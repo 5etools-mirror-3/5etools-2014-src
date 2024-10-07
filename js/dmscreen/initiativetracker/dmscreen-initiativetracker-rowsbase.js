@@ -218,7 +218,7 @@ export class RenderableCollectionRowDataBase extends RenderableCollectionAsyncGe
 			{
 				isAllowNull: true,
 				fallbackOnNaN: null,
-				html: `<input class="form-control input-sm hp dm-init__row-input text-right w-40p mr-0 br-0">`,
+				html: `<input class="form-control input-sm hp dm-init__row-input ve-text-right w-40p mr-0 br-0">`,
 			},
 		)
 			.on("click", () => $iptHpCurrent.select());
@@ -251,9 +251,9 @@ export class RenderableCollectionRowDataBase extends RenderableCollectionAsyncGe
 		hkHpColors();
 
 		$$`<div class="ve-flex relative mr-3p">
-			<div class="text-right">${$iptHpCurrent}</div>
+			<div class="ve-text-right">${$iptHpCurrent}</div>
 			<div class="dm-init__sep-fields-slash ve-flex-vh-center">/</div>
-			<div class="text-left">${$iptHpMax}</div>
+			<div class="ve-text-left">${$iptHpMax}</div>
 		</div>`
 			.appendTo($wrpRhs);
 	}

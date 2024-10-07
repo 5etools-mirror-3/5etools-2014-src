@@ -35,4 +35,10 @@ export class ConfigSettingsGroup {
 		this._configSettings
 			.forEach(configSetting => configSetting.mutDefaults(group));
 	}
+
+	mutVerify (config) {
+		const group = config[this._groupId] ||= {};
+		this._configSettings
+			.forEach(configSetting => configSetting.mutVerify(group));
+	}
 }

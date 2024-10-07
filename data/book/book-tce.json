@@ -6499,7 +6499,7 @@
 												],
 												[
 													"53\u201358",
-													"One random creature in the region can sense the presence of nearby minds for 1 hour. For the duration, the creature gains advantage on Wisdom ({@skill Perception}) checks made to locate other creatures within 120 feet of it, even creatures behind total cover."
+													"One random creature in the region can sense the presence of nearby minds for 1 hour. For the duration, the creature gains advantage on Wisdom ({@skill Perception}) checks made to locate other creatures within 120 feet of it, even creatures behind {@quickref Cover||3||total cover}."
 												],
 												[
 													"59\u201364",
@@ -6639,7 +6639,7 @@
 												],
 												[
 													"71\u201375",
-													"Lightning arcs in a 5-foot wide line between two creatures in the region that are within 30 feet of each other and not behind total cover. Each creature in the line (including the two) must make a DC 13 Dexterity saving throw, taking {@dice 4d6} lightning damage on a failed save or half as much damage on a successful one."
+													"Lightning arcs in a 5-foot wide line between two creatures in the region that are within 30 feet of each other and not behind {@quickref Cover||3||total cover}. Each creature in the line (including the two) must make a DC 13 Dexterity saving throw, taking {@dice 4d6} lightning damage on a failed save or half as much damage on a successful one."
 												],
 												[
 													"76\u201380",
@@ -6901,7 +6901,7 @@
 												],
 												[
 													"2",
-													"The creature gains the enlarge or reduce effect ({@chance 50|50 percent} chance of either) of the {@spell enlarge/reduce} spell for 1 hour."
+													"The creature gains the enlarge or reduce effect ({@chance 50} chance of either) of the {@spell enlarge/reduce} spell for 1 hour."
 												],
 												[
 													"3",

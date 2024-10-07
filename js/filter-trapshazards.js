@@ -26,18 +26,18 @@ class PageFilterTrapsHazards extends PageFilterBase {
 			displayFn: Parser.trapHazTypeToFull,
 			itemSortFn: PageFilterTrapsHazards.sortFilterType.bind(PageFilterTrapsHazards),
 		});
-		this._miscFilter = new Filter({header: "Miscellaneous", items: ["SRD", "Basic Rules", "Legacy", "Has Images", "Has Info"], isMiscFilter: true});
+		this._miscFilter = new Filter({
+			header: "Miscellaneous",
+			items: ["Legacy", "Has Images", "Has Info"],
+			isMiscFilter: true,
+			deselFn: PageFilterBase.defaultMiscellaneousDeselFn.bind(PageFilterBase),
+		});
 	}
 
 	static mutateForFilters (it) {
 		it.trapHazType = it.trapHazType || "HAZ";
 
-		it._fMisc = [];
-		if (it.srd) it._fMisc.push("SRD");
-		if (it.basicRules) it._fMisc.push("Basic Rules");
-		if (SourceUtil.isLegacySourceWotc(it.source)) it._fMisc.push("Legacy");
-		if (this._hasFluff(it)) it._fMisc.push("Has Info");
-		if (this._hasFluffImages(it)) it._fMisc.push("Has Images");
+		this._mutateForFilters_commonMisc(it);
 	}
 
 	addToFilters (it, isExcluded) {
@@ -45,6 +45,7 @@ class PageFilterTrapsHazards extends PageFilterBase {
 
 		this._sourceFilter.addItem(it.source);
 		this._typeFilter.addItem(it.trapHazType);
+		this._miscFilter.addItem(it._fMisc);
 	}
 
 	async _pPopulateBoxOptions (opts) {

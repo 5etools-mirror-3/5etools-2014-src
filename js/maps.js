@@ -219,7 +219,7 @@ class MapsPage extends BaseComponent {
 		};
 		this._addHookBase(propDisplayChapter, hkBubbleUp);
 
-		const $btnScrollTo = $(`<button class="btn btn-default btn-xxs maps-menu__btn-chapter-scroll no-shrink" title="Scroll To"><span class="glyphicon glyphicon-triangle-right"></span></button>`)
+		const $btnScrollTo = $(`<button class="ve-btn ve-btn-default ve-btn-xxs maps-menu__btn-chapter-scroll no-shrink" title="Scroll To"><span class="glyphicon glyphicon-triangle-right"></span></button>`)
 			.click(() => {
 				if (!this._state[propDisplayChapter]) this._state[propDisplayChapter] = true;
 				$wrpContent[0].scrollIntoView({block: "nearest", inline: "nearest"});
@@ -328,7 +328,7 @@ class MapsPage extends BaseComponent {
 		hkImageScale();
 
 		const $dispNoneVisible = $(`<div class="ve-flex-vh-center h-100 w-100">
-			<div class="ve-flex ve-muted initial-message italic maps__disp-message-initial px-3">Select some sources to view from the sidebar</div>
+			<div class="ve-flex ve-muted initial-message initial-message--med italic maps__disp-message-initial px-3">Select some sources to view from the sidebar</div>
 		</div>`);
 		const hkAnyVisible = () => $dispNoneVisible.toggleVe(this._state.isAllChecked === false);
 		this._addHookBase("isAllChecked", hkAnyVisible);

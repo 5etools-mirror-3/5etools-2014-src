@@ -4,8 +4,6 @@ class PageFilterEquipment extends PageFilterBase {
 	static _MISC_FILTER_ITEMS = [
 		"Item Group",
 		"Bundle",
-		"SRD",
-		"Basic Rules",
 		"Legacy",
 		"Has Images",
 		"Has Info",
@@ -80,6 +78,7 @@ class PageFilterEquipment extends PageFilterBase {
 			header: "Miscellaneous",
 			items: [...PageFilterEquipment._MISC_FILTER_ITEMS, ...Object.values(Parser.ITEM_MISC_TAG_TO_FULL)],
 			isMiscFilter: true,
+			deselFn: PageFilterBase.defaultMiscellaneousDeselFn.bind(PageFilterBase),
 		});
 		this._poisonTypeFilter = new Filter({header: "Poison Type", items: ["ingested", "injury", "inhaled", "contact"], displayFn: StrUtil.toTitleCase});
 		this._masteryFilter = new Filter({header: "Mastery", displayFn: this.constructor._getMasteryDisplay.bind(this)});
@@ -88,26 +87,21 @@ class PageFilterEquipment extends PageFilterBase {
 	static mutateForFilters (item) {
 		item._fSources = SourceFilter.getCompleteFilterSources(item);
 
-		item._fProperties = item.property ? item.property.map(p => Renderer.item.getProperty(p).name).filter(n => n) : [];
+		item._fProperties = item.property ? item.property.map(p => Renderer.item.getProperty(p)?.name).filter(Boolean) : [];
 
-		item._fMisc = [];
+		this._mutateForFilters_commonMisc(item);
 		if (item._isItemGroup) item._fMisc.push("Item Group");
 		if (item.packContents) item._fMisc.push("Bundle");
-		if (item.srd) item._fMisc.push("SRD");
-		if (item.basicRules) item._fMisc.push("Basic Rules");
-		if (SourceUtil.isLegacySourceWotc(item.source)) item._fMisc.push("Legacy");
-		if (this._hasFluff(item)) item._fMisc.push("Has Info");
-		if (this._hasFluffImages(item)) item._fMisc.push("Has Images");
 		if (item.miscTags) item._fMisc.push(...item.miscTags.map(Parser.itemMiscTagToFull));
-		if (this._isReprinted({reprintedAs: item.reprintedAs, tag: "item", prop: "item", page: UrlUtil.PG_ITEMS})) item._fMisc.push("Reprinted");
 		if (item.stealth) item._fMisc.push("Disadvantage on Stealth");
 		if (item.strength != null) item._fMisc.push("Strength Requirement");
 
-		if (item.focus || item.name === "Thieves' Tools" || item.type === "INS" || item.type === "SCF" || item.type === "AT") {
+		const itemTypeAbv = item.type ? DataUtil.itemType.unpackUid(item.type).abbreviation : null;
+		if (item.focus || item.name === "Thieves' Tools" || itemTypeAbv === Parser.ITM_TYP_ABV__INSTRUMENT || itemTypeAbv === Parser.ITM_TYP_ABV__SPELLCASTING_FOCUS || itemTypeAbv === Parser.ITM_TYP_ABV__ARTISAN_TOOL) {
 			item._fFocus = item.focus ? item.focus === true ? [...Parser.ITEM_SPELLCASTING_FOCUS_CLASSES] : [...item.focus] : [];
-			if ((item.name === "Thieves' Tools" || item.type === "AT") && !item._fFocus.includes("Artificer")) item._fFocus.push("Artificer");
-			if (item.type === "INS" && !item._fFocus.includes("Bard")) item._fFocus.push("Bard");
-			if (item.type === "SCF") {
+			if ((item.name === "Thieves' Tools" || itemTypeAbv === Parser.ITM_TYP_ABV__ARTISAN_TOOL) && !item._fFocus.includes("Artificer")) item._fFocus.push("Artificer");
+			if (itemTypeAbv === Parser.ITM_TYP_ABV__INSTRUMENT && !item._fFocus.includes("Bard")) item._fFocus.push("Bard");
+			if (itemTypeAbv === Parser.ITM_TYP_ABV__SPELLCASTING_FOCUS) {
 				switch (item.scfType) {
 					case "arcane": {
 						if (!item._fFocus.includes("Sorcerer")) item._fFocus.push("Sorcerer");
@@ -194,10 +188,10 @@ globalThis.PageFilterEquipment = PageFilterEquipment;
 
 class PageFilterItems extends PageFilterEquipment {
 	static _DEFAULT_HIDDEN_TYPES = new Set([
-		Parser.ITEM_TYPE_JSON_TO_ABV["$"],
-		Parser.ITEM_TYPE_JSON_TO_ABV["$A"],
-		Parser.ITEM_TYPE_JSON_TO_ABV["$C"],
-		Parser.ITEM_TYPE_JSON_TO_ABV["$G"],
+		"treasure",
+		"treasure (art object)",
+		"treasure (coinage)",
+		"treasure (gemstone)",
 		"futuristic",
 		"modern",
 		"renaissance",
@@ -302,7 +296,12 @@ class PageFilterItems extends PageFilterEquipment {
 			itemSortFn: null,
 		});
 		this._rechargeTypeFilter = new Filter({header: "Recharge Type", displayFn: Parser.itemRechargeToFull});
-		this._miscFilter = new Filter({header: "Miscellaneous", items: ["Ability Score Adjustment", "Charges", "Cursed", "Grants Language", "Grants Proficiency", "Magic", "Mundane", "Sentient", "Speed Adjustment", ...PageFilterEquipment._MISC_FILTER_ITEMS], isMiscFilter: true});
+		this._miscFilter = new Filter({
+			header: "Miscellaneous",
+			items: ["Ability Score Adjustment", "Charges", "Cursed", "Grants Language", "Grants Proficiency", "Magic", "Mundane", "Sentient", "Speed Adjustment", ...PageFilterEquipment._MISC_FILTER_ITEMS],
+			isMiscFilter: true,
+			deselFn: PageFilterBase.defaultMiscellaneousDeselFn.bind(PageFilterBase),
+		});
 		this._baseSourceFilter = new SourceFilter({header: "Base Source", selFn: null});
 		this._baseItemFilter = new Filter({header: "Base Item", displayFn: this.constructor._getBaseItemDisplay.bind(this.constructor)});
 		this._optionalfeaturesFilter = new Filter({
@@ -493,16 +492,16 @@ class ModalFilterItems extends ModalFilterBase {
 		const source = Parser.sourceJsonToAbv(item.source);
 		const type = item._typeListText.join(", ");
 
-		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst--border veapp__list-row no-select lst__wrp-cells">
+		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst__row-border veapp__list-row no-select lst__wrp-cells">
 			<div class="ve-col-0-5 pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="no-events">` : `<input type="checkbox" class="no-events">`}</div>
 
 			<div class="ve-col-0-5 px-1 ve-flex-vh-center">
-				<div class="ui-list__btn-inline px-2" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
+				<div class="ui-list__btn-inline px-2 no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
 			</div>
 
-			<div class="ve-col-5 ${item._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${item._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${item.name}</div>
-			<div class="ve-col-5">${type.uppercaseFirst()}</div>
-			<div class="ve-col-1 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(item.source)} pr-0" title="${Parser.sourceJsonToFull(item.source)}" ${Parser.sourceJsonToStyle(item.source)}>${source}${Parser.sourceJsonToMarkerHtml(item.source)}</div>
+			<div class="ve-col-5 px-1 ${item._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${item._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${item.name}</div>
+			<div class="ve-col-5 px-1">${type.uppercaseFirst()}</div>
+			<div class="ve-col-1 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(item.source)} pl-1 pr-0" title="${Parser.sourceJsonToFull(item.source)}" ${Parser.sourceJsonToStyle(item.source)}>${source}${Parser.sourceJsonToMarkerHtml(item.source)}</div>
 		</div>`;
 
 		const btnShowHidePreview = eleRow.firstElementChild.children[1].firstElementChild;

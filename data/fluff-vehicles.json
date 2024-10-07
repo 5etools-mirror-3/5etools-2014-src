@@ -345,7 +345,7 @@
 										{
 											"type": "item",
 											"name": "Railing",
-											"entry": "A 3-foot-high rail is built around the deck's perimeter, providing half cover for Medium creatures and three-quarters cover for Small creatures behind it."
+											"entry": "A 3-foot-high rail is built around the deck's perimeter, providing {@quickref Cover||3||half cover} for Medium creatures and {@quickref Cover||3||three-quarters cover} for Small creatures behind it."
 										},
 										{
 											"type": "item",
@@ -497,7 +497,7 @@
 										{
 											"type": "item",
 											"name": "Railing",
-											"entry": "The deck has a 3-foot-high rail around its perimeter that provides half cover for Medium creatures and three-quarters cover for Small creatures behind it."
+											"entry": "The deck has a 3-foot-high rail around its perimeter that provides {@quickref Cover||3||half cover} for Medium creatures and {@quickref Cover||3||three-quarters cover} for Small creatures behind it."
 										}
 									]
 								}
@@ -682,7 +682,7 @@
 										{
 											"type": "item",
 											"name": "Railing",
-											"entry": "The deck has a 3-foot-high rail covered in wooden shields around its perimeter that provides half cover for Medium creatures and three-quarters cover for Small creatures behind it."
+											"entry": "The deck has a 3-foot-high rail covered in wooden shields around its perimeter that provides {@quickref Cover||3||half cover} for Medium creatures and {@quickref Cover||3||three-quarters cover} for Small creatures behind it."
 										}
 									]
 								}
@@ -916,7 +916,7 @@
 										{
 											"type": "item",
 											"name": "Railing",
-											"entry": "The main deck has a 3-foot-high rail around its perimeter that provides half cover for Medium creatures and three-quarters cover for Small creatures behind it."
+											"entry": "The main deck has a 3-foot-high rail around its perimeter that provides {@quickref Cover||3||half cover} for Medium creatures and {@quickref Cover||3||three-quarters cover} for Small creatures behind it."
 										},
 										{
 											"type": "item",
@@ -972,7 +972,7 @@
 										{
 											"type": "item",
 											"name": "Railing",
-											"entry": "The forecastle has a 3-foot-high rail around its perimeter that provides half cover for Medium creatures and three-quarters cover for Small creatures behind it."
+											"entry": "The forecastle has a 3-foot-high rail around its perimeter that provides {@quickref Cover||3||half cover} for Medium creatures and {@quickref Cover||3||three-quarters cover} for Small creatures behind it."
 										}
 									]
 								}
@@ -990,7 +990,7 @@
 										{
 											"type": "item",
 											"name": "Railing",
-											"entry": "The quarterdeck has a 3-foot-high rail around its perimeter that provides half cover for Medium creatures and three-quarters cover for Small creatures behind it."
+											"entry": "The quarterdeck has a 3-foot-high rail around its perimeter that provides {@quickref Cover||3||half cover} for Medium creatures and {@quickref Cover||3||three-quarters cover} for Small creatures behind it."
 										},
 										{
 											"type": "item",
@@ -1451,7 +1451,7 @@
 										{
 											"type": "item",
 											"name": "Railing",
-											"entry": "The main deck has a 3-foot-high rail around its perimeter that provides half cover for Medium creatures and three-quarters cover for Small creatures behind it."
+											"entry": "The main deck has a 3-foot-high rail around its perimeter that provides {@quickref Cover||3||half cover} for Medium creatures and {@quickref Cover||3||three-quarters cover} for Small creatures behind it."
 										},
 										{
 											"type": "item",
@@ -1512,7 +1512,7 @@
 										{
 											"type": "item",
 											"name": "Railing",
-											"entry": "The forecastle has a 3-foot-high rail around its perimeter that provides half cover for Medium creatures and three-quarters cover for Small creatures behind it."
+											"entry": "The forecastle has a 3-foot-high rail around its perimeter that provides {@quickref Cover||3||half cover} for Medium creatures and {@quickref Cover||3||three-quarters cover} for Small creatures behind it."
 										}
 									]
 								}
@@ -1535,7 +1535,7 @@
 										{
 											"type": "item",
 											"name": "Railing",
-											"entry": "The quarterdeck has a 3-foot-high rail around its perimeter that provides half cover for Medium creatures and three-quarters cover for Small creatures behind it."
+											"entry": "The quarterdeck has a 3-foot-high rail around its perimeter that provides {@quickref Cover||3||half cover} for Medium creatures and {@quickref Cover||3||three-quarters cover} for Small creatures behind it."
 										},
 										{
 											"type": "item",

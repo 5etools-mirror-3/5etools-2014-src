@@ -14,7 +14,7 @@ class RenderVariantRules {
 		${Renderer.utils.getBorderTr()}
 		${Renderer.utils.getExcludedTr({entity: rule, dataProp: "variantrule"})}
 		${Renderer.utils.getNameTr(rule, {page: UrlUtil.PG_VARIANTRULES})}
-		<tr class="text"><td colspan="6">${textStack.join("")}</td></tr>
+		<tr><td colspan="6">${textStack.join("")}</td></tr>
 		${Renderer.utils.getPageTr(rule)}
 		${Renderer.utils.getBorderTr()}`;
 	}

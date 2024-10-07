@@ -1601,7 +1601,7 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 12} to hit, reach 5 ft., one target. {@h}23 ({@damage 3d10 + 7}) piercing damage, and the target is swallowed if it is a Medium or smaller creature. A swallowed creature has the {@condition blinded} and {@condition restrained} conditions, has total cover against attacks and other effects outside the froghemoth, and takes 10 ({@damage 3d6}) acid damage at the start of each of the froghemoth's turns.",
+						"{@atk mw} {@hit 12} to hit, reach 5 ft., one target. {@h}23 ({@damage 3d10 + 7}) piercing damage, and the target is swallowed if it is a Medium or smaller creature. A swallowed creature has the {@condition blinded} and {@condition restrained} conditions, has {@quickref Cover||3||total cover} against attacks and other effects outside the froghemoth, and takes 10 ({@damage 3d6}) acid damage at the start of each of the froghemoth's turns.",
 						"The froghemoth's gullet can hold up to three creatures at a time. If the froghemoth takes 25 damage or more on a single turn from a creature inside it, the froghemoth must succeed on a {@dc 20} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which lands in a space within 10 feet of the froghemoth and has the {@condition prone} condition. If the froghemoth dies, any swallowed creatures are no longer {@condition restrained} by it and can escape from the corpse using 10 feet of movement, exiting with the {@condition prone} condition."
 					]
 				},
@@ -1931,7 +1931,7 @@
 				{
 					"name": "Spiked Leaves (Snapper Saw Only)",
 					"entries": [
-						"Creatures within 10 feet of the horrid plant and not behind total cover must make a {@dc 14} Dexterity saving throw, taking 21 ({@damage 6d6}) slashing damage on a failed save or half as much damage on a successful one."
+						"Creatures within 10 feet of the horrid plant and not behind {@quickref Cover||3||total cover} must make a {@dc 14} Dexterity saving throw, taking 21 ({@damage 6d6}) slashing damage on a failed save or half as much damage on a successful one."
 					]
 				},
 				{

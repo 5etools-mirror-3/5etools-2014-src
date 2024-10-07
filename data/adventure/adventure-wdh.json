@@ -2992,7 +2992,7 @@
 								"The main sewer tunnel expands into a circular hub with a pair of arrow slits carved into its outer walls, directly across from each other. Two passages continue on to the north and south. A stone door is set into the back wall of a stone ledge to the west."
 							]
 						},
-						"If the characters talk loudly or otherwise make a lot of noise here, the goblin sentries in areas Q2a and Q2b awaken and shoot arrows at them through the arrow slits. The slits provide the goblins with three-quarters cover.",
+						"If the characters talk loudly or otherwise make a lot of noise here, the goblin sentries in areas Q2a and Q2b awaken and shoot arrows at them through the arrow slits. The slits provide the goblins with {@quickref Cover||3||three-quarters cover}.",
 						{
 							"type": "entries",
 							"name": "Secret Door",
@@ -7297,7 +7297,7 @@
 									"id": "147",
 									"entries": [
 										"Parked in the middle of the alley is a hire-coach pulled by two {@creature draft horse||draft horses}. The driver, Haru Hamatori (LG male Kozakuran human commoner), wears a feathered cap and matching outfit.",
-										"Lord Cassalanter's {@creature doppelganger} valet, in the guise of an elderly tiefling named {@creature Willifort Crowelle|WDH}, sits in the passenger cab, which grants half cover. Standing next to the hire-coach is a {@creature bearded devil} disguised as a cloaked human bodyguard wearing a wide-brimmed hat, and perched on the coach are three {@condition invisible} {@creature imp||imps}. Any {@creature spined devil||spined devils} that survived the previous encounter are also present, having just delivered the {@item Stone of Golorr|WDH} to Willifort.",
+										"Lord Cassalanter's {@creature doppelganger} valet, in the guise of an elderly tiefling named {@creature Willifort Crowelle|WDH}, sits in the passenger cab, which grants {@quickref Cover||3||half cover}. Standing next to the hire-coach is a {@creature bearded devil} disguised as a cloaked human bodyguard wearing a wide-brimmed hat, and perched on the coach are three {@condition invisible} {@creature imp||imps}. Any {@creature spined devil||spined devils} that survived the previous encounter are also present, having just delivered the {@item Stone of Golorr|WDH} to Willifort.",
 										"When he sees the characters, Willifort orders the imps and the spined devils to attack. The bearded devil stays close to Willifort and engages any character who tries to reach the hire-coach.",
 										"The hire-coach has AC 14, 45 hit points, and immunity to poison and psychic damage.",
 										"If there's any chance that the characters might obtain the {@item Stone of Golorr|WDH} as the encounter progresses, Willifort orders the driver to move the hire-coach out of the alley as quickly as possible. If the driver is {@condition incapacitated} or killed, the bearded devil climbs into the driver's seat on the back of the coach and steers the vehicle. If the bearded devil is unable to replace the driver, the doppelganger takes the reins. Willifort flees on foot if the hirecoach is destroyed or its horses are unable to move."
@@ -7936,7 +7936,7 @@
 									"id": "170",
 									"entries": [
 										"If Willifort flees in a hire-coach, his getaway is thwarted on the third round of the chase when a large crowd blocks the road, forcing the hire-coach to stop. (If the chase occurs on Founders' Day, the crowd is part of the holiday celebration.) The doppelganger jumps out of the hire-coach on his next turn and makes his way through the crowd on foot.",
-										"Any creature in the crowd has half cover, and any attack that misses the creature because of the cover hits an innocent {@creature commoner} instead.",
+										"Any creature in the crowd has {@quickref Cover||3||half cover}, and any attack that misses the creature because of the cover hits an innocent {@creature commoner} instead.",
 										"If Willifort is {@condition incapacitated}, a raven abruptly swoops down, acting next in the initiative count. It snatches the stone and flees with it. This raven is a shapechanged {@creature imp} that works for Lady Cassalanter."
 									]
 								},
@@ -9589,7 +9589,7 @@
 											"rows": [
 												[
 													"1",
-													"A charred {@item wand of magic missiles} (each time a charge is expended, there's a {@chance 50|50 percent} chance that nothing happens and the charge is wasted)"
+													"A charred {@item wand of magic missiles} (each time a charge is expended, there's a {@chance 50} chance that nothing happens and the charge is wasted)"
 												],
 												[
 													"2",
@@ -11730,7 +11730,7 @@
 									"page": 84,
 									"id": "1e6",
 									"entries": [
-										"A brick wall with arrow slits was added to this room at some point. The arrow slits are designed to allow archers to fire at intruders who come through the door at {@area B4|1e5}. The arrow slits provide three-quarters cover."
+										"A brick wall with arrow slits was added to this room at some point. The arrow slits are designed to allow archers to fire at intruders who come through the door at {@area B4|1e5}. The arrow slits provide {@quickref Cover||3||three-quarters cover}."
 									]
 								},
 								{
@@ -14831,7 +14831,7 @@
 											"id": "24a",
 											"entries": [
 												"A successful DC 17 Intelligence (Religion) check enables a character to recognize the statue as a depiction of Gorm Gulthyn, the dwarven god of vigilance also known as Fire Eyes. The statue melds seamlessly with the floor and can't be toppled. It also seems impervious to damage. A {@spell detect magic} spell reveals an aura of evocation magic on the statue.",
-												"The trapdoor is false and can't be lifted. Anyone who touches the trapdoor or its pull ring must succeed on a DC 18 Dexterity saving throw or be struck by rays of magical fire that spring from the statue's eyes, dealing 22 ({@dice 4d10}) fire damage. The trap doesn't trigger if the target has total cover."
+												"The trapdoor is false and can't be lifted. Anyone who touches the trapdoor or its pull ring must succeed on a DC 18 Dexterity saving throw or be struck by rays of magical fire that spring from the statue's eyes, dealing 22 ({@dice 4d10}) fire damage. The trap doesn't trigger if the target has {@quickref Cover||3||total cover}."
 											]
 										},
 										{

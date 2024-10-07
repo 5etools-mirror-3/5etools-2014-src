@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
 
 	<title>Text Converter - 5etools</title>
 
@@ -59,7 +59,7 @@
 
 <body>
 
-<div class="overlay-noise"></div>
+<div class="overlay-noise no-print"></div>
 
 <div class="viewport-wrapper">
 	<div class="sidemenu__toggle">
@@ -90,9 +90,9 @@
 			<pre id="converter_input" class="inputArea ace_editor"></pre>
 			<div class="split-v-center">
 				<div id="wrp-footer-lhs" class="ve-flex-v-center"></div>
-				<div class="ve-flex-v-center btn-group">
-					<button id="parsestatblock" class="btn btn-sm btn-default">Parse</button>
-					<button id="parsestatblockadd" class="btn btn-sm btn-default">Parse and Add</button>
+				<div class="ve-flex-v-center ve-btn-group">
+					<button id="parsestatblock" class="ve-btn ve-btn-sm ve-btn-default">Parse</button>
+					<button id="parsestatblockadd" class="ve-btn ve-btn-sm ve-btn-default">Parse and Add</button>
 				</div>
 			</div>
 		</div>
@@ -103,14 +103,14 @@
 			<pre id="converter_output" class="outputArea ace_editor"></pre>
 
 			<div class="split-v-center conv__out_control__wrp">
-				<button id="editable" class="btn btn-sm btn-default">Enable Editing</button>
+				<button id="editable" class="ve-btn ve-btn-sm ve-btn-default">Enable Editing</button>
 				<div class="ve-flex-v-center">
-					<button id="preview" class="btn btn-sm btn-default mr-2">Preview</button>
-					<button id="save_local" class="btn btn-sm btn-default hidden mr-2">Save to Homebrew</button>
+					<button id="preview" class="ve-btn ve-btn-sm ve-btn-default mr-2">Preview</button>
+					<button id="save_local" class="ve-btn ve-btn-sm ve-btn-default hidden mr-2">Save to Homebrew</button>
 
-					<div class="btn-group ve-flex-vh-center">
-						<button id="btn-output-copy" class="btn btn-sm btn-default">Copy</button>
-						<button id="btn-output-download" class="btn btn-sm btn-default">Download</button>
+					<div class="ve-btn-group ve-flex-vh-center">
+						<button id="btn-output-copy" class="ve-btn ve-btn-sm ve-btn-default">Copy</button>
+						<button id="btn-output-download" class="ve-btn ve-btn-sm ve-btn-default">Download</button>
 					</div>
 				</div>
 			</div>
@@ -130,7 +130,7 @@
 <script type="text/javascript" defer src="js/utils.js"></script>
 <script type="text/javascript" defer src="js/utils-ui.js"></script>
 <script type="text/javascript" defer src="lib/localforage.js"></script>
-<script type="text/javascript" defer src="js/omnidexer.js"></script>
+<script type="module" defer src="js/omnidexer.js"></script>
 <script type="module" src="js/omnisearch.js"></script>
 <script type="module" src="js/filter.js"></script>
 <script type="text/javascript" defer src="js/utils-dataloader.js"></script>
@@ -142,23 +142,7 @@
 <script type="text/javascript" defer src="js/render-markdown.js"></script>
 <script type="text/javascript" defer src="js/scalecreature.js"></script>
 <script type="text/javascript" defer src="js/hist.js"></script>
-<script type="text/javascript" defer src="js/converterutils.js"></script>
-<script type="text/javascript" defer src="js/converterutils-entries.js"></script>
-<script type="text/javascript" defer src="js/converterutils-markdown.js"></script>
-<script type="text/javascript" defer src="js/converterutils-creature.js"></script>
-<script type="text/javascript" defer src="js/converterutils-spell.js"></script>
-<script type="text/javascript" defer src="js/converterutils-item.js"></script>
-<script type="text/javascript" defer src="js/converterutils-race.js"></script>
-<script type="text/javascript" defer src="js/converterutils-background.js"></script>
-<script type="text/javascript" defer src="js/converter.js"></script>
-<script type="text/javascript" defer src="js/converter-feature.js"></script>
-<script type="text/javascript" defer src="js/converter-creature.js"></script>
-<script type="text/javascript" defer src="js/converter-spell.js"></script>
-<script type="text/javascript" defer src="js/converter-item.js"></script>
-<script type="text/javascript" defer src="js/converter-table.js"></script>
-<script type="text/javascript" defer src="js/converter-feat.js"></script>
-<script type="text/javascript" defer src="js/converter-race.js"></script>
-<script type="text/javascript" defer src="js/converter-background.js"></script>
+<script type="module" src="js/converter.js"></script>
 <script type="text/javascript" defer src="js/list2.js"></script>
 <script type="text/javascript" defer src="lib/elasticlunr.js"></script>
 

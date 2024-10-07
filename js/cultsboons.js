@@ -1,21 +1,21 @@
 "use strict";
 
 class CultsBoonsSublistManager extends SublistManager {
-	static get _ROW_TEMPLATE () {
+	static _getRowTemplate () {
 		return [
 			new SublistCellTemplate({
 				name: "Type",
-				css: "ve-col-2 ve-text-center pl-0",
+				css: "ve-col-2 ve-text-center pl-0 pr-1",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "Subtype",
-				css: "ve-col-2 ve-text-center",
+				css: "ve-col-2 px-1 ve-text-center",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-8 pr-0",
+				css: "bold ve-col-8 pl-1 pr-0",
 				colStyle: "",
 			}),
 		];
@@ -25,7 +25,7 @@ class CultsBoonsSublistManager extends SublistManager {
 		const cellsText = [it._lType, it._lSubType, it.name];
 
 		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst--border lst__row-inner">
+			<a href="#${hash}" class="lst__row-border lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
 		</div>`)
@@ -74,11 +74,11 @@ class CultsBoonsPage extends ListPage {
 		const source = Parser.sourceJsonToAbv(it.source);
 		const hash = UrlUtil.autoEncodeHash(it);
 
-		eleLi.innerHTML = `<a href="#${hash}" class="lst--border lst__row-inner">
+		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
 			<span class="ve-col-2 ve-text-center pl-0">${it._lType}</span>
-			<span class="ve-col-2 ve-text-center">${it._lSubType}</span>
-			<span class="bold ve-col-6">${it.name}</span>
-			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(it.source)} pr-0" title="${Parser.sourceJsonToFull(it.source)}" ${Parser.sourceJsonToStyle(it.source)}>${source}</span>
+			<span class="ve-col-2 px-1 ve-text-center">${it._lSubType}</span>
+			<span class="bold ve-col-6 px-1">${it.name}</span>
+			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(it.source)} pl-1 pr-0" title="${Parser.sourceJsonToFull(it.source)}" ${Parser.sourceJsonToStyle(it.source)}>${source}</span>
 		</a>`;
 
 		const listItem = new ListItem(

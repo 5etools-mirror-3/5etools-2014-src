@@ -1,36 +1,36 @@
-"use strict";
+export class RenderRaces {
+	static $getRenderedRace (ent) {
+		const styleHint = VetoolsConfig.get("styleSwitcher", "style");
 
-class RenderRaces {
-	static $getRenderedRace (race) {
 		const renderer = Renderer.get().setFirstSection(true);
 
-		const ptHeightWeight = RenderRaces._getHeightAndWeightPart(race);
+		const entriesMeta = Renderer.race.getRaceRenderableEntriesMeta(ent, {styleHint});
+		const ptHeightWeight = RenderRaces._getHeightAndWeightPart(ent);
 
 		return $$`
 		${Renderer.utils.getBorderTr()}
-		${Renderer.utils.getExcludedTr({entity: race, dataProp: "race"})}
-		${Renderer.utils.getNameTr(race, {controlRhs: race.soundClip ? RenderRaces._getPronunciationButton(race) : "", page: UrlUtil.PG_RACES})}
-		<tr><td colspan="6"><b>Ability Scores:</b> ${(race.ability ? Renderer.getAbilityData(race.ability) : {asText: "None"}).asText}</td></tr>
-		${(race.creatureTypes || []).filter(it => `${it}`.toLowerCase() !== "humanoid").length ? `<tr><td colspan="6"><b>Creature Type:</b> ${Parser.raceCreatureTypesToFull(race.creatureTypes)}</td></tr>` : ""}
-		<tr><td colspan="6"><b>Size:</b> ${Renderer.utils.getRenderedSize(race.size || [Parser.SZ_VARIES])}</td></tr>
-		<tr><td colspan="6"><b>Speed:</b> ${Parser.getSpeedString(race)}</td></tr>
-		<tr><td class="divider" colspan="6"><div></div></td></tr>
-		${race._isBaseRace ? `<tr class="text"><td colspan="6">${renderer.render({type: "entries", entries: race._baseRaceEntries}, 1)}</td></tr>` : `<tr class="text"><td colspan="6">${renderer.render({type: "entries", entries: race.entries}, 1)}</td></tr>`}
+		${Renderer.utils.getExcludedTr({entity: ent, dataProp: "race"})}
+		${Renderer.utils.getNameTr(ent, {controlRhs: ent.soundClip ? RenderRaces._getPronunciationButton(ent) : "", page: UrlUtil.PG_RACES})}
 
-		${race.traitTags && race.traitTags.includes("NPC Race") ? `<tr class="text"><td colspan="6"><section class="text-muted">
-			${renderer.render(`{@note Note: This race is listed in the {@i Dungeon Master's Guide} as an option for creating NPCs. It is not designed for use as a playable race.}`, 2)}
-		 </section></td></tr>` : ""}
+		<tr><td colspan="6" class="pt-0">
+			${entriesMeta.entryAttributes ? renderer.render(entriesMeta.entryAttributes) : ""}
+			${entriesMeta.entryAttributes ? `<div class="w-100 py-1"></div>` : ""}
+			${renderer.render(entriesMeta.entryMain, 1)}
+			${ent.traitTags && ent.traitTags.includes("NPC Race") ? `<section class="ve-muted">
+				${renderer.render(`{@note Note: This race is listed in the {@i Dungeon Master's Guide} as an option for creating NPCs. It is not designed for use as a playable race.}`, 2)}
+			 </section>` : ""}
+		</td></tr>
 
-		${ptHeightWeight ? $$`<tr class="text"><td colspan="6"><hr class="rd__hr">${ptHeightWeight}</td></tr>` : ""}
+		${ptHeightWeight ? $$`<tr><td colspan="6"><hr class="rd__hr">${ptHeightWeight}</td></tr>` : ""}
 
-		${Renderer.utils.getPageTr(race, {tag: "race", fnUnpackUid: (uid) => DataUtil.generic.unpackUid(uid, "race")})}
+		${Renderer.utils.getPageTr(ent)}
 		${Renderer.utils.getBorderTr()}`;
 	}
 
 	static _getPronunciationButton (race) {
-		return `<button class="btn btn-xs btn-default btn-name-pronounce ml-2 mb-2 ve-self-flex-end">
-			<span class="glyphicon glyphicon-volume-up name-pronounce-icon"></span>
-			<audio class="name-pronounce" preload="none">
+		return `<button class="ve-btn ve-btn-xs ve-btn-default stats__btn-name-pronounce lst-is-exporting-image__hidden no-print ml-2 mb-2 ve-self-flex-end">
+			<span class="glyphicon glyphicon-volume-up stats__icn-pronounce-name"></span>
+			<audio class="ve-hidden" preload="none" data-name="aud-pronounce">
 			   <source src="${Renderer.utils.getEntryMediaUrl(race, "soundClip", "audio")}" type="audio/mpeg">
 			</audio>
 		</button>`;

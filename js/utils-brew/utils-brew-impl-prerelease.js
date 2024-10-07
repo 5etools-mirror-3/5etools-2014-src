@@ -22,7 +22,7 @@ export class PrereleaseUtil_ extends BrewUtil2Base {
 	DISPLAY_NAME = "prerelease content";
 	DISPLAY_NAME_PLURAL = "prereleases";
 	DEFAULT_AUTHOR = "Wizards of the Coast";
-	STYLE_BTN = "btn-primary";
+	STYLE_BTN = "ve-btn-primary";
 	IS_PREFER_DATE_ADDED = false;
 
 	/* -------------------------------------------- */

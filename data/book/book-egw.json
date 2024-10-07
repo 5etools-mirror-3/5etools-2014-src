@@ -8965,7 +8965,7 @@
 										],
 										[
 											"2",
-											"The characters encounter a lost Cerberus Assembly {@creature mage} trying to return to Balenpost. The rest of the mage's team died in the ruins of Aeor, and there is a {@chance 50|50 percent} chance the mage carries a recently recovered Aeorian item."
+											"The characters encounter a lost Cerberus Assembly {@creature mage} trying to return to Balenpost. The rest of the mage's team died in the ruins of Aeor, and there is a {@chance 50} chance the mage carries a recently recovered Aeorian item."
 										],
 										[
 											"3",
@@ -11796,7 +11796,7 @@
 											"type": "list",
 											"items": [
 												"Ranged attacks through electric wind are made with disadvantage.",
-												"Any creature that starts its turn surrounded by electric wind has a {@chance 5|5 percent} chance of being struck by lightning. A creature struck by lightning must make a DC 15 Dexterity saving throw, taking {@dice 4d6} lightning damage on a failed save, or half as much damage on a successful one."
+												"Any creature that starts its turn surrounded by electric wind has a {@chance 5} chance of being struck by lightning. A creature struck by lightning must make a DC 15 Dexterity saving throw, taking {@dice 4d6} lightning damage on a failed save, or half as much damage on a successful one."
 											]
 										}
 									]
@@ -11829,7 +11829,7 @@
 											"type": "list",
 											"items": [
 												"An etheric rift is a lightly obscured area.",
-												"Any creature that enters an etheric rift or starts its turn there has a {@chance 33|33 percent} chance of gaining the effect of the {@spell etherealness} spell until the end of its next turn."
+												"Any creature that enters an etheric rift or starts its turn there has a {@chance 33} chance of gaining the effect of the {@spell etherealness} spell until the end of its next turn."
 											]
 										}
 									]
@@ -11895,7 +11895,7 @@
 										{
 											"type": "list",
 											"items": [
-												"Any non-plant creature within 20 feet of a toxic fungus colony is {@condition poisoned}. A creature {@condition poisoned} by the colony for 1 hour has a {@chance 20|20 percent} chance of gaining a random form of short-term madness (see \"{@book Madness|DMG|8|Madness}\" in chapter 8 of the {@book Dungeon Master's Guide|DMG}).",
+												"Any non-plant creature within 20 feet of a toxic fungus colony is {@condition poisoned}. A creature {@condition poisoned} by the colony for 1 hour has a {@chance 20} chance of gaining a random form of short-term madness (see \"{@book Madness|DMG|8|Madness}\" in chapter 8 of the {@book Dungeon Master's Guide|DMG}).",
 												"A toxic fungus colony can be bioluminescent. A bioluminescent colony sheds dim light within its area and for an additional 20 feet beyond its outer edges."
 											]
 										}
@@ -11965,7 +11965,7 @@
 												],
 												[
 													"10",
-													"This place is haunted by fragments of the Far Realm. Whenever the target of a Wisdom saving throw fails its save, that creature has a {@chance 5|5 percent} chance of becoming afflicted by a random form of long-term madness (see \"{@book Madness|DMG|8|Madness}\" in chapter 8 of the {@book Dungeon Master's Guide|DMG})."
+													"This place is haunted by fragments of the Far Realm. Whenever the target of a Wisdom saving throw fails its save, that creature has a {@chance 5} chance of becoming afflicted by a random form of long-term madness (see \"{@book Madness|DMG|8|Madness}\" in chapter 8 of the {@book Dungeon Master's Guide|DMG})."
 												]
 											]
 										}

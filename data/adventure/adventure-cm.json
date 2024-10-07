@@ -5106,7 +5106,7 @@
 															"items": [
 																"Undead within 30 feet of the figurine can't be turned.",
 																"Dead creatures within 30 feet of the figurine can't be brought back to life.",
-																"A creature that holds the figurine while praying to Orcus for at least 1 hour has a {@chance 10|10 percent} chance of summoning a smoky avatar of the demon lord. Once this avatar is summoned, it can't be summoned again for 30 days. Orcus's avatar has the statistics of a {@creature wraith} except that it's chaotic evil. It attacks all non-undead creatures it encounters, and it disappears after 1 hour or when reduced to 0 hit points."
+																"A creature that holds the figurine while praying to Orcus for at least 1 hour has a {@chance 10} chance of summoning a smoky avatar of the demon lord. Once this avatar is summoned, it can't be summoned again for 30 days. Orcus's avatar has the statistics of a {@creature wraith} except that it's chaotic evil. It attacks all non-undead creatures it encounters, and it disappears after 1 hour or when reduced to 0 hit points."
 															]
 														}
 													]
@@ -20631,7 +20631,7 @@
 											"page": 145,
 											"id": "397",
 											"entries": [
-												"On initiative count 20 (losing initiative ties), {@creature Zikran|CM} uses his handheld device to fire the cannon at one creature he can see, provided the creature is in the basement or on the staircase. {@creature Zikran|CM}'s target must make a DC 17 Dexterity saving throw, taking 24 ({@dice 7d6}) cold damage on a failed save, or half as much damage on a successful one. The basement furnishings provide half cover, should a creature wish to hide behind them.",
+												"On initiative count 20 (losing initiative ties), {@creature Zikran|CM} uses his handheld device to fire the cannon at one creature he can see, provided the creature is in the basement or on the staircase. {@creature Zikran|CM}'s target must make a DC 17 Dexterity saving throw, taking 24 ({@dice 7d6}) cold damage on a failed save, or half as much damage on a successful one. The basement furnishings provide {@quickref Cover||3||half cover}, should a creature wish to hide behind them.",
 												"The cannon is a Large object with AC 16, 80 hit points, and immunity to poison and psychic damage. It is mounted atop a swivel and bolted to the dais. The cannon draws power from the crystal in the middle of the room. This crystal sparks with elemental power whenever the cannon is about to fire. If the crystal is destroyed, both {@creature Zikran|CM}'s handheld device and the cannon become powerless. The crystal is a Large object with AC 13, 40 hit points, and immunity to poison and psychic damage."
 											]
 										},

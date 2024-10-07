@@ -274,6 +274,7 @@ class LootGenUi extends BaseComponent {
 			new TabUiUtil.TabMeta({name: "Gems/Art Objects Generator", isHeadHidden: true, hasBackground: true}),
 			new TabUiUtil.TabMeta({
 				type: "buttons",
+				isSplitStart: true,
 				buttons: [
 					{
 						html: `<span class="glyphicon glyphicon-option-vertical"></span>`,
@@ -331,10 +332,10 @@ class LootGenUi extends BaseComponent {
 
 		const $cbIsHoard = ComponentUiUtil.$getCbBool(this, "ft_isHoard");
 
-		const $btnRoll = $(`<button class="btn btn-default btn-xs mr-2">Roll Loot</button>`)
+		const $btnRoll = $(`<button class="ve-btn ve-btn-default ve-btn-xs mr-2">Roll Loot</button>`)
 			.click(() => this._ft_pDoHandleClickRollLoot());
 
-		const $btnClear = $(`<button class="btn btn-danger btn-xs">Clear Output</button>`)
+		const $btnClear = $(`<button class="ve-btn ve-btn-danger ve-btn-xs">Clear Output</button>`)
 			.click(() => this._doClearOutput());
 
 		$$`<div class="ve-flex-col py-2 px-3">
@@ -585,7 +586,8 @@ class LootGenUi extends BaseComponent {
 
 	_doHandleClickRollLoot_hoard_getAltChooseList ({typeAltChoose}) {
 		if (!typeAltChoose) return null;
-		return this._dataItemsFiltered.filter(it => it.type !== "GV" && Object.entries(typeAltChoose).every(([k, v]) => it[k] === v));
+		return this._dataItemsFiltered
+			.filter(it => (!it.type || DataUtil.itemType.unpackUid(it.type).abbreviation !== Parser.ITM_TYP_ABV__GENERIC_VARIANT) && Object.entries(typeAltChoose).every(([k, v]) => it[k] === v));
 	}
 
 	_doHandleClickRollLoot_hoard_getAltChooseDisplayText ({typeAltChoose}) {
@@ -635,10 +637,10 @@ class LootGenUi extends BaseComponent {
 		};
 		this._addHookBase("pulseItemsFiltered", hkPulseItem);
 
-		const $btnRoll = $(`<button class="btn btn-default btn-xs mr-2">Roll Loot</button>`)
+		const $btnRoll = $(`<button class="ve-btn ve-btn-default ve-btn-xs mr-2">Roll Loot</button>`)
 			.click(() => this._lt_pDoHandleClickRollLoot());
 
-		const $btnClear = $(`<button class="btn btn-danger btn-xs">Clear Output</button>`)
+		const $btnClear = $(`<button class="ve-btn ve-btn-danger ve-btn-xs">Clear Output</button>`)
 			.click(() => this._doClearOutput());
 
 		const $hrHelp = $(`<hr class="hr-3">`);
@@ -756,10 +758,10 @@ class LootGenUi extends BaseComponent {
 		// endregion
 
 		// region Buttons
-		const $btnRoll = $(`<button class="btn btn-default btn-xs mr-2">Roll Loot</button>`)
+		const $btnRoll = $(`<button class="ve-btn ve-btn-default ve-btn-xs mr-2">Roll Loot</button>`)
 			.click(() => this._pl_pDoHandleClickRollLoot());
 
-		const $btnClear = $(`<button class="btn btn-danger btn-xs">Clear Output</button>`)
+		const $btnClear = $(`<button class="ve-btn ve-btn-danger ve-btn-xs">Clear Output</button>`)
 			.click(() => this._doClearOutput());
 		// endregion
 
@@ -918,10 +920,10 @@ class LootGenUi extends BaseComponent {
 
 		const $cbIsPreferRandomMagicItems = ComponentUiUtil.$getCbBool(this, "dh_isPreferRandomMagicItems");
 
-		const $btnRoll = $(`<button class="btn btn-default btn-xs mr-2">Roll Loot</button>`)
+		const $btnRoll = $(`<button class="ve-btn ve-btn-default ve-btn-xs mr-2">Roll Loot</button>`)
 			.click(() => this._dh_pDoHandleClickRollLoot());
 
-		const $btnClear = $(`<button class="btn btn-danger btn-xs">Clear Output</button>`)
+		const $btnClear = $(`<button class="ve-btn ve-btn-danger ve-btn-xs">Clear Output</button>`)
 			.click(() => this._doClearOutput());
 
 		$$`<div class="ve-flex-col py-2 px-3">
@@ -1006,10 +1008,10 @@ class LootGenUi extends BaseComponent {
 				$btnRoll.click();
 			});
 
-		const $btnRoll = $(`<button class="btn btn-default btn-xs mr-2">Roll Loot</button>`)
+		const $btnRoll = $(`<button class="ve-btn ve-btn-default ve-btn-xs mr-2">Roll Loot</button>`)
 			.click(() => this._goa_pDoHandleClickRollLoot());
 
-		const $btnClear = $(`<button class="btn btn-danger btn-xs">Clear Output</button>`)
+		const $btnClear = $(`<button class="ve-btn ve-btn-danger ve-btn-xs">Clear Output</button>`)
 			.click(() => this._doClearOutput());
 
 		$$`<div class="ve-flex-col py-2 px-3">
@@ -1337,14 +1339,14 @@ class LootGenOutput {
 
 	_$getEleTitleSplit () {
 		const $btnRivet = !IS_VTT && ExtensionUtil.ACTIVE
-			? $(`<button title="Send to Foundry (SHIFT for Temporary Import)" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-send"></span></button>`)
+			? $(`<button title="Send to Foundry (SHIFT for Temporary Import)" class="ve-btn ve-btn-xs ve-btn-default"><span class="glyphicon glyphicon-send"></span></button>`)
 				.click(evt => this._pDoSendToFoundry({isTemp: !!evt.shiftKey}))
 			: null;
 
-		const $btnDownload = $(`<button title="Download JSON" class="btn btn-xs btn-default"><span class="glyphicon glyphicon-download glyphicon--top-2p"></span></button>`)
+		const $btnDownload = $(`<button title="Download JSON" class="ve-btn ve-btn-xs ve-btn-default"><span class="glyphicon glyphicon-download glyphicon--top-2p"></span></button>`)
 			.click(() => this._pDoSaveAsJson());
 
-		return $$`<div class="btn-group">
+		return $$`<div class="ve-btn-group">
 			${$btnRivet}
 			${$btnDownload}
 		</div>`;
@@ -1433,7 +1435,7 @@ class LootGenOutput {
 					entity: {
 						name: Renderer.stripTags(str).uppercaseFirst(),
 						source: Parser.SRC_FTD,
-						type: "OTH",
+						type: Parser.ITM_TYP__OTHER,
 						rarity: "unknown",
 					},
 				});
@@ -1471,7 +1473,7 @@ class LootGenOutput {
 						item: {
 							name: Renderer.stripTags(entry).uppercaseFirst(),
 							source: Parser.SRC_DMG,
-							type: "OTH",
+							type: Parser.ITM_TYP__OTHER,
 							rarity: "unknown",
 						},
 					};

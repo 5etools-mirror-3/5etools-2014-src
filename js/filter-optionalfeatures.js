@@ -76,7 +76,12 @@ class PageFilterOptionalFeatures extends PageFilterBase {
 				this._featureFilter,
 			],
 		});
-		this._miscFilter = new Filter({header: "Miscellaneous", items: ["Has Info", "Has Images", "SRD", "Legacy", "Grants Additional Spells"], isMiscFilter: true});
+		this._miscFilter = new Filter({
+			header: "Miscellaneous",
+			items: ["Has Info", "Has Images", "Legacy", "Grants Additional Spells"],
+			isMiscFilter: true,
+			deselFn: PageFilterBase.defaultMiscellaneousDeselFn.bind(PageFilterBase),
+		});
 	}
 
 	static mutateForFilters (ent) {
@@ -119,11 +124,8 @@ class PageFilterOptionalFeatures extends PageFilterBase {
 		ent._lFeatureType = ent.featureType.join(", ");
 		ent.featureType.sort((a, b) => SortUtil.ascSortLower(Parser.optFeatureTypeToFull(a), Parser.optFeatureTypeToFull(b)));
 
-		ent._fMisc = ent.srd ? ["SRD"] : [];
-		if (SourceUtil.isLegacySourceWotc(ent.source)) ent._fMisc.push("Legacy");
+		this._mutateForFilters_commonMisc(ent);
 		if (ent.additionalSpells) ent._fMisc.push("Grants Additional Spells");
-		if (this._hasFluff(ent)) ent._fMisc.push("Has Info");
-		if (this._hasFluffImages(ent)) ent._fMisc.push("Has Images");
 	}
 
 	addToFilters (it, isExcluded) {
@@ -135,6 +137,7 @@ class PageFilterOptionalFeatures extends PageFilterBase {
 		this._patronFilter.addItem(it._fPrereqPatron);
 		this._spellFilter.addItem(it._fprereqSpell);
 		this._featureFilter.addItem(it._fprereqFeature);
+		this._miscFilter.addItem(it._fMisc);
 
 		(it._fPrereqLevel || []).forEach(it => {
 			this._levelFilter.addNest(it.nest, {isHidden: true});
@@ -214,18 +217,18 @@ class ModalFilterOptionalFeatures extends ModalFilterBase {
 		const prerequisite = Renderer.utils.prerequisite.getHtml(optfeat.prerequisite, {isListMode: true, blocklistKeys: new Set(["level"])});
 		const level = Renderer.optionalfeature.getListPrerequisiteLevelText(optfeat.prerequisite);
 
-		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst--border veapp__list-row no-select lst__wrp-cells">
+		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst__row-border veapp__list-row no-select lst__wrp-cells">
 			<div class="ve-col-0-5 pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="no-events">` : `<input type="checkbox" class="no-events">`}</div>
 
 			<div class="ve-col-0-5 px-1 ve-flex-vh-center">
-				<div class="ui-list__btn-inline px-2" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
+				<div class="ui-list__btn-inline px-2 no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
 			</div>
 
-			<div class="ve-col-3 ${optfeat._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${optfeat._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${optfeat.name}</div>
-			<span class="ve-col-2 ve-text-center" title="${optfeat._dFeatureType}">${optfeat._lFeatureType}</span>
-			<span class="ve-col-4 ve-text-center">${prerequisite}</span>
-			<span class="ve-col-1 ve-text-center">${level}</span>
-			<div class="ve-col-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(optfeat.source)}" title="${Parser.sourceJsonToFull(optfeat.source)}" ${Parser.sourceJsonToStyle(optfeat.source)}>${source}${Parser.sourceJsonToMarkerHtml(optfeat.source)}</div>
+			<div class="ve-col-3 px-1 ${optfeat._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${optfeat._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${optfeat.name}</div>
+			<span class="ve-col-2 px-1 ve-text-center" title="${optfeat._dFeatureType.join(", ").qq()}">${optfeat._lFeatureType}</span>
+			<span class="ve-col-4 px-1 ve-text-center">${prerequisite}</span>
+			<span class="ve-col-1 px-1 ve-text-center">${level}</span>
+			<div class="ve-col-1 pl-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(optfeat.source)}" title="${Parser.sourceJsonToFull(optfeat.source)}" ${Parser.sourceJsonToStyle(optfeat.source)}>${source}${Parser.sourceJsonToMarkerHtml(optfeat.source)}</div>
 		</div>`;
 
 		const btnShowHidePreview = eleRow.firstElementChild.children[1].firstElementChild;

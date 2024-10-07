@@ -474,7 +474,7 @@
 				{
 					"name": "Empowering Aegis {@recharge 4}",
 					"entries": [
-						"Asteria summons a spectral version of her shield, which orbits and bolsters one creature of Asteria's choice that she can see within 60 feet of herself. The spectral shield lasts until the start of Asteria's next turn. While the shield is orbiting the creature, the creature has half cover, is immune to the {@condition frightened} condition, and makes weapon attack rolls with advantage."
+						"Asteria summons a spectral version of her shield, which orbits and bolsters one creature of Asteria's choice that she can see within 60 feet of herself. The spectral shield lasts until the start of Asteria's next turn. While the shield is orbiting the creature, the creature has {@quickref Cover||3||half cover}, is immune to the {@condition frightened} condition, and makes weapon attack rolls with advantage."
 					]
 				}
 			],

@@ -23,6 +23,8 @@ export class ManageEditableBrewContentsUi extends BaseComponent {
 			this._categoryFilter = new Filter({header: "Category"});
 		}
 
+		_getNamespaceSnapshots () { return "PageFilterManageEditableBrewContents"; }
+
 		static mutateForFilters (meta) {
 			const {ent, prop} = meta;
 			meta._fSource = SourceUtil.getEntitySource(ent);
@@ -59,7 +61,7 @@ export class ManageEditableBrewContentsUi extends BaseComponent {
 				title: `Manage Document Contents`,
 				isUncappedHeight: true,
 				isWidth100: true,
-				$titleSplit: $$`<div class="ve-flex-v-center btn-group">
+				$titleSplit: $$`<div class="ve-flex-v-center ve-btn-group">
 					${ui._$getBtnDeleteSelected({rdState})}
 				</div>`,
 				overlayColor: isParentModal ? "transparent" : undefined,
@@ -93,7 +95,7 @@ export class ManageEditableBrewContentsUi extends BaseComponent {
 	}
 
 	_$getBtnDeleteSelected ({rdState}) {
-		return $(`<button class="btn btn-danger btn-xs">Delete Selected</button>`)
+		return $(`<button class="ve-btn ve-btn-danger ve-btn-xs">Delete Selected</button>`)
 			.click(() => this._handleClick_pButtonDeleteSelected({rdState}));
 	}
 
@@ -187,23 +189,23 @@ export class ManageEditableBrewContentsUi extends BaseComponent {
 	}
 
 	_pRender_tabEntities ({tabMeta, rdState}) {
-		const $btnFilter = $(`<button class="btn btn-default">Filter</button>`);
+		const $btnFilter = $(`<button class="ve-btn ve-btn-default">Filter</button>`);
 
-		const $btnToggleSummaryHidden = $(`<button class="btn btn-default" title="Toggle Filter Summary Display"><span class="glyphicon glyphicon-resize-small"></span></button>`);
+		const $btnToggleSummaryHidden = $(`<button class="ve-btn ve-btn-default" title="Toggle Filter Summary Display"><span class="glyphicon glyphicon-resize-small"></span></button>`);
 
-		const $btnReset = $(`<button class="btn btn-default">Reset</button>`);
+		const $btnReset = $(`<button class="ve-btn ve-btn-default">Reset</button>`);
 
-		const $wrpMiniPills = $(`<div class="fltr__mini-view btn-group"></div>`);
+		const $wrpMiniPills = $(`<div class="fltr__mini-view ve-btn-group"></div>`);
 
 		const $cbAll = $(`<input type="checkbox">`);
 		const $wrpRows = $$`<div class="list ve-flex-col w-100 max-h-unset"></div>`;
 		const $iptSearch = $(`<input type="search" class="search manbrew__search form-control w-100 lst__search lst__search--no-border-h" placeholder="Search entries...">`);
 		const $dispCntVisible = $(`<div class="lst__wrp-search-visible no-events ve-flex-vh-center"></div>`);
 		const $wrpBtnsSort = $$`<div class="filtertools manbrew__filtertools input-group input-group--bottom ve-flex no-shrink">
-			<label class="btn btn-default btn-xs ve-col-1 pr-0 ve-flex-vh-center">${$cbAll}</label>
-			<button class="ve-col-5 sort btn btn-default btn-xs" data-sort="name">Name</button>
-			<button class="ve-col-1 sort btn btn-default btn-xs" data-sort="source">Source</button>
-			<button class="ve-col-5 sort btn btn-default btn-xs" data-sort="category">Category</button>
+			<label class="ve-btn ve-btn-default ve-btn-xs ve-col-1 pr-0 ve-flex-vh-center">${$cbAll}</label>
+			<button class="ve-col-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
+			<button class="ve-col-1 sort ve-btn ve-btn-default ve-btn-xs" data-sort="source">Source</button>
+			<button class="ve-col-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="category">Category</button>
 		</div>`;
 
 		$$(tabMeta.$wrpTab)`
@@ -285,7 +287,7 @@ export class ManageEditableBrewContentsUi extends BaseComponent {
 		const sourceMeta = this.constructor._getSourceMeta({brew: this._brew, ent});
 		const dispProp = this.constructor._getDisplayProp({ent, prop});
 
-		eleLi.innerHTML = `<label class="lst--border lst__row-inner no-select mb-0 ve-flex-v-center">
+		eleLi.innerHTML = `<label class="lst__row-border lst__row-inner no-select mb-0 ve-flex-v-center">
 			<div class="pl-0 ve-col-1 ve-flex-vh-center"><input type="checkbox" class="no-events"></div>
 			<div class="ve-col-5 bold">${dispName}</div>
 			<div class="ve-col-1 ve-text-center" title="${(sourceMeta.full || "").qq()}" ${this._brewUtil.sourceToStyle(sourceMeta)}>${sourceMeta.abbreviation}</div>
@@ -341,7 +343,7 @@ export class ManageEditableBrewContentsUi extends BaseComponent {
 
 		const $rows = Object.keys(this._brew.body._meta[prop])
 			.map(k => {
-				const $btnDelete = $(`<button class="btn btn-danger btn-xs" title="Delete"><span class="glyphicon glyphicon-trash"></span></button>`)
+				const $btnDelete = $(`<button class="ve-btn ve-btn-danger ve-btn-xs" title="Delete"><span class="glyphicon glyphicon-trash"></span></button>`)
 					.click(() => {
 						this._isDirty = true;
 						MiscUtil.deleteObjectPath(this._brew.body._meta, prop, k);
@@ -354,9 +356,9 @@ export class ManageEditableBrewContentsUi extends BaseComponent {
 					});
 
 				const $row = $$`<div class="lst__row ve-flex-col px-0">
-					<div class="split-v-center lst--border lst__row-inner no-select mb-0 ve-flex-v-center">
+					<div class="split-v-center lst__row-border lst__row-inner no-select mb-0 ve-flex-v-center">
 						<div class="ve-col-10">${displayFn(this._brew, prop, k)}</div>
-						<div class="ve-col-2 btn-group ve-flex-v-center ve-flex-h-right">
+						<div class="ve-col-2 ve-btn-group ve-flex-v-center ve-flex-h-right">
 							${$btnDelete}
 						</div>
 					</div>
@@ -380,10 +382,10 @@ export class ManageEditableBrewContentsUi extends BaseComponent {
 		const $wrpRows = $$`<div class="list ve-flex-col w-100 max-h-unset"></div>`;
 		const $iptSearch = $(`<input type="search" class="search manbrew__search form-control w-100 mt-1" placeholder="Search source...">`);
 		const $wrpBtnsSort = $$`<div class="filtertools manbrew__filtertools input-group input-group--bottom ve-flex no-shrink">
-			<label class="btn btn-default btn-xs ve-col-1 pr-0 ve-flex-vh-center">${$cbAll}</label>
-			<button class="ve-col-5 sort btn btn-default btn-xs" data-sort="name">Name</button>
-			<button class="ve-col-2 sort btn btn-default btn-xs" data-sort="abbreviation">Abbreviation</button>
-			<button class="ve-col-4 sort btn btn-default btn-xs" data-sort="json">JSON</button>
+			<label class="ve-btn ve-btn-default ve-btn-xs ve-col-1 pr-0 ve-flex-vh-center">${$cbAll}</label>
+			<button class="ve-col-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
+			<button class="ve-col-2 sort ve-btn ve-btn-default ve-btn-xs" data-sort="abbreviation">Abbreviation</button>
+			<button class="ve-col-4 sort ve-btn ve-btn-default ve-btn-xs" data-sort="json">JSON</button>
 		</div>`;
 
 		$$(tabMeta.$wrpTab)`
@@ -418,7 +420,7 @@ export class ManageEditableBrewContentsUi extends BaseComponent {
 		const name = source.full || SOURCE_UNKNOWN_FULL;
 		const abv = source.abbreviation || SOURCE_UNKNOWN_ABBREVIATION;
 
-		eleLi.innerHTML = `<label class="lst--border lst__row-inner no-select mb-0 ve-flex-v-center">
+		eleLi.innerHTML = `<label class="lst__row-border lst__row-inner no-select mb-0 ve-flex-v-center">
 			<div class="pl-0 ve-col-1 ve-flex-vh-center"><input type="checkbox" class="no-events"></div>
 			<div class="ve-col-5 bold">${name}</div>
 			<div class="ve-col-2 ve-text-center">${abv}</div>

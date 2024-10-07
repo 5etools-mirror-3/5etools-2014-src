@@ -394,6 +394,7 @@
 				"unconscious"
 			],
 			"miscTags": [
+				"SCT",
 				"SGT"
 			],
 			"areaTags": [
@@ -465,6 +466,7 @@
 				"plant"
 			],
 			"miscTags": [
+				"SCT",
 				"SGT"
 			],
 			"areaTags": [
@@ -765,6 +767,7 @@
 				"wisdom"
 			],
 			"miscTags": [
+				"SCT",
 				"SGT"
 			],
 			"areaTags": [
@@ -1576,6 +1579,7 @@
 				"constitution"
 			],
 			"miscTags": [
+				"SCT",
 				"SGT"
 			],
 			"areaTags": [
@@ -1663,7 +1667,7 @@
 				}
 			],
 			"entries": [
-				"A tendril of inky darkness reaches out from you, touching a creature you can see within range to drain life from it. The target must make a Dexterity saving throw. On a successful save, the target takes {@damage 2d8} necrotic damage, and the spell ends. On a failed save, the target takes {@damage 4d8} necrotic damage, and until the spell ends, you can use your action on each of your turns to automatically deal {@damage 4d8} necrotic damage to the target. The spell ends if you use your action to do anything else, if the target is ever outside the spell's range, or if the target has total cover from you.",
+				"A tendril of inky darkness reaches out from you, touching a creature you can see within range to drain life from it. The target must make a Dexterity saving throw. On a successful save, the target takes {@damage 2d8} necrotic damage, and the spell ends. On a failed save, the target takes {@damage 4d8} necrotic damage, and until the spell ends, you can use your action on each of your turns to automatically deal {@damage 4d8} necrotic damage to the target. The spell ends if you use your action to do anything else, if the target is ever outside the spell's range, or if the target has {@quickref Cover||3||total cover} from you.",
 				"Whenever the spell deals damage to a target, you regain hit points equal to half the amount of necrotic damage the target takes."
 			],
 			"entriesHigherLevel": [
@@ -3316,7 +3320,7 @@
 				"A fortress of stone erupts from a square area of ground of your choice that you can see within range. The area is 120 feet on each side, and it must not have any buildings or other structures on it. Any creatures in the area are harmlessly lifted up as the fortress rises.",
 				"The fortress has four turrets with square bases, each one 20 feet on a side and 30 feet tall, with one turret on each corner. The turrets are connected to each other by stone walls that are each 80 feet long, creating an enclosed area. Each wall is 1 foot thick and is composed of panels that are 10 feet wide and 20 feet tall. Each panel is contiguous with two other panels or one other panel and a turret. You can place up to four stone doors in the fortress's outer wall.",
 				"A small keep stands inside the enclosed area. The keep has a square base that is 50 feet on each side, and it has three floors with 10-foot-high ceilings. Each of the floors can be divided into as many rooms as you like, provided each room is at least 5 feet on each side. The floors of the keep are connected by stone staircases, its walls are 6 inches thick, and interior rooms can have stone doors or open archways as you choose. The keep is furnished and decorated however you like, and it contains sufficient food to serve a nine-course banquet for up to 100 people each day. Furnishings, food, and other objects created by this spell crumble to dust if removed from the fortress.",
-				"A staff of one hundred invisible servants obeys any command given to them by creatures you designate when you cast the spell. Each servant functions as if created by the unseen servant spell.",
+				"A staff of one hundred invisible servants obeys any command given to them by creatures you designate when you cast the spell. Each servant functions as if created by the {@spell unseen servant} spell.",
 				"The walls, turrets, and keep are all made of stone that can be damaged. Each 10-foot-by-10-foot section of stone has AC 15 and 30 hit points per inch of thickness. It is immune to poison and psychic damage. Reducing a section of stone to 0 hit points destroys it and might cause connected sections to buckle and collapse at the DM's discretion.",
 				"After 7 days or when you cast this spell somewhere else, the fortress harmlessly crumbles and sinks back into the ground, leaving any creatures that were inside it safely on the ground.",
 				"Casting this spell on the same spot once every 7 days for a year makes the fortress permanent."
@@ -3843,7 +3847,7 @@
 					"type": "entries",
 					"name": "At Higher Levels",
 					"entries": [
-						"When you cast this spell using a 3rd- or 4th-level spell slot, the damage increases to {@dice 3d8}. When you cast it using a 5th- or 6th-level spell slot, the damage increases to {@dice 4d8}. When you cast it using a spell slot of 7th level or higher, the damage increases to {@dice 5d8}."
+						"When you cast this spell using a 3rd- or 4th-level spell slot, the damage increases to {@damage 3d8}. When you cast it using a 5th- or 6th-level spell slot, the damage increases to {@damage 4d8}. When you cast it using a spell slot of 7th level or higher, the damage increases to {@damage 5d8}."
 					]
 				}
 			],

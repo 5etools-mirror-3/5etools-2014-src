@@ -11,6 +11,10 @@ class BlocklistUtil {
 		"itemType",
 		"itemEntry",
 		"itemTypeAdditionalEntries",
+
+		// homebrew corpus
+		"adventureData",
+		"bookData",
 	]);
 
 	static _BASIC_FILES = [
@@ -37,7 +41,21 @@ class BlocklistUtil {
 		"decks.json",
 	];
 
-	static async pLoadData () {
+	static async pLoadData (
+		{
+			isIncludePrerelease = false,
+			isIncludeBrew = false,
+		} = {},
+	) {
+		const out = await this._pLoadData_site();
+		if (isIncludePrerelease) await this._pLoadData_mutAddPrerelease({out});
+		if (isIncludeBrew) await this._pLoadData_mutAddBrew({out});
+		return out;
+	}
+
+	/* ----- */
+
+	static async _pLoadData_site () {
 		const out = {};
 
 		this._addData(out, {monster: MiscUtil.copy(await DataUtil.monster.pLoadAll())});
@@ -45,17 +63,30 @@ class BlocklistUtil {
 		this._addData(out, MiscUtil.copy(await DataUtil.class.loadRawJSON()));
 		this._addData(out, MiscUtil.copy(await DataUtil.race.loadJSON({isAddBaseRaces: true})));
 
-		const jsons = await Promise.all(this._BASIC_FILES.map(url => DataUtil.loadJSON(`${Renderer.get().baseUrl}data/${url}`)));
-		for (let json of jsons) {
-			if (json.magicvariant) {
-				json = MiscUtil.copy(json);
-				json.magicvariant.forEach(it => it.source = SourceUtil.getEntitySource(it));
-			}
-			this._addData(out, json);
-		}
+		(
+			await Promise.all(this._BASIC_FILES.map(url => DataUtil.loadJSON(`${Renderer.get().baseUrl}data/${url}`)))
+		)
+			.forEach(json => this._addData(out, MiscUtil.copyFast(json)));
 
 		return out;
 	}
+
+	/* ----- */
+
+	static async _pLoadData_mutAddPrereleaseBrew ({out, brewUtil}) {
+		const brew = await brewUtil.pGetBrewProcessed();
+		this._addData(out, MiscUtil.copyFast(brew));
+	}
+
+	static async _pLoadData_mutAddPrerelease ({out}) {
+		await this._pLoadData_mutAddPrereleaseBrew({out, brewUtil: PrereleaseUtil});
+	}
+
+	static async _pLoadData_mutAddBrew ({out}) {
+		await this._pLoadData_mutAddPrereleaseBrew({out, brewUtil: BrewUtil2});
+	}
+
+	/* ----- */
 
 	static _addData (out, json) {
 		Object.keys(json)
@@ -214,17 +245,17 @@ class BlocklistUi {
 
 		const $iptSearch = $(`<input type="search" class="search form-control lst__search lst__search--no-border-h h-100">`).disableSpellcheck();
 
-		const $btnReset = $(`<button class="btn btn-default">Reset Search</button>`)
+		const $btnReset = $(`<button class="ve-btn ve-btn-default">Reset Search</button>`)
 			.click(() => {
 				$iptSearch.val("");
 				this._list.reset();
 			});
 
 		const $wrpFilterTools = $$`<div class="input-group input-group--bottom ve-flex no-shrink">
-			<button class="ve-col-4 sort btn btn-default btn-xs ve-grow" data-sort="source">Source</button>
-			<button class="ve-col-2 sort btn btn-default btn-xs" data-sort="category">Category</button>
-			<button class="ve-col-5 sort btn btn-default btn-xs" data-sort="name">Name</button>
-			<button class="ve-col-1 sort btn btn-default btn-xs" disabled>&nbsp;</button>
+			<button class="ve-col-4 sort ve-btn ve-btn-default ve-btn-xs ve-grow" data-sort="source">Source</button>
+			<button class="ve-col-2 sort ve-btn ve-btn-default ve-btn-xs" data-sort="category">Category</button>
+			<button class="ve-col-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
+			<button class="ve-col-1 sort ve-btn ve-btn-default ve-btn-xs" disabled>&nbsp;</button>
 		</div>`;
 
 		const $wrpList = $(`<div class="list-display-only smooth-scroll ve-overflow-y-auto h-100 min-h-0"></div>`);
@@ -235,7 +266,7 @@ class BlocklistUi {
 			<hr class="${this._isCompactUi ? "hr-2" : "hr-5"}">
 
 			<h4 class="my-0">Blocklist</h4>
-			<div class="text-muted ${this._isCompactUi ? "mb-2" : "mb-3"}"><i>Rows marked with an asterisk (*) in a field match everything in that field.</i></div>
+			<div class="ve-muted ${this._isCompactUi ? "mb-2" : "mb-3"}"><i>Rows marked with an asterisk (*) in a field match everything in that field.</i></div>
 
 			<div class="ve-flex-col min-h-0">
 				<div class="ve-flex-v-stretch input-group input-group--top no-shrink">
@@ -291,7 +322,8 @@ class BlocklistUi {
 		Object.keys(this._data).forEach(prop => {
 			propSet.add(prop);
 			const arr = this._data[prop];
-			arr.forEach(it => sourceSet.has(it.source) || sourceSet.add(it.source));
+			if (!(arr instanceof Array)) return;
+			arr.forEach(it => sourceSet.add(SourceUtil.getEntitySource(it)));
 		});
 
 		this._allSources = [...sourceSet]
@@ -325,77 +357,77 @@ class BlocklistUi {
 		this._$wrpSelName = $(`<div class="w-100 ve-flex"></div>`);
 		this._doHandleSourceCategorySelChange();
 
-		const $btnAddExclusion = $(`<button class="btn btn-default btn-xs">Add to Blocklist</button>`)
+		const $btnAddExclusion = $(`<button class="ve-btn ve-btn-default ve-btn-xs">Add to Blocklist</button>`)
 			.click(() => this._pAdd());
 		// endregion
 
 		// Utility controls
 		const $btnSendToFoundry = !IS_VTT && ExtensionUtil.ACTIVE
-			? $(`<button title="Send to Foundry" class="btn btn-xs btn-default mr-2"><span class="glyphicon glyphicon-send"></span></button>`)
+			? $(`<button title="Send to Foundry" class="ve-btn ve-btn-xs ve-btn-default mr-2"><span class="glyphicon glyphicon-send"></span></button>`)
 				.click(evt => this._pDoSendToFoundry({isTemp: !!evt.shiftKey}))
 			: null;
-		const $btnExport = $(`<button class="btn btn-default btn-xs">Export List</button>`)
+		const $btnExport = $(`<button class="ve-btn ve-btn-default ve-btn-xs">Export List</button>`)
 			.click(() => this._export());
-		const $btnImport = $(`<button class="btn btn-default btn-xs" title="SHIFT for Add Only">Import List</button>`)
+		const $btnImport = $(`<button class="ve-btn ve-btn-default ve-btn-xs" title="SHIFT for Add Only">Import List</button>`)
 			.click(evt => this._pImport(evt));
-		const $btnReset = $(`<button class="btn btn-danger btn-xs">Reset List</button>`)
+		const $btnReset = $(`<button class="ve-btn ve-btn-danger ve-btn-xs">Reset List</button>`)
 			.click(async () => {
 				if (!await InputUiUtil.pGetUserBoolean({title: "Reset Blocklist", htmlDescription: "Are you sure?", textYes: "Yes", textNo: "Cancel"})) return;
 				this._reset();
 			});
 		// endregion
 
-		$$`<div class="${this._isCompactUi ? "mb-2" : "mb-5"} ve-flex-v-center">
-			<div class="ve-flex-vh-center mr-4">
+		$$`<div class="${this._isCompactUi ? "mb-2" : "mb-5"} ve-flex-v-center mobile__ve-flex-col mobile__ve-flex-ai-start">
+			<div class="ve-flex-vh-center mr-4 mobile__mr-0 mobile__mb-2">
 				<div class="mr-2">UA/Etc. Sources</div>
-				<div class="ve-flex-v-center btn-group">
+				<div class="ve-flex-v-center ve-btn-group">
 					${$btnExcludeAllUa}
 					${$btnIncludeAllUa}
 				</div>
 			</div>
 
-			<div class="ve-flex-vh-center mr-3">
+			<div class="ve-flex-vh-center mr-3 mobile__mr-0 mobile__mb-2">
 				<div class="mr-2">Comedy Sources</div>
-				<div class="ve-flex-v-center btn-group">
+				<div class="ve-flex-v-center ve-btn-group">
 					${$btnExcludeAllComedySources}
 					${$btnIncludeAllComedySources}
 				</div>
 			</div>
 
-			<div class="ve-flex-vh-center mr-3">
+			<div class="ve-flex-vh-center mr-3 mobile__mr-0 mobile__mb-2">
 				<div class="mr-2">Non-<i>Forgotten Realms</i></div>
-				<div class="ve-flex-v-center btn-group">
+				<div class="ve-flex-v-center ve-btn-group">
 					${$btnExcludeAllNonForgottenRealmsSources}
 					${$btnIncludeAllNonForgottenRealmsSources}
 				</div>
 			</div>
 
-			<div class="ve-flex-vh-center mr-3">
+			<div class="ve-flex-vh-center mr-3 mobile__mr-0 mobile__mb-2">
 				<div class="mr-2">All Sources</div>
-				<div class="ve-flex-v-center btn-group">
+				<div class="ve-flex-v-center ve-btn-group">
 					${$btnExcludeAllSources}
 					${$btnIncludeAllSources}
 				</div>
 			</div>
 		</div>
 
-		<div class="ve-flex-v-end ${this._isCompactUi ? "mb-2" : "mb-5"}">
-			<div class="ve-flex-col w-25 pr-2">
+		<div class="ve-flex-v-end ${this._isCompactUi ? "mb-2" : "mb-5"} mobile__ve-flex-col mobile__ve-flex-ai-start">
+			<div class="ve-flex-col w-25 pr-2 mobile__w-100 mobile__mb-2 mobile__p-0">
 				<label class="mb-1">Source</label>
 				${$selSource}
 			</div>
 
-			<div class="ve-flex-col w-25 px-2">
+			<div class="ve-flex-col w-25 px-2 mobile__w-100 mobile__mb-2 mobile__p-0">
 				<label class="mb-1">Category</label>
 				${$selCategory}
 			</div>
 
-			<div class="ve-flex-col w-25 px-2">
+			<div class="ve-flex-col w-25 px-2 mobile__w-100 mobile__mb-2 mobile__p-0">
 				<label class="mb-1">Name</label>
 				${this._$wrpSelName}
 			</div>
 
-			<div class="ve-flex-col w-25 pl-2">
+			<div class="ve-flex-col w-25 pl-2 mobile__w-100 mobile__mb-2 mobile__p-0">
 				<div class="mt-auto">
 					${$btnAddExclusion}
 				</div>
@@ -404,7 +436,7 @@ class BlocklistUi {
 
 		<div class="w-100 ve-flex-v-center">
 			${$btnSendToFoundry}
-			<div class="ve-flex-v-center btn-group mr-2">
+			<div class="ve-flex-v-center ve-btn-group mr-2">
 				${$btnExport}
 				${$btnImport}
 			</div>
@@ -413,11 +445,11 @@ class BlocklistUi {
 	}
 
 	_getBtnHtml_addToBlocklist () {
-		return `<button class="btn btn-danger btn-xs w-20p h-21p ve-flex-vh-center" title="Add to Blocklist"><span class="glyphicon glyphicon-trash"></span></button>`;
+		return `<button class="ve-btn ve-btn-danger ve-btn-xs w-20p h-21p ve-flex-vh-center" title="Add to Blocklist"><span class="glyphicon glyphicon-trash"></span></button>`;
 	}
 
 	_getBtnHtml_removeFromBlocklist () {
-		return `<button class="btn btn-success btn-xs w-20p h-21p ve-flex-vh-center" title="Remove from Blocklist"><span class="glyphicon glyphicon-thumbs-up"></span></button>`;
+		return `<button class="ve-btn ve-btn-success ve-btn-xs w-20p h-21p ve-flex-vh-center" title="Remove from Blocklist"><span class="glyphicon glyphicon-thumbs-up"></span></button>`;
 	}
 
 	_doHandleSourceCategorySelChange () {
@@ -453,7 +485,9 @@ class BlocklistUi {
 			return Object.entries(this._data).map(([cat, arr]) => arr.filter(it => it.source === this._comp.source).map(it => ({...it, category: cat}))).flat();
 		}
 
-		return this._data[this._comp.category].filter(it => it.source === this._comp.source).map(it => ({...it, category: this._comp.category}));
+		return this._data[this._comp.category]
+			.filter(it => SourceUtil.getEntitySource(it) === this._comp.source)
+			.map(it => ({...it, category: this._comp.category}));
 	}
 
 	_getDataUids (arr) {
@@ -461,47 +495,52 @@ class BlocklistUi {
 			.map(it => {
 				switch (it.category) {
 					case "subclass": {
-						return {...it, name: it.name, source: it.source, className: it.className, classSource: it.classSource, shortName: it.shortName};
+						return {...it, name: it.name, source: SourceUtil.getEntitySource(it), className: it.className, classSource: it.classSource, shortName: it.shortName};
 					}
 					case "classFeature": {
-						return {...it, name: it.name, source: it.source, className: it.className, classSource: it.classSource, level: it.level};
+						return {...it, name: it.name, source: SourceUtil.getEntitySource(it), className: it.className, classSource: it.classSource, level: it.level};
 					}
 					case "subclassFeature": {
-						return {...it, name: it.name, source: it.source, className: it.className, classSource: it.classSource, level: it.level, subclassShortName: it.subclassShortName, subclassSource: it.subclassSource};
+						return {...it, name: it.name, source: SourceUtil.getEntitySource(it), className: it.className, classSource: it.classSource, level: it.level, subclassShortName: it.subclassShortName, subclassSource: it.subclassSource};
 					}
 					case "adventure":
 					case "book": {
-						return {...it, name: it.name, source: it.source, id: it.id};
+						return {...it, name: it.name, source: SourceUtil.getEntitySource(it), id: it.id};
 					}
 					default: {
-						return it;
+						return {...it, name: it.name, source: SourceUtil.getEntitySource(it)};
 					}
 				}
 			})
 			.sort(this.constructor._fnSortDataUids.bind(this.constructor));
 
 		const dupes = new Set();
-		return copy.map((it, i) => {
-			let prefix = "";
-			let hash;
-			if (UrlUtil.URL_TO_HASH_BUILDER[it.category]) {
-				hash = UrlUtil.URL_TO_HASH_BUILDER[it.category](it);
-			}
-			switch (it.category) {
-				case "subclass": prefix = `${it.className}: `; break;
-				case "classFeature": prefix = this._getDisplayNamePrefix_classFeature(it); break;
-				case "subclassFeature": prefix = this._getDisplayNamePrefix_subclassFeature(it); break;
-			}
-			if (!hash) hash = UrlUtil.encodeForHash([it.name, it.source]);
-			const displayName = `${prefix}${it.name}${(dupes.has(it.name) || (copy[i + 1] && copy[i + 1].name === it.name)) ? ` (${Parser.sourceJsonToAbv(it.source)})` : ""}`;
+		return copy
+			.map((it, i) => {
+				let prefix = "";
+				let hash;
 
-			dupes.add(it.name);
-			return {
-				hash,
-				name: displayName,
-				category: it.category,
-			};
-		});
+				if (UrlUtil.URL_TO_HASH_BUILDER[it.category]) {
+					hash = UrlUtil.URL_TO_HASH_BUILDER[it.category](it);
+				} else {
+					hash = UrlUtil.encodeForHash([it.name, SourceUtil.getEntitySource(it)]);
+				}
+
+				switch (it.category) {
+					case "subclass": prefix = `${it.className}: `; break;
+					case "classFeature": prefix = this._getDisplayNamePrefix_classFeature(it); break;
+					case "subclassFeature": prefix = this._getDisplayNamePrefix_subclassFeature(it); break;
+				}
+
+				const displayName = `${prefix}${it.name}${(dupes.has(it.name) || (copy[i + 1] && copy[i + 1].name === it.name)) ? ` (${Parser.sourceJsonToAbv(SourceUtil.getEntitySource(it))})` : ""}`;
+
+				dupes.add(it.name);
+				return {
+					hash,
+					name: displayName,
+					category: it.category,
+				};
+			});
 	}
 
 	static _fnSortDataUids (a, b) {
@@ -517,7 +556,7 @@ class BlocklistUi {
 				return SortUtil.ascSortLower(a.className, b.className) || SortUtil.ascSortLower(a.subclassShortName, b.subclassShortName) || SortUtil.ascSort(a.level, b.level) || SortUtil.ascSortLower(a.name, b.name) || SortUtil.ascSortLower(a.source, b.source);
 			}
 			default: {
-				return SortUtil.ascSortLower(a.name, b.name) || SortUtil.ascSortLower(a.source, b.source);
+				return SortUtil.ascSortLower(a.name, b.name) || SortUtil.ascSortLower(SourceUtil.getEntitySource(a), SourceUtil.getEntitySource(b));
 			}
 		}
 	}
@@ -528,7 +567,7 @@ class BlocklistUi {
 		const id = this._listId++;
 		const sourceFull = Parser.sourceJsonToFull(source);
 
-		const $btnRemove = $(`<button class="btn btn-xxs btn-danger">Remove</button>`)
+		const $btnRemove = $(`<button class="ve-btn ve-btn-xxs ve-btn-danger">Remove</button>`)
 			.click(() => {
 				this._remove(id, hash, category, source);
 			});
@@ -559,7 +598,7 @@ class BlocklistUi {
 		this._list.addItem(listItem);
 	}
 
-	_addListItem_getItemStyles () { return `no-click ve-flex-v-center lst__row lst--border veapp__list-row lst__row-inner no-shrink`; }
+	_addListItem_getItemStyles () { return `no-click ve-flex-v-center lst__row lst__row-border veapp__list-row lst__row-inner no-shrink`; }
 
 	async _pAdd () {
 		const {hash, name: displayName, category: categoryName} = this._comp.name;
@@ -588,6 +627,9 @@ class BlocklistUi {
 		}
 	}
 
+	/**
+	 * @param {?Function} fnFilter
+	 */
 	_addMassSources ({fnFilter = null} = {}) {
 		const sources = fnFilter
 			? this._allSources.filter(source => fnFilter(source))
@@ -601,6 +643,9 @@ class BlocklistUi {
 		this._list.update();
 	}
 
+	/**
+	 * @param {?Function} fnFilter
+	 */
 	_removeMassSources ({fnFilter = null} = {}) {
 		const sources = fnFilter
 			? this._allSources.filter(source => fnFilter(source))

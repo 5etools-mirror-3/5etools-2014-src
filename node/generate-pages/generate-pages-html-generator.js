@@ -13,11 +13,11 @@ class _HtmlGenerator {
 
 export class HtmlGeneratorListButtons extends _HtmlGenerator {
 	static getBtnPreviewToggle () {
-		return `<button type="button" class="ve-col-0-3 btn btn-default btn-xs p-0 lst__btn-collapse-all-previews" name="list-toggle-all-previews">[+]</button>`;
+		return `<button type="button" class="ve-col-0-3 ve-btn ve-btn-default ve-btn-xs p-0 lst__btn-collapse-all-previews no-select" name="list-toggle-all-previews">[+]</button>`;
 	}
 
 	static getBtnSource () {
-		return `<button type="button" class="sort btn btn-default btn-xs ve-grow" data-sort="source">Source</button>`;
+		return `<button type="button" class="sort ve-btn ve-btn-default ve-btn-xs ve-grow" data-sort="source">Source</button>`;
 	}
 
 	/**
@@ -40,7 +40,7 @@ export class HtmlGeneratorListButtons extends _HtmlGenerator {
 		},
 	) {
 		const attrs = [
-			this._getAttrClass(`${width ? `ve-col-${width}` : `ve-grow`} sort btn btn-default btn-xs`, {classListAdditional}),
+			this._getAttrClass(`${width ? `ve-col-${width}` : `ve-grow`} sort ve-btn ve-btn-default ve-btn-xs`, {classListAdditional}),
 			sortIdent ? `data-sort="${sortIdent}"` : null,
 			title ? `title="${title}"` : null,
 			isDisabled ? `disabled` : null,

@@ -725,45 +725,7 @@
 											"page": 16,
 											"id": "034",
 											"entries": [
-												"While exploring your home, you discovered some trivial remnant of the ancient inhabitants, as determined by rolling on the Giant Trinkets table. The items in parentheses are the normal-sized objects most analogous to the described giant trinkets.",
-												{
-													"type": "table",
-													"caption": "Giant Trinkets",
-													"colLabels": [
-														"d6",
-														"Giant Trinket"
-													],
-													"colStyles": [
-														"col-2 text-center",
-														"col-10"
-													],
-													"rows": [
-														[
-															"1",
-															"A giant's toothpick (a {@item dagger|PHB})"
-														],
-														[
-															"2",
-															"A giant's handkerchief (a {@item blanket|PHB})"
-														],
-														[
-															"3",
-															"A giant's marble (a crystal orb)"
-														],
-														[
-															"4",
-															"A giant's match (a {@item torch|PHB})"
-														],
-														[
-															"5",
-															"A giant's letter opener (a {@item longsword|PHB})"
-														],
-														[
-															"6",
-															"A giant's thimble (an {@item iron pot|PHB})"
-														]
-													]
-												},
+												"While exploring your home, you discovered some trivial remnant of the ancient inhabitants, as determined by rolling on the {@item Giant Trinket|BGG|Giant Trinkets} table. The items in parentheses are the normal-sized objects most analogous to the described giant trinkets.",
 												{
 													"type": "image",
 													"href": {

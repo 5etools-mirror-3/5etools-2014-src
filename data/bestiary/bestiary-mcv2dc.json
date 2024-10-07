@@ -881,7 +881,7 @@
 				{
 					"name": "Obscuring Mist",
 					"entries": [
-						"If a creature that the veil keeper can see within 30 feet of itself is targeted by an attack, the veil keeper surrounds the creature with illusory mist, granting the creature half cover until the start of the veil keeper's next turn."
+						"If a creature that the veil keeper can see within 30 feet of itself is targeted by an attack, the veil keeper surrounds the creature with illusory mist, granting the creature {@quickref Cover||3||half cover} until the start of the veil keeper's next turn."
 					]
 				}
 			],

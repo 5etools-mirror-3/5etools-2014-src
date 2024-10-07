@@ -1,4 +1,6 @@
-"use strict";
+import "../js/parser.js";
+import "../js/utils.js";
+import "../js/utils-config.js";
 
 function handleFail () {
 	console.error("Tests failed!");

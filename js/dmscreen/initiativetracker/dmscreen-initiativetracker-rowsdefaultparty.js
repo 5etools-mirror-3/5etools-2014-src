@@ -44,7 +44,7 @@ class _RenderableCollectionRowDataDefaultParty extends RenderableCollectionRowDa
 	/* ----- */
 
 	_pPopulateRow_btns ({comp, entity, $wrpRhs}) {
-		$(`<button class="btn btn-danger btn-xs dm-init__row-btn dm-init-lockable" tabindex="-1"><span class="glyphicon glyphicon-trash"></span></button>`)
+		$(`<button class="ve-btn ve-btn-danger ve-btn-xs dm-init__row-btn dm-init-lockable" tabindex="-1"><span class="glyphicon glyphicon-trash"></span></button>`)
 			.appendTo($wrpRhs)
 			.on("click", () => {
 				if (this._comp._state.isLocked) return;

@@ -321,7 +321,7 @@
 				{
 					"name": "Sharpshooter",
 					"entries": [
-						"Falcon's ranged weapon attacks ignore half cover and three-quarters cover."
+						"Falcon's ranged weapon attacks ignore {@quickref Cover||3||half cover} and {@quickref Cover||3||three-quarters cover}."
 					]
 				}
 			],

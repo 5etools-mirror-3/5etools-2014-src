@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
 
 	<title>Adventures - 5etools</title>
 
@@ -58,7 +58,7 @@
 
 <body>
 
-<div class="overlay-noise"></div>
+<div class="overlay-noise no-print"></div>
 
 <div class="cancer__wrp-leaderboard cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__wrp-leaderboard-inner"><!--5ETOOLS_AD_LEADERBOARD--></div></div>
 
@@ -79,16 +79,16 @@
 	<div class="view-col" id="listcontainer">
 		<div class="lst__form-top">
 			<input type="search" id="search" autocomplete="off" autocapitalize="off" spellcheck="false" class="search form-control" placeholder="Find adventure...">
-			<button class="btn btn-default" id="reset">Reset</button>
+			<button class="ve-btn ve-btn-default" id="reset">Reset</button>
 		</div>
 
 		<div id="filtertools" class="input-group input-group--bottom ve-flex no-shrink">
-			<button type="button" class="ve-col-1-3 sort btn btn-default btn-xs" data-sort="group">Type</button>
-			<button type="button" class="ve-col-5-5 sort btn btn-default btn-xs" data-sort="name">Name</button>
-			<button type="button" class="ve-col-2-5 sort btn btn-default btn-xs" data-sort="storyline">Storyline</button>
-			<button type="button" class="ve-col-1 sort btn btn-default btn-xs" data-sort="level">Levels</button>
-			<button type="button" class="ve-col-1-7 sort btn btn-default btn-xs" data-sort="published">Published</button>
-			<button class="btn btn-default btn-xs w-30p mobile__hidden" disabled></button>
+			<button type="button" class="ve-col-1-3 sort ve-btn ve-btn-default ve-btn-xs" data-sort="group">Type</button>
+			<button type="button" class="ve-col-5-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
+			<button type="button" class="ve-col-2-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="storyline">Storyline</button>
+			<button type="button" class="ve-col-1 sort ve-btn ve-btn-default ve-btn-xs" data-sort="level">Levels</button>
+			<button type="button" class="ve-col-1-7 sort ve-btn ve-btn-default ve-btn-xs" data-sort="published">Published</button>
+			<button class="ve-btn ve-btn-default ve-btn-xs w-30p mobile__hidden" disabled></button>
 		</div>
 
 		<div class="list list--stats books">
@@ -96,10 +96,10 @@
 		</div>
 
 		<div class="ve-flex-vh-center mt-3 no-print">
-			<div class="ve-flex-v-center btn-group" id="btngroup-manager">
-				<button type="button" class="btn btn-xs btn-primary" name="manage-content">Manage Content</button>
-				<button type="button" class="btn btn-xs btn-primary" name="manage-prerelease" title="Manage Prerelease Content"><span class="glyphicon glyphicon-wrench"></span></button>
-				<button type="button" class="btn btn-xs btn-info" name="manage-brew" title="Manage Homebrew"><span class="glyphicon glyphicon-glass"></span></button>
+			<div class="ve-flex-v-center ve-btn-group" id="btngroup-manager">
+				<button type="button" class="ve-btn ve-btn-xs ve-btn-primary" name="manage-content">Manage Content</button>
+				<button type="button" class="ve-btn ve-btn-xs ve-btn-primary" name="manage-prerelease" title="Manage Prerelease Content"><span class="glyphicon glyphicon-wrench"></span></button>
+				<button type="button" class="ve-btn ve-btn-xs ve-btn-info" name="manage-brew" title="Manage Homebrew"><span class="glyphicon glyphicon-glass"></span></button>
 			</div>
 		</div>
 
@@ -119,7 +119,7 @@
 <script type="text/javascript" defer src="js/utils.js"></script>
 <script type="text/javascript" defer src="js/utils-ui.js"></script>
 <script type="text/javascript" defer src="lib/localforage.js"></script>
-<script type="text/javascript" defer src="js/omnidexer.js"></script>
+<script type="module" defer src="js/omnidexer.js"></script>
 <script type="module" src="js/omnisearch.js"></script>
 <script type="module" src="js/filter.js"></script>
 <script type="text/javascript" defer src="js/utils-dataloader.js"></script>

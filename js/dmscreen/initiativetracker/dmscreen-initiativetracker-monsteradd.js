@@ -52,7 +52,7 @@ class _InitiativeTrackerMonsterAddCustomizer extends BaseComponent {
 		$$($modalInner)`
 			<div class="ve-flex-col py-2 w-100 h-100 ve-overflow-y-auto">
 				<label class="split-v-center mb-2">
-					<span class="w-200p text-right no-shrink mr-2 bold">Custom Name:</span>
+					<span class="w-200p ve-text-right no-shrink mr-2 bold">Custom Name:</span>
 					${$iptCustomName}
 				</label>
 				${this._render_$getRowScaler()}
@@ -83,7 +83,7 @@ class _InitiativeTrackerMonsterAddCustomizer extends BaseComponent {
 				});
 
 			return $$`<label class="split-v-center mb-2">
-				<span class="w-200p text-right no-shrink mr-2 bold">Spell Level:</span>
+				<span class="w-200p ve-text-right no-shrink mr-2 bold">Spell Level:</span>
 				${sel}
 			</label>`;
 		}
@@ -98,7 +98,7 @@ class _InitiativeTrackerMonsterAddCustomizer extends BaseComponent {
 				});
 
 			return $$`<label class="split-v-center mb-2">
-				<span class="w-200p text-right no-shrink mr-2 bold">Class Level:</span>
+				<span class="w-200p ve-text-right no-shrink mr-2 bold">Class Level:</span>
 				${sel}
 			</label>`;
 		}
@@ -106,7 +106,7 @@ class _InitiativeTrackerMonsterAddCustomizer extends BaseComponent {
 		const $dispScaledCr = $(`<span class="inline-block"></span>`);
 		this._addHookBase("scaledCr", () => $dispScaledCr.text(this._state.scaledCr ? Parser.numberToCr(this._state.scaledCr) : `${(this._mon.cr.cr || this._mon.cr)} (default)`))();
 
-		const $btnScaleCr = $(`<button class="btn btn-default btn-xs mr-2"><span class="glyphicon glyphicon-signal"></span></button>`)
+		const $btnScaleCr = $(`<button class="ve-btn ve-btn-default ve-btn-xs mr-2"><span class="glyphicon glyphicon-signal"></span></button>`)
 			.on("click", async () => {
 				const crBase = this._mon.cr.cr || this._mon.cr;
 
@@ -123,7 +123,7 @@ class _InitiativeTrackerMonsterAddCustomizer extends BaseComponent {
 			});
 
 		return $$`<label class="split-v-center mb-2">
-			<span class="w-200p text-right no-shrink mr-2 bold">CR:</span>
+			<span class="w-200p ve-text-right no-shrink mr-2 bold">CR:</span>
 			<span class="ve-flex-v-center mr-auto">
 				${$btnScaleCr}
 				${$dispScaledCr}
@@ -132,7 +132,7 @@ class _InitiativeTrackerMonsterAddCustomizer extends BaseComponent {
 	}
 
 	_render_$getFooter ({rdState}) {
-		const $btnSave = $(`<button class="btn btn-primary btn-sm w-100">Save</button>`)
+		const $btnSave = $(`<button class="ve-btn ve-btn-primary ve-btn-sm w-100">Save</button>`)
 			.click(() => {
 				rdState.cbDoClose(
 					true,
@@ -269,18 +269,20 @@ export class InitiativeTrackerMonsterAdd extends BaseComponent {
 
 		const $ptrRows = {_: []};
 
-		const doSearch = () => {
+		const pDoSearch = async () => {
 			const searchTerm = $iptSearch.val().trim();
 
 			const index = this._board.availContent["Creature"];
-			const results = index.search(searchTerm, {
-				fields: {
-					n: {boost: 5, expand: true},
-					s: {expand: true},
-				},
-				bool: "AND",
-				expand: true,
-			});
+			const results = await Omnisearch.pGetFilteredResults(
+				index.search(searchTerm, {
+					fields: {
+						n: {boost: 5, expand: true},
+						s: {expand: true},
+					},
+					bool: "AND",
+					expand: true,
+				}),
+			);
 			const resultCount = results.length ? results.length : index.documentStore.length;
 			const toProcess = results.length ? results : Object.values(index.documentStore.docs).slice(0, 75).map(it => ({doc: it}));
 
@@ -288,7 +290,7 @@ export class InitiativeTrackerMonsterAdd extends BaseComponent {
 			$ptrRows._ = [];
 			if (toProcess.length) {
 				if (flags.doClickFirst) {
-					this._render_pHandleClickRow({rdState}, toProcess[0]);
+					await this._render_pHandleClickRow({rdState}, toProcess[0]);
 					flags.doClickFirst = false;
 					return;
 				}
@@ -313,13 +315,13 @@ export class InitiativeTrackerMonsterAdd extends BaseComponent {
 
 		SearchWidget.bindAutoSearch($iptSearch, {
 			flags,
-			fnSearch: doSearch,
+			pFnSearch: pDoSearch,
 			fnShowWait: showMsgDots,
 			$ptrRows,
 		});
 
 		$iptSearch.focus();
-		doSearch();
+		await pDoSearch();
 
 		return pGetResolved();
 	}
@@ -337,7 +339,7 @@ export class InitiativeTrackerMonsterAdd extends BaseComponent {
 	}
 
 	_render_$getSearchRow ({rdState, res}) {
-		const $btnCustomize = $(`<button class="btn btn-default btn-xxs" title="Customize"><span class="glyphicon glyphicon-stats"></span></button>`)
+		const $btnCustomize = $(`<button class="ve-btn ve-btn-default ve-btn-xxs" title="Customize"><span class="glyphicon glyphicon-stats"></span></button>`)
 			.on("click", async evt => {
 				evt.stopPropagation();
 				await this._render_pHandleClickCustomize({rdState, res});

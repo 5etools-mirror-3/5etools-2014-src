@@ -1,6 +1,4 @@
-"use strict";
-
-class RenderItems {
+export class RenderItems {
 	static _getRenderedSeeAlso (
 		{
 			item,
@@ -33,12 +31,12 @@ class RenderItems {
 
 			${textLeft && textRight ? `<tr>
 				<td colspan="2">${textLeft}</td>
-				<td class="text-right" colspan="4">${textRight}</td>
-			</tr>` : `<tr><td colspan="6" class="${textRight ? "text-right" : ""}">${textLeft || textRight}</td></tr>`}
+				<td class="ve-text-right" colspan="4">${textRight}</td>
+			</tr>` : `<tr><td colspan="6" class="${textRight ? "ve-text-right" : ""}">${textLeft || textRight}</td></tr>`}
 
-			${renderedText ? `<tr><td class="divider" colspan="6"><div></div></td></tr>
-			<tr class="text"><td colspan="6">${renderedText}</td></tr>` : ""}
-			${Renderer.utils.getPageTr(item, {tag: "item", fnUnpackUid: (uid) => DataUtil.proxy.unpackUid("item", uid, "item")})}
+			${renderedText ? `<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider"></div></td></tr>
+			<tr><td colspan="6">${renderedText}</td></tr>` : ""}
+			${Renderer.utils.getPageTr(item)}
 			${Renderer.utils.getBorderTr()}
 		`;
 	}

@@ -8495,50 +8495,10 @@
 								"The magewrights and artificers of Aerenal are more advanced than those of Khorvaire. Aereni artisans fashion rods, staffs, and wands, and other rare or even legendary items may come from Aerenal. However, the nation is less industrialized than Khorvaire. Legendary items aren't mass produced; some are personally crafted by members of the Undying Court.",
 								"Aereni goods make use of exotic plants and woods. Bronzewood has the density and even some of the properties of steel; an Aereni cleric might wear a bronzewood breastplate, while a paladin of the Undying Court could wear a suit of elaborated engraved bronzewood plate armor. Bronzewood leaves are remarkably tough, and the Aereni craft \"leaf weave\" armor functionally equivalent to leather, studded leather, or chain mail. Bronzewood can also be crafted into weapons, and Aereni warriors use spears or swords made from a single piece of bronzewood.",
 								{
-									"type": "table",
-									"caption": "Trinkets from Aerenal",
-									"colLabels": [
-										"d8",
-										"Trinket"
-									],
-									"colStyles": [
-										"col-2 text-center",
-										"col-10"
-									],
-									"rows": [
-										[
-											"1",
-											"A bronzewood ring inscribed with the Elvish word for \"hope\""
-										],
-										[
-											"2",
-											"A dried flower; if it's placed in water, it blooms"
-										],
-										[
-											"3",
-											"An ebony locket; when it's opened, an elven voice whispers \"Always\""
-										],
-										[
-											"4",
-											"A tiny skull carved from dark wood"
-										],
-										[
-											"5",
-											"A finger bone inscribed with an unknown sigil"
-										],
-										[
-											"6",
-											"An ivory flute which produces no sound"
-										],
-										[
-											"7",
-											"A small journal made from preserved leaves"
-										],
-										[
-											"8",
-											"A book of poetry written by undead elves"
-										]
-									]
+									"type": "statblock",
+									"name": "Aerenal Trinket",
+									"source": "ERLW",
+									"tag": "item"
 								}
 							]
 						}
@@ -8580,58 +8540,10 @@
 								"Some say the mysterious dragons of Argonnessen hide in plain sight, that shapechanged dragons scattered across Khorvaire pull the strings of civilization. According to some stories, the dragons seek to protect the younger races from vile fiends. In other tales, the dragons see the people of Khorvaire as fodder for arcane experiments. A dragon could be encountered as an ally or as a cruel enemy who casually crushes humanoids.",
 								"The magic of Argonnessen is far more powerful than the forces wielded by the wizards of Khorvaire. Many of the greatest artifacts in history were made in Argonnessen. Dragons are infused with magic, and their creations are made from the bones and scales of their kind.",
 								{
-									"type": "table",
-									"caption": "Trinkets from Argonnessen",
-									"colLabels": [
-										"d10",
-										"Trinket"
-									],
-									"colStyles": [
-										"col-2 text-center",
-										"col-10"
-									],
-									"rows": [
-										[
-											"1",
-											"A pierced dragon scale on a cord"
-										],
-										[
-											"2",
-											"A statuette of a dragon carved from black bone"
-										],
-										[
-											"3",
-											"A dragon's tooth, engraved with an unknown sigil"
-										],
-										[
-											"4",
-											"A child's doll of a dragon, woven from leather cords"
-										],
-										[
-											"5",
-											"A dagger carved from a dragon's talon"
-										],
-										[
-											"6",
-											"A brass disk bearing the silhouette of a black dragon"
-										],
-										[
-											"7",
-											"A small egg-shaped piece of polished bone"
-										],
-										[
-											"8",
-											"A bone fragment with brass inlaid runes"
-										],
-										[
-											"9",
-											"A leather pouch filled with tiny draconic teeth"
-										],
-										[
-											"10",
-											"A single large seed that's warm to the touch"
-										]
-									]
+									"type": "statblock",
+									"name": "Argonnessen Trinket",
+									"source": "ERLW",
+									"tag": "item"
 								}
 							]
 						}
@@ -8678,58 +8590,10 @@
 								"Cults of the Dragon Below often have ties to Khyber. Some serve aberrations or fight alongside dolgrims and dolgaunts (see {@book chapter 6|ERLW|13}). Others can unintentionally threaten a community by releasing something from the underworld: an unnatural disease, a malevolent demon, or a strange and addictive drug. In dealing with such a cult, the question is not only how to stop their current machinations, but how to seal the passage or prevent it from posing an ongoing threat.",
 								"Treasures from Khyber can take many forms. The daelkyr create living tools, including symbionts (see {@book chapter 5|ERLW|12}), but any magic item could be presented as an organic creation: a living {@item Cape of the Mountebank||cloak of the mountebank} that teleports its wearer through the plane of madness; a {@item dagger of venom} made from chitin and muscle, similar to a scorpion's barb; a {@item crystal ball} made by the daelkyr {@creature Belashyrra|ERLW} that looks like a giant eye, casting visions of distant places directly into the wielder's mind. Items recovered from fiendish demiplanes might be constructed from standard materials but have a sinister aspect or appearance, such as a {@item sword of life stealing} from the Abyssal Forest of Khar made of jagged, blackened steel. Shadows trail the blade, and it issues a hungry moan any time it draws blood.",
 								{
-									"type": "table",
-									"caption": "Trinkets from Khyber",
-									"colLabels": [
-										"d10",
-										"Trinket"
-									],
-									"colStyles": [
-										"col-2 text-center",
-										"col-10"
-									],
-									"rows": [
-										[
-											"1",
-											"A pressed flower with vivid green petals; when you smell it, you hear eerie music"
-										],
-										[
-											"2",
-											"A tiny ball of putty; if you set it down, it begins to slowly crawl around"
-										],
-										[
-											"3",
-											"A perpetually warm disk of dark iron"
-										],
-										[
-											"4",
-											"A small journal with leathery pages; any words you write in it slowly disappear"
-										],
-										[
-											"5",
-											"A four-sided die carved with strange markings"
-										],
-										[
-											"6",
-											"A cameo with the silhouette of an unknown species"
-										],
-										[
-											"7",
-											"A preserved finger with purple flesh and four joints"
-										],
-										[
-											"8",
-											"A perfectly preserved eye; if you set it down, it rotates to follow your movement"
-										],
-										[
-											"9",
-											"A small box; when opened, you alone hear screaming"
-										],
-										[
-											"10",
-											"A preserved insect; you've never seen another like it"
-										]
-									]
+									"type": "statblock",
+									"name": "Khyber Trinket",
+									"source": "ERLW",
+									"tag": "item"
 								},
 								{
 									"type": "image",
@@ -8783,50 +8647,10 @@
 								"The people of Khorvaire have no commerce with the arctic regions and no certainty about what lives there. If a threat comes from Everice, it might take time for people to identify its origin.",
 								"With this in mind, relics from Everice or the Frostfell could take any form. Are these treasures created by giants, fey, or dwarves? Are they carved from eternal ice, or are they forged from dwarven steel? If the civilization of the dwarves truly began in the Frostfell, did it fall into ruin, or are there progenitor dwarves who possess spells and weapons beyond anything known in Khorvaire? And how would these ancient dwarf lords react to their Mror descendants?",
 								{
-									"type": "table",
-									"caption": "Trinkets from the Frostfell and Everice",
-									"colLabels": [
-										"d8",
-										"Trinket"
-									],
-									"colStyles": [
-										"col-2 text-center",
-										"col-10"
-									],
-									"rows": [
-										[
-											"1",
-											"A small prism carved from ice that doesn't melt"
-										],
-										[
-											"2",
-											"A rusted iron coin, depicting a dwarf lord and the worlds \"Five Rex Undra\""
-										],
-										[
-											"3",
-											"A pair of eight-sided dice carved from ice that doesn't melt"
-										],
-										[
-											"4",
-											"A swatch of silvery fur that's cold to the touch, possibly from a winter wolf"
-										],
-										[
-											"5",
-											"A snowball; it doesn't melt and can't be compressed into ice"
-										],
-										[
-											"6",
-											"A tiny white dragon sculpted from ice that doesn't melt"
-										],
-										[
-											"7",
-											"A key carved from ice that doesn't melt"
-										],
-										[
-											"8",
-											"A single scale from a white dragon"
-										]
-									]
+									"type": "statblock",
+									"name": "Frostfell and Everice Trinket",
+									"source": "ERLW",
+									"tag": "item"
 								}
 							]
 						}
@@ -8917,50 +8741,10 @@
 								"Both the Inspired of Riedra and the kalashtar of Adar possess psychic powers, and treasures from Sarlona reflect this. A set of Sarlonan {@item sending stones} might take the form of crystals that allow telepathic communication. The {@item rod of rulership}, {@item ring of mind shielding}, {@item ring of telekinesis}, {@item potion of mind reading}, and the {@item medallion of thoughts} could represent psychic items from Sarlona.",
 								"In addition to psychic treasures, Sarlona is a source of a number of exotic plants and medicines. Dreamlily (described in chapter 4) is a useful Sarlonan narcotic, but over the course of the past few decades it has become a common recreational drug.",
 								{
-									"type": "table",
-									"caption": "Trinkets from Sarlona",
-									"colLabels": [
-										"d8",
-										"Trinket"
-									],
-									"colStyles": [
-										"col-2 text-center",
-										"col-10"
-									],
-									"rows": [
-										[
-											"1",
-											"A polished crystal sphere; when you clutch it in your fist, a telepathic voice recites a story in your mind"
-										],
-										[
-											"2",
-											"A teardrop pendant made from polished shell; when you hold it, you see the image of a young Riedran man"
-										],
-										[
-											"3",
-											"A six-sided crystal die; when you roll it, you feel a surge of emotion for six seconds"
-										],
-										[
-											"4",
-											"A sealed vial filled with faintly luminescent blue mist"
-										],
-										[
-											"5",
-											"A crystal disk engraved with a labyrinthine pattern"
-										],
-										[
-											"6",
-											"A leather-bound collection of kalashtar poetry called {@i Shards of the Light}"
-										],
-										[
-											"7",
-											"A sphere of polished crystal; when you hold it in your palm, you feel that it knows you and understands you"
-										],
-										[
-											"8",
-											"A cup and ball toy; when you successfully catch the ball in the cup, you feel a momentary surge of joy"
-										]
-									]
+									"type": "statblock",
+									"name": "Sarlona Trinket",
+									"source": "ERLW",
+									"tag": "item"
 								}
 							]
 						}
@@ -9083,50 +8867,10 @@
 								},
 								"The tremendous diversity of the people of Xen'drik means that no single trait defines objects and artifacts from this land. The primitive drow make armor comparable to studded leather using the chitin of giant scorpions. Rumors abound of more advanced drow civilizations in the layers of Khyber that lie beneath Xen'drik. The elves lived and fought in Xen'drik before the exodus that took them to Aerenal, and elven artifacts remain scattered across the region. And the grandest treasures include the work of the giants\u2014which can often be difficult to use because of their size. The spellbook of a giant wizard might hold priceless secrets, but the bulky tome can be quite awkward for smaller folk.",
 								{
-									"type": "table",
-									"caption": "Trinkets from Xen'drik",
-									"colLabels": [
-										"d8",
-										"Trinket"
-									],
-									"colStyles": [
-										"col-2 text-center",
-										"col-10"
-									],
-									"rows": [
-										[
-											"1",
-											"A punched ticket for a voyage from Sharn to Stormreach"
-										],
-										[
-											"2",
-											"A scorpion's barb engraved with a single Elvish letter"
-										],
-										[
-											"3",
-											"A copper coin so big you could use it as a dinner plate"
-										],
-										[
-											"4",
-											"An image of an elf warrior engraved on a giant's tooth"
-										],
-										[
-											"5",
-											"A single page from a giant wizard's spellbook, bearing an incomplete spell"
-										],
-										[
-											"6",
-											"A scrap of parchment, part of a map of Stormreach"
-										],
-										[
-											"7",
-											"A small book titled {@i Feersome Beests of Zendrik}"
-										],
-										[
-											"8",
-											"A scrimshaw carving of a sahuagin"
-										]
-									]
+									"type": "statblock",
+									"name": "Xen'drik Trinket",
+									"source": "ERLW",
+									"tag": "item"
 								}
 							]
 						}
@@ -16250,58 +15994,10 @@
 											]
 										},
 										{
-											"type": "table",
-											"caption": "Mournland Trinkets",
-											"colLabels": [
-												"d10",
-												"Trinket"
-											],
-											"colStyles": [
-												"col-2 text-center",
-												"col-10"
-											],
-											"rows": [
-												[
-													"1",
-													"The favorite childhood toy of one of the adventurers, floating in midair"
-												],
-												[
-													"2",
-													"A tin whistle that makes beautiful colors and patterns magically appear when it's played"
-												],
-												[
-													"3",
-													"A toy lightning rail car"
-												],
-												[
-													"4",
-													"A glass eye"
-												],
-												[
-													"5",
-													"A silver lapel pin of a finely detailed gorgon's head with ruby eyes"
-												],
-												[
-													"6",
-													"A monocle that can be used as a telescope"
-												],
-												[
-													"7",
-													"A six-inch-tall mechanical marmoset in need of minor repairs"
-												],
-												[
-													"8",
-													"A small medallion made of silver, depicting a tower with an eye at the top of it and other smaller eyes embedded in the sides"
-												],
-												[
-													"9",
-													"A cloak pin made of iron in the shape of two hammers joined by a semicircular haft"
-												],
-												[
-													"10",
-													"A wooden dinosaur toy that has movable legs"
-												]
-											]
+											"type": "statblock",
+											"name": "Mournland Trinket",
+											"source": "ERLW",
+											"tag": "item"
 										}
 									]
 								}
@@ -16856,7 +16552,7 @@
 										],
 										[
 											"3",
-											"Spells and abilities that raise the dead have a {@chance 50|50 percent} chance to bring back {@dice 1d4} angry spirits as well. These might be banshees, ghosts, shadows, specters, wraiths, or other incorporeal undead."
+											"Spells and abilities that raise the dead have a {@chance 50} chance to bring back {@dice 1d4} angry spirits as well. These might be banshees, ghosts, shadows, specters, wraiths, or other incorporeal undead."
 										],
 										[
 											"4",
@@ -19587,7 +19283,7 @@
 							"page": 257,
 							"id": "46e",
 							"entries": [
-								"The Sharn Watch includes people from all walks of life: veterans of the Last War, retired adventurers, lifelong residents of the city, and immigrants who have become Brelish citizens. You can select from or roll on the Sharn Watch Races and Sharn Watch Personalities tables to generate a Watch NPC. There is a {@chance 75|75 percent} chance the NPC is taking bribes from the Boromar Clan or another wealthy patron. This doesn't necessarily mean that the officer is willing to take a bribe from one of the adventurers.",
+								"The Sharn Watch includes people from all walks of life: veterans of the Last War, retired adventurers, lifelong residents of the city, and immigrants who have become Brelish citizens. You can select from or roll on the Sharn Watch Races and Sharn Watch Personalities tables to generate a Watch NPC. There is a {@chance 75} chance the NPC is taking bribes from the Boromar Clan or another wealthy patron. This doesn't necessarily mean that the officer is willing to take a bribe from one of the adventurers.",
 								{
 									"type": "insetReadaloud",
 									"name": "The Sharn Inquisitive\u2014A Life of Watchful Service",
@@ -20167,7 +19863,7 @@
 							"page": 281,
 							"id": "512",
 							"entries": [
-								"If the DM is using the crafting rules in {@book Xanathar's Guide to Everything|XGE} for items that aren't common, the creation process can involve complications. Assume there's a {@chance 10|10 percent} chance of a complication arising for every five workweeks (25 days) spent on crafting the item. {@book Xanathar's Guide to Everything|XGE} presents a number of possible complications, or you can use the Eberron Crafting Complications table.",
+								"If the DM is using the crafting rules in {@book Xanathar's Guide to Everything|XGE} for items that aren't common, the creation process can involve complications. Assume there's a {@chance 10} chance of a complication arising for every five workweeks (25 days) spent on crafting the item. {@book Xanathar's Guide to Everything|XGE} presents a number of possible complications, or you can use the Eberron Crafting Complications table.",
 								{
 									"type": "table",
 									"caption": "Eberron Crafting Complications",

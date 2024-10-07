@@ -5,13 +5,13 @@ class RenderTables {
 		if (it.parentEntity) {
 			switch (it.parentEntity.type) {
 				case "class": {
-					return `<tr class="text"><td colspan="6">
+					return `<tr><td colspan="6">
 						${Renderer.get().render(`{@note ${it.__prop === "table" ? `This table is` : "These tables are"} from the {@class ${it.parentEntity.name}|${it.parentEntity.source}} class.}`)}
 					</td></tr>`;
 				}
 
 				case "subclass": {
-					return `<tr class="text"><td colspan="6">
+					return `<tr><td colspan="6">
 						${Renderer.get().render(`{@note ${it.__prop === "table" ? `This table is` : "These tables are"} from the {@class ${it.parentEntity.className}|${it.parentEntity.classSource}|${it.parentEntity.name}|${it.parentEntity.shortName}|${it.parentEntity.source}} <span title="Source: ${Parser.sourceJsonToFull(it.parentEntity.classSource)}">${it.parentEntity.className}</span> subclass.}`)}
 					</td></tr>`;
 				}
@@ -20,7 +20,7 @@ class RenderTables {
 					const tag = Parser.getPropTag(it.parentEntity.type);
 					const displayName = Parser.getPropDisplayName(it.parentEntity.type);
 
-					return `<tr class="text"><td colspan="6">
+					return `<tr><td colspan="6">
 						${Renderer.get().render(`{@note ${it.__prop === "table" ? `This table is` : "These tables are"} from the {@${tag} ${it.parentEntity.name}|${it.parentEntity.source}} ${displayName.toLowerCase()}.}`)}
 					</td></tr>`;
 				}
@@ -28,7 +28,7 @@ class RenderTables {
 		}
 
 		if (it.chapter) {
-			return `<tr class="text"><td colspan="6">
+			return `<tr><td colspan="6">
 				${Renderer.get().render(`{@note ${it.__prop === "table" ? `This table` : "These tables"} can be found in ${Parser.sourceJsonToFull(it.source)}${Parser.bookOrdinalToAbv(it.chapter.ordinal, true)}, {@book ${it.chapter.name}|${it.source}|${it.chapter.index}|${it.chapter.name}}.}`)}
 			</td></tr>`;
 		}
@@ -45,7 +45,7 @@ class RenderTables {
 		${Renderer.utils.getBorderTr()}
 		${Renderer.utils.getExcludedTr({entity: it, dataProp: "table"})}
 		${Renderer.utils.getNameTr(it, {page: UrlUtil.PG_TABLES})}
-		<tr><td class="divider" colspan="6"><div></div></td></tr>
+		<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider"></div></td></tr>
 		<tr><td colspan="6">${Renderer.get().setFirstSection(true).render(it)}</td></tr>
 		${ptFrom}
 		${Renderer.utils.getPageTr(it)}

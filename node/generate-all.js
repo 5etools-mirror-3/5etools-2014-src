@@ -1,3 +1,7 @@
+import "../js/parser.js";
+import "../js/utils.js";
+import "../js/utils-config.js";
+
 async function main () {
 	await import("./generate-dmscreen-reference.js");
 	await import("./generate-quick-reference.js");

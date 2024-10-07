@@ -2,4 +2,11 @@
 
 set -e
 
-sed -i 's#DEPLOYED_IMG_ROOT\s*=\s*undefined#DEPLOYED_IMG_ROOT='"\"https://raw.githubusercontent.com/5etools-mirror-2/5etools-img/main/\""'#g' js/utils.js
+if [[ $# -eq 0 ]]; then
+    echo "No arguments provided. Usage: set-img-root.sh <repositoryOwner>"
+    exit 1
+fi
+
+repo_owner=$1
+
+sed -i 's#DEPLOYED_IMG_ROOT\s*=\s*undefined#DEPLOYED_IMG_ROOT='"\"https://raw.githubusercontent.com/5etools-mirror-3/5etools-img/main/\""'#g' js/utils.js

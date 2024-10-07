@@ -9362,7 +9362,7 @@
 									"id": "0d0",
 									"entries": [
 										"The camp is ringed by a 20-foot-deep ditch lined with sharpened stakes backed by a stout, 12-foot-high log palisade. The depth of the ditch isn't apparent because it's perpetually filled with muddy water. The spikes are too big to be effective against undead but they're dangerous to Large and Huge beasts. The gatehouse is heavy enough to withstand a charging triceratops, and the gates are never opened without an express command from one of the camp's top three officers.",
-										"The gatehouse consists of the ground-level entryway, an upper floor that serves as an armory (all of the garrison's spare weapons and armor are stored here because it's one of the few places that remains reliably dry), and a roofless fighting platform surrounded by a palisade that gives three-quarters cover against attacks made from the ground. Two {@creature Guard||guards} are stationed atop the gatehouse day and night.",
+										"The gatehouse consists of the ground-level entryway, an upper floor that serves as an armory (all of the garrison's spare weapons and armor are stored here because it's one of the few places that remains reliably dry), and a roofless fighting platform surrounded by a palisade that gives {@quickref Cover||3||three-quarters cover} against attacks made from the ground. Two {@creature Guard||guards} are stationed atop the gatehouse day and night.",
 										"The rampart under the palisade impedes the camp's drainage. The entire compound is riddled with puddles and ankle-deep mud, which make it a breeding ground for mosquitoes and other vermin."
 									]
 								},
@@ -9372,7 +9372,7 @@
 									"page": 48,
 									"id": "0d1",
 									"entries": [
-										"Each watchtower has a defended top level (providing three-quarters cover) that looms above the camp palisade. A lower level consists of a wooden floor raised several feet above the ground and enclosed with a combination of thin wood and canvas to create a reasonably dry living space. Lorsa Bilwatal, Wulf Rygor, and their cadre of Chultan scouts have their quarters in these lower watchtower billets.",
+										"Each watchtower has a defended top level (providing {@quickref Cover||3||three-quarters cover}) that looms above the camp palisade. A lower level consists of a wooden floor raised several feet above the ground and enclosed with a combination of thin wood and canvas to create a reasonably dry living space. Lorsa Bilwatal, Wulf Rygor, and their cadre of Chultan scouts have their quarters in these lower watchtower billets.",
 										"Theoretically, each watchtower is staffed by two {@creature Guard||guards} day and night, but personnel shortages sometimes reduce that to one guard or force the knights to take turns on watch."
 									]
 								},
@@ -17389,7 +17389,7 @@
 								"The roof of the cave looms 60 feet above the water, on average (this varies a bit with the tide). It's 50 feet above ground level and 20 feet above the top of the watch tower and gantry. Two natural stone columns sit across the mouth of the inlet with only a 25-foot gap between them, so that ships must be carefully towed into the cave by small boats and maneuvered with ropes once they're inside.",
 								"Thanks to its sheltered position and the perpetual mist in the bay, the cave is difficult to find unless a person knows where to look. An alert lookout spots the structures and docked ship inside the cave automatically if passing within a half-mile of shore. At a distance up to 2 miles, a successful DC 15 Wisdom ({@skill Perception}) check is needed. Lookouts at the anchorage notice a ship within 2 miles automatically.",
 								"The pirates' first line of defense is a ring of submerged rocks a quarter-mile from shore. The captain of a ship trying to sail though must make a DC 10 Intelligence check. If the check succeeds, the ship gets past the rocks safely. If it fails by 4 or less, the ship strikes a rock and springs a few leaks but suffers no serious damage and can continue seeking a passage through. If the check fails by 5 or more, a rock causes significant damage; the ship lists badly and its speed is halved until the hull is repaired. Striking a third rock causes the ship to sink. The pirates, of course, know where the rocks are and avoid them.",
-								"The watchtower ({@area area 6|139|x}) and the entire elevated walkway from the tower to the warehouse ({@area area 4|135|x}) have crenelated parapets for defense. These provide half cover.",
+								"The watchtower ({@area area 6|139|x}) and the entire elevated walkway from the tower to the warehouse ({@area area 4|135|x}) have crenelated parapets for defense. These provide {@quickref Cover||3||half cover}.",
 								"Aside from the pirate crews, Jahaka Anchorage is home to a handful of pirates who answer to the tavernkeeper, {@creature Bosco Daggerhand|ToA} ({@area area 6A|139|x})\u2014and only because he's master of the ale.",
 								{
 									"type": "inset",
@@ -18518,7 +18518,7 @@
 									"page": 67,
 									"id": "139",
 									"entries": [
-										"This ramshackle watchtower stands 30 feet above \"dry\" land. It's surrounded by a crenelated parapet that provides half cover to defenders. A ballista is also mounted on the tower. It can be used against vessels intruding in the anchorage, but it's primarily for defense against large reptiles threatening the jungle wall ({@area area 1|132|x}). Two pirates ({@creature Bandit||bandits}) are always on duty atop the tower, and more come pouring out of Bosco's Bilge (area 6A) if the brass alarm bell is rung. A spiral staircase carved into a nearby pillar of rock allows access to Bosco's Bilge."
+										"This ramshackle watchtower stands 30 feet above \"dry\" land. It's surrounded by a crenelated parapet that provides {@quickref Cover||3||half cover} to defenders. A ballista is also mounted on the tower. It can be used against vessels intruding in the anchorage, but it's primarily for defense against large reptiles threatening the jungle wall ({@area area 1|132|x}). Two pirates ({@creature Bandit||bandits}) are always on duty atop the tower, and more come pouring out of Bosco's Bilge (area 6A) if the brass alarm bell is rung. A spiral staircase carved into a nearby pillar of rock allows access to Bosco's Bilge."
 									]
 								},
 								{
@@ -21682,7 +21682,7 @@
 									"page": 85,
 									"id": "1ad",
 									"entries": [
-										"When characters first arrive on the scene, they see eight {@creature Ghoul||ghouls} lurking in the foliage below the wreck. Each ghoul has a small blue triangle tattooed on its forehead\u2014the symbol of {@creature Ras Nsi|ToA}. The ghouls have three-quarters cover from trees, and they withdraw from the area temporarily if the situation gets too hot.",
+										"When characters first arrive on the scene, they see eight {@creature Ghoul||ghouls} lurking in the foliage below the wreck. Each ghoul has a small blue triangle tattooed on its forehead\u2014the symbol of {@creature Ras Nsi|ToA}. The ghouls have {@quickref Cover||3||three-quarters cover} from trees, and they withdraw from the area temporarily if the situation gets too hot.",
 										"A few minutes after characters climb up to the wreck, it's attacked by three {@creature Girallon Zombie|ToA|girallon zombies} (see {@adventure appendix D|ToA|9}). The monsters approach from the east, and because they have a climbing speed, they can move anywhere on the map as easily as on the ship. The NPCs fight back, but they aren't very effective given their {@condition exhaustion}. The girallon zombies aren't above grabbing enemies and tossing them off the ship; one or two of the NPC guards should die that way. A character who falls or is thrown off the ship can halve the falling damage with a successful DC 10 Dexterity ({@skill Acrobatics}) check, representing clutching at vines and branches on the way down."
 									]
 								},
@@ -34310,7 +34310,7 @@
 									"page": 119,
 									"id": "2ce",
 									"entries": [
-										"{@creature Ras Nsi|ToA} and {@creature Fenthaza|ToA} use the north balcony to address underlings. To climb up, a character must succeed on a DC 13 Strength ({@skill Athletics}) check. The balustrades around the balcony provide half cover against ranged attacks originating from the room below.",
+										"{@creature Ras Nsi|ToA} and {@creature Fenthaza|ToA} use the north balcony to address underlings. To climb up, a character must succeed on a DC 13 Strength ({@skill Athletics}) check. The balustrades around the balcony provide {@quickref Cover||3||half cover} against ranged attacks originating from the room below.",
 										"Set into the back wall is an alcove with an engraved stone disk on the floor\u2014one of {@creature Ras Nsi|ToA}'s magic teleporters (see \"{@area Teleporters|2ac|x}\")."
 									]
 								},
@@ -42367,7 +42367,7 @@
 									"id": "45b",
 									"entries": [
 										"Whenever the sun or its chain are touched or damaged, the sun's smile fades to an inscrutable expression, and it emits tremendous heat in a 20-foot-radius sphere centered on itself. Any creature that starts its turn in the area takes 10 ({@dice 3d6}) fire damage. This effect ends if all creatures leave the affected area.",
-										"The first time the queen's remains or any of her treasures are removed from the sarcophagus, the sun's expression turns angry as it emits rays of searing light. Each creature within 30 feet of the sun that doesn't have total cover against it must succeed on a DC 14 Dexterity saving throw or be struck by a ray, which deals 42 ({@dice 12d6}) fire damage.",
+										"The first time the queen's remains or any of her treasures are removed from the sarcophagus, the sun's expression turns angry as it emits rays of searing light. Each creature within 30 feet of the sun that doesn't have {@quickref Cover||3||total cover} against it must succeed on a DC 14 Dexterity saving throw or be struck by a ray, which deals 42 ({@dice 12d6}) fire damage.",
 										"The sun and its chain are treated as a single Small object with AC 15; 22 hit points; and immunity to fire, poison, and psychic damage. The sun loses its magical properties when it shoots its rays or is destroyed."
 									]
 								},
@@ -44688,7 +44688,7 @@
 									"page": 175,
 									"id": "4b9",
 									"entries": [
-										"A rusty iron gate on the side of the cage provides ingress for two Medium or smaller creatures. The cage radiates transmutation magic to a {@spell detect magic} spell or similar effect, and bestows the effect of a {@spell water breathing} spell on any creatures within it. The stout bars grant half cover against attacks originating from outside the cage.",
+										"A rusty iron gate on the side of the cage provides ingress for two Medium or smaller creatures. The cage radiates transmutation magic to a {@spell detect magic} spell or similar effect, and bestows the effect of a {@spell water breathing} spell on any creatures within it. The stout bars grant {@quickref Cover||3||half cover} against attacks originating from outside the cage.",
 										"Using the winch, a character on the steps can lower the cage 20 feet to the lakebed, allowing characters in the cage to easily harvest {@dice 2d6} phosphorescent {@creature Crab||crabs} from the muck.",
 										"The creaking descent of the cage draws the attention of the aboleth in {@area area 65|4b1|x}. If the aboleth's crueler personality is dominant, it attempts to enslave any characters in the cage. If it succeeds, it sends them back to the surface with orders to entice others down into the depths. If the aboleth's childlike personality is dominant, it swims over and uses its telepathy to strike up a friendly conversation with the divers."
 									]
@@ -44883,7 +44883,7 @@
 											]
 										},
 										"A {@creature pentadrone} leads a squad of nine {@creature Quadrone||quadrones} through the upper planar vortex, which allows safe passage into the shaft but not out of it. Knowing that they cannot return to Mechanus, the modrons fight until destroyed. Once these modrons are dealt with, the shaft becomes undefended. No other modrons are sent through the vortex.",
-										"The pentadrone can't fly on its own, but it gains a flying speed of 30 feet and can hover while encased in the crystal decahedron, which grants its occupant total cover against attacks that originate outside the vehicle. The pentadrone can't make melee attacks through the decahedron, but it can use a bonus action to open a small hole in any of the decahedron's facets in order to spray creatures with its paralysis gas.",
+										"The pentadrone can't fly on its own, but it gains a flying speed of 30 feet and can hover while encased in the crystal decahedron, which grants its occupant {@quickref Cover||3||total cover} against attacks that originate outside the vehicle. The pentadrone can't make melee attacks through the decahedron, but it can use a bonus action to open a small hole in any of the decahedron's facets in order to spray creatures with its paralysis gas.",
 										"The decahedron has AC 16, 50 hit points, immunity to poison damage, resistance to piercing and slashing damage, and vulnerability to bludgeoning and thunder damage. If it is reduced to 0 hit points, the crystal decahedron shatters and the pentadrone falls.",
 										"The crystal decahedron has enough room to accommodate one Small or Medium creature in addition to the pentadrone if a character thinks to enter the vehicle using {@spell misty step}, {@spell dimension door}, or similar magic. Inside the vehicle, the pentadrone can attack as normal. When the pentadrone dies, the decahedron shatters."
 									]
@@ -46878,7 +46878,7 @@
 								],
 								[
 									"10",
-									"The characters run into {@creature Volothamp \"Volo\" Geddarm|toa|Volothamp Geddarm}, who is delivering a copy of his new book to one of the city's merchant princes. There is a {@chance 50|50 percent} chance that Volo is drunk."
+									"The characters run into {@creature Volothamp \"Volo\" Geddarm|toa|Volothamp Geddarm}, who is delivering a copy of his new book to one of the city's merchant princes. There is a {@chance 50} chance that Volo is drunk."
 								],
 								[
 									"11-20",
@@ -49623,7 +49623,7 @@
 											"page": 198,
 											"id": "5b9",
 											"entries": [
-												" The characters spot a {@creature tyrannosaurus rex} 300 yards away. There's a {@chance 50|50 percent} chance that the hungry behemoth is fighting either a stegosaurus, a triceratops, a pair of giant constrictor snakes, a giant ape, or a mob of ghouls and zombies. None of these creatures will voluntarily team up with the party, but their presence might weaken the tyrannosaurus to the point where the characters have a chance of slaying it."
+												" The characters spot a {@creature tyrannosaurus rex} 300 yards away. There's a {@chance 50} chance that the hungry behemoth is fighting either a stegosaurus, a triceratops, a pair of giant constrictor snakes, a giant ape, or a mob of ghouls and zombies. None of these creatures will voluntarily team up with the party, but their presence might weaken the tyrannosaurus to the point where the characters have a chance of slaying it."
 											]
 										},
 										"Characters can avoid an encounter with the tyrannosaurus if they keep their distance and succeed on a DC 15 group Dexterity (Stealth) check. If any character is trained in the Survival skill, all the characters' checks are made with advantage.",
@@ -49891,7 +49891,7 @@
 									"page": 200,
 									"id": "5c8",
 									"entries": [
-										"The characters hear the sound of huge creatures stomping through the wilderness. If they follow the noise, they encounter a search party of three {@creature frost giant||frost giants} accompanied by 1d2 {@creature winter wolf||winter wolves}. For each such encounter, there is a {@chance 20|20 percent} chance that this is {@creature Drufi|ToA}'s search party (see {@i \"Hvalspyd\"}).",
+										"The characters hear the sound of huge creatures stomping through the wilderness. If they follow the noise, they encounter a search party of three {@creature frost giant||frost giants} accompanied by 1d2 {@creature winter wolf||winter wolves}. For each such encounter, there is a {@chance 20} chance that this is {@creature Drufi|ToA}'s search party (see {@i \"Hvalspyd\"}).",
 										"The frost giants are concerned chiefly with locating the {@item Ring of Winter|ToA}, and they might help characters who can provide useful information. They immediately attack characters who withhold information, or who threaten to reveal the giants' presence to the Flaming Fist. The frost giants carry no treasure with them while they hunt."
 									]
 								},
@@ -50007,7 +50007,7 @@
 									"id": "5d4",
 									"entries": [
 										"The party is ambushed by 1d2 {@creature kamadan|ToA|kamadans}. Any character with a passive Wisdom (Perception) score of 16 or higher gets a warning of the attack, but all others are {@status surprised}. Characters who prevail against the kamadans can search the area for their lair, finding it with a successful DC 15 Wisdom (Survival) check.",
-										"A kamadan lair has a {@chance 25|25 percent} chance of containing 1d3 noncombatant young the size of house cats. With their snakes not yet grown out, they look like leopard cubs. {@creature Ifan Talro'a|ToA} in Port Nyanzaru will pay 150 gp for a live kamadan cub, but a successful DC 15 Charisma (Persuasion) check talks him up to 300 gp.",
+										"A kamadan lair has a {@chance 25} chance of containing 1d3 noncombatant young the size of house cats. With their snakes not yet grown out, they look like leopard cubs. {@creature Ifan Talro'a|ToA} in Port Nyanzaru will pay 150 gp for a live kamadan cub, but a successful DC 15 Charisma (Persuasion) check talks him up to 300 gp.",
 										{
 											"type": "table",
 											"caption": "Kamadan Cubs",
@@ -50254,7 +50254,7 @@
 										},
 										"{@b 1.} Treasure lies at the foot of the statue, left there as tribute by some jungle creature. Roll once on the Treasure Drops table to determine what treasure is found. If the roll indicates no treasure, the characters find worthless pieces of bone jewelry instead.",
 										"{@b 2.} Goblin, grung, and su-monster skulls are piled around the statue's base.",
-										"{@b 3.} A {@spell glyph of warding} is inscribed on the statue. To spot the glyph, a character searching the statue must succeed on a DC 15 Intelligence (Investigation) check. If any creature touches the statue, the glyph erupts with magical energy in a 20-foot-radius sphere centered on the statue. Each creature in the area must succeed on a DC 14 Dexterity saving throw, taking 22 (5d8) thunder damage on a failed save, or half as much damage on a successful one. The thunderous noise has a {@chance 75|75 percent} chance of attracting stirges or a troll lurking nearby (see \"Stirges\" and \"Troll\" below).",
+										"{@b 3.} A {@spell glyph of warding} is inscribed on the statue. To spot the glyph, a character searching the statue must succeed on a DC 15 Intelligence (Investigation) check. If any creature touches the statue, the glyph erupts with magical energy in a 20-foot-radius sphere centered on the statue. Each creature in the area must succeed on a DC 14 Dexterity saving throw, taking 22 (5d8) thunder damage on a failed save, or half as much damage on a successful one. The thunderous noise has a {@chance 75} chance of attracting stirges or a troll lurking nearby (see \"Stirges\" and \"Troll\" below).",
 										"{@b 4.} The statue has grooves carved into its stomach that form a maze. Any character who studies the grooves and succeeds on a DC 10 Intelligence check sees a clear pathway through the labyrinth. That character is then bestowed with the power to cast the {@spell find the path} spell as an action, no components required, by tracing the same path with his or her finger. Once used, this ability goes away. Once the statue has granted this benefit, it can't do so again until the next dawn."
 									]
 								},

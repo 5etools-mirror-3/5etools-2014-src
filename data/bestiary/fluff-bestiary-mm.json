@@ -3699,15 +3699,15 @@
 										{
 											"type": "list",
 											"items": [
-												"A balor has a {@chance 50|50 percent} chance of summoning {@dice 1d8} vrocks, {@dice 1d6} hezrous, {@dice 1d4} glabrezus, {@dice 1d3} nalfeshnees, {@dice 1d2} mariliths, or one goristro.",
-												"A barlgura has a {@chance 30|30 percent} chance of summoning one barlgura.",
-												"A chasme has a {@chance 30|30 percent} chance of summoning one chasme.",
-												"A glabrezu has a {@chance 30|30 percent} chance of summoning {@dice 1d3} vrocks, {@dice 1d2} hezrous, or one glabrezu.",
-												"A hezrou has a {@chance 30|30 percent} chance of summoning {@dice 2d6} dretches or one hezrou.",
-												"A marilith has a {@chance 50|50 percent} chance of summoning {@dice 1d6} vrocks, {@dice 1d4} hezrous, {@dice 1d3} glabrezus, {@dice 1d2} nalfeshnees, or one marilith.",
-												"A nalfeshnee has a {@chance 50|50 percent} chance of summoning {@dice 1d4} vrocks, {@dice 1d3} hezrous, {@dice 1d2} glabrezus, or one nalfeshnee.",
-												"A vrock has a {@chance 30|30 percent} chance of summoning {@dice 2d4} dretches or one vrock.",
-												"A yochlol has a {@chance 50|50 percent} chance of summoning one yochlol."
+												"A balor has a {@chance 50} chance of summoning {@dice 1d8} vrocks, {@dice 1d6} hezrous, {@dice 1d4} glabrezus, {@dice 1d3} nalfeshnees, {@dice 1d2} mariliths, or one goristro.",
+												"A barlgura has a {@chance 30} chance of summoning one barlgura.",
+												"A chasme has a {@chance 30} chance of summoning one chasme.",
+												"A glabrezu has a {@chance 30} chance of summoning {@dice 1d3} vrocks, {@dice 1d2} hezrous, or one glabrezu.",
+												"A hezrou has a {@chance 30} chance of summoning {@dice 2d6} dretches or one hezrou.",
+												"A marilith has a {@chance 50} chance of summoning {@dice 1d6} vrocks, {@dice 1d4} hezrous, {@dice 1d3} glabrezus, {@dice 1d2} nalfeshnees, or one marilith.",
+												"A nalfeshnee has a {@chance 50} chance of summoning {@dice 1d4} vrocks, {@dice 1d3} hezrous, {@dice 1d2} glabrezus, or one nalfeshnee.",
+												"A vrock has a {@chance 30} chance of summoning {@dice 2d4} dretches or one vrock.",
+												"A yochlol has a {@chance 50} chance of summoning one yochlol."
 											]
 										},
 										"A summoned demon appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other demons. It remains for 1 minute, until it or its summoner dies, or until its summoner dismisses it as an action."
@@ -4063,12 +4063,12 @@
 								{
 									"type": "list",
 									"items": [
-										"A barbed devil has a {@chance 30|30 percent} chance of summoning one barbed devil.",
-										"A bearded devil has a {@chance 30|30 percent} chance of summoning one bearded devil.",
-										"A bone devil has a {@chance 40|40 percent} chance of summoning {@dice 2d6} spined devils or one bone devil.",
-										"An erinyes has a {@chance 50|50 percent} chance of summoning {@dice 3d6} spined devils, {@dice 1d6} bearded devils, or one erinyes.",
-										"A horned devil has a {@chance 30|30 percent} chance of summoning one horned devil.",
-										"An ice devil has a {@chance 60|60 percent} chance of summoning one ice devil.",
+										"A barbed devil has a {@chance 30} chance of summoning one barbed devil.",
+										"A bearded devil has a {@chance 30} chance of summoning one bearded devil.",
+										"A bone devil has a {@chance 40} chance of summoning {@dice 2d6} spined devils or one bone devil.",
+										"An erinyes has a {@chance 50} chance of summoning {@dice 3d6} spined devils, {@dice 1d6} bearded devils, or one erinyes.",
+										"A horned devil has a {@chance 30} chance of summoning one horned devil.",
+										"An ice devil has a {@chance 60} chance of summoning one ice devil.",
 										"A pit fiend summons {@dice 2d4} bearded devils, {@dice 1d4} barbed devils, or one erinyes with no chance of failure."
 									]
 								},

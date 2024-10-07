@@ -52,7 +52,7 @@
 				"armor": [
 					"light",
 					"medium",
-					"{@item shield|phb|shields}"
+					"shield"
 				],
 				"weapons": [
 					"simple",
@@ -80,7 +80,7 @@
 				"additionalFromBackground": true,
 				"default": [
 					"(a) {@item scale mail|phb} or (b) {@item leather armor|phb}",
-					"(a) two {@item shortsword|phb|shortswords} or (b) two {@filter simple melee weapons|items|source=phb|category=basic|type=simple weapon;melee weapon=u~u~sand}",
+					"(a) two {@item shortsword|phb|shortswords} or (b) two {@filter simple melee weapons|items|source=phb|category=basic|type=simple weapon;melee weapon=sand}",
 					"(a) a {@item dungeoneer's pack|phb} or (b) an {@item explorer's pack|phb}",
 					"A {@item longbow|phb} and a {@item quiver|phb} of {@item arrows (20)|phb|20 arrows}"
 				],
@@ -133,7 +133,7 @@
 					"armor": [
 						"light",
 						"medium",
-						"{@item shield|phb|shields}"
+						"shield"
 					],
 					"skills": [
 						{
@@ -2185,7 +2185,7 @@
 					"items": [
 						"The damage of Gathered Swarm increases to {@dice 1d8}.",
 						"If a creature fails its saving throw against being moved by Gathered Swarm, you can also cause the swarm to knock the creature {@condition prone}.",
-						"When you are moved by Gathered Swarm, it gives you half cover until the start of your next turn."
+						"When you are moved by Gathered Swarm, it gives you {@quickref Cover||3||half cover} until the start of your next turn."
 					]
 				}
 			]

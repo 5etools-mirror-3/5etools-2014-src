@@ -159,7 +159,7 @@ export class ManageBrewUi {
 			isWidth100: true,
 			title: `Manage ${brewUtil.DISPLAY_NAME.toTitleCase()}`,
 			isUncappedHeight: true,
-			$titleSplit: $$`<div class="ve-flex-v-center btn-group">
+			$titleSplit: $$`<div class="ve-flex-v-center ve-btn-group">
 				${ui._$getBtnPullAll(rdState)}
 				${ui._$getBtnDeleteAll(rdState)}
 			</div>`,
@@ -175,8 +175,8 @@ export class ManageBrewUi {
 	_$getBtnDeleteAll (rdState) {
 		const brewUtilOther = this._brewUtil === PrereleaseUtil ? BrewUtil2 : PrereleaseUtil;
 
-		return $(`<button class="btn btn-danger" title="SHIFT to also delete all ${brewUtilOther.DISPLAY_NAME.toTitleCase()}">Delete All</button>`)
-			.addClass(this._isModal ? "btn-xs" : "btn-sm")
+		return $(`<button class="ve-btn ve-btn-danger" title="SHIFT to also delete all ${brewUtilOther.DISPLAY_NAME.toTitleCase()}">Delete All</button>`)
+			.addClass(this._isModal ? "ve-btn-xs" : "ve-btn-sm")
 			.click(async evt => {
 				if (!evt.shiftKey) {
 					if (!await InputUiUtil.pGetUserBoolean({title: `Delete All ${this._brewUtil.DISPLAY_NAME.toTitleCase()}`, htmlDescription: "Are you sure?", textYes: "Yes", textNo: "Cancel"})) return;
@@ -201,8 +201,8 @@ export class ManageBrewUi {
 	}
 
 	_$getBtnPullAll (rdState) {
-		const $btn = $(`<button class="btn btn-default">Update All</button>`)
-			.addClass(this._isModal ? "btn-xs w-70p" : "btn-sm w-80p")
+		const $btn = $(`<button class="ve-btn ve-btn-default">Update All</button>`)
+			.addClass(this._isModal ? "ve-btn-xs w-70p" : "ve-btn-sm w-80p")
 			.click(async () => {
 				const cachedHtml = $btn.html();
 
@@ -251,51 +251,51 @@ export class ManageBrewUi {
 
 		await this._pRender_pBrewList(rdState);
 
-		const btnLoadPartnered = ee`<button class="btn btn-default btn-sm">Load All Partnered</button>`
+		const btnLoadPartnered = ee`<button class="ve-btn ve-btn-default ve-btn-sm">Load All Partnered</button>`
 			.onn("click", () => this._pHandleClick_btnLoadPartnered(rdState));
 
-		const $btnLoadFromFile = $(`<button class="btn btn-default btn-sm">Load from File</button>`)
+		const $btnLoadFromFile = $(`<button class="ve-btn ve-btn-default ve-btn-sm">Load from File</button>`)
 			.click(() => this._pHandleClick_btnLoadFromFile(rdState));
 
-		const $btnLoadFromUrl = $(`<button class="btn btn-default btn-sm">Load from URL</button>`)
+		const $btnLoadFromUrl = $(`<button class="ve-btn ve-btn-default ve-btn-sm">Load from URL</button>`)
 			.click(() => this._pHandleClick_btnLoadFromUrl(rdState));
 
-		const $btnGet = $(`<button class="btn ${this._brewUtil.STYLE_BTN} btn-sm">Get ${this._brewUtil.DISPLAY_NAME.toTitleCase()}</button>`)
+		const $btnGet = $(`<button class="ve-btn ${this._brewUtil.STYLE_BTN} ve-btn-sm">Get ${this._brewUtil.DISPLAY_NAME.toTitleCase()}</button>`)
 			.click(() => this._pHandleClick_btnGetBrew(rdState));
 
-		const $btnCustomUrl = $(`<button class="btn ${this._brewUtil.STYLE_BTN} btn-sm px-2" title="Set Custom Repository URL"><span class="glyphicon glyphicon-cog"></span></button>`)
+		const $btnCustomUrl = $(`<button class="ve-btn ${this._brewUtil.STYLE_BTN} ve-btn-sm px-2" title="Set Custom Repository URL"><span class="glyphicon glyphicon-cog"></span></button>`)
 			.click(() => this._pHandleClick_btnSetCustomRepo());
 
 		const $btnPullAll = this._isModal ? null : this._$getBtnPullAll(rdState);
 		const $btnDeleteAll = this._isModal ? null : this._$getBtnDeleteAll(rdState);
 
-		const $btnSaveToUrl = $(`<button class="btn btn-default btn-sm" title="Note that this does not include &quot;Editable&quot; or &quot;Local&quot; content.">Export List as URL</button>`)
+		const $btnSaveToUrl = $(`<button class="ve-btn ve-btn-default ve-btn-sm" title="Note that this does not include &quot;Editable&quot; or &quot;Local&quot; content.">Export List as URL</button>`)
 			.click(async evt => {
 				await this.constructor.pOnClickBtnExportListAsUrl({ele: evt.originalEvent.currentTarget});
 			});
 
 		const $wrpBtns = $$`<div class="ve-flex-v-center no-shrink mobile__ve-flex-col">
 			<div class="ve-flex-v-center mobile__mb-2">
-				<div class="ve-flex-v-center btn-group mr-2">
+				<div class="ve-flex-v-center ve-btn-group mr-2">
 					${$btnGet}
 					${$btnCustomUrl}
 				</div>
-				<div class="ve-flex-v-center btn-group mr-2">
+				<div class="ve-flex-v-center ve-btn-group mr-2">
 					${btnLoadPartnered}
 				</div>
-				<div class="ve-flex-v-center btn-group mr-2">
+				<div class="ve-flex-v-center ve-btn-group mr-2">
 					${$btnLoadFromFile}
 					${$btnLoadFromUrl}
 				</div>
 			</div>
 			<div class="ve-flex-v-center">
-				<a href="${this._brewUtil.URL_REPO_DEFAULT}" class="ve-flex-v-center" target="_blank" rel="noopener noreferrer"><button class="btn btn-default btn-sm mr-2">Browse Source Repository</button></a>
+				<a href="${this._brewUtil.URL_REPO_DEFAULT}" class="ve-flex-v-center" target="_blank" rel="noopener noreferrer"><button class="ve-btn ve-btn-default ve-btn-sm mr-2">Browse Source Repository</button></a>
 
-				<div class="ve-flex-v-center btn-group mr-2">
+				<div class="ve-flex-v-center ve-btn-group mr-2">
 					${$btnSaveToUrl}
 				</div>
 
-				<div class="ve-flex-v-center btn-group">
+				<div class="ve-flex-v-center ve-btn-group">
 					${$btnPullAll}
 					${$btnDeleteAll}
 				</div>
@@ -378,9 +378,9 @@ export class ManageBrewUi {
 		rdState.rowMetas.splice(0, rdState.rowMetas.length)
 			.forEach(({menu}) => ContextUtil.deleteMenu(menu));
 
-		const $btnMass = $(`<button class="btn btn-default">Mass...</button>`)
+		const $btnMass = $(`<button class="ve-btn ve-btn-default bbl-0 ve-self-flex-stretch">Mass...</button>`)
 			.click(evt => this._pHandleClick_btnListMass({evt, rdState}));
-		const $iptSearch = $(`<input type="search" class="search manbrew__search form-control" placeholder="Search ${this._brewUtil.DISPLAY_NAME}...">`);
+		const $iptSearch = $(`<input type="search" class="search manbrew__search form-control bbr-0" placeholder="Search ${this._brewUtil.DISPLAY_NAME}...">`);
 		const $cbAll = $(`<input type="checkbox">`);
 		const $wrpList = $(`<div class="list-display-only max-h-unset smooth-scroll ve-overflow-y-auto h-100 min-h-0 brew-list brew-list--target manbrew__list relative ve-flex-col w-100 mb-3"></div>`);
 
@@ -393,13 +393,13 @@ export class ManageBrewUi {
 			sortDirInitial: rdState.list ? rdState.list.sortDir : undefined,
 		});
 
-		const $wrpBtnsSort = $$`<div class="filtertools manbrew__filtertools btn-group input-group input-group--bottom ve-flex no-shrink">
-			<label class="ve-col-0-5 pr-0 btn btn-default btn-xs ve-flex-vh-center">${$cbAll}</label>
-			<button class="ve-col-1 btn btn-default btn-xs" disabled>Type</button>
-			<button class="ve-col-3 btn btn-default btn-xs" data-sort="source">Source</button>
-			<button class="ve-col-3 btn btn-default btn-xs" data-sort="authors">Authors</button>
-			<button class="ve-col-3 btn btn-default btn-xs" disabled>Origin</button>
-			<button class="ve-col-1-5 btn btn-default btn-xs ve-grow" disabled>&nbsp;</button>
+		const $wrpBtnsSort = $$`<div class="filtertools manbrew__filtertools ve-btn-group input-group input-group--bottom ve-flex no-shrink">
+			<label class="ve-col-0-5 pr-0 ve-btn ve-btn-default ve-btn-xs ve-flex-vh-center">${$cbAll}</label>
+			<button class="ve-col-1 ve-btn ve-btn-default ve-btn-xs" disabled>Type</button>
+			<button class="ve-col-3 ve-btn ve-btn-default ve-btn-xs" data-sort="source">Source</button>
+			<button class="ve-col-3 ve-btn ve-btn-default ve-btn-xs" data-sort="authors">Authors</button>
+			<button class="ve-col-3 ve-btn ve-btn-default ve-btn-xs" disabled>Origin</button>
+			<button class="ve-col-1-5 ve-btn ve-btn-default ve-btn-xs ve-grow" disabled>&nbsp;</button>
 		</div>`;
 
 		$$(rdState.$stgBrewList)`
@@ -512,7 +512,7 @@ export class ManageBrewUi {
 				const hasConverters = !!brewSource.convertedBy?.length;
 				const btnConvertedBy = e_({
 					tag: "button",
-					clazz: `btn btn-xxs btn-default ${!hasConverters ? "disabled" : ""}`,
+					clazz: `ve-btn ve-btn-xxs ve-btn-default ${!hasConverters ? "disabled" : ""}`,
 					title: hasConverters ? `Converted by: ${brewSource.convertedBy.join(", ").qq()}` : "(No conversion credit given)",
 					children: [
 						e_({tag: "span", clazz: "mobile__hidden", text: "View Converters"}),
@@ -592,7 +592,7 @@ export class ManageBrewUi {
 
 		const btnDownload = e_({
 			tag: "button",
-			clazz: `btn btn-default btn-xs mobile__hidden w-24p`,
+			clazz: `ve-btn ve-btn-default ve-btn-xs mobile__hidden w-24p`,
 			title: this._LBL_LIST_EXPORT,
 			children: [
 				e_({
@@ -605,7 +605,7 @@ export class ManageBrewUi {
 
 		const btnViewJson = e_({
 			tag: "button",
-			clazz: `btn btn-default btn-xs mobile-lg__hidden w-24p`,
+			clazz: `ve-btn ve-btn-default ve-btn-xs mobile-lg__hidden w-24p`,
 			title: `${this._LBL_LIST_VIEW_JSON}: ${this.constructor._getBrewJsonTitle({brew, brewName})}`,
 			children: [
 				e_({
@@ -619,7 +619,7 @@ export class ManageBrewUi {
 
 		const btnOpenMenu = e_({
 			tag: "button",
-			clazz: `btn btn-default btn-xs w-24p`,
+			clazz: `ve-btn ve-btn-default ve-btn-xs w-24p`,
 			title: "Menu",
 			children: [
 				e_({
@@ -632,7 +632,7 @@ export class ManageBrewUi {
 
 		const btnDelete = this._isBrewOperationPermitted_delete(brew) ? e_({
 			tag: "button",
-			clazz: `btn btn-danger btn-xs mobile__hidden w-24p`,
+			clazz: `ve-btn ve-btn-danger ve-btn-xs mobile__hidden w-24p`,
 			title: this._LBL_LIST_DELETE,
 			children: [
 				e_({
@@ -661,7 +661,7 @@ export class ManageBrewUi {
 
 		const eleLi = e_({
 			tag: "div",
-			clazz: `manbrew__row ve-flex-v-center lst__row lst--border lst__row-inner no-shrink py-1 no-select`,
+			clazz: `manbrew__row ve-flex-v-center lst__row lst__row-border lst__row-inner no-shrink py-1 no-select`,
 			children: [
 				e_({
 					tag: "label",
@@ -681,7 +681,7 @@ export class ManageBrewUi {
 				}),
 				e_({
 					tag: "div",
-					clazz: `ve-col-1-5 btn-group ve-flex-vh-center`,
+					clazz: `ve-col-1-5 ve-btn-group ve-flex-vh-center`,
 					children: [
 						btnPull,
 						btnEdit,
@@ -720,7 +720,7 @@ export class ManageBrewUi {
 	static _pRender_getBtnPlaceholder () {
 		return e_({
 			tag: "button",
-			clazz: `btn btn-default btn-xs mobile__hidden w-24p`,
+			clazz: `ve-btn ve-btn-default ve-btn-xs mobile__hidden w-24p`,
 			html: "&nbsp;",
 		})
 			.attr("disabled", true);
@@ -731,7 +731,7 @@ export class ManageBrewUi {
 
 		const btnPull = e_({
 			tag: "button",
-			clazz: `btn btn-default btn-xs mobile__hidden w-24p`,
+			clazz: `ve-btn ve-btn-default ve-btn-xs mobile__hidden w-24p`,
 			title: this._LBL_LIST_UPDATE,
 			children: [
 				e_({
@@ -750,7 +750,7 @@ export class ManageBrewUi {
 
 		return e_({
 			tag: "button",
-			clazz: `btn btn-default btn-xs mobile__hidden w-24p`,
+			clazz: `ve-btn ve-btn-default ve-btn-xs mobile__hidden w-24p`,
 			title: this._LBL_LIST_MANAGE_CONTENTS,
 			children: [
 				e_({

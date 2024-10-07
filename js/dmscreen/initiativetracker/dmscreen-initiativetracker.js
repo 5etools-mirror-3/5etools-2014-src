@@ -112,7 +112,7 @@ export class InitiativeTracker extends BaseComponent {
 	}
 
 	_render_$getWrpButtonsSort () {
-		const $btnSortAlpha = $(`<button title="Sort Alphabetically" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-sort-by-alphabet"></span></button>`)
+		const $btnSortAlpha = $(`<button title="Sort Alphabetically" class="ve-btn ve-btn-default ve-btn-xs"><span class="glyphicon glyphicon-sort-by-alphabet"></span></button>`)
 			.on("click", () => {
 				if (this._state.sort === InitiativeTrackerConst.SORT_ORDER_ALPHA) return this._doReverseSortDir();
 				this._proxyAssignSimple(
@@ -124,7 +124,7 @@ export class InitiativeTracker extends BaseComponent {
 				);
 			});
 
-		const $btnSortNumber = $(`<button title="Sort Numerically" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-sort-by-order"></span></button>`)
+		const $btnSortNumber = $(`<button title="Sort Numerically" class="ve-btn ve-btn-default ve-btn-xs"><span class="glyphicon glyphicon-sort-by-order"></span></button>`)
 			.on("click", () => {
 				if (this._state.sort === InitiativeTrackerConst.SORT_ORDER_NUM) return this._doReverseSortDir();
 				this._proxyAssignSimple(
@@ -144,14 +144,14 @@ export class InitiativeTracker extends BaseComponent {
 		this._addHookBase("dir", hkSortDir);
 		hkSortDir();
 
-		return $$`<div class="btn-group ve-flex">
+		return $$`<div class="ve-btn-group ve-flex">
 			${$btnSortAlpha}
 			${$btnSortNumber}
 		</div>`;
 	}
 
 	_render_$getWrpFooter ({doUpdateExternalStates}) {
-		const $btnAdd = $(`<button class="btn btn-primary btn-xs dm-init-lockable" title="Add Player"><span class="glyphicon glyphicon-plus"></span></button>`)
+		const $btnAdd = $(`<button class="ve-btn ve-btn-primary ve-btn-xs dm-init-lockable" title="Add Player"><span class="glyphicon glyphicon-plus"></span></button>`)
 			.on("click", async () => {
 				if (this._state.isLocked) return;
 				this._state.rows = [
@@ -163,7 +163,7 @@ export class InitiativeTracker extends BaseComponent {
 					.filter(Boolean);
 			});
 
-		const $btnAddMonster = $(`<button class="btn btn-success btn-xs dm-init-lockable mr-2" title="Add Monster"><span class="glyphicon glyphicon-print"></span></button>`)
+		const $btnAddMonster = $(`<button class="ve-btn ve-btn-success ve-btn-xs dm-init-lockable mr-2" title="Add Creature"><span class="glyphicon glyphicon-print"></span></button>`)
 			.on("click", async () => {
 				if (this._state.isLocked) return;
 
@@ -211,14 +211,14 @@ export class InitiativeTracker extends BaseComponent {
 				this._state.rows = rowsNxt;
 			});
 
-		const $btnSetPrevActive = $(`<button class="btn btn-default btn-xs" title="Previous Turn"><span class="glyphicon glyphicon-step-backward"></span></button>`)
+		const $btnSetPrevActive = $(`<button class="ve-btn ve-btn-default ve-btn-xs" title="Previous Turn"><span class="glyphicon glyphicon-step-backward"></span></button>`)
 			.click(() => this._viewRowsActive.pDoShiftActiveRow({direction: InitiativeTrackerConst.DIR_BACKWARDS}));
-		const $btnSetNextActive = $(`<button class="btn btn-default btn-xs mr-2" title="Next Turn"><span class="glyphicon glyphicon-step-forward"></span></button>`)
+		const $btnSetNextActive = $(`<button class="ve-btn ve-btn-default ve-btn-xs mr-2" title="Next Turn"><span class="glyphicon glyphicon-step-forward"></span></button>`)
 			.click(() => this._viewRowsActive.pDoShiftActiveRow({direction: InitiativeTrackerConst.DIR_FORWARDS}));
 
 		const $iptRound = ComponentUiUtil.$getIptInt(this, "round", 1, {min: 1})
 			.addClass("dm-init__rounds")
-			.removeClass("text-right")
+			.removeClass("ve-text-right")
 			.addClass("ve-text-center")
 			.title("Round");
 
@@ -237,18 +237,18 @@ export class InitiativeTracker extends BaseComponent {
 			),
 		]);
 
-		const $btnNetworking = $(`<button class="btn btn-primary btn-xs mr-2" title="Player View (SHIFT to Open &quot;Standard&quot; View)"><span class="glyphicon glyphicon-user"></span></button>`)
+		const $btnNetworking = $(`<button class="ve-btn ve-btn-primary ve-btn-xs mr-2" title="Player View (SHIFT to Open &quot;Standard&quot; View)"><span class="glyphicon glyphicon-user"></span></button>`)
 			.click(evt => {
 				if (evt.shiftKey) return this._networking.handleClick_playerWindowV1({doUpdateExternalStates});
 				return ContextUtil.pOpenMenu(evt, menuPlayerWindow);
 			});
 
-		const $btnLock = $(`<button class="btn btn-danger btn-xs" title="Lock Tracker"><span class="glyphicon glyphicon-lock"></span></button>`)
+		const $btnLock = $(`<button class="ve-btn ve-btn-danger ve-btn-xs" title="Lock Tracker"><span class="glyphicon glyphicon-lock"></span></button>`)
 			.on("click", () => this._state.isLocked = !this._state.isLocked);
 		this._addHookBase("isLocked", () => {
 			$btnLock
-				.toggleClass("btn-success", !!this._state.isLocked)
-				.toggleClass("btn-danger", !this._state.isLocked)
+				.toggleClass("ve-btn-success", !!this._state.isLocked)
+				.toggleClass("ve-btn-danger", !this._state.isLocked)
 				.title(this._state.isLocked ? "Unlock Tracker" : "Lock Tracker");
 			$(".dm-init-lockable").toggleClass("disabled", !!this._state.isLocked);
 			$("input.dm-init-lockable").prop("disabled", !!this._state.isLocked);
@@ -276,7 +276,7 @@ export class InitiativeTracker extends BaseComponent {
 			),
 		]);
 
-		const $btnConfigure = $(`<button class="btn btn-default btn-xs mr-2" title="Configure (SHIFT to Open &quot;Settings&quot;)"><span class="glyphicon glyphicon-cog"></span></button>`)
+		const $btnConfigure = $(`<button class="ve-btn ve-btn-default ve-btn-xs mr-2" title="Configure (SHIFT to Open &quot;Settings&quot;)"><span class="glyphicon glyphicon-cog"></span></button>`)
 			.click(async evt => {
 				if (evt.shiftKey) return pHandleClickSettings();
 				return ContextUtil.pOpenMenu(evt, menuConfigure);
@@ -297,12 +297,12 @@ export class InitiativeTracker extends BaseComponent {
 			),
 		]);
 
-		const $btnLoad = $(`<button title="Import an encounter from the Bestiary" class="btn btn-success btn-xs dm-init-lockable"><span class="glyphicon glyphicon-upload"></span></button>`)
+		const $btnLoad = $(`<button title="Import an encounter from the Bestiary" class="ve-btn ve-btn-success ve-btn-xs dm-init-lockable"><span class="glyphicon glyphicon-upload"></span></button>`)
 			.click((evt) => {
 				if (this._state.isLocked) return;
 				ContextUtil.pOpenMenu(evt, menuImport);
 			});
-		const $btnReset = $(`<button title="Reset Tracker" class="btn btn-danger btn-xs dm-init-lockable"><span class="glyphicon glyphicon-trash"></span></button>`)
+		const $btnReset = $(`<button title="Reset Tracker" class="ve-btn ve-btn-danger ve-btn-xs dm-init-lockable"><span class="glyphicon glyphicon-trash"></span></button>`)
 			.click(async () => {
 				if (this._state.isLocked) return;
 				if (!await InputUiUtil.pGetUserBoolean({title: "Reset", htmlDescription: "Are you sure?", textYes: "Yes", textNo: "Cancel"})) return;
@@ -319,11 +319,11 @@ export class InitiativeTracker extends BaseComponent {
 
 		return $$`<div class="dm-init__wrp-controls">
 			<div class="ve-flex">
-				<div class="btn-group ve-flex">
+				<div class="ve-btn-group ve-flex">
 					${$btnAdd}
 					${$btnAddMonster}
 				</div>
-				<div class="btn-group">${$btnSetPrevActive}${$btnSetNextActive}</div>
+				<div class="ve-btn-group">${$btnSetPrevActive}${$btnSetNextActive}</div>
 				${$iptRound}
 			</div>
 
@@ -332,12 +332,12 @@ export class InitiativeTracker extends BaseComponent {
 			<div class="ve-flex">
 				${$btnNetworking}
 
-				<div class="btn-group ve-flex-v-center">
+				<div class="ve-btn-group ve-flex-v-center">
 					${$btnLock}
 					${$btnConfigure}
 				</div>
 
-				<div class="btn-group ve-flex-v-center">
+				<div class="ve-btn-group ve-flex-v-center">
 					${$btnLoad}
 					${$btnReset}
 				</div>

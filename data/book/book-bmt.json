@@ -464,7 +464,7 @@
 										{
 											"type": "item",
 											"name": "Puzzle",
-											"entry": "As an action, you can hold this card aloft and magically disable each trap within 60 feet of you that isn't behind {@book total cover|PHB|9|Cover}. A trap, for the purpose of this property, includes any object or mechanism that would inflict a sudden effect that was intended by its maker to cause harm or inconvenience. If the trap is the effect of a spell, such as {@spell Alarm}, that trap is suppressed for 10 minutes instead of being disabled. Once this property is used, it can't be used again until the next dawn."
+											"entry": "As an action, you can hold this card aloft and magically disable each trap within 60 feet of you that isn't behind {@quickref cover||3||total cover}. A trap, for the purpose of this property, includes any object or mechanism that would inflict a sudden effect that was intended by its maker to cause harm or inconvenience. If the trap is the effect of a spell, such as {@spell Alarm}, that trap is suppressed for 10 minutes instead of being disabled. Once this property is used, it can't be used again until the next dawn."
 										},
 										{
 											"type": "item",
@@ -10007,50 +10007,10 @@
 								"Secondhand items and other useless trinkets lie neatly arrayed across a giant rug. They belong to Clawson Blink, a {@creature blink dog} that gained the ability to speak Common from a helpful druid long ago.",
 								"Clawson has ten items from the {@item trinket|phb|Trinkets table} of the {@book Player's Handbook|PHB} for sale. He also has {@dice 1d4} items he markets as \"today's secondhand steal,\" highlighting them to any visitors. You can determine these items by rolling on or choosing from the Secondhand Steals table.",
 								{
-									"type": "table",
-									"caption": "Secondhand Steals",
-									"colLabels": [
-										"d8",
-										"Secondhand Steal"
-									],
-									"colStyles": [
-										"col-2 text-center",
-										"col-10"
-									],
-									"rows": [
-										[
-											"1",
-											"A pair of small, rose-tinted glasses with round lenses"
-										],
-										[
-											"2",
-											"A droopy potted plant in an old boot"
-										],
-										[
-											"3",
-											"A rusty metal goblet shaped like a frog opening its mouth to the sky"
-										],
-										[
-											"4",
-											"A wide-brimmed, palm-frond sunhat that has been chewed on"
-										],
-										[
-											"5",
-											"A utensil shaped like a fork on one end and a spoon on the other"
-										],
-										[
-											"6",
-											"A thick, sun-yellowed book on seasonal agriculture written in Halfling"
-										],
-										[
-											"7",
-											"A well-used squeaky toy in the shape of a garden gnome with a red hat"
-										],
-										[
-											"8",
-											"A glass statuette of a rust monster"
-										]
-									]
+									"type": "statblock",
+									"name": "Secondhand Steal Trinket",
+									"source": "BMT",
+									"tag": "item"
 								},
 								{
 									"type": "entries",

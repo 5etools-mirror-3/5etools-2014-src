@@ -103,7 +103,7 @@
 									"type": "entries",
 									"name": "Option: Greater Aberrant Powers",
 									"entries": [
-										"At the DM's option, a character who has the Aberrant Dragonmark feat has a chance of manifesting greater power. Upon reaching 10th level, such a character has a {@chance 10|10 percent} chance of gaining an {@filter epic boon|rewards|type=boon} from among the options in chapter 7 of the {@book Dungeon Master's Guide|DMG}. If the character fails to gain a boon, they have a {@chance 10|10 percent} chance the next time they gain a level.",
+										"At the DM's option, a character who has the Aberrant Dragonmark feat has a chance of manifesting greater power. Upon reaching 10th level, such a character has a {@chance 10} chance of gaining an {@filter epic boon|rewards|type=boon} from among the options in chapter 7 of the {@book Dungeon Master's Guide|DMG}. If the character fails to gain a boon, they have a {@chance 10} chance the next time they gain a level.",
 										"If the character gains a boon, the DM chooses it or determines it randomly. The character also permanently loses one of their Hit Dice, and their hit point maximum is reduced by an amount equal to a roll of that die plus their Constitution modifier (minimum reduction of 1). This reduction can't be reversed by any means."
 									]
 								}
@@ -2676,7 +2676,7 @@
 			"armorProficiencies": [
 				{
 					"medium": true,
-					"shield|phb": true
+					"shield": true
 				}
 			],
 			"entries": [
@@ -2917,6 +2917,9 @@
 					]
 				}
 			],
+			"traitTags": [
+				"Damage Resistance"
+			],
 			"entries": [
 				"You can draw on the forces of the multiverse to survive cosmic extremes and to traverse its infinite realms, granting you these benefits:",
 				{
@@ -2941,7 +2944,7 @@
 							"type": "item",
 							"name": "Portal Sense",
 							"entries": [
-								"You know the direction to the last planar portal you used while you and the portal are on the same plane of existence. Moreover, as an action, you can detect the location of any portals within 30 feet of you that aren't behind total cover. Once you detect a portal with this action, you can't use the action again until you finish a long rest."
+								"You know the direction to the last planar portal you used while you and the portal are on the same plane of existence. Moreover, as an action, you can detect the location of any portals within 30 feet of you that aren't behind {@quickref Cover||3||total cover}. Once you detect a portal with this action, you can't use the action again until you finish a long rest."
 							]
 						}
 					]
@@ -3788,7 +3791,7 @@
 					"type": "list",
 					"items": [
 						"Attacking at long range doesn't impose disadvantage on your ranged weapon attack rolls.",
-						"Your ranged weapon attacks ignore half cover and three-quarters cover.",
+						"Your ranged weapon attacks ignore {@quickref Cover||3||half cover} and {@quickref Cover||3||three-quarters cover}.",
 						"Before you make an attack with a ranged weapon that you are proficient with, you can choose to take a -5 penalty to the attack roll. If the attack hits, you add +10 to the attack's damage."
 					]
 				}
@@ -3977,7 +3980,7 @@
 							"type": "item",
 							"name": "Maelstrom Aura",
 							"entries": [
-								"As a bonus action, you surround yourself with an aura of magical wind and lightning that extends 10 feet from you in every direction but not through total cover. The aura lasts until the start of your next turn or until you are incapacitated. While the aura is active, you have resistance to lightning and thunder damage. In addition, attack rolls against you have disadvantage, and whenever another creature starts its turn within the aura, you can force the creature to make a Strength saving throw (DC equals 8 + your proficiency bonus + the modifier of the ability increased by this feat). On a failed save, the creature's speed is halved until the start of its next turn. You can use this bonus action a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest."
+								"As a bonus action, you surround yourself with an aura of magical wind and lightning that extends 10 feet from you in every direction but not through {@quickref Cover||3||total cover}. The aura lasts until the start of your next turn or until you are incapacitated. While the aura is active, you have resistance to lightning and thunder damage. In addition, attack rolls against you have disadvantage, and whenever another creature starts its turn within the aura, you can force the creature to make a Strength saving throw (DC equals 8 + your proficiency bonus + the modifier of the ability increased by this feat). On a failed save, the creature's speed is halved until the start of its next turn. You can use this bonus action a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest."
 							]
 						}
 					]
@@ -4094,7 +4097,7 @@
 					"type": "list",
 					"items": [
 						"When you cast a spell that requires you to make an attack roll, the spell's range is doubled.",
-						"Your ranged spell attacks ignore half cover and three-quarters cover.",
+						"Your ranged spell attacks ignore {@quickref Cover||3||half cover} and {@quickref Cover||3||three-quarters cover}.",
 						"You learn one cantrip that requires an attack roll. Choose the cantrip from the {@filter bard|spells|level=0|class=bard|spell attack=m;r;o}, {@filter cleric|spells|level=0|class=cleric|spell attack=m;r;o}, {@filter druid|spells|level=0|class=druid|spell attack=m;r;o}, {@filter sorcerer|spells|level=0|class=sorcerer|spell attack=m;r;o}, {@filter warlock|spells|level=0|class=warlock|spell attack=m;r;o}, or {@filter wizard|spells|level=0|class=wizard|spell attack=m;r;o} spell list. Your spellcasting ability for this cantrip depends on the spell list you chose from: Charisma for bard, sorcerer, or warlock; Wisdom for cleric or druid; or Intelligence for wizard."
 					]
 				}

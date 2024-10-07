@@ -3205,7 +3205,7 @@
 					"name": "River Styx Encounters",
 					"page": 43,
 					"entries": [
-						"Each day that the characters travel down the Styx there is a {@chance 50|50 percent} chance that they might encounter something along its shores. If they do happen to encounter something, roll a {@dice d6} and add a number equal to the layer of the Nine Hells they're on. For example, if they're on Phlegethos, the fourth layer, then you roll {@dice 1d6 + 4}. Refer to the River Styx Encounters in the Nine Hells table to determine the encounter that the characters come across.",
+						"Each day that the characters travel down the Styx there is a {@chance 50} chance that they might encounter something along its shores. If they do happen to encounter something, roll a {@dice d6} and add a number equal to the layer of the Nine Hells they're on. For example, if they're on Phlegethos, the fourth layer, then you roll {@dice 1d6 + 4}. Refer to the River Styx Encounters in the Nine Hells table to determine the encounter that the characters come across.",
 						{
 							"type": "table",
 							"caption": "Objective Locations",
@@ -5866,7 +5866,7 @@
 										"The War-Slough can warp those who stay too long, so they should make haste."
 									]
 								},
-								"{@creature Koh Tam|CoA} also gives them an infernal map. Show the players the map of the War-Slough in {@adventure appendix F|CoA|18}. They can use this map to decide which points of interest they want to explore. Refer to the \"{@adventure Using an Infernal Map|CoA|3|Using an Infernal Map}\" section of chapter 2. A failed or successful Wisdom ({@skill Survival}) check to use this map has a {@chance 50|50 percent} chance of triggering an encounter on the Random Encounters in the War-Slough table."
+								"{@creature Koh Tam|CoA} also gives them an infernal map. Show the players the map of the War-Slough in {@adventure appendix F|CoA|18}. They can use this map to decide which points of interest they want to explore. Refer to the \"{@adventure Using an Infernal Map|CoA|3|Using an Infernal Map}\" section of chapter 2. A failed or successful Wisdom ({@skill Survival}) check to use this map has a {@chance 50} chance of triggering an encounter on the Random Encounters in the War-Slough table."
 							],
 							"id": "10f"
 						},
@@ -5876,8 +5876,8 @@
 							"page": 73,
 							"entries": [
 								"The corrupting mud of the War-Slough exists due to the sheer unparalleled quantity of demonic blood that has been shed in this single concentrated engagement. Normally the ground of the Nine Hells is inhospitable terrain for anything so undisciplined. Chaos runs off it like water from weaved cloth. Even the resilience of the Nine Hells has limits. Eventually they fought ankle-deep, knee-deep. The stuff just didn't soak away, and the field became a nightmarish quagmire reeking of the wild Abyss. The very sight of the War-Slough sends shudders down the spines of lesser devils.",
-								"Because of the corrupted demon blood, when a creature has spent more than an hour in the WarSlough it must make a {@dc 15} Constitution saving throw. Fiends, Oozes, Plants, and Undead automatically succeed on the saving throw. On a failed save, the creature is warped by the demon blood, as determined by rolling on the Flesh Warping table.",
-								"When a creature takes a short rest in the WarSlough, they must succeed on a {@dc 15} Constitution saving throw to resist having their flesh warped. A long rest requires succeeding on a {@dc 20} Constitution saving throw. A spell that removes a curse ends all demon blood related warping effects on a creature.",
+								"Because of the corrupted demon blood, when a creature has spent more than an hour in the War-Slough it must make a {@dc 15} Constitution saving throw. Fiends, Oozes, Plants, and Undead automatically succeed on the saving throw. On a failed save, the creature is warped by the demon blood, as determined by rolling on the Flesh Warping table.",
+								"When a creature takes a short rest in the War-Slough, they must succeed on a {@dc 15} Constitution saving throw to resist having their flesh warped. A long rest requires succeeding on a {@dc 20} Constitution saving throw. A spell that removes a curse ends all demon blood related warping effects on a creature.",
 								{
 									"type": "table",
 									"caption": "Flesh Warping",
@@ -5986,7 +5986,7 @@
 										],
 										[
 											"6",
-											"Two {@creature horned devil||horned devils} fused together (they always occupy the same space but have their own turns) lead a battalion of two dozen {@creature merregon|MPMM}. One horned devil orders the battalion to attack, while the other orders them to march in formation. Each round there is a {@chance 50|50 percent} chance of the merregon obeying either leader."
+											"Two {@creature horned devil||horned devils} fused together (they always occupy the same space but have their own turns) lead a battalion of two dozen {@creature merregon|MPMM}. One horned devil orders the battalion to attack, while the other orders them to march in formation. Each round there is a {@chance 50} chance of the merregon obeying either leader."
 										]
 									]
 								}
@@ -6022,7 +6022,7 @@
 											],
 											"id": "116"
 										},
-										"Rexlexkala has learned the location of an infernal artifact designed millennia ago to end the Great Fray. The artifact is a horn built to allow devils to listen in on the thoughts of demons while they're in Avernus, even powerful demon lords. Such an item is worthless to mortal adventurers but is of supreme value to an archdevil such as {@creature Zariel|CoA}. Rexlexkala will give 10 Soul Coins for the horn. In addition, he provides each character with a vial of Condensed Order ({@adventure see appendix D|CoA|16}.) In addition to the substance's normal effects, it also allows them to leave the War-Slough without requiring a Wisdom saving throw first. Finally, he has studied the WarSlough for centuries and can give advice on how to find things within. If the characters agree to his terms, Rexlexkala gives them a map to a rift which is located deep within the War-Slough (reveal area W4 on the infernal map). In this rift lie buried many weapons left over from the Blood War.",
+										"Rexlexkala has learned the location of an infernal artifact designed millennia ago to end the Great Fray. The artifact is a horn built to allow devils to listen in on the thoughts of demons while they're in Avernus, even powerful demon lords. Such an item is worthless to mortal adventurers but is of supreme value to an archdevil such as {@creature Zariel|CoA}. Rexlexkala will give 10 Soul Coins for the horn. In addition, he provides each character with a vial of Condensed Order ({@adventure see appendix D|CoA|16}.) In addition to the substance's normal effects, it also allows them to leave the War-Slough without requiring a Wisdom saving throw first. Finally, he has studied the War-Slough for centuries and can give advice on how to find things within. If the characters agree to his terms, Rexlexkala gives them a map to a rift which is located deep within the War-Slough (reveal area W4 on the infernal map). In this rift lie buried many weapons left over from the Blood War.",
 										"He will also answer questions from the characters if they agree to his task or he feels his life is threatened.",
 										{
 											"type": "list",
@@ -6087,7 +6087,7 @@
 												}
 											]
 										},
-										"The first obstacle is a half dozen barbed devils and a half dozen bearded devils marching back and forth along the road to the entrance. If observed, they're seemingly following orders that only they hear. They'll attack anyone that they see, but it is easy to avoid them when they're marching away from the tower. When first discovered they're 90 feet away from the tower and marching back towards it. Every turn, there is a {@chance 50|50 percent} chance they reverse direction. Any noise makes them {@action Dash} towards the direction of that distraction, but they ignore anything that happens overhead, because they're, after all, mere foot soldiers. If these devils engage in combat with the characters, each round, one devil attempts to {@action Dash} back to the tower at \"A\" and if any devil reaches it, this obstacle is considered failed.",
+										"The first obstacle is a half dozen barbed devils and a half dozen bearded devils marching back and forth along the road to the entrance. If observed, they're seemingly following orders that only they hear. They'll attack anyone that they see, but it is easy to avoid them when they're marching away from the tower. When first discovered they're 90 feet away from the tower and marching back towards it. Every turn, there is a {@chance 50} chance they reverse direction. Any noise makes them {@action Dash} towards the direction of that distraction, but they ignore anything that happens overhead, because they're, after all, mere foot soldiers. If these devils engage in combat with the characters, each round, one devil attempts to {@action Dash} back to the tower at \"A\" and if any devil reaches it, this obstacle is considered failed.",
 										"The second obstacle is only encountered if the characters approach the tower by air. If they do so, and are noticed, they're confronted by four {@creature bone devil||bone devils} that patrol the skies about 600 feet above ground. One of the bone devils will {@action Dash} to the window (\"C\" on the map) 100 feet away that leads into the \"Throne Room\". If it reaches that window, this obstacle is considered failed.",
 										"The final obstacle is within the tower. The interior is mostly an empty ruin, with a simple stone staircase rising upwards. But {@dice 1d4} {@creature shadow demon||shadow demons} linger at each location marked \"B\" on the staircase (see the \"Ruined Tower\" map). These shadow demons attempt to hide from the characters and, if not discovered, they ascend to the next \"B\" (or to the \"Throne Room,\" if the uppermost \"B\" has been reached). If any shadow demons reach the throne room, this obstacle is considered failed. If discovered, the shadow demons attack the characters.",
 										{
@@ -6721,7 +6721,7 @@
 											]
 										},
 										"A huge circular rift drops one 100 feet into the depths of the Slough. Small streams of demonic ichor cascade over its edges. At the bottom of this foul place the demonic ichor of the War-Slough has gathered into a large lake that seethes and bubbles with unconstrained malice and possibility. At its center is an island that resembles a massive ant nest with entrances to caves or perhaps burrows. The smoke, haze, and muck make it nearly impossible to discern whether creatures occupy the tunnels below.",
-										"For some time, {@creature Zariel|CoA}'s underlings held out hope that a finite number of demons remained, and they would slowly dwindle away over the eons until none were left and the Slough might revert to Avernus' natural state. The most recent Infernal Survey of the place found ample evidence that concentrations of demonic material (resembling nests) were spawning random demons at least as fast as the creatures were being killed off. Through these nests, the WarSlough perpetuates itself. The island at the center of the lake is one such nest."
+										"For some time, {@creature Zariel|CoA}'s underlings held out hope that a finite number of demons remained, and they would slowly dwindle away over the eons until none were left and the Slough might revert to Avernus' natural state. The most recent Infernal Survey of the place found ample evidence that concentrations of demonic material (resembling nests) were spawning random demons at least as fast as the creatures were being killed off. Through these nests, the War-Slough perpetuates itself. The island at the center of the lake is one such nest."
 									],
 									"id": "11c"
 								},
@@ -6850,7 +6850,7 @@
 											"name": "Treasure",
 											"page": 78,
 											"entries": [
-												"Every time the characters succeed in their search for clues, they have a {@chance 50|50 percent} chance of finding Rexlexkala's Horn. Otherwise, they roll on the Infernal Items table. For a description of these items {@adventure see appendix D|CoA|16}. When they find the item, it might be in the clutches of a tentacle that erupts from the canyon walls, or it might be lodged at the bottom of a bubbling pool of {@creature demon ichor|CoA} (which is a black pudding with 120 hit points and immunity to fire damage). After 3 such items, they'll no longer find any more infernal items here and even successful searches are now treated as failures."
+												"Every time the characters succeed in their search for clues, they have a {@chance 50} chance of finding Rexlexkala's Horn. Otherwise, they roll on the Infernal Items table. For a description of these items {@adventure see appendix D|CoA|16}. When they find the item, it might be in the clutches of a tentacle that erupts from the canyon walls, or it might be lodged at the bottom of a bubbling pool of {@creature demon ichor|CoA} (which is a black pudding with 120 hit points and immunity to fire damage). After 3 such items, they'll no longer find any more infernal items here and even successful searches are now treated as failures."
 											],
 											"id": "12a"
 										},
@@ -8213,7 +8213,7 @@
 										},
 										"After the imp has finished, Orishada inquires as to whose dispensation they wish to purchase.",
 										"Given their multigenerational nature, a remarkable number of great and powerful people are covered by such clauses without ever knowing it. The dispensations that Orishada sells don't procure the death of the victim\u2014that's what the rest of the Agora is for, after all. However, they do permit an assassin to disregard a variety of defenses up to and including divine favor, and protect the killer from curses, supernatural wrath, and other problematic fallout after murdering someone particularly important.",
-										"There is a {@chance 50|50 percent} chance that any named evil creature/NPC is covered by a dispensation. This drops to 10 percent for good and neutral NPCs. A good rule of thumb is to have a dispensation cost 1000× the creature/NPC's challenge rating in gold pieces.",
+										"There is a {@chance 50} chance that any named evil creature/NPC is covered by a dispensation. This drops to 10 percent for good and neutral NPCs. A good rule of thumb is to have a dispensation cost 1000× the creature/NPC's challenge rating in gold pieces.",
 										"If his guests decline to purchase a dispensation or they're impolite or violent, Orishada becomes enraged and orders his personal guard to liquidate the intruders. These include a quartet of {@creature horned devil||horned devils} and a half dozen {@creature bone devil||bone devils}.",
 										"Orishada won't join in the slaughter, not because he doesn't want to, but because he can't. Orishada was a talented killer whose thousand-year career would raise the eyebrows of every assassin thronging the boats of the Agora. He finally allowed his bloodthirstiness to overcome his proper place, however, encompassing the death of one beloved to certain divine powers. In punishment, Orishada now lives out his endless life under a bitter curse. He can no longer inflict physical harm himself, not on the least insect, not even to a mortal. Because of this he uses his magic to aid his guards as best he can but won't intentionally cause damage.",
 										{
@@ -8721,7 +8721,7 @@
 										"They should be careful about resting in the swamp. The memories and emotions can twist the mind of a mortal."
 									]
 								},
-								"{@creature Koh Tam|CoA} gives them an infernal map. Show the players the map of the Ineffable Trove in {@adventure appendix F|CoA|18}. They can use this map to decide which points of interest they want to explore. Refer to the \"{@adventure Using an Infernal Map|CoA|2|Using an Infernal Map}\" section of chapter 2. A failed or successful Wisdom ({@skill Survival}) check to use this map has a {@chance 50|50 percent} chance of triggering an encounter on the Random Encounters in the Ineffable Trove table."
+								"{@creature Koh Tam|CoA} gives them an infernal map. Show the players the map of the Ineffable Trove in {@adventure appendix F|CoA|18}. They can use this map to decide which points of interest they want to explore. Refer to the \"{@adventure Using an Infernal Map|CoA|2|Using an Infernal Map}\" section of chapter 2. A failed or successful Wisdom ({@skill Survival}) check to use this map has a {@chance 50} chance of triggering an encounter on the Random Encounters in the Ineffable Trove table."
 							],
 							"id": "183"
 						},
@@ -9450,7 +9450,7 @@
 										"Alternatively, they could try to contact the poor souls who are the prey of Kordichai's current hunt. These mortals have had to learn the lay of the land or die quickly to Kordichai's predations."
 									]
 								},
-								"{@creature Koh Tam|CoA} gives them an infernal map. Show the players the map of the Elemental Preserve in {@adventure appendix F|CoA|18}. They can use this map to decide which points of interest they want to explore. Refer to the \"{@adventure Using an Infernal Map|CoA|2|Using an Infernal Map}\" section of chapter 2. A failed or successful Wisdom ({@skill Survival}) check to use this map has a {@chance 50|50 percent} chance of triggering an encounter on the Hunt Random Encounters table. Prior to \"Kordichai's Hunt\" roll a {@dice d8} to determine the encounter from the table; after the hunt begins roll a {@dice d12}."
+								"{@creature Koh Tam|CoA} gives them an infernal map. Show the players the map of the Elemental Preserve in {@adventure appendix F|CoA|18}. They can use this map to decide which points of interest they want to explore. Refer to the \"{@adventure Using an Infernal Map|CoA|2|Using an Infernal Map}\" section of chapter 2. A failed or successful Wisdom ({@skill Survival}) check to use this map has a {@chance 50} chance of triggering an encounter on the Hunt Random Encounters table. Prior to \"Kordichai's Hunt\" roll a {@dice d8} to determine the encounter from the table; after the hunt begins roll a {@dice d12}."
 							],
 							"id": "1b1"
 						},
@@ -11237,7 +11237,7 @@
 											],
 											"id": "1fe"
 										},
-										"At last, the caves begin to open out. A network of interconnected lakes collects the meltwater, each lake vast and lightless. Here dwell the aboleth, each the master of its own circumscribed domain, each a minor deity in the Congregation's tangled pantheon. Chuul servitors act as guards and food in times of need, and the lake bottoms are a sifting morass of bones and forgotten treasures brought by devils and mortals alike who got no further. But even this is merely a station on the way down. For each hour the characters search they have a {@chance 75|75 percent} chance of finding an aboleth clutch (one {@creature aboleth} and {@dice 2d6} {@creature chuul} protectors). This chance is reduced by 25 percent for each clutch found.",
+										"At last, the caves begin to open out. A network of interconnected lakes collects the meltwater, each lake vast and lightless. Here dwell the aboleth, each the master of its own circumscribed domain, each a minor deity in the Congregation's tangled pantheon. Chuul servitors act as guards and food in times of need, and the lake bottoms are a sifting morass of bones and forgotten treasures brought by devils and mortals alike who got no further. But even this is merely a station on the way down. For each hour the characters search they have a {@chance 75} chance of finding an aboleth clutch (one {@creature aboleth} and {@dice 2d6} {@creature chuul} protectors). This chance is reduced by 25 percent for each clutch found.",
 										{
 											"type": "entries",
 											"name": "Treasure",
@@ -11412,7 +11412,7 @@
 										],
 										[
 											"3",
-											"A {@creature maelephant nomad|CoA} ({@adventure see appendix B|CoA|14}), driven slightly insane by its extended lifespan, searches the ruins for something to guard. When it sees the characters, there is a {@chance 50|50 percent} chance it goes into a frenzy and attacks."
+											"A {@creature maelephant nomad|CoA} ({@adventure see appendix B|CoA|14}), driven slightly insane by its extended lifespan, searches the ruins for something to guard. When it sees the characters, there is a {@chance 50} chance it goes into a frenzy and attacks."
 										],
 										[
 											"4",
@@ -11420,7 +11420,7 @@
 										],
 										[
 											"5",
-											"An {@condition invisible} {@creature orthon|MPMM} (see Monsters of the Multiverse) has been stalking the characters for some time. There is a {@chance 75|75 percent} chance it attacks them now. Otherwise, it moves on, searching for its quarry."
+											"An {@condition invisible} {@creature orthon|MPMM} (see Monsters of the Multiverse) has been stalking the characters for some time. There is a {@chance 75} chance it attacks them now. Otherwise, it moves on, searching for its quarry."
 										],
 										[
 											"6",
@@ -14335,7 +14335,7 @@
 							"page": 165,
 							"entries": [
 								"Colder even than Stygia, all creatures on Cania face a constant battle with hypothermia. Each time a mortal finishes a long rest, they must succeed on a {@dc 17} Constitution saving throw or gain a level of {@condition exhaustion}.",
-								"{@creature Mephistopheles|CoA} keeps a tight watch on any visitors to the realm to ensure no information is leaked. As part of his influence, any Divination spell cast while within Cania has a {@chance 50|50 percent} chance to fail. When a spell fails, its materials and spell slots are consumed, but the spell has no effect. Creatures designated by {@creature Mephistopheles|CoA} are immune to this effect."
+								"{@creature Mephistopheles|CoA} keeps a tight watch on any visitors to the realm to ensure no information is leaked. As part of his influence, any Divination spell cast while within Cania has a {@chance 50} chance to fail. When a spell fails, its materials and spell slots are consumed, but the spell has no effect. Creatures designated by {@creature Mephistopheles|CoA} are immune to this effect."
 							],
 							"id": "27a"
 						}
@@ -15468,7 +15468,7 @@
 							"name": "The Hunt Begins",
 							"page": 179,
 							"entries": [
-								"These archdevils start searching for the characters once they've completed one of their group patron's objectives. From this point on, every time the characters move between layers (while on the River Styx) there is a {@chance 25|25 percent} chance that they're intercepted by one of these foes.",
+								"These archdevils start searching for the characters once they've completed one of their group patron's objectives. From this point on, every time the characters move between layers (while on the River Styx) there is a {@chance 25} chance that they're intercepted by one of these foes.",
 								"If the characters are intercepted, proceed to the \"Ambushed by the Infernal Warship\" or the \"Ambushed by {@creature Abigor|CoA}\" section. You choose which one.",
 								"The Characters Are Searching The characters might pursue {@creature Brother Adramalech|CoA} and {@creature Brother Morax|CoA}, in the hopes of rescuing {@creature Barachiel|CoA}, who is a prisoner aboard their infernal warship. Alternatively, they might seek {@creature Abigor|CoA} for one of the following three reasons:",
 								{
@@ -16914,7 +16914,7 @@
 											"name": "Treasure",
 											"page": 183,
 											"entries": [
-												"Searching any of these rooms usually nets {@dice 1d10} gp and {@dice 1d4} pp. There is a {@chance 10|10 percent} chance that {@dice 1d4} {@creature bearded devil||bearded devils} return to their quarters during the characters' search. They won't engage but run to area N4 to alert the rest of the ship."
+												"Searching any of these rooms usually nets {@dice 1d10} gp and {@dice 1d4} pp. There is a {@chance 10} chance that {@dice 1d4} {@creature bearded devil||bearded devils} return to their quarters during the characters' search. They won't engage but run to area N4 to alert the rest of the ship."
 											],
 											"id": "2dc"
 										}
@@ -17568,7 +17568,7 @@
 											],
 											"id": "2ee"
 										},
-										"The bridge is always crewed by a half-dozen {@creature bone devil||bone devils}. There is a {@chance 50|50 percent} chance that the commander on deck is {@creature Abigor|CoA}, otherwise it is the first mate, a {@creature pit fiend} named Seleceus. If the submersible is currently at battle footing, then {@creature Abigor|CoA} is in command. The words on the wall are written in Infernal and are how the aboleth in area B3 communicates with the bridge commander."
+										"The bridge is always crewed by a half-dozen {@creature bone devil||bone devils}. There is a {@chance 50} chance that the commander on deck is {@creature Abigor|CoA}, otherwise it is the first mate, a {@creature pit fiend} named Seleceus. If the submersible is currently at battle footing, then {@creature Abigor|CoA} is in command. The words on the wall are written in Infernal and are how the aboleth in area B3 communicates with the bridge commander."
 									],
 									"id": "2ed"
 								},
@@ -17742,7 +17742,7 @@
 											"name": "Treasure",
 											"page": 191,
 											"entries": [
-												"Searching this room nets {@dice 8d10} pp. There is a {@chance 25|25 percent} chance that a patrol of {@dice 1d4} {@creature bone devil||bone devils} notice anyone looting one of these rooms."
+												"Searching this room nets {@dice 8d10} pp. There is a {@chance 25} chance that a patrol of {@dice 1d4} {@creature bone devil||bone devils} notice anyone looting one of these rooms."
 											],
 											"id": "2fe"
 										}

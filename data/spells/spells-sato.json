@@ -9,7 +9,7 @@
 			"time": [
 				{
 					"number": 1,
-					"unit": "action"
+					"unit": "minute"
 				}
 			],
 			"range": {

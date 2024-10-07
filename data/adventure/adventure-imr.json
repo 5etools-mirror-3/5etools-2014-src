@@ -1964,7 +1964,7 @@
 									"page": 21,
 									"id": "08c",
 									"entries": [
-										"Having a mechanical guide spend 1 charge in this area either brings the statue one day of work closer or further from completion (a {@chance 50|50 percent} chance for either)."
+										"Having a mechanical guide spend 1 charge in this area either brings the statue one day of work closer or further from completion (a {@chance 50} chance for either)."
 									]
 								}
 							]
@@ -2123,7 +2123,7 @@
 									"id": "09b",
 									"entries": [
 										"This block of strange material glows with an inner light of opalescent blue, owing to the missing components of the {@i Infernal Machine of Lum the Mad} wired into its workings. There are three such components, each a deep sapphire blue. Removing one component safely requires a successful DC 14 Dexterity check using thieves' tools, jeweler's tools, or tinker's tools.",
-										"In addition, {@creature Tarnhem|IMR}'s flaming whip and lightning-imbued longsword have also been worked into the altar. On a failed check to remove a missing component, these weapons cast a {@spell lightning bolt} or a {@spell fireball} at the character making the check (a {@chance 50|50 percent} chance for either spell; save DC 16 for both). If {@creature Tarnhem|IMR} is freed, he comes here directly to recover these weapons, and is the only creature that can do so. Anyone else attempting to claim them automatically triggers a {@spell lightning bolt} or a {@spell fireball}."
+										"In addition, {@creature Tarnhem|IMR}'s flaming whip and lightning-imbued longsword have also been worked into the altar. On a failed check to remove a missing component, these weapons cast a {@spell lightning bolt} or a {@spell fireball} at the character making the check (a {@chance 50} chance for either spell; save DC 16 for both). If {@creature Tarnhem|IMR} is freed, he comes here directly to recover these weapons, and is the only creature that can do so. Anyone else attempting to claim them automatically triggers a {@spell lightning bolt} or a {@spell fireball}."
 									]
 								},
 								{
@@ -4005,7 +4005,7 @@
 												],
 												[
 													"86\u201390",
-													"A piece of parchment hidden under a crate appears to be a magic treasure map. If the map is not followed to its end within 30 days, it rewrites itself as an entirely new map and any copies made of it turn blank. There is a {@chance 50|50 percent} chance that the map leads to an actual treasure. If not, it leads to a dangerous monster with no treasure."
+													"A piece of parchment hidden under a crate appears to be a magic treasure map. If the map is not followed to its end within 30 days, it rewrites itself as an entirely new map and any copies made of it turn blank. There is a {@chance 50} chance that the map leads to an actual treasure. If not, it leads to a dangerous monster with no treasure."
 												],
 												[
 													"91\u201396",
@@ -4306,7 +4306,7 @@
 									"page": 33,
 									"id": "103",
 									"entries": [
-										"The neutral evil human ranger {@creature Barbatos|IMR} is either here or in area 13 (a {@chance 50|50 percent} chance for either; see {@adventure appendix B|IMR|7} for his stat block), accompanied by his {@creature hell hound} companion, Sadie III. He carries keys to the cages in this area and area 13. Arrogant and cruel, {@creature Barbatos|IMR} threatens and taunts the characters before attempting to capture them for {@creature Thessalar|IMR}. If they prove too powerful, he flees and sets up hit-and-run ambushes for them as they continue to explore the temple.",
+										"The neutral evil human ranger {@creature Barbatos|IMR} is either here or in area 13 (a {@chance 50} chance for either; see {@adventure appendix B|IMR|7} for his stat block), accompanied by his {@creature hell hound} companion, Sadie III. He carries keys to the cages in this area and area 13. Arrogant and cruel, {@creature Barbatos|IMR} threatens and taunts the characters before attempting to capture them for {@creature Thessalar|IMR}. If they prove too powerful, he flees and sets up hit-and-run ambushes for them as they continue to explore the temple.",
 										"A successful DC 12 Wisdom ({@skill Perception}) check made while {@creature Barbatos|IMR} is in combat identifies a number of silver wires connecting the ranger's cloak and backpack. If {@creature Barbatos|IMR} is defeated, examining his body reveals that the backpack holds a troll's still-beating heart, while his cloak incorporates the feathery antennae of several rust monsters. The silver wires connect those living tissues to the ranger's own heart, providing his unique features. This setup is made permanently inoperable if {@creature Barbatos|IMR} is slain.",
 										"Anyone attempting to disrupt the wires must succeed on a DC 13 Constitution saving throw or take 11 ({@dice 2d10}) force damage. The wires are self-repairing, and cannot be severed or destroyed."
 									]
@@ -4327,7 +4327,7 @@
 									"page": 33,
 									"id": "105",
 									"entries": [
-										"Having a mechanical guide spend 1 charge in this area causes all the cage doors to rust with age and weaken, allowing the owls to break free. There is a {@chance 50|50 percent} chance that the giant owl also ages into an undead version of itself that attacks until destroyed. The {@creature Skeletal Giant Owl|IMR|skeletal, rotted creature} uses the {@creature giant owl} stat block with the following changes:",
+										"Having a mechanical guide spend 1 charge in this area causes all the cage doors to rust with age and weaken, allowing the owls to break free. There is a {@chance 50} chance that the giant owl also ages into an undead version of itself that attacks until destroyed. The {@creature Skeletal Giant Owl|IMR|skeletal, rotted creature} uses the {@creature giant owl} stat block with the following changes:",
 										{
 											"type": "list",
 											"items": [
@@ -4354,7 +4354,7 @@
 									"page": 34,
 									"id": "107",
 									"entries": [
-										"The ranger {@creature Barbatos|IMR} is either here or in area 12 (a {@chance 50|50 percent} chance for either), accompanied by his {@creature hell hound} companion, Sadie III. See {@adventure appendix B|IMR|7} for his stat block, and {@area area 12|102|x} for more information."
+										"The ranger {@creature Barbatos|IMR} is either here or in area 12 (a {@chance 50} chance for either), accompanied by his {@creature hell hound} companion, Sadie III. See {@adventure appendix B|IMR|7} for his stat block, and {@area area 12|102|x} for more information."
 									]
 								},
 								{
@@ -4373,7 +4373,7 @@
 									"page": 34,
 									"id": "109",
 									"entries": [
-										"Having a mechanical guide spend 1 charge in this area causes all the cage doors to rust with age and weaken, allowing the bears to break free. There is a {@chance 50|50 percent} chance that both polar bears also age into undead versions of themselves that attack anyone in the room until destroyed. Each {@creature Skeletal Polar Bear|IMR|skeletal, rotted bear} uses the {@creature polar bear} stat block with the following changes:",
+										"Having a mechanical guide spend 1 charge in this area causes all the cage doors to rust with age and weaken, allowing the bears to break free. There is a {@chance 50} chance that both polar bears also age into undead versions of themselves that attack anyone in the room until destroyed. Each {@creature Skeletal Polar Bear|IMR|skeletal, rotted bear} uses the {@creature polar bear} stat block with the following changes:",
 										{
 											"type": "list",
 											"items": [
@@ -5312,7 +5312,7 @@
 									"page": 43,
 									"id": "166",
 									"entries": [
-										"If not already met when summoned to area 35, there is a {@chance 50|50 percent} chance that the steward to the ettin is found in this area. If not in this area, the boggle is in area 37.",
+										"If not already met when summoned to area 35, there is a {@chance 50} chance that the steward to the ettin is found in this area. If not in this area, the boggle is in area 37.",
 										"This {@creature boggle|VGM} was one of two caught trying to use their Dimensional Rift traits to reach into the temple's treasure vault ({@area area 38|16b|x}). As punishment, they were assigned to provide care and grooming to the ettin's left and right heads, as well as relaying messages on the giant's behalf. When the ettin wants to talk to himself, one head gives the message to his steward, who runs off to deliver it to the other steward, who runs back to deliver it to the other head, and back down the line.",
 										"The two stewards are identical except for an epaulet worn on the left or right shoulder of their livery, but they have of late never been seen together. This is because only one boggle remains, the companion boggle having been disposed of in {@area area 7|0e5|x}. Both stewards are thus now the same creature, who works hard to make sure this is never discovered. The boggle intuits (correctly) that if the ettin were to uncover this secret, he would rip the boggle in half as a furious means of getting the proper number of stewards once more."
 									]
@@ -5342,7 +5342,7 @@
 									"page": 43,
 									"id": "169",
 									"entries": [
-										"If not already met when summoned to {@area area 35|15f|x}, there is a {@chance 50|50 percent} chance that the steward to the ettin is found in this area. If not in this area, the {@creature boggle|VGM} is in area 36. See area 36 for details on the identity of Sticky and Slippy."
+										"If not already met when summoned to {@area area 35|15f|x}, there is a {@chance 50} chance that the steward to the ettin is found in this area. If not in this area, the {@creature boggle|VGM} is in area 36. See area 36 for details on the identity of Sticky and Slippy."
 									]
 								},
 								{
@@ -5389,7 +5389,7 @@
 									"page": 43,
 									"id": "16e",
 									"entries": [
-										"Having a mechanical guide spend 1 charge in this area either causes {@dice 1d4} of the largest uncut rubies to become cut and polished, doubling their value (a {@chance 50|50 percent} chance), or causes the same number of the largest cut rubies to degrade back to raw stones, halving their value."
+										"Having a mechanical guide spend 1 charge in this area either causes {@dice 1d4} of the largest uncut rubies to become cut and polished, doubling their value (a {@chance 50} chance), or causes the same number of the largest cut rubies to degrade back to raw stones, halving their value."
 									]
 								}
 							]

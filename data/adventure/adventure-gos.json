@@ -3003,7 +3003,7 @@
 									"id": "042",
 									"entries": [
 										"This large brick building contains the offices of the town council and the chamber where they meet to discuss the town business. The hall is built from sturdy stone from the nearby cliffs and a variety of hardwood from the nearby Hool Marshes. A wooden sign depicting a net filled with fish hangs above the double doors leading into the hall. A small tower rises from the building, housing a horn at the top, which is blown to announce the beginning of a council session or other significant events.",
-										"The town has a sturdy but weatherbeaten platform and gallows in front of the hall for use in the event of an execution. Such punishments are rare, but when they do occur, they draw a large crowd. In any given week, there is a {@chance 2|2 percent} chance of an execution, usually of some bandit or other non-native ne'er-do-well."
+										"The town has a sturdy but weatherbeaten platform and gallows in front of the hall for use in the event of an execution. Such punishments are rare, but when they do occur, they draw a large crowd. In any given week, there is a {@chance 2} chance of an execution, usually of some bandit or other non-native ne'er-do-well."
 									]
 								},
 								{
@@ -3778,7 +3778,7 @@
 							"page": 20,
 							"id": "05e",
 							"entries": [
-								"The roads around Saltmarsh are heavily patrolled, part of the crown's effort to make its influence felt in the region. Travel along these thoroughfares is usually safe, with most encounters involving merchant caravans, guard patrols, and fellow travelers. Small farms and manors cluster near the roads, relying on passing guard patrols for their safety. Where these settlements grow more widely spaced, bandit raids become more likely. Travelers on the road meet {@dice 1d4} caravans per day and have a {@chance 5|5 percent} chance of being the target of an ambush by {@dice 2d4} {@creature Bandit||bandits} led by a {@creature bandit captain}. In addition, each day on the road a party passes {@dice 1d3} small villages or manors. There is a {@chance 25|25 percent} chance that any such location is inhabited by halflings. Otherwise, the location is a human enclave."
+								"The roads around Saltmarsh are heavily patrolled, part of the crown's effort to make its influence felt in the region. Travel along these thoroughfares is usually safe, with most encounters involving merchant caravans, guard patrols, and fellow travelers. Small farms and manors cluster near the roads, relying on passing guard patrols for their safety. Where these settlements grow more widely spaced, bandit raids become more likely. Travelers on the road meet {@dice 1d4} caravans per day and have a {@chance 5} chance of being the target of an ambush by {@dice 2d4} {@creature Bandit||bandits} led by a {@creature bandit captain}. In addition, each day on the road a party passes {@dice 1d3} small villages or manors. There is a {@chance 25} chance that any such location is inhabited by halflings. Otherwise, the location is a human enclave."
 							]
 						},
 						{
@@ -15659,7 +15659,7 @@
 											"page": 85,
 											"id": "24c",
 											"entries": [
-												"The marsh is {@quickref difficult terrain||3}, which turns the 12-mile trek into an 8-hour journey (assuming a normal pace). For each hour the characters travel this way, they have a {@chance 50|50 percent} chance of facing a random encounter (see the Marsh Random Encounters table).",
+												"The marsh is {@quickref difficult terrain||3}, which turns the 12-mile trek into an 8-hour journey (assuming a normal pace). For each hour the characters travel this way, they have a {@chance 50} chance of facing a random encounter (see the Marsh Random Encounters table).",
 												{
 													"type": "table",
 													"caption": "Marsh Random Encounters",
@@ -15715,7 +15715,7 @@
 											"page": 85,
 											"id": "24d",
 											"entries": [
-												"The river snakes through the marsh for nearly twenty miles before arriving at {@creature Thousand Teeth|GoS}'s pool. The riverbank is {@quickref difficult terrain||3}, and following it from the lizardfolk lair to the pool takes 13 hours (at normal pace). The riverbank route offers a better chance of avoiding random encounters. For every 3 hours the characters travel along the riverbank, they have a {@chance 50|50 percent} chance of facing a random encounter."
+												"The river snakes through the marsh for nearly twenty miles before arriving at {@creature Thousand Teeth|GoS}'s pool. The riverbank is {@quickref difficult terrain||3}, and following it from the lizardfolk lair to the pool takes 13 hours (at normal pace). The riverbank route offers a better chance of avoiding random encounters. For every 3 hours the characters travel along the riverbank, they have a {@chance 50} chance of facing a random encounter."
 											]
 										}
 									]
@@ -17620,7 +17620,7 @@
 								"The survivors keep a low profile. They stay close to the ruins of the abbey and keep out of sight of passing boats. They do not hail ships or light signal fires. Trapped on the island since the pirate attack, they are unaware that the pirates have been destroyed. They are therefore hesitant to make their presence known for fear the pirates will return and finish them off.",
 								"Even though the survivors desperately want to leave the island, their superiors would not approve of their abandoning the island to the mariners. The clerics and the surviving guards would be severely punished (perhaps by death) if they left. Therefore, they have resolved to capture or kill anyone coming to the island. If any of the characters are captured, they are kept alive only if they can be used in negotiations to extract a ransom. Ransom demands are likely to include a boat or at least transportation to the mainland.",
 								"The survivors' main goal is to get word to their superiors while still retaining possession of the island. They have sent missives by means of {@spell sending} and {@spell animal messenger} spells (using seagulls), but they have received no response. Nonetheless, they still hope to be sent reinforcements, laborers, and material for rebuilding the abbey.",
-								"They typically keep watch on the Skull Dunes during the day, but have grown lax in that duty as boredom and hunger overtake them. Therefore, there is a {@chance 50|50 percent} chance that the characters will land unseen at the Skull Dunes during the day. The survivors do not keep watch at night, meaning that the party has a {@chance 100|100 percent} chance of landing unnoticed when it's dark.",
+								"They typically keep watch on the Skull Dunes during the day, but have grown lax in that duty as boredom and hunger overtake them. Therefore, there is a {@chance 50} chance that the characters will land unseen at the Skull Dunes during the day. The survivors do not keep watch at night, meaning that the party has a {@chance 100} chance of landing unnoticed when it's dark.",
 								"During the day, the survivors might be above ground getting water, fishing, or gardening, or they might be in {@area area 2|2bf|x} of the ruins. At night they stay in their rooms.",
 								"The major personalities among the survivors are detailed below.",
 								{
@@ -22448,7 +22448,7 @@
 											"id": "37b",
 											"entries": [
 												"These rare plants grow along isolated stony shelves in underwater trenches. A creature that consumes the fronds of rapture weed becomes {@condition poisoned} for 6 hours, during which time it experiences occasional hallucinations and a feeling of euphoria. Sahuagin priests often use rapture weed in their worship (as does the priestess in area 36) .",
-												"Any creature that consumes rapture weed has a {@chance 1|1 percent} chance of instead becoming {@condition incapacitated} for the duration of the plant's effect. During this time it experiences terrifying visions of an enormous shark devouring great amounts of prey.",
+												"Any creature that consumes rapture weed has a {@chance 1} chance of instead becoming {@condition incapacitated} for the duration of the plant's effect. During this time it experiences terrifying visions of an enormous shark devouring great amounts of prey.",
 												"When the effect wears off or is negated, the creature must succeed on a DC 15 Wisdom saving throw or be afflicted with a form of long-term madness (see \"{@book Madness|DMG|8|Madness}\" in chapter 8 of the {@book Dungeon Master's Guide|DMG})."
 											]
 										}
@@ -26241,7 +26241,7 @@
 											"page": 149,
 											"id": "425",
 											"entries": [
-												"A rung at the top of the ladder has rotted, and it breaks if more than 50 pounds of weight are placed on it. A character who succeeds on a DC 14 Wisdom ({@skill Perception}) check notices the weak rung. Any character who breaks the rung while climbing falls 10 feet and has a {@chance 50|50 percent} chance of landing in the waste pile."
+												"A rung at the top of the ladder has rotted, and it breaks if more than 50 pounds of weight are placed on it. A character who succeeds on a DC 14 Wisdom ({@skill Perception}) check notices the weak rung. Any character who breaks the rung while climbing falls 10 feet and has a {@chance 50} chance of landing in the waste pile."
 											]
 										},
 										{
@@ -29293,7 +29293,7 @@
 							"page": 171,
 							"id": "4c8",
 							"entries": [
-								"If the characters visit the district garrison, there's a {@chance 30|30 percent} chance that Constable Jute is there. Otherwise, she's on patrol and returns in {@dice 1d8} hours. As long as the characters don't proclaim that they're investigating the Lantern Ghost case, the militia guards are fairly friendly toward them. (It's their policy not to antagonize powerful-looking strangers.) If the guards realize what the party is up to, they immediately suspect the characters are out to make them look bad. In that case, they become surly and tight-lipped.",
+								"If the characters visit the district garrison, there's a {@chance 30} chance that Constable Jute is there. Otherwise, she's on patrol and returns in {@dice 1d8} hours. As long as the characters don't proclaim that they're investigating the Lantern Ghost case, the militia guards are fairly friendly toward them. (It's their policy not to antagonize powerful-looking strangers.) If the guards realize what the party is up to, they immediately suspect the characters are out to make them look bad. In that case, they become surly and tight-lipped.",
 								"All the militia guards have been assured by their commanders (all of whom were bribed by {@creature Mr. Dory|GoS}) that the Lantern Ghost was executed, the murders have been solved, and anyone who wants to dig deeper into the matter must be a troublemaker trying to stir up dissent.",
 								{
 									"type": "entries",
@@ -29821,7 +29821,7 @@
 											"page": 174,
 											"id": "4d5",
 											"entries": [
-												"The alchemical contents of the crates make the warehouse a risky place to have a fight. At the end of each round in which weapon damage or the movement of combatants might accidentally disturb a pile of crates, or if any effect deals damage in an area other than necrotic, poison, or psychic damage, there's a {@chance 20|20 percent} chance that a nearby crate explodes, setting off a chain reaction that engulfs the entire warehouse in flames. The initial explosion deals 28 ({@dice 8d6}) fire damage to each creature in the warehouse, or half damage to creatures that succeed on a DC 15 Dexterity saving throw.",
+												"The alchemical contents of the crates make the warehouse a risky place to have a fight. At the end of each round in which weapon damage or the movement of combatants might accidentally disturb a pile of crates, or if any effect deals damage in an area other than necrotic, poison, or psychic damage, there's a {@chance 20} chance that a nearby crate explodes, setting off a chain reaction that engulfs the entire warehouse in flames. The initial explosion deals 28 ({@dice 8d6}) fire damage to each creature in the warehouse, or half damage to creatures that succeed on a DC 15 Dexterity saving throw.",
 												"Every creature that starts its turn in the burning warehouse takes 3 ({@dice 1d6}) fire damage. Additionally, the upper floors of the warehouse collapse {@dice 2d4} rounds after the fire starts. Each creature in the warehouse when it collapses takes 14 ({@dice 4d6}) fire damage and must make a DC 15 Dexterity saving throw. On a failed save, a creature takes an additional 28 ({@dice 8d6}) bludgeoning damage and is {@condition restrained} beneath the rubble. On a successful save, the creature takes half the bludgeoning damage and is not {@condition restrained}.",
 												"The collapse makes the entire area of the warehouse {@quickref difficult terrain||3}, and each creature that starts its turn in the warehouse thereafter takes 7 ({@dice 2d6}) fire damage. A {@condition restrained} creature can escape by using an action and succeeding on a DC 15 Strength or Dexterity check, or can be pulled free by another creature within 5 feet that uses an action and succeeds on a DC 15 Strength check.",
 												"If the warehouse catches fire, a huge crowd gathers to help put out the flames before they spread to nearby buildings. This firefighting effort takes up to an hour, so it won't help characters who were trapped in the blaze. The crane holding Dory's home aloft is made mostly of metal, so it doesn't collapse in the fire. Dory's minions aboard the ship prevent the fire from spreading to it. Then they spend the next several days repairing the crane, clearing rubble, and installing rickety ladders to replace the stairs, while Dory devotes himself to plotting revenge on whoever he suspects of burning down his warehouse."
@@ -30858,7 +30858,7 @@
 											]
 										},
 										"The trash heaped here make this area {@quickref difficult terrain||3}.",
-										"The aboleth has ordered the cult to keep four {@creature skum|GoS} guards posted here (see {@adventure appendix C|GoS|10} and the \"Skum\" sidebar). These guards lurk behind mounds of rubble as they watch the surrounding area for intruders. When the characters assemble on the galley pier created from the ship's deck (area T2), the skum rise up and attack with thrown tridents (they have a large supply of those weapons on hand). They have half cover while in the rubble, and they engage in melee only if the characters come to them or attempt to open the doors into the temple."
+										"The aboleth has ordered the cult to keep four {@creature skum|GoS} guards posted here (see {@adventure appendix C|GoS|10} and the \"Skum\" sidebar). These guards lurk behind mounds of rubble as they watch the surrounding area for intruders. When the characters assemble on the galley pier created from the ship's deck (area T2), the skum rise up and attack with thrown tridents (they have a large supply of those weapons on hand). They have {@quickref Cover||3||half cover} while in the rubble, and they engage in melee only if the characters come to them or attempt to open the doors into the temple."
 									]
 								},
 								{
@@ -34183,7 +34183,7 @@
 											"name": "W7b. Supply Closets",
 											"page": 226,
 											"entries": [
-												"These supply closets held food and liturgical materials that were lost to or broken by the sea. A closet has a {@chance 25|25 percent} chance of containing a hungry quipper and a {@chance 10|10 percent} chance of containing an object from the 25 gp {@book Art Objects table|DMG|7|Art Objects} in chapter 7 of the {@book Dungeon Master's Guide|DMG}."
+												"These supply closets held food and liturgical materials that were lost to or broken by the sea. A closet has a {@chance 25} chance of containing a hungry quipper and a {@chance 10} chance of containing an object from the 25 gp {@book Art Objects table|DMG|7|Art Objects} in chapter 7 of the {@book Dungeon Master's Guide|DMG}."
 											],
 											"id": "5ae"
 										},

@@ -5860,7 +5860,7 @@
 									"page": 77,
 									"entries": [
 										"As the adventurers pursue their goals and foil the villain's plans, how does the villain respond? Does it lash out in violence or send dire warnings? Does it look for simple solutions to its problems or create more complicated schemes to route around interference?",
-										"Look over the villain's actions that you outlined instep 2. For each event arising from those actions, think about how the adventurers are likely to react. If they can prevent an action or hamper its success, what effect does that have on the villain's overall plan? What can the villain do to compensate?",
+										"Look over the villain's actions that you outlined in step 2. For each event arising from those actions, think about how the adventurers are likely to react. If they can prevent an action or hamper its success, what effect does that have on the villain's overall plan? What can the villain do to compensate?",
 										"One way to track a villain's reactions is by using a flowchart. This might grow out of the timeline that describes the villain's plans, outlining how the villain gets back on track after the adventurers thwart its plans. Or the flowchart could be separate from the timeline, showing the various actions the adventurers might take and the villain's response to those actions."
 									],
 									"id": "13e"
@@ -19706,8 +19706,8 @@
 										"dmref": 2
 									},
 									"entries": [
-										"To determine whether a target has cover against an attack or other effect on a grid, choose a corner of the square the attacker occupies or the point of origin of an area of effect. Then trace imaginary lines from that corner to every corner of any one square the target occupies. If one or two of those lines are blocked by an obstacle (including another creature), the target has half cover. If three or four of those lines are blocked but the attack can still physically reach the target (such as when the target is behind an arrow slit), the target has three-quarters cover.",
-										"On hexes, use the same procedure as a grid, drawing lines between the corners of the hexagons. The target has half cover if up to three lines are blocked by an obstacle, and three-quarters cover if four or more lines are blocked but the attack can still physically reach the target."
+										"To determine whether a target has cover against an attack or other effect on a grid, choose a corner of the square the attacker occupies or the point of origin of an area of effect. Then trace imaginary lines from that corner to every corner of any one square the target occupies. If one or two of those lines are blocked by an obstacle (including another creature), the target has {@quickref Cover||3||half cover}. If three or four of those lines are blocked but the attack can still physically reach the target (such as when the target is behind an arrow slit), the target has {@quickref Cover||3||three-quarters cover}.",
+										"On hexes, use the same procedure as a grid, drawing lines between the corners of the hexagons. The target has {@quickref Cover||3||half cover} if up to three lines are blocked by an obstacle, and {@quickref Cover||3||three-quarters cover} if four or more lines are blocked but the attack can still physically reach the target."
 									],
 									"id": "2e2"
 								},

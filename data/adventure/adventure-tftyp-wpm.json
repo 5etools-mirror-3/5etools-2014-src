@@ -471,7 +471,7 @@
 										],
 										[
 											"2",
-											"Bored, retired adventurer, claims to have explored dungeon of note and can describe first few areas ({@chance 20|20 percent} chance of an accurate description)"
+											"Bored, retired adventurer, claims to have explored dungeon of note and can describe first few areas ({@chance 20} chance of an accurate description)"
 										],
 										[
 											"3",
@@ -479,7 +479,7 @@
 										],
 										[
 											"4",
-											"Con artist, selling fake treasure maps (but a {@chance 10|10 percent} chance that a map is genuine)"
+											"Con artist, selling fake treasure maps (but a {@chance 10} chance that a map is genuine)"
 										],
 										[
 											"5",
@@ -503,7 +503,7 @@
 										],
 										[
 											"10",
-											"Elminster, incognito; {@chance 10|10 percent} chance he is on an errand of cosmic importance; otherwise, he's pressing Durnan for gossip"
+											"Elminster, incognito; {@chance 10} chance he is on an errand of cosmic importance; otherwise, he's pressing Durnan for gossip"
 										]
 									]
 								}

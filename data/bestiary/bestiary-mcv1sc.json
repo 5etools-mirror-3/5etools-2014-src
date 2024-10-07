@@ -1251,7 +1251,7 @@
 				{
 					"name": "Cavities",
 					"entries": [
-						"The yggdrasti has {@dice 1d4 + 2} cavities in its trunk. Each cavity is big enough to hold one Medium creature, two Small creatures, or eight Tiny creatures. A creature inside a cavity has three-quarters cover against attacks and other effects that originate outside the cavity. The yggdrasti's cavities aren't connected to one another."
+						"The yggdrasti has {@dice 1d4 + 2} cavities in its trunk. Each cavity is big enough to hold one Medium creature, two Small creatures, or eight Tiny creatures. A creature inside a cavity has {@quickref Cover||3||three-quarters cover} against attacks and other effects that originate outside the cavity. The yggdrasti's cavities aren't connected to one another."
 					]
 				},
 				{

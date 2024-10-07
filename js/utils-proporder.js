@@ -33,6 +33,8 @@ function getFnListSort (prop) {
 		case "featFluff":
 		case "optionalfeatureFluff":
 		case "conditionFluff":
+		case "diseaseFluff":
+		case "statusFluff":
 		case "spellFluff":
 		case "itemFluff":
 		case "languageFluff":
@@ -46,6 +48,8 @@ function getFnListSort (prop) {
 		case "foundryMagicvariant":
 		case "itemGroup":
 		case "itemMastery":
+		case "itemTypeAdditionalEntries":
+		case "itemEntry":
 		case "object":
 		case "optionalfeature":
 		case "foundryOptionalfeature":
@@ -115,6 +119,11 @@ function getFnListSort (prop) {
 			return SortUtil.ascSortBookData.bind(SortUtil);
 		case "monsterfeatures":
 			return (a, b) => SortUtil.ascSortLower(a.name, b.name);
+		case "itemProperty":
+		case "reducedItemProperty":
+		case "itemType":
+		case "reducedItemType":
+			return (a, b) => SortUtil.ascSortLower(a.abbreviation, b.abbreviation) || SortUtil.ascSortLower(a.source, b.source);
 		default: throw new Error(`Unhandled prop "${prop}"`);
 	}
 }
@@ -131,6 +140,7 @@ class PropOrder {
 	 * @param [opts] Options object.
 	 * @param [opts.fnUnhandledKey] Function to call on each unhandled key.
 	 * @param [opts.isFoundryPrefixProps] If root keys should be treated as having a "foundry" prefix.
+	 * @param [opts.isNoSortRootArrays] If root arrays should not be sorted.
 	 */
 	static getOrderedRoot (obj, opts) {
 		opts ||= {};
@@ -195,6 +205,7 @@ class PropOrder {
 					...opts,
 					// Only used at the root
 					isFoundryPrefixProps: false,
+					isNoSortRootArrays: false,
 				};
 
 				if (keyInfo instanceof PropOrder._ObjectKey) {
@@ -211,7 +222,7 @@ class PropOrder {
 					else if (keyInfo.order) out[propMod] = obj[propMod].map(it => this._getOrdered(it, keyInfo.order, optsNxt, logPathNxt));
 					else out[propMod] = obj[propMod];
 
-					if (keyInfo.fnSort && out[propMod] instanceof Array) out[propMod].sort(keyInfo.fnSort);
+					if (!opts.isNoSortRootArrays && keyInfo.fnSort && out[propMod] instanceof Array) out[propMod].sort(keyInfo.fnSort);
 
 					return;
 				}
@@ -258,6 +269,10 @@ PropOrder._ObjectKey = class {
 		this.order = opts.order;
 	}
 
+	/**
+	 * @param {?Array<string>} identKeys
+	 * @param {function} fnGetModOrder
+	 */
 	static getCopyKey ({identKeys = null, fnGetModOrder}) {
 		return new this("_copy", {
 			order: [
@@ -402,7 +417,9 @@ PropOrder._MONSTER = [
 	"page",
 
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"additionalSources",
 	"otherSources",
 	"reprintedAs",
@@ -506,6 +523,7 @@ PropOrder._MONSTER = [
 	"soundClip",
 	"foundryImg",
 	"foundryTokenScale",
+	"foundryPrototypeToken",
 
 	"altArt",
 
@@ -632,9 +650,12 @@ PropOrder._SPELL = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"additionalSources",
 	"otherSources",
+	"reprintedAs",
 
 	PropOrder._ObjectKey.getCopyKey({fnGetModOrder: () => PropOrder._SPELL__COPY_MOD}),
 
@@ -749,7 +770,11 @@ PropOrder._ACTION = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
+	"otherSources",
+	"reprintedAs",
 
 	"fromVariant",
 
@@ -822,9 +847,12 @@ PropOrder._BACKGROUND = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"additionalSources",
 	"otherSources",
+	"reprintedAs",
 
 	PropOrder._ObjectKey.getCopyKey({fnGetModOrder: () => PropOrder._BACKGROUND__COPY_MOD}),
 
@@ -897,14 +925,20 @@ PropOrder._CLASS = [
 	"source",
 	"page",
 	"srd",
-	"isReprinted",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"otherSources",
+	"isReprinted",
+	"reprintedAs",
+
+	"edition",
 
 	"isSidekick",
 	"classGroup",
 
 	"requirements",
+	"primaryAbility",
 	"hd",
 	"proficiency",
 
@@ -921,6 +955,7 @@ PropOrder._CLASS = [
 	"additionalSpells",
 	"classSpells",
 
+	"featProgression",
 	"optionalfeatureProgression",
 
 	"startingProficiencies",
@@ -974,13 +1009,19 @@ PropOrder._SUBCLASS = [
 
 	"page",
 	"srd",
-	"isReprinted",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"otherSources",
+	"isReprinted",
+	"reprintedAs",
+
+	"edition",
 
 	new PropOrder._ObjectKey("_copy", {
 		order: [
 			"name",
+			"source",
 			"shortName",
 			"source",
 			"className",
@@ -1007,6 +1048,7 @@ PropOrder._SUBCLASS = [
 	"subclassSpells",
 	"subSubclassSpells",
 
+	"featProgression",
 	"optionalfeatureProgression",
 
 	"subclassTableGroups",
@@ -1085,12 +1127,28 @@ PropOrder._CLASS_FEATURE = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"otherSources",
 
 	"className",
 	"classSource",
 	"level",
+
+	new PropOrder._ObjectKey("_copy", {
+		order: [
+			"name",
+			"source",
+			"className",
+			"classSource",
+			"level",
+			new PropOrder._ObjectKey("_mod", {
+				fnGetOrder: () => PropOrder._CLASS_FEATURE__COPY_MOD,
+			}),
+			"_preserve",
+		],
+	}),
 
 	"isClassFeatureVariant",
 
@@ -1107,6 +1165,11 @@ PropOrder._CLASS_FEATURE = [
 	"foundryFlags",
 	"foundryImg",
 ];
+PropOrder._CLASS_FEATURE__COPY_MOD = [
+	"*",
+	"_",
+	...PropOrder._CLASS_FEATURE,
+];
 PropOrder._SUBCLASS_FEATURE = [
 	"name",
 	"alias",
@@ -1114,7 +1177,9 @@ PropOrder._SUBCLASS_FEATURE = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"otherSources",
 
 	"className",
@@ -1122,6 +1187,22 @@ PropOrder._SUBCLASS_FEATURE = [
 	"subclassShortName",
 	"subclassSource",
 	"level",
+
+	new PropOrder._ObjectKey("_copy", {
+		order: [
+			"name",
+			"source",
+			"className",
+			"classSource",
+			"subclassShortName",
+			"subclassSource",
+			"level",
+			new PropOrder._ObjectKey("_mod", {
+				fnGetOrder: () => PropOrder._SUBCLASS_FEATURE__COPY_MOD,
+			}),
+			"_preserve",
+		],
+	}),
 
 	"isClassFeatureVariant",
 
@@ -1139,6 +1220,11 @@ PropOrder._SUBCLASS_FEATURE = [
 	"foundrySystem",
 	"foundryFlags",
 	"foundryImg",
+];
+PropOrder._SUBCLASS_FEATURE__COPY_MOD = [
+	"*",
+	"_",
+	...PropOrder._SUBCLASS_FEATURE,
 ];
 PropOrder._FOUNDRY_CLASS_FEATURE = [
 	"name",
@@ -1213,9 +1299,12 @@ PropOrder._LANGUAGE = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"additionalSources",
 	"otherSources",
+	"reprintedAs",
 
 	"type",
 	"typicalSpeakers",
@@ -1253,8 +1342,11 @@ PropOrder._CONDITION = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"otherSources",
+	"reprintedAs",
 
 	"color",
 
@@ -1272,14 +1364,20 @@ PropOrder._DISEASE = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"otherSources",
+	"reprintedAs",
 
 	"color",
 
-	"fluff",
-
 	"entries",
+
+	"hasFluff",
+	"hasFluffImages",
+
+	"fluff",
 
 	...PropOrder._PROPS_FOUNDRY_DATA,
 ];
@@ -1290,11 +1388,20 @@ PropOrder._STATUS = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
+	"otherSources",
+	"reprintedAs",
 
 	"color",
 
 	"entries",
+
+	"hasFluff",
+	"hasFluffImages",
+
+	"fluff",
 ];
 PropOrder._CULT = [
 	"name",
@@ -1303,7 +1410,9 @@ PropOrder._CULT = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"additionalSources",
 	"otherSources",
 	"reprintedAs",
@@ -1323,7 +1432,9 @@ PropOrder._BOON = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"additionalSources",
 	"otherSources",
 	"reprintedAs",
@@ -1347,9 +1458,11 @@ PropOrder._DEITY = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
-
+	"freeRules2024",
 	"additionalSources",
+	"otherSources",
 
 	new PropOrder._ObjectKey("_copy", {
 		order: [
@@ -1376,6 +1489,7 @@ PropOrder._DEITY = [
 	"dogma",
 	"symbol",
 	"symbolImg",
+	"favoredWeapons",
 
 	"piety",
 
@@ -1399,10 +1513,12 @@ PropOrder._FEAT = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
-
+	"freeRules2024",
 	"additionalSources",
 	"otherSources",
+	"reprintedAs",
 
 	PropOrder._ObjectKey.getCopyKey({fnGetModOrder: () => PropOrder._FEAT__COPY_MOD}),
 
@@ -1414,6 +1530,7 @@ PropOrder._FEAT = [
 
 	"ability",
 
+	new PropOrder._ArrayKey("traitTags", {fnSort: SortUtil.ascSortLower}),
 	"skillProficiencies",
 	"languageProficiencies",
 	"toolProficiencies",
@@ -1427,6 +1544,9 @@ PropOrder._FEAT = [
 	"resist",
 	"vulnerable",
 	"conditionImmune",
+
+	"senses",
+	"bonusSenses",
 
 	"additionalSpells",
 
@@ -1453,7 +1573,9 @@ PropOrder._VEHICLE = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"otherSources",
 
 	"vehicleType",
@@ -1519,6 +1641,7 @@ PropOrder._VEHICLE = [
 	"foundryFlags",
 	"foundryImg",
 	"foundryTokenScale",
+	"foundryPrototypeToken",
 ];
 PropOrder._VEHICLE_UPGRADE = [
 	"name",
@@ -1527,7 +1650,9 @@ PropOrder._VEHICLE_UPGRADE = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"otherSources",
 
 	"upgradeType",
@@ -1556,8 +1681,9 @@ PropOrder._ITEM = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
-
+	"freeRules2024",
 	"additionalSources",
 	"otherSources",
 	"reprintedAs",
@@ -1565,6 +1691,8 @@ PropOrder._ITEM = [
 	PropOrder._ObjectKey.getCopyKey({fnGetModOrder: () => PropOrder._ITEM__COPY_MOD}),
 
 	"baseItem",
+
+	"edition",
 
 	"type",
 	"typeAlt",
@@ -1665,6 +1793,7 @@ PropOrder._ITEM = [
 	"barding",
 	"bolt",
 	"bow",
+	"bulletFirearm",
 	"bulletSling",
 	"club",
 	"crossbow",
@@ -1675,8 +1804,10 @@ PropOrder._ITEM = [
 	"mace",
 	"needleBlowgun",
 	"net",
+	"lance",
 	"poison",
 	"polearm",
+	"rapier",
 	"spear",
 	"staff",
 	"stealth",
@@ -1751,9 +1882,98 @@ PropOrder._ITEM_MASTERY = [
 	"name",
 	"source",
 
+	"page",
+	"srd",
+	"srd52",
+	"basicRules",
+	"freeRules2024",
+
 	"prerequisite",
 
 	"entries",
+];
+PropOrder._ITEM_PROPERTY = [
+	"name",
+	"abbreviation",
+
+	"source",
+	"page",
+	"srd",
+	"srd52",
+	"basicRules",
+	"freeRules2024",
+	"reprintedAs",
+
+	PropOrder._ObjectKey.getCopyKey({
+		identKeys: [
+			"abbreviation",
+			"source",
+		],
+		fnGetModOrder: () => PropOrder._ITEM_PROPERTY__COPY_MOD,
+	}),
+
+	"template",
+
+	"entries",
+	"entriesTemplate",
+];
+PropOrder._ITEM_PROPERTY__COPY_MOD = [
+	"*",
+	"_",
+	...PropOrder._ITEM_PROPERTY,
+];
+PropOrder._REDUCED_ITEM_PROPERTY = [
+	...PropOrder._ITEM_PROPERTY,
+];
+PropOrder._ITEM_TYPE = [
+	"name",
+	"abbreviation",
+
+	"source",
+	"page",
+	"srd",
+	"srd52",
+	"basicRules",
+	"freeRules2024",
+	"reprintedAs",
+
+	PropOrder._ObjectKey.getCopyKey({
+		identKeys: [
+			"abbreviation",
+			"source",
+		],
+		fnGetModOrder: () => PropOrder._ITEM_PROPERTY__COPY_MOD,
+	}),
+
+	"template",
+
+	"entries",
+	"entriesTemplate",
+];
+PropOrder._ITEM_TYPE__COPY_MOD = [
+	"*",
+	"_",
+	...PropOrder._ITEM_TYPE,
+];
+PropOrder._REDUCED_ITEM_TYPE = [
+	...PropOrder._ITEM_TYPE,
+];
+PropOrder._ITEM_TYPE_ADDITIONAL_ENTRIES = [
+	"name",
+
+	"source",
+	"page",
+
+	"appliesTo",
+
+	"entries",
+];
+PropOrder._ITEM_ENTRY = [
+	"name",
+
+	"source",
+
+	"entriesTemplate",
 ];
 PropOrder._OBJECT = [
 	"name",
@@ -1764,7 +1984,10 @@ PropOrder._OBJECT = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
+	"otherSources",
 
 	"size",
 	"objectType",
@@ -1802,6 +2025,7 @@ PropOrder._OBJECT = [
 	"fluff",
 
 	"foundryTokenScale",
+	"foundryPrototypeToken",
 ];
 PropOrder._OPTIONALFEATURE = [
 	"name",
@@ -1810,8 +2034,11 @@ PropOrder._OPTIONALFEATURE = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"otherSources",
+	"reprintedAs",
 
 	PropOrder._ObjectKey.getCopyKey({fnGetModOrder: () => PropOrder._OPTIONALFEATURE__COPY_MOD}),
 
@@ -1836,9 +2063,11 @@ PropOrder._OPTIONALFEATURE = [
 	"conditionImmune",
 
 	"senses",
+	"bonusSenses",
 
 	"additionalSpells",
 
+	"featProgression",
 	"optionalfeatureProgression",
 
 	"consumes",
@@ -1878,6 +2107,7 @@ PropOrder._REWARD = [
 
 	"source",
 	"page",
+	"reprintedAs",
 
 	"type",
 
@@ -1899,9 +2129,12 @@ PropOrder._VARIANTRULE = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"additionalSources",
 	"otherSources",
+	"reprintedAs",
 
 	"ruleType",
 
@@ -1913,7 +2146,9 @@ PropOrder._VARIANTRULE = [
 PropOrder._RACE_SUBRACE = [
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"additionalSources",
 	"otherSources",
 	"reprintedAs",
@@ -1952,6 +2187,11 @@ PropOrder._RACE_SUBRACE = [
 	"soundClip",
 
 	"additionalSpells",
+
+	"abilityEntry",
+	"creatureTypesEntry",
+	"sizeEntry",
+	"speedEntry",
 
 	"entries",
 
@@ -2038,7 +2278,9 @@ PropOrder._TABLE = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"otherSources",
 
 	"type",
@@ -2069,7 +2311,10 @@ PropOrder._TRAP = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
+	"otherSources",
 
 	"trapHazType",
 
@@ -2103,7 +2348,9 @@ PropOrder._HAZARD = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"additionalSources",
 	"otherSources",
 	"reprintedAs",
@@ -2176,7 +2423,13 @@ PropOrder._SKILL = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
+	"otherSources",
+	"reprintedAs",
+
+	"ability",
 
 	"entries",
 ];
@@ -2187,7 +2440,11 @@ PropOrder._SENSE = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
+	"otherSources",
+	"reprintedAs",
 
 	"entries",
 ];
@@ -2198,7 +2455,9 @@ PropOrder._DECK = [
 	"source",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"otherSources",
 
 	PropOrder._ObjectKey.getCopyKey({fnGetModOrder: () => PropOrder._DECK__COPY_MOD}),
@@ -2224,7 +2483,9 @@ PropOrder._CARD = [
 	"set",
 	"page",
 	"srd",
+	"srd52",
 	"basicRules",
+	"freeRules2024",
 	"otherSources",
 
 	"suit",
@@ -2290,6 +2551,8 @@ PropOrder._PROP_TO_LIST = {
 	"featFluff": PropOrder._GENERIC_FLUFF,
 	"optionalfeatureFluff": PropOrder._GENERIC_FLUFF,
 	"conditionFluff": PropOrder._GENERIC_FLUFF,
+	"diseaseFluff": PropOrder._GENERIC_FLUFF,
+	"statusFluff": PropOrder._GENERIC_FLUFF,
 	"itemFluff": PropOrder._GENERIC_FLUFF,
 	"languageFluff": PropOrder._GENERIC_FLUFF,
 	"vehicleFluff": PropOrder._GENERIC_FLUFF,
@@ -2341,6 +2604,12 @@ PropOrder._PROP_TO_LIST = {
 	"foundryMagicvariant": PropOrder._FOUNDRY_GENERIC,
 	"itemGroup": PropOrder._ITEM,
 	"itemMastery": PropOrder._ITEM_MASTERY,
+	"itemProperty": PropOrder._ITEM_PROPERTY,
+	"reducedItemProperty": PropOrder._REDUCED_ITEM_PROPERTY,
+	"itemType": PropOrder._ITEM_TYPE,
+	"itemTypeAdditionalEntries": PropOrder._ITEM_TYPE_ADDITIONAL_ENTRIES,
+	"reducedItemType": PropOrder._REDUCED_ITEM_TYPE,
+	"itemEntry": PropOrder._ITEM_ENTRY,
 	"object": PropOrder._OBJECT,
 	"optionalfeature": PropOrder._OPTIONALFEATURE,
 	"foundryOptionalfeature": PropOrder._FOUNDRY_GENERIC_FEATURE,
@@ -2433,12 +2702,12 @@ PropOrder._ROOT = [
 	PropOrder._ArrayKey.getRootKey("foundryItem"),
 	PropOrder._ArrayKey.getRootKey("foundryMagicvariant"),
 
-	new PropOrder._IgnoredKey("itemProperty"),
-	new PropOrder._IgnoredKey("reducedItemProperty"),
-	new PropOrder._IgnoredKey("itemType"),
-	new PropOrder._IgnoredKey("itemTypeAdditionalEntries"),
-	new PropOrder._IgnoredKey("reducedItemType"),
-	new PropOrder._IgnoredKey("itemEntry"),
+	PropOrder._ArrayKey.getRootKey("itemProperty"),
+	PropOrder._ArrayKey.getRootKey("reducedItemProperty"),
+	PropOrder._ArrayKey.getRootKey("itemType"),
+	PropOrder._ArrayKey.getRootKey("reducedItemType"),
+	PropOrder._ArrayKey.getRootKey("itemTypeAdditionalEntries"),
+	PropOrder._ArrayKey.getRootKey("itemEntry"),
 	PropOrder._ArrayKey.getRootKey("itemMastery"),
 	new PropOrder._IgnoredKey("linkedLootTables"),
 
@@ -2486,7 +2755,9 @@ PropOrder._ROOT = [
 	PropOrder._ArrayKey.getRootKey("condition"),
 	PropOrder._ArrayKey.getRootKey("conditionFluff"),
 	PropOrder._ArrayKey.getRootKey("disease"),
+	PropOrder._ArrayKey.getRootKey("diseaseFluff"),
 	PropOrder._ArrayKey.getRootKey("status"),
+	PropOrder._ArrayKey.getRootKey("statusFluff"),
 
 	PropOrder._ArrayKey.getRootKey("action"),
 	PropOrder._ArrayKey.getRootKey("foundryAction"),

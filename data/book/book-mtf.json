@@ -3452,7 +3452,12 @@
 					"page": 64,
 					"entries": [
 						"This section provides tables for players and DMs who want to choose or randomly generate details about elves",
-						"{@item Elven Trinket|MTF|Elven Trinkets}",
+						{
+							"type": "statblock",
+							"name": "Elven Trinket",
+							"source": "MTF",
+							"tag": "item"
+						},
 						{
 							"type": "table",
 							"caption": "Elf (Non-drow) Adventurer Story Hooks",

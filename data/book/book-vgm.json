@@ -1134,7 +1134,7 @@
 									"name": "Eyes in the Sky",
 									"page": 13,
 									"entries": [
-										"Because a beholder's paranoia knows no limits, it often designs its lair to include secret passageways that are used for reconnaissance or surprise attacks. (These features aren't shown on the accompanying map, but can be located anywhere you see fit.) A typical arrangement is a network of tunnels running above the main chambers of the lair, each wide enough for the beholder to fly through. Fist-sized holes in the floors of these tunnels open into the rooms below, allowing the beholder to spy on creatures in its lair and perhaps target them with eye rays. (Opponents can shoot back, but the holes function like arrow slits and provide three-quarters cover to the beholder.)"
+										"Because a beholder's paranoia knows no limits, it often designs its lair to include secret passageways that are used for reconnaissance or surprise attacks. (These features aren't shown on the accompanying map, but can be located anywhere you see fit.) A typical arrangement is a network of tunnels running above the main chambers of the lair, each wide enough for the beholder to fly through. Fist-sized holes in the floors of these tunnels open into the rooms below, allowing the beholder to spy on creatures in its lair and perhaps target them with eye rays. (Opponents can shoot back, but the holes function like arrow slits and provide {@quickref Cover||3||three-quarters cover} to the beholder.)"
 									],
 									"id": "023"
 								},

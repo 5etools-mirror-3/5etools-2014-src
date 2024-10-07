@@ -12023,7 +12023,7 @@
 									"width": 843,
 									"height": 1000
 								},
-								"Tiny creatures can move through the thicket at no penalty. For Small and Medium creatures, the thicket is {@quickref difficult terrain||3}. While in the thicket, Tiny and Small creatures have half cover against Medium creatures and can hide.",
+								"Tiny creatures can move through the thicket at no penalty. For Small and Medium creatures, the thicket is {@quickref difficult terrain||3}. While in the thicket, Tiny and Small creatures have {@quickref Cover||3||half cover} against Medium creatures and can hide.",
 								"Creatures can negate the movement penalty by destroying the fungi before crossing the thicket. Each 5-foot-square area of fungi has AC 10 and 10 hit points. Any attack that deals fire damage has a 50 percent chance of igniting a torchstalk mushroom (see \"{@area Fungi of the Underdark|067|x}\" in chapter 2).",
 								"The first time a Small or larger character reaches the tunnel intersection, two {@creature Swarm of Insects||swarms of insects} (centipedes) emerge from nests under the thicket and attack. Two more {@creature Swarm of Insects||swarms of insects} (spiders) arrive on the second round of combat, plus another {@creature swarm of insects} (centipedes) on the third round.",
 								{
@@ -12257,7 +12257,7 @@
 									"page": 75,
 									"id": "1dd",
 									"entries": [
-										"The pit is 5 feet deep and filled with various kinds of fungi. It is {@quickref difficult terrain||3} for Small and Medium creatures, and Tiny creatures have half cover while amid the fungi.",
+										"The pit is 5 feet deep and filled with various kinds of fungi. It is {@quickref difficult terrain||3} for Small and Medium creatures, and Tiny creatures have {@quickref Cover||3||half cover} while amid the fungi.",
 										"A crack in the east wall forms the mouth of a narrow tunnel that leads from the floor of the pit to area 6; see the \"Whorlstone Tunnels: General Features\" sidebar for more information on narrow tunnels.",
 										"The abundance of fungi in the thicket makes it easy to forage here. Among the common, inedible fungi are the following edible and exotic fungi, most of which are described in {@area chapter 2|067|x}:",
 										{
@@ -12615,7 +12615,7 @@
 									"entries": [
 										"Fungi is rampant throughout this area, growing in large patches on the floors and walls.",
 										"Two thick fungi patches grow by each wall in the western tunnel. Clinging to the north wall is a {@creature shrieker} that party members can recognize with a successful DC 12 Intelligence ({@skill Nature}) check. The shrieker starts screaming as soon as anyone comes within 30 feet of it.",
-										"The crack in the floor by the east wall is surrounded by a thick fungus patch that is {@quickref difficult terrain||3} for Small and Medium characters, and provides half cover for Tiny creatures. Growing among the common fungi are {@dice 2d6} bigwigs and {@dice 2d6} pygmyworts."
+										"The crack in the floor by the east wall is surrounded by a thick fungus patch that is {@quickref difficult terrain||3} for Small and Medium characters, and provides {@quickref Cover||3||half cover} for Tiny creatures. Growing among the common fungi are {@dice 2d6} bigwigs and {@dice 2d6} pygmyworts."
 									]
 								},
 								{
@@ -39109,7 +39109,7 @@
 									"id": "4de",
 									"entries": [
 										"The standard patrol consists of two drow {@creature Scout||scouts} mounted on {@creature Giant Riding Lizard|OotA|giant riding lizards} (use the statistics at the end of {@area chapter 8|34c|x}). Characters who can see out to a range of 120 or more and are moving at a normal pace spot the drow scouts with a successful DC 16 Wisdom ({@skill Perception}) check. If the characters are moving at a fast pace, they take a \u22125 penalty to their checks.",
-										"Unless the characters are moving at a slow pace and being stealthy, the drow spot them with their {@sense darkvision} and withdraw to an outpost located a mile away. Defending the drow outpost are a female {@creature drow elite warrior} (the commander), a male {@creature drow mage}, and sixteen {@creature drow}. The outpost is a four-story tower carved out of a 60-foot-tall, 15-foot-wide column in the middle of a 75-foot-diameter cavern. Both the cavern and the outpost are unlit. A secret door in the column's base leads to the tower interior, but finding it requires a thorough search and a successful DC 20 Wisdom ({@skill Perception}) check. Arrow slits on each floor allow the drow to cast spells and make ranged attacks in every direction while enjoying three-quarters cover against attacks from the cavern.",
+										"Unless the characters are moving at a slow pace and being stealthy, the drow spot them with their {@sense darkvision} and withdraw to an outpost located a mile away. Defending the drow outpost are a female {@creature drow elite warrior} (the commander), a male {@creature drow mage}, and sixteen {@creature drow}. The outpost is a four-story tower carved out of a 60-foot-tall, 15-foot-wide column in the middle of a 75-foot-diameter cavern. Both the cavern and the outpost are unlit. A secret door in the column's base leads to the tower interior, but finding it requires a thorough search and a successful DC 20 Wisdom ({@skill Perception}) check. Arrow slits on each floor allow the drow to cast spells and make ranged attacks in every direction while enjoying {@quickref Cover||3||three-quarters cover} against attacks from the cavern.",
 										"If the drow scouts escape and the characters don't follow them, the scouts report to the outpost commander, who organizes a hunting party consisting of her and eight drow (leaving the mage and eight drow to staff the outpost). Use the drow pursuit rules in {@area chapter 2|078|x}, and assume a pursuit level of 4."
 									]
 								},
@@ -39179,7 +39179,7 @@
 									"page": 191,
 									"id": "4e2",
 									"entries": [
-										"The characters encounter a {@creature drow mage} riding on the back of a {@creature stone golem} carved from stone and shaped like a giant spider. The mage rides in a howdah that provides half cover against attacks from the ground. Escorting the mage are {@dice 2d4} {@creature Drow Elite Warrior||drow elite warriors} mounted on {@creature Giant Riding Lizard|OotA|giant riding lizards} (use the statistics at the end of {@area chapter 8|34c|x}). These drow fight to the death to protect their territory.",
+										"The characters encounter a {@creature drow mage} riding on the back of a {@creature stone golem} carved from stone and shaped like a giant spider. The mage rides in a howdah that provides {@quickref Cover||3||half cover} against attacks from the ground. Escorting the mage are {@dice 2d4} {@creature Drow Elite Warrior||drow elite warriors} mounted on {@creature Giant Riding Lizard|OotA|giant riding lizards} (use the statistics at the end of {@area chapter 8|34c|x}). These drow fight to the death to protect their territory.",
 										{
 											"type": "entries",
 											"name": "Treasure",

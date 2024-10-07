@@ -1,17 +1,114 @@
-"use strict";
+import {SITE_STYLE__CLASSIC} from "./consts.js";
+import {VetoolsConfig} from "./utils-config/utils-config-config.js";
+import {RenderPageImplBase} from "./render-page-base.js";
 
-class RenderOptionalFeatures {
-	static $getRenderedOptionalFeature (it) {
-		const ptCost = Renderer.optionalfeature.getCostHtml(it);
-		return $$`${Renderer.utils.getBorderTr()}
-		${Renderer.utils.getExcludedTr({entity: it, dataProp: "optionalfeature"})}
-		${Renderer.utils.getNameTr(it, {page: UrlUtil.PG_OPT_FEATURES})}
-		${it.prerequisite ? `<tr><td colspan="6">${Renderer.utils.prerequisite.getHtml(it.prerequisite)}</td></tr>` : ""}
-		${ptCost ? `<tr><td colspan="6">${ptCost}</td></tr>` : ""}
-		<tr><td class="divider" colspan="6"><div></div></td></tr>
-		<tr><td colspan="6">${Renderer.get().render({entries: it.entries}, 1)}</td></tr>
-		${Renderer.optionalfeature.getPreviouslyPrintedText(it)}
-		${Renderer.utils.getPageTr(it)}
-		${Renderer.utils.getBorderTr()}`;
+/** @abstract */
+class _RenderOptionalfeaturesImplBase extends RenderPageImplBase {
+	_style;
+	_page = UrlUtil.PG_OPT_FEATURES;
+	_dataProp = "optionalfeature";
+
+	/* -------------------------------------------- */
+
+	_getCommonHtmlParts (
+		{
+			ent,
+			renderer,
+			opts,
+		},
+	) {
+		return {
+			...super._getCommonHtmlParts({ent, renderer, opts}),
+
+			htmlPtCost: this._getCommonHtmlParts_cost({ent}),
+
+			htmlPtEntries: this._getCommonHtmlParts_entries({ent, renderer}),
+
+			htmlPtPreviouslyPrinted: this._getCommonHtmlParts_previouslyPrinted({ent}),
+		};
+	}
+
+	/* ----- */
+
+	_getCommonHtmlParts_prerequisites ({ent}) {
+		const ptPrerequisites = Renderer.utils.prerequisite.getHtml(ent.prerequisite, {styleHint: this._style});
+		return ptPrerequisites ? `<tr><td colspan="6" class="pt-0 ${this._style === SITE_STYLE__CLASSIC ? "" : "italic"}">${ptPrerequisites}</td></tr>` : "";
+	}
+
+	/* ----- */
+
+	_getCommonHtmlParts_cost ({ent}) {
+		const ptCost = Renderer.optionalfeature.getCostHtml(ent);
+		return ptCost ? `<tr><td colspan="6" ${ent.prerequisite ? "" : `class="pt-0"`}>${ptCost}</td></tr>` : "";
+	}
+
+	/* ----- */
+
+	_getCommonHtmlParts_entries ({ent, renderer}) {
+		return renderer.render({entries: ent.entries}, 1);
+	}
+
+	/* ----- */
+
+	_getCommonHtmlParts_previouslyPrinted ({ent}) {
+		return Renderer.optionalfeature.getPreviouslyPrintedText(ent);
+	}
+}
+
+class _RenderOptionalfeaturesImplClassic extends _RenderOptionalfeaturesImplBase {
+	_style = SITE_STYLE__CLASSIC;
+
+	_getRendered ({ent, renderer, opts}) {
+		const {
+			htmlPtIsExcluded,
+			htmlPtName,
+
+			htmlPtPrerequisites,
+
+			htmlPtCost,
+
+			htmlPtEntries,
+
+			htmlPtPreviouslyPrinted,
+
+			htmlPtPage,
+		} = this._getCommonHtmlParts({
+			ent,
+			renderer,
+			opts,
+		});
+
+		return `
+			${Renderer.utils.getBorderTr()}
+
+			${htmlPtIsExcluded}
+			${htmlPtName}
+			
+			${htmlPtPrerequisites}
+			
+			${htmlPtCost}
+		
+			<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider"></div></td></tr>
+			
+			<tr><td colspan="6">
+				${htmlPtEntries}
+			</td></tr>
+			
+			${htmlPtPreviouslyPrinted}
+			${htmlPtPage}
+			${Renderer.utils.getBorderTr()}
+		`;
+	}
+}
+
+export class RenderOptionalFeatures {
+	static _RENDER_CLASSIC = new _RenderOptionalfeaturesImplClassic();
+
+	static $getRenderedOptionalFeature (ent) {
+		const styleHint = VetoolsConfig.get("styleSwitcher", "style");
+		switch (styleHint) {
+			case SITE_STYLE__CLASSIC: return this._RENDER_CLASSIC.$getRendered(ent);
+			default: throw new Error(`Unhandled style "${styleHint}"!`);
+		}
 	}
 }

@@ -2,6 +2,7 @@
 	"reducedItemProperty": [
 		{
 			"abbreviation": "A",
+			"source": "PHB",
 			"entries": [
 				{
 					"type": "entries",
@@ -15,6 +16,7 @@
 		},
 		{
 			"abbreviation": "AF",
+			"source": "DMG",
 			"entries": [
 				{
 					"type": "entries",
@@ -28,6 +30,7 @@
 		},
 		{
 			"abbreviation": "BF",
+			"source": "DMG",
 			"entries": [
 				{
 					"type": "entries",
@@ -40,6 +43,7 @@
 		},
 		{
 			"abbreviation": "F",
+			"source": "PHB",
 			"entries": [
 				{
 					"type": "entries",
@@ -52,6 +56,7 @@
 		},
 		{
 			"abbreviation": "H",
+			"source": "PHB",
 			"entries": [
 				{
 					"type": "entries",
@@ -63,10 +68,12 @@
 			]
 		},
 		{
-			"abbreviation": "L"
+			"abbreviation": "L",
+			"source": "PHB"
 		},
 		{
 			"abbreviation": "LD",
+			"source": "PHB",
 			"entries": [
 				{
 					"type": "entries",
@@ -79,6 +86,7 @@
 		},
 		{
 			"abbreviation": "R",
+			"source": "PHB",
 			"entries": [
 				{
 					"type": "entries",
@@ -91,6 +99,7 @@
 		},
 		{
 			"abbreviation": "RLD",
+			"source": "PHB",
 			"entries": [
 				{
 					"type": "entries",
@@ -103,6 +112,7 @@
 		},
 		{
 			"abbreviation": "T",
+			"source": "PHB",
 			"entries": [
 				{
 					"type": "entries",
@@ -115,6 +125,7 @@
 		},
 		{
 			"abbreviation": "2H",
+			"source": "PHB",
 			"entries": [
 				{
 					"type": "entries",
@@ -127,6 +138,7 @@
 		},
 		{
 			"abbreviation": "V",
+			"source": "PHB",
 			"entries": [
 				{
 					"type": "entries",
@@ -141,6 +153,7 @@
 	"reducedItemType": [
 		{
 			"abbreviation": "AT",
+			"source": "PHB",
 			"name": "Artisan's Tools",
 			"entries": [
 				"Proficiency grants proficiency bonus to ability checks you make using these tools."
@@ -148,6 +161,7 @@
 		},
 		{
 			"abbreviation": "GS",
+			"source": "PHB",
 			"name": "Gaming Set",
 			"entries": [
 				"Proficiency grants proficiency bonus to ability checks you make to play a game with that set."
@@ -155,6 +169,7 @@
 		},
 		{
 			"abbreviation": "INS",
+			"source": "PHB",
 			"name": "Instrument",
 			"entries": [
 				"Proficiency grants proficiency bonus to any ability checks you make to play music with the instrument."
@@ -162,6 +177,7 @@
 		},
 		{
 			"abbreviation": "R",
+			"source": "PHB",
 			"entries": [
 				{
 					"type": "entries",
@@ -174,6 +190,7 @@
 		},
 		{
 			"abbreviation": "TG",
+			"source": "PHB",
 			"name": "Trade Good",
 			"entries": [
 				"Most wealth is not in coins. Merchants commonly exchange trade goods without using currency."
@@ -181,6 +198,7 @@
 		},
 		{
 			"abbreviation": "SHP",
+			"source": "PHB",
 			"name": "Vehicle",
 			"entries": [
 				{

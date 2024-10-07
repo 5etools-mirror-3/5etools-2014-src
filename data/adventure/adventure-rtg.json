@@ -4411,7 +4411,7 @@
 									"name": "47. Laboratory",
 									"page": 21,
 									"entries": [
-										"This area was once a place of study and experimentation for {@creature Dirt-Under-Nails|RtG}. It has seen better days. Two {@creature rotter|RtG|rotters} (see appendix A) can usually be found here, though there is a {@chance 25|25 percent} chance that they've wandered into area 48, below. The niche in the northern wall houses a wide, shallow font that trickles with fresh water. A copse of mushrooms grows just east of the font."
+										"This area was once a place of study and experimentation for {@creature Dirt-Under-Nails|RtG}. It has seen better days. Two {@creature rotter|RtG|rotters} (see appendix A) can usually be found here, though there is a {@chance 25} chance that they've wandered into area 48, below. The niche in the northern wall houses a wide, shallow font that trickles with fresh water. A copse of mushrooms grows just east of the font."
 									],
 									"id": "0fe"
 								},

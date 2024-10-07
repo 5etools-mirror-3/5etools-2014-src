@@ -5,16 +5,16 @@ class RecipesSublistManager extends SublistManager {
 		return Renderer.recipe.getCustomHashId(entity);
 	}
 
-	static get _ROW_TEMPLATE () {
+	static _getRowTemplate () {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-9 pl-0",
+				css: "bold ve-col-9 pl-0 pr-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "Type",
-				css: "ve-col-3 ve-text-center pr-0",
+				css: "ve-col-3 ve-text-center pl-1 pr-0",
 				colStyle: "text-center",
 			}),
 		];
@@ -26,7 +26,7 @@ class RecipesSublistManager extends SublistManager {
 		const cellsText = [name, it.type || "\u2014"];
 
 		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst--border lst__row-inner">
+			<a href="#${hash}" class="lst__row-border lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
 		</div>`)
@@ -80,10 +80,10 @@ class RecipesPage extends ListPage {
 		const source = Parser.sourceJsonToAbv(ent.source);
 		const hash = UrlUtil.autoEncodeHash(ent);
 
-		eleLi.innerHTML = `<a href="#${hash}" class="lst--border lst__row-inner">
-			<span class="ve-col-6 bold pl-0">${ent.name}</span>
-			<span class="ve-col-4 ve-text-center">${ent.type || "\u2014"}</span>
-			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(ent.source)} pr-0" title="${Parser.sourceJsonToFull(ent.source)}" ${Parser.sourceJsonToStyle(ent.source)}>${source}</span>
+		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
+			<span class="ve-col-6 bold pl-0 pr-1">${ent.name}</span>
+			<span class="ve-col-4 px-1 ve-text-center">${ent.type || "\u2014"}</span>
+			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(ent.source)} pl-1 pr-0" title="${Parser.sourceJsonToFull(ent.source)}" ${Parser.sourceJsonToStyle(ent.source)}>${source}</span>
 		</a>`;
 
 		const listItem = new ListItem(
@@ -114,7 +114,7 @@ class RecipesPage extends ListPage {
 
 		const $selScaleFactor = $(`
 			<select title="Scale Recipe" class="form-control input-xs form-control--minimal ve-popwindow__hidden">
-				${[0.5, 1, 2, 3, 4].map(it => `<option value="${it}">×${it}</option>`)}
+				${[0.5, 1, 2, 3, 4].map(it => `<option value="${it}" ${(scaleFactor || 1) === it ? "selected" : ""}>×${it}</option>`)}
 			</select>`)
 			.change(() => {
 				const scaleFactor = Number($selScaleFactor.val());

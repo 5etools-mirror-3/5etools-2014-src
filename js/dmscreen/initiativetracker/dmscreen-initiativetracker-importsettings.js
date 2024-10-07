@@ -58,7 +58,7 @@ export class InitiativeTrackerSettingsImport extends BaseComponent {
 	/* -------------------------------------------- */
 
 	_pGetShowModalResults_renderFooter ({$modalFooter, doClose}) {
-		const $btnSave = $(`<button class="btn btn-primary btn-sm w-100">Save</button>`)
+		const $btnSave = $(`<button class="ve-btn ve-btn-primary ve-btn-sm w-100">Save</button>`)
 			.click(() => doClose(true));
 
 		$$($modalFooter)`<div class="w-100 py-3 no-shrink">

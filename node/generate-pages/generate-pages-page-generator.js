@@ -128,7 +128,6 @@ export class PageGeneratorListBase extends PageGeneratorGeneric {
 	_btnsList;
 	_btnsSublist;
 	_isWrpToken;
-	_onscrollPageContent;
 	_styleListContainerAdditional;
 	_styleContentWrapperAdditional;
 	_stylePageContentAdditional;
@@ -149,7 +148,6 @@ export class PageGeneratorListBase extends PageGeneratorGeneric {
 		this._registerPartial({ident: "listStatsTabs", filename: "list/template-list-stats-tabs.hbs"});
 		this._registerPartial({ident: "listWrpPagecontent", filename: "list/template-list-wrp-pagecontent.hbs"});
 		this._registerPartial({ident: "listRhsWrpFooterControls", filename: "list/template-list-rhs-wrp-footer-controls.hbs"});
-		this._registerPartial({ident: "listRhsWrpToken", filename: "list/template-list-rhs-wrp-token.hbs"});
 	}
 
 	/**
@@ -189,7 +187,6 @@ export class PageGeneratorListBase extends PageGeneratorGeneric {
 			btnsList: this._btnsList,
 			btnsSublist: this._btnsSublist,
 			isWrpToken: this._isWrpToken,
-			onscrollPageContent: this._onscrollPageContent,
 			isStyleBook: this._isStyleBook,
 			styleListContainerAdditional: this._styleListContainerAdditional,
 			styleContentWrapperAdditional: this._styleContentWrapperAdditional,

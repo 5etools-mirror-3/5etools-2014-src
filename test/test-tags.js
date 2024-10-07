@@ -4,10 +4,14 @@ import "../js/render.js";
 import "../js/render-dice.js";
 import "../js/hist.js";
 import "../js/utils-dataloader.js";
+import "../js/utils-config.js";
 import * as utS from "../node/util-search-index.js";
 import "../js/omnidexer.js";
 import * as ut from "../node/util.js";
 import {DataTesterBase, DataTester, ObjectWalker, BraceCheck, EscapeCharacterCheck} from "5etools-utils";
+
+// TODO(Future) make this an arg/add Commander
+const _IS_LOG_SIMILAR = false;
 
 const TIME_TAG = "\tRun duration";
 console.time(TIME_TAG);
@@ -17,11 +21,42 @@ const WALKER = MiscUtil.getWalker({
 	isNoModification: true,
 });
 
-const ALL_URLS = new Set();
+class TagTestUrlLookup {
+	static _ALL_URLS_SET = new Set();
+	static _ALL_URLS_LIST = [];
 
-const CAT_ID_BLOCKLIST = new Set([
-	Parser.CAT_ID_PAGE,
-]);
+	static _CAT_ID_BLOCKLIST = new Set([
+		Parser.CAT_ID_PAGE,
+	]);
+
+	static addIndexItem (indexItem) {
+		if (this._CAT_ID_BLOCKLIST.has(indexItem.c)) return;
+
+		const url = `${UrlUtil.categoryToPage(indexItem.c).toLowerCase()}#${(indexItem.u).toLowerCase().trim()}`;
+
+		this._ALL_URLS_SET.add(url);
+		this._ALL_URLS_LIST.push(url);
+	}
+
+	static addEntityItem (ent, page) {
+		const url = `${page.toLowerCase()}#${(UrlUtil.URL_TO_HASH_BUILDER[page](ent)).toLowerCase().trim()}`;
+
+		this._ALL_URLS_SET.add(url);
+		this._ALL_URLS_LIST.push(url);
+	}
+
+	static hasUrl (url) { return this._ALL_URLS_SET.has(url); }
+
+	static getSimilarUrls (url) {
+		const mSimilar = /^\w+\.html#\w+/.exec(url);
+		if (!mSimilar) return [];
+
+		return this._ALL_URLS_LIST
+			.filter(url => url.startsWith(mSimilar[0]))
+			.map(url => `\t${url}`)
+			.join("\n");
+	}
+}
 
 class TagTestUtil {
 	static _CLASS_SUBCLASS_LOOKUP = {};
@@ -34,13 +69,14 @@ class TagTestUtil {
 	static async _pInit_pPopulateUrls () {
 		const primaryIndex = Omnidexer.decompressIndex(await utS.UtilSearchIndex.pGetIndex({doLogging: false, noFilter: true}));
 		primaryIndex
-			.filter(it => !CAT_ID_BLOCKLIST.has(it.c))
-			.forEach(it => ALL_URLS.add(`${UrlUtil.categoryToPage(it.c).toLowerCase()}#${(it.u).toLowerCase().trim()}`));
+			.forEach(indexItem => TagTestUrlLookup.addIndexItem(indexItem));
 		const highestId = primaryIndex.last().id;
 		const secondaryIndexItem = Omnidexer.decompressIndex(await utS.UtilSearchIndex.pGetIndexAdditionalItem({baseIndex: highestId + 1, doLogging: false}));
 		secondaryIndexItem
-			.filter(it => !CAT_ID_BLOCKLIST.has(it.c))
-			.forEach(it => ALL_URLS.add(`${UrlUtil.categoryToPage(it.c).toLowerCase()}#${(it.u).toLowerCase().trim()}`));
+			.forEach(indexItem => TagTestUrlLookup.addIndexItem(indexItem));
+
+		(await DataLoader.pCacheAndGetAllSite("itemProperty"))
+			.forEach(ent => TagTestUrlLookup.addEntityItem(ent, "itemProperty"));
 	}
 
 	static async _pInit_pPopulateClassSubclassIndex () {
@@ -87,6 +123,14 @@ class TagTestUtil {
 
 		return MiscUtil.get(this._CLASS_SUBCLASS_LOOKUP, classSource, className, subclassSource, subclassName);
 	}
+
+	static getLogPtSimilarUrls ({url}) {
+		if (!_IS_LOG_SIMILAR) return "";
+
+		const ptSimilarUrls = TagTestUrlLookup.getSimilarUrls(url);
+		if (!ptSimilarUrls) return "";
+		return `Similar URLs were:\n${ptSimilarUrls}\n`;
+	}
 }
 
 class GenericDataCheck extends DataTesterBase {
@@ -106,25 +150,25 @@ class GenericDataCheck extends DataTesterBase {
 
 		entity[prop].forEach(s => {
 			const url = getEncoded(s, tag);
-			if (!ALL_URLS.has(url)) this._addMessage(`Missing link: ${s} in file ${file} (evaluates to "${url}") in "${prop}"\nSimilar URLs were:\n${getSimilar(url)}\n`);
+			if (!TagTestUrlLookup.hasUrl(url)) this._addMessage(`Missing link: ${s} in file ${file} (evaluates to "${url}") in "${prop}"\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 		});
 	}
 
 	static _testAdditionalSpells_testSpellExists (file, spellOrObj) {
 		if (typeof spellOrObj === "object") {
-			if (spellOrObj.choose || spellOrObj.all) {
+			if (spellOrObj.choose != null || spellOrObj.all != null) {
 				// e.g. "level=0|class=Sorcerer"
-				// (no-op)
-			} else throw new Error(`Unhandled additionalSpells special object: ${JSON.stringify(spellOrObj)}`);
+				return;
+			}
 
-			return;
+			throw new Error(`Unhandled additionalSpells special object in "${file}": ${JSON.stringify(spellOrObj)}`);
 		}
 
 		spellOrObj = spellOrObj.split("#")[0]; // An optional "cast at spell level" can be added with a "#", remove it
 		const url = getEncoded(spellOrObj, "spell");
 
-		if (!ALL_URLS.has(url)) {
-			this._addMessage(`Missing link: ${url} in file ${file} (evaluates to "${url}") in "additionalSpells"\nSimilar URLs were:\n${getSimilar(url)}\n`);
+		if (!TagTestUrlLookup.hasUrl(url)) {
+			this._addMessage(`Missing link: ${url} in file ${file} (evaluates to "${url}") in "additionalSpells"\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 		}
 	}
 
@@ -174,11 +218,11 @@ class GenericDataCheck extends DataTesterBase {
 		obj.feats.forEach(featsObj => {
 			Object.entries(featsObj)
 				.forEach(([k, v]) => {
-					if (k === "any") return;
+					if (["any", "anyFromCategory"].includes(k)) return;
 
 					const url = getEncoded(k, "feat");
-					if (!ALL_URLS.has(url)) {
-						this._addMessage(`Missing link: ${url} in file ${file} (evaluates to "${url}") in "feats"\nSimilar URLs were:\n${getSimilar(url)}\n`);
+					if (!TagTestUrlLookup.hasUrl(url)) {
+						this._addMessage(`Missing link: ${url} in file ${file} (evaluates to "${url}") in "feats"\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 					}
 				});
 		});
@@ -192,22 +236,42 @@ class GenericDataCheck extends DataTesterBase {
 				const _tag = rep.tag ?? tag;
 				const _uid = rep.uid ?? rep;
 
-				const url = getEncoded(_uid, _tag);
-				if (!ALL_URLS.has(url)) {
-					this._addMessage(`Missing link: ${url} in file ${file} (evaluates to "${url}") in "feats"\nSimilar URLs were:\n${getSimilar(url)}\n`);
-				}
+				// FIXME(Future)
+				const url = tag === "subclass"
+					? getEncodedSubclass(_uid, _tag)
+					: tag === "deity"
+						? getEncodedDeity(_uid, _tag)
+						: getEncoded(_uid, _tag);
+
+				if (TagTestUrlLookup.hasUrl(url)) return;
+
+				this._addMessage(`Missing link: ${url} in file ${file} (evaluates to "${url}") in "${_tag}"\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 			});
 	}
-}
 
-function getSimilar (url) {
-	// scan for a list of similar entries, to aid debugging
-	const similarUrls = [];
-	const similar = /^\w+\.html#\w+/.exec(url);
-	Array.from(ALL_URLS).forEach(it => {
-		if (similar && it.startsWith(similar[0])) similarUrls.push(it);
-	});
-	return JSON.stringify(similarUrls, null, 2);
+	static _testStartingEquipment (file, obj, {propDotPath = "startingEquipment"} = {}) {
+		const propPath = propDotPath.split(".");
+		const equi = MiscUtil.get(obj, ...propPath);
+
+		if (!equi) return;
+
+		equi
+			.forEach(group => {
+				Object.entries(group)
+					.forEach(([k, arr]) => {
+						arr
+							.forEach(meta => {
+								if (!meta.item) return;
+
+								const url = getEncoded(meta.item, "item");
+
+								if (TagTestUrlLookup.hasUrl(url)) return;
+
+								this._addMessage(`Missing link: ${meta.item} in file ${file} (evaluates to "${url}") in "${propDotPath}"\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
+							});
+					});
+			});
+	}
 }
 
 function getEncoded (str, tag, {prop = null} = {}) {
@@ -220,6 +284,12 @@ function getEncodedDeity (str, tag) {
 	return `${Renderer.tag.getPage(tag)}#${UrlUtil.encodeForHash([name, pantheon, Parser.getTagSource(tag, source)])}`.toLowerCase().trim();
 }
 
+function getEncodedSubclass (str, tag) {
+	const unpacked = DataUtil.class.unpackUidSubclass(str);
+	const hash = UrlUtil.URL_TO_HASH_BUILDER["subclass"](unpacked);
+	return `${UrlUtil.PG_CLASSES}#${hash}`.toLowerCase().trim();
+}
+
 class LinkCheck extends DataTesterBase {
 	static registerParsedPrimitiveHandlers (parsedJsonChecker) {
 		parsedJsonChecker.addPrimitiveHandler("string", this._checkString.bind(this));
@@ -229,41 +299,32 @@ class LinkCheck extends DataTesterBase {
 	static _checkString (str, {filePath, isStatblock = false}) {
 		let match;
 		while ((match = LinkCheck.RE.exec(str))) {
-			const tag = match[1];
-			const parts = match[2].split("|");
+			const [, tag, text] = match;
 
-			const toEncode = [];
-
+			let encoded;
 			switch (tag) {
-				case "deity": {
-					toEncode.push(parts[0], parts[1] || "forgotten realms", Parser.getTagSource(tag, parts[2]));
-					break;
-				}
-				case "card": {
-					toEncode.push(parts[0], parts[1] || "none", Parser.getTagSource(tag, parts[2]));
-					break;
-				}
+				// FIXME(Future)
 				case "classFeature": {
-					const {name, source, className, classSource, level} = DataUtil.class.unpackUidClassFeature(match[2]);
-					toEncode.push(name, className, classSource, level, source);
+					const {name, source, className, classSource, level} = DataUtil.class.unpackUidClassFeature(text);
+					encoded = UrlUtil.encodeForHash([name, className, classSource, level, source]);
 					break;
 				}
+				// FIXME(Future)
 				case "subclassFeature": {
-					const {name, source, className, classSource, subclassShortName, subclassSource, level} = DataUtil.class.unpackUidSubclassFeature(match[2]);
-					toEncode.push(name, className, classSource, subclassShortName, subclassSource, level, source);
+					const {name, source, className, classSource, subclassShortName, subclassSource, level} = DataUtil.class.unpackUidSubclassFeature(text);
+					encoded = UrlUtil.encodeForHash([name, className, classSource, subclassShortName, subclassSource, level, source]);
 					break;
 				}
 				default: {
-					toEncode.push(parts[0], Parser.getTagSource(tag, parts[1]));
+					encoded = Renderer.utils.getTagMeta(`@${tag}`, text).hash;
 					break;
 				}
 			}
 
-			const url = `${Renderer.tag.getPage(tag)}#${UrlUtil.encodeForHash(toEncode)}`.toLowerCase().trim()
-				.replace(/%5c/gi, ""); // replace slashes
-			if (!ALL_URLS.has(url)) {
-				this._addMessage(`Missing link: ${isStatblock ? `(as "statblock" entry) ` : ""}${match[0]} in file ${filePath} (evaluates to "${url}")\nSimilar URLs were:\n${getSimilar(url)}\n`);
-			}
+			const url = `${Renderer.tag.getPage(tag)}#${encoded}`.toLowerCase().trim();
+			if (TagTestUrlLookup.hasUrl(url)) return;
+
+			this._addMessage(`Missing link: ${isStatblock ? `(as "statblock" entry) ` : ""}${match[0]} in file ${filePath} (evaluates to "${url}")\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 		}
 	}
 
@@ -333,7 +394,7 @@ class ItemDataCheck extends GenericDataCheck {
 			if (s.special) return;
 
 			const url = getEncoded(s, tag);
-			if (!ALL_URLS.has(url)) this._addMessage(`Missing link: ${s} in file ${file} (evaluates to "${url}") in "${prop}"\nSimilar URLs were:\n${getSimilar(url)}\n`);
+			if (!TagTestUrlLookup.hasUrl(url)) this._addMessage(`Missing link: ${s} in file ${file} (evaluates to "${url}") in "${prop}"\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 		});
 	}
 
@@ -348,7 +409,7 @@ class ItemDataCheck extends GenericDataCheck {
 						case "race":
 						case "class": {
 							const url = getEncoded(val, prop);
-							if (!ALL_URLS.has(url)) this._addMessage(`Missing link: ${val} in file ${file} "${prop}" (evaluates to "${url}")\nSimilar URLs were:\n${getSimilar(url)}\n`);
+							if (!TagTestUrlLookup.hasUrl(url)) this._addMessage(`Missing link: ${val} in file ${file} "${prop}" (evaluates to "${url}")\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 						}
 					}
 				});
@@ -394,8 +455,8 @@ class ItemDataCheck extends GenericDataCheck {
 				.trim()
 				.replace(/%5c/gi, "");
 
-			if (!ALL_URLS.has(url)) {
-				this._addMessage(`Missing link: ${root.baseItem} in file ${file} (evaluates to "${url}")\nSimilar URLs were:\n${getSimilar(url)}\n`);
+			if (!TagTestUrlLookup.hasUrl(url)) {
+				this._addMessage(`Missing link: ${root.baseItem} in file ${file} (evaluates to "${url}")\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 			}
 		}
 
@@ -404,6 +465,11 @@ class ItemDataCheck extends GenericDataCheck {
 
 		if (root.reqAttuneTags) this._checkReqAttuneTags(file, root, name, source, "reqAttuneTags");
 		if (root.reqAttuneAltTags) this._checkReqAttuneTags(file, root, name, source, "reqAttuneAltTags");
+
+		if (root.mastery) {
+			ItemDataCheck._checkArrayDuplicates(file, name, source, root.mastery, "mastery", "itemMastery");
+			ItemDataCheck._checkArrayItemsExist(file, name, source, root.mastery, "mastery", "itemMastery");
+		}
 	}
 
 	static pRun () {
@@ -426,10 +492,12 @@ class ActionDataCheck extends GenericDataCheck {
 		actions.action.forEach(it => {
 			if (it.fromVariant) {
 				const url = getEncoded(it.fromVariant, "variantrule");
-				if (!ALL_URLS.has(url)) this._addMessage(`Missing link: ${it.fromVariant} in file ${file} (evaluates to "${url}")\nSimilar URLs were:\n${getSimilar(url)}\n`);
+				if (!TagTestUrlLookup.hasUrl(url)) this._addMessage(`Missing link: ${it.fromVariant} in file ${file} (evaluates to "${url}")\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 			}
 
 			this._doCheckSeeAlso({entity: it, prop: "seeAlsoAction", tag: "action", file});
+
+			this._testReprintedAs(file, it, "action");
 		});
 	}
 }
@@ -442,7 +510,7 @@ class DeityDataCheck extends GenericDataCheck {
 			if (!it.customExtensionOf) return;
 
 			const url = getEncodedDeity(it.customExtensionOf, "deity");
-			if (!ALL_URLS.has(url)) this._addMessage(`Missing link: ${it.customExtensionOf} in file ${file} (evaluates to "${url}")\nSimilar URLs were:\n${getSimilar(url)}\n`);
+			if (!TagTestUrlLookup.hasUrl(url)) this._addMessage(`Missing link: ${it.customExtensionOf} in file ${file} (evaluates to "${url}")\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 		});
 	}
 }
@@ -692,7 +760,7 @@ class LootDataCheck extends GenericDataCheck {
 		function handleItem (it) {
 			const toCheck = typeof it === "string" ? {name: it, source: Parser.SRC_DMG} : it;
 			const url = `${Renderer.tag.getPage("item")}#${UrlUtil.encodeForHash([toCheck.name, toCheck.source])}`.toLowerCase().trim();
-			if (!ALL_URLS.has(url)) this._addMessage(`Missing link: ${JSON.stringify(it)} in file "${LootDataCheck.file}" (evaluates to "${url}")\nSimilar URLs were:\n${getSimilar(url)}\n`);
+			if (!TagTestUrlLookup.hasUrl(url)) this._addMessage(`Missing link: ${JSON.stringify(it)} in file "${LootDataCheck.file}" (evaluates to "${url}")\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 		}
 
 		const loot = ut.readJson(`./${LootDataCheck.file}`);
@@ -754,25 +822,42 @@ class ClassDataCheck extends GenericDataCheck {
 		});
 		// endregion
 
-		// region Referenced optional features
+		// region Referenced optional features; feats
 		const handlersNestedRefsOptionalFeatures = {
 			array: (arr) => {
 				arr.forEach(it => {
 					if (it.type !== "refOptionalfeature") return;
 
 					const url = getEncoded(it.optionalfeature, "optfeature");
-					if (!ALL_URLS.has(url)) this._addMessage(`Missing optional feature: ${it.optionalfeature} in file ${file} (evaluates to "${url}")\nSimilar URLs were:\n${getSimilar(url)}\n`);
+					if (!TagTestUrlLookup.hasUrl(url)) this._addMessage(`Missing optional feature: ${it.optionalfeature} in file ${file} (evaluates to "${url}")\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
+				});
+				return arr;
+			},
+		};
+		const handlersNestedRefsFeats = {
+			array: (arr) => {
+				arr.forEach(it => {
+					if (it.type !== "refFeat") return;
+
+					const url = getEncoded(it.feat, "feat");
+					if (!TagTestUrlLookup.hasUrl(url)) this._addMessage(`Missing feat: ${it.feat} in file ${file} (evaluates to "${url}")\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 				});
 				return arr;
 			},
 		};
 		(data.classFeature || []).forEach(cf => {
 			WALKER.walk(cf.entries, handlersNestedRefsOptionalFeatures);
+			WALKER.walk(cf.entries, handlersNestedRefsFeats);
 		});
 		(data.subclassFeature || []).forEach(scf => {
 			WALKER.walk(scf.entries, handlersNestedRefsOptionalFeatures);
+			WALKER.walk(scf.entries, handlersNestedRefsFeats);
 		});
 		// endregion
+
+		this._testAdditionalSpells(file, cls);
+		this._testReprintedAs(file, cls, "class");
+		this._testStartingEquipment(file, cls, {propDotPath: "startingEquipment.defaultData"});
 	}
 
 	static _doCheckSubclass (file, data, subclassFeatureLookup, sc) {
@@ -787,6 +872,8 @@ class ClassDataCheck extends GenericDataCheck {
 		});
 
 		this._testAdditionalSpells(file, sc);
+
+		this._testReprintedAs(file, sc, "subclass");
 	}
 
 	static pRun () {
@@ -853,6 +940,7 @@ class RaceDataCheck extends GenericDataCheck {
 class FeatDataCheck extends GenericDataCheck {
 	static _handleFeat (file, feat) {
 		this._testAdditionalSpells(file, feat);
+		this._testReprintedAs(file, feat, "feat");
 	}
 
 	static pRun () {
@@ -866,6 +954,8 @@ class BackgroundDataCheck extends GenericDataCheck {
 	static _handleBackground (file, bg) {
 		this._testAdditionalSpells(file, bg);
 		this._testAdditionalFeats(file, bg);
+		this._testReprintedAs(file, bg, "background");
+		this._testStartingEquipment(file, bg);
 	}
 
 	static pRun () {
@@ -881,18 +971,18 @@ class BestiaryDataCheck extends GenericDataCheck {
 
 		if (mon.legendaryGroup) {
 			const url = getEncoded(`${mon.legendaryGroup.name}|${mon.legendaryGroup.source}`, "legendaryGroup", {prop: "legendaryGroup"});
-			if (!ALL_URLS.has(url)) this._addMessage(`Missing link: ${mon.legendaryGroup.name}|${mon.legendaryGroup.source} in file ${file} "legendaryGroup" (evaluates to "${url}")\nSimilar URLs were:\n${getSimilar(url)}\n`);
+			if (!TagTestUrlLookup.hasUrl(url)) this._addMessage(`Missing link: ${mon.legendaryGroup.name}|${mon.legendaryGroup.source} in file ${file} "legendaryGroup" (evaluates to "${url}")\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 		}
 
 		if (mon.summonedBySpell) {
 			const url = getEncoded(mon.summonedBySpell, "spell");
-			if (!ALL_URLS.has(url)) this._addMessage(`Missing link: ${mon.summonedBySpell} in file ${file} "summonedBySpell" (evaluates to "${url}")\nSimilar URLs were:\n${getSimilar(url)}\n`);
+			if (!TagTestUrlLookup.hasUrl(url)) this._addMessage(`Missing link: ${mon.summonedBySpell} in file ${file} "summonedBySpell" (evaluates to "${url}")\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 		}
 
 		if (mon.attachedItems) {
 			mon.attachedItems.forEach(s => {
 				const url = getEncoded(s, "item");
-				if (!ALL_URLS.has(url)) this._addMessage(`Missing link: ${s} in file ${file} (evaluates to "${url}") in "attachedItems"\nSimilar URLs were:\n${getSimilar(url)}\n`);
+				if (!TagTestUrlLookup.hasUrl(url)) this._addMessage(`Missing link: ${s} in file ${file} (evaluates to "${url}") in "attachedItems"\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 			});
 		}
 	}
@@ -921,7 +1011,7 @@ class DeckDataCheck extends GenericDataCheck {
 				const unpacked = DataUtil.deck.unpackUidCard(uid, {isLower: true});
 				const hash = UrlUtil.URL_TO_HASH_BUILDER["card"](unpacked);
 				const url = `card#${hash}`.toLowerCase().trim();
-				if (!ALL_URLS.has(url)) this._addMessage(`Missing link: ${uid} in file ${file} (evaluates to "${url}") in "cards"\nSimilar URLs were:\n${getSimilar(url)}\n`);
+				if (!TagTestUrlLookup.hasUrl(url)) this._addMessage(`Missing link: ${uid} in file ${file} (evaluates to "${url}") in "cards"\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 			});
 	}
 
@@ -945,6 +1035,114 @@ class CultsBoonsDataCheck extends GenericDataCheck {
 	}
 }
 
+class OptionalfeatureDataCheck extends GenericDataCheck {
+	static _FILE = "data/optionalfeatures.json";
+
+	static _doPrerequisite (ent) {
+		if (!ent.prerequisite?.length) return;
+
+		ent.prerequisite
+			.forEach(prereq => {
+				(prereq.feat || []).forEach(uid => this._doUid({uid, tag: "feat", propPath: "prerequisite.feat"}));
+				(prereq.optionalfeature || []).forEach(uid => this._doUid({uid, tag: "optfeature", propPath: "prerequisite.optionalfeature"}));
+			});
+	}
+
+	static _doUid ({uid, tag, propPath}) {
+		const url = getEncoded(uid, tag);
+		if (!TagTestUrlLookup.hasUrl(url)) this._addMessage(`Missing link: ${uid} in file ${this._FILE} (evaluates to "${url}") in "${propPath}"\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
+	}
+
+	static pRun () {
+		const json = ut.readJson(this._FILE);
+		json.optionalfeature
+			.forEach(ent => {
+				this._doPrerequisite(ent);
+				this._testReprintedAs(this._FILE, ent, "optfeature");
+			});
+	}
+}
+
+class SpellDataCheck extends GenericDataCheck {
+	static pRun () {
+		const index = ut.readJson("./data/spells/index.json");
+		Object.values(index)
+			.map(filename => ({filename: filename, data: ut.readJson(`./data/spells/${filename}`)}))
+			.forEach(({filename, data}) => {
+				data.spell
+					.forEach(ent => this._testReprintedAs(filename, ent, "spell"));
+			});
+	}
+}
+
+class ConditionDiseaseDataCheck extends GenericDataCheck {
+	static _FILE = "data/conditionsdiseases.json";
+
+	static pRun () {
+		const json = ut.readJson(this._FILE);
+		json.condition
+			.forEach(ent => {
+				this._testReprintedAs(this._FILE, ent, "condition");
+			});
+		json.disease
+			.forEach(ent => {
+				this._testReprintedAs(this._FILE, ent, "disease");
+			});
+		json.status
+			.forEach(ent => {
+				this._testReprintedAs(this._FILE, ent, "status");
+			});
+	}
+}
+
+class RewardsDataCheck extends GenericDataCheck {
+	static _FILE = "data/rewards.json";
+
+	static pRun () {
+		const json = ut.readJson(this._FILE);
+		json.reward
+			.forEach(ent => {
+				this._testReprintedAs(this._FILE, ent, "reward");
+			});
+	}
+}
+
+class VariantRuleDataCheck extends GenericDataCheck {
+	static _FILE = "data/variantrules.json";
+
+	static pRun () {
+		const json = ut.readJson(this._FILE);
+		json.variantrule
+			.forEach(ent => {
+				this._testReprintedAs(this._FILE, ent, "variantrule");
+			});
+	}
+}
+
+class SkillsRuleDataCheck extends GenericDataCheck {
+	static _FILE = "data/skills.json";
+
+	static pRun () {
+		const json = ut.readJson(this._FILE);
+		json.skill
+			.forEach(ent => {
+				this._testReprintedAs(this._FILE, ent, "skill");
+			});
+	}
+}
+
+class SensesDataCheck extends GenericDataCheck {
+	static _FILE = "data/senses.json";
+
+	static pRun () {
+		const json = ut.readJson(this._FILE);
+		json.sense
+			.forEach(ent => {
+				this._testReprintedAs(this._FILE, ent, "sense");
+			});
+	}
+}
+
 class FoundrySpellsDataCheck extends GenericDataCheck {
 	static _RE_CUSTOM_ID = /^@(?<tag>[a-z][a-zA-Z]+)\[(?<text>[^\]]+)]$/;
 
@@ -960,7 +1158,7 @@ class FoundrySpellsDataCheck extends GenericDataCheck {
 				if (ent) return;
 
 				const url = getEncoded(text, tag);
-				this._addMessage(`Missing link: ${name} in file ${file} "system.summons.profiles" (evaluates to "${url}")\nSimilar URLs were:\n${getSimilar(url)}\n`);
+				this._addMessage(`Missing link: ${name} in file ${file} "system.summons.profiles" (evaluates to "${url}")\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 			});
 	}
 
@@ -1365,6 +1563,13 @@ async function main () {
 		BestiaryDataCheck,
 		DeckDataCheck,
 		CultsBoonsDataCheck,
+		OptionalfeatureDataCheck,
+		SpellDataCheck,
+		ConditionDiseaseDataCheck,
+		RewardsDataCheck,
+		VariantRuleDataCheck,
+		SkillsRuleDataCheck,
+		SensesDataCheck,
 		FoundrySpellsDataCheck,
 	];
 	DataTester.register({ClazzDataTesters});

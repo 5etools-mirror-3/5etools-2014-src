@@ -149,7 +149,7 @@ export class MoneyConverter {
 			if (count != null) $iptCount.val(count);
 			const $selCurrency = buildCurrency$Select().appendTo($row).change(doUpdate);
 			$selCurrency.val(currency == null ? DEFAULT_CURRENCY : currency);
-			const $btnRemove = $(`<button class="btn btn-sm btn-danger" title="Remove Row"><span class="glyphicon glyphicon-trash"></span></button>`).appendTo($row).click(() => {
+			const $btnRemove = $(`<button class="ve-btn ve-btn-sm ve-btn-danger" title="Remove Row"><span class="glyphicon glyphicon-trash"></span></button>`).appendTo($row).click(() => {
 				$row.remove();
 				doUpdate();
 			});
@@ -160,13 +160,13 @@ export class MoneyConverter {
 		const $wrpCtrl = $(`<div class="split dm-money__ctrl"></div>`).appendTo($wrpConverter);
 		const $wrpCtrlLhs = $(`<div class="dm-money__ctrl__lhs split-child" style="width: 66%;"></div>`).appendTo($wrpCtrl);
 		const $wrpBtnAddSettings = $(`<div class="split"></div>`).appendTo($wrpCtrlLhs);
-		const $btnAddRow = $(`<button class="btn btn-primary btn-sm" title="Add Row"><span class="glyphicon glyphicon-plus"></span></button>`)
+		const $btnAddRow = $(`<button class="ve-btn ve-btn-primary ve-btn-sm" title="Add Row"><span class="glyphicon glyphicon-plus"></span></button>`)
 			.appendTo($wrpBtnAddSettings)
 			.click(() => {
 				addRow();
 				doUpdate();
 			});
-		const $btnSettings = $(`<button class="btn btn-default btn-sm" title="Settings"><span class="glyphicon glyphicon-cog"></span></button>`)
+		const $btnSettings = $(`<button class="ve-btn ve-btn-default ve-btn-sm" title="Settings"><span class="glyphicon glyphicon-cog"></span></button>`)
 			.appendTo($wrpBtnAddSettings)
 			.click(() => {
 				const {$modalInner} = UiUtil.getShowModal({

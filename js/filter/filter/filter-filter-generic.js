@@ -1,6 +1,6 @@
 import {FilterItem} from "../filter-item.js";
-import {FilterBox} from "../filter-box.js";
 import {FilterBase} from "./filter-filter-base.js";
+import {MISC_FILTER_VALUE__BASIC_RULES_2014, MISC_FILTER_VALUE__FREE_RULES_2024, MISC_FILTER_VALUE__SRD_5_1, MISC_FILTER_VALUE__SRD_5_2, PILL_STATE__IGNORE, PILL_STATE__NO, PILL_STATE__YES, PILL_STATES} from "../filter-constants.js";
 
 class FilterTransientOptions {
 	/**
@@ -53,6 +53,7 @@ export class Filter extends FilterBase {
 	 * @param [opts.umbrellaItems] Items which should, when set active, show everything in the filter. E.g. "All".
 	 * @param [opts.umbrellaExcludes] Items which should ignore the state of any `umbrellaItems`
 	 * @param [opts.isSortByDisplayItems] If items should be sorted by their display value, rather than their internal value.
+	 * @param [opts.pFnOnChange] Function to be run when a filter item changes.
 	 * @param [opts.isMiscFilter] If this is the Misc. filter (containing "SRD" and "Basic Rules" tags).
 	 */
 	constructor (opts) {
@@ -74,9 +75,10 @@ export class Filter extends FilterBase {
 		this._umbrellaItems = Filter._getAsFilterItems(opts.umbrellaItems);
 		this._umbrellaExcludes = Filter._getAsFilterItems(opts.umbrellaExcludes);
 		this._isSortByDisplayItems = !!opts.isSortByDisplayItems;
+		this._pFnOnChange = opts.pFnOnChange;
 		this._isReprintedFilter = !!opts.isMiscFilter && this._items.some(it => it.item === "Reprinted");
-		this._isSrdFilter = !!opts.isMiscFilter && this._items.some(it => it.item === "SRD");
-		this._isBasicRulesFilter = !!opts.isMiscFilter && this._items.some(it => it.item === "Basic Rules");
+		this._isSrdFilter = !!opts.isMiscFilter && this._items.some(it => it.item === MISC_FILTER_VALUE__SRD_5_1 || it.item === MISC_FILTER_VALUE__SRD_5_2);
+		this._isBasicRulesFilter = !!opts.isMiscFilter && this._items.some(it => it.item === MISC_FILTER_VALUE__BASIC_RULES_2014 || it.item === MISC_FILTER_VALUE__FREE_RULES_2024);
 
 		Filter._validateItemNests(this._items, this._nests);
 
@@ -118,28 +120,39 @@ export class Filter extends FilterBase {
 		Object.assign(this._nestsHidden, toLoad.nestsHidden);
 	}
 
-	_getStateNotDefault ({nxtState = null} = {}) {
-		const state = nxtState?.[this.header]?.state || this.__state;
-
-		return Object.entries(state)
-			.filter(([k, v]) => {
-				if (k.startsWith("_")) return false;
-				const defState = this._getDefaultState(k);
-				return defState !== v;
-			});
+	_getStateNotDefault ({nxtState = null, isIgnoreSnapshot = false} = {}) {
+		return this._getStateNotDefault_generic({nxtState, isIgnoreSnapshot});
 	}
 
-	getSubHashes () {
+	/* -------------------------------------------- */
+
+	getSubHashes ({isAllowNonExtension = false} = {}) {
+		const subhashesExtension = this._getSubHashes_asExtension();
+		if (!isAllowNonExtension || subhashesExtension == null) return subhashesExtension;
+
+		const subhashesNonExtension = this._getSubHashes_asNonExtension();
+		if (subhashesNonExtension == null) return subhashesExtension;
+
+		if (subhashesExtension.join("").length < subhashesNonExtension.join("")) return subhashesExtension;
+		return subhashesNonExtension;
+	}
+
+	_getSubHashes_getSerializedStateSubhash (kvEntries) {
+		// serialize state as `key=value` pairs
+		const serPillStates = kvEntries.map(([k, v]) => `${k.toUrlified()}=${v}`);
+		return UrlUtil.packSubHash(this.getSubHashPrefix("state", this.header), serPillStates);
+	}
+
+	_getSubHashes_asExtension () {
 		const out = [];
 
 		const baseMeta = this.getMetaSubHashes();
 		if (baseMeta) out.push(...baseMeta);
 
-		const areNotDefaultState = this._getStateNotDefault();
+		// Ignore snapshot, as subhashes need to be portable
+		const areNotDefaultState = this._getStateNotDefault({isIgnoreSnapshot: true});
 		if (areNotDefaultState.length) {
-			// serialize state as `key=value` pairs
-			const serPillStates = areNotDefaultState.map(([k, v]) => `${k.toUrlified()}=${v}`);
-			out.push(UrlUtil.packSubHash(this.getSubHashPrefix("state", this.header), serPillStates));
+			out.push(this._getSubHashes_getSerializedStateSubhash(areNotDefaultState));
 		}
 
 		const areNotDefaultNestsHidden = Object.entries(this._nestsHidden).filter(([k, v]) => this._nests[k] && !(this._nests[k].isHidden === v));
@@ -156,9 +169,51 @@ export class Filter extends FilterBase {
 		return out;
 	}
 
+	_getSubHashes_asNonExtension () {
+		const out = [];
+
+		const baseMeta = this.getMetaSubHashes();
+		// Ignore snapshot, as tags need to be portable
+		const areNotDefaultState = this._getStateNotDefault({isIgnoreSnapshot: true});
+		const areNotDefaultNestsHidden = Object.entries(this._nestsHidden).filter(([k, v]) => this._nests[k] && !(this._nests[k].isHidden === v));
+
+		if (!baseMeta?.length && !areNotDefaultState.length && !areNotDefaultNestsHidden.length) return null;
+
+		if (baseMeta) out.push(...baseMeta);
+
+		out.push(this._getSubHashes_getSerializedStateSubhash(
+			Object.entries(this._state)
+				.filter(([k]) => !k.startsWith("_"))
+				.filter(([, v]) => v),
+		));
+
+		if (areNotDefaultNestsHidden.length) {
+			// serialize nestsHidden as `key=value` pairs
+			const nestsHidden = areNotDefaultNestsHidden.map(([k]) => `${k.toUrlified()}=1`);
+			out.push(UrlUtil.packSubHash(this.getSubHashPrefix("nestsHidden", this.header), nestsHidden));
+		}
+
+		if (!out.length) return null;
+
+		return out;
+	}
+
+	/* -------------------------------------------- */
+
+	getSnapshots () { return this._getSnapshots_generic(); }
+
+	/* -------------------------------------------- */
+
+	_mutNextState_fromSnapshots ({nxtState, snapshots = null}) { return this._mutNextState_fromSnapshots_generic({nxtState, snapshots}); }
+	_mutNextState_fromSnapshots_state ({nxtState, snapshot}) { return this._mutNextState_fromSnapshots_state_generic({nxtState, snapshot}); }
+	_mutNextState_fromSnapshots_meta ({nxtState, snapshot}) { return this._mutNextState_fromSnapshots_meta_generic({nxtState, snapshot}); }
+
+	/* -------------------------------------------- */
+
 	getFilterTagPart () {
-		const areNotDefaultState = this._getStateNotDefault();
-		const compressedMeta = this._getCompressedMeta({isStripUiKeys: true});
+		// Ignore snapshot, as tags need to be portable
+		const areNotDefaultState = this._getStateNotDefault({isIgnoreSnapshot: true});
+		const compressedMeta = this._getCompressedMeta();
 
 		// If _any_ value is non-default, we need to include _all_ values in the tag
 		// The same goes for meta values
@@ -167,7 +222,7 @@ export class Filter extends FilterBase {
 		const pt = Object.entries(this._state)
 			.filter(([k]) => !k.startsWith("_"))
 			.filter(([, v]) => v)
-			.map(([k, v]) => `${v === 2 ? "!" : ""}${k}`)
+			.map(([k, v]) => `${v === PILL_STATE__NO ? "!" : ""}${k}`)
 			.join(";")
 			.toLowerCase();
 
@@ -180,13 +235,25 @@ export class Filter extends FilterBase {
 			.join("=");
 	}
 
-	getDisplayStatePart ({nxtState = null} = {}) {
+	/* -------------------------------------------- */
+
+	getDisplayStatePart ({nxtState = null, isIgnoreSnapshot = false} = {}) {
+		const pts = this._getDisplayStateParts({nxtState, isIgnoreSnapshot, isPlainText: true});
+		if (!pts.length) return null;
+		return pts.join(", ");
+	}
+
+	getDisplayStatePartsHtml ({nxtState = null, isIgnoreSnapshot = false} = {}) {
+		return this._getDisplayStateParts({nxtState, isIgnoreSnapshot});
+	}
+
+	_getDisplayStateParts ({nxtState = null, isIgnoreSnapshot = false, isPlainText = false}) {
 		const state = nxtState?.[this.header]?.state || this.__state;
 
-		const areNotDefaultState = this._getStateNotDefault({nxtState});
+		const areNotDefaultState = this._getStateNotDefault({nxtState, isIgnoreSnapshot});
 
 		// If _any_ value is non-default, we need to include _all_ values in the tag
-		if (!areNotDefaultState.length) return null;
+		if (!areNotDefaultState.length) return [];
 
 		const ptState = Object.entries(state)
 			.filter(([k]) => !k.startsWith("_"))
@@ -194,15 +261,79 @@ export class Filter extends FilterBase {
 			.map(([k, v]) => {
 				const item = this._items.find(item => `${item.item}` === k);
 				if (!item) return null; // Should never occur
-				return `${v === 2 ? "not " : ""}${this._displayFn ? this._displayFn(item.item, item) : item.item}`;
+
+				const dispItem = this._displayFn ? this._displayFn(item.item, item) : item.item;
+				return {v, dispItem};
 			})
 			.filter(Boolean)
+			.sort(SortUtil.ascSortLowerProp.bind(SortUtil, "dispItem"))
+			.map(({v, dispItem}) => {
+				if (isPlainText) return `${v === PILL_STATE__NO ? "not " : ""}${dispItem}`;
+
+				return `<span class="fltr__disp-state fltr__disp-state--${PILL_STATES[v]}">${dispItem}</span>`;
+			})
 			.join(", ");
 
-		if (!ptState) return null;
+		if (!ptState) {
+			if (isPlainText) return [`${this.header}: (cleared)`];
+			return [
+				`${this._getDisplayStatePart_getHeader({isPlainText})}<span class="italic fltr__disp-state fltr__disp-state--ignore">(cleared)</span>`,
+			];
+		}
 
-		return `${this.header}: ${ptState}`;
+		return [
+			`${this._getDisplayStatePart_getHeader({isPlainText})}${ptState}`,
+		];
 	}
+
+	/* -------------------------------------------- */
+
+	getSnapshotPreviews (snapshots) {
+		const filterSnapshot = snapshots.find(filterSnapshot => filterSnapshot.header === this.header && Object.keys(filterSnapshot.state || {}).length);
+		if (!filterSnapshot) return [];
+
+		// Additionally render any state which this filter shows as non-ignore by default, to present a more useful
+		//   overview
+		const nonDefaultCurrentState = Object.keys(this._state)
+			.map(k => [k, this._getDefaultItemState(k, {isIgnoreSnapshot: true})])
+			.filter(([, v]) => v);
+
+		const [entriesWithItems, entriesWithoutItems] = Object.entries(filterSnapshot.state)
+			.segregate(([k]) => this.__itemsSet.has(k));
+
+		const ptWithItems = [
+			...entriesWithItems,
+			...nonDefaultCurrentState,
+		]
+			.unique(([k]) => k)
+			.map(([k, v]) => {
+				return {
+					item: this._items.find(item => item.item === k),
+					v,
+				};
+			})
+			.sort(({item: itemA}, {item: itemB}) => this._itemSortFn ? this._itemSortFn(itemA, itemB) : 0)
+			.map(({item, v}) => {
+				const rdDisplay = this._getDisplayText(item);
+				return `<span class="fltr__pill fltr__pill--display-only" data-state="${PILL_STATES[v]}">${rdDisplay}</span>`;
+			})
+			.join("");
+
+		const ptWithoutItems = entriesWithoutItems.length
+			? `<span class="ve-muted italic fltr__pill fltr__pill--display-only" data-state="${PILL_STATES[PILL_STATE__IGNORE]}">And ${entriesWithoutItems.length} more item${entriesWithoutItems.length === 1 ? "" : "s"}.</span>`
+			: "";
+
+		return [
+			`<div class="ve-flex-col my-1">
+				<h5 class="mt-0 mb-1">${this.header}</h5>
+				<div class="ve-flex-wrap w-100">
+					${ptWithItems}${ptWithoutItems}
+				</div>
+			</div>`,
+		];
+	}
+
+	/* -------------------------------------------- */
 
 	/**
 	 * Get transient options used when setting state from URL.
@@ -237,7 +368,7 @@ export class Filter extends FilterBase {
 		const nxtState = this._getNextState_base();
 
 		if (state == null) {
-			this._mutNextState_reset(nxtState);
+			this._mutNextState_reset({nxtState});
 			return nxtState;
 		}
 
@@ -253,10 +384,12 @@ export class Filter extends FilterBase {
 				case "state": {
 					hasState = true;
 					if (transientOptions.isExtendDefaultState) {
-						Object.keys(nxtState[this.header].state).forEach(k => nxtState[this.header].state[k] = this._getDefaultState(k));
+						Object.keys(nxtState[this.header].state)
+							// Ignore snapshot, as subhashes are portable
+							.forEach(k => nxtState[this.header].state[k] = this._getDefaultItemState(k, {isIgnoreSnapshot: true}));
 					} else {
 						// This allows e.g. @filter tags to cleanly specify their sources
-						Object.keys(nxtState[this.header].state).forEach(k => nxtState[this.header].state[k] = 0);
+						Object.keys(nxtState[this.header].state).forEach(k => nxtState[this.header].state[k] = PILL_STATE__IGNORE);
 					}
 
 					vals.forEach(v => {
@@ -282,17 +415,20 @@ export class Filter extends FilterBase {
 			}
 		});
 
-		if (!hasState) this._mutNextState_reset(nxtState);
+		if (!hasState) this._mutNextState_reset({nxtState});
 		if (!hasNestsHidden && this._nests) this._mutNextState_resetNestsHidden({tgt: nxtState[this.header].nestsHidden});
 
 		return nxtState;
 	}
 
 	setFromValues (values) {
-		if (values[this.header]) {
-			Object.keys(this._state).forEach(k => this._state[k] = 0);
-			Object.assign(this._state, values[this.header]);
-		}
+		if (!values[this.header]) return;
+
+		const stateNxt = {};
+		Object.keys(this._state).forEach(k => stateNxt[k] = PILL_STATE__IGNORE);
+		Object.assign(stateNxt, values[this.header]);
+
+		this._proxyAssignSimple("state", stateNxt);
 	}
 
 	setValue (k, v) { this._state[k] = v; }
@@ -307,13 +443,24 @@ export class Filter extends FilterBase {
 		//   - The user has cleared their source filter;
 		//   - A new source is added to the site;
 		//   - The new source becomes the *only* selected item in their filter.
-		if (!isForce && this._hasUserSavedState && !Object.values(this.__state).some(Boolean)) return this._state[item.item] = 0;
+		if (!isForce && this._hasUserSavedState && !Object.values(this.__state).some(Boolean)) return this._state[item.item] = PILL_STATE__IGNORE;
 
-		// if both a selFn and a deselFn are specified, we default to deselecting
-		this._state[item.item] = this._getDefaultState(item.item);
+		this._state[item.item] = this._getDefaultItemState(item.item);
 	}
 
-	_getDefaultState (k) { return this._deselFn && this._deselFn(k) ? 2 : this._selFn && this._selFn(k) ? 1 : 0; }
+	_getDefaultItemState (k, {isIgnoreSnapshot = false} = {}) {
+		if (isIgnoreSnapshot) return this._getDefaultState_base(k);
+
+		const fromSnapshot = this._snapshotManager?.getResolvedValue(this.header, "state", k);
+		if (fromSnapshot != null) return fromSnapshot;
+
+		return this._getDefaultState_base(k);
+	}
+
+	_getDefaultState_base (k) {
+		// if both a selFn and a deselFn are specified, we default to deselecting
+		return this._deselFn && this._deselFn(k) ? PILL_STATE__NO : this._selFn && this._selFn(k) ? PILL_STATE__YES : PILL_STATE__IGNORE;
+	}
 
 	_getDisplayText (item) {
 		return this._displayFn ? this._displayFn(item.item, item) : item.item;
@@ -348,7 +495,7 @@ export class Filter extends FilterBase {
 			this._doSetPillsClear();
 		}
 
-		if (++this._state[item.item] > 2) this._state[item.item] = 0;
+		if (++this._state[item.item] > PILL_STATE__NO) this._state[item.item] = PILL_STATE__IGNORE;
 	}
 
 	_getPill_handleContextmenu ({evt, item}) {
@@ -358,13 +505,13 @@ export class Filter extends FilterBase {
 			this._doSetPillsClear();
 		}
 
-		if (--this._state[item.item] < 0) this._state[item.item] = 2;
+		if (--this._state[item.item] < PILL_STATE__IGNORE) this._state[item.item] = PILL_STATE__NO;
 	}
 
 	_getPill_bindHookState ({btnPill, item}) {
 		this._addHook("state", item.item, () => {
-			const val = FilterBox._PILL_STATES[this._state[item.item]];
-			btnPill.attr("state", val);
+			const val = PILL_STATES[this._state[item.item]];
+			btnPill.attr("data-state", val);
 		})();
 	}
 
@@ -393,16 +540,16 @@ export class Filter extends FilterBase {
 			html: toDisplay,
 			title: `${this._displayFnTitle ? `${this._displayFnTitle(item.item, item)} (` : ""}Filter: ${this.header}${this._displayFnTitle ? ")" : ""}`,
 			click: () => {
-				this._state[item.item] = 0;
+				this._state[item.item] = PILL_STATE__IGNORE;
 				this._filterBox.fireChangeEvent();
 			},
-		}).attr("state", FilterBox._PILL_STATES[this._state[item.item]]);
+		}).attr("data-state", PILL_STATES[this._state[item.item]]);
 
 		const hook = () => {
-			const val = FilterBox._PILL_STATES[this._state[item.item]];
-			btnMini.attr("state", val);
+			const val = PILL_STATES[this._state[item.item]];
+			btnMini.attr("data-state", val);
 			// Bind change handlers in the mini-pill render step, as the mini-pills should always be available.
-			if (item.pFnChange) item.pFnChange(item.item, val);
+			if (this._pFnOnChange) this._pFnOnChange(item.item, val);
 		};
 		this._addHook("state", item.item, hook);
 
@@ -416,7 +563,7 @@ export class Filter extends FilterBase {
 		this._proxyAssignSimple(
 			"state",
 			Object.keys(this._state)
-				.mergeMap(k => ({[k]: 1})),
+				.mergeMap(k => ({[k]: PILL_STATE__YES})),
 			true,
 		);
 	}
@@ -425,7 +572,7 @@ export class Filter extends FilterBase {
 		this._proxyAssignSimple(
 			"state",
 			Object.keys(this._state)
-				.mergeMap(k => ({[k]: 0})),
+				.mergeMap(k => ({[k]: PILL_STATE__IGNORE})),
 			true,
 		);
 	}
@@ -434,7 +581,7 @@ export class Filter extends FilterBase {
 		this._proxyAssignSimple(
 			"state",
 			Object.keys(this._state)
-				.mergeMap(k => ({[k]: 2})),
+				.mergeMap(k => ({[k]: PILL_STATE__NO})),
 			true,
 		);
 	}
@@ -446,25 +593,25 @@ export class Filter extends FilterBase {
 	_getHeaderControls (opts) {
 		const btnAll = e_({
 			tag: "button",
-			clazz: `btn btn-default ${opts.isMulti ? "btn-xxs" : "btn-xs"} fltr__h-btn--all w-100`,
+			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} fltr__h-btn--all w-100`,
 			click: () => this._doSetPillsAll(),
 			html: "All",
 		});
 		const btnClear = e_({
 			tag: "button",
-			clazz: `btn btn-default ${opts.isMulti ? "btn-xxs" : "btn-xs"} fltr__h-btn--clear w-100`,
+			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} fltr__h-btn--clear w-100`,
 			click: () => this._doSetPillsClear(),
 			html: "Clear",
 		});
 		const btnNone = e_({
 			tag: "button",
-			clazz: `btn btn-default ${opts.isMulti ? "btn-xxs" : "btn-xs"} fltr__h-btn--none w-100`,
+			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} fltr__h-btn--none w-100`,
 			click: () => this._doSetPillsNone(),
 			html: "None",
 		});
 		const btnDefault = e_({
 			tag: "button",
-			clazz: `btn btn-default ${opts.isMulti ? "btn-xxs" : "btn-xs"} w-100`,
+			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} w-100`,
 			click: () => this._doSetPinsDefault(),
 			html: "Default",
 		});
@@ -475,7 +622,7 @@ export class Filter extends FilterBase {
 			children: [
 				e_({
 					tag: "div",
-					clazz: "btn-group ve-flex-v-center w-100",
+					clazz: "ve-btn-group ve-flex-v-center w-100",
 					children: [
 						btnAll,
 						btnClear,
@@ -491,7 +638,7 @@ export class Filter extends FilterBase {
 
 		const btnCombineBlue = e_({
 			tag: "button",
-			clazz: `btn btn-default ${opts.isMulti ? "btn-xxs" : "btn-xs"} fltr__h-btn-logic--blue fltr__h-btn-logic w-100`,
+			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} fltr__h-btn-logic--blue fltr__h-btn-logic w-100`,
 			click: () => this._meta.combineBlue = Filter._getNextCombineMode(this._meta.combineBlue),
 			title: `Blue match mode for this filter. "AND" requires all blues to match, "OR" requires at least one blue to match, "XOR" requires exactly one blue to match.`,
 		});
@@ -501,7 +648,7 @@ export class Filter extends FilterBase {
 
 		const btnCombineRed = e_({
 			tag: "button",
-			clazz: `btn btn-default ${opts.isMulti ? "btn-xxs" : "btn-xs"} fltr__h-btn-logic--red fltr__h-btn-logic w-100`,
+			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} fltr__h-btn-logic--red fltr__h-btn-logic w-100`,
 			click: () => this._meta.combineRed = Filter._getNextCombineMode(this._meta.combineRed),
 			title: `Red match mode for this filter. "AND" requires all reds to match, "OR" requires at least one red to match, "XOR" requires exactly one red to match.`,
 		});
@@ -509,15 +656,13 @@ export class Filter extends FilterBase {
 		this._addHook("meta", "combineRed", hookCombineRed);
 		hookCombineRed();
 
-		const btnShowHide = e_({
-			tag: "button",
-			clazz: `btn btn-default ${opts.isMulti ? "btn-xxs" : "btn-xs"} ml-2`,
-			click: () => this._meta.isHidden = !this._meta.isHidden,
-			html: "Hide",
-		});
+		const btnShowHide = this._getBtnShowHide({isMulti: opts.isMulti});
 		const hookShowHide = () => {
-			e_({ele: btnShowHide}).toggleClass("active", this._meta.isHidden);
-			wrpStateBtnsOuter.toggleVe(!this._meta.isHidden);
+			e_({ele: btnShowHide}).toggleClass("active", this._uiMeta.isHidden);
+			wrpStateBtnsOuter.toggleVe(!this._uiMeta.isHidden);
+
+			// Skip updating renders if results would be invisible
+			if (!this._uiMeta.isHidden) return;
 
 			// render summary
 			const cur = this.getValues()[this.header];
@@ -533,9 +678,10 @@ export class Filter extends FilterBase {
 					? `<span class="fltr__summary_item fltr__summary_item--exclude" title="${cur._totals.no} hidden &quot;excluded&quot; tags">${cur._totals.no}</span>`
 					: null,
 			].filter(Boolean).join("");
-			e_({ele: wrpSummary, html: htmlSummary}).toggleVe(this._meta.isHidden);
+			e_({ele: wrpSummary, html: htmlSummary}).toggleVe(this._uiMeta.isHidden);
 		};
-		this._addHook("meta", "isHidden", hookShowHide);
+		this._addHook("uiMeta", "isHidden", hookShowHide);
+		this._addHookAll("state", hookShowHide);
 		hookShowHide();
 
 		return e_({
@@ -544,8 +690,15 @@ export class Filter extends FilterBase {
 			children: [
 				wrpSummary,
 				wrpStateBtnsOuter,
-				e_({tag: "span", clazz: `btn-group ml-2 ve-flex-v-center`, children: [btnCombineBlue, btnCombineRed]}),
-				btnShowHide,
+				e_({tag: "span", clazz: `ve-btn-group ml-2 ve-flex-v-center`, children: [btnCombineBlue, btnCombineRed]}),
+				e_({
+					tag: "div",
+					clazz: "ve-btn-group ve-flex-v-center ml-2",
+					children: [
+						btnShowHide,
+						this._getBtnMenu({isMulti: opts.isMulti}),
+					],
+				}),
 			],
 		});
 	}
@@ -576,7 +729,7 @@ export class Filter extends FilterBase {
 			this._updateNestSummary = () => {
 				const stats = {high: 0, low: 0};
 				this._items.filter(it => this._state[it.item] && this._nestsHidden[it.nest]).forEach(it => {
-					const key = this._state[it.item] === 1 ? "high" : "low";
+					const key = this._state[it.item] === PILL_STATE__YES ? "high" : "low";
 					stats[key]++;
 				});
 
@@ -648,8 +801,8 @@ export class Filter extends FilterBase {
 
 	_renderMinis_initWrpPills () {
 		this.__wrpPills = e_({tag: "div", clazz: `fltr__wrp-pills ${this._groupFn ? "fltr__wrp-subs" : "fltr__container-pills"}`});
-		const hook = () => this.__wrpPills.toggleVe(!this._meta.isHidden);
-		this._addHook("meta", "isHidden", hook);
+		const hook = () => this.__wrpPills.toggleVe(!this._uiMeta.isHidden);
+		this._addHook("uiMeta", "isHidden", hook);
 		hook();
 	}
 
@@ -665,7 +818,7 @@ export class Filter extends FilterBase {
 		out._isActive = Object.values(state).some(Boolean);
 		out._totals = {yes: 0, no: 0, ignored: 0};
 		Object.values(state).forEach(v => {
-			const totalKey = v === 0 ? "ignored" : v === 1 ? "yes" : "no";
+			const totalKey = PILL_STATES[v] || PILL_STATES[PILL_STATE__IGNORE];
 			out._totals[totalKey]++;
 		});
 		out._combineBlue = meta.combineBlue;
@@ -682,16 +835,18 @@ export class Filter extends FilterBase {
 		};
 	}
 
-	_mutNextState_reset (nxtState, {isResetAll = false} = {}) {
+	_mutNextState_reset ({nxtState, isResetAll = false}) {
 		if (isResetAll) {
-			this._mutNextState_resetBase(nxtState);
+			this._mutNextState_resetBase({nxtState, isResetAll});
 			this._mutNextState_resetNestsHidden({tgt: nxtState[this.header].nestsHidden});
 		} else {
 			// Always reset "AND/OR" states
 			Object.assign(nxtState[this.header].meta, {combineBlue: Filter._DEFAULT_META.combineBlue, combineRed: Filter._DEFAULT_META.combineRed});
 		}
 		Object.keys(nxtState[this.header].state).forEach(k => delete nxtState[this.header].state[k]);
-		this._items.forEach(item => nxtState[this.header].state[item.item] = this._getDefaultState(item.item));
+
+		// Ignore snapshot, as it is applied on top of the base "reset"
+		this._items.forEach(item => nxtState[this.header].state[item.item] = this._getDefaultItemState(item.item, {isIgnoreSnapshot: true}));
 	}
 
 	_doRenderPills () {
@@ -837,7 +992,7 @@ export class Filter extends FilterBase {
 						this._items
 							.filter(it => it.nest === nestName)
 							.find(it => {
-								const key = this._state[it.item] === 1 ? "high" : this._state[it.item] ? "low" : "ignored";
+								const key = this._state[it.item] === PILL_STATE__YES ? "high" : this._state[it.item] ? "low" : "ignored";
 								stats[key]++;
 								stats.total++;
 							});
@@ -952,7 +1107,7 @@ export class Filter extends FilterBase {
 				if (this._umbrellaExcludes && this._umbrellaExcludes.some(it => filterState[it.item])) return false;
 
 				return this._umbrellaItems.some(u => entryVal.includes(u.item))
-					&& (this._umbrellaItems.some(u => filterState[u.item] === 0) || this._umbrellaItems.some(u => filterState[u.item] === 1));
+					&& (this._umbrellaItems.some(u => filterState[u.item] === PILL_STATE__IGNORE) || this._umbrellaItems.some(u => filterState[u.item] === PILL_STATE__YES));
 			}
 		};
 
@@ -965,7 +1120,7 @@ export class Filter extends FilterBase {
 				if (totals.yes === 0) display = true;
 
 				// if any are 1 (blue) include if they match
-				display = display || entryVal.some(fi => filterState[fi.item] === 1 || isUmbrella());
+				display = display || entryVal.some(fi => filterState[fi.item] === PILL_STATE__YES || isUmbrella());
 
 				break;
 			}
@@ -974,12 +1129,12 @@ export class Filter extends FilterBase {
 				if (totals.yes === 0) display = true;
 
 				// if any are 1 (blue) include if precisely one matches
-				display = display || entryVal.filter(fi => filterState[fi.item] === 1 || isUmbrella()).length === 1;
+				display = display || entryVal.filter(fi => filterState[fi.item] === PILL_STATE__YES || isUmbrella()).length === 1;
 
 				break;
 			}
 			case "and": {
-				const totalYes = entryVal.filter(fi => filterState[fi.item] === 1).length;
+				const totalYes = entryVal.filter(fi => filterState[fi.item] === PILL_STATE__YES).length;
 				display = !totals.yes || totals.yes === totalYes;
 
 				break;
@@ -990,18 +1145,18 @@ export class Filter extends FilterBase {
 		switch (filterState._combineRed) {
 			case "or": {
 				// if any are 2 (red) exclude if they match
-				hide = hide || entryVal.filter(fi => !fi.isIgnoreRed).some(fi => filterState[fi.item] === 2);
+				hide = hide || entryVal.filter(fi => !fi.isIgnoreRed).some(fi => filterState[fi.item] === PILL_STATE__NO);
 
 				break;
 			}
 			case "xor": {
 				// if exactly one is 2 (red) exclude if it matches
-				hide = hide || entryVal.filter(fi => !fi.isIgnoreRed).filter(fi => filterState[fi.item] === 2).length === 1;
+				hide = hide || entryVal.filter(fi => !fi.isIgnoreRed).filter(fi => filterState[fi.item] === PILL_STATE__NO).length === 1;
 
 				break;
 			}
 			case "and": {
-				const totalNo = entryVal.filter(fi => !fi.isIgnoreRed).filter(fi => filterState[fi.item] === 2).length;
+				const totalNo = entryVal.filter(fi => !fi.isIgnoreRed).filter(fi => filterState[fi.item] === PILL_STATE__NO).length;
 				hide = totals.no && totals.no === totalNo;
 
 				break;
@@ -1014,13 +1169,12 @@ export class Filter extends FilterBase {
 
 	_doInvertPins () {
 		const cur = MiscUtil.copy(this._state);
-		Object.keys(this._state).forEach(k => this._state[k] = cur[k] === 1 ? 0 : 1);
+		Object.keys(this._state).forEach(k => this._state[k] = cur[k] === PILL_STATE__YES ? PILL_STATE__IGNORE : PILL_STATE__YES);
 	}
 
 	getDefaultMeta () {
 		// Key order is important, as @filter tags depend on it
 		return {
-			...super.getDefaultMeta(),
 			...Filter._DEFAULT_META,
 		};
 	}

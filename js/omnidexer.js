@@ -1,4 +1,36 @@
-"use strict";
+import {UtilsFoundryItem} from "./utils-foundry.js";
+
+class FoundryOmnidexerUtils {
+	static getPackedFoundryExtras ({prop, ent}) {
+		switch (prop) {
+			case "spell": return this._getPackedFoundryExtras_spell({ent});
+
+			case "item":
+			case "baseitem": return this._getPackedFoundryExtras_item({ent});
+		}
+	}
+
+	static _getPackedFoundryExtras_spell ({ent}) {
+		return {l: ent.level};
+	}
+
+	static _getPackedFoundryExtras_item ({ent}) {
+		return {ft: UtilsFoundryItem.getFoundryItemType(ent)};
+	}
+
+	/* -------------------------------------------- */
+
+	static unpackFoundryExtras (packed) {
+		if (!packed) return null;
+
+		return {
+			level: packed.l,
+			foundryType: packed.ft,
+		};
+	}
+}
+
+globalThis.FoundryOmnidexerUtils = FoundryOmnidexerUtils;
 
 class Omnidexer {
 	constructor (id = 0) {
@@ -16,13 +48,15 @@ class Omnidexer {
 		 *   p: 110, // page number
 		 *   [q: "bestiary.html", // page; synthetic property only used by search widget]
 		 *   h: 1 // if isHover enabled, otherwise undefined
-		 *   r: 1 // if SRD
+		 *   r: 1 // if SRD 5.1
+		 *   r2: 1 // if SRD 5.2
 		 *   [dP: 1] // if partnered
 		 *   c: 10, // category ID
 		 *   id: 123, // index ID
 		 *   [t: "spell"], // tag
 		 *   [uu: "fireball|phb"], // UID
 		 *   [m: "img/spell/Fireball.webp"], // Image
+		 *   [xF: {...}], // Foundry extras
 		 * }
 		 */
 		this._index = [];
@@ -97,6 +131,11 @@ class Omnidexer {
 				await this._pAddToIndex_pHandleItem(state, it, ix + ixOffset, it.srd);
 			}
 
+			if (typeof it.srd52 === "string") {
+				ixOffset++;
+				await this._pAddToIndex_pHandleItem(state, it, ix + ixOffset, it.srd52);
+			}
+
 			if (it.alias?.length) {
 				for (const a of it.alias) {
 					ixOffset++;
@@ -146,6 +185,7 @@ class Omnidexer {
 		if (arbiter.isHover) indexDoc.h = 1;
 		if (arbiter.isFauxPage) indexDoc.hx = 1;
 		if (ent.srd) indexDoc.r = 1;
+		if (ent.srd52) indexDoc.r2 = 1;
 
 		if (src) {
 			if (SourceUtil.isPartneredSourceWotc(src)) indexDoc.dP = 1;
@@ -186,6 +226,11 @@ class Omnidexer {
 				const color = Parser.sourceJsonToColor(src);
 				if (color) indexDoc.sC = this.getMetaId("sC", color);
 			}
+
+			if (options.isIncludeFoundryExtras) {
+				const extras = FoundryOmnidexerUtils.getPackedFoundryExtras({prop: arbiter.listProp, ent});
+				if (extras) indexDoc.xF = extras;
+			}
 		}
 
 		if (options.alt) {
@@ -219,6 +264,8 @@ class Omnidexer {
 		}
 	}
 }
+
+globalThis.Omnidexer = Omnidexer;
 
 class IndexableDirectory {
 	/**
@@ -483,6 +530,19 @@ class IndexableFileItemsBase extends IndexableFile {
 			fluffBaseListProp: "item",
 			baseUrl: "items.html",
 			isHover: true,
+		});
+	}
+}
+
+class IndexableFileItemMasteries extends IndexableFile {
+	constructor () {
+		super({
+			category: Parser.CAT_ID_ITEM_MASTERY,
+			file: "items-base.json",
+			listProp: "itemMastery",
+			baseUrl: "itemMastery",
+			isHover: true,
+			isFauxPage: true,
 		});
 	}
 }
@@ -972,6 +1032,8 @@ class IndexableFileQuickReference extends IndexableFile {
 	}
 }
 
+globalThis.IndexableFileQuickReference = IndexableFileQuickReference;
+
 class IndexableFileDeities extends IndexableFile {
 	constructor () {
 		super({
@@ -1271,6 +1333,7 @@ Omnidexer.TO_INDEX = [
 	new IndexableFileOptFeatures_AlchemicalFormula(),
 	new IndexableFileOptFeatures_Maneuver(),
 	new IndexableFileItemsBase(),
+	new IndexableFileItemMasteries(),
 
 	new IndexableFileItems(),
 	new IndexableFileItemGroups(),
@@ -1329,5 +1392,3 @@ class IndexableSpecialPages extends IndexableSpecial {
 Omnidexer.TO_INDEX__SPECIAL = [
 	new IndexableSpecialPages(),
 ];
-
-globalThis.Omnidexer = Omnidexer;

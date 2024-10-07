@@ -483,7 +483,7 @@
 				{
 					"name": "Fly (1/Day)",
 					"entries": [
-						"The skydancer uses its {@item skysail|TDCSR} to cast {@spell fly} on itself for up to 1 minute (no {@condition concentration} required)."
+						"The skydancer uses its {@item skysail|TDCSR} to cast {@spell fly} on itself for up to 1 minute (no {@status concentration} required)."
 					]
 				}
 			],
@@ -1289,7 +1289,7 @@
 				{
 					"name": "Unerring Sight",
 					"entries": [
-						"The Champion's ranged weapon attacks ignore {@quickref cover|PHB|3|0|half cover} and {@quickref cover|PHB|3|0|three-quarters cover} and have no range penalty."
+						"The Champion's ranged weapon attacks ignore {@quickref cover||3||half cover} and {@quickref cover||3||three-quarters cover} and have no range penalty."
 					]
 				},
 				{
@@ -2089,7 +2089,7 @@
 				{
 					"name": "Supernatural Focus",
 					"entries": [
-						"The cyclops has {@quickref Advantage and Disadvantage|PHB|2|0|advantage} on Constitution {@quickref saving throws|PHB|2|1} made to maintain {@condition concentration} on spells, and cannot lose {@condition concentration} because of turbulent weather."
+						"The cyclops has {@quickref Advantage and Disadvantage|PHB|2|0|advantage} on Constitution {@quickref saving throws|PHB|2|1} made to maintain {@status concentration} on spells, and cannot lose {@status concentration} because of turbulent weather."
 					]
 				}
 			],
@@ -3121,7 +3121,7 @@
 				{
 					"name": "Spellbreaker",
 					"entries": [
-						"When Grog damages a creature that is concentrating on a spell, that creature has {@quickref Advantage and Disadvantage|PHB|2|0|disadvantage} on the {@quickref saving throws|PHB|2|1|saving throw} to maintain its {@condition concentration}. In addition, Grog has {@quickref Advantage and Disadvantage|PHB|2|0|advantage} on {@quickref saving throws|PHB|2|1} against spells cast by creatures within 5 feet of him."
+						"When Grog damages a creature that is concentrating on a spell, that creature has {@quickref Advantage and Disadvantage|PHB|2|0|disadvantage} on the {@quickref saving throws|PHB|2|1|saving throw} to maintain its {@status concentration}. In addition, Grog has {@quickref Advantage and Disadvantage|PHB|2|0|advantage} on {@quickref saving throws|PHB|2|1} against spells cast by creatures within 5 feet of him."
 					]
 				},
 				{
@@ -3604,7 +3604,7 @@
 				{
 					"name": "Focused",
 					"entries": [
-						"Keyleth has {@quickref Advantage and Disadvantage|PHB|2|0|advantage} on Constitution {@quickref saving throws|PHB|2|1} made to maintain {@condition concentration} on spells."
+						"Keyleth has {@quickref Advantage and Disadvantage|PHB|2|0|advantage} on Constitution {@quickref saving throws|PHB|2|1} made to maintain {@status concentration} on spells."
 					]
 				},
 				{
@@ -4074,7 +4074,7 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 11} to hit, reach 5 ft., one target. {@h}45 ({@damage 6d12 + 6}) piercing damage, and 14 ({@damage 4d6}) fire damage. If the target is a Large or smaller creature, it must succeed on a {@dc 18} Dexterity {@quickref saving throws|PHB|2|1|saving throw} or be swallowed by the landshark. A swallowed creature is {@condition blinded} and {@condition restrained}, it has {@quickref cover|PHB|3|0|total cover} against attacks and other effects outside the landshark, and it takes 42 ({@damage 12d6}) fire damage at the start of each of the landshark's turns.",
+						"{@atk mw} {@hit 11} to hit, reach 5 ft., one target. {@h}45 ({@damage 6d12 + 6}) piercing damage, and 14 ({@damage 4d6}) fire damage. If the target is a Large or smaller creature, it must succeed on a {@dc 18} Dexterity {@quickref saving throws|PHB|2|1|saving throw} or be swallowed by the landshark. A swallowed creature is {@condition blinded} and {@condition restrained}, it has {@quickref cover||3||total cover} against attacks and other effects outside the landshark, and it takes 42 ({@damage 12d6}) fire damage at the start of each of the landshark's turns.",
 						"If the landshark takes 30 damage or more on a single turn from a creature inside it, the landshark must succeed on a {@dc 23} Constitution {@quickref saving throws|PHB|2|1|saving throw} at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of the landshark. If the landshark dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse by using 15 feet of movement, exiting {@condition prone}."
 					]
 				},
@@ -4468,7 +4468,7 @@
 				{
 					"name": "Ranged Master",
 					"entries": [
-						"Percy's ranged weapon attacks have a +2 bonus to hit (included in attacks), ignore {@quickref cover|PHB|3|0|half cover} and {@quickref cover|PHB|3|0|three-quarters cover}, and have no range penalty. Additionally, Percy can take a \u22125 penalty to any ranged attack roll to gain a +10 bonus to the damage roll."
+						"Percy's ranged weapon attacks have a +2 bonus to hit (included in attacks), ignore {@quickref cover||3||half cover} and {@quickref cover||3||three-quarters cover}, and have no range penalty. Additionally, Percy can take a \u22125 penalty to any ranged attack roll to gain a +10 bonus to the damage roll."
 					]
 				},
 				{
@@ -6258,7 +6258,7 @@
 				{
 					"name": "Focused",
 					"entries": [
-						"Scanlan has {@quickref Advantage and Disadvantage|PHB|2|0|advantage} on Constitution {@quickref saving throws|PHB|2|1} made to maintain {@condition concentration} on spells."
+						"Scanlan has {@quickref Advantage and Disadvantage|PHB|2|0|advantage} on Constitution {@quickref saving throws|PHB|2|1} made to maintain {@status concentration} on spells."
 					]
 				},
 				{
@@ -6493,7 +6493,7 @@
 				{
 					"name": "Focused",
 					"entries": [
-						"Tary has {@quickref Advantage and Disadvantage|PHB|2|0|advantage} on Constitution {@quickref saving throws|PHB|2|1} made to maintain {@condition concentration} on spells."
+						"Tary has {@quickref Advantage and Disadvantage|PHB|2|0|advantage} on Constitution {@quickref saving throws|PHB|2|1} made to maintain {@status concentration} on spells."
 					]
 				},
 				{
@@ -6834,7 +6834,7 @@
 				{
 					"name": "Ranged Master",
 					"entries": [
-						"Vex's ranged weapon attacks have a +2 bonus to hit (included in attacks), and ignore {@quickref cover|PHB|3|0|half cover} and {@quickref cover|PHB|3|0|three-quarters cover}, and have no range penalty. Additionally, Vex can take a \u22125 penalty to any ranged attack roll to gain a +10 bonus to the damage roll."
+						"Vex's ranged weapon attacks have a +2 bonus to hit (included in attacks), and ignore {@quickref cover||3||half cover} and {@quickref cover||3||three-quarters cover}, and have no range penalty. Additionally, Vex can take a \u22125 penalty to any ranged attack roll to gain a +10 bonus to the damage roll."
 					]
 				},
 				{

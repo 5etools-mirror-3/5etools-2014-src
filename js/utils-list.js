@@ -501,7 +501,7 @@ class SaveManager extends BaseComponent {
 				${ComponentUiUtil.$getCbBool(this, "isLoadAsCopy")}
 			</label>`;
 
-		const $btnExportAll = $(`<button class="btn btn-default btn-xs" title="Save All Lists to File">Export All</button>`)
+		const $btnExportAll = $(`<button class="ve-btn ve-btn-default ve-btn-xs" title="Save All Lists to File">Export All</button>`)
 			.click(() => {
 				DataUtil.userDownload(
 					ListUtil.getDownloadNameSaves({page: this._page}),
@@ -514,7 +514,7 @@ class SaveManager extends BaseComponent {
 
 		const $btnImportAll = this._isReadOnlyUi
 			? null
-			: $(`<button class="btn btn-default btn-xs" title="Load Lists from File">Import All</button>`)
+			: $(`<button class="ve-btn ve-btn-default ve-btn-xs" title="Load Lists from File">Import All</button>`)
 				.click(async () => {
 					const {jsons, errors} = await InputUiUtil.pGetUserUploadJson({
 						expectedFileTypes: [ListUtil.getDownloadFiletypeSaves({page: this._page})],
@@ -538,7 +538,7 @@ class SaveManager extends BaseComponent {
 
 		const $titleSplit = $$`<div class="ve-flex-vh-center">
 			${$wrpIsReference}
-			<div class="ve-flex-v-center btn-group">
+			<div class="ve-flex-v-center ve-btn-group">
 				${$btnExportAll}
 				${$btnImportAll}
 			</div>
@@ -560,7 +560,7 @@ class SaveManager extends BaseComponent {
 
 		const $dispNoSaves = $(`<div class="ve-flex-col"><i class="ve-muted ve-text-center">No saves found.</i></div>`);
 
-		const $btnExpandCollapseAll = $(`<button class="btn btn-default btn-xs px-1 ve-flex-vh-center h-100 no-shrink"></button>`)
+		const $btnExpandCollapseAll = $(`<button class="ve-btn ve-btn-default ve-btn-xs px-1 ve-flex-vh-center h-100 no-shrink"></button>`)
 			.click(() => {
 				const usableSaves = this._getUsableSaves();
 				if (!usableSaves.length) return;
@@ -571,7 +571,7 @@ class SaveManager extends BaseComponent {
 			});
 
 		let isDescending = false;
-		const $btnSortName = $$`<button class="btn btn-default btn-xs w-100">
+		const $btnSortName = $$`<button class="ve-btn ve-btn-default ve-btn-xs w-100">
 			<span>Name</span>
 			${dispCaret}
 		</button>`
@@ -608,11 +608,11 @@ class SaveManager extends BaseComponent {
 		this._addHookBase("saves", hkSaves);
 
 		$$($modalInner)`
-		<div class="ve-flex-v-center my-1 px-2p btn-group">
-			<button class="btn btn-default btn-xs w-30p no-shrink" disabled>&nbsp;</button>
+		<div class="ve-flex-v-center my-1 px-2p ve-btn-group">
+			<button class="ve-btn ve-btn-default ve-btn-xs w-30p no-shrink" disabled>&nbsp;</button>
 			${$btnExpandCollapseAll}
 			${$btnSortName}
-			<button class="btn btn-default btn-xs w-50p no-shrink" disabled>&nbsp;</button>
+			<button class="ve-btn ve-btn-default ve-btn-xs w-50p no-shrink" disabled>&nbsp;</button>
 		</div>
 		${$dispNoSaves}
 		${$wrpRows}`;
@@ -738,7 +738,7 @@ class SaveManager extends BaseComponent {
 	}
 
 	$getBtnDownloadSave_ ({save, title = "Download", cbOnSave = null}) {
-		return $(`<button class="btn btn-5et btn-xs btn-default" title="${title.qq()}"><span class="glyphicon glyphicon-download"></span></button>`)
+		return $(`<button class="ve-btn ve-btn-5et ve-btn-xs ve-btn-default" title="${title.qq()}"><span class="glyphicon glyphicon-download"></span></button>`)
 			.click(async evt => {
 				evt.stopPropagation();
 
@@ -835,15 +835,15 @@ SaveManager._RenderableCollectionSaves_Load = class extends RenderableCollection
 	getNewRender (save, i) {
 		const comp = this._utils.getNewRenderComp(save, i);
 
-		const $wrpPreviewInner = $(`<div class="ve-flex-col py-3 ml-4 lst__wrp-preview-inner w-100"></div>`);
+		const $wrpPreviewInner = $(`<div class="ve-flex-col py-3 ml-4 accordion__wrp-preview-inner w-100"></div>`);
 
-		const $wrpPreview = $$`<div class="ve-flex ve-hidden relative lst__wrp-preview">
-			<div class="vr-0 absolute lst__vr-preview"></div>
+		const $wrpPreview = $$`<div class="ve-flex ve-hidden relative accordion__wrp-preview">
+			<div class="vr-0 absolute accordion__vr-preview"></div>
 			${$wrpPreviewInner}
 		</div>`;
 
 		let pExpandLoadList = null;
-		const $btnExpand = $(`<div class="px-1 ve-flex-vh-center h-100 mr-2 relative top-n1p"></div>`);
+		const $btnExpand = $(`<div class="px-1 ve-flex-vh-center h-100 mr-2 relative top-n1p clickable no-select"></div>`);
 		const hkIsExpanded = () => {
 			$wrpPreview.toggleVe(!!comp._state.manager_loader_isExpanded);
 			$btnExpand
@@ -873,7 +873,7 @@ SaveManager._RenderableCollectionSaves_Load = class extends RenderableCollection
 		comp._addHookBase("manager_loader_isExpanded", hkIsExpanded);
 		hkIsExpanded();
 
-		const $btnLoad = $(`<button class="btn btn-5et btn-xs btn-primary" title="Load"><span class="glyphicon glyphicon-ok"></span></button>`)
+		const $btnLoad = $(`<button class="ve-btn ve-btn-5et ve-btn-xs ve-btn-primary" title="Load"><span class="glyphicon glyphicon-ok"></span></button>`)
 			.click(evt => {
 				evt.stopPropagation();
 				this._comp._state.activeId = save.id;
@@ -886,7 +886,7 @@ SaveManager._RenderableCollectionSaves_Load = class extends RenderableCollection
 
 		const $btnDelete = this._isReadOnlyUi
 			? null
-			: $(`<button class="btn btn-5et btn-xs btn-danger" title="Delete"><span class="glyphicon glyphicon-trash"></span></button>`)
+			: $(`<button class="ve-btn ve-btn-5et ve-btn-xs ve-btn-danger" title="Delete"><span class="glyphicon glyphicon-trash"></span></button>`)
 				.click(evt => {
 					evt.stopPropagation();
 					this._comp._state.saves = this._comp._state.saves.filter(it => it.id !== save.id);
@@ -894,13 +894,13 @@ SaveManager._RenderableCollectionSaves_Load = class extends RenderableCollection
 				});
 
 		const $wrpRow = $$`<div class="ve-flex-col w-100">
-			<div class="ve-flex-v-center w-100 py-1 clickable lst__row lst__row lst--border lst__row-inner">
+			<div class="ve-flex-v-center w-100 py-1 clickable lst__row lst__row-border lst__row-inner">
 				<div class="ve-flex-vh-center w-30p no-shrink">
 					${$btnLoad}
 				</div>
 				${$btnExpand}
 				${$dispName}
-				<div class="ve-flex-vh-center btn-group ml-2 w-50p">
+				<div class="ve-flex-vh-center ve-btn-group ml-2 w-50p">
 					${$btnDownload}
 					${$btnDelete}
 				</div>
@@ -962,24 +962,24 @@ SaveManager._RenderableCollectionSaves_Summary = class extends RenderableCollect
 
 		const $dispCount = $(`<div class="absolute right-0 z-index-1 no-events ve-flex-vh-center ve-muted pr-2 ve-small" title="Number of Pinned List Items"></div>`);
 
-		const $btnNew = $(`<button class="btn btn-5et btn-xs btn-default" title="New Pinned List"><span class="glyphicon glyphicon-file"></span></button>`)
+		const $btnNew = $(`<button class="ve-btn ve-btn-5et ve-btn-xs ve-btn-default" title="New Pinned List"><span class="glyphicon glyphicon-file"></span></button>`)
 			.click(evt => this._cbOnNew(evt));
 
-		const $btnDuplicate = $(`<button class="btn btn-5et btn-xs btn-default" title="Duplicate Pinned List"><span class="glyphicon glyphicon-duplicate"></span></button>`)
+		const $btnDuplicate = $(`<button class="ve-btn ve-btn-5et ve-btn-xs ve-btn-default" title="Duplicate Pinned List"><span class="glyphicon glyphicon-duplicate"></span></button>`)
 			.click(evt => this._cbOnDuplicate(evt));
 
-		const $btnSave = $(`<button class="btn btn-5et btn-xs btn-default" title="Save Pinned List"><span class="glyphicon glyphicon-floppy-disk"></span></button>`)
+		const $btnSave = $(`<button class="ve-btn ve-btn-5et ve-btn-xs ve-btn-default" title="Save Pinned List"><span class="glyphicon glyphicon-floppy-disk"></span></button>`)
 			.click(evt => this._cbOnSave(evt));
 
-		const $btnLoad = $(`<button class="btn btn-5et btn-xs btn-default" title="Load Pinned List"><span class="glyphicon glyphicon-folder-open"></span></button>`)
+		const $btnLoad = $(`<button class="ve-btn ve-btn-5et ve-btn-xs ve-btn-default" title="Load Pinned List"><span class="glyphicon glyphicon-folder-open"></span></button>`)
 			.click(evt => this._cbOnLoad(evt));
 
 		const $btnDownload = this._comp.$getBtnDownloadSave_({save, title: "Download Pinned List", cbOnSave: this._cbOnSave});
 
-		const $btnUpload = $(`<button class="btn btn-5et btn-xs btn-default" title="Upload Pinned List"><span class="glyphicon glyphicon-upload"></span></button>`)
+		const $btnUpload = $(`<button class="ve-btn ve-btn-5et ve-btn-xs ve-btn-default" title="Upload Pinned List"><span class="glyphicon glyphicon-upload"></span></button>`)
 			.click(evt => this._cbOnUpload(evt));
 
-		const $btnReset = $(`<button class="btn btn-5et btn-xs btn-default" title="Reload Pinned List"><span class="glyphicon glyphicon-refresh"></span></button>`)
+		const $btnReset = $(`<button class="ve-btn ve-btn-5et ve-btn-xs ve-btn-default" title="Reload Pinned List"><span class="glyphicon glyphicon-refresh"></span></button>`)
 			.click(evt => this._cbOnReset(evt, ListUtil.getWithoutManagerState(comp.toObject("*"))));
 
 		const hkBtnReset = () => $btnReset.prop("disabled", !comp._state.manager_isSaved);
@@ -994,7 +994,7 @@ SaveManager._RenderableCollectionSaves_Summary = class extends RenderableCollect
 					${$iptName}
 					${$dispCount}
 				</div>
-				<div class="ve-flex-h-right ve-flex-v-center btn-group no-shrink">
+				<div class="ve-flex-h-right ve-flex-v-center ve-btn-group no-shrink">
 					${$btnNew}
 					${$btnDuplicate}
 					${$btnSave}

@@ -7544,7 +7544,7 @@
 				{
 					"name": "Enclose",
 					"entries": [
-						"The berstuc encloses a Medium or smaller creature {@condition grappled} by it in a mossy growth on the berstuc's body, and the grapple ends. While enclosed in the berstuc's growth, the target is {@condition blinded} and {@condition restrained}, it has total cover from attacks and other effects outside the berstuc, and it takes 21 ({@damage 6d6}) poison damage at the start of each of the berstuc's turns. The berstuc can have only one creature enclosed at a time.",
+						"The berstuc encloses a Medium or smaller creature {@condition grappled} by it in a mossy growth on the berstuc's body, and the grapple ends. While enclosed in the berstuc's growth, the target is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} from attacks and other effects outside the berstuc, and it takes 21 ({@damage 6d6}) poison damage at the start of each of the berstuc's turns. The berstuc can have only one creature enclosed at a time.",
 						"If the berstuc takes 30 damage or more on a single turn from a creature inside its growth, the berstuc must succeed on a {@dc 15} Constitution saving throw at the end of that turn or expel the enclosed creature as the growth bursts. The expelled creature falls {@condition prone} in a space within 5 feet of the berstuc. If the berstuc dies, an enclosed creature is no longer {@condition restrained} by it and can escape from the growth by using 5 feet of movement, exiting {@condition prone}."
 					]
 				}
@@ -7787,7 +7787,7 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 8} to hit, reach 5 ft., one target. {@h}19 ({@damage 4d6 + 5}) piercing damage. If the target is {@condition incapacitated} and a Medium or smaller creature, the target is swallowed. A swallowed creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the blemmyes, and it takes 14 ({@damage 4d6}) acid damage at the start of each of the blemmyes' turns. The blemmyes can have only one target swallowed at a time.",
+						"{@atk mw} {@hit 8} to hit, reach 5 ft., one target. {@h}19 ({@damage 4d6 + 5}) piercing damage. If the target is {@condition incapacitated} and a Medium or smaller creature, the target is swallowed. A swallowed creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the blemmyes, and it takes 14 ({@damage 4d6}) acid damage at the start of each of the blemmyes' turns. The blemmyes can have only one target swallowed at a time.",
 						"If the blemmyes takes 20 damage or more on a single turn from the swallowed creature, the blemmyes must succeed on a {@dc 15} Constitution saving throw at the end of that turn or regurgitate the creature, which falls {@condition prone} in a space within 5 feet of the blemmyes. If the blemmyes dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 5 feet of movement, exiting {@condition prone}."
 					]
 				},
@@ -16355,7 +16355,7 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 16} to hit, reach 10 ft., one target. {@h}22 ({@damage 2d12 + 9}) piercing damage. If the target is a Large or smaller creature, it must succeed on a {@dc 21} Dexterity saving throw or be swallowed by Qorgeth. A swallowed creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the worm, and it takes 16 ({@damage 3d10}) necrotic damage at the start of each of Qorgeth's turns.",
+						"{@atk mw} {@hit 16} to hit, reach 10 ft., one target. {@h}22 ({@damage 2d12 + 9}) piercing damage. If the target is a Large or smaller creature, it must succeed on a {@dc 21} Dexterity saving throw or be swallowed by Qorgeth. A swallowed creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the worm, and it takes 16 ({@damage 3d10}) necrotic damage at the start of each of Qorgeth's turns.",
 						"If Qorgeth takes 50 damage or more in a single turn from a creature inside it, Qorgeth must succeed on a {@dc 25} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of Qorgeth. If Qorgeth dies, a swallowed creature is no longer {@condition restrained} by it and can escape the corpse by spending 30 feet of movement, exiting {@condition prone}."
 					]
 				},
@@ -17710,7 +17710,7 @@
 				{
 					"name": "Hidden Original",
 					"entries": [
-						"While the doppelrat is in the space of a swarm it created with Arcane Doubling, it is indiscernible from the other rats and has total cover. A creature must take an action to visually inspect the swarm and succeed on a {@dc 15} Intelligence ({@skill Investigation}) check to find the doppelrat among its duplicates. Once a creature succeeds on this check, the doppelrat loses total cover against attacks and spells from that creature and that creature's allies until the doppelrat starts its turn in the same space as one of its swarms."
+						"While the doppelrat is in the space of a swarm it created with Arcane Doubling, it is indiscernible from the other rats and has {@quickref Cover||3||total cover}. A creature must take an action to visually inspect the swarm and succeed on a {@dc 15} Intelligence ({@skill Investigation}) check to find the doppelrat among its duplicates. Once a creature succeeds on this check, the doppelrat loses {@quickref Cover||3||total cover} against attacks and spells from that creature and that creature's allies until the doppelrat starts its turn in the same space as one of its swarms."
 					]
 				},
 				{
@@ -26170,7 +26170,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"The gug makes one Grasping Claw attack against a Large or smaller creature it is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the target is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the gug, and it takes 14 ({@damage 4d6}) acid damage at the start of each of the gug's turns. A gug can have only one creature swallowed at a time.",
+						"The gug makes one Grasping Claw attack against a Large or smaller creature it is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the target is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the gug, and it takes 14 ({@damage 4d6}) acid damage at the start of each of the gug's turns. A gug can have only one creature swallowed at a time.",
 						"If the gug takes 30 damage or more on a single turn from the swallowed creature, the gug must succeed on a {@dc 19} Constitution saving throw at the end of that turn or regurgitate the creature, which falls {@condition prone} in a space within 10 feet of the gug. If the gug dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse by using 10 feet of movement, exiting {@condition prone}."
 					]
 				}
@@ -27474,7 +27474,7 @@
 				{
 					"name": "Swallow (Roc Form Only)",
 					"entries": [
-						"Hraesvelgr makes one Beak attack against a Large or smaller creature he is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside Hraesvelgr, and it takes 17 ({@damage 5d6}) acid damage at the start of each of Hraesvelgr's turns. Hraesvelgr can have only one creature swallowed at a time.",
+						"Hraesvelgr makes one Beak attack against a Large or smaller creature he is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside Hraesvelgr, and it takes 17 ({@damage 5d6}) acid damage at the start of each of Hraesvelgr's turns. Hraesvelgr can have only one creature swallowed at a time.",
 						"If Hraesvelgr takes 40 damage or more on a single turn from the swallowed creature, Hraesvelgr must succeed on a {@dc 15} Constitution saving throw at the end of that turn or regurgitate the creature, which falls {@condition prone} in a space within 10 feet of Hraesvelgr. Hraesvelgr has disadvantage on this saving throw if he isn't in his roc form. If Hraesvelgr dies, a swallowed creature is no longer {@condition restrained} by him and can escape from the corpse by using 15 feet of movement, exiting {@condition prone}."
 					]
 				},
@@ -28798,7 +28798,7 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 15} to hit, reach 15 ft., one target. {@h}36 ({@damage 4d12 + 10}) piercing damage. If the target is a Large or smaller creature, it must succeed on a {@dc 18} Dexterity saving throw or be swallowed by the isonade. A swallowed creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the isonade, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the isonade's turns. An isonade can have no more than four creatures swallowed at a time. If the isonade takes 30 damage or more on a single turn from a creature inside it, it must succeed on a {@dc 23} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of the isonade. If the isonade dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse by using 20 feet of movement, exiting {@condition prone}."
+						"{@atk mw} {@hit 15} to hit, reach 15 ft., one target. {@h}36 ({@damage 4d12 + 10}) piercing damage. If the target is a Large or smaller creature, it must succeed on a {@dc 18} Dexterity saving throw or be swallowed by the isonade. A swallowed creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the isonade, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the isonade's turns. An isonade can have no more than four creatures swallowed at a time. If the isonade takes 30 damage or more on a single turn from a creature inside it, it must succeed on a {@dc 23} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of the isonade. If the isonade dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse by using 20 feet of movement, exiting {@condition prone}."
 					]
 				},
 				{
@@ -37013,7 +37013,7 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 8} to hit, reach 5 ft., one target. {@h}16 ({@damage 2d10 + 5}) piercing damage. If the target is a Medium or smaller creature, it must succeed on a {@dc 15} Strength saving throw or be swallowed. A swallowed creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the nightgarm, and it takes 10 ({@damage 3d6}) acid damage at the start of each of the nightgarm's turns. The nightgarm can have only one creature swallowed at a time. If the nightgarm takes 20 damage or more on a single turn from the swallowed creature, the nightgarm must succeed on a {@dc 14} Constitution saving throw at the end of that turn or regurgitate the creature, which falls {@condition prone} in a space within 5 feet of the nightgarm. If the nightgarm dies, a swallowed creature is no longer {@condition restrained} by her and can escape from the corpse by using 10 feet of movement, exiting {@condition prone}."
+						"{@atk mw} {@hit 8} to hit, reach 5 ft., one target. {@h}16 ({@damage 2d10 + 5}) piercing damage. If the target is a Medium or smaller creature, it must succeed on a {@dc 15} Strength saving throw or be swallowed. A swallowed creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the nightgarm, and it takes 10 ({@damage 3d6}) acid damage at the start of each of the nightgarm's turns. The nightgarm can have only one creature swallowed at a time. If the nightgarm takes 20 damage or more on a single turn from the swallowed creature, the nightgarm must succeed on a {@dc 14} Constitution saving throw at the end of that turn or regurgitate the creature, which falls {@condition prone} in a space within 5 feet of the nightgarm. If the nightgarm dies, a swallowed creature is no longer {@condition restrained} by her and can escape from the corpse by using 10 feet of movement, exiting {@condition prone}."
 					]
 				},
 				{
@@ -41543,7 +41543,7 @@
 				{
 					"name": "Lamenting Engulfment",
 					"entries": [
-						"The ravenala engulfs a Medium or smaller creature {@condition grappled} by it. The engulfed target is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the ravenala, and it must succeed on a {@dc 14} Charisma saving throw at the start of each of the ravenala's turns or sing a lament of the mistakes and misdeeds it has performed in its lifetime. While singing, the engulfed creature can still act, but it can't otherwise speak, including casting spells with verbal components. If the ravenala moves, the engulfed creature moves with it. The ravenala can have only one creature engulfed at a time."
+						"The ravenala engulfs a Medium or smaller creature {@condition grappled} by it. The engulfed target is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the ravenala, and it must succeed on a {@dc 14} Charisma saving throw at the start of each of the ravenala's turns or sing a lament of the mistakes and misdeeds it has performed in its lifetime. While singing, the engulfed creature can still act, but it can't otherwise speak, including casting spells with verbal components. If the ravenala moves, the engulfed creature moves with it. The ravenala can have only one creature engulfed at a time."
 					]
 				},
 				{
@@ -45372,7 +45372,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"The sathaq worm makes one Bite attack against a Large or smaller creature it is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the target is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the worm (including the worm's Agonizing Aura), and takes 10 ({@damage 3d6}) piercing damage and 10 ({@damage 3d6}) acid damage at the start of each of the sathaq worm's turns. The sathaq worm can have only one creature swallowed at a time.",
+						"The sathaq worm makes one Bite attack against a Large or smaller creature it is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the target is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the worm (including the worm's Agonizing Aura), and takes 10 ({@damage 3d6}) piercing damage and 10 ({@damage 3d6}) acid damage at the start of each of the sathaq worm's turns. The sathaq worm can have only one creature swallowed at a time.",
 						"If the sathaq worm takes 30 damage or more on a single turn from the swallowed creature, the sathaq worm must succeed on a {@dc 15} Constitution saving throw at the end of that turn or regurgitate the creature, which falls {@condition prone} in a space within 5 feet of the sathaq worm. If the sathaq worm dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse by using 10 feet of movement, exiting {@condition prone}."
 					]
 				}
@@ -48869,7 +48869,7 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 12} to hit, reach 5 ft., one target. {@h}19 ({@damage 2d10 + 8}) piercing damage plus 10 ({@damage 3d6}) necrotic damage or ({@dice 3d6}) radiant damage (the son's choice). If the target is a Large or smaller creature, it must succeed on a {@dc 18} Dexterity saving throw or be swallowed by the son of Fenris. A swallowed creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the son, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the son's turns. The son can have only one creature swallowed at a time.",
+						"{@atk mw} {@hit 12} to hit, reach 5 ft., one target. {@h}19 ({@damage 2d10 + 8}) piercing damage plus 10 ({@damage 3d6}) necrotic damage or ({@dice 3d6}) radiant damage (the son's choice). If the target is a Large or smaller creature, it must succeed on a {@dc 18} Dexterity saving throw or be swallowed by the son of Fenris. A swallowed creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the son, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the son's turns. The son can have only one creature swallowed at a time.",
 						"If the son takes 30 damage or more on a single turn from a creature inside it, the son must succeed on a {@dc 20} Constitution saving throw at the end of that turn or regurgitate the swallowed creature, which falls {@condition prone} in a space within 10 feet of the son. If the son dies, the swallowed creature is no longer {@condition restrained} by it and can escape from the corpse by using 10 feet of movement, exiting {@condition prone}."
 					]
 				},
@@ -52841,7 +52841,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"The titanoboa makes one Bite attack against a Huge or smaller target it is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the target is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the titanoboa, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the titanoboa's turns. If the titanoboa takes 30 damage or more on a single turn from a swallowed creature, the titanoboa must succeed on a {@dc 15} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of the titanoboa. If the titanoboa dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse by using 20 feet of movement, exiting {@condition prone}."
+						"The titanoboa makes one Bite attack against a Huge or smaller target it is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the target is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the titanoboa, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the titanoboa's turns. If the titanoboa takes 30 damage or more on a single turn from a swallowed creature, the titanoboa must succeed on a {@dc 15} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of the titanoboa. If the titanoboa dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse by using 20 feet of movement, exiting {@condition prone}."
 					]
 				}
 			],
@@ -52979,7 +52979,7 @@
 				{
 					"name": "Burning Belly",
 					"entries": [
-						"The tophet makes one Slam attack against a target it is grappling as it shoves the creature into its open, flame-filled belly. If the attack hits, the target is forced into the tophet's burning belly, and the grapple ends. While inside the belly, the target is {@condition restrained}, has three-quarters cover against attacks and other effects outside the belly, and it takes 14 ({@damage 4d6}) fire damage at the start of each of its turns. A creature, including the target, can take its action to pull the target free from the belly by succeeding on a {@dc 16} Strength check. The creature making the attempt takes 7 ({@damage 2d6}) fire damage."
+						"The tophet makes one Slam attack against a target it is grappling as it shoves the creature into its open, flame-filled belly. If the attack hits, the target is forced into the tophet's burning belly, and the grapple ends. While inside the belly, the target is {@condition restrained}, has {@quickref Cover||3||three-quarters cover} against attacks and other effects outside the belly, and it takes 14 ({@damage 4d6}) fire damage at the start of each of its turns. A creature, including the target, can take its action to pull the target free from the belly by succeeding on a {@dc 16} Strength check. The creature making the attempt takes 7 ({@damage 2d6}) fire damage."
 					]
 				},
 				{
@@ -56760,7 +56760,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"The water leaper makes a Bite attack against a Medium or smaller creature it is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the target is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the water leaper, and it takes 7 ({@damage 2d6}) acid damage at the start of each of the water leaper's turns. The water leaper can have only one creature swallowed at a time.",
+						"The water leaper makes a Bite attack against a Medium or smaller creature it is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the target is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the water leaper, and it takes 7 ({@damage 2d6}) acid damage at the start of each of the water leaper's turns. The water leaper can have only one creature swallowed at a time.",
 						"If the water leaper takes 15 damage or more on a single turn from the swallowed creature, the leaper must succeed on a {@dc 12} Constitution saving throw at the end of that turn or regurgitate the creature, which falls {@condition prone} in a space within 5 feet of the leaper. If the leaper dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse by using 10 feet of movement, exiting {@condition prone}."
 					]
 				}
@@ -59125,7 +59125,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"The zimwi makes one Bite attack against a Medium or smaller creature it is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the target is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the zimwi, and it takes 10 ({@damage 3d6}) acid damage at the start of each of the zimwi's turns. A zimwi can have up to two creatures swallowed at a time.",
+						"The zimwi makes one Bite attack against a Medium or smaller creature it is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the target is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the zimwi, and it takes 10 ({@damage 3d6}) acid damage at the start of each of the zimwi's turns. A zimwi can have up to two creatures swallowed at a time.",
 						"If the zimwi takes 20 damage or more on a single turn from a swallowed creature, the zimwi must succeed on a {@dc 14} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 5 feet of the zimwi. If the zimwi dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse by using 5 feet of movement, exiting {@condition prone}."
 					]
 				}

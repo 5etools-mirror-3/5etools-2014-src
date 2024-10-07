@@ -8792,7 +8792,7 @@
 													"page": 104,
 													"id": "213",
 													"entries": [
-														"Stairways within Lekar's 40-foot-high towers grant access to the 30-foot-high walls. Parapets guard both, providing defenders with three-quarters cover from those outside the walls. Fortifications around the gates hold controls for massive barred doors and portcullises. Both towers and gates contain {@object suspended cauldron||suspended cauldrons} (detailed in the {@book Dungeon Master's Guide|DMG})."
+														"Stairways within Lekar's 40-foot-high towers grant access to the 30-foot-high walls. Parapets guard both, providing defenders with {@quickref Cover||3||three-quarters cover} from those outside the walls. Fortifications around the gates hold controls for massive barred doors and portcullises. Both towers and gates contain {@object suspended cauldron||suspended cauldrons} (detailed in the {@book Dungeon Master's Guide|DMG})."
 													]
 												},
 												{

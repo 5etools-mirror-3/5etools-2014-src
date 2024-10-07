@@ -1688,7 +1688,7 @@
 					"name": "Rolling Hills {@recharge}",
 					"entries": [
 						"The cradle magically creates a wave of dirt that extends from a point on the ground within 120 feet of itself. The wave is up to 30 feet long, up to 30 feet tall, and up to 30 feet wide. Each creature in the wave must make a {@dc 22} Strength saving throw. On a failed save, a creature takes 58 ({@damage 9d12}) bludgeoning damage, has the {@condition prone} condition, and is buried under dirt. On a successful save, a creature takes half as much damage only.",
-						"A buried creature has the {@condition restrained} condition, has total cover, and can't breathe. As an action, a creature buried in this way, or another creature within 5 feet of it that isn't buried, can make a {@dc 17} Strength ({@skill Athletics}) check. On a successful check, the buried creature no longer has the {@condition prone} or {@condition restrained} conditions."
+						"A buried creature has the {@condition restrained} condition, has {@quickref Cover||3||total cover}, and can't breathe. As an action, a creature buried in this way, or another creature within 5 feet of it that isn't buried, can make a {@dc 17} Strength ({@skill Athletics}) check. On a successful check, the buried creature no longer has the {@condition prone} or {@condition restrained} conditions."
 					]
 				}
 			],
@@ -3427,7 +3427,7 @@
 				{
 					"name": "Furnace Armor (Requires Fire Rune)",
 					"entries": [
-						"The giant causes smoke and cinders to billow from its armor, filling a 30-foot-radius sphere centered on the giant. While the armor is billowing smoke, the giant has half cover. The armor stops billowing smoke after 1 minute, when the giant dies, when the giant uses a bonus action to end the effect, or when the giant's fire rune is destroyed."
+						"The giant causes smoke and cinders to billow from its armor, filling a 30-foot-radius sphere centered on the giant. While the armor is billowing smoke, the giant has {@quickref Cover||3||half cover}. The armor stops billowing smoke after 1 minute, when the giant dies, when the giant uses a bonus action to end the effect, or when the giant's fire rune is destroyed."
 					]
 				}
 			],
@@ -3941,7 +3941,7 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 13} to hit, reach 5 ft., one Large or smaller creature {@condition grappled} by the colossus. {@h}20 ({@damage 3d8 + 7}) bludgeoning damage, and the creature is swallowed. A swallowed creature has the {@condition restrained} condition, has total cover against attacks and other effects outside the colossus, and takes 10 ({@damage 3d6}) force damage at the start of each of the colossus's turns.",
+						"{@atk mw} {@hit 13} to hit, reach 5 ft., one Large or smaller creature {@condition grappled} by the colossus. {@h}20 ({@damage 3d8 + 7}) bludgeoning damage, and the creature is swallowed. A swallowed creature has the {@condition restrained} condition, has {@quickref Cover||3||total cover} against attacks and other effects outside the colossus, and takes 10 ({@damage 3d6}) force damage at the start of each of the colossus's turns.",
 						"The colossus's chest cavity can hold up to two creatures at a time. Inside its chest cavity is its core, which is a Large object with AC 16 that is immune to lightning, poison, and psychic damage. It has 140 hit points and sheds dim light in a 10-foot radius. If the core is destroyed, the colossus regurgitates all swallowed creatures, each of which falls in a space within 10 feet of the colossus and has the {@condition prone} condition, and the colossus can no longer swallow a creature. If the colossus dies, any swallowed creature no longer has the {@condition restrained} condition and can escape from the corpse using 10 feet of movement, exiting with the {@condition prone} condition."
 					]
 				}
@@ -6591,7 +6591,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"{@atk mw} {@hit 13} to hit, reach 5 ft., one Huge or smaller creature {@condition grappled} by the regisaur. {@h}The regisaur swallows the target, and the grapple ends. A swallowed creature has the {@condition blinded} and {@condition restrained} conditions, it has total cover against attacks and other effects outside the regisaur, and it takes 7 ({@damage 2d6}) acid damage at the start of each of its turns. The regisaur can have up to two creatures swallowed at a time.",
+						"{@atk mw} {@hit 13} to hit, reach 5 ft., one Huge or smaller creature {@condition grappled} by the regisaur. {@h}The regisaur swallows the target, and the grapple ends. A swallowed creature has the {@condition blinded} and {@condition restrained} conditions, it has {@quickref Cover||3||total cover} against attacks and other effects outside the regisaur, and it takes 7 ({@damage 2d6}) acid damage at the start of each of its turns. The regisaur can have up to two creatures swallowed at a time.",
 						"If the regisaur takes 25 damage or more on a single turn from a swallowed creature, the regisaur must succeed on a {@dc 16} Constitution saving throw at the end of that turn or regurgitate the creature, which falls in a space within 5 feet of the regisaur and has the {@condition prone} condition; the creature no longer has the {@condition blinded} and {@condition restrained} conditions."
 					]
 				}
@@ -7000,7 +7000,7 @@
 				{
 					"name": "Inhale {@recharge 5}",
 					"entries": [
-						"The scion inhales a vortex of air in a 120-foot line that is 15 feet wide. Each creature in that area that is Huge or smaller must succeed on a {@dc 23} Strength saving throw or be pulled up to 120 feet straight toward the scion and be swallowed. A swallowed creature has the {@condition restrained} condition, has total cover against attacks and other effects outside the scion, and takes 24 ({@damage 7d6}) force damage at the start of each of the scion's turns.",
+						"The scion inhales a vortex of air in a 120-foot line that is 15 feet wide. Each creature in that area that is Huge or smaller must succeed on a {@dc 23} Strength saving throw or be pulled up to 120 feet straight toward the scion and be swallowed. A swallowed creature has the {@condition restrained} condition, has {@quickref Cover||3||total cover} against attacks and other effects outside the scion, and takes 24 ({@damage 7d6}) force damage at the start of each of the scion's turns.",
 						"The scion's stomach can hold up to two creatures at a time. If the scion takes 60 damage or more on a single turn from a creature inside it, the scion must succeed on a {@dc 17} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which falls in a space within 10 feet of the scion and has the {@condition prone} condition. If the scion dies, any swallowed creature no longer has the {@condition restrained} condition and can escape from the corpse using 15 feet of movement, exiting with the {@condition prone} condition."
 					]
 				}

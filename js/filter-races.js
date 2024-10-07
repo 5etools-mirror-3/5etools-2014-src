@@ -71,7 +71,7 @@ class PageFilterRaces extends PageFilterBase {
 		this._vulnerableFilter = FilterCommon.getDamageVulnerableFilter();
 		this._resistFilter = FilterCommon.getDamageResistFilter();
 		this._immuneFilter = FilterCommon.getDamageImmuneFilter();
-		this._defenceFilter = new MultiFilter({header: "Damage", filters: [this._vulnerableFilter, this._resistFilter, this._immuneFilter]});
+		this._defenseFilter = new MultiFilter({header: "Damage", filters: [this._vulnerableFilter, this._resistFilter, this._immuneFilter]});
 		this._conditionImmuneFilter = FilterCommon.getConditionImmuneFilter();
 		this._languageFilter = new Filter({
 			header: "Languages",
@@ -111,7 +111,7 @@ class PageFilterRaces extends PageFilterBase {
 		});
 		this._miscFilter = new Filter({
 			header: "Miscellaneous",
-			items: ["Base Race", "Key Race", "Lineage", "Modified Copy", "Reprinted", "SRD", "Basic Rules", "Legacy", "Has Images", "Has Info"],
+			items: ["Base Race", "Key Race", "Lineage", "Modified Copy", "Reprinted", "Legacy", "Has Images", "Has Info"],
 			isMiscFilter: true,
 			// N.b. "Reprinted" is not red by default, as we assume tastes vary w.r.t. ability score style
 		});
@@ -135,17 +135,11 @@ class PageFilterRaces extends PageFilterBase {
 		r._fSources = SourceFilter.getCompleteFilterSources(r);
 		r._fLangs = PageFilterRaces.getLanguageProficiencyTags(r.languageProficiencies);
 		r._fCreatureTypes = r.creatureTypes ? r.creatureTypes.map(it => it.choose || it).flat() : ["humanoid"];
-		r._fMisc = [];
+		this._mutateForFilters_commonMisc(r);
 		if (r._isBaseRace) r._fMisc.push("Base Race");
 		if (r._isBaseRace || !r._isSubRace) r._fMisc.push("Key Race");
 		if (r._isCopy) r._fMisc.push("Modified Copy");
-		if (r.srd) r._fMisc.push("SRD");
-		if (r.basicRules) r._fMisc.push("Basic Rules");
-		if (SourceUtil.isLegacySourceWotc(r.source)) r._fMisc.push("Legacy");
-		if (this._hasFluff(r)) r._fMisc.push("Has Info");
-		if (this._hasFluffImages(r)) r._fMisc.push("Has Images");
 		if (r.lineage) r._fMisc.push("Lineage");
-		if (this._isReprinted({reprintedAs: r.reprintedAs, tag: "race", prop: "race", page: UrlUtil.PG_RACES})) r._fMisc.push("Reprinted");
 
 		const ability = r.ability ? Renderer.getAbilityData(r.ability, {isOnlyShort: true, isCurrentLineage: r.lineage === "VRGR"}) : {asTextShort: "None"};
 		r._slAbility = ability.asTextShort;
@@ -173,6 +167,7 @@ class PageFilterRaces extends PageFilterBase {
 		this._conditionImmuneFilter.addItem(r._fCondImm);
 		this._ageFilter.addItem(r._fAge);
 		this._languageFilter.addItem(r._fLangs);
+		this._miscFilter.addItem(r._fMisc);
 	}
 
 	async _pPopulateBoxOptions (opts) {
@@ -182,7 +177,7 @@ class PageFilterRaces extends PageFilterBase {
 			this._sizeFilter,
 			this._speedFilter,
 			this._traitFilter,
-			this._defenceFilter,
+			this._defenseFilter,
 			this._conditionImmuneFilter,
 			this._languageFilter,
 			this._baseRaceFilter,
@@ -261,7 +256,7 @@ class ModalFilterRaces extends ModalFilterBase {
 
 	async _pLoadAllData () {
 		return [
-			...await DataUtil.race.loadJSON(),
+			...((await DataUtil.race.loadJSON()).race || []),
 			...((await DataUtil.race.loadPrerelease({isAddBaseRaces: false})).race || []),
 			...((await DataUtil.race.loadBrew({isAddBaseRaces: false})).race || []),
 		];
@@ -276,17 +271,17 @@ class ModalFilterRaces extends ModalFilterBase {
 		const size = (race.size || [Parser.SZ_VARIES]).map(sz => Parser.sizeAbvToFull(sz)).join("/");
 		const source = Parser.sourceJsonToAbv(race.source);
 
-		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst--border veapp__list-row no-select lst__wrp-cells">
+		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst__row-border veapp__list-row no-select lst__wrp-cells">
 			<div class="ve-col-0-5 pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="no-events">` : `<input type="checkbox" class="no-events">`}</div>
 
 			<div class="ve-col-0-5 px-1 ve-flex-vh-center">
-				<div class="ui-list__btn-inline px-2" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
+				<div class="ui-list__btn-inline px-2 no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
 			</div>
 
-			<div class="ve-col-4 ${race._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${race._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${race.name}</div>
-			<div class="ve-col-4">${ability.asTextShort}</div>
-			<div class="ve-col-2 ve-text-center">${size}</div>
-			<div class="ve-col-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(race.source)}" title="${Parser.sourceJsonToFull(race.source)}" ${Parser.sourceJsonToStyle(race.source)}>${source}${Parser.sourceJsonToMarkerHtml(race.source)}</div>
+			<div class="ve-col-4 px-1 ${race._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${race._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${race.name}</div>
+			<div class="ve-col-4 px-1">${ability.asTextShort}</div>
+			<div class="ve-col-2 px-1 ve-text-center">${size}</div>
+			<div class="ve-col-1 pl-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(race.source)}" title="${Parser.sourceJsonToFull(race.source)}" ${Parser.sourceJsonToStyle(race.source)}>${source}${Parser.sourceJsonToMarkerHtml(race.source)}</div>
 		</div>`;
 
 		const btnShowHidePreview = eleRow.firstElementChild.children[1].firstElementChild;

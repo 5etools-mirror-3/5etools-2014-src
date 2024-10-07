@@ -857,7 +857,10 @@
 											},
 											"mapParent": {
 												"id": "329",
-												"autoScale": true
+												"offsetX": -36,
+												"offsetY": -1021,
+												"scaleX": 1.305,
+												"scaleY": 1.305
 											}
 										}
 									]
@@ -2520,7 +2523,7 @@
 													"type": "list",
 													"items": [
 														"The dungeon's rooms, corridors, and staircases are hewn from limestone and unlit unless the text states otherwise. (Followers of the Dead Three carry torches or rely on {@sense darkvision} to see in the dungeon.)",
-														"The 5-foot-wide corridors throughout the dungeon have 8-foot-high ceilings. Rooms have 9-foot-high ceilings, often braced with wooden beams. Each beam is a Large object with AC 15, 10 hit points, and immunity to poison and psychic damage. Destroying all the beams in an area has a {@chance 25|25 percent} chance of triggering a roof collapse. Each creature under the collapsing roof must succeed on a DC 15 Dexterity saving throw, taking 22 ({@dice 4d10}) bludgeoning damage on a failed save, or half as much damage on a successful one. The area remains open but is {@quickref difficult terrain||3} thereafter.",
+														"The 5-foot-wide corridors throughout the dungeon have 8-foot-high ceilings. Rooms have 9-foot-high ceilings, often braced with wooden beams. Each beam is a Large object with AC 15, 10 hit points, and immunity to poison and psychic damage. Destroying all the beams in an area has a {@chance 25} chance of triggering a roof collapse. Each creature under the collapsing roof must succeed on a DC 15 Dexterity saving throw, taking 22 ({@dice 4d10}) bludgeoning damage on a failed save, or half as much damage on a successful one. The area remains open but is {@quickref difficult terrain||3} thereafter.",
 														"Regular doors are made of soft, rotting wood. Each door is a Medium object with AC 15, 5 hit points, and immunity to poison and psychic damage. Secret doors are carved to look like the surrounding limestone walls and require a successful DC 10 Wisdom ({@skill Perception}) check to locate. Once located, a secret door pushes open easily.",
 														"Certain areas of the dungeon (as shown on {@adventure map 1.3|BGDIA|1|Map 1.3: Dungeon of the Dead Three}) are flooded with murky water to a depth of 2 feet to make them {@quickref difficult terrain||3}. The water seeps into the dungeon from nearby sewers through cracks in the limestone. It carries a foul stench and is undrinkable."
 													]
@@ -3650,7 +3653,10 @@
 											},
 											"mapParent": {
 												"id": "32b",
-												"autoScale": true
+												"offsetX": -43,
+												"offsetY": -253,
+												"scaleX": 1.0749999999999997,
+												"scaleY": 1.0749999999999997
 											}
 										}
 									]
@@ -4568,7 +4574,10 @@
 											},
 											"mapParent": {
 												"id": "32c",
-												"autoScale": true
+												"offsetX": -78,
+												"offsetY": -1586,
+												"scaleX": 1.41,
+												"scaleY": 1.41
 											}
 										}
 									]
@@ -8131,7 +8140,10 @@
 													},
 													"mapParent": {
 														"id": "3c9",
-														"autoScale": true
+														"offsetX": -153,
+														"offsetY": 29,
+														"scaleX": 1.385,
+														"scaleY": 1.385
 													}
 												}
 											]
@@ -9156,7 +9168,10 @@
 															},
 															"mapParent": {
 																"id": "3ca",
-																"autoScale": true
+																"offsetX": -328,
+																"offsetY": -231,
+																"scaleX": 1.065,
+																"scaleY": 1.065
 															}
 														}
 													]
@@ -9800,7 +9815,8 @@
 													},
 													"mapParent": {
 														"id": "3cb",
-														"autoScale": true
+														"offsetX": -3,
+														"offsetY": -166
 													}
 												}
 											]
@@ -11083,7 +11099,7 @@
 											"page": 84,
 											"id": "1ca",
 											"entries": [
-												"Characters can question the redcaps, starting with Grubba, to find out who has the tooth. Each time they question a redcap, there is a {@chance 50|50 percent} chance that the redcap gets angry and attacks the characters, backed up by {@dice 1d4} additional redcaps.",
+												"Characters can question the redcaps, starting with Grubba, to find out who has the tooth. Each time they question a redcap, there is a {@chance 50} chance that the redcap gets angry and attacks the characters, backed up by {@dice 1d4} additional redcaps.",
 												"The redcaps believe the tooth is a lucky charm, so they frequently pass it from one to the next to keep Barnabas from finding it. Because of this constant transfer of the tooth, there's little hope of the characters finding it by confronting one redcap at a time. However, a character who quietly observes the redcaps for 10 minutes can attempt a DC 11 Wisdom ({@skill Perception}) check. On a success, the character sees one redcap passing a bloody pouch to another redcap, who tucks it in a pocket. This pouch contains Barnabas's tooth.",
 												"A character who moves within reach of the redcap can attempt to pick its pocket and obtain the pouch without its knowledge, doing so with a successful DC 14 Dexterity ({@skill Sleight of Hand}) check.",
 												"No redcap relinquishes the pouch willingly, though it can be magically {@condition charmed} into doing so. The redcap attacks any character who tries to take it by force, and twelve other redcaps join the fight on the next round. {@creature Mad Maggie|BGDIA} won't break up such a fight unless the characters have done something nice for her, although if the dreamscape ritual has not taken place yet, she won't allow the redcaps to kill a character.",
@@ -12949,7 +12965,10 @@
 									},
 									"mapParent": {
 										"id": "3cf",
-										"autoScale": true
+										"offsetX": -183,
+										"offsetY": -206,
+										"scaleX": 1.06,
+										"scaleY": 1.06
 									}
 								}
 							]
@@ -14278,7 +14297,10 @@
 											},
 											"mapParent": {
 												"id": "3d1",
-												"autoScale": true
+												"offsetX": 106,
+												"offsetY": 49,
+												"scaleX": 0.98,
+												"scaleY": 0.98
 											}
 										}
 									]
@@ -14532,7 +14554,7 @@
 									"id": "26b",
 									"entries": [
 										"Bone whelks are large mollusks that excrete an adhesive to attach skulls, bones, and other detritus to their bodies for protection. These slugs scour the wreck for organic matter to feed on, clinging to torn sections of wall, floor, and ceiling while taking shelter from the searing winds and hungry vrocks. Characters who try to make their way up through the interior of the wreck are attacked by five {@creature Bone Whelk|BGDIA|bone whelks}. Too slow to mount an effective escape, the bone whelks fight to the death.",
-										"When a bone whelk dies, it emits a scream that has a {@chance 50|50 percent} chance of attracting the vrocks, which attack other creatures (including bone whelks) indiscriminately.",
+										"When a bone whelk dies, it emits a scream that has a {@chance 50} chance of attracting the vrocks, which attack other creatures (including bone whelks) indiscriminately.",
 										{
 											"type": "image",
 											"href": {
@@ -14974,7 +14996,10 @@
 											},
 											"mapParent": {
 												"id": "3d2",
-												"autoScale": true
+												"offsetX": 151,
+												"offsetY": -661,
+												"scaleX": 1.26,
+												"scaleY": 1.26
 											}
 										}
 									]
@@ -15521,7 +15546,7 @@
 												"This level of the tower is drab and unadorned save for a plain, rectangular stone table set with a pair of stone benches. Spare polearms and scale armor, suitable for five Large and ten Medium devils, are stored in racks along the walls."
 											]
 										},
-										"Ten {@creature Bearded Devil||bearded devils} and ten {@creature Hell Hound||hell hounds} occupy this floor. There is a {@chance 30|30 percent} chance that half of the bearded devils and hell hounds are out patrolling the perimeter at any given time, returning 1 minute after combat starts unless the fighting remains very quiet.",
+										"Ten {@creature Bearded Devil||bearded devils} and ten {@creature Hell Hound||hell hounds} occupy this floor. There is a {@chance 30} chance that half of the bearded devils and hell hounds are out patrolling the perimeter at any given time, returning 1 minute after combat starts unless the fighting remains very quiet.",
 										"An iron ladder rises through a hole in the northwest corner wide enough to accommodate Large creatures."
 									]
 								},
@@ -23052,7 +23077,7 @@
 							"page": 216,
 							"id": "427",
 							"entries": [
-								"Infernal war machines provoke opportunity attacks as normal. When an infernal war machine provokes an opportunity attack, the attacker can target the vehicle or any creature riding on or inside it that doesn't have total cover and is within reach."
+								"Infernal war machines provoke opportunity attacks as normal. When an infernal war machine provokes an opportunity attack, the attacker can target the vehicle or any creature riding on or inside it that doesn't have {@quickref Cover||3||total cover} and is within reach."
 							]
 						},
 						{
@@ -23405,15 +23430,15 @@
 												],
 												[
 													"3",
-													"A fire tornado, 300 feet high and 30 feet wide at its base, crosses your path. The vehicle avoids the tornado with a successful DC 15 Dexterity saving throw. Otherwise, the tornado envelops the vehicle, and each creature on or inside it that doesn't have total cover must make a DC 18 Dexterity saving throw, taking 99 ({@dice 18d10}) fire damage on a failed save, or half as much damage on a successful one."
+													"A fire tornado, 300 feet high and 30 feet wide at its base, crosses your path. The vehicle avoids the tornado with a successful DC 15 Dexterity saving throw. Otherwise, the tornado envelops the vehicle, and each creature on or inside it that doesn't have {@quickref Cover||3||total cover} must make a DC 18 Dexterity saving throw, taking 99 ({@dice 18d10}) fire damage on a failed save, or half as much damage on a successful one."
 												],
 												[
 													"4",
-													"A swirling cloud of dust envelops the vehicle. Any creature on or inside the vehicle that doesn't have total cover is {@condition blinded} by the dust until the start of its next turn unless it's using some kind of protective eyewear."
+													"A swirling cloud of dust envelops the vehicle. Any creature on or inside the vehicle that doesn't have {@quickref Cover||3||total cover} is {@condition blinded} by the dust until the start of its next turn unless it's using some kind of protective eyewear."
 												],
 												[
 													"5",
-													"Natural pillars of rock can grant cover as the vehicle swerves between them. The driver of the vehicle can make a DC 15 Dexterity check using the vehicle's Dexterity. On a success, the pillars provide three-quarters cover against attacks from other vehicles until the start of the driver's next turn."
+													"Natural pillars of rock can grant cover as the vehicle swerves between them. The driver of the vehicle can make a DC 15 Dexterity check using the vehicle's Dexterity. On a success, the pillars provide {@quickref Cover||3||three-quarters cover} against attacks from other vehicles until the start of the driver's next turn."
 												],
 												[
 													"6",

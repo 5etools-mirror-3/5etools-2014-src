@@ -1,7 +1,7 @@
 "use strict";
 
 class UtilsChangelog {
-	static _RELEASE_URL = "https://github.com/5etools-mirror-2/5etools-mirror-2.github.io/releases";
+	static _RELEASE_URL = "https://github.com/5etools-mirror-3/5etools-2014-src/releases";
 
 	static renderChangelog (changelog, $wrp) {
 		let lastMajorVersion = 0;
@@ -66,7 +66,7 @@ class UtilsChangelog {
 			$wrp.prepend(`<div class="ve-flex-col" id="v${it.ver}">
 				<div class="split-v-center">
 					<h${hLevel} class="bold">v${isLast ? `<a href="${UtilsChangelog._RELEASE_URL}" rel="noopener noreferrer">` : ""}${it.ver}${isLast ? `</a>` : ""}${titlePart}</h${hLevel}>
-					<span class="text-muted">${it.date}</span>
+					<span class="ve-muted">${it.date}</span>
 				</div>
 
 				${htmlStack}

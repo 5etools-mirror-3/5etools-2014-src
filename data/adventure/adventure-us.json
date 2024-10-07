@@ -458,7 +458,7 @@
 												],
 												[
 													"12",
-													"Any character with a passive Wisdom ({@skill Perception}) score of 12 or higher hears and smells a pack of {@dice 2d4} goblinoid ghouls approaching. There is a {@chance 20|20 percent} chance that the ghoul pack contains a freshly undead guard or two from nearby Fort Venture. These ghouls are of an aquatic variety known as {@creature Lacedon|TftYP|lacedons}. In addition to the statistics of a normal ghoul, each has a swimming speed of 30 feet."
+													"Any character with a passive Wisdom ({@skill Perception}) score of 12 or higher hears and smells a pack of {@dice 2d4} goblinoid ghouls approaching. There is a {@chance 20} chance that the ghoul pack contains a freshly undead guard or two from nearby Fort Venture. These ghouls are of an aquatic variety known as {@creature Lacedon|TftYP|lacedons}. In addition to the statistics of a normal ghoul, each has a swimming speed of 30 feet."
 												]
 											]
 										}
@@ -642,7 +642,7 @@
 									"id": "915",
 									"entries": [
 										"Other than a few rocky outcroppings, all the caverns beneath the hill, including the entrance, are covered in two feet of standing swamp water, which is {@quickref difficult terrain||3}. Any character who moves through the flooded interior areas of the echoing caves has disadvantage on Dexterity ({@skill Stealth}) checks unless they can avoid the water.",
-										"The bullywugs launch hunting and raiding parties into the marsh on a daily basis, setting out before dawn and returning when their appetites have been satiated. When the characters arrive here, five {@creature Bullywug||bullywugs} and two {@creature Giant Toad||giant toads} lurk in different sections of the cave. If the characters stay in this area and explore the cave, there is a {@chance 25|25 percent} chance each hour that a hunting party of {@dice 1d4 + 1} {@creature Bullywug||bullywugs} riding the same number of {@creature Giant Toad||giant toads} returns from a foray into the swamp."
+										"The bullywugs launch hunting and raiding parties into the marsh on a daily basis, setting out before dawn and returning when their appetites have been satiated. When the characters arrive here, five {@creature Bullywug||bullywugs} and two {@creature Giant Toad||giant toads} lurk in different sections of the cave. If the characters stay in this area and explore the cave, there is a {@chance 25} chance each hour that a hunting party of {@dice 1d4 + 1} {@creature Bullywug||bullywugs} riding the same number of {@creature Giant Toad||giant toads} returns from a foray into the swamp."
 									]
 								},
 								{
@@ -1213,7 +1213,7 @@
 									"page": 258,
 									"id": "92d",
 									"entries": [
-										"Scores of bear traps are hidden among the tall grass in a 40-foot-wide area surrounding the palisade. A character with a passive Wisdom ({@skill Perception}) score of 12 or higher is able to spot the traps and avoid them. Characters who don't spot the traps have a {@chance 50|50 percent} chance of stepping on a bear trap and triggering it whenever they move through the area.",
+										"Scores of bear traps are hidden among the tall grass in a 40-foot-wide area surrounding the palisade. A character with a passive Wisdom ({@skill Perception}) score of 12 or higher is able to spot the traps and avoid them. Characters who don't spot the traps have a {@chance 50} chance of stepping on a bear trap and triggering it whenever they move through the area.",
 										"A bear trap's attack is +8 to hit and deals 5 ({@dice 1d10}) piercing damage on a hit. This attack can't be made with advantage or disadvantage. A creature hit by the trap also has its speed reduced to 0 and can't move until it breaks free of the trap. Breaking free requires a successful DC 15 Strength check by the trapped creature or another creature within 5 feet of the trap. A successful DC 10 Dexterity check using thieves' tools disables a bear trap."
 									]
 								},
@@ -1279,14 +1279,14 @@
 									]
 								},
 								"When not on duty or training, the guards of Fort Venture spend most of their time in this tent yard, where they drink, gamble, or attempt to sleep despite the maddening howls of Pellinost's furious prisoners in the chapel ({@adventure area V6|US|0|V6. Chapel}). Each tent features a floor covered with straw, a cotton bedroll, a down pillow, and a small wooden footlocker.",
-								"Eight {@creature Guard||guards} are off duty when the characters arrive in this area, sleeping (an {@chance 80|80 percent} chance) or resting but awake in their tents. Sleeping guards use their passive Wisdom ({@skill Perception}) scores to detect intruders or to hear the alarm being raised.",
+								"Eight {@creature Guard||guards} are off duty when the characters arrive in this area, sleeping (an {@chance 80} chance) or resting but awake in their tents. Sleeping guards use their passive Wisdom ({@skill Perception}) scores to detect intruders or to hear the alarm being raised.",
 								{
 									"type": "entries",
 									"name": "Treasure",
 									"page": 258,
 									"id": "935",
 									"entries": [
-										"The wooden footlockers within the tents are unlocked. Each contains the components of an explorer's pack minus the bedroll currently laid out in the tent. Each footlocker also has a {@chance 15|15 percent} chance of containing an object of personal or curious importance. Roll on the Trinkets table in {@book chapter 5|PHB|5|Trinkets} of the {@book Player's Handbook|PHB} to determine such items."
+										"The wooden footlockers within the tents are unlocked. Each contains the components of an explorer's pack minus the bedroll currently laid out in the tent. Each footlocker also has a {@chance 15} chance of containing an object of personal or curious importance. Roll on the Trinkets table in {@book chapter 5|PHB|5|Trinkets} of the {@book Player's Handbook|PHB} to determine such items."
 									]
 								},
 								{
@@ -1683,7 +1683,7 @@
 							"page": 263,
 							"id": "960",
 							"entries": [
-								"Three small wooden outhouses stand in a row beneath the southwest palisade wall. When the characters first arrive here, there is a {@chance 15|15 percent} chance that one Dwendalian {@creature guard} is present in one of the outhouses. If combat breaks out here, the inconvenient circumstances give the guard disadvantage on its initiative roll.",
+								"Three small wooden outhouses stand in a row beneath the southwest palisade wall. When the characters first arrive here, there is a {@chance 15} chance that one Dwendalian {@creature guard} is present in one of the outhouses. If combat breaks out here, the inconvenient circumstances give the guard disadvantage on its initiative roll.",
 								{
 									"type": "entries",
 									"name": "Bol'bara's Possession",

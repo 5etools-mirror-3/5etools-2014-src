@@ -2101,7 +2101,7 @@
 											"page": 26,
 											"id": "067",
 											"entries": [
-												"The large tank contains four 8-foot-long jagged koi prawns (use the {@creature giant sea horse} stat block). Participants must slay one of the prawns. Waiting sous-chefs then fish the prawn out and drag it to a wok. The prawns are not initially hostile but defend themselves if they take damage. They have {@quickref cover|PHB|3|0|half cover} from any creature attacking from outside the water.",
+												"The large tank contains four 8-foot-long jagged koi prawns (use the {@creature giant sea horse} stat block). Participants must slay one of the prawns. Waiting sous-chefs then fish the prawn out and drag it to a wok. The prawns are not initially hostile but defend themselves if they take damage. They have {@quickref cover||3||half cover} from any creature attacking from outside the water.",
 												"If the prawns reduce a character to 0 or fewer hit points, Sid ends the challenge while the sous-chefs get any wounded participants to safety."
 											]
 										}
@@ -4816,7 +4816,7 @@
 										"\"Clear out!\" one of them shouts. \"La {@creature Paloma|JttRC} pays for her crimes this day!\" Without hesitation, they attack."
 									]
 								},
-								"Seven bounty hunters (use the {@creature scout} stat block) shoot from behind the waist-high wall, which grants them half cover against anyone attacking from the other side. They draw shortswords if the characters close for melee. If three of the bounty hunters fall, the survivors quickly retreat to their nearby {@creature Riding Horse||riding horses} and flee the village.",
+								"Seven bounty hunters (use the {@creature scout} stat block) shoot from behind the waist-high wall, which grants them {@quickref Cover||3||half cover} against anyone attacking from the other side. They draw shortswords if the characters close for melee. If three of the bounty hunters fall, the survivors quickly retreat to their nearby {@creature Riding Horse||riding horses} and flee the village.",
 								"Characters can learn about {@creature Paloma|JttRC} and the crimes of which she is accused from any defeated bounty hunters who survive the fight (see the \"{@area Learning about Paloma|0fb|x}\" section). One of the bounty hunters who dies or is captured during the fight carries a wanted poster depicting a stern old woman with the name \"{@creature Paloma|JttRC}\" below the portrait and offering a 500 gp reward for her capture."
 							]
 						}
@@ -13634,7 +13634,7 @@
 											"page": 99,
 											"id": "225",
 											"entries": [
-												"{@creature Awa|JttRC} wasn't sure which of the southern tunnels he fled through. Characters who search the area and succeed on a DC 14 Wisdom ({@skill Survival}) check see that numerous aurumvorax claw marks lead from the southwest tunnel. If the characters head down that tunnel, they reach area G2 after 5 minutes of walking. If they follow any other tunnel, they reach a dead end after 10 minutes and have a {@chance 50|50 percent} chance of encountering two {@creature Aurumvorax|JttRC|aurumvoraxes} gnawing on a seam of gold ore. These aurumvoraxes fight to the death and vanish when reduced to 0 hit points."
+												"{@creature Awa|JttRC} wasn't sure which of the southern tunnels he fled through. Characters who search the area and succeed on a DC 14 Wisdom ({@skill Survival}) check see that numerous aurumvorax claw marks lead from the southwest tunnel. If the characters head down that tunnel, they reach area G2 after 5 minutes of walking. If they follow any other tunnel, they reach a dead end after 10 minutes and have a {@chance 50} chance of encountering two {@creature Aurumvorax|JttRC|aurumvoraxes} gnawing on a seam of gold ore. These aurumvoraxes fight to the death and vanish when reduced to 0 hit points."
 											]
 										}
 									]
@@ -14675,7 +14675,7 @@
 											"page": 111,
 											"id": "269",
 											"entries": [
-												"When the tower collapses, each creature in or atop Twin Gods Observatory must make a DC 16 Dexterity saving throw. On a success, a creature falls from its current height and takes {@dice 1d6} bludgeoning damage for every 10 feet it fell, but lands free of the collapsing structure. On a failed saving throw, the creature takes the falling damage and an additional 17 ({@dice 5d6}) bludgeoning damage, and the creature is buried under rubble. A creature buried in this way is {@condition blinded}, {@condition restrained}, and has {@quickref cover|PHB|3|0|total cover}. It can try to dig itself free as an action, ending the {@condition blinded} and {@condition restrained} conditions on itself and crawling to the surface with a successful DC 16 Strength ({@skill Athletics}) check. A creature that fails this check three times can't attempt to dig itself out again.",
+												"When the tower collapses, each creature in or atop Twin Gods Observatory must make a DC 16 Dexterity saving throw. On a success, a creature falls from its current height and takes {@dice 1d6} bludgeoning damage for every 10 feet it fell, but lands free of the collapsing structure. On a failed saving throw, the creature takes the falling damage and an additional 17 ({@dice 5d6}) bludgeoning damage, and the creature is buried under rubble. A creature buried in this way is {@condition blinded}, {@condition restrained}, and has {@quickref cover||3||total cover}. It can try to dig itself free as an action, ending the {@condition blinded} and {@condition restrained} conditions on itself and crawling to the surface with a successful DC 16 Strength ({@skill Athletics}) check. A creature that fails this check three times can't attempt to dig itself out again.",
 												"A creature that is neither {@condition restrained} nor {@condition incapacitated} can spend 1 minute freeing another creature buried in the rubble. Once free, that creature is no longer {@condition blinded} or {@condition restrained} by the collapsed structure."
 											]
 										}

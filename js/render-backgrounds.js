@@ -1,21 +1,87 @@
-"use strict";
+import {SITE_STYLE__CLASSIC} from "./consts.js";
+import {VetoolsConfig} from "./utils-config/utils-config-config.js";
+import {RenderPageImplBase} from "./render-page-base.js";
 
-class RenderBackgrounds {
-	static $getRenderedBackground (bg) {
-		const prerequisite = Renderer.utils.prerequisite.getHtml(bg.prerequisite);
-		const renderStack = [];
-		const entryList = {type: "entries", entries: bg.entries};
-		Renderer.get().setFirstSection(true).recursiveRender(entryList, renderStack);
+/** @abstract */
+class _RenderBackgroundsImplBase extends RenderPageImplBase {
+	_style;
+	_page = UrlUtil.PG_BACKGROUNDS;
+	_dataProp = "background";
 
-		return $$`
-		${Renderer.utils.getBorderTr()}
-		${Renderer.utils.getExcludedTr({entity: bg, dataProp: "background"})}
-		${Renderer.utils.getNameTr(bg, {page: UrlUtil.PG_BACKGROUNDS})}
-		${prerequisite ? `<tr><td colspan="6"><span class="prerequisite">${prerequisite}</span></td></tr>` : ""}
-		<tr><td class="divider" colspan="6"><div></div></td></tr>
-		<tr class="text"><td colspan="6">${renderStack.join("")}</td></tr>
-		${Renderer.utils.getPageTr(bg)}
-		${Renderer.utils.getBorderTr()}
+	/* -------------------------------------------- */
+
+	_getCommonHtmlParts (
+		{
+			ent,
+			renderer,
+			opts,
+		},
+	) {
+		return {
+			...super._getCommonHtmlParts({ent, renderer, opts}),
+
+			htmlPtEntries: this._getCommonHtmlParts_entries({ent, renderer}),
+		};
+	}
+
+	/* ----- */
+
+	_getCommonHtmlParts_entries ({ent, renderer}) {
+		const stack = [];
+
+		renderer.recursiveRender({type: "entries", entries: ent.entries}, stack);
+
+		return stack.join("");
+	}
+}
+
+class _RenderBackgroundsImplClassic extends _RenderBackgroundsImplBase {
+	_style = SITE_STYLE__CLASSIC;
+
+	_getRendered ({ent, opts, renderer}) {
+		const {
+			htmlPtIsExcluded,
+			htmlPtName,
+
+			htmlPtPrerequisites,
+
+			htmlPtEntries,
+
+			htmlPtPage,
+		} = this._getCommonHtmlParts({
+			ent,
+			renderer,
+			opts,
+		});
+
+		return `
+			${Renderer.utils.getBorderTr()}
+
+			${htmlPtIsExcluded}
+			${htmlPtName}
+			
+			${htmlPtPrerequisites}
+		
+			<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider"></div></td></tr>
+			
+			<tr><td colspan="6">
+				${htmlPtEntries}
+			</td></tr>
+			
+			${htmlPtPage}
+			${Renderer.utils.getBorderTr()}
 		`;
+	}
+}
+
+export class RenderBackgrounds {
+	static _RENDER_CLASSIC = new _RenderBackgroundsImplClassic();
+
+	static $getRenderedBackground (ent) {
+		const styleHint = VetoolsConfig.get("styleSwitcher", "style");
+		switch (styleHint) {
+			case SITE_STYLE__CLASSIC: return this._RENDER_CLASSIC.$getRendered(ent);
+			default: throw new Error(`Unhandled style "${styleHint}"!`);
+		}
 	}
 }

@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
 
 	<title>Renderer Demo - 5etools</title>
 
@@ -59,7 +59,7 @@
 
 <body>
 
-<div class="overlay-noise"></div>
+<div class="overlay-noise no-print"></div>
 
 <div class="cancer__wrp-sidebar-rhs cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__sidebar-rhs-inner cancer__sidebar-rhs-inner--top"><!--5ETOOLS_AD_RIGHT_1--></div><div class="cancer__sidebar-rhs-inner cancer__sidebar-rhs-inner--bottom"><!--5ETOOLS_AD_RIGHT_2--></div></div>
 
@@ -86,8 +86,8 @@
 					<option value="md">Markdown</option>
 					<option value="cards">RPG Cards</option>
 				</select>
-				<button class="btn btn-default btn-sm mr-2" id="demoRender">Render</button>
-				<button class="btn btn-default btn-sm" id="demoReset">Reset</button>
+				<button class="ve-btn ve-btn-default ve-btn-sm mr-2" id="demoRender">Render</button>
+				<button class="ve-btn ve-btn-default ve-btn-sm" id="demoReset">Reset</button>
 				<span id="message"></span>
 			</div>
 		</div>
@@ -109,7 +109,7 @@
 <script type="text/javascript" defer src="js/utils.js"></script>
 <script type="text/javascript" defer src="js/utils-ui.js"></script>
 <script type="text/javascript" defer src="lib/localforage.js"></script>
-<script type="text/javascript" defer src="js/omnidexer.js"></script>
+<script type="module" defer src="js/omnidexer.js"></script>
 <script type="module" src="js/omnisearch.js"></script>
 <script type="module" src="js/filter.js"></script>
 <script type="text/javascript" defer src="js/utils-dataloader.js"></script>

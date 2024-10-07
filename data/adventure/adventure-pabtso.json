@@ -3792,7 +3792,7 @@
 											"page": 20,
 											"id": "03c",
 											"entries": [
-												"The goblins in area H2 are supposed to be watching this area, but they aren't paying attention. However, if the characters make a lot of noise here\u2014for example, loudly arguing about what to do next, setting up camp, cutting down brush, and so on\u2014the {@creature Goblin||goblins} in area H2 notice and attack them through the thicket, which provides {@book three-quarters cover|PHB|9|Cover}."
+												"The goblins in area H2 are supposed to be watching this area, but they aren't paying attention. However, if the characters make a lot of noise here\u2014for example, loudly arguing about what to do next, setting up camp, cutting down brush, and so on\u2014the {@creature Goblin||goblins} in area H2 notice and attack them through the thicket, which provides {@quickref cover||3||three-quarters cover}."
 											]
 										}
 									]
@@ -3819,7 +3819,7 @@
 											"page": 20,
 											"id": "03f",
 											"entries": [
-												"The thickets around the clearing are {@book difficult terrain|PHB|8|Difficult Terrain}, but they aren't dangerous\u2014just annoying. They provide {@book three-quarters cover|PHB|9|Cover} to creatures attacking through them."
+												"The thickets around the clearing are {@book difficult terrain|PHB|8|Difficult Terrain}, but they aren't dangerous\u2014just annoying. They provide {@quickref cover||3||three-quarters cover} to creatures attacking through them."
 											]
 										},
 										{
@@ -4140,7 +4140,7 @@
 											"page": 24,
 											"id": "05b",
 											"entries": [
-												"The piles of sacks and crates provide half cover to any creature fighting or hiding behind them. Most are marked with the image of a blue lion\u2014the symbol of the Lionshield Coster, a merchant company with a warehouse and trading post in Phandalin. Linene Graywind at the Lionshield Coster in Phandalin seeks these sacks and crates in the next chapter.",
+												"The piles of sacks and crates provide {@quickref Cover||3||half cover} to any creature fighting or hiding behind them. Most are marked with the image of a blue lion\u2014the symbol of the Lionshield Coster, a merchant company with a warehouse and trading post in Phandalin. Linene Graywind at the Lionshield Coster in Phandalin seeks these sacks and crates in the next chapter.",
 												"Hidden among the supplies is an unlocked treasure chest belonging to Klarg (see \"Treasure\" below). Any character who searches the supplies finds the chest."
 											]
 										},
@@ -7122,7 +7122,7 @@
 									"entries": [
 										"A building in Thundertree is either ruined or intact, as shown on {@adventure map 3.2|PaBTSO|3|Map 3.2: Ruins of Thundertree}.",
 										"Ruined buildings are empty shells with stone walls 5 to 8 feet high. Their roofs are gone, leaving piles of debris inside the walls. The debris is {@book difficult terrain|PHB|8|Difficult Terrain}.",
-										"Intact buildings are rundown, ramshackle stone cottages that are otherwise still standing. Their wooden doors are stuck and require a successful DC 10 Strength check to force open. The windows of any intact building are 2 feet wide and covered by wooden shutters containing 6-inch-wide arrow slits. Creatures on one side of an arrow slit gain {@book three-quarters cover|PHB|9|Cover} against attacks from the other side. Dusty furnishings, such as simple wooden chairs and tables, remain in most intact buildings."
+										"Intact buildings are rundown, ramshackle stone cottages that are otherwise still standing. Their wooden doors are stuck and require a successful DC 10 Strength check to force open. The windows of any intact building are 2 feet wide and covered by wooden shutters containing 6-inch-wide arrow slits. Creatures on one side of an arrow slit gain {@quickref cover||3||three-quarters cover} against attacks from the other side. Dusty furnishings, such as simple wooden chairs and tables, remain in most intact buildings."
 									]
 								},
 								{
@@ -8159,7 +8159,7 @@
 									"id": "118",
 									"entries": [
 										"The castle's thickest walls are 5 feet thick, with 3 feet of mortared fill sandwiched between 1-foot-thick courses of hard stone blocks. Interior walls are 1-foot-thick worked stone.",
-										"Arrow slits in the castle walls are positioned 10 feet above the ground and 4 feet above the interior floors. A creature on one side of an arrow slit gains {@book three-quarters cover|PHB|9|Cover} against attacks from the other side."
+										"Arrow slits in the castle walls are positioned 10 feet above the ground and 4 feet above the interior floors. A creature on one side of an arrow slit gains {@quickref cover||3||three-quarters cover} against attacks from the other side."
 									]
 								}
 							]
@@ -18002,7 +18002,7 @@
 											"page": 90,
 											"id": "1d7",
 											"entries": [
-												"Two {@creature Goblin Psi Commander|PaBTSO|goblin psi commanders} are positioned at the entrance's arrow slits. The arrow slits are 10 feet above the ground and can be reached from inside Zorzula's Rest via the spiral staircases in area Z2. The parapet shown on map 5.5 in area Z2 connects the two arrow slits, which grant all of the creatures on the ledge three-quarters cover against attacks made from outside the outpost.",
+												"Two {@creature Goblin Psi Commander|PaBTSO|goblin psi commanders} are positioned at the entrance's arrow slits. The arrow slits are 10 feet above the ground and can be reached from inside Zorzula's Rest via the spiral staircases in area Z2. The parapet shown on map 5.5 in area Z2 connects the two arrow slits, which grant all of the creatures on the ledge {@quickref Cover||3||three-quarters cover} against attacks made from outside the outpost.",
 												"The goblins are cautious of outsiders but gullible, and they resent Ruxithid for putting them on guard duty. A character can convince the goblins to open the door with either a successful DC 15 Charisma ({@skill Deception} or {@skill Persuasion}) check or a bribe worth at least 25 gp. If the characters threaten violence, the goblins attack. Three rounds later, reinforcements from {@area area Z3|1da|x} arrive."
 											]
 										}
@@ -28839,7 +28839,7 @@
 												"Narrow slits line the west side of this twisting hall."
 											]
 										},
-										"The arrow slits provide three-quarters cover to creatures in {@area area G24|30d|x}.",
+										"The arrow slits provide {@quickref Cover||3||three-quarters cover} to creatures in {@area area G24|30d|x}.",
 										"{@creature Qunbraxel|PaBTSO} and the grimlock minions have occupied the adjacent guard room for the past few weeks. The grimlocks are likely to hear or smell intruders in the hall through the arrow slits. The grimlocks don't have ranged weapons, but {@creature Qunbraxel|PaBTSO} might attack through the narrow openings.",
 										{
 											"type": "entries",

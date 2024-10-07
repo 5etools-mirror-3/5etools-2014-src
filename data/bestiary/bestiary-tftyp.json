@@ -1816,7 +1816,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"{@atk mw} {@hit 5} to hit, reach 5 ft., one Medium or smaller creature the toad is grappling. {@h}10 ({@damage 2d6 + 3}) piercing damage, the target is swallowed, and the grapple ends. The swallowed target is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the toad, and it takes 10 ({@damage 3d6}) acid damage and 11 ({@damage 2d10}) cold damage at the start of each of the toad's turns. The toad can have only one target swallowed at a time.",
+						"{@atk mw} {@hit 5} to hit, reach 5 ft., one Medium or smaller creature the toad is grappling. {@h}10 ({@damage 2d6 + 3}) piercing damage, the target is swallowed, and the grapple ends. The swallowed target is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the toad, and it takes 10 ({@damage 3d6}) acid damage and 11 ({@damage 2d10}) cold damage at the start of each of the toad's turns. The toad can have only one target swallowed at a time.",
 						"If the toad dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 5 feet of movement, exiting {@condition prone}."
 					]
 				}
@@ -2121,7 +2121,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"{@atk mw} {@hit 7} to hit, reach 5 ft., one Medium or smaller creature the lizard is grappling. {@h}16 ({@damage 2d10 + 5}) piercing damage. The target is swallowed, and the grapple ends. The swallowed target is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the lizard, and it takes 10 ({@damage 3d6}) acid damage at the start of each of the lizard's turns. The lizard can have only one target swallowed at a time.",
+						"{@atk mw} {@hit 7} to hit, reach 5 ft., one Medium or smaller creature the lizard is grappling. {@h}16 ({@damage 2d10 + 5}) piercing damage. The target is swallowed, and the grapple ends. The swallowed target is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the lizard, and it takes 10 ({@damage 3d6}) acid damage at the start of each of the lizard's turns. The lizard can have only one target swallowed at a time.",
 						"If the lizard dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 10 feet of movement, exiting {@condition prone}."
 					]
 				}

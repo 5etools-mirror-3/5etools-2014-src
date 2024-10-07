@@ -3012,7 +3012,7 @@
 							"id": "05d",
 							"entries": [
 								"Nightstone's windmill stands atop a 10-foot-high grassy hill. Two sets of {@creature goblin} tracks are clearly visible in the muddy path that leads up the hill to an open doorway in the northwest side of the windmill.",
-								"The windmill's interior is dark, gloomy, and filled with wooden gears and cogs that help turn the millstone. Two {@creature Goblin||goblins} named Longo and Yek are climbing among the rafters near the roof, roughly 25 feet above the floor. They heckle intruders and shoot arrows at them while enjoying half cover against ranged attacks made from below.",
+								"The windmill's interior is dark, gloomy, and filled with wooden gears and cogs that help turn the millstone. Two {@creature Goblin||goblins} named Longo and Yek are climbing among the rafters near the roof, roughly 25 feet above the floor. They heckle intruders and shoot arrows at them while enjoying {@quickref Cover||3||half cover} against ranged attacks made from below.",
 								{
 									"type": "entries",
 									"id": "05e",
@@ -6906,7 +6906,7 @@
 									"entries": [
 										"Stalactites and stalagmites crowd this 20-foot-high, 15-foot-wide cave. Rising up from the middle of the floor is a particularly large (10-foot-tall) stalagmite riddled with 4-inch-wide, 12-inch-deep naturally formed holes that bore down into a hollow central cavity. Lying near the base of the stalagmite are the badly corroded remains of two goblin scimitars.",
 										"A {@creature black pudding} has taken residence inside the stalagmite's hollow core, and the holes in the stalagmite's \"shell\" are wide enough that a character can stick an arm, a staff, or a weapon into any one of them. The pudding makes a free pseudopod attack against anything that is inserted into one of the stalagmite's holes.",
-										"The pudding has total cover while inside the stalagmite's core. If left undisturbed, the pudding remains inside the stalagmite until the characters make their way toward area 3b, whereupon it quietly emerges and follows them. Once the characters are trapped in area 3b, the pudding attacks.",
+										"The pudding has {@quickref Cover||3||total cover} while inside the stalagmite's core. If left undisturbed, the pudding remains inside the stalagmite until the characters make their way toward area 3b, whereupon it quietly emerges and follows them. Once the characters are trapped in area 3b, the pudding attacks.",
 										{
 											"type": "entries",
 											"name": "East Tunnel",
@@ -26997,7 +26997,7 @@
 										"She speaks Common, Giant, and Goblin, though her vocabulary is limited to monosyllabic words."
 									]
 								},
-								"An unarmed {@creature goblin}, Snert, is stuck in the folds of Guh's flesh. While stuck, the goblin is {@condition restrained} and unable to speak, and it has total cover. When Guh drops to 0 hit points, Snerk is no longer {@condition restrained} and tumbles into an unoccupied space next to her, gasping for air. He isn't one of the six goblins guarding the room.",
+								"An unarmed {@creature goblin}, Snert, is stuck in the folds of Guh's flesh. While stuck, the goblin is {@condition restrained} and unable to speak, and it has {@quickref Cover||3||total cover}. When Guh drops to 0 hit points, Snerk is no longer {@condition restrained} and tumbles into an unoccupied space next to her, gasping for air. He isn't one of the six goblins guarding the room.",
 								"If the characters get this far without raising the alarm and present themselves to Guh, she initially doesn't know what to make of them. Are they servants sent by one of her allies? Are they food? Unless the characters convince Guh that they are more valuable alive than dead, she assumes the latter and orders her mates and minions to beat them to death so that she can feast on their flesh and gnaw on their bones.",
 								"If the characters tell Guh a story that explains why they need her {@item conch of teleportation|SKT}, she wiggles uncomfortably but refuses to give up the item, instead ordering her servants to attack. If her underlings are defeated, she trades the conch for her life.",
 								"The male hill giants are slumped against the tables and walls, tired from having scoured the countryside for food to bring to Guh. The ogres stand ready to serve meals to Guh as they are brought before her. While the ogres and the giants engage in melee combat, the goblins spread out atop the wooden ledge and pepper intruders with arrows. Meanwhile, the wolves in area 3 begin barking and howling, which puts the rest of the den on alert. If the characters flee, Guh orders her hill giant mates to stay and protect her while any surviving ogres chase after the fleeing characters.",
@@ -31800,7 +31800,7 @@
 							"entries": [
 								"Here lies the tomb of the Skodkong (\"Fog King\"), the first of Deadstone Cleft's thanes. Unlike most stone giants, the Skodkong had pale gray skin\u2014hence its moniker. The chamber is open to the sky and has 100-foot-high walls. Pools of rainwater have formed on the floor to each side of a giant slab of pale gray stone. Three dead, fossilized stone giants in alcoves loom above the Skodkong, posing no threat to intruders.",
 								"The stone slab is actually the Skodkong's reshaped body, which has giant hand-shaped indentations all over it. Any creature that presses its hands to the stone leaves shallow indentations in its surface, as though the slab was made of soft clay. Nothing else can reshape or penetrate the stone.",
-								"The first character who attempts to reach into the slab is irresistibly pulled into it, after which the stone instantly hardens. While trapped in the stone, the character is restrained, can't hear or see anything, and has total cover. The character hears a deep, rumbling voice say, \"Ask!\" in Common. The character can now ask the Skodkong three questions, and it provides truthful, all-knowing answers that only the character can hear. (You can take the character's player aside if you wish, because the other characters can't overhear what's being said.) Once it has answered three questions, the Skodkong releases the character, who is pushed out of the slab. The Skodkong can't be contacted more than once during this adventure. If the character drawn into the slab asks no questions, the Skodkong expels the character after 1 minute. Once that character is expelled, another character can attempt to contact the Skodkong as described above. Only one character at a time can be pulled into the slab."
+								"The first character who attempts to reach into the slab is irresistibly pulled into it, after which the stone instantly hardens. While trapped in the stone, the character is restrained, can't hear or see anything, and has {@quickref Cover||3||total cover}. The character hears a deep, rumbling voice say, \"Ask!\" in Common. The character can now ask the Skodkong three questions, and it provides truthful, all-knowing answers that only the character can hear. (You can take the character's player aside if you wish, because the other characters can't overhear what's being said.) Once it has answered three questions, the Skodkong releases the character, who is pushed out of the slab. The Skodkong can't be contacted more than once during this adventure. If the character drawn into the slab asks no questions, the Skodkong expels the character after 1 minute. Once that character is expelled, another character can attempt to contact the Skodkong as described above. Only one character at a time can be pulled into the slab."
 							]
 						},
 						{
@@ -37118,7 +37118,7 @@
 											"page": 171,
 											"id": "3ba",
 											"entries": [
-												"The upper level of Ironslag features iron walkways that are bolted to the walls and stabilized with taut chains bolted to the ceiling. Iron cranes, pulleys, and swingarms are attached to some of the gantries. The gantry floors are iron grills with holes large enough for a human fist to pass through. A gantry grants three-quarters cover against any ranged attack that must pass through it to hit its target."
+												"The upper level of Ironslag features iron walkways that are bolted to the walls and stabilized with taut chains bolted to the ceiling. Iron cranes, pulleys, and swingarms are attached to some of the gantries. The gantry floors are iron grills with holes large enough for a human fist to pass through. A gantry grants {@quickref Cover||3||three-quarters cover} against any ranged attack that must pass through it to hit its target."
 											]
 										},
 										{
@@ -37535,7 +37535,7 @@
 							"page": 176,
 							"id": "3e1",
 							"entries": [
-								"Wide iron gantries extend a short distance into a vast chamber. Two lit braziers illuminate the western gantry, which has iron stairs leading down to the floor of area 28. The steps are iron grills with holes large enough for a human fist to pass through. The steps provide three-quarters cover against any ranged attack that must pass through them to hit its target. The northern and eastern gantries are unlit. The ceiling is 40 feet above the gantries, the floor 50 feet below. The rattling of the bucket chain fills the room. Four cable towers support the bucket chain as it moves through this area.",
+								"Wide iron gantries extend a short distance into a vast chamber. Two lit braziers illuminate the western gantry, which has iron stairs leading down to the floor of area 28. The steps are iron grills with holes large enough for a human fist to pass through. The steps provide {@quickref Cover||3||three-quarters cover} against any ranged attack that must pass through them to hit its target. The northern and eastern gantries are unlit. The ceiling is 40 feet above the gantries, the floor 50 feet below. The rattling of the bucket chain fills the room. Four cable towers support the bucket chain as it moves through this area.",
 								"Hanging in midair, held in place by chains bolted to the floor and ceiling, is the helmed head and upper torso of the Vonindod. Cranes extending out from the western and eastern gantries have two other fragments of the colossus hanging from them: an enormous greatsword and a giant gauntlet-like hand and forearm. These fragments are hanging at the same level as the gantries. They are too heavy for the characters to unhitch, but each crane has a winch that can be released, causing the fragment to fall to the floor with a crash that can be heard throughout Ironslag. If they haven't already been defeated or lured elsewhere, the creatures in areas 12 and 15 investigate the sound, arriving on the northern and eastern gantries in 2 and 3 rounds, respectively. Releasing the catch on a winch requires a {@spell knock} spell. A creature can also use its action to make a DC 15 Strength ({@skill Athletics}) check, releasing the catch on a success. Any creature under the greatsword or the gauntlet when it falls must succeed on a DC 15 Dexterity saving throw or take 55 ({@dice 10d10}) bludgeoning damage and be knocked {@condition prone} and {@condition restrained} under the fragment. A creature in this predicament can use its action to make a DC 20 Strength ({@skill Athletics}) or Dexterity ({@skill Acrobatics}) check, extricating itself on a success.",
 								"Set into the south wall at the top of the stairs, close to another lit brazier, is an iron portcullis. Beyond the portcullis is a dark hallway that leads to area 23.",
 								{
@@ -37694,7 +37694,7 @@
 							"page": 180,
 							"id": "3f0",
 							"entries": [
-								"The floor here is at the same level as the gantry in area 18. A wrought iron spiral staircase descends 50 feet to area 37. The steps are iron grills with holes large enough for a human fist to pass through. The steps provide three-quarters cover against any ranged attack that must pass through them to hit its target."
+								"The floor here is at the same level as the gantry in area 18. A wrought iron spiral staircase descends 50 feet to area 37. The steps are iron grills with holes large enough for a human fist to pass through. The steps provide {@quickref Cover||3||three-quarters cover} against any ranged attack that must pass through them to hit its target."
 							]
 						},
 						{
@@ -38671,7 +38671,7 @@
 												"He wields a battleaxe and a handaxe instead of a longsword and a shortsword. As an action, he can make two battleaxe attacks, plus one handaxe attack if he has his handaxe drawn. The battleaxe deals 7 ({@dice 1d8 + 3}) slashing damage on a hit, or 8 ({@dice 1d10 + 3}) slashing damage if used with two hands. The handaxe deals 6 ({@dice 1d6 + 3}) slashing damage on a hit and can be thrown (range 20/60 ft.)."
 											]
 										},
-										"While locked inside Zalto's maul, Jasper can't attack anything outside of his cell and has three-quarters cover against ranged attacks that pass through the cell door. (He has total cover against all other ranged attacks that originate outside of his cell.) If Jasper is rescued, he asks to remain with the characters until they return to civilization. He tries to befriend characters who are members of the Black Network, hoping to conspire with them to seize all of Ironslag's riches for themselves."
+										"While locked inside Zalto's maul, Jasper can't attack anything outside of his cell and has {@quickref Cover||3||three-quarters cover} against ranged attacks that pass through the cell door. (He has {@quickref Cover||3||total cover} against all other ranged attacks that originate outside of his cell.) If Jasper is rescued, he asks to remain with the characters until they return to civilization. He tries to befriend characters who are members of the Black Network, hoping to conspire with them to seize all of Ironslag's riches for themselves."
 									]
 								}
 							]
@@ -38809,7 +38809,7 @@
 							"page": 186,
 							"id": "414",
 							"entries": [
-								"A wrought iron spiral staircase climbs 50 feet to area 19. The steps are iron grills with holes large enough for a human fist to pass through. The steps provide three-quarters cover against any ranged attack that must pass through them to hit its target."
+								"A wrought iron spiral staircase climbs 50 feet to area 19. The steps are iron grills with holes large enough for a human fist to pass through. The steps provide {@quickref Cover||3||three-quarters cover} against any ranged attack that must pass through them to hit its target."
 							]
 						}
 					]
@@ -48863,7 +48863,7 @@
 									"page": 227,
 									"id": "514",
 									"entries": [
-										"Dotted lines enclose these locations on the map. {@creature Iymrith|SKT} has weakened the ceilings in these places so that she can collapse them, either to cut off escape routes or to trap intruders. A creature can trigger a collapse by dealing 10 damage or more to the ceiling with a single attack or spell effect. The collapse renders the passage impassable until the sand and stone are cleared away, which requires 250 hours of work. (Multiple creatures working together can reduce the amount of time accordingly.) Any creature in the marked section of tunnel when it collapses must make a DC 15 Dexterity saving throw. On a failed save, the creature takes 22 ({@dice 4d10}) bludgeoning damage from falling stone and is buried under stone and sand. While buried, the creature is {@condition prone} and {@condition blinded}. It also can't breathe and has total cover against attacks and other effects that might target it.",
+										"Dotted lines enclose these locations on the map. {@creature Iymrith|SKT} has weakened the ceilings in these places so that she can collapse them, either to cut off escape routes or to trap intruders. A creature can trigger a collapse by dealing 10 damage or more to the ceiling with a single attack or spell effect. The collapse renders the passage impassable until the sand and stone are cleared away, which requires 250 hours of work. (Multiple creatures working together can reduce the amount of time accordingly.) Any creature in the marked section of tunnel when it collapses must make a DC 15 Dexterity saving throw. On a failed save, the creature takes 22 ({@dice 4d10}) bludgeoning damage from falling stone and is buried under stone and sand. While buried, the creature is {@condition prone} and {@condition blinded}. It also can't breathe and has {@quickref Cover||3||total cover} against attacks and other effects that might target it.",
 										"A burrowing creature (such as a blue dragon) can move through the collapsed area at its burrowing speed, leaving no tunnel in its wake as the sand fills in behind it. A buried creature that doesn't have a burrowing speed can, at the start of its turn, make a DC 15 Strength ({@skill Athletics}) check. If the check succeeds, the creature can pull itself in one direction or the other at a rate of 1 foot for every 5 feet of movement spent. If that movement isn't enough to exit the collapsed area, the creature can repeat the check on its next turn. A creature standing at either end of the collapsed area can use its action to pull a buried creature out of the area, provided the buried creature is within reach (no ability check required)."
 									]
 								},

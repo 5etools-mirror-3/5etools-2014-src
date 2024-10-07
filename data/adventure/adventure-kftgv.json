@@ -19359,7 +19359,7 @@
 											"page": 140,
 											"id": "380",
 											"entries": [
-												"Four Onyx Scar {@creature Thug||thugs} stand behind the western arrow slits, ready to shoot their crossbows at intruders who traverse the hallway without an Onyx Scar escort. The arrow slits give the thugs three-quarters cover.",
+												"Four Onyx Scar {@creature Thug||thugs} stand behind the western arrow slits, ready to shoot their crossbows at intruders who traverse the hallway without an Onyx Scar escort. The arrow slits give the thugs {@quickref Cover||3||three-quarters cover}.",
 												"No guards are stationed behind the eastern arrow slits.",
 												{
 													"type": "image",
@@ -19659,7 +19659,7 @@
 											]
 										},
 										"This area is used as a mess hall for workers and low-ranking Onyx Scar members. Four {@creature Thug||thugs} sit at one table, while two {@creature Veteran||veterans} eat snacks at the bar. As soon as they detect intruders, the thugs and veterans draw their weapons and attack.",
-										"Brego, the dwarf bartender (lawful evil {@creature spy}), is a longtime friend of Aminta's and a member of the Onyx Scar. He stands on a small crate to reach the bar's countertop. If a fight erupts, Brego ducks behind the bar and hurls flaming bottles of alcohol at intruders (treat each bottle as a {@item Alchemist's Fire (flask)|PHB|flask of alchemist's fire}) unless he is stopped. The bar gives Brego three-quarters cover."
+										"Brego, the dwarf bartender (lawful evil {@creature spy}), is a longtime friend of Aminta's and a member of the Onyx Scar. He stands on a small crate to reach the bar's countertop. If a fight erupts, Brego ducks behind the bar and hurls flaming bottles of alcohol at intruders (treat each bottle as a {@item Alchemist's Fire (flask)|PHB|flask of alchemist's fire}) unless he is stopped. The bar gives Brego {@quickref Cover||3||three-quarters cover}."
 									]
 								},
 								{

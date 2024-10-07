@@ -1,4 +1,4 @@
-"use strict";
+import {RenderItems} from "./render-items.js";
 
 class ItemsSublistManager extends SublistManager {
 	constructor () {
@@ -26,26 +26,26 @@ class ItemsSublistManager extends SublistManager {
 		return super.pCreateSublist();
 	}
 
-	static get _ROW_TEMPLATE () {
+	static _getRowTemplate () {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-6 pl-0",
+				css: "bold ve-col-6 pl-0 pr-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "Weight",
-				css: "ve-text-center ve-col-2",
+				css: "ve-text-center ve-col-2 px-1",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "Cost",
-				css: "ve-text-center ve-col-2",
+				css: "ve-text-center ve-col-2 px-1",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "Number",
-				css: "ve-text-center ve-col-2 pr-0",
+				css: "ve-text-center ve-col-2 pl-1 pr-0",
 				colStyle: "text-center",
 			}),
 		];
@@ -60,7 +60,7 @@ class ItemsSublistManager extends SublistManager {
 
 		const $dispCount = $(`<span class="ve-text-center ve-col-2 pr-0">${count}</span>`);
 		const $ele = $$`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst--border lst__row-inner">
+			<a href="#${hash}" class="lst__row-border lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText, templates: this.constructor._ROW_TEMPLATE.slice(0, 3)})}
 				${$dispCount}
 			</a>
@@ -254,15 +254,15 @@ class ItemsPage extends ListPage {
 					e_({
 						tag: "a",
 						href: `#${hash}`,
-						clazz: "lst--border lst__row-inner",
+						clazz: "lst__row-border lst__row-inner",
 						children: [
-							e_({tag: "span", clazz: `ve-col-3-5 pl-0 bold`, text: item.name}),
-							e_({tag: "span", clazz: `ve-col-4-5`, text: type}),
-							e_({tag: "span", clazz: `ve-col-1-5 ve-text-center`, text: `${item.value || item.valueMult ? Parser.itemValueToFullMultiCurrency(item, {isShortForm: true}).replace(/ +/g, "\u00A0") : "\u2014"}`}),
-							e_({tag: "span", clazz: `ve-col-1-5 ve-text-center`, text: Parser.itemWeightToFull(item, true) || "\u2014"}),
+							e_({tag: "span", clazz: `ve-col-3-5 pl-0 pr-1 bold`, text: item.name}),
+							e_({tag: "span", clazz: `ve-col-4-5 px-1`, text: type}),
+							e_({tag: "span", clazz: `ve-col-1-5 px-1 ve-text-center`, text: `${item.value || item.valueMult ? Parser.itemValueToFullMultiCurrency(item, {isShortForm: true}).replace(/ +/g, "\u00A0") : "\u2014"}`}),
+							e_({tag: "span", clazz: `ve-col-1-5 px-1 ve-text-center`, text: Parser.itemWeightToFull(item, true) || "\u2014"}),
 							e_({
 								tag: "span",
-								clazz: `ve-col-1 ve-text-center ${Parser.sourceJsonToSourceClassname(item.source)} pr-0`,
+								clazz: `ve-col-1 ve-text-center ${Parser.sourceJsonToSourceClassname(item.source)} pl-1 pr-0`,
 								style: Parser.sourceJsonToStylePart(item.source),
 								title: `${Parser.sourceJsonToFull(item.source)}${Renderer.utils.getSourceSubText(item)}`,
 								text: source,
@@ -299,7 +299,7 @@ class ItemsPage extends ListPage {
 					e_({
 						tag: "a",
 						href: `#${hash}`,
-						clazz: "lst--border lst__row-inner",
+						clazz: "lst__row-border lst__row-inner",
 						children: [
 							e_({tag: "span", clazz: `ve-col-3-5 pl-0 bold`, text: item.name}),
 							e_({tag: "span", clazz: `ve-col-4`, text: type}),
@@ -463,3 +463,5 @@ class ItemsPage extends ListPage {
 const itemsPage = new ItemsPage();
 itemsPage.sublistManager = new ItemsSublistManager();
 window.addEventListener("load", () => itemsPage.pOnLoad());
+
+globalThis.dbg_page = itemsPage;

@@ -5870,7 +5870,7 @@
 										"Short steps lead down into this small cavern, whose air is heavy with the smell of sulfur. Numerous boxes and barrels are filled with blasting powder, black powder, and other dangerously explosive materials."
 									]
 								},
-								"This cavern is extremely dangerous. Any open flame brought into the area (including that of a torch), as well as any fire or lightning-based effect used in the area, has a {@chance 30|30 percent} chance of detonating the materials stored here. This detonation deals {@dice 4d10} bludgeoning damage to each creature within the room and in the armory (area L2). It also partially collapses this cavern and alerts every creature within the lair to the characters' intrusion.",
+								"This cavern is extremely dangerous. Any open flame brought into the area (including that of a torch), as well as any fire or lightning-based effect used in the area, has a {@chance 30} chance of detonating the materials stored here. This detonation deals {@dice 4d10} bludgeoning damage to each creature within the room and in the armory (area L2). It also partially collapses this cavern and alerts every creature within the lair to the characters' intrusion.",
 								"Any character with a passive Wisdom ({@skill Perception}) score of 13 or higher, or who succeeds on a DC 13 Wisdom ({@skill Perception}) check, notices that the materials are stored unsafely and assesses that it's a miracle none of it has exploded yet.",
 								{
 									"type": "entries",
@@ -5928,7 +5928,7 @@
 									"page": 230,
 									"id": "818",
 									"entries": [
-										"Clinging to the underside of the table is a {@item vox seeker|EGW} (see {@book chapter 6|EGW|7|Vox Seeker}). There is a {@chance 25|25 percent} chance that the automaton is wound up when discovered, allowing it to attack for up to 5 minutes."
+										"Clinging to the underside of the table is a {@item vox seeker|EGW} (see {@book chapter 6|EGW|7|Vox Seeker}). There is a {@chance 25} chance that the automaton is wound up when discovered, allowing it to attack for up to 5 minutes."
 									]
 								},
 								{

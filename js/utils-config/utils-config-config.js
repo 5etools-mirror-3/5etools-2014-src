@@ -4,15 +4,20 @@ import {UtilConfigHelpers} from "./util-config-helpers.js";
 export class VetoolsConfig {
 	static _STORAGE_KEY = "config";
 
+	static _STORAGE = StorageUtil;
+
 	static _CONFIG = null;
 
 	static _init () {
 		if (this._CONFIG) return;
 
-		this._CONFIG = StorageUtil.syncGet(this._STORAGE_KEY) || {};
+		this._CONFIG = this._STORAGE.syncGet(this._STORAGE_KEY) || {};
 
 		SETTINGS_GROUPS
 			.forEach(settingsGroup => settingsGroup.mutDefaults(this._CONFIG));
+
+		SETTINGS_GROUPS
+			.forEach(settingsGroup => settingsGroup.mutVerify(this._CONFIG));
 	}
 
 	/* -------------------------------------------- */
@@ -31,7 +36,7 @@ export class VetoolsConfig {
 	/* -------------------------------------------- */
 
 	static _save () {
-		StorageUtil.syncSet(this._STORAGE_KEY, this._CONFIG);
+		this._STORAGE.syncSet(this._STORAGE_KEY, this._CONFIG);
 	}
 
 	static _saveThrottled = MiscUtil.throttle(this._save.bind(this), 50);

@@ -1467,7 +1467,7 @@
 											"page": 23,
 											"id": "06f",
 											"entries": [
-												"The cultists and their kobold lackeys are in the midst of looting Greenest and collecting the spoils for transport back to their camp (see {@adventure chapter 2|HotDQ|2}). Any marauding group that the party encounters has a {@chance 50|50 percent} chance of having stolen treasure in its possession. Roll a {@dice d6} and multiply the result by 10 to determine the total value of the stolen items, in gold pieces (gp)."
+												"The cultists and their kobold lackeys are in the midst of looting Greenest and collecting the spoils for transport back to their camp (see {@adventure chapter 2|HotDQ|2}). Any marauding group that the party encounters has a {@chance 50} chance of having stolen treasure in its possession. Roll a {@dice d6} and multiply the result by 10 to determine the total value of the stolen items, in gold pieces (gp)."
 											]
 										}
 									]
@@ -1867,7 +1867,7 @@
 									]
 								},
 								"The rearguard has a twofold mission. It must stop any small party of intruders coming up the trail, or harass and delay a larger group while sending word to the camp that trouble approaches. The veteran decides that he has enough of an advantage against a party of five or six adventurers to deal with the problem on the spot, provided he doesn't weaken his force by sending a runner to {@creature Frulam Mondath|HotDQ}. If the adventuring group contains seven or more characters, you can either have the veteran harass the enemy and dispatch a runner to the camp, or you can add cultists until they outnumber the characters by two or three, then let the cultists make a stand.",
-								"If characters walk into the trap, the cultists tumble boulders onto them. Each character must succeed on a DC 11 Dexterity saving throw or take {@dice 2d12} bludgeoning damage from falling rocks (half as much damage on a successful save). The boulder attack constitutes the cultists' surprise round. After that, they use ranged attacks until they are out of ammunition or the heroes force them into melee. Because they are positioned in the rocks above the characters, the cultists have three-quarters cover against attacks from below (+5 bonus to AC). To reach the foes, characters must scramble up the rocks. The distance is only 10 to 15 feet and no ability check is required, but the rocks are {@quickref difficult terrain||3}.",
+								"If characters walk into the trap, the cultists tumble boulders onto them. Each character must succeed on a DC 11 Dexterity saving throw or take {@dice 2d12} bludgeoning damage from falling rocks (half as much damage on a successful save). The boulder attack constitutes the cultists' surprise round. After that, they use ranged attacks until they are out of ammunition or the heroes force them into melee. Because they are positioned in the rocks above the characters, the cultists have {@quickref Cover||3||three-quarters cover} against attacks from below (+5 bonus to AC). To reach the foes, characters must scramble up the rocks. The distance is only 10 to 15 feet and no ability check is required, but the rocks are {@quickref difficult terrain||3}.",
 								{
 									"type": "entries",
 									"name": "Developments",
@@ -2145,7 +2145,7 @@
 											"page": 32,
 											"id": "098",
 											"entries": [
-												"The boulders are {@quickref difficult terrain||3} and provide three-quarters cover."
+												"The boulders are {@quickref difficult terrain||3} and provide {@quickref Cover||3||three-quarters cover}."
 											]
 										},
 										{
@@ -2154,7 +2154,7 @@
 											"page": 32,
 											"id": "099",
 											"entries": [
-												"The brush around the site grows to a height of 4 to 6 feet. It is tough and dense, making it {@quickref difficult terrain||3} and providing three-quarters cover to targets sheltering among it."
+												"The brush around the site grows to a height of 4 to 6 feet. It is tough and dense, making it {@quickref difficult terrain||3} and providing {@quickref Cover||3||three-quarters cover} to targets sheltering among it."
 											]
 										},
 										{
@@ -5528,7 +5528,7 @@
 											"page": 61,
 											"id": "129",
 											"entries": [
-												"Giant lizards of the Mere of Dead Men have the Hold Breath trait. There is a {@chance 30|30 percent} chance that these are trained lizards moving ahead of a lizardfolk encounter group. If so, those lizardfolk (see below) appear on the scene at the start of the sixth round of combat."
+												"Giant lizards of the Mere of Dead Men have the Hold Breath trait. There is a {@chance 30} chance that these are trained lizards moving ahead of a lizardfolk encounter group. If so, those lizardfolk (see below) appear on the scene at the start of the sixth round of combat."
 											]
 										},
 										{
@@ -9307,7 +9307,7 @@
 							"entries": [
 								"Pharblex comes to this chamber to contemplate the great mysteries of the universe\u2014or so he tells his followers. This is the only place Pharblex goes alone. His bodyguards wait in area 10 or 11 while Pharblex \"communes with the great powers.\" The chamber contains a mud-covered chair and reading table, a box of candles, and a wooden chest.",
 								"The chest is not locked, but it is trapped. If the chest is moved or if the hasp is not opened properly, six clay pots drop from concealed niches in the ceiling. Roll a {@dice d6} to determine how many pots shatter on the floor. The pots contain fine powder coated with hallucinogenic frog poison. Every creature in the chamber that is neither a frog nor a bullywug must make a Constitution saving throw with a DC equal to 11 + the number of pots that broke. A creature that succeeds on the save is unaffected. A creature that fails the saving throw succumbs to the hallucination that all other creatures in the chamber have been transformed into nightmarish, froglike monstrosities. While affected, the creature cannot take reactions and must roll a die at the start of each of its turns. If the die result is odd, the creature must use its action and all of its available movement to move to {@area area 6|18d|x}, enter the pool, and remain underwater. If the die result is even, the hallucinating creature attacks the nearest creature to it, treating it as hostile. The effect lasts for 10 minutes.",
-								"The trap can be spotted by someone who inspects the chest or the ceiling and succeeds on a DC 12 Wisdom ({@skill Perception}) check. Unbroken clay pots can be saved and used as poison grenades. A pot has a {@chance 50|50 percent} chance to break open any time it's thrown. Bullywugs and frogs of all kinds are immune to the poison's effect.",
+								"The trap can be spotted by someone who inspects the chest or the ceiling and succeeds on a DC 12 Wisdom ({@skill Perception}) check. Unbroken clay pots can be saved and used as poison grenades. A pot has a {@chance 50} chance to break open any time it's thrown. Bullywugs and frogs of all kinds are immune to the poison's effect.",
 								"Pharblex retires to this chamber to study two spellbooks, which he stole from {@area area 2N|16a|x}. {@creature Dralmorrer Borngray|HotDQ} and {@creature Rezmir|HotDQ} would be furious if they learned the books were missing. One belonged to a 7th-level wizard and contains spells up to level 4, and the other was written by a 9th-level wizard and contains spells up to level 5 (you pick the spells). Being wizard spells, the magic is beyond Pharblex's ability to learn or cast; his lust for power is great enough to keep him puzzling over the text and hoping for a breakthrough."
 							]
 						},
@@ -9995,7 +9995,7 @@
 										"Just inside the front door is a chamber with pegs and benches for cloaks and boots. A set of rusty spears rests in one corner, held in the claw of a small drake statue."
 									]
 								},
-								"The guard post to the right of this entryway is unoccupied except when large groups of rival cultists gather. Two small arrow slits make it easy to fire into the entry hall with three-quarters cover."
+								"The guard post to the right of this entryway is unoccupied except when large groups of rival cultists gather. Two small arrow slits make it easy to fire into the entry hall with {@quickref Cover||3||three-quarters cover}."
 							]
 						},
 						{
@@ -10786,7 +10786,7 @@
 										"This large nest on the roof is made of woven sticks, leaves, and feathers intermingled with the sun-bleached bones of sizable animals: deer, bear, or mountain goat, perhaps."
 									]
 								},
-								"The nest abuts a chimney that leads down to Talis's bedchamber ({@area area 18|1dc|x}) and belongs to a mated pair of {@creature Peryton||perytons}. Several times during the day, the perytons leave their nest to hunt for food. There's a {@chance 50|50 percent} chance that the nest is empty during the day; at night, both perytons are roosting here.",
+								"The nest abuts a chimney that leads down to Talis's bedchamber ({@area area 18|1dc|x}) and belongs to a mated pair of {@creature Peryton||perytons}. Several times during the day, the perytons leave their nest to hunt for food. There's a {@chance 50} chance that the nest is empty during the day; at night, both perytons are roosting here.",
 								"The perytons are allies of the cult and have a clear view of the portals in front of the lodge ({@area area 1|1a7|x}). They cannot see the stables or kennels ({@area areas 2|1a9|x} and {@area 3|1b0|x}) from the nest.",
 								{
 									"type": "entries",

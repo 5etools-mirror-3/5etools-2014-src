@@ -151,28 +151,6 @@ class PatchLoadJson {
 		if (PatchLoadJson._CACHED_RAW) DataUtil.loadRawJSON = PatchLoadJson._CACHED_RAW;
 	}
 }
-
-class ArgParser {
-	static parse () {
-		process.argv
-			.slice(2)
-			.forEach(arg => {
-				let [k, v] = arg.split("=").map(it => it.trim()).filter(Boolean);
-				if (v == null) ArgParser.ARGS[k] = true;
-				else {
-					v = v
-						.replace(/^"(.*)"$/, "$1")
-						.replace(/^'(.*)'$/, "$1")
-					;
-
-					if (!isNaN(v)) ArgParser.ARGS[k] = Number(v);
-					else ArgParser.ARGS[k] = v;
-				}
-			});
-	}
-}
-ArgParser.ARGS = {};
-
 class Timer {
 	static _ID = 0;
 	static _RUNNING = {};
@@ -202,7 +180,6 @@ export {
 	readJson,
 	listFiles,
 	FILE_PREFIX_BLOCKLIST,
-	ArgParser,
 	rmDirRecursiveSync,
 	Timer,
 };

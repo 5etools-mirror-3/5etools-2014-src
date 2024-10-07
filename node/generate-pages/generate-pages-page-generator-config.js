@@ -114,24 +114,8 @@ class _PageGeneratorConverter extends PageGeneratorGeneric {
 		"utils-proporder.js",
 	];
 
-	_scripts = [
-		"converterutils.js",
-		"converterutils-entries.js",
-		"converterutils-markdown.js",
-		"converterutils-creature.js",
-		"converterutils-spell.js",
-		"converterutils-item.js",
-		"converterutils-race.js",
-		"converterutils-background.js",
+	_scriptsModules = [
 		"converter.js",
-		"converter-feature.js",
-		"converter-creature.js",
-		"converter-spell.js",
-		"converter-item.js",
-		"converter-table.js",
-		"converter-feat.js",
-		"converter-race.js",
-		"converter-background.js",
 	];
 }
 
@@ -158,7 +142,7 @@ class _PageGeneratorIndex extends PageGeneratorGeneric {
 
 	_navbarTitleHtml = `5e<span>tools</span>`;
 	_navbarDescription = "A suite of tools for 5th Edition Dungeons & Dragons players and Dungeon Masters.";
-	_navbarPageTitleStyleAdditional = "my-0--home";
+	_navbarPageTitleStyleAdditional = "page__title--home";
 
 	_isFontAwesome = true;
 	_stylesheets = [
@@ -281,25 +265,15 @@ class _PageGeneratorMakebrew extends PageGeneratorGeneric {
 
 	_scriptsRenderAdditional = [
 		"render-markdown.js",
-		"render-bestiary.js",
-		"render-spells.js",
 	];
 
 	_scriptsUtilsAdditional = [
 		"utils-proporder.js",
 		"filter-spells.js",
-		"converterutils.js",
-		"converterutils-creature.js",
-	];
-
-	_scripts = [
-		"makebrew.js",
-		"makebrew-creature.js",
-		"makebrew-legendarygroup.js",
 	];
 
 	_scriptsModules = [
-		"makebrew-spell.js",
+		"makebrew.js",
 	];
 }
 

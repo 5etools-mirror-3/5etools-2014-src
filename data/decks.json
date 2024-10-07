@@ -1379,7 +1379,7 @@
 				"height": 959
 			},
 			"entries": [
-				"Usually found in a box or pouch, this deck contains a number of cards made of ivory or vellum. Most ({@chance 75|75 percent}) of these decks have only thirteen cards, but the rest have twenty-two.",
+				"Usually found in a box or pouch, this deck contains a number of cards made of ivory or vellum. Most ({@chance 75}) of these decks have only thirteen cards, but the rest have twenty-two.",
 				"Before you draw a card, you must declare how many cards you intend to draw and then draw them randomly (you can use an altered deck of playing cards to simulate the deck). Any cards drawn in excess of this number have no effect. Otherwise, as soon as you draw a card from the deck, its magic takes effect. You must draw each card no more than 1 hour after the previous draw. If you fail to draw the chosen number, the remaining number of cards fly from the deck on their own and take effect all at once.",
 				"Once a card is drawn, it fades from existence. Unless the card is the {@card Fool|Deck of Many Things} or the {@card Jester|Deck of Many Things}, the card reappears in the deck, making it possible to draw the same card twice.",
 				{
@@ -12538,7 +12538,7 @@
 				"credit": "Tinnel Lovitt"
 			},
 			"entries": [
-				"As an action, you can hold this card aloft and magically disable each trap within 60 feet of you that isn't behind {@book total cover|PHB|9|Cover}. A trap, for the purpose of this property, includes any object or mechanism that would inflict a sudden effect that was intended by its maker to cause harm or inconvenience. If the trap is the effect of a spell, such as {@spell Alarm}, that trap is suppressed for 10 minutes instead of being disabled. Once this property is used, it can't be used again until the next dawn."
+				"As an action, you can hold this card aloft and magically disable each trap within 60 feet of you that isn't behind {@quickref cover||3||total cover}. A trap, for the purpose of this property, includes any object or mechanism that would inflict a sudden effect that was intended by its maker to cause harm or inconvenience. If the trap is the effect of a spell, such as {@spell Alarm}, that trap is suppressed for 10 minutes instead of being disabled. Once this property is used, it can't be used again until the next dawn."
 			]
 		},
 		{

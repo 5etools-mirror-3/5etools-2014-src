@@ -12,7 +12,7 @@ window.addEventListener("load", async () => {
 		BookUtil.$dispBook
 			.empty()
 			.append(Renderer.utils.getBorderTr())
-			.append(`<tr><td colspan="6" class="initial-message">Select a section to begin</td></tr>`)
+			.append(`<tr><td colspan="6" class="initial-message initial-message--med">Select a section to begin</td></tr>`)
 			.append(Renderer.utils.getBorderTr());
 	}
 

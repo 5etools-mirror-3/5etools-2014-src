@@ -798,7 +798,7 @@
 			"name": "Ooze Cube (Gelatinous Cube)",
 			"entries": [
 				"<$title_short_name$> takes up its entire space. Other creatures can enter the space, but a creature that does so is subjected to <$short_name$>'s Engulf and has disadvantage on the saving throw.",
-				"Creatures inside <$short_name$> can be seen but have total cover.",
+				"Creatures inside <$short_name$> can be seen but have {@quickref Cover||3||total cover}.",
 				"A creature within 5 feet of <$short_name$> can take an action to pull a creature or object out of <$short_name$>. Doing so requires a successful DC 12 Strength check, and the creature making the attempt takes 10 ({@dice 3d6}) acid damage.",
 				"<$title_short_name$> can hold only one Large creature or up to four Medium or smaller creatures inside it at a time."
 			]
@@ -1451,7 +1451,7 @@
 		{
 			"name": "Bite (Kraken)",
 			"entries": [
-				"{@atk mw} {@hit <$to_hit__str$>} to hit, reach 5 ft., one target. {@h}<$damage_avg__12+str$> ({@damage 3d8<$damage_mod__str$>}) piercing damage. If the target is a Large or smaller creature {@condition grappled} by <$short_name$>, that creature is swallowed, and the grapple ends. While swallowed, the creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside <$short_name$>, and it takes 42 ({@damage 12d6}) acid damage at the start of each of <$short_name$>'s turns. If <$short_name$> takes 50 damage or more on a single turn from a creature inside it, <$short_name$> must succeed on a DC <$dc__con$> saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of <$short_name$>. If <$short_name$> dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 15 feet of movement, exiting {@condition prone}."
+				"{@atk mw} {@hit <$to_hit__str$>} to hit, reach 5 ft., one target. {@h}<$damage_avg__12+str$> ({@damage 3d8<$damage_mod__str$>}) piercing damage. If the target is a Large or smaller creature {@condition grappled} by <$short_name$>, that creature is swallowed, and the grapple ends. While swallowed, the creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside <$short_name$>, and it takes 42 ({@damage 12d6}) acid damage at the start of each of <$short_name$>'s turns. If <$short_name$> takes 50 damage or more on a single turn from a creature inside it, <$short_name$> must succeed on a DC <$dc__con$> saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of <$short_name$>. If <$short_name$> dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 15 feet of movement, exiting {@condition prone}."
 			]
 		},
 		{
@@ -1888,7 +1888,7 @@
 		{
 			"name": "Swallow (Behir)",
 			"entries": [
-				"<$title_short_name$> makes one bite attack against a Medium or smaller target it is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the target is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside <$short_name$>, and it takes 21 ({@damage 6d6}) acid damage at the start of each of <$short_name$>'s turns. A <$short_name$> can have only one creature swallowed at a time.",
+				"<$title_short_name$> makes one bite attack against a Medium or smaller target it is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the target is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside <$short_name$>, and it takes 21 ({@damage 6d6}) acid damage at the start of each of <$short_name$>'s turns. A <$short_name$> can have only one creature swallowed at a time.",
 				"If <$short_name$> takes 30 damage or more on a single turn from the swallowed creature, <$short_name$> must succeed on a DC <$dc__con$> Constitution saving throw at the end of that turn or regurgitate the creature, which falls {@condition prone} in a space within 10 feet of <$short_name$>. If <$short_name$> dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse by using 15 feet of movement, exiting {@condition prone}."
 			]
 		},

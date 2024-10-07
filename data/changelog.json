@@ -1947,7 +1947,7 @@
 	{
 		"ver": "1.150.1",
 		"date": "2022-02-27",
-		"txt": "- Added missing TftYP player maps\n- (The site is now available as a Docker image <https://github.com/5etools-mirror-1/5etools-mirror-1.github.io/pkgs/container/5etools>, thanks @ drangon)\n- (Fixed typos/added tags)"
+		"txt": "- Added missing TftYP player maps\n- (The site is now available as a Docker image <https://github.com/5etools-mirror-3/5etools-src/pkgs/container/5etools>, thanks @ drangon)\n- (Fixed typos/added tags)"
 	},
 	{
 		"ver": "1.151.0",
@@ -2746,5 +2746,58 @@
 		"ver": "1.209.3",
 		"date": "2024-07-20",
 		"txt": "- Fixed Omnisearch CTRL+ENTER using incorrect query params\n- (Brew) Fixed crash when rendering \"subclass\" `\"statblock\"` entries\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.0",
+		"date": "2024-08-18",
+		"title": "Delete Lawyer",
+		"titleAlt": "Hit Facebook",
+		"txt": "- Added \"Filter Snapshot\" system, accessed via the new \"Manage Defaults\" button in the Filters dialogue. A snapshot can be created from one or more filters; a snapshot may then be used as the default filter state, applied to update all filters, or combined with other snapshots to form a \"Snapshot Deck.\" A deck allows multiple filter snapshots to behave as a single snapshot, and can therefore also be used as the default filter state, or applied to update all filters.\n- Split Omnisearch \"Homebrew\" button into \"Partnered\" and \"Homebrew\" buttons\n- Fixed print handler failing to load images/inline entries, and added notification when background loading is complete\n- Fixed various minor print styling issues\n- (Brew) Improved Spell Text Converter parsing of: durations,\n- (Brew) Improved Item Text Converter parsing of: generic variants, recharges\n- (Brew) Improved Creature Text Converter parsing of: legendary actions\n- (Brew) Improved Race Text Converter parsing of: ability scores, languages, size, speed, creature type\n- (Brew) Fixed \"Get Homebrew\" crash when offline\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.1",
+		"date": "2024-08-25",
+		"txt": "- Added 'Remove \"Default\"' button to filter snapshots\n- Tweaked Bestiary/Vehicles/Objects styling to better match source material\n- (Brew) Page numbers in list-page rendered homebrew entities will now link to their corresponding adventure/book, where available _[this was previously implemented for non-brew entities, but unimplemented for homebrew]_\n- (Brew) Extended time-to-search grace period when searching list pages with 20k+ entities loaded\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.2",
+		"date": "2024-09-15",
+		"txt": "- Added ability display to hovered skills\n- Replaced long-standing Bestiary/Vehicles/Objects page \"token disappears when scrolling\" hack with normal scrolling behaviour\n- Fixed prerelease/homebrew content not appearing as available to choose in the Blocklist\n- Fixed `J`/`K` failing to wrap across Items page lists when one list had no visible items\n- Fixed Rivet button failing to hide when using list page \"Export as Image\" function\n- Fixed Feats page displaying full-length \"Ability\" text in list view\n- Fixed various minor layout bugs\n- (Brew) The List page `... copies @filter tag` CTRL-click function will now dynamically choose between \"extend defaults\" or \"extend from blank\" modes, depending on which produces the shortest result\n- (Brew) Made various parsing improvements to Text Converters\n- (Brew) Added various additional properties to the Prettifier\n- (Brew) Reworked item `\"type\"`/`\"property\"` to include `|<source>` parts (defaulting to the source where the type/property was first defined). _[Note that there is a fallback in place for un-migrated types/properties, so this Shouldn't:tm: break things. Using the new format is recommended.]_\n- (Brew) JSON editors now auto-escape backslashes when pasting, unless CTRL+SHIFT are pressed\n- (Brew) Improved sort ordering in Get Homebrew/similar lists\n- (Brew) Added `@initiative` tag; `@atkr` tag; `@itemProperty` tag\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.3",
+		"date": "2024-09-20",
+		"title": "Smoke 'em while you Got 'em",
+		"txt": "- Added \"Legacy\" toggle to Omnisearch\n- Made various search modals (DM Screen panel \"+\" buttons; DM Screen Encounter Builder \"Add Monster\" button; Creature Homebrew Builder search for spells; etc.) respect current Omnisearch filter toggles\n- Added legacy markers to adventures/books in nav menu; adventures/books list pages\n- Fixed Recipe page scaler \"In the original recipe...\" text showing scaled values\n- Fixed SEO pages failing to load\n- Fixed copying Initiative Tracker links on non-root hosted instance producing broken links (thanks @ Formulaic)\n- (Brew) Improved Bestiary Text Converter handling of various input formats\n- (Brew) Improved Race Text Converter handling of various input formats\n- (Brew) Added various \"action\" tags, for rendering parts of actions: `{@actSave <ability>}`, `{@actSaveFail}`, `{@actSaveSuccess}`, `{@actTrigger}`, `{@actResponse}`.\n- (Brew) Added optional `preserve.prerequisite`/`preserve.consumes` to `refOptionalfeature` entries, allowing additional text to be rendered\n- (Brew) Fixed \"missing types/properties\" crash when attempting to load items page with old homebrew/prerelease content active _[an error notification is now shown instead]_\n- (Brew) Fixed various Item Text Converter regressions\n- (Brew) (Maybe?) fixed Items Page crash when loading with >1000 homebrews active _[:^)]_\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.4",
+		"date": "2024-09-20",
+		"txt": "- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.5",
+		"date": "2024-09-20",
+		"txt": "- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.6",
+		"date": "2024-09-21",
+		"txt": "- Fixed header \"Toggle Visibility\" (`[-]`) buttons failing to collapse inline text in some cases\n- Fixed DM Screen panel \"Add Tab\" button failing to register clicks\n- (Brew) Fixed Blocklist crash when specific homebrews are loaded\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.7",
+		"date": "2024-09-23",
+		"txt": "- Added \"Scaling Targets\" filter to Spells page\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.8",
+		"date": "2024-09-30",
+		"txt": "- Fixed search modals (e.g. DM Screen search) hiding loaded partnered content\n- Fixed rare case where \"Get link to filters\" button could fail to produce a valid link\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.9",
+		"date": "2024-10-04",
+		"txt": "- Added adventure/book links to list page \"Info\"/\"Images\" tab source/page headers (previously only available in the \"Stats\" tab)\n- Added \"Copy Link to Filters (Extensible)\" option to list pages, to explicitly copy \"old style\" filter links\n- (Brew) Improved search text generation performance when using `stats: ...`/`info: ...`/`text: ...` on large lists\n- (Fixed typos/added tags)"
 	}
 ]

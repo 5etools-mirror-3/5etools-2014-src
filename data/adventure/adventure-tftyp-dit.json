@@ -474,7 +474,7 @@
 										],
 										[
 											"2",
-											"Bored, retired adventurer, claims to have explored dungeon of note and can describe first few areas ({@chance 20|20 percent} chance of an accurate description)"
+											"Bored, retired adventurer, claims to have explored dungeon of note and can describe first few areas ({@chance 20} chance of an accurate description)"
 										],
 										[
 											"3",
@@ -482,7 +482,7 @@
 										],
 										[
 											"4",
-											"Con artist, selling fake treasure maps (but a {@chance 10|10 percent} chance that a map is genuine)"
+											"Con artist, selling fake treasure maps (but a {@chance 10} chance that a map is genuine)"
 										],
 										[
 											"5",
@@ -506,7 +506,7 @@
 										],
 										[
 											"10",
-											"Elminster, incognito; {@chance 10|10 percent} chance he is on an errand of cosmic importance; otherwise, he's pressing Durnan for gossip"
+											"Elminster, incognito; {@chance 10} chance he is on an errand of cosmic importance; otherwise, he's pressing Durnan for gossip"
 										]
 									]
 								}
@@ -17639,7 +17639,7 @@
 											"name": "Bridges",
 											"page": 126,
 											"entries": [
-												"A series of unsteady plank bridges runs 10 feet above the floor, lashed to the pillars and to the slabs of rock that block the eastern stairs. Any creature that falls {@condition unconscious} while on a bridge has a {@chance 50|50 percent} chance to fall into the pigpen."
+												"A series of unsteady plank bridges runs 10 feet above the floor, lashed to the pillars and to the slabs of rock that block the eastern stairs. Any creature that falls {@condition unconscious} while on a bridge has a {@chance 50} chance to fall into the pigpen."
 											],
 											"id": "114"
 										},
@@ -22259,7 +22259,7 @@
 											"entries": [
 												"Floating 5 feet above the floor, these magic water globes are 15 feet in diameter. Red Wizards use them to hold aquatic creatures for transport through the black gates.",
 												"As an action, a creature that is within 5 feet of a globe and has an Intelligence score of 10 or higher can take control of the globe by succeeding on a DC 10 Intelligence check. As part of its movement and with a successful DC 10 Intelligence check, the controller can direct the globe to move with it, remaining within 5 feet of the controller. A globe's controller can enter and leave the globe at will. The controller can maintain control of the globe while within 100 feet of it. Another creature that qualifies as a controller can gain control of a globe by winning a contest of Intelligence checks against the current controller.",
-												"A creature that touches a globe but isn't its controller must succeed on a DC 15 Strength saving throw or be drawn into the globe and unable to pass back through its boundary. As an action, a trapped creature can free itself with a successful DC 15 Intelligence check. Also as an action, a globe's controller can release a trapped creature with a successful DC 10 Intelligence check. A creature inside a globe has half cover against effects that originate outside the globe. While inside a globe, a trapped creature can't contest for control of the globe."
+												"A creature that touches a globe but isn't its controller must succeed on a DC 15 Strength saving throw or be drawn into the globe and unable to pass back through its boundary. As an action, a trapped creature can free itself with a successful DC 15 Intelligence check. Also as an action, a globe's controller can release a trapped creature with a successful DC 10 Intelligence check. A creature inside a globe has {@quickref Cover||3||half cover} against effects that originate outside the globe. While inside a globe, a trapped creature can't contest for control of the globe."
 											],
 											"id": "1a0"
 										},
@@ -33078,7 +33078,7 @@
 											"entries": [
 												"Floating 5 feet above the floor, these magic water globes are 15 feet in diameter. Red Wizards use them to hold aquatic creatures for transport through the black gates.",
 												"As an action, a creature that is within 5 feet of a globe and has an Intelligence score of 10 or higher can take control of the globe by succeeding on a DC 10 Intelligence check. As part of its movement and with a successful DC 10 Intelligence check, the controller can direct the globe to move with it, remaining within 5 feet of the controller. A globe's controller can enter and leave the globe at will. The controller can maintain control of the globe while within 100 feet of it. Another creature that qualifies as a controller can gain control of a globe by winning a contest of Intelligence checks against the current controller.",
-												"A creature that touches a globe but isn't its controller must succeed on a DC 15 Strength saving throw or be drawn into the globe and unable to pass back through its boundary. As an action, a trapped creature can free itself with a successful DC 15 Intelligence check. Also as an action, a globe's controller can release a trapped creature with a successful DC 10 Intelligence check. A creature inside a globe has half cover against effects that originate outside the globe. While inside a globe, a trapped creature can't contest for control of the globe."
+												"A creature that touches a globe but isn't its controller must succeed on a DC 15 Strength saving throw or be drawn into the globe and unable to pass back through its boundary. As an action, a trapped creature can free itself with a successful DC 15 Intelligence check. Also as an action, a globe's controller can release a trapped creature with a successful DC 10 Intelligence check. A creature inside a globe has {@quickref Cover||3||half cover} against effects that originate outside the globe. While inside a globe, a trapped creature can't contest for control of the globe."
 											],
 											"id": "287"
 										}

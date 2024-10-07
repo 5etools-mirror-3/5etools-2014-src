@@ -47,12 +47,6 @@ textarea.form-control {
 	border-color: #555;
 }
 
-/* Loading overlay */
-.initial-message {
-	font-size: 5vmin;
-	color: initial;
-}
-
 /* Control bar */
 .mkbru__cnt-save {
 	min-width: 48px;
@@ -175,10 +169,6 @@ textarea.form-control {
 /* *** */
 
 /* CREATURE STYLES */
-.mon__name--token .stats-source {
-	padding-right: 0;
-}
-
 .mkbru_mon__ac-split {
 	max-width: calc(50% - 0.25rem);
 }

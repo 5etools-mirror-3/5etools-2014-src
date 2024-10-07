@@ -78,7 +78,7 @@ class ListPageMultiSource extends ListPage {
 		if (nextFilterVal !== "yes") return;
 
 		const toLoad = this._loadedSources[src] || this._loadedSources[Object.keys(this._loadedSources).find(k => k.toLowerCase() === src)];
-		if (toLoad.loaded) return;
+		if (!toLoad || toLoad.loaded) return;
 
 		const data = await DataUtil[this._propLoader].pLoadSingleSource(src);
 		this._addData(data);
@@ -158,7 +158,7 @@ class ListPageMultiSource extends ListPage {
 		}
 
 		Object.keys(this._loadedSources)
-			.map(src => new SourceFilterItem({item: src, pFnChange: this._pLoadSource.bind(this)}))
+			.map(src => new SourceFilterItem({item: src}))
 			.forEach(fi => this._pageFilter.sourceFilter.addItem(fi));
 
 		const prerelease = await (this._prereleaseDataSource ? this._prereleaseDataSource() : PrereleaseUtil.pGetBrewProcessed());

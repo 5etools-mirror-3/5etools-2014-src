@@ -8,6 +8,9 @@ describe("Stripping tags", () => {
 		expect(Renderer.stripTags("aa{@b bb}")).toBe("aabb");
 		expect(Renderer.stripTags("{@b bb}")).toBe("bb");
 		expect(Renderer.stripTags("{@h}")).toBe("Hit: ");
+		expect(Renderer.stripTags("{@font a|b}")).toBe("a");
+		expect(Renderer.stripTags("{@dice 1d20}")).toBe("1d20");
+		expect(Renderer.stripTags("{@dice 1d20|Display Text}")).toBe("Display Text");
 	});
 
 	it("Should handle multiple tags", () => {

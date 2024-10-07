@@ -10,6 +10,7 @@ class _ConfigSettingBase {
 	_help;
 
 	_isRowLabel = false;
+	_isReloadRequired = false;
 
 	constructor (
 		{
@@ -18,12 +19,14 @@ class _ConfigSettingBase {
 			help,
 
 			isRowLabel,
+			isReloadRequired = false,
 		} = {},
 	) {
 		this._configId = configId;
 		this._name = name;
 		this._help = help;
 		this._isRowLabel = isRowLabel;
+		this._isReloadRequired = isReloadRequired;
 	}
 
 	setGroupId (groupId) { this._groupId = groupId; }
@@ -41,7 +44,8 @@ class _ConfigSettingBase {
 	}
 
 	_renderLabel (rdState) {
-		return `<div class="w-66 no-shrink mr-2">${this._name}</div>`;
+		const ptReload = this._isReloadRequired ? `<span class="ml-2 text-danger ve-small" title="Requires Refresh">‡</span>` : "";
+		return `<div class="w-66 no-shrink mr-2 ve-flex-v-center">${this._name}${ptReload}</div>`;
 	}
 
 	/**
@@ -56,6 +60,8 @@ class _ConfigSettingBase {
 	mutDefaults (group) {
 		throw new Error("Unimplemented!");
 	}
+
+	mutVerify (group) { /* Implement as required */ }
 }
 
 /** @abstract */
@@ -114,5 +120,10 @@ export class ConfigSettingEnum extends _ConfigSettingStandardBase {
 				fnDisplay: this._fnDisplay,
 			},
 		);
+	}
+
+	mutVerify (group) {
+		if (this._values.includes(group[this._configId])) return;
+		group[this._configId] = this._default;
 	}
 }

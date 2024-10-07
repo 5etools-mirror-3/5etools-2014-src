@@ -3184,7 +3184,7 @@
 											"id": "0a6",
 											"entries": [
 												"Kwalish's presence in the lab is left to your determination, and might depend on how much more adventuring you want the characters to do. See the \"{@area Meeting Kwalish|0aa|x}\" section below for more information.",
-												"If the steam mephits are released, they might try to immediately escape (a {@chance 50|50 percent} chance), but they otherwise attack everyone in the lab.",
+												"If the steam mephits are released, they might try to immediately escape (a {@chance 50} chance), but they otherwise attack everyone in the lab.",
 												"A {@creature Mind Flayer Arcanist} (a variant creature in the {@book Monster Manual|MM}) is trapped within a glass-walled stasis chamber, kept on hand by Kwalish to be consulted for its magical knowledge. A successful DC 14 Intelligence ({@skill Arcana} or {@skill Investigation}) check can activate the stasis controls and awaken the mind flayer.",
 												"The mind flayer has no effective attacks while within the stasis chamber, as no spells or other effects can pass through the cylinder in either direction. However, if the check to activate the controls fails by 5 or more, the cylinder accidentally opens to free the mind flayer. The creature attempts to bargain for its safety with a large number of well-armed characters, but it betrays and attempts to slay them at the first opportunity."
 											]
@@ -3277,7 +3277,7 @@
 												[
 													"7",
 													"One of the eyes in a statue of a devil",
-													"The characters find themselves inside a variant version of the {@item Apparatus of Kwalish} abandoned within the Nine Hells. Characters cannot leave the apparatus, but they can pilot it and explore their surroundings. Every 10 minutes of exploration, there is a {@chance 20|20 percent} chance that one or more randomly determined devils happens upon the apparatus and attacks it."
+													"The characters find themselves inside a variant version of the {@item Apparatus of Kwalish} abandoned within the Nine Hells. Characters cannot leave the apparatus, but they can pilot it and explore their surroundings. Every 10 minutes of exploration, there is a {@chance 20} chance that one or more randomly determined devils happens upon the apparatus and attacks it."
 												],
 												[
 													"8",
@@ -3292,12 +3292,12 @@
 												[
 													"10",
 													"The centerpiece in a complex mechanical clock in a central square",
-													"The characters find themselves inside a variant version of the {@item Apparatus of Kwalish}, wandering the plane of Mechanus. Characters cannot leave the apparatus, but they can pilot it and explore their surroundings. Every 10 minutes of exploration, there is a {@chance 20|20 percent} chance that one or more randomly determined modrons happens upon the apparatus and attacks it."
+													"The characters find themselves inside a variant version of the {@item Apparatus of Kwalish}, wandering the plane of Mechanus. Characters cannot leave the apparatus, but they can pilot it and explore their surroundings. Every 10 minutes of exploration, there is a {@chance 20} chance that one or more randomly determined modrons happens upon the apparatus and attacks it."
 												],
 												[
 													"11",
 													"The eye of a squid set within an extensive aquarium",
-													"The characters find themselves inside a variant version of the {@item Apparatus of Kwalish} at the bottom of a deep ocean. Characters cannot leave the apparatus, but they can pilot it and explore their surroundings. Every 10 minutes of exploration, there is a {@chance 20|20 percent} chance that one or more randomly determined aquatic creatures happens upon the apparatus and attacks it."
+													"The characters find themselves inside a variant version of the {@item Apparatus of Kwalish} at the bottom of a deep ocean. Characters cannot leave the apparatus, but they can pilot it and explore their surroundings. Every 10 minutes of exploration, there is a {@chance 20} chance that one or more randomly determined aquatic creatures happens upon the apparatus and attacks it."
 												],
 												[
 													"12",
@@ -3496,7 +3496,7 @@
 								],
 								[
 									"2",
-									"The path leads into a lonely grove that serves as the grave of a former dryad queen. If appropriate respects are paid, the characters have a {@chance 50|50 percent} chance to receive a supernatural gift (see {@book chapter 7|DMG|7|Supernatural Gifts} of the {@book Dungeon Master's Guide|DMG})\u2014a charm that allows a character to cast the {@spell Galder's Tower|LLK|Galder's tower} spell (see {@adventure appendix E|LLK|7}) once as an action."
+									"The path leads into a lonely grove that serves as the grave of a former dryad queen. If appropriate respects are paid, the characters have a {@chance 50} chance to receive a supernatural gift (see {@book chapter 7|DMG|7|Supernatural Gifts} of the {@book Dungeon Master's Guide|DMG})\u2014a charm that allows a character to cast the {@spell Galder's Tower|LLK|Galder's tower} spell (see {@adventure appendix E|LLK|7}) once as an action."
 								],
 								[
 									"3",

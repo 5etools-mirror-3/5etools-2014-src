@@ -7,7 +7,7 @@ class RenderDeities {
 			${Renderer.utils.getExcludedTr({entity: deity, dataProp: "deity"})}
 			${Renderer.utils.getNameTr(deity, {suffix: deity.title ? `, ${deity.title.toTitleCase()}` : "", page: UrlUtil.PG_DEITIES})}
 			${RenderDeities._getDeityBody(deity)}
-			${deity.reprinted ? `<tr class="text"><td colspan="6"><i class="text-muted">Note: this deity has been reprinted in a newer publication.</i></td></tr>` : ""}
+			${deity.reprinted ? `<tr><td colspan="6"><i class="ve-muted">Note: this deity has been reprinted in a newer publication.</i></td></tr>` : ""}
 			${Renderer.utils.getPageTr(deity)}
 			${deity.previousVersions ? `
 			${Renderer.utils.getDividerTr()}
@@ -40,7 +40,7 @@ class RenderDeities {
 		return `
 			${reprintIndex ? `
 				<tr><td colspan="6">
-				<i class="text-muted">
+				<i class="ve-muted">
 				${reprintIndex === 1 ? `This deity is a reprint.` : ""} The version below was printed in an older publication (${Parser.sourceJsonToFull(deity.source)}${Renderer.utils.isDisplayPage(deity.page) ? `, page ${deity.page}` : ""}).
 				</i>
 				</td></tr>
@@ -49,7 +49,7 @@ class RenderDeities {
 			${entriesMeta.entriesAttributes.map(entry => `<tr><td colspan="6">${Renderer.get().render(entry)}</td></tr>`).join("")}
 
 			${deity.symbolImg ? `<tr><td colspan="6">${renderer.render({entries: [deity.symbolImg]})}<div class="mb-2"></div></td></tr>` : ""}
-			${renderStack.length ? `<tr class="text"><td class="pt-2" colspan="6">${renderStack.join("")}</td></tr>` : ""}
+			${renderStack.length ? `<tr><td class="pt-2" colspan="6">${renderStack.join("")}</td></tr>` : ""}
 			`;
 	}
 }

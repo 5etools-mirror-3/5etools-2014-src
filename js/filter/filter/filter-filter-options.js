@@ -1,5 +1,5 @@
 import {FilterBase} from "./filter-filter-base.js";
-import {FilterBox} from "../filter-box.js";
+import {PILL_STATES} from "../filter-constants.js";
 
 export class OptionsFilter extends FilterBase {
 	/**
@@ -22,6 +22,7 @@ export class OptionsFilter extends FilterBase {
 
 		this._filterBox = null;
 		this.__$wrpMini = null;
+		this._$renderedMiniPills = {};
 	}
 
 	getSaveableState () {
@@ -51,11 +52,6 @@ export class OptionsFilter extends FilterBase {
 		Object.assign(this._state, toAssign);
 	}
 
-	_getStateNotDefault () {
-		return Object.entries(this._state)
-			.filter(([k, v]) => this._defaultState[k] !== v);
-	}
-
 	getSubHashes () {
 		const out = [];
 
@@ -74,9 +70,40 @@ export class OptionsFilter extends FilterBase {
 		return out.length ? out : null;
 	}
 
-	// `meta` is not included, as it is used purely for UI
+	/* -------------------------------------------- */
+
+	_getDefaultItemState (k, {isIgnoreSnapshot = false}) {
+		if (isIgnoreSnapshot) return this._defaultState[k];
+
+		const fromSnapshot = this._snapshotManager?.getResolvedValue(this.header, "state", k);
+		if (fromSnapshot != null) return fromSnapshot;
+
+		return this._defaultState[k];
+	}
+
+	_getStateNotDefault ({nxtState = null, isIgnoreSnapshot = false} = {}) {
+		return this._getStateNotDefault_generic({nxtState, isIgnoreSnapshot});
+	}
+
+	/* -------------------------------------------- */
+
+	addItem () { /* No-op */ }
+
+	/* -------------------------------------------- */
+
+	getSnapshots () { return this._getSnapshots_generic(); }
+
+	/* -------------------------------------------- */
+
+	_mutNextState_fromSnapshots ({nxtState, snapshots = null}) { return this._mutNextState_fromSnapshots_generic({nxtState, snapshots}); }
+	_mutNextState_fromSnapshots_state ({nxtState, snapshot}) { return this._mutNextState_fromSnapshots_state_generic({nxtState, snapshot}); }
+	_mutNextState_fromSnapshots_meta ({nxtState, snapshot}) { return this._mutNextState_fromSnapshots_meta_generic({nxtState, snapshot}); }
+
+	/* -------------------------------------------- */
+
+	// TODO(Future) add `_meta` if required
 	getFilterTagPart () {
-		const areNotDefaultState = this._getStateNotDefault();
+		const areNotDefaultState = this._getStateNotDefault({isIgnoreSnapshot: true});
 		if (!areNotDefaultState.length) return null;
 
 		const pt = areNotDefaultState
@@ -86,16 +113,57 @@ export class OptionsFilter extends FilterBase {
 		return `${this.header.toLowerCase()}=::${pt}::`;
 	}
 
-	getDisplayStatePart ({nxtState = null} = {}) {
+	/* -------------------------------------------- */
+
+	getDisplayStatePart ({nxtState = null, isIgnoreSnapshot = false} = {}) {
+		const pts = this._getDisplayStateParts({nxtState, isIgnoreSnapshot, isPlainText: true});
+		if (!pts.length) return null;
+		return pts.join(", ");
+	}
+
+	getDisplayStatePartsHtml ({nxtState = null, isIgnoreSnapshot = false} = {}) {
+		return this._getDisplayStateParts({nxtState, isIgnoreSnapshot});
+	}
+
+	_getDisplayStateParts ({nxtState = null, isIgnoreSnapshot = false, isPlainText = false}) {
+		const state = nxtState?.[this.header]?.state || this.__state;
+
+		const areNotDefaultState = this._getStateNotDefault({nxtState, isIgnoreSnapshot});
+
+		// If _any_ value is non-default, we need to include _all_ values in the tag
+		if (!areNotDefaultState.length) return [];
+
+		const ptState = Object.entries(state)
+			.map(([k, v]) => {
+				const dispKey = this._displayFn(k);
+				return {v, dispKey};
+			})
+			.filter(Boolean)
+			.sort(SortUtil.ascSortLowerProp.bind(SortUtil, "dispKey"))
+			.map(({v, dispKey}) => {
+				if (isPlainText) return `${v ? "" : "not "}${dispKey}`;
+
+				return `<span class="fltr__disp-state fltr__disp-state--${v ? "yes" : "no"}">${dispKey}</span>`;
+			})
+			.join(", ");
+
+		return [
+			`${this._getDisplayStatePart_getHeader({isPlainText})}${ptState}`,
+		];
+	}
+
+	/* -------------------------------------------- */
+
+	getSnapshotPreviews (snapshots) {
 		/* Implement if required */
-		return null;
+		return [];
 	}
 
 	getNextStateFromSubhashState (state) {
 		const nxtState = this._getNextState_base();
 
 		if (state == null) {
-			this._mutNextState_reset(nxtState);
+			this._mutNextState_reset({nxtState});
 			return nxtState;
 		}
 
@@ -119,7 +187,7 @@ export class OptionsFilter extends FilterBase {
 			});
 		});
 
-		if (!hasState) this._mutNextState_reset(nxtState);
+		if (!hasState) this._mutNextState_reset({nxtState});
 
 		return nxtState;
 	}
@@ -168,17 +236,6 @@ export class OptionsFilter extends FilterBase {
 		}
 	}
 
-	$renderMinis (opts) {
-		if (!opts.$wrpMini) return;
-
-		this._filterBox = opts.filterBox;
-		this.__$wrpMini = opts.$wrpMini;
-
-		const $btnsMini = Object.keys(this._defaultState)
-			.map(k => this._$render_$getMiniPill(k));
-		$btnsMini.forEach($btn => $btn.appendTo(this.__$wrpMini));
-	}
-
 	_$render_$getPill (key) {
 		const displayText = this._displayFn(key);
 
@@ -191,8 +248,8 @@ export class OptionsFilter extends FilterBase {
 				this._state[key] = !this._state[key];
 			});
 		const hook = () => {
-			const val = FilterBox._PILL_STATES[this._state[key] ? 1 : 2];
-			$btnPill.attr("state", val);
+			const val = PILL_STATES[this._state[key] ? 1 : 2];
+			$btnPill.attr("data-state", val);
 		};
 		this._addHook("state", key, hook);
 		hook();
@@ -200,18 +257,35 @@ export class OptionsFilter extends FilterBase {
 		return $btnPill;
 	}
 
-	_$render_$getMiniPill (key) {
+	$renderMinis (opts) {
+		if (!opts.$wrpMini) return;
+
+		this._filterBox = opts.filterBox;
+		this.__$wrpMini = opts.$wrpMini;
+
+		this._doRenderMiniPills();
+	}
+
+	_doRenderMiniPills () {
+		Object.keys(this._defaultState)
+			.forEach(k => {
+				const $btn = this._$renderedMiniPills[k] ||= this._$getMiniPill(k);
+				$btn.appendTo(this.__$wrpMini);
+			});
+	}
+
+	_$getMiniPill (key) {
 		const displayTextFull = this._displayFnMini ? this._displayFn(key) : null;
 		const displayText = this._displayFnMini ? this._displayFnMini(key) : this._displayFn(key);
 
-		const $btnMini = $(`<div class="fltr__mini-pill ${this._filterBox.isMinisHidden(this.header) ? "ve-hidden" : ""}" state="${FilterBox._PILL_STATES[this._defaultState[key] === this._state[key] ? 0 : this._state[key] ? 1 : 2]}">${displayText}</div>`)
+		const $btnMini = $(`<div class="fltr__mini-pill ${this._filterBox.isMinisHidden(this.header) ? "ve-hidden" : ""}" data-state="${PILL_STATES[this._defaultState[key] === this._state[key] ? 0 : this._state[key] ? 1 : 2]}">${displayText}</div>`)
 			.title(`${displayTextFull ? `${displayTextFull} (` : ""}Filter: ${this.header}${displayTextFull ? ")" : ""}`)
 			.click(() => {
 				this._state[key] = this._defaultState[key];
 				this._filterBox.fireChangeEvent();
 			});
 
-		const hook = () => $btnMini.attr("state", FilterBox._PILL_STATES[this._defaultState[key] === this._state[key] ? 0 : this._state[key] ? 1 : 2]);
+		const hook = () => $btnMini.attr("data-state", PILL_STATES[this._defaultState[key] === this._state[key] ? 0 : this._state[key] ? 1 : 2]);
 		this._addHook("state", key, hook);
 
 		const hideHook = () => $btnMini.toggleClass("ve-hidden", this._filterBox.isMinisHidden(this.header));
@@ -221,17 +295,19 @@ export class OptionsFilter extends FilterBase {
 	}
 
 	_$getHeaderControls () {
-		const $btnReset = $(`<button class="btn btn-default btn-xs">Reset</button>`).click(() => this.reset());
+		const $btnReset = $(`<button class="ve-btn ve-btn-default ve-btn-xs">Reset</button>`).click(() => this.reset());
 		const $wrpBtns = $$`<div class="ve-flex-v-center">${$btnReset}</div>`;
 
 		const $wrpSummary = $(`<div class="ve-flex-v-center fltr__summary_item fltr__summary_item--include"></div>`).hideVe();
 
-		const $btnShowHide = $(`<button class="btn btn-default btn-xs ml-2 ${this._meta.isHidden ? "active" : ""}">Hide</button>`)
-			.click(() => this._meta.isHidden = !this._meta.isHidden);
+		const btnShowHide = this._getBtnShowHide();
 		const hkIsHidden = () => {
-			$btnShowHide.toggleClass("active", this._meta.isHidden);
-			$wrpBtns.toggleVe(!this._meta.isHidden);
-			$wrpSummary.toggleVe(this._meta.isHidden);
+			btnShowHide.toggleClass("active", this._uiMeta.isHidden);
+			$wrpBtns.toggleVe(!this._uiMeta.isHidden);
+			$wrpSummary.toggleVe(this._uiMeta.isHidden);
+
+			// Skip updating renders if results would be invisible
+			if (!this._uiMeta.isHidden) return;
 
 			// render summary
 			const cntNonDefault = Object.entries(this._defaultState).filter(([k, v]) => this._state[k] != null && this._state[k] !== v).length;
@@ -240,14 +316,18 @@ export class OptionsFilter extends FilterBase {
 				.title(`${cntNonDefault} non-default option${cntNonDefault === 1 ? "" : "s"} selected`)
 				.text(cntNonDefault);
 		};
-		this._addHook("meta", "isHidden", hkIsHidden);
+		this._addHook("uiMeta", "isHidden", hkIsHidden);
+		this._addHookAll("state", hkIsHidden);
 		hkIsHidden();
 
 		return $$`
 		<div class="ve-flex-v-center">
 			${$wrpBtns}
 			${$wrpSummary}
-			${$btnShowHide}
+			<div class="ve-btn-group ve-flex-v-center ml-2">
+				${btnShowHide}
+				${this._getBtnMenu()}
+			</div>
 		</div>`;
 	}
 
@@ -262,12 +342,14 @@ export class OptionsFilter extends FilterBase {
 		};
 	}
 
-	_mutNextState_reset (nxtState, {isResetAll = false} = {}) {
-		if (isResetAll) this._mutNextState_resetBase(nxtState, {isResetAll});
+	_mutNextState_reset ({nxtState, isResetAll = false}) {
+		if (isResetAll) this._mutNextState_resetBase({nxtState, isResetAll});
 		Object.assign(nxtState[this.header].state, MiscUtil.copy(this._defaultState));
 	}
 
-	update () { /* No-op */ }
+	update () {
+		this._doRenderMiniPills();
+	}
 
 	toDisplay (boxState, entryVal) {
 		const filterState = boxState[this.header];
@@ -282,10 +364,7 @@ export class OptionsFilter extends FilterBase {
 
 	getDefaultMeta () {
 		// Key order is important, as @filter tags depend on it
-		return {
-			...super.getDefaultMeta(),
-			...OptionsFilter._DEFAULT_META,
-		};
+		return {};
 	}
 
 	handleSearch (searchTerm) {
@@ -299,4 +378,3 @@ export class OptionsFilter extends FilterBase {
 		return isVisible;
 	}
 }
-OptionsFilter._DEFAULT_META = {};

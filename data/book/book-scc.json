@@ -1789,11 +1789,11 @@
 											"type": "list",
 											"columns": 3,
 											"items": [
-												"{@table Lorehold Trinkets|SCC}",
-												"{@table Prismari Trinkets|SCC}",
-												"{@table Quandrix Trinkets|SCC}",
-												"{@table Silverquill Trinkets|SCC}",
-												"{@table Witherbloom Trinkets|SCC}"
+												"{@item Lorehold Trinket|SCC}",
+												"{@item Prismari Trinket|SCC}",
+												"{@item Quandrix Trinket|SCC}",
+												"{@item Silverquill Trinket|SCC}",
+												"{@item Witherbloom Trinket|SCC}"
 											]
 										}
 									],

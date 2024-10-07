@@ -45,19 +45,19 @@ class RenderDecks {
 			.map((card, ixCard) => {
 				const ptText = this.getCardTextHtml({card});
 
-				const $btnMarkDrawn = $(`<button class="btn btn-default btn-xs" title="Mark Card as Drawn"><i class="fas fa-fw fa-cards"></i></button>`)
+				const $btnMarkDrawn = $(`<button class="ve-btn ve-btn-default ve-btn-xs" title="Mark Card as Drawn"><i class="fas fa-fw fa-cards"></i></button>`)
 					.click(async evt => {
 						evt.stopPropagation();
 						await cardStateManager.pDrawCard(ent, card);
 					});
 
-				const $btnReplace = $(`<button class="btn btn-default btn-xs" title="Return Card to Deck"><i class="fas fa-arrow-rotate-left"></i></button>`)
+				const $btnReplace = $(`<button class="ve-btn ve-btn-default ve-btn-xs" title="Return Card to Deck"><i class="fas fa-arrow-rotate-left"></i></button>`)
 					.click(async evt => {
 						evt.stopPropagation();
 						await cardStateManager.pReplaceCard(ent, card);
 					});
 
-				const $btnViewer = $(`<button class="btn btn-default btn-xs" title="Open Card Viewer"><span class="glyphicon glyphicon-eye-open"></span></button>`)
+				const $btnViewer = $(`<button class="ve-btn ve-btn-default ve-btn-xs" title="Open Card Viewer"><span class="glyphicon glyphicon-eye-open"></span></button>`)
 					.click(async evt => {
 						evt.stopPropagation();
 						try {
@@ -70,7 +70,7 @@ class RenderDecks {
 
 				const $wrpFace = $$`<div class="no-shrink px-1 decks__wrp-card-face relative">
 					<div class="absolute pt-2 pr-2 decks__wrp-btn-show-card">
-						<div class="btn-group ve-flex-v-center">
+						<div class="ve-btn-group ve-flex-v-center">
 							${$btnMarkDrawn}
 							${$btnReplace}
 							${$btnViewer}
@@ -121,7 +121,7 @@ class RenderDecks {
 		${Renderer.utils.getExcludedTr({entity: ent, dataProp: "deck"})}
 		${Renderer.utils.getNameTr(ent, {page: UrlUtil.PG_DECKS})}
 
-		<tr class="text"><td colspan="6">
+		<tr><td colspan="6">
 			${Renderer.get().setFirstSection(true).render({entries: ent.entries}, 1)}
 			<hr class="hr-3">
 			${$ptCards}
@@ -230,7 +230,7 @@ class RenderDecks {
 		Renderer.dice.bindOnclickListener($wrpInfo[0]);
 
 		const $btnFlip = imgBack
-			? $(`<button class="btn btn-default btn-xs px-3" title="Flip Card"><i class="fas fa-rotate"></i> Flip</button>`)
+			? $(`<button class="ve-btn ve-btn-default ve-btn-xs px-3" title="Flip Card"><i class="fas fa-rotate"></i> Flip</button>`)
 				.click(evt => {
 					evt.stopPropagation();
 					wrpCardFlip.classList.toggle("decks-draw__wrp-card-flip--flipped");

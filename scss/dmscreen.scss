@@ -141,7 +141,7 @@ label {
 	color: vars.$rgb-border-grey;
 }
 
-.btn-panel-add {
+.ve-btn-panel-add {
 	padding: 3px 3px 5px 6px;
 	display: block;
 	border-radius: 5px;
@@ -155,7 +155,7 @@ label {
 	}
 }
 
-.board-content-hovering .btn-panel-add {
+.board-content-hovering .ve-btn-panel-add {
 	display: none !important;
 }
 
@@ -202,6 +202,7 @@ label {
 
 .ve-night-mode {
 	.content-tab-bar {
+		background: vars-night.$rgb-bg--night;
 		border-color: vars-night.$rgb-border-grey--night;
 	}
 }
@@ -407,7 +408,7 @@ label {
 	margin-bottom: 5px;
 }
 
-.panel-content-wrapper-inner .rnd-name {
+.panel-content-wrapper-inner .stats__th-name {
 	font-size: 1.6em;
 }
 
@@ -482,6 +483,12 @@ iframe {
 	box-shadow: none;
 }
 
+.ve-night-mode {
+	.panel-content-textarea {
+		background: vars-night.$rgb-bg--night;
+	}
+}
+
 .rollbox.rollbox-panel {
 	position: relative;
 	z-index: initial;
@@ -505,7 +512,7 @@ iframe {
 	}
 }
 
-.btn-text-insert {
+.ve-btn-text-insert {
 	margin: -1px 1px;
 	display: inline-block;
 	font-size: 12px;
@@ -618,7 +625,7 @@ body.is-fullscreen .sidemenu__hotzone {
 }
 
 .ve-night-mode {
-	.btn-panel-add {
+	.ve-btn-panel-add {
 		border-color: vars-night.$rgb-border-grey--night;
 	}
 
@@ -651,7 +658,7 @@ body.is-fullscreen .sidemenu__hotzone {
 		color: vars.$rgb-border-grey;
 	}
 
-	.btn-panel-add {
+	.ve-btn-panel-add {
 		&:hover,
 		&.faux-hover {
 			background: #404040;

@@ -24,10 +24,6 @@
 	cursor: pointer;
 }
 
-.text-muted a {
-	color: vars.$rgb-link-blue--muted;
-}
-
 .font-ui {
 	font-family: Arial, sans-serif;
 }
@@ -151,14 +147,14 @@ body::-webkit-scrollbar {
 	}
 }
 
-.btn-xxs {
+.ve-btn-xxs {
 	padding: 0 2px;
 	font-size: 12px;
 	line-height: 1.5;
 	border-radius: 3px;
 }
 
-.btn-primary--half {
+.ve-btn-primary--half {
 	background: repeating-linear-gradient(135deg, vars.$rgb-btn-primary-blue, vars.$rgb-btn-primary-blue 16px, vars.$rgb-btn-primary-blue--desaturated 16px, vars.$rgb-btn-primary-blue--desaturated 32px);
 }
 
@@ -287,7 +283,7 @@ body::-webkit-scrollbar {
 	> input.form-control,
 	> label,
 	> button,
-	> a.btn {
+	> a.ve-btn {
 		border-radius: 0;
 		border-right: 0;
 
@@ -308,7 +304,7 @@ body::-webkit-scrollbar {
 		input.form-control,
 		label,
 		button,
-		a.btn {
+		a.ve-btn {
 			&:first-child {
 				border-bottom-left-radius: 0;
 			}
@@ -323,7 +319,7 @@ body::-webkit-scrollbar {
 		input.form-control,
 		label,
 		button,
-		a.btn {
+		a.ve-btn {
 			border-top: 0;
 
 			&:first-child {
@@ -340,7 +336,7 @@ body::-webkit-scrollbar {
 		input.form-control,
 		label,
 		button,
-		a.btn {
+		a.ve-btn {
 			border-top: 0;
 
 			&:first-child {
@@ -358,7 +354,7 @@ body::-webkit-scrollbar {
 	> input.form-control,
 	> label,
 	> button,
-	> a.btn {
+	> a.ve-btn {
 		&:last-child {
 			border-right-color: vars-night.$rgb-border-grey--night;
 		}

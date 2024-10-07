@@ -99,7 +99,7 @@
 							"type": "item",
 							"name": "Blindsight",
 							"entries": [
-								"You have {@sense blindsight} with a range of 30 feet. Within that range, you can effectively see anything that isn't behind total cover, even if you're {@condition blinded} or in darkness. Moreover, you can see an {@condition invisible} creature, unless the creature successfully hides from you."
+								"You have {@sense blindsight} with a range of 30 feet. Within that range, you can effectively see anything that isn't behind {@quickref Cover||3||total cover}, even if you're {@condition blinded} or in darkness. Moreover, you can see an {@condition invisible} creature, unless the creature successfully hides from you."
 							]
 						},
 						{
@@ -177,7 +177,7 @@
 							"type": "item",
 							"name": "Cover",
 							"entries": [
-								"The creature has half cover."
+								"The creature has {@quickref Cover||3||half cover}."
 							]
 						},
 						{

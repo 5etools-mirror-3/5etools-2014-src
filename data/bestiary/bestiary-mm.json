@@ -160,6 +160,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -693,6 +696,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -3078,6 +3084,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -8417,6 +8426,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -8741,6 +8753,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -9190,6 +9205,9 @@
 				},
 				{
 					"source": "DoDk"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -9485,6 +9503,9 @@
 				},
 				{
 					"source": "DoDk"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -9753,6 +9774,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -10279,6 +10303,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -10406,7 +10433,7 @@
 					"name": "Summon Devil (1/Day)",
 					"entries": [
 						"The devil chooses what to summon and attempts a magical summoning.",
-						"A barbed devil has a {@chance 30|30 percent} chance of summoning one barbed devil.",
+						"A barbed devil has a {@chance 30} chance of summoning one barbed devil.",
 						"A summoned devil appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other devils. It remains for 1 minute, until it or its summoner dies, or until its summoner dismisses it as an action."
 					],
 					"_version": {
@@ -10484,6 +10511,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -10904,6 +10934,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -11019,7 +11052,7 @@
 					"name": "Summon Devil (1/Day)",
 					"entries": [
 						"The devil chooses what to summon and attempts a magical summoning.",
-						"A bearded devil has a {@chance 30|30 percent} chance of summoning one bearded devil.",
+						"A bearded devil has a {@chance 30} chance of summoning one bearded devil.",
 						"A summoned devil appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other devils. It remains for 1 minute, until it or its summoner dies, or until its summoner dismisses it as an action."
 					],
 					"_version": {
@@ -11178,7 +11211,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"The behir makes one bite attack against a Medium or smaller target it is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the target is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the behir, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the behir's turns. A behir can have only one creature swallowed at a time.",
+						"The behir makes one bite attack against a Medium or smaller target it is grappling. If the attack hits, the target is also swallowed, and the grapple ends. While swallowed, the target is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the behir, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the behir's turns. A behir can have only one creature swallowed at a time.",
 						"If the behir takes 30 damage or more on a single turn from the swallowed creature, the behir must succeed on a {@dc 14} Constitution saving throw at the end of that turn or regurgitate the creature, which falls {@condition prone} in a space within 10 feet of the behir. If the behir dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse by using 15 feet of movement, exiting {@condition prone}."
 					]
 				}
@@ -11274,6 +11307,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -12262,6 +12298,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -13086,6 +13125,9 @@
 				},
 				{
 					"source": "DoDk"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -13225,7 +13267,7 @@
 					"name": "Summon Devil (1/Day)",
 					"entries": [
 						"The devil chooses what to summon and attempts a magical summoning.",
-						"A bone devil has a {@chance 40|40 percent} chance of summoning {@dice 2d6} {@creature spined devil||spined devils} or one bone devil.",
+						"A bone devil has a {@chance 40} chance of summoning {@dice 2d6} {@creature spined devil||spined devils} or one bone devil.",
 						"A summoned devil appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other devils. It remains for 1 minute, until it or its summoner dies, or until its summoner dismisses it as an action."
 					],
 					"_version": {
@@ -14729,6 +14771,9 @@
 				},
 				{
 					"source": "ToFW"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -15473,6 +15518,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -15598,6 +15646,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -15767,6 +15818,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -16084,6 +16138,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -16421,6 +16478,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -16986,6 +17046,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -17390,6 +17453,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -17995,6 +18061,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -19017,6 +19086,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -20249,6 +20321,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -20685,6 +20760,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -20993,6 +21071,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -21215,6 +21296,9 @@
 				},
 				{
 					"source": "JttRC"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -21379,6 +21463,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -22279,6 +22366,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -22828,6 +22918,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -23208,6 +23301,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -23933,6 +24029,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -24374,6 +24473,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -24611,6 +24713,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -24737,7 +24842,7 @@
 					"name": "Summon Devil (1/Day)",
 					"entries": [
 						"The devil chooses what to summon and attempts a magical summoning.",
-						"An erinyes has a {@chance 50|50 percent} chance of summoning {@dice 3d6} {@creature spined devil||spined devils}, {@dice 1d6} {@creature bearded devil||bearded devils}, or one {@creature erinyes}.",
+						"An erinyes has a {@chance 50} chance of summoning {@dice 3d6} {@creature spined devil||spined devils}, {@dice 1d6} {@creature bearded devil||bearded devils}, or one {@creature erinyes}.",
 						"A summoned devil appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other devils. It remains for 1 minute, until it or its summoner dies, or until its summoner dismisses it as an action."
 					],
 					"_version": {
@@ -26502,6 +26607,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -26655,6 +26763,9 @@
 				},
 				{
 					"source": "DoSI"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -26836,6 +26947,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -27062,6 +27176,9 @@
 				},
 				{
 					"source": "ToFW"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -27617,6 +27734,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -27843,6 +27963,9 @@
 				},
 				{
 					"source": "SatO"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -28478,7 +28601,7 @@
 					"name": "Ooze Cube",
 					"entries": [
 						"The cube takes up its entire space. Other creatures can enter the space, but a creature that does so is subjected to the cube's Engulf and has disadvantage on the saving throw.",
-						"Creatures inside the cube can be seen but have total cover.",
+						"Creatures inside the cube can be seen but have {@quickref Cover||3||total cover}.",
 						"A creature within 5 feet of the cube can take an action to pull a creature or object out of the cube. Doing so requires a successful {@dc 12} Strength check, and the creature making the attempt takes 10 ({@damage 3d6}) acid damage.",
 						"The cube can hold only one Large creature or up to four Medium or smaller creatures inside it at a time."
 					]
@@ -30379,7 +30502,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"The frog makes one bite attack against a Small or smaller target it is grappling. If the attack hits, the target is swallowed, and the grapple ends. The swallowed target is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the frog, and it takes 5 ({@damage 2d4}) acid damage at the start of each of the frog's turns. The frog can have only one target swallowed at a time. If the frog dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 5 feet of movement, exiting {@condition prone}."
+						"The frog makes one bite attack against a Small or smaller target it is grappling. If the attack hits, the target is swallowed, and the grapple ends. The swallowed target is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the frog, and it takes 5 ({@damage 2d4}) acid damage at the start of each of the frog's turns. The frog can have only one target swallowed at a time. If the frog dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 5 feet of movement, exiting {@condition prone}."
 					]
 				}
 			],
@@ -31304,6 +31427,9 @@
 				},
 				{
 					"source": "PSA"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -31686,6 +31812,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -31882,7 +32011,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"The toad makes one bite attack against a Medium or smaller target it is grappling. If the attack hits, the target is swallowed, and the grapple ends. The swallowed target is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the toad, and it takes 10 ({@damage 3d6}) acid damage at the start of each of the toad's turns. The toad can have only one target swallowed at a time.",
+						"The toad makes one bite attack against a Medium or smaller target it is grappling. If the attack hits, the target is swallowed, and the grapple ends. The swallowed target is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the toad, and it takes 10 ({@damage 3d6}) acid damage at the start of each of the toad's turns. The toad can have only one target swallowed at a time.",
 						"If the toad dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 5 feet of movement, exiting {@condition prone}."
 					]
 				}
@@ -31946,6 +32075,9 @@
 				},
 				{
 					"source": "CRCotN"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -32386,6 +32518,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -32515,6 +32650,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -33061,6 +33199,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -33297,6 +33438,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -34697,6 +34841,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -36058,6 +36205,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -36586,6 +36736,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -36877,6 +37030,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -37600,6 +37756,9 @@
 				},
 				{
 					"source": "DoDk"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -37852,6 +38011,9 @@
 				},
 				{
 					"source": "DoDk"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -38174,6 +38336,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -39189,6 +39354,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -39311,6 +39479,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -39428,7 +39599,7 @@
 					"name": "Summon Devil (1/Day)",
 					"entries": [
 						"The devil chooses what to summon and attempts a magical summoning.",
-						"A horned devil has a {@chance 30|30 percent} chance of summoning one horned devil.",
+						"A horned devil has a {@chance 30} chance of summoning one horned devil.",
 						"A summoned devil appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other devils. It remains for 1 minute, until it or its summoner dies, or until its summoner dismisses it as an action."
 					],
 					"_version": {
@@ -39847,6 +40018,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -39997,7 +40171,7 @@
 					"name": "Summon Devil (1/Day)",
 					"entries": [
 						"The devil chooses what to summon and attempts a magical summoning.",
-						"An ice devil has a {@chance 60|60 percent} chance of summoning one ice devil.",
+						"An ice devil has a {@chance 60} chance of summoning one ice devil.",
 						"A summoned devil appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other devils. It remains for 1 minute, until it or its summoner dies, or until its summoner dismisses it as an action."
 					],
 					"_version": {
@@ -40272,6 +40446,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -40466,6 +40643,9 @@
 				},
 				{
 					"source": "GHLoE"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -40634,6 +40814,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -40717,7 +40900,7 @@
 				{
 					"name": "Body Thief",
 					"entries": [
-						"The intellect devourer initiates an Intelligence contest with an {@condition incapacitated} humanoid within 5 feet of it that isn't protected by {@spell protection from evil and good}. If it wins the contest, the intellect devourer magically consumes the target's brain, teleports into the target's skull, and takes control of the target's body. While inside a creature, the intellect devourer has total cover against attacks and other effects originating outside its host. The intellect devourer retains its Intelligence, Wisdom, and Charisma scores, as well as its understanding of Deep Speech, its telepathy, and its traits. It otherwise adopts the target's statistics. It knows everything the creature knew, including spells and languages.",
+						"The intellect devourer initiates an Intelligence contest with an {@condition incapacitated} humanoid within 5 feet of it that isn't protected by {@spell protection from evil and good}. If it wins the contest, the intellect devourer magically consumes the target's brain, teleports into the target's skull, and takes control of the target's body. While inside a creature, the intellect devourer has {@quickref Cover||3||total cover} against attacks and other effects originating outside its host. The intellect devourer retains its Intelligence, Wisdom, and Charisma scores, as well as its understanding of Deep Speech, its telepathy, and its traits. It otherwise adopts the target's statistics. It knows everything the creature knew, including spells and languages.",
 						"If the host body dies, the intellect devourer must leave it. A {@spell protection from evil and good} spell cast on the body drives the intellect devourer out. The intellect devourer is also forced out if the target regains its devoured brain by means of a {@spell wish}. By spending 5 feet of its movement, the intellect devourer can voluntarily leave the body, teleporting to the nearest unoccupied space within 5 feet of it. The body then dies, unless its brain is restored within 1 round."
 					]
 				}
@@ -40982,6 +41165,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -41687,6 +41873,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -41847,6 +42036,9 @@
 				},
 				{
 					"source": "GHLoE"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -41988,6 +42180,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -42090,7 +42285,7 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 17} to hit, reach 5 ft., one target. {@h}23 ({@damage 3d8 + 10}) piercing damage. If the target is a Large or smaller creature {@condition grappled} by the kraken, that creature is swallowed, and the grapple ends. While swallowed, the creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the kraken, and it takes 42 ({@damage 12d6}) acid damage at the start of each of the kraken's turns. If the kraken takes 50 damage or more on a single turn from a creature inside it, the kraken must succeed on a {@dc 25} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of the kraken. If the kraken dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 15 feet of movement, exiting {@condition prone}."
+						"{@atk mw} {@hit 17} to hit, reach 5 ft., one target. {@h}23 ({@damage 3d8 + 10}) piercing damage. If the target is a Large or smaller creature {@condition grappled} by the kraken, that creature is swallowed, and the grapple ends. While swallowed, the creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the kraken, and it takes 42 ({@damage 12d6}) acid damage at the start of each of the kraken's turns. If the kraken takes 50 damage or more on a single turn from a creature inside it, the kraken must succeed on a {@dc 25} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of the kraken. If the kraken dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 15 feet of movement, exiting {@condition prone}."
 					]
 				},
 				{
@@ -42379,6 +42574,9 @@
 				},
 				{
 					"source": "WDMM"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -42587,6 +42785,9 @@
 				},
 				{
 					"source": "GoS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -43076,6 +43277,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -43205,6 +43409,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -44430,6 +44637,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -44933,6 +45143,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -45039,6 +45252,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -45604,6 +45820,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -46760,6 +46979,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -48034,6 +48256,9 @@
 				},
 				{
 					"source": "SatO"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -48774,6 +48999,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -49100,6 +49328,9 @@
 				},
 				{
 					"source": "DoDk"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -49785,6 +50016,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -52196,6 +52430,9 @@
 				},
 				{
 					"source": "ToFW"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -52749,6 +52986,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -53138,6 +53378,9 @@
 				},
 				{
 					"source": "DoDk"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -53528,6 +53771,9 @@
 				},
 				{
 					"source": "IDRotF"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -53939,6 +54185,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -54377,6 +54626,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -54436,7 +54688,7 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 14} to hit, reach 10 ft., one target. {@h}22 ({@damage 3d8 + 9}) piercing damage. If the target is a Large or smaller creature, it must succeed on a {@dc 19} Dexterity saving throw or be swallowed by the worm. A swallowed creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the worm, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the worm's turns.",
+						"{@atk mw} {@hit 14} to hit, reach 10 ft., one target. {@h}22 ({@damage 3d8 + 9}) piercing damage. If the target is a Large or smaller creature, it must succeed on a {@dc 19} Dexterity saving throw or be swallowed by the worm. A swallowed creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the worm, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the worm's turns.",
 						"If the worm takes 30 damage or more on a single turn from a creature inside it, the worm must succeed on a {@dc 21} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of the worm. If the worm dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse by using 20 feet of movement, exiting {@condition prone}."
 					]
 				},
@@ -54509,6 +54761,9 @@
 				},
 				{
 					"source": "ToFW"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -56179,6 +56434,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -56238,7 +56496,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"The remorhaz makes one bite attack against a Medium or smaller creature it is grappling. If the attack hits, that creature takes the bite's damage and is swallowed, and the grapple ends. While swallowed, the creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the remorhaz, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the remorhaz's turns.",
+						"The remorhaz makes one bite attack against a Medium or smaller creature it is grappling. If the attack hits, that creature takes the bite's damage and is swallowed, and the grapple ends. While swallowed, the creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the remorhaz, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the remorhaz's turns.",
 						"If the remorhaz takes 30 damage or more on a single turn from a creature inside it, the remorhaz must succeed on a {@dc 15} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of the remorhaz. If the remorhaz dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 15 feet of movement, exiting {@condition prone}."
 					]
 				}
@@ -57880,6 +58138,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -58495,6 +58756,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -58652,6 +58916,9 @@
 				},
 				{
 					"source": "DoDk"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -59213,6 +59480,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -59576,6 +59846,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -59718,6 +59991,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -61249,6 +61525,9 @@
 				},
 				{
 					"source": "PSI"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -61828,6 +62107,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -62484,6 +62766,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -62864,6 +63149,9 @@
 				},
 				{
 					"source": "GHLoE"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -64424,7 +64712,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"The tarrasque makes one bite attack against a Large or smaller creature it is grappling. If the attack hits, the target takes the bite's damage, the target is swallowed, and the grapple ends. While swallowed, the creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the tarrasque, and it takes 56 ({@damage 16d6}) acid damage at the start of each of the tarrasque's turns.",
+						"The tarrasque makes one bite attack against a Large or smaller creature it is grappling. If the attack hits, the target takes the bite's damage, the target is swallowed, and the grapple ends. While swallowed, the creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the tarrasque, and it takes 56 ({@damage 16d6}) acid damage at the start of each of the tarrasque's turns.",
 						"If the tarrasque takes 60 damage or more on a single turn from a creature inside it, the tarrasque must succeed on a {@dc 20} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of the tarrasque. If the tarrasque dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse by using 30 feet of movement, exiting {@condition prone}."
 					]
 				}
@@ -64810,6 +65098,9 @@
 				},
 				{
 					"source": "DoDk"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -65360,6 +65651,9 @@
 				},
 				{
 					"source": "ToFW"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -65457,6 +65751,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -66581,6 +66878,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -67989,6 +68289,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -71296,6 +71599,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -71881,6 +72187,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -74133,6 +74442,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -74348,6 +74660,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [

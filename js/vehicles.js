@@ -1,16 +1,16 @@
 "use strict";
 
 class VehiclesSublistManager extends SublistManager {
-	static get _ROW_TEMPLATE () {
+	static _getRowTemplate () {
 		return [
 			new SublistCellTemplate({
 				name: "Type",
-				css: "ve-col-8 pl-0 ve-text-center",
+				css: "ve-col-8 pl-0 pr-1 ve-text-center",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-4 pr-0",
+				css: "bold ve-col-4 pl-1 pr-0",
 				colStyle: "",
 			}),
 		];
@@ -21,7 +21,7 @@ class VehiclesSublistManager extends SublistManager {
 		const cellsText = [displayType, it.name];
 
 		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst--border lst__row-inner">
+			<a href="#${hash}" class="lst__row-border lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
 		</div>`)
@@ -63,6 +63,11 @@ class VehiclesPage extends ListPage {
 
 			listSyntax: new ListSyntaxVehicles({fnGetDataList: () => this._dataList, pFnGetFluff}),
 		});
+
+		this._tokenDisplay = new ListPageTokenDisplay({
+			fnHasToken: Renderer.vehicle.hasToken.bind(Renderer.vehicle),
+			fnGetTokenUrl: Renderer.vehicle.getTokenUrl.bind(Renderer.vehicle),
+		});
 	}
 
 	getListItem (it, vhI, isExcluded) {
@@ -75,10 +80,10 @@ class VehiclesPage extends ListPage {
 		const hash = UrlUtil.autoEncodeHash(it);
 		const displayType = it.vehicleType ? Parser.vehicleTypeToFull(it.vehicleType) : it.upgradeType.map(t => Parser.vehicleTypeToFull(t));
 
-		eleLi.innerHTML = `<a href="#${UrlUtil.autoEncodeHash(it)}" class="lst--border lst__row-inner">
-			<span class="ve-col-6 pl-0 ve-text-center">${displayType}</span>
-			<span class="bold ve-col-4">${it.name}</span>
-			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(it.source)} pr-0" title="${Parser.sourceJsonToFull(it.source)}" ${Parser.sourceJsonToStyle(it.source)}>${source}</span>
+		eleLi.innerHTML = `<a href="#${UrlUtil.autoEncodeHash(it)}" class="lst__row-border lst__row-inner">
+			<span class="ve-col-6 pl-0 pr-1 ve-text-center">${displayType}</span>
+			<span class="bold ve-col-4 px-1">${it.name}</span>
+			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(it.source)} pl-1 pr-0" title="${Parser.sourceJsonToFull(it.source)}" ${Parser.sourceJsonToStyle(it.source)}>${source}</span>
 		</a>`;
 
 		const listItem = new ListItem(
@@ -104,14 +109,8 @@ class VehiclesPage extends ListPage {
 	}
 
 	_renderStats_doBuildStatsTab ({ent}) {
-		(this._$dispToken = this._$dispToken || $(`#float-token`)).empty();
-
 		if (ent.vehicleType) {
-			if (Renderer.vehicle.hasToken(ent)) {
-				const imgLink = Renderer.vehicle.getTokenUrl(ent);
-				this._$dispToken.append(`<a href="${imgLink}" target="_blank" rel="noopener noreferrer"><img src="${imgLink}" id="token_image" class="token" alt="Token Image: ${(ent.name || "").qq()}" ${ent.tokenCredit ? `title="Credit: ${ent.tokenCredit.qq()}"` : ""} loading="lazy"></a>`);
-			}
-
+			this._tokenDisplay.render(ent);
 			this._$pgContent.empty().append(RenderVehicles.$getRenderedVehicle(ent));
 		} else {
 			this._$pgContent.empty().append(RenderVehicles.$getRenderedVehicle(ent));
@@ -119,11 +118,11 @@ class VehiclesPage extends ListPage {
 	}
 
 	_renderStats_onTabChangeStats () {
-		this._$dispToken.showVe();
+		this._tokenDisplay.doShow();
 	}
 
 	_renderStats_onTabChangeFluff () {
-		this._$dispToken.hideVe();
+		this._tokenDisplay.doHide();
 	}
 }
 

@@ -17820,6 +17820,48 @@
 															1367
 														]
 													]
+												},
+												{
+													"area": "2ca",
+													"points": [
+														[
+															3074,
+															828
+														],
+														[
+															3074,
+															1037
+														],
+														[
+															3120,
+															1037
+														],
+														[
+															3120,
+															828
+														]
+													]
+												},
+												{
+													"area": "2ca",
+													"points": [
+														[
+															3077,
+															1601
+														],
+														[
+															3077,
+															1805
+														],
+														[
+															3117,
+															1805
+														],
+														[
+															3117,
+															1601
+														]
+													]
 												}
 											],
 											"hrefThumbnail": {
@@ -29814,7 +29856,7 @@
 											]
 										},
 										"The indentations are the rock-cyst burrows of four cave morays\u2014sluglike scavengers that slither between the burrow entrances through tunnels in the rock. The cave morays use the {@creature giant poisonous snake} stat block. They use their reach to bite at prey from the safety of their burrows.",
-										"Cave morays inside their burrows have three-quarters cover. A creature within 5 feet of a burrow can pull a cave moray from its burrow by grappling it. If removed from its burrow, a cave moray frantically tries to escape back to its hole.",
+										"Cave morays inside their burrows have {@quickref Cover||3||three-quarters cover}. A creature within 5 feet of a burrow can pull a cave moray from its burrow by grappling it. If removed from its burrow, a cave moray frantically tries to escape back to its hole.",
 										"Loud sounds here, including the din of battle, draw the attention of the {@creature Fomorian||fomorians} in {@area area L12|413|x}. The cave morays retreat into their burrows when the fomorians arrive."
 									]
 								},

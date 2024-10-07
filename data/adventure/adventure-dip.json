@@ -1171,7 +1171,7 @@
 											"page": 12,
 											"id": "042",
 											"entries": [
-												"When using an arrow slit for protection, a creature gains {@quickref cover|PHB|3|0|three-quarters cover} (see {@book the rulebook|PHB}) against outside threats. A Medium character can't squeeze through an arrow slit, but a Small character can with a successful DC 10 Dexterity ({@skill Acrobatics}) check."
+												"When using an arrow slit for protection, a creature gains {@quickref cover||3||three-quarters cover} (see {@book the rulebook|PHB}) against outside threats. A Medium character can't squeeze through an arrow slit, but a Small character can with a successful DC 10 Dexterity ({@skill Acrobatics}) check."
 											]
 										},
 										{
@@ -5877,7 +5877,7 @@
 									"page": 18,
 									"id": "08e",
 									"entries": [
-										"The gate to this cell is lashed shut with rope. The cell is used to hold animals doomed to be sacrificed in rituals to Talos. There's a {@chance 25|25 percent} chance that a harmless deer is trapped inside. Otherwise, the cell is empty."
+										"The gate to this cell is lashed shut with rope. The cell is used to hold animals doomed to be sacrificed in rituals to Talos. There's a {@chance 25} chance that a harmless deer is trapped inside. Otherwise, the cell is empty."
 									]
 								},
 								{
@@ -8225,7 +8225,7 @@
 									"page": 21,
 									"id": "0b4",
 									"entries": [
-										"This tunnel is only 2 feet wide. At the halfway point, a 5-foot-long pressure plate is hidden under a 2-inch-thick layer of earth. A character prodding ahead with a pole or similar tool can detect the plate with a successful DC 10 Wisdom ({@skill Perception}) check. The first character to step on the plate causes the walls of the tunnel to collapse inward, burying all creatures in the tunnel. A buried creature is {@condition blinded} and {@condition restrained}, has total cover against attacks, and begins to suffocate when it runs out of breath (see \"{@book Suffocation|PHB|8|Suffocating}\" in {@book the rulebook|PHB}). Only a creature that is not trapped in the tunnel can clear away the collapse, using an action to open up the 5-foot-deep section of tunnel closest to it. A creature in that space is no longer buried."
+										"This tunnel is only 2 feet wide. At the halfway point, a 5-foot-long pressure plate is hidden under a 2-inch-thick layer of earth. A character prodding ahead with a pole or similar tool can detect the plate with a successful DC 10 Wisdom ({@skill Perception}) check. The first character to step on the plate causes the walls of the tunnel to collapse inward, burying all creatures in the tunnel. A buried creature is {@condition blinded} and {@condition restrained}, has {@quickref Cover||3||total cover} against attacks, and begins to suffocate when it runs out of breath (see \"{@book Suffocation|PHB|8|Suffocating}\" in {@book the rulebook|PHB}). Only a creature that is not trapped in the tunnel can clear away the collapse, using an action to open up the 5-foot-deep section of tunnel closest to it. A creature in that space is no longer buried."
 									]
 								},
 								{
@@ -13383,7 +13383,7 @@
 									"entries": [
 										"Parked in alcoves in this otherwise empty room are two gnomish contraptions. Each resembles a crab with a barrel for a shell, six articulated metal legs, and a pair of forward-facing pincer claws. A hatch on the top of each barrel opens to reveal an interior compartment equipped with a small, leather-padded seat surrounded by levers, pedals, and gears. The barrels are not airtight.",
 										"The gnomes built these crablike contraptions to grip and move other objects, rather like crude forklifts. However, the contraptions are so clumsy that they are useless for delicate work. They are just small enough to navigate Gnomengarde's 5-foot-wide passageways.",
-										"Each barrel crab is a Large object with AC 15, 30 hit points, a Strength score of 10, and immunity to poison and psychic damage. It is designed to hold a single Small humanoid, though a Medium humanoid can fit inside with some discomfort. While in the barrel with the hatch closed, a creature has total cover against attacks from outside the contraption. It can use its action to make the contraption scuttle across the ground at a walking speed of 15 feet or make one attack with its pincer claws.",
+										"Each barrel crab is a Large object with AC 15, 30 hit points, a Strength score of 10, and immunity to poison and psychic damage. It is designed to hold a single Small humanoid, though a Medium humanoid can fit inside with some discomfort. While in the barrel with the hatch closed, a creature has {@quickref Cover||3||total cover} against attacks from outside the contraption. It can use its action to make the contraption scuttle across the ground at a walking speed of 15 feet or make one attack with its pincer claws.",
 										{
 											"type": "entries",
 											"name": "Claws",
@@ -13563,7 +13563,7 @@
 									"page": 30,
 									"id": "117",
 									"entries": [
-										"When using an arrow slit for protection, a creature gains {@quickref cover|PHB|3|0|three-quarters cover} (see {@book the rulebook|PHB}) against outside threats. A Medium character can't squeeze through an arrow slit, but a Small character can with a successful DC 10 Dexterity ({@skill Acrobatics}) check."
+										"When using an arrow slit for protection, a creature gains {@quickref cover||3||three-quarters cover} (see {@book the rulebook|PHB}) against outside threats. A Medium character can't squeeze through an arrow slit, but a Small character can with a successful DC 10 Dexterity ({@skill Acrobatics}) check."
 									]
 								},
 								{

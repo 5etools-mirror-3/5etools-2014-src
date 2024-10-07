@@ -2,8 +2,6 @@ name: Build and Deploy Pages, Fix Img Sources
 
 on:
    push:
-      branches:
-         - main  # Ensure this covers the branch `wei/pull` syncs to
       tags:
          - 'v**'
 
@@ -37,7 +35,7 @@ jobs:
          -  name: Set Deployed Flag and Image Root
             run: |
                bash ./.github/set-deployed-flag.sh ${{ github.ref_name }}
-               bash ./.github/set-img-root.sh
+               bash ./.github/set-img-root.sh ${{ github.repository_owner }}
 
          # Notably: remove anything which should not be added to the service worker manifest:
          #  - `homebrew`
@@ -60,7 +58,7 @@ jobs:
          -  name: Build SEO Pages
             env:
                VET_SEO_IS_DEV_MODE: true
-               VET_BASE_SITE_URL: https://5etools-mirror-2.github.io/
+               VET_BASE_SITE_URL: "https://${{ github.repository_owner }}.github.io/"
                VET_SEO_IS_SKIP_UA_ETC: true
             run: |
                npm run build:seo -- ${{ github.ref_name }}
@@ -70,17 +68,18 @@ jobs:
                rm -rf node_modules node
                ls -lah
 
-         -  name: Setup Pages
-            uses: actions/configure-pages@master
-
-         -  name: Upload artifact
-            uses: actions/upload-pages-artifact@master
-            with:
-               path: '.'
-
-         -  name: Deploy to GitHub Pages
-            id: deployment
-            uses: actions/deploy-pages@master
-            with:
-               # Timeout in millis (10 mins)
-               timeout: 600000
+         # TODO(Future)
+#         -  name: Setup Pages
+#            uses: actions/configure-pages@master
+#
+#         -  name: Upload artifact
+#            uses: actions/upload-pages-artifact@master
+#            with:
+#               path: '.'
+#
+#         -  name: Deploy to GitHub Pages
+#            id: deployment
+#            uses: actions/deploy-pages@master
+#            with:
+#               # Timeout in millis (10 mins)
+#               timeout: 600000

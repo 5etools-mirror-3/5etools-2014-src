@@ -59,11 +59,11 @@ class UtilsTableview {
 				});
 			});
 
-		const $btnCsv = $(`<button class="btn btn-primary">Download CSV</button>`).click(() => {
+		const $btnCsv = $(`<button class="ve-btn ve-btn-primary">Download CSV</button>`).click(() => {
 			DataUtil.userDownloadText(`${title}.csv`, this._getAsCsv({colTransforms, rdState}));
 		});
 
-		const $btnCopy = $(`<button class="btn btn-primary">Copy CSV to Clipboard</button>`).click(async () => {
+		const $btnCopy = $(`<button class="ve-btn ve-btn-primary">Copy CSV to Clipboard</button>`).click(async () => {
 			await MiscUtil.pCopyTextToClipboard(this._getAsCsv({colTransforms, rdState}));
 			JqueryUtil.showCopiedEffect($btnCopy);
 		});
@@ -75,7 +75,7 @@ class UtilsTableview {
 			<div class="vr-2 ml-0 h-100"></div>
 			<div class="ve-flex-v-center ve-flex-wrap w-100 min-w-0">${rdState.metasCbs.map(({$wrp}) => $wrp)}</div>
 			<div class="vr-2 h-100"></div>
-			<div class="btn-group no-shrink ve-flex-v-center ml-3">
+			<div class="ve-btn-group no-shrink ve-flex-v-center ml-3">
 				${$btnCsv}
 				${$btnCopy}
 			</div>

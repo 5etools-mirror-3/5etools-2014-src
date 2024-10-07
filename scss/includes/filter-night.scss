@@ -81,27 +81,27 @@
 		&pill {
 			border-color: vars-night.$rgb-border-grey--night;
 
-			&[state="ignore"] {
+			&[data-state="ignore"] {
 				background: $flt-ignore;
 
-				&:hover {
+				&:hover:not(.fltr__pill--display-only) {
 					background: $flt-ignore--hover;
 				}
 			}
 
-			&[state="yes"] {
+			&[data-state="yes"] {
 				border-color: color.adjust(vars.$rgb-active-blue, $lightness: - vars.$pct-darken-border);
 			}
 
-			&[state="no"] {
+			&[data-state="no"] {
 				border-color: color.adjust(vars.$rgb-active-red, $lightness: - vars.$pct-darken-border);
 			}
 
 			&--muted {
 				color: color.adjust(vars.$rgb-font--muted, $lightness: - 7%);
 
-				&[state="yes"],
-				&[state="no"] {
+				&[data-state="yes"],
+				&[data-state="no"] {
 					color: #fff;
 				}
 			}

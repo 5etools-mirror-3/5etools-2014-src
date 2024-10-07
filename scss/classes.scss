@@ -11,6 +11,10 @@
 		max-height: 400px;
 	}
 
+	&stats {
+		font-family: Arial, sans-serif;
+	}
+
 	&squash_header {
 		overflow: hidden;
 		max-height: 32px;
@@ -558,7 +562,7 @@
 		font-weight: 500;
 		font-size: 1.5em;
 		margin-top: 4px;
-		margin-bottom: 0;
+		margin-bottom: 3px;
 	}
 }
 
@@ -605,10 +609,10 @@
 	}
 
 	&linked-titles {
-		@extend %linked-titles-base;
+		@include vars.linked-titles-base;
 
 		> td > * > .rd__h .entry-title-inner {
-			@extend %linked-titles-base-inner;
+			@include vars.linked-titles-base-inner;
 		}
 	}
 }
@@ -740,7 +744,7 @@
 			}
 
 			&--active::after {
-				content: "[\2012]";
+				content: "[\2212]";
 				font-weight: initial;
 			}
 		}

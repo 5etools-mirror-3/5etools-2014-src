@@ -3,6 +3,16 @@
 
 .recipes {
 	&__ {
+		&wrp-fluff {
+			.rd__wrp-image {
+				margin-top: 0;
+			}
+
+			.rd__image {
+				max-height: 50vh;
+			}
+		}
+
 		&tbl-recipes {
 			border-left: 1px solid vars.$rgb-border-grey--trans;
 		}

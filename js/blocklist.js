@@ -2,7 +2,10 @@
 
 class Blocklist {
 	static async pInit () {
-		const data = await BlocklistUtil.pLoadData();
+		const data = await BlocklistUtil.pLoadData({
+			isIncludePrerelease: true,
+			isIncludeBrew: true,
+		});
 		const ui = new BlocklistUi({$wrpContent: $(`#blocklist-content`), data});
 		await ui.pInit();
 		window.dispatchEvent(new Event("toolsLoaded"));

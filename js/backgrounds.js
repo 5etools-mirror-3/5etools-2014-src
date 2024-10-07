@@ -1,16 +1,16 @@
-"use strict";
+import {RenderBackgrounds} from "./render-backgrounds.js";
 
 class BackgroundSublistManager extends SublistManager {
-	static get _ROW_TEMPLATE () {
+	static _getRowTemplate () {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-4 pl-0",
+				css: "bold ve-col-4 pl-0 pr-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "Skills",
-				css: "ve-col-8 pr-0",
+				css: "ve-col-8 pl-1 pr-0",
 				colStyle: "",
 			}),
 		];
@@ -22,7 +22,7 @@ class BackgroundSublistManager extends SublistManager {
 		const cellsText = [name, skills];
 
 		const $ele = $$`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst--border lst__row-inner">
+			<a href="#${hash}" class="lst__row-border lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
 		</div>`
@@ -76,10 +76,10 @@ class BackgroundPage extends ListPage {
 		const hash = UrlUtil.autoEncodeHash(bg);
 		const source = Parser.sourceJsonToAbv(bg.source);
 
-		eleLi.innerHTML = `<a href="#${hash}" class="lst--border lst__row-inner">
-			<span class="bold ve-col-4 pl-0">${name}</span>
-			<span class="ve-col-6">${bg._skillDisplay}</span>
-			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(bg.source)} pr-0" title="${Parser.sourceJsonToFull(bg.source)}" ${Parser.sourceJsonToStyle(bg.source)}>${source}</span>
+		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
+			<span class="bold ve-col-4 pl-0 pr-1">${name}</span>
+			<span class="ve-col-6 px-1">${bg._skillDisplay}</span>
+			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(bg.source)}  pl-1 pr-0" title="${Parser.sourceJsonToFull(bg.source)}" ${Parser.sourceJsonToStyle(bg.source)}>${source}</span>
 		</a>`;
 
 		const listItem = new ListItem(
@@ -110,3 +110,5 @@ class BackgroundPage extends ListPage {
 const backgroundsPage = new BackgroundPage();
 backgroundsPage.sublistManager = new BackgroundSublistManager();
 window.addEventListener("load", () => backgroundsPage.pOnLoad());
+
+globalThis.dbg_page = backgroundsPage;

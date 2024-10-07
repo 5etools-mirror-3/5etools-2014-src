@@ -62,7 +62,7 @@ class BookUtil {
 			evt.preventDefault();
 		}
 
-		$btnToggleExpand.text($btnToggleExpand.text() === `[+]` ? `[\u2012]` : `[+]`);
+		$btnToggleExpand.text($btnToggleExpand.text() === `[+]` ? `[\u2212]` : `[+]`);
 		$headersBlock.toggleVe();
 	}
 
@@ -130,7 +130,7 @@ class BookUtil {
 				});
 			} else BookUtil._renderer.recursiveRender(data[ixChapter], textStack);
 			// If there is no source, we're probably in the Quick Reference, so avoid adding the "Excluded" text, as this is a composite source.
-			BookUtil.$dispBook.append(`<tr class="text"><td colspan="6" class="py-2 px-y">${fromIndex.source ? Renderer.utils.getExcludedHtml({entity: fromIndex, dataProp: BookUtil.contentType, page: UrlUtil.getCurrentPage()}) : ""}${textStack.join("")}</td></tr>`);
+			BookUtil.$dispBook.append(`<tr><td colspan="6" class="py-2 px-5">${fromIndex.source ? Renderer.utils.getExcludedHtml({entity: fromIndex, dataProp: BookUtil.contentType, page: UrlUtil.getCurrentPage()}) : ""}${textStack.join("")}</td></tr>`);
 			Renderer.initLazyImageLoaders();
 			BookUtil._renderer
 				.setLazyImages(false)
@@ -266,10 +266,10 @@ class BookUtil {
 		BookUtil.curRender.controls.$btnsPrv = BookUtil.curRender.controls.$btnsPrv || [];
 		let $btnPrev;
 		if (BookUtil.referenceId) {
-			$btnPrev = $(`<button class="btn btn-xs btn-default bk__nav-head-foot-item no-print"><span class="glyphicon glyphicon-chevron-left"></span>Previous</button>`)
+			$btnPrev = $(`<button class="ve-btn ve-btn-xs ve-btn-default bk__nav-head-foot-item no-print"><span class="glyphicon glyphicon-chevron-left"></span>Previous</button>`)
 				.click(() => this._showBookContent_goToPage({mod: -1, bookId, ixChapter}));
 		} else {
-			$btnPrev = $(`<a href="#${this._showBookContent_goToPage({mod: -1, isGetHref: true, bookId, ixChapter})}" class="btn btn-xs btn-default bk__nav-head-foot-item no-print"><span class="glyphicon glyphicon-chevron-left"></span>Previous</a>`)
+			$btnPrev = $(`<a href="#${this._showBookContent_goToPage({mod: -1, isGetHref: true, bookId, ixChapter})}" class="ve-btn ve-btn-xs ve-btn-default bk__nav-head-foot-item no-print"><span class="glyphicon glyphicon-chevron-left"></span>Previous</a>`)
 				.click(() => MiscUtil.scrollPageTop());
 		}
 		$btnPrev
@@ -289,10 +289,10 @@ class BookUtil {
 		BookUtil.curRender.controls.$btnsNxt = BookUtil.curRender.controls.$btnsNxt || [];
 		let $btnNext;
 		if (BookUtil.referenceId) {
-			$btnNext = $(`<button class="btn btn-xs btn-default bk__nav-head-foot-item no-print">Next<span class="glyphicon glyphicon-chevron-right"></span></button>`)
+			$btnNext = $(`<button class="ve-btn ve-btn-xs ve-btn-default bk__nav-head-foot-item no-print">Next<span class="glyphicon glyphicon-chevron-right"></span></button>`)
 				.click(() => this._showBookContent_goToPage({mod: 1, bookId, ixChapter}));
 		} else {
-			$btnNext = $(`<a href="#${this._showBookContent_goToPage({mod: 1, isGetHref: true, bookId, ixChapter})}" class="btn btn-xs btn-default bk__nav-head-foot-item no-print">Next<span class="glyphicon glyphicon-chevron-right"></span></a>`)
+			$btnNext = $(`<a href="#${this._showBookContent_goToPage({mod: 1, isGetHref: true, bookId, ixChapter})}" class="ve-btn ve-btn-xs ve-btn-default bk__nav-head-foot-item no-print">Next<span class="glyphicon glyphicon-chevron-right"></span></a>`)
 				.click(() => MiscUtil.scrollPageTop());
 		}
 		$btnNext
@@ -310,10 +310,10 @@ class BookUtil {
 
 			let $btnPrev;
 			if (BookUtil.referenceId) {
-				$btnPrev = $(`<button class="btn btn-xxs btn-default"><span class="glyphicon glyphicon-chevron-left"></span></button>`)
+				$btnPrev = $(`<button class="ve-btn ve-btn-xxs ve-btn-default"><span class="glyphicon glyphicon-chevron-left"></span></button>`)
 					.click(() => this._showBookContent_goToPage({mod: -1, bookId, ixChapter}));
 			} else {
-				$btnPrev = $(`<a href="#${this._showBookContent_goToPage({mod: -1, isGetHref: true, bookId, ixChapter})}" class="btn btn-xxs btn-default"><span class="glyphicon glyphicon-chevron-left"></span></a>`)
+				$btnPrev = $(`<a href="#${this._showBookContent_goToPage({mod: -1, isGetHref: true, bookId, ixChapter})}" class="ve-btn ve-btn-xxs ve-btn-default"><span class="glyphicon glyphicon-chevron-left"></span></a>`)
 					.click(() => MiscUtil.scrollPageTop());
 			}
 			$btnPrev
@@ -324,10 +324,10 @@ class BookUtil {
 
 			let $btnNext;
 			if (BookUtil.referenceId) {
-				$btnNext = $(`<button class="btn btn-xxs btn-default"><span class="glyphicon glyphicon-chevron-right"></span></button>`)
+				$btnNext = $(`<button class="ve-btn ve-btn-xxs ve-btn-default"><span class="glyphicon glyphicon-chevron-right"></span></button>`)
 					.click(() => this._showBookContent_goToPage({mod: 1, bookId, ixChapter}));
 			} else {
-				$btnNext = $(`<a href="#${this._showBookContent_goToPage({mod: 1, isGetHref: true, bookId, ixChapter})}" class="btn btn-xxs btn-default"><span class="glyphicon glyphicon-chevron-right"></span></a>`)
+				$btnNext = $(`<a href="#${this._showBookContent_goToPage({mod: 1, isGetHref: true, bookId, ixChapter})}" class="ve-btn ve-btn-xxs ve-btn-default"><span class="glyphicon glyphicon-chevron-right"></span></a>`)
 					.click(() => MiscUtil.scrollPageTop());
 			}
 			$btnNext
@@ -336,7 +336,7 @@ class BookUtil {
 				.title("Next Chapter");
 			BookUtil.curRender.controls.$btnsNxt.push($btnNext);
 
-			BookUtil.$wrpFloatControls.toggleClass("btn-group", showPrev && showNxt);
+			BookUtil.$wrpFloatControls.toggleClass("ve-btn-group", showPrev && showNxt);
 			BookUtil.$wrpFloatControls.toggleClass("hidden", !~ixChapter);
 		}
 	}
@@ -347,7 +347,7 @@ class BookUtil {
 		const href = ~this.curRender.chapter
 			? this._getHrefShowAll(bookId)
 			: `#${UrlUtil.encodeForHash(bookId)}`;
-		const $btnEntireBook = $(`<a href="${href}" class="btn btn-xs btn-default no-print ${~this.curRender.chapter ? "" : "active"}" title="Warning: Slow">View Entire ${this.contentType.uppercaseFirst()}</a>`);
+		const $btnEntireBook = $(`<a href="${href}" class="ve-btn ve-btn-xs ve-btn-default no-print ${~this.curRender.chapter ? "" : "active"}" title="Warning: Slow">View Entire ${this.contentType.uppercaseFirst()}</a>`);
 
 		if (this._isNarrow == null) {
 			const saved = StorageUtil.syncGetForPage("narrowMode");
@@ -359,7 +359,7 @@ class BookUtil {
 			$btnToggleNarrow.toggleClass("active", this._isNarrow);
 			$(`#pagecontent`).toggleClass(`bk__stats--narrow`, this._isNarrow);
 		};
-		const $btnToggleNarrow = $(`<button class="btn btn-xs btn-default" title="Toggle Narrow Reading Width"><span class="glyphicon glyphicon-resize-small"></span></button>`)
+		const $btnToggleNarrow = $(`<button class="ve-btn ve-btn-xs ve-btn-default" title="Toggle Narrow Reading Width"><span class="glyphicon glyphicon-resize-small"></span></button>`)
 			.click(() => {
 				this._isNarrow = !this._isNarrow;
 				hdlNarrowUpdate();
@@ -399,14 +399,14 @@ class BookUtil {
 			]);
 		}
 
-		const $btnMenu = $(`<button class="btn btn-xs btn-default" title="Other Options"><span class="glyphicon glyphicon-option-vertical"></span></button>`)
+		const $btnMenu = $(`<button class="ve-btn ve-btn-xs ve-btn-default" title="Other Options"><span class="glyphicon glyphicon-option-vertical"></span></button>`)
 			.click(evt => ContextUtil.pOpenMenu(evt, this._TOP_MENU));
 
-		$$`<div class="no-print ve-flex-v-center btn-group">${$btnEntireBook}${$btnToggleNarrow}${$btnMenu}</div>`.appendTo($wrpControls);
+		$$`<div class="no-print ve-flex-v-center ve-btn-group">${$btnEntireBook}${$btnToggleNarrow}${$btnMenu}</div>`.appendTo($wrpControls);
 	}
 
 	static _showBookContent_renderNavButtons_bottom ({bookId, $wrpControls}) {
-		$(`<button class="btn btn-xs btn-default no-print">Back to Top</button>`).click(() => MiscUtil.scrollPageTop()).appendTo($wrpControls);
+		$(`<button class="ve-btn ve-btn-xs ve-btn-default no-print">Back to Top</button>`).click(() => MiscUtil.scrollPageTop()).appendTo($wrpControls);
 	}
 
 	static _showBookContent_updateSidebar ({ixChapter, ixChapterPrev, bookIdPrev, bookId}) {
@@ -437,7 +437,7 @@ class BookUtil {
 		// In full-book mode, expand all the sections
 		if (!~ixChapter) {
 			// If we're in "show all mode," collapse all first, then show all. Otherwise, show all.
-			if (BookUtil.curRender.$btnToggleExpandAll.text() === "[\u2012]") BookUtil.curRender.$btnToggleExpandAll.click();
+			if (BookUtil.curRender.$btnToggleExpandAll.text() === "[\u2212]") BookUtil.curRender.$btnToggleExpandAll.click();
 			BookUtil.curRender.$btnToggleExpandAll.click();
 			return;
 		}
@@ -494,7 +494,7 @@ class BookUtil {
 
 	static initScrollTopFloat () {
 		const $wrpScrollTop = Omnisearch.addScrollTopFloat();
-		BookUtil.$wrpFloatControls = $(`<div class="ve-flex-vh-center w-100 mb-2 btn-group"></div>`).prependTo($wrpScrollTop);
+		BookUtil.$wrpFloatControls = $(`<div class="ve-flex-vh-center w-100 mb-2 ve-btn-group"></div>`).prependTo($wrpScrollTop);
 	}
 
 	// custom loading to serve multiple sources
@@ -639,8 +639,8 @@ class BookUtil {
 	static _booksHashChange_noContent ({$contents}) {
 		this._doPopulateContents({$contents});
 
-		BookUtil.$dispBook.empty().html(`<tr><th class="border" colspan="6"></th></tr>
-			<tr><td colspan="6" class="initial-message book-loading-message">Please select ${Parser.getArticle(BookUtil.contentType)} ${BookUtil.contentType} to view!</td></tr><tr><th class="border" colspan="6"></th></tr>`);
+		BookUtil.$dispBook.empty().html(`<tr><th class="ve-tbl-border" colspan="6"></th></tr>
+			<tr><td colspan="6" class="initial-message initial-message--med book-loading-message">Please select ${Parser.getArticle(BookUtil.contentType)} ${BookUtil.contentType} to view!</td></tr><tr><th class="ve-tbl-border" colspan="6"></th></tr>`);
 
 		$(`.bk__overlay-loading`).remove();
 	}
@@ -649,8 +649,8 @@ class BookUtil {
 		if (!window.location.hash) return window.history.back();
 
 		$contents.empty();
-		BookUtil.$dispBook.empty().html(`<tr><th class="border" colspan="6"></th></tr>
-			<tr><td colspan="6" class="initial-message book-loading-message">Loading failed\u2014could not find ${Parser.getArticle(BookUtil.contentType)} ${BookUtil.contentType} with ID "${bookId}". You may need to add it as homebrew first.</td></tr><tr><th class="border" colspan="6"></th></tr>`);
+		BookUtil.$dispBook.empty().html(`<tr><th class="ve-tbl-border" colspan="6"></th></tr>
+			<tr><td colspan="6" class="initial-message initial-message--med book-loading-message">Loading failed\u2014could not find ${Parser.getArticle(BookUtil.contentType)} ${BookUtil.contentType} with ID "${bookId}". You may need to add it as homebrew first.</td></tr><tr><th class="ve-tbl-border" colspan="6"></th></tr>`);
 
 		$(`.bk__overlay-loading`).remove();
 
@@ -683,7 +683,7 @@ class BookUtil {
 	}
 
 	static _doPopulateContents ({$contents, book}) {
-		$contents.html(BookUtil.allPageUrl ? `<div><a href="${BookUtil.allPageUrl}" class="lst--border lst__row-inner"><span class="bold">\u21FD ${this._getAllTitle()}</span></a></div>` : "");
+		$contents.html(BookUtil.allPageUrl ? `<div><a href="${BookUtil.allPageUrl}" class="lst__row-border lst__row-inner"><span class="bold">\u21FD ${this._getAllTitle()}</span></a></div>` : "");
 
 		if (book) BookUtil._$getRenderedContents({book}).appendTo($contents);
 	}
@@ -720,25 +720,25 @@ class BookUtil {
 			});
 
 		// region Mobile only "open find bar" buttons
-		const $btnToTop = $(`<button class="btn btn-default btn-sm no-print bbl-0" title="To Top"><span class="glyphicon glyphicon-arrow-up"></span></button>`)
+		const $btnToTop = $(`<button class="ve-btn ve-btn-default ve-btn-sm no-print bbl-0" title="To Top"><span class="glyphicon glyphicon-arrow-up"></span></button>`)
 			.click(evt => {
 				evt.stopPropagation();
 				MiscUtil.scrollPageTop();
 			});
 
-		const $btnOpenFind = $(`<button class="btn btn-default btn-sm no-print" title="Find"><kbd>F</kbd></button>`)
+		const $btnOpenFind = $(`<button class="ve-btn ve-btn-default ve-btn-sm no-print" title="Find"><kbd>F</kbd></button>`)
 			.click(evt => {
 				evt.stopPropagation();
 				BookUtil._showSearchBox(indexData, bookId, false);
 			});
 
-		const $btnOpenGoto = $(`<button class="btn btn-default btn-sm no-print bbr-0" title="Go to Page"><kbd>G</kbd></button>`)
+		const $btnOpenGoto = $(`<button class="ve-btn ve-btn-default ve-btn-sm no-print bbr-0" title="Go to Page"><kbd>G</kbd></button>`)
 			.click(evt => {
 				evt.stopPropagation();
 				BookUtil._showSearchBox(indexData, bookId, true);
 			});
 
-		$$`<div class="mobile__visible bk__wrp-btns-open-find btn-group">
+		$$`<div class="mobile__visible bk__wrp-btns-open-find ve-btn-group">
 			${$btnToTop}${$btnOpenFind}${$btnOpenGoto}
 		</div>`.appendTo(document.body);
 	}
@@ -780,7 +780,7 @@ class BookUtil {
 							const isLitTitle = f.headerMatches && !f.page;
 							const $link = $(
 								`<a href="#${BookUtil.Search.getResultHash(bookId, f)}">
-									<i>${Parser.bookOrdinalToAbv(indexData.contents[f.ch].ordinal)} ${indexData.contents[f.ch].name}${f.header ? ` \u2013 ${isLitTitle ? `<span class="highlight">` : ""}${f.header}${isLitTitle ? `</span>` : ""}` : ""}</i>
+									<i>${Parser.bookOrdinalToAbv(indexData.contents[f.ch].ordinal)} ${indexData.contents[f.ch].name}${f.header ? ` \u2013 ${isLitTitle ? `<span class="ve-highlight">` : ""}${f.header}${isLitTitle ? `</span>` : ""}` : ""}</i>
 								</a>`,
 							).click(evt => BookUtil._handleCheckReNav(evt));
 							$ptLink.append($link);
@@ -799,7 +799,7 @@ class BookUtil {
 											$(`#pagecontent`)
 												.find(`p:containsInsensitive("${f.term}"), li:containsInsensitive("${f.term}"), td:containsInsensitive("${f.term}"), a:containsInsensitive("${f.term}")`)
 												.each((i, ele) => {
-													$(ele).html($(ele).html().replace(re, "<span class='temp highlight'>$&</span>"));
+													$(ele).html($(ele).html().replace(re, "<span class='temp ve-highlight'>$&</span>"));
 												});
 										}
 									}, 15);
@@ -843,10 +843,10 @@ class BookUtil {
 		BookUtil.curRender.$lnksChapter = [];
 		BookUtil.curRender.$lnksHeader = {};
 
-		BookUtil.curRender.$btnToggleExpandAll = $(`<span title="Expand All" class="px-2 bold py-1p no-select clickable">${BookUtil.isDefaultExpandedContents ? `[\u2012]` : `[+]`}</span>`)
+		BookUtil.curRender.$btnToggleExpandAll = $(`<span title="Expand All" class="px-2 bold py-1p no-select clickable no-select">${BookUtil.isDefaultExpandedContents ? `[\u2212]` : `[+]`}</span>`)
 			.click(() => {
 				const isExpanded = BookUtil.curRender.$btnToggleExpandAll.text() !== `[+]`;
-				BookUtil.curRender.$btnToggleExpandAll.text(isExpanded ? `[+]` : `[\u2012]`).title(isExpanded ? `Collapse All` : `Expand All`);
+				BookUtil.curRender.$btnToggleExpandAll.text(isExpanded ? `[+]` : `[\u2212]`).title(isExpanded ? `Collapse All` : `Expand All`);
 
 				BookUtil.curRender.$btnsToggleExpand.forEach($btn => {
 					if (!$btn) return;
@@ -856,13 +856,13 @@ class BookUtil {
 
 		const $eles = [];
 		options.book.contents.map((chapter, ixChapter) => {
-			const $btnToggleExpand = !chapter.headers ? null : $(`<span class="px-2 bold">[\u2012]</span>`)
+			const $btnToggleExpand = !chapter.headers ? null : $(`<span class="px-2 bold">[\u2212]</span>`)
 				.click(evt => {
 					BookUtil.sectToggle(evt, $btnToggleExpand, $chapterBlock);
 				});
 			BookUtil.curRender.$btnsToggleExpand.push($btnToggleExpand);
 
-			const $lnk = $$`<a href="${options.addPrefix || ""}#${UrlUtil.encodeForHash(options.book.id)},${ixChapter}" class="lst--border lst__row-inner lst__row lst__wrp-cells bold">
+			const $lnk = $$`<a href="${options.addPrefix || ""}#${UrlUtil.encodeForHash(options.book.id)},${ixChapter}" class="lst__row-border lst__row-inner lst__row lst__wrp-cells bold">
 					<span class="w-100">${Parser.bookOrdinalToAbv(chapter.ordinal)}${chapter.name}</span>
 					${$btnToggleExpand}
 			</a>`
@@ -920,7 +920,7 @@ class BookUtil {
 
 			const displayText = this.getContentsSectionHeader(h);
 
-			const $lnk = $$`<a href="${addPrefix || ""}#${UrlUtil.encodeForHash(bookId)},${ixChapter},${UrlUtil.encodeForHash(headerText)}${headerIndex > 0 ? `,${headerIndex}` : ""}" data-book="${bookId}" data-chapter="${ixChapter}" data-header="${headerText.escapeQuotes()}" class="lst__row lst--border lst__row-inner lst__wrp-cells">${displayText}</a>`
+			const $lnk = $$`<a href="${addPrefix || ""}#${UrlUtil.encodeForHash(bookId)},${ixChapter},${UrlUtil.encodeForHash(headerText)}${headerIndex > 0 ? `,${headerIndex}` : ""}" data-book="${bookId}" data-chapter="${ixChapter}" data-header="${headerText.escapeQuotes()}" class="lst__row lst__row-border lst__row-inner lst__wrp-cells">${displayText}</a>`
 				.click(() => {
 					BookUtil.scrollClick(ixChapter, headerText, headerIndex);
 				});
@@ -1154,7 +1154,7 @@ BookUtil.Search = class {
 			const originalTerm = rendered.substr(first, `${term}`.length);
 
 			return {
-				preview: `${preDots ? "..." : ""}${pre}<span class="highlight">${originalTerm}</span>${post}${postDots ? "..." : ""}`,
+				preview: `${preDots ? "..." : ""}${pre}<span class="ve-highlight">${originalTerm}</span>${post}${postDots ? "..." : ""}`,
 				match: `${pre}${term}${post}`,
 			};
 		}

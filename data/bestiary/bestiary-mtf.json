@@ -3747,7 +3747,7 @@
 				{
 					"name": "Corpses",
 					"entries": [
-						"When first encountered, a corpse flower contains the corpses of {@dice 1d6 + 3} humanoids. A corpse flower can hold the remains of up to nine dead humanoids. These remains have total cover against attacks and other effects outside the corpse flower. If the corpse flower dies, the corpses within it can be pulled free.",
+						"When first encountered, a corpse flower contains the corpses of {@dice 1d6 + 3} humanoids. A corpse flower can hold the remains of up to nine dead humanoids. These remains have {@quickref Cover||3||total cover} against attacks and other effects outside the corpse flower. If the corpse flower dies, the corpses within it can be pulled free.",
 						"While it has at least one humanoid corpse in its body, the corpse flower can use a bonus action to do one of the following:",
 						{
 							"type": "list",
@@ -6408,7 +6408,7 @@
 							"name": "Summon Demon (1/Day)",
 							"type": "entries",
 							"entries": [
-								"The drow attempts to magically summon a yochlol, with a {@chance 50|50 percent} chance of success. If the attempt fails, the drow takes 5 ({@damage 1d10}) psychic damage. Otherwise, the summoned demon appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other demons. It remains for 10 minutes, until it or its summoner dies, or until its summoner dismisses it as an action. (see notes for link)"
+								"The drow attempts to magically summon a yochlol, with a {@chance 50} chance of success. If the attempt fails, the drow takes 5 ({@damage 1d10}) psychic damage. Otherwise, the summoned demon appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other demons. It remains for 10 minutes, until it or its summoner dies, or until its summoner dismisses it as an action. (see notes for link)"
 							]
 						}
 					],
@@ -6925,7 +6925,7 @@
 							"name": "Summon Shadow Demon (1/Day)",
 							"type": "entries",
 							"entries": [
-								"The drow attempts to magically summon a shadow demon with a {@chance 50|50 percent} chance of success. If the attempt fails, the drow takes 5 ({@damage 1d10}) psychic damage. Otherwise, the summoned demon appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other demons. It remains for 10 minutes, until it or its summoner dies, or until its summoner dismisses it as an action."
+								"The drow attempts to magically summon a shadow demon with a {@chance 50} chance of success. If the attempt fails, the drow takes 5 ({@damage 1d10}) psychic damage. Otherwise, the summoned demon appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other demons. It remains for 10 minutes, until it or its summoner dies, or until its summoner dismisses it as an action."
 							]
 						}
 					],
@@ -14657,7 +14657,7 @@
 							"name": "Summon Demon (1/Day)",
 							"type": "entries",
 							"entries": [
-								"As an action, the molydeus has a {@chance 50|50 percent} chance of summoning its choice of {@dice 1d6} babaus, {@dice 1d4} {@creature chasme||chasmes}, or one {@creature marilith}. A summoned demon appears in an unoccupied space within 60 feet of the molydeus, acts as an ally of the molydeus, and can't summon other demons. It remains for 1 minute, until it or the molydeus dies, or until the molydeus dismisses it as an action."
+								"As an action, the molydeus has a {@chance 50} chance of summoning its choice of {@dice 1d6} babaus, {@dice 1d4} {@creature chasme||chasmes}, or one {@creature marilith}. A summoned demon appears in an unoccupied space within 60 feet of the molydeus, acts as an ally of the molydeus, and can't summon other demons. It remains for 1 minute, until it or the molydeus dies, or until the molydeus dismisses it as an action."
 							]
 						}
 					],
@@ -16118,7 +16118,7 @@
 				{
 					"name": "Howdah",
 					"entries": [
-						"The ogre carries a compact fort on its back. Up to four Small creatures can ride in the fort without squeezing. To make a melee attack against a target within 5 feet of the ogre, they must use spears or weapons with reach. Creatures in the fort have three-quarters cover against attacks and effects from outside it. If the ogre dies, creatures in the fort are placed in unoccupied spaces within 5 feet of the ogre."
+						"The ogre carries a compact fort on its back. Up to four Small creatures can ride in the fort without squeezing. To make a melee attack against a target within 5 feet of the ogre, they must use spears or weapons with reach. Creatures in the fort have {@quickref Cover||3||three-quarters cover} against attacks and effects from outside it. If the ogre dies, creatures in the fort are placed in unoccupied spaces within 5 feet of the ogre."
 					]
 				}
 			],

@@ -1022,7 +1022,7 @@
 									"page": 8,
 									"id": "01d",
 									"entries": [
-										"The goblins in {@area 2|01e} are supposed to be keeping watch on this area, but they are not paying attention. (Goblins can be lazy that way.) However, if the characters make a lot of noise here\u2014for example, loudly arguing about what to do next, setting up a camp, cutting down brush, and so on\u2014the goblins in {@area 2|01e} notice and attack them through the thicket, which provides the goblins with three-quarters cover (see the rulebook for rules on cover)."
+										"The goblins in {@area 2|01e} are supposed to be keeping watch on this area, but they are not paying attention. (Goblins can be lazy that way.) However, if the characters make a lot of noise here\u2014for example, loudly arguing about what to do next, setting up a camp, cutting down brush, and so on\u2014the goblins in {@area 2|01e} notice and attack them through the thicket, which provides the goblins with {@quickref Cover||3||three-quarters cover} (see the rulebook for rules on cover)."
 									]
 								}
 							]
@@ -1049,7 +1049,7 @@
 									"page": 8,
 									"id": "020",
 									"entries": [
-										"The thickets around the clearing are {@quickref difficult terrain||3}, but they aren't dangerous\u2014just annoying. They provide half cover to creatures attacking through them. (See \"Difficult Terrain\" and \"Cover\" in the rulebook for more information.)"
+										"The thickets around the clearing are {@quickref difficult terrain||3}, but they aren't dangerous\u2014just annoying. They provide {@quickref Cover||3||half cover} to creatures attacking through them. (See \"Difficult Terrain\" and \"Cover\" in the rulebook for more information.)"
 									]
 								}
 							]
@@ -1320,7 +1320,7 @@
 									"page": 12,
 									"id": "03b",
 									"entries": [
-										"The piles of sacks and crates can provide half cover to any creature fighting or hiding behind them. Most are marked with the image of a blue lion\u2014the symbol of the Lionshield Coster, a merchant company with a warehouse and trading post in Phandalin. Hidden among the supplies is an unlocked treasure chest belonging to Klarg (see the \"Treasure\" section). Any character who searches the supplies finds the chest."
+										"The piles of sacks and crates can provide {@quickref Cover||3||half cover} to any creature fighting or hiding behind them. Most are marked with the image of a blue lion\u2014the symbol of the Lionshield Coster, a merchant company with a warehouse and trading post in Phandalin. Hidden among the supplies is an unlocked treasure chest belonging to Klarg (see the \"Treasure\" section). Any character who searches the supplies finds the chest."
 									]
 								},
 								{
@@ -4157,7 +4157,7 @@
 									]
 								},
 								"Ruined buildings are empty shells with stone walls 5 to 8 feet high. Their roofs are gone, leaving piles of debris inside the walls. The debris is {@quickref difficult terrain||3} (see \"Difficult Terrain\" in the rulebook).",
-								"Intact buildings are rundown, ramshackle stone cottages that are otherwise still standing. Their wooden doors are swollen and require a successful DC 10 Strength check to force open. The windows of any intact building are 2 feet wide and covered by wooden shutters containing 6-inch wide arrow slits. Creatures on one side of an arrow slit gain three-quarters cover against attacks from the other side (see \"Cover\" in the rulebook). Dusty old furnishings such as simple wooden chairs and tables remain in most intact buildings.",
+								"Intact buildings are rundown, ramshackle stone cottages that are otherwise still standing. Their wooden doors are swollen and require a successful DC 10 Strength check to force open. The windows of any intact building are 2 feet wide and covered by wooden shutters containing 6-inch wide arrow slits. Creatures on one side of an arrow slit gain {@quickref Cover||3||three-quarters cover} against attacks from the other side (see \"Cover\" in the rulebook). Dusty old furnishings such as simple wooden chairs and tables remain in most intact buildings.",
 								{
 									"type": "entries",
 									"name": "Trees and Brush",
@@ -5357,7 +5357,7 @@
 										"Exterior walls and load-bearing interior walls are 5 feet thick, with 3 feet of mortared fill sandwiched between 1-foot-thick courses of hard stone blocks. Interior walls are 1-foot-thick worked stone."
 									]
 								},
-								"Arrow slits in the castle walls are 10 feet above the outside ground level, 4 feet above the interior floor level, 8 inches wide, and 4 feet high. A creature on one side of an arrow slit gains three-quarters cover against attacks from the other side (see \"Cover\" in the rulebook)."
+								"Arrow slits in the castle walls are 10 feet above the outside ground level, 4 feet above the interior floor level, 8 inches wide, and 4 feet high. A creature on one side of an arrow slit gains {@quickref Cover||3||three-quarters cover} against attacks from the other side (see \"Cover\" in the rulebook)."
 							]
 						}
 					]

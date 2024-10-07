@@ -1,36 +1,36 @@
-"use strict";
+import {RenderSpells, RenderSpellsSettings} from "./render-spells.js";
 
 class SpellsSublistManager extends SublistManager {
-	static get _ROW_TEMPLATE () {
+	static _getRowTemplate () {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-3-2 pl-0",
+				css: "bold ve-col-3-2 pl-0 pr-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "Level",
-				css: "capitalize ve-col-1-5 ve-text-center",
+				css: "capitalize ve-col-1-5 px-1 ve-text-center",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "Time",
-				css: "ve-col-1-8 ve-text-center",
+				css: "ve-col-1-8 px-1 ve-text-center",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "School",
-				css: "capitalize ve-col-1-6 ve-text-center",
+				css: "capitalize ve-col-1-6 px-1 ve-text-center",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "C.",
-				css: "concentration--sublist ve-col-0-7 ve-text-center",
+				css: "concentration--sublist ve-col-0-7 px-1 ve-text-center",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "Range",
-				css: "range ve-col-3-2 pr-0 text-right",
+				css: "range ve-col-3-2 pl-1 pr-0 ve-text-right",
 				colStyle: "text-right",
 			}),
 		];
@@ -60,7 +60,7 @@ class SpellsSublistManager extends SublistManager {
 		];
 
 		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${UrlUtil.autoEncodeHash(spell)}" title="${spell.name}" class="lst--border lst__row-inner">
+			<a href="#${UrlUtil.autoEncodeHash(spell)}" title="${spell.name}" class="lst__row-border lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
 		</div>`)
@@ -93,7 +93,7 @@ class SpellsSublistManager extends SublistManager {
 class SpellsPageSettingsManager extends ListPageSettingsManager {
 	_getSettings () {
 		return {
-			...RenderSpells.SETTINGS,
+			...RenderSpellsSettings.SETTINGS,
 		};
 	}
 }
@@ -212,7 +212,11 @@ class SpellsPage extends ListPageMultiSource {
 		const pFnGetFluff = Renderer.spell.pGetFluff.bind(Renderer.spell);
 
 		super({
-			pageFilter: new PageFilterSpells(),
+			pageFilter: new PageFilterSpells({
+				sourceFilterOpts: {
+					pFnOnChange: (...args) => this._pLoadSource(...args),
+				},
+			}),
 
 			listOptions: {
 				fnSort: PageFilterSpells.sortSpells,
@@ -318,23 +322,23 @@ class SpellsPage extends ListPageMultiSource {
 				e_({
 					tag: "a",
 					href: `#${hash}`,
-					clazz: "lst--border lst__row-inner",
+					clazz: "lst__row-border lst__row-inner",
 					children: [
-						e_({tag: "span", clazz: `bold ve-col-2-9 pl-0`, text: spell.name}),
-						e_({tag: "span", clazz: `ve-col-1-5 ve-text-center`, text: PageFilterSpells.getTblLevelStr(spell)}),
-						e_({tag: "span", clazz: `ve-col-1-7 ve-text-center`, text: time}),
+						e_({tag: "span", clazz: `bold ve-col-2-9 pl-0 pr-1`, text: spell.name}),
+						e_({tag: "span", clazz: `ve-col-1-5 px-1 ve-text-center`, text: PageFilterSpells.getTblLevelStr(spell)}),
+						e_({tag: "span", clazz: `ve-col-1-7 px-1 ve-text-center`, text: time}),
 						e_({
 							tag: "span",
-							clazz: `ve-col-1-2 sp__school-${spell.school} ve-text-center`,
+							clazz: `ve-col-1-2 px-1 sp__school-${spell.school} ve-text-center`,
 							title: Parser.spSchoolAndSubschoolsAbvsToFull(spell.school, spell.subschools),
 							style: Parser.spSchoolAbvToStylePart(spell.school),
 							text: school,
 						}),
-						e_({tag: "span", clazz: `ve-col-0-6 ve-text-center`, title: "Concentration", text: concentration}),
-						e_({tag: "span", clazz: `ve-col-2-4 text-right`, text: range}),
+						e_({tag: "span", clazz: `ve-col-0-6 px-1 ve-text-center`, title: "Concentration", text: concentration}),
+						e_({tag: "span", clazz: `ve-col-2-4 px-1 ve-text-right`, text: range}),
 						e_({
 							tag: "span",
-							clazz: `ve-col-1-7 ve-text-center ${Parser.sourceJsonToSourceClassname(spell.source)} pr-0`,
+							clazz: `ve-col-1-7 ve-text-center ${Parser.sourceJsonToSourceClassname(spell.source)} pl-1 pr-0`,
 							style: Parser.sourceJsonToStylePart(spell.source),
 							title: `${Parser.sourceJsonToFull(spell.source)}${Renderer.utils.getSourceSubText(spell)}`,
 							text: source,
@@ -369,7 +373,7 @@ class SpellsPage extends ListPageMultiSource {
 	_tabTitleStats = "Spell";
 
 	_renderStats_doBuildStatsTab ({ent}) {
-		this._$pgContent.empty().append(RenderSpells.$getRenderedSpell(ent, this._subclassLookup, {settings: this._compSettings.getValues()}));
+		this._$pgContent.empty().append(RenderSpells.$getRenderedSpell(ent, {subclassLookup: this._subclassLookup, settings: this._compSettings.getValues()}));
 	}
 
 	async _pOnLoad_pPreDataLoad () {
@@ -399,3 +403,5 @@ class SpellsPage extends ListPageMultiSource {
 const spellsPage = new SpellsPage();
 spellsPage.sublistManager = new SpellsSublistManager();
 window.addEventListener("load", () => spellsPage.pOnLoad());
+
+globalThis.dbg_page = spellsPage;

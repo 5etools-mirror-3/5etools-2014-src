@@ -342,7 +342,7 @@ class InitiativeTrackerStatColumn_LegendaryActions extends _InitiativeTrackerSta
 			{
 				isAllowNull: true,
 				fallbackOnNaN: null,
-				html: `<input class="form-control input-sm hp dm-init__row-input text-right w-24p mr-0 br-0">`,
+				html: `<input class="form-control input-sm hp dm-init__row-input ve-text-right w-24p mr-0 br-0">`,
 			},
 		)
 			.on("click", () => $iptCurrent.select());
@@ -367,9 +367,9 @@ class InitiativeTrackerStatColumn_LegendaryActions extends _InitiativeTrackerSta
 		}
 
 		return $$`<div class="ve-flex relative mr-3p">
-			<div class="text-right">${$iptCurrent}</div>
+			<div class="ve-text-right">${$iptCurrent}</div>
 			<div class="dm-init__sep-fields-slash ve-flex-vh-center">/</div>
-			<div class="text-left">${$iptMax}</div>
+			<div class="ve-text-left">${$iptMax}</div>
 		</div>`;
 	}
 }

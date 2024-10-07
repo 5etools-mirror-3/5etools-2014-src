@@ -895,7 +895,7 @@
 												}
 											]
 										},
-										"Both doors into the gatehouse towers are locked. Arrow slits in the gatehouse walls between the portcullis and the doors provide {@book three-quarters cover|PHB|9|Cover} to whoever is behind them. Inside each tower is a ladder that leads to a wooden trapdoor in the ceiling, above which is area K13."
+										"Both doors into the gatehouse towers are locked. Arrow slits in the gatehouse walls between the portcullis and the doors provide {@quickref cover||3||three-quarters cover} to whoever is behind them. Inside each tower is a ladder that leads to a wooden trapdoor in the ceiling, above which is area K13."
 									]
 								},
 								{
@@ -1106,7 +1106,7 @@
 									"name": "K13: Upper Gatehouse",
 									"id": "025",
 									"entries": [
-										"The upper gatehouse is unguarded. The doors leading to the outer wall's battlements are locked. Wooden trapdoors in the floor pull open to reveal ladders that descend to the lower gatehouse ({@area area K1|00c|x}). The walls are lined with arrow slits that provide {@book three-quarters cover|PHB|9|Cover} to those behind them.",
+										"The upper gatehouse is unguarded. The doors leading to the outer wall's battlements are locked. Wooden trapdoors in the floor pull open to reveal ladders that descend to the lower gatehouse ({@area area K1|00c|x}). The walls are lined with arrow slits that provide {@quickref cover||3||three-quarters cover} to those behind them.",
 										{
 											"type": "entries",
 											"name": "Portcullis Winch",

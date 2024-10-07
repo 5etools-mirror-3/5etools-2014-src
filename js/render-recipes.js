@@ -24,9 +24,9 @@ class RenderRecipes {
 		${Renderer.utils.getNameTr(ent, {page: UrlUtil.PG_RECIPES})}
 
 		${ptFluff ? `<tr class="mobile__hidden recipes__wrp-fluff"><td colspan="6">${ptFluff}</td></tr>
-		<tr class="mobile__hidden"><td class="divider" colspan="6"><div></div></td></tr>` : ""}
+		<tr class="mobile__hidden"><td colspan="6" class="py-0"><div class="ve-tbl-divider"></div></td></tr>` : ""}
 
-		<tr class="text"><td colspan="6">
+		<tr><td colspan="6">
 		<div class="ve-flex w-100 rd-recipes__wrp-recipe">
 			<div class="w-33 pl-3 pr-2 ve-flex-col">
 				${ptTime}

@@ -1423,7 +1423,7 @@
 					"type": "entries",
 					"name": "Blindsight",
 					"entries": [
-						"You have {@sense blindsight} to a range of 10 feet. Within that range, you can effectively see anything that isn't behind {@quickref cover|PHB|3|0|total cover}, even if you're {@condition blinded} or in darkness. Moreover, you can see {@condition invisible} creatures within that range, unless the creatures successfully hide from you."
+						"You have {@sense blindsight} to a range of 10 feet. Within that range, you can effectively see anything that isn't behind {@quickref cover||3||total cover}, even if you're {@condition blinded} or in darkness. Moreover, you can see {@condition invisible} creatures within that range, unless the creatures successfully hide from you."
 					]
 				},
 				{

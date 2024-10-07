@@ -4,7 +4,7 @@ window.addEventListener("load", () => {
 	if (typeof [].flat !== "function") {
 		const $body = $(`body`);
 		$body.addClass("edge__body");
-		const $btnClose = $(`<button class="btn btn-danger edge__btn-close"><span class="glyphicon glyphicon-remove"></span></button>`)
+		const $btnClose = $(`<button class="ve-btn ve-btn-danger edge__btn-close"><span class="glyphicon glyphicon-remove"></span></button>`)
 			.click(() => {
 				$overlay.remove();
 				$body.removeClass("edge__body");

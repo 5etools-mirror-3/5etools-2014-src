@@ -2246,7 +2246,7 @@
 											"page": 11,
 											"id": "04f",
 											"entries": [
-												"A humanoid creature has a {@chance 20|20 percent} chance to be afflicted with the curse of lycanthropickling after being wounded by a {@creature Lycanthropickle|RMBRE|lycanthropickles}. The curse lasts for 3 days. Each long rest the creature spends in a vat or jar of pickling brine prolongs the curse by 1 day.",
+												"A humanoid creature has a {@chance 20} chance to be afflicted with the curse of lycanthropickling after being wounded by a {@creature Lycanthropickle|RMBRE|lycanthropickles}. The curse lasts for 3 days. Each long rest the creature spends in a vat or jar of pickling brine prolongs the curse by 1 day.",
 												"A {@creature lycanthropickle|RMBRE} can either resist its curse or embrace it. By resisting the curse, a {@creature lycanthropickle|RMBRE} retains its normal alignment and personality while in humanoid form. It lives its boring life as it always has, burying deep its raging, murderous urges just like the rest of us.",
 												"Some individuals see little point in fighting the curse and accept what they are. They can assume pickle form or hybrid form at will. Most {@creature Lycanthropickle|RMBRE|lycanthropickles} that embrace their briny natures succumb to bloodlust, becoming evil, opportunistic creatures that prey on the weak. In hybrid form, a {@creature lycanthropickle|RMBRE} has the same statistics as a {@creature twig blight} with the altered ability noted in {@area area 9|04b|x}. In pickle form, a {@creature lycanthropickle|RMBRE} has no statistics and is indistinguishable from a pickle... because it's a pickle."
 											]
@@ -2522,7 +2522,7 @@
 									"page": 14,
 									"id": "066",
 									"entries": [
-										"After the destruction of the tiny adventuring party, one of the miniature treasure chests pops open. Inside is an unbelievably tiny {@item wand of magic missiles}. It works normally, but a character has a {@chance 50|50 percent} chance of losing it each time it is used or put away. A {@spell detect magic} spell can help find it again."
+										"After the destruction of the tiny adventuring party, one of the miniature treasure chests pops open. Inside is an unbelievably tiny {@item wand of magic missiles}. It works normally, but a character has a {@chance 50} chance of losing it each time it is used or put away. A {@spell detect magic} spell can help find it again."
 									]
 								}
 							]
@@ -2992,7 +2992,7 @@
 									"entries": [
 										"With the churd cannon assembled, {@creature Tommy Two-Butts|RMBRE|Tommy} asks the party to help him destroy the evil butt trap in {@area area 10|051|x}. Not only has the trap stolen countless butts, it's also brainwashed Tommy's friends, who joined the Order of the Buttless.",
 										"If the characters agree to accompany Tommy, Greeble, and Flerp to complete their mission, Tommy entrusts the churd cannon to one party member with a solemn reminder: \"Remember. It's one shot for all the butts.\" It's unclear exactly what this means.",
-										"When the characters arrive at the butt room ({@area area 10|051|x}), there's a {@chance 75|75 percent} chance that they encounter the Order of the Buttless there unless that group has been {@condition incapacitated} in some way (see {@area area 32|0c5|x}). The buttless have caught wind of {@creature Tommy Two-Butts|RMBRE}'s plan and intend to stop his blasphemy. The characters might well have to choose sides between {@creature Tommy Two-Butts|RMBRE} or the Buttless.",
+										"When the characters arrive at the butt room ({@area area 10|051|x}), there's a {@chance 75} chance that they encounter the Order of the Buttless there unless that group has been {@condition incapacitated} in some way (see {@area area 32|0c5|x}). The buttless have caught wind of {@creature Tommy Two-Butts|RMBRE}'s plan and intend to stop his blasphemy. The characters might well have to choose sides between {@creature Tommy Two-Butts|RMBRE} or the Buttless.",
 										{
 											"type": "entries",
 											"name": "Firing the Churd Cannon",

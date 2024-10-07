@@ -1,16 +1,16 @@
 "use strict";
 
 class RewardsSublistManager extends SublistManager {
-	static get _ROW_TEMPLATE () {
+	static _getRowTemplate () {
 		return [
 			new SublistCellTemplate({
 				name: "Type",
-				css: "ve-col-2 pl-0 ve-text-center",
+				css: "ve-col-2 pl-0 pr-1 ve-text-center",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-10 pr-0",
+				css: "bold ve-col-10 pl-1 pr-0",
 				colStyle: "",
 			}),
 		];
@@ -20,7 +20,7 @@ class RewardsSublistManager extends SublistManager {
 		const cellsText = [reward.type, reward.name];
 
 		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst--border lst__row-inner">
+			<a href="#${hash}" class="lst__row-border lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
 		</div>`)
@@ -69,15 +69,15 @@ class RewardsPage extends ListPage {
 		const source = Parser.sourceJsonToAbv(reward.source);
 		const hash = UrlUtil.autoEncodeHash(reward);
 
-		eleLi.innerHTML = `<a href="#${hash}" class="lst--border lst__row-inner">
-			<span class="ve-col-0-3 px-0 ve-flex-vh-center lst__btn-toggle-expand ve-self-flex-stretch">[+]</span>
+		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
+			<span class="ve-col-0-3 px-0 ve-flex-vh-center lst__btn-toggle-expand ve-self-flex-stretch no-select">[+]</span>
 			<span class="ve-col-2 ve-text-center px-1">${reward.type}</span>
-			<span class="bold ve-col-7-7">${reward.name}</span>
-			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(reward.source)} pr-0" title="${Parser.sourceJsonToFull(reward.source)}" ${Parser.sourceJsonToStyle(reward.source)}>${source}</span>
+			<span class="bold ve-col-7-7 px-1">${reward.name}</span>
+			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(reward.source)} pl-1 pr-0" title="${Parser.sourceJsonToFull(reward.source)}" ${Parser.sourceJsonToStyle(reward.source)}>${source}</span>
 		</a>
-		<div class="ve-flex ve-hidden relative lst__wrp-preview">
-			<div class="vr-0 absolute lst__vr-preview"></div>
-			<div class="ve-flex-col py-3 ml-4 lst__wrp-preview-inner"></div>
+		<div class="ve-flex ve-hidden relative accordion__wrp-preview">
+			<div class="vr-0 absolute accordion__vr-preview"></div>
+			<div class="ve-flex-col py-3 ml-4 accordion__wrp-preview-inner"></div>
 		</div>`;
 
 		const listItem = new ListItem(

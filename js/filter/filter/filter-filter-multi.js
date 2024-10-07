@@ -46,7 +46,20 @@ export class MultiFilter extends FilterBase {
 		this._filters.forEach(it => it.setStateFromLoaded(filterState, {isUserSavedState}));
 	}
 
-	getSubHashes () {
+	_getDefaultItemState (k, {isIgnoreSnapshot = false}) {
+		if (isIgnoreSnapshot) return this._defaultState[k];
+
+		const fromSnapshot = this._snapshotManager?.getResolvedValue(this.header, "state", k);
+		if (fromSnapshot != null) return fromSnapshot;
+
+		return this._defaultState[k];
+	}
+
+	_getStateNotDefault ({nxtState = null, isIgnoreSnapshot = false} = {}) {
+		return this._getStateNotDefault_generic({nxtState, isIgnoreSnapshot});
+	}
+
+	getSubHashes (opts) {
 		const out = [];
 
 		const baseMeta = this.getMetaSubHashes();
@@ -59,16 +72,41 @@ export class MultiFilter extends FilterBase {
 
 		// each getSubHashes should return an array of arrays, or null
 		// flatten any arrays of arrays into our array of arrays
-		this._filters.map(it => it.getSubHashes()).filter(Boolean).forEach(it => out.push(...it));
+		this._filters.map(it => it.getSubHashes(opts)).filter(Boolean).forEach(it => out.push(...it));
 		return out.length ? out : null;
 	}
 
-	_getStateNotDefault () {
-		return Object.entries(this._defaultState)
-			.filter(([k, v]) => this._state[k] !== v);
+	/* -------------------------------------------- */
+
+	getSnapshots () {
+		return [
+			...this._getSnapshots_generic(),
+			...this._filters
+				.flatMap(filter => filter.getSnapshots()),
+		];
 	}
 
-	// `meta` is not included, as it is used purely for UI
+	/* -------------------------------------------- */
+
+	isAnySnapshotRelevant ({snapshots}) {
+		return super.isAnySnapshotRelevant({snapshots})
+			|| this._filters
+				.some(filter => filter.isAnySnapshotRelevant({snapshots}));
+	}
+
+	/* -------------------------------------------- */
+
+	_mutNextState_fromSnapshots ({nxtState, snapshots = null}) {
+		this._mutNextState_fromSnapshots_generic({nxtState, snapshots});
+		return this._filters
+			.forEach(filter => filter._mutNextState_fromSnapshots({nxtState, snapshots}));
+	}
+
+	_mutNextState_fromSnapshots_state ({nxtState, snapshot}) { return this._mutNextState_fromSnapshots_state_generic({nxtState, snapshot}); }
+	_mutNextState_fromSnapshots_meta ({nxtState, snapshot}) { return this._mutNextState_fromSnapshots_meta_generic({nxtState, snapshot}); }
+
+	/* -------------------------------------------- */
+
 	getFilterTagPart () {
 		return [
 			this._getFilterTagPart_self(),
@@ -78,6 +116,7 @@ export class MultiFilter extends FilterBase {
 			.join("|");
 	}
 
+	// TODO(Future) add `_meta` if required
 	_getFilterTagPart_self () {
 		const areNotDefaultState = this._getStateNotDefault();
 		if (!areNotDefaultState.length) return null;
@@ -85,15 +124,33 @@ export class MultiFilter extends FilterBase {
 		return `${this.header.toLowerCase()}=${this._getCompressedState().join(HASH_SUB_LIST_SEP)}`;
 	}
 
-	getDisplayStatePart ({nxtState = null} = {}) {
-		return this._filters.map(it => it.getDisplayStatePart({nxtState}))
-			.filter(Boolean)
-			.join(", ");
-	}
-
 	_getCompressedState () {
 		return Object.keys(this._defaultState)
 			.map(k => UrlUtil.mini.compress(this._state[k] === undefined ? this._defaultState[k] : this._state[k]));
+	}
+
+	/* -------------------------------------------- */
+
+	getDisplayStatePart ({nxtState = null, isIgnoreSnapshot = false} = {}) {
+		const out = this._filters
+			.map(filter => filter.getDisplayStatePart({nxtState, isIgnoreSnapshot}))
+			.filter(Boolean)
+			.join(", ");
+		return out.length ? out : null;
+	}
+
+	getDisplayStatePartsHtml ({nxtState = null, isIgnoreSnapshot = false} = {}) {
+		return this._filters
+			.flatMap(filter => filter.getDisplayStatePartsHtml({nxtState, isIgnoreSnapshot}));
+	}
+
+	/* -------------------------------------------- */
+
+	getSnapshotPreviews (snapshots) {
+		return this._filters
+			.map(filter => filter.getSnapshotPreviews(snapshots))
+			.filter(Boolean)
+			.flat();
 	}
 
 	setStateFromNextState (nxtState) {
@@ -127,7 +184,19 @@ export class MultiFilter extends FilterBase {
 	}
 
 	setFromValues (values) {
+		this._setFromValues(values);
 		this._filters.forEach(it => it.setFromValues(values));
+	}
+
+	_setFromValues (values) {
+		if (!values[this.header]) return;
+
+		const stateNxt = MiscUtil.copyFast(this._defaultState);
+		Object.entries(values[this.header])
+			.filter(([k, v]) => typeof this._defaultState[k] === typeof v)
+			.forEach(([k, v]) => stateNxt[k] = v);
+
+		this._proxyAssignSimple("state", stateNxt);
 	}
 
 	_getHeaderControls (opts) {
@@ -140,23 +209,23 @@ export class MultiFilter extends FilterBase {
 			this,
 			"isUseDropdowns",
 			{
-				$ele: $(`<button class="btn btn-default btn-xs ml-2">Show as Dropdowns</button>`),
-				stateName: "meta",
-				stateProp: "_meta",
+				$ele: $(`<button class="ve-btn ve-btn-default ve-btn-xs ml-2">Show as Dropdowns</button>`),
+				stateName: "uiMeta",
+				stateProp: "_uiMeta",
 			},
 		) : null;
 		// Propagate parent state to children
 		const hkChildrenDropdowns = () => {
 			this._filters
 				.filter(it => it instanceof RangeFilter)
-				.forEach(it => it.isUseDropdowns = this._meta.isUseDropdowns);
+				.forEach(it => it.isUseDropdowns = this._uiMeta.isUseDropdowns);
 		};
-		this._addHook("meta", "isUseDropdowns", hkChildrenDropdowns);
+		this._addHook("uiMeta", "isUseDropdowns", hkChildrenDropdowns);
 		hkChildrenDropdowns();
 
 		const btnResetAll = e_({
 			tag: "button",
-			clazz: "btn btn-default btn-xs ml-2",
+			clazz: "ve-btn ve-btn-default ve-btn-xs ml-2",
 			text: "Reset All",
 			click: () => this._filters.forEach(it => it.reset()),
 		});
@@ -164,27 +233,41 @@ export class MultiFilter extends FilterBase {
 		const wrpBtns = e_({tag: "div", clazz: "ve-flex", children: [btnForceMobile, btnResetAll].filter(Boolean)});
 		this._getHeaderControls_addExtraStateBtns(opts, wrpBtns);
 
-		const btnShowHide = e_({
-			tag: "button",
-			clazz: `btn btn-default btn-xs ml-2 ${this._meta.isHidden ? "active" : ""}`,
-			text: "Hide",
-			click: () => this._meta.isHidden = !this._meta.isHidden,
+		const btnShowHide = this._getBtnShowHide({isMulti: opts.isMulti});
+		const wrpControls = e_({
+			tag: "div",
+			clazz: "ve-flex-v-center",
+			children: [
+				wrpSummary,
+				wrpBtns,
+				e_({
+					tag: "div",
+					clazz: "ve-btn-group ve-flex-v-center ml-2",
+					children: [
+						btnShowHide,
+						this._getBtnMenu({isMulti: opts.isMulti}),
+					],
+				}),
+			],
 		});
-		const wrpControls = e_({tag: "div", clazz: "ve-flex-v-center", children: [wrpSummary, wrpBtns, btnShowHide]});
 
-		const hookShowHide = () => {
-			wrpBtns.toggleVe(!this._meta.isHidden);
-			btnShowHide.toggleClass("active", this._meta.isHidden);
-			this._$wrpChildren.toggleVe(!this._meta.isHidden);
-			wrpSummary.toggleVe(this._meta.isHidden);
+		const hkIsHidden = () => {
+			wrpBtns.toggleVe(!this._uiMeta.isHidden);
+			btnShowHide.toggleClass("active", this._uiMeta.isHidden);
+			this._$wrpChildren.toggleVe(!this._uiMeta.isHidden);
+			wrpSummary.toggleVe(this._uiMeta.isHidden);
+
+			// Skip updating renders if results would be invisible
+			if (!this._uiMeta.isHidden) return;
 
 			const numActive = this._filters.map(it => it.getValues()[it.header]._isActive).filter(Boolean).length;
 			if (numActive) {
 				e_({ele: wrpSummary, title: `${numActive} hidden active filter${numActive === 1 ? "" : "s"}`, text: `(${numActive})`});
 			}
 		};
-		this._addHook("meta", "isHidden", hookShowHide);
-		hookShowHide();
+		this._addHook("uiMeta", "isHidden", hkIsHidden);
+		this._filters.forEach(filter => filter.addHookAllState(hkIsHidden));
+		hkIsHidden();
 
 		return wrpControls;
 	}
@@ -196,6 +279,7 @@ export class MultiFilter extends FilterBase {
 			tag: "div",
 			clazz: `fltr__group-comb-toggle ve-muted`,
 			click: () => this._state.mode = this._state.mode === "and" ? "or" : "and",
+			contextmenu: () => this._state.mode = this._state.mode === "and" ? "or" : "and",
 			title: `"Group AND" requires all filters in this group to match. "Group OR" required any filter in this group to match.`,
 		});
 
@@ -234,7 +318,12 @@ export class MultiFilter extends FilterBase {
 	}
 
 	getValues ({nxtState = null} = {}) {
-		const out = {};
+		const state = nxtState?.[this.header]?.state || this.__state;
+
+		const out = {
+			[this.header]: Object.entries(this._defaultState)
+				.mergeMap(([k, v]) => ({[k]: state[k] == null ? v : state[k]})),
+		};
 		this._filters.forEach(it => Object.assign(out, it.getValues({nxtState})));
 		return out;
 	}
@@ -243,14 +332,14 @@ export class MultiFilter extends FilterBase {
 		Object.assign(nxtState[this.header].state, MiscUtil.copy(this._defaultState));
 	}
 
-	_mutNextState_reset (nxtState, {isResetAll = false} = {}) {
-		if (isResetAll) this._mutNextState_resetBase(nxtState, {isResetAll});
+	_mutNextState_reset ({nxtState, isResetAll = false}) {
+		if (isResetAll) this._mutNextState_resetBase({nxtState, isResetAll});
 		this._mutNextState_reset_self(nxtState);
 	}
 
-	reset ({isResetAll = false} = {}) {
-		super.reset({isResetAll});
-		this._filters.forEach(it => it.reset({isResetAll}));
+	reset ({isResetAll = false, snapshots = null} = {}) {
+		super.reset({isResetAll, snapshots});
+		this._filters.forEach(it => it.reset({isResetAll, snapshots}));
 	}
 
 	update () {
@@ -299,9 +388,26 @@ export class MultiFilter extends FilterBase {
 		this.__$wrpFilter.toggleClass("fltr__hidden--search", numVisible === 0);
 	}
 
-	_doTeardown () { this._filters.forEach(it => it._doTeardown()); }
+	getDefaultMeta () {
+		// Key order is important, as @filter tags depend on it
+		return {};
+	}
+
+	getDefaultUiMeta () {
+		const out = {
+			...super.getDefaultUiMeta(),
+			...MultiFilter._DEFAULT_UI_META,
+		};
+		if (Renderer.hover.isSmallScreen()) out.isUseDropdowns = true;
+		return out;
+	}
+
+	doTeardown () { this._filters.forEach(it => it.doTeardown()); }
 	trimState_ () { this._filters.forEach(it => it.trimState_()); }
 }
 MultiFilter._DETAULT_STATE = {
 	mode: "and",
+};
+MultiFilter._DEFAULT_UI_META = {
+	isUseDropdowns: false,
 };

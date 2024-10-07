@@ -43,7 +43,7 @@
 					"light",
 					"medium",
 					{
-						"proficiency": "{@item shield|phb|shields}",
+						"proficiency": "shield",
 						"full": "shields (druids will not wear armor or use shields made of metal)"
 					}
 				],
@@ -89,7 +89,7 @@
 				"additionalFromBackground": true,
 				"default": [
 					"(a) a wooden {@item shield|phb} or (b) any {@filter simple weapon|items|source=phb|category=basic|type=simple weapon}",
-					"(a) a {@item scimitar|phb} or (b) any {@filter simple melee weapon|items|source=phb|category=basic|type=simple weapon;melee weapon=u~u~sand}",
+					"(a) a {@item scimitar|phb} or (b) any {@filter simple melee weapon|items|source=phb|category=basic|type=simple weapon;melee weapon=sand}",
 					"{@item Leather armor|phb}, an {@item explorer's pack|phb}, and a {@item druidic focus|phb}"
 				],
 				"goldAlternative": "{@dice 2d4 × 10|2d4 × 10|Starting Gold}",
@@ -134,7 +134,7 @@
 						"light",
 						"medium",
 						{
-							"proficiency": "{@item shield|phb|shields}",
+							"proficiency": "shield",
 							"full": "shields (druids will not wear armor or use shields made of metal)"
 						}
 					]
@@ -2541,7 +2541,7 @@
 			"level": 6,
 			"header": 2,
 			"entries": [
-				"At 6th level, home can be wherever you are. During a short or long rest, you can invoke the shadowy power of the Gloaming Court to help guard your respite. At the start of the rest, you touch a point in space, and an invisible, 30-foot-radius sphere of magic appears, centered on that point. Total cover blocks the sphere.",
+				"At 6th level, home can be wherever you are. During a short or long rest, you can invoke the shadowy power of the Gloaming Court to help guard your respite. At the start of the rest, you touch a point in space, and an invisible, 30-foot-radius sphere of magic appears, centered on that point. {@quickref Cover||3||Total cover} blocks the sphere.",
 				"While within the sphere, you and your allies gain a +5 bonus to Dexterity ({@skill Stealth}) and Wisdom ({@skill Perception}) checks, and any light from open flames in the sphere (a campfire, torches, or the like) isn't visible outside it.",
 				"The sphere vanishes at the end of the rest or when you leave the sphere."
 			]

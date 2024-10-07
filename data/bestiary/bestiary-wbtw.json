@@ -500,7 +500,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"Bavlorna swallows a Small or smaller creature she is grappling, ending the grapple on it. The swallowed creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside Bavlorna, and it takes 10 ({@damage 3d6}) acid damage at the start of each of its turns. If the swallowed creature is one of Bavlorna's lornlings, Bavlorna gains all the lornling's memories when the acid damage reduces it to 0 hit points.",
+						"Bavlorna swallows a Small or smaller creature she is grappling, ending the grapple on it. The swallowed creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside Bavlorna, and it takes 10 ({@damage 3d6}) acid damage at the start of each of its turns. If the swallowed creature is one of Bavlorna's lornlings, Bavlorna gains all the lornling's memories when the acid damage reduces it to 0 hit points.",
 						"Bavlorna can have only one creature swallowed at a time. If Bavlorna dies, a swallowed creature is no longer {@condition restrained} and can escape from the corpse using 5 feet of movement, exiting {@condition prone}."
 					]
 				}
@@ -2254,7 +2254,7 @@
 				{
 					"name": "Light Crossbow",
 					"entries": [
-						"{@atk rw} {@hit 5} to hit (the target gains no benefit from less than total cover), range 320 ft., one target. {@h}7 ({@damage 1d8 + 3}) piercing damage. Hit or Miss: Immediately after making this attack, the harengon can use the Hide action."
+						"{@atk rw} {@hit 5} to hit (the target gains no benefit from less than {@quickref Cover||3||total cover}), range 320 ft., one target. {@h}7 ({@damage 1d8 + 3}) piercing damage. Hit or Miss: Immediately after making this attack, the harengon can use the Hide action."
 					]
 				}
 			],
@@ -2553,7 +2553,7 @@
 			"speed": {
 				"walk": 30,
 				"climb": 30,
-				"fly": 30,
+				"fly": 60,
 				"swim": 30
 			},
 			"str": 20,

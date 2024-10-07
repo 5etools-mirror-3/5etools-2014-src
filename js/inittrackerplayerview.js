@@ -111,7 +111,7 @@ class InitTrackerPlayerViewV1 {
 
 		if (token) $iptServerToken.val(token);
 
-		const $btnConnect = $(`<button class="btn btn-xs btn-primary">Connect</button>`)
+		const $btnConnect = $(`<button class="ve-btn ve-btn-xs ve-btn-primary">Connect</button>`)
 			.click(async () => {
 				if (!$iptPlayerName.val().trim()) return $iptPlayerName.addClass("form-control--error");
 				if (!$iptServerToken.val().trim()) return $iptServerToken.addClass("form-control--error");
@@ -219,7 +219,7 @@ class InitTrackerPlayerViewV0 {
 
 		if (token) $iptServerToken.val(token);
 
-		const $btnGenClientToken = $(`<button class="btn btn-xs btn-primary">Generate Client Token</button>`)
+		const $btnGenClientToken = $(`<button class="ve-btn ve-btn-xs ve-btn-primary">Generate Client Token</button>`)
 			.click(() => $dispWarning.remove());
 
 		const $iptClientToken = $(`<input class="form-control code copyable" readonly disabled>`).disableSpellcheck();

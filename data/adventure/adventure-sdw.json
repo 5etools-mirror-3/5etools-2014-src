@@ -2082,7 +2082,7 @@
 											"name": "Stalagmites",
 											"id": "05a",
 											"entries": [
-												"Medium-sized stalagmites are found throughout the cave. When using these stalagmites for protection, a Medium or small creature gains half cover."
+												"Medium-sized stalagmites are found throughout the cave. When using these stalagmites for protection, a Medium or small creature gains {@quickref Cover||3||half cover}."
 											]
 										},
 										{
@@ -10105,7 +10105,7 @@
 											"name": "Arrow Slits",
 											"id": "0bf",
 											"entries": [
-												"When using an arrow slit for protection, a creature gains three-quarters cover against outside threats. A Medium or larger creature can't squeeze through an arrow slit, but a Small creature can with a successful DC 10 Dexterity ({@skill Acrobatics}) check. Tiny creatures can move through the slits without squeezing."
+												"When using an arrow slit for protection, a creature gains {@quickref Cover||3||three-quarters cover} against outside threats. A Medium or larger creature can't squeeze through an arrow slit, but a Small creature can with a successful DC 10 Dexterity ({@skill Acrobatics}) check. Tiny creatures can move through the slits without squeezing."
 											]
 										},
 										{
@@ -10129,7 +10129,7 @@
 											"name": "Parapets",
 											"id": "0c2",
 											"entries": [
-												"Parapets standing 3 feet high run along the outside of the keep's wall walkways ({@area area I1|0c7|x}) and the roof of the main tower ({@area area I6|0d1|x}). When using the parapets for protection, a Medium or smaller creature gains half cover."
+												"Parapets standing 3 feet high run along the outside of the keep's wall walkways ({@area area I1|0c7|x}) and the roof of the main tower ({@area area I6|0d1|x}). When using the parapets for protection, a Medium or smaller creature gains {@quickref Cover||3||half cover}."
 											]
 										},
 										{
@@ -10697,7 +10697,7 @@
 											"name": "Murder Holes",
 											"id": "0cb",
 											"entries": [
-												"The second story has eight 1-foot-diameter murder holes in the floor that look down into the first story of the gatehouse. When using a murder hole to fight, a creature on the second story gains three-quarters cover against threats on the first story. A Medium or larger creature can't squeeze through a murder hole, but a Small creature can with a successful DC 10 Dexterity ({@skill Acrobatics}) check. Tiny creatures can move through the holes without squeezing."
+												"The second story has eight 1-foot-diameter murder holes in the floor that look down into the first story of the gatehouse. When using a murder hole to fight, a creature on the second story gains {@quickref Cover||3||three-quarters cover} against threats on the first story. A Medium or larger creature can't squeeze through a murder hole, but a Small creature can with a successful DC 10 Dexterity ({@skill Acrobatics}) check. Tiny creatures can move through the holes without squeezing."
 											]
 										},
 										{

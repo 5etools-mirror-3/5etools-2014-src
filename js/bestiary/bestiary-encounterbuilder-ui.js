@@ -35,14 +35,14 @@ export class EncounterBuilderUiBestiary extends EncounterBuilderUi {
 	}
 
 	_render_saveLoad () {
-		const $btnSave = $(`<button class="btn btn-default btn-xs">Save Encounter</button>`)
+		const $btnSave = $(`<button class="ve-btn ve-btn-default ve-btn-xs">Save Encounter</button>`)
 			.click(evt => this._sublistManager.pHandleClick_save(evt));
 
-		const $btnLoad = $(`<button class="btn btn-default btn-xs">Load Encounter</button>`)
+		const $btnLoad = $(`<button class="ve-btn ve-btn-default ve-btn-xs">Load Encounter</button>`)
 			.click(evt => this._sublistManager.pHandleClick_load(evt));
 
 		$$(document.getElementById("best-ecgen__wrp-save-controls"))`<div class="ve-flex-col">
-			<div class="ve-flex-h-right btn-group">
+			<div class="ve-flex-h-right ve-btn-group">
 				${$btnSave}
 				${$btnLoad}
 			</div>
@@ -74,24 +74,24 @@ export class EncounterBuilderUiBestiary extends EncounterBuilderUi {
 	_render_groupAndDifficulty ({rdState, $parentGroupAndDifficulty}) {
 		super._render_groupAndDifficulty({rdState, $parentGroupAndDifficulty});
 
-		const $btnSaveToUrl = $(`<button class="btn btn-default btn-xs mr-2">Save to URL</button>`)
+		const $btnSaveToUrl = $(`<button class="ve-btn ve-btn-default ve-btn-xs mr-2">Save to URL</button>`)
 			.click(() => this._sublistManager.pHandleClick_download({isUrl: true, $eleCopyEffect: $btnSaveToUrl}));
-		const $btnSaveToFile = $(`<button class="btn btn-default btn-xs">Save to File</button>`)
+		const $btnSaveToFile = $(`<button class="ve-btn ve-btn-default ve-btn-xs">Save to File</button>`)
 			.click(() => this._sublistManager.pHandleClick_download());
-		const $btnLoadFromFile = $(`<button class="btn btn-default btn-xs">Load from File</button>`)
+		const $btnLoadFromFile = $(`<button class="ve-btn ve-btn-default ve-btn-xs">Load from File</button>`)
 			.click(evt => this._sublistManager.pHandleClick_upload({isAdditive: evt.shiftKey}));
-		const $btnCopyAsText = $(`<button class="btn btn-default btn-xs mr-2" title="SHIFT for Multi-Line Format">Copy as Text</button>`).click((evt) => this._handleClickCopyAsText(evt));
-		const $btnReset = $(`<button class="btn btn-danger btn-xs" title="SHIFT to Reset Players">Reset</button>`)
+		const $btnCopyAsText = $(`<button class="ve-btn ve-btn-default ve-btn-xs mr-2" title="SHIFT for Multi-Line Format">Copy as Text</button>`).click((evt) => this._handleClickCopyAsText(evt));
+		const $btnReset = $(`<button class="ve-btn ve-btn-danger ve-btn-xs" title="SHIFT to Reset Players">Reset</button>`)
 			.click((evt) => this._sublistManager.pHandleClick_new(evt));
 
-		const $btnBackToStatblocks = $(`<button class="btn btn-success btn-xs">Back to Stat Blocks</button>`).click((evt) => this._handleClickBackToStatblocks(evt));
+		const $btnBackToStatblocks = $(`<button class="ve-btn ve-btn-success ve-btn-xs">Back to Stat Blocks</button>`).click((evt) => this._handleClickBackToStatblocks(evt));
 
 		$$`<div class="ve-flex-col w-100">
 			<hr class="hr-1">
 
 			<div class="ve-flex-v-center mb-2">
 				${$btnSaveToUrl}
-				<div class="btn-group ve-flex-v-center mr-2">
+				<div class="ve-btn-group ve-flex-v-center mr-2">
 					${$btnSaveToFile}
 					${$btnLoadFromFile}
 				</div>
@@ -295,7 +295,7 @@ export class EncounterBuilderUiBestiary extends EncounterBuilderUi {
 	getButtons (monId) {
 		return e_({
 			tag: "span",
-			clazz: `best-ecgen__visible ve-col-1 no-wrap pl-0 btn-group`,
+			clazz: `best-ecgen__visible ve-col-1 no-wrap pl-0 ve-btn-group`,
 			click: evt => {
 				evt.preventDefault();
 				evt.stopPropagation();
@@ -304,7 +304,7 @@ export class EncounterBuilderUiBestiary extends EncounterBuilderUi {
 				e_({
 					tag: "button",
 					title: `Add (SHIFT for 5)`,
-					clazz: `btn btn-success btn-xs best-ecgen__btn-list`,
+					clazz: `ve-btn ve-btn-success ve-btn-xs best-ecgen__btn-list`,
 					click: evt => this._handleClick({evt, entity: this._bestiaryPage.dataList_[monId], mode: "add"}),
 					children: [
 						e_({
@@ -316,7 +316,7 @@ export class EncounterBuilderUiBestiary extends EncounterBuilderUi {
 				e_({
 					tag: "button",
 					title: `Subtract (SHIFT for 5)`,
-					clazz: `btn btn-danger btn-xs best-ecgen__btn-list`,
+					clazz: `ve-btn ve-btn-danger ve-btn-xs best-ecgen__btn-list`,
 					click: evt => this._handleClick({evt, entity: this._bestiaryPage.dataList_[monId], mode: "subtract"}),
 					children: [
 						e_({
@@ -330,20 +330,20 @@ export class EncounterBuilderUiBestiary extends EncounterBuilderUi {
 	}
 
 	getSublistButtonsMeta (sublistItem) {
-		const $btnAdd = $(`<button title="Add (SHIFT for 5)" class="btn btn-success btn-xs best-ecgen__btn-list"><span class="glyphicon glyphicon-plus"></span></button>`)
+		const $btnAdd = $(`<button title="Add (SHIFT for 5)" class="ve-btn ve-btn-success ve-btn-xs best-ecgen__btn-list"><span class="glyphicon glyphicon-plus"></span></button>`)
 			.click(evt => this._handleClick({evt, entity: sublistItem.data.entity, mode: "add"}));
 
-		const $btnSub = $(`<button title="Subtract (SHIFT for 5)" class="btn btn-danger btn-xs best-ecgen__btn-list"><span class="glyphicon glyphicon-minus"></span></button>`)
+		const $btnSub = $(`<button title="Subtract (SHIFT for 5)" class="ve-btn ve-btn-danger ve-btn-xs best-ecgen__btn-list"><span class="glyphicon glyphicon-minus"></span></button>`)
 			.click(evt => this._handleClick({evt, entity: sublistItem.data.entity, mode: "subtract"}));
 
-		const $btnRandomize = $(`<button title="Randomize Monster" class="btn btn-default btn-xs best-ecgen__btn-list"><span class="glyphicon glyphicon-random"></span></button>`)
+		const $btnRandomize = $(`<button title="Randomize Monster" class="ve-btn ve-btn-default ve-btn-xs best-ecgen__btn-list"><span class="glyphicon glyphicon-random"></span></button>`)
 			.click(evt => this._pHandleShuffleClick({evt, sublistItem}));
 
-		const $btnLock = $(`<button title="Lock Monster against Randomizing/Adjusting" class="btn btn-default btn-xs best-ecgen__btn-list"><span class="glyphicon glyphicon-lock"></span></button>`)
+		const $btnLock = $(`<button title="Lock Monster against Randomizing/Adjusting" class="ve-btn ve-btn-default ve-btn-xs best-ecgen__btn-list"><span class="glyphicon glyphicon-lock"></span></button>`)
 			.click(() => this._sublistManager.pSetDataEntry({sublistItem, key: "isLocked", value: !sublistItem.data.isLocked}))
 			.toggleClass("active", sublistItem.data.isLocked);
 
-		const $wrp = $$`<span class="best-ecgen__visible ve-col-1-5 no-wrap pl-0 btn-group">
+		const $wrp = $$`<span class="best-ecgen__visible ve-col-1-5 no-wrap pl-0 ve-btn-group">
 			${$btnAdd}
 			${$btnSub}
 			${$btnRandomize}

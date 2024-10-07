@@ -22,6 +22,7 @@ class PageFilterClassesRaw extends PageFilterClassesBase {
 		const subclassExclusions = opts.subclassExclusions || {};
 
 		this._sourceFilter.addItem(cls.source);
+		this._miscFilter.addItem(cls._fMisc);
 
 		if (cls.fluff) cls.fluff.forEach(it => this._addEntrySourcesToFilter(it));
 
@@ -31,6 +32,7 @@ class PageFilterClassesRaw extends PageFilterClassesBase {
 			const isScExcluded = (subclassExclusions[sc.source] || {})[sc.name] || false;
 			if (!isScExcluded) {
 				this._sourceFilter.addItem(sc.source);
+				this._miscFilter.addItem(sc._fMisc);
 				sc.subclassFeatures.forEach(feature => feature.loadeds.forEach(ent => this._addEntrySourcesToFilter(ent.entity)));
 			}
 		});
@@ -178,6 +180,7 @@ class PageFilterClassesRaw extends PageFilterClassesBase {
 		classFeature.source = source;
 
 		const entityRoot = await DataLoader.pCacheAndGet("raw_classFeature", classFeature.source, classFeature.hash, {isCopy: true, isRequired: true});
+		if (entityRoot) entityRoot.type ||= "entries";
 		const loadedRoot = {
 			type: "classFeature",
 			entity: entityRoot,
@@ -222,6 +225,7 @@ class PageFilterClassesRaw extends PageFilterClassesBase {
 		subclassFeature.source = source;
 
 		const entityRoot = await DataLoader.pCacheAndGet("raw_subclassFeature", subclassFeature.source, subclassFeature.hash, {isCopy: true, isRequired: true});
+		if (entityRoot) entityRoot.type ||= "entries";
 		const loadedRoot = {
 			type: "subclassFeature",
 			entity: entityRoot,
@@ -326,6 +330,7 @@ class PageFilterClassesRaw extends PageFilterClassesBase {
 		ent.source = source;
 
 		const entityRoot = raw != null ? MiscUtil.copyFast(raw) : await DataLoader.pCacheAndGet(`raw_${prop}`, ent.source, ent.hash, {isCopy: true, isRequired: true});
+		if (entityRoot) entityRoot.type ||= "entries";
 		const loadedRoot = {
 			type: prop,
 			entity: entityRoot,
@@ -447,6 +452,8 @@ class PageFilterClassesRaw extends PageFilterClassesBase {
 							continue;
 						}
 
+						entity.type ||= "entries";
+
 						if (toWalk.__prop === entity.__prop && UrlUtil.URL_TO_HASH_BUILDER["classFeature"](toWalk) === hash) {
 							this._handleReferenceError(`Failed to load "classFeature" reference "${ent.classFeature}" (circular reference)`);
 							continue;
@@ -488,6 +495,8 @@ class PageFilterClassesRaw extends PageFilterClassesBase {
 							continue;
 						}
 
+						entity.type ||= "entries";
+
 						if (toWalk.__prop === entity.__prop && UrlUtil.URL_TO_HASH_BUILDER["subclassFeature"](toWalk) === hash) {
 							this._handleReferenceError(`Failed to load "subclassFeature" reference "${ent.subclassFeature}" (circular reference)`);
 							continue;
@@ -517,49 +526,38 @@ class PageFilterClassesRaw extends PageFilterClassesBase {
 
 						break;
 					}
+
 					case "refOptionalfeature": {
-						const unpacked = DataUtil.generic.unpackUid(ent.optionalfeature, "optfeature");
-						const page = UrlUtil.PG_OPT_FEATURES;
-						const {source} = unpacked;
-						const hash = UrlUtil.URL_TO_HASH_BUILDER[page](unpacked);
-
-						const entity = await DataLoader.pCacheAndGet(page, source, hash, {isCopy: true});
-
-						if (!entity) {
-							this._handleReferenceError(`Failed to load "optfeature" reference "${ent.optionalfeature}" (not found)`);
-							continue;
-						}
-
-						if (toWalk.__prop === entity.__prop && UrlUtil.URL_TO_HASH_BUILDER[page](toWalk) === hash) {
-							this._handleReferenceError(`Failed to load "optfeature" reference "${ent.optionalfeature}" (circular reference)`);
-							continue;
-						}
-
-						const isIgnored = await this._pGetIgnoredAndApplySideData(entity, "optionalfeature");
-						if (isIgnored) continue;
-
-						this.populateEntityTempData({
-							entity,
-							// Cache this so we can determine if this optional feature is from a "classFeature" or a "subclassFeature"
+						const meta = await this._pLoadSubEntries_pGetGenericFeatureSubEntries({
 							ancestorType,
-							displayName: ent._displayNamePrefix ? `${ent._displayNamePrefix}${entity.name}` : null,
-							...ancestorMeta,
-							foundrySystem: {
-								requirements: entityRoot.className ? `${entityRoot.className} ${entityRoot.level}${entityRoot.subclassShortName ? ` (${entityRoot.subclassShortName})` : ""}` : null,
-							},
-						});
-
-						out.push({
-							type: "optionalfeature",
-							entry: `{@optfeature ${ent.optionalfeature}}`,
-							entity,
-							optionsMeta: ent._optionsMeta,
-							page,
-							source,
-							hash,
+							ancestorMeta,
+							entityRoot,
 							isRequiredOption,
+							toWalk,
+							ent,
+							page: UrlUtil.PG_OPT_FEATURES,
+							tag: "optfeature",
+							prop: "optionalfeature",
 						});
+						if (!meta) continue;
+						out.push(meta);
+						break;
+					}
 
+					case "refFeat": {
+						const meta = await this._pLoadSubEntries_pGetGenericFeatureSubEntries({
+							ancestorType,
+							ancestorMeta,
+							entityRoot,
+							isRequiredOption,
+							toWalk,
+							ent,
+							page: UrlUtil.PG_FEATS,
+							tag: "feat",
+							prop: "feat",
+						});
+						if (!meta) continue;
+						out.push(meta);
 						break;
 					}
 					default: throw new Error(`Unhandled type "${ent.type}"`);
@@ -574,13 +572,77 @@ class PageFilterClassesRaw extends PageFilterClassesBase {
 		return {entityRoot, subLoadeds: out};
 	}
 
+	static _REF_TYPES = new Set([
+		"refClassFeature",
+		"refSubclassFeature",
+		"refOptionalfeature",
+		"refFeat",
+	]);
+
 	static _pLoadSubEntries_getMappedWalkerArrayEntry ({it, path, references, ...opts}) {
-		if (it.type !== "refClassFeature" && it.type !== "refSubclassFeature" && it.type !== "refOptionalfeature") return it;
+		if (!this._REF_TYPES.has(it.type)) return it;
 
 		it.parentName = (path.last() || {}).name;
 		references.push(it);
 
 		return null;
+	}
+
+	static async _pLoadSubEntries_pGetGenericFeatureSubEntries (
+		{
+			ancestorType,
+			ancestorMeta,
+			entityRoot,
+			isRequiredOption,
+			toWalk,
+			ent,
+			page,
+			tag,
+			prop,
+		},
+	) {
+		const unpacked = DataUtil.generic.unpackUid(ent[prop], tag);
+		const {source} = unpacked;
+		const hash = UrlUtil.URL_TO_HASH_BUILDER[page](unpacked);
+
+		const entity = await DataLoader.pCacheAndGet(page, source, hash, {isCopy: true});
+
+		if (!entity) {
+			this._handleReferenceError(`Failed to load "${prop}" reference "${ent[prop]}" (not found)`);
+			return null;
+		}
+
+		entity.type ||= "entries";
+
+		if (toWalk.__prop === entity.__prop && UrlUtil.URL_TO_HASH_BUILDER[page](toWalk) === hash) {
+			this._handleReferenceError(`Failed to load "${prop}" reference "${ent[prop]}" (circular reference)`);
+			return null;
+		}
+
+		const isIgnored = await this._pGetIgnoredAndApplySideData(entity, prop);
+		if (isIgnored) return null;
+
+		this.populateEntityTempData({
+			entity,
+			// Cache this so we can determine if this feat is from a "classFeature" or a "subclassFeature"
+			ancestorType,
+			displayName: ent._displayNamePrefix ? `${ent._displayNamePrefix}${entity.name}` : null,
+			...ancestorMeta,
+			foundrySystem: {
+				requirements: entityRoot.className ? `${entityRoot.className} ${entityRoot.level}${entityRoot.subclassShortName ? ` (${entityRoot.subclassShortName})` : ""}` : null,
+			},
+		});
+
+		return {
+			type: prop,
+			entry: `{@${tag} ${ent[prop]}}`,
+			entity,
+			optionsMeta: ent._optionsMeta,
+			page,
+			source,
+			hash,
+			isRequiredOption,
+		};
 	}
 
 	static populateEntityTempData (
@@ -763,21 +825,21 @@ class ModalFilterClasses extends ModalFilterBase {
 			const $ovlLoading = $(`<div class="w-100 h-100 ve-flex-vh-center"><i class="dnd-font ve-muted">Loading...</i></div>`).appendTo($modalInner);
 
 			const $iptSearch = $(`<input class="form-control h-100" type="search" placeholder="Search...">`);
-			const $btnReset = $(`<button class="btn btn-default">Reset</button>`);
-			const $wrpFormTop = $$`<div class="ve-flex input-group btn-group w-100 lst__form-top">${$iptSearch}${$btnReset}</div>`;
+			const $btnReset = $(`<button class="ve-btn ve-btn-default">Reset</button>`);
+			const $wrpFormTop = $$`<div class="ve-flex input-group ve-btn-group w-100 lst__form-top">${$iptSearch}${$btnReset}</div>`;
 
 			const $wrpFormBottom = $(`<div class="w-100"></div>`);
 
 			const $wrpFormHeaders = $(`<div class="input-group input-group--bottom ve-flex no-shrink">
-				<div class="btn btn-default disabled ve-col-1 pl-0"></div>
-				<button class="ve-col-9 sort btn btn-default btn-xs" data-sort="name">Name</button>
-				<button class="ve-col-2 pr-0 sort btn btn-default btn-xs ve-grow" data-sort="source">Source</button>
+				<div class="ve-btn ve-btn-default disabled ve-col-1 pl-0"></div>
+				<button class="ve-col-9 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
+				<button class="ve-col-2 pr-0 sort ve-btn ve-btn-default ve-btn-xs ve-grow" data-sort="source">Source</button>
 			</div>`);
 
 			const $wrpForm = $$`<div class="ve-flex-col w-100 mb-2">${$wrpFormTop}${$wrpFormBottom}${$wrpFormHeaders}</div>`;
 			const $wrpList = this._$getWrpList();
 
-			const $btnConfirm = $(`<button class="btn btn-default">Confirm</button>`);
+			const $btnConfirm = $(`<button class="ve-btn ve-btn-default">Confirm</button>`);
 
 			const list = new List({
 				$iptSearch,
@@ -962,7 +1024,7 @@ class ModalFilterClasses extends ModalFilterBase {
 
 	_getListItems_getClassItem (pageFilter, cls, clsI) {
 		const eleLabel = document.createElement("label");
-		eleLabel.className = `w-100 ve-flex lst--border veapp__list-row no-select lst__wrp-cells`;
+		eleLabel.className = `w-100 ve-flex lst__row-border veapp__list-row no-select lst__wrp-cells`;
 
 		const source = Parser.sourceJsonToAbv(cls.source);
 
@@ -986,7 +1048,7 @@ class ModalFilterClasses extends ModalFilterBase {
 
 	_getListItems_getSubclassItem (pageFilter, cls, clsI, sc, scI) {
 		const eleLabel = document.createElement("label");
-		eleLabel.className = `w-100 ve-flex lst--border veapp__list-row no-select lst__wrp-cells`;
+		eleLabel.className = `w-100 ve-flex lst__row-border veapp__list-row no-select lst__wrp-cells`;
 
 		const source = Parser.sourceJsonToAbv(sc.source);
 

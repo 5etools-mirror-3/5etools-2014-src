@@ -10,7 +10,7 @@ on:
 
 env:
    # See: https://docs.github.com/en/packages/managing-github-packages-using-github-actions-workflows/publishing-and-installing-a-package-with-github-actions#upgrading-a-workflow-that-accesses-ghcrio
-   IMAGE_NAME: 5etools
+   IMAGE_NAME: 5etools-2014
 
    # Used to force a clean (i.e., non-incremental) Docker build
    DO_CLEAN_BUILD: 1
@@ -51,7 +51,7 @@ jobs:
                [[ "${{ github.ref }}" == "refs/tags/"* ]] && IMAGE_VERSION=$(echo $IMAGE_VERSION | sed -e 's/^v//')
                echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
 
-               echo "IMAGE_ID=$(echo ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME | tr '[A-Z]' '[a-z]')" >> $GITHUB_ENV
+               echo "IMAGE_ID_SRC=$(echo ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME-src | tr '[A-Z]' '[a-z]')" >> $GITHUB_ENV
                echo "IMAGE_ID_IMG=$(echo ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME-img | tr '[A-Z]' '[a-z]')" >> $GITHUB_ENV
 
          -  name: Set Deployed Flag
@@ -71,7 +71,7 @@ jobs:
          -  name: Build SEO Pages
             env:
                VET_SEO_IS_DEV_MODE: true
-               VET_BASE_SITE_URL: https://5etools-mirror-2.github.io/
+               VET_BASE_SITE_URL: "https://${{ github.repository_owner }}.github.io/"
                VET_SEO_IS_SKIP_UA_ETC: true
             run: |
                npm run build:seo -- ${{ github.ref_name }}
@@ -97,31 +97,31 @@ jobs:
                then
                   # Build a clean image
                   echo "Version is ${{ github.ref_name }}, doing a clean docker build"
-                  docker build -t $IMAGE_NAME .
+                  docker build -t $IMAGE_NAME-src .
                else
                   # Build an incremental image...
                   echo "Version is ${{ github.ref_name }}, doing an incremental docker build"
 
                   # Pull the old images
-                  docker pull $IMAGE_ID:latest
+                  docker pull $IMAGE_ID_SRC:latest
                   docker pull $IMAGE_ID_IMG:latest
 
                   # Save the current CMD from the image
-                  SAVE_CMD=$(docker inspect --format='{{json .Config.Cmd}}' $IMAGE_ID:latest)
+                  SAVE_CMD=$(docker inspect --format='{{json .Config.Cmd}}' $IMAGE_ID_SRC:latest)
 
                   # Convert .dockerignore to .rsync-filter
                   bash ./.github/create-rsync-filter.sh
-               
+
                   # Copy img files to host
                   docker run --rm -v "$(pwd)":/tmp/5et-new $IMAGE_ID_IMG:latest rsync -rlcv --filter='dir-merge /tmp/5et-new/.rsync-filter' /var/www/localhost/htdocs/img /tmp/5et-new/
                   docker rmi $(docker images -q $IMAGE_ID_IMG:*)
 
                   # Run up the previous containers, and rsync the current new of files into it
-                  CONTAINER_ID=$(docker run -d -v "$(pwd)":/tmp/5et-new $IMAGE_ID:latest  rsync -rlcvF --delete-excluded /tmp/5et-new/ /var/www/localhost/htdocs/)
+                  CONTAINER_ID=$(docker run -d -v "$(pwd)":/tmp/5et-new $IMAGE_ID_SRC:latest  rsync -rlcvF --delete-excluded /tmp/5et-new/ /var/www/localhost/htdocs/)
                   docker logs -f $CONTAINER_ID
 
                   # Commit the changes
-                  docker commit -c "CMD $SAVE_CMD" $CONTAINER_ID $IMAGE_NAME
+                  docker commit -c "CMD $SAVE_CMD" $CONTAINER_ID $IMAGE_NAME-src
                fi
 
          -  name: Log In to Registry
@@ -129,11 +129,11 @@ jobs:
 
          -  name: Push Image
             run: |
-               echo IMAGE_ID=$IMAGE_ID
+               echo IMAGE_ID_SRC=$IMAGE_ID_SRC
                echo IMAGE_VERSION=$IMAGE_VERSION
-               docker tag $IMAGE_NAME $IMAGE_ID:$IMAGE_VERSION
+               docker tag $IMAGE_NAME-src $IMAGE_ID_SRC:$IMAGE_VERSION
                # Always tag latest when pushing a tag, as we don't expect to ever merge old tags
-               [[ "${{ github.ref }}" == "refs/tags/"* ]] && docker tag $IMAGE_NAME $IMAGE_ID:latest
-               docker push $IMAGE_ID:$IMAGE_VERSION
-               docker push $IMAGE_ID:latest
+               [[ "${{ github.ref }}" == "refs/tags/"* ]] && docker tag $IMAGE_NAME-src $IMAGE_ID_SRC:latest
+               docker push $IMAGE_ID_SRC:$IMAGE_VERSION
+               docker push $IMAGE_ID_SRC:latest
          # endregion

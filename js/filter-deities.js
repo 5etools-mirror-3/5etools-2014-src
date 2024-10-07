@@ -28,10 +28,10 @@ class PageFilterDeities extends PageFilterBase {
 		});
 		this._miscFilter = new Filter({
 			header: "Miscellaneous",
-			items: ["Grants Piety Features", "Has Info", "Has Images", "Reprinted", "SRD", "Basic Rules", "Legacy"],
+			items: ["Grants Piety Features", "Has Info", "Has Images", "Reprinted", "Legacy"],
 			displayFn: StrUtil.uppercaseFirst,
-			deselFn: (it) => it === "Reprinted",
 			isMiscFilter: true,
+			deselFn: PageFilterBase.defaultMiscellaneousDeselFn.bind(PageFilterBase),
 		});
 	}
 
@@ -41,11 +41,7 @@ class PageFilterDeities extends PageFilterBase {
 		if (!ent.domains) ent.domains = [VeCt.STR_NONE];
 		ent.domains.sort(SortUtil.ascSort);
 
-		ent._fMisc = [];
-		if (ent.reprinted) ent._fMisc.push("Reprinted");
-		if (ent.srd) ent._fMisc.push("SRD");
-		if (ent.basicRules) ent._fMisc.push("Basic Rules");
-		if (SourceUtil.isLegacySourceWotc(ent.source)) ent._fMisc.push("Legacy");
+		this._mutateForFilters_commonMisc(ent);
 		if (ent.entries) ent._fMisc.push("Has Info");
 		if (ent.symbolImg) ent._fMisc.push("Has Images");
 		if (ent.piety) ent._fMisc.push("Grants Piety Features");
@@ -58,6 +54,7 @@ class PageFilterDeities extends PageFilterBase {
 		this._domainFilter.addItem(ent.domains);
 		this._pantheonFilter.addItem(ent.pantheon);
 		this._categoryFilter.addItem(ent.category);
+		this._miscFilter.addItem(ent._fMisc);
 	}
 
 	async _pPopulateBoxOptions (opts) {

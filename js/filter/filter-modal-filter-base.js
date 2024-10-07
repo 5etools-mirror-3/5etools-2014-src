@@ -1,8 +1,9 @@
 import {EVNT_VALCHANGE} from "./filter-constants.js";
 
+/** @abstract */
 export class ModalFilterBase {
 	static _$getFilterColumnHeaders (btnMeta) {
-		return btnMeta.map((it, i) => $(`<button class="ve-col-${it.width} ${i === 0 ? "pl-0" : i === btnMeta.length ? "pr-0" : ""} ${it.disabled ? "" : "sort"} btn btn-default btn-xs" ${it.disabled ? "" : `data-sort="${it.sort}"`} ${it.title ? `title="${it.title}"` : ""} ${it.disabled ? "disabled" : ""}>${it.text}</button>`));
+		return btnMeta.map((it, i) => $(`<button class="ve-col-${it.width} ${i === 0 ? "pl-0" : i === btnMeta.length ? "pr-0" : ""} ${it.disabled ? "" : "sort"} ve-btn ve-btn-default ve-btn-xs" ${it.disabled ? "" : `data-sort="${it.sort}"`} ${it.title ? `title="${it.title}"` : ""} ${it.disabled ? "disabled" : ""}>${it.text}</button>`));
 	}
 
 	/**
@@ -32,7 +33,7 @@ export class ModalFilterBase {
 	_$getWrpList () { return $(`<div class="list ui-list__wrp ve-overflow-x-hidden ve-overflow-y-auto h-100 min-h-0"></div>`); }
 
 	_$getColumnHeaderPreviewAll (opts) {
-		return $(`<button class="btn btn-default btn-xs ${opts.isBuildUi ? "ve-col-1" : "ve-col-0-5"}">${ListUiUtil.HTML_GLYPHICON_EXPAND}</button>`);
+		return $(`<button class="ve-btn ve-btn-default ve-btn-xs ${opts.isBuildUi ? "ve-col-1" : "ve-col-0-5"}">${ListUiUtil.HTML_GLYPHICON_EXPAND}</button>`);
 	}
 
 	/**
@@ -53,7 +54,7 @@ export class ModalFilterBase {
 		const $ovlLoading = $(`<div class="w-100 h-100 ve-flex-vh-center"><i class="dnd-font ve-muted">Loading...</i></div>`).appendTo($wrp);
 
 		const $iptSearch = (opts.$iptSearch || $(`<input class="form-control lst__search lst__search--no-border-h h-100" type="search" placeholder="Search...">`)).disableSpellcheck();
-		const $btnReset = opts.$btnReset || $(`<button class="btn btn-default">Reset</button>`);
+		const $btnReset = opts.$btnReset || $(`<button class="ve-btn ve-btn-default">Reset</button>`);
 		const $dispNumVisible = $(`<div class="lst__wrp-search-visible no-events ve-flex-vh-center"></div>`);
 
 		const $wrpIptSearch = $$`<div class="w-100 relative">
@@ -62,17 +63,17 @@ export class ModalFilterBase {
 			${$dispNumVisible}
 		</div>`;
 
-		const $wrpFormTop = $$`<div class="ve-flex input-group btn-group w-100 lst__form-top">${$wrpIptSearch}${$btnReset}</div>`;
+		const $wrpFormTop = $$`<div class="ve-flex input-group ve-btn-group w-100 lst__form-top">${$wrpIptSearch}${$btnReset}</div>`;
 
 		const $wrpFormBottom = opts.$wrpMiniPills || $(`<div class="w-100"></div>`);
 
 		const $wrpFormHeaders = $(`<div class="input-group input-group--bottom ve-flex no-shrink"></div>`);
 		const $cbSelAll = opts.isBuildUi || this._isRadio ? null : $(`<input type="checkbox">`);
-		const $btnSendAllToRight = opts.isBuildUi ? $(`<button class="btn btn-xxs btn-default ve-col-1" title="Add All"><span class="glyphicon glyphicon-arrow-right"></span></button>`) : null;
+		const $btnSendAllToRight = opts.isBuildUi ? $(`<button class="ve-btn ve-btn-xxs ve-btn-default ve-col-1" title="Add All"><span class="glyphicon glyphicon-arrow-right"></span></button>`) : null;
 
 		if (!opts.isBuildUi) {
-			if (this._isRadio) $wrpFormHeaders.append(`<label class="btn btn-default btn-xs ve-col-0-5 ve-flex-vh-center" disabled></label>`);
-			else $$`<label class="btn btn-default btn-xs ve-col-0-5 ve-flex-vh-center">${$cbSelAll}</label>`.appendTo($wrpFormHeaders);
+			if (this._isRadio) $wrpFormHeaders.append(`<label class="ve-btn ve-btn-default ve-btn-xs ve-col-0-5 ve-flex-vh-center" disabled></label>`);
+			else $$`<label class="ve-btn ve-btn-default ve-btn-xs ve-col-0-5 ve-flex-vh-center">${$cbSelAll}</label>`.appendTo($wrpFormHeaders);
 		}
 
 		const $btnTogglePreviewAll = this._$getColumnHeaderPreviewAll(opts)
@@ -84,7 +85,7 @@ export class ModalFilterBase {
 		const $wrpForm = $$`<div class="ve-flex-col w-100 mb-1">${$wrpFormTop}${$wrpFormBottom}${$wrpFormHeaders}</div>`;
 		const $wrpList = this._$getWrpList();
 
-		const $btnConfirm = opts.isBuildUi ? null : $(`<button class="btn btn-default">Confirm</button>`);
+		const $btnConfirm = opts.isBuildUi ? null : $(`<button class="ve-btn ve-btn-default">Confirm</button>`);
 
 		this._list = new List({
 			$iptSearch,
@@ -175,7 +176,7 @@ export class ModalFilterBase {
 	}
 
 	handleHiddenResetButtonClick (evt) {
-		this._pageFilter.filterBox.reset(evt.shiftKey);
+		this._pageFilter.filterBox.reset({isResetAll: evt.shiftKey});
 	}
 
 	_getStateFromFilterExpression (filterExpression) {
@@ -201,10 +202,25 @@ export class ModalFilterBase {
 		return this._filterCache.list.getSortedItems({items: filteredItems});
 	}
 
-	getEntitiesMatchingFilterExpression ({filterExpression}) {
+	getEntitiesMatchingFilterExpression ({filterExpression, valuesOverride = null}) {
 		const nxtStateOuter = this._getStateFromFilterExpression(filterExpression);
 
 		const f = this._pageFilter.filterBox.getValues({nxtStateOuter});
+
+		if (valuesOverride) {
+			Object.entries(valuesOverride)
+				.forEach(([header, values]) => {
+					if (!f[header]) throw new Error(`Header "${header}" was not in filter values!`);
+
+					const tgt = f[header];
+					Object.entries(values)
+						.forEach(([k, v]) => {
+							if (tgt[k] == null) throw new Error(`Key "${k}" was not in "${header}" filter values!`);
+							tgt[k] = v;
+						});
+				});
+		}
+
 		return this._allData.filter(this._isEntityItemMatchingFilter.bind(this, f));
 	}
 
@@ -251,7 +267,7 @@ export class ModalFilterBase {
 			isWidth100: true,
 			title: `Filter/Search for ${this._modalTitle}`,
 			cbClose: (isDataEntered) => {
-				this._filterCache.$wrpModalInner.detach();
+				if (this._filterCache) this._filterCache.$wrpModalInner.detach();
 				if (!isDataEntered) resolve([]);
 			},
 			isUncappedHeight: true,
@@ -290,9 +306,14 @@ export class ModalFilterBase {
 		}
 	}
 
-	/** Widths should total to 11/12ths, as 1/12th is set aside for the checkbox column. */
+	/**
+	 * Widths should total to 11/12ths, as 1/12th is set aside for the checkbox column.
+	 * @abstract
+	 */
 	_$getColumnHeaders () { throw new Error(`Unimplemented!`); }
 	async _pInit () { /* Implement as required */ }
+	/** @abstract */
 	async _pLoadAllData () { throw new Error(`Unimplemented!`); }
+	/** @abstract */
 	async _getListItem () { throw new Error(`Unimplemented!`); }
 }

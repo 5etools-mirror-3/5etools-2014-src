@@ -44,6 +44,7 @@
 								"Races: {@race Human} assumes PHB by default, {@race Aarakocra|eepc} can have sources added with a pipe, {@race Aarakocra|eepc|and optional link text added with another pipe}.",
 								"Invocations and Other Optional Features: {@optfeature Agonizing Blast} assumes PHB by default, {@optfeature Aspect of the Moon|xge} can have sources added with a pipe, {@optfeature Aspect of the Moon|xge|and optional link text added with another pipe}.",
 								"Classes: {@class fighter} assumes PHB by default, {@class artificer|tce} can have sources added with a pipe, {@class fighter|phb|optional link text added with another pipe}, {@class fighter|phb|subclasses added|Eldritch Knight} with another pipe, {@class fighter|phb|and class feature added|Eldritch Knight|phb|2-0} with another pipe (first number is level index (0-19), second number is feature index (0-n)).",
+								"Subclasses: {@subclass Berserker|Barbarian}, {@subclass Berserker|Barbarian}, {@subclass Ancestral Guardian|Barbarian||XGE}, {@subclass Artillerist|Artificer|TCE|TCE}. Class and subclass source is assumed to be PHB.",
 								"Class Features: {@classFeature Rage|Barbarian||1}, {@classFeature Infuse Item|Artificer|TCE|2}, {@classFeature Primal Knowledge|Barbarian||3|TCE}, {@classFeature Rage|Barbarian||1||optional display text}. Class source is assumed to be PHB. Class feature source is assumed to be the same as class source.",
 								"Subclass Features: {@subclassFeature Path of the Berserker|Barbarian||Berserker||3}, {@subclassFeature Alchemist|Artificer|TCE|Alchemist|TCE|3}, {@subclassFeature Path of the Battlerager|Barbarian||Battlerager|SCAG|3}, {@subclassFeature Blessed Strikes|Cleric||Life||8|TCE}, {@subclassFeature Path of the Berserker|Barbarian||Berserker||3||optional display text}. Class source is assumed to be PHB. Subclass source is assumed to be PHB. Subclass feature source is assumed to be the same as subclass source.",
 								"Conditions: {@condition stunned} assumes PHB by default, {@condition stunned|PHB} can have sources added with a pipe (not that it's ever useful), {@condition stunned|PHB|and optional link text added with another pipe}.",
@@ -85,8 +86,8 @@
 								"{@filter Creatures with a Strength score of 18 or more|bestiary|strength=[18;]}",
 								"{@filter Divination and Evocation spells|spells|school=D;V}",
 								"{@filter All uncommon magic items|items|source=|type=|rarity=uncommon|miscellaneous=Magic}",
-								"{@filter Simple melee weapons|items|source=phb|category=basic|type=simple weapon;melee weapon=u~u~sand}",
-								"Meta-options can be set; inline for individual filters, and using 'fbmt' for filtering meta-options {@filter filter meta example|spells|level=1;2=sor~sand~b1|fbmt=sor|fbmh=source}",
+								"{@filter Simple melee weapons|items|source=phb|category=basic|type=simple weapon;melee weapon=sand}",
+								"Meta-options can be set; inline for individual filters, and using 'fbmt' for filtering meta-options {@filter filter meta example|spells|level=1;2=sor~sand|fbmt=sor|fbmh=source}",
 								"Search can be set; {@filter view dinosaurs|bestiary|search=dinosaur}",
 								"An exact starting entity; {@filter filter for beasts and show cat|bestiary|type=beast|hash=cat_mm} where 'hash' is the part after a '#' and before any commas which appears in the URL bar when viewing the entity.",
 								{
@@ -131,7 +132,7 @@
 									"type": "list",
 									"items": [
 										"Internal links: {@5etools This Is Your Life|lifegen.html}",
-										"Internal \"img\" links (i.e., anything in {@link https://github.com/5etools-mirror-2/5etools-img}): {@5etoolsImg Players Handbook Cover|covers/PHB.webp}; {@5etoolsImg Human Paladin sheet|pdf/DoSI/Human-Paladin.pdf}",
+										"Internal \"img\" links (i.e., anything in {@link https://github.com/5etools-mirror-3/5etools-img}): {@5etoolsImg Players Handbook Cover|covers/PHB.webp}; {@5etoolsImg Human Paladin sheet|pdf/DoSI/Human-Paladin.pdf}",
 										"External links: {@link https://discord.gg/5etools} or {@link Discord|https://discord.gg/5etools}"
 									]
 								},
@@ -551,16 +552,6 @@
 					"text": "The full 'entry' schema."
 				},
 				"Internal links are also possible, but generally covered by @tags. Check out the schema linked above for the full usage; it's massive and horrible so I'm not going to go into detail here.",
-				"Invocations/Other Optional Features:",
-				{
-					"type": "optfeature",
-					"name": "Optional Feature Name",
-					"prerequisite": "Optional prerequisite, which can include tags {@spell eldritch blast}",
-					"entries": [
-						"Optional feature text."
-					]
-				},
-				"Patrons:",
 				{
 					"type": "inset",
 					"name": "Inset Title (Optional)",

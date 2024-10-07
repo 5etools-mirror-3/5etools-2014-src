@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
 
 	<title>CR Calculator - 5etools</title>
 
@@ -59,7 +59,7 @@
 
 <body>
 
-<div class="overlay-noise"></div>
+<div class="overlay-noise no-print"></div>
 
 <div class="cancer__wrp-leaderboard cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__wrp-leaderboard-inner"><!--5ETOOLS_AD_LEADERBOARD--></div></div>
 
@@ -82,7 +82,7 @@
 		<div class="row">
 			<div class="col-sm-6">
 				<div id="croutput">Waiting for calculation...</div>
-				<button class="btn btn-sm btn-danger crc__reset mt-3" id="crcalc_reset" type="button">Reset</button>
+				<button class="ve-btn ve-btn-sm ve-btn-danger crc__reset mt-3" id="crcalc_reset" type="button">Reset</button>
 				<h4>Instructions</h4>
 				<ol>
 					<li>Enter expected CR of the creature.</li>
@@ -320,7 +320,7 @@
 <script type="text/javascript" defer src="js/utils.js"></script>
 <script type="text/javascript" defer src="js/utils-ui.js"></script>
 <script type="text/javascript" defer src="lib/localforage.js"></script>
-<script type="text/javascript" defer src="js/omnidexer.js"></script>
+<script type="module" defer src="js/omnidexer.js"></script>
 <script type="module" src="js/omnisearch.js"></script>
 <script type="module" src="js/filter.js"></script>
 <script type="text/javascript" defer src="js/utils-dataloader.js"></script>

@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
 
 	<title>Items - 5etools</title>
 
@@ -59,7 +59,7 @@
 
 <body>
 
-<div class="overlay-noise"></div>
+<div class="overlay-noise no-print"></div>
 
 <div class="cancer__wrp-sidebar-rhs cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__sidebar-rhs-inner cancer__sidebar-rhs-inner--top"><!--5ETOOLS_AD_RIGHT_1--></div><div class="cancer__sidebar-rhs-inner cancer__sidebar-rhs-inner--bottom"><!--5ETOOLS_AD_RIGHT_2--></div></div>
 
@@ -87,15 +87,15 @@
 							<div id="lst__search-glass" class="lst__wrp-search-glass no-events ve-flex-vh-center"><span class="glyphicon glyphicon-search"></span></div>
 							<div class="lst__wrp-search-visible no-events ve-flex-vh-center"></div>
 						</div>
-						<button type="button" class="btn btn-default" id="reset">Reset</button>
+						<button type="button" class="ve-btn ve-btn-default" id="reset">Reset</button>
 					</div>
 
 					<div id="filtertools-mundane" class="ele-mundane input-group input-group--bottom ve-flex no-shrink">
-						<button type="button" class="ve-col-3-5 sort btn btn-default btn-xs" data-sort="name" data-sortby="asc">Name</button>
-						<button type="button" class="ve-col-4-5 sort btn btn-default btn-xs" data-sort="type" data-sortby="asc">Type</button>
-						<button type="button" class="ve-col-1-5 sort btn btn-default btn-xs" data-sort="cost" data-sortby="asc">Cost</button>
-						<button type="button" class="ve-col-1-5 sort btn btn-default btn-xs" data-sort="weight" data-sortby="asc">Weight</button>
-						<button type="button" class="sort btn btn-default btn-xs ve-grow" data-sort="source" data-sortby="asc">Source</button>
+						<button type="button" class="ve-col-3-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name" data-sortby="asc">Name</button>
+						<button type="button" class="ve-col-4-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="type" data-sortby="asc">Type</button>
+						<button type="button" class="ve-col-1-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="cost" data-sortby="asc">Cost</button>
+						<button type="button" class="ve-col-1-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="weight" data-sortby="asc">Weight</button>
+						<button type="button" class="sort ve-btn ve-btn-default ve-btn-xs ve-grow" data-sort="source" data-sortby="asc">Source</button>
 					</div>
 
 					<div class="list list--stats mundane ele-mundane"></div>
@@ -106,12 +106,12 @@
 					<div class="no-shrink itm__list-divider ele-mundane-and-magic"></div>
 
 					<div id="filtertools-magic" class="ele-magic input-group input-group--bottom ve-flex no-shrink">
-						<button type="button" class="fullborder ve-col-3-5 sort btn btn-default btn-xs" data-sort="name" data-sortby="asc">Name</button>
-						<button type="button" class="fullborder ve-col-4 sort btn btn-default btn-xs" data-sort="type" data-sortby="asc">Type</button>
-						<button type="button" class="fullborder ve-col-1-5 sort btn btn-default btn-xs" data-sort="weight" data-sortby="asc">Weight</button>
-						<button type="button" class="ve-col-0-6 sort btn btn-default btn-xs" data-sort="attunement" title="Can Be Attuned">A.</button>
-						<button type="button" class="fullborder ve-col-1-4 sort btn btn-default btn-xs" data-sort="rarity" data-sortby="asc">Rarity</button>
-						<button type="button" class="fullborder sort btn btn-default btn-xs ve-grow" data-sort="source" data-sortby="asc">Source</button>
+						<button type="button" class="fullborder ve-col-3-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name" data-sortby="asc">Name</button>
+						<button type="button" class="fullborder ve-col-4 sort ve-btn ve-btn-default ve-btn-xs" data-sort="type" data-sortby="asc">Type</button>
+						<button type="button" class="fullborder ve-col-1-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="weight" data-sortby="asc">Weight</button>
+						<button type="button" class="ve-col-0-6 sort ve-btn ve-btn-default ve-btn-xs" data-sort="attunement" title="Can Be Attuned">A.</button>
+						<button type="button" class="fullborder ve-col-1-4 sort ve-btn ve-btn-default ve-btn-xs" data-sort="rarity" data-sortby="asc">Rarity</button>
+						<button type="button" class="fullborder sort ve-btn ve-btn-default ve-btn-xs ve-grow" data-sort="source" data-sortby="asc">Source</button>
 					</div>
 
 					<div class="list list--stats magic ele-magic"></div>
@@ -123,45 +123,45 @@
 
 			<div id="contentwrapper" class="view-col itm__wrp-stats">
 				<div id="sublistcontainer" class="sublist sublist--resizable no-print">
-					<div id="sublistsort" class="btn-group sublist__wrp-cols">
-						<button type="button" class="ve-col-6 sort btn btn-default btn-xs" data-sort="name">Name</button>
-						<button type="button" class="ve-col-2 sort btn btn-default btn-xs" data-sort="weight">Weight</button>
-						<button type="button" class="ve-col-2 sort btn btn-default btn-xs" data-sort="cost">Cost</button>
-						<button type="button" class="ve-col-2 sort btn btn-default btn-xs" data-sort="count">Number</button>
+					<div id="sublistsort" class="ve-btn-group sublist__wrp-cols">
+						<button type="button" class="ve-col-6 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
+						<button type="button" class="ve-col-2 sort ve-btn ve-btn-default ve-btn-xs" data-sort="weight">Weight</button>
+						<button type="button" class="ve-col-2 sort ve-btn ve-btn-default ve-btn-xs" data-sort="cost">Cost</button>
+						<button type="button" class="ve-col-2 sort ve-btn ve-btn-default ve-btn-xs" data-sort="count">Number</button>
 					</div>
 
 					<div id="sublist" class="list"></div>
 
 					<div class="row ve-small ve-flex-v-center">
-						<span class="ve-col-6 text-right pr-2">Total:</span>
+						<span class="ve-col-6 ve-text-right pr-2">Total:</span>
 						<span class="ve-col-2 ve-text-center no-wrap" id="totalweight"></span>
 						<span class="ve-col-2 ve-text-center no-wrap clickable" id="totalvalue"></span>
 						<span class="ve-col-2 ve-text-center no-wrap pr-0" id="totalitems"></span>
 					</div>
 				</div>
 
-				<div class="wrp-stat-tab" id="stat-tabs">
-					<div id="tabs-right"></div>
+				<div class="w-100 ve-flex" id="stat-tabs">
+					<div class="ml-auto ve-flex" id="tabs-right"></div>
 				</div>
 
-				<div id="wrp-pagecontent" class="wrp-stats-table">
+				<div id="wrp-pagecontent" class="relative wrp-stats-table">
 					<table id="pagecontent" class="w-100 stats">
-						<tr><th class="border" colspan="6"></th></tr>
-						<tr><td colspan="6" class="initial-message">Select an entry from the list to view it here</td></tr>
-						<tr><th class="border" colspan="6"></th></tr>
+						<tr><th class="ve-tbl-border" colspan="6"></th></tr>
+						<tr><td colspan="6" class="initial-message initial-message--med">Select an entry from the list to view it here</td></tr>
+						<tr><th class="ve-tbl-border" colspan="6"></th></tr>
 					</table>
 				</div>
 
 				<div class="ve-flex-vh-center mt-2 no-print mobile__ve-flex-col">
 					<div class="ve-flex-v-center mr-2 mobile__mb-2 mobile__mr-0">
-						<button type="button" class="btn btn-default btn-xs mr-2" id="btn-book">Printer View</button>
-						<button type="button" class="btn btn-default btn-xs" id="btn-show-table" title="View and Download Items in Tabular Format">Table View</button>
+						<button type="button" class="ve-btn ve-btn-default ve-btn-xs mr-2" id="btn-book">Printer View</button>
+						<button type="button" class="ve-btn ve-btn-default ve-btn-xs" id="btn-show-table" title="View and Download Items in Tabular Format">Table View</button>
 					</div>
 
-					<div class="ve-flex-v-center btn-group" id="btngroup-manager">
-						<button type="button" class="btn btn-xs btn-primary" name="manage-content">Manage Content</button>
-						<button type="button" class="btn btn-xs btn-primary" name="manage-prerelease" title="Manage Prerelease Content"><span class="glyphicon glyphicon-wrench"></span></button>
-						<button type="button" class="btn btn-xs btn-info" name="manage-brew" title="Manage Homebrew"><span class="glyphicon glyphicon-glass"></span></button>
+					<div class="ve-flex-v-center ve-btn-group" id="btngroup-manager">
+						<button type="button" class="ve-btn ve-btn-xs ve-btn-primary" name="manage-content">Manage Content</button>
+						<button type="button" class="ve-btn ve-btn-xs ve-btn-primary" name="manage-prerelease" title="Manage Prerelease Content"><span class="glyphicon glyphicon-wrench"></span></button>
+						<button type="button" class="ve-btn ve-btn-xs ve-btn-info" name="manage-brew" title="Manage Homebrew"><span class="glyphicon glyphicon-glass"></span></button>
 					</div>
 				</div>
 			</div>
@@ -177,7 +177,7 @@
 <script type="text/javascript" defer src="js/utils.js"></script>
 <script type="text/javascript" defer src="js/utils-ui.js"></script>
 <script type="text/javascript" defer src="lib/localforage.js"></script>
-<script type="text/javascript" defer src="js/omnidexer.js"></script>
+<script type="module" defer src="js/omnidexer.js"></script>
 <script type="module" src="js/omnisearch.js"></script>
 <script type="module" src="js/filter.js"></script>
 <script type="text/javascript" defer src="js/utils-dataloader.js"></script>
@@ -188,13 +188,12 @@
 <script type="text/javascript" defer src="js/render.js"></script>
 <script type="text/javascript" defer src="js/render-dice.js"></script>
 <script type="text/javascript" defer src="js/render-markdown.js"></script>
-<script type="text/javascript" defer src="js/render-items.js"></script>
 <script type="text/javascript" defer src="js/scalecreature.js"></script>
 <script type="text/javascript" defer src="js/hist.js"></script>
 <script type="text/javascript" defer src="js/listpage.js"></script>
 <script type="text/javascript" defer src="js/filter-common.js"></script>
 <script type="text/javascript" defer src="js/filter-items.js"></script>
-<script type="text/javascript" defer src="js/items.js"></script>
+<script type="module" src="js/items.js"></script>
 <script type="text/javascript" defer src="js/list2.js"></script>
 <script type="text/javascript" defer src="lib/elasticlunr.js"></script>
 

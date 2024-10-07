@@ -49,7 +49,7 @@ class MakeCards extends BaseComponent {
 	_render_configSection () {
 		const $wrpConfig = $(`#wrp_config`).empty();
 
-		const $btnResetDefaults = $(`<button class="btn btn-default btn-xs">Reset</button>`)
+		const $btnResetDefaults = $(`<button class="ve-btn ve-btn-default ve-btn-xs">Reset</button>`)
 			.click(() => {
 				Object.entries(MakeCards._AVAILABLE_TYPES)
 					.forEach(([entityType, typeMeta]) => {
@@ -75,7 +75,7 @@ class MakeCards extends BaseComponent {
 			const kIcon = `icon_${entityType}`;
 			const $iptColor = ComponentUiUtil.$getIptColor(this, kColor).addClass("cards-cfg__ipt-color");
 			const $dispIcon = $(`<div class="cards__disp-btn-icon"></div>`);
-			const $btnChooseIcon = $$`<button class="btn btn-xs btn-default cards__btn-choose-icon">${$dispIcon}</button>`
+			const $btnChooseIcon = $$`<button class="ve-btn ve-btn-xs ve-btn-default cards__btn-choose-icon">${$dispIcon}</button>`
 				.click(async () => {
 					const icon = await MakeCards._pGetUserIcon(this._state[kIcon]);
 					if (icon) this._state[kIcon] = icon;
@@ -101,16 +101,16 @@ class MakeCards extends BaseComponent {
 		const menuSearch = ContextUtil.getMenu(this._render_getContextMenuOptions());
 
 		const $iptSearch = $(`<input type="search" class="form-control mr-2" placeholder="Search cards...">`);
-		const $btnAdd = $(`<button class="btn btn-primary mr-2"><span class="glyphicon glyphicon-plus"></span> Add</button>`)
+		const $btnAdd = $(`<button class="ve-btn ve-btn-primary mr-2"><span class="glyphicon glyphicon-plus"></span> Add</button>`)
 			.click(evt => ContextUtil.pOpenMenu(evt, menuSearch));
-		const $btnReset = $(`<button class="btn btn-danger mr-2"><span class="glyphicon glyphicon-trash"></span> Reset</button>`)
+		const $btnReset = $(`<button class="ve-btn ve-btn-danger mr-2"><span class="glyphicon glyphicon-trash"></span> Reset</button>`)
 			.click(async () => {
 				if (!await InputUiUtil.pGetUserBoolean({title: "Reset", htmlDescription: "Are you sure?", textYes: "Yes", textNo: "Cancel"})) return;
 				this._list.removeAllItems();
 				this._list.update();
 				this._doSaveStateDebounced();
 			});
-		const $btnExport = $(`<button class="btn btn-default"><span class="glyphicon glyphicon-download"></span> Export JSON</button>`)
+		const $btnExport = $(`<button class="ve-btn ve-btn-default"><span class="glyphicon glyphicon-download"></span> Export JSON</button>`)
 			.click(() => {
 				const toDownload = this._list.items.map(it => {
 					const entityMeta = MakeCards._AVAILABLE_TYPES[it.values.entityType];
@@ -170,7 +170,7 @@ class MakeCards extends BaseComponent {
 			),
 		]);
 
-		const $btnMass = $(`<button class="btn btn-xs btn-default" title="Carry out actions on selected cards">Mass...</button>`)
+		const $btnMass = $(`<button class="ve-btn ve-btn-xs ve-btn-default" title="Carry out actions on selected cards">Mass...</button>`)
 			.click(evt => ContextUtil.pOpenMenu(evt, menuMass));
 		$$`<div class="w-100 no-shrink ve-flex-v-center mb-2">${$btnMass}</div>`.appendTo($wrpContainer);
 		// endregion
@@ -321,7 +321,7 @@ class MakeCards extends BaseComponent {
 
 		const $dispIcon = $(`<div class="cards__disp-btn-icon"></div>`)
 			.css("background-image", `url('${MakeCards._getIconPath(cardMeta.icon)}')`);
-		const $btnIcon = $$`<button class="btn btn-default btn-xs cards__btn-choose-icon">${$dispIcon}</button>`
+		const $btnIcon = $$`<button class="ve-btn ve-btn-default ve-btn-xs cards__btn-choose-icon">${$dispIcon}</button>`
 			.click(async () => {
 				const icon = await MakeCards._pGetUserIcon();
 				if (icon) setIcon(icon);
@@ -341,7 +341,7 @@ class MakeCards extends BaseComponent {
 			})
 			.val(cardMeta.count);
 
-		const $btnCopy = $(`<button class="btn btn-default btn-xs mr-2" title="Copy JSON (SHIFT to view JSON)"><span class="glyphicon glyphicon-copy"></span></button>`)
+		const $btnCopy = $(`<button class="ve-btn ve-btn-default ve-btn-xs mr-2" title="Copy JSON (SHIFT to view JSON)"><span class="glyphicon glyphicon-copy"></span></button>`)
 			.click(async evt => {
 				const entityMeta = MakeCards._AVAILABLE_TYPES[listItem.values.entityType];
 				const toCopy = {
@@ -371,14 +371,14 @@ class MakeCards extends BaseComponent {
 					JqueryUtil.showCopiedEffect($btnCopy, "Copied JSON!");
 				}
 			});
-		const $btnDelete = $(`<button class="btn btn-danger btn-xs" title="Remove"><span class="glyphicon glyphicon-trash"></span></button>`)
+		const $btnDelete = $(`<button class="ve-btn ve-btn-danger ve-btn-xs" title="Remove"><span class="glyphicon glyphicon-trash"></span></button>`)
 			.click(() => {
 				this._list.removeItemByIndex(uid);
 				this._list.update();
 				this._doSaveStateDebounced();
 			});
 
-		const $ele = $$`<label class="ve-flex-v-center my-1 w-100 lst__row lst--border lst__row-inner">
+		const $ele = $$`<label class="ve-flex-v-center my-1 w-100 lst__row lst__row-border lst__row-inner">
 			<div class="ve-col-1 mr-2 ve-flex-vh-center">${$cbSel}</div>
 			<div class="ve-col-3 mr-2 ve-flex-v-center">${loaded.name}</div>
 			<div class="ve-col-1-5 mr-2 ve-flex-vh-center ${Parser.sourceJsonToSourceClassname(loaded.source)}" title="${Parser.sourceJsonToFull(loaded.source)}" ${Parser.sourceJsonToStyle(loaded.source)}>${Parser.sourceJsonToAbv(loaded.source)}</div>
@@ -464,7 +464,7 @@ class MakeCards extends BaseComponent {
 			mon.conditionImmune ? this._ct_property("Condition Immunities", this._ct_htmlToText(Parser.getFullCondImm(mon.conditionImmune))) : null,
 			this._ct_property("Senses", this._ct_htmlToText(Renderer.monster.getSensesPart(mon))),
 			this._ct_property("Languages", this._ct_htmlToText(Renderer.monster.getRenderedLanguages(mon.languages))),
-			this._ct_property("Challenge", this._ct_htmlToText(Parser.monCrToFull(mon.cr, {isMythic: !!mon.mythic}))),
+			this._ct_property("Challenge", this._ct_htmlToText(Renderer.monster.getChallengeRatingPart(mon))),
 			this._ct_rule(),
 			...(allTraits?.length ? this._ct_renderEntries(allTraits, 2) : []),
 			allActions?.length ? this._ct_section("Actions") : null,
@@ -497,7 +497,7 @@ class MakeCards extends BaseComponent {
 		return [
 			this._ct_subtitle(Parser.spLevelSchoolMetaToFull(sp.level, sp.school, sp.meta, sp.subschools)),
 			this._ct_rule(),
-			this._ct_property("Casting Time", Parser.spTimeListToFull(sp.time)),
+			this._ct_property("Casting Time", Parser.spTimeListToFull(sp.time, sp.meta)),
 			this._ct_property("Range", Parser.spRangeToFull(sp.range)),
 			this._ct_property("Components", Parser.spComponentsToFull(sp.components, sp.level, {isPlainText: true})),
 			this._ct_property("Duration", Parser.spDurationToFull(sp.duration)),
@@ -635,7 +635,7 @@ class MakeCards extends BaseComponent {
 				},
 			});
 
-			const $btnOk = $(`<button class="btn btn-default">Confirm</button>`)
+			const $btnOk = $(`<button class="ve-btn ve-btn-default">Confirm</button>`)
 				.click(() => doClose(true));
 			const {$modalInner, doClose} = UiUtil.getShowModal({
 				title: "Enter Icon",
@@ -826,9 +826,10 @@ MakeCards.utils = class {
 		const data = await DataUtil.loadJSON(`${Renderer.get().baseUrl}data/makecards.json`);
 		data.reducedItemProperty.forEach(p => MakeCards.utils._addItemProperty(p));
 		data.reducedItemType.forEach(t => {
-			if (t.abbreviation === "SHP") {
+			if (t.abbreviation === Parser.ITM_TYP_ABV__VEHICLE_WATER) {
 				const cpy = MiscUtil.copy(t);
-				cpy.abbreviation = "AIR";
+				cpy.abbreviation = Parser.ITM_TYP_ABV__VEHICLE_AIR;
+				cpy.source = Parser.SRC_DMG;
 				MakeCards.utils._addItemType(cpy);
 			}
 			MakeCards.utils._addItemType(t);
@@ -836,51 +837,67 @@ MakeCards.utils = class {
 	}
 
 	// region items
-	static _addItemProperty (p) {
-		if (MakeCards.utils.itemPropertyMap[p.abbreviation]) return;
-		if (p.entries || p.entriesTemplate) {
-			const cpy = MiscUtil.copy(p);
-			MakeCards.utils.itemPropertyMap[p.abbreviation] = p.name ? cpy : {
+	static _addItemProperty (ent) {
+		const lookupSource = ent.source.toLowerCase();
+		const lookupAbv = ent.abbreviation.toLowerCase();
+
+		if (MiscUtil.get(MakeCards.utils._itemPropertyMap, lookupSource, lookupAbv)) return;
+
+		if (ent.entries || ent.entriesTemplate) {
+			const cpy = MiscUtil.copy(ent);
+			MiscUtil.set(MakeCards.utils._itemPropertyMap, lookupSource, lookupAbv, ent.name ? cpy : {
 				...cpy,
-				name: p.entries[0].name.toLowerCase(),
-			};
+				name: ent.entries[0].name.toLowerCase(),
+			});
 			return;
 		}
-		MakeCards.utils.itemPropertyMap[p.abbreviation] = {};
+
+		MiscUtil.set(MakeCards.utils._itemPropertyMap, lookupSource, lookupAbv, {});
 	}
 
-	static _addItemType (t) {
-		if (MakeCards.utils.itemTypeMap[t.abbreviation]?.entries || MakeCards.utils.itemTypeMap[t.abbreviation]?.entriesTemplate) return;
-		const cpy = MiscUtil.copy(t);
-		MakeCards.utils.itemTypeMap[t.abbreviation] = t.name ? cpy : {
+	static _addItemType (ent) {
+		const lookupSource = ent.source.toLowerCase();
+		const lookupAbv = ent.abbreviation.toLowerCase();
+
+		if (MiscUtil.get(MakeCards.utils._itemTypeMap, lookupSource, lookupAbv)) return;
+
+		const cpy = MiscUtil.copy(ent);
+		MiscUtil.set(MakeCards.utils._itemTypeMap, lookupSource, lookupAbv, ent.name ? cpy : {
 			...cpy,
-			name: t.entries[0].name.toLowerCase(),
-		};
+			name: ent.entries[0].name.toLowerCase(),
+		});
 	}
 
 	static enhanceItemAlt (item) {
 		delete item._fullEntries;
 
-		if (item.type && (MakeCards.utils.itemPropertyMap[item.type] || Renderer.item.getType(item.type))) {
-			Renderer.item._initFullEntries(item);
-			(((MakeCards.utils.itemTypeMap[item.type] || Renderer.item.getType(item.type)) || {}).entries || []).forEach(e => item._fullEntries.push(e));
+		if (item.type) {
+			const {abbreviation, source} = DataUtil.itemType.unpackUid(item.type, {isLower: true});
+			const fromCustom = MiscUtil.get(MakeCards.utils._itemTypeMap, source, abbreviation);
+			if (fromCustom || Renderer.item.getType(item.type)) {
+				Renderer.item._initFullEntries(item);
+				(((fromCustom || Renderer.item.getType(item.type)) || {}).entries || []).forEach(e => item._fullEntries.push(e));
+			}
 		}
 
 		if (item.property) {
 			item.property.forEach(p => {
-				if (MakeCards.utils.itemPropertyMap[p]) {
-					if (MakeCards.utils.itemPropertyMap[p].entries) {
+				const {abbreviation, source} = DataUtil.itemProperty.unpackUid(p, {isLower: true});
+				const fromCustom = MiscUtil.get(MakeCards.utils._itemPropertyMap, source, abbreviation);
+				if (fromCustom) {
+					if (fromCustom.entries) {
 						Renderer.item._initFullEntries(item);
-						MakeCards.utils.itemPropertyMap[p].entries.forEach(e => item._fullEntries.push(e));
+						fromCustom.entries.forEach(e => item._fullEntries.push(e));
 					}
-				} else if (Renderer.item.getProperty(p).entries) {
+				} else if (Renderer.item.getProperty(p)?.entries) {
 					Renderer.item._initFullEntries(item);
 					Renderer.item.getProperty(p).entries.forEach(e => item._fullEntries.push(e));
 				}
 			});
 		}
 
-		if (item.type === "LA" || item.type === "MA" || item.type === "HA") {
+		const itemTypeAbv = item.type ? DataUtil.itemType.unpackUid(item.type).abbreviation : null;
+		if (itemTypeAbv === Parser.ITM_TYP_ABV__LIGHT_ARMOR || itemTypeAbv === Parser.ITM_TYP_ABV__MEDIUM_ARMOR || itemTypeAbv === Parser.ITM_TYP_ABV__HEAVY_ARMOR) {
 			if (item.resist) {
 				Renderer.item._initFullEntries(item);
 				item._fullEntries.push(`Resistance to ${item.resist} damage.`);
@@ -889,21 +906,21 @@ MakeCards.utils = class {
 				Renderer.item._initFullEntries(item);
 				item._fullEntries.push("Disadvantage on Stealth (Dexterity) checks.");
 			}
-			if (item.type === "HA" && item.strength) {
+			if (itemTypeAbv === Parser.ITM_TYP_ABV__HEAVY_ARMOR && item.strength) {
 				Renderer.item._initFullEntries(item);
 				item._fullEntries.push(`Speed reduced by 10 feet if Strength score less than ${item.strength}.`);
 			}
 		} else if (item.resist) {
-			if (item.type === "P") {
+			if (itemTypeAbv === Parser.ITM_TYP_ABV__POTION) {
 				Renderer.item._initFullEntries(item);
 				item._fullEntries.push(`Resistance to ${item.resist} damage for 1 hour.`);
 			}
-			if (item.type === "RG") {
+			if (itemTypeAbv === Parser.ITM_TYP_ABV__RING) {
 				Renderer.item._initFullEntries(item);
 				item._fullEntries.push(`Resistance to ${item.resist} damage.`);
 			}
 		}
-		if (item.type === "SCF") {
+		if (itemTypeAbv === Parser.ITM_TYP_ABV__SPELLCASTING_FOCUS) {
 			if (item.scfType === "arcane") {
 				Renderer.item._initFullEntries(item);
 				item._fullEntries.push("A sorcerer, warlock, or wizard can use this item as a spellcasting focus.");
@@ -920,5 +937,5 @@ MakeCards.utils = class {
 	}
 	// endregion
 };
-MakeCards.utils.itemTypeMap = {};
-MakeCards.utils.itemPropertyMap = {};
+MakeCards.utils._itemTypeMap = {};
+MakeCards.utils._itemPropertyMap = {};

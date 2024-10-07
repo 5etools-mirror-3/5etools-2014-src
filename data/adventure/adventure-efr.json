@@ -1591,7 +1591,7 @@
 												"Cabinets hang on the north wall of this large room, which is hazy with the smell of tobacco. Near the east wall stands an overstuffed couch. An rectangular table turned on its side blocks a closed door on the south wall."
 											]
 										},
-										"Four {@creature kenku} cutpurses working for Daask hide in two groups of two: one group behind the couch, the other behind the table. A character with a passive Wisdom ({@skill Perception}) score of 13 or higher is not {@status surprised} by the kenku, which prefer to attack from behind the furniture. When using the couch and table for protection, a creature gains half cover. The cabinets are empty."
+										"Four {@creature kenku} cutpurses working for Daask hide in two groups of two: one group behind the couch, the other behind the table. A character with a passive Wisdom ({@skill Perception}) score of 13 or higher is not {@status surprised} by the kenku, which prefer to attack from behind the furniture. When using the couch and table for protection, a creature gains {@quickref Cover||3||half cover}. The cabinets are empty."
 									]
 								},
 								{
@@ -1620,7 +1620,7 @@
 							"page": 270,
 							"id": "4b6",
 							"entries": [
-								"The lower-level apartments have similar layouts to the ones in {@book area T4|ERLW|0|T4. Top-Level Apartments} but house different creatures. The door to every apartment is locked. If you need occupants for an apartment, use the Apartment Occupants table to generate them. There is a {@chance 10|10 percent} chance that an occupant knows what Martisha Kullandra knows about Garra (see {@book area T4a|ERLW|0|T4a. Martisha's Apartment}).",
+								"The lower-level apartments have similar layouts to the ones in {@book area T4|ERLW|0|T4. Top-Level Apartments} but house different creatures. The door to every apartment is locked. If you need occupants for an apartment, use the Apartment Occupants table to generate them. There is a {@chance 10} chance that an occupant knows what Martisha Kullandra knows about Garra (see {@book area T4a|ERLW|0|T4a. Martisha's Apartment}).",
 								{
 									"type": "table",
 									"caption": "Apartment Occupants",

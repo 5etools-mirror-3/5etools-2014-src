@@ -149,7 +149,7 @@
 				{
 					"name": "Hearth of Moonlight and Shadow",
 					"entries": [
-						"At the start of a short or long rest, Amble can touch a point in space, and an {@condition invisible}, 30-foot-radius sphere of magic appears, centered on that point. Total cover blocks the sphere.",
+						"At the start of a short or long rest, Amble can touch a point in space, and an {@condition invisible}, 30-foot-radius sphere of magic appears, centered on that point. {@quickref Cover||3||Total cover} blocks the sphere.",
 						"While within the sphere, Amble and their allies gain a +5 bonus to Dexterity ({@skill Stealth}) and Wisdom ({@skill Perception}) checks, and any light from open flames in the sphere isn't visible outside it.",
 						"The sphere vanishes at the end of the rest or when Amble leaves the sphere."
 					]
@@ -956,7 +956,7 @@
 					"name": "Bite",
 					"entries": [
 						"{@atk mw} {@hit 12} to hit, reach 5 ft., one target. {@h}20 ({@damage 3d8 + 7}) piercing damage.",
-						"If the target is a Medium or smaller creature {@condition grappled} by the kraken, that creature is swallowed and the grapple ends. While swallowed, the creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the kraken, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the kraken's turns. One Medium or two smaller creatures can be swallowed at the same time.",
+						"If the target is a Medium or smaller creature {@condition grappled} by the kraken, that creature is swallowed and the grapple ends. While swallowed, the creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the kraken, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the kraken's turns. One Medium or two smaller creatures can be swallowed at the same time.",
 						"If the kraken takes 35 damage or more on a single turn from a creature inside it, the kraken must succeed on a {@dc 23} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in spaces within 10 feet of the kraken. If the kraken dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 10 feet of movement, exiting {@condition prone}."
 					]
 				},

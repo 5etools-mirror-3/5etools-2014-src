@@ -17,7 +17,7 @@
 				"armor": [
 					"light",
 					"medium",
-					"{@item shield|phb|shields}"
+					"shield"
 				],
 				"weapons": [
 					"simple",
@@ -42,7 +42,7 @@
 			"startingEquipment": {
 				"additionalFromBackground": true,
 				"default": [
-					"(a) a {@item greataxe|phb} or (b) any {@filter martial melee weapon|items|source=phb|category=basic|type=martial weapon;melee weapon=u~u~sand}",
+					"(a) a {@item greataxe|phb} or (b) any {@filter martial melee weapon|items|source=phb|category=basic|type=martial weapon;melee weapon=sand}",
 					"(a) two {@item handaxe|phb|handaxes} or (b) any {@filter simple weapon|items|source=phb|category=basic|type=simple weapon}",
 					"An {@item explorer's pack|phb}, and four {@item javelin|phb|javelins}"
 				],
@@ -88,7 +88,7 @@
 				},
 				"proficienciesGained": {
 					"armor": [
-						"{@item shield|phb|shields}"
+						"shield"
 					],
 					"weapons": [
 						"simple",
@@ -459,7 +459,7 @@
 			"source": "BGG",
 			"className": "Barbarian",
 			"classSource": "PHB",
-			"page": 1,
+			"page": 11,
 			"spellcastingAbility": "wis",
 			"additionalSpells": [
 				{
@@ -1569,7 +1569,7 @@
 			"header": 1,
 			"entries": [
 				"{@i 3rd-level Path of Wild Magic feature}",
-				"As an action, you can open your awareness to the presence of concentrated magic. Until the end of your next turn, you know the location of any spell or magic item within 60 feet of you that isn't behind total cover. When you sense a spell, you learn which school of magic it belongs to.",
+				"As an action, you can open your awareness to the presence of concentrated magic. Until the end of your next turn, you know the location of any spell or magic item within 60 feet of you that isn't behind {@quickref Cover||3||total cover}. When you sense a spell, you learn which school of magic it belongs to.",
 				"You can use this feature a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest."
 			]
 		},
@@ -1927,7 +1927,7 @@
 			"level": 3,
 			"header": 1,
 			"entries": [
-				"Starting at 3rd level, you emanate a stormy, magical aura while you rage. The aura extends 10 feet from you in every direction, but not through total cover.",
+				"Starting at 3rd level, you emanate a stormy, magical aura while you rage. The aura extends 10 feet from you in every direction, but not through {@quickref Cover||3||total cover}.",
 				"Your aura has an effect that activates when you enter your rage, and you can activate the effect again on each of your turns as a bonus action. Choose desert, sea, or tundra. Your aura's effect depends on that chosen environment, as detailed below. You can change your environment choice whenever you gain a level in this class.",
 				"If your aura's effects require a saving throw, the DC equals 8 + your proficiency bonus + your Constitution modifier.",
 				{

@@ -1216,7 +1216,7 @@
 				"armorProficiencies": [
 					{
 						"medium": true,
-						"shield|phb": true
+						"shield": true
 					}
 				]
 			}
@@ -4269,7 +4269,7 @@
 				],
 				"armorProficiencies": [
 					{
-						"shield|phb": true,
+						"shield": true,
 						"medium": true
 					}
 				]

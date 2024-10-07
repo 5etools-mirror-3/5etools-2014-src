@@ -82,7 +82,7 @@ export class EncounterBuilderUi extends BaseComponent {
 
 		$$($parentRandomAndAdjust)`<div class="ve-flex-col">
 			<div class="ve-flex-h-right">
-				<div class="btn-group mr-3">
+				<div class="ve-btn-group mr-3">
 					${$btnRandom}
 					${$btnRandomMode}
 					<ul class="ve-dropdown-menu">
@@ -93,7 +93,7 @@ export class EncounterBuilderUi extends BaseComponent {
 					</ul>
 				</div>
 
-				<div class="btn-group">
+				<div class="ve-btn-group">
 					${$btnAdjust}
 					${$btnAdjustMode}
 					<ul class="ve-dropdown-menu">
@@ -136,13 +136,13 @@ export class EncounterBuilderUi extends BaseComponent {
 				});
 		};
 
-		const $btnRandom = $(`<button class="btn btn-primary ecgen__btn-random-adjust" title="Randomly generate a Medium encounter">Random Medium</button>`)
+		const $btnRandom = $(`<button class="ve-btn ve-btn-primary ecgen__btn-random-adjust" title="Randomly generate a Medium encounter">Random Medium</button>`)
 			.click(async evt => {
 				evt.preventDefault();
 				await pSetRandomMode(modeRandom);
 			});
 
-		const $btnRandomMode = $(`<button class="btn btn-primary ve-dropdown-toggle"><span class="caret"></span></button>`);
+		const $btnRandomMode = $(`<button class="ve-btn ve-btn-primary ve-dropdown-toggle"><span class="caret"></span></button>`);
 		JqueryUtil.bindDropdownButton($btnRandomMode);
 
 		return {
@@ -183,13 +183,13 @@ export class EncounterBuilderUi extends BaseComponent {
 				});
 		};
 
-		const $btnAdjust = $(`<button class="btn btn-primary ecgen__btn-random-adjust" title="Adjust the current encounter difficulty to Medium">Adjust to Medium</button>`)
+		const $btnAdjust = $(`<button class="ve-btn ve-btn-primary ecgen__btn-random-adjust" title="Adjust the current encounter difficulty to Medium">Adjust to Medium</button>`)
 			.click(async evt => {
 				evt.preventDefault();
 				await pSetAdjustMode(modeAdjust);
 			});
 
-		const $btnAdjustMode = $(`<button class="btn btn-primary ve-dropdown-toggle"><span class="caret"></span></button>`);
+		const $btnAdjustMode = $(`<button class="ve-btn ve-btn-primary ve-dropdown-toggle"><span class="caret"></span></button>`);
 		JqueryUtil.bindDropdownButton($btnAdjustMode);
 
 		return {
@@ -214,7 +214,7 @@ export class EncounterBuilderUi extends BaseComponent {
 		this._comp.addHookCreatureMetas(() => {
 			const $lis = this._comp.creatureMetas
 				.map(creatureMeta => {
-					const $btnShuffle = $(`<button class="btn btn-default btn-xs"><span class="glyphicon glyphicon-random"></span></button>`)
+					const $btnShuffle = $(`<button class="ve-btn ve-btn-default ve-btn-xs"><span class="glyphicon glyphicon-random"></span></button>`)
 						.click(() => {
 							this._doShuffle({creatureMeta});
 						});
@@ -289,7 +289,7 @@ export class EncounterBuilderUi extends BaseComponent {
 	}
 
 	_renderGroupAndDifficulty_getGroupEles_simple () {
-		const $btnAddPlayers = $(`<button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus"></span> Add Another Level</button>`)
+		const $btnAddPlayers = $(`<button class="ve-btn ve-btn-primary ve-btn-xs"><span class="glyphicon glyphicon-plus"></span> Add Another Level</button>`)
 			.click(() => this._comp.doAddPlayer());
 
 		const $wrpRows = $(`<div class="ve-flex-col w-100"></div>`);
@@ -323,10 +323,10 @@ export class EncounterBuilderUi extends BaseComponent {
 	}
 
 	_renderGroupAndDifficulty_getGroupEles_advanced () {
-		const $btnAddPlayers = $(`<button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus"></span> Add Another Player</button>`)
+		const $btnAddPlayers = $(`<button class="ve-btn ve-btn-primary ve-btn-xs"><span class="glyphicon glyphicon-plus"></span> Add Another Player</button>`)
 			.click(() => this._comp.doAddPlayer());
 
-		const $btnAddAdvancedCol = $(`<button class="btn btn-primary btn-xxs ecgen-player__btn-inline h-ipt-xs bl-0 bb-0 bbl-0 bbr-0 btl-0 ml-n1" title="Add Column" tabindex="-1"><span class="glyphicon glyphicon-list-alt"></span></button>`)
+		const $btnAddAdvancedCol = $(`<button class="ve-btn ve-btn-primary ve-btn-xxs ecgen-player__btn-inline h-ipt-xs bl-0 bb-0 bbl-0 bbr-0 btl-0 ml-n1" title="Add Column" tabindex="-1"><span class="glyphicon glyphicon-list-alt"></span></button>`)
 			.click(() => this._comp.doAddColExtraAdvanced());
 
 		const $wrpHeaders = $(`<div class="ve-flex"></div>`);
@@ -452,7 +452,7 @@ export class EncounterBuilderUi extends BaseComponent {
 				.html(`<span class="help-subtle" title="${this.constructor._TITLE_XP_TO_NEXT_LEVEL}">XP to Next Level:</span> ${partyMeta.xpToNextLevel.toLocaleString()} XP`);
 		})();
 
-		return $$`<div class="w-30 text-right">
+		return $$`<div class="w-30 ve-text-right">
 			${$dispXpEasy}
 			${$dispXpMedium}
 			${$dispXpHard}
@@ -524,7 +524,7 @@ export class EncounterBuilderUi extends BaseComponent {
 			$dispXpAdjustedPerPlayer.text(`(${Math.floor(encounterXpInfo.adjustedXp / partyMeta.cntPlayers).toLocaleString()} per player)`);
 		})();
 
-		return $$`<div class="w-50 text-right">
+		return $$`<div class="w-50 ve-text-right">
 			${$dispXpRawTotal}
 			<div>${$dispXpRawPerPlayer}</div>
 			<div class="ve-flex-v-center ve-flex-h-right">${$hovXpAdjustedInfo}${$dispXpAdjustedTotal}</div>

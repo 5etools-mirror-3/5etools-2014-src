@@ -117,7 +117,7 @@ class TableListPage extends ListPage {
 			const hash = this._getHash(ent);
 
 			const $ele = $$`<div class="lst__row ve-flex-col">
-				<a href="#${hash}" class="lst--border lst__row-inner">${displayName}</a>
+				<a href="#${hash}" class="lst__row-border lst__row-inner">${displayName}</a>
 			</div>`;
 
 			const listItem = new ListItem(

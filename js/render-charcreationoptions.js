@@ -17,8 +17,8 @@ class RenderCharCreationOptions {
 		${Renderer.utils.getExcludedTr({entity: ent, dataProp: "charoption"})}
 		${Renderer.utils.getNameTr(ent, {page: UrlUtil.PG_CHAR_CREATION_OPTIONS})}
 		${prerequisite ? `<tr><td colspan="6"><span class="prerequisite">${prerequisite}</span></td></tr>` : ""}
-		<tr><td class="divider" colspan="6"><div></div></td></tr>
-		<tr class="text"><td colspan="6">${renderStack.join("")}</td></tr>
+		<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider"></div></td></tr>
+		<tr><td colspan="6">${renderStack.join("")}</td></tr>
 		${Renderer.utils.getPageTr(ent)}
 		${Renderer.utils.getBorderTr()}
 		`;

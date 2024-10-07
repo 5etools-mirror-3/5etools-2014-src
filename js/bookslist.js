@@ -7,10 +7,15 @@ class AdventuresBooksList {
 		return DatetimeUtil.getDateStr({date, isShort: true, isPad: true});
 	}
 
-	static _getGroupStr (advBook) {
+	static _getGroupHtml (advBook) {
 		const group = advBook.group || "other";
 		const entry = SourceUtil.ADV_BOOK_GROUPS.find(it => it.group === group);
-		return entry.displayName;
+		return [
+			entry.displayName,
+			Parser.sourceJsonToMarkerHtml(advBook.source, {isList: true, isAddBrackets: true}),
+		]
+			.filter(Boolean)
+			.join("");
 	}
 
 	static _sortAdventuresBooks (dataList, a, b, o) {
@@ -91,7 +96,7 @@ class AdventuresBooksList {
 			this._listAlt.reset();
 
 			this._list.items.forEach(li => {
-				if (li.data.$btnToggleExpand.text() === "[\u2012]") li.data.$btnToggleExpand.click();
+				if (li.data.$btnToggleExpand.text() === "[\u2212]") li.data.$btnToggleExpand.click();
 			});
 		});
 
@@ -124,7 +129,7 @@ class AdventuresBooksList {
 
 			const $elesContents = [];
 			it.contents.map((chapter, ixChapter) => {
-				const $lnkChapter = $$`<a href="${this._rootPage}#${UrlUtil.encodeForHash(it.id)},${ixChapter}" class="ve-flex w-100 bklist__row-chapter lst--border lst__row-inner lst__row lst__wrp-cells bold">
+				const $lnkChapter = $$`<a href="${this._rootPage}#${UrlUtil.encodeForHash(it.id)},${ixChapter}" class="ve-flex w-100 bklist__row-chapter lst__row-border lst__row-inner lst__row lst__wrp-cells bold">
 					${Parser.bookOrdinalToAbv(chapter.ordinal)}${chapter.name}
 				</a>`;
 				$elesContents.push($lnkChapter);
@@ -139,7 +144,7 @@ class AdventuresBooksList {
 					const headerTextClean = headerText.toLowerCase().trim();
 					const headerPos = headerCounts[headerTextClean] || 0;
 					headerCounts[headerTextClean] = (headerCounts[headerTextClean] || 0) + 1;
-					const $lnk = $$`<a href="${this._rootPage}#${UrlUtil.encodeForHash(it.id)},${ixChapter},${UrlUtil.encodeForHash(headerText)}${header.index ? `,${header.index}` : ""}${headerPos > 0 ? `,${headerPos}` : ""}" class="lst__row lst--border lst__row-inner lst__wrp-cells bklist__row-section ve-flex w-100">
+					const $lnk = $$`<a href="${this._rootPage}#${UrlUtil.encodeForHash(it.id)},${ixChapter},${UrlUtil.encodeForHash(headerText)}${header.index ? `,${header.index}` : ""}${headerPos > 0 ? `,${headerPos}` : ""}" class="lst__row lst__row-border lst__row-inner lst__wrp-cells bklist__row-section ve-flex w-100">
 						${BookUtil.getContentsSectionHeader(header)}
 					</a>`;
 					$elesContents.push($lnk);
@@ -151,16 +156,16 @@ class AdventuresBooksList {
 				<div class="ve-flex-col w-100 bklist__wrp-rows-inner">${$elesContents}</div>
 			</div>`.hideVe();
 
-			const $btnToggleExpand = $(`<span class="px-2 py-1p bold mobile__hidden">[+]</span>`)
+			const $btnToggleExpand = $(`<span class="px-2 py-1p bold mobile__hidden no-select">[+]</span>`)
 				.click(evt => {
 					evt.stopPropagation();
 					evt.preventDefault();
-					$btnToggleExpand.text($btnToggleExpand.text() === "[+]" ? "[\u2012]" : "[+]");
+					$btnToggleExpand.text($btnToggleExpand.text() === "[+]" ? "[\u2212]" : "[+]");
 					$wrpContents.toggleVe();
 				});
 
 			const $eleLi = $$`<div class="ve-flex-col w-100">
-				<a href="${this._rootPage}#${UrlUtil.encodeForHash(it.id)}" class="split-v-center lst--border lst__row-inner lst__row ${isExcluded ? `lst__row--blocklisted` : ""}">
+				<a href="${this._rootPage}#${UrlUtil.encodeForHash(it.id)}" class="split-v-center lst__row-border lst__row-inner lst__row ${isExcluded ? `lst__row--blocklisted` : ""}">
 					<span class="w-100 ve-flex">${this._rowBuilderFn(it)}</span>
 					${$btnToggleExpand}
 				</a>
@@ -182,8 +187,10 @@ class AdventuresBooksList {
 
 			this._list.addItem(listItem);
 
+			const isLegacySource = SourceUtil.isLegacySourceWotc(it.source);
+
 			// region Alt list (covers/thumbnails)
-			const eleLiAlt = $(`<a href="${this._rootPage}#${UrlUtil.encodeForHash(it.id)}" class="ve-flex-col ve-flex-v-center m-3 bks__wrp-bookshelf-item ${isExcluded ? `bks__wrp-bookshelf-item--blocklisted` : ""} py-3 px-2 ${Parser.sourceJsonToSourceClassname(it.source)}" ${Parser.sourceJsonToStyle(it.source)}>
+			const eleLiAlt = $(`<a href="${this._rootPage}#${UrlUtil.encodeForHash(it.id)}" class="ve-flex-col ve-flex-v-center m-3 bks__wrp-bookshelf-item ${isExcluded ? `bks__wrp-bookshelf-item--blocklisted` : ""} ${isLegacySource ? `bks__wrp-bookshelf-item--legacy` : ""} py-3 px-2 ${Parser.sourceJsonToSourceClassname(it.source)}" ${Parser.sourceJsonToStyle(it.source)} ${isLegacySource ? `title="(Legacy Source)"` : ""}>
 				<img src="${Renderer.adventureBook.getCoverUrl(it)}" class="mb-2 bks__bookshelf-image" loading="lazy" alt="Cover Image: ${(it.name || "").qq()}">
 				<div class="bks__bookshelf-item-name ve-flex-vh-center ve-text-center">${it.name}</div>
 			</a>`)[0];
@@ -191,7 +198,7 @@ class AdventuresBooksList {
 				this._dataIx,
 				eleLiAlt,
 				it.name,
-				{source: it.id},
+				{source: it.source},
 			);
 			this._listAlt.addItem(listItemAlt);
 			// endregion

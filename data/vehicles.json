@@ -2467,7 +2467,7 @@
 				{
 					"name": "Pilot",
 					"entries": [
-						"The Stahlmaster requires a Medium humanoid to pilot it. While inside the Stahlmaster, the pilot uses the vehicle's speed and action options and can't take reactions or use bonus actions, and the pilot has total cover. If the Stahlmaster drops to 0 hit points, the pilot is ejected from it and lands {@condition prone} in an unoccupied space within 5 feet of the vehicle."
+						"The Stahlmaster requires a Medium humanoid to pilot it. While inside the Stahlmaster, the pilot uses the vehicle's speed and action options and can't take reactions or use bonus actions, and the pilot has {@quickref Cover||3||total cover}. If the Stahlmaster drops to 0 hit points, the pilot is ejected from it and lands {@condition prone} in an unoccupied space within 5 feet of the vehicle."
 					]
 				}
 			],

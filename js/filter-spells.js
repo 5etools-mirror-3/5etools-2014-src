@@ -5,7 +5,7 @@ class VariantClassFilter extends Filter {
 		super({
 			header: "Optional/Variant Class",
 			nests: {},
-			groupFn: it => it.userData.group,
+			groupFn: it => it.group,
 			...opts,
 		});
 
@@ -48,7 +48,7 @@ class MultiFilterClasses extends MultiFilter {
 			this,
 			"isVariantSplit",
 			{
-				ele: e_({tag: "button", clazz: "btn btn-default btn-xs", text: "Include Variants"}),
+				ele: e_({tag: "button", clazz: "ve-btn ve-btn-default ve-btn-xs", text: "Include Variants"}),
 				isInverted: true,
 				stateName: "meta",
 				stateProp: "_meta",
@@ -58,7 +58,7 @@ class MultiFilterClasses extends MultiFilter {
 
 		e_({
 			tag: "div",
-			clazz: `btn-group w-100 ve-flex-v-center mobile__m-1 mobile__mb-2`,
+			clazz: `ve-btn-group w-100 ve-flex-v-center mobile__m-1 mobile__mb-2`,
 			children: [
 				btnToggleVariantSplit,
 			],
@@ -66,7 +66,10 @@ class MultiFilterClasses extends MultiFilter {
 	}
 
 	getDefaultMeta () {
-		return {...MultiFilterClasses._DEFAULT_META, ...super.getDefaultMeta()};
+		// Key order is important, as @filter tags depend on it
+		return {
+			...MultiFilterClasses._DEFAULT_META,
+		};
 	}
 }
 MultiFilterClasses._DEFAULT_META = {
@@ -133,8 +136,10 @@ class PageFilterSpells extends PageFilterBase {
 	static getFilterAbilitySave (ability) { return `${ability.uppercaseFirst()} Save`; }
 	static getFilterAbilityCheck (ability) { return `${ability.uppercaseFirst()} Check`; }
 
-	static getMetaFilterObj (s) {
-		const out = [];
+	static _mutMetaFilterObj (s) {
+		this._mutateForFilters_commonMisc(s);
+
+		const out = s._fMisc;
 		if (s.meta) {
 			Object.entries(s.meta)
 				.filter(([_, v]) => v)
@@ -157,11 +162,6 @@ class PageFilterSpells extends PageFilterBase {
 		if (s.miscTags) out.push(...s.miscTags);
 		if ((!s.miscTags || (s.miscTags && !s.miscTags.includes("PRM"))) && s.duration.filter(it => it.type === "permanent").length) out.push("PRM");
 		if ((!s.miscTags || (s.miscTags && !s.miscTags.includes("SCL"))) && s.entriesHigherLevel) out.push("SCL");
-		if (s.srd) out.push("SRD");
-		if (s.basicRules) out.push("Basic Rules");
-		if (SourceUtil.isLegacySourceWotc(s.source)) s._fMisc.push("Legacy");
-		if (s.hasFluff || s.fluff?.entries) out.push("Has Info");
-		if (s.hasFluffImages || s.fluff?.images) out.push("Has Images");
 		return out;
 	}
 
@@ -232,11 +232,12 @@ class PageFilterSpells extends PageFilterBase {
 			case Parser.RNG_POINT: this._getNormalisedRange_getAdjustedForDistance({range, state}); break;
 			case Parser.RNG_LINE: state.offset = 1; this._getNormalisedRange_getAdjustedForDistance({range, state}); break;
 			case Parser.RNG_CONE: state.offset = 2; this._getNormalisedRange_getAdjustedForDistance({range, state}); break;
-			case Parser.RNG_RADIUS: state.offset = 3; this._getNormalisedRange_getAdjustedForDistance({range, state}); break;
-			case Parser.RNG_HEMISPHERE: state.offset = 4; this._getNormalisedRange_getAdjustedForDistance({range, state}); break;
-			case Parser.RNG_SPHERE: state.offset = 5; this._getNormalisedRange_getAdjustedForDistance({range, state}); break;
-			case Parser.RNG_CYLINDER: state.offset = 6; this._getNormalisedRange_getAdjustedForDistance({range, state}); break;
-			case Parser.RNG_CUBE: state.offset = 7; this._getNormalisedRange_getAdjustedForDistance({range, state}); break;
+			case Parser.RNG_EMANATION: state.offset = 3; this._getNormalisedRange_getAdjustedForDistance({range, state}); break;
+			case Parser.RNG_RADIUS: state.offset = 4; this._getNormalisedRange_getAdjustedForDistance({range, state}); break;
+			case Parser.RNG_HEMISPHERE: state.offset = 5; this._getNormalisedRange_getAdjustedForDistance({range, state}); break;
+			case Parser.RNG_SPHERE: state.offset = 6; this._getNormalisedRange_getAdjustedForDistance({range, state}); break;
+			case Parser.RNG_CYLINDER: state.offset = 7; this._getNormalisedRange_getAdjustedForDistance({range, state}); break;
+			case Parser.RNG_CUBE: state.offset = 8; this._getNormalisedRange_getAdjustedForDistance({range, state}); break;
 		}
 
 		// value in inches, to allow greater granularity
@@ -289,6 +290,7 @@ class PageFilterSpells extends PageFilterBase {
 				}
 			case Parser.RNG_LINE:
 			case Parser.RNG_CONE:
+			case Parser.RNG_EMANATION:
 			case Parser.RNG_RADIUS:
 			case Parser.RNG_HEMISPHERE:
 			case Parser.RNG_SPHERE:
@@ -316,9 +318,7 @@ class PageFilterSpells extends PageFilterBase {
 		const name = `${r.name}${addSuffix ? ` (${Parser.sourceJsonToAbv(r.source)})` : ""}`;
 		const opts = {
 			item: name,
-			userData: {
-				group: SourceUtil.getFilterGroup(r.source || Parser.SRC_PHB),
-			},
+			group: SourceUtil.getFilterGroup(r.source || Parser.SRC_PHB),
 		};
 		if (r.baseName) opts.nest = r.baseName;
 		else opts.nest = "(No Subraces)";
@@ -326,17 +326,17 @@ class PageFilterSpells extends PageFilterBase {
 	}
 	// endregion
 
-	constructor () {
-		super();
+	constructor (opts) {
+		super(opts);
 
 		this._classFilter = new Filter({
 			header: "Class",
-			groupFn: it => it.userData.group,
+			groupFn: it => it.group,
 		});
 		this._subclassFilter = new Filter({
 			header: "Subclass",
 			nests: {},
-			groupFn: it => it.userData.group,
+			groupFn: it => it.group,
 		});
 		this._levelFilter = new Filter({
 			header: "Level",
@@ -354,17 +354,18 @@ class PageFilterSpells extends PageFilterBase {
 		this._raceFilter = new Filter({
 			header: "Race",
 			nests: {},
-			groupFn: it => it.userData.group,
+			groupFn: it => it.group,
 		});
 		this._backgroundFilter = new SearchableFilter({header: "Background"});
 		this._featFilter = new SearchableFilter({header: "Feat"});
 		this._optionalfeaturesFilter = new SearchableFilter({header: "Other Option/Feature"});
 		this._metaFilter = new Filter({
 			header: "Components & Miscellaneous",
-			items: [...PageFilterSpells._META_FILTER_BASE_ITEMS, "Ritual", "SRD", "Basic Rules", "Legacy", "Has Images", "Has Token"],
+			items: [...PageFilterSpells._META_FILTER_BASE_ITEMS, "Ritual", "Legacy", "Reprinted", "Has Images", "Has Token"],
 			itemSortFn: PageFilterSpells.sortMetaFilter,
 			isMiscFilter: true,
 			displayFn: it => Parser.spMiscTagToFull(it),
+			deselFn: PageFilterBase.defaultMiscellaneousDeselFn.bind(PageFilterBase),
 		});
 		this._groupFilter = new Filter({header: "Group"});
 		this._schoolFilter = new Filter({
@@ -460,7 +461,7 @@ class PageFilterSpells extends PageFilterBase {
 
 		// used for filtering
 		s._fSources = SourceFilter.getCompleteFilterSources(s);
-		s._fMeta = PageFilterSpells.getMetaFilterObj(s);
+		PageFilterSpells._mutMetaFilterObj(s);
 		s._fClasses = Renderer.spell.getCombinedClasses(s, "fromClassList").map(c => {
 			return this._getClassFilterItem({
 				className: c.name,
@@ -491,7 +492,7 @@ class PageFilterSpells extends PageFilterBase {
 		s._fClassesAndVariantClasses = [
 			...s._fClasses,
 			...s._fVariantClasses
-				.map(it => (it.userData.definedInSource && !SourceUtil.isNonstandardSource(it.userData.definedInSource)) ? new FilterItem({item: it.userData.equivalentClassName}) : null)
+				.map(it => (it.definedInSource && !SourceUtil.isNonstandardSource(it.definedInSource)) ? new FilterItem({item: it.equivalentClassName}) : null)
 				.filter(Boolean)
 				.filter(it => !s._fClasses.some(itCls => itCls.item === it.item)),
 		];
@@ -528,7 +529,7 @@ class PageFilterSpells extends PageFilterBase {
 		this._groupFilter.addItem(s._fGroups);
 		this._schoolFilter.addItem(s.school);
 		this._sourceFilter.addItem(s._fSources);
-		this._metaFilter.addItem(s._fMeta);
+		this._metaFilter.addItem(s._fMisc);
 		this._backgroundFilter.addItem(s._fBackgrounds);
 		this._featFilter.addItem(s._fFeats);
 		this._optionalfeaturesFilter.addItem(s._fOptionalfeatures);
@@ -592,7 +593,7 @@ class PageFilterSpells extends PageFilterBase {
 			s._fBackgrounds,
 			s._fFeats,
 			s._fOptionalfeatures,
-			s._fMeta,
+			s._fMisc,
 			s._fGroups,
 			s.school,
 			s.subschools,
@@ -667,20 +668,20 @@ class ModalFilterSpells extends ModalFilterBase {
 		const concentration = spell._isConc ? "×" : "";
 		const range = Parser.spRangeToFull(spell.range);
 
-		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst--border veapp__list-row no-select lst__wrp-cells">
+		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst__row-border veapp__list-row no-select lst__wrp-cells">
 			<div class="ve-col-0-5 pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="no-events">` : `<input type="checkbox" class="no-events">`}</div>
 
 			<div class="ve-col-0-5 px-1 ve-flex-vh-center">
-				<div class="ui-list__btn-inline px-2" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
+				<div class="ui-list__btn-inline px-2 no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
 			</div>
 
-			<div class="ve-col-3 ${spell._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${spell._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${spell.name}</div>
-			<div class="ve-col-1-5 ve-text-center">${levelText}</div>
-			<div class="ve-col-2 ve-text-center">${time}</div>
-			<div class="ve-col-1 sp__school-${spell.school} ve-text-center" title="${Parser.spSchoolAndSubschoolsAbvsToFull(spell.school, spell.subschools)}" ${Parser.spSchoolAbvToStyle(spell.school)}>${school}</div>
-			<div class="ve-col-0-5 ve-text-center" title="Concentration">${concentration}</div>
-			<div class="ve-col-2 text-right">${range}</div>
-			<div class="ve-col-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(spell.source)}" title="${Parser.sourceJsonToFull(spell.source)}" ${Parser.sourceJsonToStyle(spell.source)}>${source}${Parser.sourceJsonToMarkerHtml(spell.source)}</div>
+			<div class="ve-col-3 px-1 ${spell._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${spell._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${spell.name}</div>
+			<div class="ve-col-1-5 px-1 ve-text-center">${levelText}</div>
+			<div class="ve-col-2 px-1 ve-text-center">${time}</div>
+			<div class="ve-col-1 px-1 sp__school-${spell.school} ve-text-center" title="${Parser.spSchoolAndSubschoolsAbvsToFull(spell.school, spell.subschools)}" ${Parser.spSchoolAbvToStyle(spell.school)}>${school}</div>
+			<div class="ve-col-0-5 px-1 ve-text-center" title="Concentration">${concentration}</div>
+			<div class="ve-col-2 px-1 ve-text-right">${range}</div>
+			<div class="ve-col-1 pl-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(spell.source)}" title="${Parser.sourceJsonToFull(spell.source)}" ${Parser.sourceJsonToStyle(spell.source)}>${source}${Parser.sourceJsonToMarkerHtml(spell.source)}</div>
 		</div>`;
 
 		const btnShowHidePreview = eleRow.firstElementChild.children[1].firstElementChild;

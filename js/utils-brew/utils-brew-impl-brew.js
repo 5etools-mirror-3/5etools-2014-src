@@ -24,7 +24,7 @@ export class BrewUtil2_ extends BrewUtil2Base {
 	DISPLAY_NAME = "homebrew";
 	DISPLAY_NAME_PLURAL = "homebrews";
 	DEFAULT_AUTHOR = "";
-	STYLE_BTN = "btn-info";
+	STYLE_BTN = "ve-btn-info";
 	IS_PREFER_DATE_ADDED = true;
 
 	/* -------------------------------------------- */

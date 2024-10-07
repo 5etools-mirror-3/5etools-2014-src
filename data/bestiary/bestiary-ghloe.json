@@ -1593,7 +1593,7 @@
 				{
 					"name": "Engulf",
 					"entries": [
-						"Each creature {@condition grappled} by the chapped brute abomination must succeed on a {@dc 18} Strength saving throw or be pulled into the brute's body. An engulfed target is {@condition blinded}, {@condition restrained}, unable to breathe, and has total cover from effects that originate outside the brute. At the start of each of the brute's turns, each engulfed creature takes 14 ({@damage 4d6}) acid damage. The brute can hold only one Large creature or up to four Medium or smaller creatures inside it at a time.",
+						"Each creature {@condition grappled} by the chapped brute abomination must succeed on a {@dc 18} Strength saving throw or be pulled into the brute's body. An engulfed target is {@condition blinded}, {@condition restrained}, unable to breathe, and has {@quickref Cover||3||total cover} from effects that originate outside the brute. At the start of each of the brute's turns, each engulfed creature takes 14 ({@damage 4d6}) acid damage. The brute can hold only one Large creature or up to four Medium or smaller creatures inside it at a time.",
 						"An engulfed creature can try to escape by taking an action to make its choice of a {@dc 18} Strength ({@skill Athletics}) or Dexterity ({@skill Acrobatics}) check. On a success, the creature escapes and uses 10 feet of movement to enter a space of its choice within 5 feet of the brute.",
 						"If the brute dies, an engulfed creature is no longer {@condition restrained} by it and can escape from the corpse by using 10 feet of movement.",
 						"If a creature dies inside the brute, the brute doesn't roll for Unstable Life at the start of its next turn and instead regains 20 hit points. The creature's body breaks up inside the brute, and the brute expels anything the creature wore or carried."
@@ -3169,7 +3169,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"The Empyrean brazen bull makes one bite attack against a Medium or smaller creature it is grappling. If the attack hits, that creature takes the bite's damage and is swallowed, and the grapple ends. While swallowed, the creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the Empyrean brazen bull, and it takes 21 ({@damage 6d6}) fire damage at the start of each of theEmpyrean brazen bull's turns. If the Empyrean brazen bull takes 30 damage or more on a single turn from a creature inside it, the Empyrean brazen bull must succeed on a {@dc 15} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of the empyrean brazen bull. If the Empyrean brazen bull dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 15 feet of movement, exiting {@condition prone}."
+						"The Empyrean brazen bull makes one bite attack against a Medium or smaller creature it is grappling. If the attack hits, that creature takes the bite's damage and is swallowed, and the grapple ends. While swallowed, the creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the Empyrean brazen bull, and it takes 21 ({@damage 6d6}) fire damage at the start of each of theEmpyrean brazen bull's turns. If the Empyrean brazen bull takes 30 damage or more on a single turn from a creature inside it, the Empyrean brazen bull must succeed on a {@dc 15} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of the empyrean brazen bull. If the Empyrean brazen bull dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 15 feet of movement, exiting {@condition prone}."
 					]
 				}
 			],
@@ -4117,7 +4117,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"The seraph makes one bite attack against a Medium or smaller creature it holds {@condition grappled}. If the attack hits, the target takes the bite's damage, the grapple ends, and the target is swallowed. While swallowed, a creature is {@condition blinded} and {@condition restrained}, has total cover against anything originating outside the seraph, and takes 18 ({@damage 4d8}) acid damage and 9 ({@damage 2d8}) radiant damage at the start of each of the seraph's turns. The seraph can have only one creature swallowed at a time.",
+						"The seraph makes one bite attack against a Medium or smaller creature it holds {@condition grappled}. If the attack hits, the target takes the bite's damage, the grapple ends, and the target is swallowed. While swallowed, a creature is {@condition blinded} and {@condition restrained}, has {@quickref Cover||3||total cover} against anything originating outside the seraph, and takes 18 ({@damage 4d8}) acid damage and 9 ({@damage 2d8}) radiant damage at the start of each of the seraph's turns. The seraph can have only one creature swallowed at a time.",
 						"If the seraph takes 35 damage or more on a single turn from a creature inside it, the seraph must succeed on a {@dc 20} Constitution saving throw at the end of that turn or regurgitate the swallowed creature, which falls {@condition prone} in a space within 10 feet of the seraph. If the seraph dies, the swallowed creature is no longer {@condition restrained} by it and can escape the corpse by using 10 feet of movement, exiting {@condition prone}."
 					]
 				}
@@ -6137,7 +6137,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"{@atk mw} {@hit 11} to hit, reach 5 ft., one Huge or smaller creature the lindwyrm is grappling. {@h}22 ({@damage 3d10 + 6}) piercing damage, the target is swallowed, and the grapple ends. The swallowed target is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the lindwyrm, and it takes 27 ({@damage 6d8}) acid damage at the start of each of the lindwyrm's turns. The lindwyrm can have only one target swallowed at a time.",
+						"{@atk mw} {@hit 11} to hit, reach 5 ft., one Huge or smaller creature the lindwyrm is grappling. {@h}22 ({@damage 3d10 + 6}) piercing damage, the target is swallowed, and the grapple ends. The swallowed target is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the lindwyrm, and it takes 27 ({@damage 6d8}) acid damage at the start of each of the lindwyrm's turns. The lindwyrm can have only one target swallowed at a time.",
 						"If the lindwyrm takes 40 damage or more on a single turn from the swallowed creature, the lindwyrm must succeed on a {@dc 18} Constitution saving throw at the end of that turn or regurgitate the creature, which falls {@condition prone} in a space within 10 feet of the lindwyrm. If the lindwyrm dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 5 feet of movement, exiting {@condition prone}."
 					]
 				}
@@ -9856,7 +9856,7 @@
 				{
 					"name": "Shocking Visage",
 					"entries": [
-						"Any humanoid that starts its turn within 30 feet of the skinweaver and can see it must make a {@dc 11} Wisdom saving throw. On a failed save, the creature is {@condition frightened} until the end of the creature's next turn). Whether a creature succeeds or fails, it cannot be affected by this ability again until it loses sight of the skinweaver (as when the skinweaver moves behind total cover or successfully hides)."
+						"Any humanoid that starts its turn within 30 feet of the skinweaver and can see it must make a {@dc 11} Wisdom saving throw. On a failed save, the creature is {@condition frightened} until the end of the creature's next turn). Whether a creature succeeds or fails, it cannot be affected by this ability again until it loses sight of the skinweaver (as when the skinweaver moves behind {@quickref Cover||3||total cover} or successfully hides)."
 					]
 				}
 			],

@@ -10391,7 +10391,7 @@
 												{
 													"type": "item",
 													"name": "Chaotic Aura",
-													"entry": "The faerie dragon creates misdirecting currents of air and magic around itself. Until initiative count 20 on the next round, whenever a ranged attack roll misses the dragon, reroll the attack against a random creature within 30 feet of the dragon that doesn't have total cover against the attack."
+													"entry": "The faerie dragon creates misdirecting currents of air and magic around itself. Until initiative count 20 on the next round, whenever a ranged attack roll misses the dragon, reroll the attack against a random creature within 30 feet of the dragon that doesn't have {@quickref Cover||3||total cover} against the attack."
 												},
 												{
 													"type": "item",

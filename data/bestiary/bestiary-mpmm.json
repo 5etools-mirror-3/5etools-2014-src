@@ -606,6 +606,9 @@
 				{
 					"source": "VGM",
 					"page": 172
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -1164,6 +1167,9 @@
 				{
 					"source": "MTF",
 					"page": 164
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -3291,7 +3297,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"{@atk mw} {@hit 8} to hit, reach 5 ft., one Medium or smaller creature {@condition grappled} by the banderhobb. {@h}15 ({@damage 3d6 + 5}) piercing damage. The creature is also swallowed, and the grapple ends. The swallowed creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the banderhobb, and it takes 10 ({@damage 3d6}) necrotic damage at the start of each of the banderhobb's turns. A creature reduced to 0 hit points in this way stops taking the necrotic damage and becomes stable.",
+						"{@atk mw} {@hit 8} to hit, reach 5 ft., one Medium or smaller creature {@condition grappled} by the banderhobb. {@h}15 ({@damage 3d6 + 5}) piercing damage. The creature is also swallowed, and the grapple ends. The swallowed creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the banderhobb, and it takes 10 ({@damage 3d6}) necrotic damage at the start of each of the banderhobb's turns. A creature reduced to 0 hit points in this way stops taking the necrotic damage and becomes stable.",
 						"The banderhobb can have only one creature swallowed at a time. While the banderhobb isn't {@condition incapacitated}, it can regurgitate the creature at any time (no action required) in a space within 5 feet of it. The creature exits {@condition prone}. If the banderhobb dies, it likewise regurgitates a swallowed creature."
 					]
 				}
@@ -3350,6 +3356,9 @@
 				{
 					"source": "MTF",
 					"page": 143
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -4263,6 +4272,9 @@
 				{
 					"source": "MTF",
 					"page": 160
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -4625,6 +4637,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -7504,7 +7519,7 @@
 				{
 					"name": "Corpses",
 					"entries": [
-						"When first encountered, a corpse flower contains the corpses of {@dice 1d6 + 3} Humanoids. A corpse flower can hold the remains of up to nine Humanoids. These remains have total cover against attacks and other effects outside the corpse flower. If the corpse flower dies, the corpses within it can be pulled free."
+						"When first encountered, a corpse flower contains the corpses of {@dice 1d6 + 3} Humanoids. A corpse flower can hold the remains of up to nine Humanoids. These remains have {@quickref Cover||3||total cover} against attacks and other effects outside the corpse flower. If the corpse flower dies, the corpses within it can be pulled free."
 					]
 				},
 				{
@@ -11298,7 +11313,7 @@
 					"type": "variant",
 					"name": "Summon Demon (1/Day)",
 					"entries": [
-						"The drow attempts to magically summon a {@creature yochlol}, with a {@chance 50|50 percent} chance of success. If the attempt fails, the drow takes 5 ({@damage 1d10}) psychic damage. Otherwise, the summoned demon appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other demons. It remains for 10 minutes, until it or its summoner dies, or until its summoner dismisses it as an action."
+						"The drow attempts to magically summon a {@creature yochlol}, with a {@chance 50} chance of success. If the attempt fails, the drow takes 5 ({@damage 1d10}) psychic damage. Otherwise, the summoned demon appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other demons. It remains for 10 minutes, until it or its summoner dies, or until its summoner dismisses it as an action."
 					],
 					"_version": {
 						"name": "Drow Inquisitor (Summoner)",
@@ -11749,7 +11764,7 @@
 					"type": "variant",
 					"name": "Summon Shadow Demon (1/Day)",
 					"entries": [
-						"The drow attempts to magically summon a {@creature shadow demon} with a {@chance 50|50 percent} chance of success. If the attempt fails, the drow takes 5 ({@damage 1d10}) psychic damage. Otherwise, the summoned demon appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other demons. It remains for 10 minutes, until it or its summoner dies, or until its summoner dismisses it as an action."
+						"The drow attempts to magically summon a {@creature shadow demon} with a {@chance 50} chance of success. If the attempt fails, the drow takes 5 ({@damage 1d10}) psychic damage. Otherwise, the summoned demon appears in an unoccupied space within 60 feet of its summoner, acts as an ally of its summoner, and can't summon other demons. It remains for 10 minutes, until it or its summoner dies, or until its summoner dismisses it as an action."
 					],
 					"_version": {
 						"name": "Drow Shadowblade (Summoner)",
@@ -13590,6 +13605,9 @@
 				},
 				{
 					"source": "PaBTSO"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -15621,6 +15639,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -15693,7 +15714,7 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 10} to hit, reach 5 ft., one target. {@h}22 ({@damage 3d10 + 6}) piercing damage, and the target is swallowed if it is a Medium or smaller creature. A swallowed creature is {@condition blinded} and {@condition restrained}, has total cover against attacks and other effects outside the froghemoth, and takes 10 ({@damage 3d6}) acid damage at the start of each of the froghemoth's turns.",
+						"{@atk mw} {@hit 10} to hit, reach 5 ft., one target. {@h}22 ({@damage 3d10 + 6}) piercing damage, and the target is swallowed if it is a Medium or smaller creature. A swallowed creature is {@condition blinded} and {@condition restrained}, has {@quickref Cover||3||total cover} against attacks and other effects outside the froghemoth, and takes 10 ({@damage 3d6}) acid damage at the start of each of the froghemoth's turns.",
 						"The froghemoth's gullet can hold up to two creatures at a time. If the froghemoth takes 20 damage or more on a single turn from a creature inside it, the froghemoth must succeed on a {@dc 20} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which falls {@condition prone} in a space within 10 feet of the froghemoth. If the froghemoth dies, any swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 10 feet of movement, exiting {@condition prone}."
 					]
 				},
@@ -18209,6 +18230,9 @@
 				{
 					"source": "MTF",
 					"page": 209
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -18554,6 +18578,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -20898,7 +20925,7 @@
 				{
 					"name": "Lightning Storm (Costs 2 Actions)",
 					"entries": [
-						"Hutijin releases lightning in a 30-foot radius, blocked only by total cover. All other creatures in that area must each make a {@dc 22} Dexterity saving throw, taking 18 ({@damage 4d8}) lightning damage on a failed save, or half as much damage on a successful one."
+						"Hutijin releases lightning in a 30-foot radius, blocked only by {@quickref Cover||3||total cover}. All other creatures in that area must each make a {@dc 22} Dexterity saving throw, taking 18 ({@damage 4d8}) lightning damage on a failed save, or half as much damage on a successful one."
 					]
 				}
 			],
@@ -21998,7 +22025,7 @@
 								{
 									"name": "3: Basket of Centipedes",
 									"entries": [
-										"The kobold throws a small basket into a 5-foot-square space within 20 feet of it. A {@creature Swarm of Centipedes||swarm of insects (centipedes)} with 11 hit points emerges from the basket and rolls initiative. At the end of each of the swarm's turns, there's a {@chance 50|50 percent} chance that the swarm disperses."
+										"The kobold throws a small basket into a 5-foot-square space within 20 feet of it. A {@creature Swarm of Centipedes||swarm of insects (centipedes)} with 11 hit points emerges from the basket and rolls initiative. At the end of each of the swarm's turns, there's a {@chance 50} chance that the swarm disperses."
 									],
 									"type": "item"
 								},
@@ -22033,7 +22060,7 @@
 								{
 									"name": "8: Wasp Nest in a Bag",
 									"entries": [
-										"The kobold throws a small bag into a 5-foot-square space within 20 feet of it. A {@creature Swarm of Wasps||swarm of insects (wasps)} with 11 hit points emerges from the bag and rolls initiative. At the end of each of the swarm's turns, there's a {@chance 50|50 percent} chance that the swarm disperses."
+										"The kobold throws a small bag into a 5-foot-square space within 20 feet of it. A {@creature Swarm of Wasps||swarm of insects (wasps)} with 11 hit points emerges from the bag and rolls initiative. At the end of each of the swarm's turns, there's a {@chance 50} chance that the swarm disperses."
 									],
 									"type": "item"
 								}
@@ -24383,6 +24410,9 @@
 				{
 					"source": "MTF",
 					"page": 166
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -25350,7 +25380,7 @@
 							"name": "Summon Demon (1/Day)",
 							"type": "entries",
 							"entries": [
-								"As an action, the molydeus has a {@chance 50|50 percent} chance of summoning its choice of {@dice 1d6} {@creature babau|MPMM|babaus}, {@dice 1d4} {@creature chasme||chasmes}, or one {@creature marilith}. A summoned demon appears in an unoccupied space within 60 feet of the molydeus, acts as an ally of the molydeus, and can't summon other demons. It remains for 1 minute, until it or the molydeus dies, or until the molydeus dismisses it as an action."
+								"As an action, the molydeus has a {@chance 50} chance of summoning its choice of {@dice 1d6} {@creature babau|MPMM|babaus}, {@dice 1d4} {@creature chasme||chasmes}, or one {@creature marilith}. A summoned demon appears in an unoccupied space within 60 feet of the molydeus, acts as an ally of the molydeus, and can't summon other demons. It remains for 1 minute, until it or the molydeus dies, or until the molydeus dismisses it as an action."
 							]
 						}
 					],
@@ -26417,6 +26447,9 @@
 				{
 					"source": "VGM",
 					"page": 180
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -26653,6 +26686,9 @@
 				{
 					"source": "VGM",
 					"page": 180
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -26938,7 +26974,7 @@
 				{
 					"name": "Tentacles",
 					"entries": [
-						"{@atk mw} {@hit 13} to hit, reach 15 ft., one target. {@h}21 ({@damage 3d8 + 8}) bludgeoning damage plus 11 ({@damage 2d10}) psychic damage. If the target is a Large or smaller creature, it must succeed on a {@dc 18} Strength saving throw or be swallowed by the neothelid. A swallowed creature is {@condition blinded} and {@condition restrained}, it has total cover against attacks and other effects outside the neothelid, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the neothelid's turns.",
+						"{@atk mw} {@hit 13} to hit, reach 15 ft., one target. {@h}21 ({@damage 3d8 + 8}) bludgeoning damage plus 11 ({@damage 2d10}) psychic damage. If the target is a Large or smaller creature, it must succeed on a {@dc 18} Strength saving throw or be swallowed by the neothelid. A swallowed creature is {@condition blinded} and {@condition restrained}, it has {@quickref Cover||3||total cover} against attacks and other effects outside the neothelid, and it takes 21 ({@damage 6d6}) acid damage at the start of each of the neothelid's turns.",
 						"If the neothelid takes 30 damage or more on a single turn from a creature inside it, the neothelid must succeed on a {@dc 18} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, which fall {@condition prone} in a space within 10 feet of the neothelid. If the neothelid dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse by using 20 feet of movement, exiting {@condition prone}."
 					]
 				},
@@ -27319,6 +27355,9 @@
 				{
 					"source": "MTF",
 					"page": 168
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -27887,7 +27926,7 @@
 				{
 					"name": "Howdah",
 					"entries": [
-						"The ogre carries a compact fort on its back. Up to four Small creatures can ride in the fort without squeezing. To make a melee attack against a target within 5 feet of the ogre, they must use spears or weapons with reach. Creatures in the fort have three-quarters cover against attacks and effects from outside it. If the ogre dies, creatures in the fort are placed in unoccupied spaces within 5 feet of the ogre."
+						"The ogre carries a compact fort on its back. Up to four Small creatures can ride in the fort without squeezing. To make a melee attack against a target within 5 feet of the ogre, they must use spears or weapons with reach. Creatures in the fort have {@quickref Cover||3||three-quarters cover} against attacks and effects from outside it. If the ogre dies, creatures in the fort are placed in unoccupied spaces within 5 feet of the ogre."
 					]
 				}
 			],
@@ -28406,6 +28445,9 @@
 				{
 					"source": "MTF",
 					"page": 169
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -28694,6 +28736,9 @@
 				{
 					"source": "MTF",
 					"page": 199
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -29080,6 +29125,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [
@@ -37904,6 +37952,9 @@
 				{
 					"source": "MTF",
 					"page": 163
+				},
+				{
+					"source": "CoA"
 				}
 			],
 			"size": [

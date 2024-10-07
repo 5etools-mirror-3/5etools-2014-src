@@ -1285,7 +1285,7 @@
 				{
 					"name": "Gunslinger",
 					"entries": [
-						"Being within 5 feet of a hostile creature or attacking at long range doesn't impose disadvantage on the drow's ranged attack rolls with a pistol. In addition, the drow ignores half cover and three-quarters cover when making ranged attacks with a pistol."
+						"Being within 5 feet of a hostile creature or attacking at long range doesn't impose disadvantage on the drow's ranged attack rolls with a pistol. In addition, the drow ignores {@quickref Cover||3||half cover} and {@quickref Cover||3||three-quarters cover} when making ranged attacks with a pistol."
 					]
 				},
 				{
@@ -7452,7 +7452,7 @@
 				{
 					"name": "Gunslinger",
 					"entries": [
-						"Being within 5 feet of a hostile creature or attacking at long range doesn't impose disadvantage on Soluun's ranged attack rolls with a pistol. In addition, Soluun ignores half cover and three-quarters cover when making ranged attacks with a pistol."
+						"Being within 5 feet of a hostile creature or attacking at long range doesn't impose disadvantage on Soluun's ranged attack rolls with a pistol. In addition, Soluun ignores {@quickref Cover||3||half cover} and {@quickref Cover||3||three-quarters cover} when making ranged attacks with a pistol."
 					]
 				},
 				{

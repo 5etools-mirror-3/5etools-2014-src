@@ -8,6 +8,11 @@ class PageFilterFeats extends PageFilterBase {
 	constructor () {
 		super();
 
+		this._categoryFilter = new Filter({
+			header: "Category",
+			displayFn: Parser.featCategoryToFull,
+			items: [...Object.keys(Parser.FEAT_CATEGORY_TO_FULL), "Other"],
+		});
 		this._asiFilter = new Filter({
 			header: "Ability Bonus",
 			items: [
@@ -20,10 +25,6 @@ class PageFilterFeats extends PageFilterBase {
 			],
 			displayFn: Parser.attAbvToFull,
 			itemSortFn: null,
-		});
-		this._categoryFilter = new Filter({
-			header: "Category",
-			displayFn: StrUtil.toTitleCase,
 		});
 		this._otherPrereqFilter = new Filter({
 			header: "Other",
@@ -48,14 +49,21 @@ class PageFilterFeats extends PageFilterBase {
 		this._vulnerableFilter = FilterCommon.getDamageVulnerableFilter();
 		this._resistFilter = FilterCommon.getDamageResistFilter();
 		this._immuneFilter = FilterCommon.getDamageImmuneFilter();
-		this._defenceFilter = new MultiFilter({header: "Damage", filters: [this._vulnerableFilter, this._resistFilter, this._immuneFilter]});
+		this._defenseFilter = new MultiFilter({header: "Damage", filters: [this._vulnerableFilter, this._resistFilter, this._immuneFilter]});
 		this._conditionImmuneFilter = FilterCommon.getConditionImmuneFilter();
-		this._miscFilter = new Filter({header: "Miscellaneous", items: ["Has Info", "Has Images", "SRD", "Basic Rules", "Legacy"], isMiscFilter: true});
+		this._miscFilter = new Filter({
+			header: "Miscellaneous",
+			items: ["Has Info", "Has Images", "Legacy"],
+			isMiscFilter: true,
+			deselFn: PageFilterBase.defaultMiscellaneousDeselFn.bind(PageFilterBase),
+		});
 	}
 
 	static mutateForFilters (feat) {
 		const ability = Renderer.getAbilityData(feat.ability);
 		feat._fAbility = ability.asCollection.filter(a => !ability.areNegative.includes(a)); // used for filtering
+
+		feat._fCategory = feat.category || "Other";
 
 		const prereqText = Renderer.utils.prerequisite.getHtml(feat.prerequisite, {isListMode: true}) || VeCt.STR_NONE;
 
@@ -66,6 +74,7 @@ class PageFilterFeats extends PageFilterBase {
 				.map(it => `Level ${it.level.level ?? it.level}`)
 			: [];
 		feat._fBenifits = [
+			...(feat.traitTags || []),
 			feat.resist ? "Damage Resistance" : null,
 			feat.immune ? "Damage Immunity" : null,
 			feat.conditionImmune ? "Condition Immunity" : null,
@@ -81,14 +90,10 @@ class PageFilterFeats extends PageFilterBase {
 			if (feat.skillToolLanguageProficiencies.some(it => (it.choose || []).some(x => x.from || [].includes("anyTool")))) feat._fBenifits.push("Tool Proficiency");
 			if (feat.skillToolLanguageProficiencies.some(it => (it.choose || []).some(x => x.from || [].includes("anyLanguage")))) feat._fBenifits.push("Language Proficiency");
 		}
-		feat._fMisc = feat.srd ? ["SRD"] : [];
-		if (feat.basicRules) feat._fMisc.push("Basic Rules");
-		if (SourceUtil.isLegacySourceWotc(feat.source)) feat._fMisc.push("Legacy");
-		if (this._hasFluff(feat)) feat._fMisc.push("Has Info");
-		if (this._hasFluffImages(feat)) feat._fMisc.push("Has Images");
+		this._mutateForFilters_commonMisc(feat);
 		if (feat.repeatable != null) feat._fMisc.push(feat.repeatable ? "Repeatable" : "Not Repeatable");
 
-		feat._slAbility = ability.asText || VeCt.STR_NONE;
+		feat._slAbility = ability.asTextShort || VeCt.STR_NONE;
 		feat._slPrereq = prereqText;
 
 		FilterCommon.mutateForFilters_damageVulnResImmune_player(feat);
@@ -113,11 +118,11 @@ class PageFilterFeats extends PageFilterBase {
 	async _pPopulateBoxOptions (opts) {
 		opts.filters = [
 			this._sourceFilter,
-			this._asiFilter,
 			this._categoryFilter,
+			this._asiFilter,
 			this._prerequisiteFilter,
 			this._benefitsFilter,
-			this._defenceFilter,
+			this._defenseFilter,
 			this._conditionImmuneFilter,
 			this._miscFilter,
 		];
@@ -127,8 +132,8 @@ class PageFilterFeats extends PageFilterBase {
 		return this._filterBox.toDisplay(
 			values,
 			ft.source,
+			ft._fCategory,
 			ft._fAbility,
-			ft.category,
 			[
 				ft._fPrereqOther,
 				ft._fPrereqLevel,
@@ -188,17 +193,17 @@ class ModalFilterFeats extends ModalFilterBase {
 		const hash = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_FEATS](feat);
 		const source = Parser.sourceJsonToAbv(feat.source);
 
-		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst--border veapp__list-row no-select lst__wrp-cells">
+		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst__row-border veapp__list-row no-select lst__wrp-cells">
 			<div class="ve-col-0-5 pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="no-events">` : `<input type="checkbox" class="no-events">`}</div>
 
 			<div class="ve-col-0-5 px-1 ve-flex-vh-center">
-				<div class="ui-list__btn-inline px-2" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
+				<div class="ui-list__btn-inline px-2 no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
 			</div>
 
-			<div class="ve-col-4 ${feat._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${feat._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${feat.name}</div>
-			<span class="ve-col-3 ${feat._slAbility === VeCt.STR_NONE ? "italic" : ""}">${feat._slAbility}</span>
-				<span class="ve-col-3 ${feat._slPrereq === VeCt.STR_NONE ? "italic" : ""}">${feat._slPrereq}</span>
-			<div class="ve-col-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(feat.source)}" title="${Parser.sourceJsonToFull(feat.source)}" ${Parser.sourceJsonToStyle(feat.source)}>${source}${Parser.sourceJsonToMarkerHtml(feat.source)}</div>
+			<div class="ve-col-4 px-1 ${feat._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${feat._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${feat.name}</div>
+			<span class="ve-col-3 px-1 ${feat._slAbility === VeCt.STR_NONE ? "italic" : ""}">${feat._slAbility}</span>
+			<span class="ve-col-3 px-1 ${feat._slPrereq === VeCt.STR_NONE ? "italic" : ""}">${feat._slPrereq}</span>
+			<div class="ve-col-1 pl-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(feat.source)}" title="${Parser.sourceJsonToFull(feat.source)}" ${Parser.sourceJsonToStyle(feat.source)}>${source}${Parser.sourceJsonToMarkerHtml(feat.source)}</div>
 		</div>`;
 
 		const btnShowHidePreview = eleRow.firstElementChild.children[1].firstElementChild;

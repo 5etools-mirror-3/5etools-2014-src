@@ -1,6 +1,6 @@
 import {FilterBase} from "./filter-filter-base.js";
 import {Filter} from "./filter-filter-generic.js";
-import {FilterBox} from "../filter-box.js";
+import {PILL_STATE__IGNORE, PILL_STATE__NO, PILL_STATE__YES, PILL_STATES} from "../filter-constants.js";
 
 export class AbilityScoreFilter extends FilterBase {
 	static _MODIFIER_SORT_OFFSET = 10000; // Arbitrarily large value
@@ -28,8 +28,8 @@ export class AbilityScoreFilter extends FilterBase {
 			this._items.push(itemAnyIncrease, itemAnyDecrease);
 			this._itemsLookup[itemAnyIncrease.uid] = itemAnyIncrease;
 			this._itemsLookup[itemAnyDecrease.uid] = itemAnyDecrease;
-			if (this.__state[itemAnyIncrease.uid] == null) this.__state[itemAnyIncrease.uid] = 0;
-			if (this.__state[itemAnyDecrease.uid] == null) this.__state[itemAnyDecrease.uid] = 0;
+			if (this.__state[itemAnyIncrease.uid] == null) this.__state[itemAnyIncrease.uid] = PILL_STATE__IGNORE;
+			if (this.__state[itemAnyDecrease.uid] == null) this.__state[itemAnyDecrease.uid] = PILL_STATE__IGNORE;
 		});
 
 		for (let i = this._minMod; i <= this._maxMod; ++i) {
@@ -38,7 +38,7 @@ export class AbilityScoreFilter extends FilterBase {
 				const item = new AbilityScoreFilter.FilterItem({modifier: i, ability: ab});
 				this._items.push(item);
 				this._itemsLookup[item.uid] = item;
-				if (this.__state[item.uid] == null) this.__state[item.uid] = 0;
+				if (this.__state[item.uid] == null) this.__state[item.uid] = PILL_STATE__IGNORE;
 			});
 		}
 		// endregion
@@ -58,8 +58,8 @@ export class AbilityScoreFilter extends FilterBase {
 		const wrpControls = this._getHeaderControls(opts);
 
 		this.__wrpPills = e_({tag: "div", clazz: `fltr__wrp-pills ve-overflow-x-auto ve-flex-col w-100`});
-		const hook = () => this.__wrpPills.toggleVe(!this._meta.isHidden);
-		this._addHook("meta", "isHidden", hook);
+		const hook = () => this.__wrpPills.toggleVe(!this._uiMeta.isHidden);
+		this._addHook("uiMeta", "isHidden", hook);
 		hook();
 
 		this._doRenderPills();
@@ -70,7 +70,7 @@ export class AbilityScoreFilter extends FilterBase {
 		this.__$wrpFilter = $$`<div>
 			${opts.isFirst ? "" : `<div class="fltr__dropdown-divider ${opts.isMulti ? "fltr__dropdown-divider--indented" : ""} mb-1"></div>`}
 			<div class="split fltr__h mb-1">
-				<div class="ml-2 fltr__h-text ve-flex-h-center">${opts.isMulti ? `<span class="mr-2">\u2012</span>` : ""}${this._getRenderedHeader()}${btnMobToggleControls}</div>
+				<div class="ml-2 fltr__h-text ve-flex-h-center">${opts.isMulti ? `<span class="mr-2">\u2212</span>` : ""}${this._getRenderedHeader()}${btnMobToggleControls}</div>
 				${wrpControls}
 			</div>
 			${this.__wrpPills}
@@ -84,7 +84,7 @@ export class AbilityScoreFilter extends FilterBase {
 	_getHeaderControls (opts) {
 		const btnClear = e_({
 			tag: "button",
-			clazz: `btn btn-default ${opts.isMulti ? "btn-xxs" : "btn-xs"} fltr__h-btn--clear w-100`,
+			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} fltr__h-btn--clear w-100`,
 			click: () => this._doSetPillsClear(),
 			html: "Clear",
 		});
@@ -95,7 +95,7 @@ export class AbilityScoreFilter extends FilterBase {
 			children: [
 				e_({
 					tag: "div",
-					clazz: "btn-group ve-flex-v-center w-100",
+					clazz: "ve-btn-group ve-flex-v-center w-100",
 					children: [
 						btnClear,
 					],
@@ -105,15 +105,13 @@ export class AbilityScoreFilter extends FilterBase {
 
 		const wrpSummary = e_({tag: "div", clazz: "ve-flex-vh-center ve-hidden"});
 
-		const btnShowHide = e_({
-			tag: "button",
-			clazz: `btn btn-default ${opts.isMulti ? "btn-xxs" : "btn-xs"} ml-2`,
-			click: () => this._meta.isHidden = !this._meta.isHidden,
-			html: "Hide",
-		});
-		const hookShowHide = () => {
-			e_({ele: btnShowHide}).toggleClass("active", this._meta.isHidden);
-			wrpStateBtnsOuter.toggleVe(!this._meta.isHidden);
+		const btnShowHide = this._getBtnShowHide({isMulti: opts.isMulti});
+		const hkIsHidden = () => {
+			e_({ele: btnShowHide}).toggleClass("active", this._uiMeta.isHidden);
+			wrpStateBtnsOuter.toggleVe(!this._uiMeta.isHidden);
+
+			// Skip updating renders if results would be invisible
+			if (!this._uiMeta.isHidden) return;
 
 			// TODO
 			// region Render summary
@@ -124,11 +122,12 @@ export class AbilityScoreFilter extends FilterBase {
 					? `<span class="fltr__summary_item fltr__summary_item--include" title="${cur._totals.yes} hidden &quot;required&quot; tags">${cur._totals.yes}</span>`
 					: null,
 			].filter(Boolean).join("");
-			e_({ele: wrpSummary, html: htmlSummary}).toggleVe(this._meta.isHidden);
+			e_({ele: wrpSummary, html: htmlSummary}).toggleVe(this._uiMeta.isHidden);
 			// endregion
 		};
-		this._addHook("meta", "isHidden", hookShowHide);
-		hookShowHide();
+		this._addHook("uiMeta", "isHidden", hkIsHidden);
+		this._addHookAll("state", hkIsHidden);
+		hkIsHidden();
 
 		return e_({
 			tag: "div",
@@ -136,7 +135,14 @@ export class AbilityScoreFilter extends FilterBase {
 			children: [
 				wrpSummary,
 				wrpStateBtnsOuter,
-				btnShowHide,
+				e_({
+					tag: "div",
+					clazz: "ve-btn-group ve-flex-v-center ml-2",
+					children: [
+						btnShowHide,
+						this._getBtnMenu({isMulti: opts.isMulti}),
+					],
+				}),
 			],
 		});
 	}
@@ -157,7 +163,7 @@ export class AbilityScoreFilter extends FilterBase {
 						children: [
 							e_({
 								tag: "div",
-								clazz: "mr-3 text-right fltr__label-ability-score no-shrink no-grow",
+								clazz: "mr-3 ve-text-right fltr__label-ability-score no-shrink no-grow",
 								text: Parser.attAbvToFull(it.ability),
 							}),
 						],
@@ -176,11 +182,11 @@ export class AbilityScoreFilter extends FilterBase {
 			for (let i = this._minMod; i <= this._maxMod; ++i) {
 				if (!i || i === item.modifier) continue;
 				const siblingUid = AbilityScoreFilter.FilterItem.getUid_({ability: item.ability, modifier: i});
-				nxtState[siblingUid] = 0;
+				nxtState[siblingUid] = PILL_STATE__IGNORE;
 			}
 
-			if (!item.isAnyIncrease) nxtState[AbilityScoreFilter.FilterItem.getUid_({ability: item.ability, isAnyIncrease: true})] = 0;
-			if (!item.isAnyDecrease) nxtState[AbilityScoreFilter.FilterItem.getUid_({ability: item.ability, isAnyDecrease: true})] = 0;
+			if (!item.isAnyIncrease) nxtState[AbilityScoreFilter.FilterItem.getUid_({ability: item.ability, isAnyIncrease: true})] = PILL_STATE__IGNORE;
+			if (!item.isAnyDecrease) nxtState[AbilityScoreFilter.FilterItem.getUid_({ability: item.ability, isAnyDecrease: true})] = PILL_STATE__IGNORE;
 
 			this._proxyAssignSimple("state", nxtState);
 		};
@@ -192,24 +198,24 @@ export class AbilityScoreFilter extends FilterBase {
 			click: evt => {
 				if (evt.shiftKey) {
 					const nxtState = {};
-					Object.keys(this._state).forEach(k => nxtState[k] = 0);
+					Object.keys(this._state).forEach(k => nxtState[k] = PILL_STATE__IGNORE);
 					this._proxyAssign("state", "_state", "__state", nxtState, true);
 				}
 
-				this._state[item.uid] = this._state[item.uid] ? 0 : 1;
+				this._state[item.uid] = this._state[item.uid] ? PILL_STATE__IGNORE : PILL_STATE__YES;
 				if (this._state[item.uid]) unsetRow();
 			},
 			contextmenu: (evt) => {
 				evt.preventDefault();
 
-				this._state[item.uid] = this._state[item.uid] ? 0 : 1;
+				this._state[item.uid] = this._state[item.uid] ? PILL_STATE__IGNORE : PILL_STATE__YES;
 				if (this._state[item.uid]) unsetRow();
 			},
 		});
 
 		const hook = () => {
-			const val = FilterBox._PILL_STATES[this._state[item.uid] || 0];
-			btnPill.attr("state", val);
+			const val = PILL_STATES[this._state[item.uid] || PILL_STATE__IGNORE];
+			btnPill.attr("data-state", val);
 		};
 		this._addHook("state", item.uid, hook);
 		hook();
@@ -234,12 +240,12 @@ export class AbilityScoreFilter extends FilterBase {
 			text: item.getMiniPillDisplayText(),
 			title: `Filter: ${this.header}`,
 			click: () => {
-				this._state[item.uid] = 0;
+				this._state[item.uid] = PILL_STATE__IGNORE;
 				this._filterBox.fireChangeEvent();
 			},
-		}).attr("state", FilterBox._PILL_STATES[this._state[item.uid] || 0]);
+		}).attr("data-state", PILL_STATES[this._state[item.uid] || PILL_STATE__IGNORE]);
 
-		const hook = () => btnMini.attr("state", FilterBox._PILL_STATES[this._state[item.uid] || 0]);
+		const hook = () => btnMini.attr("data-state", PILL_STATES[this._state[item.uid] || PILL_STATE__IGNORE]);
 		this._addHook("state", item.uid, hook);
 
 		const hideHook = () => btnMini.toggleClass("ve-hidden", this._filterBox.isMinisHidden(this.header));
@@ -297,7 +303,7 @@ export class AbilityScoreFilter extends FilterBase {
 		return {[this.header]: out};
 	}
 
-	_mutNextState_reset (nxtState, {isResetAll = false} = {}) {
+	_mutNextState_reset ({nxtState, isResetAll = false}) {
 		Object.keys(nxtState[this.header].state).forEach(k => delete nxtState[this.header].state[k]);
 	}
 
@@ -314,7 +320,7 @@ export class AbilityScoreFilter extends FilterBase {
 
 	_doSetPillsClear () {
 		Object.keys(this._state).forEach(k => {
-			if (this._state[k] !== 0) this._state[k] = 0;
+			if (this._state[k] !== PILL_STATE__IGNORE) this._state[k] = PILL_STATE__IGNORE;
 		});
 	}
 
@@ -462,7 +468,7 @@ export class AbilityScoreFilter extends FilterBase {
 					const item = new AbilityScoreFilter.FilterItem({modifier: i, ability: ab});
 					this._items.push(item);
 					this._itemsLookup[item.uid] = item;
-					if (this.__state[item.uid] == null) this.__state[item.uid] = 0;
+					if (this.__state[item.uid] == null) this.__state[item.uid] = PILL_STATE__IGNORE;
 				});
 			}
 
@@ -479,7 +485,7 @@ export class AbilityScoreFilter extends FilterBase {
 					const item = new AbilityScoreFilter.FilterItem({modifier: i, ability: ab});
 					this._items.push(item);
 					this._itemsLookup[item.uid] = item;
-					if (this.__state[item.uid] == null) this.__state[item.uid] = 0;
+					if (this.__state[item.uid] == null) this.__state[item.uid] = PILL_STATE__IGNORE;
 				});
 			}
 
@@ -532,7 +538,7 @@ export class AbilityScoreFilter extends FilterBase {
 		const nxtState = this._getNextState_base();
 
 		if (state == null) {
-			this._mutNextState_reset(nxtState);
+			this._mutNextState_reset({nxtState});
 			return nxtState;
 		}
 
@@ -543,19 +549,19 @@ export class AbilityScoreFilter extends FilterBase {
 			switch (prop) {
 				case "state": {
 					hasState = true;
-					Object.keys(nxtState[this.header].state).forEach(k => nxtState[this.header].state[k] = 0);
+					Object.keys(nxtState[this.header].state).forEach(k => nxtState[this.header].state[k] = PILL_STATE__IGNORE);
 
 					vals.forEach(v => {
 						const [statePropLower, state] = v.split("=");
 						const stateProp = Object.keys(nxtState[this.header].state).find(k => k.toLowerCase() === statePropLower);
-						if (stateProp) nxtState[this.header].state[stateProp] = Number(state) ? 1 : 0;
+						if (stateProp) nxtState[this.header].state[stateProp] = Number(state) ? PILL_STATE__YES : PILL_STATE__IGNORE;
 					});
 					break;
 				}
 			}
 		});
 
-		if (!hasState) this._mutNextState_reset(nxtState);
+		if (!hasState) this._mutNextState_reset({nxtState});
 
 		return nxtState;
 	}
@@ -563,8 +569,13 @@ export class AbilityScoreFilter extends FilterBase {
 	setFromValues (values) {
 		if (!values[this.header]) return;
 		const nxtState = {};
-		Object.keys(this._state).forEach(k => nxtState[k] = 0);
+		Object.keys(this._state).forEach(k => nxtState[k] = PILL_STATE__IGNORE);
 		Object.assign(nxtState, values[this.header]);
+	}
+
+	getDefaultMeta () {
+		// Key order is important, as @filter tags depend on it
+		return {};
 	}
 
 	handleSearch (searchTerm) {
@@ -602,14 +613,40 @@ export class AbilityScoreFilter extends FilterBase {
 		Object.values(this.__wrpPillsRows).forEach(meta => meta.row.detach());
 	}
 
-	_getStateNotDefault () {
-		return Object.entries(this._state)
-			.filter(([, v]) => !!v);
+	_getStateNotDefault ({nxtState, isIgnoreSnapshot = false} = {}) {
+		const state = nxtState?.[this.header]?.state || this.__state;
+
+		return Object.entries(state)
+			.filter(([k, v]) => {
+				const defState = this._getDefaultItemState(k, {isIgnoreSnapshot});
+				return defState !== v;
+			});
 	}
 
+	_getDefaultItemState (k, {isIgnoreSnapshot = false} = {}) {
+		if (isIgnoreSnapshot) return PILL_STATE__IGNORE;
+
+		const fromSnapshot = this._snapshotManager?.getResolvedValue(this.header, "state", k);
+		if (fromSnapshot != null) return fromSnapshot;
+
+		return PILL_STATE__IGNORE;
+	}
+
+	/* -------------------------------------------- */
+
+	getSnapshots () { return this._getSnapshots_generic(); }
+
+	/* -------------------------------------------- */
+
+	_mutNextState_fromSnapshots ({nxtState, snapshots = null}) { return this._mutNextState_fromSnapshots_generic({nxtState, snapshots}); }
+	_mutNextState_fromSnapshots_state ({nxtState, snapshot}) { return this._mutNextState_fromSnapshots_state_generic({nxtState, snapshot}); }
+	_mutNextState_fromSnapshots_meta ({nxtState, snapshot}) { return this._mutNextState_fromSnapshots_meta_generic({nxtState, snapshot}); }
+
+	/* -------------------------------------------- */
+
 	getFilterTagPart () {
-		const areNotDefaultState = this._getStateNotDefault();
-		const compressedMeta = this._getCompressedMeta({isStripUiKeys: true});
+		const areNotDefaultState = this._getStateNotDefault({isIgnoreSnapshot: true});
+		const compressedMeta = this._getCompressedMeta();
 
 		// If _any_ value is non-default, we need to include _all_ values in the tag
 		// The same goes for meta values
@@ -617,7 +654,7 @@ export class AbilityScoreFilter extends FilterBase {
 
 		const pt = Object.entries(this._state)
 			.filter(([, v]) => !!v)
-			.map(([k, v]) => `${v === 2 ? "!" : ""}${k}`)
+			.map(([k, v]) => `${v === PILL_STATE__NO ? "!" : ""}${k}`)
 			.join(";")
 			.toLowerCase();
 
@@ -630,25 +667,57 @@ export class AbilityScoreFilter extends FilterBase {
 			.join("=");
 	}
 
-	getDisplayStatePart ({nxtState = null} = {}) {
+	/* -------------------------------------------- */
+
+	getDisplayStatePart ({nxtState = null, isIgnoreSnapshot = false} = {}) {
+		const pts = this._getDisplayStateParts({nxtState, isIgnoreSnapshot, isPlainText: true});
+		if (!pts.length) return null;
+		return pts.join(", ");
+	}
+
+	getDisplayStatePartsHtml ({nxtState = null, isIgnoreSnapshot = false} = {}) {
+		return this._getDisplayStateParts({nxtState, isIgnoreSnapshot});
+	}
+
+	_getDisplayStateParts ({nxtState = null, isIgnoreSnapshot = false, isPlainText = false}) {
 		const state = nxtState?.[this.header]?.state || this.__state;
 
-		const areNotDefaultState = this._getStateNotDefault({nxtState});
+		const areNotDefaultState = this._getStateNotDefault({nxtState, isIgnoreSnapshot});
 
 		// If _any_ value is non-default, we need to include _all_ values in the tag
 		// The same goes for meta values
-		if (!areNotDefaultState.length) return null;
+		if (!areNotDefaultState.length) return [];
 
 		const ptState = Object.entries(state)
 			.filter(([, v]) => !!v)
 			.map(([k, v]) => {
 				const item = this._items.find(item => item.uid === k);
 				if (!item) return null; // Should never occur
-				return `${v === 2 ? "not " : ""}${item.getMiniPillDisplayText()}`;
+
+				if (isPlainText) return `${v === PILL_STATE__NO ? "not " : ""}${item.getMiniPillDisplayText()}`;
+
+				return `<span class="fltr__disp-state fltr__disp-state--${PILL_STATES[v]}">${item.getMiniPillDisplayText()}</span>`;
 			})
+			.filter(Boolean)
 			.join(", ");
 
-		return `${this.header}: ${ptState}`;
+		if (!ptState) {
+			if (isPlainText) return [`${this.header}: (cleared)`];
+			return [
+				`${this._getDisplayStatePart_getHeader({isPlainText})}<span class="italic fltr__disp-state fltr__disp-state--ignore">(cleared)</span>`,
+			];
+		}
+
+		return [
+			`${this._getDisplayStatePart_getHeader({isPlainText})}${ptState}`,
+		];
+	}
+
+	/* -------------------------------------------- */
+
+	getSnapshotPreviews (snapshots) {
+		/* Implement if required */
+		return [];
 	}
 }
 
@@ -681,13 +750,13 @@ AbilityScoreFilter.FilterItem = class {
 
 	getMiniPillDisplayText () {
 		if (this._isAnyIncrease) return `+Any ${Parser.attAbvToFull(this._ability)}`;
-		if (this._isAnyDecrease) return `\u2012Any ${Parser.attAbvToFull(this._ability)}`;
+		if (this._isAnyDecrease) return `\u2212Any ${Parser.attAbvToFull(this._ability)}`;
 		return `${UiUtil.intToBonus(this._modifier, {isPretty: true})} ${Parser.attAbvToFull(this._ability)}`;
 	}
 
 	getPillDisplayHtml () {
 		if (this._isAnyIncrease) return `+Any`;
-		if (this._isAnyDecrease) return `\u2012Any`;
+		if (this._isAnyDecrease) return `\u2212Any`;
 		return UiUtil.intToBonus(this._modifier, {isPretty: true});
 	}
 };

@@ -2714,7 +2714,7 @@
 								"They are wielding {@item greataxe|phb|greataxes} ({@damage 1d12 + 2} damage per hit)"
 							]
 						},
-						"Storming this entrance will almost certainly raise an alarm and incur attacks from the four archers walking the walls (use the stat block for a {@creature mapach bandit|HWCS}). The archers each benefit from three-quarters cover thanks to the parapets. Even though the stat block of the mapach bandit can be used for many of the least-skilled members of the camp, they come from a variety of humblefolk races. Hedges, cervans, jerbeens, and vulpins can all be found within their ranks.",
+						"Storming this entrance will almost certainly raise an alarm and incur attacks from the four archers walking the walls (use the stat block for a {@creature mapach bandit|HWCS}). The archers each benefit from {@quickref Cover||3||three-quarters cover} thanks to the parapets. Even though the stat block of the mapach bandit can be used for many of the least-skilled members of the camp, they come from a variety of humblefolk races. Hedges, cervans, jerbeens, and vulpins can all be found within their ranks.",
 						{
 							"type": "inset",
 							"name": "Captured!",
@@ -2774,7 +2774,7 @@
 								"The largest building is the wooden barracks to the east. It has rows of target dummies at the front. Depending on the time of day the party may see a captain training fresh recruits.",
 								"The building to the west of the barracks is only slightly smaller, and more barn-like. The party may see supply wagons being carted in.",
 								"There is a large canvas tent near the barracks. Two guards stand watch out front. A gust of wind whips up one of the side-flaps, revealing large cages inside. This is the stronghold's prison.",
-								"Spiral stairs at the intersecting corners of each of the walls provide access to the upper levels. The pathways along the top of the wall are 5 feet wide, and provide three-quarters cover for characters firing down on targets.",
+								"Spiral stairs at the intersecting corners of each of the walls provide access to the upper levels. The pathways along the top of the wall are 5 feet wide, and provide {@quickref Cover||3||three-quarters cover} for characters firing down on targets.",
 								"There are two large levers inside the gate. One controls the portcullis, and the other the drawbridge. The drawbridge lever can be pulled quickly, causing it to swing open. The portcullis lever drops the portcullis across the entrance. Large rope pulleys on either side are used to reset the levers.",
 								"There are at least a dozen bandits inside the courtyard. Some are training by the barracks, some are helping move supplies around the fort, and others are simply enjoying downtime by reading and whittling behind the safety of the walls."
 							]
@@ -2805,7 +2805,7 @@
 							"name": "Entering By Force",
 							"page": 116,
 							"entries": [
-								"Should the party fight their way in, or decide to start a fight once inside, they can expect to be set upon in waves as messengers rush to alert Benna, while the rest of the camp prepares for the worst. At first the party will fight four {@creature mapach bandit|HWCS|mapach bandits} led by a {@creature vulpin captain|HWCS}, then two {@creature jerbeen thief|HWCS|jerbeen thieves} and another {@creature vulpin captain|HWCS}. If any archers have been left on the walls, they will fire from three-quarters cover throughout the fights, only retreating once the last of the bandit forces have been dispatched. During the fight, the rest of the bandits here will have made their way up the road to the inner fortress.",
+								"Should the party fight their way in, or decide to start a fight once inside, they can expect to be set upon in waves as messengers rush to alert Benna, while the rest of the camp prepares for the worst. At first the party will fight four {@creature mapach bandit|HWCS|mapach bandits} led by a {@creature vulpin captain|HWCS}, then two {@creature jerbeen thief|HWCS|jerbeen thieves} and another {@creature vulpin captain|HWCS}. If any archers have been left on the walls, they will fire from {@quickref Cover||3||three-quarters cover} throughout the fights, only retreating once the last of the bandit forces have been dispatched. During the fight, the rest of the bandits here will have made their way up the road to the inner fortress.",
 								"{@b {@i If the party defeats the courtyard's forces,}} they will have an opportunity for a short rest before continuing, as the Coalition holes up in the inner fortress, fearing reinforcements are coming. If the party lingers for too long after their rest, start sending bandit patrols down to assess the situation and report back to Benna. Otherwise, skip to {@adventure The Inner Keep|HWAitW|2|The Inner Keep}.",
 								"{@b {@i If the party is defeated,}} decide whether they are taken to the prison for a jailbreak sequence (see {@adventure The Prison|HWAitW|2|The Prison}), or whether they are delivered to the meeting hall of the inner keep for a final showdown with Benna (see {@adventure The Bandit Leader|HWAitW|2|The Bandit Leader})."
 							],
@@ -3763,7 +3763,7 @@
 									"id": "0cd"
 								},
 								"Krall immediately attacks with his force. The thief supports him in melee combat while his priest and the two mapach bandits stay in the forest and attack the party at range. Krall will order Shyla to heal him if he is wounded, but otherwise she is free to attack using her own judgement, and support the bandits with her spells as needed.",
-								"The dense forest provides a half cover bonus to anyone within it, and creatures there can hide as an action on their turn.",
+								"The dense forest provides a {@quickref Cover||3||half cover} bonus to anyone within it, and creatures there can hide as an action on their turn.",
 								"During the fight on his turn, Krall will boast:",
 								{
 									"type": "insetReadaloud",

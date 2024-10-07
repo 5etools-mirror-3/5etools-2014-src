@@ -2,6 +2,7 @@ import {EncounterBuilderCacheBestiaryPage} from "./bestiary/bestiary-encounterbu
 import {EncounterBuilderComponentBestiary} from "./bestiary/bestiary-encounterbuilder-component.js";
 import {EncounterBuilderUiBestiary} from "./bestiary/bestiary-encounterbuilder-ui.js";
 import {EncounterBuilderSublistPlugin} from "./bestiary/bestiary-encounterbuilder-sublistplugin.js";
+import {RenderBestiary} from "./render-bestiary.js";
 
 class _BestiaryConsts {
 	static PROF_MODE_BONUS = "bonus";
@@ -64,26 +65,26 @@ class BestiarySublistManager extends SublistManager {
 		return `${super._getSublistFullHash({entity})}${_BestiaryUtil.getUrlSubhashes(entity)}`;
 	}
 
-	static get _ROW_TEMPLATE () {
+	static _getRowTemplate () {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-5 pl-0",
+				css: "bold ve-col-5 pl-0 pr-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "Type",
-				css: "ve-col-3-8",
+				css: "ve-col-3-8 px-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "CR",
-				css: "ve-col-1-2 ve-text-center",
+				css: "ve-col-1-2 px-1 ve-text-center",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "Number",
-				css: "ve-col-2 ve-text-center",
+				css: "ve-col-2 pl-1 pr-0 ve-text-center",
 				colStyle: "text-center",
 			}),
 		];
@@ -161,12 +162,12 @@ class BestiarySublistManager extends SublistManager {
 		listItem.data.fnsUpdate.push(sublistButtonsMeta.fnUpdate);
 
 		listItem.ele = $$`<div class="lst__row lst__row--sublist ve-flex-col lst__row--bestiary-sublist">
-			<a href="#${hash}" draggable="false" class="best-ecgen__hidden lst--border lst__row-inner">
+			<a href="#${hash}" draggable="false" class="best-ecgen__hidden lst__row-border lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText, templates: this.constructor._ROW_TEMPLATE.slice(0, 3)})}
 				${$eleCount1}
 			</a>
 
-			<div class="lst__wrp-cells best-ecgen__visible--flex lst--border lst__row-inner">
+			<div class="lst__wrp-cells best-ecgen__visible--flex lst__row-border lst__row-inner">
 				${sublistButtonsMeta.$wrp}
 				<span class="best-ecgen__name--sub ve-col-3-5">${name}</span>
 				${$hovStatblock}
@@ -208,19 +209,19 @@ class BestiaryPageBookView extends ListPageBookView {
 			return RendererMarkdown.monster.pGetMarkdownDoc(toRender);
 		};
 
-		const $btnDownloadMarkdown = $(`<button class="btn btn-default btn-sm">Download as Markdown</button>`)
+		const $btnDownloadMarkdown = $(`<button class="ve-btn ve-btn-default ve-btn-sm">Download as Markdown</button>`)
 			.click(async () => DataUtil.userDownloadText("bestiary.md", await pGetAsMarkdown()));
 
-		const $btnCopyMarkdown = $(`<button class="btn btn-default btn-sm px-2" title="Copy Markdown to Clipboard"><span class="glyphicon glyphicon-copy"></span></button>`)
+		const $btnCopyMarkdown = $(`<button class="ve-btn ve-btn-default ve-btn-sm px-2" title="Copy Markdown to Clipboard"><span class="glyphicon glyphicon-copy"></span></button>`)
 			.click(async () => {
 				await MiscUtil.pCopyTextToClipboard(await pGetAsMarkdown());
 				JqueryUtil.showCopiedEffect($btnCopyMarkdown);
 			});
 
-		const $btnDownloadMarkdownSettings = $(`<button class="btn btn-default btn-sm px-2" title="Markdown Settings"><span class="glyphicon glyphicon-cog"></span></button>`)
+		const $btnDownloadMarkdownSettings = $(`<button class="ve-btn ve-btn-default ve-btn-sm px-2" title="Markdown Settings"><span class="glyphicon glyphicon-cog"></span></button>`)
 			.click(async () => RendererMarkdown.pShowSettingsModal());
 
-		$$`<div class="ve-flex-v-center btn-group ml-2">
+		$$`<div class="ve-flex-v-center ve-btn-group ml-2">
 			${$btnDownloadMarkdown}
 			${$btnCopyMarkdown}
 			${$btnDownloadMarkdownSettings}
@@ -279,7 +280,11 @@ class BestiaryPage extends ListPageMultiSource {
 		const pFnGetFluff = Renderer.monster.pGetFluff.bind(Renderer.monster);
 
 		super({
-			pageFilter: new PageFilterBestiary(),
+			pageFilter: new PageFilterBestiary({
+				sourceFilterOpts: {
+					pFnOnChange: (...args) => this._pLoadSource(...args),
+				},
+			}),
 
 			listOptions: {
 				fnSort: PageFilterBestiary.sortMonsters,
@@ -318,7 +323,7 @@ class BestiaryPage extends ListPageMultiSource {
 					conditionImmune: {name: "Condition Immunities", transform: it => Parser.getFullCondImm(it)},
 					_senses: {name: "Senses", transform: mon => Renderer.monster.getSensesPart(mon)},
 					languages: {name: "Languages", transform: it => Renderer.monster.getRenderedLanguages(it)},
-					_cr: {name: "CR", transform: mon => Parser.monCrToFull(mon.cr, {isMythic: !!mon.mythic})},
+					_cr: {name: "CR", transform: mon => Renderer.monster.getChallengeRatingPart(mon)},
 					_trait: {
 						name: "Traits",
 						transform: mon => BestiaryPage._tableView_getEntryPropTransform({mon, fnGet: Renderer.monster.getOrderedTraits}),
@@ -344,7 +349,7 @@ class BestiaryPage extends ListPageMultiSource {
 					_lairActions: {
 						name: "Lair Actions",
 						transform: mon => {
-							const legGroup = DataUtil.monster.getMetaGroup(mon);
+							const legGroup = DataUtil.monster.getLegendaryGroup(mon);
 							if (!legGroup?.lairActions?.length) return "";
 							return Renderer.get().render({entries: legGroup.lairActions});
 						},
@@ -353,7 +358,7 @@ class BestiaryPage extends ListPageMultiSource {
 					_regionalEffects: {
 						name: "Regional Effects",
 						transform: mon => {
-							const legGroup = DataUtil.monster.getMetaGroup(mon);
+							const legGroup = DataUtil.monster.getLegendaryGroup(mon);
 							if (!legGroup?.regionalEffects?.length) return "";
 							return Renderer.get().render({entries: legGroup.regionalEffects});
 						},
@@ -376,7 +381,10 @@ class BestiaryPage extends ListPageMultiSource {
 
 		this._encounterBuilder = null;
 
-		this._$dispToken = null;
+		this._tokenDisplay = new ListPageTokenDisplay({
+			fnHasToken: Renderer.monster.hasToken.bind(Renderer.monster),
+			fnGetTokenUrl: Renderer.monster.getTokenUrl.bind(Renderer.monster),
+		});
 	}
 
 	get _bindOtherButtonsOptions () {
@@ -425,16 +433,16 @@ class BestiaryPage extends ListPageMultiSource {
 				e_({
 					tag: "a",
 					href: `#${hash}`,
-					clazz: "lst--border lst__row-inner",
+					clazz: "lst__row-border lst__row-inner",
 					click: evt => this._handleBestiaryLinkClick(evt),
 					children: [
 						this._encounterBuilder.getButtons(mI),
-						e_({tag: "span", clazz: `best-ecgen__name bold ve-col-4-2 pl-0`, text: mon.name}),
-						e_({tag: "span", clazz: `ve-col-4-1`, text: type}),
-						e_({tag: "span", clazz: `ve-col-1-7 ve-text-center`, text: cr}),
+						e_({tag: "span", clazz: `best-ecgen__name bold ve-col-4-2 pl-0 pr-1`, text: mon.name}),
+						e_({tag: "span", clazz: `ve-col-4-1 px-1`, text: type}),
+						e_({tag: "span", clazz: `ve-col-1-7 px-1 ve-text-center`, text: cr}),
 						e_({
 							tag: "span",
-							clazz: `ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(mon.source)} pr-0`,
+							clazz: `ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(mon.source)} pl-1 pr-0`,
 							style: Parser.sourceJsonToStylePart(mon.source),
 							title: `${Parser.sourceJsonToFull(mon.source)}${Renderer.utils.getSourceSubText(mon)}`,
 							text: source,
@@ -513,7 +521,7 @@ class BestiaryPage extends ListPageMultiSource {
 
 	async _pOnLoad_pPreDataLoad () {
 		this._encounterBuilder.initUi();
-		await DataUtil.monster.pPreloadMeta();
+		await DataUtil.monster.pPreloadLegendaryGroups();
 		this._bindProfDiceHandlers();
 	}
 
@@ -613,7 +621,6 @@ class BestiaryPage extends ListPageMultiSource {
 		this._lastRender.isScaledClassSummon = isScaledClassSummon;
 
 		this._$wrpBtnProf = this._$wrpBtnProf || $(`#wrp-profbonusdice`);
-		this._$dispToken = this._$dispToken || $(`#float-token`);
 
 		this._$pgContent.empty();
 
@@ -626,7 +633,7 @@ class BestiaryPage extends ListPageMultiSource {
 			label: "Stat Block",
 			fnChange: () => {
 				this._$wrpBtnProf.append(this._$btnProf);
-				this._$dispToken.showVe();
+				this._tokenDisplay.doShow();
 			},
 			fnPopulate: () => this._renderStatblock_doBuildStatsTab({mon, isScaledCr, isScaledSpellSummon, isScaledClassSummon}),
 			isVisible: true,
@@ -654,7 +661,7 @@ class BestiaryPage extends ListPageMultiSource {
 						label: "Info",
 						fnChange: () => {
 							this._$btnProf = this._$wrpBtnProf.children().length ? this._$wrpBtnProf.children().detach() : this._$btnProf;
-							this._$dispToken.hideVe();
+							this._tokenDisplay.doHide();
 						},
 						fnPopulate: () => this._renderStats_doBuildFluffTab({ent: mon}),
 						isVisible: hasFluffText,
@@ -663,7 +670,7 @@ class BestiaryPage extends ListPageMultiSource {
 						label: "Images",
 						fnChange: () => {
 							this._$btnProf = this._$wrpBtnProf.children().length ? this._$wrpBtnProf.children().detach() : this._$btnProf;
-							this._$dispToken.hideVe();
+							this._tokenDisplay.doHide();
 						},
 						fnPopulate: () => this._renderStats_doBuildFluffTab({ent: mon, isImageTab: true}),
 						isVisible: hasFluffImages,
@@ -689,7 +696,7 @@ class BestiaryPage extends ListPageMultiSource {
 	) {
 		Renderer.get().setFirstSection(true);
 
-		const $btnScaleCr = !ScaleCreature.isCrInScaleRange(mon) ? null : $(`<button id="btn-scale-cr" title="Scale Creature By CR (Highly Experimental)" class="mon__btn-scale-cr btn btn-xs btn-default ve-popwindow__hidden no-print lst-is-exporting-image__hidden"><span class="glyphicon glyphicon-signal"></span></button>`)
+		const $btnScaleCr = !ScaleCreature.isCrInScaleRange(mon) ? null : $(`<button id="btn-scale-cr" title="Scale Creature By CR (Highly Experimental)" class="mon__btn-scale-cr ve-btn ve-btn-xs ve-btn-default ve-popwindow__hidden no-print lst-is-exporting-image__hidden"><span class="glyphicon glyphicon-signal"></span></button>`)
 			.click((evt) => {
 				evt.stopPropagation();
 				const win = (evt.view || {}).window;
@@ -706,7 +713,7 @@ class BestiaryPage extends ListPageMultiSource {
 				});
 			});
 
-		const $btnResetScaleCr = !ScaleCreature.isCrInScaleRange(mon) ? null : $(`<button id="btn-reset-cr" title="Reset CR Scaling" class="mon__btn-reset-cr btn btn-xs btn-default ve-popwindow__hidden no-print lst-is-exporting-image__hidden"><span class="glyphicon glyphicon-refresh"></span></button>`)
+		const $btnResetScaleCr = !ScaleCreature.isCrInScaleRange(mon) ? null : $(`<button id="btn-reset-cr" title="Reset CR Scaling" class="mon__btn-reset-cr ve-btn ve-btn-xs ve-btn-default ve-popwindow__hidden no-print lst-is-exporting-image__hidden ml-2"><span class="glyphicon glyphicon-refresh"></span></button>`)
 			.click(() => Hist.setSubhash(VeCt.HASH_SCALED, null))
 			.toggle(isScaledCr);
 
@@ -720,7 +727,7 @@ class BestiaryPage extends ListPageMultiSource {
 					else Hist.setSubhash(VeCt.HASH_SCALED_SPELL_SUMMON, scaleTo);
 				});
 		}
-		if (isScaledSpellSummon) selSummonSpellLevel.val(`${mon._summonedBySpell_level}`);
+		if (isScaledSpellSummon) selSummonSpellLevel.val(`${mon._summonedBySpell_level}`, {isSetAttribute: true});
 
 		const selSummonClassLevel = Renderer.monster.getSelSummonClassLevel(mon);
 		if (selSummonClassLevel) {
@@ -732,7 +739,7 @@ class BestiaryPage extends ListPageMultiSource {
 					else Hist.setSubhash(VeCt.HASH_SCALED_CLASS_SUMMON, scaleTo);
 				});
 		}
-		if (isScaledClassSummon) selSummonClassLevel.val(`${mon._summonedByClass_level}`);
+		if (isScaledClassSummon) selSummonClassLevel.val(`${mon._summonedByClass_level}`, {isSetAttribute: true});
 
 		// region dice rollers
 		const expectedPB = Parser.crToPb(mon.cr);
@@ -778,6 +785,7 @@ class BestiaryPage extends ListPageMultiSource {
 				// fixing this would require additional context, which is not (yet) available in the renderer
 				case "hit": break;
 
+				case "initiative":
 				case "abilityCheck": return null;
 
 				default: throw new Error(`Unhandled roll context "${entry.context.type}"`);
@@ -806,121 +814,7 @@ class BestiaryPage extends ListPageMultiSource {
 		}
 		// endregion
 
-		// tokens
-		this._renderStatblock_doBuildStatsTab_token(mon);
-	}
-
-	_renderStatblock_doBuildStatsTab_token (mon) {
-		const $tokenImages = [];
-
-		// statblock scrolling handler
-		$(`#wrp-pagecontent`).off("scroll").on("scroll", function () {
-			$tokenImages.forEach($img => {
-				$img
-					.toggle(this.scrollTop < 32)
-					.css({
-						opacity: (32 - this.scrollTop) / 32,
-						top: -this.scrollTop,
-					});
-			});
-		});
-
-		const $floatToken = this._$dispToken.empty();
-
-		if (!Renderer.monster.hasToken(mon)) return;
-
-		const imgLink = Renderer.monster.getTokenUrl(mon);
-		const $img = $(`<img src="${imgLink}" class="mon__token" alt="Token Image: ${(mon.name || "").qq()}" ${mon.tokenCredit ? `title="Credit: ${mon.tokenCredit.qq()}"` : ""} loading="lazy">`);
-		$tokenImages.push($img);
-		const $lnkToken = $$`<a href="${imgLink}" class="mon__wrp-token" target="_blank" rel="noopener noreferrer">${$img}</a>`
-			.appendTo($floatToken);
-
-		const altArtMeta = [];
-
-		if (mon.altArt) altArtMeta.push(...MiscUtil.copy(mon.altArt));
-		if (mon.variant) {
-			const variantTokens = mon.variant.filter(it => it.token).map(it => it.token);
-			if (variantTokens.length) altArtMeta.push(...MiscUtil.copy(variantTokens).map(it => ({...it, displayName: `Variant; ${it.name}`})));
-		}
-
-		if (altArtMeta.length) {
-			// make a fake entry for the original token
-			altArtMeta.unshift({$ele: $lnkToken});
-
-			const buildEle = (meta) => {
-				if (!meta.$ele) {
-					const imgLink = Renderer.monster.getTokenUrl(meta);
-					const displayName = Renderer.monster.getAltArtDisplayName(meta);
-					const $img = $(`<img src="${imgLink}" class="mon__token" alt="Token Image${displayName ? `: ${displayName.qq()}` : ""}}" ${meta.tokenCredit ? `title="Credit: ${meta.tokenCredit.qq()}"` : ""} loading="lazy">`)
-						.on("error", () => {
-							$img.attr(
-								"src",
-								`data:image/svg+xml,${encodeURIComponent(`
-										<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400">
-											<circle cx="200" cy="200" r="175" fill="#b00"/>
-											<rect x="190" y="40" height="320" width="20" fill="#ddd" transform="rotate(45 200 200)"/>
-											<rect x="190" y="40" height="320" width="20" fill="#ddd" transform="rotate(135 200 200)"/>
-										</svg>`,
-								)}`,
-							);
-						});
-					$tokenImages.push($img);
-					meta.$ele = $$`<a href="${imgLink}" class="mon__wrp-token" target="_blank" rel="noopener noreferrer">${$img}</a>`
-						.hide()
-						.css("max-width", "100%") // hack to ensure the token gets shown at max width on first look
-						.appendTo($floatToken);
-				}
-			};
-			altArtMeta.forEach(buildEle);
-
-			let ix = 0;
-			const handleClick = (evt, direction) => {
-				evt.stopPropagation();
-				evt.preventDefault();
-
-				// avoid going off the edge of the list
-				if (ix === 0 && !~direction) return;
-				if (ix === altArtMeta.length - 1 && ~direction) return;
-
-				ix += direction;
-
-				if (!~direction) { // left
-					if (ix === 0) {
-						$btnLeft.hide();
-						$wrpFooter.hide();
-					}
-					$btnRight.show();
-				} else {
-					$btnLeft.show();
-					$wrpFooter.show();
-					if (ix === altArtMeta.length - 1) {
-						$btnRight.hide();
-					}
-				}
-				altArtMeta.filter(it => it.$ele).forEach(it => it.$ele.hide());
-
-				const meta = altArtMeta[ix];
-				meta.$ele.show();
-				setTimeout(() => meta.$ele.css("max-width", ""), 10); // hack to clear the earlier 100% width
-
-				$footer.html(Renderer.monster.getRenderedAltArtEntry(meta));
-
-				$wrpFooter.detach().appendTo(meta.$ele);
-				$btnLeft.detach().appendTo(meta.$ele);
-				$btnRight.detach().appendTo(meta.$ele);
-			};
-
-			// append footer first to be behind buttons
-			const $footer = $(`<div class="mon__token-footer"></div>`);
-			const $wrpFooter = $$`<div class="mon__wrp-token-footer">${$footer}</div>`.hide().appendTo($lnkToken);
-
-			const $btnLeft = $$`<div class="mon__btn-token-cycle mon__btn-token-cycle--left"><span class="glyphicon glyphicon-chevron-left"></span></div>`
-				.click(evt => handleClick(evt, -1)).appendTo($lnkToken)
-				.hide();
-
-			const $btnRight = $$`<div class="mon__btn-token-cycle mon__btn-token-cycle--right"><span class="glyphicon glyphicon-chevron-right"></span></div>`
-				.click(evt => handleClick(evt, 1)).appendTo($lnkToken);
-		}
+		this._tokenDisplay.render(mon);
 	}
 
 	static _addSpacesToDiceExp (exp) {
@@ -979,3 +873,5 @@ encounterBuilder.sublistManager = sublistManager;
 sublistManager.encounterBuilder = encounterBuilder;
 
 window.addEventListener("load", () => bestiaryPage.pOnLoad());
+
+globalThis.dbg_page = bestiaryPage;

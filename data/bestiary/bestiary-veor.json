@@ -2526,7 +2526,7 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 12} to hit, reach 10 ft., one target. {@h}15 ({@damage 2d8 + 6}) piercing damage plus 13 ({@damage 2d12}) poison damage. If the target is a Large or smaller creature, it must succeed on a {@dc 20} Strength saving throw or be swallowed by the hertilod. A swallowed creature has the {@condition blinded} and {@condition restrained} conditions, and it has total cover against attacks and other effects outside the hertilod. At the start of each of the hertilod's turns, each swallowed creature takes 13 ({@damage 2d12}) poison damage from the poisonous secretion in the hertilod's gullet.",
+						"{@atk mw} {@hit 12} to hit, reach 10 ft., one target. {@h}15 ({@damage 2d8 + 6}) piercing damage plus 13 ({@damage 2d12}) poison damage. If the target is a Large or smaller creature, it must succeed on a {@dc 20} Strength saving throw or be swallowed by the hertilod. A swallowed creature has the {@condition blinded} and {@condition restrained} conditions, and it has {@quickref Cover||3||total cover} against attacks and other effects outside the hertilod. At the start of each of the hertilod's turns, each swallowed creature takes 13 ({@damage 2d12}) poison damage from the poisonous secretion in the hertilod's gullet.",
 						"The hertilod's gullet can hold up to two creatures at a time. If the hertilod takes 40 damage or more on a single turn from a swallowed creature, the hertilod must succeed on a {@dc 15} Constitution saving throw at the end of that turn or regurgitate all swallowed creatures, each of which lands in a space within 10 feet of the hertilod and has the {@condition prone} condition. If the hertilod dies, a swallowed creature is no longer {@condition restrained} and can escape from the corpse by using 10 feet of movement, exiting with the {@condition prone} condition."
 					]
 				},
@@ -6080,7 +6080,7 @@
 				{
 					"name": "Blazing Vortex {@recharge 5}",
 					"entries": [
-						"Each creature within 20 feet of the chandelier and not behind total cover must succeed on a {@dc 14} Constitution saving throw or take 36 ({@damage 8d8}) fire damage and have the {@condition blinded} condition until the start of the chandelier's next turn."
+						"Each creature within 20 feet of the chandelier and not behind {@quickref Cover||3||total cover} must succeed on a {@dc 14} Constitution saving throw or take 36 ({@damage 8d8}) fire damage and have the {@condition blinded} condition until the start of the chandelier's next turn."
 					]
 				}
 			],

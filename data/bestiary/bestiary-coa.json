@@ -4,6 +4,13 @@
 			"monster": [
 				"MM"
 			]
+		},
+		"otherSources": {
+			"monster": {
+				"MPMM": "CoA",
+				"MM": "CoA",
+				"DMG": "CoA"
+			}
 		}
 	},
 	"monster": [
@@ -1451,7 +1458,7 @@
 					"name": "Burrow {@recharge}",
 					"entries": [
 						"The ayperobo swarm makes a Bite attack. On a hit, the swarm burrows inside the creature, dealing an additional 35 ({@damage 10d6}) necrotic damage and taking control of the creature. At the start of each of its turns, the target may make a {@dc 17} Constitution saving throw, expelling the ayperobo swarm and taking 14 ({@damage 4d6}) piercing damage on a success.",
-						"While burrowed inside a creature, the ayperobo swarm has total cover against attacks targeting them, and no longer acts on their own initiative. Instead, they take total control over their host, gaining all of its abilities, attacks, and equipment.",
+						"While burrowed inside a creature, the ayperobo swarm has {@quickref Cover||3||total cover} against attacks targeting them, and no longer acts on their own initiative. Instead, they take total control over their host, gaining all of its abilities, attacks, and equipment.",
 						"They act during the host's turn, taking actions based on their host. If a host dies while the ayperobo swarm is burrowed, they leave the host at the end of the host's turn, rolling initiative if necessary. Creatures acting as hosts to the ayperobo swarm are fully aware of their actions and surroundings, but are incapable of physically operating their body."
 					]
 				}
@@ -3229,7 +3236,7 @@
 				{
 					"name": "Ooze Cube",
 					"entries": [
-						"Devorastus takes up its entire space. Other creatures can enter the space, but a creature that does so is subjected to Engulf and has disadvantage on the saving throw. Creatures inside the cube can be seen but have total cover. A creature within 5 feet of the cube can take an action to pull a creature or object out of the cube. Doing so requires a successful {@dc 21} Strength check, and the creature making the attempt takes 35 ({@damage 10d6}) acid damage. The cube can hold only one Huge creature or up to six Large or smaller creatures inside it at a time."
+						"Devorastus takes up its entire space. Other creatures can enter the space, but a creature that does so is subjected to Engulf and has disadvantage on the saving throw. Creatures inside the cube can be seen but have {@quickref Cover||3||total cover}. A creature within 5 feet of the cube can take an action to pull a creature or object out of the cube. Doing so requires a successful {@dc 21} Strength check, and the creature making the attempt takes 35 ({@damage 10d6}) acid damage. The cube can hold only one Huge creature or up to six Large or smaller creatures inside it at a time."
 					]
 				},
 				{
@@ -4411,7 +4418,7 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 15} to hit, reach 10 ft., one target. {@h}18 ({@damage 3d6 + 8}) piercing damage and 7 ({@damage 2d6}) fire damage. If the target is a Large or smaller creature {@condition grappled} by the kraken, the creature is swallowed and the grapple ends. While swallowed, a creature has the {@condition blinded} and {@condition restrained} conditions, has total cover against attacks and other effects outside the kraken, and takes 42 ({@damage 12d6}) fire damage at the start of the kraken's turns. If the kraken takes 50 damage or more on a single turn from a creature inside it, it must succeed on a {@dc 23} Constitution saving throw or regurgitate all swallowed creatures, which fall into a space within 10 feet of the kraken and now have the {@condition prone} condition. If the kraken dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 15 feet of movement, exiting with the {@condition prone} condition."
+						"{@atk mw} {@hit 15} to hit, reach 10 ft., one target. {@h}18 ({@damage 3d6 + 8}) piercing damage and 7 ({@damage 2d6}) fire damage. If the target is a Large or smaller creature {@condition grappled} by the kraken, the creature is swallowed and the grapple ends. While swallowed, a creature has the {@condition blinded} and {@condition restrained} conditions, has {@quickref Cover||3||total cover} against attacks and other effects outside the kraken, and takes 42 ({@damage 12d6}) fire damage at the start of the kraken's turns. If the kraken takes 50 damage or more on a single turn from a creature inside it, it must succeed on a {@dc 23} Constitution saving throw or regurgitate all swallowed creatures, which fall into a space within 10 feet of the kraken and now have the {@condition prone} condition. If the kraken dies, a swallowed creature is no longer {@condition restrained} by it and can escape from the corpse using 15 feet of movement, exiting with the {@condition prone} condition."
 					]
 				},
 				{

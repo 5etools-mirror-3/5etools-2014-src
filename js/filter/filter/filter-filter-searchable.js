@@ -1,4 +1,5 @@
 import {Filter} from "./filter-filter-generic.js";
+import {PILL_STATE__IGNORE, PILL_STATE__NO, PILL_STATE__YES} from "../filter-constants.js";
 
 export class SearchableFilter extends Filter {
 	constructor (opts) {
@@ -24,7 +25,7 @@ export class SearchableFilter extends Filter {
 		const hkIsVisible = () => {
 			if (this._compSearch._state.searchTermParent) return btnPill.toggleClass("fltr__hidden--inactive", false);
 
-			btnPill.toggleClass("fltr__hidden--inactive", this._state[item.item] === 0);
+			btnPill.toggleClass("fltr__hidden--inactive", this._state[item.item] === PILL_STATE__IGNORE);
 		};
 		this._addHook("state", item.item, hkIsVisible);
 		this._compSearch._addHookBase("searchTermParent", hkIsVisible);
@@ -36,14 +37,14 @@ export class SearchableFilter extends Filter {
 	_getPill_handleClick ({evt, item}) {
 		if (this._compSearch._state.searchTermParent) return super._getPill_handleClick({evt, item});
 
-		this._state[item.item] = 0;
+		this._state[item.item] = PILL_STATE__IGNORE;
 	}
 
 	_getPill_handleContextmenu ({evt, item}) {
 		if (this._compSearch._state.searchTermParent) return super._getPill_handleContextmenu({evt, item});
 
 		evt.preventDefault();
-		this._state[item.item] = 0;
+		this._state[item.item] = PILL_STATE__IGNORE;
 	}
 
 	_$render_getRowBtn ({fnsCleanup, $iptSearch, item, subtype, state}) {
@@ -58,7 +59,7 @@ export class SearchableFilter extends Filter {
 				this._doSetPillsClear();
 			}
 
-			if (this._state[item.item] === state) this._state[item.item] = 0;
+			if (this._state[item.item] === state) this._state[item.item] = PILL_STATE__IGNORE;
 			else this._state[item.item] = state;
 		};
 
@@ -138,7 +139,7 @@ export class SearchableFilter extends Filter {
 						const visibleRowMetas = rowMetas.filter(it => it.isVisible);
 						if (!visibleRowMetas.length) return;
 						if (evt.shiftKey) this._doSetPillsClear();
-						this._state[visibleRowMetas[0].item.item] = (EventUtil.isCtrlMetaKey(evt)) ? 2 : 1;
+						this._state[visibleRowMetas[0].item.item] = (EventUtil.isCtrlMetaKey(evt)) ? PILL_STATE__NO : PILL_STATE__YES;
 						$iptSearch.blur();
 						break;
 					}
@@ -181,7 +182,7 @@ export class SearchableFilter extends Filter {
 			$iptSearch,
 			item,
 			subtype: "yes",
-			state: 1,
+			state: PILL_STATE__YES,
 		});
 		btnBlue.addClass("br-0");
 		btnBlue.addClass("btr-0");
@@ -192,7 +193,7 @@ export class SearchableFilter extends Filter {
 			$iptSearch,
 			item,
 			subtype: "no",
-			state: 2,
+			state: PILL_STATE__NO,
 		});
 		btnRed.addClass("bl-0");
 		btnRed.addClass("btl-0");
@@ -236,7 +237,7 @@ export class SearchableFilter extends Filter {
 
 					case "Enter": {
 						if (evt.shiftKey) this._doSetPillsClear();
-						this._state[item.item] = (EventUtil.isCtrlMetaKey(evt)) ? 2 : 1;
+						this._state[item.item] = (EventUtil.isCtrlMetaKey(evt)) ? PILL_STATE__NO : PILL_STATE__YES;
 						row.blur();
 						break;
 					}

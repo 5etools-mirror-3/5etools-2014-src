@@ -2,13 +2,13 @@
 	"magicvariant": [
 		{
 			"name": "+1 Ammunition",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "A"
 				},
 				{
-					"type": "AF"
+					"type": "AF|DMG"
 				}
 			],
 			"ammo": true,
@@ -30,7 +30,7 @@
 		},
 		{
 			"name": "+1 Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -52,7 +52,7 @@
 		},
 		{
 			"name": "+1 Shield (*)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "S"
@@ -77,7 +77,7 @@
 		},
 		{
 			"name": "+1 Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -105,7 +105,7 @@
 		},
 		{
 			"name": "+1 Weapon (no damage)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"net": true
@@ -125,13 +125,13 @@
 		},
 		{
 			"name": "+2 Ammunition",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "A"
 				},
 				{
-					"type": "AF"
+					"type": "AF|DMG"
 				}
 			],
 			"ammo": true,
@@ -153,7 +153,7 @@
 		},
 		{
 			"name": "+2 Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -175,7 +175,7 @@
 		},
 		{
 			"name": "+2 Shield (*)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "S"
@@ -200,7 +200,7 @@
 		},
 		{
 			"name": "+2 Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -228,7 +228,7 @@
 		},
 		{
 			"name": "+2 Weapon (no damage)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"net": true
@@ -248,13 +248,13 @@
 		},
 		{
 			"name": "+3 Ammunition",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "A"
 				},
 				{
-					"type": "AF"
+					"type": "AF|DMG"
 				}
 			],
 			"ammo": true,
@@ -276,7 +276,7 @@
 		},
 		{
 			"name": "+3 Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -298,7 +298,7 @@
 		},
 		{
 			"name": "+3 Shield (*)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "S"
@@ -323,7 +323,7 @@
 		},
 		{
 			"name": "+3 Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -351,7 +351,7 @@
 		},
 		{
 			"name": "+3 Weapon (no damage)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"net": true
@@ -371,7 +371,7 @@
 		},
 		{
 			"name": "Acheron Blade",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -405,13 +405,13 @@
 		},
 		{
 			"name": "Adamantine Ammunition",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "A"
 				},
 				{
-					"type": "AF"
+					"type": "AF|DMG"
 				}
 			],
 			"excludes": {
@@ -435,7 +435,7 @@
 		},
 		{
 			"name": "Adamantine Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "HA"
@@ -461,7 +461,7 @@
 		},
 		{
 			"name": "Adamantine Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -488,7 +488,7 @@
 		},
 		{
 			"name": "Antimagic Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "LA"
@@ -517,7 +517,7 @@
 		},
 		{
 			"name": "Armblade",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "M"
@@ -546,7 +546,7 @@
 		},
 		{
 			"name": "Armor of Acid Resistance",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -571,7 +571,7 @@
 		},
 		{
 			"name": "Armor of Cold Resistance",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -596,7 +596,7 @@
 		},
 		{
 			"name": "Armor of Fire Resistance",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -621,7 +621,7 @@
 		},
 		{
 			"name": "Armor of Force Resistance",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -646,7 +646,7 @@
 		},
 		{
 			"name": "Armor of Fungal Spores",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "MA"
@@ -665,7 +665,7 @@
 		},
 		{
 			"name": "Armor of Gleaming",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "HA"
@@ -687,7 +687,7 @@
 		},
 		{
 			"name": "Armor of Lightning Resistance",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -712,7 +712,7 @@
 		},
 		{
 			"name": "Armor of Necrotic Resistance",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -737,7 +737,7 @@
 		},
 		{
 			"name": "Armor of Poison Resistance",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -762,7 +762,7 @@
 		},
 		{
 			"name": "Armor of Psychic Resistance",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -787,7 +787,7 @@
 		},
 		{
 			"name": "Armor of Radiant Resistance",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -812,7 +812,7 @@
 		},
 		{
 			"name": "Armor of Safeguarding",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "HA"
@@ -842,7 +842,7 @@
 		},
 		{
 			"name": "Armor of the Fallen",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "MA"
@@ -866,7 +866,7 @@
 		},
 		{
 			"name": "Armor of Thunder Resistance",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -891,7 +891,7 @@
 		},
 		{
 			"name": "Armor of Weightlessness",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "LA"
@@ -924,7 +924,7 @@
 		},
 		{
 			"name": "Arrow of Slaying (*)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"arrow": true
@@ -965,7 +965,7 @@
 		},
 		{
 			"name": "Ascendant Dragon's Wrath Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -988,7 +988,7 @@
 		},
 		{
 			"name": "Barding",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -1015,7 +1015,7 @@
 		},
 		{
 			"name": "Berserker Axe",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"axe": true
@@ -1050,7 +1050,7 @@
 		},
 		{
 			"name": "Blade of the Medusa",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -1078,7 +1078,7 @@
 		},
 		{
 			"name": "Blade of the Wood",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -1106,13 +1106,13 @@
 		},
 		{
 			"name": "Bloodseeker Ammunition",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "A"
 				},
 				{
-					"type": "AF"
+					"type": "AF|DMG"
 				}
 			],
 			"ammo": true,
@@ -1128,7 +1128,7 @@
 		},
 		{
 			"name": "Bloodshed Blade",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -1158,7 +1158,7 @@
 		},
 		{
 			"name": "Bow of Conflagration",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"bow": true
@@ -1177,7 +1177,7 @@
 		},
 		{
 			"name": "Bow of Melodies",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"bow": true
@@ -1212,7 +1212,7 @@
 		},
 		{
 			"name": "Cast-Off Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -1231,7 +1231,7 @@
 		},
 		{
 			"name": "Clockwork Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "HA"
@@ -1254,7 +1254,7 @@
 		},
 		{
 			"name": "Comet Smasher",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "M",
@@ -1275,7 +1275,7 @@
 		},
 		{
 			"name": "Corpse Slayer",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -1296,7 +1296,7 @@
 		},
 		{
 			"name": "Crystal Blade",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -1320,7 +1320,7 @@
 		},
 		{
 			"name": "Dancing Sword",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -1347,7 +1347,7 @@
 		},
 		{
 			"name": "Defender",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -1375,7 +1375,7 @@
 		},
 		{
 			"name": "Delerium-Forged Blade",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -1398,7 +1398,7 @@
 		},
 		{
 			"name": "Demon Skin",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "HA"
@@ -1423,7 +1423,7 @@
 		},
 		{
 			"name": "Demonbone Polearm",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"polearm": true
@@ -1460,7 +1460,7 @@
 		},
 		{
 			"name": "Dragon Slayer",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -1486,7 +1486,7 @@
 		},
 		{
 			"name": "Dragon Wing Bow",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"bow": true
@@ -1506,7 +1506,7 @@
 		},
 		{
 			"name": "Dragonlance",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"name": "Pike"
@@ -1538,13 +1538,13 @@
 		},
 		{
 			"name": "Dried Leech",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "A"
 				},
 				{
-					"type": "AF"
+					"type": "AF|DMG"
 				}
 			],
 			"excludes": {
@@ -1563,7 +1563,7 @@
 		},
 		{
 			"name": "Drow +1 Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -1582,7 +1582,7 @@
 		},
 		{
 			"name": "Drow +1 Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -1604,7 +1604,7 @@
 		},
 		{
 			"name": "Drow +2 Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -1623,7 +1623,7 @@
 		},
 		{
 			"name": "Drow +2 Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -1645,7 +1645,7 @@
 		},
 		{
 			"name": "Drow +3 Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -1664,7 +1664,7 @@
 		},
 		{
 			"name": "Drow +3 Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -1686,7 +1686,7 @@
 		},
 		{
 			"name": "Feywrought Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "LA"
@@ -1719,7 +1719,7 @@
 		},
 		{
 			"name": "Flame Tongue",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -1744,7 +1744,7 @@
 		},
 		{
 			"name": "Fool's Blade",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -1785,7 +1785,7 @@
 		},
 		{
 			"name": "Forcebreaker Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"dmgType": "B"
@@ -1805,7 +1805,7 @@
 		},
 		{
 			"name": "Frost Brand",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -1835,7 +1835,7 @@
 		},
 		{
 			"name": "Gambler's Blade",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -1862,7 +1862,7 @@
 		},
 		{
 			"name": "Giant Slayer",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"axe": true
@@ -1891,7 +1891,7 @@
 		},
 		{
 			"name": "Glimmering Moonbow",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"bow": true
@@ -1918,7 +1918,7 @@
 		},
 		{
 			"name": "Gloomwrought Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "LA"
@@ -1951,7 +1951,7 @@
 		},
 		{
 			"name": "Hardened Delerium-tipped Arrows",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"arrow": true
@@ -1973,7 +1973,7 @@
 		},
 		{
 			"name": "Hellfire Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -1993,7 +1993,7 @@
 		},
 		{
 			"name": "Holy Avenger",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -2025,7 +2025,7 @@
 		},
 		{
 			"name": "Imbued Wood (Fernian Ash)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2054,7 +2054,7 @@
 		},
 		{
 			"name": "Imbued Wood (Irian Rosewood)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2083,7 +2083,7 @@
 		},
 		{
 			"name": "Imbued Wood (Kythrian Manchineel)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2112,7 +2112,7 @@
 		},
 		{
 			"name": "Imbued Wood (Lamannian Oak)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2141,7 +2141,7 @@
 		},
 		{
 			"name": "Imbued Wood (Mabaran Ebony)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2170,7 +2170,7 @@
 		},
 		{
 			"name": "Imbued Wood (Risian Pine)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2199,7 +2199,7 @@
 		},
 		{
 			"name": "Imbued Wood (Shavarran Birch)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2228,7 +2228,7 @@
 		},
 		{
 			"name": "Imbued Wood (Xorian Wenge)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2257,7 +2257,7 @@
 		},
 		{
 			"name": "Last Stand Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -2277,7 +2277,7 @@
 		},
 		{
 			"name": "Living Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -2311,7 +2311,7 @@
 		},
 		{
 			"name": "Luck Blade",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -2373,7 +2373,7 @@
 		},
 		{
 			"name": "Lycan Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -2393,7 +2393,7 @@
 		},
 		{
 			"name": "Mariner's Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -2420,7 +2420,7 @@
 		},
 		{
 			"name": "Mind Blade",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -2439,7 +2439,7 @@
 		},
 		{
 			"name": "Mind Carapace Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "HA"
@@ -2458,7 +2458,7 @@
 		},
 		{
 			"name": "Mithral +1 Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "HA"
@@ -2486,7 +2486,7 @@
 		},
 		{
 			"name": "Mithral Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "HA"
@@ -2517,7 +2517,7 @@
 		},
 		{
 			"name": "Mizzium Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "HA"
@@ -2541,7 +2541,7 @@
 		},
 		{
 			"name": "Molten Bronze Skin",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"name": "Half Plate Armor",
@@ -2574,7 +2574,7 @@
 		},
 		{
 			"name": "Moon-Touched Sword",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -2593,7 +2593,7 @@
 		},
 		{
 			"name": "Nine Lives Stealer",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -2621,7 +2621,7 @@
 		},
 		{
 			"name": "Oceanic Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "R"
@@ -2657,7 +2657,7 @@
 		},
 		{
 			"name": "Orb of Shielding (Fernian Basalt)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2686,7 +2686,7 @@
 		},
 		{
 			"name": "Orb of Shielding (Irian Quartz)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2715,7 +2715,7 @@
 		},
 		{
 			"name": "Orb of Shielding (Kythrian Skarn)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2744,7 +2744,7 @@
 		},
 		{
 			"name": "Orb of Shielding (Lamannian Flint)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2773,7 +2773,7 @@
 		},
 		{
 			"name": "Orb of Shielding (Mabaran Obsidian)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2802,7 +2802,7 @@
 		},
 		{
 			"name": "Orb of Shielding (Risian Shale)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2831,7 +2831,7 @@
 		},
 		{
 			"name": "Orb of Shielding (Shavarran Chert)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2860,7 +2860,7 @@
 		},
 		{
 			"name": "Orb of Shielding (Xorian Marble)",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "SCF",
@@ -2889,7 +2889,7 @@
 		},
 		{
 			"name": "Polymorph Blade",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -3011,7 +3011,7 @@
 		},
 		{
 			"name": "Red-Feather Bow",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"bow": true
@@ -3035,7 +3035,7 @@
 		},
 		{
 			"name": "Ruidium Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "MA"
@@ -3091,7 +3091,7 @@
 		},
 		{
 			"name": "Ruidium Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -3145,13 +3145,13 @@
 		},
 		{
 			"name": "Silvered Ammunition",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "A"
 				},
 				{
-					"type": "AF"
+					"type": "AF|DMG"
 				}
 			],
 			"excludes": {
@@ -3172,7 +3172,7 @@
 		},
 		{
 			"name": "Silvered Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -3196,7 +3196,7 @@
 		},
 		{
 			"name": "Slumbering Dragon's Wrath Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -3216,7 +3216,7 @@
 		},
 		{
 			"name": "Smoldering Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"armor": true
@@ -3235,7 +3235,7 @@
 		},
 		{
 			"name": "Starcrossed Bow",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"bow": true
@@ -3262,7 +3262,7 @@
 		},
 		{
 			"name": "Starshot Crossbow",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"crossbow": true
@@ -3318,7 +3318,7 @@
 		},
 		{
 			"name": "Stirring Dragon's Wrath Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -3340,7 +3340,7 @@
 		},
 		{
 			"name": "Stygian Spear",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"spear": true
@@ -3377,7 +3377,7 @@
 		},
 		{
 			"name": "Sword of Life Stealing",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -3403,7 +3403,7 @@
 		},
 		{
 			"name": "Sword of Retribution",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -3439,7 +3439,7 @@
 		},
 		{
 			"name": "Sword of Sharpness",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true,
@@ -3468,7 +3468,7 @@
 		},
 		{
 			"name": "Sword of the Planes",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -3492,7 +3492,7 @@
 		},
 		{
 			"name": "Sword of Vengeance",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -3526,7 +3526,7 @@
 		},
 		{
 			"name": "Sword of Wounding",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true
@@ -3551,7 +3551,7 @@
 		},
 		{
 			"name": "Vicious +1 Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -3579,7 +3579,7 @@
 		},
 		{
 			"name": "Vicious Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -3611,7 +3611,7 @@
 		},
 		{
 			"name": "Vorpal Sword",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"sword": true,
@@ -3639,7 +3639,7 @@
 		},
 		{
 			"name": "Wakened Dragon's Wrath Weapon",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -3662,13 +3662,13 @@
 		},
 		{
 			"name": "Walloping Ammunition",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "A"
 				},
 				{
-					"type": "AF"
+					"type": "AF|DMG"
 				}
 			],
 			"ammo": true,
@@ -3685,7 +3685,7 @@
 		},
 		{
 			"name": "Weapon of Agonizing Paralysis",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "M"
@@ -3705,7 +3705,7 @@
 		},
 		{
 			"name": "Weapon of Certain Death",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -3726,7 +3726,7 @@
 		},
 		{
 			"name": "Weapon of Throne's Command",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weaponCategory": "martial"
@@ -3765,7 +3765,7 @@
 		},
 		{
 			"name": "Weapon of Warning",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"weapon": true
@@ -3789,13 +3789,13 @@
 		},
 		{
 			"name": "Winged Ammunition",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "A"
 				},
 				{
-					"type": "AF"
+					"type": "AF|DMG"
 				}
 			],
 			"excludes": {
@@ -3808,13 +3808,13 @@
 				"page": 69,
 				"rarity": "uncommon",
 				"entries": [
-					"Ranged weapon attack rolls made with this ammunition ignore half and three-quarters cover. In addition, attacking at long range doesn't impose disadvantage on ranged weapon attack rolls made with this ammunition."
+					"Ranged weapon attack rolls made with this ammunition ignore half and {@quickref Cover||3||three-quarters cover}. In addition, attacking at long range doesn't impose disadvantage on ranged weapon attack rolls made with this ammunition."
 				]
 			}
 		},
 		{
 			"name": "Zephyr Armor",
-			"type": "GV",
+			"type": "GV|DMG",
 			"requires": [
 				{
 					"type": "LA"

@@ -1356,7 +1356,7 @@
 					"name": "Feature: Echoes of Victory",
 					"type": "entries",
 					"entries": [
-						"You have attracted admiration among spectators, fellow athletes, and trainers in the region that hosted your past athletic victories. When visiting any settlement within 100 miles of where you grew up, there is a {@chance 50|50 percent} chance you can find someone there who admires you and is willing to provide information or temporary shelter.",
+						"You have attracted admiration among spectators, fellow athletes, and trainers in the region that hosted your past athletic victories. When visiting any settlement within 100 miles of where you grew up, there is a {@chance 50} chance you can find someone there who admires you and is willing to provide information or temporary shelter.",
 						"Between adventures, you might compete in athletic events sufficient enough to maintain a comfortable lifestyle, as per the \"{@book Practicing a Profession|PHB|8|Practicing a Profession}\" downtime activity in chapter 8 of the {@book Player's Handbook|PHB}."
 					],
 					"data": {
@@ -16048,48 +16048,7 @@
 							"type": "entries",
 							"name": "Lorehold Trinkets",
 							"entries": [
-								"When you make your character, you may roll once on the Lorehold Trinkets table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket.",
-								{
-									"type": "table",
-									"caption": "Lorehold Trinkets",
-									"colLabels": [
-										"d6",
-										"Trinket"
-									],
-									"colStyles": [
-										"col-2 text-center",
-										"col-10"
-									],
-									"rows": [
-										[
-											"1",
-											"A map made of concentric circles that can be rotated around the page"
-										],
-										[
-											"2",
-											"A puzzle box bedecked with amber"
-										],
-										[
-											"3",
-											"A dented brass compass with a red needle"
-										],
-										[
-											"4",
-											"The head of a broken statue that houses the consciousness of a snarky sage"
-										],
-										[
-											"5",
-											"A sheet of parchment embossed with tactile lettering, glowing red"
-										],
-										[
-											"6",
-											"A broken dagger with a wavy blade and a serpentine hilt"
-										]
-									],
-									"data": {
-										"tableInclude": true
-									}
-								}
+								"When you make your character, you may roll once on the {@item Lorehold Trinket|SCC|Lorehold Trinkets} table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket."
 							]
 						}
 					]
@@ -19770,48 +19729,7 @@
 							"type": "entries",
 							"name": "Prismari Trinkets",
 							"entries": [
-								"When you make your character, you may roll once on the Prismari Trinkets table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket.",
-								{
-									"type": "table",
-									"caption": "Prismari Trinkets",
-									"colLabels": [
-										"d6",
-										"Trinket"
-									],
-									"colStyles": [
-										"col-2 text-center",
-										"col-10"
-									],
-									"rows": [
-										[
-											"1",
-											"A pair of rose-tinted glasses with glittery frames"
-										],
-										[
-											"2",
-											"A stoppered glass bottle that, when opened, plays a brassy orchestral piece"
-										],
-										[
-											"3",
-											"A quartet of hovering water motes in a vial"
-										],
-										[
-											"4",
-											"A bandolier of watercolor paints"
-										],
-										[
-											"5",
-											"A tiara capped with a crystal that crackles with harmless lightning"
-										],
-										[
-											"6",
-											"An iridescent quill"
-										]
-									],
-									"data": {
-										"tableInclude": true
-									}
-								}
+								"When you make your character, you may roll once on the {@item Prismari Trinket|SCC|Prismari Trinkets} table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket."
 							]
 						}
 					]
@@ -20022,48 +19940,7 @@
 							"type": "entries",
 							"name": "Quandrix Trinkets",
 							"entries": [
-								"When you make your character, you may roll once on the Quandrix Trinkets table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket.",
-								{
-									"type": "table",
-									"caption": "Quandrix Trinkets",
-									"colLabels": [
-										"d6",
-										"Trinket"
-									],
-									"colStyles": [
-										"col-2 text-center",
-										"col-10"
-									],
-									"rows": [
-										[
-											"1",
-											"A small succulent in a dodecahedral clay pot"
-										],
-										[
-											"2",
-											"A blue knit hat that looks a bit like a bottle folding in on itself"
-										],
-										[
-											"3",
-											"A model hypercube carved from green crystal, showcasing the fourth dimension"
-										],
-										[
-											"4",
-											"A crumpled test on the theory of gravity manipulation, with a failing grade on the front and the name of a famous Quandrix professor"
-										],
-										[
-											"5",
-											"A blue tetrahedron that, when tapped twice, projects a recording of an old mathematics lecture"
-										],
-										[
-											"6",
-											"A round bread roll cut so that someone could spread butter on both halves without ever lifting the knife"
-										]
-									],
-									"data": {
-										"tableInclude": true
-									}
-								}
+								"When you make your character, you may roll once on the {@item Quandrix Trinket|SCC|Quandrix Trinkets} table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket."
 							]
 						}
 					]
@@ -21351,7 +21228,7 @@
 							"entry": "A cracked {@item hourglass|PHB}, a set of rusty {@item manacles|PHB}, a half-empty bottle, a {@item hunting trap|PHB}, a {@item gaming set|PHB} (matching your chosen proficiency), a set of {@item traveler's clothes|PHB}, and a {@item pouch|PHB} containing 13 gp"
 						},
 						{
-							"type": "entries",
+							"type": "item",
 							"name": "Tool Proficiencies:",
 							"entries": [
 								"One {@filter gaming set|items|source=phb|miscellaneous=mundane|type=gaming set} of your choice (such as playing cards or three-dragon ante cards)"
@@ -23592,48 +23469,7 @@
 							"type": "entries",
 							"name": "Silverquill Trinkets",
 							"entries": [
-								"When you make your character, you may roll once on the Silverquill Trinkets table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket.",
-								{
-									"type": "table",
-									"caption": "Silverquill Trinkets",
-									"colLabels": [
-										"d6",
-										"Trinket"
-									],
-									"colStyles": [
-										"col-2 text-center",
-										"col-10"
-									],
-									"rows": [
-										[
-											"1",
-											"A black leather notebook filled with half-finished poems"
-										],
-										[
-											"2",
-											"A set of flashcards detailing different colloquialisms and their meanings"
-										],
-										[
-											"3",
-											"A canteen that makes any liquid drunk from it taste sweet"
-										],
-										[
-											"4",
-											"A forged permission slip granting access to the special archives of Strixhaven's libraries"
-										],
-										[
-											"5",
-											"A stylish silver pin that references a famous series of novels about warlocks"
-										],
-										[
-											"6",
-											"A stack of small pieces of parchment, each enchanted to stick to whatever surface it's pressed against and peel off easily"
-										]
-									],
-									"data": {
-										"tableInclude": true
-									}
-								}
+								"When you make your character, you may roll once on the {@item Silverquill Trinket|SCC|Silverquill Trinkets} table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket."
 							]
 						}
 					]
@@ -28755,48 +28591,7 @@
 							"type": "entries",
 							"name": "Witherbloom Trinkets",
 							"entries": [
-								"When you make your character, you may roll once on the Witherbloom Trinkets table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket.",
-								{
-									"type": "table",
-									"caption": "Witherbloom Trinkets",
-									"colLabels": [
-										"d6",
-										"Trinket"
-									],
-									"colStyles": [
-										"col-2 text-center",
-										"col-10"
-									],
-									"rows": [
-										[
-											"1",
-											"A black bird-shaped mask, trimmed with glowing green thread"
-										],
-										[
-											"2",
-											"A set of rabbit bones"
-										],
-										[
-											"3",
-											"A pair of thick knee-high waders, stained with muck and moss"
-										],
-										[
-											"4",
-											"A slimy green tentacle, which occasionally wriggles"
-										],
-										[
-											"5",
-											"A notebook containing waterproof paper"
-										],
-										[
-											"6",
-											"A necklace of five small vials, each filled with luminescent white liquid"
-										]
-									],
-									"data": {
-										"tableInclude": true
-									}
-								}
+								"When you make your character, you may roll once on the {@item Witherbloom Trinket|SCC|Witherbloom Trinkets} table, instead of on the {@item trinket|phb|Trinkets table} in the {@book Player's Handbook|PHB}, for your starting trinket."
 							]
 						}
 					]

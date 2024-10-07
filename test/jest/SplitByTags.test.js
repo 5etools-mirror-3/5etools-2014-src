@@ -64,4 +64,23 @@ describe("Splitting by tags", () => {
 				"{@}",
 			]);
 	});
+
+	it("Should not handle non-closing braces", () => {
+		expect(Renderer.splitByTags("{@a {}"))
+			.toStrictEqual([
+				"{@a {}",
+			]);
+
+		expect(Renderer.splitByTags("{@a {}}"))
+			.toStrictEqual([
+				"{@a {}",
+				"}",
+			]);
+
+		expect(Renderer.splitByTags("{@a {}}}"))
+			.toStrictEqual([
+				"{@a {}",
+				"}}",
+			]);
+	});
 });

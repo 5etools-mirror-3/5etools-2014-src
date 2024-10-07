@@ -2796,7 +2796,7 @@
 												"You stumble upon an old grave."
 											]
 										},
-										"There is a {@chance 25|25 percent} chance that the grave is intact, appearing as an elongated earthen mound or a rocky cairn. Characters who dig up the grave find the skeletal remains of a human clad in rusted chain mail (a soldier). Among the bones lie corroded weapons.",
+										"There is a {@chance 25} chance that the grave is intact, appearing as an elongated earthen mound or a rocky cairn. Characters who dig up the grave find the skeletal remains of a human clad in rusted chain mail (a soldier). Among the bones lie corroded weapons.",
 										"If the grave isn't intact, it has been violated. The characters find a shallow, mud-filled hole with dirt or rocks strewn around it and a few scattered bones within."
 									]
 								},
@@ -3970,7 +3970,7 @@
 									"page": 36,
 									"id": "10d",
 									"entries": [
-										"If your card reading reveals that a treasure is here, it is buried in one of the graves. For each grave the characters dig up, there's a cumulative {@chance 10|10 percent} chance of finding the treasure."
+										"If your card reading reveals that a treasure is here, it is buried in one of the graves. For each grave the characters dig up, there's a cumulative {@chance 10} chance of finding the treasure."
 									]
 								}
 							]
@@ -4197,7 +4197,7 @@
 										"A lowered drawbridge of old, shored-up wooden beams stretches across the chasm, between you and the archway to the courtyard. The chains of the drawbridge creak in the wind, their rust-eaten iron straining under the weight. From atop the high walls, stone gargoyles stare at you out of their hollow eye sockets and grin hideously. A rotting wooden portcullis, green with growth, hangs above the entry tunnel. Beyond this location, the main doors of Ravenloft stand open. A rich, warm light spills from within, flooding the courtyard. Torches flutter sadly in sconces on both sides of the open doors."
 									]
 								},
-								"The drawbridge appears sturdy, but a few of its boards are missing and it creaks and groans under any weight. Each time a creature other than Strahd or a horse that draws his carriage crosses the drawbridge, there is a {@chance 5|5 percent} chance of one of its boards breaking under the creature. If a board breaks, the creature must succeed on a DC 10 Dexterity saving throw or fall to the bottom of the cliffs, 1,000 feet below. If a companion is within 5 feet of the creature and reaches out to grab it, the creature has advantage on the save.",
+								"The drawbridge appears sturdy, but a few of its boards are missing and it creaks and groans under any weight. Each time a creature other than Strahd or a horse that draws his carriage crosses the drawbridge, there is a {@chance 5} chance of one of its boards breaking under the creature. If a board breaks, the creature must succeed on a DC 10 Dexterity saving throw or fall to the bottom of the cliffs, 1,000 feet below. If a companion is within 5 feet of the creature and reaches out to grab it, the creature has advantage on the save.",
 								{
 									"type": "entries",
 									"name": "Green Slime",
@@ -15100,7 +15100,7 @@
 									]
 								},
 								"The ten statues that line this corridor depict ancient heroes. In actuality, the faces of the statues are stoic and expressionless, but whenever the lightning flashes, their expressions change to utter horror until the hall goes dark again.",
-								"The statues are imbued with the spirits of Strahd's ancestors, all of which grieve over the termination of their bloodline. Each spirit will answer one question if addressed directly. The spirits' answers are always short and vague, and there is a {@chance 20|20 percent} chance that a spirit's answer is wrong.",
+								"The statues are imbued with the spirits of Strahd's ancestors, all of which grieve over the termination of their bloodline. Each spirit will answer one question if addressed directly. The spirits' answers are always short and vague, and there is a {@chance 20} chance that a spirit's answer is wrong.",
 								"The stairs at the west end of the hall descend 40 feet to {@area area K33|1fb|x}. An open archway to the east reveals a tower landing beyond (part of {@area area K20|1d2|x})."
 							]
 						},
@@ -18782,7 +18782,7 @@
 									"height": 1000
 								},
 								"In conversation, {@creature Escher|CoS} displays wit with a hint of melancholy. Beneath his arch mood is a dread that Strahd is growing bored of him and will lock him in the catacombs ({@area area K84|2ab|x}) with Strahd's other castoff consorts.",
-								"The leaded windows are fitted with iron hinges and can be opened. They can be locked from the inside, though they are currently unlocked. The leaded glass doesn't allow for much of a view. If a character opens a window and leaves it open, there's a {@chance 50|50 percent} chance that a {@creature vampire spawn} crawling around the outside wall of the tower notices the open window and investigates.",
+								"The leaded windows are fitted with iron hinges and can be opened. They can be locked from the inside, though they are currently unlocked. The leaded glass doesn't allow for much of a view. If a character opens a window and leaves it open, there's a {@chance 50} chance that a {@creature vampire spawn} crawling around the outside wall of the tower notices the open window and investigates.",
 								"The books in the bookcase have no value and aren't much help to the characters. Some of the titles found on the bookshelf include {@i Embalming: The Lost Art}, {@i Life Among the Undead: Learning to Cope}, {@i Castle Building 101}, and {@i Goats of the Balinok Mountains}.",
 								{
 									"type": "entries",
@@ -18898,7 +18898,7 @@
 									]
 								},
 								"The labeled glass containers hold various elements that the witches use in their fell concoctions and rituals. The labels identify such items as \"Eye of Newt,\" \"Hair of Bat,\" \"Snail Hearts,\" and \"Frog's Breath.\" There are no magic potions among the bottles and jars.",
-								"The leaded windows are fitted with iron hinges and can be opened. They are currently locked from the inside. If a character opens a window and leaves it open, there's a {@chance 50|50 percent} chance that a {@creature vampire spawn} crawling around the outside wall of the tower notices the open window and investigates.",
+								"The leaded windows are fitted with iron hinges and can be opened. They are currently locked from the inside. If a character opens a window and leaves it open, there's a {@chance 50} chance that a {@creature vampire spawn} crawling around the outside wall of the tower notices the open window and investigates.",
 								"Characters who search the room spot numerous boot prints in the dust, as well as a short trail in the dust on the floor, leading from the northeast corner of the room to the easternmost door. It looks like something heavy was dragged across the floor toward the doorway.",
 								"There is a secret trapdoor in the northeast corner of the floor. Because of the trail through the dust, the trapdoor can be found without an ability check. Tapping or knocking on the trapdoor three times releases a hidden latch, causing the trapdoor to swing down. {@area Area K51|22e|x} lies below. (There's no ability check that will let the characters figure out the trick to opening the door. They can get that information from the witches, or perhaps by using a {@spell divination} spell or similar magic.)"
 							]
@@ -19727,7 +19727,7 @@
 									"page": 72,
 									"id": "23c",
 									"entries": [
-										"Each witch carries a {@item potion of healing} that she made herself. There is a {@chance 30|30 percent} chance that a potion has \"gone bad,\" in which case it's actually a {@item potion of poison}.",
+										"Each witch carries a {@item potion of healing} that she made herself. There is a {@chance 30} chance that a potion has \"gone bad,\" in which case it's actually a {@item potion of poison}.",
 										"Not visible from the entrance is a small table behind the cauldron on which sits an opened spellbook, seemingly on the verge of falling apart. The book is evil. Any non-evil creature that touches it or starts its turn with the book in its possession takes 5 ({@dice 1d10}) psychic damage. The book contains the following spells:",
 										{
 											"type": "inset",
@@ -25841,7 +25841,7 @@
 									}
 								},
 								"The water is 3 feet deep in the hallway and opaque. The steps on both sides of the hallway descend another 2 feet before ending at the iron doors to the north and south.",
-								"The floor beneath the water isn't as solid as one might expect. There is a safe path around several weight-sensitive trapdoors (see the Traps in Area K73 diagram), but the water makes it impossible to see where the trapdoors are. For every 10 pounds of weight on a trapdoor, there is a {@chance 5|5 percent} chance that the trapdoor will open. The 10-foot-deep pit under each trapdoor contains a magic teleport trap that activates as soon as the trapdoor opens. Any Medium or smaller creature on a trapdoor when it opens plunges into the pit and is teleported to a cell in either {@area area K74|272|x} or {@area K75|284|x}, as the diagram indicates.",
+								"The floor beneath the water isn't as solid as one might expect. There is a safe path around several weight-sensitive trapdoors (see the Traps in Area K73 diagram), but the water makes it impossible to see where the trapdoors are. For every 10 pounds of weight on a trapdoor, there is a {@chance 5} chance that the trapdoor will open. The 10-foot-deep pit under each trapdoor contains a magic teleport trap that activates as soon as the trapdoor opens. Any Medium or smaller creature on a trapdoor when it opens plunges into the pit and is teleported to a cell in either {@area area K74|272|x} or {@area K75|284|x}, as the diagram indicates.",
 								"When a character sets off a trap, other characters in the hall see an explosion of air and water fly up around the triggering character (air that was trapped in the pit is released suddenly when the trapdoor opens). The triggering character suddenly falls from sight. An instant later, the trapdoor closes, leaving only a slowly dissipating swirl in the water. It doesn't open again until 24 hours have passed, at which point its teleport trap is recharged.",
 								"Characters who fall victim to the teleport traps are transported to dungeon cells closed with iron bars and under 5 feet of brackish water ({@area areas K74|272|x} and {@area K75|284|x})."
 							]
@@ -28787,7 +28787,7 @@
 												"This small guest room contains a bed heaped with wolf furs, a footlocker, a tall wardrobe, and a writing desk with matching chair. An oil lamp rests atop the desk near a journal bound in a red leather jacket."
 											]
 										},
-										"{@creature Rictavio|CoS} sleeps here between midnight and dawn. At dawn, he leaves to check on his horse ({@area area N2f|343|x}) and his wagon ({@area area N5|3c9|x}), returning to the inn around noon. Between noon and dusk, there's a {@chance 40|40 percent} chance he is here; otherwise, he's in the taproom ({@area area N2c|33a|x}). At dusk, he leaves the inn to tend to his horse and his wagon again, then returns to his room to retire for the night.",
+										"{@creature Rictavio|CoS} sleeps here between midnight and dawn. At dawn, he leaves to check on his horse ({@area area N2f|343|x}) and his wagon ({@area area N5|3c9|x}), returning to the inn around noon. Between noon and dusk, there's a {@chance 40} chance he is here; otherwise, he's in the taproom ({@area area N2c|33a|x}). At dusk, he leaves the inn to tend to his horse and his wagon again, then returns to his room to retire for the night.",
 										"{@creature Rictavio|CoS} is too clever to leave anything valuable or incriminating in his room. The footlocker and the wardrobe contain nothing but common clothes and travel wear.",
 										{
 											"type": "entries",
@@ -29878,8 +29878,8 @@
 													]
 												},
 												"Once the power of the mirror is used, the mirror becomes dormant until the next dawn. The mirror has AC 10, 5 hit points, and immunity to poison and psychic damage. Destroying it lays the assassin's spirit to rest, causing the manifestation to disappear if it is present.",
-												"The mirror corrupts those who use it to do evil. Summoning the assassin isn't evil, but using him to commit murder is. Each time a creature uses the mirror for this purpose, there is a cumulative {@chance 25|25 percent} chance that the creature's alignment shifts to neutral evil.",
-												"If a character touches the mirror and speaks Strahd's name, there is a {@chance 50|50 percent} chance that Strahd takes notice and appears on the mirror's surface. In this form, the vampire can't be harmed. He tries to charm one humanoid he can see within 30 feet of the mirror. Whether the target resists the effect or not, Strahd's smiling visage invites the characters to dine at Castle Ravenloft, then fades away. A creature {@condition charmed} by Strahd feels compelled to accept the vampire's invitation."
+												"The mirror corrupts those who use it to do evil. Summoning the assassin isn't evil, but using him to commit murder is. Each time a creature uses the mirror for this purpose, there is a cumulative {@chance 25} chance that the creature's alignment shifts to neutral evil.",
+												"If a character touches the mirror and speaks Strahd's name, there is a {@chance 50} chance that Strahd takes notice and appears on the mirror's surface. In this form, the vampire can't be harmed. He tries to charm one humanoid he can see within 30 feet of the mirror. Whether the target resists the effect or not, Strahd's smiling visage invites the characters to dine at Castle Ravenloft, then fades away. A creature {@condition charmed} by Strahd feels compelled to accept the vampire's invitation."
 											]
 										}
 									]
@@ -29939,7 +29939,7 @@
 									"page": 109,
 									"id": "393",
 									"entries": [
-										"If your card reading reveals that a treasure is here, the item is hidden in a trunk. Each character has a cumulative {@chance 20|20 percent} chance of finding the item for every hour the character spends searching the attic."
+										"If your card reading reveals that a treasure is here, the item is hidden in a trunk. Each character has a cumulative {@chance 20} chance of finding the item for every hour the character spends searching the attic."
 									]
 								},
 								{
@@ -30902,7 +30902,7 @@
 												"This bedroom contains nothing out of the ordinary: a neatly made bed, a table with an oil lamp on it, a handsome wooden chest, a slender wardrobe, and a window box with drapes."
 											]
 										},
-										"These two rooms belong to Lady Wachter's sons, Nikolai and Karl. There's a {@chance 25|25 percent} chance that one of the maids (see {@area area N4h|3ac|x}) is here, tidying up."
+										"These two rooms belong to Lady Wachter's sons, Nikolai and Karl. There's a {@chance 25} chance that one of the maids (see {@area area N4h|3ac|x}) is here, tidying up."
 									]
 								},
 								{
@@ -30967,7 +30967,7 @@
 											]
 										},
 										"Eight {@creature Cat||cats} have the run of the library. These family pets have vicious dispositions, attacking anyone who tries to pick them up. Characters who have a passive Wisdom ({@skill Perception}) score of 10 or higher notice that one cat has a small key hanging from its collar. The key opens the locked chest in {@area area N4q|3c0|x}.",
-										"There is a {@chance 25|25 percent} chance that one of the maids is here, dusting the bookshelves.",
+										"There is a {@chance 25} chance that one of the maids is here, dusting the bookshelves.",
 										"The cabinet holds a fine collection of wineglasses. The desk contains blank pieces of parchment, quill pens, jars of ink, wax candles, and a wax seal.",
 										"Most of the Wachter family's book collection was sold off years ago to cover debts, and the books that remain aren't particularly valuable. Use the Random Books table (see {@adventure chapter 4|CoS|5}, {@area area K37|207|x}) to determine the subject matter of a particular book.",
 										"A section of the bookshelf that stretches along the southernmost wall is actually a secret door on hidden hinges. The bookshelf can be pulled outward, revealing an open doorway that leads to area N4q."
@@ -35875,7 +35875,7 @@
 										"The parapet narrows to a width of ten feet, ending before a sturdy wooden door set into the wall of the eastern tower."
 									]
 								},
-								"This door is barred from the inside. The phantom warriors in the tower's turrets ({@area area Q52|4ac|x}) make ranged attacks against characters who try to force their way into the tower. These spectral defenders have three-quarters cover behind the arrow slits."
+								"This door is barred from the inside. The phantom warriors in the tower's turrets ({@area area Q52|4ac|x}) make ranged attacks against characters who try to force their way into the tower. These spectral defenders have {@quickref Cover||3||three-quarters cover} behind the arrow slits."
 							]
 						},
 						{
@@ -37967,7 +37967,7 @@
 												"This room contains a fort made out of piled bits of shattered furniture and torn draperies. From within the fort, you hear a mischievous cackle."
 											]
 										},
-										"Two {@creature mongrelfolk|CoS} live in the \"fort\" but refuse to come out unless baited with food. While hidden under the wreckage, they have three-quarters cover."
+										"Two {@creature mongrelfolk|CoS} live in the \"fort\" but refuse to come out unless baited with food. While hidden under the wreckage, they have {@quickref Cover||3||three-quarters cover}."
 									]
 								}
 							]
@@ -39390,7 +39390,7 @@
 									"page": 163,
 									"id": "55e",
 									"entries": [
-										"The upside-down skull that floats next to the hut is a hill giant's skull that {@creature Baba Lysaga|CoS} has hollowed out and transformed into a vehicle. It hovers in place until {@creature Baba Lysaga|CoS} commands it to fly, which she can do only while inside it. It has a flying speed of 40 feet. No one else can control the skull. A creature inside the skull has three-quarters cover against attacks made from outside the skull. The skull is big enough to hold one Medium creature. It has AC 15, 50 hit points, and immunity to poison and psychic damage."
+										"The upside-down skull that floats next to the hut is a hill giant's skull that {@creature Baba Lysaga|CoS} has hollowed out and transformed into a vehicle. It hovers in place until {@creature Baba Lysaga|CoS} commands it to fly, which she can do only while inside it. It has a flying speed of 40 feet. No one else can control the skull. A creature inside the skull has {@quickref Cover||3||three-quarters cover} against attacks made from outside the skull. The skull is big enough to hold one Medium creature. It has AC 15, 50 hit points, and immunity to poison and psychic damage."
 									]
 								},
 								{
@@ -40145,7 +40145,7 @@
 									"height": 1000
 								},
 								"A creature that touches the door without first disabling the trap causes lightning to envelop the tower. Any creature outside the tower and within 10 feet of it must succeed on a DC 15 Dexterity saving throw, with disadvantage if it is wearing armor made of metal, taking 22 ({@dice 4d10}) lightning damage on a failed save, or half damage on a successful one. As long as the effect persists, any creature that enters the lightning for the first time on a turn or starts its turn there takes 22 ({@dice 4d10}) lightning damage. The lightning lasts for 10 minutes.",
-								"The third time this trap is triggered, the magic fails and causes the tower to collapse. Each creature inside the tower when it collapses takes 132 ({@dice 24d10}) bludgeoning damage, while those within 20 feet of the tower must succeed on a DC 15 Dexterity saving throw or take 44 ({@dice 8d10}) bludgeoning damage from falling debris. The collapse not only destroys the tower but also most of its contents, including the animated armor in {@area area V7|588|x}. The wooden chest in area V7 (as well as the severed head inside it) remains intact but requires {@dice 1d8 + 2} hours of digging through rubble to find. The clay golems in {@area area V4|582|x} are undamaged but buried under piles of debris. Every hour the characters spend searching through the rubble, they have a {@chance 10|10 percent} chance of accidentally unearthing a berserk clay golem.",
+								"The third time this trap is triggered, the magic fails and causes the tower to collapse. Each creature inside the tower when it collapses takes 132 ({@dice 24d10}) bludgeoning damage, while those within 20 feet of the tower must succeed on a DC 15 Dexterity saving throw or take 44 ({@dice 8d10}) bludgeoning damage from falling debris. The collapse not only destroys the tower but also most of its contents, including the animated armor in {@area area V7|588|x}. The wooden chest in area V7 (as well as the severed head inside it) remains intact but requires {@dice 1d8 + 2} hours of digging through rubble to find. The clay golems in {@area area V4|582|x} are undamaged but buried under piles of debris. Every hour the characters spend searching through the rubble, they have a {@chance 10} chance of accidentally unearthing a berserk clay golem.",
 								{
 									"type": "entries",
 									"name": "Opening the Door",
@@ -40259,7 +40259,7 @@
 									"id": "58a",
 									"entries": [
 										"If your card reading reveals that a treasure is here, it's in a narrow compartment hidden in the wall behind the suit of armor. If the armor is activated and commanded to retrieve the treasure, it pulls the stones out of the wall, revealing the treasure beyond.",
-										"If the characters have collapsed the tower (see {@area area V2|57c|x}), they find the treasure after {@dice 1d8 + 2} hours of searching through the rubble. For each hour they spend searching, they have a {@chance 10|10 percent} chance of accidentally unearthing a {@creature clay golem} (see {@area area V4|582|x}) that withstood the collapse. The golem, which took no damage from the collapsing tower, is berserk and attacks until destroyed."
+										"If the characters have collapsed the tower (see {@area area V2|57c|x}), they find the treasure after {@dice 1d8 + 2} hours of searching through the rubble. For each hour they spend searching, they have a {@chance 10} chance of accidentally unearthing a {@creature clay golem} (see {@area area V4|582|x}) that withstood the collapse. The golem, which took no damage from the collapsing tower, is berserk and attacks until destroyed."
 									]
 								}
 							]
@@ -41253,7 +41253,7 @@
 										"The balcony creaks, drawing your eye to a wild-looking figure hunched over the westernmost cask, pouring a flask of thick syrup into it. She wears a gown made of animal skins and a headdress with goat horns, and her hair is long and unkempt. Suddenly, you see something skittering across the floor. It looks like a tiny creature made of twigs. It moves from its hiding place under the stairs and disappears behind the easternmost cask."
 									]
 								},
-								"The four containers are fermentation vats, where grape juice is mixed with other ingredients and turned into wine. The easternmost cask has split in the back, creating a 6-inch-wide, 6-foot-high opening through which the twig blights can pass. All twenty-four twig blights are hidden in the cask, ready to emerge and attack when commanded to do so. While inside the cask, they have total cover against attacks that originate outside the cask.",
+								"The four containers are fermentation vats, where grape juice is mixed with other ingredients and turned into wine. The easternmost cask has split in the back, creating a 6-inch-wide, 6-foot-high opening through which the twig blights can pass. All twenty-four twig blights are hidden in the cask, ready to emerge and attack when commanded to do so. While inside the cask, they have {@quickref Cover||3||total cover} against attacks that originate outside the cask.",
 								{
 									"type": "image",
 									"href": {
@@ -42763,7 +42763,7 @@
 								"An {@creature arcanaloth} named Neferon guards this temple from within the hollow head of the great statue (area X5a) and attacks characters on sight with its longer-ranged spells. Thanks to its {@sense truesight}, the arcanaloth can see the {@condition invisible} and can see through magical darkness. Characters can't see Neferon unless they can penetrate the magical darkness that envelops the statue's face and head.",
 								"Once the arcanaloth begins casting spells, the three {@creature Flameskull||flameskulls} in {@area area X17|604|x} take up positions behind the arrow slits that overlook the temple and cast {@spell magic missile} and {@spell fireball} spells at characters they can see.",
 								"The temple ceiling is 60 feet high. Wide, black marble staircases ascend 30 feet to the southern balcony ({@area area X4|5dd|x}). The balconies that flank the statue ({@area areas X11|5f5|x} and {@area X23|613|x}) are 30 feet high as well.",
-								"Arrow slits cut into the walls of the upper galleries ({@area areas X8|5ee|x} and {@area X17|604|x}) and archer posts ({@area areas X13|5f9|x} and {@area X25|617|x}) look down on the temple. The amber glaze that covers the temple walls makes these arrow slits difficult to spot. Characters who have a passive Wisdom ({@skill Perception}) score of 12 or higher notice them. Creatures behind the arrow slits gain three-quarters cover.",
+								"Arrow slits cut into the walls of the upper galleries ({@area areas X8|5ee|x} and {@area X17|604|x}) and archer posts ({@area areas X13|5f9|x} and {@area X25|617|x}) look down on the temple. The amber glaze that covers the temple walls makes these arrow slits difficult to spot. Characters who have a passive Wisdom ({@skill Perception}) score of 12 or higher notice them. Creatures behind the arrow slits gain {@quickref Cover||3||three-quarters cover}.",
 								"The marble wizard statues stand 8 feet tall. Their 9-foot-tall golden staffs are made of wrought iron coated in peeling gold paint. The northeast statue fell over when an earth tremor collapsed the wall of its alcove."
 							]
 						},
@@ -42781,7 +42781,7 @@
 									"id": "5e2",
 									"entries": [
 										"Neferon the {@creature arcanaloth} lairs inside the statue's hollow head, within a field of magical darkness that fills the interior of the head and hides the statue's humanlike face. The darkness can be dispelled (DC 17).",
-										"A pair of 2-foot-wide eyeholes provides an unobstructed view of the temple floor south of the statue, as well as the southern balcony ({@area area X4|5dd|x}). Looking through the eyes, one can't see the northern balconies ({@area areas X11|5f5|x} and {@area X23|613|x}), the areas beneath them, or anywhere behind or directly above the statue. The eyeholes grant the arcanaloth three-quarters cover against attacks that originate outside the head.",
+										"A pair of 2-foot-wide eyeholes provides an unobstructed view of the temple floor south of the statue, as well as the southern balcony ({@area area X4|5dd|x}). Looking through the eyes, one can't see the northern balconies ({@area areas X11|5f5|x} and {@area X23|613|x}), the areas beneath them, or anywhere behind or directly above the statue. The eyeholes grant the arcanaloth {@quickref Cover||3||three-quarters cover} against attacks that originate outside the head.",
 										"Neferon wears gold spectacles and a magic robe (see \"Treasure\" below). It uses its {@spell alter self} spell and {@skill Deception} skill to pass itself off as an old human wizard with a long white beard named Heinrich Stolt. \"Heinrich\" feigns confusion. If the characters ask him why he attacked, he claims that he was guarding the temple. If the arcanaloth loses more than half of its hit points, it teleports to the temple floor, turns {@condition invisible}, and flees by the safest route, attacking the characters again when it's safe to do so. The arcanaloth will not, under any circumstances, leave the Amber Temple."
 									]
 								},
@@ -45630,7 +45630,7 @@
 										"Atop the hill is a wide ring of black boulders and smaller rocks that collectively form a makeshift wall enclosing a field of dead grass. Lightning strikes the edge of the ring from time to time, illuminating a ghastly, fifty-foot-tall statue made of tightly woven twigs and packed with black earth. The statue resembles a towering, cloaked man with fangs."
 									]
 								},
-								"The ring of boulders that surrounds the field is 250 feet in diameter and ranges from 5 to 10 feet high. Any creature that climbs over the black boulders has a {@chance 10|10 percent} chance of being struck by lightning, taking 44 ({@dice 8d10}) lightning damage. Characters can avoid the damage by sticking to the two trails that pass through the ring.",
+								"The ring of boulders that surrounds the field is 250 feet in diameter and ranges from 5 to 10 feet high. Any creature that climbs over the black boulders has a {@chance 10} chance of being struck by lightning, taking 44 ({@dice 8d10}) lightning damage. Characters can avoid the damage by sticking to the two trails that pass through the ring.",
 								{
 									"type": "entries",
 									"name": "Wooden Statue",

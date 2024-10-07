@@ -45,6 +45,11 @@ input[type="radio"]:checked {
 // region Font style
 .ve-muted {
 	color: vars.$rgb-font--muted !important;
+
+	a,
+	.roller {
+		color: vars.$rgb-link-blue--muted;
+	}
 }
 
 .bold {
@@ -97,6 +102,10 @@ i > i {
 		cursor: help !important;
 	}
 }
+
+.ve-highlight {
+	background-color: vars.$rgb-bg-highlight !important;
+}
 // endregion
 
 // region Font misc
@@ -136,11 +145,11 @@ i > i {
 	break-inside: avoid;
 }
 
-.text-left {
+.ve-text-left {
 	text-align: left !important;
 }
 
-.text-right {
+.ve-text-right {
 	text-align: right !important;
 }
 
@@ -210,6 +219,10 @@ i > i {
 
 .ve-overflow-auto {
 	overflow: auto auto;
+}
+
+.ve-overflow-visible {
+	overflow: visible visible !important;
 }
 
 .ve-overflow-y-auto {
@@ -390,6 +403,10 @@ i > i {
 	min-width: 0 !important;
 }
 
+.min-w-25 {
+	min-width: 25% !important;
+}
+
 .min-w-80 {
 	min-width: 80% !important;
 }
@@ -416,6 +433,10 @@ i > i {
 
 .max-w-33 {
 	max-width: 33.3333% !important;
+}
+
+.max-w-75 {
+	max-width: 75% !important;
 }
 
 .max-w-80 {
@@ -659,6 +680,10 @@ i > i {
 
 .ve-grow {
 	flex-grow: 1 !important;
+}
+
+.ve-shrink {
+	flex-shrink: 1 !important;
 }
 
 .no-shrink {

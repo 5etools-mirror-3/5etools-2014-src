@@ -1,3 +1,5 @@
+@use "vars/vars-night";
+
 h4 {
 	border-bottom: 1px solid #333;
 	width: 100%;
@@ -29,13 +31,13 @@ h5 {
 	background: none;
 }
 
-.btn-supp-fam {
+.ve-btn-supp-fam {
 	margin-top: 7px;
 	margin-bottom: 7px;
 	display: block;
 }
 
-.btn-supp-fam::before {
+.ve-btn-supp-fam::before {
 	content: "Roll Supplemental Tables Details";
 }
 
@@ -46,13 +48,27 @@ h5 {
 	user-select: none;
 }
 
-.btn-reroll::before {
-	content: "Reroll";
-}
-
 .life__output {
 	margin: 1em 0;
 	padding: 0.2em 0.7em;
 	border-radius: 0.2em;
 	display: none;
+}
+
+.life__output {
+	background: #d3d3d3;
+}
+
+.life__output-wrp-border {
+	border: 1px solid rgb(0 0 0 / 15%);
+}
+
+.ve-night-mode {
+	.life__output {
+		background: vars-night.$rgb-bg--night;
+	}
+
+	.life__output-wrp-border {
+		border: 1px solid rgb(255 255 255 / 15%);
+	}
 }

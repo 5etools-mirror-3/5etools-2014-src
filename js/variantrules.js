@@ -1,16 +1,16 @@
 "use strict";
 
 class VariantRulesSublistManager extends SublistManager {
-	static get _ROW_TEMPLATE () {
+	static _getRowTemplate () {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-10 pl-0",
+				css: "bold ve-col-10 pl-0 pr-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "Type",
-				css: "ve-col-3 ve-text-center pr-0",
+				css: "ve-col-3 ve-text-center pl-1 pr-0",
 				colStyle: "text-center",
 			}),
 		];
@@ -20,7 +20,7 @@ class VariantRulesSublistManager extends SublistManager {
 		const cellsText = [it.name, it.ruleType ? Parser.ruleTypeToFull(it.ruleType) : "\u2014"];
 
 		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst--border lst__row-inner">
+			<a href="#${hash}" class="lst__row-border lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
 		</div>`)
@@ -70,10 +70,10 @@ class VariantRulesPage extends ListPage {
 		const source = Parser.sourceJsonToAbv(rule.source);
 		const hash = UrlUtil.autoEncodeHash(rule);
 
-		eleLi.innerHTML = `<a href="#${hash}" class="lst--border lst__row-inner">
-			<span class="bold ve-col-7 pl-0">${rule.name}</span>
-			<span class="ve-col-3 ve-text-center">${rule.ruleType ? Parser.ruleTypeToFull(rule.ruleType) : "\u2014"}</span>
-			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(rule.source)} pr-0" title="${Parser.sourceJsonToFull(rule.source)}" ${Parser.sourceJsonToStyle(rule.source)}>${source}</span>
+		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
+			<span class="bold ve-col-7 pl-0 pr-1">${rule.name}</span>
+			<span class="ve-col-3 px-1 ve-text-center">${rule.ruleType ? Parser.ruleTypeToFull(rule.ruleType) : "\u2014"}</span>
+			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(rule.source)} pl-1 pr-0" title="${Parser.sourceJsonToFull(rule.source)}" ${Parser.sourceJsonToStyle(rule.source)}>${source}</span>
 		</a>`;
 
 		const listItem = new ListItem(

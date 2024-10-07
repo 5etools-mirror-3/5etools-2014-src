@@ -6441,7 +6441,7 @@
 				{
 					"name": "Swallow",
 					"entries": [
-						"{@atk mw} {@hit 9} to hit, reach 5 ft., one Medium or smaller creature the bloodfin is grappling. {@h}The bloodfin swallows the target. The swallowed creature is no longer {@condition grappled} but is {@condition blinded} and {@condition restrained}. It has total cover against attacks and other effects outside the bloodfin, it takes 14 ({@damage 4d6}) necrotic damage at the start of each of its turns, and the bloodfin regains hit points equal to the necrotic damage dealt. A bloodfin can have only one creature swallowed at a time.",
+						"{@atk mw} {@hit 9} to hit, reach 5 ft., one Medium or smaller creature the bloodfin is grappling. {@h}The bloodfin swallows the target. The swallowed creature is no longer {@condition grappled} but is {@condition blinded} and {@condition restrained}. It has {@quickref Cover||3||total cover} against attacks and other effects outside the bloodfin, it takes 14 ({@damage 4d6}) necrotic damage at the start of each of its turns, and the bloodfin regains hit points equal to the necrotic damage dealt. A bloodfin can have only one creature swallowed at a time.",
 						"If the bloodfin takes 30 damage or more on a single turn from the swallowed creature, the bloodfin must succeed on a {@dc 15} Constitution saving throw at the end of that turn or regurgitate the creature, which falls {@condition prone} in a space within 5 feet of the bloodfin and is no longer {@condition blinded} or {@condition restrained} by it."
 					]
 				}

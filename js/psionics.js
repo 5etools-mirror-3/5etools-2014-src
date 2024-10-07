@@ -1,21 +1,21 @@
 "use strict";
 
 class PsionicsSublistManager extends SublistManager {
-	static get _ROW_TEMPLATE () {
+	static _getRowTemplate () {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-6 pl-0",
+				css: "bold ve-col-6 pl-0 pr-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "Type",
-				css: "ve-col-3 ve-text-center",
+				css: "ve-col-3 px-1 ve-text-center",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "Order",
-				css: "ve-col-3 ve-text-center pr-0",
+				css: "ve-col-3 ve-text-center pl-1 pr-0",
 				colStyle: "text-center",
 			}),
 		];
@@ -26,7 +26,7 @@ class PsionicsSublistManager extends SublistManager {
 		const cellsText = [it.name, typeMeta.short, it._fOrder];
 
 		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst--border lst__row-inner">
+			<a href="#${hash}" class="lst__row-border lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
 		</div>`)
@@ -104,11 +104,11 @@ class PsionicsPage extends ListPage {
 		const hash = UrlUtil.autoEncodeHash(p);
 		const typeMeta = Parser.psiTypeToMeta(p.type);
 
-		eleLi.innerHTML = `<a href="#${hash}" class="lst--border lst__row-inner">
-			<span class="bold ve-col-6 pl-0">${p.name}</span>
-			<span class="ve-col-2 ve-text-center">${typeMeta.short}</span>
-			<span class="ve-col-2 ve-text-center ${p._fOrder === VeCt.STR_NONE ? "list-entry-none" : ""}">${p._fOrder}</span>
-			<span class="ve-col-2 ve-text-center pr-0" title="${Parser.sourceJsonToFull(p.source)}" ${Parser.sourceJsonToStyle(p.source)}>${source}</span>
+		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
+			<span class="bold ve-col-6 pl-0 pr-1">${p.name}</span>
+			<span class="ve-col-2 px-1 ve-text-center">${typeMeta.short}</span>
+			<span class="ve-col-2 px-1 ve-text-center ${p._fOrder === VeCt.STR_NONE ? "italic" : ""}">${p._fOrder}</span>
+			<span class="ve-col-2 ve-text-center pl-1 pr-0" title="${Parser.sourceJsonToFull(p.source)}" ${Parser.sourceJsonToStyle(p.source)}>${source}</span>
 		</a>`;
 
 		const listItem = new ListItem(

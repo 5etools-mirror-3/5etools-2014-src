@@ -1,21 +1,21 @@
 "use strict";
 
 class LanguagesSublistManager extends SublistManager {
-	static get _ROW_TEMPLATE () {
+	static _getRowTemplate () {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-8 pl-0",
+				css: "bold ve-col-8 pl-1 pr-0",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "Type",
-				css: "ve-col-2 ve-text-center",
+				css: "ve-col-2 px-1 ve-text-center",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "Script",
-				css: "ve-col-2 ve-text-center pr-0",
+				css: "ve-col-2 ve-text-center pl-1 pr-0",
 				colStyle: "text-center",
 			}),
 		];
@@ -29,7 +29,7 @@ class LanguagesSublistManager extends SublistManager {
 		];
 
 		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst--border lst__row-inner">
+			<a href="#${hash}" class="lst__row-border lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
 		</div>`)
@@ -77,11 +77,11 @@ class LanguagesPage extends ListPage {
 		const source = Parser.sourceJsonToAbv(it.source);
 		const hash = UrlUtil.autoEncodeHash(it);
 
-		eleLi.innerHTML = `<a href="#${hash}" class="lst--border lst__row-inner">
-			<span class="ve-col-6 bold pl-0">${it.name}</span>
-			<span class="ve-col-2 ve-text-center">${(it.type || "\u2014").uppercaseFirst()}</span>
-			<span class="ve-col-2 ve-text-center">${(it.script || "\u2014").toTitleCase()}</span>
-			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(it.source)} pr-0" title="${Parser.sourceJsonToFull(it.source)}" ${Parser.sourceJsonToStyle(it.source)}>${source}</span>
+		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
+			<span class="ve-col-6 bold pl-0 pr-1">${it.name}</span>
+			<span class="ve-col-2 px-1 ve-text-center">${(it.type || "\u2014").uppercaseFirst()}</span>
+			<span class="ve-col-2 px-1 ve-text-center">${(it.script || "\u2014").toTitleCase()}</span>
+			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(it.source)} pl-1 pr-0" title="${Parser.sourceJsonToFull(it.source)}" ${Parser.sourceJsonToStyle(it.source)}>${source}</span>
 		</a>`;
 
 		const listItem = new ListItem(
@@ -117,8 +117,8 @@ class LanguagesPage extends ListPage {
 				fnPopulate: () => {
 					this._$pgContent.empty().append(Renderer.utils.getBorderTr());
 					this._$pgContent.append(Renderer.utils.getNameTr(ent));
-					const $td = $(`<td colspan="6" class="text"></td>`);
-					$$`<tr class="text">${$td}</tr>`.appendTo(this._$pgContent);
+					const $td = $(`<td colspan="6" class="pb-3"></td>`);
+					$$`<tr>${$td}</tr>`.appendTo(this._$pgContent);
 					this._$pgContent.append(Renderer.utils.getBorderTr());
 
 					const allFonts = [...ent.fonts || [], ...ent._fonts || []];

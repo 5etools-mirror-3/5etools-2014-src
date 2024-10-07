@@ -3,8 +3,8 @@ import "../js/utils.js";
 import "../js/render.js";
 import "../js/render-dice.js";
 import * as ut from "./util.js";
-import "../js/converterutils.js";
-import "../js/converterutils-entries.js";
+import {TagJsons} from "../js/converter/converterutils-entries.js";
+import {SITE_STYLE__CLASSIC} from "../js/consts.js";
 
 function run (args) {
 	TagJsons._BLOCKLIST_FILE_PREFIXES = [
@@ -21,12 +21,14 @@ function run (args) {
 	if (args.file) {
 		files = [args.file];
 	} else {
-		files = ut.listFiles({dir: `./data`, blocklistFilePrefixes: TagJsons._BLOCKLIST_FILE_PREFIXES});
+		files = ut.listFiles({dir: args.dir || `./data`, blocklistFilePrefixes: TagJsons._BLOCKLIST_FILE_PREFIXES});
 		if (args.filePrefix) {
 			files = files.filter(f => f.startsWith(args.filePrefix));
 			if (!files.length) throw new Error(`No file with prefix "${args.filePrefix}" found!`);
 		}
 	}
+
+	const styleHint = args.styleHint || SITE_STYLE__CLASSIC;
 
 	const creatureList = getTaggableCreatureList(args.bestiaryFile);
 
@@ -36,7 +38,8 @@ function run (args) {
 
 		if (json instanceof Array) return;
 
-		TagJsons.mutTagObject(json, {creaturesToTag: creatureList});
+		if (args.strict) TagJsons.mutTagObjectStrictCapsWords(json, {styleHint});
+		else TagJsons.mutTagObject(json, {creaturesToTag: creatureList, styleHint});
 
 		const outPath = args.inplace ? file : file.replace("./data/", "./trash/");
 		if (!args.inplace) {

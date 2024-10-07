@@ -5620,7 +5620,7 @@
 				{
 					"name": "Radiant Beauty of Sune {@recharge 4}",
 					"entries": [
-						"Naes dispels any magical darkness within 30 feet of him. Additionally, each hostile creature within 30 feet of Naes that does not have total cover must make a {@dc 18} Constitution saving throw, taking 60 radiant damage on a failed saving throw, half as much damage on a successful one. A creature that fails the saving throw has the {@condition blinded} condition for 1 minute."
+						"Naes dispels any magical darkness within 30 feet of him. Additionally, each hostile creature within 30 feet of Naes that does not have {@quickref Cover||3||total cover} must make a {@dc 18} Constitution saving throw, taking 60 radiant damage on a failed saving throw, half as much damage on a successful one. A creature that fails the saving throw has the {@condition blinded} condition for 1 minute."
 					]
 				}
 			],

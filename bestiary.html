@@ -9,7 +9,7 @@
 	<meta name="description" content="">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
 
 	<title>Bestiary - 5etools</title>
 
@@ -60,7 +60,7 @@
 
 <body>
 
-<div class="overlay-noise"></div>
+<div class="overlay-noise no-print"></div>
 
 <div class="cancer__wrp-sidebar-rhs cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__sidebar-rhs-inner cancer__sidebar-rhs-inner--top"><!--5ETOOLS_AD_RIGHT_1--></div><div class="cancer__sidebar-rhs-inner cancer__sidebar-rhs-inner--bottom"><!--5ETOOLS_AD_RIGHT_2--></div></div>
 
@@ -87,14 +87,14 @@
 						<div id="lst__search-glass" class="lst__wrp-search-glass no-events ve-flex-vh-center"><span class="glyphicon glyphicon-search"></span></div>
 						<div class="lst__wrp-search-visible no-events ve-flex-vh-center"></div>
 					</div>
-					<button type="button" class="btn btn-default" id="reset">Reset</button>
+					<button type="button" class="ve-btn ve-btn-default" id="reset">Reset</button>
 				</div>
 
 				<div id="filtertools" class="input-group input-group--bottom ve-flex no-shrink">
-					<button type="button" class="ve-col-4-2 sort btn btn-default btn-xs" data-sort="name">Name</button>
-					<button type="button" class="ve-col-4-1 sort btn btn-default btn-xs" data-sort="type">Type</button>
-					<button type="button" class="ve-col-1-7 sort btn btn-default btn-xs" data-sort="cr">CR</button>
-					<button type="button" class="sort btn btn-default btn-xs ve-grow" data-sort="source">Source</button>
+					<button type="button" class="ve-col-4-2 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
+					<button type="button" class="ve-col-4-1 sort ve-btn ve-btn-default ve-btn-xs" data-sort="type">Type</button>
+					<button type="button" class="ve-col-1-7 sort ve-btn ve-btn-default ve-btn-xs" data-sort="cr">CR</button>
+					<button type="button" class="sort ve-btn ve-btn-default ve-btn-xs ve-grow" data-sort="source">Source</button>
 				</div>
 
 				<div id="list" class="list list--stats"></div>
@@ -108,53 +108,53 @@
 				<div class="best-ecgen__visible mb-4" id="best-ecgen__wrp-save-controls"></div>
 
 				<div id="sublistcontainer" class="sublist sublist--resizable no-print">
-					<div id="sublistsort" class="btn-group sublist__wrp-cols">
-						<button type="button" class="ve-col-5 sort btn btn-default btn-xs" data-sort="name">Name</button>
-						<button type="button" class="ve-col-3-8 sort btn btn-default btn-xs best-ecgen__hidden" data-sort="type">Type</button>
-						<button type="button" class="ve-col-3-8 sort btn btn-default btn-xs best-ecgen__visible" disabled>&nbsp;</button>
-						<button type="button" class="ve-col-1-2 sort btn btn-default btn-xs" data-sort="cr">CR</button>
-						<button type="button" class="ve-col-2 sort btn btn-default btn-xs" data-sort="count">Number</button>
+					<div id="sublistsort" class="ve-btn-group sublist__wrp-cols">
+						<button type="button" class="ve-col-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
+						<button type="button" class="ve-col-3-8 sort ve-btn ve-btn-default ve-btn-xs best-ecgen__hidden" data-sort="type">Type</button>
+						<button type="button" class="ve-col-3-8 sort ve-btn ve-btn-default ve-btn-xs best-ecgen__visible" disabled>&nbsp;</button>
+						<button type="button" class="ve-col-1-2 sort ve-btn ve-btn-default ve-btn-xs" data-sort="cr">CR</button>
+						<button type="button" class="ve-col-2 sort ve-btn ve-btn-default ve-btn-xs" data-sort="count">Number</button>
 					</div>
 
 					<div id="sublist" class="list"></div>
 
 					<div class="row best-ecgen__hidden ve-small">
-						<span class="ve-col-6 text-right pr-2">Total:</span>
+						<span class="ve-col-6 ve-text-right pr-2">Total:</span>
 						<span class="ve-col-6 no-wrap pl-0" id="totalcr"></span>
 					</div>
 				</div>
 
-				<div class="wrp-stat-tab" id="stat-tabs">
-					<div id="tabs-right"></div>
+				<div class="w-100 ve-flex" id="stat-tabs">
+					<div class="ml-auto ve-flex" id="tabs-right"></div>
 				</div>
 
-				<div id="float-token" class="relative"></div>
+				<div id="wrp-pagecontent" class="relative wrp-stats-table">
+					<div id="float-token" class="relative"></div>
 
-				<div id="wrp-pagecontent" class="wrp-stats-table">
 					<table id="pagecontent" class="w-100 stats">
-						<tr><th class="border" colspan="6"></th></tr>
-						<tr><td colspan="6" class="initial-message">Select an entry from the list to view it here</td></tr>
-						<tr><th class="border" colspan="6"></th></tr>
+						<tr><th class="ve-tbl-border" colspan="6"></th></tr>
+						<tr><td colspan="6" class="initial-message initial-message--med">Select an entry from the list to view it here</td></tr>
+						<tr><th class="ve-tbl-border" colspan="6"></th></tr>
 					</table>
 				</div>
 
 				<div class="ve-flex-vh-center mt-2 no-print mobile__ve-flex-col best-ecgen__hidden">
 					<div class="ve-flex-v-center mr-2 mobile__mb-2 mobile__mr-0">
-						<button type="button" class="btn btn-success btn-xs mr-2" id="btn-encounterbuild">Encounter Builder</button>
+						<button type="button" class="ve-btn ve-btn-success ve-btn-xs mr-2" id="btn-encounterbuild">Encounter Builder</button>
 						<div id="wrp-profbonusdice" class="ve-flex-v-center">
-							<button type="button" class="btn btn-default btn-xs" id="profbonusdice" title="See the Dungeon Master&apos;s Guide, p263.">Use Proficiency Dice</button>
+							<button type="button" class="ve-btn ve-btn-default ve-btn-xs" id="profbonusdice" title="See the Dungeon Master&apos;s Guide, p263.">Use Proficiency Dice</button>
 						</div>
 					</div>
 
 					<div class="ve-flex-v-center mr-2 mobile__mb-2 mobile__mr-0">
-						<button type="button" class="btn btn-default btn-xs mr-2" id="btn-book">Printer View</button>
-						<button type="button" class="btn btn-default btn-xs" id="btn-show-table" title="View and Download Creatures in Tabular Format">Table View</button>
+						<button type="button" class="ve-btn ve-btn-default ve-btn-xs mr-2" id="btn-book">Printer View</button>
+						<button type="button" class="ve-btn ve-btn-default ve-btn-xs" id="btn-show-table" title="View and Download Creatures in Tabular Format">Table View</button>
 					</div>
 
-					<div class="ve-flex-v-center btn-group" id="btngroup-manager">
-						<button type="button" class="btn btn-xs btn-primary" name="manage-content">Manage Content</button>
-						<button type="button" class="btn btn-xs btn-primary" name="manage-prerelease" title="Manage Prerelease Content"><span class="glyphicon glyphicon-wrench"></span></button>
-						<button type="button" class="btn btn-xs btn-info" name="manage-brew" title="Manage Homebrew"><span class="glyphicon glyphicon-glass"></span></button>
+					<div class="ve-flex-v-center ve-btn-group" id="btngroup-manager">
+						<button type="button" class="ve-btn ve-btn-xs ve-btn-primary" name="manage-content">Manage Content</button>
+						<button type="button" class="ve-btn ve-btn-xs ve-btn-primary" name="manage-prerelease" title="Manage Prerelease Content"><span class="glyphicon glyphicon-wrench"></span></button>
+						<button type="button" class="ve-btn ve-btn-xs ve-btn-info" name="manage-brew" title="Manage Homebrew"><span class="glyphicon glyphicon-glass"></span></button>
 					</div>
 				</div>
 
@@ -172,7 +172,7 @@
 <script type="text/javascript" defer src="js/utils.js"></script>
 <script type="text/javascript" defer src="js/utils-ui.js"></script>
 <script type="text/javascript" defer src="lib/localforage.js"></script>
-<script type="text/javascript" defer src="js/omnidexer.js"></script>
+<script type="module" defer src="js/omnidexer.js"></script>
 <script type="module" src="js/omnisearch.js"></script>
 <script type="module" src="js/filter.js"></script>
 <script type="text/javascript" defer src="js/utils-dataloader.js"></script>
@@ -183,7 +183,6 @@
 <script type="text/javascript" defer src="js/render.js"></script>
 <script type="text/javascript" defer src="js/render-dice.js"></script>
 <script type="text/javascript" defer src="js/render-markdown.js"></script>
-<script type="text/javascript" defer src="js/render-bestiary.js"></script>
 <script type="text/javascript" defer src="js/scalecreature.js"></script>
 <script type="text/javascript" defer src="js/hist.js"></script>
 <script type="text/javascript" defer src="js/listpage.js"></script>

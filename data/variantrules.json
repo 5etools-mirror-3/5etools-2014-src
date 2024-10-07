@@ -951,7 +951,7 @@
 					"type": "entries",
 					"name": "Complications",
 					"entries": [
-						"Characters who carouse risk bar brawls, accumulating a cloud of nasty rumors, and building a bad reputation around town. As a rule of thumb, a character has a {@chance 10|10 percent} chance of triggering a complication for each workweek of carousing.",
+						"Characters who carouse risk bar brawls, accumulating a cloud of nasty rumors, and building a bad reputation around town. As a rule of thumb, a character has a {@chance 10} chance of triggering a complication for each workweek of carousing.",
 						{
 							"type": "table",
 							"caption": "Lower-Class Carousing Complications",
@@ -1332,7 +1332,7 @@
 					"type": "entries",
 					"name": "Complications",
 					"entries": [
-						"Most of the complications involved in creating something, especially a magic item, are linked to the difficulty in finding rare ingredients or components needed to complete the work. The complications a character might face as byproducts of the creation process are most interesting when the characters are working on a magic item: there's a {@chance 10|10 percent} chance for every five workweeks spent on crafting an item that a complication occurs. The Crafting Complications table provides examples of what might happen.",
+						"Most of the complications involved in creating something, especially a magic item, are linked to the difficulty in finding rare ingredients or components needed to complete the work. The complications a character might face as byproducts of the creation process are most interesting when the characters are working on a magic item: there's a {@chance 10} chance for every five workweeks spent on crafting an item that a complication occurs. The Crafting Complications table provides examples of what might happen.",
 						{
 							"type": "table",
 							"caption": "Crafting Complications",
@@ -1603,7 +1603,7 @@
 					"type": "entries",
 					"name": "Complications",
 					"entries": [
-						"Gambling tends to attract unsavory individuals. The potential complications involved come from run-ins with the law and associations with various criminals tied to the activity. Every workweek spent gambling brings a {@chance 10|10 percent} chance of a complication, examples of which are on the Gambling Complications table.",
+						"Gambling tends to attract unsavory individuals. The potential complications involved come from run-ins with the law and associations with various criminals tied to the activity. Every workweek spent gambling brings a {@chance 10} chance of a complication, examples of which are on the Gambling Complications table.",
 						{
 							"type": "table",
 							"caption": "Gambling Complications",
@@ -1717,7 +1717,7 @@
 					"type": "entries",
 					"name": "Complications",
 					"entries": [
-						"Characters involved in pit fighting must deal with their opponents, the people who bet on matches, and the matches' promoters. Every workweek spent pit fighting brings a {@chance 10|10 percent} chance of a complication, examples of which are on the Pit Fighting Complications table.",
+						"Characters involved in pit fighting must deal with their opponents, the people who bet on matches, and the matches' promoters. Every workweek spent pit fighting brings a {@chance 10} chance of a complication, examples of which are on the Pit Fighting Complications table.",
 						{
 							"type": "table",
 							"caption": "Pit Fighting Complications",
@@ -1874,7 +1874,7 @@
 					"type": "entries",
 					"name": "Complications",
 					"entries": [
-						"Temples can be labyrinths of political and social scheming. Even the best-intentioned sect can fall prone to rivalries. A character who serves a temple risks becoming embroiled in such struggles. Every workweek spent in religious service brings a {@chance 10|10 percent} chance of a complication, examples of which are on the Religious Service Complications table.",
+						"Temples can be labyrinths of political and social scheming. Even the best-intentioned sect can fall prone to rivalries. A character who serves a temple risks becoming embroiled in such struggles. Every workweek spent in religious service brings a {@chance 10} chance of a complication, examples of which are on the Religious Service Complications table.",
 						{
 							"type": "table",
 							"caption": "Religious Service Complications",
@@ -1979,7 +1979,7 @@
 					"name": "Complications",
 					"entries": [
 						"The greatest risk in research is uncovering false information. Not all lore is accurate or truthful, and a rival with a scholarly bent might try to lead the character astray, especially if the object of the research is known to the rival. The rival might plant false information, bribe sages to give bad advice, or steal key tomes needed to find the truth.",
-						"In addition, a character might run into other complications during research. Every workweek spent in research brings a {@chance 10|10 percent} chance of a complication, examples of which are on the Research Complications table.",
+						"In addition, a character might run into other complications during research. Every workweek spent in research brings a {@chance 10} chance of a complication, examples of which are on the Research Complications table.",
 						{
 							"type": "table",
 							"caption": "Research Complications",
@@ -2174,7 +2174,7 @@
 					"type": "entries",
 					"name": "Complications",
 					"entries": [
-						"Crafting a {@item spell scroll} is a solitary task, unlikely to attract much attention. The complications that arise are more likely to involve the preparation needed for the activity. Every workweek spent scribing brings a {@chance 10|10 percent} chance of a complication, examples of which are on the Scribe a Scroll Complications table.",
+						"Crafting a {@item spell scroll} is a solitary task, unlikely to attract much attention. The complications that arise are more likely to involve the preparation needed for the activity. Every workweek spent scribing brings a {@chance 10} chance of a complication, examples of which are on the Scribe a Scroll Complications table.",
 						{
 							"type": "table",
 							"caption": "Scribe a Scroll Complications",
@@ -2309,7 +2309,7 @@
 					"type": "entries",
 					"name": "Complications",
 					"entries": [
-						"The main risk in selling a magic item lies in attracting thieves and anyone else who wants the item but doesn't want to pay for it. Other folk might try to undermine a deal in order to bolster their own business or seek to discredit the character as a legitimate seller. Every workweek spent trying to sell an item brings a {@chance 10|10 percent} chance of a complication, examples of which are on the Magic Item Sale Complications table.",
+						"The main risk in selling a magic item lies in attracting thieves and anyone else who wants the item but doesn't want to pay for it. Other folk might try to undermine a deal in order to bolster their own business or seek to discredit the character as a legitimate seller. Every workweek spent trying to sell an item brings a {@chance 10} chance of a complication, examples of which are on the Magic Item Sale Complications table.",
 						{
 							"type": "table",
 							"caption": "Magic Item Sale Complications",
@@ -2515,7 +2515,7 @@
 					"type": "entries",
 					"name": "Complications",
 					"entries": [
-						"Complications that arise while training typically involve the teacher. Every ten workweeks spent in training brings a {@chance 10|10 percent} chance of a complication, examples of which are on the Training Complications table.",
+						"Complications that arise while training typically involve the teacher. Every ten workweeks spent in training brings a {@chance 10} chance of a complication, examples of which are on the Training Complications table.",
 						{
 							"type": "table",
 							"caption": "Training Complications",
@@ -2663,7 +2663,7 @@
 					"type": "entries",
 					"name": "Complications",
 					"entries": [
-						"Ordinary work is rarely filled with significant complications. Still, the Work Complications table can add some difficulties to a worker's life. Each workweek of activity brings a {@chance 10|10 percent} chance that a character encounters a complication.",
+						"Ordinary work is rarely filled with significant complications. Still, the Work Complications table can add some difficulties to a worker's life. Each workweek of activity brings a {@chance 10} chance that a character encounters a complication.",
 						{
 							"type": "table",
 							"caption": "Work Complications",
@@ -11180,7 +11180,7 @@
 									"type": "entries",
 									"name": "Circles",
 									"entries": [
-										"This method depicts everything using squares, and a circular area of effect becomes square in it, whether the area is a sphere, cylinder, or radius. For instance, the 10-foot radius of flame strike, which has a diameter of 20 feet, is expressed as a square that is 20 feet on a side, as shown in diagram 2.3. Diagram 2.4 shows that area with total cover inside it."
+										"This method depicts everything using squares, and a circular area of effect becomes square in it, whether the area is a sphere, cylinder, or radius. For instance, the 10-foot radius of flame strike, which has a diameter of 20 feet, is expressed as a square that is 20 feet on a side, as shown in diagram 2.3. Diagram 2.4 shows that area with {@quickref Cover||3||total cover} inside it."
 									]
 								},
 								{

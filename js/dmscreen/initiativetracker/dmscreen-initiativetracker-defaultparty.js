@@ -42,7 +42,7 @@ export class InitiativeTrackerDefaultParty extends BaseComponent {
 	}
 
 	_render_$getBtnAdd ({rdState}) {
-		return $(`<button class="btn btn-default btn-xs" title="Add Player"><span class="glyphicon glyphicon-plus"></span></button>`)
+		return $(`<button class="ve-btn ve-btn-default ve-btn-xs" title="Add Player"><span class="glyphicon glyphicon-plus"></span></button>`)
 			.on("click", async () => {
 				this._comp._state[this._prop] = [
 					...this._comp._state[this._prop],
@@ -68,7 +68,7 @@ export class InitiativeTrackerDefaultParty extends BaseComponent {
 	/* -------------------------------------------- */
 
 	_render_renderFooter ({rdState, $modalFooter}) {
-		const $btnSave = $(`<button class="btn btn-primary btn-sm w-100">Save</button>`)
+		const $btnSave = $(`<button class="ve-btn ve-btn-primary ve-btn-sm w-100">Save</button>`)
 			.click(() => rdState.cbDoClose(true));
 
 		$$($modalFooter)`<div class="w-100 py-3 no-shrink">

@@ -21,7 +21,12 @@ class PageFilterBackgrounds extends PageFilterBase {
 		this._languageFilter = FilterCommon.getLanguageProficienciesFilter();
 		this._asiFilter = new AbilityScoreFilter({header: "Ability Scores"});
 		this._otherBenefitsFilter = new Filter({header: "Other Benefits"});
-		this._miscFilter = new Filter({header: "Miscellaneous", items: ["Has Info", "Has Images", "SRD", "Basic Rules", "Legacy"], isMiscFilter: true});
+		this._miscFilter = new Filter({
+			header: "Miscellaneous",
+			items: ["Has Info", "Has Images", "Legacy"],
+			isMiscFilter: true,
+			deselFn: PageFilterBase.defaultMiscellaneousDeselFn.bind(PageFilterBase),
+		});
 	}
 
 	static mutateForFilters (bg) {
@@ -50,12 +55,7 @@ class PageFilterBackgrounds extends PageFilterBase {
 		});
 		bg._fLangs = languages;
 
-		bg._fMisc = [];
-		if (bg.srd) bg._fMisc.push("SRD");
-		if (bg.basicRules) bg._fMisc.push("Basic Rules");
-		if (SourceUtil.isLegacySourceWotc(bg.source)) bg._fMisc.push("Legacy");
-		if (this._hasFluff(bg)) bg._fMisc.push("Has Info");
-		if (this._hasFluffImages(bg)) bg._fMisc.push("Has Images");
+		this._mutateForFilters_commonMisc(bg);
 		bg._fOtherBenifits = [];
 		if (bg.feats) bg._fOtherBenifits.push("Feat");
 		if (bg.additionalSpells) bg._fOtherBenifits.push("Additional Spells");
@@ -74,6 +74,7 @@ class PageFilterBackgrounds extends PageFilterBase {
 		this._languageFilter.addItem(bg._fLangs);
 		this._asiFilter.addItem(bg.ability);
 		this._otherBenefitsFilter.addItem(bg._fOtherBenifits);
+		this._miscFilter.addItem(bg._fMisc);
 	}
 
 	async _pPopulateBoxOptions (opts) {
@@ -146,16 +147,16 @@ class ModalFilterBackgrounds extends ModalFilterBase {
 		const hash = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_BACKGROUNDS](bg);
 		const source = Parser.sourceJsonToAbv(bg.source);
 
-		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst--border veapp__list-row no-select lst__wrp-cells">
+		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst__row-border veapp__list-row no-select lst__wrp-cells">
 			<div class="ve-col-0-5 pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="no-events">` : `<input type="checkbox" class="no-events">`}</div>
 
 			<div class="ve-col-0-5 px-1 ve-flex-vh-center">
-				<div class="ui-list__btn-inline px-2" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
+				<div class="ui-list__btn-inline px-2 no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
 			</div>
 
-			<div class="ve-col-4 ${bg._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${bg._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${bg.name}</div>
-			<div class="ve-col-6">${bg._skillDisplay}</div>
-			<div class="ve-col-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(bg.source)}" title="${Parser.sourceJsonToFull(bg.source)}" ${Parser.sourceJsonToStyle(bg.source)}>${source}${Parser.sourceJsonToMarkerHtml(bg.source)}</div>
+			<div class="ve-col-4 px-1 ${bg._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${bg._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${bg.name}</div>
+			<div class="ve-col-6 px-1">${bg._skillDisplay}</div>
+			<div class="ve-col-1 pl-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(bg.source)}" title="${Parser.sourceJsonToFull(bg.source)}" ${Parser.sourceJsonToStyle(bg.source)}>${source}${Parser.sourceJsonToMarkerHtml(bg.source)}</div>
 		</div>`;
 
 		const btnShowHidePreview = eleRow.firstElementChild.children[1].firstElementChild;

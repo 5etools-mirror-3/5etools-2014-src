@@ -68,7 +68,7 @@ export class ConfigUi {
 
 		ui.render($modalInner[0]);
 
-		const btnClose = ee`<button class="btn btn-default btn-sm ml-auto">Close</button>`
+		const btnClose = ee`<button class="ve-btn ve-btn-default ve-btn-sm ml-auto">Close</button>`
 			.onn("click", () => doClose());
 
 		ee`<div class="py-1 w-100 ve-flex-v-center">

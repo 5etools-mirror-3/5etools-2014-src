@@ -1,5 +1,6 @@
 import {EVNT_VALCHANGE, SOURCE_HEADER, SUB_HASH_PREFIX_LENGTH, TITLE_BTN_RESET} from "./filter-constants.js";
 import {FilterRegistry} from "./filter-registry.js";
+import {FilterSnapshotManager} from "./snapshot/filter-snapshot-manager.js";
 
 export class FilterBox extends ProxyBase {
 	static selectFirstVisible (entryList) {
@@ -33,6 +34,7 @@ export class FilterBox extends ProxyBase {
 	 * @param opts.filters Array of filters to be included in this box.
 	 * @param [opts.isCompact] True if this box should have a compact/reduced UI.
 	 * @param [opts.namespace] Namespace for this filter, to prevent collisions with other filters on the same page.
+	 * @param [opts.namespaceSnapshots] Namespace for filters of this type.
 	 */
 	constructor (opts) {
 		super();
@@ -64,7 +66,14 @@ export class FilterBox extends ProxyBase {
 		this._compSearch = BaseComponent.fromObject({search: ""});
 		this._metaIptSearch = null;
 
-		this._filters.forEach(f => f.filterBox = this);
+		this._filters.forEach(filter => filter.filterBox = this);
+
+		this._snapshotManager = new FilterSnapshotManager({
+			namespaceSnapshots: opts.namespaceSnapshots,
+			filterBox: this,
+			filters: this._filters,
+		});
+		this._filters.forEach(filter => filter.snapshotManager = this._snapshotManager);
 
 		this._eventListeners = {};
 	}
@@ -72,7 +81,7 @@ export class FilterBox extends ProxyBase {
 	get filters () { return this._filters; }
 
 	teardown () {
-		this._filters.forEach(f => f._doTeardown());
+		this._filters.forEach(f => f.doTeardown());
 		if (this._modalMeta) this._modalMeta.doTeardown();
 	}
 
@@ -134,6 +143,11 @@ export class FilterBox extends ProxyBase {
 	}
 
 	async pDoLoadState () {
+		await this._pDoLoadState_filterBox();
+		await this._snapshotManager.pDoLoadState();
+	}
+
+	async _pDoLoadState_filterBox () {
 		const toLoad = await StorageUtil.pGetForPage(this._getNamespacedStorageKey());
 		if (toLoad == null) return;
 		this._setStateFromLoaded(toLoad, {isUserSavedState: true});
@@ -178,7 +192,7 @@ export class FilterBox extends ProxyBase {
 
 		if (this._$wrpFormTop || this._$wrpMiniPills) {
 			if (!this._$wrpMiniPills) {
-				this._$wrpMiniPills = $(`<div class="fltr__mini-view btn-group"></div>`).insertAfter(this._$wrpFormTop);
+				this._$wrpMiniPills = $(`<div class="fltr__mini-view ve-btn-group"></div>`).insertAfter(this._$wrpFormTop);
 			} else {
 				this._$wrpMiniPills.addClass("fltr__mini-view");
 			}
@@ -192,7 +206,7 @@ export class FilterBox extends ProxyBase {
 
 		if (this._$wrpFormTop || this._$btnToggleSummaryHidden) {
 			if (!this._$btnToggleSummaryHidden) {
-				this._$btnToggleSummaryHidden = $(`<button class="btn btn-default ${this._isCompact ? "p-2" : ""}" title="Toggle Filter Summary"><span class="glyphicon glyphicon-resize-small"></span></button>`)
+				this._$btnToggleSummaryHidden = $(`<button class="ve-btn ve-btn-default ${this._isCompact ? "p-2" : ""}" title="Toggle Filter Summary"><span class="glyphicon glyphicon-resize-small"></span></button>`)
 					.prependTo(this._$wrpFormTop);
 			} else if (!this._$btnToggleSummaryHidden.parent().length) {
 				this._$btnToggleSummaryHidden.prependTo(this._$wrpFormTop);
@@ -212,7 +226,7 @@ export class FilterBox extends ProxyBase {
 
 		if (this._$wrpFormTop || this._$btnOpen) {
 			if (!this._$btnOpen) {
-				this._$btnOpen = $(`<button class="btn btn-default ${this._isCompact ? "px-2" : ""}">Filter</button>`)
+				this._$btnOpen = $(`<button class="ve-btn ve-btn-default ${this._isCompact ? "px-2" : ""}">Filter</button>`)
 					.prependTo(this._$wrpFormTop);
 			} else if (!this._$btnOpen.parent().length) {
 				this._$btnOpen.prependTo(this._$wrpFormTop);
@@ -260,27 +274,29 @@ export class FilterBox extends ProxyBase {
 			this._filters.forEach(f => f.handleSearch(searchTerm));
 		});
 
-		const $btnShowAllFilters = $(`<button class="btn btn-xs btn-default">Show All</button>`)
+		const $btnShowAllFilters = $(`<button class="ve-btn ve-btn-xs ve-btn-default">Show All</button>`)
 			.click(() => this.showAllFilters());
-		const $btnHideAllFilters = $(`<button class="btn btn-xs btn-default">Hide All</button>`)
+		const $btnHideAllFilters = $(`<button class="ve-btn ve-btn-xs ve-btn-default">Hide All</button>`)
 			.click(() => this.hideAllFilters());
 
-		const $btnReset = $(`<button class="btn btn-xs btn-default mr-3" title="${TITLE_BTN_RESET}">Reset</button>`)
+		const $btnReset = $(`<button class="ve-btn ve-btn-xs ve-btn-default mr-3" title="${TITLE_BTN_RESET}">Reset</button>`)
 			.click(evt => this.reset(evt.shiftKey));
 
-		const $btnSettings = $(`<button class="btn btn-xs btn-default mr-3"><span class="glyphicon glyphicon-cog"></span></button>`)
+		const btnSnapshotManager = this._snapshotManager.getBtn();
+
+		const $btnSettings = $(`<button class="ve-btn ve-btn-xs ve-btn-default" title="Settings"><span class="glyphicon glyphicon-cog"></span></button>`)
 			.click(() => this._pOpenSettingsModal());
 
-		const $btnSaveAlt = $(`<button class="btn btn-xs btn-primary" title="Save"><span class="glyphicon glyphicon-ok"></span></button>`)
+		const $btnSaveAlt = $(`<button class="ve-btn ve-btn-xs ve-btn-primary" title="Save"><span class="glyphicon glyphicon-ok"></span></button>`)
 			.click(() => this._modalMeta.doClose(true));
 
-		const $wrpBtnCombineFilters = $(`<div class="btn-group mr-3"></div>`);
-		const $btnCombineFilterSettings = $(`<button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-cog"></span></button>`)
+		const $wrpBtnCombineFilters = $(`<div class="ve-btn-group mr-3"></div>`);
+		const $btnCombineFilterSettings = $(`<button class="ve-btn ve-btn-xs ve-btn-default"><span class="glyphicon glyphicon-cog"></span></button>`)
 			.click(() => this._pOpenCombineAsModal());
 
 		const btnCombineFiltersAs = e_({
 			tag: "button",
-			clazz: `btn btn-xs btn-default`,
+			clazz: `ve-btn ve-btn-xs ve-btn-default`,
 			click: () => this._meta.modeCombineFilters = FilterBox._COMBINE_MODES.getNext(this._meta.modeCombineFilters),
 			title: `"AND" requires every filter to match. "OR" requires any filter to match. "Custom" allows you to specify a combination (every "AND" filter must match; only one "OR" filter must match) .`,
 		}).appendTo($wrpBtnCombineFilters[0]);
@@ -294,10 +310,10 @@ export class FilterBox extends ProxyBase {
 		this._addHook("meta", "modeCombineFilters", hook);
 		hook();
 
-		const $btnSave = $(`<button class="btn btn-primary fltr__btn-close mr-2">Save</button>`)
+		const $btnSave = $(`<button class="ve-btn ve-btn-primary fltr__btn-close mr-2">Save</button>`)
 			.click(() => this._modalMeta.doClose(true));
 
-		const $btnCancel = $(`<button class="btn btn-default fltr__btn-close">Cancel</button>`)
+		const $btnCancel = $(`<button class="ve-btn ve-btn-default fltr__btn-close">Cancel</button>`)
 			.click(() => this._modalMeta.doClose(false));
 
 		$$(this._modalMeta.$modal)`<div class="split mb-2 mt-2 ve-flex-v-center mobile__ve-flex-col">
@@ -311,12 +327,15 @@ export class FilterBox extends ProxyBase {
 					${$wrpBtnCombineFilters}
 				</div>
 				<div class="ve-flex-v-center mobile__m-1">
-					<div class="btn-group mr-2 ve-flex-h-center">
+					<div class="ve-btn-group mr-2 ve-flex-h-center">
 						${$btnShowAllFilters}
 						${$btnHideAllFilters}
 					</div>
 					${$btnReset}
-					${$btnSettings}
+					<div class="ve-btn-group mr-3 ve-flex-h-center">
+						${btnSnapshotManager}
+						${$btnSettings}
+					</div>
 					${$btnSaveAlt}
 				</div>
 			</div>
@@ -345,7 +364,7 @@ export class FilterBox extends ProxyBase {
 
 		const $rowResetAlwaysSave = UiUtil.$getAddModalRow($modalInner, "div").addClass("pr-2");
 		$rowResetAlwaysSave.append(`<span>Always Save on Close</span>`);
-		$(`<button class="btn btn-xs btn-default">Reset</button>`)
+		$(`<button class="ve-btn ve-btn-xs ve-btn-default">Reset</button>`)
 			.appendTo($rowResetAlwaysSave)
 			.click(async () => {
 				await StorageUtil.pRemove(FilterBox._STORAGE_KEY_ALWAYS_SAVE_UNCHANGED);
@@ -355,7 +374,7 @@ export class FilterBox extends ProxyBase {
 
 	async _pOpenCombineAsModal () {
 		const {$modalInner} = await UiUtil.pGetShowModal({title: "Filter Combination Logic"});
-		const $btnReset = $(`<button class="btn btn-xs btn-default">Reset</button>`)
+		const $btnReset = $(`<button class="ve-btn ve-btn-xs ve-btn-default">Reset</button>`)
 			.click(() => {
 				Object.keys(this._combineAs).forEach(k => this._combineAs[k] = "and");
 				$sels.forEach($sel => $sel.val("0"));
@@ -386,6 +405,11 @@ export class FilterBox extends ProxyBase {
 		Object.assign(tgt, this._getDefaultCombineAs(tgt));
 	}
 
+	_reset_getSnapshots () {
+		if (!this._snapshotManager.hasActiveSnapshotDeck()) return null;
+		return this._snapshotManager.getSnapshots();
+	}
+
 	_reset_meta () {
 		const nxtBoxState = this._getNextBoxState_base();
 		this._mutNextState_reset_meta({tgt: nxtBoxState.meta});
@@ -404,8 +428,9 @@ export class FilterBox extends ProxyBase {
 		this._setBoxStateFromNextBoxState(nxtBoxState);
 	}
 
-	reset (isResetAll) {
-		this._filters.forEach(f => f.reset({isResetAll}));
+	reset ({isResetAll = false, snapshots = null} = {}) {
+		snapshots ??= this._reset_getSnapshots();
+		this._filters.forEach(filter => filter.reset({isResetAll, snapshots}));
 		if (isResetAll) {
 			this._reset_meta();
 			this._reset_minisHidden();
@@ -660,13 +685,14 @@ export class FilterBox extends ProxyBase {
 	/**
 	 * @param [opts] Options object.
 	 * @param [opts.isAddSearchTerm] If the active search should be added to the subhashes.
+	 * @param [opts.isAllowNonExtension] If and alternate "overwrite, don't extend" hash version should be allowed, when shorter.
 	 */
 	getSubHashes (opts) {
 		opts = opts || {};
 		const out = [];
 		const boxSubHashes = this.getBoxSubHashes();
 		if (boxSubHashes) out.push(boxSubHashes);
-		out.push(...this._filters.map(f => f.getSubHashes()).filter(Boolean));
+		out.push(...this._filters.map(f => f.getSubHashes(opts)).filter(Boolean));
 		if (opts.isAddSearchTerm && this._$iptSearch) {
 			const searchTerm = UrlUtil.encodeForHash(this._$iptSearch.val().trim());
 			if (searchTerm) out.push(UrlUtil.packSubHash(this._getSubhashPrefix("search"), [searchTerm]));
@@ -710,11 +736,20 @@ export class FilterBox extends ProxyBase {
 		return `{@filter |${UrlUtil.getCurrentPage().replace(/\.html$/, "")}|${parts.join("|")}}`;
 	}
 
-	getDisplayState ({nxtStateOuter = null} = {}) {
+	/**
+	 * @param {?object} nxtStateOuter
+	 * @param {boolean} isIgnoreSnapshot
+	 */
+	getDisplayState ({nxtStateOuter = null, isIgnoreSnapshot = false} = {}) {
 		return this._filters
-			.map(filter => filter.getDisplayStatePart({nxtState: nxtStateOuter?.filters}))
+			.map(filter => filter.getDisplayStatePart({nxtState: nxtStateOuter?.filters, isIgnoreSnapshot}))
 			.filter(Boolean)
 			.join("; ");
+	}
+
+	getSnapshotPreviews (snapshots) {
+		return this._filters
+			.map(filter => filter.getSnapshotPreviews(snapshots));
 	}
 
 	setFromValues (values) {
@@ -802,7 +837,6 @@ export class FilterBox extends ProxyBase {
 			.mergeMap(k => ({[k]: "and"}));
 	}
 }
-FilterBox._PILL_STATES = ["ignore", "yes", "no"];
 FilterBox._COMBINE_MODES = ["and", "or", "custom"];
 FilterBox._STORAGE_KEY = "filterBoxState";
 FilterBox._DEFAULT_META = {

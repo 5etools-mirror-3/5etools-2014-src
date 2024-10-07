@@ -345,16 +345,16 @@ class RenderMap {
 					});
 			});
 
-		const $btnZoomMinus = $(`<button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-out"></span> Zoom Out</button>`)
+		const $btnZoomMinus = $(`<button class="ve-btn ve-btn-xs ve-btn-default"><span class="glyphicon glyphicon-zoom-out"></span> Zoom Out</button>`)
 			.click(() => zoomChange("out"));
 
-		const $btnZoomPlus = $(`<button class="btn btn-xs btn-default"><span class="glyphicon glyphicon-zoom-in"></span> Zoom In</button>`)
+		const $btnZoomPlus = $(`<button class="ve-btn ve-btn-xs ve-btn-default"><span class="glyphicon glyphicon-zoom-in"></span> Zoom In</button>`)
 			.click(() => zoomChange("in"));
 
-		const $btnZoomReset = $(`<button class="btn btn-xs btn-default" title="Reset Zoom"><span class="glyphicon glyphicon-search"></span> Reset Zoom</button>`)
+		const $btnZoomReset = $(`<button class="ve-btn ve-btn-xs ve-btn-default" title="Reset Zoom"><span class="glyphicon glyphicon-search"></span> Reset Zoom</button>`)
 			.click(() => zoomChange("reset"));
 
-		const $btnHelp = $(`<button class="btn btn-xs btn-default ml-auto mr-4" title="Help"><span class="glyphicon glyphicon-info-sign"></span> Help</button>`)
+		const $btnHelp = $(`<button class="ve-btn ve-btn-xs ve-btn-default ml-auto mr-4" title="Help"><span class="glyphicon glyphicon-info-sign"></span> Help</button>`)
 			.click(evt => {
 				const {$modalInner} = UiUtil.getShowModal({
 					title: "Help",
@@ -391,7 +391,7 @@ class RenderMap {
 
 		const $out = $$`<div class="ve-flex-col w-100 h-100">
 			<div class="ve-flex no-shrink p-2">
-				<div class="btn-group ve-flex mr-2">
+				<div class="ve-btn-group ve-flex mr-2">
 					${$btnZoomMinus}
 					${$btnZoomPlus}
 				</div>

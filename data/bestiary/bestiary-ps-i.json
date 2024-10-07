@@ -655,7 +655,7 @@
 				"_mod": {
 					"*": {
 						"mode": "replaceTxt",
-						"replace": "mage",
+						"replace": "\\bmage\\b",
 						"with": "Necro-Alchemist",
 						"flags": "i"
 					}

@@ -1,16 +1,16 @@
 "use strict";
 
 class ActionsSublistManager extends SublistManager {
-	static get _ROW_TEMPLATE () {
+	static _getRowTemplate () {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-8 pl-0",
+				css: "bold ve-col-8 pl-0 pr-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "Time",
-				css: "ve-text-center ve-col-4 pr-0",
+				css: "ve-text-center ve-col-4 pl-1 pr-0",
 				colStyle: "text-center",
 			}),
 		];
@@ -21,7 +21,7 @@ class ActionsSublistManager extends SublistManager {
 		const cellsText = [it.name, time];
 
 		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst--border lst__row-inner">
+			<a href="#${hash}" class="lst__row-border lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
 		</div>`)
@@ -49,7 +49,7 @@ class ActionsPage extends ListPage {
 	constructor () {
 		const pageFilter = new PageFilterActions();
 		super({
-			dataSource: "data/actions.json",
+			dataSource: DataUtil.action.loadJSON.bind(DataUtil.action),
 
 			pageFilter,
 
@@ -69,15 +69,15 @@ class ActionsPage extends ListPage {
 		const hash = UrlUtil.autoEncodeHash(it);
 		const time = it.time ? it.time.map(tm => PageFilterActions.getTimeText(tm)).join("/") : "\u2014";
 
-		eleLi.innerHTML = `<a href="#${hash}" class="lst--border lst__row-inner">
-			<span class="ve-col-0-3 px-0 ve-flex-vh-center lst__btn-toggle-expand ve-self-flex-stretch">[+]</span>
+		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
+			<span class="ve-col-0-3 px-0 ve-flex-vh-center lst__btn-toggle-expand ve-self-flex-stretch no-select">[+]</span>
 			<span class="ve-col-5-7 px-1 bold">${it.name}</span>
-			<span class="ve-col-4 ve-text-center">${time}</span>
-			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(it.source)} pr-0" title="${Parser.sourceJsonToFull(it.source)}" ${Parser.sourceJsonToStyle(it.source)}>${source}</span>
+			<span class="ve-col-4 px-1 ve-text-center">${time}</span>
+			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(it.source)} pl-1 pr-0" title="${Parser.sourceJsonToFull(it.source)}" ${Parser.sourceJsonToStyle(it.source)}>${source}</span>
 		</a>
-		<div class="ve-flex ve-hidden relative lst__wrp-preview">
-			<div class="vr-0 absolute lst__vr-preview"></div>
-			<div class="ve-flex-col py-3 ml-4 lst__wrp-preview-inner"></div>
+		<div class="ve-flex ve-hidden relative accordion__wrp-preview">
+			<div class="vr-0 absolute accordion__vr-preview"></div>
+			<div class="ve-flex-col py-3 ml-4 accordion__wrp-preview-inner"></div>
 		</div>`;
 
 		const listItem = new ListItem(

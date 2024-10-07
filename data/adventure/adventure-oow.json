@@ -1359,7 +1359,7 @@
 														"It has no bite attack."
 													]
 												},
-												"A creature {@condition grappled} by the tentacle is pulled immediately into the 3-foot-deep section of the cesspool. On the next round, if the creature is still {@condition grappled}, the tentacle pulls it into the 10-foot-deep section and under the sewage. There, the tentacle has three-quarters cover, and the creature can't breathe. A creature that falls {@condition unconscious} while {@condition grappled} beneath the sewage is pulled through the planar rupture into the filth plane, to be devoured and lost forever. Or, in grand Acquisitions Incorporated fashion, a character so destroyed might return later as a vile creature bent on revenge against its former party members."
+												"A creature {@condition grappled} by the tentacle is pulled immediately into the 3-foot-deep section of the cesspool. On the next round, if the creature is still {@condition grappled}, the tentacle pulls it into the 10-foot-deep section and under the sewage. There, the tentacle has {@quickref Cover||3||three-quarters cover}, and the creature can't breathe. A creature that falls {@condition unconscious} while {@condition grappled} beneath the sewage is pulled through the planar rupture into the filth plane, to be devoured and lost forever. Or, in grand Acquisitions Incorporated fashion, a character so destroyed might return later as a vile creature bent on revenge against its former party members."
 											]
 										}
 									]
@@ -8633,7 +8633,7 @@
 											"page": 169,
 											"id": "279",
 											"entries": [
-												"The water of the river is thick and slow moving, glows a phosphorescent green, and smells awful. A successful DC 10 Wisdom ({@skill Medicine}) check indicates that the water has been contaminated by magic and has unusual side effects. Anyone drinking the water gains the {@condition poisoned} condition for 1 hour and has a {@chance 50|50 percent} chance to spontaneously grow an extra head. The extra head can speak, see, and hear, but provides no mechanical benefits. It shrinks away to nothing after 1 hour."
+												"The water of the river is thick and slow moving, glows a phosphorescent green, and smells awful. A successful DC 10 Wisdom ({@skill Medicine}) check indicates that the water has been contaminated by magic and has unusual side effects. Anyone drinking the water gains the {@condition poisoned} condition for 1 hour and has a {@chance 50} chance to spontaneously grow an extra head. The extra head can speak, see, and hear, but provides no mechanical benefits. It shrinks away to nothing after 1 hour."
 											]
 										}
 									]
@@ -11211,11 +11211,11 @@
 											"rows": [
 												[
 													"1",
-													"Each goblin has advantage or disadvantage ({@chance 50|50 percent} chance) on attack rolls until the end of its next turn."
+													"Each goblin has advantage or disadvantage ({@chance 50} chance) on attack rolls until the end of its next turn."
 												],
 												[
 													"2",
-													"Each character has advantage or disadvantage ({@chance 50|50 percent} chance) on attack rolls until the end of their next turn."
+													"Each character has advantage or disadvantage ({@chance 50} chance) on attack rolls until the end of their next turn."
 												],
 												[
 													"3",
