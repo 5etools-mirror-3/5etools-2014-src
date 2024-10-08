@@ -9,37 +9,24 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
-      # Check out your repository
       - name: Checkout 5etools-mirror-3 repo
         uses: actions/checkout@v3
         with:
           repository: orcnog/5etools-mirror-3
           ref: 5etools-mirror-3
 
-      # Use the ssh-agent to add the private key
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # Add your private key here
+      - name: Add upstream
+        run: git remote add upstream https://github.com/5etools-mirror-3/5etools-2014-src.git # The original repo URL (the fork source)
 
-      # Add upstream repository via SSH
-      - name: Add upstream (via SSH)
-        run: git remote add upstream git@github.com:5etools-mirror-3/5etools-2014-src.git
-
-      # Fetch upstream changes
       - name: Fetch upstream
         run: git fetch upstream
 
-      # Set the committer identity
       - name: Set committer identity
         run: |
-          git config --global user.email "orcnog@gmail.com" # Your email
-          git config --global user.name "orcnog" # Your name
-
-      # Merge changes from upstream/main
+          git config --global user.email "orcnog@gmail.com" # Use my email
+          git config --global user.name "orcnog" # Use my name
       - name: Merge upstream changes
         run: git merge upstream/main --allow-unrelated-histories
 
-      # Push changes to your main branch
-      - name: Push changes to 5etools-mirror-3/main
+      - name: Push changes
         run: git push origin 5etools-mirror-3
