@@ -32,6 +32,9 @@ jobs:
       - name: Push changes
         run: git push origin main
 
+      - name: Add secondary remote (orcnog.github.io repo)
+        run: git remote add secondary https://github.com/orcnog/orcnog.github.io.git
+
       - name: Checkout or create 5etools-mirror-3 branch
         run: |
           git fetch secondary
