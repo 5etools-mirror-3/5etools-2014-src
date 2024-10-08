@@ -42,4 +42,6 @@ jobs:
           git reset --hard origin/main # Sync it with the latest main branch
       
       - name: Push changes to 5etools-mirror-3 branch in orcnog.github.io repo
+        env:
+          GITHUB_TOKEN: ${{ secrets.WORKFLOWS_PAT }} # Use the PAT for authentication
         run: git push secondary 5etools-mirror-3 --force
