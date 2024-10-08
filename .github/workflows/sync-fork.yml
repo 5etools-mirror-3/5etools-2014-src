@@ -45,5 +45,5 @@ jobs:
         env:
           ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }} # Use the PAT for authentication
         run: |
-          git push https://$ACTIONS_PAT@github.com/orcnog/orcnog.github.io.git 5etools-mirror-3 --force
+          git push https://orcnog:$ACTIONS_PAT@github.com/orcnog/orcnog.github.io.git 5etools-mirror-3 --force
 
