@@ -41,9 +41,12 @@ jobs:
           git checkout 5etools-mirror-3 || git checkout -b 5etools-mirror-3
           git reset --hard origin/main # Sync it with the latest main branch
       
-      - name: Push changes to 5etools-mirror-3 branch in orcnog.github.io repo
-        env:
-          ACTIONS_PAT: ${{ secrets.ACTIONS_PAT }} # Use the PAT for authentication
+      - name: Set up Git credentials
         run: |
-          git push https://orcnog:$ACTIONS_PAT@github.com/orcnog/orcnog.github.io.git 5etools-mirror-3 --force
+          git config credential.helper store
+          echo "https://orcnog:${{ secrets.ACTIONS_PAT }}@github.com" > ~/.git-credentials
+
+      - name: Push changes to 5etools-mirror-3 branch in orcnog.github.io repo
+        run: |
+          git push secondary 5etools-mirror-3 --force
 
