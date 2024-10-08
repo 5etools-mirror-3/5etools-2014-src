@@ -43,5 +43,5 @@ jobs:
       
       - name: Push changes to 5etools-mirror-3 branch in orcnog.github.io repo
         env:
-          GITHUB_TOKEN: ${{ secrets.WORKFLOWS_PAT }} # Use the PAT for authentication
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_PAT }} # Use the PAT for authentication
         run: git push secondary 5etools-mirror-3 --force
