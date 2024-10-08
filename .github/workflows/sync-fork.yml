@@ -9,44 +9,52 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
+      # Check out your repository
       - name: Checkout 5etools-mirror-3 repo
         uses: actions/checkout@v3
         with:
           repository: orcnog/5etools-mirror-3
           ref: main
 
-      - name: Add upstream
-        run: git remote add upstream https://github.com/5etools-mirror-3/5etools-2014-src.git # The original repo URL (the fork source)
+      # Use the ssh-agent to add the private key
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      # Add upstream repository via SSH
+      - name: Add upstream (via SSH)
+        run: git remote add upstream git@github.com:5etools-mirror-3/5etools-2014-src.git
+
+      # Fetch upstream changes
       - name: Fetch upstream
         run: git fetch upstream
 
+      # Set the committer identity
       - name: Set committer identity
         run: |
-          git config --global user.email "orcnog@gmail.com" # Use my email
-          git config --global user.name "orcnog" # Use my name
+          git config --global user.email "orcnog@gmail.com" # Your email
+          git config --global user.name "orcnog" # Your name
 
+      # Merge changes from upstream/main
       - name: Merge upstream changes
         run: git merge upstream/main --allow-unrelated-histories
 
-      - name: Push changes
+      # Push changes to your main branch
+      - name: Push changes to 5etools-mirror-3/main
         run: git push origin main
 
-      - name: Add secondary remote (orcnog.github.io repo)
-        run: git remote add secondary https://github.com/orcnog/orcnog.github.io.git
+      # Add secondary remote repository (using SSH)
+      - name: Add secondary remote (orcnog.github.io repo via SSH)
+        run: git remote add secondary git@github.com:orcnog/orcnog.github.io.git
 
+      # Checkout or create the 5etools-mirror-3 branch in orcnog.github.io
       - name: Checkout or create 5etools-mirror-3 branch
         run: |
           git fetch secondary
           git checkout 5etools-mirror-3 || git checkout -b 5etools-mirror-3
-          git reset --hard origin/main # Sync it with the latest main branch
-      
-      - name: Set up Git credentials
-        run: |
-          git config credential.helper store
-          echo "https://orcnog:${{ secrets.ACTIONS_PAT }}@github.com" > ~/.git-credentials
+          git reset --hard origin/main
 
-      - name: Push changes to 5etools-mirror-3 branch in orcnog.github.io repo
-        run: |
-          git push secondary 5etools-mirror-3 --force
-
+      # Push changes to the 5etools-mirror-3 branch in orcnog.github.io
+      - name: Push changes to 5etools-mirror-3 branch
+        run: git push secondary 5etools-mirror-3 --force
