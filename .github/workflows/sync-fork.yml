@@ -31,3 +31,12 @@ jobs:
 
       - name: Push changes
         run: git push origin main
+
+      - name: Checkout or create 5etools-mirror-3 branch
+        run: |
+          git fetch secondary
+          git checkout 5etools-mirror-3 || git checkout -b 5etools-mirror-3
+          git reset --hard origin/main # Sync it with the latest main branch
+      
+      - name: Push changes to 5etools-mirror-3 branch in orcnog.github.io repo
+        run: git push secondary 5etools-mirror-3 --force
