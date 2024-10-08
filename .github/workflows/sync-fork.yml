@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: orcnog/5etools-mirror-3
-          ref: main
+          ref: 5etools-mirror-3
 
       # Use the ssh-agent to add the private key
       - name: Set up SSH
@@ -42,19 +42,4 @@ jobs:
 
       # Push changes to your main branch
       - name: Push changes to 5etools-mirror-3/main
-        run: git push origin main
-
-      # Add secondary remote repository (using SSH)
-      - name: Add secondary remote (orcnog.github.io repo via SSH)
-        run: git remote add secondary git@github.com:orcnog/orcnog.github.io.git
-
-      # Checkout or create the 5etools-mirror-3 branch in orcnog.github.io
-      - name: Checkout or create 5etools-mirror-3 branch
-        run: |
-          git fetch secondary
-          git checkout 5etools-mirror-3 || git checkout -b 5etools-mirror-3
-          git reset --hard origin/main
-
-      # Push changes to the 5etools-mirror-3 branch in orcnog.github.io
-      - name: Push changes to 5etools-mirror-3 branch
-        run: git push secondary 5etools-mirror-3 --force
+        run: git push origin 5etools-mirror-3
