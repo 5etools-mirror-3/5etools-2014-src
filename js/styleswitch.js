@@ -73,7 +73,7 @@ class StyleSwitcher {
 	/* -------------------------------------------- */
 
 	constructor () {
-		this.currentStylesheet = StyleSwitcher._STYLE_DAY;
+		this.currentStylesheet = StyleSwitcher._STYLE_NIGHT;
 
 		// If the user has never manually specified a style, always load the default from their OS
 		const isManualMode = StyleSwitcher.storage.getItem(StyleSwitcher._STORAGE_IS_MANUAL_MODE);
