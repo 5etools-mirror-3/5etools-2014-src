@@ -140,8 +140,8 @@ class StyleSwitcher {
 	}
 
 	static _getDefaultStyleDayNight () {
-		if (window.matchMedia("(prefers-color-scheme: dark)").matches) return StyleSwitcher._STYLE_NIGHT;
-		return StyleSwitcher._STYLE_DAY;
+		// if (window.matchMedia("(prefers-color-scheme: dark)").matches) return StyleSwitcher._STYLE_NIGHT;
+		return StyleSwitcher._STYLE_NIGHT;
 	}
 
 	cycleDayNightMode (direction) {
@@ -222,7 +222,7 @@ try {
 } catch (e) { // cookies are disabled
 	StyleSwitcher.storage = {
 		getItem () {
-			return StyleSwitcher._STYLE_DAY;
+			return StyleSwitcher._STYLE_NIGHT;
 		},
 
 		setItem (k, v) {},
