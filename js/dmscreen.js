@@ -821,7 +821,8 @@ class SideMenu {
 		const $wrpSaveLoadUrl = $(`<div class="w-100 ve-flex-vh-center-around"></div>`).appendTo($wrpSaveLoad);
 		const $btnSaveLink = $(`<button class="ve-btn ve-btn-primary">Save to URL</button>`).appendTo($wrpSaveLoadUrl);
 		$btnSaveLink.on("click", async () => {
-			const encoded = `${window.location.href.split("#")[0]}#${encodeURIComponent(JSON.stringify(this.board.getSaveableState()))}`;
+			// const encoded = `${window.location.href.split("#")[0]}#${encodeURIComponent(JSON.stringify(this.board.getSaveableState()))}`;
+			const encoded = `${window.location.href.split("#")[0]}#${JSON.stringify(this.board.getSaveableState()).replaceAll('"','%22')}`;
 			await MiscUtil.pCopyTextToClipboard(encoded);
 			JqueryUtil.showCopiedEffect($btnSaveLink);
 		});
