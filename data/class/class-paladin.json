@@ -16,6 +16,7 @@
 			"spellcastingAbility": "cha",
 			"casterProgression": "1/2",
 			"preparedSpells": "<$level$> / 2 + <$cha_mod$>",
+			"preparedSpellsChange": "restLong",
 			"optionalfeatureProgression": [
 				{
 					"name": "Fighting Style",

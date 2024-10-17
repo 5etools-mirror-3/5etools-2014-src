@@ -22415,6 +22415,9 @@
 			"attachedItems": [
 				"greatclub|phb"
 			],
+			"traitTags": [
+				"Camouflage"
+			],
 			"senseTags": [
 				"SD",
 				"T"
@@ -34943,6 +34946,7 @@
 				"path": "bestiary/thorny.mp3"
 			},
 			"traitTags": [
+				"Camouflage",
 				"Regeneration"
 			],
 			"senseTags": [
@@ -36428,6 +36432,7 @@
 				"sling|phb"
 			],
 			"traitTags": [
+				"Camouflage",
 				"Regeneration"
 			],
 			"senseTags": [
@@ -36555,6 +36560,7 @@
 				"spear|phb"
 			],
 			"traitTags": [
+				"Camouflage",
 				"Regeneration"
 			],
 			"senseTags": [
@@ -38415,6 +38421,7 @@
 				"club|phb"
 			],
 			"traitTags": [
+				"Camouflage",
 				"Regeneration",
 				"Tree Stride"
 			],

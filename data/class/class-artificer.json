@@ -21,6 +21,7 @@
 			"spellcastingAbility": "int",
 			"casterProgression": "artificer",
 			"preparedSpells": "<$level$> / 2 + <$int_mod$>",
+			"preparedSpellsChange": "restLong",
 			"cantripProgression": [
 				2,
 				2,

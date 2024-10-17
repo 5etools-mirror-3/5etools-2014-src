@@ -9759,7 +9759,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"musical instrument": true
+					"anyMusicalInstrument": 1
 				}
 			],
 			"entries": [
@@ -9854,7 +9854,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"musical instrument": true
+					"anyMusicalInstrument": 1
 				}
 			],
 			"entries": [

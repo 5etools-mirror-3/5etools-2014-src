@@ -6,6 +6,7 @@ class PageFilterBackgrounds extends PageFilterBase {
 		if (tool === "anyTool") return "Any Tool";
 		if (tool === "anyArtisansTool") return "Any Artisan's Tool";
 		if (tool === "anyMusicalInstrument") return "Any Musical Instrument";
+		if (tool === "anyGamingSet") return "Any Gaming Set";
 		return tool.toTitleCase();
 	}
 
@@ -30,7 +31,7 @@ class PageFilterBackgrounds extends PageFilterBase {
 	}
 
 	static mutateForFilters (bg) {
-		bg._fSources = SourceFilter.getCompleteFilterSources(bg);
+		this._mutateForFilters_commonSources(bg);
 
 		bg._fPrereq = FilterCommon.getFilterValuesPrerequisite(bg.prerequisite);
 

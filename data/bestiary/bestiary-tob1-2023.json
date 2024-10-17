@@ -4162,6 +4162,9 @@
 			"environment": [
 				"desert"
 			],
+			"traitTags": [
+				"Camouflage"
+			],
 			"senseTags": [
 				"D",
 				"T"
@@ -7554,6 +7557,7 @@
 				"planar"
 			],
 			"traitTags": [
+				"Camouflage",
 				"Magic Resistance"
 			],
 			"senseTags": [
@@ -8142,7 +8146,8 @@
 				"dagger|phb"
 			],
 			"traitTags": [
-				"Amphibious"
+				"Amphibious",
+				"Camouflage"
 			],
 			"senseTags": [
 				"D"
@@ -8474,6 +8479,7 @@
 			],
 			"traitTags": [
 				"Amphibious",
+				"Camouflage",
 				"Pack Tactics"
 			],
 			"senseTags": [
@@ -13237,6 +13243,7 @@
 				"underwater"
 			],
 			"traitTags": [
+				"Camouflage",
 				"Water Breathing"
 			],
 			"senseTags": [
@@ -16839,6 +16846,9 @@
 			"environment": [
 				"desert"
 			],
+			"traitTags": [
+				"Camouflage"
+			],
 			"actionTags": [
 				"Multiattack"
 			],
@@ -17166,7 +17176,8 @@
 				"forest"
 			],
 			"traitTags": [
-				"Amorphous"
+				"Amorphous",
+				"Camouflage"
 			],
 			"senseTags": [
 				"B"
@@ -23541,6 +23552,7 @@
 				"forest"
 			],
 			"traitTags": [
+				"Camouflage",
 				"Sunlight Sensitivity"
 			],
 			"senseTags": [
@@ -23988,6 +24000,9 @@
 			],
 			"environment": [
 				"grassland"
+			],
+			"traitTags": [
+				"Camouflage"
 			],
 			"actionTags": [
 				"Multiattack"
@@ -28953,6 +28968,7 @@
 				"forest"
 			],
 			"traitTags": [
+				"Camouflage",
 				"Spider Climb",
 				"Web Sense",
 				"Web Walker"
@@ -31275,6 +31291,7 @@
 				"club|phb"
 			],
 			"traitTags": [
+				"Camouflage",
 				"Mimicry"
 			],
 			"senseTags": [
@@ -34711,7 +34728,8 @@
 				"swamp"
 			],
 			"traitTags": [
-				"Amphibious"
+				"Amphibious",
+				"Camouflage"
 			],
 			"senseTags": [
 				"D"
@@ -36069,6 +36087,7 @@
 				"underdark"
 			],
 			"traitTags": [
+				"Camouflage",
 				"Keen Senses"
 			],
 			"senseTags": [
@@ -39504,6 +39523,9 @@
 			"environment": [
 				"forest"
 			],
+			"traitTags": [
+				"Camouflage"
+			],
 			"senseTags": [
 				"D"
 			],
@@ -42711,7 +42733,8 @@
 				"arctic"
 			],
 			"traitTags": [
-				"Amphibious"
+				"Amphibious",
+				"Camouflage"
 			],
 			"senseTags": [
 				"SD"
@@ -42822,7 +42845,8 @@
 				"arctic"
 			],
 			"traitTags": [
-				"Amphibious"
+				"Amphibious",
+				"Camouflage"
 			],
 			"senseTags": [
 				"SD"
@@ -44601,6 +44625,9 @@
 			"environment": [
 				"desert"
 			],
+			"traitTags": [
+				"Camouflage"
+			],
 			"senseTags": [
 				"D",
 				"T"
@@ -44717,6 +44744,9 @@
 				"badlands",
 				"desert",
 				"grassland"
+			],
+			"traitTags": [
+				"Camouflage"
 			],
 			"senseTags": [
 				"D",
@@ -45384,6 +45414,7 @@
 				"underdark"
 			],
 			"traitTags": [
+				"Camouflage",
 				"Siege Monster"
 			],
 			"senseTags": [
@@ -46208,6 +46239,9 @@
 			"environment": [
 				"coastal",
 				"swamp"
+			],
+			"traitTags": [
+				"Camouflage"
 			],
 			"senseTags": [
 				"D"
@@ -47543,6 +47577,7 @@
 			],
 			"traitTags": [
 				"Amphibious",
+				"Camouflage",
 				"Keen Senses",
 				"Regeneration"
 			],
@@ -51388,6 +51423,9 @@
 			"environment": [
 				"forest"
 			],
+			"traitTags": [
+				"Camouflage"
+			],
 			"senseTags": [
 				"D"
 			],
@@ -51454,6 +51492,9 @@
 			],
 			"environment": [
 				"swamp"
+			],
+			"traitTags": [
+				"Camouflage"
 			],
 			"senseTags": [
 				"B"
@@ -56769,7 +56810,8 @@
 				"underwater"
 			],
 			"traitTags": [
-				"Amphibious"
+				"Amphibious",
+				"Camouflage"
 			],
 			"senseTags": [
 				"D"

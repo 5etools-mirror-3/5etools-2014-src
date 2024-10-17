@@ -2693,8 +2693,11 @@
 			"toolProficiencies": [
 				{
 					"disguise kit": true,
-					"gaming set": true,
-					"musical instrument": true
+					"anyGamingSet": 1
+				},
+				{
+					"disguise kit": true,
+					"anyMusicalInstrument": 1
 				}
 			],
 			"startingEquipment": [
@@ -3258,7 +3261,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"gaming set": true
+					"anyGamingSet": 1
 				}
 			],
 			"startingEquipment": [
@@ -5714,7 +5717,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"gaming set": true,
+					"anyGamingSet": 1,
 					"thieves' tools": true
 				}
 			],
@@ -6807,7 +6810,7 @@
 					"vehicles (land)": true
 				},
 				{
-					"musical instrument": true
+					"anyMusicalInstrument": 1
 				},
 				{
 					"choose": {
@@ -6827,7 +6830,7 @@
 					}
 				},
 				{
-					"gaming set": true
+					"anyGamingSet": 1
 				}
 			],
 			"startingEquipment": [
@@ -7445,7 +7448,7 @@
 			"toolProficiencies": [
 				{
 					"disguise kit": true,
-					"musical instrument": true
+					"anyMusicalInstrument": 1
 				}
 			],
 			"startingEquipment": [
@@ -8667,7 +8670,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"musical instrument": true
+					"anyMusicalInstrument": 1
 				}
 			],
 			"startingEquipment": [
@@ -9629,7 +9632,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"gaming set": true
+					"anyGamingSet": 1
 				}
 			],
 			"startingEquipment": [
@@ -9865,7 +9868,7 @@
 			"toolProficiencies": [
 				{
 					"thieves' tools": true,
-					"musical instrument": true
+					"anyMusicalInstrument": 1
 				}
 			],
 			"startingEquipment": [
@@ -10920,7 +10923,7 @@
 			"toolProficiencies": [
 				{
 					"thieves' tools": true,
-					"musical instrument": true
+					"anyMusicalInstrument": 1
 				}
 			],
 			"startingEquipment": [
@@ -12232,7 +12235,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"gaming set": true,
+					"anyGamingSet": 1,
 					"vehicles (water)": true
 				}
 			],
@@ -13691,7 +13694,7 @@
 					"tinker's tools": true
 				},
 				{
-					"gaming set": true,
+					"anyGamingSet": 1,
 					"vehicles (land)": true
 				},
 				{
@@ -13717,7 +13720,7 @@
 				},
 				{
 					"disguise kit": true,
-					"musical instrument": true
+					"anyMusicalInstrument": 1
 				},
 				{
 					"calligrapher's supplies": true,
@@ -13725,11 +13728,11 @@
 				},
 				{
 					"thieves' tools": true,
-					"gaming set": true
+					"anyGamingSet": 1
 				},
 				{
 					"poisoner's kit": true,
-					"musical instrument": true
+					"anyMusicalInstrument": 1
 				},
 				{
 					"vehicles (land)": true,
@@ -14229,7 +14232,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"gaming set": true,
+					"anyGamingSet": 1,
 					"vehicles (land)": true
 				}
 			],
@@ -14940,7 +14943,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"gaming set": true,
+					"anyGamingSet": 1,
 					"vehicles (land)": true
 				}
 			],
@@ -17086,7 +17089,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"gaming set": true,
+					"anyGamingSet": 1,
 					"vehicles (land)": true
 				}
 			],
@@ -17166,7 +17169,7 @@
 			"toolProficiencies": [
 				{
 					"anyArtisansTool": 1,
-					"musical instrument": true
+					"anyMusicalInstrument": 1
 				}
 			],
 			"startingEquipment": [
@@ -17431,7 +17434,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"gaming set": true
+					"anyGamingSet": 1
 				}
 			],
 			"startingEquipment": [
@@ -18101,7 +18104,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"musical instrument": true
+					"anyMusicalInstrument": 1
 				}
 			],
 			"startingEquipment": [
@@ -19971,7 +19974,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"musical instrument": true
+					"anyMusicalInstrument": 1
 				}
 			],
 			"startingEquipment": [
@@ -20737,7 +20740,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"gaming set": true
+					"anyGamingSet": 1
 				}
 			],
 			"startingEquipment": [
@@ -21174,7 +21177,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"gaming set": true
+					"anyGamingSet": 1
 				}
 			],
 			"startingEquipment": [
@@ -24272,7 +24275,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"gaming set": true,
+					"anyGamingSet": 1,
 					"vehicles (land)": true
 				}
 			],
@@ -24566,7 +24569,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"gaming set": true,
+					"anyGamingSet": 1,
 					"thieves' tools": true
 				}
 			],
@@ -26730,7 +26733,7 @@
 			"toolProficiencies": [
 				{
 					"anyArtisansTool": 1,
-					"musical instrument": true
+					"anyMusicalInstrument": 1
 				}
 			],
 			"startingEquipment": [
@@ -27774,7 +27777,7 @@
 			],
 			"toolProficiencies": [
 				{
-					"musical instrument": true
+					"anyMusicalInstrument": 1
 				}
 			],
 			"startingEquipment": [

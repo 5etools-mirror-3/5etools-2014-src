@@ -85,7 +85,7 @@ class PageFilterOptionalFeatures extends PageFilterBase {
 	}
 
 	static mutateForFilters (ent) {
-		ent._fSources = SourceFilter.getCompleteFilterSources(ent);
+		this._mutateForFilters_commonSources(ent);
 
 		// (Convert legacy string format to array)
 		ent.featureType = ent.featureType && ent.featureType instanceof Array ? ent.featureType : ent.featureType ? [ent.featureType] : ["OTH"];

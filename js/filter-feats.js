@@ -60,6 +60,8 @@ class PageFilterFeats extends PageFilterBase {
 	}
 
 	static mutateForFilters (feat) {
+		this._mutateForFilters_commonSources(feat);
+
 		const ability = Renderer.getAbilityData(feat.ability);
 		feat._fAbility = ability.asCollection.filter(a => !ability.areNegative.includes(a)); // used for filtering
 
@@ -103,7 +105,7 @@ class PageFilterFeats extends PageFilterBase {
 	addToFilters (feat, isExcluded) {
 		if (isExcluded) return;
 
-		this._sourceFilter.addItem(feat.source);
+		this._sourceFilter.addItem(feat._fSources);
 		this._categoryFilter.addItem(feat.category);
 		this._levelFilter.addItem(feat._fPrereqLevel);
 		this._otherPrereqFilter.addItem(feat._fPrereqOther);
@@ -131,7 +133,7 @@ class PageFilterFeats extends PageFilterBase {
 	toDisplay (values, ft) {
 		return this._filterBox.toDisplay(
 			values,
-			ft.source,
+			ft._fSources,
 			ft._fCategory,
 			ft._fAbility,
 			[
