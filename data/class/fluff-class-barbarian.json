@@ -302,7 +302,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/PHB/Barbarian.webp"
-					}
+					},
+					"width": 959,
+					"height": 1000
 				}
 			]
 		}
@@ -320,7 +322,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/PHB/Totem Warrior Barbarian.webp"
-					}
+					},
+					"width": 903,
+					"height": 1000
 				}
 			]
 		},
@@ -336,7 +340,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/XGE/Storm Herald Barbarian.webp"
-					}
+					},
+					"width": 1000,
+					"height": 491
 				}
 			]
 		},
@@ -352,7 +358,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TCE/Beast Barbarian.webp"
-					}
+					},
+					"width": 1000,
+					"height": 834
 				}
 			]
 		},
@@ -368,7 +376,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TCE/Wild Magic Barbarian.webp"
-					}
+					},
+					"width": 1000,
+					"height": 831
 				}
 			]
 		},
@@ -384,7 +394,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TDCSR/Juggernaut Barbarian.webp"
-					}
+					},
+					"width": 850,
+					"height": 963
 				}
 			]
 		},
@@ -400,7 +412,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/BGG/Giant Barbarian.webp"
-					}
+					},
+					"width": 850,
+					"height": 1222
 				}
 			]
 		}

@@ -299,7 +299,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/PHB/Ranger.webp"
-					}
+					},
+					"width": 900,
+					"height": 1000
 				}
 			]
 		}
@@ -317,7 +319,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TCE/Fey Wanderer Ranger.webp"
-					}
+					},
+					"width": 800,
+					"height": 1265
 				}
 			]
 		},
@@ -333,7 +337,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TCE/Swarmkeeper Ranger.webp"
-					}
+					},
+					"width": 860,
+					"height": 1000
 				}
 			]
 		},
@@ -349,7 +355,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/FTD/Drakewarden Ranger.webp"
-					}
+					},
+					"width": 850,
+					"height": 1015
 				}
 			]
 		}

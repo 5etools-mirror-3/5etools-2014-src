@@ -2809,5 +2809,10 @@
 		"ver": "1.210.11",
 		"date": "2024-10-24",
 		"txt": "- Added Armor Class filter to Items page\n- Improved Spell-Summoned Creature Scaler handling of multiattacks\n- Fixed Classes page \"Toggle Spell Points Mode\" option only showing subclass spell points columns\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.12",
+		"date": "2024-10-31",
+		"txt": "- Added page numbers to Quests from the Infinite Staircase adventure content\n- Added Bestiary \"Named Creature\" filter\n- Fixed \"Export as Image\" window resize behaviour on Firefox\n- Fixed \"Source\" filter item ordering\n- (Brew) Added `\"_versions\"` support to `\"feat\"`s, which may subsequently be linked from `\"background[].feats\"`\n- (Fixed typos/added tags)"
 	}
 ]

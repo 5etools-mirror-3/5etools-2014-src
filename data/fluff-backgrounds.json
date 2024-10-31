@@ -92,7 +92,9 @@
 						"path": "backgrounds/AAG/Astral Drifter.webp"
 					},
 					"title": "Plasmoid Astral Drifter",
-					"credit": "Olivier Bernard"
+					"credit": "Olivier Bernard",
+					"width": 850,
+					"height": 899
 				}
 			]
 		},
@@ -120,7 +122,9 @@
 						"type": "internal",
 						"path": "backgrounds/MOT/Athlete.webp"
 					},
-					"credit": "Noah Bradley"
+					"credit": "Noah Bradley",
+					"width": 400,
+					"height": 976
 				}
 			]
 		},
@@ -217,7 +221,9 @@
 					"href": {
 						"type": "internal",
 						"path": "backgrounds/BGDIA/Baldur's Gate Criminal.webp"
-					}
+					},
+					"width": 531,
+					"height": 1000
 				}
 			]
 		},
@@ -476,7 +482,9 @@
 						"type": "internal",
 						"path": "backgrounds/AI/celebrity-adventurers-scion.webp"
 					},
-					"credit": "Kris Straub"
+					"credit": "Kris Straub",
+					"width": 1545,
+					"height": 1000
 				}
 			]
 		},
@@ -552,7 +560,9 @@
 						"path": "backgrounds/TDCSR/ClaspMember.webp"
 					},
 					"credit": "{@link John Anthony di Giovanni|https://artstation.com/jad}",
-					"altText": "A man with short black hair and beard wearing dark clothing holding a curved dagger leaning against a stone wall."
+					"altText": "A man with short black hair and beard wearing dark clothing holding a curved dagger leaning against a stone wall.",
+					"width": 645,
+					"height": 1046
 				}
 			]
 		},
@@ -930,7 +940,9 @@
 						"type": "internal",
 						"path": "backgrounds/WBtW/Feylost.webp"
 					},
-					"credit": "Clint Cearley"
+					"credit": "Clint Cearley",
+					"width": 850,
+					"height": 1643
 				}
 			]
 		},
@@ -1015,7 +1027,9 @@
 						"type": "internal",
 						"path": "backgrounds/SatO/Planar Philosopher.webp"
 					},
-					"credit": "Robson Michel"
+					"credit": "Robson Michel",
+					"width": 750,
+					"height": 2167
 				}
 			]
 		},
@@ -1034,7 +1048,9 @@
 						"path": "backgrounds/BGG/Giant Foundling.webp"
 					},
 					"title": "A giant foundling is used to a larger world",
-					"credit": "Kai Carpenter"
+					"credit": "Kai Carpenter",
+					"width": 1700,
+					"height": 1087
 				}
 			]
 		},
@@ -1123,7 +1139,9 @@
 						"type": "internal",
 						"path": "backgrounds/EGW/Grinner.webp"
 					},
-					"credit": "Dan Bittencourt"
+					"credit": "Dan Bittencourt",
+					"width": 543,
+					"height": 1000
 				}
 			]
 		},
@@ -1208,7 +1226,9 @@
 						"type": "internal",
 						"path": "backgrounds/VRGR/Haunted One.webp"
 					},
-					"credit": "Wayne England"
+					"credit": "Wayne England",
+					"width": 850,
+					"height": 1220
 				}
 			]
 		},
@@ -1323,7 +1343,9 @@
 						"path": "backgrounds/PSA/Initiate.webp"
 					},
 					"title": "Unwavering Initiate",
-					"credit": "Greg Opalinski"
+					"credit": "Greg Opalinski",
+					"width": 630,
+					"height": 1650
 				},
 				{
 					"type": "image",
@@ -1332,7 +1354,9 @@
 						"path": "backgrounds/PSA/Initiate2.webp"
 					},
 					"title": "Gust Walker",
-					"credit": "Jason Rainville"
+					"credit": "Jason Rainville",
+					"width": 631,
+					"height": 816
 				}
 			]
 		},
@@ -1371,7 +1395,9 @@
 								"path": "backgrounds/PSA/Dissenter.webp"
 							},
 							"title": "Samut, Voice of Dissent",
-							"credit": "Aleksi Briclot"
+							"credit": "Aleksi Briclot",
+							"width": 620,
+							"height": 901
 						}
 					}
 				}
@@ -1401,7 +1427,9 @@
 						"path": "backgrounds/PSI/Inquisitor.webp"
 					},
 					"title": "Moorland Inquisitor",
-					"credit": "David Palumbo"
+					"credit": "David Palumbo",
+					"width": 617,
+					"height": 919
 				}
 			]
 		},
@@ -1428,7 +1456,9 @@
 						"type": "internal",
 						"path": "backgrounds/VRGR/Investigator.webp"
 					},
-					"credit": "Zuzanna Wuzyk"
+					"credit": "Zuzanna Wuzyk",
+					"width": 850,
+					"height": 1104
 				}
 			]
 		},
@@ -1479,7 +1509,9 @@
 						"type": "internal",
 						"path": "backgrounds/DSotDQ/Knight of Solamnia.webp"
 					},
-					"credit": "Ekaterina Burmak"
+					"credit": "Ekaterina Burmak",
+					"width": 850,
+					"height": 1282
 				}
 			]
 		},
@@ -1570,7 +1602,9 @@
 						"path": "backgrounds/TDCSR/LyceumScholar.webp"
 					},
 					"credit": "{@link Claudia Ianniciello|https://artstation.com/claudiasg}",
-					"altText": "A Black woman stands with her back to us. Her dreadlocked hair is pulled up into a bun. She wears light blue robes with a dark blue sash down the middle of her back. She reads magically glowing runes on a stone wall."
+					"altText": "A Black woman stands with her back to us. Her dreadlocked hair is pulled up into a bun. She wears light blue robes with a dark blue sash down the middle of her back. She reads magically glowing runes on a stone wall.",
+					"width": 594,
+					"height": 1655
 				}
 			]
 		},
@@ -1589,7 +1623,9 @@
 						"path": "backgrounds/DSotDQ/Mage of High Sorcery.webp"
 					},
 					"title": "Mages of High Sorcery of the Orders of the Black, Red, and White Robes",
-					"credit": "Linda Lithén"
+					"credit": "Linda Lithén",
+					"width": 1700,
+					"height": 1223
 				}
 			]
 		},
@@ -1815,7 +1851,9 @@
 						"type": "internal",
 						"path": "backgrounds/AI/plaintiff-coin.webp"
 					},
-					"credit": "Kris Straub"
+					"credit": "Kris Straub",
+					"width": 1545,
+					"height": 1000
 				}
 			]
 		},
@@ -1832,7 +1870,9 @@
 						"type": "internal",
 						"path": "backgrounds/SatO/Planar Philosopher.webp"
 					},
-					"credit": "Robson Michel"
+					"credit": "Robson Michel",
+					"width": 750,
+					"height": 2167
 				}
 			]
 		},
@@ -1850,7 +1890,9 @@
 						"path": "backgrounds/SCC/Prismari Student.webp"
 					},
 					"title": "An advanced Prismari student artfully harnesses fire",
-					"credit": "Sean Sevestre"
+					"credit": "Sean Sevestre",
+					"width": 1700,
+					"height": 1330
 				}
 			]
 		},
@@ -1868,7 +1910,9 @@
 						"path": "backgrounds/SCC/Quandrix Student.webp"
 					},
 					"title": "A Quandrix student magically gazes into the intricate patterns of nature",
-					"credit": "Cristi Balanescu"
+					"credit": "Cristi Balanescu",
+					"width": 1700,
+					"height": 1295
 				}
 			]
 		},
@@ -1932,7 +1976,9 @@
 						"type": "internal",
 						"path": "backgrounds/BMT/Rewarded.webp"
 					},
-					"credit": "Brian Valeza"
+					"credit": "Brian Valeza",
+					"width": 850,
+					"height": 2328
 				}
 			]
 		},
@@ -1968,7 +2014,9 @@
 						"type": "internal",
 						"path": "backgrounds/BMT/Ruined.webp"
 					},
-					"credit": "Brian Valeza"
+					"credit": "Brian Valeza",
+					"width": 850,
+					"height": 1260
 				}
 			]
 		},
@@ -1994,7 +2042,9 @@
 						"path": "backgrounds/BGG/Rune Carver.webp"
 					},
 					"title": "Orc Rune Carver",
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 850,
+					"height": 1218
 				}
 			]
 		},
@@ -2465,7 +2515,9 @@
 						"path": "backgrounds/PSA/Vizier.webp"
 					},
 					"title": "Shadowstorm Vizier",
-					"credit": "Yongjae Choi"
+					"credit": "Yongjae Choi",
+					"width": 1281,
+					"height": 898
 				}
 			]
 		},
@@ -2504,7 +2556,9 @@
 								"path": "backgrounds/PSA/Dissenter.webp"
 							},
 							"title": "Samut, Voice of Dissent",
-							"credit": "Aleksi Briclot"
+							"credit": "Aleksi Briclot",
+							"width": 620,
+							"height": 901
 						}
 					}
 				}
@@ -2578,7 +2632,9 @@
 						"type": "internal",
 						"path": "backgrounds/EGW/Volstrucker Agent.webp"
 					},
-					"credit": "Jessica Mahon"
+					"credit": "Jessica Mahon",
+					"width": 583,
+					"height": 1000
 				}
 			]
 		},
@@ -2618,7 +2674,9 @@
 						"path": "backgrounds/TDCSR/RifleCorps.webp"
 					},
 					"credit": "{@link Ameera Sheikh|https://mikandii.com/}",
-					"altText": "A muscled Black half-elven woman with long brown dreadlocks wearing a blue coat, crouching on one knee in a patch of white daisies, aiming a rifle."
+					"altText": "A muscled Black half-elven woman with long brown dreadlocks wearing a blue coat, crouching on one knee in a patch of white daisies, aiming a rifle.",
+					"width": 1022,
+					"height": 766
 				}
 			]
 		},
@@ -2647,7 +2705,9 @@
 						"path": "backgrounds/AAG/Wildspacer.webp"
 					},
 					"title": "Githyanki Wildspacer",
-					"credit": "Suzanne Helmigh"
+					"credit": "Suzanne Helmigh",
+					"width": 401,
+					"height": 850
 				}
 			]
 		},
@@ -2672,7 +2732,9 @@
 						"type": "internal",
 						"path": "backgrounds/WBtW/Witchlight Hand.webp"
 					},
-					"credit": "Andrew Mar"
+					"credit": "Andrew Mar",
+					"width": 850,
+					"height": 1109
 				}
 			]
 		},

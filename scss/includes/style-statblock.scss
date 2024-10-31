@@ -179,8 +179,14 @@
 	}
 }
 
-.lst__is-exporting-image .stats__wrp-h-source--token {
-	padding-right: 0;
+.lst__is-exporting-image {
+	.stats__wrp-h-source--token {
+		padding-right: 0;
+	}
+
+	.stats__wrp-avoid-token {
+		max-width: initial;
+	}
 }
 
 .ve-night-mode .stats {

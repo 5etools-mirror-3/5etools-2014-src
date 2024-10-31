@@ -1414,7 +1414,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/PHB/Druid.webp"
-					}
+					},
+					"width": 1000,
+					"height": 999
 				}
 			]
 		}
@@ -1432,7 +1434,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/XGE/Dreams Druid.webp"
-					}
+					},
+					"width": 640,
+					"height": 1000
 				}
 			]
 		},
@@ -1448,7 +1452,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/XGE/Shepherd Druid.webp"
-					}
+					},
+					"width": 776,
+					"height": 1000
 				}
 			]
 		},
@@ -1464,7 +1470,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TCE/Spores Druid.webp"
-					}
+					},
+					"width": 1200,
+					"height": 802
 				}
 			]
 		},
@@ -1480,7 +1488,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TCE/Stars Druid.webp"
-					}
+					},
+					"width": 675,
+					"height": 1000
 				}
 			]
 		},
@@ -1496,7 +1506,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TCE/Wildfire Druid.webp"
-					}
+					},
+					"width": 1200,
+					"height": 832
 				}
 			]
 		},
@@ -1512,7 +1524,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TDCSR/Blighted Druid.webp"
-					}
+					},
+					"width": 850,
+					"height": 1552
 				}
 			]
 		}

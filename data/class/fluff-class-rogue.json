@@ -302,7 +302,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/PHB/Rogue.webp"
-					}
+					},
+					"width": 780,
+					"height": 1000
 				}
 			]
 		}
@@ -320,7 +322,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TCE/Phantom Rogue.webp"
-					}
+					},
+					"width": 800,
+					"height": 1380
 				}
 			]
 		},
@@ -336,7 +340,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TCE/Soulknife Rogue.webp"
-					}
+					},
+					"width": 800,
+					"height": 1016
 				}
 			]
 		}

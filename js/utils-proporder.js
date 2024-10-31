@@ -103,10 +103,10 @@ function getFnListSort (prop) {
 				|| SortUtil.ascSort(a.level, b.level)
 				|| SortUtil.ascSort(a.header || 0, b.header || 0)
 				|| SortUtil.ascSortGenericEntity(a, b);
-		case "subrace": return (a, b) => SortUtil.ascSortLower(a.raceName, b.raceName)
-			|| SortUtil.ascSortLower(a.raceSource, b.raceSource)
+		case "subrace": return (a, b) => SortUtil.ascSortLower(a.raceName || "", b.raceName || "")
+			|| SortUtil.ascSortLower(a.raceSource || "", b.raceSource || "")
 			|| SortUtil.ascSortLower(a.name || "", b.name || "")
-			|| SortUtil.ascSortLower(a.source, b.source);
+			|| SortUtil.ascSortLower(a.source || "", b.source || "");
 		case "backgroundFeature": return (a, b) => SortUtil.ascSortLower(a.backgroundName, b.backgroundName)
 			|| SortUtil.ascSortLower(a.backgroundSource, b.backgroundSource)
 			|| SortUtil.ascSortGenericEntity(a, b);
@@ -564,7 +564,7 @@ PropOrder._MONSTER = [
 			"_implementations",
 			...PropOrder._MONSTER,
 		],
-		fnSort: (a, b) => SortUtil.ascSortLower(a.name || "", b.name || "") || SortUtil.ascSortLower(a.source || "", b.source || ""),
+		fnSort: getFnListSort("monster"),
 	}),
 ];
 PropOrder._MONSTER__COPY_MOD = [
@@ -963,7 +963,15 @@ PropOrder._CLASS = [
 
 	"startingProficiencies",
 	"languageProficiencies",
-	"startingEquipment",
+	new PropOrder._ObjectKey("startingEquipment", {
+		order: [
+			"additionalFromBackground",
+			"default",
+			"goldAlternative",
+			"defaultData",
+			"entries",
+		],
+	}),
 
 	"multiclassing",
 
@@ -1564,6 +1572,21 @@ PropOrder._FEAT = [
 	"fluff",
 
 	...PropOrder._PROPS_FOUNDRY_DATA,
+
+	new PropOrder._ArrayKey("_versions", {
+		fnGetOrder: () => [
+			"name",
+			"source",
+			new PropOrder._ObjectKey("_mod", {
+				fnGetOrder: () => PropOrder._FEAT__COPY_MOD,
+			}),
+			"_preserve",
+			"_abstract",
+			"_implementations",
+			...PropOrder._FEAT,
+		],
+		fnSort: getFnListSort("feat"),
+	}),
 ];
 PropOrder._FEAT__COPY_MOD = [
 	"*",
@@ -2222,7 +2245,7 @@ PropOrder._RACE_SUBRACE = [
 			"_implementations",
 			...PropOrder._RACE,
 		],
-		fnSort: (a, b) => SortUtil.ascSortLower(a.name || "", b.name || "") || SortUtil.ascSortLower(a.source || "", b.source || ""),
+		fnSort: getFnListSort("subrace"),
 	}),
 ];
 PropOrder._RACE = [

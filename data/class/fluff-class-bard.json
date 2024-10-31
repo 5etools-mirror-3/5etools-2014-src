@@ -336,7 +336,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/PHB/Bard.webp"
-					}
+					},
+					"width": 985,
+					"height": 1000
 				}
 			]
 		}
@@ -354,7 +356,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/XGE/Swords Bard.webp"
-					}
+					},
+					"width": 732,
+					"height": 1000
 				}
 			]
 		},
@@ -370,7 +374,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/XGE/Whispers Bard.webp"
-					}
+					},
+					"width": 1000,
+					"height": 578
 				}
 			]
 		},
@@ -386,7 +392,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/HWCS/Road Bard.webp"
-					}
+					},
+					"width": 850,
+					"height": 1128
 				}
 			]
 		},
@@ -402,7 +410,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TCE/Creation Bard.webp"
-					}
+					},
+					"width": 1200,
+					"height": 802
 				}
 			]
 		},
@@ -418,7 +428,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TCE/Eloquence Bard.webp"
-					}
+					},
+					"width": 800,
+					"height": 1527
 				}
 			]
 		},
@@ -434,7 +446,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/VRGR/Spirits Bard.webp"
-					}
+					},
+					"width": 850,
+					"height": 1611
 				}
 			]
 		},
@@ -450,7 +464,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TDCSR/Tragedy Bard.webp"
-					}
+					},
+					"width": 850,
+					"height": 1042
 				}
 			]
 		}

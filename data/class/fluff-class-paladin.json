@@ -376,7 +376,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/PHB/Paladin.webp"
-					}
+					},
+					"width": 845,
+					"height": 1000
 				}
 			]
 		}
@@ -394,7 +396,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/XGE/Conquest Paladin.webp"
-					}
+					},
+					"width": 714,
+					"height": 1000
 				}
 			]
 		},
@@ -410,7 +414,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/XGE/Redemption Paladin.webp"
-					}
+					},
+					"width": 769,
+					"height": 1000
 				}
 			]
 		},
@@ -426,7 +432,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TCE/Glory Paladin.webp"
-					}
+					},
+					"width": 800,
+					"height": 1320
 				}
 			]
 		},
@@ -442,7 +450,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TCE/Watchers Paladin.webp"
-					}
+					},
+					"width": 936,
+					"height": 1000
 				}
 			]
 		},
@@ -458,7 +468,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TDCSR/Open Sea Paladin.webp"
-					}
+					},
+					"width": 1700,
+					"height": 2319
 				}
 			]
 		}

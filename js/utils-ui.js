@@ -4080,8 +4080,8 @@ function MixinBaseComponent (Cls) {
 		getSaveableState () { return {...this.getBaseSaveableState()}; }
 		setStateFrom (toLoad, isOverwrite = false) { this.setBaseSaveableStateFrom(toLoad, isOverwrite); }
 
-		async _pLock (lockName, {lockToken = null} = {}) {
-			this.__locks[lockName] ||= new VeLock({name: lockName});
+		async _pLock (lockName, {lockToken = null, isDbg = false} = {}) {
+			this.__locks[lockName] ||= new VeLock({name: lockName, isDbg});
 			return this.__locks[lockName].pLock({token: lockToken});
 		}
 

@@ -272,7 +272,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/PHB/Warlock.webp"
-					}
+					},
+					"width": 780,
+					"height": 1000
 				}
 			]
 		}
@@ -290,7 +292,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/XGE/Celestial Warlock.webp"
-					}
+					},
+					"width": 658,
+					"height": 1000
 				}
 			]
 		},
@@ -306,7 +310,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/XGE/Hexblade Warlock.webp"
-					}
+					},
+					"width": 743,
+					"height": 1000
 				}
 			]
 		},
@@ -322,7 +328,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TCE/Fathomless Warlock.webp"
-					}
+					},
+					"width": 800,
+					"height": 1290
 				}
 			]
 		},
@@ -338,7 +346,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/TCE/Genie Warlock.webp"
-					}
+					},
+					"width": 1200,
+					"height": 802
 				}
 			]
 		},
@@ -354,7 +364,9 @@
 					"href": {
 						"type": "internal",
 						"path": "classes/VRGR/Undead Warlock.webp"
-					}
+					},
+					"width": 800,
+					"height": 1470
 				}
 			]
 		}
