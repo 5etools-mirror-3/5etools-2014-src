@@ -2814,5 +2814,10 @@
 		"ver": "1.210.12",
 		"date": "2024-10-31",
 		"txt": "- Added page numbers to Quests from the Infinite Staircase adventure content\n- Added Bestiary \"Named Creature\" filter\n- Fixed \"Export as Image\" window resize behaviour on Firefox\n- Fixed \"Source\" filter item ordering\n- (Brew) Added `\"_versions\"` support to `\"feat\"`s, which may subsequently be linked from `\"background[].feats\"`\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.13",
+		"date": "2024-11-04",
+		"txt": "- Fixed Items page failing to render range for items with range but no ammunition\n- Fixed Bestiary failing to render \"mythic encounter\" XP\n- (Fixed typos/added tags)"
 	}
 ]

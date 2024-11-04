@@ -12,7 +12,7 @@ export class SourceFilterItem extends FilterItem {
 		super(options);
 		this.isOtherSource = options.isOtherSource;
 		this._sortName = null;
-		this.itemFull = Parser.sourceJsonToFull(this.item)
+		this.itemFull = Parser.sourceJsonToFull(this.item);
 	}
 }
 
