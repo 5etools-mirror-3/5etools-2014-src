@@ -242,9 +242,8 @@ class _PageGeneratorLootgen extends PageGeneratorGeneric {
 		"filter-spells.js",
 	];
 
-	_scripts = [
+	_scriptsModules = [
 		"lootgen.js",
-		"lootgen-ui.js",
 	];
 }
 

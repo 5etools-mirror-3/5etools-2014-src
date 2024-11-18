@@ -462,7 +462,7 @@ export class CreatureTag {
 		const fnTag = strMod => {
 			Object.entries(res)
 				.forEach(([source, re]) => {
-					strMod = strMod.replace(re, (...m) => `{@creature ${m[0]}${source !== Parser.SRC_DMG ? `|${source}` : ""}}`);
+					strMod = strMod.replace(re, (...m) => `{@creature ${m[0]}${source !== Parser.SRC_MM ? `|${source}` : ""}}`);
 				});
 			return strMod;
 		};

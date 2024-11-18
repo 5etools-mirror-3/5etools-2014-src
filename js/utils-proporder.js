@@ -75,6 +75,8 @@ function getFnListSort (prop) {
 		case "deck":
 		case "citation":
 		case "foundryMap":
+		case "facility":
+		case "facilityFluff":
 			return SortUtil.ascSortGenericEntity.bind(SortUtil);
 		case "deity":
 			return SortUtil.ascSortDeity.bind(SortUtil);
@@ -612,12 +614,14 @@ PropOrder._MONSTER_TEMPLATE = [
 PropOrder._MAKE_BREW_CREATURE_TRAIT = [
 	"name",
 	"source",
+	"reprintedAs",
 
 	"entries",
 ];
 PropOrder._MAKE_BREW_CREATURE_ACTION = [
 	"name",
 	"source",
+	"reprintedAs",
 
 	"entries",
 ];
@@ -1382,6 +1386,8 @@ PropOrder._DISEASE = [
 	"otherSources",
 	"reprintedAs",
 
+	"type",
+
 	"color",
 
 	"entries",
@@ -1499,6 +1505,8 @@ PropOrder._DEITY = [
 	"domains",
 	"province",
 	"dogma",
+	"worshipers",
+	"plane",
 	"symbol",
 	"symbolImg",
 	"favoredWeapons",
@@ -1604,6 +1612,7 @@ PropOrder._VEHICLE = [
 	"basicRules",
 	"freeRules2024",
 	"otherSources",
+	"reprintedAs",
 
 	"vehicleType",
 
@@ -1731,6 +1740,7 @@ PropOrder._ITEM = [
 	"conditionImmune",
 
 	"detail1",
+	"detail2",
 
 	"tier",
 	"rarity",
@@ -1752,6 +1762,7 @@ PropOrder._ITEM = [
 	"value",
 	"valueMult",
 	"valueExpression",
+	"valueRarity",
 	"quantity",
 	"currencyConversion",
 
@@ -1789,6 +1800,8 @@ PropOrder._ITEM = [
 
 	"carryingCapacity",
 	"speed",
+
+	"barDimensions",
 
 	"ability",
 	"grantsProficiency",
@@ -1845,6 +1858,7 @@ PropOrder._ITEM = [
 	"entries",
 	"additionalEntries",
 	"items",
+	"itemsHidden",
 
 	"ammoType",
 	"poisonTypes",
@@ -1884,6 +1898,8 @@ PropOrder._MAGICVARIANT = [
 	"name",
 	"alias",
 	"source",
+
+	"edition",
 
 	"type",
 
@@ -2015,6 +2031,7 @@ PropOrder._OBJECT = [
 	"basicRules",
 	"freeRules2024",
 	"otherSources",
+	"reprintedAs",
 
 	"size",
 	"objectType",
@@ -2319,7 +2336,7 @@ PropOrder._TABLE = [
 	"caption",
 
 	"colLabels",
-	"colLabelGroups",
+	"colLabelRows",
 	"colStyles",
 
 	"rowLabels",
@@ -2346,15 +2363,16 @@ PropOrder._TRAP = [
 	"basicRules",
 	"freeRules2024",
 	"otherSources",
+	"reprintedAs",
 
 	"trapHazType",
 
-	"tier",
-	"level",
-	"threat",
+	"rating",
+
 	"effect",
 
 	"trigger",
+	"duration",
 
 	"initiative",
 	"initiativeNote",
@@ -2387,6 +2405,8 @@ PropOrder._HAZARD = [
 	"reprintedAs",
 
 	"trapHazType",
+
+	"rating",
 
 	"entries",
 
@@ -2569,6 +2589,35 @@ PropOrder._FOUNDRY_MAP = [
 	"walls",
 ];
 
+PropOrder._FACILITY = [
+	"name",
+	"alias",
+
+	"source",
+	"page",
+	"srd",
+	"srd52",
+	"basicRules",
+	"freeRules2024",
+	"otherSources",
+	"reprintedAs",
+
+	"facilityType",
+
+	"level",
+	"prerequisite",
+	"space",
+	"hirelings",
+	"orders",
+
+	"entries",
+
+	"hasFluff",
+	"hasFluffImages",
+
+	"fluff",
+];
+
 PropOrder._PROP_TO_LIST = {
 	"_meta": PropOrder._META,
 	"_test": PropOrder._TEST,
@@ -2668,6 +2717,8 @@ PropOrder._PROP_TO_LIST = {
 	"encounter": PropOrder._ENCOUNTER,
 	"citation": PropOrder._CITATION,
 	"foundryMap": PropOrder._FOUNDRY_MAP,
+	"facility": PropOrder._FACILITY,
+	"facilityFluff": PropOrder._GENERIC_FLUFF,
 };
 
 PropOrder._ROOT = [
@@ -2746,6 +2797,9 @@ PropOrder._ROOT = [
 	PropOrder._ArrayKey.getRootKey("card"),
 
 	PropOrder._ArrayKey.getRootKey("deity"),
+
+	PropOrder._ArrayKey.getRootKey("facility"),
+	PropOrder._ArrayKey.getRootKey("facilityFluff"),
 
 	PropOrder._ArrayKey.getRootKey("language"),
 	PropOrder._ArrayKey.getRootKey("languageScript"),

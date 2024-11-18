@@ -722,6 +722,9 @@ export class TraitActionTag {
 			"pack tactics": "Pack Tactics",
 
 			"regeneration": "Regeneration",
+			"fiendish regeneration": "Regeneration",
+			"heat regeneration": "Regeneration",
+			"cold regeneration": "Regeneration",
 
 			"shapechanger": "Shapechanger",
 

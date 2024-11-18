@@ -1709,6 +1709,17 @@ class _DataTypeLoaderCitation extends _DataTypeLoader {
 	}
 }
 
+// (Stubbed, as unused in 2014)
+class _DataTypeLoaderBastion extends _DataTypeLoader {
+	static PROPS = ["facility"];
+
+	_getSiteIdent ({pageClean, sourceClean}) { return this.constructor.name; }
+
+	async _pGetSiteData ({pageClean, sourceClean}) {
+		return {facility: []};
+	}
+}
+
 // endregion
 
 /* -------------------------------------------- */
@@ -1842,6 +1853,7 @@ class DataLoader {
 		_DataTypeLoaderItemEntry.register({fnRegister});
 		_DataTypeLoaderItemMastery.register({fnRegister});
 		_DataTypeLoaderCitation.register({fnRegister});
+		_DataTypeLoaderBastion.register({fnRegister});
 		// endregion
 
 		// region Fluff

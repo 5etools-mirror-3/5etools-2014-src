@@ -3459,6 +3459,7 @@
 			"rarity": "uncommon",
 			"wondrous": true,
 			"weight": 0.5,
+			"recharge": "dawn",
 			"entries": [
 				"This ordinary bag, made from gray cloth, appears empty. Reaching inside the bag, however, reveals the presence of a small, fuzzy object.",
 				"You can use an action to pull the fuzzy object from the bag and throw it up to 20 feet. When the object lands, it transforms into a creature you determine by rolling a {@dice d8} and consulting the table. The creature vanishes at the next dawn or when it is reduced to 0 hit points.",
@@ -3523,6 +3524,7 @@
 			"rarity": "uncommon",
 			"wondrous": true,
 			"weight": 0.5,
+			"recharge": "dawn",
 			"entries": [
 				"This ordinary bag, made from rust cloth, appears empty. Reaching inside the bag, however, reveals the presence of a small, fuzzy object.",
 				"You can use an action to pull the fuzzy object from the bag and throw it up to 20 feet. When the object lands, it transforms into a creature you determine by rolling a {@dice d8} and consulting the table. The creature vanishes at the next dawn or when it is reduced to 0 hit points.",
@@ -3587,6 +3589,7 @@
 			"rarity": "uncommon",
 			"wondrous": true,
 			"weight": 0.5,
+			"recharge": "dawn",
 			"entries": [
 				"This ordinary bag, made from tan cloth, appears empty. Reaching inside the bag, however, reveals the presence of a small, fuzzy object.",
 				"You can use an action to pull the fuzzy object from the bag and throw it up to 20 feet. When the object lands, it transforms into a creature you determine by rolling a {@dice d8} and consulting the table. The creature vanishes at the next dawn or when it is reduced to 0 hit points.",
@@ -6376,7 +6379,7 @@
 			"tier": "major",
 			"rarity": "rare",
 			"wondrous": true,
-			"weight": 3,
+			"weight": 24,
 			"entries": [
 				"While this bowl is filled with water, you can use an action to speak the bowl's command word and summon a {@creature water elemental}, as if you had cast the {@spell conjure elemental} spell. The bowl can't be used this way again until the next dawn.",
 				"The bowl is about 1 foot in diameter and half as deep. It weighs 3 pounds and holds about 3 gallons."
@@ -7947,8 +7950,7 @@
 				"If you place the corpse of a humanoid into the cauldron and cover the corpse with 200 pounds of salt (which costs 10 gp) for at least 8 hours, the salt is consumed and the creature returns to life as if by {@spell raise dead} at the next dawn. Once used, this property can't be used again for 7 days."
 			],
 			"attachedSpells": [
-				"raise dead",
-				"scrying"
+				"raise dead"
 			],
 			"hasFluffImages": true
 		},
@@ -9825,7 +9827,7 @@
 					"type": "entries",
 					"name": "Random Properties",
 					"entries": [
-						"The Crown of Lies has the following random properties (see the Dungeon Master's Guide for options):",
+						"The Crown of Lies has the following random properties (see the {@book Dungeon Master's Guide|DMG} for options):",
 						{
 							"type": "list",
 							"items": [
@@ -12438,7 +12440,8 @@
 				"Magic Item Table I"
 			],
 			"seeAlsoDeck": [
-				"Deck of Many Things"
+				"Deck of Many Things",
+				"Deck of Many Things (13 Cards)"
 			],
 			"hasFluffImages": true
 		},
@@ -15461,6 +15464,7 @@
 			"name": "Efreeti Chain",
 			"source": "DMG",
 			"page": 167,
+			"baseItem": "chain mail|phb",
 			"type": "HA",
 			"immune": [
 				"fire"
@@ -17572,7 +17576,6 @@
 			"tier": "major",
 			"rarity": "rare",
 			"wondrous": true,
-			"bonusWeapon": "+1",
 			"charges": 24,
 			"entries": [
 				"A figurine of wondrous power is a statuette of a beast small enough to fit in a pocket. If you use an action to speak the command word and throw the figurine to a point on the ground within 60 feet of you, the figurine becomes a living creature. If the space where the creature would appear is occupied by other creatures or objects, or if there isn't enough space for the creature, the figurine doesn't become a creature.",
@@ -43709,6 +43712,9 @@
 		},
 		{
 			"name": "Stone of Good Luck",
+			"alias": [
+				"Luckstone"
+			],
 			"source": "DMG",
 			"page": 205,
 			"srd": true,
@@ -52701,6 +52707,7 @@
 			"rarity": "uncommon",
 			"wondrous": true,
 			"weight": 0.5,
+			"recharge": "dawn",
 			"items": [
 				"Bag of Tricks, Gray",
 				"Bag of Tricks, Rust",
@@ -53043,6 +53050,7 @@
 			"reqAttune": true,
 			"weight": 45,
 			"ac": 14,
+			"bonusAc": "+1",
 			"stealth": true,
 			"items": [
 				"Black Dragon Scale Mail",
@@ -54132,6 +54140,22 @@
 			]
 		},
 		{
+			"name": "Potions of Healing",
+			"source": "DMG",
+			"page": 187,
+			"type": "P",
+			"rarity": "varies",
+			"items": [
+				"Potion of Healing",
+				"Potion of Greater Healing",
+				"Potion of Superior Healing",
+				"Potion of Supreme Healing"
+			],
+			"miscTags": [
+				"CNS"
+			]
+		},
+		{
 			"name": "Prehistoric Figurine of Wondrous Power",
 			"source": "BGG",
 			"page": 114,
@@ -54349,6 +54373,26 @@
 				"Magic Item Table G"
 			],
 			"hasFluffImages": true
+		},
+		{
+			"name": "Rod of the Pact Keeper",
+			"source": "DMG",
+			"page": 197,
+			"type": "RD|DMG",
+			"tier": "major",
+			"rarity": "varies",
+			"reqAttune": "by a warlock",
+			"reqAttuneTags": [
+				{
+					"class": "warlock"
+				}
+			],
+			"weight": 2,
+			"items": [
+				"+1 Rod of the Pact Keeper",
+				"+2 Rod of the Pact Keeper",
+				"+3 Rod of the Pact Keeper"
+			]
 		},
 		{
 			"name": "Ruin's Wake",
@@ -54822,6 +54866,7 @@
 			"dmg1": "1d8",
 			"dmgType": "S",
 			"dmg2": "1d10",
+			"bonusWeapon": "+3",
 			"items": [
 				"Sword of Answering (Answerer)",
 				"Sword of Answering (Back Talker)",
@@ -55006,6 +55051,27 @@
 			]
 		},
 		{
+			"name": "Wand of the War Mage",
+			"source": "DMG",
+			"page": 212,
+			"srd": true,
+			"type": "WD|DMG",
+			"tier": "major",
+			"rarity": "varies",
+			"reqAttune": "by a spellcaster",
+			"reqAttuneTags": [
+				{
+					"spellcasting": true
+				}
+			],
+			"weight": 1,
+			"items": [
+				"+1 Wand of the War Mage",
+				"+2 Wand of the War Mage",
+				"+3 Wand of the War Mage"
+			]
+		},
+		{
 			"name": "Whisper",
 			"source": "TDCSR",
 			"page": 211,
@@ -55088,6 +55154,18 @@
 				"misty step"
 			],
 			"hasFluffImages": true
+		},
+		{
+			"name": "Wraps of Unarmed Prowess",
+			"source": "BMT",
+			"page": 69,
+			"rarity": "uncommon",
+			"wondrous": true,
+			"items": [
+				"+1 Wraps of Unarmed Prowess|BMT",
+				"+2 Wraps of Unarmed Prowess|BMT",
+				"+3 Wraps of Unarmed Prowess|BMT"
+			]
 		},
 		{
 			"name": "Wreath of the Prism",

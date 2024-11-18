@@ -296,6 +296,7 @@ class ModalFilterRaces extends ModalFilterBase {
 				hash,
 				source,
 				sourceJson: race.source,
+				page: race.page,
 				ability: ability.asTextShort,
 				size,
 				cleanName: PageFilterRaces.getInvertedName(race.name) || "",

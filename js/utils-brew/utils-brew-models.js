@@ -1,3 +1,5 @@
+import {BrewDocContentMigrator} from "./utils-brew-content-migrator.js";
+
 export class BrewDoc {
 	// Things which are stored in "_meta", but are "content metadata" rather than "file metadata."
 	static _META_KEYS_CONTENT_METADATA__OBJECT = [
@@ -79,7 +81,7 @@ export class BrewDoc {
 		jsons.forEach(json => {
 			json = isCopy ? MiscUtil.copyFast(json) : json;
 
-			if (isMutMakeCompatible) this._mergeObjects_mutMakeCompatible(json);
+			if (isMutMakeCompatible) BrewDocContentMigrator.mutMakeCompatible(json);
 
 			Object.entries(json)
 				.forEach(([prop, val]) => {
@@ -165,47 +167,6 @@ export class BrewDoc {
 		if (!(val instanceof Array)) return out[prop] === undefined ? out[prop] = val : null;
 
 		out[prop] = [...out[prop] || [], ...val];
-	}
-
-	static _mergeObjects_mutMakeCompatible (json) {
-		// region Item
-		if (json.variant) {
-			// 2022-07-09
-			json.magicvariant = json.variant;
-			delete json.variant;
-		}
-		// endregion
-
-		// region Race
-		if (json.subrace) {
-			json.subrace.forEach(sr => {
-				if (!sr.race) return;
-				sr.raceName = sr.race.name;
-				sr.raceSource = sr.race.source || sr.source || Parser.SRC_PHB;
-			});
-		}
-		// endregion
-
-		// region Creature (monster)
-		if (json.monster) {
-			json.monster.forEach(mon => {
-				// 2022-03-22
-				if (typeof mon.size === "string") mon.size = [mon.size];
-
-				// 2022=05-29
-				if (mon.summonedBySpell && !mon.summonedBySpellLevel) mon.summonedBySpellLevel = 1;
-			});
-		}
-		// endregion
-
-		// region Object
-		if (json.object) {
-			json.object.forEach(obj => {
-				// 2023-10-07
-				if (typeof obj.size === "string") obj.size = [obj.size];
-			});
-		}
-		// endregion
 	}
 	// endregion
 }

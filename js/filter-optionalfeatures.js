@@ -241,6 +241,7 @@ class ModalFilterOptionalFeatures extends ModalFilterBase {
 				hash,
 				source,
 				sourceJson: optfeat.source,
+				page: optfeat.page,
 				prerequisite,
 				level,
 				type: optfeat._lFeatureType,

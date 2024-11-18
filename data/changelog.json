@@ -2819,5 +2819,10 @@
 		"ver": "1.210.13",
 		"date": "2024-11-04",
 		"txt": "- Fixed Items page failing to render range for items with range but no ammunition\n- Fixed Bestiary failing to render \"mythic encounter\" XP\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.14",
+		"date": "2024-11-18",
+		"txt": "- Improved loading performance of various pages _[some more than others; the items page got a 300ms speedup on my machine]_\n- Sorting a list page by \"Source\" now uses sorts by \"source\" -> \"page\" -> \"name\", rather than \"source\" -> \"name\"\n- The Classes page \"Show Subclass Sources\" option is now enabled by default\n- Switched to transparent background for 600+ Bestiary images (thanks @ anon)\n- Fixed Vehicles page tokens persisting when changing statblock\n- (Brew) Added `\"itemsHidden\"` on `\"itemGroup\"`s, allowing the \"Multiple variations of this item exist ...\" text to be hidden\n- (Brew) Fixed \"Export Prerelease Content/Homebrew List as URL\" always exporting a blank URL\n- (Fixed typos/added tags)"
 	}
 ]

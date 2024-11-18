@@ -38,6 +38,7 @@ class FeatsSublistManager extends SublistManager {
 			it.name,
 			{
 				hash,
+				page: it.page,
 				ability: it._slAbility,
 				prerequisite: it._slPrereq,
 			},
@@ -99,6 +100,7 @@ class FeatsPage extends ListPage {
 			{
 				hash,
 				source,
+				page: feat.page,
 				ability: feat._slAbility,
 				prerequisite: feat._slPrereq,
 			},

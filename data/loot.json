@@ -3465,7 +3465,13 @@
 				{
 					"min": 48,
 					"max": 48,
-					"item": "Horn of Valhalla ({@item Horn of Valhalla, Silver||silver} or {@item Horn of Valhalla, Brass||brass})"
+					"item": "Horn of Valhalla ({@item Horn of Valhalla, Silver||silver} or {@item Horn of Valhalla, Brass||brass})",
+					"choose": {
+						"fromItems": [
+							"Horn of Valhalla, Silver",
+							"Horn of Valhalla, Brass"
+						]
+					}
 				},
 				{
 					"min": 49,
@@ -4052,17 +4058,17 @@
 				{
 					"min": 77,
 					"max": 77,
-					"item": "{@item Ioun Stone, Absorption},"
+					"item": "{@item Ioun Stone, Absorption}"
 				},
 				{
 					"min": 78,
 					"max": 78,
-					"item": "{@item Ioun Stone, Agility},"
+					"item": "{@item Ioun Stone, Agility}"
 				},
 				{
 					"min": 79,
 					"max": 79,
-					"item": "{@item Ioun Stone, Fortitude},"
+					"item": "{@item Ioun Stone, Fortitude}"
 				},
 				{
 					"min": 80,

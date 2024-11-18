@@ -757,6 +757,7 @@ class ClassesPage extends MixinComponentGlobalState(MixinBaseComponent(MixinProx
 			{
 				hash,
 				source,
+				page: cls.page,
 			},
 			{
 				$lnk,
@@ -1605,6 +1606,7 @@ class ClassesPage extends MixinComponentGlobalState(MixinBaseComponent(MixinProx
 			sc.name,
 			{
 				source: sc.source,
+				page: sc.page,
 				shortName: sc.shortName,
 				stateKey,
 				mod,

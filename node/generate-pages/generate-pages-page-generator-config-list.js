@@ -123,6 +123,9 @@ class _PageGeneratorListConditionsDiseases extends PageGeneratorListBase {
 	_page = UrlUtil.PG_CONDITIONS_DISEASES;
 	_pageTitle = "Conditions & Diseases";
 	_scriptIdentList = "conditionsdiseases";
+	_isHasRenderer = false;
+
+	_isModule = true;
 
 	_btnsList = [
 		HtmlGeneratorListButtons.getBtnPreviewToggle(),
@@ -251,7 +254,8 @@ class _PageGeneratorListItems extends PageGeneratorListBase {
 		"utils-tableview.js",
 	];
 
-	_styleContentWrapperAdditional = "itm__wrp-stats";
+	_styleListContainerAdditional = "ve-flex-6 itm__wrp-lists";
+	_styleContentWrapperAdditional = "ve-flex-4 itm__wrp-stats";
 
 	_btnsSublist = [
 		HtmlGeneratorListButtons.getBtn({width: "6", sortIdent: "name", text: "Name"}),

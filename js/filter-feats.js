@@ -218,6 +218,7 @@ class ModalFilterFeats extends ModalFilterBase {
 				hash,
 				source,
 				sourceJson: feat.source,
+				page: feat.page,
 				ability: feat._slAbility,
 				prerequisite: feat._slPrereq,
 			},
