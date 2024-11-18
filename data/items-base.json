@@ -16,7 +16,7 @@
 			"age": "futuristic",
 			"property": [
 				"AF|DMG",
-				"RLD|XDMG",
+				"RLD",
 				"2H"
 			],
 			"range": "120/360",
@@ -68,7 +68,7 @@
 			"age": "modern",
 			"property": [
 				"AF|DMG",
-				"RLD|XDMG"
+				"RLD"
 			],
 			"range": "50/150",
 			"reload": 15,
@@ -90,7 +90,7 @@
 			"property": [
 				"AF|DMG",
 				"BF|DMG",
-				"RLD|XDMG",
+				"RLD",
 				"2H"
 			],
 			"range": "80/240",
@@ -728,7 +728,7 @@
 			"age": "modern",
 			"property": [
 				"AF|DMG",
-				"RLD|XDMG",
+				"RLD",
 				"2H"
 			],
 			"range": "80/240",
@@ -799,7 +799,7 @@
 			"age": "futuristic",
 			"property": [
 				"AF|DMG",
-				"RLD|XDMG"
+				"RLD"
 			],
 			"range": "40/120",
 			"reload": 50,
@@ -820,7 +820,7 @@
 			"age": "futuristic",
 			"property": [
 				"AF|DMG",
-				"RLD|XDMG",
+				"RLD",
 				"2H"
 			],
 			"range": "100/300",
@@ -1301,7 +1301,7 @@
 			"age": "modern",
 			"property": [
 				"AF|DMG",
-				"RLD|XDMG"
+				"RLD"
 			],
 			"range": "40/120",
 			"reload": 6,
@@ -1466,7 +1466,7 @@
 			"age": "modern",
 			"property": [
 				"AF|DMG",
-				"RLD|XDMG",
+				"RLD",
 				"2H"
 			],
 			"range": "30/90",
