@@ -348,6 +348,7 @@ PropOrder._META = [
 
 	"spellSchools",
 	"spellDistanceUnits",
+	"featCategories",
 	"optionalFeatureTypes",
 	"psionicTypes",
 	"currencyConversions",
@@ -457,6 +458,7 @@ PropOrder._MONSTER = [
 
 	"save",
 	"skill",
+	"tool",
 	"senses",
 	"passive",
 	"resist",

@@ -257,6 +257,12 @@ export class AcConvert {
 			case "battered splint mail":
 			case "natural & tailored leather":
 			case "canny defense": // Dungeons of Drakkenheim
+			case "mail-shirt": // The Lord of the Rings Roleplaying
+			case "orc-leather":
+			case "heavy orc-mail":
+			case "orc leather":
+			case "orc-mail":
+			case "mail hauberk":
 				return fromLow;
 
 			case "plate armor of bhaal": return "plate armor of Bhaal";
@@ -611,6 +617,9 @@ export class TagCreatureSubEntryInto {
 									const {abil} = m.at(-1);
 									return `{@actSave ${abil.toLowerCase().slice(0, 3)}}`;
 								})
+								// "Failure or Success: ..."
+								.replace(/(?<=^|[.!?;] )(Failure or Success:)(?= )/g, (...m) => `{@actSaveSuccessOrFail}`)
+								.replace(/(?<=^|[.!?;] )(Success or Failure:)(?= )/g, (...m) => `{@actSaveSuccessOrFail}`)
 								// "Success: ..."
 								.replace(/(?<=^|[.!?;] )(Success:)(?= )/g, (...m) => `{@actSaveSuccess}`)
 								// "Failure: ..."

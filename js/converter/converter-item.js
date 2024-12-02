@@ -83,7 +83,7 @@ export class ConverterItem extends ConverterBase {
 	static _getFinalState (item, options) {
 		if (item.__prop === "baseitem") item.acceptsVariantEdition = SITE_STYLE__CLASSIC;
 
-		if (!item.entries.length) delete item.entries;
+		if (!item.entries?.length) delete item.entries;
 		else this._setWeight(item, options);
 
 		if (item.staff) this._setQuarterstaffStats(item, options);
@@ -102,7 +102,7 @@ export class ConverterItem extends ConverterBase {
 		if (stats.entries) {
 			EntryCoalesceEntryLists.mutCoalesce(stats, "entries", {styleHint: options.styleHint});
 
-			if (/is a (tiny|small|medium|large|huge|gargantuan) object/.test(JSON.stringify(stats.entries))) options.cbWarning(`${stats.name ? `(${stats.name}) ` : ""}Item may be an object!`);
+			if (/is a (tiny|small|medium|large|huge|gargantuan) object/i.test(JSON.stringify(stats.entries))) options.cbWarning(`${stats.name ? `(${stats.name}) ` : ""}Item may be an object!`);
 		}
 		this._doItemPostProcess_addTags(stats, options);
 		BasicTextClean.tryRun(stats);
