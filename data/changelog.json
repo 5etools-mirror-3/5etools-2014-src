@@ -2839,5 +2839,10 @@
 		"ver": "1.210.17",
 		"date": "2024-12-02",
 		"txt": "- Added middle-click support to \"Popout Window\" list page button, as a shortcut for the popout window -> browser window flow\n- Switched to transparent background and/or higher-resolution images for many entities; book covers (thanks @ anon)\n- Added \"Reduced Threat\" Miscellaneous filter to Bestiary\n- (Brew) Homebrew may now define `\"featCategories\"` (similar to existing `\"optionalFeatureTypes\"`)\n- (Brew) Added rudimentary `\"tool\"` support for creatures\n- (Brew) Added `\"culture\"` prerequisite support\n- (Brew) Fixed rendering of non-PHB skills in Backgrounds page list; fixed rendering of non-PHB skills in Classes page sidebar\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.18",
+		"date": "2024-12-08",
+		"txt": "- Made various accessibility tweaks to the navbar\n- (Brew) Added `\"_copy\"` support for `\"subrace\"`s\n- (Brew) Fixed rendering of creature `\"tool\"` rollers and hover text\n- (Brew) Fixed initial item load crash when offline\n- (Brew) Fixed \"copy existing spell list\" class/subclass spells failing to be added if more than one class/subclass applied to a single spell\n- (Fixed typos/added tags)"
 	}
 ]

@@ -1572,6 +1572,7 @@ PropOrder._FEAT = [
 
 	"additionalSpells",
 
+	"featProgression",
 	"optionalfeatureProgression",
 
 	"entries",
@@ -2233,6 +2234,8 @@ PropOrder._RACE_SUBRACE = [
 	"conditionImmune",
 
 	"soundClip",
+
+	"startingEquipment",
 
 	"additionalSpells",
 

@@ -20827,6 +20827,7 @@
 			],
 			"wondrous": true,
 			"bonusSpellAttack": "+2",
+			"bonusSpellSaveDc": "+2",
 			"entries": [
 				"While wearing this helm, you can see invisible creatures and objects within 60 feet of you. In addition, you gain a +2 bonus to spell attack rolls, and increase your spell saving throw DC by 2.",
 				{
