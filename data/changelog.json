@@ -2844,5 +2844,10 @@
 		"ver": "1.210.18",
 		"date": "2024-12-08",
 		"txt": "- Made various accessibility tweaks to the navbar\n- (Brew) Added `\"_copy\"` support for `\"subrace\"`s\n- (Brew) Fixed rendering of creature `\"tool\"` rollers and hover text\n- (Brew) Fixed initial item load crash when offline\n- (Brew) Fixed \"copy existing spell list\" class/subclass spells failing to be added if more than one class/subclass applied to a single spell\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.19",
+		"date": "2024-12-25",
+		"txt": "- Added token images for all objects and vehicles\n- Added \"Name Generator\" filter to Tables page\n- Fixed RPG Cards JSON Builder rendering of list items\n- Fixed Classes page resetting subclass selection when clicking a class/subclass feature link\n- (Brew) Fixed Creature Text Converter failing to tag `@hit` after running another Text Converter\n- (Brew) Fixed Background Text Converter crash when post-processing languages and/or equipment\n- (Fixed typos/added tags)"
 	}
 ]

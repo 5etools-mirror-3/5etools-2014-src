@@ -95,6 +95,7 @@
 					]
 				}
 			],
+			"hasToken": true,
 			"hasFluffImages": true
 		},
 		{
@@ -122,6 +123,7 @@
 					]
 				}
 			],
+			"hasToken": true,
 			"hasFluff": true
 		},
 		{
@@ -140,6 +142,7 @@
 			"capCrew": 3,
 			"capPassenger": 12,
 			"pace": 15,
+			"hasToken": true,
 			"hasFluff": true
 		},
 		{
@@ -276,6 +279,7 @@
 					]
 				}
 			],
+			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
 		},
@@ -862,6 +866,8 @@
 					]
 				}
 			],
+			"tokenCredit": "Castro Lorenzo",
+			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
 		},
@@ -1100,6 +1106,8 @@
 					]
 				}
 			],
+			"tokenCredit": "Harvey W. Johnson",
+			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
 		},
@@ -1355,6 +1363,8 @@
 					]
 				}
 			],
+			"tokenCredit": "OlgaRodinaARTS",
+			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
 		},
@@ -1487,6 +1497,7 @@
 					]
 				}
 			],
+			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
 		},
@@ -1724,6 +1735,7 @@
 					]
 				}
 			],
+			"hasToken": true,
 			"hasFluff": true
 		},
 		{
@@ -1929,6 +1941,8 @@
 					]
 				}
 			],
+			"tokenCredit": "Alan Sanders",
+			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
 		},
@@ -2605,7 +2619,8 @@
 			"entries": [
 				"This magic vehicle has four legs that propel it across land and water. It moves according to your spoken directions while you are riding it, and creatures of your choice gain a +1 bonus to their Armor Class while on the boat.",
 				"The boat can transport up to 1,000 pounds without hindrance. It can carry up to twice this weight, but it moves at half speed if it carries more than its normal capacity."
-			]
+			],
+			"hasToken": true
 		},
 		{
 			"name": "Tormentor",
@@ -3054,6 +3069,8 @@
 					]
 				}
 			],
+			"tokenCredit": "Gordon Frickers",
+			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
 		},

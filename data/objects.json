@@ -35,6 +35,7 @@
 					]
 				}
 			],
+			"tokenCredit": "warmtail",
 			"hasToken": true
 		},
 		{
@@ -109,6 +110,7 @@
 					]
 				}
 			],
+			"tokenCredit": "Hitokiri",
 			"hasToken": true
 		},
 		{
@@ -208,6 +210,10 @@
 					]
 				}
 			],
+			"token": {
+				"name": "Eldritch Cannon",
+				"source": "TCE"
+			},
 			"hasFluffImages": true
 		},
 		{
@@ -262,6 +268,10 @@
 					]
 				}
 			],
+			"token": {
+				"name": "Eldritch Cannon",
+				"source": "TCE"
+			},
 			"hasFluffImages": true
 		},
 		{
@@ -316,6 +326,10 @@
 					]
 				}
 			],
+			"token": {
+				"name": "Eldritch Cannon",
+				"source": "TCE"
+			},
 			"hasFluffImages": true
 		},
 		{
@@ -590,7 +604,9 @@
 						}
 					]
 				}
-			]
+			],
+			"tokenCredit": "Unfor art",
+			"hasToken": true
 		},
 		{
 			"name": "Mangonel",
@@ -667,6 +683,7 @@
 					]
 				}
 			],
+			"tokenCredit": "WTactics",
 			"hasToken": true
 		},
 		{
@@ -686,6 +703,7 @@
 			"entries": [
 				"A siege tower is a mobile wooden structure with a beam frame and slats in its walls. Large wooden wheels or rollers allow the tower to be pushed or pulled by soldiers or beasts of burden. Medium or smaller creatures can use the siege tower to reach the top of walls up to 40 feet high. A creature in the tower has {@quickref Cover||3||total cover} from attacks outside the tower."
 			],
+			"tokenCredit": "Roman Topchiy",
 			"hasToken": true
 		},
 		{
@@ -740,6 +758,7 @@
 					]
 				}
 			],
+			"tokenCredit": "Funcom",
 			"hasToken": true
 		},
 		{
@@ -762,7 +781,8 @@
 			"immune": [
 				"poison",
 				"psychic"
-			]
+			],
+			"hasToken": true
 		},
 		{
 			"name": "Trebuchet",
@@ -801,6 +821,7 @@
 					]
 				}
 			],
+			"tokenCredit": "Roman Topchiy",
 			"hasToken": true
 		},
 		{
