@@ -92,6 +92,15 @@ class PageFilterEquipment extends PageFilterBase {
 		return (item.ac || 0) + Number(item.bonusAc);
 	}
 
+	static _mutateForFilters_mutFilterValue (item) {
+		if (item.value || item.valueMult) {
+			item._l_value = Parser.itemValueToFullMultiCurrency(item, {isShortForm: true}).replace(/ +/g, "\u00A0");
+			return;
+		}
+
+		item._l_value = "\u2014";
+	}
+
 	static mutateForFilters (item) {
 		this._mutateForFilters_commonSources(item);
 
@@ -144,6 +153,9 @@ class PageFilterEquipment extends PageFilterBase {
 			: null;
 
 		item._fAc = this._mutateForFilters_getFilterAc(item);
+
+		item._l_weight = Parser.itemWeightToFull(item, true) || "\u2014";
+		this._mutateForFilters_mutFilterValue(item);
 	}
 
 	addToFilters (item, isExcluded) {

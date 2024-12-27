@@ -2208,7 +2208,15 @@ PropOrder._RACE_SUBRACE = [
 
 	"edition",
 
-	PropOrder._ObjectKey.getCopyKey({fnGetModOrder: () => PropOrder._RACE__COPY_MOD}),
+	PropOrder._ObjectKey.getCopyKey({
+		identKeys: [
+			"name",
+			"source",
+			"raceName",
+			"raceSource",
+		],
+		fnGetModOrder: () => PropOrder._RACE__COPY_MOD,
+	}),
 
 	"lineage",
 	"creatureTypes",
@@ -2265,6 +2273,8 @@ PropOrder._RACE_SUBRACE = [
 		fnGetOrder: () => [
 			"name",
 			"source",
+			"raceName",
+			"raceSource",
 			new PropOrder._ObjectKey("_mod", {
 				fnGetOrder: () => PropOrder._RACE__COPY_MOD,
 			}),
