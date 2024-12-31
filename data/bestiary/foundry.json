@@ -14,10 +14,21 @@
 							"key": "system.attributes.hp.max",
 							"mode": "ADD",
 							"value": "+ 5 * @srd5e.userchar.classes.ranger.levels"
+						},
+						{
+							"key": "system.bonuses.abilities.save",
+							"mode": "ADD",
+							"value": "+ @srd5e.userchar.pb"
+						},
+						{
+							"key": "system.bonuses.abilities.check",
+							"mode": "ADD",
+							"value": "+ @srd5e.userchar.pb"
 						}
 					]
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Beast of the Sea",
@@ -33,10 +44,21 @@
 							"key": "system.attributes.hp.max",
 							"mode": "ADD",
 							"value": "+ 5 * @srd5e.userchar.classes.ranger.levels"
+						},
+						{
+							"key": "system.bonuses.abilities.save",
+							"mode": "ADD",
+							"value": "+ @srd5e.userchar.pb"
+						},
+						{
+							"key": "system.bonuses.abilities.check",
+							"mode": "ADD",
+							"value": "+ @srd5e.userchar.pb"
 						}
 					]
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Beast of the Sky",
@@ -49,13 +71,29 @@
 					"name": "Ranger's Leadership",
 					"changes": [
 						{
+							"key": "system.attributes.prof",
+							"mode": "OVERRIDE",
+							"value": "@srd5e.userchar.pb"
+						},
+						{
 							"key": "system.attributes.hp.max",
 							"mode": "ADD",
 							"value": "+ 4 * @srd5e.userchar.classes.ranger.levels"
+						},
+						{
+							"key": "system.bonuses.abilities.save",
+							"mode": "ADD",
+							"value": "+ @srd5e.userchar.pb"
+						},
+						{
+							"key": "system.bonuses.abilities.check",
+							"mode": "ADD",
+							"value": "+ @srd5e.userchar.pb"
 						}
 					]
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Blighted Sapling",
@@ -76,7 +114,8 @@
 						}
 					]
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Drake Companion",
@@ -115,7 +154,8 @@
 						}
 					]
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Homunculus Servant",
@@ -149,7 +189,8 @@
 						}
 					]
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Steel Defender",
@@ -188,7 +229,8 @@
 						}
 					]
 				}
-			]
+			],
+			"migrationVersion": 3
 		},
 		{
 			"name": "Wildfire Spirit",
@@ -204,7 +246,8 @@
 						}
 					]
 				}
-			]
+			],
+			"migrationVersion": 3
 		}
 	]
 }

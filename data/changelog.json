@@ -2854,5 +2854,10 @@
 		"ver": "1.210.20",
 		"date": "2024-12-27",
 		"txt": "- Updated favicon to distinguish from the 2024 site version\n- Fixed Bestiary/Creature Homebrew Builder crash for creatures with \"Special\" damage immunities/resistances/vulnerabilities\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.21",
+		"date": "2024-12-31",
+		"txt": "- (Fixed typos/added tags)"
 	}
 ]

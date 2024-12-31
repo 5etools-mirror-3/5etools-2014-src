@@ -3,6 +3,7 @@ import {ConverterFeatureBase} from "./converter-feature.js";
 import {ItemTag, TagJsons} from "./converterutils-entries.js";
 import {BackgroundSkillTollLanguageEquipmentCoalesce, BackgroundSkillToolLanguageTag, ConverterBackgroundUtil, EquipmentBreakdown} from "./converterutils-background.js";
 import {EntryCoalesceEntryLists, EntryCoalesceRawLines} from "./converterutils-entrycoalesce.js";
+import {PropOrder} from "../utils-proporder.js";
 
 class _ConversionStateTextBackground extends ConversionStateTextBase {}
 

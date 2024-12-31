@@ -2966,7 +2966,7 @@
 				{
 					"name": "Special Equipment",
 					"entries": [
-						"Nezznar has a fully charged spider staff (see appendix B)."
+						"Nezznar has a fully charged {@item spider staff|lmop} (see appendix B)."
 					]
 				},
 				{
