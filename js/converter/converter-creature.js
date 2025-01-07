@@ -3,9 +3,36 @@ import {ConverterBase} from "./converter-base.js";
 import {ConverterUtils} from "./converterutils-utils.js";
 import {DiceConvert, SkillTag, TagCondition} from "./converterutils-tags.js";
 import {ConverterUtilsMarkdown} from "./converterutils-markdown.js";
-import {AcConvert, AlignmentConvert, AttachedItemTag, CreatureConditionImmunityConverter, CreatureDamageImmunityConverter, CreatureDamageResistanceConverter, CreatureDamageVulnerabilityConverter, CreatureSavingThrowTagger, CreatureSpecialEquipmentTagger, DamageTypeTag, DetectNamedCreature, DragonAgeTag, LanguageTag, MiscTag, RechargeConvert, SenseFilterTag, SpeedConvert, SpellcastingTraitConvert, SpellcastingTypeTag, TagCreatureSubEntryInto, TagDc, TagHit, TagImmResVulnConditional, TraitActionTag} from "./converterutils-creature.js";
+import {
+	AcConvert,
+	AlignmentConvert,
+	AttachedItemTag,
+	CreatureConditionImmunityConverter,
+	CreatureDamageImmunityConverter,
+	CreatureDamageResistanceConverter,
+	CreatureDamageVulnerabilityConverter,
+	CreatureSavingThrowTagger,
+	CreatureSpecialEquipmentTagger,
+	DamageTypeTag,
+	DetectNamedCreature,
+	DragonAgeTag,
+	LanguageTag,
+	MiscTag,
+	RechargeConvert,
+	SenseFilterTag,
+	SpeedConvert,
+	SpellcastingTraitConvert,
+	SpellcastingTraitHiddenConvert,
+	SpellcastingTypeTag,
+	TagCreatureSubEntryInto,
+	TagDc,
+	TagHit,
+	TagImmResVulnConditional,
+	TraitActionTag,
+} from "./converterutils-creature.js";
 import {SpellTag} from "./converterutils-entries.js";
 import {PropOrder} from "../utils-proporder.js";
+import {ConverterStringBlocklist} from "./converterutils-utils-blocklist.js";
 
 class _ConversionStateTextCreature extends ConversionStateTextBase {
 	constructor (
@@ -362,8 +389,8 @@ export class ConverterCreature extends ConverterBase {
 			stats.legendary = [];
 			stats.mythic = [];
 
-			let curTrait = {};
 			let lineMode = this._LINE_MODES.TRAITS;
+			let curTrait = {};
 
 			let isLegendaryDescription = false;
 			let isMythicDescription = false;
@@ -506,7 +533,11 @@ export class ConverterCreature extends ConverterBase {
 				meta.curLine = meta.toConvert[meta.ixToConvert];
 
 				// collect subsequent paragraphs
-				while (meta.curLine && !ConverterUtils.isNameLine(meta.curLine, {exceptions: new Set(["cantrips"]), splitterPunc: /([.?!])/g}) && !this._isStartNextLineParsingPhase({line: meta.curLine})) {
+				while (
+					meta.curLine
+					&& !ConverterUtils.isNameLine(meta.curLine, {exceptions: new Set(["cantrips"]), splitterPunc: /([.?!])/g})
+					&& !this._isStartNextLineParsingPhase({line: meta.curLine})
+				) {
 					if (
 						ConverterUtils.getContinuationLineType(curTrait.entries, meta.curLine).isContinuation
 					) {
@@ -566,6 +597,7 @@ export class ConverterCreature extends ConverterBase {
 		this._doStatblockPostProcess(stats, false, options);
 		const statsOut = PropOrder.getOrdered(stats, "monster");
 		options.cbOutput(statsOut, options.isAppend);
+		return statsOut;
 	}
 
 	static _doParseText_crAlt ({meta, stats, cbWarning}) {
@@ -793,6 +825,8 @@ export class ConverterCreature extends ConverterBase {
 		return "trait";
 	}
 
+	/* -------------------------------------------- */
+
 	static _doCleanLegendaryActionHeader (stats) {
 		if (!stats.legendary?.length) return;
 
@@ -813,19 +847,34 @@ export class ConverterCreature extends ConverterBase {
 
 		stats.legendary = stats.legendary
 			.map(ent => {
-				if (!ent.name.trim() && !ent.entries.length) return null;
+				const hasName = !!ent.name.trim();
 
-				const m = /can take ((?<number>\d)|(?<text>one|two|three|four|five|six|seven)) legendary actions?/gi.exec(ent.entries[0]);
-				if (!ent.name.trim() && m) {
-					const asNum = m.groups.number
-						? Number(m.groups.number)
-						: Parser.textToNumber(m.groups.text);
+				if (!hasName && !ent.entries.length) return null;
+
+				const mCanTake = /can take ((?<number>\d)|(?<text>one|two|three|four|five|six|seven)) legendary actions?/gi.exec(ent.entries[0]);
+				if (!hasName && mCanTake) {
+					const asNum = mCanTake.groups.number
+						? Number(mCanTake.groups.number)
+						: Parser.textToNumber(mCanTake.groups.text);
 
 					if (asNum !== 3) stats.legendaryActions = Number(asNum);
 					return null;
 				}
 
-				if (!ent.name.trim() && ent.entries[0].includes("villain")) {
+				const mUses = /^Legendary Action Uses: (?<cnt>\d+)( \((?<cntLair>\d+) in Lair\))?/gi.exec(ent.entries[0]);
+				if (!hasName && mUses) {
+					const {cnt, cntLair} = mUses.groups;
+
+					const asNum = Number(cnt);
+					const asNumLair = cntLair ? Number(cntLair) : null;
+
+					if (asNum !== 3) stats.legendaryActions = asNum;
+					if (asNumLair && asNumLair !== asNum) stats.legendaryActionsLair = asNumLair;
+
+					return null;
+				}
+
+				if (!hasName && ent.entries[0].includes("villain")) {
 					stats.legendaryHeader = ent.entries;
 					return null;
 				}
@@ -855,12 +904,15 @@ export class ConverterCreature extends ConverterBase {
 	static _mutMergeLists ({stats, prop}) {
 		if (!stats[prop]?.length) return;
 
-		this._mutMergeLists_bulleted({stats, prop});
+		this._mutMergeLists_singleEntryBulleted({stats, prop});
+		this._mutMergeLists_singleEntryNumbered({stats, prop});
 		this._mutMergeLists_numbered({stats, prop});
 		this._mutMergeLists_hanging({stats, prop});
 	}
 
-	static _mutMergeLists_bulleted ({stats, prop}) {
+	/* ----- */
+
+	static _mutMergeLists_singleEntryBulleted ({stats, prop}) {
 		stats[prop]
 			.forEach(block => {
 				if (!block?.entries?.length) return;
@@ -879,7 +931,7 @@ export class ConverterCreature extends ConverterBase {
 						if (typeof nxtLine !== "string" || !/^[•●]/.test(nxtLine.trim())) break;
 
 						nxtLine = nxtLine.replace(/^[•●]\s*/, "");
-						const listItem = this._doMergeBulletedLists_getListItem(nxtLine);
+						const listItem = this._mutMergeLists_singleEntryBulleted_getListItem(nxtLine);
 
 						if (!lst) {
 							lst = {type: "list", items: [listItem]};
@@ -894,7 +946,7 @@ export class ConverterCreature extends ConverterBase {
 			});
 	}
 
-	static _doMergeBulletedLists_getListItem (str) {
+	static _mutMergeLists_singleEntryBulleted_getListItem (str) {
 		if (!ConverterUtils.isNameLine(str)) return str;
 
 		const {name, entry} = ConverterUtils.splitNameLine(str);
@@ -904,6 +956,47 @@ export class ConverterCreature extends ConverterBase {
 			entry,
 		};
 	}
+
+	/* ----- */
+
+	static _mutMergeLists_singleEntryNumbered ({stats, prop}) {
+		stats[prop]
+			.forEach(block => {
+				if (!block?.entries?.length) return;
+
+				block.entries = MiscUtil.getWalker().walk(block.entries, {array: arr => {
+					for (let i = 1; i < arr.length; ++i) {
+						const prev = arr[i - 1];
+						if (typeof prev !== "string") continue;
+
+						if (!prev.endsWith(":")) continue;
+
+						const lst = {type: "list", style: "list-hang-notitle", items: []};
+						let j = i;
+						for (; j < arr.length; ++j) {
+							if (typeof arr[j] !== "string") break;
+
+							const mNumber = /^(?<name>\d+(?:-\d+)?[:.])(?<rest>.*)$/.exec(arr[j]);
+							if (!mNumber) break;
+
+							const {name, rest} = mNumber.groups;
+							const nameClean = name.replace(/\.\s*$/, "").trim();
+							const restClean = rest.trim();
+							lst.items.push({type: "item", name: nameClean, entry: restClean});
+						}
+
+						if (!lst.items.length) continue;
+
+						arr[i] = lst;
+						arr.splice(i + 1, j - i - 1);
+					}
+
+					return arr;
+				}});
+			});
+	}
+
+	/* ----- */
 
 	static _mutMergeLists_numbered ({stats, prop}) {
 		for (let i = 0; i < stats[prop].length; ++i) {
@@ -946,6 +1039,8 @@ export class ConverterCreature extends ConverterBase {
 		}
 	}
 
+	/* ----- */
+
 	static _doMergeBreathWeaponLists (stats, prop) {
 		if (!stats[prop]) return;
 
@@ -981,6 +1076,8 @@ export class ConverterCreature extends ConverterBase {
 		}
 	}
 
+	/* ----- */
+
 	static _doMergeEyeRayLists (stats, prop) {
 		if (!stats[prop]) return;
 
@@ -1014,6 +1111,8 @@ export class ConverterCreature extends ConverterBase {
 		}
 	}
 
+	/* ----- */
+
 	/**
 	 * Merge together likely hanging lists. Note that this should be fairly conservative, as merging unwanted entries
 	 * into the list is worse than not merging some list entries.
@@ -1026,6 +1125,8 @@ export class ConverterCreature extends ConverterBase {
 
 			const ptrList = {_: null};
 
+			const isMultiple = /one of the following/i.test(cur.entries.last());
+
 			if (
 				this._doMergeHangingLists_generic({
 					stats,
@@ -1033,8 +1134,13 @@ export class ConverterCreature extends ConverterBase {
 					ix: i,
 					cur,
 					ptrList,
-					fnIsMatchCurEntry: cur => /\b(?:following( effects)?|their effects follow)[^.!?]*:/.test(cur.entries.last().trim()),
-					fnIsMatchNxtStr: ({entryNxt, entryNxtStr}) => /\bthe target\b/i.test(entryNxtStr) && !entryNxt.name?.includes("("),
+					isMultiple,
+					fnIsMatchCurEntry: cur => /\b(?:following( effects)?|their effects follow|subjected to the [^.!?]+ effect)[^.!?]*:/.test(cur.entries.last().trim()),
+					fnIsMatchNxtStr: ({entryNxt, entryNxtStr}) => {
+						if (/\bthe target\b/i.test(entryNxtStr) && !entryNxt.name?.includes("(")) return true;
+						if (entryNxt.name && / Only\)$/.test(entryNxt.name)) return true;
+						return false;
+					},
 				})
 			) continue;
 
@@ -1045,24 +1151,47 @@ export class ConverterCreature extends ConverterBase {
 					ix: i,
 					cur,
 					ptrList,
+					isMultiple,
 					fnIsMatchCurEntry: cur => /\bfollowing effects of that Elemental's choice\b/.test(cur.entries.last().trim()),
 					fnIsMatchNxtStr: ({entryNxt, entryNxtStr}) => /\b[Tt]he Elemental\b/i.test(entryNxtStr),
+				})
+			) continue;
+
+			if (
+				this._doMergeHangingLists_generic({
+					stats,
+					prop,
+					ix: i,
+					cur,
+					ptrList,
+					isMultiple,
+					fnIsMatchCurEntry: cur => /\bhas these weaknesses:/.test(cur.entries.last().trim()),
+					// Assume that this is the last trait, and that everything following should be part of the list
+					fnIsMatchNxtStr: ({entryNxt, entryNxtStr}) => true,
+				})
+			) continue;
+
+			if (
+				this._doMergeHangingLists_generic({
+					stats,
+					prop,
+					ix: i,
+					cur,
+					ptrList,
+					isMultiple,
+					fnIsMatchCurEntry: cur => /\ba different effect, as detailed below[^:.!?]*:$/.test(cur.entries.last().trim()),
+					fnIsMatchNxtStr: ({entryNxt, entryNxtStr}) => entryNxt.name && /^(First|Second|Third|Fourth|Fifth|Sixth|Seventh|Eighth|Ninth)\b/i.test(entryNxt.name),
 				})
 			) continue;
 		}
 	}
 
-	static _doMergeHangingLists_generic ({stats, prop, ix, cur, ptrList, fnIsMatchCurEntry, fnIsMatchNxtStr}) {
+	static _doMergeHangingLists_generic ({stats, prop, ix, cur, ptrList, isMultiple, fnIsMatchCurEntry, fnIsMatchNxtStr}) {
 		if (!fnIsMatchCurEntry(cur)) return false;
 
-		while (stats[prop].length) {
-			const entryNxt = stats[prop][ix + 1];
+		let cnt = 0;
 
-			const entryNxtStr = entryNxt?.entries?.[0];
-			if (!entryNxtStr || typeof entryNxtStr !== "string") break;
-
-			if (fnIsMatchNxtStr && !fnIsMatchNxtStr({entryNxt, entryNxtStr})) break;
-
+		const doAdd = ({entryNxt}) => {
 			if (!ptrList._) {
 				ptrList._ = {type: "list", style: "list-hang-notitle", items: []};
 				cur.entries.push(ptrList._);
@@ -1071,6 +1200,22 @@ export class ConverterCreature extends ConverterBase {
 			ConverterUtils.mutSetEntryTypePretty({obj: entryNxt, type: "item"});
 			ptrList._.items.push(entryNxt);
 			stats[prop].splice(ix + 1, 1);
+			cnt++;
+		};
+
+		while (stats[prop].length) {
+			const entryNxt = stats[prop][ix + 1];
+
+			const entryNxtStr = entryNxt?.entries?.[0];
+			if (!entryNxtStr || typeof entryNxtStr !== "string") break;
+
+			if (fnIsMatchNxtStr && !fnIsMatchNxtStr({entryNxt, entryNxtStr})) {
+				// If multiple items were expected, ensure we add at least two
+				if (isMultiple && cnt === 1) doAdd({entryNxt});
+				break;
+			}
+
+			doAdd({entryNxt});
 		}
 
 		return true;
@@ -1110,15 +1255,17 @@ export class ConverterCreature extends ConverterBase {
 		let hasMultipleBlocks = false;
 		const doOutputStatblock = () => {
 			if (trait != null) doAddFromParsed();
+			let statsOut;
 			if (stats) {
 				this._addExtraTypeTags(stats, meta);
 				this._doStatblockPostProcess(stats, true, options);
-				const statsOut = PropOrder.getOrdered(stats, "monster");
+				statsOut = PropOrder.getOrdered(stats, "monster");
 				options.cbOutput(statsOut, options.isAppend);
 			}
 			stats = getNewStatblock();
 			if (hasMultipleBlocks) options.isAppend = true; // append any further blocks we find in this parse
 			step = 0;
+			return statsOut;
 		};
 
 		let isPrevBlank = true;
@@ -1434,7 +1581,7 @@ export class ConverterCreature extends ConverterBase {
 			}
 		}
 
-		doOutputStatblock();
+		return doOutputStatblock();
 	}
 
 	static _stripMarkdownQuote (line) {
@@ -1487,21 +1634,22 @@ export class ConverterCreature extends ConverterBase {
 
 	// SHARED UTILITY FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////
 	static _doStatblockPostProcess (stats, isMarkdown, options) {
-		this._doFilterAddSpellcasting(stats, "trait", isMarkdown, options);
-		this._doFilterAddSpellcasting(stats, "action", isMarkdown, options);
-		ConverterCreature._PROPS_ENTRIES
+		Renderer.monster.CHILD_PROPS_EXTENDED
 			.filter(prop => stats[prop])
 			.forEach(prop => {
 				stats[prop].forEach(it => RechargeConvert.tryConvertRecharge(it, () => {}, () => options.cbWarning(`${stats.name ? `(${stats.name}) ` : ""}Manual recharge tagging required for ${prop} "${it.name}"`)));
 			});
-		ConverterCreature._PROPS_ENTRIES
-			.filter(prop => stats[prop])
-			.forEach(prop => SpellTag.tryRun(stats[prop], {styleHint: options.styleHint}));
-		AcConvert.tryPostProcessAc(
-			stats,
-			(ac) => options.cbWarning(`${stats.name ? `(${stats.name}) ` : ""}AC "${ac}" requires manual conversion`),
-			(ac) => options.cbWarning(`${stats.name ? `(${stats.name}) ` : ""}Failed to parse AC "${ac}"`),
-		);
+		this._doFilterAddSpellcasting(stats, "trait", isMarkdown, options);
+		this._doFilterAddSpellcasting(stats, "action", isMarkdown, options);
+		const {subEntryNameBlocklist} = this._doStatblockPostProcess_getSubEntryNameInfo({stats});
+		SpellTag.tryRunProps(stats, ConverterCreature._PROPS_ENTRIES, {styleHint: options.styleHint, blocklistNames: subEntryNameBlocklist});
+		SpellcastingTraitHiddenConvert.mutStatblock({stats, props: Renderer.monster.CHILD_PROPS});
+		AcConvert.tryPostProcessAc({
+			mon: stats,
+			cbMan: (ac) => options.cbWarning(`${stats.name ? `(${stats.name}) ` : ""}AC "${ac}" requires manual conversion`),
+			cbErr: (ac) => options.cbWarning(`${stats.name ? `(${stats.name}) ` : ""}Failed to parse AC "${ac}"`),
+			styleHint: options.styleHint,
+		});
 		TagCreatureSubEntryInto.tryRun(stats, (atk) => options.cbWarning(`${stats.name ? `(${stats.name}) ` : ""}Manual attack tagging required for "${atk}"`));
 		TagHit.tryTagHits(stats);
 		TagDc.tryTagDcs(stats);
@@ -1531,26 +1679,28 @@ export class ConverterCreature extends ConverterBase {
 		CreatureSavingThrowTagger.tryRun(stats);
 		CreatureSavingThrowTagger.tryRunSpells(stats);
 		CreatureSavingThrowTagger.tryRunRegionalsLairs(stats);
-		SkillTag.tryRunProps(stats, {props: Renderer.monster.CHILD_PROPS_EXTENDED, styleHint: options.styleHint});
+		SkillTag.tryRunPropsStrictCapsWords(stats, Renderer.monster.CHILD_PROPS_EXTENDED, {styleHint: options.styleHint});
 		MiscTag.tryRun(stats);
 		DetectNamedCreature.tryRun(stats);
 		TagImmResVulnConditional.tryRun(stats);
 		DragonAgeTag.tryRun(stats);
 		AttachedItemTag.tryRun(stats);
 		this._doStatblockPostProcess_doCleanup(stats, options);
+		this._doStatblockPostProcess_doVerify(stats, options);
 	}
 
 	static _doFilterAddSpellcasting (stats, prop, isMarkdown, options) {
 		if (!stats[prop]) return;
 		const spellcasting = [];
 		stats[prop] = stats[prop].map(ent => {
-			if (!ent.name || !ent.name.toLowerCase().includes("spellcasting")) return ent;
+			if (!ent.name || !/\b(?:Coven Magic|Spellcasting)\b/i.test(ent.name)) return ent;
 			const parsed = SpellcastingTraitConvert.tryParseSpellcasting(
 				ent,
 				{
 					isMarkdown,
 					cbMan: (wrn) => options.cbWarning(`${stats.name ? `(${stats.name}) ` : ""}${wrn}`),
 					cbErr: (err) => options.cbWarning(`${stats.name ? `(${stats.name}) ` : ""}${err}`),
+					prop,
 					displayAs: prop,
 					actions: stats.action,
 					reactions: stats.reaction,
@@ -1563,6 +1713,13 @@ export class ConverterCreature extends ConverterBase {
 		if (spellcasting.length) stats.spellcasting = [...stats.spellcasting || [], ...spellcasting];
 	}
 
+	static _doStatblockPostProcess_getSubEntryNameInfo ({stats}) {
+		const subEntryNames = ConverterCreature._PROPS_ENTRIES
+			.filter(prop => stats[prop]?.length)
+			.flatMap(prop => stats[prop].filter(entSub => entSub.name).flatMap(entSub => entSub.name));
+		return {subEntryNames, subEntryNameBlocklist: new ConverterStringBlocklist({blocklist: subEntryNames})};
+	}
+
 	static _doStatblockPostProcess_doCleanup (stats, options) {
 		// remove any empty arrays
 		Object.keys(stats).forEach(k => {
@@ -1570,6 +1727,31 @@ export class ConverterCreature extends ConverterBase {
 				delete stats[k];
 			}
 		});
+	}
+
+	static _doStatblockPostProcess_doVerify (stats, options) {
+		if (!options.cbWarning) return;
+
+		const walker = MiscUtil.getWalker({isNoModification: true});
+
+		ConverterCreature._PROPS_ENTRIES
+			.forEach(prop => {
+				if (!stats[prop]?.length) return;
+
+				stats[prop]
+					.forEach(entSub => {
+						if (!entSub.entries?.length) return;
+
+						walker.walk(entSub.entries, {array: arr => {
+							const itmLast = arr.at(-1);
+							if (typeof itmLast !== "string") return;
+
+							if (itmLast.endsWith(":")) {
+								options.cbWarning(`${stats.name ? `(${stats.name}) ` : ""}Final array string "${itmLast}" ended with ":"`);
+							}
+						}});
+					});
+			});
 	}
 
 	static _tryConvertNumber (strNumber) {
@@ -1891,7 +2073,7 @@ export class ConverterCreature extends ConverterBase {
 
 		const [pt] = pts;
 		const ptSearch = pt.toLowerCase();
-		const isConditions = !Parser.DMG_TYPES.some(type => ptSearch.includes(type));
+		const isConditions = !ptSearch.split(" ").some(tk => Parser.DMG_TYPES.includes(tk));
 
 		if (isConditions) {
 			stats.conditionImmune = CreatureConditionImmunityConverter.getParsed(pt, options);

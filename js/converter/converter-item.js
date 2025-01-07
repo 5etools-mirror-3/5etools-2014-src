@@ -79,6 +79,7 @@ export class ConverterItem extends ConverterBase {
 
 		const statsOut = this._getFinalState(item, options);
 		options.cbOutput(statsOut, options.isAppend);
+		return statsOut;
 	}
 
 	static _getFinalState (item, options) {

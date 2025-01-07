@@ -140,6 +140,7 @@ export class BrewUtil2Base {
 
 		try {
 			const lockToken = await this._LOCK.pLock();
+			if (this._cache_brewsProc) return this._cache_brewsProc;
 			await this._pGetBrewProcessed_({lockToken});
 		} catch (e) {
 			setTimeout(() => { throw e; });
@@ -209,6 +210,7 @@ export class BrewUtil2Base {
 
 		try {
 			lockToken = await this._LOCK.pLock({token: lockToken});
+			if (this._cache_brews) return this._cache_brews;
 
 			const out = [
 				...(await this._pGetBrewRaw({lockToken})),
@@ -238,6 +240,7 @@ export class BrewUtil2Base {
 
 		try {
 			await this._LOCK.pLock({token: lockToken});
+			if (this._cache_brewsLocal) return this._cache_brewsLocal;
 			return (await this._pGetBrew_pGetLocalBrew_());
 		} finally {
 			this._LOCK.unlock();

@@ -271,6 +271,9 @@
 			"source": "HFFotM",
 			"page": 164,
 			"type": "Sigil",
+			"dishTypes": [
+				"snack"
+			],
 			"diet": "X",
 			"allergenGroups": [
 				"molluscs"
@@ -576,9 +579,15 @@
 		},
 		{
 			"name": "Beluir Poached Salmon",
+			"alias": [
+				"Beluir Salmon Spread"
+			],
 			"source": "HFFotM",
 			"page": 100,
 			"type": "Lost in Realmspace",
+			"dishTypes": [
+				"snack"
+			],
 			"diet": "X",
 			"allergenGroups": [
 				"fish",
@@ -586,6 +595,10 @@
 				"milk"
 			],
 			"makes": "about 2 cups",
+			"serves": {
+				"min": 4,
+				"max": 6
+			},
 			"ingredients": [
 				{
 					"type": "ingredient",
@@ -648,6 +661,9 @@
 			"source": "HFFotM",
 			"page": 103,
 			"type": "Lost in Realmspace",
+			"dishTypes": [
+				"snack"
+			],
 			"diet": "C",
 			"allergenGroups": [
 				"sulphites"
@@ -1252,6 +1268,9 @@
 			"source": "HFFotM",
 			"page": 330,
 			"type": "The Yawning Portal",
+			"dishTypes": [
+				"libation"
+			],
 			"diet": "V",
 			"allergenGroups": [
 				"gluten",
@@ -1761,15 +1780,7 @@
 				"When the chicken is cool enough to handle, remove the meat from the bones and shred it into large chunks. Remove the bay leaves from the pot, add the shredded chicken, ½ teaspoon salt, and a few grinds of pepper; stir to mix. Over medium-high heat, return to a simmer. Taste and adjust the seasoning with salt and pepper, if necessary.",
 				"MEANWHILE, MAKE THE DUMPLINGS. Whisk together the flour, baking powder, onion powder, salt, and a few grinds of pepper in a bowl. Add the scallions and toss to combine. In a microwave-safe bowl, microwave the butter and olive oil (or reserved chicken fat, if you have any), stopping to swirl occasionally, to melt the butter. Add the milk and continue to microwave on high until the mixture is just warm (do not overheat), about 1½ minutes. Add the warmed milk mixture to the flour mixture. With a wooden spoon or fork, mix until incorporated and uniformly moist (the mixture should look like a wet, shaggy dough).",
 				"To finish the chicken and cook the dumplings, add the carrots, celery, 1-inch leek pieces, and most of the parsley to the stew and stir to incorporate it. Using a soup spoon, drop twelve golf ball\u2013size portions of dumpling dough into the pot, placing them about ½ inch apart (drop eight around the perimeter and four in the center). Adjust the heat to low, cover, and cook undisturbed until the dumplings are puffed and cooked through, and a toothpick inserted into them comes out clean, 15 to 20 minutes.",
-				"Ladle the stew into bowls, allowing three dumplings per portion. Sprinkle each with some of the remaining parsley and serve.",
-				{
-					"type": "quote",
-					"entries": [
-						"The food served there is as good and hearty as popular lore credits halflings for. (The chicken dumplings are superb.)"
-					],
-					"by": "Ed Greenwood",
-					"from": "Volo's Guide to the Sword Coast"
-				}
+				"Ladle the stew into bowls, allowing three dumplings per portion. Sprinkle each with some of the remaining parsley and serve."
 			],
 			"miscTags": [
 				"alcohol"
@@ -2015,7 +2026,8 @@
 			"page": 199,
 			"type": "Elixir/Ale",
 			"dishTypes": [
-				"cocktail"
+				"cocktail",
+				"libation"
 			],
 			"diet": "V",
 			"allergenGroups": [
@@ -2090,6 +2102,9 @@
 			"source": "HFFotM",
 			"page": 73,
 			"type": "Solamnia",
+			"dishTypes": [
+				"snack"
+			],
 			"diet": "C",
 			"allergenGroups": [
 				"eggs",
@@ -2154,9 +2169,10 @@
 			"page": 188,
 			"type": "Elixir/Ale",
 			"dishTypes": [
-				"drink"
+				"drink",
+				"libation"
 			],
-			"diet": "C",
+			"diet": "X",
 			"allergenGroups": [
 				"milk"
 			],
@@ -2204,10 +2220,11 @@
 					"type": "ingredient",
 					"entry": "{=amount1/v} cups espresso or very strong black coffee, hot",
 					"amount1": 1.5
-				}
+				},
+				"Marshmallows, for serving (optional)"
 			],
 			"instructions": [
-				"In a saucepan over medium heat, whisk together the cocoa powder, brown sugar, cinnamon, cardamom, salt, and water until smooth. Bring the mixture to a simmer and cook, whisking constantly, for about 2 minutes, making sure the whisk gets into the edges of the pan. Whisk in the milk and bring to a simmer (do not boil), whisking frequently, about 10 minutes. Whisk in the vanilla and espresso. Taste and adjust the flavor with additional brown sugar, if desired. Divide among four mugs and serve."
+				"In a saucepan over medium heat, whisk together the cocoa powder, brown sugar, cinnamon, cardamom, salt, and water until smooth. Bring the mixture to a simmer and cook, whisking constantly, for about 2 minutes, making sure the whisk gets into the edges of the pan. Whisk in the milk and bring to a simmer (do not boil), whisking frequently, about 10 minutes. Whisk in the vanilla and espresso. Taste and adjust the flavor with additional brown sugar, if desired. Divide among four mugs, add the marshmallow (if using), and serve."
 			],
 			"hasFluff": true
 		},
@@ -2597,9 +2614,11 @@
 			"page": 192,
 			"type": "Elixir/Ale",
 			"dishTypes": [
-				"cocktail"
+				"cocktail",
+				"libation"
 			],
 			"diet": "V",
+			"makes": "about 1¾ cups",
 			"serves": {
 				"min": 1,
 				"max": 2
@@ -3054,7 +3073,8 @@
 			"type": "Elixir/Ale",
 			"dishTypes": [
 				"drink",
-				"cocktail"
+				"cocktail",
+				"libation"
 			],
 			"diet": "V",
 			"allergenGroups": [
@@ -3606,6 +3626,9 @@
 			"source": "HFFotM",
 			"page": 205,
 			"type": "The Feywild",
+			"dishTypes": [
+				"libation"
+			],
 			"diet": "V",
 			"allergenGroups": [
 				"sulphites"
@@ -4008,7 +4031,8 @@
 			"page": 58,
 			"type": "Elven",
 			"dishTypes": [
-				"entree"
+				"entree",
+				"snack"
 			],
 			"diet": "C",
 			"allergenGroups": [
@@ -4075,6 +4099,9 @@
 			"source": "HFFotM",
 			"page": 146,
 			"type": "Ravenloft",
+			"dishTypes": [
+				"sweet"
+			],
 			"diet": "C",
 			"allergenGroups": [
 				"nuts",
@@ -5126,9 +5153,15 @@
 		},
 		{
 			"name": "Green Ice Rime",
+			"alias": [
+				"The Gelatinous Cube"
+			],
 			"source": "HFFotM",
 			"page": 59,
 			"type": "The Rock of Bral",
+			"dishTypes": [
+				"sweet"
+			],
 			"diet": "X",
 			"allergenGroups": [
 				"fish",
@@ -5287,13 +5320,15 @@
 		{
 			"name": "Greenspear Bundles in Bacon",
 			"alias": [
+				"Asparagus Bundles in Bacon",
 				"Sparrow Grass Bundles in Bacon"
 			],
 			"source": "HF",
 			"page": 71,
 			"type": "Elven",
 			"dishTypes": [
-				"side"
+				"side",
+				"snack"
 			],
 			"diet": "X",
 			"serves": {
@@ -5402,15 +5437,7 @@
 			"noteCook": [
 				"Cooking oats in a mixture of water and milk provides a good balance of richness (using all milk can make the porridge overly rich, especially once the cream garnish is added).",
 				"Add the water to the toasted oats before the milk, otherwise it might foam up.",
-				"The oatmeal will continue to thicken as it cools, so make sure to serve it hot.",
-				{
-					"type": "quote",
-					"entries": [
-						"Six gully dwarves trailed after them, carrying heavy pots of what smelled like oatmeal"
-					],
-					"by": "Margaret Weis and Tracy Hickman",
-					"from": "Dragons of Autumn Twilight"
-				}
+				"The oatmeal will continue to thicken as it cools, so make sure to serve it hot."
 			],
 			"hasFluff": true
 		},
@@ -5674,7 +5701,8 @@
 			"page": 128,
 			"type": "Halfling",
 			"dishTypes": [
-				"dessert"
+				"dessert",
+				"sweet"
 			],
 			"diet": "C",
 			"allergenGroups": [
@@ -6727,6 +6755,9 @@
 			"source": "HFFotM",
 			"page": 16,
 			"type": "The Yawning Portal",
+			"dishTypes": [
+				"snack"
+			],
 			"diet": "X",
 			"allergenGroups": [
 				"crustaceans",
@@ -6786,7 +6817,8 @@
 			"page": 189,
 			"type": "Elixir/Ale",
 			"dishTypes": [
-				"drink"
+				"drink",
+				"libation"
 			],
 			"diet": "V",
 			"allergenGroups": [
@@ -6855,6 +6887,9 @@
 			"source": "HFFotM",
 			"page": 91,
 			"type": "Solamnia",
+			"dishTypes": [
+				"libation"
+			],
 			"diet": "V",
 			"allergenGroups": [
 				"sulphites"
@@ -6924,7 +6959,8 @@
 			"page": 8,
 			"type": "Human",
 			"dishTypes": [
-				"entree"
+				"entree",
+				"snack"
 			],
 			"diet": "X",
 			"allergenGroups": [
@@ -7582,7 +7618,8 @@
 			"page": 131,
 			"type": "Halfling",
 			"dishTypes": [
-				"salad"
+				"salad",
+				"snack"
 			],
 			"diet": "C",
 			"allergenGroups": [
@@ -7797,7 +7834,8 @@
 			"page": 79,
 			"type": "Elven",
 			"dishTypes": [
-				"dessert"
+				"dessert",
+				"sweet"
 			],
 			"diet": "C",
 			"allergenGroups": [
@@ -8359,6 +8397,9 @@
 			"source": "HFFotM",
 			"page": 30,
 			"type": "The Yawning Portal",
+			"dishTypes": [
+				"libation"
+			],
 			"diet": "V",
 			"allergenGroups": [
 				"sulphites"
@@ -8846,7 +8887,8 @@
 			"page": 183,
 			"type": "Elixir/Ale",
 			"dishTypes": [
-				"drink"
+				"drink",
+				"libation"
 			],
 			"diet": "C",
 			"serves": {
@@ -8880,15 +8922,7 @@
 			],
 			"noteCook": [
 				"Peeling the ginger isn't strictly necessary.",
-				"The ginger and lemon zest will continue to infuse the liquid as you drink. For the strongest flavor, leave them in the mug until you finish; remove them at any point when you find the flavor sufficiently potent.",
-				{
-					"type": "quote",
-					"entries": [
-						"Par-Salian opened his mouth to speak, then realized Highmage Astathan was studying him very intently. He closed his mouth again. The tea lingered with a slightly oily aftertaste on his tongue, and Par-Salian finally recognized it. It was bekial seed from the thorn bushes of Estwilde; it acted to open one's consciousness without the deleterious effects of most other opiates. A little was enough to put its user in a trance. Too much was toxic. And the fine line between the two was only drawn by master herbologists."
-					],
-					"by": "Lucien Soulban",
-					"from": "Renegade Wizards"
-				}
+				"The ginger and lemon zest will continue to infuse the liquid as you drink. For the strongest flavor, leave them in the mug until you finish; remove them at any point when you find the flavor sufficiently potent."
 			],
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -9128,7 +9162,8 @@
 			"page": 196,
 			"type": "Elixir/Ale",
 			"dishTypes": [
-				"cocktail"
+				"cocktail",
+				"libation"
 			],
 			"diet": "V",
 			"allergenGroups": [
@@ -9193,6 +9228,9 @@
 			"source": "HFFotM",
 			"page": 150,
 			"type": "Ravenloft",
+			"dishTypes": [
+				"libation"
+			],
 			"diet": "V",
 			"allergenGroups": [
 				"sulphites"
@@ -9445,18 +9483,7 @@
 			"instructions": [
 				"Using a Microplane, grate the orange peel to yield 1½ teaspoons of finely grated zest. Squeeze the orange to yield 1½ tablespoons of juice.",
 				"In a full-size or mini food processor, combine the apricots, ¼ cup of the coconut, the orange zest and juice, vanilla, and a tiny pinch of salt. Process until the mixture is very finely chopped, uniform, and cohesive, pulsing and stopping to scrape down the sides of the work bowl as necessary. Scrape the mixture into a small bowl. Put the remaining ½ cup coconut in a wide, shallow bowl.",
-				"Roll scant 1-tablespoon portions of the apricot mixture into 1-inch balls, gently pressing as you roll to help them cohere (you should have 15 or 16 balls). Working with three or four balls at a time, roll them in the remaining coconut, pressing them gently to help the coconut adhere. Place the balls on a plate and rest them (to firm up and dry out slightly) for 45 minutes. The balls will keep, stored in an airtight container at room temperature, for about 3 days.",
-				{
-					"type": "quote",
-					"entries": [
-						"\"What's this junk?\" he asked.",
-						"\"Quith-pa,\" said Gilthanas. \"Iron rations, in your language. It will last us for many weeks, if need be.\"",
-						"\"It looks like dried fruit!\" Caramon said in disgust.",
-						"\"That's what it is,\" Tanis replied, grinning."
-					],
-					"by": "Margaret Weis and Tracy Hickman",
-					"from": "Dragons of Autumn Twilight"
-				}
+				"Roll scant 1-tablespoon portions of the apricot mixture into 1-inch balls, gently pressing as you roll to help them cohere (you should have 15 or 16 balls). Working with three or four balls at a time, roll them in the remaining coconut, pressing them gently to help the coconut adhere. Place the balls on a plate and rest them (to firm up and dry out slightly) for 45 minutes. The balls will keep, stored in an airtight container at room temperature, for about 3 days."
 			],
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -9466,6 +9493,9 @@
 			"source": "HFFotM",
 			"page": 120,
 			"type": "Lost in Realmspace",
+			"dishTypes": [
+				"libation"
+			],
 			"diet": "V",
 			"allergenGroups": [
 				"sulphites"
@@ -9612,15 +9642,7 @@
 				"Nestle the beef (and any accumulated juices) into the pot (the liquid should come about halfway up the sides of the meat). Cover the pot, transfer it to the oven, and cook for 1¾ hours. Then add the carrots, potatoes, and halved apricots, nestling them into the liquid. Cover the pot, return to the oven, and continue to cook until the beef is extremely tender (a paring knife should slip easily into the meat) and it registers 200°F on an instant-read thermometer, 2¼ to 2¾ hours more.",
 				"Transfer the beef to a cutting board and, using a large slotted spoon, spoon the carrots, potatoes, onion, and apricot halves to a serving platter; tent loosely with foil to keep warm. Pour the accumulated liquid into a fat separator or measuring cup; remove and discard the bay leaves and thyme sprigs. Reserve the garlic. Let the liquid rest until the fat rises to the surface, about 10 minutes. If using a fat separator, pour the liquid into another container; if using a measuring cup, tilt it and use a wide, shallow soup spoon to skim fat off the surface and discard it (the liquid will be thick, and there may not be much fat at the surface.)",
 				"Meanwhile, squeeze the cooked garlic cloves from their skins and mash them to a paste with a fork. Stir the garlic and most of the parsley into the defatted liquid. Taste the gravy and adjust the seasoning with salt and pepper, if necessary.",
-				"Remove the twine from the beef and cut it against the grain into ½-inch-thick slices (or pull it apart into pieces) and sprinkle it very lightly with salt and pepper. Place the meat on the platter with the vegetables and apricots, pour the gravy over the meat, sprinkle with the remaining parsley, and serve.",
-				{
-					"type": "quote",
-					"entries": [
-						"The reindeer had begun their autumn migration southwest to the sea, yet no human track followed the herd....In normal barbarian life, the survival of the tribes depended on their following the reindeer herd."
-					],
-					"by": "R.a. Salvatore",
-					"from": "The Crystal Shard"
-				}
+				"Remove the twine from the beef and cut it against the grain into ½-inch-thick slices (or pull it apart into pieces) and sprinkle it very lightly with salt and pepper. Place the meat on the platter with the vegetables and apricots, pour the gravy over the meat, sprinkle with the remaining parsley, and serve."
 			],
 			"miscTags": [
 				"alcohol"
@@ -9634,7 +9656,8 @@
 			"page": 194,
 			"type": "Elixir/Ale",
 			"dishTypes": [
-				"cocktail"
+				"cocktail",
+				"libation"
 			],
 			"diet": "V",
 			"serves": {
@@ -9739,6 +9762,9 @@
 			"source": "HFFotM",
 			"page": 120,
 			"type": "Lost in Realmspace",
+			"dishTypes": [
+				"libation"
+			],
 			"diet": "V",
 			"allergenGroups": [
 				"sulphites"
@@ -9793,6 +9819,9 @@
 			"source": "HFFotM",
 			"page": 205,
 			"type": "The Feywild",
+			"dishTypes": [
+				"libation"
+			],
 			"diet": "V",
 			"allergenGroups": [
 				"sulphites"
@@ -9841,6 +9870,9 @@
 			"source": "HFFotM",
 			"page": 75,
 			"type": "Solamnia",
+			"dishTypes": [
+				"snack"
+			],
 			"diet": "C",
 			"allergenGroups": [
 				"eggs",
@@ -11291,6 +11323,9 @@
 			"source": "HFFotM",
 			"page": 46,
 			"type": "The Rock of Bral",
+			"dishTypes": [
+				"sweet"
+			],
 			"diet": "V",
 			"makes": "18 tamarind balls",
 			"ingredients": [
@@ -11578,6 +11613,9 @@
 			"source": "HFFotM",
 			"page": 133,
 			"type": "Ravenloft",
+			"dishTypes": [
+				"snack"
+			],
 			"diet": "X",
 			"allergenGroups": [
 				"milk",
@@ -11959,6 +11997,9 @@
 			"source": "HFFotM",
 			"page": 92,
 			"type": "Solamnia",
+			"dishTypes": [
+				"libation"
+			],
 			"diet": "C",
 			"allergenGroups": [
 				"sulphites"
@@ -12175,7 +12216,8 @@
 			"page": 24,
 			"type": "Human",
 			"dishTypes": [
-				"dessert"
+				"dessert",
+				"sweet"
 			],
 			"diet": "V",
 			"makes": "4 apples",
@@ -12226,11 +12268,12 @@
 		{
 			"name": "Twice-Baked Cockatrice Wings",
 			"source": "HF",
-			"page": 1163,
+			"page": 163,
 			"type": "Uncommon Cuisine",
 			"dishTypes": [
 				"entree",
-				"appetizer"
+				"appetizer",
+				"snack"
 			],
 			"diet": "X",
 			"allergenGroups": [
@@ -12380,7 +12423,8 @@
 			"page": 93,
 			"type": "Dwarven",
 			"dishTypes": [
-				"entree"
+				"entree",
+				"snack"
 			],
 			"diet": "V",
 			"allergenGroups": [
@@ -12453,6 +12497,9 @@
 			"source": "HFFotM",
 			"page": 63,
 			"type": "The Rock of Bral",
+			"dishTypes": [
+				"libation"
+			],
 			"diet": "C",
 			"allergenGroups": [
 				"sulphites"
@@ -12833,7 +12880,8 @@
 			"page": 63,
 			"type": "Elven",
 			"dishTypes": [
-				"salad"
+				"salad",
+				"snack"
 			],
 			"diet": "C",
 			"allergenGroups": [
@@ -12964,15 +13012,7 @@
 				"Coarsely cut the 10 tablespoons chilled butter into ½-inch pieces and refrigerate until needed.",
 				"In a bowl, whisk together the flour, baking powder, baking soda, salt, and sugar. Add the chilled butter, toss the pieces in the dry mixture to coat them, and use your fingertips to break up and press the butter into pea-size pieces. Add the buttermilk and, with a sturdy spoon, stir to form a sticky dough with no pockets of dry ingredients remaining. Coat a flexible spatula with nonstick cooking spray and scrape the dough into the greased baking pan. Flour your hands generously and pat the dough into an even layer, making sure to push it into the corners and to the edges. Clean and coat the spatula again, if necessary, and score the dough into nine equal squares (two cuts in each direction, dividing the dough into three rows in each direction), reaching to the bottom of the pan as you score.",
 				"Bake until the biscuits are deep golden brown on top, about 30 minutes, rotating the pan 180 degrees halfway through the baking time.",
-				"Cool the biscuits in the pan for 5 minutes. Remove the biscuits from the pan and set them on a wire rack. Cut the remaining 1 tablespoon room-temperature butter into ½-inch pieces, put them on the surface of the biscuits, wait a moment for them to begin melting, and use a brush or the spatula to spread evenly over the biscuits. Cool the biscuits for about 12 minutes more, pull them apart, and serve warm.",
-				{
-					"type": "quote",
-					"entries": [
-						"When they ate breakfast, though, Regis hoped that more information would be forthcoming, for the biscuits that this traveler had given to Drizzt were truly delicious and incredibly refreshing. After only a few bites, the halfling felt as if he had spent a week at rest."
-					],
-					"by": "R.a. Salvatore",
-					"from": "Streams of Silver"
-				}
+				"Cool the biscuits in the pan for 5 minutes. Remove the biscuits from the pan and set them on a wire rack. Cut the remaining 1 tablespoon room-temperature butter into ½-inch pieces, put them on the surface of the biscuits, wait a moment for them to begin melting, and use a brush or the spatula to spread evenly over the biscuits. Cool the biscuits for about 12 minutes more, pull them apart, and serve warm."
 			],
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -12983,7 +13023,8 @@
 			"page": 197,
 			"type": "Elixir/Ale",
 			"dishTypes": [
-				"cocktail"
+				"cocktail",
+				"libation"
 			],
 			"diet": "C",
 			"allergenGroups": [

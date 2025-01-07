@@ -1,4 +1,9 @@
 {
+	"_meta": {
+		"internalCopies": [
+			"subclass"
+		]
+	},
 	"class": [
 		{
 			"name": "Fighter",

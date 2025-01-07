@@ -15,8 +15,11 @@ const LAST_KEY_ALLOWLIST = new Set([
 export class TagJsons {
 	static async pInit ({spells}) {
 		await TagCondition.pInit();
+		await SkillTag.pInit();
+		await SenseTag.pInit();
 		await SpellTag.pInit(spells);
 		await ItemTag.pInit();
+		await ActionTag.pInit();
 		await FeatTag.pInit();
 		await AdventureBookTag.pInit();
 	}
@@ -45,17 +48,17 @@ export class TagJsons {
 							if (lastKey != null && !LAST_KEY_ALLOWLIST.has(lastKey)) return obj;
 
 							obj = TagCondition.tryRun(obj, {styleHint});
-							obj = SkillTag.tryRun(obj, {styleHint});
-							obj = ActionTag.tryRun(obj, {styleHint});
+							obj = SkillTag.tryRunStrictCapsWords(obj, {styleHint});
 							obj = SenseTag.tryRun(obj, {styleHint});
 							obj = SpellTag.tryRun(obj, {styleHint});
 							obj = ItemTag.tryRun(obj, {styleHint});
+							obj = ActionTag.tryRunStrictCapsWords(obj, {styleHint});
 							obj = TableTag.tryRun(obj, {styleHint});
 							obj = TrapTag.tryRun(obj, {styleHint});
 							obj = HazardTag.tryRun(obj, {styleHint});
 							obj = ChanceTag.tryRun(obj, {styleHint});
-							obj = DiceConvert.getTaggedEntry(obj, {styleHint});
 							obj = QuickrefTag.tryRun(obj, {styleHint});
+							obj = DiceConvert.getTaggedEntry(obj, {styleHint});
 							obj = FeatTag.tryRun(obj, {styleHint});
 							obj = AdventureBookTag.tryRun(obj, {styleHint});
 
@@ -137,9 +140,13 @@ export class SpellTag extends ConverterTaggerInitializable {
 		this._SPELL_NAME_REGEX_CAST = new RegExp(`(?<prefix>casts?(?: the(?: spell)?)? )(?<spell>${spellNamesFiltered.map(it => it.escapeRegexp()).join("|")})\\b`, "gi");
 	}
 
-	static _tryRun (it) {
+	static _tryRun (ent, {styleHint = null, blocklistNames = null} = {}) {
+		styleHint ||= VetoolsConfig.get("styleSwitcher", "style");
+
+		if (blocklistNames) blocklistNames = blocklistNames.getWithBlocklistIgnore([ent.name]);
+
 		return TagJsons.WALKER.walk(
-			it,
+			ent,
 			{
 				string: (str) => {
 					const ptrStack = {_: ""};
@@ -150,7 +157,7 @@ export class SpellTag extends ConverterTaggerInitializable {
 						0,
 						str,
 						{
-							fnTag: this._fnTag.bind(this),
+							fnTag: (strMod) => this._fnTag({strMod, styleHint, blocklistNames}),
 						},
 					);
 					return ptrStack._;
@@ -159,11 +166,17 @@ export class SpellTag extends ConverterTaggerInitializable {
 		);
 	}
 
-	static _fnTag (strMod) {
+	static _getSpellMeta ({name, styleHint}) {
+		name = name.toLowerCase();
+		return this._SPELL_NAMES[name];
+	}
+
+	static _fnTag ({strMod, styleHint, blocklistNames}) {
 		if (TagJsons.OPTIMISTIC) {
 			strMod = strMod
 				.replace(this._SPELL_NAME_REGEX_SPELL, (...m) => {
 					const spellMeta = this._SPELL_NAMES[m[1].toLowerCase()];
+					if (blocklistNames?.isBlocked(spellMeta.name)) return m[0];
 					return `{@spell ${m[1]}${spellMeta.source !== Parser.SRC_PHB ? `|${spellMeta.source}` : ""}} ${m[2]}`;
 				});
 		}
@@ -172,29 +185,35 @@ export class SpellTag extends ConverterTaggerInitializable {
 		strMod = strMod
 			.replace(/\b(antimagic field|dispel magic)\b/gi, (...m) => {
 				const spellMeta = this._SPELL_NAMES[m[1].toLowerCase()];
+				if (blocklistNames?.isBlocked(spellMeta.name)) return m[0];
 				return `{@spell ${m[1]}${spellMeta.source !== Parser.SRC_PHB ? `|${spellMeta.source}` : ""}}`;
 			});
 
 		strMod = strMod
 			.replace(this._SPELL_NAME_REGEX_CAST, (...m) => {
 				const spellMeta = this._SPELL_NAMES[m.last().spell.toLowerCase()];
+				if (blocklistNames?.isBlocked(spellMeta.name)) return m[0];
 				return `${m.last().prefix}{@spell ${m.last().spell}${spellMeta.source !== Parser.SRC_PHB ? `|${spellMeta.source}` : ""}}`;
 			});
 
 		return strMod
 			.replace(this._SPELL_NAME_REGEX_AND, (...m) => {
 				const spellMeta = this._SPELL_NAMES[m[1].toLowerCase()];
+				if (blocklistNames?.isBlocked(spellMeta.name)) return m[0];
 				return `{@spell ${m[1]}${spellMeta.source !== Parser.SRC_PHB ? `|${spellMeta.source}` : ""}} ${m[2]}`;
 			})
-			.replace(/(spells(?:|[^.!?:{]*): )([^.!?]+)/gi, (...m) => {
-				const spellPart = m[2].replace(this._SPELL_NAME_REGEX, (...n) => {
-					const spellMeta = this._SPELL_NAMES[n[1].toLowerCase()];
-					return `{@spell ${n[1]}${spellMeta.source !== Parser.SRC_PHB ? `|${spellMeta.source}` : ""}}`;
+			.replace(/(spells(?:|[^.!?:{]*): )([^.!?]+)/gi, (...mOuter) => {
+				const spellPart = mOuter[2].replace(this._SPELL_NAME_REGEX, (...m) => {
+					const spellMeta = this._getSpellMeta({name: m[1], styleHint});
+					if (!spellMeta) return m[0];
+					if (blocklistNames?.isBlocked(spellMeta.name)) return m[0];
+					return `{@spell ${m[1]}${spellMeta.source !== Parser.SRC_PHB ? `|${spellMeta.source}` : ""}}`;
 				});
-				return `${m[1]}${spellPart}`;
+				return `${mOuter[1]}${spellPart}`;
 			})
 			.replace(this._SPELL_NAME_REGEX_CAST, (...m) => {
 				const spellMeta = this._SPELL_NAMES[m.last().spell.toLowerCase()];
+				if (blocklistNames?.isBlocked(spellMeta.name)) return m[0];
 				return `${m.last().prefix}{@spell ${m.last().spell}${spellMeta.source !== Parser.SRC_PHB ? `|${spellMeta.source}` : ""}}`;
 			})
 		;

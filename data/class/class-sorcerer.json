@@ -1,4 +1,10 @@
 {
+	"_meta": {
+		"internalCopies": [
+			"subclass",
+			"subclassFeature"
+		]
+	},
 	"class": [
 		{
 			"name": "Sorcerer",
@@ -2278,7 +2284,9 @@
 						]
 					],
 					"data": {
-						"tableInclude": true
+						"genTables": {
+							"tableInclude": true
+						}
 					}
 				}
 			]

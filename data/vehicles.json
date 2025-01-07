@@ -337,7 +337,7 @@
 						{
 							"name": "Bolt",
 							"entries": [
-								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@dice 3d10}) piercing damage."
+								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@damage 3d10}) piercing damage."
 							]
 						}
 					]
@@ -363,7 +363,7 @@
 						{
 							"name": "Cannon Ball",
 							"entries": [
-								"{@atk rw} {@hit 6} to hit, range 600/2,400 ft., one target. {@h}88 ({@dice 16d10}) bludgeoning damage."
+								"{@atk rw} {@hit 6} to hit, range 600/2,400 ft., one target. {@h}88 ({@damage 16d10}) bludgeoning damage."
 							]
 						}
 					]
@@ -425,7 +425,7 @@
 						{
 							"name": "Bolt",
 							"entries": [
-								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@dice 3d10}) piercing damage."
+								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@damage 3d10}) piercing damage."
 							]
 						}
 					]
@@ -451,7 +451,7 @@
 						{
 							"name": "Mangonel Stone",
 							"entries": [
-								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@dice 5d10}) bludgeoning damage."
+								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@damage 5d10}) bludgeoning damage."
 							]
 						}
 					]
@@ -685,7 +685,7 @@
 						{
 							"name": "Bolt",
 							"entries": [
-								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@dice 3d10}) piercing damage."
+								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@damage 3d10}) piercing damage."
 							]
 						}
 					]
@@ -711,7 +711,7 @@
 						{
 							"name": "Mangonel Stone",
 							"entries": [
-								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@dice 5d10}) bludgeoning damage."
+								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@damage 5d10}) bludgeoning damage."
 							]
 						}
 					]
@@ -1165,7 +1165,7 @@
 						{
 							"name": "Bolt",
 							"entries": [
-								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@dice 3d10}) piercing damage."
+								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@damage 3d10}) piercing damage."
 							]
 						}
 					]
@@ -1185,7 +1185,7 @@
 						{
 							"name": "Grappling Jaws",
 							"entries": [
-								"{@atk mw} {@hit 6} to hit, reach 10 ft., one ship or Gargantuan creature. {@h}22 ({@dice 4d10}) piercing damage, and the speed of the lamprey ship and the target become 0 until the grapple ends. As an action, a creature can use the grappling jaws' controls to release the target. Otherwise, the effect ends when the target or the lamprey ship drops to 0 hit points."
+								"{@atk mw} {@hit 6} to hit, reach 10 ft., one ship or Gargantuan creature. {@h}22 ({@damage 4d10}) piercing damage, and the speed of the lamprey ship and the target become 0 until the grapple ends. As an action, a creature can use the grappling jaws' controls to release the target. Otherwise, the effect ends when the target or the lamprey ship drops to 0 hit points."
 							]
 						}
 					]
@@ -1249,7 +1249,7 @@
 						{
 							"name": "Bolt",
 							"entries": [
-								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@dice 3d10}) piercing damage."
+								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@damage 3d10}) piercing damage."
 							]
 						}
 					]
@@ -1554,7 +1554,7 @@
 						{
 							"name": "Bolt",
 							"entries": [
-								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@dice 3d10}) piercing damage."
+								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@damage 3d10}) piercing damage."
 							]
 						}
 					]
@@ -1580,7 +1580,7 @@
 						{
 							"name": "Mangonel Stone",
 							"entries": [
-								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@dice 5d10}) bludgeoning damage."
+								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@damage 5d10}) bludgeoning damage."
 							]
 						}
 					]
@@ -1599,7 +1599,7 @@
 						{
 							"name": "Grappling Tentacles",
 							"entries": [
-								"{@atk mw} {@hit 8} to hit, reach 30 ft., one Huge or Gargantuan target. {@h}22 ({@dice 4d10}) bludgeoning damage, and the nautiloid's speed becomes 0 until its spelljammer uses an action to release the target. If the target is a creature, it is {@condition grappled} (escape {@dc 16}). If the target is another ship, the target's speed becomes 0 until the nautiloid releases it, or until the target or the nautiloid drops to 0 hit points."
+								"{@atk mw} {@hit 8} to hit, reach 30 ft., one Huge or Gargantuan target. {@h}22 ({@damage 4d10}) bludgeoning damage, and the nautiloid's speed becomes 0 until its spelljammer uses an action to release the target. If the target is a creature, it is {@condition grappled} (escape {@dc 16}). If the target is another ship, the target's speed becomes 0 until the nautiloid releases it, or until the target or the nautiloid drops to 0 hit points."
 							]
 						},
 						{
@@ -1668,7 +1668,7 @@
 						{
 							"name": "Bolt",
 							"entries": [
-								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@dice 3d10}) piercing damage."
+								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@damage 3d10}) piercing damage."
 							]
 						}
 					]
@@ -1694,7 +1694,7 @@
 						{
 							"name": "Mangonel Stone",
 							"entries": [
-								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@dice 5d10}) bludgeoning damage."
+								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@damage 5d10}) bludgeoning damage."
 							]
 						}
 					]
@@ -2085,7 +2085,7 @@
 						{
 							"name": "Bolt",
 							"entries": [
-								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@dice 3d10}) piercing damage."
+								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@damage 3d10}) piercing damage."
 							]
 						}
 					]
@@ -2106,7 +2106,7 @@
 						{
 							"name": "Claw",
 							"entries": [
-								"{@atk mw} {@hit 3} to hit, reach 20 ft., one target. {@h}11 ({@dice 2d10}) bludgeoning damage. If the target is a Huge or smaller creature, it is also {@condition grappled} (escape {@dc 13}). Until this grapple ends, the creature takes 11 ({@dice 2d10}) bludgeoning damage at the start of each of its turns."
+								"{@atk mw} {@hit 3} to hit, reach 20 ft., one target. {@h}11 ({@damage 2d10}) bludgeoning damage. If the target is a Huge or smaller creature, it is also {@condition grappled} (escape {@dc 13}). Until this grapple ends, the creature takes 11 ({@damage 2d10}) bludgeoning damage at the start of each of its turns."
 							]
 						}
 					]
@@ -2132,7 +2132,7 @@
 						{
 							"name": "Mangonel Stone",
 							"entries": [
-								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@dice 5d10}) bludgeoning damage."
+								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@damage 5d10}) bludgeoning damage."
 							]
 						}
 					]
@@ -2196,7 +2196,7 @@
 						{
 							"name": "Bolt",
 							"entries": [
-								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@dice 3d10}) piercing damage."
+								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@damage 3d10}) piercing damage."
 							]
 						}
 					]
@@ -2215,7 +2215,7 @@
 						{
 							"name": "Piercing Ram",
 							"entries": [
-								"{@atk mw} {@hit 8} to hit, range 0 ft., one object or Gargantuan creature. {@h}88 ({@dice 16d10}) piercing damage. The shrike ship takes half as much damage and comes to a dead stop. Miss: The attack deals no damage, the target moves into the nearest unoccupied space that isn't in the shrike ship's path, and the shrike ship can continue moving if it has any movement left."
+								"{@atk mw} {@hit 8} to hit, range 0 ft., one object or Gargantuan creature. {@h}88 ({@damage 16d10}) piercing damage. The shrike ship takes half as much damage and comes to a dead stop. Miss: The attack deals no damage, the target moves into the nearest unoccupied space that isn't in the shrike ship's path, and the shrike ship can continue moving if it has any movement left."
 							]
 						}
 					]
@@ -2279,7 +2279,7 @@
 						{
 							"name": "Bolt",
 							"entries": [
-								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@dice 3d10}) piercing damage."
+								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@damage 3d10}) piercing damage."
 							]
 						}
 					]
@@ -2305,7 +2305,7 @@
 						{
 							"name": "Mangonel Stone",
 							"entries": [
-								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@dice 5d10}) bludgeoning damage."
+								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@damage 5d10}) bludgeoning damage."
 							]
 						}
 					]
@@ -2561,7 +2561,7 @@
 						{
 							"name": "Bolt",
 							"entries": [
-								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@dice 3d10}) piercing damage."
+								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@damage 3d10}) piercing damage."
 							]
 						}
 					]
@@ -2587,7 +2587,7 @@
 						{
 							"name": "Mangonel Stone",
 							"entries": [
-								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@dice 5d10}) bludgeoning damage."
+								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@damage 5d10}) bludgeoning damage."
 							]
 						}
 					]
@@ -2771,7 +2771,7 @@
 						{
 							"name": "Bolt",
 							"entries": [
-								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@dice 3d10}) piercing damage."
+								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@damage 3d10}) piercing damage."
 							]
 						}
 					]
@@ -2797,7 +2797,7 @@
 						{
 							"name": "Mangonel Stone",
 							"entries": [
-								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@dice 5d10}) bludgeoning damage."
+								"{@atk rw} {@hit 5} to hit, range 200/800 ft. (can't hit targets within 60 feet of it), one target. {@h}27 ({@damage 5d10}) bludgeoning damage."
 							]
 						}
 					]
@@ -2853,7 +2853,7 @@
 						{
 							"name": "Destructive Ray",
 							"entries": [
-								"{@atk rs} {@hit 8} to hit, range 120/480 ft., one target. {@h}35 ({@dice 10d6}) force damage."
+								"{@atk rs} {@hit 8} to hit, range 120/480 ft., one target. {@h}35 ({@damage 10d6}) force damage."
 							]
 						}
 					]
@@ -3126,7 +3126,7 @@
 						{
 							"name": "Bolt",
 							"entries": [
-								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@dice 3d10}) piercing damage."
+								"{@atk rw} {@hit 6} to hit, range 120/480 ft., one target. {@h}16 ({@damage 3d10}) piercing damage."
 							]
 						}
 					]

@@ -22,7 +22,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "QftIS",
-			"page": 105,
+			"page": 106,
 			"_copy": {
 				"name": "Ghost",
 				"source": "MM",
@@ -2117,7 +2117,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "QftIS",
-			"page": 79,
+			"page": 98,
 			"_copy": {
 				"name": "Noble",
 				"source": "MM",
@@ -3049,7 +3049,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "QftIS",
-			"page": 79,
+			"page": 98,
 			"_copy": {
 				"name": "Noble",
 				"source": "MM",

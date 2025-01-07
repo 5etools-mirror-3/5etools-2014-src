@@ -47,6 +47,8 @@ export class ConverterBackground extends ConverterFeatureBase {
 		const entityOut = this._getFinalEntity(state, options);
 
 		options.cbOutput(entityOut, options.isAppend);
+
+		return entityOut;
 	}
 
 	static _doParseText_stepName (state) {

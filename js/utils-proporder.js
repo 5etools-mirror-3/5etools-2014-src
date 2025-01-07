@@ -444,6 +444,7 @@ PropOrder._MONSTER = [
 	"ac",
 	"hp",
 	"speed",
+	"initiative",
 
 	"resource",
 
@@ -466,6 +467,7 @@ PropOrder._MONSTER = [
 	"languages",
 	"cr",
 	"pbNote",
+	"gear",
 
 	new PropOrder._ArrayKey("spellcasting", {
 		fnGetOrder: () => [
@@ -476,11 +478,13 @@ PropOrder._MONSTER = [
 			"constant",
 			"will",
 			"rest",
+			"restLong",
 			"daily",
 			"weekly",
 			"monthly",
 			"yearly",
 			"recharge",
+			"legendary",
 			"charges",
 
 			"ritual",
@@ -508,6 +512,7 @@ PropOrder._MONSTER = [
 	"reaction",
 	"legendaryHeader",
 	"legendaryActions",
+	"legendaryActionsLair",
 	"legendary",
 	"mythicHeader",
 	"mythic",
@@ -516,6 +521,7 @@ PropOrder._MONSTER = [
 	"footer",
 
 	"environment",
+	"treasure",
 	"familiar",
 	"dragonCastingColor",
 	"dragonAge",
@@ -643,6 +649,9 @@ PropOrder._FOUNDRY_MONSTER = [
 ];
 PropOrder._GENERIC_FLUFF = [
 	"name",
+
+	"preserveName",
+
 	"source",
 
 	"_copy",
@@ -860,6 +869,8 @@ PropOrder._BACKGROUND = [
 	"additionalSources",
 	"otherSources",
 	"reprintedAs",
+
+	"edition",
 
 	PropOrder._ObjectKey.getCopyKey({fnGetModOrder: () => PropOrder._BACKGROUND__COPY_MOD}),
 
@@ -1133,6 +1144,8 @@ PropOrder._ENTRY_DATA_OBJECT = [
 	"senses",
 
 	"resources",
+
+	"additionalSpells",
 ];
 PropOrder._CLASS_FEATURE = [
 	"name",

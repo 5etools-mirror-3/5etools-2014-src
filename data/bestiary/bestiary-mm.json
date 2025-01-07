@@ -73,7 +73,7 @@
 				{
 					"name": "Dive Attack",
 					"entries": [
-						"If the aarakocra is flying and dives at least 30 feet straight toward a target and then hits it with a melee weapon attack, the attack deals an extra 3 ({@dice 1d6}) damage to the target."
+						"If the aarakocra is flying and dives at least 30 feet straight toward a target and then hits it with a melee weapon attack, the attack deals an extra 3 ({@damage 1d6}) damage to the target."
 					]
 				}
 			],
@@ -8830,7 +8830,7 @@
 				{
 					"name": "Sneak Attack (1/Turn)",
 					"entries": [
-						"The assassin deals an extra 14 ({@dice 4d6}) damage when it hits a target with a weapon attack and has advantage on the attack roll, or when the target is within 5 feet of an ally of the assassin that isn't {@condition incapacitated} and the assassin doesn't have disadvantage on the attack roll."
+						"The assassin deals an extra 14 ({@damage 4d6}) damage when it hits a target with a weapon attack and has advantage on the attack roll, or when the target is within 5 feet of an ally of the assassin that isn't {@condition incapacitated} and the assassin doesn't have disadvantage on the attack roll."
 					]
 				}
 			],
@@ -11043,7 +11043,7 @@
 				{
 					"name": "Glaive",
 					"entries": [
-						"{@atk mw} {@hit 5} to hit, reach 10 ft., one target. {@h}8 ({@damage 1d10 + 3}) slashing damage. If the target is a creature other than an undead or a construct, it must succeed on a {@dc 12} Constitution saving throw or lose 5 ({@dice 1d10}) hit points at the start of each of its turns due to an infernal wound. Each time the devil hits the wounded target with this attack, the damage dealt by the wound increases by 5 ({@dice 1d10}). Any creature can take an action to stanch the wound with a successful {@dc 12} Wisdom ({@skill Medicine}) check. The wound also closes if the target receives magical healing."
+						"{@atk mw} {@hit 5} to hit, reach 10 ft., one target. {@h}8 ({@damage 1d10 + 3}) slashing damage. If the target is a creature other than an undead or a construct, it must succeed on a {@dc 12} Constitution saving throw or lose 5 ({@dice 1d10}) hit points at the start of each of its turns due to an infernal wound. Each time the devil hits the wounded target with this attack, the damage dealt by the wound increases by 5 ({@damage 1d10}). Any creature can take an action to stanch the wound with a successful {@dc 12} Wisdom ({@skill Medicine}) check. The wound also closes if the target receives magical healing."
 					]
 				}
 			],
@@ -14293,7 +14293,7 @@
 				{
 					"name": "Surprise Attack",
 					"entries": [
-						"If the bugbear surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 7 ({@dice 2d6}) damage from the attack."
+						"If the bugbear surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 7 ({@damage 2d6}) damage from the attack."
 					]
 				}
 			],
@@ -14418,7 +14418,7 @@
 				{
 					"name": "Surprise Attack",
 					"entries": [
-						"If the bugbear surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 7 ({@dice 2d6}) damage from the attack."
+						"If the bugbear surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 7 ({@damage 2d6}) damage from the attack."
 					]
 				},
 				{
@@ -20418,7 +20418,7 @@
 				{
 					"name": "Angelic Weapons",
 					"entries": [
-						"The deva's weapon attacks are magical. When the deva hits with any weapon, the weapon deals an extra {@dice 4d8} radiant damage (included in the attack)."
+						"The deva's weapon attacks are magical. When the deva hits with any weapon, the weapon deals an extra {@damage 4d8} radiant damage (included in the attack)."
 					]
 				},
 				{
@@ -21140,7 +21140,7 @@
 				{
 					"name": "Surprise Attack",
 					"entries": [
-						"If the doppelganger surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 10 ({@dice 3d6}) damage from the attack."
+						"If the doppelganger surprises a creature and hits it with an attack during the first round of combat, the target takes an extra 10 ({@damage 3d6}) damage from the attack."
 					]
 				}
 			],
@@ -24407,7 +24407,7 @@
 				{
 					"name": "Charge",
 					"entries": [
-						"If the elk moves at least 20 feet straight toward a target and then hits it with a ram attack on the same turn, the target takes an extra 7 ({@dice 2d6}) damage. If the target is a creature, it must succeed on a {@dc 13} Strength saving throw or be knocked {@condition prone}."
+						"If the elk moves at least 20 feet straight toward a target and then hits it with a ram attack on the same turn, the target takes an extra 7 ({@damage 2d6}) damage. If the target is a creature, it must succeed on a {@dc 13} Strength saving throw or be knocked {@condition prone}."
 					]
 				}
 			],
@@ -24616,7 +24616,7 @@
 				{
 					"name": "Bolt",
 					"entries": [
-						"{@atk rs} {@hit 15} to hit, range 600 ft., one target. {@h}24 ({@dice 7d6}) damage of one of the following types (empyrean's choice): acid, cold, fire, force, lightning, radiant, or thunder."
+						"{@atk rs} {@hit 15} to hit, range 600 ft., one target. {@h}24 ({@damage 7d6}) damage of one of the following types (empyrean's choice): acid, cold, fire, force, lightning, radiant, or thunder."
 					]
 				}
 			],
@@ -30266,7 +30266,7 @@
 				{
 					"name": "Charge",
 					"entries": [
-						"If the elk moves at least 20 feet straight toward a target and then hits it with a ram attack on the same turn, the target takes an extra 7 ({@dice 2d6}) damage. If the target is a creature, it must succeed on a {@dc 14} Strength saving throw or be knocked {@condition prone}."
+						"If the elk moves at least 20 feet straight toward a target and then hits it with a ram attack on the same turn, the target takes an extra 7 ({@damage 2d6}) damage. If the target is a creature, it must succeed on a {@dc 14} Strength saving throw or be knocked {@condition prone}."
 					]
 				}
 			],
@@ -35825,7 +35825,7 @@
 							"type": "entries",
 							"name": "Hag Eye",
 							"entries": [
-								"A hag coven can craft a magic item called a hag eye, which is made from a real eye coated in varnish and often fitted to a pendant or other wearable item. The hag eye is usually entrusted to a minion for safekeeping and transport. A hag in the coven can take an action to see what the hag eye sees if the hag eye is on the same plane of existence. A hag eye has AC 10, 1 hit point, and darkvision with a radius of 60 feet. If it is destroyed, each coven member takes {@dice 3d10} psychic damage and is {@condition blinded} for 24 hours.",
+								"A hag coven can craft a magic item called a hag eye, which is made from a real eye coated in varnish and often fitted to a pendant or other wearable item. The hag eye is usually entrusted to a minion for safekeeping and transport. A hag in the coven can take an action to see what the hag eye sees if the hag eye is on the same plane of existence. A hag eye has AC 10, 1 hit point, and darkvision with a radius of 60 feet. If it is destroyed, each coven member takes {@damage 3d10} psychic damage and is {@condition blinded} for 24 hours.",
 								"A hag coven can have only one hag eye at a time, and creating a new one requires all three members of the coven to perform a ritual. The ritual takes 1 hour, and the hags can't perform it while {@condition blinded}. During the ritual, if the hags take any action other than performing the ritual, they must start over."
 							]
 						}
@@ -38860,7 +38860,7 @@
 				{
 					"name": "Martial Advantage",
 					"entries": [
-						"Once per turn, the hobgoblin can deal an extra 7 ({@dice 2d6}) damage to a creature it hits with a weapon attack if that creature is within 5 feet of an ally of the hobgoblin that isn't {@condition incapacitated}."
+						"Once per turn, the hobgoblin can deal an extra 7 ({@damage 2d6}) damage to a creature it hits with a weapon attack if that creature is within 5 feet of an ally of the hobgoblin that isn't {@condition incapacitated}."
 					]
 				}
 			],
@@ -38985,7 +38985,7 @@
 				{
 					"name": "Martial Advantage",
 					"entries": [
-						"Once per turn, the hobgoblin can deal an extra 10 ({@dice 3d6}) damage to a creature it hits with a weapon attack if that creature is within 5 feet of an ally of the hobgoblin that isn't {@condition incapacitated}."
+						"Once per turn, the hobgoblin can deal an extra 10 ({@damage 3d6}) damage to a creature it hits with a weapon attack if that creature is within 5 feet of an ally of the hobgoblin that isn't {@condition incapacitated}."
 					]
 				}
 			],
@@ -39131,7 +39131,7 @@
 				{
 					"name": "Martial Advantage",
 					"entries": [
-						"Once per turn, the hobgoblin can deal an extra 14 ({@dice 4d6}) damage to a creature it hits with a weapon attack if that creature is within 5 feet of an ally of the hobgoblin that isn't {@condition incapacitated}."
+						"Once per turn, the hobgoblin can deal an extra 14 ({@damage 4d6}) damage to a creature it hits with a weapon attack if that creature is within 5 feet of an ally of the hobgoblin that isn't {@condition incapacitated}."
 					]
 				}
 			],
@@ -39597,7 +39597,7 @@
 				{
 					"name": "Tail",
 					"entries": [
-						"{@atk mw} {@hit 10} to hit, reach 10 ft., one target. {@h}10 ({@damage 1d8 + 6}) piercing damage. If the target is a creature other than an undead or a construct, it must succeed on a {@dc 17} Constitution saving throw or lose 10 ({@dice 3d6}) hit points at the start of each of its turns due to an infernal wound. Each time the devil hits the wounded target with this attack, the damage dealt by the wound increases by 10 ({@dice 3d6}). Any creature can take an action to stanch the wound with a successful {@dc 12} Wisdom ({@skill Medicine}) check. The wound also closes if the target receives magical healing."
+						"{@atk mw} {@hit 10} to hit, reach 10 ft., one target. {@h}10 ({@damage 1d8 + 6}) piercing damage. If the target is a creature other than an undead or a construct, it must succeed on a {@dc 17} Constitution saving throw or lose 10 ({@dice 3d6}) hit points at the start of each of its turns due to an infernal wound. Each time the devil hits the wounded target with this attack, the damage dealt by the wound increases by 10 ({@damage 3d6}). Any creature can take an action to stanch the wound with a successful {@dc 12} Wisdom ({@skill Medicine}) check. The wound also closes if the target receives magical healing."
 					]
 				},
 				{
@@ -43978,7 +43978,7 @@
 				{
 					"name": "Skewer",
 					"entries": [
-						"Once per turn, when the lizardfolk makes a melee attack with its trident and hits, the target takes an extra 10 ({@dice 3d6}) damage, and the lizardfolk gains temporary hit points equal to the extra damage dealt."
+						"Once per turn, when the lizardfolk makes a melee attack with its trident and hits, the target takes an extra 10 ({@damage 3d6}) damage, and the lizardfolk gains temporary hit points equal to the extra damage dealt."
 					]
 				}
 			],
@@ -44116,7 +44116,7 @@
 				{
 					"name": "Skewer",
 					"entries": [
-						"Once per turn, when the lizardfolk makes a melee attack with its trident and hits, the target takes an extra 10 ({@dice 3d6}) damage, and the lizardfolk gains temporary hit points equal to the extra damage dealt."
+						"Once per turn, when the lizardfolk makes a melee attack with its trident and hits, the target takes an extra 10 ({@damage 3d6}) damage, and the lizardfolk gains temporary hit points equal to the extra damage dealt."
 					]
 				}
 			],
@@ -49544,7 +49544,7 @@
 							"type": "entries",
 							"name": "Hag Eye",
 							"entries": [
-								"A hag coven can craft a magic item called a hag eye, which is made from a real eye coated in varnish and often fitted to a pendant or other wearable item. The hag eye is usually entrusted to a minion for safekeeping and transport. A hag in the coven can take an action to see what the hag eye sees if the hag eye is on the same plane of existence. A hag eye has AC 10, 1 hit point, and darkvision with a radius of 60 feet. If it is destroyed, each coven member takes {@dice 3d10} psychic damage and is {@condition blinded} for 24 hours.",
+								"A hag coven can craft a magic item called a hag eye, which is made from a real eye coated in varnish and often fitted to a pendant or other wearable item. The hag eye is usually entrusted to a minion for safekeeping and transport. A hag in the coven can take an action to see what the hag eye sees if the hag eye is on the same plane of existence. A hag eye has AC 10, 1 hit point, and darkvision with a radius of 60 feet. If it is destroyed, each coven member takes {@damage 3d10} psychic damage and is {@condition blinded} for 24 hours.",
 								"A hag coven can have only one hag eye at a time, and creating a new one requires all three members of the coven to perform a ritual. The ritual takes 1 hour, and the hags can't perform it while {@condition blinded}. During the ritual, if the hags take any action other than performing the ritual, they must start over."
 							]
 						}
@@ -50294,7 +50294,7 @@
 				{
 					"name": "Claw",
 					"entries": [
-						"{@atk mw} {@hit 9} to hit, reach 5 ft., one target. {@h}12 ({@damage 2d6 + 5}) slashing damage. If the target is a creature, it must succeed on a {@dc 16} Constitution saving throw or take 5 ({@damage 2d4}) slashing damage at the start of each of its turns due to a fiendish wound. Each time the nycaloth hits the wounded target with this attack, the damage dealt by the wound increases by 5 ({@dice 2d4}). Any creature can take an action to stanch the wound with a successful {@dc 13} Wisdom ({@skill Medicine}) check. The wound also closes if the target receives magical healing."
+						"{@atk mw} {@hit 9} to hit, reach 5 ft., one target. {@h}12 ({@damage 2d6 + 5}) slashing damage. If the target is a creature, it must succeed on a {@dc 16} Constitution saving throw or take 5 ({@damage 2d4}) slashing damage at the start of each of its turns due to a fiendish wound. Each time the nycaloth hits the wounded target with this attack, the damage dealt by the wound increases by 5 ({@damage 2d4}). Any creature can take an action to stanch the wound with a successful {@dc 13} Wisdom ({@skill Medicine}) check. The wound also closes if the target receives magical healing."
 					]
 				},
 				{
@@ -51434,7 +51434,7 @@
 				{
 					"name": "Gruumsh's Fury",
 					"entries": [
-						"The orc deals an extra 4 ({@dice 1d8}) damage when it hits with a weapon attack (included in the attacks)."
+						"The orc deals an extra 4 ({@damage 1d8}) damage when it hits with a weapon attack (included in the attacks)."
 					]
 				}
 			],
@@ -51442,7 +51442,7 @@
 				{
 					"name": "Spear",
 					"entries": [
-						"{@atk mw,rw} {@hit 5} to hit, reach 5 ft. or range 20/60 ft., one target. {@h}11 ({@dice 1d6 + 3} plus {@dice 1d8}) piercing damage, or 12 ({@damage 2d8 + 3}) piercing damage if used with two hands to make a melee attack."
+						"{@atk mw,rw} {@hit 5} to hit, reach 5 ft. or range 20/60 ft., one target. {@h}11 ({@damage 1d6 + 3} plus {@damage 1d8}) piercing damage, or 12 ({@damage 2d8 + 3}) piercing damage if used with two hands to make a melee attack."
 					]
 				}
 			],
@@ -51582,7 +51582,7 @@
 				{
 					"name": "Gruumsh's Fury",
 					"entries": [
-						"The orc deals an extra 4 ({@dice 1d8}) damage when it hits with a weapon attack (included in the attacks)."
+						"The orc deals an extra 4 ({@damage 1d8}) damage when it hits with a weapon attack (included in the attacks)."
 					]
 				}
 			],
@@ -52660,7 +52660,7 @@
 				{
 					"name": "Dive Attack",
 					"entries": [
-						"If the peryton is flying and dives at least 30 feet straight toward a target and then hits it with a melee weapon attack, the attack deals an extra 9 ({@dice 2d8}) damage to the target."
+						"If the peryton is flying and dives at least 30 feet straight toward a target and then hits it with a melee weapon attack, the attack deals an extra 9 ({@damage 2d8}) damage to the target."
 					]
 				},
 				{
@@ -52946,7 +52946,7 @@
 				{
 					"name": "Drop",
 					"entries": [
-						"{@atk mw} {@hit 3} to hit, one creature directly underneath the piercer. {@h}3 ({@damage 1d6}) piercing damage per 10 feet fallen, up to 21 ({@dice 6d6}). Miss: The piercer takes half the normal falling damage for the distance fallen."
+						"{@atk mw} {@hit 3} to hit, one creature directly underneath the piercer. {@h}3 ({@damage 1d6}) piercing damage per 10 feet fallen, up to 21 ({@damage 6d6}). Miss: The piercer takes half the normal falling damage for the distance fallen."
 					]
 				}
 			],
@@ -53493,7 +53493,7 @@
 				{
 					"name": "Angelic Weapons",
 					"entries": [
-						"The planetar's weapon attacks are magical. When the planetar hits with any weapon, the weapon deals an extra {@dice 5d8} radiant damage (included in the attack)."
+						"The planetar's weapon attacks are magical. When the planetar hits with any weapon, the weapon deals an extra {@damage 5d8} radiant damage (included in the attack)."
 					]
 				},
 				{
@@ -54002,7 +54002,7 @@
 					"name": "Telekinetic Thrust",
 					"entries": [
 						"The poltergeist targets a creature or unattended object within 30 feet of it. A creature must be Medium or smaller to be affected by this magic, and an object can weigh up to 150 pounds.",
-						"If the target is a creature, the poltergeist makes a Charisma check contested by the target's Strength check. If the poltergeist wins the contest, the poltergeist hurls the target up to 30 feet in any direction, including upward. If the target then comes into contact with a hard surface or heavy object, the target takes {@dice 1d6} damage per 10 feet moved.",
+						"If the target is a creature, the poltergeist makes a Charisma check contested by the target's Strength check. If the poltergeist wins the contest, the poltergeist hurls the target up to 30 feet in any direction, including upward. If the target then comes into contact with a hard surface or heavy object, the target takes {@damage 1d6} damage per 10 feet moved.",
 						"If the target is an object that isn't being worn or carried, the poltergeist hurls it up to 30 feet in any direction. The poltergeist can use the object as a ranged weapon, attacking one creature along the object's path ({@hit 4} to hit) and dealing 5 ({@damage 2d4}) bludgeoning damage on a hit."
 					]
 				}
@@ -54985,7 +54985,7 @@
 				{
 					"name": "Wounded Fury",
 					"entries": [
-						"While it has 10 hit points or fewer, the quaggoth has advantage on attack rolls. In addition, it deals an extra 7 ({@dice 2d6}) damage to any target it hits with a melee attack."
+						"While it has 10 hit points or fewer, the quaggoth has advantage on attack rolls. In addition, it deals an extra 7 ({@damage 2d6}) damage to any target it hits with a melee attack."
 					]
 				}
 			],
@@ -55211,7 +55211,7 @@
 				{
 					"name": "Wounded Fury",
 					"entries": [
-						"While it has 10 hit points or fewer, the quaggoth has advantage on attack rolls. In addition, it deals an extra 7 ({@dice 2d6}) damage to any target it hits with a melee attack."
+						"While it has 10 hit points or fewer, the quaggoth has advantage on attack rolls. In addition, it deals an extra 7 ({@damage 2d6}) damage to any target it hits with a melee attack."
 					]
 				}
 			],
@@ -59084,7 +59084,7 @@
 							"type": "entries",
 							"name": "Hag Eye",
 							"entries": [
-								"A hag coven can craft a magic item called a hag eye, which is made from a real eye coated in varnish and often fitted to a pendant or other wearable item. The hag eye is usually entrusted to a minion for safekeeping and transport. A hag in the coven can take an action to see what the hag eye sees if the hag eye is on the same plane of existence. A hag eye has AC 10, 1 hit point, and darkvision with a radius of 60 feet. If it is destroyed, each coven member takes {@dice 3d10} psychic damage and is {@condition blinded} for 24 hours.",
+								"A hag coven can craft a magic item called a hag eye, which is made from a real eye coated in varnish and often fitted to a pendant or other wearable item. The hag eye is usually entrusted to a minion for safekeeping and transport. A hag in the coven can take an action to see what the hag eye sees if the hag eye is on the same plane of existence. A hag eye has AC 10, 1 hit point, and darkvision with a radius of 60 feet. If it is destroyed, each coven member takes {@damage 3d10} psychic damage and is {@condition blinded} for 24 hours.",
 								"A hag coven can have only one hag eye at a time, and creating a new one requires all three members of the coven to perform a ritual. The ritual takes 1 hour, and the hags can't perform it while {@condition blinded}. During the ritual, if the hags take any action other than performing the ritual, they must start over."
 							]
 						}
@@ -60881,7 +60881,7 @@
 				{
 					"name": "Angelic Weapons",
 					"entries": [
-						"The solar's weapon attacks are magical. When the solar hits with any weapon, the weapon deals an extra {@dice 6d8} radiant damage (included in the attack)."
+						"The solar's weapon attacks are magical. When the solar hits with any weapon, the weapon deals an extra {@damage 6d8} radiant damage (included in the attack)."
 					]
 				},
 				{
@@ -62179,7 +62179,7 @@
 				{
 					"name": "Sneak Attack (1/Turn)",
 					"entries": [
-						"The spy deals an extra 7 ({@dice 2d6}) damage when it hits a target with a weapon attack and has advantage on the attack roll, or when the target is within 5 feet of an ally of the spy that isn't {@condition incapacitated} and the spy doesn't have disadvantage on the attack roll."
+						"The spy deals an extra 7 ({@damage 2d6}) damage when it hits a target with a weapon attack and has advantage on the attack roll, or when the target is within 5 feet of an ally of the spy that isn't {@condition incapacitated} and the spy doesn't have disadvantage on the attack roll."
 					]
 				}
 			],
@@ -72633,7 +72633,7 @@
 				{
 					"name": "Slam (Bite in Spider Form)",
 					"entries": [
-						"{@atk mw} {@hit 6} to hit, reach 5 ft. (10 feet in demon form), one target. {@h}5 ({@dice 1d6 + 2}) bludgeoning (piercing in spider form) damage plus 21 ({@damage 6d6}) poison damage."
+						"{@atk mw} {@hit 6} to hit, reach 5 ft. (10 feet in demon form), one target. {@h}5 ({@damage 1d6 + 2}) bludgeoning (piercing in spider form) damage plus 21 ({@damage 6d6}) poison damage."
 					]
 				},
 				{
