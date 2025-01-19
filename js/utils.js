@@ -2,7 +2,7 @@
 
 // in deployment, `IS_DEPLOYED = "<version number>";` should be set below.
 globalThis.IS_DEPLOYED = undefined;
-globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.22"/* 5ETOOLS_VERSION__CLOSE */;
+globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.23"/* 5ETOOLS_VERSION__CLOSE */;
 globalThis.DEPLOYED_IMG_ROOT = undefined;
 // for the roll20 script to set
 globalThis.IS_VTT = false;
@@ -8459,8 +8459,8 @@ if (!IS_VTT && typeof window !== "undefined") {
 	}
 
 	// window.addEventListener("load", () => {
-	// 	$(`.cancer__sidebar-rhs-inner--top`).append(`<div class="TEST_RHS_TOP"></div>`)
-	// 	$(`.cancer__sidebar-rhs-inner--bottom`).append(`<div class="TEST_RHS_BOTTOM"></div>`)
+	// 	$(`.cancer__sidebar-inner--top`).append(`<div style="width: 300px; height: 600px; background: #f0f;"></div>`);
+	// 	$(`.cancer__sidebar-inner--bottom`).append(`<div style="width: 300px; height: 600px; background: #f0f;"></div>`);
 	// });
 	// endregion
 }
