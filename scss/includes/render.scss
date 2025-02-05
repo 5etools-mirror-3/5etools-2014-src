@@ -471,6 +471,16 @@ $rgb-inset-border: #656565;
 				border: 1px solid $rgb-inset-border;
 				background-color: rgb(156 150 120 / 10%);
 			}
+
+			&--narrow {
+				max-width: 600px;
+				margin: 15px auto;
+
+				@media screen and (width <= #{vars.$width-screen-sm}) {
+					max-width: initial;
+					margin: 15px 5px;
+				}
+			}
 		}
 
 		&li > .rd__b-data {
@@ -480,18 +490,25 @@ $rgb-inset-border: #656565;
 		&data-embed {
 			&-header {
 				cursor: pointer;
-				font-family: "Times New Roman", serif;
-				font-variant: small-caps;
-				text-transform: uppercase;
-				font-weight: bold;
 
 				&:hover {
 					background: rgb(100 100 100 / 8%);
 				}
 			}
 
+			&-name {
+				font-family: "Times New Roman", serif;
+				font-variant: small-caps;
+				text-transform: uppercase;
+				font-weight: bold;
+			}
+
+			&-name-expanded {
+				font-weight: normal;
+				font-size: 90%;
+			}
+
 			&-toggle {
-				font-family: Arial, sans-serif;
 				float: right;
 			}
 		}

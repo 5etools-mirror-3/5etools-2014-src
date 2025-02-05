@@ -6221,79 +6221,6 @@
 			"hasFluffImages": true
 		},
 		{
-			"name": "Borealus",
-			"source": "HWCS",
-			"page": 213,
-			"immune": [
-				"cold"
-			],
-			"resist": [
-				"fire"
-			],
-			"tier": "major",
-			"rarity": "artifact",
-			"reqAttune": true,
-			"weaponCategory": "simple",
-			"property": [
-				"V"
-			],
-			"dmg1": "1d6",
-			"dmgType": "B",
-			"dmg2": "1d8",
-			"staff": true,
-			"entries": [
-				"This legendary artifact was created by a powerful wizard, crafted from the finger of a towering, ancient elemental aspect of frost. It is so cold to the touch that it numbs any skin it comes into contact with, although an attuned character is immune to this effect.",
-				{
-					"name": "Gifts of the Rime",
-					"type": "entries",
-					"entries": [
-						"As long as you are attuned to the Borealus, you gain the following benefits:",
-						{
-							"type": "list",
-							"items": [
-								"You are resistant to fire damage",
-								"You are immune to cold damage",
-								"You learn the {@spell ray of frost} cantrip"
-							]
-						}
-					]
-				},
-				{
-					"name": "Breath of Winter",
-					"type": "entries",
-					"entries": [
-						"While holding the staff you can use your action to unleash an icy-cold blizzard from your open mouth. A 100-foot-cone of hoarfrost blasts forth in a direction of your choice, dealing {@damage 9d8} cold damage to all creatures within the cone if they fail a {@dc 18} Constitution saving throw, or half as much on a success. You can't use this property again until the next dawn."
-					]
-				},
-				{
-					"name": "Glacial Prison",
-					"type": "entries",
-					"entries": [
-						"By using your action to touch the staff to a surface, you can cause a barrier of ice to spring into existence from a point you can see along this surface within 200 feet of you. This effect is otherwise identical to a {@spell wall of ice} spell cast at 6th level, with a {@dc 18} for all saving throws related to the effect. You can't use this property again until 3 days have passed."
-					]
-				},
-				{
-					"name": "Cruel Winds",
-					"type": "entries",
-					"entries": [
-						"Wherever the staff goes, a bitterly cold boreal wind accompanies it. The wind gusts intermittently within 30 feet of the attuned character and extinguishes all non-magical flames it comes into contact with."
-					]
-				},
-				{
-					"name": "Destroying the Staff",
-					"type": "entries",
-					"entries": [
-						"The staff can be destroyed through exposure to flames from a fire elemental of equal power to the being it was crafted from. After centuries of exposure, it will melt away into nothing."
-					]
-				}
-			],
-			"attachedSpells": [
-				"ray of frost",
-				"wall of ice"
-			],
-			"hasFluffImages": true
-		},
-		{
 			"name": "Boros Guild Signet",
 			"source": "GGR",
 			"page": 178,
@@ -7215,6 +7142,9 @@
 			"value": 1,
 			"entries": [
 				"For 1 hour, a candle sheds bright light in a 5-foot radius and dim light for an additional 5 feet."
+			],
+			"miscTags": [
+				"CNS"
 			]
 		},
 		{
@@ -16848,76 +16778,6 @@
 			"entries": [
 				"This small metal disk is inscribed with the image of a feather. When you fall at least 20 feet while the token is on your person, you descend 60 feet per round and take no damage from falling. The token's magic is expended after you land, whereupon the disk becomes nonmagical."
 			]
-		},
-		{
-			"name": "Feathered Helm",
-			"source": "HWCS",
-			"page": 213,
-			"rarity": "rare",
-			"reqAttune": true,
-			"wondrous": true,
-			"recharge": "dawn",
-			"rechargeAmount": "{@dice 1d3}",
-			"charges": 3,
-			"entries": [
-				"The helm itself is simple leather, hide, scale, or plate, but the magic imbued into it comes from the feather. The birdfolk races of Humblewood consider the giving of a feather to be one of the highest honors one can bestow, and it represents an eternal bond or deep appreciation.",
-				"The helm has 3 charges that, while wearing it, you can use to activate its abilities. The helm has different properties based on the race of the birdfolk who gifted the feather.",
-				{
-					"name": "Corvum",
-					"type": "entries",
-					"entries": [
-						"You can use a charge to cast {@spell Tasha's hideous laughter} (save {@dc 16}) and two charges to cast {@spell detect thoughts} (save {@dc 16})."
-					]
-				},
-				{
-					"name": "Gallus",
-					"type": "entries",
-					"entries": [
-						"You can use a charge to cast {@spell bless} and two charges to cast {@spell aid}."
-					]
-				},
-				{
-					"name": "Luma",
-					"type": "entries",
-					"entries": [
-						"You can use a charge to cast a random 1st-level spell from the {@filter sorcerer spell list|spells|level=1|class=sorcerer}, then roll a {@dice d20}. On a roll of 20, you may use this ability again without expending a charge. On a roll of 1, the spell also targets you, unless you are its only target, in which case the spell fizzles to no effect. Any spell cast using this helm that requires a saving throw has a save DC of 16."
-					]
-				},
-				{
-					"name": "Raptor",
-					"type": "entries",
-					"entries": [
-						"You can use a charge to cast {@spell hunter's mark} and two charges to cast {@spell magic weapon}."
-					]
-				},
-				{
-					"name": "Strig",
-					"type": "entries",
-					"entries": [
-						"You can use a charge to cast {@spell divine favor} and two charges to cast {@spell pass without trace}."
-					]
-				},
-				"The helm regains {@dice 1d3} charges each day at dawn.",
-				{
-					"type": "inset",
-					"name": "A True Gift",
-					"entries": [
-						"Whether you are playing through the Humblewood adventure, or playing your own campaign in the Wood, look for organic relationships between a character and the races of birdfolk. If one stands out, use that to decide what type of feather is offered to the player in this helm.",
-						"Additionally, a player whose character is a birdfolk may want to make this gift themselves. Make sure to create a narrative bond between this character and who they share a feather with\u2014the gift of a feather is not something which should be given lightly."
-					]
-				}
-			],
-			"attachedSpells": [
-				"tasha's hideous laughter",
-				"detect thoughts",
-				"bless",
-				"aid",
-				"hunter's mark",
-				"magic weapon",
-				"divine favor",
-				"pass without trace"
-			],
-			"hasFluffImages": true
 		},
 		{
 			"name": "Feathered mantle with emerald clasp (Sun Empire)",
@@ -29462,97 +29322,6 @@
 			"value": 250000
 		},
 		{
-			"name": "Necronomicon Ex Corvis",
-			"source": "HWCS",
-			"page": 213,
-			"rarity": "artifact",
-			"reqAttune": true,
-			"wondrous": true,
-			"ability": {
-				"int": 2
-			},
-			"entries": [
-				"This legendary tome of dark necromancy was penned by the mad corvum necromancer Lathrus, of the Night's Call. The book is one of a kind and contains terrible necromantic secrets.",
-				"The {@i Necronomicon Ex Corvis} is a {@item spellbook|phb}, and as such only wizards can truly benefit from studying the dark secrets within.",
-				{
-					"name": "Abyssal Secrets",
-					"type": "entries",
-					"entries": [
-						"By spending a full week studying the dark secrets in this tome, your Intelligence score increases by 2. These secrets gnaw at your mind, however, and your Wisdom score decreases by 1."
-					]
-				},
-				{
-					"name": "Grasp of Shadows",
-					"type": "entries",
-					"entries": [
-						"By spending at least a minute reciting a ritual listed in this book, you can summon forth {@dice 1d4 + 2} {@creature shadow|mm|shadows}. These creatures are loyal to you and can understand any instructions you give them. They will carry out these instructions to the best of their ability. This property can only be used once per week."
-					]
-				},
-				{
-					"name": "Knowledge Beyond Reason",
-					"type": "entries",
-					"entries": [
-						"You may add the spells listed below into your spellbook. However, the tome removes the restriction that requires you to be able to prepare and cast these spells. In effect, you can copy these spells to your spellbook now, though they will only be available to prepare once you reach a level at which you can cast them.",
-						"Additionally, rather than pay gold pieces to copy any spell within into your spellbook, you may deal one point of damage to yourself and take one level of {@condition exhaustion} to scribe the spell in your own blood.",
-						{
-							"type": "table",
-							"colLabels": [
-								"Level",
-								"Spell"
-							],
-							"colStyles": [
-								"col-1",
-								"col-11"
-							],
-							"rows": [
-								[
-									"3rd",
-									"{@spell animate dead}, {@spell bestow curse}, {@spell vampiric touch}"
-								],
-								[
-									"4th",
-									"{@spell blight}"
-								],
-								[
-									"6th",
-									"{@spell circle of death}, {@spell magic jar}"
-								],
-								[
-									"7th",
-									"{@spell finger of death}"
-								]
-							]
-						}
-					]
-				},
-				{
-					"name": "The Corvum's Curse",
-					"type": "entries",
-					"entries": [
-						"After copying at least one spell from this tome into your spellbook, you must succeed on a {@dc 16} Wisdom saving throw or become cursed (as {@spell bestow curse}), with the effect of the curse being decided by the GM.",
-						"The curse persists for {@dice 2d4} days, but its duration resets anytime you copy a spell from this book. Otherwise, only a {@spell remove curse} spell cast using a 5th level or higher spell slot can rid you of this effect."
-					]
-				},
-				{
-					"name": "Destroying the Book",
-					"type": "entries",
-					"entries": [
-						"Unlike other artifacts, the book is not immune to damage. Pages removed from the book will lose their magic within a day. Additionally, exposing the book to direct sunlight for at least 8 hours will cause the dark magic within to dissipate, rendering it useless."
-					]
-				}
-			],
-			"attachedSpells": [
-				"animate dead",
-				"bestow curse",
-				"vampiric touch",
-				"blight",
-				"circle of death",
-				"magic jar",
-				"finger of death"
-			],
-			"hasFluffImages": true
-		},
-		{
 			"name": "Necrotic Absorbing Tattoo",
 			"source": "TCE",
 			"page": 119,
@@ -29656,20 +29425,6 @@
 						"In its lifetime, the sword has beheaded thousands of criminals, not all of whom were guilty of the crimes for which they were convicted. The sword cannot distinguish the guilty from the innocent. With each beheading, it hungers for more justice and blood. The sword is corrupt and irredeemable."
 					]
 				}
-			],
-			"hasFluffImages": true
-		},
-		{
-			"name": "Nest Charm",
-			"source": "HWCS",
-			"page": 214,
-			"rarity": "uncommon",
-			"reqAttune": true,
-			"wondrous": true,
-			"entries": [
-				"This charm is a sphere of intricate metal branches, interwoven to form a sort of nest.",
-				"By placing the charm on the ground and speaking its command word, you can cause it to unfold, creating a 30-foot-diameter circular platform of interwoven branches. Once the platform has reached its full size, a magical tree grows beneath it, lifting the platform 50 feet into the air, carrying any passengers and items along with it.",
-				"This perch lasts up to 8 hours, at which point the tree will retreat into the ground and the platform will shrink, eventually curling back into the small charm. At any time the command word can be spoken again to dismiss the perch in a similar fashion. Once the nest charm's power has been used, it can't be used again until the next dawn."
 			],
 			"hasFluffImages": true
 		},
@@ -30064,6 +29819,9 @@
 			"value": 10,
 			"entries": [
 				"Oil usually comes in a clay flask that holds 1 pint. As an action, you can splash the oil in this flask onto a creature within 5 feet of you or throw it up to 20 feet, shattering it on impact. Make a ranged attack against a target creature or object, treating the oil as an improvised weapon. On a hit, the target is covered in oil. If the target takes any fire damage before the oil dries (after 1 minute), the target takes an additional 5 fire damage from the burning oil. You can also pour a flask of oil on the ground to cover a 5-foot-square area, provided that the surface is level. If lit, the oil burns for 2 rounds and deals 5 fire damage to any creature that enters the area or ends its turn in the area. A creature can take this damage only once per turn."
+			],
+			"miscTags": [
+				"CNS"
 			]
 		},
 		{
@@ -47129,6 +46887,9 @@
 			"value": 1,
 			"entries": [
 				"A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage."
+			],
+			"miscTags": [
+				"CNS"
 			]
 		},
 		{
@@ -51401,25 +51162,6 @@
 			],
 			"attachedSpells": [
 				"dominate monster"
-			],
-			"hasFluffImages": true
-		},
-		{
-			"name": "Wing Crest Shield",
-			"source": "HWCS",
-			"page": 214,
-			"type": "S",
-			"rarity": "uncommon",
-			"reqAttune": true,
-			"wondrous": true,
-			"ac": 2,
-			"bonusAc": "+1",
-			"entries": [
-				"While wielding this shield, you gain a +1 bonus to your AC.",
-				"As an action, you can speak the command word to cast {@spell gust of wind} (save {@dc 15}). Once the shield has been used to cast this spell, it can't be used to cast this spell again until the next dawn."
-			],
-			"attachedSpells": [
-				"gust of wind"
 			],
 			"hasFluffImages": true
 		},

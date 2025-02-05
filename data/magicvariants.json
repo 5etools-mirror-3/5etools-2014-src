@@ -415,7 +415,7 @@
 				}
 			],
 			"excludes": {
-				"name": "Energy Cell"
+				"cellEnergy": true
 			},
 			"ammo": true,
 			"entries": [
@@ -934,13 +934,8 @@
 				}
 			],
 			"excludes": {
-				"name": [
-					"Energy Cell",
-					"Modern Bullet",
-					"Modern Bullets (10)",
-					"Renaissance Bullet",
-					"Renaissance Bullets (10)"
-				]
+				"cellEnergy": true,
+				"bulletFirearm": true
 			},
 			"ammo": true,
 			"entries": [
@@ -1075,34 +1070,6 @@
 					}
 				]
 			}
-		},
-		{
-			"name": "Blade of the Wood",
-			"type": "GV|DMG",
-			"requires": [
-				{
-					"sword": true
-				}
-			],
-			"inherits": {
-				"nameSuffix": " of the Wood",
-				"source": "HWCS",
-				"page": 213,
-				"rarity": "rare",
-				"reqAttune": true,
-				"bonusWeapon": "+1",
-				"charges": 2,
-				"entries": [
-					"A finely crafted sword with delicate etchings, it resonates with a faint hum of life.",
-					"You gain a {=bonusWeapon} bonus to attack and damage rolls made with this magic weapon.",
-					"The sword has 2 charges. You can expend a charge and speak the command word to cast {@spell spike growth} (save {@dc 16}) centered on yourself. You can pass through this terrain unaffected.",
-					"The sword regains one charge each day at dawn."
-				],
-				"attachedSpells": [
-					"spike growth"
-				]
-			},
-			"hasFluffImages": true
 		},
 		{
 			"name": "Bloodseeker Ammunition",
@@ -1548,7 +1515,7 @@
 				}
 			],
 			"excludes": {
-				"name": "Energy Cell"
+				"cellEnergy": true
 			},
 			"ammo": true,
 			"inherits": {
@@ -3010,30 +2977,6 @@
 			}
 		},
 		{
-			"name": "Red-Feather Bow",
-			"type": "GV|DMG",
-			"requires": [
-				{
-					"bow": true
-				}
-			],
-			"inherits": {
-				"namePrefix": "Red-Feather ",
-				"source": "HWCS",
-				"page": 214,
-				"rarity": "uncommon",
-				"reqAttune": true,
-				"bonusWeapon": "+1",
-				"charges": 3,
-				"entries": [
-					"A prized hunting weapon among mistral raptors, this bow is imbued with magic to help the wielder see their prey from afar.",
-					"You gain a {=bonusWeapon} bonus to attack and damage rolls made with this magic weapon.",
-					"The bow has 3 charges. When you fire an arrow from this bow, you can speak the command word and use a charge to see through the arrow as a bonus action. You can see from the point your arrow lands as if you were there for 1 minute. If the arrow strikes a creature, you see what they see for the same duration."
-				]
-			},
-			"hasFluffImages": true
-		},
-		{
 			"name": "Ruidium Armor",
 			"type": "GV|DMG",
 			"requires": [
@@ -3155,7 +3098,7 @@
 				}
 			],
 			"excludes": {
-				"name": "Energy Cell"
+				"cellEnergy": true
 			},
 			"ammo": true,
 			"entries": [
@@ -3799,7 +3742,7 @@
 				}
 			],
 			"excludes": {
-				"name": "Energy Cell"
+				"cellEnergy": true
 			},
 			"ammo": true,
 			"inherits": {
