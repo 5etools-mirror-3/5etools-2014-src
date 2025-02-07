@@ -1643,7 +1643,7 @@ export class ConverterCreature extends ConverterBase {
 		this._doFilterAddSpellcasting(stats, "action", isMarkdown, options);
 		const {subEntryNameBlocklist} = this._doStatblockPostProcess_getSubEntryNameInfo({stats});
 		SpellTag.tryRunProps(stats, ConverterCreature._PROPS_ENTRIES, {styleHint: options.styleHint, blocklistNames: subEntryNameBlocklist});
-		SpellcastingTraitHiddenConvert.mutStatblock({stats, props: Renderer.monster.CHILD_PROPS});
+		SpellcastingTraitHiddenConvert.mutStatblock({stats, props: Renderer.monster.CHILD_PROPS, styleHint: options.styleHint});
 		AcConvert.tryPostProcessAc({
 			mon: stats,
 			cbMan: (ac) => options.cbWarning(`${stats.name ? `(${stats.name}) ` : ""}AC "${ac}" requires manual conversion`),

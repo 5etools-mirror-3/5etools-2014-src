@@ -18,9 +18,12 @@
 .gitattributes             text eol=lf
 .gitignore                 text eol=lf
 .eslintignore              text eol=lf
-eslint.config.mjs          text eol=lf
 .gitmodules                text eol=lf
 .node-version              text eol=lf
 manifest.webmanifest       text eol=lf
 docker/*.conf              text eol=lf
 Dockerfile                 text eol=lf
+
+*.zip                      -text
+*.webp                     -text
+*.pdf                      -text

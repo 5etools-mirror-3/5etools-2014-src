@@ -1,6 +1,8 @@
 import {ActionTag, DiceConvert, SenseTag, SkillTag, TagCondition, TaggerUtils} from "./converterutils-tags.js";
 import {VetoolsConfig} from "../utils-config/utils-config-config.js";
 import {ConverterTaggerInitializable} from "./converterutils-taggerbase.js";
+import {SITE_STYLE__CLASSIC} from "../consts.js";
+import {ConverterUtils} from "./converterutils-utils.js";
 
 const LAST_KEY_ALLOWLIST = new Set([
 	"entries",
