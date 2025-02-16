@@ -251,27 +251,34 @@ export class TagCondition extends ConverterTaggerInitializable {
 
 	/* -------------------------------------------- */
 
-	static _getModifiedString_basic ({styleHint}, str) {
-		return str
+	static _fnTag ({strMod, styleHint, blocklistNames}) {
+		return strMod
 			.replace(this._conditionMatcher, (...m) => {
 				const name = m[1];
+
+				if (blocklistNames?.isBlocked(name)) return m[0];
+
 				const source = this._conditionSourceMapBrew[name.toLowerCase()];
 				if (!source) return `{@condition ${name}}`;
 				return `{@condition ${name}|${source}}`;
 			})
 			.replace(this._STATUS_MATCHER, (...m) => {
 				const name = m[1];
+				if (blocklistNames?.isBlocked(name)) return m[0];
 				return `{@status ${name}}`;
 			})
 			.replace(this._STATUS_MATCHER_ALT, (...m) => {
 				const displayText = m[1];
 				const name = this._STATUS_MATCHER_ALT_REPLACEMENTS[m[1].toLowerCase()];
+				if (blocklistNames?.isBlocked(name)) return m[0];
 				return `{@status ${name}||${displayText}}`;
 			})
 		;
 	}
 
-	static _walkerStringHandler ({styleHint, str, inflictedSet = null, inflictedAllowlist = null}) {
+	/* -------------------------------------------- */
+
+	static _walkerStringHandler ({styleHint, str, inflictedSet = null, inflictedAllowlist = null, blocklistNames = null}) {
 		const ptrStack = {_: ""};
 
 		TaggerUtils.walkerStringHandler(
@@ -281,7 +288,7 @@ export class TagCondition extends ConverterTaggerInitializable {
 			0,
 			str,
 			{
-				fnTag: this._getModifiedString_basic.bind(this, {styleHint}),
+				fnTag: strMod => this._fnTag({strMod, blocklistNames, styleHint}),
 			},
 		);
 
@@ -300,7 +307,7 @@ export class TagCondition extends ConverterTaggerInitializable {
 
 	/* -------------------------------------------- */
 
-	static _handleProp ({ent, prop, inflictedSet, inflictedAllowlist, styleHint} = {}) {
+	static _handleProp ({ent, prop, inflictedSet, inflictedAllowlist, styleHint, blocklistNames} = {}) {
 		if (!ent[prop]) return;
 
 		ent[prop] = ent[prop]
@@ -314,7 +321,7 @@ export class TagCondition extends ConverterTaggerInitializable {
 						(str) => {
 							if (nameStack.includes("Antimagic Susceptibility")) return str;
 							if (nameStack.includes("Sneak Attack (1/Turn)")) return str;
-							return this._walkerStringHandler({styleHint, str, inflictedSet, inflictedAllowlist});
+							return this._walkerStringHandler({styleHint, str, inflictedSet, inflictedAllowlist, blocklistNames});
 						},
 					],
 				};
@@ -323,19 +330,32 @@ export class TagCondition extends ConverterTaggerInitializable {
 			});
 	}
 
-	static tryTagConditions (ent, {isTagInflicted = false, isInflictedAddOnly = false, inflictedAllowlist = null, styleHint = null} = {}) {
+	/**
+	 * @param ent
+	 * @param {boolean} isTagInflicted
+	 * @param {boolean} isInflictedAddOnly
+	 * @param {?Set} inflictedAllowlist
+	 * @param {?string} styleHint
+	 * @param {?ConverterStringBlocklist} blocklistNames
+	 */
+	static tryTagConditions (ent, {isTagInflicted = false, isInflictedAddOnly = false, inflictedAllowlist = null, styleHint = null, blocklistNames = null} = {}) {
 		const inflictedSet = isTagInflicted ? new Set() : null;
 		styleHint ||= VetoolsConfig.get("styleSwitcher", "style");
 
-		this._handleProp({ent, prop: "action", inflictedSet, inflictedAllowlist, styleHint});
-		this._handleProp({ent, prop: "reaction", inflictedSet, inflictedAllowlist, styleHint});
-		this._handleProp({ent, prop: "bonus", inflictedSet, inflictedAllowlist, styleHint});
-		this._handleProp({ent, prop: "trait", inflictedSet, inflictedAllowlist, styleHint});
-		this._handleProp({ent, prop: "legendary", inflictedSet, inflictedAllowlist, styleHint});
-		this._handleProp({ent, prop: "mythic", inflictedSet, inflictedAllowlist, styleHint});
-		this._handleProp({ent, prop: "variant", inflictedSet, inflictedAllowlist, styleHint});
-		this._handleProp({ent, prop: "entries", inflictedSet, inflictedAllowlist, styleHint});
-		this._handleProp({ent, prop: "entriesHigherLevel", inflictedSet, inflictedAllowlist, styleHint});
+		if (blocklistNames) blocklistNames = blocklistNames.getWithBlocklistIgnore([ent.name]);
+
+		[
+			"action",
+			"reaction",
+			"bonus",
+			"trait",
+			"legendary",
+			"mythic",
+			"variant",
+			"entries",
+			"entriesHigherLevel",
+		]
+			.forEach(prop => this._handleProp({ent, prop, inflictedSet, inflictedAllowlist, styleHint, blocklistNames}));
 
 		this._mutAddInflictedSet({ent, inflictedSet, isInflictedAddOnly, prop: "conditionInflict"});
 	}
@@ -397,15 +417,19 @@ export class TagCondition extends ConverterTaggerInitializable {
 		else delete ent[prop];
 	}
 
+	/* -------------------------------------------- */
+
 	// region Run basic tagging
-	static _tryRun (it, {styleHint = null} = {}) {
+	static _tryRun (ent, {styleHint = null, blocklistNames = null} = {}) {
+		if (blocklistNames) blocklistNames = blocklistNames.getWithBlocklistIgnore([ent.name]);
+
 		const walker = MiscUtil.getWalker({keyBlocklist: this._KEY_BLOCKLIST});
 
 		return walker.walk(
-			it,
+			ent,
 			{
 				string: (str) => {
-					return this._walkerStringHandler({styleHint, str});
+					return this._walkerStringHandler({styleHint, str, blocklistNames});
 				},
 			},
 		);

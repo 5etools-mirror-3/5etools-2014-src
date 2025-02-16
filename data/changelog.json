@@ -2879,5 +2879,10 @@
 		"ver": "1.210.25",
 		"date": "2025-02-07",
 		"txt": "- Fixed \"Open Page\" in list page \"Other Options\" linking to invalid URL\n- (Brew) Improved Item Text Converter handling of dim-only light\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.26",
+		"date": "2025-02-16",
+		"txt": "- Improved source color contrast when using Night Mode theme\n- Improved Classes page class table scrolling on mobile\n- Fixed crash when CTRL+hovering links if no fluff is available\n- (Brew) Added \"Alignment Prefix\" input to Creature Homebrew Builder\n- (Brew) Fixed results from multi-option `@dice` rolls failing to show in roll box\n- (Fixed typos/added tags)"
 	}
 ]

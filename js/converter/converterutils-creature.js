@@ -2040,7 +2040,7 @@ export class SpellcastingTraitHiddenConvert {
 	}
 
 	static mutStatblock ({stats, props, styleHint}) {
-		if (styleHint === SITE_STYLE__CLASSIC && !stats.spellcasting?.length) return;
+		if (!stats.spellcasting?.length) return;
 
 		this._WALKER ||= MiscUtil.getWalker({isNoModification: true, isBreakOnReturn: true});
 
