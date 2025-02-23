@@ -1221,6 +1221,7 @@ class RewardsDataCheck extends GenericDataCheck {
 		json.reward
 			.forEach(ent => {
 				this._testReprintedAs(this._FILE, ent, "reward");
+				this._testAdditionalSpells(this._FILE, ent);
 			});
 	}
 }
