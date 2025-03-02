@@ -236,6 +236,7 @@ class GenericDataCheck extends DataTesterBase {
 										case "daily":
 										case "rest":
 										case "resource":
+										case "limited":
 											Object.values(val).forEach(spellList => spellList.forEach(sp => this._testAdditionalSpells_testSpellExists(file, sp)));
 											break;
 										case "will":
@@ -1101,6 +1102,14 @@ class BestiaryDataCheck extends GenericDataCheck {
 			mon.attachedItems.forEach(s => {
 				const url = getEncoded(s, "item");
 				if (!TagTestUrlLookup.hasUrl(url)) this._addMessage(`Missing link: ${s} in file ${file} (evaluates to "${url}") in "attachedItems"\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
+			});
+		}
+
+		if (mon.gear) {
+			mon.gear.forEach(ref => {
+				const uid = ref.item || ref;
+				const url = getEncoded(uid, "item");
+				if (!TagTestUrlLookup.hasUrl(url)) this._addMessage(`Missing link: ${uid} in file ${file} (evaluates to "${url}") in "gear"\n${TagTestUtil.getLogPtSimilarUrls({url})}`);
 			});
 		}
 	}

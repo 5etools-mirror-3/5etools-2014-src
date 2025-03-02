@@ -2123,7 +2123,9 @@
 				"wisdom"
 			],
 			"savingThrowForcedLegendary": [
-				"constitution"
+				"constitution",
+				"dexterity",
+				"strength"
 			],
 			"hasToken": true,
 			"hasFluff": true,
@@ -2429,7 +2431,9 @@
 				"wisdom"
 			],
 			"savingThrowForcedLegendary": [
-				"dexterity"
+				"constitution",
+				"dexterity",
+				"wisdom"
 			],
 			"hasToken": true,
 			"hasFluff": true,
@@ -2754,7 +2758,8 @@
 				"wisdom"
 			],
 			"savingThrowForcedLegendary": [
-				"charisma"
+				"charisma",
+				"wisdom"
 			],
 			"hasToken": true,
 			"hasFluff": true,
@@ -5471,7 +5476,9 @@
 				"wisdom"
 			],
 			"savingThrowForcedLegendary": [
-				"constitution"
+				"constitution",
+				"dexterity",
+				"strength"
 			],
 			"hasToken": true,
 			"hasFluff": true,
@@ -5776,7 +5783,9 @@
 				"wisdom"
 			],
 			"savingThrowForcedLegendary": [
-				"dexterity"
+				"constitution",
+				"dexterity",
+				"wisdom"
 			],
 			"hasToken": true,
 			"hasFluff": true,
@@ -6098,7 +6107,8 @@
 				"wisdom"
 			],
 			"savingThrowForcedLegendary": [
-				"charisma"
+				"charisma",
+				"wisdom"
 			],
 			"hasToken": true,
 			"hasFluff": true,
@@ -25410,6 +25420,9 @@
 			"savingThrowForced": [
 				"wisdom"
 			],
+			"savingThrowForcedLegendary": [
+				"wisdom"
+			],
 			"savingThrowForcedSpell": [
 				"wisdom"
 			],
@@ -25577,6 +25590,9 @@
 			"savingThrowForced": [
 				"wisdom"
 			],
+			"savingThrowForcedLegendary": [
+				"wisdom"
+			],
 			"savingThrowForcedSpell": [
 				"wisdom"
 			],
@@ -25739,6 +25755,9 @@
 				"blinded"
 			],
 			"savingThrowForced": [
+				"wisdom"
+			],
+			"savingThrowForcedLegendary": [
 				"wisdom"
 			],
 			"savingThrowForcedSpell": [
@@ -26231,6 +26250,9 @@
 				"blinded"
 			],
 			"savingThrowForced": [
+				"wisdom"
+			],
+			"savingThrowForcedLegendary": [
 				"wisdom"
 			],
 			"savingThrowForcedSpell": [
@@ -49590,6 +49612,10 @@
 				"paralyzed",
 				"poisoned",
 				"unconscious"
+			],
+			"savingThrowForcedLegendary": [
+				"charisma",
+				"constitution"
 			],
 			"savingThrowForcedSpell": [
 				"charisma",

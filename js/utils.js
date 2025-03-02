@@ -2,7 +2,7 @@
 
 // in deployment, `IS_DEPLOYED = "<version number>";` should be set below.
 globalThis.IS_DEPLOYED = undefined;
-globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.27"/* 5ETOOLS_VERSION__CLOSE */;
+globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.28"/* 5ETOOLS_VERSION__CLOSE */;
 globalThis.DEPLOYED_IMG_ROOT = undefined;
 // for the roll20 script to set
 globalThis.IS_VTT = false;
@@ -4509,6 +4509,8 @@ globalThis.DataUtil = {
 		"subclass": "index.json",
 		"classFeature": "index.json",
 		"subclassFeature": "index.json",
+		"classFluff": "fluff-index.json",
+		"subclassFluff": "fluff-index.json",
 	},
 	async pLoadByMeta (prop, source) {
 		// TODO(future) expand support
@@ -6375,6 +6377,7 @@ globalThis.DataUtil = {
 		static _PAGE = UrlUtil.PG_RACES;
 		static _FILENAME = "fluff-races.json";
 
+		// N.b.: intentionally not applied to homebrew/prerelease content
 		static _getApplyUncommonMonstrous (data) {
 			data = MiscUtil.copyFast(data);
 			data.raceFluff

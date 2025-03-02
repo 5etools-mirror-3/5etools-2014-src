@@ -101,16 +101,9 @@ class _SpellSourceUtil {
 
 		switch (rechargeType) {
 			case "rest":
-			case "daily": {
-				Object.values(levelMetaInner)
-					.forEach(spellList => {
-						spellList.forEach(spellItem => this._getSpellUids_doProcessSpellItem({...opts, spellItem}));
-					});
-
-				break;
-			}
-
-			case "resource": {
+			case "daily":
+			case "resource":
+			case "limited": {
 				Object.values(levelMetaInner)
 					.forEach(spellList => {
 						spellList.forEach(spellItem => this._getSpellUids_doProcessSpellItem({...opts, spellItem}));
@@ -224,31 +217,43 @@ class _AdditionalSpellSource extends _SpellSource {
 
 	/* -------------------------------------------- */
 
+	_pInit_doProcessAdditionalSpells ({uidToSummary, additionalSpells, cntAdditionalSpellBlocks}) {
+		if (!additionalSpells?.length) return;
+
+		additionalSpells
+			.forEach(additionalSpellBlock => {
+				_SpellSourceUtil.getSpellUids(additionalSpellBlock, this._modalFilterSpells)
+					.forEach(uid => {
+						uidToSummary[uid] = uidToSummary[uid] || {
+							cntAdditionalSpellBlocks,
+						};
+
+						if (additionalSpellBlock.name) {
+							uidToSummary[uid].names ||= [];
+							if (!uidToSummary[uid].names.includes(additionalSpellBlock.name)) uidToSummary[uid].names.push(additionalSpellBlock.name);
+						}
+					});
+			});
+	}
+
 	async pInit () {
 		const data = await this._pLoadData();
-		this._props
-			.forEach(prop => {
-				data[prop]
+
+		await this._props
+			.pSerialAwaitMap(async prop => {
+				await data[prop]
 					.filter(ent => ent.additionalSpells)
 					.filter(ent => !this._isSkipEntity(ent))
-					.forEach(ent => {
+					.pSerialAwaitMap(async ent => {
 						const propPath = this._getPropPath(ent);
 
 						const uidToSummary = {};
 
-						ent.additionalSpells
-							.forEach(additionalSpellBlock => {
-								_SpellSourceUtil.getSpellUids(additionalSpellBlock, this._modalFilterSpells)
-									.forEach(uid => {
-										uidToSummary[uid] = uidToSummary[uid] || {
-											cntAdditionalSpellBlocks: ent.additionalSpells.length,
-										};
-
-										if (additionalSpellBlock.name) {
-											(uidToSummary[uid].names = uidToSummary[uid].names || []).push(additionalSpellBlock.name);
-										}
-									});
-							});
+						this._pInit_doProcessAdditionalSpells({
+							uidToSummary,
+							additionalSpells: ent.additionalSpells,
+							cntAdditionalSpellBlocks: ent.additionalSpells.length,
+						});
 
 						Object.entries(uidToSummary)
 							.forEach(([uid, additionalSpellsSummary]) => {

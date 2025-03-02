@@ -2362,6 +2362,10 @@
 				"constitution",
 				"dexterity"
 			],
+			"savingThrowForcedLegendary": [
+				"constitution",
+				"strength"
+			],
 			"savingThrowForcedSpell": [
 				"dexterity"
 			],
@@ -3177,6 +3181,10 @@
 			"savingThrowForced": [
 				"constitution",
 				"dexterity"
+			],
+			"savingThrowForcedLegendary": [
+				"dexterity",
+				"strength"
 			],
 			"savingThrowForcedSpell": [
 				"dexterity"
@@ -4557,6 +4565,9 @@
 				"constitution",
 				"wisdom"
 			],
+			"savingThrowForcedLegendary": [
+				"constitution"
+			],
 			"savingThrowForcedSpell": [
 				"constitution",
 				"dexterity",
@@ -4943,6 +4954,10 @@
 			"savingThrowForced": [
 				"dexterity",
 				"wisdom"
+			],
+			"savingThrowForcedLegendary": [
+				"constitution",
+				"dexterity"
 			],
 			"hasToken": true,
 			"hasFluff": true,

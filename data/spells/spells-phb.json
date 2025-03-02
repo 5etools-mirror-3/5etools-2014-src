@@ -7597,6 +7597,9 @@
 		},
 		{
 			"name": "Fire Bolt",
+			"alias": [
+				"Firebolt"
+			],
 			"source": "PHB",
 			"page": 242,
 			"srd": true,
