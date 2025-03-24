@@ -1466,9 +1466,9 @@ Parser.SP_RANGE_TO_ICON = {
 	[Parser.RNG_CYLINDER]: "fa-database",
 	[Parser.RNG_SELF]: "fa-street-view",
 	[Parser.RNG_SIGHT]: "fa-eye",
-	[Parser.RNG_UNLIMITED_SAME_PLANE]: "fa-globe-americas",
+	[Parser.RNG_UNLIMITED_SAME_PLANE]: "fa-earth-americas",
 	[Parser.RNG_UNLIMITED]: "fa-infinity",
-	[Parser.RNG_TOUCH]: "fa-hand-paper",
+	[Parser.RNG_TOUCH]: "fa-hand",
 };
 
 Parser.spRangeTypeToIcon = function (range) {
@@ -4144,12 +4144,15 @@ Parser.DMGTYPE_JSON_TO_FULL = {
 Parser.DMG_TYPES = ["acid", "bludgeoning", "cold", "fire", "force", "lightning", "necrotic", "piercing", "poison", "psychic", "radiant", "slashing", "thunder"];
 Parser.CONDITIONS = ["blinded", "charmed", "deafened", "exhaustion", "frightened", "grappled", "incapacitated", "invisible", "paralyzed", "petrified", "poisoned", "prone", "restrained", "stunned", "unconscious"];
 
-Parser.SENSES = [
+Parser._SENSES = [
 	{"name": "blindsight", "source": Parser.SRC_PHB},
 	{"name": "darkvision", "source": Parser.SRC_PHB},
 	{"name": "tremorsense", "source": Parser.SRC_MM},
 	{"name": "truesight", "source": Parser.SRC_PHB},
 ];
+Parser.getSenses = function () {
+	return Parser._SENSES_LEGACY;
+};
 
 Parser.NUMBERS_ONES = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
 Parser.NUMBERS_TENS = ["", "", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"];

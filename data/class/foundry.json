@@ -5448,6 +5448,7 @@
 			"effects": [
 				{
 					"name": "Powered Steps",
+					"disabled": true,
 					"transfer": true,
 					"changes": [
 						{
@@ -5455,8 +5456,7 @@
 							"mode": "ADD",
 							"value": "+ 5"
 						}
-					],
-					"disabled": true
+					]
 				}
 			],
 			"migrationVersion": 3

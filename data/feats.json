@@ -2631,7 +2631,7 @@
 			"source": "PHB",
 			"page": 168,
 			"entries": [
-				"You are a dangerous foe to face while mounted. While you are mounted and aren't {@condition incapacitated}, you gain the following benefits:",
+				"You are a dangerous foe to face while {@book mounted|PHB|9|Mounted Combat}. While you are mounted and aren't {@condition incapacitated}, you gain the following benefits:",
 				{
 					"type": "list",
 					"items": [
@@ -3300,8 +3300,21 @@
 					"innate": {
 						"_": {
 							"daily": {
-								"1": [
-									"comprehend languages"
+								"1e": [
+									"comprehend languages",
+									"fog cloud",
+									"inflict wounds",
+									"chromatic orb",
+									"disguise self",
+									"burning hands",
+									"speak with animals",
+									"armor of agathys",
+									"goodberry",
+									"longstrider",
+									"command",
+									"entangle",
+									"sanctuary",
+									"thunderwave"
 								]
 							}
 						}
