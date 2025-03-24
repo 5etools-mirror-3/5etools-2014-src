@@ -4151,7 +4151,7 @@ Parser._SENSES = [
 	{"name": "truesight", "source": Parser.SRC_PHB},
 ];
 Parser.getSenses = function () {
-	return Parser._SENSES_LEGACY;
+	return Parser._SENSES;
 };
 
 Parser.NUMBERS_ONES = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
