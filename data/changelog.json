@@ -2904,5 +2904,10 @@
 		"ver": "1.210.30",
 		"date": "2025-03-24",
 		"txt": "- Fixed crash when rendering Bestiary statblocks"
+	},
+	{
+		"ver": "1.210.31",
+		"date": "2025-03-30",
+		"txt": "- Fixed PDFs failing to embed in DM Screen\n- (Fixed typos/added tags)"
 	}
 ]
