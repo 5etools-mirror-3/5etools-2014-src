@@ -1011,15 +1011,19 @@
 						"period": "charges",
 						"type": "recoverAll"
 					}
-				],
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "object"
-					}
 				]
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "object"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1192,15 +1196,15 @@
 			"subclassShortName": "Totem Warrior",
 			"subclassSource": "PHB",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"activation.type": "bonus",
-						"activation.value": 1
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "bonus",
+						"value": 1
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1236,15 +1240,17 @@
 			"subclassShortName": "Beast",
 			"subclassSource": "TCE",
 			"level": 14,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "30",
-						"target.template.units": "ft"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "30",
+							"units": "ft"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1255,15 +1261,17 @@
 			"subclassShortName": "Wild Magic",
 			"subclassSource": "TCE",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "60",
-						"target.template.units": "ft"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "60",
+							"units": "ft"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1274,15 +1282,15 @@
 			"subclassShortName": "Zealot",
 			"subclassSource": "XGE",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"activation.type": "special",
-						"activation.condition": "While you're raging, the first creature you hit on each of your turns with a weapon attack"
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "special",
+						"condition": "While you're raging, the first creature you hit on each of your turns with a weapon attack"
 					}
-				]
-			},
+				}
+			],
 			"chooseSystem": [
 				{
 					"name": "Necrotic Damage",
@@ -1360,15 +1368,19 @@
 			"level": 3,
 			"system": {
 				"range.value": 10,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "object"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "object"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1381,15 +1393,19 @@
 			"level": 6,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "object"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "object"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1402,15 +1418,19 @@
 			"level": 3,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1423,14 +1443,18 @@
 			"level": 6,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1443,15 +1467,19 @@
 			"level": 14,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1464,15 +1492,19 @@
 			"level": 3,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1483,18 +1515,22 @@
 			"subclassShortName": "Glamour",
 			"subclassSource": "XGE",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"activation.type": "minute",
-						"activation.value": 1,
-						"target.template.size": "60",
-						"target.template.units": "ft",
-						"target.template.type": "sphere"
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "minute",
+						"value": 1
+					},
+					"target": {
+						"template": {
+							"size": "60",
+							"units": "ft",
+							"type": "sphere"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1538,24 +1574,28 @@
 			"subclassShortName": "Whispers",
 			"subclassSource": "XGE",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "damage",
-						"activation.type": "special",
-						"activation.condition": "When you hit a creature with a weapon attack",
-						"damage.parts": [
+			"activities": [
+				{
+					"type": "damage",
+					"activation": {
+						"type": "special",
+						"condition": "When you hit a creature with a weapon attack"
+					},
+					"damage": {
+						"parts": [
 							{
-								"custom.enabled": true,
-								"custom.formula": "@scale.college-of-whispers.psychic-blades",
+								"custom": {
+									"enabled": true,
+									"formula": "@scale.college-of-whispers.psychic-blades"
+								},
 								"types": [
 									"psychic"
 								]
 							}
 						]
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1566,17 +1606,21 @@
 			"subclassShortName": "Whispers",
 			"subclassSource": "XGE",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"activation.type": "minute",
-						"activation.value": 1,
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "minute",
+						"value": 1
+					},
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1587,16 +1631,20 @@
 			"subclassShortName": "Whispers",
 			"subclassSource": "XGE",
 			"level": 6,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "30",
-						"target.template.units": "ft",
-						"target.affects.type": "creature"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "30",
+							"type": "creature"
+						},
+						"template": {
+							"units": "ft"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1607,16 +1655,20 @@
 			"subclassShortName": "Whispers",
 			"subclassSource": "XGE",
 			"level": 14,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "30",
-						"target.template.units": "ft",
-						"target.affects.type": "creature"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "30",
+							"type": "creature"
+						},
+						"template": {
+							"units": "ft"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1627,24 +1679,28 @@
 			"subclassShortName": "Death",
 			"subclassSource": "DMG",
 			"level": 2,
-			"system": {
-				"activities": [
-					{
-						"type": "damage",
-						"activation.type": "special",
-						"activation.condition": "When the cleric hits a creature with a melee attack",
-						"damage.parts": [
+			"activities": [
+				{
+					"type": "damage",
+					"activation": {
+						"type": "special",
+						"condition": "When the cleric hits a creature with a melee attack"
+					},
+					"damage": {
+						"parts": [
 							{
-								"custom.enabled": true,
-								"custom.formula": "5 + (2 * @classes.cleric.levels)",
+								"custom": {
+									"enabled": true,
+									"formula": "5 + (2 * @classes.cleric.levels)"
+								},
 								"types": [
 									"necrotic"
 								]
 							}
 						]
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1655,22 +1711,24 @@
 			"subclassShortName": "Death",
 			"subclassSource": "DMG",
 			"level": 8,
-			"system": {
-				"activities": [
-					{
-						"type": "damage",
-						"damage.parts": [
+			"activities": [
+				{
+					"type": "damage",
+					"damage": {
+						"parts": [
 							{
-								"custom.enabled": true,
-								"custom.formula": "@scale.death-domain.divine-strike",
+								"custom": {
+									"enabled": true,
+									"formula": "@scale.death-domain.divine-strike"
+								},
 								"types": [
 									"necrotic"
 								]
 							}
 						]
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1727,15 +1785,19 @@
 			"level": 6,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1746,15 +1808,15 @@
 			"subclassShortName": "Knowledge",
 			"subclassSource": "PHB",
 			"level": 17,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"activation.type": "minute",
-						"activation.value": 1
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "minute",
+						"value": 1
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1805,25 +1867,31 @@
 			"subclassShortName": "Light",
 			"subclassSource": "PHB",
 			"level": 2,
-			"system": {
-				"activities": [
-					{
-						"type": "damage",
-						"target.template.size": "30",
-						"target.template.units": "ft",
-						"target.template.type": "sphere",
-						"damage.parts": [
+			"activities": [
+				{
+					"type": "damage",
+					"target": {
+						"template": {
+							"size": "30",
+							"units": "ft",
+							"type": "sphere"
+						}
+					},
+					"damage": {
+						"parts": [
 							{
-								"custom.enabled": true,
-								"custom.formula": "2d10 + @classes.cleric.levels",
+								"custom": {
+									"enabled": true,
+									"formula": "2d10 + @classes.cleric.levels"
+								},
 								"types": [
 									"radiant"
 								]
 							}
 						]
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1834,16 +1902,18 @@
 			"subclassShortName": "Light",
 			"subclassSource": "PHB",
 			"level": 17,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "60",
-						"target.template.units": "ft",
-						"target.template.type": "sphere"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "60",
+							"units": "ft",
+							"type": "sphere"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1894,25 +1964,31 @@
 			"subclassShortName": "Nature",
 			"subclassSource": "PHB",
 			"level": 2,
-			"system": {
-				"activities": [
-					{
-						"type": "damage",
-						"target.template.size": "30",
-						"target.template.units": "ft",
-						"target.template.type": "sphere",
-						"damage.parts": [
+			"activities": [
+				{
+					"type": "damage",
+					"target": {
+						"template": {
+							"size": "30",
+							"units": "ft",
+							"type": "sphere"
+						}
+					},
+					"damage": {
+						"parts": [
 							{
-								"custom.enabled": true,
-								"custom.formula": "2d10 + @classes.cleric.levels",
+								"custom": {
+									"enabled": true,
+									"formula": "2d10 + @classes.cleric.levels"
+								},
 								"types": [
 									"radiant"
 								]
 							}
 						]
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1923,36 +1999,42 @@
 			"subclassShortName": "Nature",
 			"subclassSource": "PHB",
 			"level": 8,
-			"system": {
-				"activities": [
-					{
-						"type": "damage",
-						"damage.parts": [
+			"activities": [
+				{
+					"type": "damage",
+					"damage": {
+						"parts": [
 							{
-								"custom.enabled": true,
-								"custom.formula": "@scale.nature-domain.divine-strike",
+								"custom": {
+									"enabled": true,
+									"formula": "@scale.nature-domain.divine-strike"
+								},
 								"types": [
 									"cold"
 								]
 							},
 							{
-								"custom.enabled": true,
-								"custom.formula": "@scale.nature-domain.divine-strike",
+								"custom": {
+									"enabled": true,
+									"formula": "@scale.nature-domain.divine-strike"
+								},
 								"types": [
 									"fire"
 								]
 							},
 							{
-								"custom.enabled": true,
-								"custom.formula": "@scale.nature-domain.divine-strike",
+								"custom": {
+									"enabled": true,
+									"formula": "@scale.nature-domain.divine-strike"
+								},
 								"types": [
 									"lightning"
 								]
 							}
 						]
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1987,15 +2069,19 @@
 			"level": 2,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "1",
-						"target.template.type": "space"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "space"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2006,22 +2092,24 @@
 			"subclassShortName": "Trickery",
 			"subclassSource": "PHB",
 			"level": 8,
-			"system": {
-				"activities": [
-					{
-						"type": "damage",
-						"damage.parts": [
+			"activities": [
+				{
+					"type": "damage",
+					"damage": {
+						"parts": [
 							{
-								"custom.enabled": true,
-								"custom.formula": "@scale.order-domain.divine-strike",
+								"custom": {
+									"enabled": true,
+									"formula": "@scale.order-domain.divine-strike"
+								},
 								"types": [
 									"poison"
 								]
 							}
 						]
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2097,15 +2185,19 @@
 			"level": 2,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2143,16 +2235,18 @@
 			"subclassShortName": "Order",
 			"subclassSource": "TCE",
 			"level": 2,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "30",
-						"target.template.units": "ft",
-						"target.template.type": "sphere"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "30",
+							"units": "ft",
+							"type": "sphere"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2163,22 +2257,24 @@
 			"subclassShortName": "Order",
 			"subclassSource": "TCE",
 			"level": 8,
-			"system": {
-				"activities": [
-					{
-						"type": "damage",
-						"damage.parts": [
+			"activities": [
+				{
+					"type": "damage",
+					"damage": {
+						"parts": [
 							{
-								"custom.enabled": true,
-								"custom.formula": "@scale.order-domain.divine-strike",
+								"custom": {
+									"enabled": true,
+									"formula": "@scale.order-domain.divine-strike"
+								},
 								"types": [
 									"psychic"
 								]
 							}
 						]
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2191,14 +2287,18 @@
 			"level": 1,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2256,14 +2356,18 @@
 			"level": 1,
 			"system": {
 				"range.value": 10,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"actorTokenMod": {
 				"dimSight": [
 					{
@@ -2321,22 +2425,24 @@
 			"subclassShortName": "Forge",
 			"subclassSource": "XGE",
 			"level": 8,
-			"system": {
-				"activities": [
-					{
-						"type": "damage",
-						"damage.parts": [
+			"activities": [
+				{
+					"type": "damage",
+					"damage": {
+						"parts": [
 							{
-								"custom.enabled": true,
-								"custom.formula": "@scale.forge-domain.divine-strike",
+								"custom": {
+									"enabled": true,
+									"formula": "@scale.forge-domain.divine-strike"
+								},
 								"types": [
 									"fire"
 								]
 							}
 						]
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2364,15 +2470,19 @@
 			"level": 2,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2385,15 +2495,19 @@
 			"level": 6,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2406,15 +2520,19 @@
 			"level": 17,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2445,16 +2563,20 @@
 			"subclassSource": "TCE",
 			"level": 2,
 			"system": {
-				"range.units": "self",
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "10",
-						"target.template.units": "ft",
-						"target.template.type": "sphere"
-					}
-				]
+				"range.units": "self"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "10",
+							"units": "ft",
+							"type": "sphere"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2480,16 +2602,20 @@
 				"range.value": 30,
 				"range.units": "ft",
 				"duration.value": 1,
-				"duration.units": "minute",
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "10",
-						"target.template.units": "ft",
-						"target.template.type": "cube"
-					}
-				]
+				"duration.units": "minute"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "10",
+							"units": "ft",
+							"type": "cube"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2520,14 +2646,18 @@
 			"level": 2,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.type": "space"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"type": "space"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2573,16 +2703,22 @@
 						"period": "charges",
 						"type": "recoverAll"
 					}
-				],
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature",
-						"roll.formula": "1d6"
-					}
 				]
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					},
+					"roll": {
+						"formula": "1d6"
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2593,16 +2729,18 @@
 			"subclassShortName": "Dreams",
 			"subclassSource": "XGE",
 			"level": 6,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "30",
-						"target.template.units": "ft",
-						"target.template.type": "sphere"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "30",
+							"units": "ft",
+							"type": "sphere"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2615,15 +2753,19 @@
 			"level": 10,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "1",
-						"target.template.type": "space"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "space"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2653,15 +2795,19 @@
 			"level": 2,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "1",
-						"target.template.type": "space"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "space"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2672,16 +2818,16 @@
 			"subclassShortName": "Echo Knight",
 			"subclassSource": "EGW",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"activation.type": "special",
-						"activation.condition": "Whenever you take the Attack action",
-						"activation.value": 1
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "special",
+						"condition": "Whenever you take the Attack action",
+						"value": 1
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2890,15 +3036,19 @@
 			"level": 15,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "1",
-						"target.template.type": "space"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "space"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2911,15 +3061,19 @@
 			"level": 3,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "3",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "3",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -2962,15 +3116,19 @@
 			"level": 10,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "1",
-						"target.template.type": "ally"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "1",
+							"type": "ally"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3020,14 +3178,18 @@
 			"level": 15,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3150,15 +3312,19 @@
 			"level": 7,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3494,16 +3660,20 @@
 			"subclassShortName": "Shadow",
 			"subclassSource": "PHB",
 			"level": 6,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "60",
-						"target.template.units": "ft",
-						"target.template.type": "space"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "60",
+							"units": "ft"
+						},
+						"affects": {
+							"type": "space"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3514,16 +3684,18 @@
 			"subclassShortName": "Long Death",
 			"subclassSource": "SCAG",
 			"level": 6,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "30",
-						"target.template.units": "ft",
-						"target.template.type": "sphere"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "30",
+							"units": "ft",
+							"type": "sphere"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3733,16 +3905,20 @@
 			"level": 11,
 			"system": {
 				"range.value": 150,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "20",
-						"target.template.units": "ft",
-						"target.template.type": "sphere"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "20",
+							"units": "ft",
+							"type": "sphere"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3753,16 +3929,18 @@
 			"subclassShortName": "Sun Soul",
 			"subclassSource": "XGE",
 			"level": 17,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "60",
-						"target.template.units": "ft",
-						"target.template.type": "radius"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "60",
+							"units": "ft",
+							"type": "radius"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3773,16 +3951,20 @@
 			"subclassShortName": "Oathbreaker",
 			"subclassSource": "DMG",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "30",
-						"target.template.units": "ft",
-						"target.affects.type": "creature"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "30",
+							"type": "creature"
+						},
+						"template": {
+							"units": "ft"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3793,16 +3975,20 @@
 			"subclassShortName": "Oathbreaker",
 			"subclassSource": "DMG",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "30",
-						"target.template.units": "ft",
-						"target.affects.type": "creature"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "30",
+							"type": "creature"
+						},
+						"template": {
+							"units": "ft"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3815,15 +4001,19 @@
 			"level": 3,
 			"system": {
 				"range.value": 10,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3834,16 +4024,20 @@
 			"subclassShortName": "Ancients",
 			"subclassSource": "PHB",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "30",
-						"target.template.units": "ft",
-						"target.affects.type": "creature"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "30",
+							"type": "creature"
+						},
+						"template": {
+							"units": "ft"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3854,16 +4048,18 @@
 			"subclassShortName": "Devotion",
 			"subclassSource": "PHB",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "40",
-						"target.template.units": "ft",
-						"target.template.type": "radius"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "40",
+							"units": "ft",
+							"type": "radius"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3874,16 +4070,20 @@
 			"subclassShortName": "Devotion",
 			"subclassSource": "PHB",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "30",
-						"target.template.units": "ft",
-						"target.affects.type": "creature"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "30",
+							"type": "creature"
+						},
+						"template": {
+							"units": "ft"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3894,16 +4094,18 @@
 			"subclassShortName": "Devotion",
 			"subclassSource": "PHB",
 			"level": 20,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "60",
-						"target.template.units": "ft",
-						"target.template.type": "radius"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "60",
+							"units": "ft",
+							"type": "radius"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3942,16 +4144,20 @@
 			"subclassShortName": "Crown",
 			"subclassSource": "SCAG",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "30",
-						"target.template.units": "ft",
-						"target.affects.type": "creature"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "30",
+							"type": "creature"
+						},
+						"template": {
+							"units": "ft"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3962,16 +4168,20 @@
 			"subclassShortName": "Crown",
 			"subclassSource": "SCAG",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "30",
-						"target.template.units": "ft",
-						"target.affects.type": "creature"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "30",
+							"type": "creature"
+						},
+						"template": {
+							"units": "ft"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -3982,16 +4192,20 @@
 			"subclassShortName": "Glory",
 			"subclassSource": "TCE",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "30",
-						"target.template.units": "ft",
-						"target.affects.type": "creature"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "30",
+							"type": "creature"
+						},
+						"template": {
+							"units": "ft"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4018,15 +4232,19 @@
 			"level": 15,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4037,16 +4255,20 @@
 			"subclassShortName": "Conquest",
 			"subclassSource": "XGE",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "30",
-						"target.template.units": "ft",
-						"target.affects.type": "creature"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "30",
+							"type": "creature"
+						},
+						"template": {
+							"units": "ft"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4146,15 +4368,19 @@
 			"level": 7,
 			"system": {
 				"range.value": 120,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4292,15 +4518,19 @@
 			"level": 3,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4486,16 +4716,18 @@
 			"subclassShortName": "Draconic",
 			"subclassSource": "PHB",
 			"level": 18,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "60",
-						"target.template.units": "ft",
-						"target.template.type": "sphere"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "60",
+							"units": "ft",
+							"type": "sphere"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4508,15 +4740,19 @@
 			"level": 1,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4529,15 +4765,19 @@
 			"level": 18,
 			"system": {
 				"range.value": 120,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "1",
-						"target.template.type": "space"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "space"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4550,15 +4790,19 @@
 			"level": 1,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4571,15 +4815,19 @@
 			"level": 6,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4590,16 +4838,18 @@
 			"subclassShortName": "Clockwork Soul",
 			"subclassSource": "TCE",
 			"level": 18,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "30",
-						"target.template.units": "ft",
-						"target.template.type": "cube"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "30",
+							"units": "ft",
+							"type": "cube"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4612,15 +4862,19 @@
 			"level": 6,
 			"system": {
 				"range.value": 120,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4633,15 +4887,19 @@
 			"level": 14,
 			"system": {
 				"range.value": 120,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "1",
-						"target.template.type": "space"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "space"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4669,16 +4927,18 @@
 			"subclassShortName": "Storm",
 			"subclassSource": "XGE",
 			"level": 6,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "10",
-						"target.template.units": "ft",
-						"target.template.type": "sphere"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "10",
+							"units": "ft",
+							"type": "sphere"
+						}
 					}
-				]
-			},
+				}
+			],
 			"entryData": {
 				"resist": [
 					"lightning",
@@ -4711,16 +4971,18 @@
 			"subclassShortName": "Archfey",
 			"subclassSource": "PHB",
 			"level": 1,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "10",
-						"target.template.units": "ft",
-						"target.template.type": "cube"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "10",
+							"units": "ft",
+							"type": "cube"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4733,15 +4995,19 @@
 			"level": 6,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "1",
-						"target.template.type": "space"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "space"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4769,15 +5035,19 @@
 			"level": 14,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4788,16 +5058,18 @@
 			"subclassShortName": "Great Old One",
 			"subclassSource": "PHB",
 			"level": 1,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "30",
-						"target.template.units": "ft",
-						"target.template.type": "sphere"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "30",
+							"units": "ft",
+							"type": "sphere"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4848,15 +5120,19 @@
 			"level": 1,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "1",
-						"target.template.type": "space"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "space"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4884,16 +5160,20 @@
 			"level": 14,
 			"system": {
 				"range.value": 1,
-				"range.units": "mi",
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "30",
-						"target.template.units": "ft",
-						"target.template.type": "radius"
-					}
-				]
+				"range.units": "mi"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "30",
+							"units": "ft",
+							"type": "radius"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4906,15 +5186,19 @@
 			"level": 10,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "5",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "5",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -4925,16 +5209,18 @@
 			"subclassShortName": "Undead",
 			"subclassSource": "VRGR",
 			"level": 10,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "30",
-						"target.template.units": "ft",
-						"target.template.type": "radius"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "30",
+							"units": "ft",
+							"type": "radius"
+						}
 					}
-				]
-			},
+				}
+			],
 			"entryData": {
 				"resist": [
 					"necrotic"
@@ -4965,16 +5251,18 @@
 			"subclassShortName": "Celestial",
 			"subclassSource": "XGE",
 			"level": 14,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "30",
-						"target.template.units": "ft",
-						"target.template.type": "sphere"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "30",
+							"units": "ft",
+							"type": "sphere"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -5085,15 +5373,19 @@
 			"level": 2,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -5106,15 +5398,19 @@
 			"level": 10,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -5125,16 +5421,18 @@
 			"subclassShortName": "Graviturgy",
 			"subclassSource": "EGW",
 			"level": 14,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "30",
-						"target.template.units": "ft",
-						"target.template.type": "sphere"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "30",
+							"units": "ft",
+							"type": "sphere"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -5146,15 +5444,17 @@
 			"subclassSource": "PHB",
 			"level": 2,
 			"system": {
-				"uses.max": "2 * @classes.wizard.levels + floor((@abilities.int.value - 10) / 2)",
-				"activities": [
-					{
-						"type": "utility",
-						"activation.type": "special",
-						"activation.value": null
-					}
-				]
+				"uses.max": "2 * @classes.wizard.levels + floor((@abilities.int.value - 10) / 2)"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "special",
+						"value": null
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -5165,16 +5465,18 @@
 			"subclassShortName": "Abjuration",
 			"subclassSource": "PHB",
 			"level": 6,
-			"system": {
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "30",
-						"target.template.units": "ft",
-						"target.template.type": "sphere"
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"template": {
+							"size": "30",
+							"units": "ft",
+							"type": "sphere"
+						}
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -5187,15 +5489,19 @@
 			"level": 6,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.template.size": "1",
-						"target.template.type": "space"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "space"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -5208,15 +5514,19 @@
 			"level": 2,
 			"system": {
 				"range.value": 5,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -5229,15 +5539,19 @@
 			"level": 6,
 			"system": {
 				"range.value": 30,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -5265,15 +5579,19 @@
 			"level": 14,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "1",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "1",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -5315,15 +5633,19 @@
 			"level": 14,
 			"system": {
 				"range.value": 60,
-				"range.units": "ft",
-				"activities": [
-					{
-						"type": "utility",
-						"target.affects.count": "3",
-						"target.affects.type": "creature"
-					}
-				]
+				"range.units": "ft"
 			},
+			"activities": [
+				{
+					"type": "utility",
+					"target": {
+						"affects": {
+							"count": "3",
+							"type": "creature"
+						}
+					}
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -5386,22 +5708,24 @@
 			"subclassShortName": "Armorer",
 			"subclassSource": "TCE",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "damage",
-						"damage.parts": [
+			"activities": [
+				{
+					"type": "damage",
+					"damage": {
+						"parts": [
 							{
-								"custom.enabled": true,
-								"custom.formula": "@classes.artificer.levels",
+								"custom": {
+									"enabled": true,
+									"formula": "@classes.artificer.levels"
+								},
 								"types": [
 									"temphp"
 								]
 							}
 						]
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -5526,30 +5850,36 @@
 			"subclassShortName": "Artillerist",
 			"subclassSource": "TCE",
 			"level": 3,
-			"system": {
-				"activities": [
-					{
-						"type": "damage",
-						"roll.formula": "1d8 + @abilities.int.mod",
-						"damage.parts": [
+			"activities": [
+				{
+					"type": "damage",
+					"damage": {
+						"parts": [
 							{
-								"custom.enabled": true,
-								"custom.formula": "2d8",
+								"custom": {
+									"enabled": true,
+									"formula": "2d8"
+								},
 								"types": [
 									"fire"
 								]
 							},
 							{
-								"custom.enabled": true,
-								"custom.formula": "2d8",
+								"custom": {
+									"enabled": true,
+									"formula": "2d8"
+								},
 								"types": [
 									"force"
 								]
 							}
 						]
+					},
+					"roll": {
+						"formula": "1d8 + @abilities.int.mod"
 					}
-				]
-			},
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
