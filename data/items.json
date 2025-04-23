@@ -56261,8 +56261,6 @@
 			"name": "Spire of Conflux",
 			"source": "TDCSR",
 			"page": 209,
-			"srd": true,
-			"basicRules": true,
 			"type": "M",
 			"rarity": "legendary",
 			"reqAttune": "by a spellcaster",

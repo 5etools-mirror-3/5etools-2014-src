@@ -2914,5 +2914,10 @@
 		"ver": "1.210.32",
 		"date": "2025-04-20",
 		"txt": "- Added auto-loading for URL-linked homebrew subclasses on the Classes page, if the homebrew was not already loaded. _[Note that the subclass link format had to change, and this therefore breaks old bookmarks.]_\n- Added unofficial/placeholder art to the \"Deck of Wonder\" deck\n- (Brew) Improved Creature Text Converter handling of unimpeded darkvision; Race Text Converter handling of size, darkvision, and skills\n- (Brew) Revised and canonized table `\"parentEntity\"` format\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.33",
+		"date": "2025-04-23",
+		"txt": "- Added \"Apply as Filters\" button to filter snapshot list, which allows a snapshot to be applied without first being added to a snapshot deck\n- Fixed crash when using filter snapshot \"Add to Snapshot Deck\" button\n- (Brew) Fixed crash when loading the Spell Homebrew Builder\n- (Fixed typos/added tags)"
 	}
 ]
