@@ -2919,5 +2919,10 @@
 		"ver": "1.210.33",
 		"date": "2025-04-23",
 		"txt": "- Added \"Apply as Filters\" button to filter snapshot list, which allows a snapshot to be applied without first being added to a snapshot deck\n- Fixed crash when using filter snapshot \"Add to Snapshot Deck\" button\n- (Brew) Fixed crash when loading the Spell Homebrew Builder\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.34",
+		"date": "2025-04-25",
+		"txt": "- Fixed DM Screen Initiative Tracker failing to use creature initiative value when rolling initiative\n- Fixed Bestiary Table View CSV export failing to add newlines between features\n- Fixed excess whitespace appearing at start/end of lines in CSVs exported from Table Views\n- (Fixed typos/added tags)"
 	}
 ]

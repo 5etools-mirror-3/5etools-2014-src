@@ -9924,6 +9924,19 @@ Renderer.monster = class {
 		return `${mon.level ? `${Parser.getOrdinalForm(mon.level)}-level ` : ""}${typeObj.asTextSidekick ? `${typeObj.asTextSidekick}; ` : ""}${Renderer.utils.getRenderedSize(mon.size)}${mon.sizeNote ? ` ${mon.sizeNote}` : ""} ${typeObj.asText}${mon.alignment ? `, ${mon.alignmentPrefix ? Renderer.get().render(mon.alignmentPrefix) : ""}${Parser.alignmentListToFull(mon.alignment).toTitleCase()}` : ""}`;
 	}
 
+	static getInitiativeBonusNumber ({mon}) {
+		if (mon.initiative == null && (mon.dex == null || mon.dex.special)) return null;
+		if (mon.initiative == null) return Parser.getAbilityModNumber(mon.dex);
+		if (typeof mon.initiative === "number") return mon.initiative;
+		if (typeof mon.initiative !== "object") return null;
+		if (typeof mon.initiative.initiative === "number") return mon.initiative.initiative;
+		if (mon.dex == null) return;
+		const profBonus = mon.initiative.proficiency && Parser.crToNumber(mon.cr) < VeCt.CR_CUSTOM
+			? mon.initiative.proficiency * Parser.crToPb(mon.cr)
+			: 0;
+		return Parser.getAbilityModNumber(mon.dex) + profBonus;
+	}
+
 	static getSavesPart (mon) { return `${Object.keys(mon.save || {}).sort(SortUtil.ascSortAtts).map(s => Renderer.monster.getSave(Renderer.get(), s, mon.save[s])).join(", ")}`; }
 
 	static getSensesPart (mon, {isTitleCase = false, isForcePassive = false} = {}) {
