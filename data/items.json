@@ -1285,8 +1285,8 @@
 				"daily": {
 					"1e": [
 						"animate objects",
-						"heat metal",
 						"fabricate",
+						"heat metal",
 						"magic weapon",
 						"mending",
 						"shatter"
@@ -2091,6 +2091,7 @@
 			"page": 192,
 			"type": "G",
 			"rarity": "none",
+			"age": "futuristic",
 			"charges": 10,
 			"entries": [
 				"Metal tubes ring the lower edge of this wide belt. It is powered by an {@item energy cell} stored in a metal case near the buckle. Placing a full {@item energy cell} in the belt gives the belt 10 charges.",
@@ -3796,8 +3797,8 @@
 			"attachedSpells": {
 				"limited": {
 					"1": [
-						"levitate",
-						"feather fall"
+						"feather fall",
+						"levitate"
 					]
 				}
 			}
@@ -6155,8 +6156,8 @@
 			"attachedSpells": {
 				"daily": {
 					"1e": [
-						"dimension door",
-						"compulsion"
+						"compulsion",
+						"dimension door"
 					]
 				}
 			}
@@ -8179,6 +8180,13 @@
 						"rary's telepathic bond",
 						"sending"
 					]
+				},
+				"ability": {
+					"choose": [
+						"int",
+						"wis",
+						"cha"
+					]
 				}
 			}
 		},
@@ -9380,8 +9388,8 @@
 			"bonusWeapon": "+2",
 			"attachedSpells": [
 				"fog cloud",
-				"silence",
-				"hold person"
+				"hold person",
+				"silence"
 			],
 			"hasFluffImages": true
 		},
@@ -9480,10 +9488,10 @@
 			},
 			"bonusWeapon": "+3",
 			"attachedSpells": [
+				"blight",
 				"fog cloud",
-				"silence",
 				"hold person",
-				"blight"
+				"silence"
 			],
 			"hasFluffImages": true
 		},
@@ -10225,8 +10233,8 @@
 				"You can use an action to cast the {@spell detect thoughts} spell (save {@dc 17}) while you are {@spell scrying} with the {@item crystal ball}, targeting creatures you can see within 30 feet of the spell's sensor. You don't need to concentrate on this {@spell detect thoughts} to maintain it during its duration, but it ends if {@spell scrying} ends."
 			],
 			"attachedSpells": [
-				"scrying",
-				"detect thoughts"
+				"detect thoughts",
+				"scrying"
 			],
 			"lootTables": [
 				"Magic Item Table I"
@@ -10246,14 +10254,14 @@
 				"While {@spell scrying} with the {@item crystal ball}, you can communicate telepathically with creatures you can see within 30 feet of the spell's sensor. You can also use an action to cast the {@spell suggestion} spell (save {@dc 17}) through the sensor on one of those creatures. You don't need to concentrate on this suggestion to maintain it during its duration, but it ends if {@spell scrying} ends. Once used, the suggestion power of the {@item crystal ball} can't be used again until the next dawn."
 			],
 			"attachedSpells": {
+				"will": [
+					"scrying"
+				],
 				"daily": {
 					"1e": [
 						"suggestion"
 					]
-				},
-				"will": [
-					"scrying"
-				]
+				}
 			},
 			"lootTables": [
 				"Magic Item Table I"
@@ -10846,14 +10854,14 @@
 				}
 			],
 			"attachedSpells": [
-				"reverse gravity",
 				"disintegrate",
-				"haste",
-				"flame strike",
-				"hold monster",
 				"fear",
-				"slow",
-				"prismatic wall"
+				"flame strike",
+				"haste",
+				"hold monster",
+				"prismatic wall",
+				"reverse gravity",
+				"slow"
 			],
 			"hasFluffImages": true
 		},
@@ -12137,9 +12145,9 @@
 				}
 			],
 			"attachedSpells": [
-				"time stop",
 				"gate",
 				"speak with plants",
+				"time stop",
 				"true resurrection"
 			],
 			"seeAlsoDeck": [
@@ -14152,6 +14160,9 @@
 				}
 			],
 			"attachedSpells": {
+				"will": [
+					"tasha's hideous laughter"
+				],
 				"charges": {
 					"1": [
 						"magic circle"
@@ -14165,10 +14176,7 @@
 						"plane shift",
 						"summon fiend|tce"
 					]
-				},
-				"will": [
-					"tasha's hideous laughter"
-				]
+				}
 			},
 			"hasFluffImages": true
 		},
@@ -14723,10 +14731,10 @@
 			],
 			"attachedSpells": {
 				"other": [
+					"darkness",
 					"light",
 					"ray of frost",
-					"shocking grasp",
-					"darkness"
+					"shocking grasp"
 				]
 			}
 		},
@@ -15120,14 +15128,14 @@
 				"You can speak another command word as an action to make the illuminated globe rise into the air and float no more than 5 feet off the ground. The globe hovers in this way until you or another creature grasps it. If you move more than 60 feet from the hovering globe, it follows you until it is within 60 feet of you. It takes the shortest route to do so. If prevented from moving, the globe sinks gently to the ground and becomes inactive, and its light winks out."
 			],
 			"attachedSpells": {
+				"will": [
+					"light"
+				],
 				"daily": {
 					"1e": [
 						"daylight"
 					]
-				},
-				"will": [
-					"light"
-				]
+				}
 			},
 			"lootTables": [
 				"Magic Item Table A",
@@ -16485,8 +16493,8 @@
 				"daily": {
 					"1e": [
 						"awaken",
-						"wall of thorns",
-						"ice storm"
+						"ice storm",
+						"wall of thorns"
 					]
 				}
 			},
@@ -18272,14 +18280,15 @@
 				}
 			],
 			"attachedSpells": {
+				"will": [
+					"produce flame"
+				],
 				"daily": {
 					"1": [
 						"burning hands#3"
 					]
 				},
-				"will": [
-					"produce flame"
-				]
+				"ability": "wis"
 			},
 			"hasFluff": true
 		},
@@ -21334,14 +21343,14 @@
 				"replicate magic item|tce"
 			],
 			"attachedSpells": {
+				"will": [
+					"detect thoughts"
+				],
 				"daily": {
 					"1e": [
 						"suggestion"
 					]
-				},
-				"will": [
-					"detect thoughts"
-				]
+				}
 			},
 			"lootTables": [
 				"Magic Item Table F"
@@ -23101,14 +23110,14 @@
 				}
 			],
 			"attachedSpells": {
+				"will": [
+					"protection from evil and good"
+				],
 				"daily": {
 					"1e": [
 						"augury"
 					]
-				},
-				"will": [
-					"protection from evil and good"
-				]
+				}
 			},
 			"hasFluffImages": true
 		},
@@ -23600,12 +23609,12 @@
 				"daily": {
 					"1e": [
 						"alter self",
-						"invisibility",
-						"knock",
-						"pass without trace",
 						"dimension door",
 						"gaseous form",
-						"mislead"
+						"invisibility",
+						"knock",
+						"mislead",
+						"pass without trace"
 					]
 				}
 			},
@@ -23730,6 +23739,14 @@
 				}
 			],
 			"attachedSpells": {
+				"will": [
+					"detect magic",
+					"mage armor",
+					"mending",
+					"message",
+					"misty step",
+					"tenser's floating disk"
+				],
 				"charges": {
 					"3": [
 						"haste",
@@ -23752,15 +23769,7 @@
 					"8": [
 						"maze"
 					]
-				},
-				"will": [
-					"detect magic",
-					"mage armor",
-					"mending",
-					"message",
-					"misty step",
-					"tenser's floating disk"
-				]
+				}
 			},
 			"hasFluffImages": true
 		},
@@ -23864,11 +23873,11 @@
 				"daily": {
 					"1e": [
 						"control weather",
+						"cure wounds#5",
 						"fly",
 						"invisibility",
 						"levitate",
 						"protection from evil and good",
-						"cure wounds#5",
 						"wall of thorns"
 					]
 				}
@@ -23904,12 +23913,12 @@
 				"daily": {
 					"1e": [
 						"cure wounds#3",
+						"dispel magic",
 						"fly",
 						"invisibility",
 						"levitate",
-						"protection from evil and good",
-						"dispel magic",
-						"protection from energy"
+						"protection from energy",
+						"protection from evil and good"
 					]
 				}
 			},
@@ -23943,11 +23952,11 @@
 			"attachedSpells": {
 				"daily": {
 					"1e": [
-						"stone shape",
 						"fly",
 						"invisibility",
 						"levitate",
 						"protection from evil and good",
+						"stone shape",
 						"wall of fire",
 						"wind wall"
 					]
@@ -23987,8 +23996,8 @@
 						"fly",
 						"invisibility",
 						"levitate",
-						"protection from evil and good",
 						"protection from energy",
+						"protection from evil and good",
 						"protection from poison"
 					]
 				}
@@ -24024,11 +24033,11 @@
 				"daily": {
 					"1e": [
 						"entangle",
+						"faerie fire",
 						"fly",
 						"invisibility",
 						"levitate",
 						"protection from evil and good",
-						"faerie fire",
 						"shillelagh",
 						"speak with animals"
 					]
@@ -24065,12 +24074,12 @@
 				"daily": {
 					"1e": [
 						"barkskin",
+						"cure wounds",
 						"fly",
+						"fog cloud",
 						"invisibility",
 						"levitate",
-						"protection from evil and good",
-						"cure wounds",
-						"fog cloud"
+						"protection from evil and good"
 					]
 				}
 			},
@@ -24105,12 +24114,12 @@
 				"daily": {
 					"1e": [
 						"confusion",
+						"control weather",
+						"fire storm",
 						"fly",
 						"invisibility",
 						"levitate",
-						"protection from evil and good",
-						"control weather",
-						"fire storm"
+						"protection from evil and good"
 					]
 				}
 			},
@@ -24817,14 +24826,14 @@
 				}
 			],
 			"attachedSpells": {
-				"daily": {
-					"1e": [
-						"dominate monster"
-					]
-				},
 				"charges": {
 					"3": [
 						"shatter"
+					]
+				},
+				"daily": {
+					"1e": [
+						"dominate monster"
 					]
 				}
 			},
@@ -27452,14 +27461,14 @@
 			],
 			"ammoType": "renaissance bullet",
 			"attachedSpells": {
+				"will": [
+					"dancing lights"
+				],
 				"daily": {
 					"1e": [
 						"sunbeam"
 					]
-				},
-				"will": [
-					"dancing lights"
-				]
+				}
 			}
 		},
 		{
@@ -27555,6 +27564,9 @@
 				"In addition, you can play the {@item lyre|PHB} as an action to cast {@spell fabricate}, {@spell move earth}, {@spell passwall}, or {@spell summon construct|TCE}, and that spell can't be cast from it again until the next dawn."
 			],
 			"attachedSpells": {
+				"will": [
+					"mending"
+				],
 				"daily": {
 					"1e": [
 						"fabricate",
@@ -27562,10 +27574,7 @@
 						"passwall",
 						"summon construct|tce"
 					]
-				},
-				"will": [
-					"mending"
-				]
+				}
 			}
 		},
 		{
@@ -30104,10 +30113,10 @@
 			"attachedSpells": {
 				"other": [
 					"bless",
-					"cure wounds",
-					"lesser restoration",
-					"greater restoration",
 					"branding smite",
+					"cure wounds",
+					"greater restoration",
+					"lesser restoration",
 					"planar ally",
 					"wind walk"
 				]
@@ -30177,6 +30186,7 @@
 			"page": 192,
 			"type": "G",
 			"rarity": "none",
+			"age": "futuristic",
 			"charges": 10,
 			"entries": [
 				"This strange pistol resembles a flask with a honeycomb of tubes sticking out its front. The weapon is powered by an {@item energy cell} stored at the base of the flask. Placing a full {@item energy cell} in the pistol gives the pistol 10 charges.",
@@ -30904,6 +30914,9 @@
 				}
 			],
 			"attachedSpells": {
+				"will": [
+					"detect magic"
+				],
 				"charges": {
 					"1": [
 						"daylight"
@@ -30915,10 +30928,7 @@
 						"cure wounds#5",
 						"scrying"
 					]
-				},
-				"will": [
-					"detect magic"
-				]
+				}
 			},
 			"hasFluffImages": true
 		},
@@ -31687,6 +31697,7 @@
 			"page": 192,
 			"type": "G",
 			"rarity": "none",
+			"age": "futuristic",
 			"charges": 6,
 			"entries": [
 				"This curious-looking pistol is shaped like a large, glass bulb with a handle on the bottom and brass prongs protruding from its front. The weapon is powered by an {@item energy cell} stored in its grip. Placing a full {@item energy cell} in the pistol gives the pistol 6 charges.",
@@ -31860,8 +31871,8 @@
 			"attachedSpells": {
 				"rest": {
 					"1e": [
-						"levitate",
-						"feather fall"
+						"feather fall",
+						"levitate"
 					]
 				}
 			}
@@ -32854,8 +32865,8 @@
 				}
 			],
 			"attachedSpells": [
-				"sending",
-				"charm person"
+				"charm person",
+				"sending"
 			]
 		},
 		{
@@ -33974,6 +33985,7 @@
 			"rarity": "legendary",
 			"reqAttune": true,
 			"weight": 65,
+			"age": "futuristic",
 			"ac": 18,
 			"ability": {
 				"static": {
@@ -33992,7 +34004,7 @@
 						"You have advantage on death saving throws."
 					]
 				},
-				"The armor has further capabilities that can be powered either by energy cells or by your own life energy. You can use a bonus action to draw power from an energy cell or sacrifice hit points to gain one of the following benefits:",
+				"The armor has further capabilities that can be powered either by {@item energy cell||energy cells} or by your own life energy. You can use a bonus action to draw power from an energy cell or sacrifice hit points to gain one of the following benefits:",
 				{
 					"type": "list",
 					"items": [
@@ -34049,6 +34061,7 @@
 			"page": 192,
 			"type": "HA",
 			"rarity": "none",
+			"age": "futuristic",
 			"charges": 24,
 			"entries": [
 				"This suit of technologically advanced plate armor includes an under-suit that can fully seal, a helmet with a full face mask and crystal lenses in the eyeholes, and a set of gauntlets. The armor is powered by an {@item energy cell} stored in a compartment on the thigh plate.",
@@ -34387,7 +34400,8 @@
 			"attachedSpells": {
 				"will": [
 					"mage hand"
-				]
+				],
+				"ability": "int"
 			}
 		},
 		{
@@ -36376,15 +36390,15 @@
 				}
 			],
 			"attachedSpells": {
+				"will": [
+					"dancing lights",
+					"light"
+				],
 				"charges": {
 					"1": [
 						"faerie fire"
 					]
-				},
-				"will": [
-					"dancing lights",
-					"light"
-				]
+				}
 			},
 			"lootTables": [
 				"Magic Item Table H"
@@ -36759,8 +36773,8 @@
 			"attachedSpells": {
 				"charges": {
 					"1": [
-						"spike growth",
-						"sleet storm"
+						"sleet storm",
+						"spike growth"
 					],
 					"2": [
 						"bigby's hand",
@@ -37052,6 +37066,7 @@
 			"page": 193,
 			"type": "G",
 			"rarity": "none",
+			"age": "futuristic",
 			"charges": 3,
 			"entries": [
 				"This small handheld device features a glass pane with a glowing display that responds to your touch.",
@@ -37484,14 +37499,14 @@
 			"attachedSpells": {
 				"daily": {
 					"1e": [
-						"commune",
 						"arcane gate",
-						"reverse gravity",
-						"regenerate",
+						"commune",
+						"detect evil and good",
 						"find the path",
 						"mirage arcane",
-						"simulacrum",
-						"detect evil and good"
+						"regenerate",
+						"reverse gravity",
+						"simulacrum"
 					]
 				}
 			},
@@ -38272,7 +38287,8 @@
 						"enlarge/reduce",
 						"polymorph"
 					]
-				}
+				},
+				"ability": "int"
 			}
 		},
 		{
@@ -38298,7 +38314,8 @@
 						"aura of vitality",
 						"mass cure wounds"
 					]
-				}
+				},
+				"ability": "int"
 			}
 		},
 		{
@@ -38324,7 +38341,8 @@
 						"destructive wave",
 						"fireball"
 					]
-				}
+				},
+				"ability": "int"
 			}
 		},
 		{
@@ -38350,7 +38368,8 @@
 						"fear",
 						"hex"
 					]
-				}
+				},
+				"ability": "int"
 			}
 		},
 		{
@@ -38376,7 +38395,8 @@
 						"charm person",
 						"hypnotic pattern"
 					]
-				}
+				},
+				"ability": "int"
 			}
 		},
 		{
@@ -38402,7 +38422,8 @@
 						"freedom of movement",
 						"pass without trace"
 					]
-				}
+				},
+				"ability": "int"
 			}
 		},
 		{
@@ -38699,11 +38720,6 @@
 				}
 			],
 			"attachedSpells": {
-				"daily": {
-					"3": [
-						"heal"
-					]
-				},
 				"charges": {
 					"1": [
 						"guiding bolt"
@@ -38713,6 +38729,11 @@
 					],
 					"5": [
 						"flame strike"
+					]
+				},
+				"daily": {
+					"3": [
+						"heal"
 					]
 				}
 			},
@@ -41532,6 +41553,7 @@
 			"page": 161,
 			"type": "G",
 			"rarity": "none",
+			"age": "futuristic",
 			"entries": [
 				"The Spaceship Trinkets table below offers a selection of trinkets appropriate for adventures with sci-fi themes. The adventure includes encounters that ask you to roll on the table to determine what random trinkets the characters find in certain locations on the spaceship. None of the trinkets requires an energy cell.",
 				{
@@ -43974,6 +43996,14 @@
 				}
 			],
 			"attachedSpells": {
+				"will": [
+					"arcane lock",
+					"detect magic",
+					"enlarge/reduce",
+					"light",
+					"mage hand",
+					"protection from evil and good"
+				],
 				"charges": {
 					"2": [
 						"flaming sphere",
@@ -43998,15 +44028,7 @@
 						"lightning bolt#7",
 						"plane shift"
 					]
-				},
-				"will": [
-					"arcane lock",
-					"detect magic",
-					"enlarge/reduce",
-					"light",
-					"mage hand",
-					"protection from evil and good"
-				]
+				}
 			},
 			"lootTables": [
 				"Magic Item Table I"
@@ -44136,6 +44158,9 @@
 				}
 			],
 			"attachedSpells": {
+				"will": [
+					"pass without trace"
+				],
 				"charges": {
 					"1": [
 						"animal friendship",
@@ -44154,10 +44179,7 @@
 					"6": [
 						"wall of thorns"
 					]
-				},
-				"will": [
-					"pass without trace"
-				]
+				}
 			},
 			"lootTables": [
 				"Magic Item Table G"
@@ -44337,14 +44359,14 @@
 			},
 			"bonusWeapon": "+2",
 			"attachedSpells": {
+				"will": [
+					"see invisibility"
+				],
 				"daily": {
 					"1e": [
 						"faerie fire"
 					]
-				},
-				"will": [
-					"see invisibility"
-				]
+				}
 			},
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -44443,15 +44465,15 @@
 			},
 			"bonusWeapon": "+3",
 			"attachedSpells": {
+				"will": [
+					"fly",
+					"see invisibility"
+				],
 				"daily": {
 					"1e": [
 						"faerie fire"
 					]
-				},
-				"will": [
-					"see invisibility",
-					"fly"
-				]
+				}
 			},
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -44596,6 +44618,12 @@
 				}
 			],
 			"attachedSpells": {
+				"will": [
+					"mage hand",
+					"prestidigitation",
+					"purify food and drink",
+					"unseen servant"
+				],
 				"daily": {
 					"1e": [
 						"animate objects",
@@ -44604,12 +44632,13 @@
 						"telekinesis"
 					]
 				},
-				"will": [
-					"mage hand",
-					"prestidigitation",
-					"purify food and drink",
-					"unseen servant"
-				]
+				"ability": {
+					"choose": [
+						"int",
+						"wis",
+						"cha"
+					]
+				}
 			}
 		},
 		{
@@ -47575,43 +47604,43 @@
 				}
 			],
 			"attachedSpells": {
+				"will": [
+					"wish"
+				],
 				"daily": {
 					"1e": [
 						"conjure animals",
 						"summon lesser demons|XGE"
 					]
 				},
-				"will": [
-					"wish"
-				],
 				"other": [
-					"conjure minor elementals",
-					"conjure woodland beings",
-					"summon greater demon|XGE",
+					"comprehend languages",
 					"conjure elemental",
 					"conjure fey",
-					"legend lore",
-					"Mordenkainen's faithful hound",
-					"gaseous form",
-					"raise dead",
-					"nondetection",
-					"mage hand",
-					"speak with plants",
-					"goodberry",
-					"prestidigitation",
-					"detect thoughts",
-					"misty step",
+					"conjure minor elementals",
+					"conjure woodland beings",
 					"daylight",
-					"light",
+					"detect thoughts",
 					"divination",
-					"invisibility",
-					"teleport",
+					"gaseous form",
+					"goodberry",
 					"haste",
-					"slow",
 					"healing word",
+					"invisibility",
+					"legend lore",
+					"light",
+					"mage hand",
+					"misty step",
 					"modify memory",
+					"Mordenkainen's faithful hound",
+					"nondetection",
+					"prestidigitation",
+					"raise dead",
+					"slow",
+					"speak with plants",
+					"summon greater demon|XGE",
+					"teleport",
 					"unseen servant",
-					"comprehend languages",
 					"zone of truth"
 				]
 			}
@@ -47940,14 +47969,14 @@
 				}
 			],
 			"attachedSpells": {
+				"will": [
+					"longstrider"
+				],
 				"daily": {
 					"1e": [
 						"teleport"
 					]
-				},
-				"will": [
-					"longstrider"
-				]
+				}
 			}
 		},
 		{
@@ -50116,18 +50145,18 @@
 				}
 			],
 			"attachedSpells": {
-				"daily": {
-					"1e": [
-						"scrying",
-						"find the path"
-					]
-				},
 				"will": [
 					"detect thoughts",
 					"locate animals or plants",
 					"locate creature",
 					"locate object"
-				]
+				],
+				"daily": {
+					"1e": [
+						"find the path",
+						"scrying"
+					]
+				}
 			}
 		},
 		{
@@ -50204,18 +50233,18 @@
 				}
 			],
 			"attachedSpells": {
-				"daily": {
-					"1e": [
-						"scrying",
-						"find the path"
-					]
-				},
 				"will": [
 					"detect thoughts",
 					"locate animals or plants",
 					"locate creature",
 					"locate object"
-				]
+				],
+				"daily": {
+					"1e": [
+						"find the path",
+						"scrying"
+					]
+				}
 			}
 		},
 		{
@@ -50474,8 +50503,8 @@
 			"attachedSpells": {
 				"daily": {
 					"1e": [
-						"polymorph",
-						"insect plague"
+						"insect plague",
+						"polymorph"
 					]
 				}
 			}
@@ -50558,8 +50587,8 @@
 			"attachedSpells": {
 				"daily": {
 					"1e": [
-						"polymorph",
-						"insect plague"
+						"insect plague",
+						"polymorph"
 					]
 				}
 			}
@@ -50849,12 +50878,12 @@
 			"attachedSpells": {
 				"daily": {
 					"1e": [
+						"fizban's platinum shield|ftd",
 						"hold monster",
-						"rime's binding ice|ftd",
+						"legend lore",
 						"rary's telepathic bond",
 						"raulothim's psychic lance|ftd",
-						"fizban's platinum shield|ftd",
-						"legend lore"
+						"rime's binding ice|ftd"
 					]
 				}
 			}
@@ -51502,6 +51531,9 @@
 				"The wand has 7 charges, which are used to fuel the spells within it. With the wand in hand, you can use your action to cast one of the following spells from the wand, even if you are incapable of casting spells: {@spell ray of frost} (no charges, or 1 charge to cast at 5th level; +5 to hit with ranged spell attack), {@spell sleet storm} (3 charges; spell save {@dc 15}), or {@spell ice storm} (4 charges; spell save {@dc 15}). No components are required. The wand regains {@dice 1d6 + 1} expended charges each day at dawn. If you expend the wand's last charge, roll a {@dice d20}. On a 20, the wand melts away, forever destroyed."
 			],
 			"attachedSpells": {
+				"will": [
+					"ray of frost"
+				],
 				"charges": {
 					"3": [
 						"sleet storm"
@@ -51509,10 +51541,7 @@
 					"4": [
 						"ice storm"
 					]
-				},
-				"will": [
-					"ray of frost"
-				]
+				}
 			},
 			"hasFluffImages": true
 		},
@@ -51644,16 +51673,16 @@
 			"attachedSpells": {
 				"charges": {
 					"1": [
-						"slow",
-						"faerie fire",
-						"gust of wind",
-						"detect thoughts",
-						"stinking cloud",
-						"lightning bolt",
-						"enlarge/reduce",
 						"darkness",
+						"detect thoughts",
+						"enlarge/reduce",
+						"faerie fire",
 						"fireball",
-						"invisibility"
+						"gust of wind",
+						"invisibility",
+						"lightning bolt",
+						"slow",
+						"stinking cloud"
 					]
 				}
 			},
@@ -52089,17 +52118,17 @@
 				}
 			],
 			"attachedSpells": {
+				"will": [
+					"dancing lights",
+					"guidance",
+					"message"
+				],
 				"daily": {
 					"1e": [
 						"fly",
 						"levitate"
 					]
-				},
-				"will": [
-					"dancing lights",
-					"guidance",
-					"message"
-				]
+				}
 			}
 		},
 		{
@@ -52989,7 +53018,8 @@
 					"dancing lights",
 					"polymorph",
 					"ray of frost"
-				]
+				],
+				"ability": "cha"
 			},
 			"hasFluffImages": true
 		},
@@ -53030,7 +53060,8 @@
 					"fire bolt",
 					"invisibility",
 					"message"
-				]
+				],
+				"ability": "int"
 			}
 		},
 		{
@@ -54416,10 +54447,10 @@
 			],
 			"ammoType": "crossbow bolt|phb",
 			"attachedSpells": [
+				"blight",
 				"fog cloud",
-				"silence",
 				"hold person",
-				"blight"
+				"silence"
 			],
 			"hasFluffImages": true
 		},
@@ -56017,7 +56048,8 @@
 					"1e": [
 						"augury"
 					]
-				}
+				},
+				"ability": "int"
 			}
 		},
 		{
@@ -56346,15 +56378,15 @@
 				"Star Razor (Exalted)|TDCSR"
 			],
 			"attachedSpells": {
+				"will": [
+					"fly",
+					"see invisibility"
+				],
 				"daily": {
 					"1e": [
 						"faerie fire"
 					]
-				},
-				"will": [
-					"see invisibility",
-					"fly"
-				]
+				}
 			},
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -56585,18 +56617,18 @@
 				"True-Ice Shards (Dagger)|CoA"
 			],
 			"attachedSpells": {
-				"daily": {
-					"1e": [
-						"scrying",
-						"find the path"
-					]
-				},
 				"will": [
 					"detect thoughts",
 					"locate animals or plants",
 					"locate creature",
 					"locate object"
-				]
+				],
+				"daily": {
+					"1e": [
+						"find the path",
+						"scrying"
+					]
+				}
 			}
 		},
 		{
@@ -56623,8 +56655,8 @@
 			"attachedSpells": {
 				"daily": {
 					"1e": [
-						"polymorph",
-						"insect plague"
+						"insect plague",
+						"polymorph"
 					]
 				}
 			}

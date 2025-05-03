@@ -1632,8 +1632,6 @@
 		{
 			"name": "Deck of Many Things (13 Cards)",
 			"source": "DMG",
-			"page": 162,
-			"srd": true,
 			"_copy": {
 				"name": "Deck of Many Things",
 				"source": "DMG",
@@ -1787,6 +1785,10 @@
 							]
 						}
 					}
+				},
+				"_preserve": {
+					"page": true,
+					"srd": true
 				}
 			},
 			"cards": [
