@@ -2,7 +2,7 @@
 
 // in deployment, `IS_DEPLOYED = "<version number>";` should be set below.
 globalThis.IS_DEPLOYED = undefined;
-globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.35"/* 5ETOOLS_VERSION__CLOSE */;
+globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.36"/* 5ETOOLS_VERSION__CLOSE */;
 globalThis.DEPLOYED_IMG_ROOT = undefined;
 // for the roll20 script to set
 globalThis.IS_VTT = false;
@@ -1894,6 +1894,42 @@ globalThis.MiscUtil = class {
 			});
 
 		return obj1;
+	}
+
+	static expand (obj) {
+		if (!obj) return obj;
+		if (Array.isArray(obj)) return obj.map(it => MiscUtil.expand(it));
+		if (typeof obj !== "object") return obj;
+		const out = {};
+		Object.entries(obj)
+			.forEach(([k, v]) => MiscUtil.setComposite(out, k, MiscUtil.expand(v)));
+		return out;
+	}
+
+	static flatten (obj) {
+		if (!obj) return obj;
+		if (Array.isArray(obj)) return obj.map(it => MiscUtil.flatten(it));
+		if (typeof obj !== "object") return obj;
+		if (!Object.keys(obj).length) return obj;
+
+		const out = {};
+		Object.entries(obj)
+			.forEach(([k, v]) => {
+				if (v == null || typeof v !== "object" || !Object.keys(v).length) return out[k] = v;
+				if (Array.isArray(v)) return out[k] = v.map(it => MiscUtil.flatten(it));
+
+				Object.entries(MiscUtil.flatten(v))
+					.forEach(([k2, v2]) => {
+						out[`${k}.${k2}`] = v2;
+					});
+			});
+		return out;
+	}
+
+	static setComposite (obj, path, val) {
+		if (!path) return val;
+		const parts = path.split(".");
+		return MiscUtil.set(obj, ...parts, val);
 	}
 
 	/**

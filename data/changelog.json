@@ -2929,5 +2929,10 @@
 		"ver": "1.210.35",
 		"date": "2025-05-03",
 		"txt": "- Added \"Range (Normal)\" and \"Range (Long)\" filter to Items page\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.36",
+		"date": "2025-05-05",
+		"txt": "- (Fixed typos/added tags)"
 	}
 ]
