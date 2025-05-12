@@ -828,7 +828,8 @@
 				"Insightful Manipulator|Rogue||Mastermind|XGE|9",
 				"Misdirection|Rogue||Mastermind|XGE|13",
 				"Soul of Deceit|Rogue||Mastermind|XGE|17"
-			]
+			],
+			"hasFluff": true
 		},
 		{
 			"name": "Scout",
@@ -862,7 +863,8 @@
 				"Panache|Rogue||Swashbuckler|XGE|9",
 				"Elegant Maneuver|Rogue||Swashbuckler|XGE|13",
 				"Master Duelist|Rogue||Swashbuckler|XGE|17"
-			]
+			],
+			"hasFluff": true
 		},
 		{
 			"name": "Phantom",

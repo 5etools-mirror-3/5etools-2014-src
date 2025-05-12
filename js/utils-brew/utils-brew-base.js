@@ -1,5 +1,6 @@
 import {BrewUtilShared} from "./utils-brew-helpers.js";
 import {BrewDoc} from "./utils-brew-models.js";
+import {SITE_STYLE__CLASSIC, SITE_STYLE__ONE} from "../consts.js";
 
 export class BrewUtil2Base {
 	_STORAGE_KEY_LEGACY;
@@ -397,7 +398,8 @@ export class BrewUtil2Base {
 			if (id == null) return true;
 			return !idsToAdd.has(id);
 		});
-		return [...brews, ...brewsToAdd];
+		return [...brews, ...brewsToAdd]
+			.sort((a, b) => SortUtil.ascSortLower(a.head?.filename || "", b.head?.filename || ""));
 	}
 
 	/* -------------------------------------------- */
@@ -573,6 +575,7 @@ export class BrewUtil2Base {
 				out._brewInternalSources = metaIndex[out.name]?.n || [];
 				out._brewStatus = metaIndex[out.name]?.s || "ready";
 				out._brewIsPartnered = !!metaIndex[out.name]?.p;
+				out._brewEdition = metaIndex[out.name]?.e === 0 ? SITE_STYLE__CLASSIC : SITE_STYLE__ONE;
 				out._brewPropDisplayName = this.getPropDisplayName(out.dirProp);
 
 				return out;
@@ -837,7 +840,7 @@ export class BrewUtil2Base {
 	async pAddBrewsPartnered ({isSilent = false} = {}) {
 		const combinedIndexes = await this.pGetCombinedIndexes();
 
-		const brewInfos = combinedIndexes.filter(it => it._brewIsPartnered);
+		const brewInfos = combinedIndexes.filter(it => it._brewIsPartnered && it._brewEdition === SITE_STYLE__CLASSIC);
 		if (!brewInfos.length) {
 			if (!isSilent) JqueryUtil.doToast({type: "warning", content: `Did not find any partnered ${this.DISPLAY_NAME} to load!`});
 			return [];
@@ -845,11 +848,8 @@ export class BrewUtil2Base {
 
 		if (!isSilent) JqueryUtil.doToast(`Found ${brewInfos.length} partnered ${brewInfos.length === 1 ? this.DISPLAY_NAME : this.DISPLAY_NAME_PLURAL}; loading...`);
 
-		(
-			await brewInfos
-				.pMap(brewInfo => this.pAddBrewFromUrl(brewInfo.urlDownload, {isLazy: true}))
-		)
-			.sort((a, b) => SortUtil.ascSortLower(a._brewName, b._brewName));
+		await brewInfos
+			.pMap(brewInfo => this.pAddBrewFromUrl(brewInfo.urlDownload, {isLazy: true}));
 
 		const brewDocsAdded = await this.pAddBrewsLazyFinalize();
 

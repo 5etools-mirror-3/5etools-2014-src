@@ -569,6 +569,7 @@
 				"Scornful Rebuke|Paladin||Conquest|XGE|15",
 				"Invincible Conqueror|Paladin||Conquest|XGE|20"
 			],
+			"hasFluff": true,
 			"hasFluffImages": true
 		},
 		{
@@ -610,6 +611,7 @@
 				"Protective Spirit|Paladin||Redemption|XGE|15",
 				"Emissary of Redemption|Paladin||Redemption|XGE|20"
 			],
+			"hasFluff": true,
 			"hasFluffImages": true
 		},
 		{

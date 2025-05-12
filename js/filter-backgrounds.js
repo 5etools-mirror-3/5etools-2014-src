@@ -13,6 +13,7 @@ class PageFilterBackgrounds extends PageFilterBase {
 	constructor () {
 		super();
 
+		this._asiFilter = new AbilityScoreFilter({header: "Ability Scores"});
 		this._skillFilter = new Filter({header: "Skill Proficiencies", displayFn: StrUtil.toTitleCase.bind(StrUtil)});
 		this._prereqFilter = new Filter({
 			header: "Prerequisite",
@@ -20,14 +21,32 @@ class PageFilterBackgrounds extends PageFilterBase {
 		});
 		this._toolFilter = new Filter({header: "Tool Proficiencies", displayFn: PageFilterBackgrounds._getToolDisplayText.bind(PageFilterBackgrounds)});
 		this._languageFilter = FilterCommon.getLanguageProficienciesFilter();
-		this._asiFilter = new AbilityScoreFilter({header: "Ability Scores"});
-		this._otherBenefitsFilter = new Filter({header: "Other Benefits"});
+		this._otherBenefitsFilter = new Filter({
+			header: "Other Benefits",
+		});
 		this._miscFilter = new Filter({
 			header: "Miscellaneous",
 			items: ["Has Info", "Has Images", "Legacy"],
 			isMiscFilter: true,
 			deselFn: PageFilterBase.defaultMiscellaneousDeselFn.bind(PageFilterBase),
 		});
+		this._featsFilter = new SearchableFilter({header: "Feats", itemSortFn: SortUtil.ascSortLower});
+	}
+
+	static _mutateForFilters_getFilterFeats (bg) {
+		if (!bg.feats?.length) return null;
+		return bg.feats
+			.flatMap(obj => {
+				return Object.entries(obj)
+					.filter(([, v]) => v)
+					.map(([k, v]) => {
+						switch (k) {
+							case "any": return "(Any)";
+							case "anyFromCategory": return `(Any From Category)`;
+							default: return k.split("|")[0].toTitleCase();
+						}
+					});
+			});
 	}
 
 	static mutateForFilters (bg) {
@@ -57,25 +76,32 @@ class PageFilterBackgrounds extends PageFilterBase {
 		bg._fLangs = languages;
 
 		this._mutateForFilters_commonMisc(bg);
-		bg._fOtherBenifits = [];
-		if (bg.feats) bg._fOtherBenifits.push("Feat");
-		if (bg.additionalSpells) bg._fOtherBenifits.push("Additional Spells");
-		if (bg.armorProficiencies) bg._fOtherBenifits.push("Armor Proficiencies");
-		if (bg.weaponProficiencies) bg._fOtherBenifits.push("Weapon Proficiencies");
+		bg._fOtherBenefits = [];
+		if (bg.feats) bg._fOtherBenefits.push("Feat");
+		if (bg.additionalSpells) bg._fOtherBenefits.push("Additional Spells");
+		if (bg.armorProficiencies) bg._fOtherBenefits.push("Armor Proficiencies");
+		if (bg.weaponProficiencies) bg._fOtherBenefits.push("Weapon Proficiencies");
 		bg._skillDisplay = skillDisplay;
+
+		bg._slAbility = bg.ability
+			? (Renderer.getAbilityData(bg.ability, {isOnlyShort: true, isBackgroundShortForm: bg.edition === "one"}).asTextShort || VeCt.STR_NONE)
+			: VeCt.STR_NONE;
+
+		bg._fFeats = this._mutateForFilters_getFilterFeats(bg);
 	}
 
 	addToFilters (bg, isExcluded) {
 		if (isExcluded) return;
 
 		this._sourceFilter.addItem(bg._fSources);
+		this._asiFilter.addItem(bg.ability);
 		this._prereqFilter.addItem(bg._fPrereq);
 		this._skillFilter.addItem(bg._fSkills);
 		this._toolFilter.addItem(bg._fTools);
 		this._languageFilter.addItem(bg._fLangs);
-		this._asiFilter.addItem(bg.ability);
-		this._otherBenefitsFilter.addItem(bg._fOtherBenifits);
+		this._otherBenefitsFilter.addItem(bg._fOtherBenefits);
 		this._miscFilter.addItem(bg._fMisc);
+		this._featsFilter.addItem(bg._fFeats);
 	}
 
 	async _pPopulateBoxOptions (opts) {
@@ -88,6 +114,7 @@ class PageFilterBackgrounds extends PageFilterBase {
 			this._asiFilter,
 			this._otherBenefitsFilter,
 			this._miscFilter,
+			this._featsFilter,
 		];
 	}
 
@@ -100,8 +127,9 @@ class PageFilterBackgrounds extends PageFilterBase {
 			bg._fTools,
 			bg._fLangs,
 			bg.ability,
-			bg._fOtherBenifits,
+			bg._fOtherBenefits,
 			bg._fMisc,
+			bg._fFeats,
 		);
 	}
 }

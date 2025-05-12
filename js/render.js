@@ -195,7 +195,7 @@ globalThis.Renderer = function () {
 
 	this.setPartPageExpandCollapseDisabled = function (val) { this._isPartPageExpandCollapseDisabled = !!val; return this; };
 
-	/** Bind function which apply exta CSS classes to entry/list renders.  */
+	/** Bind function which apply extra CSS classes to entry/list renders.  */
 	this.setFnGetStyleClasses = function (identifier, fn) {
 		if (fn == null) {
 			delete this._fnsGetStyleClasses[identifier];
@@ -4013,7 +4013,7 @@ Renderer.utils = class {
 		}
 
 		static _getHtml_ability ({v, isListMode, isTextOnly, styleHint}) {
-			// `v` is an array or objects with str/dex/... properties; array is "OR"'d togther, object is "AND"'d together
+			// `v` is an array or objects with str/dex/... properties; array is "OR"'d together, object is "AND"'d together
 
 			let hadMultipleInner = false;
 			let hadMultiMultipleInner = false;
@@ -5030,6 +5030,7 @@ Renderer.tag = class {
 		tagName;
 		defaultSource = null;
 		page = null;
+		isStandalone = false;
 
 		get tag () { return `@${this.tagName}`; }
 
@@ -5054,7 +5055,7 @@ Renderer.tag = class {
 	};
 
 	static _TagTextStyle = class extends this._TagBaseAt {
-		_getStripped (tag, text) { return text.split("|")[0]; }
+		_getStripped (tag, text) { return Renderer.splitTagByPipe(text)[0] || ""; }
 	};
 
 	static TagBoldShort = class extends this._TagTextStyle {
@@ -5178,12 +5179,14 @@ Renderer.tag = class {
 
 	static TagActSaveSuccess = class extends this._TagBaseAt {
 		tagName = "actSaveSuccess";
+		isStandalone = true;
 
 		_getStripped (tag, text) { return "Success:"; }
 	};
 
 	static TagActSaveFailure = class extends this._TagBaseAt {
 		tagName = "actSaveFail";
+		isStandalone = true;
 
 		_getStripped (tag, text) {
 			const [ordinal] = Renderer.splitTagByPipe(text);
@@ -5203,36 +5206,42 @@ Renderer.tag = class {
 
 	static TagActSaveSuccessOrFailure = class extends this._TagBaseAt {
 		tagName = "actSaveSuccessOrFail";
+		isStandalone = true;
 
 		_getStripped (tag, text) { return "Failure or Success:"; }
 	};
 
 	static TagActTrigger = class extends this._TagBaseAt {
 		tagName = "actTrigger";
+		isStandalone = true;
 
 		_getStripped (tag, text) { return "Trigger:"; }
 	};
 
 	static TagActResponse = class extends this._TagBaseAt {
 		tagName = "actResponse";
+		isStandalone = true;
 
 		_getStripped (tag, text) { return `Response${text.includes("d") ? "\u2014" : ":"}`; }
 	};
 
 	static TagHitText = class extends this._TagBaseAt {
 		tagName = "h";
+		isStandalone = true;
 
 		_getStripped (tag, text) { return "Hit: "; }
 	};
 
 	static TagMissText = class extends this._TagBaseAt {
 		tagName = "m";
+		isStandalone = true;
 
 		_getStripped (tag, text) { return "Miss: "; }
 	};
 
 	static TagHitOrMissText = class extends this._TagBaseAt {
 		tagName = "hom";
+		isStandalone = true;
 
 		_getStripped (tag, text) { return "Hit or Miss: "; } // I guess they never miss
 	};
@@ -5251,6 +5260,7 @@ Renderer.tag = class {
 
 	static TagHitYourSpellAttack = class extends this._TagBaseAt {
 		tagName = "hitYourSpellAttack";
+		isStandalone = true;
 
 		_getStripped (tag, text) {
 			const [displayText] = Renderer.splitTagByPipe(text);
@@ -5269,6 +5279,7 @@ Renderer.tag = class {
 
 	static TagDcYourSpellSave = class extends this._TagBaseAt {
 		tagName = "dcYourSpellSave";
+		isStandalone = true;
 
 		_getStripped (tag, text) {
 			const [displayText] = Renderer.splitTagByPipe(text);
@@ -5348,6 +5359,7 @@ Renderer.tag = class {
 
 	static TagRecharge = class extends this._TagDiceFlavor {
 		tagName = "recharge";
+		isStandalone = true;
 	};
 
 	static TagAbility = class extends this._TagDiceFlavor {
@@ -5379,6 +5391,7 @@ Renderer.tag = class {
 
 	static TagCoinflip = class extends this._TagBaseAt {
 		tagName = "coinflip";
+		isStandalone = true;
 
 		_getStripped (tag, text) {
 			const [displayText] = Renderer.splitTagByPipe(text);
@@ -9747,9 +9760,9 @@ Renderer.monster = class {
 		}
 
 		static getHtml (dragon, {renderer = null} = {}) {
-			const variantEntrues = Renderer.monster.dragonCasterVariant.getVariantEntries(dragon);
-			if (!variantEntrues.length) return null;
-			return variantEntrues.map(it => renderer.render(it)).join("");
+			const variantEntries = Renderer.monster.dragonCasterVariant.getVariantEntries(dragon);
+			if (!variantEntries.length) return null;
+			return variantEntries.map(it => renderer.render(it)).join("");
 		}
 	};
 
@@ -11740,8 +11753,8 @@ Renderer.item = class {
 		if (item.type && (Renderer.item.getType(item.type)?.entries || Renderer.item.getType(item.type)?.entriesTemplate)) {
 			Renderer.item._initFullEntries(item);
 
-			const propetyEntries = Renderer.item._enhanceItem_getItemPropertyTypeEntries({item, ent: Renderer.item.getType(item.type)});
-			propetyEntries.forEach(e => item._fullEntries.push({type: "wrapper", wrapped: e, data: {[VeCt.ENTDATA_ITEM_MERGED_ENTRY_TAG]: "type"}}));
+			const propertyEntries = Renderer.item._enhanceItem_getItemPropertyTypeEntries({item, ent: Renderer.item.getType(item.type)});
+			propertyEntries.forEach(e => item._fullEntries.push({type: "wrapper", wrapped: e, data: {[VeCt.ENTDATA_ITEM_MERGED_ENTRY_TAG]: "type"}}));
 		}
 		if (item.property) {
 			item.property.forEach(p => {
@@ -11750,8 +11763,8 @@ Renderer.item = class {
 
 				Renderer.item._initFullEntries(item);
 
-				const propetyEntries = Renderer.item._enhanceItem_getItemPropertyTypeEntries({item, ent: entProperty});
-				propetyEntries.forEach(e => item._fullEntries.push({type: "wrapper", wrapped: e, data: {[VeCt.ENTDATA_ITEM_MERGED_ENTRY_TAG]: "property"}}));
+				const propertyEntries = Renderer.item._enhanceItem_getItemPropertyTypeEntries({item, ent: entProperty});
+				propertyEntries.forEach(e => item._fullEntries.push({type: "wrapper", wrapped: e, data: {[VeCt.ENTDATA_ITEM_MERGED_ENTRY_TAG]: "property"}}));
 			});
 		}
 		// The following could be encoded in JSON, but they depend on more than one JSON property; maybe fix if really bored later
@@ -12068,7 +12081,8 @@ Renderer.item = class {
 					case "rest":
 					case "daily":
 					case "limited":
-					case "charges": {
+					case "charges":
+					case "resource": {
 						Object.values(v)
 							.forEach(arr => {
 								arr.forEach(uid => {
@@ -12079,6 +12093,7 @@ Renderer.item = class {
 					}
 
 					case "ability": break;
+					case "resourceName": break;
 
 					default: throw new Error(`Unhandled "attachedSpells" key "${useType}"!`);
 				}
@@ -13263,7 +13278,7 @@ Renderer.recipe = class {
 									obj[k] = Math.round(base * scaleFactor * Renderer.recipe._SCALED_PRECISION_LIMIT) / Renderer.recipe._SCALED_PRECISION_LIMIT;
 								});
 
-							// region Attempt to singleize/pluralize units
+							// region Attempt to singularize/pluralize units
 							const amountsOriginal = Object.keys(objOriginal).filter(k => /^amount\d+$/.test(k)).map(k => objOriginal[k]);
 							const amountsScaled = Object.keys(obj).filter(k => /^amount\d+$/.test(k)).map(k => obj[k]);
 
@@ -13293,7 +13308,7 @@ Renderer.recipe = class {
 								}
 
 								if (isSingleToPlural) pt = Renderer.recipe._getPluralizedUnits(pt);
-								else if (isPluralToSingle) pt = Renderer.recipe._getSingleizedUnits(pt);
+								else if (isPluralToSingle) pt = Renderer.recipe._getSingularizedUnits(pt);
 								entryPartsOut.push(pt);
 							}
 
@@ -13346,7 +13361,7 @@ Renderer.recipe = class {
 	static _FNS_SINGLE_TO_PLURAL = [];
 	static _FNS_PLURAL_TO_SINGLE = [];
 
-	static _getSingleizedUnits (str) {
+	static _getSingularizedUnits (str) {
 		if (!Renderer.recipe._FNS_PLURAL_TO_SINGLE.length) {
 			Renderer.recipe._FNS_PLURAL_TO_SINGLE = [
 				...Renderer.recipe._UNITS_SINGLE_TO_PLURAL_S.map(word => str => str.replace(new RegExp(`\\b${word.escapeRegexp()}s\\b`, "gi"), (...m) => m[0].slice(0, -1))),
@@ -14960,7 +14975,7 @@ Renderer.hover = class {
 
 				break;
 			}
-			default: throw new Error(`Positiong mode unimplemented: "${positionNxt.mode}"`);
+			default: throw new Error(`Positioning mode unimplemented: "${positionNxt.mode}"`);
 		}
 
 		Renderer.hover._getShowWindow_adjustPosition({$hov, $wrpContent, position});
@@ -15513,7 +15528,7 @@ Renderer.getRollableRow = function (row, opts) {
 		// format: "20 or lower"; "99 or higher"
 		const mLowHigh = /^(\d+) or (lower|higher)$/i.exec(cleanRow);
 		if (mLowHigh) {
-			row[0] = {type: "cell", entry: cleanRow}; // Preseve the original text
+			row[0] = {type: "cell", entry: cleanRow}; // Preserve the original text
 
 			if (mLowHigh[2].toLowerCase() === "lower") {
 				row[0].roll = {
