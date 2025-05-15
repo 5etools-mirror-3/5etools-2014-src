@@ -9325,6 +9325,7 @@ class _RenderCompactBestiaryImplClassic extends _RenderCompactBestiaryImplBase {
 	) {
 		return {
 			htmlPtSavingThrows: this._getHtmlParts_savingThrows({mon}),
+			htmlPtInitiative: this._getHtmlParts_initiative({mon, renderer}),
 			htmlPtDamageImmunities: this._getHtmlParts_damageImmunities({mon}),
 			htmlPtConditionImmunities: this._getHtmlParts_conditionImmunities({mon}),
 
@@ -9336,6 +9337,10 @@ class _RenderCompactBestiaryImplClassic extends _RenderCompactBestiaryImplBase {
 
 	_getHtmlParts_savingThrows ({mon}) {
 		return mon.save ? `<p><b>Saving Throws</b> ${Renderer.monster.getSavesPart(mon)}</p>` : "";
+	}
+
+	_getHtmlParts_initiative ({mon, renderer}) {
+		return mon.initiative ? `<p><b>Initiative</b> ${Renderer.monster.getInitiativePart(mon, {renderer})}</p>` : "";
 	}
 
 	_getHtmlParts_damageImmunities ({mon}) {
@@ -9430,6 +9435,7 @@ class _RenderCompactBestiaryImplClassic extends _RenderCompactBestiaryImplBase {
 
 		const {
 			htmlPtSavingThrows,
+			htmlPtInitiative,
 			htmlPtDamageImmunities,
 			htmlPtConditionImmunities,
 
@@ -9462,6 +9468,7 @@ class _RenderCompactBestiaryImplClassic extends _RenderCompactBestiaryImplBase {
 					${htmlPtsResources.join("")}
 					${htmlPtSavingThrows}
 					${htmlPtSkills}
+					${htmlPtInitiative}
 					${htmlPtTools}
 					${htmlPtVulnerabilities}
 					${htmlPtResistances}
@@ -9937,6 +9944,20 @@ Renderer.monster = class {
 		return `${mon.level ? `${Parser.getOrdinalForm(mon.level)}-level ` : ""}${typeObj.asTextSidekick ? `${typeObj.asTextSidekick}; ` : ""}${Renderer.utils.getRenderedSize(mon.size)}${mon.sizeNote ? ` ${mon.sizeNote}` : ""} ${typeObj.asText}${mon.alignment ? `, ${mon.alignmentPrefix ? Renderer.get().render(mon.alignmentPrefix) : ""}${Parser.alignmentListToFull(mon.alignment).toTitleCase()}` : ""}`;
 	}
 
+	static _getInitiativePart_passive ({mon, initPassive}) {
+		if (!mon.initiative?.advantageMode) return initPassive;
+		const ptTitle = `This creature has ${mon.initiative?.advantageMode === "adv" ? "Advantage" : "Disadvantage"} on Initiative.`;
+		return `<span title="${ptTitle.qq()}" class="help-subtle">${initPassive}</span>`;
+	}
+
+	static getInitiativePart (mon, {isPlainText = false, renderer = null} = {}) {
+		const initBonus = this.getInitiativeBonusNumber({mon});
+		const initPassive = this._getInitiativePassive({mon, initBonus});
+		if (initBonus == null || initPassive == null) return "\u2014";
+		const entry = `{@initiative ${initBonus}} (${this._getInitiativePart_passive({mon, initPassive})})`;
+		return isPlainText ? Renderer.stripTags(entry) : (renderer || Renderer.get()).render(entry);
+	}
+
 	static getInitiativeBonusNumber ({mon}) {
 		if (mon.initiative == null && (mon.dex == null || mon.dex.special)) return null;
 		if (mon.initiative == null) return Parser.getAbilityModNumber(mon.dex);
@@ -9948,6 +9969,13 @@ Renderer.monster = class {
 			? mon.initiative.proficiency * Parser.crToPb(mon.cr)
 			: 0;
 		return Parser.getAbilityModNumber(mon.dex) + profBonus;
+	}
+
+	static _getInitiativePassive ({mon, initBonus}) {
+		if (initBonus == null) return null;
+		if (mon.initiative == null || typeof mon.initiative !== "object") return 10 + initBonus;
+		const advDisMod = mon.initiative.advantageMode === "adv" ? 5 : mon.initiative.advantageMode === "dis" ? -5 : 0;
+		return 10 + initBonus + advDisMod;
 	}
 
 	static getSavesPart (mon) { return `${Object.keys(mon.save || {}).sort(SortUtil.ascSortAtts).map(s => Renderer.monster.getSave(Renderer.get(), s, mon.save[s])).join(", ")}`; }

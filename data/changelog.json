@@ -2939,5 +2939,10 @@
 		"ver": "1.210.37",
 		"date": "2025-05-12",
 		"txt": "- Switched toast \"Close All\" SHIFT-click to CTRL-click, to unify with hover window \"Close\" CTRL-click\n- (Brew) Fixed \"Modern\" partnered sources appearing in Omnisearch results\n- (Brew) Fixed crash when loading items with resource-based attached spells\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.38",
+		"date": "2025-05-15",
+		"txt": "- (Fixed typos/added tags)"
 	}
 ]
