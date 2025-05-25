@@ -837,10 +837,19 @@ export class BrewUtil2Base {
 		setTimeout(() => $ele.html(cached).addClass("rd__wrp-loadbrew--ready").title(cachedTitle), 500);
 	}
 
+	_isMatchingCombinedIndexInfo (info) {
+		return info._brewIsPartnered && info._brewEdition === SITE_STYLE__CLASSIC;
+	}
+
+	async pGetCntBrewsPartnered () {
+		const combinedIndexes = await this.pGetCombinedIndexes();
+		return combinedIndexes.filter(it => this._isMatchingCombinedIndexInfo(it)).length;
+	}
+
 	async pAddBrewsPartnered ({isSilent = false} = {}) {
 		const combinedIndexes = await this.pGetCombinedIndexes();
 
-		const brewInfos = combinedIndexes.filter(it => it._brewIsPartnered && it._brewEdition === SITE_STYLE__CLASSIC);
+		const brewInfos = combinedIndexes.filter(it => this._isMatchingCombinedIndexInfo(it));
 		if (!brewInfos.length) {
 			if (!isSilent) JqueryUtil.doToast({type: "warning", content: `Did not find any partnered ${this.DISPLAY_NAME} to load!`});
 			return [];
