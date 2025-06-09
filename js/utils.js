@@ -2,7 +2,7 @@
 
 // in deployment, `IS_DEPLOYED = "<version number>";` should be set below.
 globalThis.IS_DEPLOYED = undefined;
-globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.41"/* 5ETOOLS_VERSION__CLOSE */;
+globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.42"/* 5ETOOLS_VERSION__CLOSE */;
 globalThis.DEPLOYED_IMG_ROOT = undefined;
 // for the roll20 script to set
 globalThis.IS_VTT = false;
@@ -605,6 +605,11 @@ globalThis.SourceUtil = class {
 			|| source.startsWith(Parser.SRC_AL_PREFIX)
 			|| source.startsWith(Parser.SRC_MCVX_PREFIX)
 			|| Parser.SOURCES_NON_STANDARD_WOTC.has(source);
+	}
+
+	// ('14 stub)
+	static isClassicSource (source) {
+		return true;
 	}
 
 	static FILTER_GROUP_STANDARD = 0;
@@ -6734,6 +6739,71 @@ globalThis.DataUtil = class {
 
 	static raceFeature = class extends _DataUtilPropConfig {
 		static _PAGE = "raceFeature";
+
+		static _psLoadJson = {};
+
+		static async loadJSON ({isAddBaseRaces = false} = {}) {
+			const cacheKey = `site-${isAddBaseRaces}`;
+			DataUtil.raceFeature._psLoadJson[cacheKey] ||= (async () => {
+				const raceJson = await DataUtil.race.loadJSON({isAddBaseRaces});
+
+				return {
+					raceFeature: raceJson.race
+						.flatMap(race => {
+							return (race.entries || [])
+								.filter(ent => ent.name && ent.entries)
+								.map(ent => DataUtil.raceFeature.getFauxRaceFeature(race, ent));
+						}),
+				};
+			})();
+			return DataUtil.raceFeature._psLoadJson[cacheKey];
+		}
+
+		static getFauxRaceFeature (race, entry) {
+			return {
+				source: entry.source || race.source,
+				raceName: race.name,
+				raceSource: race.source,
+				_raceSubraceName: race._subraceName,
+				_raceBaseName: race._baseName,
+				_raceBaseSource: race._baseSource,
+				srd: !!(race.srd || race._baseSrd),
+				basicRules: !!race.basicRules,
+				page: entry.page ?? race.page,
+				...MiscUtil.copyFast(entry),
+				__prop: "raceFeature",
+			};
+		}
+
+		static unpackUid (uid, opts) {
+			opts = opts || {};
+			if (opts.isLower) uid = uid.toLowerCase();
+			let [name, raceName, raceSource, source, displayName] = uid.split("|").map(it => it.trim());
+			const sourceDefault = Parser.getTagSource("race");
+			raceSource ||= opts.isLower ? sourceDefault.toLowerCase() : sourceDefault;
+			source ||= opts.isLower ? sourceDefault.toLowerCase() : sourceDefault;
+			return {
+				name,
+				raceName,
+				raceSource,
+				source,
+				displayName,
+			};
+		}
+
+		static getUid (ent, opts) {
+			// <name>|<raceName>|<raceSource>|<source>
+			const sourceDefault = Parser.getTagSource("race");
+			const out = [
+				ent.name,
+				ent.raceName,
+				(ent.raceSource || "").toLowerCase() === sourceDefault.toLowerCase() ? "" : ent.source,
+				(ent.source || "").toLowerCase() === sourceDefault.toLowerCase() ? "" : ent.source,
+				opts?.displayName || "",
+			].join("|").replace(/\|+$/, ""); // Trim trailing pipes
+			if (opts?.isMaintainCase) return out;
+			return out.toLowerCase();
+		}
 	};
 
 	static recipe = class extends _DataUtilPropConfigSingleSource {
