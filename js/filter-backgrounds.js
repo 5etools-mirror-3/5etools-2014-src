@@ -198,7 +198,7 @@ class ModalFilterBackgrounds extends ModalFilterBase {
 				hash,
 				source,
 				sourceJson: bg.source,
-				page: bg.page,
+				...ListItem.getCommonValues(bg),
 				skills: bg._skillDisplay,
 			},
 			{

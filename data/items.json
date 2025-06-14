@@ -1781,6 +1781,9 @@
 		},
 		{
 			"name": "Amulet",
+			"group": [
+				"Holy Symbol"
+			],
 			"source": "PHB",
 			"page": 151,
 			"srd": true,
@@ -16256,6 +16259,9 @@
 		},
 		{
 			"name": "Emblem",
+			"group": [
+				"Holy Symbol"
+			],
 			"source": "PHB",
 			"page": 151,
 			"srd": true,
@@ -23695,8 +23701,8 @@
 			"type": "G",
 			"rarity": "none",
 			"value": 1000,
-			"entries": [
-				"Ink (1-ounce bottle)"
+			"miscTags": [
+				"CNS"
 			]
 		},
 		{
@@ -35571,6 +35577,9 @@
 		},
 		{
 			"name": "Reliquary",
+			"group": [
+				"Holy Symbol"
+			],
 			"source": "PHB",
 			"page": 151,
 			"srd": true,
@@ -42908,6 +42917,9 @@
 		},
 		{
 			"name": "Sprig of Mistletoe",
+			"group": [
+				"Druidic Focus"
+			],
 			"source": "PHB",
 			"page": 151,
 			"srd": true,
@@ -48490,6 +48502,9 @@
 		},
 		{
 			"name": "Totem",
+			"group": [
+				"Druidic Focus"
+			],
 			"source": "PHB",
 			"page": 151,
 			"srd": true,
@@ -53795,6 +53810,9 @@
 		},
 		{
 			"name": "Yew Wand",
+			"group": [
+				"Druidic Focus"
+			],
 			"source": "PHB",
 			"page": 151,
 			"srd": true,

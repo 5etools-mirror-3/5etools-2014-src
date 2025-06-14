@@ -2964,5 +2964,10 @@
 		"ver": "1.210.42",
 		"date": "2025-06-09",
 		"txt": "- Improved sorting of some spellcasting actions in creature statblocks\n- Fixed Classes page failing to apply \"Include References\" filter to subclasses\n- Fixed page number wrapping when exporting statblock as image\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.43",
+		"date": "2025-06-14",
+		"txt": "- Added \"Prophet's Gambit\" Curse of Strahd supplement game rules (thanks @ Lyra)\n- Added `\"!text\"`/`\"!/text/\"` to invert regular/regex results, respectively, when searching a list page\n- Added `!` to invert Omnisearch syntax (e.g. `in:!bestiary`)\n- (Brew) Improved Creature Text Converter handling of creature type tags\n- (Fixed typos/added tags)"
 	}
 ]

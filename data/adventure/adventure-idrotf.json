@@ -54923,35 +54923,35 @@
 													"rows": [
 														[
 															"1\u20132",
-															"Charm of {@spell Druidcraft}. This charm allows you to cast the {@spell druidcraft} cantrip as an action, no components required. Once used three times, this charm vanishes from you."
+															"{@reward Charm of Druidcraft|IDRotF}. This charm allows you to cast the {@spell druidcraft} cantrip as an action, no components required. Once used three times, this charm vanishes from you."
 														],
 														[
 															"3\u20135",
-															"Charm of {@spell Vicious Mockery}. This charm allows you to cast the {@spell vicious mockery} cantrip (5th-level version; save {@dc 15}) as an action. Once used three times, this charm vanishes from you."
+															"{@reward Charm of Vicious Mockery|IDRotF}. This charm allows you to cast the {@spell vicious mockery} cantrip (5th-level version; save {@dc 15}) as an action. Once used three times, this charm vanishes from you."
 														],
 														[
 															"6\u20138",
-															"Charm of {@spell Invisibility}. This charm allows you to cast the {@spell invisibility} spell as an action, no components required. Once used three times, this charm vanishes from you."
+															"{@reward Charm of Invisibility|IDRotF}. This charm allows you to cast the {@spell invisibility} spell as an action, no components required. Once used three times, this charm vanishes from you."
 														],
 														[
 															"9\u201311",
-															"Charm of {@spell Sending}. This charm allows you to cast the {@spell sending} spell as an action, no components required. Once used, this charm vanishes from you."
+															"{@reward Charm of Sending|IDRotF}. This charm allows you to cast the {@spell sending} spell as an action, no components required. Once used, this charm vanishes from you."
 														],
 														[
 															"12\u201314",
-															"Charm of {@spell Cure Wounds}. This charm allows you to cast the {@spell cure wounds} spell (3rd-level version) as an action, no components required. Your spellcasting ability for this charm is Wisdom. Once used, this charm vanishes from you."
+															"{@reward Charm of Cure Wounds|IDRotF}. This charm allows you to cast the {@spell cure wounds} spell (3rd-level version) as an action, no components required. Your spellcasting ability for this charm is Wisdom. Once used, this charm vanishes from you."
 														],
 														[
 															"15\u201317",
-															"Charm of {@spell Lightning Bolt}. This charm allows you to cast the {@spell lightning bolt} spell (save {@dc 15}) as an action, no components required. Once used, this charm vanishes from you."
+															"{@reward Charm of Lightning Bolt|IDRotF}. This charm allows you to cast the {@spell lightning bolt} spell (save {@dc 15}) as an action, no components required. Once used, this charm vanishes from you."
 														],
 														[
 															"18\u201319",
-															"Charm of Purplemancy. This charm allows you to cast the {@spell faerie fire} spell (violet light only; save {@dc 15}) as a bonus action instead of an action, no components required. Once used three times, this charm vanishes from you."
+															"{@reward Charm of Purplemancy|IDRotF}. This charm allows you to cast the {@spell faerie fire} spell (violet light only; save {@dc 15}) as a bonus action instead of an action, no components required. Once used three times, this charm vanishes from you."
 														],
 														[
 															"20",
-															"Charm of Restoration. This charm has 6 charges. You can use an action to expend some of its charges to cast one of the following spells: {@spell greater restoration} (4 charges) or {@spell lesser restoration} (2 charges). Once all its charges have been expended, this charm vanishes from you."
+															"{@reward Charm of Restoration}. This charm has 6 charges. You can use an action to expend some of its charges to cast one of the following spells: {@spell greater restoration} (4 charges) or {@spell lesser restoration} (2 charges). Once all its charges have been expended, this charm vanishes from you."
 														]
 													]
 												}

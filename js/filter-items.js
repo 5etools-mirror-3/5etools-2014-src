@@ -603,7 +603,7 @@ class ModalFilterItems extends ModalFilterBase {
 				hash,
 				source,
 				sourceJson: item.source,
-				page: item.page,
+				...ListItem.getCommonValues(item),
 				type,
 			},
 			{

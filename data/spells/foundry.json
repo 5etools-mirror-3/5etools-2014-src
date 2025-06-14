@@ -264,6 +264,16 @@
 			"migrationVersion": 3
 		},
 		{
+			"name": "Lightning Lure",
+			"source": "TCE",
+			"system": {
+				"range.value": 15,
+				"range.units": "ft",
+				"target.template.type": ""
+			},
+			"migrationVersion": 3
+		},
+		{
 			"name": "Magic Missile",
 			"source": "PHB",
 			"activities": [
