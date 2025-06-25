@@ -6445,7 +6445,7 @@
 			"tier": "major",
 			"rarity": "rare",
 			"wondrous": true,
-			"weight": 24,
+			"weight": 3,
 			"entries": [
 				"While this bowl is filled with water, you can use an action to speak the bowl's command word and summon a {@creature water elemental}, as if you had cast the {@spell conjure elemental} spell. The bowl can't be used this way again until the next dawn.",
 				"The bowl is about 1 foot in diameter and half as deep. It weighs 3 pounds and holds about 3 gallons."
@@ -30023,7 +30023,7 @@
 			"hasFluffImages": true
 		},
 		{
-			"name": "Necklace of electrum medallions with red and blue tournalines (Brazen Coalition)",
+			"name": "Necklace of electrum medallions with red and blue tourmalines (Brazen Coalition)",
 			"source": "PSX",
 			"page": 24,
 			"type": "$A|DMG",
@@ -32214,7 +32214,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"entries": [
-				"This dark spider-silk cloak is made by {@creature drow}. It is a {@item cloak of elvenkind}. It loses its magic if exposed to sunlight for 1 hour without interruption.",
+				"This dark spider silk cloak is made by {@creature drow}. It is a {@item cloak of elvenkind}. It loses its magic if exposed to sunlight for 1 hour without interruption.",
 				"While you wear this cloak with its hood up, Wisdom ({@skill Perception}) checks made to see you have disadvantage. and you have advantage on Dexterity ({@skill Stealth}) checks made to hide, as the cloak's color shifts to camouflage you. Pulling the hood up or down requires an action."
 			],
 			"hasFluffImages": true
@@ -32227,7 +32227,7 @@
 			"reqAttune": true,
 			"wondrous": true,
 			"entries": [
-				"This dark spider-silk cloak is made by {@creature drow}. It is a {@item cloak of elvenkind}. It also grants resistance to fire damage while you wear it. It loses its magic if exposed to sunlight for 1 hour without interruption.",
+				"This dark spider silk cloak is made by {@creature drow}. It is a {@item cloak of elvenkind}. It also grants resistance to fire damage while you wear it. It loses its magic if exposed to sunlight for 1 hour without interruption.",
 				"While you wear this cloak with its hood up, Wisdom ({@skill Perception}) checks made to see you have disadvantage. and you have advantage on Dexterity ({@skill Stealth}) checks made to hide, as the cloak's color shifts to camouflage you. Pulling the hood up or down requires an action."
 			]
 		},
@@ -49125,7 +49125,7 @@
 						],
 						[
 							"41-42",
-							"A lepidopterist's box filled dead moths with skulllike patterns on their wings"
+							"A lepidopterist's box filled dead moths with skull-like patterns on their wings"
 						],
 						[
 							"43-44",
@@ -49464,7 +49464,7 @@
 						],
 						[
 							"49",
-							"A small crystal snowglobe that, when shaken, seems to form silhouettes of dancing forms"
+							"A small crystal snow globe that, when shaken, seems to form silhouettes of dancing forms"
 						],
 						[
 							"50",
@@ -49636,7 +49636,7 @@
 						],
 						[
 							"92",
-							"An arrowhead carved from seasalt"
+							"An arrowhead carved from sea salt"
 						],
 						[
 							"93",
@@ -55574,7 +55574,7 @@
 							"Radiant"
 						],
 						[
-							"{@item Orb of Shielding (Kythrian Skarn)|ERLW|Kythrian skarn}",
+							"{@item Orb of Shielding (Kythrian Skarn)|ERLW|Kythrian Skarn}",
 							"Acid and poison"
 						],
 						[

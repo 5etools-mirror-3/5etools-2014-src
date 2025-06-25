@@ -82,8 +82,8 @@
 			"source": "SKT",
 			"page": 86,
 			"typicalSpeakers": [
-				"{@creature Uthgardt Barbarian Leader|SKT|uthgardt barbarians}",
-				"{@creature Uthgardt Shaman|SKT|uthgardt shamans}"
+				"{@creature Uthgardt Barbarian Leader|SKT|Uthgardt barbarians}",
+				"{@creature Uthgardt Shaman|SKT|Uthgardt shamans}"
 			]
 		},
 		{
@@ -1466,11 +1466,11 @@
 			"page": 276,
 			"typicalSpeakers": [
 				"{@creature Slaad Tadpole||slaad tadpoles}",
-				"{@creature Red Slaad||red slaads}",
-				"{@creature Blue Slaad||blue slaads}",
-				"{@creature Green Slaad||green slaads}",
-				"{@creature Gray Slaad||gray slaads}",
-				"{@creature Death Slaad||death slaads}"
+				"{@creature Red Slaad||red slaadi}",
+				"{@creature Blue Slaad||blue slaadi}",
+				"{@creature Green Slaad||green slaadi}",
+				"{@creature Gray Slaad||gray slaadi}",
+				"{@creature Death Slaad||death slaadi}"
 			]
 		},
 		{
