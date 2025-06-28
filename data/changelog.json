@@ -2973,6 +2973,11 @@
 	{
 		"ver": "1.210.44",
 		"date": "2025-06-25",
-		"txt": "- Added \"Browser Default\" Theme option, which will switch between \"Day Mode\" and \"Night Mode\" per your browser/system settings\n- List searches will now ignore apostrophes (`'`)\n- Converted \"Group OR\"/\"Group AND\" Filter button to a real button, to improve visibility\n- Fixed Blocklist failing to add \"*\"-named entries after switching \"Source\"/\"Category\"\n- (Brew) Fixed Creature Text Converter conversion of creature type\n- (Brew) Added preferential ordering of \"remove\" item inherits properties when creating specific variants\n- (Fixed typos/added tags)\n"
+		"txt": "- Added \"Browser Default\" Theme option, which will switch between \"Day Mode\" and \"Night Mode\" per your browser/system settings\n- List searches will now ignore apostrophes (`'`)\n- Converted \"Group OR\"/\"Group AND\" Filter button to a real button, to improve visibility\n- Fixed Blocklist failing to add \"*\"-named entries after switching \"Source\"/\"Category\"\n- (Brew) Fixed Creature Text Converter conversion of creature type\n- (Brew) Added preferential ordering of \"remove\" item inherits properties when creating specific variants\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.45",
+		"date": "2025-06-28",
+		"txt": "- (Brew) Fixed only-'24-compatible content appearing in Get Homebrew list\n- Added \"Help\" button to navbar (and renamed current \"Utilities\" -> \"Help\" button to \"Page Help\" to better match functionality); fixed minor navbar styling issues on mobile\n- (Fixed typos -- including a tremendous number of spelling mistakes; thanks @ Lyra/added tags)"
 	}
 ]

@@ -1,4 +1,5 @@
 import {EVNT_VALCHANGE} from "../filter/filter-constants.js";
+import {SITE_STYLE__CLASSIC} from "../consts.js";
 
 export class GetBrewUi {
 	static _RenderState = class {
@@ -166,7 +167,12 @@ export class GetBrewUi {
 	}
 
 	async pInit () {
-		this._dataList = (await this._brewUtil.pGetCombinedIndexes()) || [];
+		this._dataList = ((await this._brewUtil.pGetCombinedIndexes()) || [])
+			.filter(info => this._isMatchingIndexInfo(info));
+	}
+
+	_isMatchingIndexInfo (info) {
+		return info._brewEdition === SITE_STYLE__CLASSIC;
 	}
 
 	async pHandlePreCloseModal ({rdState}) {

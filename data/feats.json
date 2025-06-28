@@ -2758,6 +2758,20 @@
 					}
 				}
 			],
+			"additionalSpells": [
+				{
+					"innate": {
+						"_": {
+							"daily": {
+								"1e": [
+									"misty step",
+									"tongues"
+								]
+							}
+						}
+					}
+				}
+			],
 			"entries": [
 				"You have spent significant time in Sigil or the Outlands, the crossroads of the multiverse. Being steeped in converging planar energies grants you these benefits:",
 				{
