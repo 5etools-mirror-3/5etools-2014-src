@@ -86,7 +86,7 @@ class FeatsPage extends ListPage {
 			<span class="bold ve-col-3-5 px-1">${feat.name}</span>
 			<span class="ve-col-3-5 px-1 ${feat._slAbility === VeCt.STR_NONE ? "italic " : ""}">${feat._slAbility}</span>
 			<span class="ve-col-3 px-1 ${feat._slPrereq === VeCt.STR_NONE ? "italic " : ""}">${feat._slPrereq}</span>
-			<span class="source ve-col-1-7 ve-text-center ${Parser.sourceJsonToSourceClassname(feat.source)} pl-1 pr-0" title="${Parser.sourceJsonToFull(feat.source)}" ${Parser.sourceJsonToStyle(feat.source)}>${source}</span>
+			<span class="source ve-col-1-7 ve-text-center ${Parser.sourceJsonToSourceClassname(feat.source)} pl-1 pr-0" title="${Parser.sourceJsonToFull(feat.source)}">${source}</span>
 		</a>
 		<div class="ve-flex ve-hidden relative accordion__wrp-preview">
 			<div class="vr-0 absolute accordion__vr-preview"></div>

@@ -1782,11 +1782,6 @@ export class SpellcastingTraitConvert {
 				return str.slice(frequencyMeta.length);
 			}
 
-			if (/finish a (?<ptRestLong>{@variantrule Long Rest\|XPHB}|Long Rest)/.test(str)) {
-				outWalker = ["restLong", "1"];
-				return str;
-			}
-
 			return str;
 		}});
 

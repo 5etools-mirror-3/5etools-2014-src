@@ -100,6 +100,7 @@ class _PageGeneratorListBestiary extends PageGeneratorListBase {
 	}
 
 	_isPrinterView = true;
+	_isTableView = true;
 }
 
 class _PageGeneratorListCharCreationOptions extends PageGeneratorListBase {
@@ -273,11 +274,6 @@ class _PageGeneratorListItems extends PageGeneratorListBase {
 		});
 
 		this._registerPartial({
-			ident: "listContentwrapperItems",
-			filename: "list/template-list-contentwrapper--items.hbs",
-		});
-
-		this._registerPartial({
 			ident: "listSublistContainerItems",
 			filename: "list/template-list-sublist-container--items.hbs",
 		});
@@ -287,11 +283,12 @@ class _PageGeneratorListItems extends PageGeneratorListBase {
 		return {
 			...super._getData(),
 			identPartialListListcontainer: "listListcontainerItems",
-			identPartialListContentwrapper: "listContentwrapperItems",
+			identPartialListSublistContainer: "listSublistContainerItems",
 		};
 	}
 
 	_isPrinterView = true;
+	_isTableView = true;
 }
 
 class _PageGeneratorListTrapsHazards extends PageGeneratorListBase {
@@ -427,21 +424,8 @@ class _PageGeneratorListPsionics extends PageGeneratorListBase {
 		HtmlGeneratorListButtons.getBtn({width: "3", sortIdent: "order", text: "Order"}),
 	];
 
-	_registerPartials () {
-		super._registerPartials();
-
-		this._registerPartial({
-			ident: "listContentwrapperPsionics",
-			filename: "list/template-list-contentwrapper--psionics.hbs",
-		});
-	}
-
-	_getData () {
-		return {
-			...super._getData(),
-			identPartialListContentwrapper: "listContentwrapperPsionics",
-		};
-	}
+	_isPrinterView = true;
+	_isTableView = true;
 }
 
 class _PageGeneratorListRaces extends PageGeneratorListBase {
@@ -549,6 +533,9 @@ class _PageGeneratorListSpells extends PageGeneratorListBase {
 		HtmlGeneratorListButtons.getBtn({width: "0-7", sortIdent: "concentration", title: "Concentration", text: "C."}),
 		HtmlGeneratorListButtons.getBtn({width: "3-2", sortIdent: "range", text: "Range"}),
 	];
+
+	_isPrinterView = true;
+	_isTableView = true;
 
 	_registerPartials () {
 		super._registerPartials();

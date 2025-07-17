@@ -220,32 +220,6 @@
 			]
 		},
 		{
-			"name": "Aqua Delerium",
-			"source": "DoDk",
-			"images": [
-				{
-					"type": "image",
-					"href": {
-						"type": "internal",
-						"path": "items/DoDk/Aqua Delerium.webp"
-					}
-				}
-			]
-		},
-		{
-			"name": "Aqua Expurgo",
-			"source": "DoDk",
-			"images": [
-				{
-					"type": "image",
-					"href": {
-						"type": "internal",
-						"path": "items/DoDk/Aqua Expurgo.webp"
-					}
-				}
-			]
-		},
-		{
 			"name": "Armblade",
 			"source": "ERLW",
 			"images": [
@@ -755,19 +729,6 @@
 						"path": "items/GGR/Boros Keyrune.webp"
 					},
 					"credit": "Daniel Ljunggren"
-				}
-			]
-		},
-		{
-			"name": "Bottled Comet",
-			"source": "DoDk",
-			"images": [
-				{
-					"type": "image",
-					"href": {
-						"type": "internal",
-						"path": "items/DoDk/Bottled Comet.webp"
-					}
 				}
 			]
 		},
@@ -1582,19 +1543,6 @@
 						"path": "items/MOT/Dekella, Bident of Thassa.webp"
 					},
 					"credit": "Yeong-Hao Han"
-				}
-			]
-		},
-		{
-			"name": "Delerium-Forged Blade",
-			"source": "DoDk",
-			"images": [
-				{
-					"type": "image",
-					"href": {
-						"type": "internal",
-						"path": "items/DoDk/Delerium-Forged Blade.webp"
-					}
 				}
 			]
 		},
@@ -2705,19 +2653,6 @@
 			}
 		},
 		{
-			"name": "Hardened Delerium-tipped Arrows",
-			"source": "DoDk",
-			"images": [
-				{
-					"type": "image",
-					"href": {
-						"type": "internal",
-						"path": "items/DoDk/Hardened Delerium-tipped Arrows.webp"
-					}
-				}
-			]
-		},
-		{
 			"name": "Headband of Intellect",
 			"source": "DMG",
 			"images": [
@@ -3141,19 +3076,6 @@
 				"name": "Infiltrator's Key",
 				"source": "EGW"
 			}
-		},
-		{
-			"name": "Inscrutable Staff",
-			"source": "DoDk",
-			"images": [
-				{
-					"type": "image",
-					"href": {
-						"type": "internal",
-						"path": "items/DoDk/Inscrutable Staff.webp"
-					}
-				}
-			]
 		},
 		{
 			"name": "Instrument of the Bards, Anstruth Harp",
@@ -4886,19 +4808,6 @@
 			]
 		},
 		{
-			"name": "Refined Delerium Dust",
-			"source": "DoDk",
-			"images": [
-				{
-					"type": "image",
-					"href": {
-						"type": "internal",
-						"path": "items/DoDk/Refined Delerium Dust.webp"
-					}
-				}
-			]
-		},
-		{
 			"name": "Ring of Air Elemental Command",
 			"source": "DMG",
 			"images": [
@@ -5506,19 +5415,6 @@
 					"href": {
 						"type": "internal",
 						"path": "items/DMG/Scarab of Protection.webp"
-					}
-				}
-			]
-		},
-		{
-			"name": "Sceptre of Saint Vitruvio",
-			"source": "DoDk",
-			"images": [
-				{
-					"type": "image",
-					"href": {
-						"type": "internal",
-						"path": "items/DoDk/Sceptre of Saint Vitruvio.webp"
 					}
 				}
 			]

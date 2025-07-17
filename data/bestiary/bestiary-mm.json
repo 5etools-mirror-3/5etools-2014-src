@@ -156,9 +156,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				},
 				{
@@ -551,9 +548,6 @@
 				},
 				{
 					"source": "PaBTSO"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -4049,9 +4043,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -5176,9 +5167,6 @@
 			"otherSources": [
 				{
 					"source": "GoS"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -5802,9 +5790,6 @@
 			"otherSources": [
 				{
 					"source": "SatO"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -7650,9 +7635,6 @@
 					"source": "SatO"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -8427,12 +8409,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -8757,12 +8733,6 @@
 					"source": "ToFW"
 				},
 				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -8929,9 +8899,6 @@
 				},
 				{
 					"source": "PSI"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -9213,9 +9180,6 @@
 				},
 				{
 					"source": "KftGV"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "CoA"
@@ -9513,9 +9477,6 @@
 					"source": "ToFW"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "CoA"
 				}
 			],
@@ -9781,9 +9742,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				},
 				{
@@ -9964,9 +9922,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -10308,9 +10263,6 @@
 				},
 				{
 					"source": "TCE"
-				},
-				{
-					"source": "GHLoE"
 				},
 				{
 					"source": "VEoR"
@@ -10834,9 +10786,6 @@
 				},
 				{
 					"source": "PSX"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -10936,9 +10885,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -11839,9 +11785,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -12303,9 +12246,6 @@
 				},
 				{
 					"source": "ToFW"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -13133,9 +13073,6 @@
 				},
 				{
 					"source": "SatO"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "CoA"
@@ -14239,9 +14176,6 @@
 					"source": "PaBTSO"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				}
 			],
@@ -15327,9 +15261,6 @@
 				},
 				{
 					"source": "JttRC"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -16004,9 +15935,6 @@
 					"source": "BGDIA"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				}
 			],
@@ -16144,9 +16072,6 @@
 				},
 				{
 					"source": "PaBTSO"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -16481,9 +16406,6 @@
 				},
 				{
 					"source": "PaBTSO"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -17046,12 +16968,6 @@
 				},
 				{
 					"source": "HFStCM"
-				},
-				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -18066,9 +17982,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -18315,12 +18228,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -20329,9 +20236,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -20771,9 +20675,6 @@
 					"source": "SatO"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				},
 				{
@@ -21082,9 +20983,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				},
 				{
@@ -21229,9 +21127,6 @@
 				},
 				{
 					"source": "PaBTSO"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -22927,9 +22822,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -23123,12 +23015,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -23610,9 +23496,6 @@
 					"source": "SatO"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				}
 			],
@@ -23874,9 +23757,6 @@
 					"source": "PaBTSO"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -24039,9 +23919,6 @@
 				},
 				{
 					"source": "SatO"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -24723,9 +24600,6 @@
 				},
 				{
 					"source": "SatO"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -26464,9 +26338,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -27624,9 +27495,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				}
 			],
@@ -28317,9 +28185,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				}
 			],
@@ -28580,9 +28445,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -28935,9 +28797,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -29174,9 +29033,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "GHLoE"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -29284,9 +29140,6 @@
 			"otherSources": [
 				{
 					"source": "GoS"
-				},
-				{
-					"source": "GHLoE"
 				}
 			],
 			"size": [
@@ -30017,12 +29870,6 @@
 				},
 				{
 					"source": "ToFW"
-				},
-				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -31306,12 +31153,6 @@
 					"source": "WBtW"
 				},
 				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				}
 			],
@@ -32543,9 +32384,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				},
 				{
@@ -33224,9 +33062,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -33463,9 +33298,6 @@
 					"source": "ToFW"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				},
 				{
@@ -33638,9 +33470,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -34214,9 +34043,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "GHLoE"
 				}
 			],
 			"size": [
@@ -34746,9 +34572,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -36657,9 +36480,6 @@
 					"source": "JttRC"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				}
 			],
@@ -36765,9 +36585,6 @@
 				},
 				{
 					"source": "PaBTSO"
-				},
-				{
-					"source": "GHLoE"
 				},
 				{
 					"source": "VEoR"
@@ -36956,9 +36773,6 @@
 				},
 				{
 					"source": "ToFW"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -37791,9 +37605,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "CoA"
 				}
 			],
@@ -38044,9 +37855,6 @@
 				},
 				{
 					"source": "HFStCM"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "CoA"
@@ -39273,9 +39081,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -39509,9 +39314,6 @@
 				},
 				{
 					"source": "SatO"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -39843,9 +39645,6 @@
 				},
 				{
 					"source": "SatO"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -40475,9 +40274,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -40676,9 +40472,6 @@
 				},
 				{
 					"source": "ToFW"
-				},
-				{
-					"source": "GHLoE"
 				},
 				{
 					"source": "CoA"
@@ -41031,9 +40824,6 @@
 					"source": "PaBTSO"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -41195,9 +40985,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -41905,9 +41692,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				},
 				{
@@ -42069,9 +41853,6 @@
 				},
 				{
 					"source": "DoSI"
-				},
-				{
-					"source": "GHLoE"
 				},
 				{
 					"source": "CoA"
@@ -44663,12 +44444,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -44882,9 +44657,6 @@
 				},
 				{
 					"source": "SjA"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -45425,9 +45197,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -45852,9 +45621,6 @@
 					"source": "TCE"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -46185,9 +45951,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -46447,9 +46210,6 @@
 				},
 				{
 					"source": "DSotDQ"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -46835,9 +46595,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -48020,9 +47777,6 @@
 				},
 				{
 					"source": "KftGV"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -48140,9 +47894,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -49028,9 +48779,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -49361,9 +49109,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "CoA"
@@ -49905,12 +49650,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -50449,9 +50188,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				}
 			],
@@ -50750,9 +50486,6 @@
 					"source": "SatO"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				}
 			],
@@ -50880,9 +50613,6 @@
 				},
 				{
 					"source": "PaBTSO"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -51861,9 +51591,6 @@
 				},
 				{
 					"source": "ToFW"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -51999,9 +51726,6 @@
 				},
 				{
 					"source": "ToFW"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -52784,9 +52508,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				}
 			],
@@ -53416,9 +53137,6 @@
 				},
 				{
 					"source": "SatO"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "CoA"
@@ -54219,9 +53937,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -54396,9 +54111,6 @@
 				},
 				{
 					"source": "IDRotF"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -54661,9 +54373,6 @@
 				},
 				{
 					"source": "ToFW"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -55334,9 +55043,6 @@
 					"source": "PaBTSO"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				}
 			],
@@ -55804,9 +55510,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -56905,12 +56608,6 @@
 					"source": "KftGV"
 				},
 				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				}
 			],
@@ -57145,9 +56842,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				}
 			],
@@ -57315,9 +57009,6 @@
 				},
 				{
 					"source": "KftGV"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -58790,12 +58481,6 @@
 					"source": "SatO"
 				},
 				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				},
 				{
@@ -58954,9 +58639,6 @@
 				},
 				{
 					"source": "SatO"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "CoA"
@@ -59339,12 +59021,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -59710,12 +59386,6 @@
 					"source": "HFStCM"
 				},
 				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -59881,9 +59551,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -60406,9 +60073,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -62144,9 +61808,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				},
 				{
@@ -62285,9 +61946,6 @@
 				},
 				{
 					"source": "ToFW"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -62575,9 +62233,6 @@
 					"source": "MOT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				}
 			],
@@ -62801,9 +62456,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -63190,9 +62842,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "GHLoE"
 				},
 				{
 					"source": "CoA"
@@ -63994,9 +63643,6 @@
 					"source": "PSA"
 				},
 				{
-					"source": "GHLoE"
-				},
-				{
 					"source": "QftIS"
 				}
 			],
@@ -64131,9 +63777,6 @@
 				},
 				{
 					"source": "CM"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -64623,9 +64266,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -65138,12 +64778,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
-				},
-				{
 					"source": "CoA"
 				}
 			],
@@ -65430,9 +65064,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -66141,9 +65772,6 @@
 					"source": "SatO"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "QftIS"
 				}
 			],
@@ -66560,9 +66188,6 @@
 				},
 				{
 					"source": "SatO"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -67595,9 +67220,6 @@
 					"source": "AATM"
 				},
 				{
-					"source": "GHLoE"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -68414,9 +68036,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -68808,9 +68427,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				}
 			],
@@ -69106,9 +68722,6 @@
 				},
 				{
 					"source": "DSotDQ"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -69454,9 +69067,6 @@
 				},
 				{
 					"source": "PaBTSO"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -71040,9 +70650,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "DoDk"
-				},
-				{
 					"source": "VEoR"
 				},
 				{
@@ -71251,9 +70858,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -71554,9 +71158,6 @@
 				},
 				{
 					"source": "KftGV"
-				},
-				{
-					"source": "GHLoE"
 				}
 			],
 			"size": [
@@ -71728,9 +71329,6 @@
 					"source": "BMT"
 				},
 				{
-					"source": "GHLoE"
-				},
-				{
 					"source": "QftIS"
 				},
 				{
@@ -71848,9 +71446,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "DoDk"
 				}
 			],
 			"size": [
@@ -72022,12 +71617,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"
@@ -73555,9 +73144,6 @@
 				},
 				{
 					"source": "CM"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "QftIS"
@@ -76688,12 +76274,6 @@
 				},
 				{
 					"source": "BMT"
-				},
-				{
-					"source": "GHLoE"
-				},
-				{
-					"source": "DoDk"
 				},
 				{
 					"source": "VEoR"

@@ -205,7 +205,7 @@ class ModalFilterFeats extends ModalFilterBase {
 			<div class="ve-col-4 px-1 ${feat._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${feat._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${feat.name}</div>
 			<span class="ve-col-3 px-1 ${feat._slAbility === VeCt.STR_NONE ? "italic" : ""}">${feat._slAbility}</span>
 			<span class="ve-col-3 px-1 ${feat._slPrereq === VeCt.STR_NONE ? "italic" : ""}">${feat._slPrereq}</span>
-			<div class="ve-col-1 pl-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(feat.source)}" title="${Parser.sourceJsonToFull(feat.source)}" ${Parser.sourceJsonToStyle(feat.source)}>${source}${Parser.sourceJsonToMarkerHtml(feat.source)}</div>
+			<div class="ve-col-1 pl-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(feat.source)}" title="${Parser.sourceJsonToFull(feat.source)}">${source}${Parser.sourceJsonToMarkerHtml(feat.source, {isList: true})}</div>
 		</div>`;
 
 		const btnShowHidePreview = eleRow.firstElementChild.children[1].firstElementChild;

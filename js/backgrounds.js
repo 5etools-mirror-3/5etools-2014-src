@@ -80,7 +80,7 @@ class BackgroundPage extends ListPage {
 		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
 			<span class="bold ve-col-4 pl-0 pr-1">${name}</span>
 			<span class="ve-col-6 px-1">${bg._skillDisplay}</span>
-			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(bg.source)}  pl-1 pr-0" title="${Parser.sourceJsonToFull(bg.source)}" ${Parser.sourceJsonToStyle(bg.source)}>${source}</span>
+			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(bg.source)}  pl-1 pr-0" title="${Parser.sourceJsonToFull(bg.source)}">${source}</span>
 		</a>`;
 
 		const listItem = new ListItem(
