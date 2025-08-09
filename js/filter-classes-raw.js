@@ -1,7 +1,5 @@
-"use strict";
-
 // TODO refactor the "feature" parts of this to a `PageFilterFeatures`
-class PageFilterClassesRaw extends PageFilterClassesBase {
+export class PageFilterClassesRaw extends PageFilterClassesBase {
 	static _WALKER = null;
 	static _IMPLS_SIDE_DATA = {};
 
@@ -673,9 +671,7 @@ class PageFilterClassesRaw extends PageFilterClassesBase {
 	// endregion
 }
 
-globalThis.PageFilterClassesRaw = PageFilterClassesRaw;
-
-class ModalFilterClasses extends ModalFilterBase {
+export class ModalFilterClasses extends ModalFilterBase {
 	/**
 	 * @param opts
 	 * @param opts.namespace
@@ -714,7 +710,7 @@ class ModalFilterClasses extends ModalFilterBase {
 	async pGetSelection (classSubclassMeta) {
 		const {className, classSource, subclassName, subclassSource} = classSubclassMeta;
 
-		const allData = this._allData || await this._pLoadAllData();
+		const allData = this._allData || await this._pGetBlocklistedAllData();
 
 		const cls = allData.find(it => it.name === className && it.source === classSource);
 		if (!cls) throw new Error(`Could not find class with name "${className}" and source "${classSource}"`);
@@ -846,7 +842,7 @@ class ModalFilterClasses extends ModalFilterBase {
 
 			SortUtil.initBtnSortHandlers($wrpFormHeaders, list);
 
-			const allData = this._allData || await this._pLoadAllData();
+			const allData = this._allData || await this._pGetBlocklistedAllData();
 			const pageFilter = this._pageFilter;
 
 			await pageFilter.pInitFilterBox({
@@ -1070,5 +1066,3 @@ class ModalFilterClasses extends ModalFilterBase {
 		);
 	}
 }
-
-globalThis.ModalFilterClasses = ModalFilterClasses;

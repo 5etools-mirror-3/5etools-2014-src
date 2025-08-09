@@ -38,6 +38,8 @@ class _RenderClassesSidebarImplBase {
 			eleRequirements: this._getCommonElements_requirements({comp, cls, renderer}),
 
 			eleMulticlassing: this._getCommonElements_multiclassing({comp, cls, renderer}),
+
+			elePage: this._getCommonElements_page({comp, cls, renderer}),
 		};
 	}
 
@@ -208,6 +210,23 @@ class _RenderClassesSidebarImplBase {
 
 		return ele;
 	}
+
+	/* ----- */
+
+	_getCommonElements_page ({comp, cls, renderer}) {
+		const ele = e_({
+			tag: "tr",
+			html: `<td class="cls-side__section pt-3" colspan="6">
+				${Renderer.utils.getSourceAndPageTrHtml(cls)}
+			</td>`,
+		});
+
+		comp._addHookBase("isHideSidebar", () => {
+			ele.toggleVe(!comp._state.isHideSidebar);
+		})();
+
+		return ele;
+	}
 }
 
 class _RenderClassesSidebarImplClassic extends _RenderClassesSidebarImplBase {
@@ -311,6 +330,7 @@ class _RenderClassesSidebarImplClassic extends _RenderClassesSidebarImplBase {
 			eleGroup,
 			eleRequirements,
 			eleMulticlassing,
+			elePage,
 		} = this._getCommonElements({
 			comp,
 			cls,
@@ -338,6 +358,7 @@ class _RenderClassesSidebarImplClassic extends _RenderClassesSidebarImplBase {
 			${eleProficiencies}
 			${eleStartingEquipment}
 			${eleMulticlassing}
+			${elePage}
 
 			<tr><th class="ve-tbl-border" colspan="6"></th></tr>
 		</table>`;

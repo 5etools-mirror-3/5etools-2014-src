@@ -939,7 +939,7 @@ RendererMarkdown.monster = class {
 >___
 ${abilityScorePart}
 >___${savePart}${skillPart}${toolPart}${damVulnPart}${damResPart}${damImmPart}${condImmPart}${sensePart}${languagePart}
->- **Challenge** ${Renderer.monster.getChallengeRatingPart(mon, {style: "classic", isPlainText: true})}
+>- **Challenge** ${Renderer.monster.getChallengeRatingPart(mon, {styleHint: "classic", isPlainText: true})}
 ${pbPart ? `>- **Proficiency Bonus** ${pbPart}` : ""}
 >___`;
 

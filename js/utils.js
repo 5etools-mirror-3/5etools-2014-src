@@ -2,7 +2,7 @@
 
 // in deployment, `IS_DEPLOYED = "<version number>";` should be set below.
 globalThis.IS_DEPLOYED = undefined;
-globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.46"/* 5ETOOLS_VERSION__CLOSE */;
+globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.210.47"/* 5ETOOLS_VERSION__CLOSE */;
 globalThis.DEPLOYED_IMG_ROOT = undefined;
 // for the roll20 script to set
 globalThis.IS_VTT = false;
@@ -532,6 +532,7 @@ globalThis.SourceUtil = class {
 		{group: "setting", displayName: "Settings"},
 		{group: "setting-alt", displayName: "Additional Settings"},
 		{group: "supplement-alt", displayName: "Extras"},
+		{group: "organized-play", displayName: "Organized Play"},
 		{group: "prerelease", displayName: "Prerelease"},
 		{group: "homebrew", displayName: "Homebrew"},
 		{group: "screen", displayName: "Screens"},
@@ -859,7 +860,9 @@ class TemplateUtil {
 					if (arg instanceof Array) return arg.flatMap(argSub => argSub instanceof jQuery ? argSub.get() : argSub);
 					return arg instanceof jQuery ? arg.get() : arg;
 				});
-			return $(ee(partsNxt, ...argsNxt));
+			const ele = ee(partsNxt, ...argsNxt);
+			if (ele?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) return $([...ele.children]);
+			return $(ele);
 		};
 	}
 
@@ -873,6 +876,12 @@ class TemplateUtil {
 		 * @return {HTMLElementExtended}
 		 */
 		globalThis.ee = (parts, ...args) => {
+			// eslint-disable-next-line vet-jquery/jquery
+			if (parts instanceof $) throw new Error(`Unhandled jQuery instance!`); // TODO(jquery) migrate
+
+			// eslint-disable-next-line vet-jquery/jquery
+			if (args?.some(arg => arg instanceof $)) throw new Error(`Unhandled jQuery instance!`); // TODO(jquery) migrate
+
 			if (parts instanceof Node) {
 				return (...passed) => {
 					const parts2 = [...passed[0]];
@@ -916,9 +925,11 @@ class TemplateUtil {
 			// If the caller has passed in a single element, return it
 			if (childNodes.length === 1) return e_({ele: childNodes[0]});
 
-			// If the caller has passed in multiple elements with no wrapper, return an array
-			return childNodes
-				.map(childNode => e_({ele: childNode}));
+			// If the caller has passed in multiple elements with no wrapper, return a fragment
+			const fragment = document.createDocumentFragment();
+			childNodes
+				.forEach(childNode => fragment.appendChild(e_({ele: childNode})));
+			return fragment;
 		};
 	}
 
@@ -1187,6 +1198,7 @@ class ElementUtil {
 	 * @property {function(string): HTMLElementExtended} addClass
 	 * @property {function(string): HTMLElementExtended} removeClass
 	 * @property {function(string, ?boolean): HTMLElementExtended} toggleClass
+	 * @property {function(string): HTMLElementExtended} hasClass
 	 *
 	 * @property {function(): HTMLElementExtended} showVe
 	 * @property {function(): HTMLElementExtended} hideVe
@@ -1220,6 +1232,16 @@ class ElementUtil {
 	 * @property {function(string): HTMLElementExtended} closeste
 	 * @property {function(string): Array<HTMLElementExtended>} childrene
 	 * @property {function(string): Array<HTMLElementExtended>} siblings
+	 * @property {function(): HTMLElementExtended} parente
+	 *
+	 * @property {function(): number} outerWidthe
+	 * @property {function(): number} outerWidthe
+	 * @property {function(): number} outerHeighte
+	 * @property {function(): number} outerHeighte
+	 *
+	 * @property {function(): HTMLElementExtended} focuse
+	 * @property {function(): HTMLElementExtended} selecte
+	 * @property {function(): HTMLElementExtended} blure
 	 *
 	 * @return {HTMLElementExtended}
 	 */
@@ -1314,6 +1336,7 @@ class ElementUtil {
 		ele.addClass = ele.addClass || ElementUtil._addClass.bind(ele);
 		ele.removeClass = ele.removeClass || ElementUtil._removeClass.bind(ele);
 		ele.toggleClass = ele.toggleClass || ElementUtil._toggleClass.bind(ele);
+		ele.hasClass = ele.hasClass || ElementUtil._hasClass.bind(ele);
 		ele.showVe = ele.showVe || ElementUtil._showVe.bind(ele);
 		ele.hideVe = ele.hideVe || ElementUtil._hideVe.bind(ele);
 		ele.toggleVe = ele.toggleVe || ElementUtil._toggleVe.bind(ele);
@@ -1339,8 +1362,12 @@ class ElementUtil {
 		ele.closeste = ele.closeste || ElementUtil._closeste.bind(ele);
 		ele.childrene = ele.childrene || ElementUtil._childrene.bind(ele);
 		ele.siblings = ele.siblings || ElementUtil._siblings.bind(ele);
+		ele.parente = ele.parente || ElementUtil._parente.bind(ele);
 		ele.outerWidthe = ele.outerWidthe || ElementUtil._outerWidthe.bind(ele);
 		ele.outerHeighte = ele.outerHeighte || ElementUtil._outerHeighte.bind(ele);
+		ele.focuse = ele.focuse || ElementUtil._focuse.bind(ele);
+		ele.selecte = ele.selecte || ElementUtil._selecte.bind(ele);
+		ele.blure = ele.blure || ElementUtil._blure.bind(ele);
 
 		return ele;
 	}
@@ -1380,24 +1407,37 @@ class ElementUtil {
 	/** @this {HTMLElementExtended} */
 	static _appends (child) {
 		if (typeof child === "string") child = ee`${child}`;
+
+		// eslint-disable-next-line vet-jquery/jquery
+		if (child instanceof $) throw new Error(`Unhandled jQuery instance!`); // TODO(jquery) migrate
+
 		this.appendChild(child);
 		return this;
 	}
 
 	/** @this {HTMLElementExtended} */
 	static _appendTo (parent) {
+		// eslint-disable-next-line vet-jquery/jquery
+		if (parent instanceof $) throw new Error(`Unhandled jQuery instance!`); // TODO(jquery) migrate
+
 		parent.appendChild(this);
 		return this;
 	}
 
 	/** @this {HTMLElementExtended} */
 	static _prependTo (parent) {
+		// eslint-disable-next-line vet-jquery/jquery
+		if (parent instanceof $) throw new Error(`Unhandled jQuery instance!`); // TODO(jquery) migrate
+
 		parent.prepend(this);
 		return this;
 	}
 
 	/** @this {HTMLElementExtended} */
 	static _aftere (other) {
+		// eslint-disable-next-line vet-jquery/jquery
+		if (other instanceof $) throw new Error(`Unhandled jQuery instance!`); // TODO(jquery) migrate
+
 		if (typeof other === "string") other = ee`${other}`;
 		this.after(other);
 		return this;
@@ -1405,6 +1445,9 @@ class ElementUtil {
 
 	/** @this {HTMLElementExtended} */
 	static _insertAfter (parent) {
+		// eslint-disable-next-line vet-jquery/jquery
+		if (parent instanceof $) throw new Error(`Unhandled jQuery instance!`); // TODO(jquery) migrate
+
 		parent.after(this);
 		return this;
 	}
@@ -1426,6 +1469,12 @@ class ElementUtil {
 		if (isActive == null) this.classList.toggle(clazz);
 		else if (isActive) this.classList.add(clazz);
 		else this.classList.remove(clazz);
+		return this;
+	}
+
+	/** @this {HTMLElementExtended} */
+	static _hasClass (clazz) {
+		this.classList.contains(clazz);
 		return this;
 	}
 
@@ -1597,10 +1646,34 @@ class ElementUtil {
 	}
 
 	/** @this {HTMLElementExtended} */
+	static _parente (selector) {
+		if (selector) throw new Error(`.parente "select" argument is not supported!`);
+		return this.parentElement ? e_({ele: this.parentElement}) : null;
+	}
+
+	/** @this {HTMLElementExtended} */
 	static _outerWidthe () { return this.getBoundingClientRect().width; }
 
 	/** @this {HTMLElementExtended} */
 	static _outerHeighte () { return this.getBoundingClientRect().height; }
+
+	/** @this {HTMLElementExtended} */
+	static _focuse () {
+		this.focus();
+		return this;
+	}
+
+	/** @this {HTMLElementExtended} */
+	static _selecte () {
+		this.select();
+		return this;
+	}
+
+	/** @this {HTMLElementExtended} */
+	static _blure () {
+		this.blur();
+		return this;
+	}
 
 	/* -------------------------------------------- */
 
@@ -1608,6 +1681,9 @@ class ElementUtil {
 	 * @return {?HTMLElementExtended}
 	 */
 	static getBySelector (selector, parent) {
+		// eslint-disable-next-line vet-jquery/jquery
+		if (parent instanceof $) throw new Error(`Unhandled jQuery instance!`); // TODO(jquery) migrate
+
 		const ele = (parent || document).querySelector(selector);
 		if (!ele) return null;
 		return e_({ele});
@@ -1617,6 +1693,9 @@ class ElementUtil {
 	 * @return {Array<HTMLElementExtended>}
 	 */
 	static getBySelectorMulti (selector, parent) {
+		// eslint-disable-next-line vet-jquery/jquery
+		if (parent instanceof $) throw new Error(`Unhandled jQuery instance!`); // TODO(jquery) migrate
+
 		return [...(parent || document).querySelectorAll(selector)]
 			.map(ele => e_({ele}));
 	}
@@ -4064,10 +4143,14 @@ globalThis.SortUtil = {
 
 	ascSortSize (a, b) { return Parser.SIZE_ABVS.indexOf(a) - Parser.SIZE_ABVS.indexOf(b); },
 
-	initBtnSortHandlers ($wrpBtnsSort, list) {
+	initBtnSortHandlers (wrpBtnsSort, list) {
+		if (wrpBtnsSort instanceof $) { // TODO(jquery) migrate
+			wrpBtnsSort = wrpBtnsSort[0];
+		}
+
 		let dispCaretInitial = null;
 
-		const dispCarets = [...$wrpBtnsSort[0].querySelectorAll(`[data-sort]`)]
+		const dispCarets = [...wrpBtnsSort.querySelectorAll(`[data-sort]`)]
 			.map(btnSort => {
 				const dispCaret = e_({
 					tag: "span",
@@ -5012,13 +5095,19 @@ globalThis.DataUtil = class {
 			};
 		}
 
-		static packUid (ent, tag) {
+		static getUidPacked (ent, tag, opts = {}) {
 			// <name>|<source>
+			const {name} = ent;
+			const source = SourceUtil.getEntitySource(ent);
+			if (!name || !source) throw new Error(`Entity did not have a name and source!`);
 			const sourceDefault = Parser.getTagSource(tag);
-			return [
+			const out = [
 				ent.name,
-				(ent.source || "").toLowerCase() === sourceDefault.toLowerCase() ? "" : ent.source,
-			].join("|").replace(/\|+$/, ""); // Trim trailing pipes
+				source.toLowerCase() === sourceDefault.toLowerCase() ? "" : source,
+			]
+				.join("|")
+				.replace(/\|+$/, ""); // Trim trailing pipes
+			return opts.isMaintainCase ? out : out.toLowerCase();
 		}
 
 		static getUid (ent, {isMaintainCase = false, displayName = null} = {}) {
@@ -6076,6 +6165,11 @@ globalThis.DataUtil = class {
 		static getUid (prop, ent, opts) {
 			if (DataUtil[prop]?.getUid) return DataUtil[prop].getUid(ent, opts);
 			return DataUtil.generic.getUid(ent, opts);
+		}
+
+		static getUidPacked (prop, ent, tag, opts) {
+			if (DataUtil[prop]?.getPackedUid) return DataUtil[prop].getUidPacked(ent, tag, opts);
+			return DataUtil.generic.getUidPacked(ent, tag, opts);
 		}
 	};
 

@@ -3219,7 +3219,7 @@ Renderer.utils = class {
 					</div>
 					<div class="stats__wrp-h-source ${opts.isInlinedToken ? `stats__wrp-h-source--token` : ""} ve-flex-v-baseline">
 						${tagPartSourceStart} class="help-subtle stats__h-source-abbreviation ${ent.source ? `${Parser.sourceJsonToSourceClassname(ent.source)}" title="${Parser.sourceJsonToFull(ent.source)}${Renderer.utils.getSourceSubText(ent)}` : ""}">${ent.source ? Parser.sourceJsonToAbv(ent.source) : ""}${tagPartSourceEnd}
-						
+
 						${ent.source ? Parser.sourceJsonToMarkerHtml(ent.source, {isStatsName: true}) : ""}
 
 						${Renderer.utils.isDisplayPage(ent.page) ? ` ${tagPartSourceStart} class="rd__stats-name-page ml-1 lst-is-exporting-image__no-wrap" title="Page ${ent.page}">p${ent.page}${tagPartSourceEnd}` : ""}
@@ -3241,7 +3241,7 @@ Renderer.utils = class {
 	}
 
 	static getBtnSendToFoundryHtml ({isMb = true} = {}) {
-		return `<button title="Send to Foundry (SHIFT for Temporary Import)" class="ve-btn ve-btn-xs ve-btn-default stats__btn-stats-name mx-2 ${isMb ? "mb-2" : ""} ve-self-flex-end lst-is-exporting-image__hidden" onclick="ExtensionUtil.pDoSendStats(event, this)" draggable="true" ondragstart="ExtensionUtil.doDragStart(event, this)"><span class="glyphicon glyphicon-send"></span></button>`;
+		return `<button title="Send to Foundry (SHIFT for Temporary Import)" class="no-print ve-btn ve-btn-xs ve-btn-default stats__btn-stats-name mx-2 ${isMb ? "mb-2" : ""} ve-self-flex-end lst-is-exporting-image__hidden" onclick="ExtensionUtil.pDoSendStats(event, this)" draggable="true" ondragstart="ExtensionUtil.doDragStart(event, this)"><span class="glyphicon glyphicon-send"></span></button>`;
 	}
 
 	static isDisplayPage (page) { return page != null && ((!isNaN(page) && page > 0) || isNaN(page)); }
@@ -9178,7 +9178,7 @@ class _RenderCompactBestiaryImplBase {
 
 		if (isShowCrScaler) {
 			return `<td colspan="2">
-				${Renderer.monster.getChallengeRatingPart(mon, {style: this._style})}
+				${Renderer.monster.getChallengeRatingPart(mon, {styleHint: this._style})}
 				${opts.isShowScalers && !opts.isScaledCr && Parser.isValidCr(mon.cr ? (mon.cr.cr || mon.cr) : null) ? `
 				<button title="Scale Creature By CR (Highly Experimental)" class="mon__btn-scale-cr ve-btn ve-btn-xs ve-btn-default no-print">
 					<span class="glyphicon glyphicon-signal"></span>
@@ -11550,12 +11550,14 @@ Renderer.item = class {
 		delete specificVariant.basicRules;
 		delete specificVariant.basicRules2024;
 		delete specificVariant.page;
+		delete specificVariant.reprintedAs;
 
 		// Remove fluff specifiers
 		delete specificVariant.hasFluff;
 		delete specificVariant.hasFluffImages;
 
 		specificVariant._category = "Specific Variant";
+		specificVariant.baseItem = DataUtil.proxy.getUid("item", baseItem);
 		Object.entries(inherits)
 			// Always apply "remove"s first
 			// This allows for e.g.
@@ -14639,7 +14641,7 @@ Renderer.hover = class {
 
 					<!-- macOS Safari Pinned Tab and Touch Bar -->
 					<link rel="mask-icon" href="safari-pinned-tab.svg" color="#006bc4">
-					
+
 					${PrereleaseUtil.getPopoutStyleElementHtml()}
 					${BrewUtil2.getPopoutStyleElementHtml()}
 
@@ -15411,12 +15413,12 @@ Renderer.hover = class {
 	 * @param [opts.isBookContent]
 	 * @param [renderFnOpts]
 	 */
-	static $getHoverContent_fluff (page, toRender, opts, renderFnOpts) {
+	static getHoverContent_fluff (page, toRender, opts, renderFnOpts) {
 		opts = opts || {};
 		if (page === UrlUtil.PG_RECIPES) opts = {...MiscUtil.copyFast(opts), isBookContent: true};
 
 		if (!toRender) {
-			return $$`<table class="w-100 stats ${opts.isBookContent ? `stats--book` : ""}"><tr><td colspan="6" class="p-2 ve-text-center">${Renderer.utils.HTML_NO_INFO}</td></tr></table>`;
+			return ee`<table class="w-100 stats ${opts.isBookContent ? `stats--book` : ""}"><tr><td colspan="6" class="p-2 ve-text-center">${Renderer.utils.HTML_NO_INFO}</td></tr></table>`;
 		}
 
 		toRender = MiscUtil.copyFast(toRender);
@@ -15441,7 +15443,18 @@ Renderer.hover = class {
 		}
 
 		const name = toRender._displayName || toRender.name;
-		return $$`<table class="w-100 stats ${opts.isBookContent ? `stats--book` : ""}" ${name ? `data-roll-name-ancestor-roller="${Renderer.stripTags(name).qq()}"` : ""}>${Renderer.generic.getCompactRenderedString(toRender, renderFnOpts)}</table>`;
+		return ee`<table class="w-100 stats ${opts.isBookContent ? `stats--book` : ""}" ${name ? `data-roll-name-ancestor-roller="${Renderer.stripTags(name).qq()}"` : ""}>${Renderer.generic.getCompactRenderedString(toRender, renderFnOpts)}</table>`;
+	}
+
+	/**
+	 * @param page
+	 * @param toRender
+	 * @param [opts]
+	 * @param [opts.isBookContent]
+	 * @param [renderFnOpts]
+	 */
+	static $getHoverContent_fluff (page, toRender, opts, renderFnOpts) {
+		return $(this.getHoverContent_fluff(page, toRender, opts, renderFnOpts));
 	}
 
 	static $getHoverContent_statsCode (toRender, {isSkipClean = false, title = null} = {}) {
