@@ -1,6 +1,6 @@
-import {SITE_STYLE__CLASSIC} from "./consts.js";
-import {VetoolsConfig} from "./utils-config/utils-config-config.js";
-import {RenderPageImplBase} from "./render-page-base.js";
+import { SITE_STYLE__CLASSIC } from "./consts.js";
+import { VetoolsConfig } from "./utils-config/utils-config-config.js";
+import { RenderPageImplBase } from "./render-page-base.js";
 
 export class RenderSpellsSettings {
 	static SETTINGS = {
@@ -86,8 +86,8 @@ class _RenderSpellsImplBase extends RenderPageImplBase {
 	_page = UrlUtil.PG_SPELLS;
 	_dataProp = "spell";
 
-	getRendered (ent, opts) {
-		opts = {...opts || {}};
+	getRendered(ent, opts) {
+		opts = { ...(opts || {}) };
 		opts.subclassLookup ||= {};
 		opts.settings ||= SettingsUtil.getDefaultSettings(RenderSpellsSettings.SETTINGS);
 		return super.getRendered(ent, opts);
@@ -95,73 +95,92 @@ class _RenderSpellsImplBase extends RenderPageImplBase {
 
 	/* -------------------------------------------- */
 
-	_getCommonHtmlParts (
-		{
-			ent,
-			opts,
-			renderer,
-		},
-	) {
+	_getCommonHtmlParts({ ent, opts, renderer }) {
 		return {
-			...super._getCommonHtmlParts({ent, renderer, opts}),
+			...super._getCommonHtmlParts({ ent, renderer, opts }),
 
-			htmlPtLevelSchoolRitual: this._getCommonHtmlParts_levelSchoolRitual({ent}),
+			htmlPtLevelSchoolRitual: this._getCommonHtmlParts_levelSchoolRitual({ ent }),
 
-			htmlPtCastingTime: this._getCommonHtmlParts_castingTime({ent}),
-			htmlPtRange: this._getCommonHtmlParts_range({ent}),
-			htmlPtComponents: this._getCommonHtmlParts_components({ent}),
-			htmlPtDuration: this._getCommonHtmlParts_duration({ent}),
+			htmlPtCastingTime: this._getCommonHtmlParts_castingTime({ ent }),
+			htmlPtRange: this._getCommonHtmlParts_range({ ent }),
+			htmlPtComponents: this._getCommonHtmlParts_components({ ent }),
+			htmlPtDuration: this._getCommonHtmlParts_duration({ ent }),
 
-			htmlPtEntries: this._getCommonHtmlParts_entries({ent, renderer}),
-			htmlPtFrom: this._getCommonHtmlParts_from({ent, opts, renderer}),
+			htmlPtEntries: this._getCommonHtmlParts_entries({ ent, renderer }),
+			htmlPtFrom: this._getCommonHtmlParts_from({ ent, opts, renderer }),
 		};
 	}
 
 	/* ----- */
 
-	_getCommonHtmlParts_levelSchoolRitual ({ent}) {
-		return `<tr><td colspan="6">${Renderer.spell.getHtmlPtLevelSchoolRitual(ent, {styleHint: this._style})}</td></tr>`;
+	_getCommonHtmlParts_levelSchoolRitual({ ent }) {
+		return `<tr><td colspan="6">${Renderer.spell.getHtmlPtLevelSchoolRitual(ent, { styleHint: this._style })}</td></tr>`;
 	}
 
 	/* ----- */
 
-	_getCommonHtmlParts_castingTime ({ent}) {
-		return `<tr><td colspan="6" ${this._style === "classic" ? "" : `class="pt-2"`}>${Renderer.spell.getHtmlPtCastingTime(ent, {styleHint: this._style})}</td></tr>`;
+	_getCommonHtmlParts_castingTime({ ent }) {
+		return `<tr><td colspan="6" ${this._style === "classic" ? "" : `class="pt-2"`}>${Renderer.spell.getHtmlPtCastingTime(ent, { styleHint: this._style })}</td></tr>`;
 	}
 
-	_getCommonHtmlParts_range ({ent}) {
-		return `<tr><td colspan="6">${Renderer.spell.getHtmlPtRange(ent, {styleHint: this._style, isDisplaySelfArea: SourceUtil.isClassicSource(ent.source)})}</td></tr>`;
+	_getCommonHtmlParts_range({ ent }) {
+		return `<tr><td colspan="6">${Renderer.spell.getHtmlPtRange(ent, { styleHint: this._style, isDisplaySelfArea: SourceUtil.isClassicSource(ent.source) })}</td></tr>`;
 	}
 
-	_getCommonHtmlParts_components ({ent}) {
+	_getCommonHtmlParts_components({ ent }) {
 		return `<tr><td colspan="6">${Renderer.spell.getHtmlPtComponents(ent)}</td></tr>`;
 	}
 
-	_getCommonHtmlParts_duration ({ent}) {
-		return `<tr><td colspan="6" ${this._style === "classic" ? "" : `class="pb-2"`}>${Renderer.spell.getHtmlPtDuration(ent, {styleHint: this._style})}</td></tr>`;
+	_getCommonHtmlParts_duration({ ent }) {
+		return `<tr><td colspan="6" ${this._style === "classic" ? "" : `class="pb-2"`}>${Renderer.spell.getHtmlPtDuration(ent, { styleHint: this._style })}</td></tr>`;
 	}
 
 	/* ----- */
 
-	_getCommonHtmlParts_entries ({ent, renderer}) {
+	_getCommonHtmlParts_entries({ ent, renderer }) {
 		const stack = [];
 
-		const entryList = {type: "entries", entries: ent.entries};
-		renderer.recursiveRender(entryList, stack, {depth: 1});
+		const entryList = { type: "entries", entries: ent.entries };
+		renderer.recursiveRender(entryList, stack, { depth: 1 });
 		if (ent.entriesHigherLevel) {
-			const higherLevelsEntryList = {type: "entries", entries: ent.entriesHigherLevel};
-			renderer.recursiveRender(higherLevelsEntryList, stack, {depth: 2});
+			const higherLevelsEntryList = { type: "entries", entries: ent.entriesHigherLevel };
+			renderer.recursiveRender(higherLevelsEntryList, stack, { depth: 2 });
 		}
 
-		return stack.join("");
+		let lastDamageType = null;
+
+		const processedStack = stack
+			.map((htmlString) => {
+				// First, replace the main damage roller spans and capture the damage type
+				htmlString = htmlString.replace(/(<span class="roller render-roller"[^>]*)(>)([^<]*)<\/span>\s*([a-zA-Z]+)\s+(damage)/g, (match, spanStart, spanEnd, rollerText, dmgType, dmgWord) => {
+					lastDamageType = dmgType; // Save the last seen damage type
+					const newSpanStart = spanStart.replace(/class="([^"]*)"/, (m, cls) => {
+						return `class="${cls} ${dmgType.toLowerCase()}-damage"`;
+					});
+					return `${newSpanStart}${spanEnd}${rollerText}<img class="damage-icon" src="../img/damagetypes/${dmgType}_damage_icon.webp"/>${dmgType} ${dmgWord}</span>`;
+				});
+
+				// Then, replace any "bare" roller spans (like 1d6) that follow, using the last seen damage type
+				htmlString = htmlString.replace(/(<span class="roller render-roller"[^>]*>)([^<]*)<\/span>(?!\s*[a-zA-Z]+\s+damage)/g, (match, spanStart, rollerText) => {
+					if (!lastDamageType) return match; // Only decorate if we have a damage type
+					const newSpanStart = spanStart.replace(/class="([^"]*)"/, (m, cls) => {
+						return `class="${cls} ${lastDamageType.toLowerCase()}-damage"`;
+					});
+					return `${newSpanStart}${rollerText}</span>`;
+				});
+
+				return htmlString;
+			})
+			.join("");
+		return processedStack;
 	}
 
-	_getCommonHtmlParts_from ({ent, opts, renderer}) {
-		const {subclassLookup, settings} = opts;
+	_getCommonHtmlParts_from({ ent, opts, renderer }) {
+		const { subclassLookup, settings } = opts;
 
 		const stackFroms = [];
 
-		if (settings.isDisplayGroups) this._mutStackPtSpellSource({ent, stackFroms, renderer, title: "Groups", propSpell: "groups"});
+		if (settings.isDisplayGroups) this._mutStackPtSpellSource({ ent, stackFroms, renderer, title: "Groups", propSpell: "groups" });
 
 		const fromClassList = Renderer.spell.getCombinedClasses(ent, "fromClassList");
 		if (fromClassList.length) {
@@ -196,30 +215,27 @@ class _RenderSpellsImplBase extends RenderPageImplBase {
 			}
 		}
 
-		if (settings.isDisplayRaces) this._mutStackPtSpellSource({ent, stackFroms, renderer, title: "Races", propSpell: "races", prop: "race", tag: "race"});
-		if (settings.isDisplayBackgrounds) this._mutStackPtSpellSource({ent, stackFroms, renderer, title: "Backgrounds", propSpell: "backgrounds", prop: "background", tag: "background"});
-		if (settings.isDisplayFeats) this._mutStackPtSpellSource({ent, stackFroms, renderer, title: "Feats", propSpell: "feats", prop: "feat", tag: "feat"});
-		if (settings.isDisplayOptionalfeatures) this._mutStackPtSpellSource({ent, stackFroms, renderer, title: "Other Options/Features", propSpell: "optionalfeatures", prop: "optionalfeature", tag: "optfeature"});
+		if (settings.isDisplayRaces) this._mutStackPtSpellSource({ ent, stackFroms, renderer, title: "Races", propSpell: "races", prop: "race", tag: "race" });
+		if (settings.isDisplayBackgrounds) this._mutStackPtSpellSource({ ent, stackFroms, renderer, title: "Backgrounds", propSpell: "backgrounds", prop: "background", tag: "background" });
+		if (settings.isDisplayFeats) this._mutStackPtSpellSource({ ent, stackFroms, renderer, title: "Feats", propSpell: "feats", prop: "feat", tag: "feat" });
+		if (settings.isDisplayOptionalfeatures) this._mutStackPtSpellSource({ ent, stackFroms, renderer, title: "Other Options/Features", propSpell: "optionalfeatures", prop: "optionalfeature", tag: "optfeature" });
 
-		if (
-			ent.level >= 5
-			&& fromClassList?.some(it => it.name === "Wizard" && it?.source === Parser.SRC_PHB)
-		) {
+		if (ent.level >= 5 && fromClassList?.some((it) => it.name === "Wizard" && it?.source === Parser.SRC_PHB)) {
 			stackFroms.push(`<section class="ve-muted mt-2">`);
-			renderer.recursiveRender(`{@italic Note: Both the {@class fighter||Fighter (Eldritch Knight)|eldritch knight} and the {@class rogue||Rogue (Arcane Trickster)|arcane trickster} spell lists include all {@class Wizard} spells. Spells of 5th level or higher may be cast with the aid of a spell scroll or similar.}`, stackFroms, {depth: 2});
+			renderer.recursiveRender(`{@italic Note: Both the {@class fighter||Fighter (Eldritch Knight)|eldritch knight} and the {@class rogue||Rogue (Arcane Trickster)|arcane trickster} spell lists include all {@class Wizard} spells. Spells of 5th level or higher may be cast with the aid of a spell scroll or similar.}`, stackFroms, { depth: 2 });
 			stackFroms.push(`</section>`);
 		}
 
 		return stackFroms.join("");
 	}
 
-	_mutStackPtSpellSource ({ent, stackFroms, renderer, title, propSpell, prop, tag}) {
-		const froms = Renderer.spell.getCombinedGeneric(ent, {propSpell, prop});
+	_mutStackPtSpellSource({ ent, stackFroms, renderer, title, propSpell, prop, tag }) {
+		const froms = Renderer.spell.getCombinedGeneric(ent, { propSpell, prop });
 		if (!froms.length) return;
 
 		const ptFroms = froms
-			.map(it => {
-				const pt = tag ? renderer.render(`{@${tag} ${it.name}|${it.source}}`) : `<span class="help-subtle" title="Source: ${(Parser.sourceJsonToFull(it.source)).qq()}">${it.name}</span>`;
+			.map((it) => {
+				const pt = tag ? renderer.render(`{@${tag} ${it.name}|${it.source}}`) : `<span class="help-subtle" title="Source: ${Parser.sourceJsonToFull(it.source).qq()}">${it.name}</span>`;
 				return `${SourceUtil.isNonstandardSource(it.source) ? `<span class="ve-muted">` : ``}${pt}${SourceUtil.isNonstandardSource(it.source) ? `</span>` : ``}`;
 			})
 			.join(", ");
@@ -233,7 +249,7 @@ class _RenderSpellsImplClassic extends _RenderSpellsImplBase {
 
 	/* -------------------------------------------- */
 
-	_getRendered ({ent, opts, renderer}) {
+	_getRendered({ ent, opts, renderer }) {
 		const {
 			htmlPtIsExcluded,
 			htmlPtName,
@@ -291,11 +307,16 @@ export class RenderSpells {
 	 * @param [opts.isSkipExcludesRender]
 	 * @param [opts.settings]
 	 */
-	static getRenderedSpell (ent, opts) {
+	static getRenderedSpell(ent, opts) {
 		const styleHint = VetoolsConfig.get("styleSwitcher", "style");
 		switch (styleHint) {
-			case SITE_STYLE__CLASSIC: return this._RENDER_CLASSIC.getRendered(ent, opts);
-			default: throw new Error(`Unhandled style "${styleHint}"!`);
+			case SITE_STYLE__CLASSIC: {
+				const renderedSpell = this._RENDER_CLASSIC.getRendered(ent, opts);
+				console.log(renderedSpell);
+				return renderedSpell;
+			}
+			default:
+				throw new Error(`Unhandled style "${styleHint}"!`);
 		}
 	}
 
@@ -306,7 +327,7 @@ export class RenderSpells {
 	 * @param [opts.isSkipExcludesRender]
 	 * @param [opts.settings]
 	 */
-	static $getRenderedSpell (ent, opts) {
+	static $getRenderedSpell(ent, opts) {
 		return $(this.getRenderedSpell(ent, opts));
 	}
 }
