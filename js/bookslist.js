@@ -1,4 +1,4 @@
-import {BookUtil} from "./bookutils.js";
+import { BookUtil } from "./bookutils.js";
 
 export class AdventuresBooksList {
 	static _getDateStr (advBook) {
@@ -192,7 +192,7 @@ export class AdventuresBooksList {
 
 			// region Alt list (covers/thumbnails)
 			const eleLiAlt = ee`<a href="${this._rootPage}#${UrlUtil.encodeForHash(it.id)}" class="ve-flex-col ve-flex-v-center m-3 bks__wrp-bookshelf-item ${isExcluded ? `bks__wrp-bookshelf-item--blocklisted` : ""} ${isLegacySource ? `bks__wrp-bookshelf-item--legacy` : ""} py-3 px-2 ${Parser.sourceJsonToSourceClassname(it.source)}" ${isLegacySource ? `title="(Legacy Source)"` : ""}>
-				<img src="${Renderer.adventureBook.getCoverUrl(it)}" class="mb-2 bks__bookshelf-image" loading="lazy" alt="Cover Image: ${(it.name || "").qq()}">
+				<img src="http://2014.5e.tools/${Renderer.adventureBook.getCoverUrl(it)}" class="mb-2 bks__bookshelf-image" loading="lazy" alt="Cover Image: ${(it.name || "").qq()}">
 				<div class="bks__bookshelf-item-name ve-flex-vh-center ve-text-center">${it.name}</div>
 			</a>`;
 			const listItemAlt = new ListItem(

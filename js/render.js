@@ -580,7 +580,7 @@ globalThis.Renderer = function () {
 		const pluginDataIsNoLink = this._applyPlugins_useFirst("image_isNoLink", {textStack, meta, options}, {input: entry});
 
 		textStack[0] += `<div class="${this._renderImage_getWrapperClasses(entry, meta)}" ${entry.title && this._isHeaderIndexIncludeImageTitles ? `data-title-index="${this._headerIndex++}"` : ""}>
-			${pluginDataIsNoLink ? "" : `<a href="${href}" target="_blank" rel="noopener noreferrer" ${ptTitle}>`}
+			${pluginDataIsNoLink ? "" : `<a href="http://2014.5e.tools/${href}" target="_blank" rel="noopener noreferrer" ${ptTitle}>`}
 				${this._renderImage_getImg({entry, meta, href, pluginDataIsNoLink, ptTitle})}
 			${pluginDataIsNoLink ? "" : `</a>`}
 		</div>`;
@@ -638,7 +638,7 @@ globalThis.Renderer = function () {
 			.filter(Boolean)
 			.join(" ");
 
-		const imgOut = `<img class="${this._renderImage_getImageClasses(entry, meta)}" ${ptAttributesShared} src="${svg || href}" ${!isLazy && isMinimizeLayoutShift ? `onload="Renderer.utils.lazy.handleLoad_imgMinimizeLayoutShift(this)"` : ""}>`;
+		const imgOut = `<img class="${this._renderImage_getImageClasses(entry, meta)}" ${ptAttributesShared} src="http://2014.5e.tools/${svg || href}" ${!isLazy && isMinimizeLayoutShift ? `onload="Renderer.utils.lazy.handleLoad_imgMinimizeLayoutShift(this)"` : ""}>`;
 
 		if (
 			!hasWidthHeight
@@ -4298,7 +4298,8 @@ Renderer.utils = class {
 
 		let href = "";
 		if (entry[prop].type === "internal") {
-			href = UrlUtil.link(Renderer.get().getMediaUrl(mediaDir, entry[prop].path));
+			href ="http://2014.5e.tools/"+ UrlUtil.link(Renderer.get().getMediaUrl(mediaDir, entry[prop].path));
+			
 		} else if (entry[prop].type === "external") {
 			href = entry[prop].url;
 		}

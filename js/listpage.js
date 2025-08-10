@@ -2302,7 +2302,7 @@ class ListPageTokenDisplay {
 		const wMax = Math.max(Math.floor(bcr.height) - 6, 110);
 
 		const imgLink = this._fnGetTokenUrl(ent);
-		const $img = $(`<img src="${imgLink}" class="stats__token" alt="Token Image: ${(ent.name || "").qq()}" ${ent.tokenCredit ? `title="Credit: ${ent.tokenCredit.qq()}"` : ""} loading="lazy">`)
+		const $img = $(`<img src="http://2014.5e.tools/${imgLink}" class="stats__token" alt="Token Image: ${(ent.name || "").qq()}" ${ent.tokenCredit ? `title="Credit: ${ent.tokenCredit.qq()}"` : ""} loading="lazy">`)
 			.css("max-width", wMax);
 		const $lnkToken = $$`<a href="${imgLink}" class="stats__wrp-token" target="_blank" rel="noopener noreferrer">${$img}</a>`
 			.appendTo(this._$dispToken);
@@ -2324,7 +2324,7 @@ class ListPageTokenDisplay {
 			if (!meta.$ele) {
 				const imgLink = this._fnGetTokenUrl(meta);
 				const displayName = Renderer.utils.getAltArtDisplayName(meta);
-				const $img = $(`<img src="${imgLink}" class="stats__token" alt="Token Image${displayName ? `: ${displayName.qq()}` : ""}}" ${meta.tokenCredit ? `title="Credit: ${meta.tokenCredit.qq()}"` : ""} loading="lazy">`)
+				const $img = $(`<img src="http://2014.5e.tools/${imgLink}" class="stats__token" alt="Token Image${displayName ? `: ${displayName.qq()}` : ""}}" ${meta.tokenCredit ? `title="Credit: ${meta.tokenCredit.qq()}"` : ""} loading="lazy">`)
 					.css("max-width", wMax)
 					.on("error", () => {
 						$img.attr("src", this.constructor._SRC_ERROR);
