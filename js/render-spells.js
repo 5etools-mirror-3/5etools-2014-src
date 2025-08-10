@@ -157,7 +157,7 @@ class _RenderSpellsImplBase extends RenderPageImplBase {
 					const newSpanStart = spanStart.replace(/class="([^"]*)"/, (m, cls) => {
 						return `class="${cls} ${dmgType.toLowerCase()}-damage"`;
 					});
-					return `${newSpanStart}${spanEnd}${rollerText}<img class="damage-icon" src="../img/damagetypes/${dmgType}_damage_icon.webp"/>${dmgType} ${dmgWord}</span>`;
+					return `${newSpanStart}${spanEnd}${rollerText}<img class="damage-icon" src="./img/damagetypes/${dmgType}_damage_icon.webp"/>${dmgType} ${dmgWord}</span>`;
 				});
 
 				// Then, replace any "bare" roller spans (like 1d6) that follow, using the last seen damage type
