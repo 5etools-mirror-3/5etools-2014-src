@@ -11,18 +11,16 @@ function cleanBestiaryFluffImages () {
 
 	// read all the image dirs and track which images are actually in use
 	const _ALL_IMAGE_PATHS = new Set();
-	const PATH_BESTIARY_IMAGES = `./img/bestiary/`;
-	fs.readdirSync(PATH_BESTIARY_IMAGES).forEach(f => {
+	const PATH_BESTIARY_IMAGES = `https://2014.5e.tools/img/bestiary/`;
+	fs.readdirSync(PATH_BESTIARY_IMAGES).forEach((f) => {
 		const path = `${PATH_BESTIARY_IMAGES}/${f}`;
 		if (fs.lstatSync(path).isDirectory()) {
-			fs.readdirSync(path).forEach(img => _ALL_IMAGE_PATHS.add(`bestiary/${f}/${img}`));
+			fs.readdirSync(path).forEach((img) => _ALL_IMAGE_PATHS.add(`bestiary/${f}/${img}`));
 		}
 	});
 
-	function getCleanName (name) {
-		return name
-			.replace(/"/g, "")
-			.replace(/\//g, " ");
+	function getCleanName(name) {
+		return name.replace(/"/g, "").replace(/\//g, " ");
 	}
 
 	const ixFluff = JSON.parse(fs.readFileSync(`./data/bestiary/fluff-index.json`, "utf-8"));
@@ -30,12 +28,11 @@ function cleanBestiaryFluffImages () {
 	Object.entries(ixFluff).forEach(([k, f]) => {
 		const path = `./data/bestiary/${f}`;
 		const fluff = JSON.parse(fs.readFileSync(path, "utf-8"));
-		ixFluff[k] = {path, json: fluff}; // store the parsed data in the index object, for later writing
-		fluff.monster.forEach(mon => {
+		ixFluff[k] = { path, json: fluff }; // store the parsed data in the index object, for later writing
+		fluff.monster.forEach((mon) => {
 			if (mon.images) {
-				mon.images.forEach(img => {
-					(imageNameToCreatureName[img.href.path] =
-						imageNameToCreatureName[img.href.path] || []).push({name: mon.name, fluff: mon});
+				mon.images.forEach((img) => {
+					(imageNameToCreatureName[img.href.path] = imageNameToCreatureName[img.href.path] || []).push({ name: mon.name, fluff: mon });
 					_ALL_IMAGE_PATHS.delete(img.href.path);
 				});
 			}
@@ -44,7 +41,7 @@ function cleanBestiaryFluffImages () {
 
 	if (_ALL_IMAGE_PATHS.size) {
 		console.error(`The following images were unused:`);
-		_ALL_IMAGE_PATHS.forEach(it => console.error(it));
+		_ALL_IMAGE_PATHS.forEach((it) => console.error(it));
 		throw new Error(`Could not clean bestiary fluff!`);
 	}
 
@@ -83,13 +80,12 @@ function cleanBestiaryFluffImages () {
 		"bestiary/WDH/The-Gralhunds.webp": true,
 	};
 
-	const multipleNames = Object.entries(imageNameToCreatureName)
-		.filter(([img, metas]) => !MAP_TO_SHORTEST[img] && !MAP_TO_VALUE[img] && metas.length > 1);
+	const multipleNames = Object.entries(imageNameToCreatureName).filter(([img, metas]) => !MAP_TO_SHORTEST[img] && !MAP_TO_VALUE[img] && metas.length > 1);
 
 	if (multipleNames.length) {
 		console.error(`The following images could be mapped to multiple names:`);
 		multipleNames.forEach(([img, metas]) => {
-			console.error(`\t${`${img}\t`.padEnd(55, " ")} ${metas.map(m => m.name).join(", ")}`);
+			console.error(`\t${`${img}\t`.padEnd(55, " ")} ${metas.map((m) => m.name).join(", ")}`);
 		});
 		throw new Error(`Could not clean bestiary fluff!`);
 	}
@@ -97,30 +93,30 @@ function cleanBestiaryFluffImages () {
 	// handle any special renames first
 	Object.entries(imageNameToCreatureName).forEach(([img, metas]) => {
 		if (MAP_TO_SHORTEST[img]) {
-			const nameLen = Math.min(...metas.map(it => it.name.length));
-			const cleanShortName = getCleanName(metas.find(it => it.name.length === nameLen).name);
+			const nameLen = Math.min(...metas.map((it) => it.name.length));
+			const cleanShortName = getCleanName(metas.find((it) => it.name.length === nameLen).name);
 			const pathParts = img.split("/");
 			const namePart = pathParts.pop();
 			const spl = namePart.split(".");
 			if (spl.length > 2) throw new Error(`Could not extract extension from name "${namePart}"`);
 			const nuPath = [...pathParts, `${cleanShortName}.${spl[1]}`].join("/");
-			fs.renameSync(`./img/${img}`, `./img/${nuPath}`);
+			fs.renameSync(`https://2014.5e.tools/img/${img}`, `https://2014.5e.tools/img/${nuPath}`);
 
-			metas.forEach(meta => {
+			metas.forEach((meta) => {
 				meta.fluff.images
-					.filter(it => it.href.path === img && !it._IS_RENAMED)
-					.forEach(it => {
+					.filter((it) => it.href.path === img && !it._IS_RENAMED)
+					.forEach((it) => {
 						it.href.path = nuPath;
 						it._IS_RENAMED = true;
 					});
 			});
 		} else if (MAP_TO_VALUE[img]) {
 			const nuPath = MAP_TO_VALUE[img] === true ? img.replace(/-/g, " ") : MAP_TO_VALUE[img];
-			if (nuPath !== img) fs.renameSync(`./img/${img}`, `./img/${nuPath}`);
-			metas.forEach(meta => {
+			if (nuPath !== img) fs.renameSync(`https://2014.5e.tools/img/${img}`, `https://2014.5e.tools/img/${nuPath}`);
+			metas.forEach((meta) => {
 				meta.fluff.images
-					.filter(it => it.href.path === img && !it._IS_RENAMED)
-					.forEach(it => {
+					.filter((it) => it.href.path === img && !it._IS_RENAMED)
+					.forEach((it) => {
 						it.href.path = nuPath;
 						it._IS_RENAMED = true;
 					});
