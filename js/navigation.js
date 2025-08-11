@@ -556,7 +556,33 @@ class NavBar {
 
 			a.setAttribute("aria-haspopup", "true");
 		}
-		a.innerHTML = `${category} <span class="caret ${isSide ? "caret--right" : ""}"></span>`;
+		  a.innerHTML = `${category}<div class="icon">
+			<svg width="36" height="39" xmlns="http://www.w3.org/2000/svg">
+				<defs>
+					<linearGradient x1="50%" y1="99.964%" x2="50%" y2="0%" id="a-arrow-up-9e99430f-bae6-41ef-87fb-a2a8ebbbb4fc">
+						<stop stop-color="#C19976" offset="0%"></stop>
+						<stop stop-color="#E5C5A8" offset="99.964%"></stop>
+					</linearGradient>
+					<linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="b-arrow-up-9e99430f-bae6-41ef-87fb-a2a8ebbbb4fc">
+						<stop stop-color="#E5C5A8" offset="0%"></stop>
+						<stop stop-color="#E0BEA1" offset="100%"></stop>
+					</linearGradient>
+					<linearGradient x1="0%" y1="44.383%" x2="100%" y2="56.62%" id="c-arrow-up-9e99430f-bae6-41ef-87fb-a2a8ebbbb4fc">
+						<stop stop-color="#DDC9A7" offset="0%"></stop>
+						<stop stop-color="#B78F6D" offset="100%"></stop>
+					</linearGradient>
+				</defs>
+				<g fill="none" fill-rule="evenodd">
+					<g stroke-width="1.3">
+						<path d="M2.872 7.402C4.905 4.836 6.29 4 9.39 2.938 12.49 1.876 14 0 14 0s1.512 1.876 4.611 2.938c3.1 1.062 4.485 1.898 6.517 4.464A14.042 14.042 0 0 1 28 15.937C28 23.704 21.732 30 14 30S0 23.704 0 15.937c0-3.21 1.07-6.168 2.872-8.535Z" stroke="url(#a-arrow-up-9e99430f-bae6-41ef-87fb-a2a8ebbbb4fc)" fill-opacity=".5" fill="#000" transform="translate(4 4)"></path>
+						<path d="M20.771 3.777c-1.905-.836-3.24-1.306-3.958-2.612C15.086 1.655 14 3.053 14 3.053s-1.086-1.398-2.813-1.888C10.47 2.471 9.134 2.941 7.23 3.777" stroke="url(#b-arrow-up-9e99430f-bae6-41ef-87fb-a2a8ebbbb4fc)" transform="translate(4 4)"></path>
+					</g>
+					<path d="M8.907 14.175 1.624 6.879l-.568-1.703 1.703.568 6.066 6.234 6.23-6.234 1.703-.568-.568 1.703-7.192 7.296h-.091Z" transform="translate(9 11)" fill="url(#c-arrow-up-9e99430f-bae6-41ef-87fb-a2a8ebbbb4fc)" fill-rule="nonzero"></path>
+				</g>
+			</svg>
+			<svg  width="36" height="39" xmlns="http://www.w3.org/2000/svg" style="display:none"><defs ><linearGradient  x1="50%" y1="0%" x2="50%" y2="100%" id="d-arrow-up-9e99430f-bae6-41ef-87fb-a2a8ebbbb4fc"><stop  stop-color="#EBDED2" offset="0%"></stop><stop  stop-color="#D1B9A3" offset="100%"></stop></linearGradient><linearGradient  x1="50%" y1="0%" x2="50%" y2="100%" id="e-arrow-up-9e99430f-bae6-41ef-87fb-a2a8ebbbb4fc"><stop  stop-color="#EBDED2" offset="0%"></stop><stop  stop-color="#E8D9CC" offset="100%"></stop></linearGradient></defs><g  fill="none" fill-rule="evenodd"><g  stroke-width="1.3"><path  d="M2.872 7.402C4.905 4.836 6.29 4 9.39 2.938 12.49 1.876 14 0 14 0s1.512 1.876 4.611 2.938c3.1 1.062 4.485 1.898 6.517 4.464A14.042 14.042 0 0 1 28 15.937C28 23.704 21.732 30 14 30S0 23.704 0 15.937c0-3.21 1.07-6.168 2.872-8.535Z" stroke="url(#d-arrow-up-9e99430f-bae6-41ef-87fb-a2a8ebbbb4fc)" fill-opacity=".35" fill="#906A4B" transform="translate(4 4)"></path><path  d="M20.771 3.777c-1.905-.836-3.24-1.306-3.958-2.612C15.086 1.655 14 3.053 14 3.053s-1.086-1.398-2.813-1.888C10.47 2.471 9.134 2.941 7.23 3.777" stroke="url(#e-arrow-up-9e99430f-bae6-41ef-87fb-a2a8ebbbb4fc)" transform="translate(4 4)"></path></g><path  d="m17.818 15.176 7.284 7.296.567 1.703-1.703-.568-6.066-6.234-6.23 6.234-1.702.568.567-1.703 7.192-7.296h.091Z" fill="#FFF" fill-rule="nonzero"></path></g></svg>
+		</div>
+		`;
 
 		const ul = document.createElement("ul");
 		ul.setAttribute("role", "menu");

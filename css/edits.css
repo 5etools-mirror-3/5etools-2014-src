@@ -33,6 +33,11 @@ nav::before {
 }
 
 @media screen and (max-width: 991px) {
+  .icon {
+    height: 39px;
+    margin-left: 0.8rem;
+    width: 36px;
+  }
   /* Sections */
   .home__stripe {
     padding: 1rem 0.5rem !important;
@@ -42,7 +47,7 @@ nav::before {
     }
     .home__split {
       .home__stripe-header {
-        font-size: 2.5rem !important;
+        font-size: 1.8rem !important;
       }
       .home__wrp-buttons {
         row-gap: 6px;
@@ -84,22 +89,25 @@ nav::before {
     .nav {
       width: calc(100% - 6rem);
       margin-top: 0 !important;
-
+      
       .page__btn-nav-root {
+        .icon {
+          display: block;
+        }
         a {
-          font-weight: 400 !important;
-          font-size: 2.4rem !important;
-          .caret {
-            border: 0;
-          }
+          font-weight: 600 !important;
+          font-size: 3rem !important;
         }
       }
     }
   }
+
   nav:has(> button.active) {
     flex-direction: column;
-    row-gap: 50px;
+    row-gap: 8rem;
+    margin-bottom: -4rem;
     position: relative;
+
     .page__btn-toggle-nav {
       order: 0;
       place-self: end;
@@ -184,24 +192,36 @@ nav {
     column-gap: 2rem;
     align-items: center;
     /* Navigation Links */
+    .site-map {
+      font-family: "Quadraat Pro", serif;
+      text-transform: uppercase;
+      letter-spacing: 0.3rem;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fbcea0;
+    }
+
     .page__btn-nav-root {
       padding: 0;
       margin: 0;
       flex-shrink: 0;
       border: none;
-      a {
+      a.ve-dropdown-toggle,
+      a.nav__link {
+        display: flex;
         padding: 0 !important;
         font-family: "Quadraat Pro", serif;
         font-weight: 600;
         font-size: 1.4rem;
         text-transform: uppercase;
         border: none;
-       color: #fbcea0;
-       background-color: transparent;
-        /* background: linear-gradient(135deg, #fff, #fbcea0 66%, #fbcfa0);
+        background-color: transparent;
+        background: linear-gradient(135deg, #fff, #fbcea0 66%, #fbcfa0);
         -webkit-background-clip: text;
         background-clip: text;
-        -webkit-text-fill-color: transparent; */
+        -webkit-text-fill-color: transparent;
+      }
+
       }
     }
 
@@ -339,7 +359,7 @@ nav {
   }
   .home__split {
     flex-direction: column;
- align-items: center;
+    align-items: center;
     .home__split_section {
       margin: 0;
       display: flex;
@@ -359,7 +379,7 @@ nav {
       border: none;
       background: linear-gradient(135deg, #fff, #fbcea0 66%, #fbcfa0);
       -webkit-background-clip: text;
-      background-clip: text;
+      background-clip: text !important;
       -webkit-text-fill-color: transparent;
     }
     .home__wrp-buttons {
@@ -421,4 +441,9 @@ nav {
       margin: 0 !important;
     }
   }
+}
+
+.icon,
+.site-map {
+  display: none;
 }
