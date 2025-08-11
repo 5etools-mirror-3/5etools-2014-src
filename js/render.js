@@ -111,7 +111,7 @@ globalThis.Renderer = function () {
 
 	this.getMediaUrl = function (mediaDir, path) {
 		if (Renderer.get().baseMediaUrls[mediaDir]) return `${Renderer.get().baseMediaUrls[mediaDir]}${path}`;
-		return `${Renderer.get().baseUrl}${mediaDir}/${path}`;
+		return `https://2014.5e.tools/${Renderer.get().baseUrl}${mediaDir}/${path}`;
 	};
 
 	/**

@@ -3,288 +3,422 @@
 /* Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Quando&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap");
-
+@font-face {
+  font-family: "Quadraat Pro";
+  src: url("../fonts/QuadraatOffcPro.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Quadraat Pro";
+  src: url("../fonts/QuadraatOffcPro-Demibold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+}
 /* Hidden Elements */
-#wrp-patreon,
+
 .alert-warning,
 header,
 .cancer__wrp-leaderboard,
 nav::before {
-	display: none;
-}
-
-@layer vetools {
-	.omni__wrp-input--scrolled {
-		width: 65px;
-		margin-top: 8px;
-	}
+  display: none;
 }
 
 /* Background */
 .overlay-noise {
-	background-image: url(https://baldursgate3.game/jpg/smoke.jpg) !important;
-	background-size: cover;
-	opacity: 1;
-	position: fixed;
+  background-image: url(https://baldursgate3.game/jpg/smoke.jpg) !important;
+  background-size: cover;
+  opacity: 1;
+  position: fixed;
 }
 
 @media screen and (max-width: 991px) {
-	/* Background */
-	.overlay-noise {
-		background-image: url(https://baldursgate3.game/png/smoke-mobile.png) !important;
-	}
-	/* Navigation Bar */
-	nav {
-		padding: 1rem !important;
-		column-gap: 0.5rem;
-		width: 100%;
-		.omni__wrp-input {
-			margin-top: 0;
-			margin-left: 0;
-		}
-		.nav {
-			width: calc(100% - 6rem);
-			margin-top: 0 !important;
+  /* Sections */
+  .home__stripe {
+    padding: 1rem 0.5rem !important;
+    .home__split.section {
+      row-gap: 3rem;
+      flex-direction: column !important;
+    }
+    .home__split {
+      .home__stripe-header {
+        font-size: 2.5rem !important;
+      }
+      .home__wrp-buttons {
+        row-gap: 6px;
+        .home__btn-page {
+          flex-direction: row;
+          justify-content: start !important;
+          align-items: center;
+          padding: 0 0 0 0.5rem;
+          column-gap: 0.5rem;
+          width: 49% !important;
+          max-width: unset !important;
+          .home__icn-page {
+            padding: 0rem;
+            font-size: 1.8rem !important;
+          }
+          .home__lbl-page {
+            width: auto;
+            margin: 0 !important;
+            font-size: 1.2rem !important;
+          }
+        }
+      }
+    }
+  }
 
-			.page__btn-nav-root {
-				a {
-					font-weight: 400 !important;
-					font-size: 2.4rem !important;
-					.caret {
-						border: 0;
-					}
-				}
-			}
-		}
-	}
-	nav:has(> button.active) {
-		flex-direction: column;
-		row-gap: 50px;
-		position: relative;
-		.page__btn-toggle-nav {
-			order: 0;
-			place-self: end;
-		}
+  /* Background */
+  .overlay-noise {
+    background-image: url(https://baldursgate3.game/png/smoke-mobile.png) !important;
+  }
+  /* Navigation Bar */
+  nav {
+    padding: 1rem !important;
+    column-gap: 0.5rem;
+    width: 100%;
+    .omni__wrp-input {
+      margin-top: 0;
+      margin-left: 0;
+    }
+    .nav {
+      width: calc(100% - 6rem);
+      margin-top: 0 !important;
 
-		.nav {
-			width: 100%;
-			.omni__wrp-input {
-				position: absolute;
-				top: 1rem;
-				left: 1rem;
-				width: calc(100% - 1.5rem - 42px - 1.5rem);
-			}
-		}
-	}
+      .page__btn-nav-root {
+        a {
+          font-weight: 400 !important;
+          font-size: 2.4rem !important;
+          .caret {
+            border: 0;
+          }
+        }
+      }
+    }
+  }
+  nav:has(> button.active) {
+    flex-direction: column;
+    row-gap: 50px;
+    position: relative;
+    .page__btn-toggle-nav {
+      order: 0;
+      place-self: end;
+    }
 
-	/* Burger Menu */
-	.page__btn-toggle-nav {
-		align-self: start;
-		position: relative;
-		width: 42px;
-		height: 21px;
-		background: transparent;
-		border: none;
-		cursor: pointer;
-		margin: 0;
-		margin-top: 0.7rem;
-		text-indent: -9999px;
-		flex-grow: 0;
-		order: 2;
-		transition:
-			width 0.4s,
-			top 0.4s,
-			opacity 0.2s,
-			transform 0.4s,
-			background-position 0.4s ease;
+    .nav {
+      width: 100%;
+      .omni__wrp-input {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        width: calc(100% - 1.5rem - 42px - 1.5rem);
+      }
+    }
+  }
 
-		background-image: url("https://baldursgate3.game/icons/burger-2.svg");
-		background-repeat: no-repeat;
-		background-position: right center;
-		background-size: 32px 2px;
-		outline: none;
-	}
+  /* Burger Menu */
+  .page__btn-toggle-nav {
+    align-self: start;
+    position: relative;
+    width: 42px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+    margin-top: 0.7rem;
+    text-indent: -9999px;
+    flex-grow: 0;
+    order: 2;
+    transition:
+      width 0.4s,
+      top 0.4s,
+      opacity 0.2s,
+      transform 0.4s,
+      background-position 0.4s ease;
 
-	.page__btn-toggle-nav:hover {
-		background-position: left center;
-		box-shadow: none;
-	}
+    background-image: url("https://baldursgate3.game/icons/burger-2.svg");
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 32px 2px;
+    outline: none;
+  }
 
-	.page__btn-toggle-nav::before,
-	.page__btn-toggle-nav::after {
-		content: "";
-		position: absolute;
-		left: 0;
-		height: 2px;
-		width: 100%;
-		background-repeat: no-repeat;
-		background-size: 100% 2px;
-		background-position: left center;
-	}
+  .page__btn-toggle-nav:hover {
+    background-position: left center;
+    box-shadow: none;
+  }
 
-	.page__btn-toggle-nav::before {
-		top: 0;
-		background-image: url("https://baldursgate3.game/icons/burger-1.svg");
-	}
+  .page__btn-toggle-nav::before,
+  .page__btn-toggle-nav::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 2px;
+    background-position: left center;
+  }
 
-	.page__btn-toggle-nav::after {
-		top: 18px;
-		background-image: url("https://baldursgate3.game/icons/burger-3.svg");
-	}
+  .page__btn-toggle-nav::before {
+    top: 0;
+    background-image: url("https://baldursgate3.game/icons/burger-1.svg");
+  }
+
+  .page__btn-toggle-nav::after {
+    top: 18px;
+    background-image: url("https://baldursgate3.game/icons/burger-3.svg");
+  }
 }
 
 /* Navigation Bar */
 nav {
-	display: flex;
-	padding: 2.5rem 0;
-	margin: 0;
-	width: 100%;
-	justify-content: center;
-	.nav {
-		display: flex;
-		column-gap: 2rem;
-		align-items: center;
-		/* Navigation Links */
-		.page__btn-nav-root {
-			padding: 0;
-			margin: 0;
-			flex-shrink: 0;
-			border: none;
-			a {
-				padding: 0 !important;
-				font-family: "Quando", serif;
-				font-weight: 600;
-				font-size: 1.2rem;
-				text-transform: uppercase;
-				border: none;
-				background: linear-gradient(135deg, #fff, #fbcea0 66%, #fbcfa0);
-				-webkit-background-clip: text;
-				background-clip: text;
-				-webkit-text-fill-color: transparent;
-			}
-		}
+  display: flex;
+  padding: 2.5rem 0;
+  margin: 0;
+  width: 100%;
+  justify-content: center;
+  .nav {
+    display: flex;
+    column-gap: 2rem;
+    align-items: center;
+    /* Navigation Links */
+    .page__btn-nav-root {
+      padding: 0;
+      margin: 0;
+      flex-shrink: 0;
+      border: none;
+      a {
+        padding: 0 !important;
+        font-family: "Quadraat Pro", serif;
+        font-weight: 600;
+        font-size: 1.4rem;
+        text-transform: uppercase;
+        border: none;
+       color: #fbcea0;
+       background-color: transparent;
+        /* background: linear-gradient(135deg, #fff, #fbcea0 66%, #fbcfa0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent; */
+      }
+    }
 
-		.omni__wrp-input {
-			background: radial-gradient(circle, #fff 0, #ddc9a7);
-			border: none;
-			border-radius: 6px;
-			padding: 1px;
-			flex-shrink: 1;
-			.omni__input,
-			.omni__btn-clear,
-			.input-group-btn {
-				.omni__submit {
-					border: none;
-					.glyphicon {
-						background: #171717 !important;
-					}
-					.glyphicon::before {
-						color: #fbcea0;
-					}
-				}
-			}
+    .omni__wrp-input {
+      background: radial-gradient(circle, #fff 0, #ddc9a7);
+      border: none;
+      border-radius: 6px;
+      padding: 1px;
+      flex-shrink: 1;
+      .omni__input,
+      .omni__btn-clear,
+      .input-group-btn {
+        .omni__submit {
+          border: none;
+          .glyphicon {
+            background: #171717 !important;
+          }
+          .glyphicon::before {
+            color: #fbcea0;
+          }
+        }
+      }
 
-			.omni__input {
-				border-radius: 5px 0 0 5px;
-				color: #fff;
-			}
-			.omni__input,
-			.omni__input::placeholder {
-				font-size: 1.2rem;
-				font-family: "Quando", serif;
-			}
+      .omni__input {
+        border-radius: 5px 0 0 5px;
+        color: #fff;
+      }
+      .omni__input,
+      .omni__input::placeholder {
+        font-family: "Quadraat Pro", serif;
+      }
 
-			.omni__input::placeholder {
-				color: #fbcea0;
-			}
+      .omni__input::placeholder {
+        color: #fbcea0;
+      }
 
-			.omni__input:focus {
-				border: none;
-				box-shadow: none;
-			}
+      .omni__input:focus {
+        border: none;
+        box-shadow: none;
+      }
 
-			.omni__btn-clear {
-				color: #fbcea0;
-				opacity: 1;
-			}
+      .omni__btn-clear {
+        color: #fbcea0;
+        opacity: 1;
+      }
 
-			.input-group-btn > button {
-				border-radius: 0 5px 5px 0;
-			}
-		}
-	}
+      .input-group-btn > button {
+        border-radius: 0 5px 5px 0;
+      }
+    }
+  }
 
-	.omni__wrp-output {
-		width: 0 !important;
-	}
+  .omni__wrp-output {
+    width: 0 !important;
+  }
 }
 
 [data-vet-hash="concentration_phb"] {
-	color: #fbcea0;
-	font-family: "Quando";
-	text-decoration: none;
+  color: #fbcea0;
+  font-family: "Quando";
+  text-decoration: none;
 }
 [data-vet-hash="concentration_phb"]::before {
-	content: "";
-	display: inline-block;
-	width: 16px;
-	height: 16px;
-	background-image: url("https://bg3.wiki/w/images/0/07/Concentration_Icons.png");
-	background-size: cover;
-	background-repeat: no-repeat;
-	margin-right: 4px;
-	vertical-align: top;
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-image: url("https://bg3.wiki/w/images/0/07/Concentration_Icons.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-right: 4px;
+  vertical-align: top;
 }
 
 .fire-damage {
-	color: #ee5500;
+  color: #ee5500;
 }
 .acid-damage {
-	color: #80b000;
+  color: #80b000;
 }
 .cold-damage {
-	color: #3399cc;
+  color: #3399cc;
 }
 .lightning-damage {
-	color: #3366cc;
+  color: #3366cc;
 }
 .radiant-damage {
-	color: #ccaa00;
+  color: #ccaa00;
 }
 .force-damage {
-	color: #cc3333;
+  color: #cc3333;
 }
 .poison-damage {
-	color: #44bb00;
+  color: #44bb00;
 }
 .thunder-damage {
-	color: #8844bb;
+  color: #8844bb;
 }
 .necrotic-damage {
-	color: #40b050;
+  color: #40b050;
 }
 .psychic-damage {
-	color: #cc77aa;
+  color: #cc77aa;
 }
 .healing {
-	color: #30bbbb;
+  color: #30bbbb;
 }
 .bludgeoning-damage,
 .slashing-damage,
 .piercing-damage {
-	color: #8c8c8c;
+  color: #8c8c8c;
 }
 
 .roller,
 .render-roller {
-	font-family: "Quando";
-	font-size: 1.2rem;
-	font-weight: 600;
+  font-family: "Quando";
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .damage-icon {
-	background-size: contain;
-	width: 25px;
-	height: 25px;
-	margin-top: -2px;
+  background-size: contain;
+  width: 25px;
+  height: 25px;
+  margin-top: -2px;
+}
+
+.home__stripe {
+  justify-content: center;
+  padding: 2rem 2rem;
+  row-gap: 3rem;
+  .home__split.section {
+    row-gap: 3rem;
+    justify-content: center;
+  }
+  .home__split {
+    flex-direction: column;
+ align-items: center;
+    .home__split_section {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: fit-content;
+    }
+    .home__stripe-header {
+      margin-bottom: 0px !important;
+      position: unset;
+      width: fit-content;
+      font-family: "Quadraat Pro", serif;
+      font-size: 4rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      background: linear-gradient(135deg, #fff, #fbcea0 66%, #fbcfa0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .home__wrp-buttons {
+      column-gap: 6px;
+      margin: 0;
+      width: 100%;
+      justify-content: start;
+      .home__btn-page {
+        border: 1px solid transparent;
+        background:
+          linear-gradient(#151515, #151515) padding-box,
+          radial-gradient(circle, #fff 0, #ddc9a7) border-box;
+        border-radius: 8px;
+        justify-content: center;
+        width: auto;
+        display: flex;
+        min-width: 120px;
+        max-width: 120px;
+        text-wrap: wrap;
+        .home__icn-page {
+          color: #ddc9a7;
+          font-size: 32px;
+          width: auto;
+          height: auto;
+          margin: 0 !important;
+        }
+        .home__lbl-page {
+          color: #ddc9a7;
+          font-family: "Quando", serif;
+          font-size: 1.5rem;
+        }
+      }
+    }
+  }
+}
+
+.home__btn-page:hover {
+  .home__icn-page {
+    font-weight: 600 !important;
+  }
+}
+
+@layer vetools {
+  .omni__wrp-input--scrolled {
+    width: 65px;
+    margin-top: 8px;
+  }
+  .home__btn-page {
+    margin-right: 0 !important;
+  }
+  @media screen and (width <= 507px) {
+    .home__narrow-visible {
+      display: flex !important;
+    }
+  }
+  @media screen and (width <= 991px) {
+    .home__btn-page {
+      height: auto;
+      margin: 0 !important;
+    }
+  }
 }
