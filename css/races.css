@@ -18,6 +18,7 @@
         }
       }
       #filter-search-group {
+        padding: 0 0.2rem 0.2rem 0.2rem !important;
         .w-100.relative {
           .search,
           .lst__wrp-search-visible {
@@ -67,7 +68,7 @@
     #filter-search-group {
       border-bottom: 1px solid #fbcea0;
       align-items: center;
-      padding-bottom: 0.5rem;
+      padding: 0 0.5rem 0.5rem 0.5rem;
       .ve-btn {
         margin: 0;
         padding: 0.5rem 0.5rem 0 0.5rem;
