@@ -189,8 +189,7 @@ nav::before {
 
     .nav {
       width: 100%;
-      min-height: 100vh !important;
-      margin-top:-11rem !important;
+      padding:16.5rem 0 !important;
       .omni__wrp-input {
         position: absolute;
         top: 1rem;
