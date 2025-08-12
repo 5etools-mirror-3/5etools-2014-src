@@ -19,6 +19,7 @@
 
 .alert-warning,
 .cancer__wrp-leaderboard,
+.tools-title,
 nav::before {
   display: none;
 }
