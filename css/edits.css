@@ -18,7 +18,6 @@
 /* Hidden Elements */
 
 .alert-warning,
-header,
 .cancer__wrp-leaderboard,
 nav::before {
   display: none;
@@ -77,9 +76,14 @@ nav::before {
   .overlay-noise {
     background-image: url(https://baldursgate3.game/png/smoke-mobile.png) !important;
   }
+  
+  header{
+    .tools-title{
+      display:none;
+    }
   /* Navigation Bar */
   nav {
-    padding: 1rem !important;
+    padding: 1rem 0.1rem !important;
     column-gap: 0.5rem;
     width: 100%;
     .omni__wrp-input {
@@ -89,37 +93,108 @@ nav::before {
     .nav {
       width: calc(100% - 6rem);
       margin-top: 0 !important;
-      
+      justify-content: center !important;
+      >li{
+        width: 100% !important;
+      }
+      .site-map{
+        justify-content: center !important;
+      }
       .page__btn-nav-root {
-        .icon {
-          display: block;
-        }
-        a {
+      flex-direction: column;
+      
+        > .nav__link {
+          align-self:center !important;
           font-weight: 600 !important;
           font-size: 3rem !important;
+        }
+        .ve-dropdown-toggle {
+          font-weight: 600 !important;
+          font-size: 3rem !important;
+          align-self: center !important;
+          margin-left: 36px !important;
+          .icon {
+            width: auto !important;
+            height: 36px !important;
+            margin: 0 0 0 0.5rem !important;
+            scale: 1 !important;
+          }
+        }
+        .ve-dropdown-menu {
+          width: 100% !important;
+          background-color: transparent !important;
+          box-shadow: none;
+          border:none;
+          position: initial !important;
+          font-size: 1.6rem !important;
+           .ve-dropdown-divider{
+                background-color: #fbcea0;
+              }
+          >li{
+            a.nav__link {
+              text-align: center;
+            }
+          }
+          > .dropdown {
+            flex-direction: column !important;
+            > .ve-dropdown-toggle {
+              margin-left: 2rem !important;
+              text-transform: none;
+              align-self:center !important;
+              font-size: 1.6rem !important;
+              .icon {
+                width: 20px !important;
+                height: 30px !important;
+                margin:0 0 4px 0 !important;
+                margin-top:-0.55rem !important;
+                scale: 0.6 !important;
+              }
+            }
+            > .ve-dropdown-menu{
+              position: initial !important;
+              height:fit-content !important;
+              max-height: unset !important;
+              >li{
+                 >a{
+                  text-wrap:wrap;
+                 }
+              }
+              .ve-dropdown-divider{
+                background-color: #fbcea0;
+              }
+              .nav2-list__label{
+                font-family: "Quadraat Pro", serif !important;
+                font-weight: 600 !important;
+                text-align:center !important;
+              }
+            }
+          }
         }
       }
     }
   }
+}
 
   nav:has(> button.active) {
     flex-direction: column;
     row-gap: 8rem;
     margin-bottom: -4rem;
     position: relative;
-
     .page__btn-toggle-nav {
       order: 0;
       place-self: end;
+      margin-right:0.5rem;
     }
 
     .nav {
       width: 100%;
+      min-height: 100vh !important;
+      margin-top:-11rem !important;
       .omni__wrp-input {
         position: absolute;
         top: 1rem;
-        left: 1rem;
-        width: calc(100% - 1.5rem - 42px - 1.5rem);
+        left: 0.5rem;
+        width: calc(100% - 6.25rem );
       }
     }
   }
@@ -206,8 +281,46 @@ nav {
       margin: 0;
       flex-shrink: 0;
       border: none;
-      a.ve-dropdown-toggle,
-      a.nav__link {
+      
+      .ve-dropdown-menu {
+        background-color: #151515;
+        /* border-top: 1px solid #fbcea0;
+        border-bottom:1px solid #fbcea0; */
+        > li {
+          > a.nav__link {
+            color: #ffffffb3;
+            font-family: "Quadraat Pro", serif;
+            font-size: 1.6rem;
+          }
+        }
+        > .dropdown {
+          > .ve-dropdown-toggle {
+           
+            margin-left: 2.2rem;
+            background: transparent;
+            -webkit-background-clip: unset;
+            background-clip: unset;
+            -webkit-text-fill-color: #fbcea0;
+          }
+          > .ve-dropdown-menu {
+            border:none !important;
+            margin-top: 4px;
+            width: fit-content;
+            height: fit-content;
+          }
+        }
+      }
+
+      .ve-dropdown-toggle,
+      > a.nav__link {
+         align-items: center;
+        .icon {
+          width: 20px;
+          height: 30px;
+          margin-top: -0.1rem;
+          margin-bottom: 4px;
+          scale: 0.6;
+        }
         display: flex;
         padding: 0 !important;
         font-family: "Quadraat Pro", serif;
@@ -220,8 +333,6 @@ nav {
         -webkit-background-clip: text;
         background-clip: text;
         -webkit-text-fill-color: transparent;
-      }
-
       }
     }
 
@@ -443,7 +554,6 @@ nav {
   }
 }
 
-.icon,
 .site-map {
   display: none;
 }

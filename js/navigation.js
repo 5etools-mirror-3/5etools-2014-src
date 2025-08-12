@@ -1,562 +1,604 @@
 "use strict";
 
 class NavBar {
-	static init () {
-		this._initInstallPrompt();
-		// render the visible elements ASAP
-		window.addEventListener("DOMContentLoaded", NavBar._onDomContentLoaded);
-		window.addEventListener("load", NavBar._onLoad);
-	}
-
-	static _onDomContentLoaded () {
-		NavBar._initElements();
-		NavBar.highlightCurrentPage();
-	}
-
-	static _onLoad () {
-		NavBar._dropdowns = [...NavBar._navbar.querySelectorAll(`li.dropdown--navbar`)];
-		document.addEventListener("click", () => NavBar._closeAllDropdowns());
-
-		NavBar._clearAllTimers();
-
-		NavBar._initAdventureBookElements().then(null);
-	}
-
-	static _initInstallPrompt () {
-		NavBar._cachedInstallEvent = null;
-		window.addEventListener("beforeinstallprompt", e => NavBar._cachedInstallEvent = e);
-	}
-
-	static _initElements () {
-		NavBar._navbar = document.getElementById("navbar");
-		NavBar._tree = new NavBar.Node({
-			body: NavBar._navbar,
-		});
-
-		// create mobile "Menu" button
-		const btnShowHide = document.createElement("button");
-		btnShowHide.className = "ve-btn ve-btn-default page__btn-toggle-nav";
-		btnShowHide.innerHTML = "Menu";
-		btnShowHide.onclick = () => {
-			btnShowHide.classList.toggle("active");
-			em(`.page__nav-hidden-mobile`).forEach(ele => ele.toggleClass("block", btnShowHide.classList.contains("active")));
-		};
-		document.getElementById("navigation").prepend(btnShowHide);
-
-		this._addElement_li(null, "index.html", "Home", {isRoot: true});
-
-		this._addElement_dropdown(null, NavBar._CAT_RULES);
-		this._addElement_li(NavBar._CAT_RULES, "quickreference.html", "Quick Reference");
-		this._addElement_li(NavBar._CAT_RULES, "variantrules.html", "Optional, Variant, and Expanded Rules");
-		this._addElement_li(NavBar._CAT_RULES, "tables.html", "Tables");
-		this._addElement_divider(NavBar._CAT_RULES);
-		this._addElement_dropdown(NavBar._CAT_RULES, NavBar._CAT_BOOKS, {isSide: true, page: "books.html"});
-		this._addElement_li(NavBar._CAT_BOOKS, "books.html", "View All/Homebrew");
-
-		this._addElement_dropdown(null, NavBar._CAT_PLAYER);
-		this._addElement_li(NavBar._CAT_PLAYER, "classes.html", "Classes");
-		this._addElement_li(NavBar._CAT_PLAYER, "backgrounds.html", "Backgrounds");
-		this._addElement_li(NavBar._CAT_PLAYER, "feats.html", "Feats");
-		this._addElement_li(NavBar._CAT_PLAYER, "races.html", "Races");
-		this._addElement_li(NavBar._CAT_PLAYER, "charcreationoptions.html", "Other Character Creation Options");
-		this._addElement_li(NavBar._CAT_PLAYER, "optionalfeatures.html", "Other Options & Features");
-		this._addElement_divider(NavBar._CAT_PLAYER);
-		this._addElement_li(NavBar._CAT_PLAYER, "statgen.html", "Stat Generator");
-		this._addElement_divider(NavBar._CAT_PLAYER);
-		this._addElement_li(NavBar._CAT_PLAYER, "lifegen.html", "This Is Your Life");
-		this._addElement_li(NavBar._CAT_PLAYER, "names.html", "Names");
-
-		this._addElement_dropdown(null, NavBar._CAT_DUNGEON_MASTER);
-		this._addElement_li(NavBar._CAT_DUNGEON_MASTER, "dmscreen.html", "DM Screen");
-		this._addElement_divider(NavBar._CAT_DUNGEON_MASTER);
-		this._addElement_dropdown(NavBar._CAT_DUNGEON_MASTER, NavBar._CAT_ADVENTURES, {isSide: true, page: "adventures.html"});
-		this._addElement_li(NavBar._CAT_ADVENTURES, "adventures.html", "View All/Homebrew");
-		this._addElement_li(NavBar._CAT_DUNGEON_MASTER, "cultsboons.html", "Cults & Supernatural Boons");
-		this._addElement_li(NavBar._CAT_DUNGEON_MASTER, "objects.html", "Objects");
-		this._addElement_li(NavBar._CAT_DUNGEON_MASTER, "trapshazards.html", "Traps & Hazards");
-		this._addElement_divider(NavBar._CAT_DUNGEON_MASTER);
-		this._addElement_li(NavBar._CAT_DUNGEON_MASTER, "crcalculator.html", "CR Calculator");
-		this._addElement_li(NavBar._CAT_DUNGEON_MASTER, "encountergen.html", "Encounter Generator");
-		this._addElement_li(NavBar._CAT_DUNGEON_MASTER, "lootgen.html", "Loot Generator");
-		this._addElement_divider(NavBar._CAT_DUNGEON_MASTER);
-		this._addElement_li(NavBar._CAT_DUNGEON_MASTER, "maps.html", "Maps");
-
-		this._addElement_dropdown(null, NavBar._CAT_REFERENCES);
-		this._addElement_li(NavBar._CAT_REFERENCES, "actions.html", "Actions");
-		this._addElement_li(NavBar._CAT_REFERENCES, "bestiary.html", "Bestiary");
-		this._addElement_li(NavBar._CAT_REFERENCES, "conditionsdiseases.html", "Conditions & Diseases");
-		this._addElement_li(NavBar._CAT_REFERENCES, "decks.html", "Decks");
-		this._addElement_li(NavBar._CAT_REFERENCES, "deities.html", "Deities");
-		this._addElement_li(NavBar._CAT_REFERENCES, "items.html", "Items");
-		this._addElement_li(NavBar._CAT_REFERENCES, "languages.html", "Languages");
-		this._addElement_li(NavBar._CAT_REFERENCES, "rewards.html", "Supernatural Gifts & Rewards");
-		this._addElement_li(NavBar._CAT_REFERENCES, "psionics.html", "Psionics");
-		this._addElement_li(NavBar._CAT_REFERENCES, "spells.html", "Spells");
-		this._addElement_li(NavBar._CAT_REFERENCES, "vehicles.html", "Vehicles");
-		this._addElement_divider(NavBar._CAT_REFERENCES);
-		this._addElement_li(NavBar._CAT_REFERENCES, "recipes.html", "Recipes");
-
-		this._addElement_dropdown(null, NavBar._CAT_UTILITIES);
-		this._addElement_li(NavBar._CAT_UTILITIES, "search.html", "Search");
-		this._addElement_divider(NavBar._CAT_UTILITIES);
-		this._addElement_li(NavBar._CAT_UTILITIES, "blocklist.html", "Content Blocklist");
-		this._addElement_li(NavBar._CAT_UTILITIES, "manageprerelease.html", "Prerelease Content Manager");
-		this._addElement_li(NavBar._CAT_UTILITIES, "makebrew.html", "Homebrew Builder");
-		this._addElement_li(NavBar._CAT_UTILITIES, "managebrew.html", "Homebrew Manager");
-		this._addElement_buttonSplit(
-			NavBar._CAT_UTILITIES,
-			{
-				metas: [
-					{
-						html: "Load All Partnered Content",
-						click: async evt => {
-							evt.stopPropagation();
-							evt.preventDefault();
-							const {ManageBrewUi} = await import("./utils-brew/utils-brew-ui-manage.js");
-							await ManageBrewUi.pOnClickBtnLoadAllPartnered();
-						},
-					},
-					{
-						html: `<span class="glyphicon glyphicon-link"></span>`,
-						title: `Export Prerelease Content/Homebrew List as URL`,
-						click: async evt => {
-							evt.stopPropagation();
-							evt.preventDefault();
-							const ele = evt.currentTarget;
-							const {ManageBrewUi} = await import("./utils-brew/utils-brew-ui-manage.js");
-							await ManageBrewUi.pOnClickBtnExportListAsUrl({ele});
-						},
-					},
-				],
-			},
-		);
-		this._addElement_divider(NavBar._CAT_UTILITIES);
-		this._addElement_li(NavBar._CAT_UTILITIES, "inittrackerplayerview.html", "Initiative Tracker Player View");
-		this._addElement_divider(NavBar._CAT_UTILITIES);
-		this._addElement_li(NavBar._CAT_UTILITIES, "renderdemo.html", "Renderer Demo");
-		this._addElement_li(NavBar._CAT_UTILITIES, "makecards.html", "RPG Cards JSON Builder");
-		this._addElement_li(NavBar._CAT_UTILITIES, "converter.html", "Text Converter");
-		this._addElement_divider(NavBar._CAT_UTILITIES);
-		this._addElement_li(NavBar._CAT_UTILITIES, "plutonium.html", "Plutonium (Foundry Module) Features");
-		this._addElement_divider(NavBar._CAT_UTILITIES);
-		this._addElement_li(NavBar._CAT_UTILITIES, "https://wiki.tercept.net/en/betteR20", "Roll20 Script Help", {isExternal: true, isExternalMark: true});
-		this._addElement_divider(NavBar._CAT_UTILITIES);
-		this._addElement_li(NavBar._CAT_UTILITIES, "changelog.html", "Changelog");
-		this._addElement_li(NavBar._CAT_UTILITIES, NavBar._getCurrentWikiHelpPage(), "Page Help", {isExternal: true, isExternalMark: true});
-		this._addElement_divider(NavBar._CAT_UTILITIES);
-		this._addElement_li(NavBar._CAT_UTILITIES, "privacy-policy.html", "Privacy Policy");
-
-		this._addElement_dropdown(null, NavBar._CAT_SETTINGS);
-		this._addElement_button(
-			NavBar._CAT_SETTINGS,
-			{
-				html: "Preferences",
-				click: () => {
-					ConfigUi.show();
-					NavBar._closeAllDropdowns();
-				},
-			},
-		);
-		this._addElement_divider(NavBar._CAT_SETTINGS);
-		this._addElement_button(
-			NavBar._CAT_SETTINGS,
-			{
-				html: "Save State to File",
-				click: async (evt) => NavBar.InteractionManager._pOnClick_button_saveStateFile(evt),
-				title: "Save any locally-stored data (loaded homebrew, active blocklists, DM Screen configuration,...) to a file.",
-			},
-		);
-		this._addElement_button(
-			NavBar._CAT_SETTINGS,
-			{
-				html: "Load State from File",
-				click: async (evt) => NavBar.InteractionManager._pOnClick_button_loadStateFile(evt),
-				title: "Load previously-saved data (loaded homebrew, active blocklists, DM Screen configuration,...) from a file.",
-			},
-		);
-		this._addElement_divider(NavBar._CAT_SETTINGS);
-		this._addElement_button(
-			NavBar._CAT_SETTINGS,
-			{
-				html: "Add as App",
-				click: async (evt) => NavBar.InteractionManager._pOnClick_button_addApp(evt),
-				title: "Add the site to your home screen. When used in conjunction with the Preload Offline Data option, this can create a functional offline copy of the site.",
-			},
-		);
-		this._addElement_dropdown(NavBar._CAT_SETTINGS, NavBar._CAT_CACHE, {isSide: true});
-		this._addElement_label(NavBar._CAT_CACHE, `<p>Preload data for offline use.</p><p>Note that visiting a page will automatically preload data for that page.</p><p>Note that data which is already preloaded will not be overwritten, unless it is out of date.</p>`);
-		this._addElement_button(
-			NavBar._CAT_CACHE,
-			{
-				html: "Preload Adventure Text <small>(50MB+)</small>",
-				click: (evt) => NavBar.InteractionManager._pOnClick_button_preloadOffline(evt, {route: /data\/adventure/}),
-				title: "Preload adventure text for offline use.",
-			},
-		);
-		this._addElement_button(
-			NavBar._CAT_CACHE,
-			{
-				html: "Preload Book Images <small>(1GB+)</small>",
-				click: (evt) => NavBar.InteractionManager._pOnClick_button_preloadOffline(evt, {route: /img\/book/, isRequireImages: true}),
-				title: "Preload book images offline use. Note that book text is preloaded automatically.",
-			},
-		);
-		this._addElement_button(
-			NavBar._CAT_CACHE,
-			{
-				html: "Preload Adventure Text and Images <small>(2GB+)</small>",
-				click: (evt) => NavBar.InteractionManager._pOnClick_button_preloadOffline(evt, {route: /(?:data|img)\/adventure/, isRequireImages: true}),
-				title: "Preload adventure text and images for offline use.",
-			},
-		);
-		this._addElement_button(
-			NavBar._CAT_CACHE,
-			{
-				html: "Preload All Images <small>(4GB+)</small>",
-				click: (evt) => NavBar.InteractionManager._pOnClick_button_preloadOffline(evt, {route: /img/, isRequireImages: true}),
-				title: "Preload all images for offline use.",
-			},
-		);
-		this._addElement_button(
-			NavBar._CAT_CACHE,
-			{
-				html: "Preload All <small>(5GB+)</small>",
-				click: (evt) => NavBar.InteractionManager._pOnClick_button_preloadOffline(evt, {route: /./, isRequireImages: true}),
-				title: "Preload everything for offline use.",
-			},
-		);
-		this._addElement_divider(NavBar._CAT_CACHE);
-		this._addElement_button(
-			NavBar._CAT_CACHE,
-			{
-				html: "Reset Preloaded Data",
-				click: (evt) => NavBar.InteractionManager._pOnClick_button_clearOffline(evt),
-				title: "Remove all preloaded data, and clear away any caches.",
-			},
-		);
-
-		this._addElement_li(null, "https://wiki.tercept.net/en/5eTools", "Help", {isRoot: true, isExternal: true});
-	}
-
-	static _getNode (category) {
-		if (category == null) return NavBar._tree;
-
-		const _getNodeInner = (level) => {
-			for (const [k, v] of Object.entries(level)) {
-				if (k === category) return v;
-
-				const subNode = _getNodeInner(v.children);
-				if (subNode) return subNode;
-			}
-		};
-
-		return _getNodeInner(NavBar._tree.children);
-	}
-
-	/**
-	 * Adventure/book elements are added as a second, asynchronous, step, as they require loading of:
-	 * - An index JSON file.
-	 * - The user's Blocklist.
-	 */
-	static async _initAdventureBookElements () {
-		await Promise.all([
-			PrereleaseUtil.pInit(),
-			BrewUtil2.pInit(),
-		]);
-		const [adventureBookIndex] = await Promise.all([
-			DataUtil.loadJSON(`${Renderer.get().baseUrl}data/generated/gendata-nav-adventure-book-index.json`),
-			ExcludeUtil.pInitialise(),
-		]);
-		const [prerelease, brew] = await Promise.all([
-			PrereleaseUtil.pGetBrewProcessed(),
-			BrewUtil2.pGetBrewProcessed(),
-		]);
-
-		[
-			{
-				prop: "book",
-				parentCategory: NavBar._CAT_BOOKS,
-				page: "book.html",
-				fnSort: SortUtil.ascSortBook.bind(SortUtil),
-			},
-			{
-				prop: "adventure",
-				page: "adventure.html",
-				parentCategory: NavBar._CAT_ADVENTURES,
-				fnSort: SortUtil.ascSortAdventure.bind(SortUtil),
-			},
-		].forEach(({prop, parentCategory, page, fnSort}) => {
-			const fromPrerelease = MiscUtil.copyFast(prerelease?.[prop] || []);
-			const fromBrew = MiscUtil.copyFast(brew?.[prop] || []);
-
-			const mutParentName = (it) => {
-				if (it.parentSource) it.parentName = Parser.sourceJsonToFull(it.parentSource);
-			};
-
-			fromPrerelease.forEach(mutParentName);
-			fromBrew.forEach(mutParentName);
-
-			const metas = [...adventureBookIndex[prop], ...fromPrerelease, ...fromBrew]
-				.filter(it => !ExcludeUtil.isExcluded(UrlUtil.encodeForHash(it.id), prop, it.source, {isNoCount: true}));
-
-			if (!metas.length) return;
-
-			SourceUtil.ADV_BOOK_GROUPS
-				.forEach(({group, displayName}) => {
-					const inGroup = metas.filter(it => (it.group || "other") === group);
-					if (!inGroup.length) return;
-
-					this._addElement_divider(parentCategory);
-					this._addElement_label(parentCategory, displayName, {isAddDateSpacer: true});
-
-					const seenYears = new Set();
-
-					inGroup
-						.sort(fnSort)
-						.forEach(indexMeta => {
-							const year = indexMeta.published ? (new Date(indexMeta.published).getFullYear()) : null;
-							const isNewYear = year != null && !seenYears.has(year);
-							if (year != null) seenYears.add(year);
-
-							if (indexMeta.parentSource) {
-								if (!this._getNode(indexMeta.parentName)) {
-									this._addElement_accordion(
-										parentCategory,
-										indexMeta.parentName,
-										{
-											date: isNewYear ? year : null,
-											source: indexMeta.parentSource,
-											isAddDateSpacer: !isNewYear,
-										},
-									);
-								}
-
-								let cleanName = indexMeta.name.startsWith(indexMeta.parentName)
-									? indexMeta.name.slice(indexMeta.parentName.length).replace(/^:\s+/, "")
-									: indexMeta.name;
-								this._addElement_li(
-									indexMeta.parentName,
-									page,
-									cleanName,
-									{
-										aHash: indexMeta.id,
-										isAddDateSpacer: true,
-										isSide: true,
-										isInAccordion: true,
-									},
-								);
-
-								return;
-							}
-
-							this._addElement_li(
-								parentCategory,
-								page,
-								indexMeta.name,
-								{
-									aHash: indexMeta.id,
-									date: isNewYear ? year : null,
-									isAddDateSpacer: !isNewYear,
-									source: indexMeta.source,
-									isSide: true,
-								},
-							);
-						});
-				});
-		});
-
-		NavBar.highlightCurrentPage();
-	}
-
-	/**
-	 * Adds a new item to the navigation bar. Can be used either in root, or in a different UL.
-	 * @param parentCategory - Element to append this link to.
-	 * @param page - Where does this link to.
-	 * @param aText - What text does this link have.
-	 * @param [opts] - Options object.
-	 * @param [opts.isSide] - True if this item is part of a side menu.
-	 * @param [opts.aHash] - Optional hash to be appended to the base href
-	 * @param [opts.isRoot] - If the item is a root navbar element.
-	 * @param [opts.isExternal] - If the item is an external link.
-	 * @param [opts.isExternalMark] - If an "external link" icon should be shown.
-	 * @param [opts.date] - A date to prefix the list item with.
-	 * @param [opts.title] - Title for this nav item.
-	 * @param [opts.isAddDateSpacer] - True if this item has no date, but is in a list of items with dates.
-	 * @param [opts.source] - A source associated with this item, which should be displayed as a colored marker.
-	 * @param [opts.isInAccordion] - True if this item is inside an accordion.
-	 *        FIXME(Future) this is a bodge; refactor the navbar CSS to avoid using Bootstrap.
-	 */
-	static _addElement_li (parentCategory, page, aText, opts) {
-		opts = opts || {};
-
-		const parentNode = this._getNode(parentCategory);
-
-		const hashPart = opts.aHash ? `#${opts.aHash}`.toLowerCase() : "";
-		const href = `${page}${hashPart}`;
-
-		const li = document.createElement("li");
-		li.setAttribute("role", "presentation");
-		li.setAttribute("data-page", href);
-		if (opts.isRoot) {
-			li.classList.add("page__nav-hidden-mobile");
-			li.classList.add("page__btn-nav-root");
-		}
-		if (opts.isSide) {
-			li.onmouseenter = function () { NavBar._handleSideItemMouseEnter(this); };
-		} else {
-			li.onmouseenter = function () { NavBar._handleItemMouseEnter(this); };
-			li.onclick = function () { NavBar._dropdowns.forEach(ele => NavBar._closeDropdownElement(ele)); };
-		}
-		if (opts.title) li.setAttribute("title", opts.title);
-
-		const a = document.createElement("a");
-		a.href = href;
-		a.innerHTML = `${this._addElement_getDatePrefix({date: opts.date, isAddDateSpacer: opts.isAddDateSpacer})}${this._addElement_getSourcePrefix({source: opts.source})}${aText}${this._addElement_getSourceSuffix({source: opts.source})}`;
-		a.classList.add("nav__link");
-		if (opts.isInAccordion) a.classList.add(`nav2-accord__lnk-item`, `inline-block`, `w-100`);
-
-		if (opts.isExternal) {
-			a.setAttribute("target", "_blank");
-			a.setAttribute("rel", "noopener noreferrer");
-		}
-		if (opts.isExternalMark) {
-			a.classList.add("inline-split-v-center");
-			a.classList.add("w-100");
-			a.innerHTML = `<span>${aText}</span><span class="glyphicon glyphicon-new-window"></span>`;
-		}
-
-		li.appendChild(a);
-		parentNode.body.appendChild(li);
-
-		parentNode.children[href] = new NavBar.NodeLink({
-			parent: parentNode,
-			head: li,
-			isInAccordion: opts.isInAccordion,
-			lnk: a,
-		});
-	}
-
-	static _addElement_accordion (
-		parentCategory,
-		category,
-		{
-			date = null,
-			isAddDateSpacer = false,
-			source = null,
-		} = {},
-	) {
-		const parentNode = this._getNode(parentCategory);
-
-		const li = document.createElement("li");
-		li.className = "nav2-accord__wrp";
-		li.onmouseenter = function () { NavBar._handleItemMouseEnter(this); };
-
-		// region Header button
-		const wrpHead = document.createElement("div");
-		wrpHead.className = "nav2-accord__head split-v-center clickable";
-		wrpHead.onclick = evt => {
-			evt.stopPropagation();
-			evt.preventDefault();
-			node.isExpanded = !node.isExpanded;
-		};
-
-		const dispText = document.createElement("div");
-		dispText.innerHTML = `${this._addElement_getDatePrefix({date, isAddDateSpacer})}${this._addElement_getSourcePrefix({source})}${category}`;
-
-		const dispToggle = document.createElement("div");
-		dispToggle.textContent = NavBar.NodeAccordion.getDispToggleDisplayHtml(false);
-
-		wrpHead.appendChild(dispText);
-		wrpHead.appendChild(dispToggle);
-		// endregion
-
-		// region Body list
-		const wrpBody = document.createElement("div");
-		wrpBody.className = `nav2-accord__body ve-hidden`;
-		wrpBody.onclick = function (event) { event.stopPropagation(); };
-		// endregion
-
-		li.appendChild(wrpHead);
-		li.appendChild(wrpBody);
-		parentNode.body.appendChild(li);
-
-		const node = new NavBar.NodeAccordion({
-			parent: parentNode,
-			head: wrpHead,
-			body: wrpBody,
-			dispToggle,
-		});
-		parentNode.children[category] = node;
-	}
-
-	static _addElement_getDatePrefix ({date, isAddDateSpacer}) { return `${(date != null || isAddDateSpacer) ? `<div class="ve-small mr-2 page__nav-date inline-block ve-text-right inline-block" aria-hidden="true">${date || ""}</div>` : ""}`; }
-	static _addElement_getSourcePrefix ({source}) { return `${source != null ? `<div class="nav2-list__disp-source ${Parser.sourceJsonToSourceClassname(source)}"></div>` : ""}`; }
-
-	static _addElement_getSourceSuffix ({source}) {
-		if (source == null) return "";
-		return Parser.sourceJsonToMarkerHtml(source, {isAddBrackets: true, additionalStyles: "ml-1 nav2-list__disp-legacy-marker"});
-	}
-
-	static _addElement_divider (parentCategory) {
-		const parentNode = this._getNode(parentCategory);
-
-		const li = document.createElement("li");
-		li.setAttribute("role", "presentation");
-		li.className = "ve-dropdown-divider";
-
-		parentNode.body.appendChild(li);
-	}
-
-	static _addElement_label (parentCategory, html, {date, isAddDateSpacer} = {}) {
-		const parentNode = this._getNode(parentCategory);
-
-		const li = document.createElement("li");
-		li.setAttribute("role", "presentation");
-		li.className = "italic ve-muted ve-small nav2-list__label";
-		li.innerHTML = `${this._addElement_getDatePrefix({date, isAddDateSpacer})}${html}`;
-
-		parentNode.body.appendChild(li);
-	}
-
-	/**
-	 * Adds a new dropdown starting list to the navigation bar
-	 * @param {String} parentCategory - Element to append this link to.
-	 * @param {String} category - Dropdown text.
-	 * @param {boolean} [isSide=false] - If this is a sideways dropdown.
-	 * @param {String} [page=null] - The page this dropdown is associated with.
-	 */
-	static _addElement_dropdown (parentCategory, category, {isSide = false, page = null} = {}) {
-		const parentNode = this._getNode(parentCategory);
-
-		const li = document.createElement("li");
-		li.setAttribute("role", "presentation");
-		li.className = `dropdown dropdown--navbar page__nav-hidden-mobile ${isSide ? "" : "page__btn-nav-root"}`;
-		if (isSide) {
-			li.onmouseenter = function () { NavBar._handleSideItemMouseEnter(this); };
-		} else {
-			li.onmouseenter = function () { NavBar._handleItemMouseEnter(this); };
-		}
-
-		const a = document.createElement("a");
-		a.className = "ve-dropdown-toggle";
-		a.href = "#";
-		a.setAttribute("role", "button");
-		a.setAttribute("aria-haspopup", "true");
-		a.onclick = function (event) { NavBar._handleDropdownClick(this, event, isSide); };
-		if (isSide) {
-			a.onmouseenter = function () { NavBar._handleSideDropdownMouseEnter(this); };
-			a.onmouseleave = function () { NavBar._handleSideDropdownMouseLeave(this); };
-			a
-				.addEventListener("keydown", evt => {
-					if (evt.key !== "Enter") return;
-
-					if (NavBar._isDropdownOpen(a)) NavBar._closeDropdown(a);
-					else NavBar._openDropdown(a);
-				});
-
-			a.setAttribute("aria-haspopup", "true");
-		}
-		  a.innerHTML = `${category}<div class="icon">
+  static init() {
+    this._initInstallPrompt();
+    // render the visible elements ASAP
+    window.addEventListener("DOMContentLoaded", NavBar._onDomContentLoaded);
+    window.addEventListener("load", NavBar._onLoad);
+  }
+
+  static _onDomContentLoaded() {
+    NavBar._initElements();
+    NavBar.highlightCurrentPage();
+  }
+
+  static _onLoad() {
+    NavBar._dropdowns = [...NavBar._navbar.querySelectorAll(`li.dropdown--navbar`)];
+    document.addEventListener("click", () => NavBar._closeAllDropdowns());
+
+    NavBar._clearAllTimers();
+
+    NavBar._initAdventureBookElements().then(null);
+  }
+
+  static _initInstallPrompt() {
+    NavBar._cachedInstallEvent = null;
+    window.addEventListener("beforeinstallprompt", e => (NavBar._cachedInstallEvent = e));
+  }
+
+  static _initElements() {
+    NavBar._navbar = document.getElementById("navbar");
+    NavBar._tree = new NavBar.Node({
+      body: NavBar._navbar,
+    });
+
+    // create mobile "Menu" button
+    const btnShowHide = document.createElement("button");
+    btnShowHide.className = "ve-btn ve-btn-default page__btn-toggle-nav";
+    btnShowHide.innerHTML = "Menu";
+    btnShowHide.onclick = () => {
+      btnShowHide.classList.toggle("active");
+      em(`.page__nav-hidden-mobile`).forEach(ele =>
+        ele.toggleClass("ve-flex", btnShowHide.classList.contains("active"))
+      );
+    };
+    document.getElementById("navigation").prepend(btnShowHide);
+
+    this._addElement_li(null, "index.html", "Home", { isRoot: true });
+
+    this._addElement_dropdown(null, NavBar._CAT_RULES);
+    this._addElement_li(NavBar._CAT_RULES, "quickreference.html", "Quick Reference");
+    this._addElement_li(
+      NavBar._CAT_RULES,
+      "variantrules.html",
+      "Optional, Variant, and Expanded Rules"
+    );
+    this._addElement_li(NavBar._CAT_RULES, "tables.html", "Tables");
+    this._addElement_dropdown(NavBar._CAT_RULES, NavBar._CAT_BOOKS, {
+      isSide: true,
+      page: "books.html",
+    });
+    this._addElement_li(NavBar._CAT_BOOKS, "books.html", "View All/Homebrew");
+
+    this._addElement_dropdown(null, NavBar._CAT_PLAYER);
+    this._addElement_li(NavBar._CAT_PLAYER, "classes.html", "Classes");
+    this._addElement_li(NavBar._CAT_PLAYER, "backgrounds.html", "Backgrounds");
+    this._addElement_li(NavBar._CAT_PLAYER, "feats.html", "Feats");
+    this._addElement_li(NavBar._CAT_PLAYER, "races.html", "Races");
+    this._addElement_li(
+      NavBar._CAT_PLAYER,
+      "charcreationoptions.html",
+      "Other Character Creation Options"
+    );
+    this._addElement_li(NavBar._CAT_PLAYER, "optionalfeatures.html", "Other Options & Features");
+    this._addElement_divider(NavBar._CAT_PLAYER);
+    this._addElement_li(NavBar._CAT_PLAYER, "statgen.html", "Stat Generator");
+    this._addElement_divider(NavBar._CAT_PLAYER);
+    this._addElement_li(NavBar._CAT_PLAYER, "lifegen.html", "This Is Your Life");
+    this._addElement_li(NavBar._CAT_PLAYER, "names.html", "Names");
+
+    this._addElement_dropdown(null, NavBar._CAT_DUNGEON_MASTER);
+    this._addElement_li(NavBar._CAT_DUNGEON_MASTER, "dmscreen.html", "DM Screen");
+    this._addElement_divider(NavBar._CAT_DUNGEON_MASTER);
+    this._addElement_dropdown(NavBar._CAT_DUNGEON_MASTER, NavBar._CAT_ADVENTURES, {
+      isSide: true,
+      page: "adventures.html",
+    });
+    this._addElement_li(NavBar._CAT_ADVENTURES, "adventures.html", "View All/Homebrew");
+    this._addElement_li(
+      NavBar._CAT_DUNGEON_MASTER,
+      "cultsboons.html",
+      "Cults & Supernatural Boons"
+    );
+    this._addElement_li(NavBar._CAT_DUNGEON_MASTER, "objects.html", "Objects");
+    this._addElement_li(NavBar._CAT_DUNGEON_MASTER, "trapshazards.html", "Traps & Hazards");
+    this._addElement_divider(NavBar._CAT_DUNGEON_MASTER);
+    this._addElement_li(NavBar._CAT_DUNGEON_MASTER, "crcalculator.html", "CR Calculator");
+    this._addElement_li(NavBar._CAT_DUNGEON_MASTER, "encountergen.html", "Encounter Generator");
+    this._addElement_li(NavBar._CAT_DUNGEON_MASTER, "lootgen.html", "Loot Generator");
+    this._addElement_divider(NavBar._CAT_DUNGEON_MASTER);
+    this._addElement_li(NavBar._CAT_DUNGEON_MASTER, "maps.html", "Maps");
+
+    this._addElement_dropdown(null, NavBar._CAT_REFERENCES);
+    this._addElement_li(NavBar._CAT_REFERENCES, "actions.html", "Actions");
+    this._addElement_li(NavBar._CAT_REFERENCES, "bestiary.html", "Bestiary");
+    this._addElement_li(NavBar._CAT_REFERENCES, "conditionsdiseases.html", "Conditions & Diseases");
+    this._addElement_li(NavBar._CAT_REFERENCES, "decks.html", "Decks");
+    this._addElement_li(NavBar._CAT_REFERENCES, "deities.html", "Deities");
+    this._addElement_li(NavBar._CAT_REFERENCES, "items.html", "Items");
+    this._addElement_li(NavBar._CAT_REFERENCES, "languages.html", "Languages");
+    this._addElement_li(NavBar._CAT_REFERENCES, "rewards.html", "Supernatural Gifts & Rewards");
+    this._addElement_li(NavBar._CAT_REFERENCES, "psionics.html", "Psionics");
+    this._addElement_li(NavBar._CAT_REFERENCES, "spells.html", "Spells");
+    this._addElement_li(NavBar._CAT_REFERENCES, "vehicles.html", "Vehicles");
+    this._addElement_divider(NavBar._CAT_REFERENCES);
+    this._addElement_li(NavBar._CAT_REFERENCES, "recipes.html", "Recipes");
+
+    this._addElement_dropdown(null, NavBar._CAT_UTILITIES);
+    this._addElement_li(NavBar._CAT_UTILITIES, "search.html", "Search");
+    this._addElement_divider(NavBar._CAT_UTILITIES);
+    this._addElement_li(NavBar._CAT_UTILITIES, "blocklist.html", "Content Blocklist");
+    this._addElement_li(
+      NavBar._CAT_UTILITIES,
+      "manageprerelease.html",
+      "Prerelease Content Manager"
+    );
+    this._addElement_li(NavBar._CAT_UTILITIES, "makebrew.html", "Homebrew Builder");
+    this._addElement_li(NavBar._CAT_UTILITIES, "managebrew.html", "Homebrew Manager");
+    this._addElement_buttonSplit(NavBar._CAT_UTILITIES, {
+      metas: [
+        {
+          html: "Load All Partnered Content",
+          click: async evt => {
+            evt.stopPropagation();
+            evt.preventDefault();
+            const { ManageBrewUi } = await import("./utils-brew/utils-brew-ui-manage.js");
+            await ManageBrewUi.pOnClickBtnLoadAllPartnered();
+          },
+        },
+        {
+          html: `<span class="glyphicon glyphicon-link"></span>`,
+          title: `Export Prerelease Content/Homebrew List as URL`,
+          click: async evt => {
+            evt.stopPropagation();
+            evt.preventDefault();
+            const ele = evt.currentTarget;
+            const { ManageBrewUi } = await import("./utils-brew/utils-brew-ui-manage.js");
+            await ManageBrewUi.pOnClickBtnExportListAsUrl({ ele });
+          },
+        },
+      ],
+    });
+    this._addElement_divider(NavBar._CAT_UTILITIES);
+    this._addElement_li(
+      NavBar._CAT_UTILITIES,
+      "inittrackerplayerview.html",
+      "Initiative Tracker Player View"
+    );
+    this._addElement_divider(NavBar._CAT_UTILITIES);
+    this._addElement_li(NavBar._CAT_UTILITIES, "renderdemo.html", "Renderer Demo");
+    this._addElement_li(NavBar._CAT_UTILITIES, "makecards.html", "RPG Cards JSON Builder");
+    this._addElement_li(NavBar._CAT_UTILITIES, "converter.html", "Text Converter");
+    this._addElement_divider(NavBar._CAT_UTILITIES);
+    this._addElement_li(
+      NavBar._CAT_UTILITIES,
+      "plutonium.html",
+      "Plutonium (Foundry Module) Features"
+    );
+    this._addElement_divider(NavBar._CAT_UTILITIES);
+    this._addElement_li(
+      NavBar._CAT_UTILITIES,
+      "https://wiki.tercept.net/en/betteR20",
+      "Roll20 Script Help",
+      { isExternal: true, isExternalMark: true }
+    );
+    this._addElement_divider(NavBar._CAT_UTILITIES);
+    this._addElement_li(NavBar._CAT_UTILITIES, "changelog.html", "Changelog");
+    this._addElement_li(NavBar._CAT_UTILITIES, NavBar._getCurrentWikiHelpPage(), "Page Help", {
+      isExternal: true,
+      isExternalMark: true,
+    });
+    this._addElement_divider(NavBar._CAT_UTILITIES);
+    this._addElement_li(NavBar._CAT_UTILITIES, "privacy-policy.html", "Privacy Policy");
+
+    this._addElement_dropdown(null, NavBar._CAT_SETTINGS);
+    this._addElement_button(NavBar._CAT_SETTINGS, {
+      html: "Preferences",
+      click: () => {
+        ConfigUi.show();
+        NavBar._closeAllDropdowns();
+      },
+    });
+    this._addElement_divider(NavBar._CAT_SETTINGS);
+    this._addElement_button(NavBar._CAT_SETTINGS, {
+      html: "Save State to File",
+      click: async evt => NavBar.InteractionManager._pOnClick_button_saveStateFile(evt),
+      title:
+        "Save any locally-stored data (loaded homebrew, active blocklists, DM Screen configuration,...) to a file.",
+    });
+    this._addElement_button(NavBar._CAT_SETTINGS, {
+      html: "Load State from File",
+      click: async evt => NavBar.InteractionManager._pOnClick_button_loadStateFile(evt),
+      title:
+        "Load previously-saved data (loaded homebrew, active blocklists, DM Screen configuration,...) from a file.",
+    });
+    this._addElement_divider(NavBar._CAT_SETTINGS);
+    this._addElement_button(NavBar._CAT_SETTINGS, {
+      html: "Add as App",
+      click: async evt => NavBar.InteractionManager._pOnClick_button_addApp(evt),
+      title:
+        "Add the site to your home screen. When used in conjunction with the Preload Offline Data option, this can create a functional offline copy of the site.",
+    });
+    this._addElement_dropdown(NavBar._CAT_SETTINGS, NavBar._CAT_CACHE, { isSide: true });
+    this._addElement_label(
+      NavBar._CAT_CACHE,
+      `<p>Preload data for offline use.</p><p>Note that visiting a page will automatically preload data for that page.</p><p>Note that data which is already preloaded will not be overwritten, unless it is out of date.</p>`
+    );
+    this._addElement_button(NavBar._CAT_CACHE, {
+      html: "Preload Adventure Text <small>(50MB+)</small>",
+      click: evt =>
+        NavBar.InteractionManager._pOnClick_button_preloadOffline(evt, {
+          route: /data\/adventure/,
+        }),
+      title: "Preload adventure text for offline use.",
+    });
+    this._addElement_button(NavBar._CAT_CACHE, {
+      html: "Preload Book Images <small>(1GB+)</small>",
+      click: evt =>
+        NavBar.InteractionManager._pOnClick_button_preloadOffline(evt, {
+          route: /img\/book/,
+          isRequireImages: true,
+        }),
+      title: "Preload book images offline use. Note that book text is preloaded automatically.",
+    });
+    this._addElement_button(NavBar._CAT_CACHE, {
+      html: "Preload Adventure Text and Images <small>(2GB+)</small>",
+      click: evt =>
+        NavBar.InteractionManager._pOnClick_button_preloadOffline(evt, {
+          route: /(?:data|img)\/adventure/,
+          isRequireImages: true,
+        }),
+      title: "Preload adventure text and images for offline use.",
+    });
+    this._addElement_button(NavBar._CAT_CACHE, {
+      html: "Preload All Images <small>(4GB+)</small>",
+      click: evt =>
+        NavBar.InteractionManager._pOnClick_button_preloadOffline(evt, {
+          route: /img/,
+          isRequireImages: true,
+        }),
+      title: "Preload all images for offline use.",
+    });
+    this._addElement_button(NavBar._CAT_CACHE, {
+      html: "Preload All <small>(5GB+)</small>",
+      click: evt =>
+        NavBar.InteractionManager._pOnClick_button_preloadOffline(evt, {
+          route: /./,
+          isRequireImages: true,
+        }),
+      title: "Preload everything for offline use.",
+    });
+    this._addElement_divider(NavBar._CAT_CACHE);
+    this._addElement_button(NavBar._CAT_CACHE, {
+      html: "Reset Preloaded Data",
+      click: evt => NavBar.InteractionManager._pOnClick_button_clearOffline(evt),
+      title: "Remove all preloaded data, and clear away any caches.",
+    });
+
+    this._addElement_li(null, "https://wiki.tercept.net/en/5eTools", "Help", {
+      isRoot: true,
+      isExternal: true,
+    });
+  }
+
+  static _getNode(category) {
+    if (category == null) return NavBar._tree;
+
+    const _getNodeInner = level => {
+      for (const [k, v] of Object.entries(level)) {
+        if (k === category) return v;
+
+        const subNode = _getNodeInner(v.children);
+        if (subNode) return subNode;
+      }
+    };
+
+    return _getNodeInner(NavBar._tree.children);
+  }
+
+  /**
+   * Adventure/book elements are added as a second, asynchronous, step, as they require loading of:
+   * - An index JSON file.
+   * - The user's Blocklist.
+   */
+  static async _initAdventureBookElements() {
+    await Promise.all([PrereleaseUtil.pInit(), BrewUtil2.pInit()]);
+    const [adventureBookIndex] = await Promise.all([
+      DataUtil.loadJSON(
+        `${Renderer.get().baseUrl}data/generated/gendata-nav-adventure-book-index.json`
+      ),
+      ExcludeUtil.pInitialise(),
+    ]);
+    const [prerelease, brew] = await Promise.all([
+      PrereleaseUtil.pGetBrewProcessed(),
+      BrewUtil2.pGetBrewProcessed(),
+    ]);
+
+    [
+      {
+        prop: "book",
+        parentCategory: NavBar._CAT_BOOKS,
+        page: "book.html",
+        fnSort: SortUtil.ascSortBook.bind(SortUtil),
+      },
+      {
+        prop: "adventure",
+        page: "adventure.html",
+        parentCategory: NavBar._CAT_ADVENTURES,
+        fnSort: SortUtil.ascSortAdventure.bind(SortUtil),
+      },
+    ].forEach(({ prop, parentCategory, page, fnSort }) => {
+      const fromPrerelease = MiscUtil.copyFast(prerelease?.[prop] || []);
+      const fromBrew = MiscUtil.copyFast(brew?.[prop] || []);
+
+      const mutParentName = it => {
+        if (it.parentSource) it.parentName = Parser.sourceJsonToFull(it.parentSource);
+      };
+
+      fromPrerelease.forEach(mutParentName);
+      fromBrew.forEach(mutParentName);
+
+      const metas = [...adventureBookIndex[prop], ...fromPrerelease, ...fromBrew].filter(
+        it =>
+          !ExcludeUtil.isExcluded(UrlUtil.encodeForHash(it.id), prop, it.source, {
+            isNoCount: true,
+          })
+      );
+
+      if (!metas.length) return;
+
+      SourceUtil.ADV_BOOK_GROUPS.forEach(({ group, displayName }) => {
+        const inGroup = metas.filter(it => (it.group || "other") === group);
+        if (!inGroup.length) return;
+
+        this._addElement_divider(parentCategory);
+        this._addElement_label(parentCategory, displayName, { isAddDateSpacer: true });
+
+        const seenYears = new Set();
+
+        inGroup.sort(fnSort).forEach(indexMeta => {
+          const year = indexMeta.published ? new Date(indexMeta.published).getFullYear() : null;
+          const isNewYear = year != null && !seenYears.has(year);
+          if (year != null) seenYears.add(year);
+
+          if (indexMeta.parentSource) {
+            if (!this._getNode(indexMeta.parentName)) {
+              this._addElement_accordion(parentCategory, indexMeta.parentName, {
+                date: isNewYear ? year : null,
+                source: indexMeta.parentSource,
+                isAddDateSpacer: !isNewYear,
+              });
+            }
+
+            let cleanName = indexMeta.name.startsWith(indexMeta.parentName)
+              ? indexMeta.name.slice(indexMeta.parentName.length).replace(/^:\s+/, "")
+              : indexMeta.name;
+            this._addElement_li(indexMeta.parentName, page, cleanName, {
+              aHash: indexMeta.id,
+              isAddDateSpacer: true,
+              isSide: true,
+              isInAccordion: true,
+            });
+
+            return;
+          }
+
+          this._addElement_li(parentCategory, page, indexMeta.name, {
+            aHash: indexMeta.id,
+            date: isNewYear ? year : null,
+            isAddDateSpacer: !isNewYear,
+            source: indexMeta.source,
+            isSide: true,
+          });
+        });
+      });
+    });
+
+    NavBar.highlightCurrentPage();
+  }
+
+  /**
+   * Adds a new item to the navigation bar. Can be used either in root, or in a different UL.
+   * @param parentCategory - Element to append this link to.
+   * @param page - Where does this link to.
+   * @param aText - What text does this link have.
+   * @param [opts] - Options object.
+   * @param [opts.isSide] - True if this item is part of a side menu.
+   * @param [opts.aHash] - Optional hash to be appended to the base href
+   * @param [opts.isRoot] - If the item is a root navbar element.
+   * @param [opts.isExternal] - If the item is an external link.
+   * @param [opts.isExternalMark] - If an "external link" icon should be shown.
+   * @param [opts.date] - A date to prefix the list item with.
+   * @param [opts.title] - Title for this nav item.
+   * @param [opts.isAddDateSpacer] - True if this item has no date, but is in a list of items with dates.
+   * @param [opts.source] - A source associated with this item, which should be displayed as a colored marker.
+   * @param [opts.isInAccordion] - True if this item is inside an accordion.
+   *        FIXME(Future) this is a bodge; refactor the navbar CSS to avoid using Bootstrap.
+   */
+  static _addElement_li(parentCategory, page, aText, opts) {
+    opts = opts || {};
+
+    const parentNode = this._getNode(parentCategory);
+
+    const hashPart = opts.aHash ? `#${opts.aHash}`.toLowerCase() : "";
+    const href = `${page}${hashPart}`;
+
+    const li = document.createElement("li");
+    li.setAttribute("role", "presentation");
+    li.setAttribute("data-page", href);
+    if (opts.isRoot) {
+      li.classList.add("page__nav-hidden-mobile");
+      li.classList.add("page__btn-nav-root");
+    }
+    if (opts.isSide) {
+      li.onmouseenter = function () {
+        NavBar._handleSideItemMouseEnter(this);
+      };
+    } else {
+      li.onmouseenter = function () {
+        NavBar._handleItemMouseEnter(this);
+      };
+      li.onclick = function () {
+        NavBar._dropdowns.forEach(ele => NavBar._closeDropdownElement(ele));
+      };
+    }
+    if (opts.title) li.setAttribute("title", opts.title);
+
+    const a = document.createElement("a");
+    a.href = href;
+    a.innerHTML = `${this._addElement_getDatePrefix({ date: opts.date, isAddDateSpacer: opts.isAddDateSpacer })}${this._addElement_getSourcePrefix({ source: opts.source })}${aText}${this._addElement_getSourceSuffix({ source: opts.source })}`;
+    a.classList.add("nav__link");
+    if (opts.isInAccordion) a.classList.add(`nav2-accord__lnk-item`, `inline-block`, `w-100`);
+
+    if (opts.isExternal) {
+      a.setAttribute("target", "_blank");
+      a.setAttribute("rel", "noopener noreferrer");
+    }
+    if (opts.isExternalMark) {
+      a.classList.add("inline-split-v-center");
+      a.classList.add("w-100");
+      a.innerHTML = `<span>${aText}</span><span class="glyphicon glyphicon-new-window"></span>`;
+    }
+
+    li.appendChild(a);
+    parentNode.body.appendChild(li);
+
+    parentNode.children[href] = new NavBar.NodeLink({
+      parent: parentNode,
+      head: li,
+      isInAccordion: opts.isInAccordion,
+      lnk: a,
+    });
+  }
+
+  static _addElement_accordion(
+    parentCategory,
+    category,
+    { date = null, isAddDateSpacer = false, source = null } = {}
+  ) {
+    const parentNode = this._getNode(parentCategory);
+
+    const li = document.createElement("li");
+    li.className = "nav2-accord__wrp";
+    li.onmouseenter = function () {
+      NavBar._handleItemMouseEnter(this);
+    };
+
+    // region Header button
+    const wrpHead = document.createElement("div");
+    wrpHead.className = "nav2-accord__head split-v-center clickable";
+    wrpHead.onclick = evt => {
+      evt.stopPropagation();
+      evt.preventDefault();
+      node.isExpanded = !node.isExpanded;
+    };
+
+    const dispText = document.createElement("div");
+    dispText.innerHTML = `${this._addElement_getDatePrefix({ date, isAddDateSpacer })}${this._addElement_getSourcePrefix({ source })}${category}`;
+
+    const dispToggle = document.createElement("div");
+    dispToggle.textContent = NavBar.NodeAccordion.getDispToggleDisplayHtml(false);
+
+    wrpHead.appendChild(dispText);
+    wrpHead.appendChild(dispToggle);
+    // endregion
+
+    // region Body list
+    const wrpBody = document.createElement("div");
+    wrpBody.className = `nav2-accord__body ve-hidden`;
+    wrpBody.onclick = function (event) {
+      event.stopPropagation();
+    };
+    // endregion
+
+    li.appendChild(wrpHead);
+    li.appendChild(wrpBody);
+    parentNode.body.appendChild(li);
+
+    const node = new NavBar.NodeAccordion({
+      parent: parentNode,
+      head: wrpHead,
+      body: wrpBody,
+      dispToggle,
+    });
+    parentNode.children[category] = node;
+  }
+
+  static _addElement_getDatePrefix({ date, isAddDateSpacer }) {
+    return `${date != null || isAddDateSpacer ? `<div class="ve-small mr-2 page__nav-date inline-block ve-text-right inline-block" aria-hidden="true">${date || ""}</div>` : ""}`;
+  }
+  static _addElement_getSourcePrefix({ source }) {
+    return `${source != null ? `<div class="nav2-list__disp-source ${Parser.sourceJsonToSourceClassname(source)}"></div>` : ""}`;
+  }
+
+  static _addElement_getSourceSuffix({ source }) {
+    if (source == null) return "";
+    return Parser.sourceJsonToMarkerHtml(source, {
+      isAddBrackets: true,
+      additionalStyles: "ml-1 nav2-list__disp-legacy-marker",
+    });
+  }
+
+  static _addElement_divider(parentCategory) {
+    const parentNode = this._getNode(parentCategory);
+
+    const li = document.createElement("li");
+    li.setAttribute("role", "presentation");
+    li.className = "ve-dropdown-divider";
+
+    parentNode.body.appendChild(li);
+  }
+
+  static _addElement_label(parentCategory, html, { date, isAddDateSpacer } = {}) {
+    const parentNode = this._getNode(parentCategory);
+
+    const li = document.createElement("li");
+    li.setAttribute("role", "presentation");
+    li.className = "italic ve-muted ve-small nav2-list__label";
+    li.innerHTML = `${this._addElement_getDatePrefix({ date, isAddDateSpacer })}${html}`;
+
+    parentNode.body.appendChild(li);
+  }
+
+  /**
+   * Adds a new dropdown starting list to the navigation bar
+   * @param {String} parentCategory - Element to append this link to.
+   * @param {String} category - Dropdown text.
+   * @param {boolean} [isSide=false] - If this is a sideways dropdown.
+   * @param {String} [page=null] - The page this dropdown is associated with.
+   */
+  static _addElement_dropdown(parentCategory, category, { isSide = false, page = null } = {}) {
+    const parentNode = this._getNode(parentCategory);
+
+    const li = document.createElement("li");
+    li.setAttribute("role", "presentation");
+    li.className = `dropdown dropdown-${category.split(" ").join("-")} dropdown--navbar page__nav-hidden-mobile ${isSide ? "" : "page__btn-nav-root"}`;
+    if (isSide) {
+      li.onmouseenter = function () {
+        NavBar._handleSideItemMouseEnter(this);
+      };
+    } else {
+      li.onmouseenter = function () {
+        NavBar._handleItemMouseEnter(this);
+      };
+    }
+
+    const a = document.createElement("a");
+    a.className = "ve-dropdown-toggle";
+    a.href = "#";
+  a.setAttribute("role", "button");
+  a.setAttribute("aria-haspopup", "true");
+    a.onclick = function (event) {
+      NavBar._handleDropdownClick(this, event, isSide,`dropdown-${category.split(" ").join("-")}`);
+    };
+    if (isSide) {
+      a.onmouseenter = function () {
+        NavBar._handleSideDropdownMouseEnter(this);
+      };
+      a.onmouseleave = function () {
+        NavBar._handleSideDropdownMouseLeave(this);
+      };
+      a.addEventListener("keydown", evt => {
+        if (evt.key !== "Enter") return;
+
+        if (NavBar._isDropdownOpen(a)) NavBar._closeDropdown(a);
+        else NavBar._openDropdown(a);
+      });
+
+      a.setAttribute("aria-haspopup", "true");
+    }
+    a.innerHTML = `${category}<div class="icon">
 			<svg width="36" height="39" xmlns="http://www.w3.org/2000/svg">
 				<defs>
 					<linearGradient x1="50%" y1="99.964%" x2="50%" y2="0%" id="a-arrow-up-9e99430f-bae6-41ef-87fb-a2a8ebbbb4fc">
@@ -584,289 +626,305 @@ class NavBar {
 		</div>
 		`;
 
-		const ul = document.createElement("ul");
-		ul.setAttribute("role", "menu");
-		ul.className = `ve-dropdown-menu ${isSide ? "ve-dropdown-menu--side" : "ve-dropdown-menu--top"}`;
-		ul.onclick = function (event) { event.stopPropagation(); };
+    const ul = document.createElement("ul");
+    ul.setAttribute("role", "menu");
+    ul.className = `ve-dropdown-menu ${isSide ? "ve-dropdown-menu--side" : "ve-dropdown-menu--top"}`;
+    ul.onclick = function (event) {
+      event.stopPropagation();
+    };
 
-		li.appendChild(a);
-		li.appendChild(ul);
-		parentNode.body.appendChild(li);
+    li.appendChild(a);
+    li.appendChild(ul);
+    parentNode.body.appendChild(li);
 
-		parentNode.children[category] = new NavBar.Node({
-			parent: parentNode,
-			head: li,
-			body: ul,
-		});
-	}
+    parentNode.children[category] = new NavBar.Node({
+      parent: parentNode,
+      head: li,
+      body: ul,
+    });
+  }
 
-	/**
-	 * Special LI for button
-	 * @param parentCategory The element to append to.
-	 * @param options Options.
-	 * @param options.html Button text.
-	 * @param options.click Button click handler.
-	 * @param [options.context] Button context menu handler.
-	 * @param options.title Button title.
-	 * @param options.className Additional button classes.
-	 */
-	static _addElement_button (parentCategory, options) {
-		const parentNode = this._getNode(parentCategory);
+  /**
+   * Special LI for button
+   * @param parentCategory The element to append to.
+   * @param options Options.
+   * @param options.html Button text.
+   * @param options.click Button click handler.
+   * @param [options.context] Button context menu handler.
+   * @param options.title Button title.
+   * @param options.className Additional button classes.
+   */
+  static _addElement_button(parentCategory, options) {
+    const parentNode = this._getNode(parentCategory);
 
-		const li = document.createElement("li");
-		li.setAttribute("role", "presentation");
+    const li = document.createElement("li");
+    li.setAttribute("role", "presentation");
 
-		const eleSpan = document.createElement("span");
-		if (options.className) eleSpan.className = options.className;
-		eleSpan.onclick = options.click;
-		eleSpan.innerHTML = options.html;
+    const eleSpan = document.createElement("span");
+    if (options.className) eleSpan.className = options.className;
+    eleSpan.onclick = options.click;
+    eleSpan.innerHTML = options.html;
 
-		if (options.context) eleSpan.oncontextmenu = options.context;
+    if (options.context) eleSpan.oncontextmenu = options.context;
 
-		if (options.title) li.setAttribute("title", options.title);
+    if (options.title) li.setAttribute("title", options.title);
 
-		li.appendChild(eleSpan);
-		parentNode.body.appendChild(li);
-	}
+    li.appendChild(eleSpan);
+    parentNode.body.appendChild(li);
+  }
 
-	/**
-	 * Special LI for button
-	 * @param parentCategory The element to append to.
-	 * @param options Options.
-	 * @param options.html
-	 * @param options.metas
-	 */
-	static _addElement_buttonSplit (parentCategory, options) {
-		const parentNode = this._getNode(parentCategory);
+  /**
+   * Special LI for button
+   * @param parentCategory The element to append to.
+   * @param options Options.
+   * @param options.html
+   * @param options.metas
+   */
+  static _addElement_buttonSplit(parentCategory, options) {
+    const parentNode = this._getNode(parentCategory);
 
-		const li = document.createElement("li");
-		li.setAttribute("role", "presentation");
-		li.className = "ve-flex-v-center";
+    const li = document.createElement("li");
+    li.setAttribute("role", "presentation");
+    li.className = "ve-flex-v-center";
 
-		options.metas
-			.forEach(({className, click, html, title}, i) => {
-				const eleSpan = document.createElement("span");
+    options.metas.forEach(({ className, click, html, title }, i) => {
+      const eleSpan = document.createElement("span");
 
-				eleSpan.className = [
-					className,
-					"inline-block",
-					i ? null : "w-100 min-w-0",
-				]
-					.filter(Boolean)
-					.join(" ");
+      eleSpan.className = [className, "inline-block", i ? null : "w-100 min-w-0"]
+        .filter(Boolean)
+        .join(" ");
 
-				eleSpan.onclick = click;
-				eleSpan.innerHTML = html;
+      eleSpan.onclick = click;
+      eleSpan.innerHTML = html;
 
-				if (title) eleSpan.setAttribute("title", title);
+      if (title) eleSpan.setAttribute("title", title);
 
-				li.appendChild(eleSpan);
-			});
+      li.appendChild(eleSpan);
+    });
 
-		parentNode.body.appendChild(li);
-	}
+    parentNode.body.appendChild(li);
+  }
 
-	static _getCurrentPage () {
-		let currentPage = window.location.pathname;
-		currentPage = currentPage.substr(currentPage.lastIndexOf("/") + 1);
+  static _getCurrentPage() {
+    let currentPage = window.location.pathname;
+    currentPage = currentPage.substr(currentPage.lastIndexOf("/") + 1);
 
-		if (!currentPage) currentPage = "index.html";
-		return currentPage.trim();
-	}
+    if (!currentPage) currentPage = "index.html";
+    return currentPage.trim();
+  }
 
-	static _getCurrentWikiHelpPage () {
-		const slug = NavBar._getCurrentPage().replace(/.html$/i, "");
-		return `https://wiki.tercept.net/en/5eTools/HelpPages/${slug === "index" ? "" : slug}`;
-	}
+  static _getCurrentWikiHelpPage() {
+    const slug = NavBar._getCurrentPage().replace(/.html$/i, "");
+    return `https://wiki.tercept.net/en/5eTools/HelpPages/${slug === "index" ? "" : slug}`;
+  }
 
-	static highlightCurrentPage () {
-		let currentPage = NavBar._getCurrentPage();
-		let hash = "";
+  static highlightCurrentPage() {
+    let currentPage = NavBar._getCurrentPage();
+    let hash = "";
 
-		if (typeof _SEO_PAGE !== "undefined") currentPage = `${_SEO_PAGE}.html`;
-		else if (currentPage.toLowerCase() === "book.html" || currentPage.toLowerCase() === "adventure.html") {
-			hash = window.location.hash.split(",")[0].toLowerCase();
+    if (typeof _SEO_PAGE !== "undefined") currentPage = `${_SEO_PAGE}.html`;
+    else if (
+      currentPage.toLowerCase() === "book.html" ||
+      currentPage.toLowerCase() === "adventure.html"
+    ) {
+      hash = window.location.hash.split(",")[0].toLowerCase();
+    }
+
+    const href = `${currentPage}${hash}`;
+
+    this._doRemoveAllPageHighlights();
+    const node = this._getNode(href);
+    if (!node) {
+      if (NavBar._ALT_CHILD_PAGES[currentPage]) {
+        const nodeFallback = this._getNode(NavBar._ALT_CHILD_PAGES[currentPage]);
+        nodeFallback.isActive = true;
+      }
+      return;
+    }
+
+    node.isActive = true;
+  }
+
+  static _doRemoveAllPageHighlights() {
+    const _doRemoveAllPageHighlightsInner = level => {
+      for (const node of Object.values(level)) {
+        node.isActive = false;
+        if (node.children) _doRemoveAllPageHighlightsInner(node.children);
+      }
+    };
+
+    _doRemoveAllPageHighlightsInner(NavBar._tree.children);
+  }
+
+  static _handleDropdownClick(dropdown, event, isSide, dropdownClass) {
+    event.preventDefault()
+    event.stopPropagation();
+
+    const isOpen = this._isDropdownOpen(dropdown);
+    if (isOpen) NavBar._dropdowns.forEach(ele =>
+		{
+			if(ele.classList.contains(dropdownClass)) 
+				NavBar._closeDropdownElement(ele)
 		}
+	);
+    else NavBar._openDropdown(dropdown);
+  }
 
-		const href = `${currentPage}${hash}`;
+  /* -------------------------------------------- */
 
-		this._doRemoveAllPageHighlights();
-		const node = this._getNode(href);
-		if (!node) {
-			if (NavBar._ALT_CHILD_PAGES[currentPage]) {
-				const nodeFallback = this._getNode(NavBar._ALT_CHILD_PAGES[currentPage]);
-				nodeFallback.isActive = true;
-			}
-			return;
-		}
+  static _isDropdownOpen(ele) {
+    return ele.parentNode.classList.contains("open");
+  }
 
-		node.isActive = true;
-	}
+  /* -------------------------------------------- */
 
-	static _doRemoveAllPageHighlights () {
-		const _doRemoveAllPageHighlightsInner = (level) => {
-			for (const node of Object.values(level)) {
-				node.isActive = false;
-				if (node.children) _doRemoveAllPageHighlightsInner(node.children);
-			}
-		};
+  static _closeDropdown(ele) {
+    this._closeDropdownElement(ele.parentNode);
+  }
 
-		_doRemoveAllPageHighlightsInner(NavBar._tree.children);
-	}
+  static _closeDropdownElement(ele) {
+    ele.classList.remove("open");
+    ele.firstChild.setAttribute("aria-expanded", "false");
+  }
 
-	static _handleDropdownClick (ele, event, isSide) {
-		event.preventDefault();
-		event.stopPropagation();
-		if (isSide) return;
-		const isOpen = this._isDropdownOpen(ele);
-		if (isOpen) NavBar._dropdowns.forEach(ele => NavBar._closeDropdownElement(ele));
-		else NavBar._openDropdown(ele);
-	}
+  static _closeAllDropdowns() {
+    NavBar._dropdowns.forEach(ele => NavBar._closeDropdownElement(ele));
+  }
 
-	/* -------------------------------------------- */
+  /* -------------------------------------------- */
 
-	static _isDropdownOpen (ele) {
-		return ele.parentNode.classList.contains("open");
-	}
+  static _openDropdown(ele) {
+    const lisOpen = [];
 
-	/* -------------------------------------------- */
+    let parent = ele.parentNode;
+    NavBar._openDropdownElement(parent);
+    lisOpen.push(parent);
 
-	static _closeDropdown (ele) {
-		this._closeDropdownElement(ele.parentNode);
-	}
+    do {
+      parent = parent.parentNode;
+      if (parent.nodeName === "LI") {
+        NavBar._openDropdownElement(parent);
+        lisOpen.push(parent);
+      }
+    } while (parent.nodeName !== "NAV");
 
-	static _closeDropdownElement (ele) {
-		ele.classList.remove("open");
-		ele.firstChild.setAttribute("aria-expanded", "false");
-	}
+    NavBar._dropdowns
+      .filter(ele => !lisOpen.includes(ele))
+      .forEach(ele => NavBar._closeDropdownElement(ele));
 
-	static _closeAllDropdowns () {
-		NavBar._dropdowns.forEach(ele => NavBar._closeDropdownElement(ele));
-	}
+    this._openDropdown_mutAlignment({ liNavbar: lisOpen.slice(-1)[0] });
+  }
 
-	/* -------------------------------------------- */
+  static _openDropdownElement(ele) {
+    ele.classList.add("open");
+    ele.firstChild.setAttribute("aria-expanded", "true");
+  }
 
-	static _openDropdown (ele) {
-		const lisOpen = [];
+  /**
+   * If a dropdown
+   * @param liNavbar
+   * @private
+   */
+  static _openDropdown_mutAlignment({ liNavbar }) {
+    const uls = [...liNavbar.querySelectorAll("ul.ve-dropdown-menu")];
+    const widthRequired =
+      window.innerWidth < 1200
+        ? Math.max(...uls.map(ul => ul.getBoundingClientRect().width))
+        : uls.map(ul => ul.getBoundingClientRect().width).reduce((a, b) => a + b, 0);
 
-		let parent = ele.parentNode;
-		NavBar._openDropdownElement(parent);
-		lisOpen.push(parent);
+    const isForceRightAlign =
+      liNavbar.getBoundingClientRect().left >= window.innerWidth - widthRequired;
 
-		do {
-			parent = parent.parentNode;
-			if (parent.nodeName === "LI") {
-				NavBar._openDropdownElement(parent);
-				lisOpen.push(parent);
-			}
-		} while (parent.nodeName !== "NAV");
+    uls.forEach(ul => {
+      ul.style.left = isForceRightAlign
+        ? `${-Math.round(ul.getBoundingClientRect().width) + ul.parentNode.getBoundingClientRect().width}px`
+        : "";
+    });
+  }
 
-		NavBar._dropdowns.filter(ele => !lisOpen.includes(ele)).forEach(ele => NavBar._closeDropdownElement(ele));
+  /* -------------------------------------------- */
 
-		this._openDropdown_mutAlignment({liNavbar: lisOpen.slice(-1)[0]});
-	}
+  static _handleItemMouseEnter(ele) {
+    ele = e_(ele);
+    const timerIds = ele
+      .siblings("[data-timer-id]")
+      .map(eleSib => ({ ele: e_(eleSib), timerId: e_(eleSib).attr("data-timer-id") }));
+    timerIds.forEach(({ ele, timerId }) => {
+      if (NavBar._timersOpen[timerId]) {
+        clearTimeout(NavBar._timersOpen[timerId]);
+        delete NavBar._timersOpen[timerId];
+      }
 
-	static _openDropdownElement (ele) {
-		ele.classList.add("open");
-		ele.firstChild.setAttribute("aria-expanded", "true");
-	}
+      if (!NavBar._timersClose[timerId] && ele.hasClass("open")) {
+        const getTimeoutFn = () => {
+          if (NavBar._timerMousePos[timerId]) {
+            const [xStart, yStart] = NavBar._timerMousePos[timerId];
+            // for generalised use, this should be made check against the bounding box for the side menu
+            // and possibly also check Y pos; e.g.
+            // || EventUtil._mouseY > yStart + NavBar._MIN_MOVE_PX
+            if (EventUtil._mouseX > xStart + NavBar._MIN_MOVE_PX) {
+              NavBar._timerMousePos[timerId] = [EventUtil._mouseX, EventUtil._mouseY];
+              NavBar._timersClose[timerId] = setTimeout(
+                () => getTimeoutFn(),
+                NavBar._DROP_TIME / 2
+              );
+            } else {
+              NavBar._closeDropdownElement(ele);
+              delete NavBar._timersClose[timerId];
+            }
+          } else {
+            NavBar._closeDropdownElement(ele);
+            delete NavBar._timersClose[timerId];
+          }
+        };
 
-	/**
-	 * If a dropdown
-	 * @param liNavbar
-	 * @private
-	 */
-	static _openDropdown_mutAlignment ({liNavbar}) {
-		const uls = [...liNavbar.querySelectorAll("ul.ve-dropdown-menu")];
-		const widthRequired = window.innerWidth < 1200
-			? Math.max(...uls.map(ul => ul.getBoundingClientRect().width))
-			: uls.map(ul => ul.getBoundingClientRect().width).reduce((a, b) => a + b, 0);
+        NavBar._timersClose[timerId] = setTimeout(() => getTimeoutFn(), NavBar._DROP_TIME);
+      }
+    });
+  }
 
-		const isForceRightAlign = liNavbar.getBoundingClientRect().left >= (window.innerWidth - widthRequired);
+  static _handleSideItemMouseEnter(ele) {
+    const timerId = e_(ele).closest(`li.dropdown`).attr("data-timer-id");
+    if (NavBar._timersClose[timerId]) {
+      clearTimeout(NavBar._timersClose[timerId]);
+      delete NavBar._timersClose[timerId];
+      delete NavBar._timerMousePos[timerId];
+    }
+  }
 
-		uls.forEach(ul => {
-			ul.style.left = isForceRightAlign ? `${-Math.round(ul.getBoundingClientRect().width) + ul.parentNode.getBoundingClientRect().width}px` : "";
-		});
-	}
+  static _handleSideDropdownMouseEnter(ele) {
+    ele = e_(ele);
+    const timerId = ele.parente().attr("data-timer-id") || NavBar._timerId++;
+    ele.parente().attr("data-timer-id", timerId);
 
-	/* -------------------------------------------- */
+    if (NavBar._timersClose[timerId]) {
+      clearTimeout(NavBar._timersClose[timerId]);
+      delete NavBar._timersClose[timerId];
+    }
 
-	static _handleItemMouseEnter (ele) {
-		ele = e_(ele);
-		const timerIds = ele.siblings("[data-timer-id]").map(eleSib => ({ele: e_(eleSib), timerId: e_(eleSib).attr("data-timer-id")}));
-		timerIds.forEach(({ele, timerId}) => {
-			if (NavBar._timersOpen[timerId]) {
-				clearTimeout(NavBar._timersOpen[timerId]);
-				delete NavBar._timersOpen[timerId];
-			}
+    if (!NavBar._timersOpen[timerId]) {
+      NavBar._timersOpen[timerId] = setTimeout(() => {
+        NavBar._openDropdown(ele);
+        delete NavBar._timersOpen[timerId];
+        NavBar._timerMousePos[timerId] = [EventUtil._mouseX, EventUtil._mouseY];
+      }, NavBar._DROP_TIME);
+    }
+  }
 
-			if (!NavBar._timersClose[timerId] && ele.hasClass("open")) {
-				const getTimeoutFn = () => {
-					if (NavBar._timerMousePos[timerId]) {
-						const [xStart, yStart] = NavBar._timerMousePos[timerId];
-						// for generalised use, this should be made check against the bounding box for the side menu
-						// and possibly also check Y pos; e.g.
-						// || EventUtil._mouseY > yStart + NavBar._MIN_MOVE_PX
-						if (EventUtil._mouseX > xStart + NavBar._MIN_MOVE_PX) {
-							NavBar._timerMousePos[timerId] = [EventUtil._mouseX, EventUtil._mouseY];
-							NavBar._timersClose[timerId] = setTimeout(() => getTimeoutFn(), NavBar._DROP_TIME / 2);
-						} else {
-							NavBar._closeDropdownElement(ele);
-							delete NavBar._timersClose[timerId];
-						}
-					} else {
-						NavBar._closeDropdownElement(ele);
-						delete NavBar._timersClose[timerId];
-					}
-				};
+  static _handleSideDropdownMouseLeave(ele) {
+    ele = e_(ele);
+    if (!ele.parente().attr("data-timer-id")) return;
+    const timerId = ele.parente().attr("data-timer-id");
+    clearTimeout(NavBar._timersOpen[timerId]);
+    delete NavBar._timersOpen[timerId];
+  }
 
-				NavBar._timersClose[timerId] = setTimeout(() => getTimeoutFn(), NavBar._DROP_TIME);
-			}
-		});
-	}
-
-	static _handleSideItemMouseEnter (ele) {
-		const timerId = e_(ele).closest(`li.dropdown`).attr("data-timer-id");
-		if (NavBar._timersClose[timerId]) {
-			clearTimeout(NavBar._timersClose[timerId]);
-			delete NavBar._timersClose[timerId];
-			delete NavBar._timerMousePos[timerId];
-		}
-	}
-
-	static _handleSideDropdownMouseEnter (ele) {
-		ele = e_(ele);
-		const timerId = ele.parente().attr("data-timer-id") || NavBar._timerId++;
-		ele.parente().attr("data-timer-id", timerId);
-
-		if (NavBar._timersClose[timerId]) {
-			clearTimeout(NavBar._timersClose[timerId]);
-			delete NavBar._timersClose[timerId];
-		}
-
-		if (!NavBar._timersOpen[timerId]) {
-			NavBar._timersOpen[timerId] = setTimeout(() => {
-				NavBar._openDropdown(ele);
-				delete NavBar._timersOpen[timerId];
-				NavBar._timerMousePos[timerId] = [EventUtil._mouseX, EventUtil._mouseY];
-			}, NavBar._DROP_TIME);
-		}
-	}
-
-	static _handleSideDropdownMouseLeave (ele) {
-		ele = e_(ele);
-		if (!ele.parente().attr("data-timer-id")) return;
-		const timerId = ele.parente().attr("data-timer-id");
-		clearTimeout(NavBar._timersOpen[timerId]);
-		delete NavBar._timersOpen[timerId];
-	}
-
-	static _clearAllTimers () {
-		Object.entries(NavBar._timersOpen).forEach(([k, v]) => {
-			clearTimeout(v);
-			delete NavBar._timersOpen[k];
-		});
-	}
+  static _clearAllTimers() {
+    Object.entries(NavBar._timersOpen).forEach(([k, v]) => {
+      clearTimeout(v);
+      delete NavBar._timersOpen[k];
+    });
+  }
 }
 NavBar._DROP_TIME = 250;
 NavBar._MIN_MOVE_PX = 3;
