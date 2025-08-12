@@ -1,8 +1,8 @@
 /* CSS Edits for 5eTools */
 
 /* Fonts */
-@import url("https://fonts.googleapis.com/css2?family=Quando&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&display=swap");
+
 @font-face {
   font-family: "Quadraat Pro";
   src: url("../fonts/QuadraatOffcPro.woff2") format("woff2");
@@ -66,7 +66,7 @@ nav::before {
           .home__lbl-page {
             width: auto;
             margin: 0 !important;
-            font-size: 1.2rem !important;
+            font-size: 1.4rem !important;
           }
         }
       }
@@ -77,96 +77,97 @@ nav::before {
   .overlay-noise {
     background-image: url(https://baldursgate3.game/png/smoke-mobile.png) !important;
   }
-  
-  header{
-    .tools-title{
-      display:none;
+
+  header {
+    .tools-title {
+      display: none;
     }
-  /* Navigation Bar */
-  nav {
-    padding: 1rem 0.1rem !important;
-    column-gap: 0.5rem;
-    width: 100%;
-    .omni__wrp-input {
-      margin-top: 0;
-      margin-left: 0;
-    }
-    .nav {
-      width: calc(100% - 6rem);
-      margin-top: 0 !important;
-      justify-content: center !important;
-      >li{
-        width: 100% !important;
+    /* Navigation Bar */
+    nav {
+      padding: 1rem 0.1rem !important;
+      column-gap: 0.5rem;
+      width: 100%;
+      .omni__wrp-input {
+        margin-top: 0;
+        margin-left: 0;
       }
-      .site-map{
+      .nav {
+        width: calc(100% - 6rem);
+        margin-top: 0 !important;
         justify-content: center !important;
-      }
-      .page__btn-nav-root {
-      flex-direction: column;
-      
-        > .nav__link {
-          align-self:center !important;
-          font-weight: 600 !important;
-          font-size: 3rem !important;
-        }
-        .ve-dropdown-toggle {
-          font-weight: 600 !important;
-          font-size: 3rem !important;
-          align-self: center !important;
-          margin-left: 36px !important;
-          .icon {
-            width: auto !important;
-            height: 36px !important;
-            margin: 0 0 0 0.5rem !important;
-            scale: 1 !important;
-          }
-        }
-        .ve-dropdown-menu {
+        > li {
           width: 100% !important;
-          background-color: transparent !important;
-          box-shadow: none;
-          border:none;
-          position: initial !important;
-          font-size: 1.6rem !important;
-           .ve-dropdown-divider{
-                background-color: #fbcea0;
-              }
-          >li{
-            a.nav__link {
-              text-align: center;
+        }
+        .site-map {
+          justify-content: center !important;
+        }
+        .page__btn-nav-root {
+          flex-direction: column;
+
+          > .nav__link {
+            align-self: center !important;
+            font-weight: 600 !important;
+            font-size: 3rem !important;
+          }
+          .ve-dropdown-toggle {
+            font-weight: 600 !important;
+            font-size: 3rem !important;
+            align-self: center !important;
+            margin-left: 36px !important;
+            .icon {
+              width: auto !important;
+              height: 36px !important;
+              margin: 0 0 0 0.5rem !important;
+              scale: 1 !important;
             }
           }
-          > .dropdown {
-            flex-direction: column !important;
-            > .ve-dropdown-toggle {
-              margin-left: 2rem !important;
-              text-transform: none;
-              align-self:center !important;
-              font-size: 1.6rem !important;
-              .icon {
-                width: 20px !important;
-                height: 30px !important;
-                margin:0 0 4px 0 !important;
-                margin-top:-0.55rem !important;
-                scale: 0.6 !important;
+          .ve-dropdown-menu {
+            width: 100% !important;
+            background-color: transparent !important;
+            box-shadow: none;
+            border: none;
+            position: initial !important;
+            font-size: 1.6rem !important;
+            .ve-dropdown-divider {
+              background-color: #fbcea0;
+            }
+            > li {
+              a.nav__link {
+                text-align: center;
               }
             }
-            > .ve-dropdown-menu{
-              position: initial !important;
-              height:fit-content !important;
-              max-height: unset !important;
-              >li{
-                 >a{
-                  text-wrap:wrap;
-                 }
+            > .dropdown {
+              flex-direction: column !important;
+              > .ve-dropdown-toggle {
+                margin-left: 2rem !important;
+                text-transform: none;
+                align-self: center !important;
+                font-size: 1.6rem !important;
+                .icon {
+                  width: 20px !important;
+                  height: 30px !important;
+                  margin: 0 0 4px 0 !important;
+                  margin-top: -0.55rem !important;
+                  scale: 0.6 !important;
+                }
               }
-              .ve-dropdown-divider{
-                background-color: #fbcea0;
-              }
-              .nav2-list__label{
-                font-family: "Quadraat Pro", serif !important;
-                font-weight: 600 !important;
-                text-align:center !important;
+              > .ve-dropdown-menu {
+                position: initial !important;
+                height: fit-content !important;
+                max-height: unset !important;
+                > li {
+                  > a {
+                    text-wrap: wrap;
+                  }
+                }
+                .ve-dropdown-divider {
+                  background-color: #fbcea0;
+                }
+                .nav2-list__label {
+                  font-family: "Quadraat Pro", serif !important;
+                  font-weight: 600 !important;
+                  text-align: center !important;
+                }
               }
             }
           }
@@ -174,7 +175,6 @@ nav::before {
       }
     }
   }
-}
 
   nav:has(> button.active) {
     flex-direction: column;
@@ -184,17 +184,17 @@ nav::before {
     .page__btn-toggle-nav {
       order: 0;
       place-self: end;
-      margin-right:0.5rem;
+      margin-right: 0.5rem;
     }
 
     .nav {
       width: 100%;
-      padding:16.5rem 0 !important;
+      padding: 16.5rem 0 !important;
       .omni__wrp-input {
         position: absolute;
         top: 1rem;
         left: 0.5rem;
-        width: calc(100% - 6.25rem );
+        width: calc(100% - 6.25rem);
       }
     }
   }
@@ -281,11 +281,11 @@ nav {
       margin: 0;
       flex-shrink: 0;
       border: none;
-      
+
       .ve-dropdown-menu {
         background-color: #151515;
-        /* border-top: 1px solid #fbcea0;
-        border-bottom:1px solid #fbcea0; */
+        border-top: 2px solid #fbcea0;
+        border-bottom:2px solid #fbcea0;
         > li {
           > a.nav__link {
             color: #ffffffb3;
@@ -295,7 +295,6 @@ nav {
         }
         > .dropdown {
           > .ve-dropdown-toggle {
-           
             margin-left: 2.2rem;
             background: transparent;
             -webkit-background-clip: unset;
@@ -303,7 +302,9 @@ nav {
             -webkit-text-fill-color: #fbcea0;
           }
           > .ve-dropdown-menu {
-            border:none !important;
+            
+            border: none !important;
+            border-top: 2px solid #fbcea0 !important;
             margin-top: 4px;
             width: fit-content;
             height: fit-content;
@@ -313,7 +314,7 @@ nav {
 
       .ve-dropdown-toggle,
       > a.nav__link {
-         align-items: center;
+        align-items: center;
         .icon {
           width: 20px;
           height: 30px;
@@ -359,10 +360,13 @@ nav {
       .omni__input {
         border-radius: 5px 0 0 5px;
         color: #fff;
+        background-color: #171717 !important;
       }
       .omni__input,
       .omni__input::placeholder {
-        font-family: "Quadraat Pro", serif;
+        font-family: "Alegreya", serif;
+        letter-spacing: 0.5px;
+        font-size: 1.6rem;
       }
 
       .omni__input::placeholder {
@@ -392,7 +396,7 @@ nav {
 
 [data-vet-hash="concentration_phb"] {
   color: #fbcea0;
-  font-family: "Quando";
+  font-family: "Alegreya";
   text-decoration: none;
 }
 [data-vet-hash="concentration_phb"]::before {
@@ -448,7 +452,7 @@ nav {
 
 .roller,
 .render-roller {
-  font-family: "Quando";
+  font-family: "Alegreya";
   font-size: 1.2rem;
   font-weight: 600;
 }
@@ -519,7 +523,7 @@ nav {
         }
         .home__lbl-page {
           color: #ddc9a7;
-          font-family: "Quando", serif;
+          font-family: "Alegreya", serif;
           font-size: 1.5rem;
         }
       }
@@ -534,6 +538,9 @@ nav {
 }
 
 @layer vetools {
+  .ve-btn.omni__submit{
+    background-color: #171717 !important;
+  }
   .omni__wrp-input--scrolled {
     width: 65px;
     margin-top: 8px;
