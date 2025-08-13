@@ -18,7 +18,7 @@
         }
       }
       #filter-search-group {
-        padding: 0 0.2rem 0.2rem 0.2rem !important;
+        padding: 0 0.6rem 0.2rem 0.6rem !important;
        
         .w-100.relative {
           .search,
@@ -229,7 +229,7 @@
        border-bottom-right-radius: 8px;
        background-color: #00000059;
        margin: 0 !important;
-       padding: 0.5rem;
+       padding: 0.5rem 0.5rem 0.5rem 1rem;
        color: #fbcea0;
        font-family: "Alegreya", serif;
        font-size: 1.6rem;
