@@ -1397,10 +1397,11 @@ class ListPage {
 	}
 
 	_renderListShowHide ({$wrpContent, $wrpList, $btnReset}) {
-		const $btnHideSearch = $(`<button class="ve-btn ve-btn-default" title="Hide Search Bar and Entry List">Hide</button>`);
-		$btnReset.before($btnHideSearch);
+		const $btnHideSearch = $(`<button class="ve-btn ve-btn-default" title="Hide Search Bar and Entry List"><span class="glyphicon glyphicon-eye-open"></span>
+</button>`);
+		 $btnHideSearch.appendTo($wrpList.children()[0]);
 
-		const $btnShowSearch = $(`<button class="ve-btn ve-btn-block ve-btn-default ve-btn-xs" type="button">Show List</button>`);
+		const $btnShowSearch = $(`<button class="ve-btn ve-btn-block ve-btn-default ve-btn-xs py-2" type="button"><span class="glyphicon glyphicon-eye-close"></span></button>`);
 		const $wrpBtnShowSearch = $$`<div class="ve-col-12 mb-1 ve-hidden">${$btnShowSearch}</div>`.prependTo($wrpContent);
 
 		$btnHideSearch.click(() => {

@@ -1,6 +1,6 @@
-import {EVNT_VALCHANGE, SOURCE_HEADER, SUB_HASH_PREFIX_LENGTH, TITLE_BTN_RESET} from "./filter-constants.js";
-import {FilterRegistry} from "./filter-registry.js";
-import {FilterSnapshotManager} from "./snapshot/filter-snapshot-manager.js";
+import { EVNT_VALCHANGE, SOURCE_HEADER, SUB_HASH_PREFIX_LENGTH, TITLE_BTN_RESET } from "./filter-constants.js";
+import { FilterRegistry } from "./filter-registry.js";
+import { FilterSnapshotManager } from "./snapshot/filter-snapshot-manager.js";
 
 export class FilterBox extends ProxyBase {
 	static selectFirstVisible (entryList) {
@@ -204,10 +204,21 @@ export class FilterBox extends ProxyBase {
 				.click((evt) => this.reset(evt.shiftKey));
 		}
 
+if (this._$wrpFormTop || this._$btnOpen) {
+  if (!this._$btnOpen) {
+    this._$btnOpen = $(
+      `<button class="ve-btn ve-btn-default ${this._isCompact ? "px-2" : ""}"><span class="glyphicon glyphicon-filter"></span></button>`
+    ).appendTo(this._$wrpFormTop);
+  } else if (!this._$btnOpen.parent().length) {
+    this._$btnOpen.prependTo(this._$wrpFormTop);
+  }
+  this._$btnOpen.click(() => this.show());
+}
+
 		if (this._$wrpFormTop || this._$btnToggleSummaryHidden) {
 			if (!this._$btnToggleSummaryHidden) {
 				this._$btnToggleSummaryHidden = $(`<button class="ve-btn ve-btn-default ${this._isCompact ? "p-2" : ""}" title="Toggle Filter Summary"><span class="glyphicon glyphicon-resize-small"></span></button>`)
-					.prependTo(this._$wrpFormTop);
+					.appendTo(this._$wrpFormTop);
 			} else if (!this._$btnToggleSummaryHidden.parent().length) {
 				this._$btnToggleSummaryHidden.prependTo(this._$wrpFormTop);
 			}
@@ -224,15 +235,7 @@ export class FilterBox extends ProxyBase {
 			summaryHiddenHook();
 		}
 
-		if (this._$wrpFormTop || this._$btnOpen) {
-			if (!this._$btnOpen) {
-				this._$btnOpen = $(`<button class="ve-btn ve-btn-default ${this._isCompact ? "px-2" : ""}">Filter</button>`)
-					.prependTo(this._$wrpFormTop);
-			} else if (!this._$btnOpen.parent().length) {
-				this._$btnOpen.prependTo(this._$wrpFormTop);
-			}
-			this._$btnOpen.click(() => this.show());
-		}
+		
 
 		const sourceFilter = this._filters.find(it => it.header === SOURCE_HEADER);
 		if (sourceFilter) {
