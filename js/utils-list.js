@@ -709,7 +709,7 @@ class SaveManager extends BaseComponent {
 			cbOnUpload,
 		},
 	) {
-		const $wrp = $(`<div class="pt-2 ve-flex-col no-print"></div>`);
+		const $wrp = $(`<div class="ve-flex-col no-print"></div>`);
 
 		const renderableCollectionSummary = new SaveManager._RenderableCollectionSaves_Summary(
 			{
@@ -960,7 +960,7 @@ SaveManager._RenderableCollectionSaves_Summary = class extends RenderableCollect
 
 		const $iptName = ComponentUiUtil.$getIptStr(comp, "name", {placeholder: "(Unnamed List)"});
 
-		const $dispCount = $(`<div class="absolute right-0 z-index-1 no-events ve-flex-vh-center ve-muted pr-2 ve-small" title="Number of Pinned List Items"></div>`);
+		const $dispCount = $(`<div class="absolute right-0 z-index-1 no-events ve-flex-vh-center pr-2 ve-small" title="Number of Pinned List Items"></div>`);
 
 		const $btnNew = $(`<button class="ve-btn ve-btn-5et ve-btn-xs ve-btn-default" title="New Pinned List"><span class="glyphicon glyphicon-file"></span></button>`)
 			.click(evt => this._cbOnNew(evt));
@@ -990,7 +990,7 @@ SaveManager._RenderableCollectionSaves_Summary = class extends RenderableCollect
 		const $wrpRow = $$`<div class="ve-flex-col my-2 w-100">
 			<div class="ve-flex-v-center">
 				<div class="ve-flex-v-center mr-1 w-100 min-w-0 relative">
-					<div class="mr-2 ve-muted">List:</div>
+					<div class="mr-2" title="Insert Pinned List Name"><span class="glyphicon glyphicon-console"></span></div>
 					${$iptName}
 					${$dispCount}
 				</div>
