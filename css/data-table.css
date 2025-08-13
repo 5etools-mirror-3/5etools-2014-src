@@ -30,12 +30,29 @@
         }
       }
       .list--stats {
+        max-height: 14rem !important;
         > .lst__row {
           > a {
             font-size: 1.4rem !important;
             padding: 1rem 0.3rem !important;
           }
         }
+      }
+    }
+   #contentwrapper{
+    padding:0 !important;
+    margin:0 !important;
+      .sublist{
+        max-height:14rem !important;
+           border:none !important;
+           border-bottom: 1px solid #fbcea0 !important;
+      .lst__row--sublist{
+        a{
+          font-size: 1.4rem !important;
+            padding: 1rem 0.3rem !important;
+        }
+      }
+        
       }
     }
   }
@@ -186,6 +203,49 @@
       }
     }
   }
+   #contentwrapper{
+      .sublist{
+        background-color: #00000059;
+        border: 1px solid #fbcea0;
+        border-bottom: none;
+        border-radius: 8px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        #sublistsort{
+          border:none;
+          margin:0.5rem 0;
+          >button{
+            border:none;
+          }
+        }
+        #sublist{
+          margin:0;
+          width:100%;
+          border:none !important;
+          .lst__row--sublist{
+             display: block;
+        background: transparent !important;
+         > a {
+          padding: 0.5rem;
+          border-color: #fbcea040; /* */
+          font-family: "Alegreya", serif;
+          font-size: 1.6rem;
+          > span {
+            padding: 0 !important;
+          }
+          > span:last-child {
+            font-weight: 600 !important;
+          }
+          
+        }
+          }
+        }
+        .sublist__ele-resize{
+          background-color:#fbcea040;
+          border: none;
+        }
+      }
+    }
 }
 
 @layer vetools {
