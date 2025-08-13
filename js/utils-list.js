@@ -958,7 +958,7 @@ SaveManager._RenderableCollectionSaves_Summary = class extends RenderableCollect
 			this._comp._triggerCollectionUpdate("saves");
 		});
 
-		const $iptName = ComponentUiUtil.$getIptStr(comp, "name", {placeholder: "(Unnamed List)"});
+		const $iptName = ComponentUiUtil.$getIptStr(comp, "name", {placeholder: "Enter List Name..."});
 
 		const $dispCount = $(`<div class="absolute right-0 z-index-1 no-events ve-flex-vh-center pr-2 ve-small" title="Number of Pinned List Items"></div>`);
 

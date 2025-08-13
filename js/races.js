@@ -1,11 +1,11 @@
-import {RenderRaces} from "./render-races.js";
+import { RenderRaces } from "./render-races.js";
 
 class RacesSublistManager extends SublistManager {
 	static _getRowTemplate () {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-5 pl-0 pr-1",
+				css: "bold ve-col-5 pr-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
@@ -102,9 +102,9 @@ class RacesPage extends ListPage {
 		const source = Parser.sourceJsonToAbv(race.source);
 
 		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
-			<span class="bold ve-col-4 pl-0 pr-1">${race.name}</span>
+			<span class="bold ve-col-4 pr-1">${race.name}</span>
 			<span class="ve-col-4 px-1 ${race._slAbility === "Lineage" ? "italic" : ""}">${race._slAbility}</span>
-			<span class="ve-col-2 px-1 ve-text-center">${size}</span>
+			<span class="ve-col-2 px-1">${size}</span>
 			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(race.source)} pl-1 pr-0" title="${Parser.sourceJsonToFull(race.source)}">${source}</span>
 		</a>`;
 
