@@ -1,4 +1,4 @@
-import {ManageExternalUtils} from "./manageexternal/manageexternal-utils.js";
+import { ManageExternalUtils } from "./manageexternal/manageexternal-utils.js";
 
 class IndexPage {
 	static async _pOnLoad_pInitGeneric () {

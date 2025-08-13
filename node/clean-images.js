@@ -11,7 +11,7 @@ function cleanBestiaryFluffImages () {
 
 	// read all the image dirs and track which images are actually in use
 	const _ALL_IMAGE_PATHS = new Set();
-	const PATH_BESTIARY_IMAGES = `https://2014.5e.tools/img/bestiary/`;
+	const PATH_BESTIARY_IMAGES = `img/bestiary/`;
 	fs.readdirSync(PATH_BESTIARY_IMAGES).forEach((f) => {
 		const path = `${PATH_BESTIARY_IMAGES}/${f}`;
 		if (fs.lstatSync(path).isDirectory()) {
@@ -100,7 +100,7 @@ function cleanBestiaryFluffImages () {
 			const spl = namePart.split(".");
 			if (spl.length > 2) throw new Error(`Could not extract extension from name "${namePart}"`);
 			const nuPath = [...pathParts, `${cleanShortName}.${spl[1]}`].join("/");
-			fs.renameSync(`https://2014.5e.tools/img/${img}`, `https://2014.5e.tools/img/${nuPath}`);
+			fs.renameSync(`img/${img}`, `img/${nuPath}`);
 
 			metas.forEach((meta) => {
 				meta.fluff.images
@@ -112,7 +112,7 @@ function cleanBestiaryFluffImages () {
 			});
 		} else if (MAP_TO_VALUE[img]) {
 			const nuPath = MAP_TO_VALUE[img] === true ? img.replace(/-/g, " ") : MAP_TO_VALUE[img];
-			if (nuPath !== img) fs.renameSync(`https://2014.5e.tools/img/${img}`, `https://2014.5e.tools/img/${nuPath}`);
+			if (nuPath !== img) fs.renameSync(`img/${img}`, `img/${nuPath}`);
 			metas.forEach((meta) => {
 				meta.fluff.images
 					.filter((it) => it.href.path === img && !it._IS_RENAMED)

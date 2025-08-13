@@ -9,6 +9,7 @@ class NavBar {
   }
 
   static _onDomContentLoaded() {
+		Renderer.get().setBaseMediaUrl("img", "https://2014.5e.tools/img/");
     NavBar._initElements();
     NavBar.highlightCurrentPage();
   }

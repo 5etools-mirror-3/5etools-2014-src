@@ -290,7 +290,17 @@
           border: none;
         }
       }
+      #stat-tabs{
+        margin-top:1rem;
+        border: 1px solid #fbcea0;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        border-bottom: 0;
+        padding-left:0.2rem;
+        padding-bottom:0.3rem;
+      }
     }
+
 }
 
 @layer vetools {
