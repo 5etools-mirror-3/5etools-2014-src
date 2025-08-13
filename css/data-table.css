@@ -379,6 +379,32 @@
 				padding-top: 2px;
 			}
 		}
+		.wrp-stats-table{
+			border:none;
+			border-bottom:1px solid #fbcea0;
+			border-bottom-left-radius: 8px;
+			border-bottom-right-radius: 8px;
+			.stats{
+				background: transparent;
+			border-left:1px solid #fbcea0;
+			border-right:1px solid #fbcea0;
+			border-top:0;
+			.ve-tbl-border{
+				background:transparent;
+			}
+			.stats__th-name{
+				.stats__h-name{
+					font-family: "Alegreya", serif;
+					font-size:2.4rem !important;
+					font-weight: 700;
+        			background: linear-gradient(135deg, #fff, #fbcea0 66%, #fbcfa0);
+        			-webkit-background-clip: text;
+        			background-clip: text;
+        			-webkit-text-fill-color: transparent;
+				}
+			}
+		}
+	}
 	}
 
 }
