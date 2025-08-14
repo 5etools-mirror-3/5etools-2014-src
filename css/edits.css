@@ -33,6 +33,10 @@ nav::before {
 }
 
 @media screen and (max-width: 991px) {
+  .roller,
+.render-roller {
+  font-size: 1.4rem !important;
+}
   .icon {
     height: 39px;
     margin-left: 0.8rem;
@@ -453,7 +457,7 @@ nav {
 .roller,
 .render-roller {
   font-family: "Alegreya";
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   font-weight: 600;
 }
 
