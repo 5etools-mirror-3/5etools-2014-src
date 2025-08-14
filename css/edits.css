@@ -33,10 +33,7 @@ nav::before {
 }
 
 @media screen and (max-width: 991px) {
-  .roller,
-.render-roller {
-  font-size: 1.4rem !important;
-}
+
   .icon {
     height: 39px;
     margin-left: 0.8rem;
