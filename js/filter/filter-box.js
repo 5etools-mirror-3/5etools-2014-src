@@ -298,7 +298,7 @@ if (this._$wrpFormTop || this._$btnOpen) {
 		const $btnSettings = $(`<button class="ve-btn ve-btn-xs ve-btn-default" title="Settings"><span class="glyphicon glyphicon-cog"></span></button>`)
 			.click(() => this._pOpenSettingsModal());
 
-		const $btnSaveAlt = $(`<button class="ve-btn ve-btn-xs ve-btn-primary" title="Save"><span class="glyphicon glyphicon-ok"></span></button>`)
+		const $btnSaveAlt = $(`<button class="ve-btn ve-btn-xs ve-btn-primary" title="Saves"><span class="glyphicon glyphicon-floppy-disk"></span></button>`)
 			.click(() => this._modalMeta.doClose(true));
 
 		const $wrpBtnCombineFilters = $(`<div class="ve-btn-group mr-3"></div>`);

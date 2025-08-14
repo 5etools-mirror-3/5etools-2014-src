@@ -53,9 +53,22 @@
 		}
 
 		#contentwrapper {
+			.glyphicon{
+				color: #fbcea0;
+			}
 			padding: 0 !important;
 			margin: 0 !important;
-
+			#stat-tabs{
+				border:none !important;
+				
+			}
+			.wrp-stats-table{
+				border-radius: 0 !important;
+			}
+			.stats{
+				border-left: none !important;
+				border-right: none !important;
+			}
 			.sublist {
 				max-height: 18rem !important;
 				border: none !important;
@@ -132,7 +145,9 @@
 			border-bottom: 1px solid #fbcea0;
 			align-items: center;
 			padding: 0 0.5rem;
-
+			.glyphicon{
+				color:#fbcea0;
+			}
 			.hide-eye {
 				width: 16px;
 				height: 16px;
@@ -252,6 +267,7 @@
 
 			>button {
 				border: none;
+				color:#fbcea0;
 			}
 
 			>button:not(:last-child) {
@@ -297,7 +313,12 @@
 		}
 	}
 
+	
 	#contentwrapper {
+		>div:last-child{
+			button{
+			color:#fbcea0;
+			}}
 		>div:nth-child(3) {
 			border: 1px solid #fbcea0;
 			border-top: none;
@@ -310,7 +331,9 @@
 			color: #fbcea0;
 			font-family: "Alegreya", serif;
 			font-size: 1.6rem;
-
+			.glyphicon{
+				color:#fbcea0 !important;
+			}
 			div[title="Number of Pinned List Items"] {
 				color: #fbcea0bb !important;
 			}
@@ -343,6 +366,7 @@
 
 				>button {
 					border: none;
+					color:#fbcea0;
 				}
 
 				>button:not(:last-child) {
@@ -393,8 +417,13 @@
 			border-bottom: 0;
 			padding-left: 0.2rem;
 			padding-bottom: 0.3rem;
-
+			.ui-tab__btn-tab-head{
+color:#fbcea0;
+			}
 			#tabs-right {
+				.glyphicon{
+					color:#fbcea0;
+				}
 				padding-top: 2px;
 			}
 		}
@@ -411,10 +440,27 @@
 			font-family: "Alegreya", serif;
 			font-weight: 500;
 			font-size: 1.6rem;
+hr{
+	border-color: #fbcea040 !important;
+}
+					.rd__table>caption{
+						width:fit-content
+					}
+			.entry-title-inner,.rd__table>caption{
+				font-family: "Alegreya", serif;
+					font-weight: 700;
+        			background: linear-gradient(135deg, #fff, #fbcea0 66%, #fbcfa0);
+        			-webkit-background-clip: text;
+        			background-clip: text;
+        			-webkit-text-fill-color: transparent;
+			}
 			.ve-tbl-border{
 				background:transparent;
 			}
 			.stats__th-name{
+				.glyphicon{
+					display:none;
+				}
 				.stats__h-name{
 					font-family: "Alegreya", serif;
 					font-size:2.4rem !important;
@@ -443,6 +489,52 @@
 	-webkit-backdrop-filter: blur(10px) !important;
 	border:1px solid #fbcea0;
 	border-radius: 8px;
+	.fltr__container-pills{
+		display:flex;
+		padding:1rem 0;
+		gap: 0.35rem !important;
+		.fltr__pill{
+				margin: 0;
+				font-family: "Alegreya", serif;
+				font-size: 1.4rem;
+				font-weight: 600;
+				border-radius:4px;
+				border:none;
+		}
+			.fltr__pill[data-state="yes"] {
+				background: linear-gradient(90deg, #336d28, #29671e) 50%;
+				color: white;
+			}
+.fltr__pill[data-state="ignore"] {
+				background: linear-gradient(90deg, #404040, #3a403a) 50%;
+				color: white;
+			}
+			.fltr__pill[data-state="no"] {
+				background: linear-gradient(90deg, #6d3128, #671e1e) 50%;
+				border: none;
+				color: white;
+			}
+	}
+.ui-ideco__wrp{
+	>.glyphicon{
+		color:#fbcea0bb;
+	}
+}
+	.form-control{
+		background-color: transparent;
+		color:#fff;
+		height:24px;
+		border-radius: 8px;
+		border:#fbcea0 solid 1px;
+		box-shadow: none;
+		display:flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0 0.5rem;
+	}
+	.form-control::placeholder{
+		color:#fbcea0bb;
+	}
 	div{
 		font-family: "Alegreya", serif;
 		color:#ffffffbb;
@@ -465,6 +557,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		color:#fbcea0;
 	}
 	.ve-btn-group{
 		align-items: center;
@@ -477,7 +570,15 @@
 		.fltr__h-btn--none{
 			text-decoration-color:#6d3128; 
 		}
+
+		.ve-btn.fltr__h-btn-logic--blue{
+			color:#4a9a39 !important;
+		}
+		.ve-btn.fltr__h-btn-logic--red{
+			color:#9d473a !important;
+		}
 	.ve-btn{
+		color:#fbcea0;
 		font-size: 1.4rem ;
 		height:24px;
 		border:#fbcea0 solid 1px !important;
@@ -494,7 +595,7 @@
 		background-color: transparent !important;
 		font-family: "Alegreya", serif;
 		font-size: 1.8rem;
-		color: #fbcea0 !important;
+		color: #fbcea0 ;
 		border: transparent;
 		border-radius: 7px;
 

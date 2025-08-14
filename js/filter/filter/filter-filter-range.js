@@ -1,5 +1,5 @@
-import {FilterBase} from "./filter-filter-base.js";
-import {PILL_STATE__IGNORE, PILL_STATE__YES, PILL_STATES} from "../filter-constants.js";
+import { FilterBase } from "./filter-filter-base.js";
+import { PILL_STATE__IGNORE, PILL_STATE__YES, PILL_STATES } from "../filter-constants.js";
 
 export class RangeFilter extends FilterBase {
 	/**
@@ -311,7 +311,7 @@ export class RangeFilter extends FilterBase {
 			},
 		);
 		const $btnReset = $(`<button class="ve-btn ve-btn-default ve-btn-xs">Reset</button>`).click(() => this.reset());
-		const $wrpBtns = $$`<div>${$btnForceMobile}${$btnReset}</div>`;
+		const $wrpBtns = $$`<div class="ve-flex gap-2">${$btnForceMobile}${$btnReset}</div>`;
 
 		const $wrpSummary = $(`<div class="ve-flex-v-center fltr__summary_item fltr__summary_item--include"></div>`).hideVe();
 
