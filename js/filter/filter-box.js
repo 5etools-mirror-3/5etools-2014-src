@@ -290,7 +290,7 @@ if (this._$wrpFormTop || this._$btnOpen) {
 		const $btnHideAllFilters = $(`<button class="ve-btn ve-btn-xs ve-btn-default">Hide All</button>`)
 			.click(() => this.hideAllFilters());
 
-		const $btnReset = $(`<button class="ve-btn ve-btn-xs ve-btn-default mr-3" title="${TITLE_BTN_RESET}">Reset</button>`)
+		const $btnReset = $(`<button class="ve-btn ve-btn-xs ve-btn-default mr-2" title="${TITLE_BTN_RESET}">Reset</button>`)
 			.click(evt => this.reset(evt.shiftKey));
 
 		const btnSnapshotManager = this._snapshotManager.getBtn();

@@ -83,9 +83,22 @@
 		}
 	}
 
-.ui-modal__inner > .ve-btn-group > .ve-btn {
-	font-size: 1.2rem !important;
-}
+.ui-modal__inner {
+	
+	h4{
+		align-self: center;
+	}
+
+	.ve-btn, 
+	> .ve-btn-group {
+		font-size: 1.2rem !important;
+		height: 22px !important;
+			> .ve-btn {
+		height: 22px !important;
+				font-size: 1.2rem !important;
+			}
+		}
+	}
 .ve-btn {
 			font-size: 1.6rem !important;
 
@@ -93,7 +106,7 @@
 				font-size: 1.4rem !important;
 			}
 		}
-		
+
 	@layer vetools {
 		.ve-btn.omni__submit {
 			background-color: #171717 !important;
@@ -202,12 +215,12 @@
 			}
 
 			.fltr__mini-pill[data-state="yes"] {
-				background: linear-gradient(90deg, #29481a, #1f4915) 50%;
+				background: linear-gradient(90deg, #336d28, #29671e) 50%;
 				color: white;
 			}
 
 			.fltr__mini-pill[data-state="no"] {
-				background: linear-gradient(90deg, #48201a, #491515) 50%;
+				background: linear-gradient(90deg, #6d3128, #671e1e) 50%;
 				border: none;
 				color: white;
 			}
@@ -430,12 +443,43 @@
 	-webkit-backdrop-filter: blur(10px) !important;
 	border:1px solid #fbcea0;
 	border-radius: 8px;
+	div{
+		font-family: "Alegreya", serif;
+		color:#ffffffbb;
+		font-weight: 600;
+	}
+	h4{
+		font-family: "Alegreya", serif;
+					font-size:2rem;
+					font-weight: 700;
+        			background: linear-gradient(135deg, #fff, #fbcea0 66%, #fbcfa0);
+        			-webkit-background-clip: text;
+        			background-clip: text;
+        			-webkit-text-fill-color: transparent;
+	}
+	.ve-btn{
+		font-size: 1.4rem ;
+		height:24px;
+		border:#fbcea0 solid 1px !important;
+		padding: 0 0.5rem 0 0.5rem !important;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 	.ve-btn-group{
 		align-items: center;
-		
+		.fltr__h-btn--all{
+			text-decoration-color:#336d28; 
+		}
+		.fltr__h-btn--clear{
+			text-decoration-color:#d4d4d4; 
+		}
+		.fltr__h-btn--none{
+			text-decoration-color:#6d3128; 
+		}
 	.ve-btn{
-		font-size: 1.2rem !important;
-		height:20px;
+		font-size: 1.4rem ;
+		height:24px;
 		border:#fbcea0 solid 1px !important;
 		padding: 0 0.5rem 0 0.5rem !important;
 		display: flex;
