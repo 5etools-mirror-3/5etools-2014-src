@@ -75,6 +75,7 @@
 			}
 
 			>div:nth-child(3) {
+				margin-bottom:0 !important;
 				border-left: none !important;
 				border-right: none !important;
 				border-radius: 0 !important;
@@ -82,15 +83,18 @@
 		}
 	}
 
-	@layer vetools {
-		.ve-btn {
+.ui-modal__inner > .ve-btn-group > .ve-btn {
+	font-size: 1.2rem !important;
+}
+.ve-btn {
 			font-size: 1.6rem !important;
 
 			>.glyphicon {
 				font-size: 1.4rem !important;
 			}
 		}
-
+		
+	@layer vetools {
 		.ve-btn.omni__submit {
 			background-color: #171717 !important;
 		}
@@ -287,7 +291,8 @@
 			border-bottom-left-radius: 8px;
 			border-bottom-right-radius: 8px;
 			background-color: #00000059;
-			margin: 0 !important;
+			margin: 0 ;
+			margin-bottom: 1rem ;
 			padding: 0.5rem 0.5rem 0.5rem 1rem;
 			color: #fbcea0;
 			font-family: "Alegreya", serif;
@@ -334,6 +339,7 @@
 
 			#sublist {
 				margin: 0;
+				
 				width: 100%;
 				border: none !important;
 
@@ -367,7 +373,7 @@
 		}
 
 		#stat-tabs {
-			margin-top: 1rem;
+			
 			border: 1px solid #fbcea0;
 			border-top-left-radius: 8px;
 			border-top-right-radius: 8px;
@@ -389,6 +395,9 @@
 			border-left:1px solid #fbcea0;
 			border-right:1px solid #fbcea0;
 			border-top:0;
+			font-family: "Alegreya", serif;
+			font-weight: 500;
+			font-size: 1.6rem;
 			.ve-tbl-border{
 				background:transparent;
 			}
@@ -402,11 +411,38 @@
         			background-clip: text;
         			-webkit-text-fill-color: transparent;
 				}
+				.stats__wrp-h-source{
+					font-family: "Alegreya", serif;
+					font-weight: 700;
+					font-size: 2.4rem;
+					
+				}
+
 			}
 		}
 	}
 	}
+}
 
+.ui-modal__inner{
+	background-color: #00000099 !important;
+	backdrop-filter: blur(10px) !important;
+	-webkit-backdrop-filter: blur(10px) !important;
+	border:1px solid #fbcea0;
+	border-radius: 8px;
+	.ve-btn-group{
+		align-items: center;
+		
+	.ve-btn{
+		font-size: 1.2rem !important;
+		height:20px;
+		border:#fbcea0 solid 1px !important;
+		padding: 0 0.5rem 0 0.5rem !important;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
 }
 
 @layer vetools {
