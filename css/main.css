@@ -1982,13 +1982,6 @@
 		/* text-decoration-style: dotted !important */
 	}
 
-	.help:hover,
-	.help:active,
-	.help:focus {
-		text-decoration: underline !important;
-		text-decoration-style: dotted !important
-	}
-
 	.help-subtle {
 		cursor: help !important
 	}
