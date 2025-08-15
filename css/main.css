@@ -7022,7 +7022,7 @@
 
 	.sublist--resizable {
 		margin-bottom: 3px;
-		min-height: 75px;
+		/* min-height: 75px; */
 		max-height: 80%
 	}
 
