@@ -7,9 +7,21 @@
       border-left: none !important;
       border-right: none !important;
       border-radius: 0 !important;
-      margin: 0;
-      padding: initial 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
 
+      .list--stats{
+        .lst__row{
+          a:first-child{
+            padding-left:1rem !important;
+        }
+      }
+      }
+  #btngroup-manager{
+    >button{
+    color:#fbcea0 !important;
+  }
+}
       .fltr__mini-view {
         .fltr__mini-pill {
           font-size: 1.2rem !important;
@@ -44,7 +56,7 @@
             padding: 1rem 0 !important;
 
             > span:first-child {
-              padding-left: 0.5rem !important;
+              /* padding-left: 1rem !important; */
             }
           }
         }
@@ -199,7 +211,7 @@
 
     .fltr__mini-view {
       flex: 1 1 0px;
-      padding: 0.5rem 0.5rem;
+      padding: 0.5rem 1rem;
       background: transparent !important;
       gap: 4px;
       border: none;
@@ -258,9 +270,11 @@
     #filtertools {
       border: none;
       margin: 0.5rem 0;
+      padding-left:1rem;
 
       > button {
         border: none;
+        padding-left:0;
         color: #fbcea0;
       }
 
@@ -361,6 +375,10 @@
         > button {
           border: none;
           color: #fbcea0;
+          
+        }
+        >button:first-child {
+          padding-left:1rem;
         }
 
         > button:not(:last-child) {
@@ -383,12 +401,14 @@
           background: transparent !important;
 
           > a {
-            padding: 0.5rem;
+            padding: 0.5rem 0 0.5rem 1rem !important;
             border-color: #fbcea040;
             /* */
             font-family: "Alegreya", serif;
             font-size: 1.6rem;
-
+            >span{
+              padding: 0 !important;
+            }
             > span:not(:first-child) {
               font-weight: 500;
             }
@@ -407,7 +427,7 @@
       border-top-left-radius: 8px;
       border-top-right-radius: 8px;
       border-bottom: 0;
-      padding-left: 0.2rem;
+      padding-left: 0.5rem;
       padding-bottom: 0.3rem;
       .ui-tab__btn-tab-head {
         color: #fbcea0;
@@ -424,6 +444,7 @@
       border-bottom: 1px solid #fbcea0;
       border-bottom-left-radius: 8px;
       border-bottom-right-radius: 8px;
+     
       .stats {
         background: transparent;
         border-left: 1px solid #fbcea0;
@@ -432,7 +453,11 @@
         font-family: "Alegreya", serif;
         font-weight: 500;
         font-size: 1.6rem;
+        tr{
+          td{padding-left:1rem;}
+        }
 		.rd__list-hang-notitle{
+      padding-right:0.5rem;
 			.bold.rd__list-item-name{
 				font-family: "Alegreya", serif;
           font-weight: 700;
@@ -591,6 +616,8 @@
   }
 }
 
+
+
 @layer vetools {
   .ve-btn {
     background-color: transparent !important;
@@ -616,4 +643,11 @@
   .ve-btn:hover {
     box-shadow: none !important;
   }
+}
+
+.ve-tbl-divider{
+  background-color: #fbcea0 !important;
+  height: 1px;
+  width: 100%;
+  margin: 0.5rem 0;
 }
