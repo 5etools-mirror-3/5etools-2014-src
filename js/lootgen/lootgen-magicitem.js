@@ -130,6 +130,10 @@ export class LootGenMagicItem extends BaseComponent {
 
 		if (row.choose?.fromMatching) {
 			const subItems = dataManager.getDataItemsFilteredMatching(row.choose.fromMatching);
+			const ptAdditionalText = Object.entries(row.choose.fromMatching)
+				.sort(([kA], [kB]) => SortUtil.ascSortLower(kA, kB))
+				.map(([k, v]) => `${k.toTitleCase()}: ${v.toTitleCase()}`)
+				.join(", ");
 
 			return new LootGenMagicItemSubItems({
 				dataManager,
@@ -143,6 +147,7 @@ export class LootGenMagicItem extends BaseComponent {
 				baseEntry: row.item,
 				item: RollerUtil.rollOnArray(subItems),
 				roll: rowRoll,
+				rollAdditionalText: ptAdditionalText ? `; ${ptAdditionalText}` : "",
 				subItems,
 			});
 		}
@@ -306,6 +311,7 @@ export class LootGenMagicItem extends BaseComponent {
 	 * @param baseEntry The text, which may be an item itself, supplied by the `"item"` property in the row.
 	 * @param item The rolled item.
 	 * @param roll The roll result used to get this row.
+	 * @param rollAdditionalText Additional text to accompany the roll used to get this row.
 	 */
 	constructor (
 		{
@@ -320,6 +326,7 @@ export class LootGenMagicItem extends BaseComponent {
 			baseEntry,
 			item,
 			roll,
+			rollAdditionalText,
 		},
 	) {
 		super();
@@ -336,6 +343,7 @@ export class LootGenMagicItem extends BaseComponent {
 		this._state.baseEntry = baseEntry;
 		this._state.item = item;
 		this._state.roll = roll;
+		this._state.rollAdditionalText = rollAdditionalText;
 		this._state.isItemsAltChooseRoll = isItemsAltChooseRoll;
 
 		this._render = null;
@@ -408,9 +416,9 @@ export class LootGenMagicItem extends BaseComponent {
 		return dispBaseEntry;
 	}
 
-	_getRender_getDispRoll ({prop = "roll"} = {}) {
+	_getRender_getDispRoll ({prop = "roll", propAdditionalText = "rollAdditionalText"} = {}) {
 		const dispRoll = ee`<div class="ve-muted"></div>`;
-		const hkRoll = () => dispRoll.txt(this._state.isItemsAltChooseRoll ? `(${this._itemsAltChooseDisplayText} item)` : `(Rolled ${this._state[prop]})`);
+		const hkRoll = () => dispRoll.txt(this._state.isItemsAltChooseRoll ? `(${this._itemsAltChooseDisplayText} item)` : `(Rolled ${this._state[prop]}${this._state[propAdditionalText] || ""})`);
 		this._addHookBase(prop, hkRoll);
 		hkRoll();
 		return dispRoll;
@@ -422,6 +430,7 @@ export class LootGenMagicItem extends BaseComponent {
 			baseEntry: null,
 			item: null,
 			roll: null,
+			rollAdditionalText: null,
 			isItemsAltChooseRoll: false,
 		};
 	}
