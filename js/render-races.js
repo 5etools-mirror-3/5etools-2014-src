@@ -6,8 +6,8 @@
 
 		const entriesMeta = Renderer.race.getRaceRenderableEntriesMeta(ent, {styleHint});
 		const entryAttributes = entriesMeta.entryAttributes ? renderer.render(entriesMeta.entryAttributes).replace(/(\w+\s+)?\d+\s+feet/g, (match, movement) => {
-					const icon = movement && movement.trim() === 'fly' ? 'flight-icon.webp' : 'walk-icon.webp';
-					return `<img src="../img/statsicons/${icon}" width="20" height="20"> ${match}`;
+					const icon = movement && movement.trim() === 'fly' ? 'flight' : 'walk';
+					return `<img src="./img/statsicons/${icon}-icon.webp" width="20" height="20"> ${match}`;
 				}) : "";
 
 		const ptHeightWeight = RenderRaces._getHeightAndWeightPart(ent);
