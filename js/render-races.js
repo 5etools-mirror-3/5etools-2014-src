@@ -8,7 +8,6 @@ export class RenderRaces {
 
 		const entriesMeta = Renderer.race.getRaceRenderableEntriesMeta(ent, {styleHint});
 		const ptHeightWeight = RenderRaces._getHeightAndWeightPart(ent);
-console.log(renderer.render(entriesMeta.entryMain));
 		const racePanel = $$`
 		${Renderer.utils.getBorderTr()}
 		${Renderer.utils.getExcludedTr({ entity: ent, dataProp: "race" })}

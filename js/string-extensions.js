@@ -12,12 +12,17 @@ String.prototype.applySkillIcons = function () {
     return this.replace(
         /(<span[^>]*data-vet-hash="([^"]+)_phb"[^>]*>)([^<]+)(<\/span>)/g,
         function(match, openTag, skillHash, skillText, closeTag) {
-            // Only process if it's a skill (the hash should match the skill name)
+            // Decode the hash and normalize it
+            const decodedHash = decodeURIComponent(skillHash);
+            const normalizedHash = decodedHash.toLowerCase().replace(/\s+/g, '');
+            
+            // Normalize the skill name for comparison
             const skillName = skillText.trim();
-            const expectedHash = skillName.toLowerCase().replace(/\s+/g, '');
+            const normalizedSkillName = skillName.toLowerCase().replace(/\s+/g, '');
             
             // Check if this is actually a skill by verifying the hash matches the skill name pattern
-            if (skillHash === expectedHash) {
+            if (normalizedHash === normalizedSkillName) {
+                console.log(skillName);
                 const iconName = skillName.toLowerCase().split(" ").join("-");
                 const icon = `<img src="./img/skillsicons/${iconName}-icon.webp" width="20" height="20">`;
                 return `${openTag}${icon}${skillText}${closeTag}`;

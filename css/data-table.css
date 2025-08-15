@@ -3,6 +3,7 @@
     padding: 0;
 
     #listcontainer {
+      width:100vw;
       border-top: none !important;
       border-left: none !important;
       border-right: none !important;

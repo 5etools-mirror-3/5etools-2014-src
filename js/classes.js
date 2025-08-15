@@ -1,8 +1,7 @@
-import {VetoolsConfig} from "./utils-config/utils-config-config.js";
-import {RenderClassesSidebar} from "./render-class.js";
-import {SITE_STYLE__CLASSIC} from "./consts.js";
+import { VetoolsConfig } from "./utils-config/utils-config-config.js";
+import { RenderClassesSidebar } from "./render-class.js";
 
-import {OmnisearchUtilsUi} from "./omnisearch/omnisearch-utils-ui.js";
+import { OmnisearchUtilsUi } from "./omnisearch/omnisearch-utils-ui.js";
 
 class UtilClassesPage {
 	static getColorStyleClasses (entry, {isForceStandardSource, prefix, isSubclass} = {}) {
@@ -1192,7 +1191,7 @@ class ClassesPage extends MixinComponentGlobalState(MixinBaseComponent(MixinProx
 		$$`<table class="cls-tbl shadow-big w-100 mb-2">
 			<tbody>
 			<tr><th class="ve-tbl-border" colspan="15"></th></tr>
-			<tr><th class="ve-text-left cls-tbl__disp-name" colspan="15">${cls.name}</th></tr>
+			<tr><th class="ve-text-left cls-tbl__disp-name" colspan="15">${cls.name} <span class="scroll-right"><img src="./img/svgs/mouse.png" height="16"/>Scroll Right</span></th></tr>
 			<tr>
 				<th colspan="3"></th> <!-- spacer to match the 3 default cols (level, prof, features) -->
 				${$tblGroupHeaders}
@@ -1230,7 +1229,7 @@ class ClassesPage extends MixinComponentGlobalState(MixinBaseComponent(MixinProx
 		// Render column headers (bottom section)
 		const $tblHeadersGroup = colLabels
 			.map(lbl => {
-				const $tblHeader = $(`<th class="cls-tbl__col-generic-center"><div class="cls__squash_header"></div></th>`)
+				const $tblHeader = $(`<th class="cls-tbl__col-generic-center"><div class=""></div></th>`)
 					.fastSetHtml(Renderer.get().render(lbl));
 				$tblHeaders.push($tblHeader);
 				return $tblHeader;
