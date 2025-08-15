@@ -1,14 +1,16 @@
-	export class RenderRaces {
+import "./string-extensions.js"; // Import to register the extensions
+
+export class RenderRaces {
 	static $getRenderedRace (ent) {
 		const styleHint = VetoolsConfig.get("styleSwitcher", "style");
 
 		const renderer = Renderer.get().setFirstSection(true);
 
 		const entriesMeta = Renderer.race.getRaceRenderableEntriesMeta(ent, {styleHint});
-		const entryAttributes = entriesMeta.entryAttributes ? renderer.render(entriesMeta.entryAttributes).replace(/(\w+\s+)?\d+\s+feet/g, (match, movement) => {
-					const icon = movement && movement.trim() === 'fly' ? 'flight' : 'walk';
-					return `<img src="./img/statsicons/${icon}-icon.webp" width="20" height="20"> ${match}`;
-				}) : "";
+		const entryAttributes = entriesMeta.entryAttributes
+			? renderer.render(entriesMeta.entryAttributes)
+				.applySpeedIcons()
+			: "";
 
 		const ptHeightWeight = RenderRaces._getHeightAndWeightPart(ent);
 
