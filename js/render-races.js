@@ -7,21 +7,16 @@ export class RenderRaces {
 		const renderer = Renderer.get().setFirstSection(true);
 
 		const entriesMeta = Renderer.race.getRaceRenderableEntriesMeta(ent, {styleHint});
-		const entryAttributes = entriesMeta.entryAttributes
-			? renderer.render(entriesMeta.entryAttributes)
-				.applySpeedIcons()
-			: "";
-
 		const ptHeightWeight = RenderRaces._getHeightAndWeightPart(ent);
-
+console.log(renderer.render(entriesMeta.entryMain));
 		const racePanel = $$`
 		${Renderer.utils.getBorderTr()}
 		${Renderer.utils.getExcludedTr({ entity: ent, dataProp: "race" })}
 		${Renderer.utils.getNameTr(ent, { controlRhs: ent.soundClip ? RenderRaces._getPronunciationButton(ent) : "", page: UrlUtil.PG_RACES })}
 		<tr><td colspan="6" class="pt-0">
-			${entryAttributes}
+			${entriesMeta.entryAttributes ? renderer.render(entriesMeta.entryAttributes).applySpeedIcons() : ""}
 			${entriesMeta.entryAttributes ? `<div class="w-100 py-1"></div>` : ""}
-			${renderer.render(entriesMeta.entryMain, 1)}
+			${renderer.render(entriesMeta.entryMain, 1).applySkillIcons()}
 			${
         ent.traitTags && ent.traitTags.includes("NPC Race")
           ? `<section class="ve-muted">

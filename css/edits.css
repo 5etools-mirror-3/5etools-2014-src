@@ -395,10 +395,11 @@ nav {
   }
 }
 
-[data-vet-hash="concentration_phb"] {
+[data-vet-hash="concentration_phb"],
+[data-vet-page="skill"] {
   color: #fbcea0;
   font-family: "Alegreya";
-  text-decoration: none;
+  text-decoration: none ;
   display:inline-block;
 }
 [data-vet-hash="concentration_phb"]::before {
