@@ -1,18 +1,16 @@
 @media screen and (max-width: 991px) {
   #classtable {
+    border: none !important;
+    margin: 0 !important;
     padding: 0 !important;
     width: 100vw !important;
-    overflow-x: auto;
     float: none;
-    .cls-tbl__disp-name {
-        position:relative;
     .scroll-right {
-        img{
-            transform:rotate(90deg)
-        }
-      margin-left:2rem; 
-      margin-top:0.65rem;
-      color:#fbcea0 !important;
+      img {
+        transform: rotate(90deg);
+      }
+      margin-left: 2rem;
+      color: #fbcea0 !important;
       display: flex !important;
       column-gap: 1rem;
       text-wrap: nowrap;
@@ -23,17 +21,20 @@
       font-weight: 500;
       letter-spacing: 0.15rem;
     }
-}
+    .cls-tbl__disp-name {
+      position: relative;
+    }
   }
 }
 
 #classtable {
+  overflow-x: auto;
+  border-radius: 8px !important;
+  border: 1px solid #fbcea0;
+  margin-left: 1rem;
   position: relative;
-
   min-height: 1px;
-  padding-right: 15px;
-  padding-left: 15px;
-  width: 75%;
+  width: 74%;
   float: left;
   font-family: "Alegreya", serif;
   .cls-tbl {
@@ -80,9 +81,9 @@
           -webkit-background-clip: text;
           background-clip: text;
           -webkit-text-fill-color: transparent;
-          .scroll-right {
-            display: none;
-          }
+        }
+        .scroll-right {
+          display: none;
         }
       }
     }
