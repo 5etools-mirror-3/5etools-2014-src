@@ -1,30 +1,39 @@
-export class RenderRaces {
+	export class RenderRaces {
 	static $getRenderedRace (ent) {
 		const styleHint = VetoolsConfig.get("styleSwitcher", "style");
 
 		const renderer = Renderer.get().setFirstSection(true);
 
 		const entriesMeta = Renderer.race.getRaceRenderableEntriesMeta(ent, {styleHint});
+		const entryAttributes = entriesMeta.entryAttributes ? renderer.render(entriesMeta.entryAttributes).replace(/(\w+\s+)?\d+\s+feet/g, (match, movement) => {
+					const icon = movement && movement.trim() === 'fly' ? 'flight-icon.webp' : 'walk-icon.webp';
+					return `<img src="../img/statsicons/${icon}" width="20" height="20"> ${match}`;
+				}) : "";
+
 		const ptHeightWeight = RenderRaces._getHeightAndWeightPart(ent);
 
-		return $$`
+		const racePanel = $$`
 		${Renderer.utils.getBorderTr()}
-		${Renderer.utils.getExcludedTr({entity: ent, dataProp: "race"})}
-		${Renderer.utils.getNameTr(ent, {controlRhs: ent.soundClip ? RenderRaces._getPronunciationButton(ent) : "", page: UrlUtil.PG_RACES})}
-
+		${Renderer.utils.getExcludedTr({ entity: ent, dataProp: "race" })}
+		${Renderer.utils.getNameTr(ent, { controlRhs: ent.soundClip ? RenderRaces._getPronunciationButton(ent) : "", page: UrlUtil.PG_RACES })}
 		<tr><td colspan="6" class="pt-0">
-			${entriesMeta.entryAttributes ? renderer.render(entriesMeta.entryAttributes) : ""}
+			${entryAttributes}
 			${entriesMeta.entryAttributes ? `<div class="w-100 py-1"></div>` : ""}
 			${renderer.render(entriesMeta.entryMain, 1)}
-			${ent.traitTags && ent.traitTags.includes("NPC Race") ? `<section class="ve-muted">
+			${
+        ent.traitTags && ent.traitTags.includes("NPC Race")
+          ? `<section class="ve-muted">
 				${renderer.render(`{@note Note: This race is listed in the {@i Dungeon Master's Guide} as an option for creating NPCs. It is not designed for use as a playable race.}`, 2)}
-			 </section>` : ""}
+			 </section>`
+          : ""
+      }
 		</td></tr>
 
 		${ptHeightWeight ? $$`<tr><td colspan="6"><hr class="rd__hr">${ptHeightWeight}</td></tr>` : ""}
 
 		${Renderer.utils.getPageTr(ent)}
 		${Renderer.utils.getBorderTr()}`;
+		return racePanel;
 	}
 
 	static _getPronunciationButton (race) {
