@@ -1188,24 +1188,22 @@ class ClassesPage extends MixinComponentGlobalState(MixinBaseComponent(MixinProx
 			});
 		};
 
-		$$`<table class="cls-tbl shadow-big w-100 mb-2">
+		$$`
+		<div class="class-title"><h2 class="ve-text-left cls-tbl__disp-name">${cls.name}</h2><span class="scroll-right"><img src="./img/svgs/mouse.png" height="16"/>Scroll Right</span></div>
+		<table class="cls-tbl shadow-big w-100 mb-2">
 			<tbody>
-			<tr><th class="ve-tbl-border" colspan="15"></th></tr>
-			<tr><th class="ve-text-left cls-tbl__disp-name" colspan="15">${cls.name}</th>
-			<th><span class="scroll-right"><img src="./img/svgs/mouse.png" height="16"/>Scroll Right</span></th>
 			</tr>
 			<tr>
 				<th colspan="3"></th> <!-- spacer to match the 3 default cols (level, prof, features) -->
 				${$tblGroupHeaders}
 			</tr>
 			<tr>
-				<th class="cls-tbl__col-level">Level</th>
-				<th class="cls-tbl__col-prof-bonus">Proficiency Bonus</th>
+				<th style="width:40px" class="cls-tbl__col-level">LvL</th>
+				<th class="cls-tbl__col-prof-bonus">PB</th>
 				<th class="ve-text-left">Features</th>
 				${$tblHeaders}
 			</tr>
 			${metasTblRows.map(it => it.$row)}
-			<tr><th class="ve-tbl-border" colspan="15"></th></tr>
 			</tbody>
 		</table>`.appendTo($wrpTblClass);
 		$wrpTblClass.showVe();

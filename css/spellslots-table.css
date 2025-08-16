@@ -26,7 +26,26 @@
     }
   }
 }
-
+.container{
+    .class-title{
+      display:flex;
+    .cls-tbl__disp-name {
+      margin:0;
+         font-family: "Alegreya", serif;
+          font-variant: none;
+          padding: 1.5rem 1rem !important;
+          font-size: 2.4rem !important;
+          font-weight: 700;
+          background: linear-gradient(135deg, #fff, #fbcea0 66%, #fbcfa0);
+          background-clip: border-box;
+          -webkit-background-clip: text;
+          background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+        .scroll-right {
+          display: none;
+        }
+      }
 #classtable {
   overflow-x: auto;
   border-radius: 8px !important;
@@ -40,17 +59,22 @@
   .cls-tbl {
     background: #00000059;
     tbody {
-      tr:nth-child(4) {
+      tr:nth-child(1) {
+        th {
+          text-wrap: nowrap;
+        }
+      }
+      tr:nth-child(2) {
         th {
           font-size: 1.6rem;
           font-weight: 700;
         }
       }
-      tr:nth-child(n + 5) {
+      tr:nth-child(n + 3) {
         height: 4rem;
       }
       tr {
-        .ve-tbl-border {
+                .ve-tbl-border {
           display: none;
         }
 
@@ -70,26 +94,12 @@
             }
           }
         }
-        .cls-tbl__disp-name {
-          font-variant: none;
-          padding: 0.5rem 1rem !important;
-          display: flex;
-          font-size: 2.4rem !important;
-          font-weight: 700;
-          background: linear-gradient(135deg, #fff, #fbcea0 66%, #fbcfa0);
-          background-clip: border-box;
-          -webkit-background-clip: text;
-          background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .scroll-right {
-          display: none;
-        }
+      
       }
     }
   }
 }
-
+}
 @layer vetools {
   .ve-night-mode .cls-tbl__stripe-odd:nth-child(2n + 1) {
     background: #fbcea025;

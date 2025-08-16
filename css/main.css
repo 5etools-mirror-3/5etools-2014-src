@@ -6925,6 +6925,11 @@
 		padding: 1px 4px
 	}
 
+	td:first-child,
+	th:first-child{
+		padding:1px 0.5rem;
+	}
+
 	.lst__form-top {
 		display: flex;
 		flex-shrink: 0
