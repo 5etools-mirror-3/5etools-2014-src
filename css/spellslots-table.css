@@ -81,7 +81,9 @@
                 -webkit-text-fill-color: transparent;
             }
           }
-
+          td{
+            padding-left:0.8rem;
+          }
           td,
           th {
             h1,
@@ -102,6 +104,7 @@
               .cls-side__name {
                 font-size: 2.4rem;
                 font-family: "Alegreya", serif;
+                font-variant: none;
                 font-weight: 700;
                 background: linear-gradient(135deg, #fff, #fbcea0 66%, #fbcfa0);
                 -webkit-background-clip: text;

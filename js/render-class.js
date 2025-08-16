@@ -1,5 +1,5 @@
-import {SITE_STYLE__CLASSIC} from "./consts.js";
-import {VetoolsConfig} from "./utils-config/utils-config-config.js";
+import { SITE_STYLE__CLASSIC } from "./consts.js";
+import { VetoolsConfig } from "./utils-config/utils-config-config.js";
 
 /** @abstract */
 class _RenderClassesSidebarImplBase {
@@ -62,7 +62,7 @@ class _RenderClassesSidebarImplBase {
 
 		return ee`<tr><th colspan="6" class="ve-text-left">
 			<div class="split-v-center pr-1" ${dataPartSendToFoundry}>
-				<div class="cls-side__name">${cls.name}</div>
+				<div class="cls-side__name">Class Features</div>
 				<div class="ve-flex-v-center">${btnSendToFoundry}${btnToggleSidebar}</div>
 			</div>
 		</th></tr>`;
