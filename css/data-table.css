@@ -156,9 +156,12 @@
       border-bottom: 1px solid #fbcea0;
       align-items: center;
       padding: 0 0.5rem;
+     
       .glyphicon {
+        background-color: transparent !important;
         color: #fbcea0;
       }
+   
       .hide-eye {
         width: 16px;
         height: 16px;
@@ -624,7 +627,7 @@
 
 @layer vetools {
   .ve-btn {
-    background-color: transparent !important;
+    background-color: transparent;
     font-family: "Alegreya", serif;
     font-size: 1.8rem;
     color: #fbcea0;

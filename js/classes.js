@@ -1517,11 +1517,13 @@ class ClassesPage extends MixinComponentGlobalState(MixinBaseComponent(MixinProx
 
 		const $btnToggleFluff = ComponentUiUtil.$getBtnBool(this, "isShowFluff", {text: "Info"}).title("Toggle Class Info");
 
-		$$`<div class="ve-flex-v-center m-1 ve-btn-group mr-3 no-shrink">${$btnToggleFeatures}${$btnToggleFeatureVariants}${$btnToggleFluff}</div>`.appendTo($wrp);
+		$$`<div class="ve-flex-v-center m-1 ve-btn-group mr-3 no-shrink features-navbar"><div class="features-toggles">
+		${$btnToggleFeatures}${$btnToggleFeatureVariants}${$btnToggleFluff}
+		</div></div>`.appendTo($wrp);
 		// endregion
 
 		// region subclasses
-		const $wrpScTabs = $(`<div class="ve-flex-v-center ve-flex-wrap mr-2 w-100"></div>`).appendTo($wrp);
+		const $wrpScTabs = $(`<div class="ve-flex-v-center ve-flex-wrap w-100"></div>`).appendTo($wrp);
 		this._listSubclass = new List({$wrpList: $wrpScTabs, isUseJquery: true, fnSort: ClassesPage._fnSortSubclassFilterItems});
 
 		cls.subclasses.forEach((sc, i) => {
@@ -1530,23 +1532,23 @@ class ClassesPage extends MixinComponentGlobalState(MixinBaseComponent(MixinProx
 			this._listSubclass.addItem(listItem);
 		});
 
-		const $dispCount = $(`<div class="ve-muted m-1 cls-tabs__sc-not-shown ve-flex-vh-center"></div>`);
-		this._listSubclass.addItem(new ListItem(
-			-1,
-			$dispCount,
-			null,
-			{isAlwaysVisible: true},
-		));
+		// const $dispCount = $(`<div class="ve-muted m-1 cls-tabs__sc-not-shown ve-flex-vh-center"></div>`);
+		// this._listSubclass.addItem(new ListItem(
+		// 	-1,
+		// 	$dispCount,
+		// 	null,
+		// 	{isAlwaysVisible: true},
+		// ));
 
-		this._listSubclass.on("updated", () => {
-			$dispCount.off("click");
-			if (this._listSubclass.visibleItems.length) {
-				const cntNotShown = this._listSubclass.items.length - this._listSubclass.visibleItems.length;
-				$dispCount.html(cntNotShown ? `<i class="clickable" title="Adjust your filters to see more.">(${cntNotShown} more not shown)</i>` : "").click(() => this._doSelectAllSubclasses());
-			} else if (this._listSubclass.items.length > 1) {
-				$dispCount.html(`<i class="clickable" title="Adjust your filters to see more.">(${this._listSubclass.items.length - 1} subclasses not shown)</i>`).click(() => this._doSelectAllSubclasses());
-			} else $dispCount.html("");
-		});
+		// this._listSubclass.on("updated", () => {
+		// 	$dispCount.off("click");
+		// 	if (this._listSubclass.visibleItems.length) {
+		// 		const cntNotShown = this._listSubclass.items.length - this._listSubclass.visibleItems.length;
+		// 		$dispCount.html(cntNotShown ? `<i class="clickable" title="Adjust your filters to see more.">(${cntNotShown} more not shown)</i>` : "").click(() => this._doSelectAllSubclasses());
+		// 	} else if (this._listSubclass.items.length > 1) {
+		// 		$dispCount.html(`<i class="clickable" title="Adjust your filters to see more.">(${this._listSubclass.items.length - 1} subclasses not shown)</i>`).click(() => this._doSelectAllSubclasses());
+		// 	} else $dispCount.html("");
+		// });
 
 		this._listSubclass.init();
 		// endregion
@@ -1647,17 +1649,21 @@ class ClassesPage extends MixinComponentGlobalState(MixinBaseComponent(MixinProx
 				...cpySubHashes,
 				`flopsource:extend`,
 			].filter(Boolean), {force: true});
-			$selFilterPreset.val("-1");
+			$selFilterPreset.val(ix);
 		};
-		const $selFilterPreset = $(`<select class="input-xs form-control cls-tabs__sel-preset"><option value="-1" disabled>Filter...</option></select>`)
+
+		
+		const $selFilterPreset = $(`<select class=""><option value="-1" disabled>Filter...</option></select>`)
 			.change(() => {
 				const val = Number($selFilterPreset.val());
 				if (val == null) return;
 				setFilterSet(val);
 			});
-		filterSets.forEach((it, i) => $selFilterPreset.append(`<option value="${i}">${it.name}</option>`));
-		$selFilterPreset.val("-1");
-
+      		filterSets.forEach((it, i) =>
+        		$selFilterPreset.append(`<option value="${i}">${it.name}</option>`)
+      		);
+			
+		$selFilterPreset.val("2");
 		const $btnReset = $(`<button class="ve-btn ve-btn-xs ve-btn-default" title="Reset Selection"><span class="glyphicon glyphicon-refresh"></span></button>`)
 			.click(() => {
 				this._proxyAssign("state", "_state", "__state", cls.subclasses.mergeMap(sc => ({[UrlUtil.getStateKeySubclass(sc)]: false})));
@@ -1692,10 +1698,8 @@ class ClassesPage extends MixinComponentGlobalState(MixinBaseComponent(MixinProx
 				}
 			});
 
-		$$`<div class="ve-flex-v-center m-1 no-shrink">${$selFilterPreset}</div>`.appendTo($wrp);
-		$$`<div class="ve-flex-v-center m-1 ve-btn-group no-shrink">
-			${$btnSelAll}${$btnShuffle}${$btnReset}${$btnToggleSources}
-		</div>`.appendTo($wrp);
+			$$`<div class="middle-toggles">${$btnSelAll}${$btnShuffle}${$btnReset}${$btnToggleSources}</div>`.appendTo($(".features-navbar"));
+		// $$`<div>${$selFilterPreset}</div>`.appendTo($(".features-navbar"));
 	}
 
 	_handleSubclassFilterChange () {
@@ -1716,7 +1720,7 @@ class ClassesPage extends MixinComponentGlobalState(MixinBaseComponent(MixinProx
 		if (this._state[stateKey] == null) this._state[stateKey] = false;
 
 		const $dispName = $(`<div title="${ClassesPage.getBtnTitleSubclass(sc)}"></div>`);
-		const $dispSource = $(`<div class="ml-1" title="${Parser.sourceJsonToFull(sc.source)}">(${Parser.sourceJsonToAbv(sc.source)})</div>`);
+		const $dispSource = $(`<div title="${Parser.sourceJsonToFull(sc.source)}">(${Parser.sourceJsonToAbv(sc.source)})</div>`);
 		const hkSourcesVisible = () => {
 			$dispName.text(this._state.isShowScSources ? ClassesPage.getBaseShortName(sc) : sc.shortName);
 			$dispSource.toggleVe(!!this._state.isShowScSources);

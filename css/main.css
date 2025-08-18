@@ -7568,7 +7568,7 @@
 	.ve-night-mode .ve-btn-default:hover,
 	.ve-night-mode .ve-btn-default:focus,
 	.ve-night-mode .ve-btn-default:active {
-		background-color: #222;
+		background-color: transparent;
 		color: #bbb;
 		border-color: #555
 	}
@@ -7577,7 +7577,7 @@
 	.ve-night-mode .ve-btn-primary:hover,
 	.ve-night-mode .ve-btn-primary:focus,
 	.ve-night-mode .ve-btn-primary:active {
-		background-color: #2a4e6c;
+		background-color: transparent;
 		color: #bbb
 	}
 
@@ -7605,7 +7605,7 @@
 	.ve-night-mode .ve-btn-info:hover,
 	.ve-night-mode .ve-btn-info:focus,
 	.ve-night-mode .ve-btn-info:active {
-		background-color: #2a697c;
+		background-color: transparent;
 		color: #bbb
 	}
 
@@ -7614,13 +7614,12 @@
 	.ve-night-mode .ve-btn-success:focus,
 	.ve-night-mode .ve-btn-success:active {
 		background-color: #427442;
-		color: #bbb
+		color: #bbb;
 	}
 
 	.ve-night-mode .ve-btn-default.active {
-		background-color: #888;
-		box-shadow: inset 0 3px 7px rgba(17, 17, 17, .9333333333);
-		color: #222
+		background-color: #fbcea0;
+		color: #222;
 	}
 
 	.ve-night-mode .ve-btn-primary.active,
@@ -9155,6 +9154,9 @@
 		margin-bottom: 0
 	}
 
+	.stats__btn-name-pronounce{
+		display:none;
+	}
 	.stats__btn-name-pronounce,
 	.stats__btn-stats-name {
 		vertical-align: top;
