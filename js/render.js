@@ -4761,6 +4761,11 @@ Renderer.utils = class {
 			// TODO(Future) revise/expand
 			case "@creatureFluff": { out.isFauxPage = true; out.page = "monsterFluff"; break; }
 
+			case "@character": {
+				out.page = UrlUtil.PG_CHARACTERS;
+				break;
+			}
+
 			default: throw new Error(`Unhandled tag "${tag}"`);
 		}
 

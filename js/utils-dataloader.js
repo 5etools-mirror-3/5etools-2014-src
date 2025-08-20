@@ -821,6 +821,13 @@ class _DataTypeLoaderCharoption extends _DataTypeLoaderSingleSource {
 	_filename = "charcreationoptions.json";
 }
 
+class _DataTypeLoaderCharacter extends _DataTypeLoaderSingleSource {
+	static PROPS = ["character"];
+	static PAGE = UrlUtil.PG_CHARACTERS;
+
+	_filename = "characters.json";
+}
+
 class _DataTypeLoaderTrapHazard extends _DataTypeLoaderSingleSource {
 	static PROPS = ["trap", "hazard"];
 	static PAGE = UrlUtil.PG_TRAPS_HAZARDS;
@@ -1794,6 +1801,7 @@ class DataLoader {
 		"optionalfeature": UrlUtil.PG_OPT_FEATURES,
 		"reward": UrlUtil.PG_REWARDS,
 		"charoption": UrlUtil.PG_CHAR_CREATION_OPTIONS,
+		"character": UrlUtil.PG_CHARACTERS,
 		"race": UrlUtil.PG_RACES,
 		"subrace": UrlUtil.PG_RACES,
 		"deity": UrlUtil.PG_DEITIES,
@@ -1883,6 +1891,7 @@ class DataLoader {
 		_DataTypeLoaderOptionalfeature.register({fnRegister});
 		_DataTypeLoaderReward.register({fnRegister});
 		_DataTypeLoaderCharoption.register({fnRegister});
+		_DataTypeLoaderCharacter.register({fnRegister});
 
 		_DataTypeLoaderTrapHazard.register({fnRegister});
 		_DataTypeLoaderCultBoon.register({fnRegister});
