@@ -15356,6 +15356,7 @@ Renderer.hover = class {
 			case UrlUtil.PG_PSIONICS: return Renderer.psionic.getCompactRenderedString.bind(Renderer.psionic);
 			case UrlUtil.PG_REWARDS: return Renderer.reward.getCompactRenderedString.bind(Renderer.reward);
 			case UrlUtil.PG_RACES: return it => Renderer.race.getCompactRenderedString(it, {isStatic});
+			case UrlUtil.PG_CHARACTERS: return Renderer.character.getCompactRenderedString.bind(Renderer.character);
 			case UrlUtil.PG_DEITIES: return Renderer.deity.getCompactRenderedString.bind(Renderer.deity);
 			case UrlUtil.PG_OBJECTS: return Renderer.object.getCompactRenderedString.bind(Renderer.object);
 			case UrlUtil.PG_TRAPS_HAZARDS: return Renderer.traphazard.getCompactRenderedString.bind(Renderer.traphazard);
@@ -15392,6 +15393,7 @@ Renderer.hover = class {
 		switch (page) {
 			case UrlUtil.PG_BESTIARY: return Renderer.monster.bindListenersCompact.bind(Renderer.monster);
 			case UrlUtil.PG_RACES: return Renderer.race.bindListenersCompact.bind(Renderer.race);
+			case UrlUtil.PG_CHARACTERS: return Renderer.character.bindListenersCompact.bind(Renderer.character);
 			default: return null;
 		}
 	}

@@ -1,0 +1,369 @@
+{
+	"_meta": {
+		"sources": [
+			{
+				"json": "MyCharacters",
+				"abbreviation": "MChars",
+				"full": "My D&D Characters",
+				"authors": [
+					"DM Example"
+				],
+				"convertedBy": [
+					"5etools Character System"
+				],
+				"version": "1.0",
+				"color": "8B4513",
+				"url": "",
+				"targetSchema": "2.3.8"
+			}
+		],
+		"internalCopies": [
+			"character"
+		]
+	},
+	"character": [
+		{
+			"name": "Lyra Nightsong",
+			"source": "MyCharacters",
+			"page": 1,
+			"level": 5,
+			"race": {
+				"name": "Half-Elf",
+				"source": "PHB"
+			},
+			"class": [
+				{
+					"name": "Bard",
+					"source": "PHB",
+					"level": 5,
+					"subclass": {
+						"name": "College of Lore",
+						"source": "PHB"
+					}
+				}
+			],
+			"background": {
+				"name": "Entertainer",
+				"source": "PHB"
+			},
+			"alignment": [
+				"C",
+				"G"
+			],
+			"ac": [
+				{
+					"ac": 13,
+					"from": ["studded leather armor", "dex"]
+				}
+			],
+			"hp": {
+				"average": 38,
+				"formula": "5d8 + 5"
+			},
+			"speed": {
+				"walk": 30
+			},
+			"str": 10,
+			"dex": 16,
+			"con": 12,
+			"int": 14,
+			"wis": 13,
+			"cha": 18,
+			"save": {
+				"dex": "+6",
+				"cha": "+7"
+			},
+			"skill": {
+				"deception": "+7",
+				"history": "+5",
+				"investigation": "+5",
+				"perception": "+4",
+				"performance": "+10",
+				"persuasion": "+7",
+				"sleight of hand": "+6"
+			},
+			"passive": 14,
+			"languages": [
+				"Common",
+				"Elvish",
+				"Halfling",
+				"Thieves' Cant"
+			],
+			"proficiencyBonus": "+3",
+			"equipment": [
+				{
+					"name": "Rapier",
+					"type": "weapon"
+				},
+				{
+					"name": "Studded Leather Armor",
+					"type": "armor"
+				},
+				{
+					"name": "Lute",
+					"type": "instrument"
+				},
+				{
+					"name": "Shortbow",
+					"type": "weapon"
+				}
+			],
+			"spellcasting": {
+				"level": 5,
+				"ability": "cha",
+				"dc": 15,
+				"mod": "+7",
+				"ritual": true,
+				"spellsKnown": 8,
+				"spells": {
+					"0": {
+						"spells": [
+							"mage hand",
+							"minor illusion",
+							"vicious mockery"
+						]
+					},
+					"1": {
+						"slots": 4,
+						"spells": [
+							"cure wounds",
+							"dissonant whispers",
+							"faerie fire",
+							"healing word"
+						]
+					},
+					"2": {
+						"slots": 3,
+						"spells": [
+							"heat metal",
+							"suggestion"
+						]
+					},
+					"3": {
+						"slots": 2,
+						"spells": [
+							"counterspell"
+						]
+					}
+				}
+			},
+			"trait": [
+				{
+					"name": "Fey Ancestry",
+					"entries": [
+						"You have advantage on saving throws against being charmed, and magic can't put you to sleep."
+					]
+				},
+				{
+					"name": "Bardic Inspiration",
+					"entries": [
+						"As a bonus action, you can inspire an ally within 60 feet who can hear you. They gain a Bardic Inspiration die (d8) to add to one attack roll, ability check, or saving throw."
+					]
+				},
+				{
+					"name": "Cutting Words",
+					"entries": [
+						"As a reaction, you can expend a use of Bardic Inspiration to reduce an enemy's attack roll, ability check, or damage roll by 1d8."
+					]
+				}
+			],
+			"action": [
+				{
+					"name": "Rapier",
+					"entries": [
+						"{@atk mw} {@hit 6} to hit, reach 5 ft., one target. {@h}7 ({@damage 1d8 + 3}) piercing damage."
+					]
+				},
+				{
+					"name": "Shortbow",
+					"entries": [
+						"{@atk rw} {@hit 6} to hit, range 80/320 ft., one target. {@h}6 ({@damage 1d6 + 3}) piercing damage."
+					]
+				},
+				{
+					"name": "Vicious Mockery (Cantrip)",
+					"entries": [
+						"Target must make a DC 15 Wisdom saving throw or take 8 ({@damage 2d4 + 3}) psychic damage and have disadvantage on their next attack roll."
+					]
+				}
+			],
+			"customText": "Lyra is a charismatic half-elf bard who travels from town to town, gathering stories and spreading news through song and tale. Her silver tongue and quick wit have gotten her out of more trouble than her sword ever could.",
+			"fluff": {
+				"entries": [
+					"With auburn hair that catches the light like burnished copper and eyes the color of emeralds, Lyra Nightsong commands attention wherever she goes. Her melodious voice can inspire courage in the hearts of allies or strike fear into enemies with cutting words.",
+					"Raised in a traveling troupe of performers, Lyra learned early that information is power and entertainment is currency. She has a network of contacts across the realm, from tavern keepers to noble courts.",
+					"Despite her carefree exterior, Lyra carries the burden of a mysterious past. The lullaby she hums unconsciously contains fragments of a prophecy she doesn't fully understand, but which draws both allies and enemies to her path."
+				]
+			}
+		},
+		{
+			"name": "Thorin Ironbeard",
+			"source": "MyCharacters",
+			"page": 2,
+			"level": 7,
+			"race": {
+				"name": "Mountain Dwarf",
+				"source": "PHB"
+			},
+			"class": [
+				{
+					"name": "Paladin",
+					"source": "PHB",
+					"level": 7,
+					"subclass": {
+						"name": "Oath of Devotion",
+						"source": "PHB"
+					}
+				}
+			],
+			"background": {
+				"name": "Folk Hero",
+				"source": "PHB"
+			},
+			"alignment": [
+				"L",
+				"G"
+			],
+			"ac": [
+				{
+					"ac": 18,
+					"from": ["plate armor"]
+				}
+			],
+			"hp": {
+				"average": 67,
+				"formula": "7d10 + 21"
+			},
+			"speed": {
+				"walk": 25
+			},
+			"str": 16,
+			"dex": 10,
+			"con": 16,
+			"int": 12,
+			"wis": 14,
+			"cha": 15,
+			"save": {
+				"wis": "+5",
+				"cha": "+5"
+			},
+			"skill": {
+				"athletics": "+6",
+				"insight": "+5",
+				"intimidation": "+5",
+				"medicine": "+5",
+				"religion": "+4"
+			},
+			"passive": 12,
+			"languages": [
+				"Common",
+				"Dwarvish"
+			],
+			"proficiencyBonus": "+3",
+			"equipment": [
+				{
+					"name": "Warhammer +1",
+					"type": "weapon",
+					"description": "Family heirloom with divine blessing"
+				},
+				{
+					"name": "Plate Armor",
+					"type": "armor"
+				},
+				{
+					"name": "Shield",
+					"type": "armor"
+				},
+				{
+					"name": "Javelin",
+					"type": "weapon",
+					"quantity": 5
+				}
+			],
+			"spellcasting": {
+				"level": 7,
+				"ability": "cha",
+				"dc": 13,
+				"mod": "+5",
+				"spells": {
+					"1": {
+						"slots": 3,
+						"spells": [
+							"bless",
+							"cure wounds",
+							"detect evil and good",
+							"protection from evil and good"
+						]
+					},
+					"2": {
+						"slots": 2,
+						"spells": [
+							"aid",
+							"zone of truth"
+						]
+					}
+				}
+			},
+			"trait": [
+				{
+					"name": "Darkvision",
+					"entries": [
+						"You can see in dim light within 60 feet of you as if it were bright light, and in darkness as if it were dim light."
+					]
+				},
+				{
+					"name": "Dwarven Resilience",
+					"entries": [
+						"You have advantage on saving throws against poison, and you have resistance against poison damage."
+					]
+				},
+				{
+					"name": "Divine Sense",
+					"entries": [
+						"You can detect celestials, fiends, and undead within 60 feet of you as an action."
+					]
+				},
+				{
+					"name": "Lay on Hands",
+					"entries": [
+						"You have a pool of healing power that replenishes when you take a long rest. You can heal 35 hit points as an action."
+					]
+				}
+			],
+			"action": [
+				{
+					"name": "Multiattack",
+					"entries": [
+						"You can make two attacks when you take the Attack action."
+					]
+				},
+				{
+					"name": "Warhammer +1",
+					"entries": [
+						"{@atk mw} {@hit 7} to hit, reach 5 ft., one target. {@h}8 ({@damage 1d8 + 4}) bludgeoning damage, or 9 ({@damage 1d10 + 4}) bludgeoning damage if used with two hands."
+					]
+				},
+				{
+					"name": "Javelin",
+					"entries": [
+						"{@atk mw,rw} {@hit 6} to hit, reach 5 ft. or range 30/120 ft., one target. {@h}6 ({@damage 1d6 + 3}) piercing damage."
+					]
+				},
+				{
+					"name": "Channel Divinity: Sacred Weapon",
+					"entries": [
+						"As an action, you can imbue one weapon with positive energy. For 1 minute, you add your Charisma modifier to attack rolls made with that weapon (included in attacks above). The weapon also emits bright light in a 20-foot radius."
+					]
+				}
+			],
+			"customText": "Thorin Ironbeard is a stalwart dwarf paladin who has sworn an oath to protect the innocent and uphold justice. His unwavering faith and mighty hammer have made him a legend among his clan.",
+			"fluff": {
+				"entries": [
+					"Standing barely five feet tall but built like a mountain himself, Thorin's presence fills any room he enters. His iron-grey beard is braided with holy symbols, and his plate armor bears the hammer-and-anvil crest of his clan.",
+					"Born in the deep mines of the Ironpeak Mountains, Thorin discovered his calling when he defended his village from a orc raid. The divine power that flowed through him that day convinced him to take up the paladin's oath.",
+					"Though gruff and stern in manner, Thorin has a soft spot for children and the downtrodden. He believes that true strength comes not from the arm, but from the conviction to do what is right, no matter the cost."
+				]
+			}
+		}
+	]
+}

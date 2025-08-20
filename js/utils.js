@@ -3672,6 +3672,7 @@ UrlUtil.PG_FEATS = "feats.html";
 UrlUtil.PG_OPT_FEATURES = "optionalfeatures.html";
 UrlUtil.PG_PSIONICS = "psionics.html";
 UrlUtil.PG_RACES = "races.html";
+UrlUtil.PG_CHARACTERS = "characters.html";
 UrlUtil.PG_REWARDS = "rewards.html";
 UrlUtil.PG_VARIANTRULES = "variantrules.html";
 UrlUtil.PG_ADVENTURE = "adventure.html";
@@ -3725,6 +3726,7 @@ UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_FEATS] = UrlUtil.URL_TO_HASH_GENERIC;
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_OPT_FEATURES] = UrlUtil.URL_TO_HASH_GENERIC;
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_PSIONICS] = UrlUtil.URL_TO_HASH_GENERIC;
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_RACES] = UrlUtil.URL_TO_HASH_GENERIC;
+UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CHARACTERS] = UrlUtil.URL_TO_HASH_GENERIC;
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_REWARDS] = UrlUtil.URL_TO_HASH_GENERIC;
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_VARIANTRULES] = UrlUtil.URL_TO_HASH_GENERIC;
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_ADVENTURE] = (it) => UrlUtil.encodeForHash(it.id);
@@ -3842,6 +3844,7 @@ UrlUtil.PG_TO_NAME[UrlUtil.PG_FEATS] = "Feats";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_OPT_FEATURES] = "Other Options and Features";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_PSIONICS] = "Psionics";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_RACES] = "Races";
+UrlUtil.PG_TO_NAME[UrlUtil.PG_CHARACTERS] = "Characters";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_REWARDS] = "Supernatural Gifts & Rewards";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_VARIANTRULES] = "Optional, Variant, and Expanded Rules";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_ADVENTURES] = "Adventures";
@@ -3986,6 +3989,7 @@ UrlUtil.PAGE_TO_PROPS = {};
 UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_SPELLS] = ["spell"];
 UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_ITEMS] = ["item", "itemGroup", "itemType", "itemEntry", "itemProperty", "itemTypeAdditionalEntries", "itemMastery", "baseitem", "magicvariant"];
 UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_RACES] = ["race", "subrace"];
+UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_CHARACTERS] = ["character"];
 UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_ACTIONS] = ["action"];
 UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_BACKGROUNDS] = ["background"];
 UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_BESTIARY] = ["monster"];
@@ -6938,6 +6942,51 @@ globalThis.DataUtil = class {
 			].join("|").replace(/\|+$/, ""); // Trim trailing pipes
 			if (opts?.isMaintainCase) return out;
 			return out.toLowerCase();
+		}
+	};
+
+	static character = class extends _DataUtilPropConfigSingleSource {
+		static _PAGE = UrlUtil.PG_CHARACTERS || "characters";
+		static _FILENAME = "characters.json";
+
+		static _psLoadJson = {};
+
+		static async loadJSON () {
+			const cacheKey = "site";
+			DataUtil.character._psLoadJson[cacheKey] ||= (async () => {
+				try {
+					const data = await this.loadRawJSON();
+					(data.character || []).forEach(it => it.__prop = "character");
+					return data;
+				} catch (e) {
+					// If no characters.json exists, return empty structure
+					return {character: []};
+				}
+			})();
+			return DataUtil.character._psLoadJson[cacheKey];
+		}
+
+		static async loadPrerelease () {
+			const cacheKey = "prerelease";
+			this._psLoadJson[cacheKey] ||= DataUtil.character._loadPrereleaseBrew({brewUtil: typeof PrereleaseUtil !== "undefined" ? PrereleaseUtil : null});
+			return this._psLoadJson[cacheKey];
+		}
+
+		static async loadBrew () {
+			const cacheKey = "brew";
+			this._psLoadJson[cacheKey] ||= DataUtil.character._loadPrereleaseBrew({brewUtil: typeof BrewUtil2 !== "undefined" ? BrewUtil2 : null});
+			return this._psLoadJson[cacheKey];
+		}
+
+		static async _loadPrereleaseBrew ({brewUtil} = {}) {
+			if (!brewUtil) return {character: []};
+			const brew = await brewUtil.pGetBrewProcessed();
+			const characters = (brew.character || []).map(char => {
+				const out = MiscUtil.copyFast(char);
+				out.__prop = "character";
+				return out;
+			});
+			return {character: characters};
 		}
 	};
 
