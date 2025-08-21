@@ -64,7 +64,12 @@ class CharacterEditorPage {
 			class: [{
 				name: "Fighter",
 				source: "PHB",
-				level: 1
+				level: 1,
+				subclass: {
+					name: "Champion",
+					shortName: "Champion",
+					source: "PHB"
+				}
 			}],
 			background: {
 				name: "Acolyte",
@@ -189,6 +194,50 @@ class CharacterEditorPage {
 		}
 		if (character.background) {
 			character._fBackground = character.background.name;
+		}
+		
+		// Ensure we have the standard character structure for rendering
+		// If the character uses the 'entries' format, convert some fields back to standard format
+		if (character.entries && !character.trait && !character.action) {
+			this._convertEntriesFormat(character);
+		}
+	}
+	
+	_convertEntriesFormat(character) {
+		// Convert from structured entries format to flat format for compatibility
+		if (!character.entries) return;
+		
+		character.trait = character.trait || [];
+		character.action = character.action || [];
+		
+		for (const entry of character.entries) {
+			if (entry.name === "Features & Traits" && entry.entries) {
+				for (const trait of entry.entries) {
+					if (trait.type === "entries" && trait.name) {
+						character.trait.push({
+							name: trait.name,
+							entries: trait.entries
+						});
+					}
+				}
+			} else if (entry.name === "Actions" && entry.entries) {
+				for (const action of entry.entries) {
+					if (action.type === "entries" && action.name) {
+						character.action.push({
+							name: action.name,
+							entries: action.entries
+						});
+					}
+				}
+			} else if (entry.name === "Background & Personality") {
+				// Add to fluff or customText
+				if (!character.customText) {
+					character.customText = entry.entries.join(" ");
+				}
+				if (!character.fluff) {
+					character.fluff = { entries: entry.entries };
+				}
+			}
 		}
 	}
 

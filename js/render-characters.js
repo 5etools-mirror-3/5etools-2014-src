@@ -29,13 +29,19 @@ export class RenderCharacters {
 
 	static _getRenderedSection_header (character) {
 		const raceText = character.race ?
-			(character.race.variant ? `Variant ${character.race.name}` : character.race.name) :
+			(character.race.variant ? 
+				`Variant {@race ${character.race.name}|${character.race.source || "PHB"}}` : 
+				`{@race ${character.race.name}|${character.race.source || "PHB"}}`) :
 			"Unknown Race";
 
 		const classText = character.class ?
 			character.class.map(cls => {
-				let text = `${cls.name} ${cls.level}`;
-				if (cls.subclass) text += ` (${cls.subclass.name})`;
+				const classLink = `{@class ${cls.name}|${cls.source || "PHB"}}`;
+				let text = `${classLink} ${cls.level}`;
+				if (cls.subclass) {
+					const subclassLink = `{@class ${cls.name}|${cls.source || "PHB"}|${cls.subclass.shortName || cls.subclass.name}|${cls.subclass.source || "PHB"}}`;
+					text += ` (${subclassLink})`;
+				}
 				return text;
 			}).join(", ") :
 			"Unknown Class";
@@ -44,6 +50,8 @@ export class RenderCharacters {
 			(Array.isArray(character.alignment) ? character.alignment.join(" ") : character.alignment) :
 			"Unknown";
 
+		const renderer = Renderer.get();
+		
 		return $$`<tr>
 			<th class="ve-tbl-border" colspan="6"></th>
 		</tr>
@@ -57,7 +65,7 @@ export class RenderCharacters {
 		</tr>
 		<tr>
 			<td colspan="6" class="stats-size-type-alignment">
-				<i>Level ${character.level} ${raceText} ${classText}, ${alignmentText}</i>
+				<i>Level ${character.level} ${renderer.render(raceText)} ${renderer.render(classText)}, ${alignmentText}</i>
 			</td>
 		</tr>`;
 	}

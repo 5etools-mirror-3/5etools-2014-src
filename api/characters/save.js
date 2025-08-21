@@ -1,6 +1,3 @@
-const fs = require('fs').promises;
-const path = require('path');
-
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', true);

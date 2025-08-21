@@ -53,7 +53,10 @@
 			"ac": [
 				{
 					"ac": 13,
-					"from": ["studded leather armor", "dex"]
+					"from": [
+						"studded leather armor",
+						"dex"
+					]
 				}
 			],
 			"hp": {
@@ -227,7 +230,9 @@
 			"ac": [
 				{
 					"ac": 18,
-					"from": ["plate armor"]
+					"from": [
+						"plate armor"
+					]
 				}
 			],
 			"hp": {

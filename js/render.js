@@ -8832,24 +8832,24 @@ Renderer.character = class {
 		}
 
 		// Custom description - inline format
-		if (character.customText) {
-			const customInfo = {
-				type: "entries",
-				entries: [`<p><strong>Description:</strong> ${character.customText}</p>`]
-			};
-			renderer.recursiveRender(customInfo, renderStack, {depth: 1});
-		}
+		// if (character.customText) {
+		// 	const customInfo = {
+		// 		type: "entries",
+		// 		entries: [`<p><strong>Description:</strong> ${character.customText}</p>`]
+		// 	};
+		// 	renderer.recursiveRender(customInfo, renderStack, {depth: 1});
+		// }
 
 
-		// Fluff entries - inline background
-		if (character.fluff?.entries?.length) {
-			const fluffText = character.fluff.entries.join(' ');
-			const fluffInfo = {
-				type: "entries",
-				entries: [`<p><strong>Background:</strong> ${fluffText}</p>`]
-			};
-			renderer.recursiveRender(fluffInfo, renderStack, {depth: 1});
-		}
+		// // Fluff entries - inline background
+		// if (character.fluff?.entries?.length) {
+		// 	const fluffText = character.fluff.entries.join(' ');
+		// 	const fluffInfo = {
+		// 		type: "entries",
+		// 		entries: [`<p><strong>Background:</strong> ${fluffText}</p>`]
+		// 	};
+		// 	renderer.recursiveRender(fluffInfo, renderStack, {depth: 1});
+		// }
 
 		// Character entries
 		if (character.entries) {

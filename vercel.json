@@ -1,13 +1,7 @@
 {
   "functions": {
     "api/characters/save.js": {
-      "runtime": "nodejs18.x"
+      "runtime": "nodejs20.x"
     }
-  },
-  "routes": [
-    {
-      "src": "/api/characters/save",
-      "dest": "/api/characters/save.js"
-    }
-  ]
+  }
 }

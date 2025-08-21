@@ -32,7 +32,11 @@
 			"ac": [
 				{
 					"ac": 18,
-					"from": ["studded leather armor", "shield", "dex"]
+					"from": [
+						"studded leather armor",
+						"shield",
+						"dex"
+					]
 				}
 			],
 			"hp": {
@@ -259,7 +263,9 @@
 			"ac": [
 				{
 					"ac": 12,
-					"from": ["natural"]
+					"from": [
+						"natural"
+					]
 				}
 			],
 			"hp": {
@@ -324,7 +330,7 @@
 				},
 				{
 					"name": "Quarterstaff",
-					"type": "weapon", 
+					"type": "weapon",
 					"source": "PHB",
 					"equipped": true
 				}
