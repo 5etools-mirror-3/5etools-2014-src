@@ -128,6 +128,13 @@ class CharactersPage extends ListPageMultiSource {
 	async _pOnLoad_pPreDataLoad () {
 		// Ensure Example source is loaded for hover/popout functionality
 		await this._pLoadSource("Example", "yes");
+		
+		// Preload spell data so spell links work in character sheets
+		try {
+			await DataLoader.pCacheAndGetAllSite(UrlUtil.PG_SPELLS);
+		} catch (e) {
+			console.warn("Failed to preload spell data for character page:", e);
+		}
 	}
 
 	_doPreviewExpand ({listItem, dispExpandedOuter, btnToggleExpand, dispExpandedInner}) {

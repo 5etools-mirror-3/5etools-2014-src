@@ -8515,31 +8515,24 @@ Renderer.character = class {
 
 		renderer.recursiveRender(headerInfo, renderStack, {depth: 1});
 
-		// Core Stats Section - All 6 Ability Scores
+		// Core Stats Section - All 6 Ability Scores (using monster format)
 		const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
-		const abilityEntries = [];
-		abilities.forEach(ab => {
-			const score = character[ab] || 10;
-			const modifier = Parser.getAbilityModifier(score);
-			const modValue = typeof modifier === 'number' ? modifier : parseInt(modifier) || 0;
-			const modStr = modValue >= 0 ? `+${modValue}` : `${modValue}`;
-
-			const diceData = {
-				toRoll: `1d20${modStr}`,
-				name: `${ab.toUpperCase()} Check`
-			};
-			const diceHtml = `<span onmousedown="event.preventDefault()" data-packed-dice='${JSON.stringify(diceData).qq()}' title="Click to roll ${ab.toUpperCase()} check">${modStr}</span>`;
-			abilityEntries.push(`**${ab.toUpperCase()}** ${score} (${diceHtml})`);
-		});
+		
+		// Create ability scores table like monsters
+		const abilityTable = `
+			<table class="w-100 summary stripe-odd-table">
+				<tr>${abilities.map(ab => `<th class="ve-col-2 ve-text-center">${ab.toUpperCase()}</th>`).join("")}</tr>
+				<tr>${abilities.map(ab => `<td class="ve-text-center">${Renderer.utils.getAbilityRoller(character, ab)}</td>`).join("")}</tr>
+			</table>
+		`;
 
 		const abilityInfo = {
 			type: "entries",
-			name: "Ability Scores",
-			entries: [abilityEntries.join(" | ")]
+			entries: [abilityTable]
 		};
 		renderer.recursiveRender(abilityInfo, renderStack, {depth: 1});
 
-		// Saving Throws
+		// Saving Throws (using monster format)
 		const savingThrows = [];
 		abilities.forEach(ab => {
 			const score = character[ab] || 10;
@@ -8553,23 +8546,20 @@ Renderer.character = class {
 			}
 			
 			const finalStr = finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`;
-			const isProficient = character.save?.[ab] ? ' (Prof)' : '';
 			
-			const diceData = {
-				toRoll: `1d20${finalStr}`,
-				name: `${ab.toUpperCase()} Save`
-			};
-			const diceHtml = `<span onmousedown="event.preventDefault()" data-packed-dice='${JSON.stringify(diceData).qq()}' title="Click to roll ${ab.toUpperCase()} saving throw">${finalStr}</span>`;
-			
-			savingThrows.push(`${ab.toUpperCase()} ${diceHtml}${isProficient}`);
+			// Only show saves that are trained/have bonuses
+			if (character.save?.[ab]) {
+				savingThrows.push(Renderer.monster.getSave(renderer, ab, finalStr));
+			}
 		});
 
-		const saveInfo = {
-			type: "entries",
-			name: "Saving Throws",
-			entries: [savingThrows.join(" | ")]
-		};
-		renderer.recursiveRender(saveInfo, renderStack, {depth: 1});		// Combat Stats
+		if (savingThrows.length) {
+			const saveInfo = {
+				type: "entries",
+				entries: [`<p><b>Saving Throws</b> ${savingThrows.join(", ")}</p>`]
+			};
+			renderer.recursiveRender(saveInfo, renderStack, {depth: 1});
+		}		// Combat Stats
 		const combatEntries = [];
 		if (character.ac) {
 			const acValue = Array.isArray(character.ac) ? character.ac[0].ac : character.ac;
@@ -8656,7 +8646,8 @@ Renderer.character = class {
 		};
 		renderer.recursiveRender(combatInfo, renderStack, {depth: 1});
 
-		// All Skills (standard D&D 5e skills)
+		// Skills (using monster format)
+		const skillsToShow = [];
 		const allSkills = {
 			'Acrobatics': 'dex', 'Animal Handling': 'wis', 'Arcana': 'int', 'Athletics': 'str',
 			'Deception': 'cha', 'History': 'int', 'Insight': 'wis', 'Intimidation': 'cha',
@@ -8665,7 +8656,6 @@ Renderer.character = class {
 			'Stealth': 'dex', 'Survival': 'wis'
 		};
 
-		const skillEntries = [];
 		Object.entries(allSkills).forEach(([skillName, ability]) => {
 			const abilityScore = character[ability] || 10;
 			const abilityMod = Parser.getAbilityModifier(abilityScore);
@@ -8676,43 +8666,24 @@ Renderer.character = class {
 			const customBonus = character.skill?.[skillKey] || character.skill?.[skillName];
 			
 			let finalBonus = modValue;
-			let isProficient = '';
 			
 			if (customBonus) {
 				finalBonus = typeof customBonus === 'string' ? parseInt(customBonus) || modValue : customBonus;
-				isProficient = ' (Prof)';
-			}
-			
-			const finalStr = finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`;
-			
-			const diceData = {
-				toRoll: `1d20${finalStr}`,
-				name: `${skillName} Check`
-			};
-			const diceHtml = `<span onmousedown="event.preventDefault()" data-packed-dice='${JSON.stringify(diceData).qq()}' title="Click to roll ${skillName} (${ability.toUpperCase()})">${finalStr}</span>`;
-			
-			skillEntries.push(`${skillName} ${diceHtml}${isProficient}`);
-		});		// Group skills by category for better organization
-		const skillsByCategory = {
-			"Physical": ["Athletics", "Acrobatics", "Sleight of Hand", "Stealth"],
-			"Mental": ["Arcana", "History", "Investigation", "Nature", "Religion"],
-			"Wisdom": ["Animal Handling", "Insight", "Medicine", "Perception", "Survival"],
-			"Social": ["Deception", "Intimidation", "Performance", "Persuasion"]
-		};
-
-		const skillInfo = {type: "entries", name: "Skills", entries: []};
-
-		Object.entries(skillsByCategory).forEach(([category, categorySkills]) => {
-			const categoryEntries = categorySkills.map(skillName => {
-				return skillEntries.find(entry => entry.startsWith(skillName));
-			}).filter(Boolean);
-
-			if (categoryEntries.length) {
-				skillInfo.entries.push(`**${category}:** ${categoryEntries.join(' | ')}`);
+				const finalStr = finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`;
+				
+				// Use monster skill format with skillCheck
+				const skillCheckHtml = `<span data-mon-skill="${skillName}|${finalStr}">${renderer.render(`{@skill ${skillName}}`)} ${renderer.render(`{@skillCheck ${skillKey.replace(/ /g, "_")} ${finalStr}}`)}</span>`;
+				skillsToShow.push(skillCheckHtml);
 			}
 		});
 
-		renderer.recursiveRender(skillInfo, renderStack, {depth: 1});
+		if (skillsToShow.length) {
+			const skillInfo = {
+				type: "entries",
+				entries: [`<p><b>Skills</b> ${skillsToShow.join(", ")}</p>`]
+			};
+			renderer.recursiveRender(skillInfo, renderStack, {depth: 1});
+		}
 
 		// Languages if available
 		if (character.languages?.length) {
