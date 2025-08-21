@@ -7,6 +7,98 @@
     border-left: 3px solid #007acc;
 }
 
+/* Interactive character tracking elements */
+.character-input {
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 2px 4px;
+    font-size: 0.9em;
+    text-align: center;
+    background-color: #fff;
+    transition: border-color 0.2s;
+}
+
+.character-input:focus {
+    border-color: #007acc;
+    outline: none;
+}
+
+.character-hp-tracker {
+    display: inline-block;
+    margin: 5px 0;
+}
+
+.character-death-saves {
+    display: block;
+    margin: 8px 0;
+    padding: 5px;
+    background-color: #fff9e6;
+    border: 1px solid #ffc107;
+    border-radius: 4px;
+}
+
+.character-death-save {
+    margin: 0 2px;
+    transform: scale(1.1);
+}
+
+.character-death-save-success:checked {
+    accent-color: #28a745;
+}
+
+.character-death-save-failure:checked {
+    accent-color: #dc3545;
+}
+
+.character-hit-dice {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.character-condition-tracker {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.character-condition-select {
+    padding: 2px 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.character-conditions-list {
+    min-height: 20px;
+}
+
+.character-condition-item {
+    display: inline-block;
+    background-color: #007acc;
+    color: #fff;
+    padding: 2px 8px;
+    margin: 2px;
+    border-radius: 12px;
+    font-size: 0.85em;
+    cursor: pointer;
+}
+
+.character-condition-item:hover {
+    background-color: #0056b3;
+}
+
+.character-condition-remove {
+    margin-left: 5px;
+    font-weight: bold;
+    color: #fcc;
+}
+
+.character-condition-remove:hover {
+    color: #fff;
+}
+
 /* Basic layout improvements */
 .character-section {
     margin: 8px 0;

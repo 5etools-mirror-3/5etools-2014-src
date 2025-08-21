@@ -8491,7 +8491,7 @@ Renderer.character = class {
 		renderStack.push(`
 			${Renderer.utils.getExcludedTr({entity: character, dataProp: "character", page: UrlUtil.PG_CHARACTERS})}
 			${Renderer.utils.getNameTr(character, {page: UrlUtil.PG_CHARACTERS})}
-			<tr><td colspan="6" class="pb-2 pt-0">
+			<tr><td colspan="6" class="pb-2 pt-0" data-character-name="${(character.name || 'Unknown').replace(/[^a-zA-Z0-9]/g, '-')}">
 		`);
 
 		// Character header info
@@ -8541,25 +8541,23 @@ Renderer.character = class {
 			const saveBonus = character.save?.[ab];
 			let finalBonus = modValue;
 			
+			// Use trained bonus if available, otherwise use ability modifier
 			if (saveBonus) {
 				finalBonus = typeof saveBonus === 'string' ? parseInt(saveBonus) || modValue : saveBonus;
 			}
 			
 			const finalStr = finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`;
 			
-			// Only show saves that are trained/have bonuses
-			if (character.save?.[ab]) {
-				savingThrows.push(Renderer.monster.getSave(renderer, ab, finalStr));
-			}
+			// Show ALL saving throws (like monsters do)
+			savingThrows.push(Renderer.monster.getSave(renderer, ab, finalStr));
 		});
 
-		if (savingThrows.length) {
-			const saveInfo = {
-				type: "entries",
-				entries: [`<p><b>Saving Throws</b> ${savingThrows.join(", ")}</p>`]
-			};
-			renderer.recursiveRender(saveInfo, renderStack, {depth: 1});
-		}		// Combat Stats
+		// Always show saving throws since we display all of them
+		const saveInfo = {
+			type: "entries",
+			entries: [`<p><b>Saving Throws</b> ${savingThrows.join(", ")}</p>`]
+		};
+		renderer.recursiveRender(saveInfo, renderStack, {depth: 1});		// Combat Stats
 		const combatEntries = [];
 		if (character.ac) {
 			const acValue = Array.isArray(character.ac) ? character.ac[0].ac : character.ac;
@@ -8572,7 +8570,15 @@ Renderer.character = class {
 			const currentHp = hp.current != null ? hp.current : hp.average || hp.max || "?";
 			const maxHp = hp.max || hp.average || "?";
 			const tempHp = hp.temp || 0;
-			combatEntries.push(`**Hit Points** ${currentHp}/${maxHp}${tempHp > 0 ? ` (+${tempHp} temp)` : ''}`);
+			
+			// Editable HP fields
+			const hpHtml = `<span class="character-hp-tracker">
+				<strong>Hit Points</strong> 
+				<input type="number" class="character-input character-hp-current" value="${currentHp}" min="0" max="${maxHp}" style="width: 50px;" title="Current HP" />
+				/ ${maxHp}
+				<input type="number" class="character-input character-hp-temp" value="${tempHp}" min="0" style="width: 40px; margin-left: 5px;" title="Temp HP" placeholder="Temp" />
+			</span>`;
+			combatEntries.push(hpHtml);
 			if (hp.formula) combatEntries.push(`*Hit Dice: ${hp.formula}*`);
 		}
 
@@ -8593,17 +8599,13 @@ Renderer.character = class {
 			combatEntries.push(`**Proficiency Bonus** ${profBonus}`);
 		}
 
-		// Initiative rolling
+		// Initiative rolling (using monster format)
 		const dexScore = character.dex || 10;
 		const initMod = Parser.getAbilityModifier(dexScore);
 		const initModValue = typeof initMod === 'number' ? initMod : parseInt(initMod) || 0;
 		const initStr = initModValue >= 0 ? `+${initModValue}` : `${initModValue}`;
-		const initDiceData = {
-			toRoll: `1d20${initStr}`,
-			name: "Initiative"
-		};
-		const initDiceHtml = `<span onmousedown="event.preventDefault()" data-packed-dice='${JSON.stringify(initDiceData).qq()}' title="Click to roll initiative">${initStr}</span>`;
-		combatEntries.push(`**Initiative** ${initDiceHtml}`);
+		const initHtml = renderer.render(`{@dice 1d20${initStr}||Initiative}`);
+		combatEntries.push(`**Initiative** ${initHtml}`);
 
 		// Passive Perception
 		const wisScore = character.wis || 10;
@@ -8614,13 +8616,20 @@ Renderer.character = class {
 		const passivePerception = 10 + perceptionMod;
 		combatEntries.push(`**Passive Perception** ${passivePerception}`);
 
-		// Death Saving Throws and Hit Dice
-		const deathSaveDiceData = {
-			toRoll: "1d20",
-			name: "Death Saving Throw"
-		};
-		const deathSaveHtml = `<span onmousedown="event.preventDefault()" data-packed-dice='${JSON.stringify(deathSaveDiceData).qq()}' title="Click to roll death saving throw (10+ succeeds)">Roll d20</span>`;
-		combatEntries.push(`**Death Save** ${deathSaveHtml}`);
+		// Death Saving Throws with tracker (using monster format)
+		const deathSaveHtml = renderer.render(`{@dice 1d20||Death Saving Throw}`);
+		const deathSaveTracker = `<span class="character-death-saves">
+			<strong>Death Saves</strong> ${deathSaveHtml}<br>
+			<small>
+				Successes: <input type="checkbox" class="character-death-save character-death-save-success" /> 
+				<input type="checkbox" class="character-death-save character-death-save-success" /> 
+				<input type="checkbox" class="character-death-save character-death-save-success" /> |
+				Failures: <input type="checkbox" class="character-death-save character-death-save-failure" /> 
+				<input type="checkbox" class="character-death-save character-death-save-failure" /> 
+				<input type="checkbox" class="character-death-save character-death-save-failure" />
+			</small>
+		</span>`;
+		combatEntries.push(deathSaveTracker);
 
 		if (character.class && character.class.length > 0) {
 			const hitDiceInfo = character.class.map(cls => {
@@ -8629,12 +8638,15 @@ Renderer.character = class {
 				const conMod = Parser.getAbilityModifier(character.con || 10);
 				const conModValue = typeof conMod === 'number' ? conMod : parseInt(conMod) || 0;
 				const modStr = conModValue >= 0 ? `+${conModValue}` : `${conModValue}`;
-				const hitDiceData = {
-					toRoll: `1d${hitDie}${modStr}`,
-					name: `${cls.name} Hit Die`
-				};
-				const hitDiceHtml = `<span onmousedown="event.preventDefault()" data-packed-dice='${JSON.stringify(hitDiceData).qq()}' title="Click to roll hit die for short rest healing">${level}d${hitDie}</span>`;
-				return hitDiceHtml;
+				
+				// Use proper dice format like monsters
+				const hitDiceHtml = renderer.render(`{@dice 1d${hitDie}${modStr}||${cls.name} Hit Die}`);
+				
+				// Editable hit dice remaining
+				return `<span class="character-hit-dice">
+					<input type="number" class="character-input character-hit-dice-remaining" value="${level}" min="0" max="${level}" style="width: 40px;" title="Hit dice remaining" />
+					/${level} ${hitDiceHtml}
+				</span>`;
 			}).join(', ');
 			combatEntries.push(`**Hit Dice** ${hitDiceInfo}`);
 		}
@@ -8645,6 +8657,43 @@ Renderer.character = class {
 			entries: combatEntries
 		};
 		renderer.recursiveRender(combatInfo, renderStack, {depth: 1});
+
+		// Condition Tracker
+		const conditionTracker = {
+			type: "entries",
+			name: "Condition Tracker",
+			entries: [`
+				<div class="character-condition-tracker">
+					<div style="margin-bottom: 10px;">
+						<strong>Add Condition:</strong>
+						<select class="character-condition-select" style="margin-left: 5px;">
+							<option value="">Select condition...</option>
+							<option value="Blinded">Blinded</option>
+							<option value="Charmed">Charmed</option>
+							<option value="Deafened">Deafened</option>
+							<option value="Exhaustion">Exhaustion</option>
+							<option value="Frightened">Frightened</option>
+							<option value="Grappled">Grappled</option>
+							<option value="Incapacitated">Incapacitated</option>
+							<option value="Invisible">Invisible</option>
+							<option value="Paralyzed">Paralyzed</option>
+							<option value="Petrified">Petrified</option>
+							<option value="Poisoned">Poisoned</option>
+							<option value="Prone">Prone</option>
+							<option value="Restrained">Restrained</option>
+							<option value="Stunned">Stunned</option>
+							<option value="Unconscious">Unconscious</option>
+						</select>
+						<button class="character-condition-add btn btn-xs btn-default" style="margin-left: 5px;">Add</button>
+					</div>
+					<div class="character-active-conditions">
+						<strong>Active Conditions:</strong>
+						<div class="character-conditions-list" style="margin-top: 5px;"></div>
+					</div>
+				</div>
+			`]
+		};
+		renderer.recursiveRender(conditionTracker, renderStack, {depth: 1});
 
 		// Skills (using monster format)
 		const skillsToShow = [];
@@ -8667,23 +8716,24 @@ Renderer.character = class {
 			
 			let finalBonus = modValue;
 			
+			// Use custom bonus if available, otherwise use ability modifier
 			if (customBonus) {
 				finalBonus = typeof customBonus === 'string' ? parseInt(customBonus) || modValue : customBonus;
-				const finalStr = finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`;
-				
-				// Use monster skill format with skillCheck
-				const skillCheckHtml = `<span data-mon-skill="${skillName}|${finalStr}">${renderer.render(`{@skill ${skillName}}`)} ${renderer.render(`{@skillCheck ${skillKey.replace(/ /g, "_")} ${finalStr}}`)}</span>`;
-				skillsToShow.push(skillCheckHtml);
 			}
+			
+			const finalStr = finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`;
+			
+			// Use monster skill format with skillCheck - show ALL skills
+			const skillCheckHtml = `<span data-mon-skill="${skillName}|${finalStr}">${renderer.render(`{@skill ${skillName}}`)} ${renderer.render(`{@skillCheck ${skillKey.replace(/ /g, "_")} ${finalStr}}`)}</span>`;
+			skillsToShow.push(skillCheckHtml);
 		});
 
-		if (skillsToShow.length) {
-			const skillInfo = {
-				type: "entries",
-				entries: [`<p><b>Skills</b> ${skillsToShow.join(", ")}</p>`]
-			};
-			renderer.recursiveRender(skillInfo, renderStack, {depth: 1});
-		}
+		// Always show skills since we display all of them
+		const skillInfo = {
+			type: "entries",
+			entries: [`<p><b>Skills</b> ${skillsToShow.join(", ")}</p>`]
+		};
+		renderer.recursiveRender(skillInfo, renderStack, {depth: 1});
 
 		// Languages if available
 		if (character.languages?.length) {
@@ -8710,7 +8760,15 @@ Renderer.character = class {
 				const spellLevels = [];
 				Object.entries(sc.spells).forEach(([level, spellData]) => {
 					const levelName = level === "0" ? "Cantrips" : `Level ${level}`;
-					const slots = spellData.slots ? ` (${spellData.slotsUsed || 0}/${spellData.slots} slots used)` : '';
+					let slotsHtml = '';
+					
+					if (spellData.slots) {
+						// Editable spell slots
+						const slotsUsed = spellData.slotsUsed || 0;
+						const totalSlots = spellData.slots;
+						slotsHtml = ` (<input type="number" class="character-input character-spell-slots-used" value="${slotsUsed}" min="0" max="${totalSlots}" style="width: 40px;" title="Slots used" />/${totalSlots} slots)`;
+					}
+					
 					const spellLinks = spellData.spells.map(spellName => {
 						// Create spell links - handle both string and object formats
 						if (typeof spellName === 'string') {
@@ -8720,7 +8778,7 @@ Renderer.character = class {
 						}
 						return spellName;
 					});
-					spellLevels.push(`**${levelName}${slots}:** ${spellLinks.join(', ')}`);
+					spellLevels.push(`**${levelName}${slotsHtml}:** ${spellLinks.join(', ')}`);
 				});
 				spellInfo.entries.push(...spellLevels);
 			}
@@ -8914,7 +8972,70 @@ Renderer.character = class {
 		// Bind dice listeners to the element
 		if (ele) {
 			Renderer.dice.bindOnclickListener(ele);
+			
+			// Add character sheet interactivity
+			Renderer.character._bindCharacterSheetListeners(ele);
 		}
+	}
+
+	static _bindCharacterSheetListeners (ele) {
+		const $ele = $(ele);
+		
+		// Condition tracker functionality
+		$ele.find('.character-condition-add').click(function() {
+			const $select = $ele.find('.character-condition-select');
+			const condition = $select.val();
+			if (condition) {
+				const $conditionsList = $ele.find('.character-conditions-list');
+				const conditionHtml = `<span class="character-condition-item" title="Click to remove">
+					${condition} <span class="character-condition-remove">×</span>
+				</span>`;
+				$conditionsList.append(conditionHtml);
+				$select.val(''); // Reset selection
+			}
+		});
+		
+		// Remove condition functionality
+		$ele.on('click', '.character-condition-item', function() {
+			$(this).remove();
+		});
+		
+		// Auto-save functionality for inputs (optional - stores in localStorage)
+		$ele.find('.character-input').on('change', function() {
+			const $input = $(this);
+			const characterName = $ele.closest('[data-character-name]').attr('data-character-name') || 'default';
+			const inputClass = $input.attr('class').split(' ').find(cls => cls.startsWith('character-'));
+			const key = `character-${characterName}-${inputClass}`;
+			localStorage.setItem(key, String($input.val()));
+		});
+		
+		// Load saved values from localStorage
+		const characterName = $ele.closest('[data-character-name]').attr('data-character-name') || 'default';
+		$ele.find('.character-input').each(function() {
+			const $input = $(this);
+			const inputClass = $input.attr('class').split(' ').find(cls => cls.startsWith('character-'));
+			const key = `character-${characterName}-${inputClass}`;
+			const savedValue = localStorage.getItem(key);
+			if (savedValue !== null) {
+				$input.val(savedValue);
+			}
+		});
+		
+		// Death save auto-clear functionality
+		$ele.find('.character-death-save').on('change', function() {
+			const $deathSaves = $ele.find('.character-death-saves');
+			const successCount = $deathSaves.find('.character-death-save-success:checked').length;
+			const failureCount = $deathSaves.find('.character-death-save-failure:checked').length;
+			
+			// Auto-reset if 3 successes or failures
+			if (successCount >= 3 || failureCount >= 3) {
+				setTimeout(() => {
+					if (confirm(successCount >= 3 ? 'Character is stable! Reset death saves?' : 'Character dies! Reset death saves?')) {
+						$deathSaves.find('.character-death-save').prop('checked', false);
+					}
+				}, 100);
+			}
+		});
 	}
 
 	static pGetFluff (character) {

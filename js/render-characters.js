@@ -391,6 +391,11 @@ export class RenderCharacters {
 		// Bind dice listeners to the element
 		if (ele) {
 			Renderer.dice.bindOnclickListener(ele);
+			
+			// Add character sheet interactivity
+			if (Renderer.character._bindCharacterSheetListeners) {
+				Renderer.character._bindCharacterSheetListeners(ele);
+			}
 		}
 	}
 }
