@@ -8616,13 +8616,13 @@ Renderer.character = class {
 		});
 
 		const skillsTable = `
-			<table class="w-100 summary stripe-odd-table">
+			<table class="w-100 summary stripe-odd-table" style="table-layout: fixed;">
 				<thead>
 					<tr>
 						<th style="width: 8%; text-align: center;">Prof</th>
-						<th style="width: 52%;">Skill</th>
-						<th style="width: 15%; text-align: center;">Ability</th>
-						<th style="width: 25%; text-align: center;">Modifier</th>
+						<th style="width: 45%;">Skill</th>
+						<th style="width: 12%; text-align: center;">Ability</th>
+						<th style="width: 35%; text-align: center;">Modifier</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -8907,6 +8907,51 @@ Renderer.character = class {
 			}
 
 			renderer.recursiveRender(spellInfo, renderStack, {depth: 1});
+
+			// Add spell reference guide
+			const spellRefInfo = {
+				type: "entries",
+				name: "Spellcasting Reference",
+				entries: [`
+					<div class="spell-reference">
+						<div style="display: flex; flex-wrap: wrap; gap: 15px;">
+							<div style="flex: 1; min-width: 200px;">
+								<h6>Spell Components</h6>
+								<ul style="margin: 5px 0; padding-left: 15px; font-size: 0.9em;">
+									<li><strong>V:</strong> Verbal - Must speak incantation</li>
+									<li><strong>S:</strong> Somatic - Must gesture with free hand</li>
+									<li><strong>M:</strong> Material - Need components/focus</li>
+								</ul>
+								<h6>Casting Times</h6>
+								<ul style="margin: 5px 0; padding-left: 15px; font-size: 0.9em;">
+									<li><strong>Action:</strong> Cast during your turn</li>
+									<li><strong>Bonus Action:</strong> Quick spells</li>
+									<li><strong>Reaction:</strong> Response to trigger</li>
+									<li><strong>Ritual:</strong> +10 minutes, no slot</li>
+								</ul>
+							</div>
+							<div style="flex: 1; min-width: 200px;">
+								<h6>Concentration</h6>
+								<ul style="margin: 5px 0; padding-left: 15px; font-size: 0.9em;">
+									<li>Only one concentration spell at a time</li>
+									<li>Con save when taking damage (DC 10 or half damage)</li>
+									<li>Ends if you cast another concentration spell</li>
+									<li>Ends if you're incapacitated or die</li>
+								</ul>
+								<h6>Common Durations</h6>
+								<ul style="margin: 5px 0; padding-left: 15px; font-size: 0.9em;">
+									<li><strong>Instantaneous:</strong> Happens immediately</li>
+									<li><strong>1 round:</strong> Until start of your next turn</li>
+									<li><strong>1 minute:</strong> 10 rounds of combat</li>
+									<li><strong>10 minutes:</strong> Short exploration</li>
+									<li><strong>1 hour:</strong> Extended duration</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				`]
+			};
+			renderer.recursiveRender(spellRefInfo, renderStack, {depth: 1});
 		}
 
 		// Traits/Features
@@ -8928,25 +8973,180 @@ Renderer.character = class {
 			renderer.recursiveRender(traitInfo, renderStack, {depth: 1});
 		}
 
-		// Equipment
+		// Quick Reference Section
+		const quickRefInfo = {
+			type: "entries",
+			name: "Quick Reference",
+			entries: [`
+				<div class="character-quick-reference">
+					<div style="display: flex; flex-wrap: wrap; gap: 15px;">
+						<div style="flex: 1; min-width: 200px;">
+							<h6>Combat Actions</h6>
+							<ul style="margin: 5px 0; padding-left: 15px; font-size: 0.9em;">
+								<li><strong>Attack:</strong> Make a weapon or spell attack</li>
+								<li><strong>Cast a Spell:</strong> Use an action to cast most spells</li>
+								<li><strong>Dash:</strong> Double your speed for this turn</li>
+								<li><strong>Disengage:</strong> Move without provoking opportunity attacks</li>
+								<li><strong>Dodge:</strong> Attacks against you have disadvantage</li>
+								<li><strong>Help:</strong> Give ally advantage on next ability check</li>
+								<li><strong>Hide:</strong> Make a Dexterity (Stealth) check</li>
+								<li><strong>Ready:</strong> Prepare an action for a specific trigger</li>
+							</ul>
+						</div>
+						<div style="flex: 1; min-width: 200px;">
+							<h6>Bonus Actions</h6>
+							<ul style="margin: 5px 0; padding-left: 15px; font-size: 0.9em;">
+								<li><strong>Two-Weapon Fighting:</strong> Attack with off-hand weapon</li>
+								<li><strong>Cunning Action (Rogue):</strong> Dash, Disengage, or Hide</li>
+								<li><strong>Healing Word:</strong> Bonus action spell to heal</li>
+								<li><strong>Bardic Inspiration:</strong> Inspire an ally</li>
+								<li><strong>Rage (Barbarian):</strong> Enter rage as bonus action</li>
+							</ul>
+							<h6>Reactions</h6>
+							<ul style="margin: 5px 0; padding-left: 15px; font-size: 0.9em;">
+								<li><strong>Opportunity Attack:</strong> Attack when enemy leaves reach</li>
+								<li><strong>Counterspell:</strong> Stop a spell being cast</li>
+								<li><strong>Shield:</strong> +5 AC until next turn</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			`]
+		};
+		renderer.recursiveRender(quickRefInfo, renderStack, {depth: 1});
+
+		// Status Conditions Reference
+		const conditionsRefInfo = {
+			type: "entries",
+			name: "Status Conditions Reference",
+			entries: [`
+				<div class="conditions-reference">
+					<div style="display: flex; flex-wrap: wrap; gap: 15px;">
+						<div style="flex: 1; min-width: 250px;">
+							<h6>Movement Conditions</h6>
+							<ul style="margin: 5px 0; padding-left: 15px; font-size: 0.9em;">
+								<li><strong>Grappled:</strong> Speed becomes 0, ends if grappler incapacitated</li>
+								<li><strong>Restrained:</strong> Speed 0, attacks at disadvantage, Dex saves at disadvantage</li>
+								<li><strong>Prone:</strong> Crawl to move, melee attacks at disadvantage</li>
+								<li><strong>Paralyzed:</strong> Incapacitated, can't move/speak, auto-crit melee hits</li>
+							</ul>
+							<h6>Mental Conditions</h6>
+							<ul style="margin: 5px 0; padding-left: 15px; font-size: 0.9em;">
+								<li><strong>Charmed:</strong> Can't attack charmer, charmer has advantage on social interactions</li>
+								<li><strong>Frightened:</strong> Disadvantage on attacks/checks while source in sight</li>
+								<li><strong>Stunned:</strong> Incapacitated, can't move, attacks auto-hit</li>
+								<li><strong>Unconscious:</strong> Incapacitated, prone, drop items, auto-crit melee</li>
+							</ul>
+						</div>
+						<div style="flex: 1; min-width: 250px;">
+							<h6>Combat Conditions</h6>
+							<ul style="margin: 5px 0; padding-left: 15px; font-size: 0.9em;">
+								<li><strong>Blinded:</strong> Auto-fail sight checks, attacks at disadvantage</li>
+								<li><strong>Deafened:</strong> Can't hear, auto-fail hearing checks</li>
+								<li><strong>Poisoned:</strong> Disadvantage on attack rolls and ability checks</li>
+								<li><strong>Incapacitated:</strong> Can't take actions or reactions</li>
+							</ul>
+							<h6>Death & Dying</h6>
+							<ul style="margin: 5px 0; padding-left: 15px; font-size: 0.9em;">
+								<li><strong>Death Saves:</strong> DC 10, 3 successes = stable, 3 failures = dead</li>
+								<li><strong>Nat 1:</strong> Counts as 2 failures</li>
+								<li><strong>Nat 20:</strong> Regain 1 hit point</li>
+								<li><strong>Damage at 0 HP:</strong> 1 death save failure (crit = 2 failures)</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			`]
+		};
+		renderer.recursiveRender(conditionsRefInfo, renderStack, {depth: 1});
+
+		// Combat & Initiative Tracker
+		const combatRefInfo = {
+			type: "entries",
+			name: "Combat Reference",
+			entries: [`
+				<div class="combat-reference">
+					<div style="display: flex; flex-wrap: wrap; gap: 15px;">
+						<div style="flex: 1; min-width: 200px;">
+							<h6>Turn Structure</h6>
+							<ol style="margin: 5px 0; padding-left: 15px; font-size: 0.9em;">
+								<li><strong>Start of Turn:</strong> Effects begin/end</li>
+								<li><strong>Movement:</strong> Up to your speed</li>
+								<li><strong>Action:</strong> Attack, cast spell, dash, etc.</li>
+								<li><strong>Bonus Action:</strong> If available</li>
+								<li><strong>Reaction:</strong> On others' turns</li>
+								<li><strong>Free Actions:</strong> Draw/sheathe, speak</li>
+							</ol>
+						</div>
+						<div style="flex: 1; min-width: 200px;">
+							<h6>Cover & Concealment</h6>
+							<ul style="margin: 5px 0; padding-left: 15px; font-size: 0.9em;">
+								<li><strong>Half Cover:</strong> +2 AC and Dex saves</li>
+								<li><strong>3/4 Cover:</strong> +5 AC and Dex saves</li>
+								<li><strong>Total Cover:</strong> Can't be targeted</li>
+								<li><strong>Advantage/Disadvantage:</strong> Cancel out</li>
+							</ul>
+						</div>
+						<div style="flex: 1; min-width: 200px;">
+							<h6>Initiative Tracker</h6>
+							<div style="background: var(--bg-alt, #f8f9fa); padding: 10px; border-radius: 5px; margin: 5px 0;">
+								<input type="text" placeholder="Initiative order..." style="width: 100%; padding: 5px; border: 1px solid #ccc; border-radius: 3px;" />
+								<small style="display: block; margin-top: 5px; color: #666;">Track turn order here</small>
+							</div>
+						</div>
+					</div>
+				</div>
+			`]
+
+		// Equipment Management
 		if (character.equipment?.length) {
 			const equipInfo = {
 				type: "entries",
-				name: "Equipment",
+				name: "Equipment & Inventory",
 				entries: []
 			};
 
 			const equipped = character.equipment.filter(item => item.equipped);
-			const other = character.equipment.filter(item => !item.equipped);
+			const weapons = character.equipment.filter(item => item.type === 'weapon' || item.weaponCategory);
+			const armor = character.equipment.filter(item => item.type === 'armor' || item.ac);
+			const other = character.equipment.filter(item => !item.equipped && item.type !== 'weapon' && item.type !== 'armor' && !item.weaponCategory && !item.ac);
+
+			if (weapons.length) {
+				const weaponList = {
+					type: "list",
+					name: "Weapons",
+					items: weapons.map(weapon => {
+						const attackBonus = weapon.attackBonus || '+?';
+						const damage = weapon.damage || '?';
+						const range = weapon.range ? ` (Range: ${weapon.range})` : '';
+						const properties = weapon.properties ? ` - ${weapon.properties.join(', ')}` : '';
+						const weaponName = weapon.source ? `{@item ${weapon.name}|${weapon.source}}` : weapon.name;
+						return `${weaponName}: ${attackBonus} to hit, ${damage} damage${range}${properties}`;
+					})
+				};
+				equipInfo.entries.push(weaponList);
+			}
+
+			if (armor.length) {
+				const armorList = {
+					type: "list", 
+					name: "Armor",
+					items: armor.map(armorItem => {
+						const ac = armorItem.ac || '?';
+						const armorName = armorItem.source ? `{@item ${armorItem.name}|${armorItem.source}}` : armorItem.name;
+						return `${armorName}: AC ${ac}`;
+					})
+				};
+				equipInfo.entries.push(armorList);
+			}
 
 			if (equipped.length) {
 				const equippedList = {
 					type: "list",
-					name: "Equipped",
+					name: "Currently Equipped",
 					items: equipped.map(item => {
 						const qty = item.quantity ? ` (${item.quantity})` : '';
 						const desc = item.description ? ` - ${item.description}` : '';
-						// Only create links for items with source data
 						const itemName = item.source ? `{@item ${item.name}|${item.source}}` : item.name;
 						return `${itemName}${qty}${desc}`;
 					})
@@ -8961,7 +9161,6 @@ Renderer.character = class {
 					items: other.map(item => {
 						const qty = item.quantity ? ` (${item.quantity})` : '';
 						const desc = item.description ? ` - ${item.description}` : '';
-						// Only create links for items with source data
 						const itemName = item.source ? `{@item ${item.name}|${item.source}}` : item.name;
 						return `${itemName}${qty}${desc}`;
 					})
@@ -8971,6 +9170,81 @@ Renderer.character = class {
 
 			renderer.recursiveRender(equipInfo, renderStack, {depth: 1});
 		}
+
+		// Player Notes & Tracking
+		const notesInfo = {
+			type: "entries", 
+			name: "Player Notes & Tracking",
+			entries: [`
+				<div class="player-notes">
+					<div style="display: flex; flex-wrap: wrap; gap: 15px;">
+						<div style="flex: 1; min-width: 300px;">
+							<h6>Session Notes</h6>
+							<textarea placeholder="Keep track of important story details, NPCs, locations..." 
+								style="width: 100%; height: 120px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; font-family: inherit;"
+								class="character-input character-notes"></textarea>
+						</div>
+						<div style="flex: 1; min-width: 300px;">
+							<h6>Goals & Objectives</h6>
+							<textarea placeholder="Current quests, personal goals, things to remember..." 
+								style="width: 100%; height: 120px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; font-family: inherit;"
+								class="character-input character-goals"></textarea>
+						</div>
+					</div>
+					<div style="margin-top: 15px;">
+						<h6>Quick Dice Roller</h6>
+						<div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0;">
+							<button onclick="rollDice('1d4')" style="padding: 5px 10px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">d4</button>
+							<button onclick="rollDice('1d6')" style="padding: 5px 10px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">d6</button>
+							<button onclick="rollDice('1d8')" style="padding: 5px 10px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">d8</button>
+							<button onclick="rollDice('1d10')" style="padding: 5px 10px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">d10</button>
+							<button onclick="rollDice('1d12')" style="padding: 5px 10px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">d12</button>
+							<button onclick="rollDice('1d20')" style="padding: 5px 10px; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer;">d20</button>
+							<button onclick="rollDice('1d100')" style="padding: 5px 10px; background: #6f42c1; color: white; border: none; border-radius: 3px; cursor: pointer;">d100</button>
+						</div>
+						<div style="display: flex; gap: 10px; align-items: center; margin: 10px 0;">
+							<input type="text" id="customDice" placeholder="e.g., 2d6+3" style="padding: 5px; border: 1px solid #ccc; border-radius: 3px; width: 120px;" />
+							<button onclick="rollCustomDice()" style="padding: 5px 15px; background: #17a2b8; color: white; border: none; border-radius: 3px; cursor: pointer;">Roll</button>
+							<span id="diceResult" style="font-weight: bold; margin-left: 10px;"></span>
+						</div>
+					</div>
+				</div>
+				<script>
+					function rollDice(diceString) {
+						try {
+							const result = Renderer.dice.parseRandomise2(diceString);
+							document.getElementById('diceResult').textContent = diceString + ': ' + result;
+						} catch(e) {
+							// Fallback simple roll
+							const match = diceString.match(/(\d+)d(\d+)/);
+							if (match) {
+								const [, num, sides] = match;
+								let total = 0;
+								for (let i = 0; i < num; i++) {
+									total += Math.floor(Math.random() * sides) + 1;
+								}
+								document.getElementById('diceResult').textContent = diceString + ': ' + total;
+							}
+						}
+					}
+					
+					function rollCustomDice() {
+						const diceString = document.getElementById('customDice').value;
+						if (diceString) {
+							rollDice(diceString);
+						}
+					}
+					
+					// Allow Enter key in custom dice input
+					document.getElementById('customDice')?.addEventListener('keypress', function(e) {
+						if (e.key === 'Enter') {
+							rollCustomDice();
+						}
+					});
+				</script>
+			`]
+		};
+		renderer.recursiveRender(notesInfo, renderStack, {depth: 1});
 
 		// Currency & Wealth
 		if (character.currency || (character.gp != null || character.sp != null || character.cp != null || character.pp != null || character.ep != null)) {
@@ -9058,6 +9332,33 @@ Renderer.character = class {
 		renderStack.push(Renderer.utils.getPageTr(character));
 
 		return renderStack.join("");
+	},
+
+	static _setupCharacterNotePersistence () {
+		// Setup enhanced persistence for new content
+		setTimeout(() => {
+			// Load notes and goals
+			const savedNotes = localStorage.getItem('character-notes');
+			if (savedNotes) {
+				const notesInput = document.querySelector('.character-notes');
+				if (notesInput) notesInput.value = savedNotes;
+			}
+
+			const savedGoals = localStorage.getItem('character-goals');
+			if (savedGoals) {
+				const goalsInput = document.querySelector('.character-goals');
+				if (goalsInput) goalsInput.value = savedGoals;
+			}
+
+			// Setup auto-save for notes and goals
+			document.addEventListener('input', (e) => {
+				if (e.target.matches('.character-notes')) {
+					localStorage.setItem('character-notes', e.target.value);
+				} else if (e.target.matches('.character-goals')) {
+					localStorage.setItem('character-goals', e.target.value);
+				}
+			});
+		}, 100);
 	}
 
 	static bindListenersCompact (character, ele) {
@@ -9192,6 +9493,9 @@ Renderer.character = class {
 				
 				// Apply condition effects
 				Renderer.character._applyConditionEffects($ele, condition, true);
+				
+				// Save conditions to localStorage
+				Renderer.character._saveConditionsToStorage($ele);
 			}
 		});
 		
@@ -9203,18 +9507,30 @@ Renderer.character = class {
 				Renderer.character._applyConditionEffects($ele, condition, false);
 			}
 			$(this).remove();
+			
+			// Save conditions to localStorage
+			Renderer.character._saveConditionsToStorage($ele);
 		});
 		
-		// Auto-save functionality for inputs (optional - stores in localStorage)
-		$ele.find('.character-input').on('change', function() {
+		// Enhanced auto-save functionality for all inputs
+		$ele.find('.character-input').on('change input', function() {
 			const $input = $(this);
 			const characterName = $ele.closest('[data-character-name]').attr('data-character-name') || 'default';
 			const inputClass = $input.attr('class').split(' ').find(cls => cls.startsWith('character-'));
 			const key = `character-${characterName}-${inputClass}`;
-			localStorage.setItem(key, String($input.val()));
+			
+			// Handle different input types
+			let value;
+			if ($input.attr('type') === 'checkbox') {
+				value = $input.prop('checked');
+			} else {
+				value = $input.val();
+			}
+			
+			localStorage.setItem(key, JSON.stringify(value));
 		});
 		
-		// Load saved values from localStorage
+		// Enhanced load saved values from localStorage
 		const characterName = $ele.closest('[data-character-name]').attr('data-character-name') || 'default';
 		$ele.find('.character-input').each(function() {
 			const $input = $(this);
@@ -9222,9 +9538,22 @@ Renderer.character = class {
 			const key = `character-${characterName}-${inputClass}`;
 			const savedValue = localStorage.getItem(key);
 			if (savedValue !== null) {
-				$input.val(savedValue);
+				try {
+					const parsedValue = JSON.parse(savedValue);
+					if ($input.attr('type') === 'checkbox') {
+						$input.prop('checked', parsedValue);
+					} else {
+						$input.val(parsedValue);
+					}
+				} catch (e) {
+					// Fallback for old string values
+					$input.val(savedValue);
+				}
 			}
 		});
+		
+		// Load saved conditions
+		Renderer.character._loadConditionsFromStorage($ele);
 		
 		// Death save auto-clear functionality
 		$ele.find('.character-death-save').on('change', function() {
@@ -9241,6 +9570,9 @@ Renderer.character = class {
 				}, 100);
 			}
 		});
+
+		// Setup notes persistence
+		Renderer.character._setupCharacterNotePersistence();
 	}
 
 	// Helper function to get class-specific features and resources
@@ -9610,10 +9942,10 @@ Renderer.character = class {
 		$ele.find('.character-wild-shape').val(0);
 		
 		// Warlock spell slots recharge on short rest
-		const $warlockSlots = $ele.find('.character-spell-slots-used');
-		if ($warlockSlots.length) {
-			// This is a simplified approach - in a real implementation you'd check if they're actually warlock slots
-			$warlockSlots.val(0);
+		// Check if character has warlock levels by looking for warlock-specific features
+		const hasWarlockFeatures = $ele.find('.character-class-features:contains("Pact Magic")').length > 0;
+		if (hasWarlockFeatures) {
+			$ele.find('.character-spell-slots-used').val(0);
 		}
 	}
 
@@ -9691,6 +10023,52 @@ Renderer.character = class {
 		if (classBonus.jackOfAllTrades) return 'Jack of All Trades (Half Proficiency)';
 		if (isProficient) return 'Proficient';
 		return 'Not Proficient';
+	}
+
+	// Save conditions to localStorage
+	static _saveConditionsToStorage ($ele) {
+		const characterName = $ele.closest('[data-character-name]').attr('data-character-name') || 'default';
+		const conditions = [];
+		
+		$ele.find('.character-condition-item').each(function() {
+			const condition = $(this).attr('data-condition');
+			if (condition) {
+				conditions.push(condition);
+			}
+		});
+		
+		const key = `character-${characterName}-conditions`;
+		localStorage.setItem(key, JSON.stringify(conditions));
+	}
+
+	// Load conditions from localStorage
+	static _loadConditionsFromStorage ($ele) {
+		const characterName = $ele.closest('[data-character-name]').attr('data-character-name') || 'default';
+		const key = `character-${characterName}-conditions`;
+		const savedConditions = localStorage.getItem(key);
+		
+		if (savedConditions) {
+			try {
+				const conditions = JSON.parse(savedConditions);
+				const $conditionsList = $ele.find('.character-conditions-list');
+				
+				conditions.forEach(condition => {
+					// Get condition effects
+					const effects = Renderer.character._getConditionEffects(condition);
+					const effectsText = effects.length ? ` (${effects.join(', ')})` : '';
+					
+					const conditionHtml = `<span class="character-condition-item" title="Click to remove. Effects: ${effects.join(', ')}" data-condition="${condition}">
+						${condition}${effectsText} <span class="character-condition-remove">×</span>
+					</span>`;
+					$conditionsList.append(conditionHtml);
+					
+					// Apply condition effects
+					Renderer.character._applyConditionEffects($ele, condition, true);
+				});
+			} catch (e) {
+				console.warn('Failed to load saved conditions:', e);
+			}
+		}
 	}
 
 	static pGetFluff (character) {
