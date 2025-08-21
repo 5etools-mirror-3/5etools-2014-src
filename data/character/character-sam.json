@@ -3,7 +3,6 @@
 		{
 			"name": "Garurt",
 			"source": "Sam",
-			"page": 1,
 			"level": 6,
 			"race": {
 				"name": "Lizardfolk",
@@ -25,10 +24,7 @@
 				"name": "Sage",
 				"source": "PHB"
 			},
-			"alignment": [
-				"L",
-				"G"
-			],
+			"alignment": ["L", "G"],
 			"ac": [
 				{
 					"ac": 14,
@@ -52,122 +48,98 @@
 			"int": 11,
 			"wis": 8,
 			"cha": 18,
-			"save": {
-				"wis": "+2",
-				"cha": "+7"
-			},
-			"skill": {
-				"deception": "+7",
-				"insight": "+1",
-				"investigation": "+3",
-				"perception": "+7",
-				"survival": "+2"
-			},
-			"passive": 9,
-			"languages": [
-				"Common",
-				"Draconic"
-			],
 			"proficiencyBonus": "+3",
-			"equipment": [
+			"entries": [
 				{
-					"name": "Dagger",
-					"type": "weapon",
-					"source": "PHB",
-					"equipped": true
+					"type": "entries",
+					"name": "Background & Personality",
+					"entries": ["Hermione Granger is a brilliant witch known for her extensive knowledge of magic theory and her quick thinking in dangerous situations. Her mastery of transmutation magic makes her invaluable for solving complex problems.", "Hermione is a young woman with bushy brown hair and bright, intelligent eyes. She carries herself with confidence and always seems to have her nose in a book when not actively adventuring.", "Born to non-magical parents, Hermione discovered her magical abilities at age 11 and has since become one of the most accomplished witches of her generation. Her thirst for knowledge drives her to study every magical text she can find.", "Though sometimes seen as a know-it-all, Hermione's vast knowledge and quick thinking have saved her friends countless times. She believes strongly in justice and equality, often standing up for the oppressed."]
 				},
 				{
-					"name": "Quarterstaff",
-					"type": "weapon",
-					"source": "PHB",
-					"equipped": true
-				}
-			],
-			"spellcasting": {
-				"level": 7,
-				"ability": "cha",
-				"dc": 15,
-				"mod": "+7",
-				"ritual": true,
-				"spells": {
-					"0": {
-						"spells": [
-							"eldritch blast",
-							"prestidigitation",
-							"sword burst"
-						]
-					},
-					"1": {
-						"slots": 0,
-						"slotsUsed": 0,
-						"spells": [
-							"fog cloud",
-							"detect evil and good",
-							"witch bolt"
-						]
-					},
-					"2": {
-						"slots": 0,
-						"slotsUsed": 0,
-						"spells": [
-							"invisibility",
-							"spider climb"
-						]
-					},
-					"3": {
-						"slots": 2,
-						"slotsUsed": 0,
-						"spells": [
-							"create food and water",
-							"vampiric touch"
-						]
-					}
-				}
-			},
-			"conditions": [],
-			"notes": "",
-			"trait": [
-				{
-					"name": "Ritual Casting",
+					"type": "entries",
+					"name": "Features & Traits",
 					"entries": [
-						"You can cast a wizard spell as a ritual if that spell has the ritual tag and you have the spell in your spellbook."
+						{
+							"type": "entries",
+							"name": "Ritual Casting",
+							"entries": ["You can cast a wizard spell as a ritual if that spell has the ritual tag and you have the spell in your spellbook."]
+						},
+						{
+							"type": "entries",
+							"name": "Spellbook",
+							"entries": ["You have a spellbook containing all your wizard spells. You can copy spells from other spellbooks and scrolls into your book."]
+						},
+						{
+							"type": "entries",
+							"name": "Transmuter's Stone",
+							"entries": ["You can spend 8 hours creating a transmuter's stone that stores transmutation magic. A creature carrying or wearing it gains your choice of darkvision, increased speed, proficiency in Constitution saving throws, or resistance to acid, cold, fire, lightning, or thunder damage."]
+						}
 					]
 				},
 				{
-					"name": "Spellbook",
+					"type": "entries",
+					"name": "Actions",
 					"entries": [
-						"You have a spellbook containing all your wizard spells. You can copy spells from other spellbooks and scrolls into your book."
+						{
+							"type": "entries",
+							"name": "Eldritch Blast",
+							"entries": ["{@atk rs} {@hit 7} to hit, force damage, reach 120 ft. ({@damage 1d10 + 4 + 3}) with 3 cold damage ({@damage 1d10 + 4})"]
+						},
+						{
+							"type": "entries",
+							"name": "Bite",
+							"entries": ["{@atk rm} {@hit 4} ({@damage 1d6 + 1})"]
+						}
 					]
 				},
 				{
-					"name": "Transmuter's Stone",
+					"type": "entries",
+					"name": "Spellcasting",
 					"entries": [
-						"You can spend 8 hours creating a transmuter's stone that stores transmutation magic. A creature carrying or wearing it gains your choice of darkvision, increased speed, proficiency in Constitution saving throws, or resistance to acid, cold, fire, lightning, or thunder damage."
+						{
+							"type": "entries",
+							"name": "Cantrips",
+							"entries": [
+								{
+									"type": "list",
+									"items": ["eldritch blast", "prestidigitation", "sword burst"]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Level 1",
+							"entries": [
+								{
+									"type": "list",
+									"items": ["fog cloud", "detect evil and good", "witch bolt"]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Level 2",
+							"entries": [
+								{
+									"type": "list",
+									"items": ["invisibility", "spider climb"]
+								}
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Level 3",
+							"entries": [
+								"Spell Slots: 2",
+								{
+									"type": "list",
+									"items": ["create food and water", "vampiric touch"]
+								}
+							]
+						}
 					]
 				}
-			],
-			"action": [
-				{
-					"name": "Eldritch Blast",
-					"entries": [
-						"{@atk rs} {@hit 7} to hit, reach 120 ft. or range 20/60 ft., one target. {@h}4 ({@damage 1d4 + 2}) piercing damage."
-					]
-				},
-				{
-					"name": "Fire Bolt (Cantrip)",
-					"entries": [
-						"{@atk rs} {@hit 7} to hit, range 120 ft., one target. {@h}9 ({@damage 2d10}) fire damage."
-					]
-				}
-			],
-			"customText": "Hermione Granger is a brilliant witch known for her extensive knowledge of magic theory and her quick thinking in dangerous situations. Her mastery of transmutation magic makes her invaluable for solving complex problems.",
-			"fluff": {
-				"entries": [
-					"Hermione is a young woman with bushy brown hair and bright, intelligent eyes. She carries herself with confidence and always seems to have her nose in a book when not actively adventuring.",
-					"Born to non-magical parents, Hermione discovered her magical abilities at age 11 and has since become one of the most accomplished witches of her generation. Her thirst for knowledge drives her to study every magical text she can find.",
-					"Though sometimes seen as a know-it-all, Hermione's vast knowledge and quick thinking have saved her friends countless times. She believes strongly in justice and equality, often standing up for the oppressed."
-				]
-			}
+			]
 		}
 	]
 }

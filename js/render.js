@@ -8494,13 +8494,12 @@ Renderer.character = class {
 			<tr><td colspan="6" class="pb-2 pt-0" data-character-name="${(character.name || 'Unknown').replace(/[^a-zA-Z0-9]/g, '-')}">
 		`);
 
-		// Character header info
+		// Character header info - more compact inline format
 		const raceLink = character.race ? `{@race ${character.race.name}|${character.race.source || "PHB"}}` : ptRace;
 		const classLinks = character.class ? character.class.map(c => {
 			const classLink = `{@class ${c.name}|${c.source || "PHB"}}`;
 			let subclassText = '';
 			if (c.subclass) {
-				// Generate the short name from the subclass name (lowercase and replace spaces with hyphens)
 				const subclassShortName = c.subclass.name.toLowerCase().replace(/\s+/g, '');
 				subclassText = ` ({@class ${c.name}|${c.source || "PHB"}|${subclassShortName}|${c.subclass.source || "PHB"}})`;
 			}
@@ -8508,191 +8507,26 @@ Renderer.character = class {
 		}).join(", ") : ptClass;
 		const backgroundLink = character.background ? `{@background ${character.background.name}|${character.background.source || "PHB"}}` : ptBackground;
 
-		const headerInfo = {
-			type: "list",
-			style: "list-hang-notitle",
-			items: [
-				{type: "item", name: "Level:", entry: `${ptLevel} ${raceLink} ${classLinks}`},
-				{type: "item", name: "Background:", entry: backgroundLink},
-				{type: "item", name: "Alignment:", entry: ptAlignment},
-			]
-		};
 
-		renderer.recursiveRender(headerInfo, renderStack, {depth: 1});
+		// Inline character summary
+		const inlineSummary = `<p><em>Level ${ptLevel} ${raceLink} ${classLinks}, ${backgroundLink}, ${ptAlignment}</em></p>`;
+		renderer.recursiveRender({type: "entries", entries: [inlineSummary]}, renderStack, {depth: 1});
 
-		// Core Stats Section - All 6 Ability Scores (using monster format)
-		const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 
-		// Create ability scores table like monsters
-		const abilityTable = `
-			<table class="w-100 summary stripe-odd-table">
-				<tr>${abilities.map(ab => `<th class="ve-col-2 ve-text-center">${ab.toUpperCase()}</th>`).join("")}</tr>
-				<tr>${abilities.map(ab => `<td class="ve-text-center">${Renderer.utils.getAbilityRoller(character, ab)}</td>`).join("")}</tr>
-			</table>
-		`;
+		// Combat Stats - Compact inline format
+		const combatStats = [];
 
-		const abilityInfo = {
-			type: "entries",
-			entries: [abilityTable]
-		};
-		renderer.recursiveRender(abilityInfo, renderStack, {depth: 1});
-
-		// Saving Throws Table (using monster format)
-		const saveRows = [];
-		abilities.forEach(ab => {
-			const score = character[ab] || 10;
-			const modifier = Parser.getAbilityModifier(score);
-			const modValue = typeof modifier === 'number' ? modifier : parseInt(modifier) || 0;
-			const saveBonus = character.save?.[ab];
-			let finalBonus = modValue;
-
-			// Use trained bonus if available, otherwise use ability modifier
-			if (saveBonus) {
-				finalBonus = typeof saveBonus === 'string' ? parseInt(saveBonus) || modValue : saveBonus;
-			}
-
-			const finalStr = finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`;
-			const proficient = saveBonus != null;
-			let profIcon = proficient ? '●' : '○';
-
-			// Create save check with rollable dice
-			const saveCheckHtml = renderer.render(`{@dice 1d20${finalStr}||${Parser.attAbvToFull(ab)} Save|${finalStr}}`);
-
-			saveRows.push(`
-				<tr>
-					<td style="text-align: center; color: var(--color-link);" title="${proficient ? 'Proficient' : 'Not Proficient'}">${profIcon}</td>
-					<td>${Parser.attAbvToFull(ab)} Save</td>
-					<td style="text-align: center;">${ab.toUpperCase()}</td>
-					<td style="text-align: center;">${saveCheckHtml}</td>
-				</tr>
-			`);
-		});
-
-		const savesTable = `
-			<table class="w-100 summary stripe-odd-table" style="table-layout: fixed;">
-				<thead>
-					<tr>
-						<th style="width: 8%; text-align: center;">Prof</th>
-						<th style="width: 45%;">Saving Throw</th>
-						<th style="width: 12%; text-align: center;">Ability</th>
-						<th style="width: 35%; text-align: center;">Bonus</th>
-					</tr>
-				</thead>
-				<tbody>
-					${saveRows.join('')}
-				</tbody>
-			</table>
-		`;
-
-		const saveInfo = {
-			type: "entries",
-			name: "Saving Throws",
-			entries: [savesTable]
-		};
-		renderer.recursiveRender(saveInfo, renderStack, {depth: 1});
-
-		// Skills Table (using monster format) - moved below saving throws
-		const skillsToShow = [];
-		const allSkills = {
-			'Acrobatics': 'dex', 'Animal Handling': 'wis', 'Arcana': 'int', 'Athletics': 'str',
-			'Deception': 'cha', 'History': 'int', 'Insight': 'wis', 'Intimidation': 'cha',
-			'Investigation': 'int', 'Medicine': 'wis', 'Nature': 'int', 'Perception': 'wis',
-			'Performance': 'cha', 'Persuasion': 'cha', 'Religion': 'int', 'Sleight of Hand': 'dex',
-			'Stealth': 'dex', 'Survival': 'wis'
-		};
-
-		// Build skills table rows
-		const skillRows = [];
-		Object.entries(allSkills).forEach(([skillName, ability]) => {
-			const abilityScore = character[ability] || 10;
-			const abilityMod = Parser.getAbilityModifier(abilityScore);
-			const modValue = typeof abilityMod === 'number' ? abilityMod : parseInt(abilityMod) || 0;
-
-			// Check if character has this skill trained
-			const skillKey = skillName.toLowerCase().replace(/\s+/g, '');
-			const customBonus = character.skill?.[skillKey] || character.skill?.[skillName];
-
-			let finalBonus = modValue;
-			let proficient = false;
-
-			// Use custom bonus if available, otherwise use ability modifier
-			if (customBonus) {
-				finalBonus = typeof customBonus === 'string' ? parseInt(customBonus) || modValue : customBonus;
-				proficient = finalBonus !== modValue; // Assume proficient if bonus differs from ability mod
-			}
-
-			// Check for class-specific skill bonuses
-			const classBonus = Renderer.character._getClassSkillBonus(character, skillName, finalBonus, proficient);
-			if (classBonus.bonus !== finalBonus) {
-				finalBonus = classBonus.bonus;
-			}
-
-			const finalStr = finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`;
-
-			// Create skill check with rollable dice
-			const skillCheckHtml = renderer.render(`{@dice 1d20${finalStr}||${skillName}|${finalStr}}`);
-			let profIcon = proficient ? '●' : '○';
-
-			// Special indicators for class features
-			if (classBonus.expertise) profIcon = '◆'; // Expertise (double proficiency)
-			if (classBonus.jackOfAllTrades && !proficient) profIcon = '◐'; // Half proficiency
-
-			skillRows.push(`
-				<tr>
-					<td style="text-align: center; color: var(--color-link);" title="${Renderer.character._getSkillProficiencyTooltip(proficient, classBonus)}">${profIcon}</td>
-					<td>${skillName}</td>
-					<td style="text-align: center;">${ability.toUpperCase()}</td>
-					<td style="text-align: center;">${skillCheckHtml}</td>
-				</tr>
-			`);
-		});
-
-		const skillsTable = `
-			<table class="w-100 summary stripe-odd-table" style="table-layout: fixed;">
-				<thead>
-					<tr>
-						<th style="width: 8%; text-align: center;">Prof</th>
-						<th style="width: 45%;">Skill</th>
-						<th style="width: 12%; text-align: center;">Ability</th>
-						<th style="width: 35%; text-align: center;">Modifier</th>
-					</tr>
-				</thead>
-				<tbody>
-					${skillRows.join('')}
-				</tbody>
-			</table>
-		`;
-
-		const skillInfo = {
-			type: "entries",
-			name: "Skills",
-			entries: [skillsTable]
-		};
-		renderer.recursiveRender(skillInfo, renderStack, {depth: 1});
-
-		// Combat Stats
-		const combatEntries = [];
 		if (character.ac) {
 			const acValue = Array.isArray(character.ac) ? character.ac[0].ac : character.ac;
 			const acSource = Array.isArray(character.ac) && character.ac[0].from ? ` (${character.ac[0].from.join(', ')})` : '';
-			combatEntries.push(`<strong>Armor Class</strong> ${acValue}${acSource}`);
+			combatStats.push(`<strong>AC</strong> ${acValue}${acSource}`);
 		}
 
 		if (character.hp) {
 			const hp = character.hp;
 			const currentHp = hp.current != null ? hp.current : hp.average || hp.max || "?";
 			const maxHp = hp.max || hp.average || "?";
-			const tempHp = hp.temp || 0;
-
-			// Editable HP fields
-			const hpHtml = `<span class="character-hp-tracker">
-				<strong>Hit Points</strong>
-				<input type="number" class="character-input character-hp-current" value="${currentHp}" min="0" max="${maxHp}" style="width: 50px;" title="Current HP" />
-				/ ${maxHp}
-				<input type="number" class="character-input character-hp-temp" value="${tempHp}" min="0" style="width: 40px; margin-left: 5px;" title="Temp HP" placeholder="Temp" />
-			</span>`;
-			combatEntries.push(hpHtml);
-			if (hp.formula) combatEntries.push(`*Hit Dice: ${hp.formula}*`);
+			combatStats.push(`<strong>HP</strong> ${currentHp}/${maxHp}${hp.temp ? ` (+${hp.temp} temp)` : ''}`);
 		}
 
 		if (character.speed) {
@@ -8700,7 +8534,7 @@ Renderer.character = class {
 			Object.entries(character.speed).forEach(([type, value]) => {
 				speeds.push(`${type === 'walk' ? '' : type + ' '}${value} ft.`);
 			});
-			combatEntries.push(`<strong>Speed</strong> ${speeds.join(', ')}`);
+			combatStats.push(`<strong>Speed</strong> ${speeds.join(', ')}`);
 		}
 
 		// Calculate and display proficiency bonus
@@ -8709,81 +8543,142 @@ Renderer.character = class {
 			profBonus = `+${Math.ceil(character.level / 4) + 1}`;
 		}
 		if (profBonus) {
-			combatEntries.push(`<strong>Proficiency Bonus</strong> ${profBonus}`);
+			combatStats.push(`<strong>Prof. Bonus</strong> ${profBonus}`);
 		}
 
-		// Initiative rolling (using monster format)
-		const dexScore = character.dex || 10;
-		const initMod = Parser.getAbilityModifier(dexScore);
-		const initModValue = typeof initMod === 'number' ? initMod : parseInt(initMod) || 0;
-		const initStr = initModValue >= 0 ? `+${initModValue}` : `${initModValue}`;
-		const initHtml = renderer.render(`{@dice 1d20${initStr}||Initiative}`);
-		combatEntries.push(`<strong>Initiative</strong> ${initHtml}`);
+		if (combatStats.length > 0) {
+			const combatInfo = {
+				type: "entries",
+				entries: [`<p>${combatStats.join(', ')}</p>`]
+			};
+			renderer.recursiveRender(combatInfo, renderStack, {depth: 1});
+		}
 
-		// Passive Perception
+
+		// Ability Scores Table
+		const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+		const abilityTable = {
+			type: "table",
+			caption: "Ability Scores",
+			colLabels: abilities.map(ab => ab.toUpperCase()),
+			rows: [
+				abilities.map(ab => {
+					const score = character[ab] || 10;
+					const modifier = Parser.getAbilityModifier(score);
+					// Create clickable dice roll for ability checks
+					return `${score} ({@dice 1d20${modifier}|${modifier}|Ability Check})`;
+				})
+			]
+		};
+		renderer.recursiveRender(abilityTable, renderStack, {depth: 1});
+
+
+		// Skills Table (show all skills, highlight proficient ones)
+		const allSkills = [
+			{key: 'acrobatics', name: 'Acrobatics', ability: 'dex'},
+			{key: 'animalHandling', name: 'Animal Handling', ability: 'wis'},
+			{key: 'arcana', name: 'Arcana', ability: 'int'},
+			{key: 'athletics', name: 'Athletics', ability: 'str'},
+			{key: 'deception', name: 'Deception', ability: 'cha'},
+			{key: 'history', name: 'History', ability: 'int'},
+			{key: 'insight', name: 'Insight', ability: 'wis'},
+			{key: 'intimidation', name: 'Intimidation', ability: 'cha'},
+			{key: 'investigation', name: 'Investigation', ability: 'int'},
+			{key: 'medicine', name: 'Medicine', ability: 'wis'},
+			{key: 'nature', name: 'Nature', ability: 'int'},
+			{key: 'perception', name: 'Perception', ability: 'wis'},
+			{key: 'performance', name: 'Performance', ability: 'cha'},
+			{key: 'persuasion', name: 'Persuasion', ability: 'cha'},
+			{key: 'religion', name: 'Religion', ability: 'int'},
+			{key: 'sleightOfHand', name: 'Sleight of Hand', ability: 'dex'},
+			{key: 'stealth', name: 'Stealth', ability: 'dex'},
+			{key: 'survival', name: 'Survival', ability: 'wis'}
+		];
+
+		const skillsTable = {
+			type: "table",
+			caption: "Skills",
+			colLabels: ["Skill", "Ability", "Modifier"],
+			rows: allSkills.map(skill => {
+				const abilityScore = character[skill.ability] || 10;
+				const baseModifier = Parser.getAbilityModifier(abilityScore);
+				const baseModValue = typeof baseModifier === 'number' ? baseModifier : parseInt(baseModifier) || 0;
+
+				// Check if character has proficiency in this skill
+				const skillBonus = character.skill?.[skill.key] || character.skill?.[skill.name.toLowerCase().replace(/\s+/g, '')];
+
+				let finalModifier = baseModValue;
+				let isProficient = false;
+
+				if (skillBonus !== undefined) {
+					finalModifier = typeof skillBonus === 'string' ? parseInt(skillBonus) || baseModValue : skillBonus;
+					isProficient = true;
+				}
+
+				const finalStr = finalModifier >= 0 ? `+${finalModifier}` : `${finalModifier}`;
+				// Create clickable dice roll for skill checks, with proficiency indicator in the roll name
+				const skillName = isProficient ? `${skill.name} (Proficient)` : skill.name;
+				const rollableModifier = `{@dice 1d20${finalStr}|${finalStr}|${skillName}}`;
+
+				return [
+					skill.name,
+					skill.ability.toUpperCase(),
+					rollableModifier
+				];
+			})
+		};
+		renderer.recursiveRender(skillsTable, renderStack, {depth: 1});
+
+				// Saving Throws Table (show all abilities, highlight proficient ones)
+		const savingThrowsTable = {
+			type: "table",
+			caption: "Saving Throws",
+			colLabels: ["Ability", "Modifier"],
+			rows: abilities.map(ab => {
+				const score = character[ab] || 10;
+				const baseModifier = Parser.getAbilityModifier(score);
+				const baseModValue = typeof baseModifier === 'number' ? baseModifier : parseInt(baseModifier) || 0;
+				const saveBonus = character.save?.[ab];
+
+				let finalModifier = baseModValue;
+				let isProficient = false;
+
+				if (saveBonus) {
+					finalModifier = typeof saveBonus === 'string' ? parseInt(saveBonus) || baseModValue : saveBonus;
+					isProficient = true;
+				}
+
+				const finalStr = finalModifier >= 0 ? `+${finalModifier}` : `${finalModifier}`;
+				// Create clickable dice roll for saving throws, with proficiency indicator in the roll name
+				const saveName = isProficient ? `${Parser.attAbvToFull(ab)} Save (Proficient)` : `${Parser.attAbvToFull(ab)} Save`;
+				const rollableModifier = `{@dice 1d20${finalStr}|${finalStr}|${saveName}}`;
+
+				return [
+					Parser.attAbvToFull(ab),
+					rollableModifier
+				];
+			})
+		};
+		renderer.recursiveRender(savingThrowsTable, renderStack, {depth: 1});
+
+		// Additional Combat Info - Passive Perception inline
+		const additionalCombat = [];
 		const wisScore = character.wis || 10;
 		const wisMod = Parser.getAbilityModifier(wisScore);
 		const wisModValue = typeof wisMod === 'number' ? wisMod : parseInt(wisMod) || 0;
 		const perceptionSkill = character.skill?.perception || character.skill?.Perception || wisModValue;
 		const perceptionMod = typeof perceptionSkill === 'string' ? parseInt(perceptionSkill) || wisModValue : perceptionSkill;
 		const passivePerception = 10 + perceptionMod;
-		combatEntries.push(`<strong>Passive Perception</strong> ${passivePerception}`);
+		additionalCombat.push(`<strong>Passive Perception</strong> ${passivePerception}`);
 
-		// Death Saving Throws with tracker (using monster format)
-		const deathSaveHtml = renderer.render(`{@dice 1d20||Death Saving Throw}`);
-		const deathSaveTracker = `<span class="character-death-saves">
-			<strong>Death Saves</strong> ${deathSaveHtml}<br>
-			<p>
-				Successes: <input type="checkbox" class="character-death-save character-death-save-success" />
-				<input type="checkbox" class="character-death-save character-death-save-success" />
-				<input type="checkbox" class="character-death-save character-death-save-success" /> |
-				Failures: <input type="checkbox" class="character-death-save character-death-save-failure" />
-				<input type="checkbox" class="character-death-save character-death-save-failure" />
-				<input type="checkbox" class="character-death-save character-death-save-failure" />
-			</p>
-		</span>`;
-		combatEntries.push(deathSaveTracker);
-
-		if (character.class && character.class.length > 0) {
-			const hitDiceInfo = character.class.map(cls => {
-				const level = cls.level || 1;
-				const hitDie = cls.hd || 8;
-				const conMod = Parser.getAbilityModifier(character.con || 10);
-				const conModValue = typeof conMod === 'number' ? conMod : parseInt(conMod) || 0;
-				const modStr = conModValue >= 0 ? `+${conModValue}` : `${conModValue}`;
-
-				// Use proper dice format like monsters
-				const hitDiceHtml = renderer.render(`{@dice 1d${hitDie}${modStr}||${cls.name} Hit Die}`);
-
-				// Default hit dice to full (long rest state)
-				const hitDiceRemaining = cls.hitDiceRemaining != null ? cls.hitDiceRemaining : level;
-				return `<span class="character-hit-dice">
-					<input type="number" class="character-input character-hit-dice-remaining" value="${hitDiceRemaining}" min="0" max="${level}" style="width: 40px;" title="Hit dice remaining" />
-					/${level} ${hitDiceHtml}
-				</span>`;
-			}).join(', ');
-			combatEntries.push(`**Hit Dice** ${hitDiceInfo}`);
+		if (additionalCombat.length > 0) {
+			const additionalInfo = {
+				type: "entries",
+				entries: [`<p>${additionalCombat.join(', ')}</p>`]
+			};
+			renderer.recursiveRender(additionalInfo, renderStack, {depth: 1});
 		}
 
-		const combatInfo = {
-			type: "entries",
-			name: "Combat Statistics",
-			entries: combatEntries
-		};
-		renderer.recursiveRender(combatInfo, renderStack, {depth: 1});
-
-		// Class-specific features and resources
-		if (character.class && character.class.length > 0) {
-			const classFeatures = Renderer.character._getClassSpecificFeatures(character);
-			if (classFeatures.length > 0) {
-				const classInfo = {
-					type: "entries",
-					name: "Class Features & Resources",
-					entries: classFeatures
-				};
-				renderer.recursiveRender(classInfo, renderStack, {depth: 1});
-			}
-		}
 
 		// Actions - moved higher for better logical flow
 		if (character.action?.length) {
@@ -8883,163 +8778,17 @@ Renderer.character = class {
 		}
 
 
-		// Condition Tracker - restored to original location
-		const conditionTracker = {
-			type: "entries",
-			name: "Condition Tracker",
-			entries: [`
-				<div class="character-condition-tracker">
-					<div style="margin-bottom: 10px;">
-						<strong>Add Condition:</strong>
-						<select class="character-condition-select" style="margin-left: 5px;">
-							<option value="">Select condition...</option>
-							<option value="Blinded">Blinded</option>
-							<option value="Charmed">Charmed</option>
-							<option value="Deafened">Deafened</option>
-							<option value="Exhaustion">Exhaustion</option>
-							<option value="Frightened">Frightened</option>
-							<option value="Grappled">Grappled</option>
-							<option value="Incapacitated">Incapacitated</option>
-							<option value="Invisible">Invisible</option>
-							<option value="Paralyzed">Paralyzed</option>
-							<option value="Petrified">Petrified</option>
-							<option value="Poisoned">Poisoned</option>
-							<option value="Prone">Prone</option>
-							<option value="Restrained">Restrained</option>
-							<option value="Stunned">Stunned</option>
-							<option value="Unconscious">Unconscious</option>
-						</select>
-						<button class="character-condition-add btn btn-xs btn-default" style="margin-left: 5px;">Add</button>
-					</div>
-					<div class="character-active-conditions">
-						<strong>Active Conditions:</strong>
-						<div class="character-conditions-list" style="margin-top: 5px;"></div>
-					</div>
-				</div>
-			`]
-		};
-		renderer.recursiveRender(conditionTracker, renderStack, {depth: 1});
 
-		// Equipment Management
-		// Combine character equipment with localStorage equipment
-		const characterEquipment = character.equipment || [];
-		const localStorageEquipment = JSON.parse(localStorage.getItem('character-equipment')) || [];
-		const allEquipment = [...characterEquipment, ...localStorageEquipment];
-
-		if (allEquipment.length) {
+		// Equipment from character data (use custom content instead of hardcoded forms)
+		if (character.equipment?.length) {
 			const equipInfo = {
 				type: "entries",
-				name: "Equipment & Inventory",
-				entries: []
-			};
-
-			// Add equipment management controls at the top
-			equipInfo.entries.push(`
-				<div class="equipment-management" style="margin-bottom: 15px; padding: 10px; background: var(--bg-alt, #f8f9fa); border-radius: 5px;">
-					<div class="equipment-controls">
-						<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 10px;">
-							<input type="text" id="item-search" placeholder="Search for items to add..." style="flex: 1; min-width: 200px; padding: 5px; border: 1px solid #ccc; border-radius: 3px;" />
-							<button onclick="Renderer.character._searchItems()" style="padding: 5px 10px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">Search Items</button>
-							<button onclick="Renderer.character._addCustomItem()" style="padding: 5px 10px; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer;">Add Custom Item</button>
-						</div>
-						<div id="item-search-results" style="max-height: 200px; overflow-y: auto; border: 1px solid #ddd; border-radius: 3px; display: none;"></div>
-					</div>
-				</div>
-			`);
-
-			const equipped = allEquipment.filter(item => item.equipped);
-			const weapons = allEquipment.filter(item => item.type === 'weapon' || item.weaponCategory);
-			const armor = allEquipment.filter(item => item.type === 'armor' || item.ac);
-			const other = allEquipment.filter(item => !item.equipped && item.type !== 'weapon' && item.type !== 'armor' && !item.weaponCategory && !item.ac);
-
-			if (weapons.length) {
-				const weaponList = {
-					type: "list",
-					name: "Weapons",
-					items: weapons.map((weapon, index) => {
-						const attackBonus = weapon.attackBonus || '+?';
-						const damage = weapon.damage || '?';
-						const range = weapon.range ? ` (Range: ${weapon.range})` : '';
-						const properties = weapon.properties ? ` - ${weapon.properties.join(', ')}` : '';
-						const weaponName = weapon.name;
-						const removeBtn = weapon.isCustom || localStorageEquipment.includes(weapon) ? 
-							` <button onclick="Renderer.character._removeItem(${index})" style="background: #dc3545; color: white; border: none; border-radius: 3px; padding: 2px 6px; font-size: 12px;">Remove</button>` : '';
-						return `${weaponName}: ${attackBonus} to hit, ${damage} damage${range}${properties}${removeBtn}`;
-					})
-				};
-				equipInfo.entries.push(weaponList);
-			}
-
-			if (armor.length) {
-				const armorList = {
-					type: "list",
-					name: "Armor",
-					items: armor.map((armorItem, index) => {
-						const ac = armorItem.ac || '?';
-						const armorName = armorItem.name;
-						const removeBtn = armorItem.isCustom || localStorageEquipment.includes(armorItem) ? 
-							` <button onclick="Renderer.character._removeItem(${index})" style="background: #dc3545; color: white; border: none; border-radius: 3px; padding: 2px 6px; font-size: 12px;">Remove</button>` : '';
-						return `${armorName}: AC ${ac}${removeBtn}`;
-					})
-				};
-				equipInfo.entries.push(armorList);
-			}
-
-			if (equipped.length) {
-				const equippedList = {
-					type: "list",
-					name: "Currently Equipped",
-					items: equipped.map((item, index) => {
-						const qty = item.quantity ? ` (${item.quantity})` : '';
-						const desc = item.description ? ` - ${item.description}` : '';
-						const itemName = item.name;
-						const removeBtn = item.isCustom || localStorageEquipment.includes(item) ? 
-							` <button onclick="Renderer.character._removeItem(${index})" style="background: #dc3545; color: white; border: none; border-radius: 3px; padding: 2px 6px; font-size: 12px;">Remove</button>` : '';
-						return `${itemName}${qty}${desc}${removeBtn}`;
-					})
-				};
-				equipInfo.entries.push(equippedList);
-			}
-
-			if (other.length) {
-				const otherList = {
-					type: "list",
-					name: "Other Equipment",
-					items: other.map((item, index) => {
-						const qty = item.quantity ? ` (${item.quantity})` : '';
-						const desc = item.description ? ` - ${item.description}` : '';
-						const itemName = item.name;
-						const weight = item.weight ? ` (${item.weight} lb.)` : '';
-						const value = item.value ? ` - ${Parser.itemValueToFull ? Parser.itemValueToFull(item) : item.value}` : '';
-						const removeBtn = item.isCustom || localStorageEquipment.includes(item) ? 
-							` <button onclick="Renderer.character._removeItem(${index})" style="background: #dc3545; color: white; border: none; border-radius: 3px; padding: 2px 6px; font-size: 12px;">Remove</button>` : '';
-						return `${itemName}${qty}${weight}${value}${desc}${removeBtn}`;
-					})
-				};
-				equipInfo.entries.push(otherList);
-			}
-
-			renderer.recursiveRender(equipInfo, renderStack, {depth: 1});
-		} else {
-			// No equipment, show basic equipment management interface
-			const equipInfo = {
-				type: "entries",
-				name: "Equipment & Inventory",
-				entries: [`
-					<div class="equipment-management">
-						<div class="equipment-controls" style="margin-bottom: 15px; padding: 10px; background: var(--bg-alt, #f8f9fa); border-radius: 5px;">
-							<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
-								<input type="text" id="item-search" placeholder="Search for items to add..." style="flex: 1; min-width: 200px; padding: 5px; border: 1px solid #ccc; border-radius: 3px;" />
-								<button onclick="Renderer.character._searchItems()" style="padding: 5px 10px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer;">Search Items</button>
-								<button onclick="Renderer.character._addCustomItem()" style="padding: 5px 10px; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer;">Add Custom Item</button>
-							</div>
-							<div id="item-search-results" style="margin-top: 10px; max-height: 200px; overflow-y: auto; border: 1px solid #ddd; border-radius: 3px; display: none;"></div>
-						</div>
-						<div id="character-equipment-list">
-							<p>No equipment currently. Use the controls above to add items.</p>
-						</div>
-					</div>
-				`]
+				name: "Equipment",
+				entries: character.equipment.map(item => {
+					const qty = item.quantity ? ` (${item.quantity})` : '';
+					const desc = item.description ? ` - ${item.description}` : '';
+					return `**${item.name}${qty}**${desc}`;
+				})
 			};
 			renderer.recursiveRender(equipInfo, renderStack, {depth: 1});
 		}
@@ -9052,69 +8801,12 @@ Renderer.character = class {
 			};
 			renderer.recursiveRender(langInfo, renderStack, {depth: 1});
 		}
-		// Player Notes & Tracking
-		const notesInfo = {
-			type: "entries",
-			name: "Player Notes & Tracking",
-			entries: [`
-				<div class="player-notes">
-					<div style="display: flex; flex-wrap: wrap; gap: 15px;">
-						<div style="flex: 1; min-width: 300px;">
-							<h6>Session Notes</h6>
-							<textarea placeholder="Keep track of important story details, NPCs, locations..."
-								style="width: 100%; height: 120px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; font-family: inherit;"
-								class="character-input character-notes"></textarea>
-						</div>
-						<div style="flex: 1; min-width: 300px;">
-							<h6>Goals & Objectives</h6>
-							<textarea placeholder="Current quests, personal goals, things to remember..."
-								style="width: 100%; height: 120px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; font-family: inherit;"
-								class="character-input character-goals"></textarea>
-						</div>
-					</div>
-				</div>
-			`]
-		};
-		renderer.recursiveRender(notesInfo, renderStack, {depth: 1});
+		// Player notes from custom content instead of hardcoded forms
 
-		// Currency & Wealth - Editable
-		const currencyInfo = {
-			type: "entries",
-			name: "Currency",
-			entries: [`
-				<div class="currency-section">
-					<div style="display: flex; flex-wrap: wrap; gap: 15px; margin: 10px 0;">
-						<div style="display: flex; align-items: center; gap: 5px;">
-							<label for="currency-pp" style="font-weight: bold;">PP:</label>
-							<input type="number" id="currency-pp" class="character-input character-currency-pp" value="${character.currency?.pp || character.pp || 0}" min="0" style="width: 60px; padding: 2px;" />
-						</div>
-						<div style="display: flex; align-items: center; gap: 5px;">
-							<label for="currency-gp" style="font-weight: bold;">GP:</label>
-							<input type="number" id="currency-gp" class="character-input character-currency-gp" value="${character.currency?.gp || character.gp || 0}" min="0" style="width: 60px; padding: 2px;" />
-						</div>
-						<div style="display: flex; align-items: center; gap: 5px;">
-							<label for="currency-ep" style="font-weight: bold;">EP:</label>
-							<input type="number" id="currency-ep" class="character-input character-currency-ep" value="${character.currency?.ep || character.ep || 0}" min="0" style="width: 60px; padding: 2px;" />
-						</div>
-						<div style="display: flex; align-items: center; gap: 5px;">
-							<label for="currency-sp" style="font-weight: bold;">SP:</label>
-							<input type="number" id="currency-sp" class="character-input character-currency-sp" value="${character.currency?.sp || character.sp || 0}" min="0" style="width: 60px; padding: 2px;" />
-						</div>
-						<div style="display: flex; align-items: center; gap: 5px;">
-							<label for="currency-cp" style="font-weight: bold;">CP:</label>
-							<input type="number" id="currency-cp" class="character-input character-currency-cp" value="${character.currency?.cp || character.cp || 0}" min="0" style="width: 60px; padding: 2px;" />
-						</div>
-					</div>
-				</div>
-			`]
-		};
 
 		// Calculate carrying capacity for display
 		const strScore = character.str || 10;
 		const carryingCapacity = strScore * 15;
-		currencyInfo.entries.push(`<strong>Carrying Capacity:</strong> ${carryingCapacity} lbs`);
-
-		renderer.recursiveRender(currencyInfo, renderStack, {depth: 1});
 
 		// Resources (Hit Dice, Inspiration, etc.)
 		if (character.resources?.length) {
@@ -9139,41 +8831,22 @@ Renderer.character = class {
 			renderer.recursiveRender(conditionInfo, renderStack, {depth: 1});
 		}
 
-		// Custom description
+		// Custom description - inline format
 		if (character.customText) {
 			const customInfo = {
 				type: "entries",
-				name: "Description",
-				entries: [character.customText]
+				entries: [`<p><strong>Description:</strong> ${character.customText}</p>`]
 			};
 			renderer.recursiveRender(customInfo, renderStack, {depth: 1});
 		}
 
 
-		// Rest Management
-		const restInfo = {
-			type: "entries",
-			name: "Rest Management",
-			entries: [`
-				<div class="character-rest-management" style="margin: 10px 0;">
-					<button class="character-short-rest btn btn-sm btn-primary" style="margin-right: 10px;">Short Rest</button>
-					<button class="character-long-rest btn btn-sm btn-success">Long Rest</button>
-					<div style="margin-top: 5px; font-size: 0.9em; color: var(--color-text-muted);">
-						<strong>Short Rest:</strong> 1 hour, spend hit dice to heal, regain some abilities<br>
-						<strong>Long Rest:</strong> 8 hours, regain all HP, all spell slots, half hit dice (min 1)
-					</div>
-				</div>
-			`]
-		};
-		renderer.recursiveRender(restInfo, renderStack, {depth: 1});
-
-
-		// Fluff entries
+		// Fluff entries - inline background
 		if (character.fluff?.entries?.length) {
+			const fluffText = character.fluff.entries.join(' ');
 			const fluffInfo = {
 				type: "entries",
-				name: "Background",
-				entries: character.fluff.entries
+				entries: [`<p><strong>Background:</strong> ${fluffText}</p>`]
 			};
 			renderer.recursiveRender(fluffInfo, renderStack, {depth: 1});
 		}
@@ -9958,15 +9631,15 @@ Renderer.character = class {
 			}
 
 			const allItems = window._LOADED_ITEMS_DATA;
-			
+
 			// Filter items based on search term
 			const filteredItems = allItems.filter(item => {
 				const name = (item.name || '').toLowerCase();
 				const type = (item.type || '').toLowerCase();
 				const typeHtml = (item._typeHtml || '').toLowerCase();
-				
-				return name.includes(searchTerm) || 
-					   type.includes(searchTerm) || 
+
+				return name.includes(searchTerm) ||
+					   type.includes(searchTerm) ||
 					   typeHtml.includes(searchTerm);
 			}).slice(0, 20); // Limit to 20 results
 
@@ -9982,7 +9655,7 @@ Renderer.character = class {
 				const weight = item.weight ? `${item.weight} lb.` : '';
 				const value = item.value ? Parser.itemValueToFull(item) : '';
 				const source = item.source || '';
-				
+
 				// Get basic item properties for display
 				let itemDesc = [];
 				if (item.ac) itemDesc.push(`AC ${typeof item.ac === 'object' ? item.ac.ac : item.ac}`);
@@ -9991,13 +9664,13 @@ Renderer.character = class {
 				if (rarity && rarity !== 'none' && rarity !== 'unknown') itemDesc.push(rarity);
 				if (weight) itemDesc.push(weight);
 				if (value) itemDesc.push(value);
-				
+
 				const descText = itemDesc.length ? itemDesc.join(' • ') : '';
-				
+
 				return `
-					<div style="padding: 8px; border-bottom: 1px solid #eee; cursor: pointer;" 
-						 onclick="Renderer.character._addItemToInventory('${name.replace(/'/g, "\\'")}', '${type}', 1, false, ${JSON.stringify(item).replace(/"/g, '&quot;')})" 
-						 onmouseover="this.style.backgroundColor='#f0f0f0'" 
+					<div style="padding: 8px; border-bottom: 1px solid #eee; cursor: pointer;"
+						 onclick="Renderer.character._addItemToInventory('${name.replace(/'/g, "\\'")}', '${type}', 1, false, ${JSON.stringify(item).replace(/"/g, '&quot;')})"
+						 onmouseover="this.style.backgroundColor='#f0f0f0'"
 						 onmouseout="this.style.backgroundColor='white'">
 						<div style="display: flex; justify-content: space-between; align-items: flex-start;">
 							<div style="flex: 1;">
@@ -10050,7 +9723,7 @@ Renderer.character = class {
 			if (fullItemData.rarity) newItem.rarity = fullItemData.rarity;
 			if (fullItemData.source) newItem.source = fullItemData.source;
 			if (fullItemData.entries) newItem.description = Renderer.get().render({entries: fullItemData.entries});
-			
+
 			// Store full item data for future reference
 			newItem.fullData = fullItemData;
 		}

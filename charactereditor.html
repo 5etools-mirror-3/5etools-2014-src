@@ -11,11 +11,11 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="mobile-web-app-capable" content="yes">
 
-	<title>Characters - 5etools</title>
+	<title>Character Editor - 5etools</title>
 
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/main.css">
-	<link rel="stylesheet" href="css/character-sheet.css">
+	<link rel="stylesheet" href="css/renderdemo.css">
 
 	<!-- Favicons -->
 	<link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -69,8 +69,8 @@
 
 	<header class="hidden-xs hidden-sm page__header">
 		<div class="container ve-flex-v-baseline">
-			<h1 class="page__title no-wrap my-0" id="page__title">Characters</h1>
-			<p class="page__subtitle no-wrap my-0" id="page__subtitle">Search by name on the left, click a name to display on the right.</p>
+			<h1 class="page__title no-wrap my-0" id="page__title">Character Editor</h1>
+			<p class="page__subtitle no-wrap my-0" id="page__subtitle">Edit character JSON on the left, see the rendered character sheet on the right.</p>
 		</div>
 	</header>
 
@@ -78,60 +78,25 @@
 		<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
 	</nav>
 
-	<div class="view-col-group--cancer h-100 mh-0">
-		<div class="container view-col-wrapper view-col-wrapper--cancer">
-			<div class="view-col" id="listcontainer">
-				<div class="lst__form-top" id="filter-search-group">
-					<div class="w-100 relative">
-						<input type="search" id="lst__search" autocomplete="off" autocapitalize="off" spellcheck="false" class="search form-control lst__search lst__search--no-border-h">
-						<div id="lst__search-glass" class="lst__wrp-search-glass no-events ve-flex-vh-center"><span class="glyphicon glyphicon-search"></span></div>
-						<div class="lst__wrp-search-visible no-events ve-flex-vh-center"></div>
-					</div>
-					<button type="button" class="ve-btn ve-btn-default" id="reset">Reset</button>
-				</div>
-
-				<div id="filtertools" class="input-group input-group--bottom ve-flex no-shrink">
-					<button type="button" class="ve-col-4-2 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
-					<button type="button" class="ve-col-4-1 sort ve-btn ve-btn-default ve-btn-xs" data-sort="race">Race</button>
-					<button type="button" class="ve-col-1-7 sort ve-btn ve-btn-default ve-btn-xs" data-sort="class">Class</button>
-					<button type="button" class="ve-col-1-7 sort ve-btn ve-btn-default ve-btn-xs" data-sort="level">Level</button>
-					<button type="button" class="sort ve-btn ve-btn-default ve-btn-xs ve-grow" data-sort="source">Source</button>
-				</div>
-
-				<div id="list" class="list list--stats"></div>
+	<div class="view-col-wrapper">
+		<div class="view-col no-print" id="wrp-jsoninput">
+			<pre id="jsoninput" class="inputArea ace_editor"></pre>
+			<div class="ve-flex-h-right">
+				<button class="ve-btn ve-btn-primary ve-btn-sm mr-2" id="loadTemplate">Load Template</button>
+				<button class="ve-btn ve-btn-default ve-btn-sm mr-2" id="validateJson">Validate</button>
+				<button class="ve-btn ve-btn-default ve-btn-sm mr-2" id="charRender">Render</button>
+				<button class="ve-btn ve-btn-success ve-btn-sm mr-2" id="saveCharacter">Save</button>
+				<button class="ve-btn ve-btn-warning ve-btn-sm" id="charReset">Reset</button>
+				<span id="message" class="ml-2"></span>
 			</div>
+		</div>
 
-			<div class="cancer__wrp-mobile-1 cancer__anchor"><div class="cancer__disp-cancer"></div><!--5ETOOLS_AD_MOB_PLAYER_1--></div>
-
-			<div id="contentwrapper" class="view-col">
-				<div id="sublistcontainer" class="sublist sublist--resizable no-print">
-					<div id="sublistsort" class="ve-btn-group sublist__wrp-cols">
-						<button type="button" class="ve-col-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
-						<button type="button" class="ve-col-3-8 sort ve-btn ve-btn-default ve-btn-xs" data-sort="race">Race</button>
-						<button type="button" class="ve-col-1-2 sort ve-btn ve-btn-default ve-btn-xs" data-sort="class">Class</button>
-						<button type="button" class="ve-col-2 sort ve-btn ve-btn-default ve-btn-xs" data-sort="level">Level</button>
-					</div>
-
-					<div id="sublist" class="list"></div>
-				</div>
-
-				<div class="w-100 ve-flex" id="stat-tabs">
-					<div class="ml-auto ve-flex" id="tabs-right"></div>
-				</div>
-
-				<div id="wrp-pagecontent" class="relative wrp-stats-table">
-					<table id="pagecontent" class="w-100 stats">
-						<tr><th class="ve-tbl-border" colspan="6"></th></tr>
-						<tr><td colspan="6" class="initial-message initial-message--med">Select a character from the list to view it here</td></tr>
-						<tr><th class="ve-tbl-border" colspan="6"></th></tr>
-					</table>
-				</div>
-
-				<div class="ve-flex-vh-center mt-2 no-print">
-					<button type="button" class="ve-btn ve-btn-default ve-btn-xs mr-2" id="btn-book">Printer View</button>
-					<button type="button" class="ve-btn ve-btn-warning ve-btn-xs mr-2" id="btn-edit-character" style="display: none;">Edit Character</button>
-				</div>
-			</div>
+		<div id="wrp-output" class="view-col">
+			<table id="pagecontent" class="w-100 stats">
+				<tr><th class="ve-tbl-border" colspan="6"></th></tr>
+				<tr><td colspan="6" class="initial-message initial-message--med">Edit the character JSON on the left to see the rendered character sheet here</td></tr>
+				<tr><th class="ve-tbl-border" colspan="6"></th></tr>
+			</table>
 		</div>
 	</div>
 </div>
@@ -140,6 +105,7 @@
 <!--5ETOOLS_AD_ADHESION-->
 
 <script type="text/javascript" defer src="lib/jquery.js"></script>
+<script type="text/javascript" defer src="lib/ace.js"></script>
 <script type="text/javascript" defer src="js/parser.js"></script>
 <script type="text/javascript" defer src="js/utils.js"></script>
 <script type="text/javascript" defer src="js/utils-ui.js"></script>
@@ -151,18 +117,12 @@
 <script type="module" src="js/utils-font.js"></script>
 <script type="module" src="js/utils-brew.js"></script>
 <script type="module" src="js/utils-config.js"></script>
-<script type="text/javascript" defer src="js/utils-list.js"></script>
 <script type="text/javascript" defer src="js/render.js"></script>
-<script type="module" src="js/render-characters.js"></script>
 <script type="text/javascript" defer src="js/render-dice.js"></script>
 <script type="text/javascript" defer src="js/render-markdown.js"></script>
 <script type="module" src="js/shim-esmodules.js"></script>
 <script type="text/javascript" defer src="js/hist.js"></script>
-<script type="text/javascript" defer src="js/listpage.js"></script>
-<script type="text/javascript" defer src="js/multisource.js"></script>
-<script type="text/javascript" defer src="js/filter-common.js"></script>
-<script type="text/javascript" defer src="js/filter-characters.js"></script>
-<script type="module" src="js/characters.js"></script>
+<script type="text/javascript" defer src="js/charactereditor.js"></script>
 <script type="text/javascript" defer src="js/list2.js"></script>
 <script type="text/javascript" defer src="lib/elasticlunr.js"></script>
 

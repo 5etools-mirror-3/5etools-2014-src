@@ -155,18 +155,34 @@ class CharactersPage extends ListPageMultiSource {
 	}
 
 	_renderStats_doBuildStatsTab ({ent}) {
-		// Get the character renderer function (same as DM screen)
-		const fn = Renderer.hover.getFnRenderCompact(UrlUtil.PG_CHARACTERS);
+		// Use the custom character renderer with dice rolling and reordered layout
+		let renderedContent;
+		if (typeof Renderer.characterCustom?.getCompactRenderedString === 'function') {
+			// Use custom character renderer with dice rolling and reordered layout
+			renderedContent = Renderer.characterCustom.getCompactRenderedString(ent);
+		} else {
+			// Fallback to hover renderer
+			const fn = Renderer.hover.getFnRenderCompact(UrlUtil.PG_CHARACTERS);
+			renderedContent = fn(ent);
+		}
 		
-		// Get the rendered content (table rows)
-		const renderedContent = fn(ent);
+		// Clear and populate the existing table directly
+		this._$pgContent.empty().html(`
+			<tr><th class="ve-tbl-border" colspan="6"></th></tr>
+			<tr><td colspan="6">${renderedContent}</td></tr>
+			<tr><th class="ve-tbl-border" colspan="6"></th></tr>
+		`);
 		
-		// Clear and populate the existing table directly (like DM screen)
-		this._$pgContent.empty().append(renderedContent);
-		
-		// Bind listeners exactly like DM screen
+		// Bind listeners for interactive elements
 		const fnBind = Renderer.hover.getFnBindListenersCompact(UrlUtil.PG_CHARACTERS);
 		if (fnBind) fnBind(ent, this._$pgContent[0]);
+		
+		// Show Edit button and store current character
+		this._currentCharacter = ent;
+		const $editBtn = $("#btn-edit-character");
+		if ($editBtn.length) {
+			$editBtn.show();
+		}
 	}
 
 	async _pGetFluff (character) {
@@ -239,6 +255,19 @@ class CharactersPage extends ListPageMultiSource {
 
 const charactersPage = new CharactersPage();
 charactersPage.sublistManager = new CharactersSublistManager();
-window.addEventListener("load", () => charactersPage.pOnLoad());
+window.addEventListener("load", () => {
+	charactersPage.pOnLoad();
+	
+	// Initialize Edit Character button
+	$("#btn-edit-character").click(() => {
+		if (charactersPage._currentCharacter) {
+			// Store character data for editor
+			localStorage.setItem('editingCharacter', JSON.stringify(charactersPage._currentCharacter));
+			
+			// Navigate to character editor
+			window.location.href = 'charactereditor.html?edit=true';
+		}
+	});
+});
 
 globalThis.dbg_page = charactersPage;
