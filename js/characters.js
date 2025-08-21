@@ -129,12 +129,144 @@ class CharactersPage extends ListPageMultiSource {
 		// Ensure Example source is loaded for hover/popout functionality
 		await this._pLoadSource("Example", "yes");
 		
+		// Try to load character data from database API first
+		const databaseLoaded = await this._pLoadCharacterDataFromDatabase();
+		
+		// If database loading failed, the normal file loading will proceed
+		if (!databaseLoaded) {
+			console.log('Database loading failed, proceeding with normal file loading');
+		}
+		
 		// Preload spell data so spell links work in character sheets
 		try {
 			await DataLoader.pCacheAndGetAllSite(UrlUtil.PG_SPELLS);
 		} catch (e) {
 			console.warn("Failed to preload spell data for character page:", e);
 		}
+	}
+
+	async _pLoadCharacterDataFromDatabase() {
+		try {
+			console.log('Loading character data from Vercel Blob storage...');
+			
+			// First get the list of characters from blob storage
+			const listResponse = await fetch('/api/characters/list');
+			if (!listResponse.ok) {
+				throw new Error('Failed to fetch character list');
+			}
+			
+			const listData = await listResponse.json();
+			if (!listData.success) {
+				throw new Error(listData.error || 'Failed to get character list');
+			}
+
+			// Load each character's data
+			const characterDataPromises = listData.characters.map(async (charInfo) => {
+				try {
+					const loadResponse = await fetch(`/api/characters/load?url=${encodeURIComponent(charInfo.url)}`);
+					if (!loadResponse.ok) {
+						console.warn(`Failed to load character: ${charInfo.filename}`);
+						return null;
+					}
+					
+					const loadData = await loadResponse.json();
+					if (loadData.success && loadData.character) {
+						// Extract character from the wrapper format
+						if (loadData.character.character && Array.isArray(loadData.character.character)) {
+							return loadData.character.character[0]; // Return the actual character data
+						}
+						return loadData.character;
+					}
+					return null;
+				} catch (e) {
+					console.warn(`Error loading character ${charInfo.filename}:`, e);
+					return null;
+				}
+			});
+
+			const characterResults = await Promise.all(characterDataPromises);
+			const validCharacters = characterResults.filter(char => char);
+			
+			if (validCharacters.length > 0) {
+				// Convert to expected 5etools format
+				const formattedData = {
+					character: validCharacters
+				};
+				
+				// Process each character to ensure it has the required computed fields
+				formattedData.character.forEach(char => this._processCharacterForDisplay(char));
+				
+				// Add to data loader cache
+				this._addData(formattedData);
+				console.log(`Loaded ${formattedData.character.length} characters from blob storage`);
+				
+				// Set up periodic refresh
+				this._setupDatabaseRefresh();
+				
+				return true;
+			} else {
+				console.warn('No valid characters found in blob storage');
+				return false;
+			}
+		} catch (e) {
+			console.warn('Failed to load character data from blob storage:', e.message);
+			console.log('Falling back to static file loading');
+			return false;
+		}
+	}
+
+	_processCharacterForDisplay(character) {
+		// Add computed fields that the filters and display expect
+		if (character.race) {
+			character._fRace = character.race.variant ? `Variant ${character.race.name}` : character.race.name;
+		}
+		if (character.class && Array.isArray(character.class)) {
+			character._fClass = character.class.map(cls => cls.name).join("/");
+		}
+		if (character.background) {
+			character._fBackground = character.background.name;
+		}
+	}
+
+	_setupDatabaseRefresh() {
+		// Set up periodic refresh of character data from database
+		setInterval(async () => {
+			try {
+				const response = await fetch('/api/characters');
+				if (response.ok) {
+					const characterData = await response.json();
+					const formattedData = {
+						character: Array.isArray(characterData) ? characterData : characterData.characters || []
+					};
+					
+					// Process characters
+					formattedData.character.forEach(char => this._processCharacterForDisplay(char));
+					
+					// Update the list if data has changed
+					const currentCount = this._dataList?.length || 0;
+					if (formattedData.character.length !== currentCount) {
+						this._addData(formattedData);
+						console.log('Character data refreshed from database');
+					}
+				}
+			} catch (e) {
+				console.debug('Database refresh failed (normal if database unavailable):', e.message);
+			}
+		}, 30000); // Refresh every 30 seconds
+	}
+
+	async loadCharacterById(characterId) {
+		try {
+			const response = await fetch(`/api/characters/${characterId}`);
+			if (response.ok) {
+				const character = await response.json();
+				this._processCharacterForDisplay(character);
+				return character;
+			}
+		} catch (e) {
+			console.warn(`Failed to load character ${characterId} from database:`, e.message);
+		}
+		return null;
 	}
 
 	_doPreviewExpand ({listItem, dispExpandedOuter, btnToggleExpand, dispExpandedInner}) {
@@ -259,12 +391,25 @@ window.addEventListener("load", () => {
 	charactersPage.pOnLoad();
 	
 	// Initialize Edit Character button
-	$("#btn-edit-character").click(() => {
+	$("#btn-edit-character").click(async () => {
 		if (charactersPage._currentCharacter) {
-			// Store character data for editor
+			// Store character data for editor (Vercel serverless approach)
 			localStorage.setItem('editingCharacter', JSON.stringify(charactersPage._currentCharacter));
 			
-			// Navigate to character editor
+			// Optional: Try to get load instructions from API 
+			try {
+				const response = await fetch(`/api/characters/load?source=${encodeURIComponent(charactersPage._currentCharacter.source || 'custom')}`);
+				
+				if (response.ok) {
+					const result = await response.json();
+					console.log('Character load API response:', result);
+					// The API provides instructions but doesn't actually return data in Vercel serverless
+				}
+			} catch (error) {
+				console.log('API load failed, using cached data:', error.message);
+			}
+			
+			// Navigate to character editor (data already stored in localStorage above)
 			window.location.href = 'charactereditor.html?edit=true';
 		}
 	});

@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,46 +15,49 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { characterData, isEdit, originalSource } = req.body;
+    const { characterData, isEdit, characterId } = req.body;
 
     if (!characterData || !characterData.name) {
       return res.status(400).json({ error: 'Invalid character data' });
     }
 
-    // Generate filename based on character source and name
-    const source = characterData.source || 'custom';
-    const characterId = characterData.name.toLowerCase()
+    // Generate character ID if not provided
+    const finalCharacterId = characterId || characterData.name.toLowerCase()
       .replace(/[^a-z0-9\s]/g, '') // Remove special characters
       .replace(/\s+/g, '-') // Replace spaces with dashes
       .substring(0, 50); // Limit length
 
-    const filename = `character-${source.toLowerCase()}-${characterId}.json`;
-    
-    // For Vercel, we can't write to filesystem in serverless functions
-    // Instead, we'll return the data that should be saved locally
-    // This is a limitation of serverless functions
-    
+    // Wrap character in the expected format
     const saveData = {
       character: [characterData]
     };
 
-    // In a real implementation, you'd save to a database or external storage
-    // For now, we'll return success with the data that should be saved
-    return res.status(200).json({
-      success: true,
-      message: 'Character data processed successfully',
-      filename: filename,
-      data: saveData,
-      instructions: {
-        note: 'Due to Vercel serverless limitations, character data cannot be saved directly to files.',
-        suggestion: 'Save the returned data to your local data/character/ directory',
-        localPath: `data/character/${filename}`
-      }
-    });
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+      // Production mode - save to Vercel Blob storage
+      const { put } = await import('@vercel/blob');
+
+      const pathname = `characters/${finalCharacterId}.json`;
+      const blob = await put(pathname, JSON.stringify(saveData, null, 2), {
+        access: 'public',
+        contentType: 'application/json',
+      });
+
+      return res.status(200).json({
+        success: true,
+        message: isEdit ? 'Character updated successfully' : 'Character saved successfully',
+        characterId: finalCharacterId,
+        blob: {
+          url: blob.url,
+          pathname: blob.pathname,
+          size: blob.size,
+          uploadedAt: blob.uploadedAt
+        }
+      });
+    }
 
   } catch (error) {
     console.error('Save character error:', error);
-    return res.status(500).json({ 
+    return res.status(500).json({
       error: 'Failed to save character',
       details: error.message
     });

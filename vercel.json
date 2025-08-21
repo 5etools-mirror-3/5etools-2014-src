@@ -1,1 +1,5 @@
-{}
+{
+  "devCommand": null,
+  "buildCommand": null,
+  "outputDirectory": "."
+}

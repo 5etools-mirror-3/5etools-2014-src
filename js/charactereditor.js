@@ -1,6 +1,12 @@
 let editor;
 let currentCharacterData = null;
+let currentCharacterId = null;
 let isEditMode = false;
+
+// API configuration
+const API_BASE_URL = window.location.origin.includes('localhost') 
+  ? 'http://localhost:3000/api' 
+  : '/api';
 
 class CharacterEditorPage {
 	constructor() {
@@ -36,17 +42,45 @@ class CharacterEditorPage {
 		setTimeout(() => this.renderCharacter(), 500);
 	}
 
-	loadCharacterForEdit() {
-		const characterData = localStorage.getItem('editingCharacter');
-		if (characterData) {
-			try {
-				currentCharacterData = JSON.parse(characterData);
-				this.ace.setValue(JSON.stringify(currentCharacterData, null, 2), 1);
-				document.getElementById('message').textContent = 'Loaded character for editing';
-			} catch (e) {
-				console.error('Error loading character data:', e);
-				document.getElementById('message').textContent = 'Error loading character data';
+	async loadCharacterForEdit() {
+		// First try to get character ID from URL or localStorage
+		const urlParams = new URLSearchParams(window.location.search);
+		const characterId = urlParams.get('id');
+		
+		if (characterId) {
+			// Load from API
+			await this.loadCharacterFromAPI(characterId);
+		} else {
+			// Fallback to localStorage for backwards compatibility
+			const characterData = localStorage.getItem('editingCharacter');
+			if (characterData) {
+				try {
+					currentCharacterData = JSON.parse(characterData);
+					this.ace.setValue(JSON.stringify(currentCharacterData, null, 2), 1);
+					document.getElementById('message').textContent = 'Loaded character for editing (from localStorage)';
+				} catch (e) {
+					console.error('Error loading character data:', e);
+					document.getElementById('message').textContent = 'Error loading character data';
+				}
 			}
+		}
+	}
+
+	async loadCharacterFromAPI(characterId) {
+		try {
+			const response = await fetch(`${API_BASE_URL}/characters/${characterId}`);
+			if (response.ok) {
+				const characterResponse = await response.json();
+				currentCharacterData = characterResponse.data;
+				currentCharacterId = characterResponse.id;
+				this.ace.setValue(JSON.stringify(currentCharacterData, null, 2), 1);
+				document.getElementById('message').textContent = `Loaded character: ${characterResponse.name}`;
+			} else {
+				throw new Error('Character not found');
+			}
+		} catch (error) {
+			console.error('Error loading character from API:', error);
+			document.getElementById('message').textContent = 'Error loading character from API';
 		}
 	}
 
@@ -248,11 +282,11 @@ class CharacterEditorPage {
 			
 			if (isEditMode && currentCharacterData) {
 				// Update existing character
-				await this.updateCharacterInDataSource(characterData);
+				await this.updateCharacterInAPI(characterData);
 				document.getElementById('message').textContent = 'Character updated successfully';
 			} else {
 				// Save new character
-				await this.saveNewCharacter(characterData);
+				await this.saveNewCharacterToAPI(characterData);
 				document.getElementById('message').textContent = 'Character saved successfully';
 			}
 			document.getElementById('message').style.color = 'green';
@@ -263,25 +297,237 @@ class CharacterEditorPage {
 		}
 	}
 
-	async updateCharacterInDataSource(updatedCharacter) {
-		// Update localStorage with the edited character
+	async updateCharacterInAPI(updatedCharacter) {
+		// Update localStorage for immediate use
 		localStorage.setItem('editingCharacter', JSON.stringify(updatedCharacter));
 		
-		// Log what would be saved in a real implementation
-		console.log('Character updated:', updatedCharacter);
-		
-		// In a real implementation, this would save to the actual data source
-		return true;
+		try {
+			const response = await fetch('/api/characters/save', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					characterData: updatedCharacter,
+					isEdit: true,
+					characterId: currentCharacterData ? this.generateCharacterId(currentCharacterData.name) : this.generateCharacterId(updatedCharacter.name)
+				})
+			});
+
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(error.error || 'Failed to update character');
+			}
+
+			const result = await response.json();
+			console.log('Character updated:', result);
+			
+			// Show instructions to user about manual save
+			if (result.instructions) {
+				this.showSaveInstructions(result);
+			}
+			
+			// Update local state
+			currentCharacterData = updatedCharacter;
+			localStorage.setItem('editingCharacter', JSON.stringify(updatedCharacter));
+			
+			return result;
+		} catch (error) {
+			throw new Error('Failed to update character: ' + error.message);
+		}
+	}
+
+	async saveNewCharacterToAPI(characterData) {
+		try {
+			const response = await fetch('/api/characters/save', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					characterData: characterData,
+					isEdit: false,
+					characterId: this.generateCharacterId(characterData.name)
+				})
+			});
+
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(error.error || 'Failed to save character');
+			}
+
+			const result = await response.json();
+			console.log('Character saved:', result);
+			
+			// Show instructions to user about manual save
+			if (result.instructions) {
+				this.showSaveInstructions(result);
+			}
+			
+			// Update local state for potential future edits
+			currentCharacterData = characterData;
+			isEditMode = true;
+			localStorage.setItem('editingCharacter', JSON.stringify(characterData));
+			
+			// Update URL to reflect edit mode
+			const newUrl = new URL(window.location);
+			newUrl.searchParams.set('edit', 'true');
+			window.history.replaceState({}, '', newUrl);
+			
+			return result;
+		} catch (error) {
+			throw new Error('Failed to save character: ' + error.message);
+		}
+	}
+
+	showSaveInstructions(result) {
+		const messageEl = document.getElementById('message');
+		if (result.instructions && result.instructions.note) {
+			const instructionsHtml = `
+				<div style="background: #f8f9fa; border: 1px solid #dee2e6; padding: 10px; margin: 10px 0; border-radius: 4px;">
+					<strong>Save Instructions:</strong><br>
+					${result.instructions.note}<br>
+					${result.instructions.suggestion ? `<em>${result.instructions.suggestion}</em><br>` : ''}
+					${result.localPath ? `Save to: <code>${result.localPath}</code><br>` : ''}
+					<details style="margin-top: 10px;">
+						<summary>Generated JSON Data (click to expand)</summary>
+						<pre style="background: #f1f3f4; padding: 10px; margin: 5px 0; border-radius: 4px; max-height: 200px; overflow-y: auto;"><code>${JSON.stringify(result.data, null, 2)}</code></pre>
+					</details>
+				</div>
+			`;
+			messageEl.innerHTML = instructionsHtml;
+		}
+	}
+
+	async _updateCharacterInCache(updatedCharacter) {
+		// Update the character in the DataLoader cache so it's immediately available
+		if (typeof DataLoader !== 'undefined' && DataLoader._pCache_addEntityToCache) {
+			// Process the character data to match the expected format
+			this._processCharacterData(updatedCharacter);
+			
+			// Add/update the character in the cache
+			const hashBuilder = UrlUtil.URL_TO_HASH_BUILDER['character'];
+			if (hashBuilder) {
+				DataLoader._pCache_addEntityToCache({
+					prop: 'character',
+					hashBuilder,
+					ent: updatedCharacter
+				});
+			}
+		}
+	}
+
+	async _invalidateCharacterPageCache(updatedCharacter) {
+		// Force refresh of the characters page cache
+		try {
+			// Clear the service worker cache for character data
+			if ('caches' in window) {
+				const cacheNames = await caches.keys();
+				for (const cacheName of cacheNames) {
+					const cache = await caches.open(cacheName);
+					// Remove character-related cache entries
+					const requests = await cache.keys();
+					for (const request of requests) {
+						if (request.url.includes('character') || request.url.includes(updatedCharacter.source?.toLowerCase())) {
+							await cache.delete(request);
+						}
+					}
+				}
+			}
+
+			// Also invalidate any preloaded character data
+			if (typeof DataLoader !== 'undefined' && DataLoader._CACHE) {
+				// Force reload of character data next time
+				const source = updatedCharacter.source?.toLowerCase() || 'custom';
+				// This will cause the characters page to reload fresh data
+				console.log('Invalidated cache for character source:', source);
+			}
+		} catch (e) {
+			console.warn('Could not invalidate cache:', e);
+		}
+	}
+
+	async _notifyServiceWorkerUpdate(updatedCharacter) {
+		// Send message to service worker about character update
+		try {
+			if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+				const message = {
+					type: 'CHARACTER_UPDATED',
+					payload: {
+						character: updatedCharacter,
+						source: updatedCharacter.source?.toLowerCase() || 'custom',
+						timestamp: Date.now()
+					}
+				};
+				
+				navigator.serviceWorker.controller.postMessage(message);
+				console.log('Notified service worker about character update');
+			}
+		} catch (e) {
+			console.warn('Could not notify service worker:', e);
+		}
 	}
 
 	async saveNewCharacter(characterData) {
-		// Generate a unique ID/filename for new character
-		const characterId = this.generateCharacterId(characterData.name);
-		console.log('Would save new character with ID:', characterId);
-		console.log('Character data:', characterData);
-		
-		// In a real implementation, this would create a new file or database entry
-		return true;
+		try {
+			// Generate a unique ID for new character
+			const characterId = this.generateCharacterId(characterData.name);
+			const apiUrl = '/api/characters';
+			
+			// Prepare character data for database
+			const characterPayload = {
+				...characterData,
+				id: characterId,
+				created: new Date().toISOString(),
+				lastModified: new Date().toISOString()
+			};
+			
+			// Make POST request to create new character
+			const response = await fetch(apiUrl, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(characterPayload),
+				timeout: 10000 // 10 second timeout
+			});
+			
+			if (!response.ok) {
+				throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+			}
+			
+			const result = await response.json();
+			console.log('Character created successfully:', result);
+			
+			// Update current character data with the returned ID
+			currentCharacterData = result;
+			isEditMode = true;
+			
+			// Update URL to reflect edit mode
+			const newUrl = new URL(window.location);
+			newUrl.searchParams.set('edit', 'true');
+			window.history.replaceState({}, '', newUrl);
+			
+			return true;
+		} catch (e) {
+			console.error('Failed to create character in database:', e);
+			
+			// If database save fails, fall back to local storage only
+			console.warn('Database save failed, storing locally only');
+			document.getElementById('message').textContent = 'Saved locally (database unavailable)';
+			document.getElementById('message').style.color = 'orange';
+			
+			// Update current character data for local editing
+			currentCharacterData = characterPayload;
+			isEditMode = true;
+			
+			// Update URL to reflect edit mode
+			const newUrl = new URL(window.location);
+			newUrl.searchParams.set('edit', 'true');
+			window.history.replaceState({}, '', newUrl);
+			
+			return true; // Don't throw error, allow local-only operation
+		}
 	}
 
 	generateCharacterId(name) {
