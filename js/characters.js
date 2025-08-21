@@ -155,12 +155,18 @@ class CharactersPage extends ListPageMultiSource {
 	}
 
 	_renderStats_doBuildStatsTab ({ent}) {
-		// Use the same compact renderer as DM screen and popouts for consistency
-		const renderedHtml = Renderer.character.getCompactRenderedString(ent);
-		this._$pgContent.empty().append(`<table class="w-100 stats">${renderedHtml}</table>`);
+		// Get the character renderer function (same as DM screen)
+		const fn = Renderer.hover.getFnRenderCompact(UrlUtil.PG_CHARACTERS);
 		
-		// Bind the interactive listeners
-		Renderer.character.bindListenersCompact(ent, this._$pgContent[0]);
+		// Get the rendered content (table rows)
+		const renderedContent = fn(ent);
+		
+		// Clear and populate the existing table directly (like DM screen)
+		this._$pgContent.empty().append(renderedContent);
+		
+		// Bind listeners exactly like DM screen
+		const fnBind = Renderer.hover.getFnBindListenersCompact(UrlUtil.PG_CHARACTERS);
+		if (fnBind) fnBind(ent, this._$pgContent[0]);
 	}
 
 	async _pGetFluff (character) {
