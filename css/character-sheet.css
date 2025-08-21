@@ -281,44 +281,89 @@
 }
 
 /* Condition tracker item styling */
-.character-conditions-table {
-    margin-top: 10px !important;
+.character-condition-item {
+    display: inline-block;
+    background: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    padding: 2px 6px;
+    margin: 2px;
+    cursor: pointer;
+    font-size: 0.9em;
 }
 
-.character-conditions-table th {
+.character-condition-item:hover {
+    background: var(--color-danger, #dc3545);
+    color: var(--color-bg);
+}
+
+.character-condition-remove {
+    margin-left: 4px;
+    font-weight: bold;
+}
+
+/* Skills table styling */
+.skills-table th {
     background: var(--color-bg-light);
     border-bottom: 1px solid var(--color-border);
     padding: 8px 6px;
     font-weight: 600;
     color: var(--color-text);
+    font-size: 0.9em;
 }
 
-.character-conditions-table td {
-    padding: 6px;
+.skills-table td {
+    padding: 4px 6px;
     border-bottom: 1px solid var(--color-border);
-    vertical-align: top;
+    vertical-align: middle;
 }
 
-.character-condition-item td:first-child {
-    color: var(--color-link);
-    font-weight: 600;
+.skills-table .skill-proficient {
+    color: var(--color-success, #28a745);
+    font-weight: bold;
 }
 
-.character-condition-remove {
-    background: var(--color-danger, #dc3545) !important;
-    border: none !important;
-    color: var(--color-bg) !important;
-    padding: 2px 6px !important;
-    border-radius: 3px !important;
-    font-size: 0.8em !important;
-    font-weight: bold !important;
-    cursor: pointer;
+.skills-table .skill-not-proficient {
+    color: var(--color-text-muted);
 }
 
-.character-condition-remove:hover {
-    background: var(--color-danger-dark, #c82333) !important;
+/* Class-specific resource styling */
+.character-input[class*="character-rage-"],
+.character-input[class*="character-ki-"],
+.character-input[class*="character-bardic-"],
+.character-input[class*="character-sorcery-"],
+.character-input[class*="character-lay-on-"],
+.character-input[class*="character-action-"],
+.character-input[class*="character-channel-"],
+.character-input[class*="character-wild-"] {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    border-radius: 3px;
+    padding: 2px 4px;
+    margin: 0 2px;
 }
 
-.character-no-conditions td {
-    padding: 20px !important;
+/* Class features section styling */
+.character-class-features {
+    background: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    padding: 8px 12px;
+    margin: 4px 0;
+}
+
+/* Proficiency icon styling */
+td[title*="Expertise"] {
+    color: var(--color-warning, #ffc107) !important;
+    font-weight: bold;
+}
+
+td[title*="Jack of All Trades"] {
+    color: var(--color-info, #17a2b8) !important;
+}
+
+td[title*="Proficient"]:not([title*="Not"]) {
+    color: var(--color-success, #28a745) !important;
+    font-weight: bold;
 }

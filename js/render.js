@@ -8559,54 +8559,84 @@ Renderer.character = class {
 		};
 		renderer.recursiveRender(saveInfo, renderStack, {depth: 1});
 
-		// Active Conditions Table - moved below saving throws
-		const conditionTracker = {
-			type: "entries",
-			name: "Active Conditions",
-			entries: [`
-				<div class="character-condition-tracker">
-					<div style="margin-bottom: 10px;">
-						<strong>Add Condition:</strong>
-						<select class="character-condition-select" style="margin-left: 5px;">
-							<option value="">Select condition...</option>
-							<option value="Blinded">Blinded</option>
-							<option value="Charmed">Charmed</option>
-							<option value="Deafened">Deafened</option>
-							<option value="Exhaustion">Exhaustion</option>
-							<option value="Frightened">Frightened</option>
-							<option value="Grappled">Grappled</option>
-							<option value="Incapacitated">Incapacitated</option>
-							<option value="Invisible">Invisible</option>
-							<option value="Paralyzed">Paralyzed</option>
-							<option value="Petrified">Petrified</option>
-							<option value="Poisoned">Poisoned</option>
-							<option value="Prone">Prone</option>
-							<option value="Restrained">Restrained</option>
-							<option value="Stunned">Stunned</option>
-							<option value="Unconscious">Unconscious</option>
-						</select>
-						<button class="character-condition-add btn btn-xs btn-default" style="margin-left: 5px;">Add</button>
-					</div>
-					<div class="character-active-conditions">
-						<table class="w-100 summary stripe-odd-table character-conditions-table" style="margin-top: 10px;">
-							<thead>
-								<tr>
-									<th style="width: 25%;">Condition</th>
-									<th style="width: 60%;">Effects</th>
-									<th style="width: 15%;">Remove</th>
-								</tr>
-							</thead>
-							<tbody class="character-conditions-list">
-								<tr class="character-no-conditions" style="text-align: center; font-style: italic; color: var(--color-text-muted);">
-									<td colspan="3">No active conditions</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			`]
+		// Skills Table (using monster format) - moved below saving throws
+		const skillsToShow = [];
+		const allSkills = {
+			'Acrobatics': 'dex', 'Animal Handling': 'wis', 'Arcana': 'int', 'Athletics': 'str',
+			'Deception': 'cha', 'History': 'int', 'Insight': 'wis', 'Intimidation': 'cha',
+			'Investigation': 'int', 'Medicine': 'wis', 'Nature': 'int', 'Perception': 'wis',
+			'Performance': 'cha', 'Persuasion': 'cha', 'Religion': 'int', 'Sleight of Hand': 'dex',
+			'Stealth': 'dex', 'Survival': 'wis'
 		};
-		renderer.recursiveRender(conditionTracker, renderStack, {depth: 1});
+
+		// Build skills table rows
+		const skillRows = [];
+		Object.entries(allSkills).forEach(([skillName, ability]) => {
+			const abilityScore = character[ability] || 10;
+			const abilityMod = Parser.getAbilityModifier(abilityScore);
+			const modValue = typeof abilityMod === 'number' ? abilityMod : parseInt(abilityMod) || 0;
+			
+			// Check if character has this skill trained
+			const skillKey = skillName.toLowerCase().replace(/\s+/g, '');
+			const customBonus = character.skill?.[skillKey] || character.skill?.[skillName];
+			
+			let finalBonus = modValue;
+			let proficient = false;
+			
+			// Use custom bonus if available, otherwise use ability modifier
+			if (customBonus) {
+				finalBonus = typeof customBonus === 'string' ? parseInt(customBonus) || modValue : customBonus;
+				proficient = finalBonus !== modValue; // Assume proficient if bonus differs from ability mod
+			}
+			
+			// Check for class-specific skill bonuses
+			const classBonus = Renderer.character._getClassSkillBonus(character, skillName, finalBonus, proficient);
+			if (classBonus.bonus !== finalBonus) {
+				finalBonus = classBonus.bonus;
+			}
+			
+			const finalStr = finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`;
+			
+			// Create skill check with rollable dice
+			const skillCheckHtml = renderer.render(`{@skillCheck ${skillKey.replace(/ /g, "_")} ${finalStr}}`);
+			let profIcon = proficient ? '●' : '○';
+			
+			// Special indicators for class features
+			if (classBonus.expertise) profIcon = '◆'; // Expertise (double proficiency)
+			if (classBonus.jackOfAllTrades && !proficient) profIcon = '◐'; // Half proficiency
+			
+			skillRows.push(`
+				<tr>
+					<td style="text-align: center; color: var(--color-link);" title="${Renderer.character._getSkillProficiencyTooltip(proficient, classBonus)}">${profIcon}</td>
+					<td>${renderer.render(`{@skill ${skillName}`)}</td>
+					<td style="text-align: center;">${ability.toUpperCase()}</td>
+					<td style="text-align: center;">${skillCheckHtml}</td>
+				</tr>
+			`);
+		});
+
+		const skillsTable = `
+			<table class="w-100 summary stripe-odd-table">
+				<thead>
+					<tr>
+						<th style="width: 8%; text-align: center;">Prof</th>
+						<th style="width: 52%;">Skill</th>
+						<th style="width: 15%; text-align: center;">Ability</th>
+						<th style="width: 25%; text-align: center;">Modifier</th>
+					</tr>
+				</thead>
+				<tbody>
+					${skillRows.join('')}
+				</tbody>
+			</table>
+		`;
+
+		const skillInfo = {
+			type: "entries",
+			name: "Skills",
+			entries: [skillsTable]
+		};
+		renderer.recursiveRender(skillInfo, renderStack, {depth: 1});
 
 		// Combat Stats
 		const combatEntries = [];
@@ -8710,45 +8740,55 @@ Renderer.character = class {
 		};
 		renderer.recursiveRender(combatInfo, renderStack, {depth: 1});
 
-		// Skills (using monster format)
-		const skillsToShow = [];
-		const allSkills = {
-			'Acrobatics': 'dex', 'Animal Handling': 'wis', 'Arcana': 'int', 'Athletics': 'str',
-			'Deception': 'cha', 'History': 'int', 'Insight': 'wis', 'Intimidation': 'cha',
-			'Investigation': 'int', 'Medicine': 'wis', 'Nature': 'int', 'Perception': 'wis',
-			'Performance': 'cha', 'Persuasion': 'cha', 'Religion': 'int', 'Sleight of Hand': 'dex',
-			'Stealth': 'dex', 'Survival': 'wis'
-		};
-
-		Object.entries(allSkills).forEach(([skillName, ability]) => {
-			const abilityScore = character[ability] || 10;
-			const abilityMod = Parser.getAbilityModifier(abilityScore);
-			const modValue = typeof abilityMod === 'number' ? abilityMod : parseInt(abilityMod) || 0;
-			
-			// Check if character has this skill trained
-			const skillKey = skillName.toLowerCase().replace(/\s+/g, '');
-			const customBonus = character.skill?.[skillKey] || character.skill?.[skillName];
-			
-			let finalBonus = modValue;
-			
-			// Use custom bonus if available, otherwise use ability modifier
-			if (customBonus) {
-				finalBonus = typeof customBonus === 'string' ? parseInt(customBonus) || modValue : customBonus;
+		// Class-specific features and resources
+		if (character.class && character.class.length > 0) {
+			const classFeatures = Renderer.character._getClassSpecificFeatures(character);
+			if (classFeatures.length > 0) {
+				const classInfo = {
+					type: "entries",
+					name: "Class Features & Resources",
+					entries: classFeatures
+				};
+				renderer.recursiveRender(classInfo, renderStack, {depth: 1});
 			}
-			
-			const finalStr = finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`;
-			
-			// Use monster skill format with skillCheck - show ALL skills
-			const skillCheckHtml = `<span data-mon-skill="${skillName}|${finalStr}">${renderer.render(`{@skill ${skillName}}`)} ${renderer.render(`{@skillCheck ${skillKey.replace(/ /g, "_")} ${finalStr}}`)}</span>`;
-			skillsToShow.push(skillCheckHtml);
-		});
+		}
 
-		// Always show skills since we display all of them
-		const skillInfo = {
+		// Condition Tracker - restored to original location
+		const conditionTracker = {
 			type: "entries",
-			entries: [`<p><b>Skills</b> ${skillsToShow.join(", ")}</p>`]
+			name: "Condition Tracker",
+			entries: [`
+				<div class="character-condition-tracker">
+					<div style="margin-bottom: 10px;">
+						<strong>Add Condition:</strong>
+						<select class="character-condition-select" style="margin-left: 5px;">
+							<option value="">Select condition...</option>
+							<option value="Blinded">Blinded</option>
+							<option value="Charmed">Charmed</option>
+							<option value="Deafened">Deafened</option>
+							<option value="Exhaustion">Exhaustion</option>
+							<option value="Frightened">Frightened</option>
+							<option value="Grappled">Grappled</option>
+							<option value="Incapacitated">Incapacitated</option>
+							<option value="Invisible">Invisible</option>
+							<option value="Paralyzed">Paralyzed</option>
+							<option value="Petrified">Petrified</option>
+							<option value="Poisoned">Poisoned</option>
+							<option value="Prone">Prone</option>
+							<option value="Restrained">Restrained</option>
+							<option value="Stunned">Stunned</option>
+							<option value="Unconscious">Unconscious</option>
+						</select>
+						<button class="character-condition-add btn btn-xs btn-default" style="margin-left: 5px;">Add</button>
+					</div>
+					<div class="character-active-conditions">
+						<strong>Active Conditions:</strong>
+						<div class="character-conditions-list" style="margin-top: 5px;"></div>
+					</div>
+				</div>
+			`]
 		};
-		renderer.recursiveRender(skillInfo, renderStack, {depth: 1});
+		renderer.recursiveRender(conditionTracker, renderStack, {depth: 1});
 
 		// Action Economy reminder for players
 		const actionEconomyInfo = {
@@ -8820,16 +8860,36 @@ Renderer.character = class {
 			};
 
 			if (sc.spells) {
+				// Check if character is a warlock
+				const isWarlock = character.class?.some(cls => cls.name.toLowerCase() === 'warlock');
+				
 				const spellLevels = [];
 				Object.entries(sc.spells).forEach(([level, spellData]) => {
 					const levelName = level === "0" ? "Cantrips" : `Level ${level}`;
 					let slotsHtml = '';
 					
 					if (spellData.slots) {
-						// Default spell slots to full (long rest state)
-						const slotsUsed = spellData.slotsUsed != null ? spellData.slotsUsed : 0;
-						const totalSlots = spellData.slots;
-						slotsHtml = ` (<input type="number" class="character-input character-spell-slots-used" value="${slotsUsed}" min="0" max="${totalSlots}" style="width: 40px;" title="Slots used" />/${totalSlots} slots)`;
+						// For warlocks, only show warlock spell slots (usually only one level)
+						// For other classes, show all spell slots
+						let showSlots = true;
+						if (isWarlock && level !== "0") {
+							// For warlocks, only show the highest level slots they have
+							const warlockLevels = Object.keys(sc.spells).filter(l => l !== "0" && sc.spells[l].slots);
+							const highestLevel = Math.max(...warlockLevels.map(l => parseInt(l)));
+							showSlots = parseInt(level) === highestLevel;
+						}
+						
+						if (showSlots) {
+							// Default spell slots to full (long rest state)
+							const slotsUsed = spellData.slotsUsed != null ? spellData.slotsUsed : 0;
+							const totalSlots = spellData.slots;
+							slotsHtml = ` (<input type="number" class="character-input character-spell-slots-used" value="${slotsUsed}" min="0" max="${totalSlots}" style="width: 40px;" title="Slots used" />/${totalSlots} slots)`;
+						}
+					}
+					
+					// For warlocks, skip showing lower level spell slots if they have higher level ones
+					if (isWarlock && level !== "0" && !slotsHtml) {
+						return; // Skip this level for warlocks
 					}
 					
 					const spellLinks = spellData.spells.map(spellName => {
@@ -9048,16 +9108,17 @@ Renderer.character = class {
 							
 							$currentHp.val(newHp);
 							$hitDice.first().val(available - spendNum);
-							
-							alert(`Short rest complete! Healed ${totalHealing} HP. Used ${spendNum} hit dice.`);
 						}
-					} else {
-						alert('No hit dice available to spend!');
 					}
 				}
 				
+				// Class-specific short rest recovery
+				Renderer.character._handleShortRestRecovery($ele);
+				
 				// Trigger save
 				$ele.find('.character-input').trigger('change');
+				
+				alert('Short rest complete! Class features that recharge on short rest have been restored.');
 			}
 		});
 		
@@ -9102,10 +9163,13 @@ Renderer.character = class {
 					}
 				});
 				
+				// Class-specific long rest recovery
+				Renderer.character._handleLongRestRecovery($ele);
+				
 				// Trigger save
 				$ele.find('.character-input').trigger('change');
 				
-				alert('Long rest complete! HP restored, spell slots recharged, hit dice partially restored.');
+				alert('Long rest complete! HP restored, spell slots recharged, hit dice partially restored, and class features recharged.');
 			}
 		});
 		
@@ -9115,24 +9179,15 @@ Renderer.character = class {
 			const condition = $select.val();
 			if (condition) {
 				const $conditionsList = $ele.find('.character-conditions-list');
-				const $noConditions = $conditionsList.find('.character-no-conditions');
 				
 				// Get condition effects
 				const effects = Renderer.character._getConditionEffects(condition);
-				const effectsText = effects.join(', ');
+				const effectsText = effects.length ? ` (${effects.join(', ')})` : '';
 				
-				// Hide "no conditions" row if visible
-				$noConditions.hide();
-				
-				// Add table row for condition
-				const conditionRow = `<tr class="character-condition-item" data-condition="${condition}">
-					<td><strong>${condition}</strong></td>
-					<td style="font-size: 0.9em;">${effectsText}</td>
-					<td style="text-align: center;">
-						<button class="character-condition-remove btn btn-xs btn-danger" title="Remove condition">×</button>
-					</td>
-				</tr>`;
-				$conditionsList.append(conditionRow);
+				const conditionHtml = `<span class="character-condition-item" title="Click to remove. Effects: ${effects.join(', ')}" data-condition="${condition}">
+					${condition}${effectsText} <span class="character-condition-remove">×</span>
+				</span>`;
+				$conditionsList.append(conditionHtml);
 				$select.val(''); // Reset selection
 				
 				// Apply condition effects
@@ -9141,21 +9196,13 @@ Renderer.character = class {
 		});
 		
 		// Remove condition functionality
-		$ele.on('click', '.character-condition-remove', function() {
-			const $row = $(this).closest('.character-condition-item');
-			const condition = $row.attr('data-condition');
+		$ele.on('click', '.character-condition-item', function() {
+			const condition = $(this).attr('data-condition');
 			if (condition) {
 				// Remove condition effects
 				Renderer.character._applyConditionEffects($ele, condition, false);
 			}
-			$row.remove();
-			
-			// Show "no conditions" row if no conditions remain
-			const $conditionsList = $ele.find('.character-conditions-list');
-			const $noConditions = $conditionsList.find('.character-no-conditions');
-			if ($conditionsList.find('.character-condition-item').length === 0) {
-				$noConditions.show();
-			}
+			$(this).remove();
 		});
 		
 		// Auto-save functionality for inputs (optional - stores in localStorage)
@@ -9194,6 +9241,304 @@ Renderer.character = class {
 				}, 100);
 			}
 		});
+	}
+
+	// Helper function to get class-specific features and resources
+	static _getClassSpecificFeatures (character) {
+		const features = [];
+		const classes = character.class || [];
+		
+		classes.forEach(cls => {
+			const className = cls.name.toLowerCase();
+			const level = cls.level || 1;
+			
+			switch (className) {
+				case 'barbarian':
+					features.push(...Renderer.character._getBarbarianFeatures(character, cls, level));
+					break;
+				case 'bard':
+					features.push(...Renderer.character._getBardFeatures(character, cls, level));
+					break;
+				case 'cleric':
+					features.push(...Renderer.character._getClericFeatures(character, cls, level));
+					break;
+				case 'druid':
+					features.push(...Renderer.character._getDruidFeatures(character, cls, level));
+					break;
+				case 'fighter':
+					features.push(...Renderer.character._getFighterFeatures(character, cls, level));
+					break;
+				case 'monk':
+					features.push(...Renderer.character._getMonkFeatures(character, cls, level));
+					break;
+				case 'paladin':
+					features.push(...Renderer.character._getPaladinFeatures(character, cls, level));
+					break;
+				case 'ranger':
+					features.push(...Renderer.character._getRangerFeatures(character, cls, level));
+					break;
+				case 'rogue':
+					features.push(...Renderer.character._getRogueFeatures(character, cls, level));
+					break;
+				case 'sorcerer':
+					features.push(...Renderer.character._getSorcererFeatures(character, cls, level));
+					break;
+				case 'warlock':
+					features.push(...Renderer.character._getWarlockFeatures(character, cls, level));
+					break;
+				case 'wizard':
+					features.push(...Renderer.character._getWizardFeatures(character, cls, level));
+					break;
+			}
+		});
+		
+		return features;
+	}
+
+	// Barbarian-specific features
+	static _getBarbarianFeatures (character, cls, level) {
+		const features = [];
+		
+		// Rage uses per day
+		let rageUses = 2; // Base at level 1
+		if (level >= 20) rageUses = Infinity;
+		else if (level >= 17) rageUses = 6;
+		else if (level >= 12) rageUses = 5;
+		else if (level >= 6) rageUses = 4;
+		else if (level >= 3) rageUses = 3;
+		
+		const rageUsesText = rageUses === Infinity ? 'Unlimited' : rageUses;
+		features.push(`**Rage** (<input type="number" class="character-input character-rage-uses" value="0" min="0" max="${rageUses === Infinity ? 999 : rageUses}" style="width: 40px;" title="Rage uses expended" />/${rageUsesText} per long rest)`);
+		
+		// Rage damage bonus
+		let rageDamage = 2;
+		if (level >= 16) rageDamage = 4;
+		else if (level >= 9) rageDamage = 3;
+		features.push(`**Rage Damage Bonus** +${rageDamage}`);
+		
+		// Unarmored Defense
+		if (!character.ac || character.ac === 10) {
+			const conMod = Parser.getAbilityModifier(character.con || 10);
+			const dexMod = Parser.getAbilityModifier(character.dex || 10);
+			const unarmoredAC = 10 + dexMod + conMod;
+			features.push(`**Unarmored Defense** ${unarmoredAC} (10 + Dex + Con)`);
+		}
+		
+		return features;
+	}
+
+	// Monk-specific features
+	static _getMonkFeatures (character, cls, level) {
+		const features = [];
+		
+		// Ki points
+		const kiPoints = level >= 2 ? level : 0;
+		if (kiPoints > 0) {
+			features.push(`**Ki Points** (<input type="number" class="character-input character-ki-points" value="0" min="0" max="${kiPoints}" style="width: 40px;" title="Ki points spent" />/${kiPoints} per short rest)`);
+		}
+		
+		// Martial Arts die
+		let martialArtsDie = 4;
+		if (level >= 17) martialArtsDie = 10;
+		else if (level >= 11) martialArtsDie = 8;
+		else if (level >= 5) martialArtsDie = 6;
+		features.push(`**Martial Arts** 1d${martialArtsDie}`);
+		
+		// Unarmored Defense (different from Barbarian)
+		if (!character.ac || character.ac === 10) {
+			const wisMod = Parser.getAbilityModifier(character.wis || 10);
+			const dexMod = Parser.getAbilityModifier(character.dex || 10);
+			const unarmoredAC = 10 + dexMod + wisMod;
+			features.push(`**Unarmored Defense** ${unarmoredAC} (10 + Dex + Wis)`);
+		}
+		
+		// Unarmored Movement
+		if (level >= 2) {
+			let speedBonus = 10;
+			if (level >= 18) speedBonus = 30;
+			else if (level >= 14) speedBonus = 25;
+			else if (level >= 10) speedBonus = 20;
+			else if (level >= 6) speedBonus = 15;
+			features.push(`**Unarmored Movement** +${speedBonus} ft speed when unarmored`);
+		}
+		
+		return features;
+	}
+
+	// Bard-specific features
+	static _getBardFeatures (character, cls, level) {
+		const features = [];
+		
+		// Bardic Inspiration
+		let inspirationDie = 6;
+		if (level >= 15) inspirationDie = 12;
+		else if (level >= 10) inspirationDie = 10;
+		else if (level >= 5) inspirationDie = 8;
+		
+		const charismaModifier = Parser.getAbilityModifier(character.cha || 10);
+		const inspirationUses = Math.max(1, charismaModifier);
+		
+		features.push(`**Bardic Inspiration** 1d${inspirationDie} (<input type="number" class="character-input character-bardic-inspiration" value="0" min="0" max="${inspirationUses}" style="width: 40px;" title="Bardic Inspiration uses expended" />/${inspirationUses} per short rest)`);
+		
+		// Jack of All Trades
+		if (level >= 2) {
+			const halfProf = Math.floor((character.proficiencyBonus || 2) / 2);
+			features.push(`**Jack of All Trades** +${halfProf} to non-proficient ability checks`);
+		}
+		
+		return features;
+	}
+
+	// Sorcerer-specific features
+	static _getSorcererFeatures (character, cls, level) {
+		const features = [];
+		
+		// Sorcery Points
+		const sorceryPoints = level >= 2 ? level : 0;
+		if (sorceryPoints > 0) {
+			features.push(`**Sorcery Points** (<input type="number" class="character-input character-sorcery-points" value="0" min="0" max="${sorceryPoints}" style="width: 40px;" title="Sorcery points spent" />/${sorceryPoints} per long rest)`);
+		}
+		
+		// Metamagic (if level 3+)
+		if (level >= 3) {
+			let metamagicOptions = 2;
+			if (level >= 17) metamagicOptions = 4;
+			else if (level >= 10) metamagicOptions = 3;
+			features.push(`**Metamagic** ${metamagicOptions} options known`);
+		}
+		
+		return features;
+	}
+
+	// Warlock-specific features  
+	static _getWarlockFeatures (character, cls, level) {
+		const features = [];
+		
+		// Pact Magic reminder
+		features.push(`**Pact Magic** Spell slots recharge on short rest`);
+		
+		// Invocations
+		let invocations = 0;
+		if (level >= 18) invocations = 8;
+		else if (level >= 15) invocations = 7;
+		else if (level >= 12) invocations = 6;
+		else if (level >= 9) invocations = 5;
+		else if (level >= 7) invocations = 4;
+		else if (level >= 5) invocations = 3;
+		else if (level >= 2) invocations = 2;
+		
+		if (invocations > 0) {
+			features.push(`**Eldritch Invocations** ${invocations} known`);
+		}
+		
+		return features;
+	}
+
+	// Fighter-specific features
+	static _getFighterFeatures (character, cls, level) {
+		const features = [];
+		
+		// Action Surge
+		let actionSurgeUses = level >= 17 ? 2 : 1;
+		features.push(`**Action Surge** (<input type="number" class="character-input character-action-surge" value="0" min="0" max="${actionSurgeUses}" style="width: 40px;" title="Action Surge uses expended" />/${actionSurgeUses} per short rest)`);
+		
+		// Second Wind
+		const secondWindHealing = level + Parser.getAbilityModifier(character.con || 10);
+		features.push(`**Second Wind** (<input type="checkbox" class="character-input character-second-wind" title="Second Wind used" /> 1d10+${Parser.getAbilityModifier(character.con || 10)} HP per short rest)`);
+		
+		return features;
+	}
+
+	// Paladin-specific features
+	static _getPaladinFeatures (character, cls, level) {
+		const features = [];
+		
+		// Lay on Hands
+		const layOnHandsPool = level * 5;
+		features.push(`**Lay on Hands** (<input type="number" class="character-input character-lay-on-hands" value="0" min="0" max="${layOnHandsPool}" style="width: 40px;" title="Lay on Hands points used" />/${layOnHandsPool} per long rest)`);
+		
+		// Channel Divinity
+		if (level >= 3) {
+			let channelDivinityUses = 1;
+			if (level >= 18) channelDivinityUses = 3;
+			else if (level >= 6) channelDivinityUses = 2;
+			features.push(`**Channel Divinity** (<input type="number" class="character-input character-channel-divinity" value="0" min="0" max="${channelDivinityUses}" style="width: 40px;" title="Channel Divinity uses expended" />/${channelDivinityUses} per short rest)`);
+		}
+		
+		return features;
+	}
+
+	// Cleric-specific features
+	static _getClericFeatures (character, cls, level) {
+		const features = [];
+		
+		// Channel Divinity
+		let channelDivinityUses = 1;
+		if (level >= 18) channelDivinityUses = 3;
+		else if (level >= 6) channelDivinityUses = 2;
+		features.push(`**Channel Divinity** (<input type="number" class="character-input character-channel-divinity" value="0" min="0" max="${channelDivinityUses}" style="width: 40px;" title="Channel Divinity uses expended" />/${channelDivinityUses} per short rest)`);
+		
+		return features;
+	}
+
+	// Druid-specific features
+	static _getDruidFeatures (character, cls, level) {
+		const features = [];
+		
+		// Wild Shape
+		if (level >= 2) {
+			let wildShapeUses = level >= 20 ? 999 : 2; // Unlimited at 20th level
+			const wildShapeUsesText = wildShapeUses === 999 ? 'Unlimited' : wildShapeUses;
+			features.push(`**Wild Shape** (<input type="number" class="character-input character-wild-shape" value="0" min="0" max="${wildShapeUses}" style="width: 40px;" title="Wild Shape uses expended" />/${wildShapeUsesText} per short rest)`);
+		}
+		
+		return features;
+	}
+
+	// Ranger-specific features
+	static _getRangerFeatures (character, cls, level) {
+		const features = [];
+		
+		// Favored Enemy bonus
+		features.push(`**Favored Enemy** Additional damage and tracking benefits`);
+		
+		// Natural Explorer
+		features.push(`**Natural Explorer** Double proficiency bonus for Wisdom (Survival) in favored terrain`);
+		
+		return features;
+	}
+
+	// Rogue-specific features
+	static _getRogueFeatures (character, cls, level) {
+		const features = [];
+		
+		// Sneak Attack
+		const sneakAttackDice = Math.ceil(level / 2);
+		features.push(`**Sneak Attack** ${sneakAttackDice}d6`);
+		
+		// Expertise
+		if (level >= 1) {
+			const expertiseCount = level >= 6 ? 4 : 2;
+			features.push(`**Expertise** Double proficiency bonus on ${expertiseCount} skills`);
+		}
+		
+		return features;
+	}
+
+	// Wizard-specific features
+	static _getWizardFeatures (character, cls, level) {
+		const features = [];
+		
+		// Arcane Recovery
+		const arcaneRecoveryLevel = Math.ceil(level / 2);
+		features.push(`**Arcane Recovery** Recover up to ${arcaneRecoveryLevel} spell slot levels on short rest`);
+		
+		// Spell preparation
+		const intMod = Parser.getAbilityModifier(character.int || 10);
+		const preparedSpells = Math.max(1, level + intMod);
+		features.push(`**Prepared Spells** ${preparedSpells} spells prepared`);
+		
+		return features;
 	}
 
 	// Helper function to get condition effects
@@ -9252,6 +9597,100 @@ Renderer.character = class {
 			$characterSheet.find('.speed-indicator').removeClass('condition-speed-zero');
 			$characterSheet.removeClass('condition-no-actions');
 		}
+	}
+
+	// Handle class-specific short rest recovery
+	static _handleShortRestRecovery ($ele) {
+		// Reset short rest resources to 0 (unused)
+		$ele.find('.character-ki-points').val(0);
+		$ele.find('.character-bardic-inspiration').val(0);
+		$ele.find('.character-action-surge').val(0);
+		$ele.find('.character-second-wind').prop('checked', false);
+		$ele.find('.character-channel-divinity').val(0);
+		$ele.find('.character-wild-shape').val(0);
+		
+		// Warlock spell slots recharge on short rest
+		const $warlockSlots = $ele.find('.character-spell-slots-used');
+		if ($warlockSlots.length) {
+			// This is a simplified approach - in a real implementation you'd check if they're actually warlock slots
+			$warlockSlots.val(0);
+		}
+	}
+
+	// Handle class-specific long rest recovery
+	static _handleLongRestRecovery ($ele) {
+		// Reset long rest resources to 0 (unused)
+		$ele.find('.character-rage-uses').val(0);
+		$ele.find('.character-sorcery-points').val(0);
+		$ele.find('.character-lay-on-hands').val(0);
+		
+		// Also reset short rest resources since long rest includes short rest benefits
+		Renderer.character._handleShortRestRecovery($ele);
+	}
+
+	// Get class-specific skill bonuses
+	static _getClassSkillBonus (character, skillName, currentBonus, isProficient) {
+		const result = {
+			bonus: currentBonus,
+			expertise: false,
+			jackOfAllTrades: false
+		};
+		
+		const classes = character.class || [];
+		const profBonus = parseInt(character.proficiencyBonus) || 2;
+		
+		classes.forEach(cls => {
+			const className = cls.name.toLowerCase();
+			const level = cls.level || 1;
+			
+			// Bard: Jack of All Trades
+			if (className === 'bard' && level >= 2 && !isProficient) {
+				const halfProf = Math.floor(profBonus / 2);
+				const abilityMod = currentBonus; // This should be just the ability modifier for non-proficient skills
+				result.bonus = abilityMod + halfProf;
+				result.jackOfAllTrades = true;
+			}
+			
+			// Rogue: Expertise (double proficiency on certain skills)
+			if (className === 'rogue' && level >= 1 && isProficient) {
+				// In a real implementation, you'd check if this specific skill has expertise
+				// For now, we'll assume some skills have expertise based on common choices
+				const expertiseSkills = ['Stealth', 'Sleight of Hand', 'Thieves\' Tools', 'Investigation'];
+				if (expertiseSkills.includes(skillName)) {
+					const abilityMod = currentBonus - profBonus; // Remove normal proficiency
+					result.bonus = abilityMod + (profBonus * 2); // Add double proficiency
+					result.expertise = true;
+				}
+			}
+			
+			// Bard: Expertise at higher levels
+			if (className === 'bard' && level >= 3 && isProficient) {
+				const expertiseSkills = ['Persuasion', 'Deception', 'Performance']; // Common bard choices
+				if (expertiseSkills.includes(skillName)) {
+					const abilityMod = currentBonus - profBonus;
+					result.bonus = abilityMod + (profBonus * 2);
+					result.expertise = true;
+				}
+			}
+			
+			// Ranger: Favored Enemy/Natural Explorer bonuses
+			if (className === 'ranger') {
+				if (skillName === 'Survival') {
+					// Double proficiency in favored terrain (simplified)
+					result.bonus = currentBonus + profBonus;
+				}
+			}
+		});
+		
+		return result;
+	}
+
+	// Get tooltip text for skill proficiency icons
+	static _getSkillProficiencyTooltip (isProficient, classBonus) {
+		if (classBonus.expertise) return 'Expertise (Double Proficiency)';
+		if (classBonus.jackOfAllTrades) return 'Jack of All Trades (Half Proficiency)';
+		if (isProficient) return 'Proficient';
+		return 'Not Proficient';
 	}
 
 	static pGetFluff (character) {
