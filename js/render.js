@@ -8557,7 +8557,58 @@ Renderer.character = class {
 			type: "entries",
 			entries: [`<p><b>Saving Throws</b> ${savingThrows.join(", ")}</p>`]
 		};
-		renderer.recursiveRender(saveInfo, renderStack, {depth: 1});		// Combat Stats
+		renderer.recursiveRender(saveInfo, renderStack, {depth: 1});
+
+		// Active Conditions Table - moved below saving throws
+		const conditionTracker = {
+			type: "entries",
+			name: "Active Conditions",
+			entries: [`
+				<div class="character-condition-tracker">
+					<div style="margin-bottom: 10px;">
+						<strong>Add Condition:</strong>
+						<select class="character-condition-select" style="margin-left: 5px;">
+							<option value="">Select condition...</option>
+							<option value="Blinded">Blinded</option>
+							<option value="Charmed">Charmed</option>
+							<option value="Deafened">Deafened</option>
+							<option value="Exhaustion">Exhaustion</option>
+							<option value="Frightened">Frightened</option>
+							<option value="Grappled">Grappled</option>
+							<option value="Incapacitated">Incapacitated</option>
+							<option value="Invisible">Invisible</option>
+							<option value="Paralyzed">Paralyzed</option>
+							<option value="Petrified">Petrified</option>
+							<option value="Poisoned">Poisoned</option>
+							<option value="Prone">Prone</option>
+							<option value="Restrained">Restrained</option>
+							<option value="Stunned">Stunned</option>
+							<option value="Unconscious">Unconscious</option>
+						</select>
+						<button class="character-condition-add btn btn-xs btn-default" style="margin-left: 5px;">Add</button>
+					</div>
+					<div class="character-active-conditions">
+						<table class="w-100 summary stripe-odd-table character-conditions-table" style="margin-top: 10px;">
+							<thead>
+								<tr>
+									<th style="width: 25%;">Condition</th>
+									<th style="width: 60%;">Effects</th>
+									<th style="width: 15%;">Remove</th>
+								</tr>
+							</thead>
+							<tbody class="character-conditions-list">
+								<tr class="character-no-conditions" style="text-align: center; font-style: italic; color: var(--color-text-muted);">
+									<td colspan="3">No active conditions</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			`]
+		};
+		renderer.recursiveRender(conditionTracker, renderStack, {depth: 1});
+
+		// Combat Stats
 		const combatEntries = [];
 		if (character.ac) {
 			const acValue = Array.isArray(character.ac) ? character.ac[0].ac : character.ac;
@@ -8658,43 +8709,6 @@ Renderer.character = class {
 			entries: combatEntries
 		};
 		renderer.recursiveRender(combatInfo, renderStack, {depth: 1});
-
-		// Condition Tracker
-		const conditionTracker = {
-			type: "entries",
-			name: "Condition Tracker",
-			entries: [`
-				<div class="character-condition-tracker">
-					<div style="margin-bottom: 10px;">
-						<strong>Add Condition:</strong>
-						<select class="character-condition-select" style="margin-left: 5px;">
-							<option value="">Select condition...</option>
-							<option value="Blinded">Blinded</option>
-							<option value="Charmed">Charmed</option>
-							<option value="Deafened">Deafened</option>
-							<option value="Exhaustion">Exhaustion</option>
-							<option value="Frightened">Frightened</option>
-							<option value="Grappled">Grappled</option>
-							<option value="Incapacitated">Incapacitated</option>
-							<option value="Invisible">Invisible</option>
-							<option value="Paralyzed">Paralyzed</option>
-							<option value="Petrified">Petrified</option>
-							<option value="Poisoned">Poisoned</option>
-							<option value="Prone">Prone</option>
-							<option value="Restrained">Restrained</option>
-							<option value="Stunned">Stunned</option>
-							<option value="Unconscious">Unconscious</option>
-						</select>
-						<button class="character-condition-add btn btn-xs btn-default" style="margin-left: 5px;">Add</button>
-					</div>
-					<div class="character-active-conditions">
-						<strong>Active Conditions:</strong>
-						<div class="character-conditions-list" style="margin-top: 5px;"></div>
-					</div>
-				</div>
-			`]
-		};
-		renderer.recursiveRender(conditionTracker, renderStack, {depth: 1});
 
 		// Skills (using monster format)
 		const skillsToShow = [];
@@ -9101,15 +9115,24 @@ Renderer.character = class {
 			const condition = $select.val();
 			if (condition) {
 				const $conditionsList = $ele.find('.character-conditions-list');
+				const $noConditions = $conditionsList.find('.character-no-conditions');
 				
 				// Get condition effects
 				const effects = Renderer.character._getConditionEffects(condition);
-				const effectsText = effects.length ? ` (${effects.join(', ')})` : '';
+				const effectsText = effects.join(', ');
 				
-				const conditionHtml = `<span class="character-condition-item" title="Click to remove. Effects: ${effects.join(', ')}" data-condition="${condition}">
-					${condition}${effectsText} <span class="character-condition-remove">×</span>
-				</span>`;
-				$conditionsList.append(conditionHtml);
+				// Hide "no conditions" row if visible
+				$noConditions.hide();
+				
+				// Add table row for condition
+				const conditionRow = `<tr class="character-condition-item" data-condition="${condition}">
+					<td><strong>${condition}</strong></td>
+					<td style="font-size: 0.9em;">${effectsText}</td>
+					<td style="text-align: center;">
+						<button class="character-condition-remove btn btn-xs btn-danger" title="Remove condition">×</button>
+					</td>
+				</tr>`;
+				$conditionsList.append(conditionRow);
 				$select.val(''); // Reset selection
 				
 				// Apply condition effects
@@ -9118,13 +9141,21 @@ Renderer.character = class {
 		});
 		
 		// Remove condition functionality
-		$ele.on('click', '.character-condition-item', function() {
-			const condition = $(this).attr('data-condition');
+		$ele.on('click', '.character-condition-remove', function() {
+			const $row = $(this).closest('.character-condition-item');
+			const condition = $row.attr('data-condition');
 			if (condition) {
 				// Remove condition effects
 				Renderer.character._applyConditionEffects($ele, condition, false);
 			}
-			$(this).remove();
+			$row.remove();
+			
+			// Show "no conditions" row if no conditions remain
+			const $conditionsList = $ele.find('.character-conditions-list');
+			const $noConditions = $conditionsList.find('.character-no-conditions');
+			if ($conditionsList.find('.character-condition-item').length === 0) {
+				$noConditions.show();
+			}
 		});
 		
 		// Auto-save functionality for inputs (optional - stores in localStorage)
