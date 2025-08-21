@@ -1,7 +1,1 @@
-{
-  "functions": {
-    "api/characters/save.js": {
-      "runtime": "nodejs20.x"
-    }
-  }
-}
+{}
