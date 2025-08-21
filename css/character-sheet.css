@@ -13,7 +13,6 @@
     border-radius: 3px;
     padding: 2px 4px;
     font-size: 0.9em;
-    text-align: center;
     background-color: var(--color-bg);
     color: var(--color-text);
     transition: border-color 0.2s;
@@ -212,12 +211,12 @@
         margin: 2px 0;
         text-align: center;
     }
-    
+
     .character-abilities {
         margin: 8px 0;
         padding: 6px;
     }
-    
+
     .skill-item {
         display: block;
         margin: 2px 0;
