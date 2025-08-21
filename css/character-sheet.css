@@ -1,25 +1,26 @@
-/* Simple Character Sheet Styling - Let 5etools handle dice rolling */
+/* Character Sheet Styling - Theme-aware for dark/light mode */
 .character-abilities {
     margin: 10px 0;
     padding: 8px;
-    background-color: rgb(248 249 250 / 50%);
+    background-color: var(--color-bg-light);
     border-radius: 4px;
-    border-left: 3px solid #007acc;
+    border-left: 3px solid var(--color-link);
 }
 
 /* Interactive character tracking elements */
 .character-input {
-    border: 1px solid #ccc;
+    border: 1px solid var(--color-border);
     border-radius: 3px;
     padding: 2px 4px;
     font-size: 0.9em;
     text-align: center;
-    background-color: #fff;
+    background-color: var(--color-bg);
+    color: var(--color-text);
     transition: border-color 0.2s;
 }
 
 .character-input:focus {
-    border-color: #007acc;
+    border-color: var(--color-link);
     outline: none;
 }
 
@@ -32,8 +33,8 @@
     display: block;
     margin: 8px 0;
     padding: 5px;
-    background-color: #fff9e6;
-    border: 1px solid #ffc107;
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
     border-radius: 4px;
 }
 
@@ -43,11 +44,11 @@
 }
 
 .character-death-save-success:checked {
-    accent-color: #28a745;
+    accent-color: var(--color-success, #28a745);
 }
 
 .character-death-save-failure:checked {
-    accent-color: #dc3545;
+    accent-color: var(--color-danger, #dc3545);
 }
 
 .character-hit-dice {
@@ -56,8 +57,8 @@
 }
 
 .character-condition-tracker {
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
     border-radius: 5px;
     padding: 10px;
     margin: 10px 0;
@@ -65,9 +66,11 @@
 
 .character-condition-select {
     padding: 2px 5px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--color-border);
     border-radius: 3px;
     font-size: 0.9em;
+    background-color: var(--color-bg);
+    color: var(--color-text);
 }
 
 .character-conditions-list {
@@ -76,8 +79,8 @@
 
 .character-condition-item {
     display: inline-block;
-    background-color: #007acc;
-    color: #fff;
+    background-color: var(--color-link);
+    color: var(--color-bg);
     padding: 2px 8px;
     margin: 2px;
     border-radius: 12px;
@@ -86,17 +89,17 @@
 }
 
 .character-condition-item:hover {
-    background-color: #0056b3;
+    background-color: var(--color-link-hover);
 }
 
 .character-condition-remove {
     margin-left: 5px;
     font-weight: bold;
-    color: #fcc;
+    color: rgba(255, 255, 255, 0.7);
 }
 
 .character-condition-remove:hover {
-    color: #fff;
+    color: var(--color-bg);
 }
 
 /* Basic layout improvements */
@@ -107,7 +110,7 @@
 .character-section-title {
     font-weight: bold;
     margin-bottom: 4px;
-    color: #333;
+    color: var(--color-text);
 }
 
 /* Let 5etools native dice system handle all the rollable styling */
@@ -117,8 +120,8 @@
     display: inline-block;
     margin: 2px 3px;
     padding: 2px 5px;
-    background-color: rgb(248 249 250 / 70%);
-    border: 1px solid #e0e0e0;
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
     border-radius: 3px;
     font-size: 0.85em;
     cursor: pointer;
@@ -126,9 +129,9 @@
 }
 
 .skill-item:hover {
-    background-color: #e6f3ff;
-    border-color: #007acc;
-    color: #0056b3;
+    background-color: var(--color-bg-hover);
+    border-color: var(--color-link);
+    color: var(--color-link-hover);
 }
 
 /* Rollable elements styling */
@@ -137,14 +140,14 @@
     padding: 1px 2px;
     border-radius: 2px;
     transition: all 0.2s ease;
-    color: #007acc;
+    color: var(--color-link);
     text-decoration: none;
 }
 
 .rollable:hover {
-    background-color: #e6f3ff;
+    background-color: var(--color-bg-hover);
     text-decoration: underline;
-    color: #0056b3;
+    color: var(--color-link-hover);
 }
 
 /* Enhanced list styling for character content */
@@ -172,25 +175,26 @@
 /* Improve readability of character sections */
 .ve-list-hang > li > span:first-child {
     font-weight: 600;
-    color: #007acc;
+    color: var(--color-link);
 }
 
 /* Style for inline ability scores */
 .character-abilities .ability-score strong {
-    color: #333;
+    color: var(--color-text);
+    font-weight: 600;
     font-size: 0.85em;
 }
 
 /* Skill category styling */
 .stats p strong {
-    color: #2c5aa0;
+    color: var(--color-link);
     font-weight: 600;
 }
 
 /* Saving throw styling */
 .rollable + .rollable::before {
     content: " | ";
-    color: #666;
+    color: var(--color-text-muted);
     font-weight: normal;
 }
 
@@ -219,4 +223,81 @@
         margin: 2px 0;
         text-align: center;
     }
+}
+
+/* Rest management buttons */
+.character-rest-management button {
+    margin-right: 8px;
+    margin-bottom: 5px;
+}
+
+.character-short-rest {
+    background-color: var(--color-link);
+    border-color: var(--color-link);
+    color: var(--color-bg);
+}
+
+.character-long-rest {
+    background-color: var(--color-success, #28a745);
+    border-color: var(--color-success, #28a745);
+    color: var(--color-bg);
+}
+
+/* Condition effects styling */
+.condition-disadvantage {
+    color: var(--color-danger, #dc3545) !important;
+    position: relative;
+}
+
+.condition-disadvantage::after {
+    content: " (Disadvantage)";
+    font-size: 0.8em;
+    color: var(--color-danger, #dc3545);
+    font-weight: normal;
+}
+
+.condition-speed-zero::after {
+    content: " (Speed 0)";
+    font-size: 0.8em;
+    color: var(--color-warning, #ffc107);
+    font-weight: normal;
+}
+
+.condition-no-actions {
+    opacity: 0.6;
+    position: relative;
+}
+
+.condition-no-actions::before {
+    content: "⚠️ Cannot take actions";
+    display: block;
+    background: var(--color-danger, #dc3545);
+    color: var(--color-bg);
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.8em;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+/* Condition tracker item styling */
+.character-condition-item {
+    display: inline-block;
+    background: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
+    padding: 2px 6px;
+    margin: 2px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.character-condition-item:hover {
+    background: var(--color-danger, #dc3545);
+    color: var(--color-bg);
+}
+
+.character-condition-remove {
+    margin-left: 4px;
+    font-weight: bold;
 }

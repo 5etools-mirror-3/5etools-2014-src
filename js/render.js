@@ -8642,9 +8642,10 @@ Renderer.character = class {
 				// Use proper dice format like monsters
 				const hitDiceHtml = renderer.render(`{@dice 1d${hitDie}${modStr}||${cls.name} Hit Die}`);
 				
-				// Editable hit dice remaining
+				// Default hit dice to full (long rest state)
+				const hitDiceRemaining = cls.hitDiceRemaining != null ? cls.hitDiceRemaining : level;
 				return `<span class="character-hit-dice">
-					<input type="number" class="character-input character-hit-dice-remaining" value="${level}" min="0" max="${level}" style="width: 40px;" title="Hit dice remaining" />
+					<input type="number" class="character-input character-hit-dice-remaining" value="${hitDiceRemaining}" min="0" max="${level}" style="width: 40px;" title="Hit dice remaining" />
 					/${level} ${hitDiceHtml}
 				</span>`;
 			}).join(', ');
@@ -8735,6 +8736,54 @@ Renderer.character = class {
 		};
 		renderer.recursiveRender(skillInfo, renderStack, {depth: 1});
 
+		// Action Economy reminder for players
+		const actionEconomyInfo = {
+			type: "entries",
+			name: "Action Economy",
+			entries: [
+				"**On Your Turn:** 1 Action, 1 Move, 1 Bonus Action (if available), 1 Free Interaction",
+				"**Reactions:** 1 per round (resets at start of your turn)",
+				"*Common Actions:* Attack, Cast a Spell, Dash, Disengage, Dodge, Help, Hide, Ready, Search, Use an Object"
+			]
+		};
+		renderer.recursiveRender(actionEconomyInfo, renderStack, {depth: 1});
+
+		// Actions - moved higher for better logical flow
+		if (character.action?.length) {
+			const actionInfo = {
+				type: "entries",
+				name: "Actions",
+				entries: []
+			};
+
+			character.action.forEach(action => {
+				actionInfo.entries.push({
+					type: "entries",
+					name: action.name,
+					entries: action.entries
+				});
+			});
+
+			renderer.recursiveRender(actionInfo, renderStack, {depth: 1});
+		}
+
+		// Rest Management
+		const restInfo = {
+			type: "entries",
+			name: "Rest Management",
+			entries: [`
+				<div class="character-rest-management" style="margin: 10px 0;">
+					<button class="character-short-rest btn btn-sm btn-primary" style="margin-right: 10px;">Short Rest</button>
+					<button class="character-long-rest btn btn-sm btn-success">Long Rest</button>
+					<div style="margin-top: 5px; font-size: 0.9em; color: var(--color-text-muted);">
+						<strong>Short Rest:</strong> 1 hour, spend hit dice to heal, regain some abilities<br>
+						<strong>Long Rest:</strong> 8 hours, regain all HP, all spell slots, half hit dice (min 1)
+					</div>
+				</div>
+			`]
+		};
+		renderer.recursiveRender(restInfo, renderStack, {depth: 1});
+
 		// Languages if available
 		if (character.languages?.length) {
 			const langInfo = {
@@ -8763,8 +8812,8 @@ Renderer.character = class {
 					let slotsHtml = '';
 					
 					if (spellData.slots) {
-						// Editable spell slots
-						const slotsUsed = spellData.slotsUsed || 0;
+						// Default spell slots to full (long rest state)
+						const slotsUsed = spellData.slotsUsed != null ? spellData.slotsUsed : 0;
 						const totalSlots = spellData.slots;
 						slotsHtml = ` (<input type="number" class="character-input character-spell-slots-used" value="${slotsUsed}" min="0" max="${totalSlots}" style="width: 40px;" title="Slots used" />/${totalSlots} slots)`;
 					}
@@ -8784,37 +8833,6 @@ Renderer.character = class {
 			}
 
 			renderer.recursiveRender(spellInfo, renderStack, {depth: 1});
-		}
-
-		// Action Economy reminder for players
-		const actionEconomyInfo = {
-			type: "entries",
-			name: "Action Economy",
-			entries: [
-				"**On Your Turn:** 1 Action, 1 Move, 1 Bonus Action (if available), 1 Free Interaction",
-				"**Reactions:** 1 per round (resets at start of your turn)",
-				"*Common Actions:* Attack, Cast a Spell, Dash, Disengage, Dodge, Help, Hide, Ready, Search, Use an Object"
-			]
-		};
-		renderer.recursiveRender(actionEconomyInfo, renderStack, {depth: 1});
-
-		// Actions
-		if (character.action?.length) {
-			const actionInfo = {
-				type: "entries",
-				name: "Actions",
-				entries: []
-			};
-
-			character.action.forEach(action => {
-				actionInfo.entries.push({
-					type: "entries",
-					name: action.name,
-					entries: action.entries
-				});
-			});
-
-			renderer.recursiveRender(actionInfo, renderStack, {depth: 1});
 		}
 
 		// Traits/Features
@@ -8981,22 +8999,131 @@ Renderer.character = class {
 	static _bindCharacterSheetListeners (ele) {
 		const $ele = $(ele);
 		
-		// Condition tracker functionality
+		// Rest Management
+		$ele.find('.character-short-rest').click(function() {
+			if (confirm('Take a short rest? This allows spending hit dice to heal and regains some abilities.')) {
+				// Short rest mechanics:
+				// - Can spend hit dice to heal
+				// - Some class features recharge
+				// - Warlock spell slots recharge
+				
+				// Show hit dice spending dialog
+				const $hitDice = $ele.find('.character-hit-dice-remaining');
+				const $currentHp = $ele.find('.character-hp-current');
+				
+				if ($hitDice.length && $currentHp.length) {
+					const available = parseInt($hitDice.first().val()) || 0;
+					if (available > 0) {
+						const spend = prompt(`You have ${available} hit dice available. How many would you like to spend?`, '0');
+						const spendNum = parseInt(spend) || 0;
+						
+						if (spendNum > 0 && spendNum <= available) {
+							// Roll hit dice and heal
+							let totalHealing = 0;
+							for (let i = 0; i < spendNum; i++) {
+								// Simulate hit die roll (d8 + CON mod as example)
+								const roll = Math.floor(Math.random() * 8) + 1;
+								const conMod = Math.floor((parseInt($ele.find('[data-character-name]').attr('data-con') || '10') - 10) / 2);
+								totalHealing += Math.max(1, roll + conMod);
+							}
+							
+							// Update HP and hit dice
+							const currentHp = parseInt($currentHp.val()) || 0;
+							const maxHp = parseInt($currentHp.attr('max')) || currentHp;
+							const newHp = Math.min(maxHp, currentHp + totalHealing);
+							
+							$currentHp.val(newHp);
+							$hitDice.first().val(available - spendNum);
+							
+							alert(`Short rest complete! Healed ${totalHealing} HP. Used ${spendNum} hit dice.`);
+						}
+					} else {
+						alert('No hit dice available to spend!');
+					}
+				}
+				
+				// Trigger save
+				$ele.find('.character-input').trigger('change');
+			}
+		});
+		
+		$ele.find('.character-long-rest').click(function() {
+			if (confirm('Take a long rest? This will restore all HP, all spell slots, and half your hit dice (minimum 1).')) {
+				// Long rest mechanics:
+				// - Restore all HP
+				// - Restore all spell slots
+				// - Restore half hit dice (minimum 1)
+				// - Remove exhaustion levels
+				// - Some conditions may end
+				
+				// Restore HP to max
+				const $currentHp = $ele.find('.character-hp-current');
+				const maxHp = parseInt($currentHp.attr('max')) || parseInt($currentHp.val()) || 0;
+				$currentHp.val(maxHp);
+				
+				// Clear temp HP
+				$ele.find('.character-hp-temp').val(0);
+				
+				// Restore all spell slots
+				$ele.find('.character-spell-slots-used').val(0);
+				
+				// Restore half hit dice (minimum 1)
+				$ele.find('.character-hit-dice-remaining').each(function() {
+					const $hitDie = $(this);
+					const max = parseInt($hitDie.attr('max')) || 1;
+					const restored = Math.max(1, Math.floor(max / 2));
+					const current = parseInt($hitDie.val()) || 0;
+					$hitDie.val(Math.min(max, current + restored));
+				});
+				
+				// Clear death saves
+				$ele.find('.character-death-save').prop('checked', false);
+				
+				// Remove some conditions that end on long rest
+				$ele.find('.character-condition-item').each(function() {
+					const conditionText = $(this).text().replace('×', '').trim();
+					const longRestConditions = ['Exhaustion', 'Poisoned'];
+					if (longRestConditions.some(condition => conditionText.includes(condition))) {
+						$(this).remove();
+					}
+				});
+				
+				// Trigger save
+				$ele.find('.character-input').trigger('change');
+				
+				alert('Long rest complete! HP restored, spell slots recharged, hit dice partially restored.');
+			}
+		});
+		
+		// Condition tracker functionality with effects
 		$ele.find('.character-condition-add').click(function() {
 			const $select = $ele.find('.character-condition-select');
 			const condition = $select.val();
 			if (condition) {
 				const $conditionsList = $ele.find('.character-conditions-list');
-				const conditionHtml = `<span class="character-condition-item" title="Click to remove">
-					${condition} <span class="character-condition-remove">×</span>
+				
+				// Get condition effects
+				const effects = Renderer.character._getConditionEffects(condition);
+				const effectsText = effects.length ? ` (${effects.join(', ')})` : '';
+				
+				const conditionHtml = `<span class="character-condition-item" title="Click to remove. Effects: ${effects.join(', ')}" data-condition="${condition}">
+					${condition}${effectsText} <span class="character-condition-remove">×</span>
 				</span>`;
 				$conditionsList.append(conditionHtml);
 				$select.val(''); // Reset selection
+				
+				// Apply condition effects
+				Renderer.character._applyConditionEffects($ele, condition, true);
 			}
 		});
 		
 		// Remove condition functionality
 		$ele.on('click', '.character-condition-item', function() {
+			const condition = $(this).attr('data-condition');
+			if (condition) {
+				// Remove condition effects
+				Renderer.character._applyConditionEffects($ele, condition, false);
+			}
 			$(this).remove();
 		});
 		
@@ -9036,6 +9163,64 @@ Renderer.character = class {
 				}, 100);
 			}
 		});
+	}
+
+	// Helper function to get condition effects
+	static _getConditionEffects (condition) {
+		const effects = {
+			'Blinded': ['Disadvantage on attack rolls', 'Attacks against have advantage'],
+			'Charmed': ['Cannot attack charmer', 'Charmer has advantage on social interactions'],
+			'Deafened': ['Automatic failure on hearing-based Perception checks'],
+			'Exhaustion': ['Various penalties based on level'],
+			'Frightened': ['Disadvantage on ability checks and attacks while source visible', 'Cannot move closer to source'],
+			'Grappled': ['Speed becomes 0', 'Cannot benefit from bonuses to speed'],
+			'Incapacitated': ['Cannot take actions or reactions'],
+			'Invisible': ['Advantage on attack rolls', 'Attacks against have disadvantage'],
+			'Paralyzed': ['Incapacitated', 'Auto-fail Strength and Dexterity saves', 'Attacks within 5ft are critical hits'],
+			'Petrified': ['Incapacitated', 'Auto-fail Strength and Dexterity saves', 'Resistance to all damage'],
+			'Poisoned': ['Disadvantage on attack rolls and ability checks'],
+			'Prone': ['Disadvantage on attack rolls', 'Attacks within 5ft have advantage', 'Ranged attacks have disadvantage'],
+			'Restrained': ['Speed becomes 0', 'Disadvantage on attack rolls and Dexterity saves', 'Attacks against have advantage'],
+			'Stunned': ['Incapacitated', 'Auto-fail Strength and Dexterity saves', 'Attacks against have advantage'],
+			'Unconscious': ['Incapacitated', 'Prone', 'Auto-fail Strength and Dexterity saves', 'Attacks within 5ft are critical hits']
+		};
+		
+		return effects[condition] || [];
+	}
+
+	// Helper function to apply/remove condition effects (visual indicators)
+	static _applyConditionEffects ($ele, condition, apply) {
+		// Add/remove visual indicators for condition effects
+		const $characterSheet = $ele.closest('[data-character-name]');
+		
+		if (apply) {
+			// Add condition effect indicators
+			switch (condition) {
+				case 'Blinded':
+				case 'Poisoned':
+					// Add disadvantage indicator to attack rolls and ability checks
+					$characterSheet.find('.rollable').addClass('condition-disadvantage');
+					break;
+				case 'Grappled':
+				case 'Restrained':
+					// Add speed reduction indicator
+					$characterSheet.find('.speed-indicator').addClass('condition-speed-zero');
+					break;
+				case 'Incapacitated':
+				case 'Paralyzed':
+				case 'Petrified':
+				case 'Stunned':
+				case 'Unconscious':
+					// Add action restriction indicator
+					$characterSheet.addClass('condition-no-actions');
+					break;
+			}
+		} else {
+			// Remove condition effect indicators (simplified - removes all)
+			$characterSheet.find('.rollable').removeClass('condition-disadvantage');
+			$characterSheet.find('.speed-indicator').removeClass('condition-speed-zero');
+			$characterSheet.removeClass('condition-no-actions');
+		}
 	}
 
 	static pGetFluff (character) {
