@@ -130,6 +130,11 @@ class CharactersPage extends ListPageMultiSource {
 		await this._pLoadSource("Example", "yes");
 	}
 
+	_doPreviewExpand ({listItem, dispExpandedOuter, btnToggleExpand, dispExpandedInner}) {
+		super._doPreviewExpand({listItem, dispExpandedOuter, btnToggleExpand, dispExpandedInner});
+		// Dice rolling is now handled by 5etools built-in system
+	}
+
 	_addData (data) {
 		super._addData(data);
 		
@@ -148,6 +153,39 @@ class CharactersPage extends ListPageMultiSource {
 
 	async _pGetFluff (character) {
 		return character.fluff || null;
+	}
+
+	async _$pGetWrpControls ({$wrpContent}) {
+		const out = await super._$pGetWrpControls({$wrpContent});
+		const {$wrpPrint} = out;
+
+		// region Markdown
+		const pGetAsMarkdown = async () => {
+			const toRender = this._bookViewToShow?.length ? this._bookViewToShow : [this._fnGetEntLastLoaded()];
+			if (!Array.isArray(toRender)) return RendererMarkdown.character.pGetMarkdownDoc(toRender);
+			return toRender.map(character => RendererMarkdown.character.pGetMarkdownDoc(character)).join('\n\n---\n\n');
+		};
+
+		const $btnDownloadMarkdown = $(`<button class="ve-btn ve-btn-default ve-btn-sm">Download as Markdown</button>`)
+			.click(async () => DataUtil.userDownloadText("characters.md", await pGetAsMarkdown()));
+
+		const $btnCopyMarkdown = $(`<button class="ve-btn ve-btn-default ve-btn-sm px-2" title="Copy Markdown to Clipboard"><span class="glyphicon glyphicon-copy"></span></button>`)
+			.click(async () => {
+				await MiscUtil.pCopyTextToClipboard(await pGetAsMarkdown());
+				JqueryUtil.showCopiedEffect($btnCopyMarkdown);
+			});
+
+		const $btnDownloadMarkdownSettings = $(`<button class="ve-btn ve-btn-default ve-btn-sm px-2" title="Markdown Settings"><span class="glyphicon glyphicon-cog"></span></button>`)
+			.click(async () => RendererMarkdown.pShowSettingsModal());
+
+		$$`<div class="ve-flex-v-center ve-btn-group ml-2">
+			${$btnDownloadMarkdown}
+			${$btnCopyMarkdown}
+			${$btnDownloadMarkdownSettings}
+		</div>`.appendTo($wrpPrint);
+		// endregion
+
+		return out;
 	}
 
 	async _pPreloadSublistSources (json) {

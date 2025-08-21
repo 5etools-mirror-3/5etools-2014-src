@@ -2737,5 +2737,120 @@ class MarkdownConverter {
 	// endregion
 }
 
+RendererMarkdown.character = class {
+	static pGetMarkdownDoc (character) {
+		return this.getCompactRenderedString(character);
+	}
+
+	static getCompactRenderedString (character, opts = {}) {
+		const renderer = RendererMarkdown.get();
+		
+		// Character header
+		const name = character.name || "Unknown Character";
+		const level = character.level || "?";
+		const raceText = character.race?.name || "Unknown Race";
+		const classText = character.class?.map(c => `${c.name}${c.subclass ? ` (${c.subclass.name})` : ''} ${c.level || ''}`).join(", ") || "Unknown Class";
+		const background = character.background?.name || "Unknown Background";
+		const alignment = character.alignment ? Parser.alignmentListToFull(character.alignment) : "Unknown";
+		
+		let output = `# ${name}\n\n`;
+		output += `*Level ${level} ${raceText} ${classText}, ${alignment}*\n\n`;
+		output += `**Background:** ${background}\n\n`;
+		
+		// Core abilities
+		const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+		output += `## Ability Scores\n\n`;
+		output += `| STR | DEX | CON | INT | WIS | CHA |\n`;
+		output += `|-----|-----|-----|-----|-----|-----|\n`;
+		output += `| ${abilities.map(ab => {
+			const score = character[ab] || 10;
+			const mod = Math.floor((score - 10) / 2);
+			const modStr = mod >= 0 ? `+${mod}` : `${mod}`;
+			return `${score} (${modStr})`;
+		}).join(' | ')} |\n\n`;
+		
+		// Saving throws
+		const saves = character.save || {};
+		const savesText = abilities.map(ab => {
+			const score = character[ab] || 10;
+			const baseMod = Math.floor((score - 10) / 2);
+			const saveMod = saves[ab] ? saves[ab] : baseMod;
+			const modStr = saveMod >= 0 ? `+${saveMod}` : `${saveMod}`;
+			const profText = saves[ab] && saves[ab] !== baseMod ? " (Prof)" : "";
+			return `${ab.toUpperCase()}: ${modStr}${profText}`;
+		}).join(", ");
+		output += `**Saving Throws:** ${savesText}\n\n`;
+		
+		// Skills
+		if (character.skill) {
+			const skillsText = Object.entries(character.skill).map(([skill, mod]) => {
+				const modStr = mod >= 0 ? `+${mod}` : `${mod}`;
+				return `${skill.charAt(0).toUpperCase() + skill.slice(1)}: ${modStr}`;
+			}).join(", ");
+			output += `**Skills:** ${skillsText}\n\n`;
+		}
+		
+		// Combat stats
+		const ac = character.ac ? character.ac.map(it => `${it.ac}${it.from ? ` (${it.from.join(", ")})` : ""}`).join(", ") : "10";
+		const hp = character.hp ? (character.hp.average || character.hp.formula || "Unknown") : "Unknown";
+		const speed = character.speed ? Object.entries(character.speed).map(([type, spd]) => 
+			type === "walk" ? `${spd} ft.` : `${type} ${spd} ft.`
+		).join(", ") : "30 ft.";
+		
+		output += `**Armor Class:** ${ac}\n\n`;
+		output += `**Hit Points:** ${hp}\n\n`;
+		output += `**Speed:** ${speed}\n\n`;
+		
+		// Spellcasting
+		if (character.spellcasting) {
+			output += `## Spellcasting\n\n`;
+			character.spellcasting.forEach(sc => {
+				if (sc.name) output += `**${sc.name}:** `;
+				if (sc.headerEntries) {
+					output += `${renderer.renderEntries(sc.headerEntries, {depth: 1})}\n\n`;
+				}
+				if (sc.spells) {
+					Object.entries(sc.spells).forEach(([level, spells]) => {
+						if (level === "0") {
+							output += `**Cantrips:** ${spells.spells.map(s => s.name).join(", ")}\n\n`;
+						} else {
+							const slots = spells.slots ? ` (${spells.slots} slots)` : "";
+							output += `**${Parser.spLevelToFull(level)}${slots}:** ${spells.spells.map(s => s.name).join(", ")}\n\n`;
+						}
+					});
+				}
+			});
+		}
+		
+		// Actions
+		if (character.action) {
+			output += `## Actions\n\n`;
+			character.action.forEach(action => {
+				output += `**${action.name}.** ${renderer.renderEntries(action.entries, {depth: 1})}\n\n`;
+			});
+		}
+		
+		// Traits
+		if (character.trait) {
+			output += `## Features & Traits\n\n`;
+			character.trait.forEach(trait => {
+				output += `**${trait.name}.** ${renderer.renderEntries(trait.entries, {depth: 1})}\n\n`;
+			});
+		}
+		
+		// Equipment
+		if (character.item) {
+			output += `## Equipment\n\n`;
+			character.item.forEach(item => {
+				const qty = item.quantity > 1 ? `${item.quantity}x ` : "";
+				output += `- ${qty}${item.name || item}\n`;
+			});
+			output += `\n`;
+		}
+		
+		return output;
+	}
+};
+
 globalThis.RendererMarkdown = RendererMarkdown;
 globalThis.MarkdownConverter = MarkdownConverter;

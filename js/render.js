@@ -8481,9 +8481,12 @@ Renderer.character = class {
 		const renderer = Renderer.get().setFirstSection(true);
 		const renderStack = [];
 
-		const ptLevel = `Level ${character.level || "?"}`;
+		// Header with basic character info
+		const ptLevel = character.level || "?";
 		const ptRace = character.race?.name || "Unknown Race";
-		const ptClass = character.class?.map(c => c.name).join("/") || "Unknown Class";
+		const ptClass = character.class?.map(c => `${c.name}${c.subclass ? ` (${c.subclass.name})` : ''} ${c.level || ''}`).join(", ") || "Unknown Class";
+		const ptBackground = character.background?.name || "Unknown Background";
+		const ptAlignment = character.alignment ? Parser.alignmentListToFull(character.alignment) : "Unknown";
 
 		renderStack.push(`
 			${Renderer.utils.getExcludedTr({entity: character, dataProp: "character", page: UrlUtil.PG_CHARACTERS})}
@@ -8491,22 +8494,443 @@ Renderer.character = class {
 			<tr><td colspan="6" class="pb-2 pt-0">
 		`);
 
-		// Character basic info
-		const ptBasicInfo = {
+		// Character header info
+		const raceLink = character.race ? `{@race ${character.race.name}|${character.race.source || "PHB"}}` : ptRace;
+		const classLinks = character.class ? character.class.map(c => {
+			const classLink = `{@class ${c.name}|${c.source || "PHB"}}`;
+			const subclassText = c.subclass ? ` ({@class ${c.name}|${c.source || "PHB"}|${c.subclass.name}|${c.subclass.source || c.source || "PHB"}})` : '';
+			return `${classLink}${subclassText} ${c.level || ''}`;
+		}).join(", ") : ptClass;
+		const backgroundLink = character.background ? `{@background ${character.background.name}|${character.background.source || "PHB"}}` : ptBackground;
+
+		const headerInfo = {
 			type: "list",
 			style: "list-hang-notitle",
 			items: [
-				{type: "item", name: "Level:", entry: ptLevel},
-				{type: "item", name: "Race:", entry: ptRace},
-				{type: "item", name: "Class:", entry: ptClass},
-			].concat(character.background ? [{type: "item", name: "Background:", entry: character.background.name}] : [])
-			.concat(character.alignment ? [{type: "item", name: "Alignment:", entry: Parser.alignmentListToFull(character.alignment)}] : []),
+				{type: "item", name: "Level:", entry: `${ptLevel} ${raceLink} ${classLinks}`},
+				{type: "item", name: "Background:", entry: backgroundLink},
+				{type: "item", name: "Alignment:", entry: ptAlignment},
+			]
 		};
 
-		renderer.recursiveRender(ptBasicInfo, renderStack, {depth: 1});
+		renderer.recursiveRender(headerInfo, renderStack, {depth: 1});
 
+		// Core Stats Section - All 6 Ability Scores
+		const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+		const abilityEntries = [];
+		abilities.forEach(ab => {
+			const score = character[ab] || 10;
+			const modifier = Parser.getAbilityModifier(score);
+			const modValue = typeof modifier === 'number' ? modifier : parseInt(modifier) || 0;
+			const modStr = modValue >= 0 ? `+${modValue}` : `${modValue}`;
+
+			const diceData = {
+				toRoll: `1d20${modStr}`,
+				name: `${ab.toUpperCase()} Check`
+			};
+			const diceHtml = `<span onmousedown="event.preventDefault()" data-packed-dice='${JSON.stringify(diceData).qq()}' title="Click to roll ${ab.toUpperCase()} check">${modStr}</span>`;
+			abilityEntries.push(`**${ab.toUpperCase()}** ${score} (${diceHtml})`);
+		});
+
+		const abilityInfo = {
+			type: "entries",
+			name: "Ability Scores",
+			entries: [abilityEntries.join(" | ")]
+		};
+		renderer.recursiveRender(abilityInfo, renderStack, {depth: 1});
+
+		// Saving Throws
+		const savingThrows = [];
+		abilities.forEach(ab => {
+			const score = character[ab] || 10;
+			const modifier = Parser.getAbilityModifier(score);
+			const modValue = typeof modifier === 'number' ? modifier : parseInt(modifier) || 0;
+			const saveBonus = character.save?.[ab];
+			let finalBonus = modValue;
+			
+			if (saveBonus) {
+				finalBonus = typeof saveBonus === 'string' ? parseInt(saveBonus) || modValue : saveBonus;
+			}
+			
+			const finalStr = finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`;
+			const isProficient = character.save?.[ab] ? ' (Prof)' : '';
+			
+			const diceData = {
+				toRoll: `1d20${finalStr}`,
+				name: `${ab.toUpperCase()} Save`
+			};
+			const diceHtml = `<span onmousedown="event.preventDefault()" data-packed-dice='${JSON.stringify(diceData).qq()}' title="Click to roll ${ab.toUpperCase()} saving throw">${finalStr}</span>`;
+			
+			savingThrows.push(`${ab.toUpperCase()} ${diceHtml}${isProficient}`);
+		});
+
+		const saveInfo = {
+			type: "entries",
+			name: "Saving Throws",
+			entries: [savingThrows.join(" | ")]
+		};
+		renderer.recursiveRender(saveInfo, renderStack, {depth: 1});		// Combat Stats
+		const combatEntries = [];
+		if (character.ac) {
+			const acValue = Array.isArray(character.ac) ? character.ac[0].ac : character.ac;
+			const acSource = Array.isArray(character.ac) && character.ac[0].from ? ` (${character.ac[0].from.join(', ')})` : '';
+			combatEntries.push(`**Armor Class** ${acValue}${acSource}`);
+		}
+
+		if (character.hp) {
+			const hp = character.hp;
+			const currentHp = hp.current != null ? hp.current : hp.average || hp.max || "?";
+			const maxHp = hp.max || hp.average || "?";
+			const tempHp = hp.temp || 0;
+			combatEntries.push(`**Hit Points** ${currentHp}/${maxHp}${tempHp > 0 ? ` (+${tempHp} temp)` : ''}`);
+			if (hp.formula) combatEntries.push(`*Hit Dice: ${hp.formula}*`);
+		}
+
+		if (character.speed) {
+			const speeds = [];
+			Object.entries(character.speed).forEach(([type, value]) => {
+				speeds.push(`${type === 'walk' ? '' : type + ' '}${value} ft.`);
+			});
+			combatEntries.push(`**Speed** ${speeds.join(', ')}`);
+		}
+
+		// Calculate and display proficiency bonus
+		let profBonus = character.proficiencyBonus;
+		if (!profBonus && character.level) {
+			profBonus = `+${Math.ceil(character.level / 4) + 1}`;
+		}
+		if (profBonus) {
+			combatEntries.push(`**Proficiency Bonus** ${profBonus}`);
+		}
+
+		// Initiative rolling
+		const dexScore = character.dex || 10;
+		const initMod = Parser.getAbilityModifier(dexScore);
+		const initModValue = typeof initMod === 'number' ? initMod : parseInt(initMod) || 0;
+		const initStr = initModValue >= 0 ? `+${initModValue}` : `${initModValue}`;
+		const initDiceData = {
+			toRoll: `1d20${initStr}`,
+			name: "Initiative"
+		};
+		const initDiceHtml = `<span onmousedown="event.preventDefault()" data-packed-dice='${JSON.stringify(initDiceData).qq()}' title="Click to roll initiative">${initStr}</span>`;
+		combatEntries.push(`**Initiative** ${initDiceHtml}`);
+
+		// Passive Perception
+		const wisScore = character.wis || 10;
+		const wisMod = Parser.getAbilityModifier(wisScore);
+		const wisModValue = typeof wisMod === 'number' ? wisMod : parseInt(wisMod) || 0;
+		const perceptionSkill = character.skill?.perception || character.skill?.Perception || wisModValue;
+		const perceptionMod = typeof perceptionSkill === 'string' ? parseInt(perceptionSkill) || wisModValue : perceptionSkill;
+		const passivePerception = 10 + perceptionMod;
+		combatEntries.push(`**Passive Perception** ${passivePerception}`);
+
+		// Death Saving Throws and Hit Dice
+		const deathSaveDiceData = {
+			toRoll: "1d20",
+			name: "Death Saving Throw"
+		};
+		const deathSaveHtml = `<span onmousedown="event.preventDefault()" data-packed-dice='${JSON.stringify(deathSaveDiceData).qq()}' title="Click to roll death saving throw (10+ succeeds)">Roll d20</span>`;
+		combatEntries.push(`**Death Save** ${deathSaveHtml}`);
+
+		if (character.class && character.class.length > 0) {
+			const hitDiceInfo = character.class.map(cls => {
+				const level = cls.level || 1;
+				const hitDie = cls.hd || 8;
+				const conMod = Parser.getAbilityModifier(character.con || 10);
+				const conModValue = typeof conMod === 'number' ? conMod : parseInt(conMod) || 0;
+				const modStr = conModValue >= 0 ? `+${conModValue}` : `${conModValue}`;
+				const hitDiceData = {
+					toRoll: `1d${hitDie}${modStr}`,
+					name: `${cls.name} Hit Die`
+				};
+				const hitDiceHtml = `<span onmousedown="event.preventDefault()" data-packed-dice='${JSON.stringify(hitDiceData).qq()}' title="Click to roll hit die for short rest healing">${level}d${hitDie}</span>`;
+				return hitDiceHtml;
+			}).join(', ');
+			combatEntries.push(`**Hit Dice** ${hitDiceInfo}`);
+		}
+
+		const combatInfo = {
+			type: "entries",
+			name: "Combat Statistics",
+			entries: combatEntries
+		};
+		renderer.recursiveRender(combatInfo, renderStack, {depth: 1});
+
+		// All Skills (standard D&D 5e skills)
+		const allSkills = {
+			'Acrobatics': 'dex', 'Animal Handling': 'wis', 'Arcana': 'int', 'Athletics': 'str',
+			'Deception': 'cha', 'History': 'int', 'Insight': 'wis', 'Intimidation': 'cha',
+			'Investigation': 'int', 'Medicine': 'wis', 'Nature': 'int', 'Perception': 'wis',
+			'Performance': 'cha', 'Persuasion': 'cha', 'Religion': 'int', 'Sleight of Hand': 'dex',
+			'Stealth': 'dex', 'Survival': 'wis'
+		};
+
+		const skillEntries = [];
+		Object.entries(allSkills).forEach(([skillName, ability]) => {
+			const abilityScore = character[ability] || 10;
+			const abilityMod = Parser.getAbilityModifier(abilityScore);
+			const modValue = typeof abilityMod === 'number' ? abilityMod : parseInt(abilityMod) || 0;
+			
+			// Check if character has this skill trained
+			const skillKey = skillName.toLowerCase().replace(/\s+/g, '');
+			const customBonus = character.skill?.[skillKey] || character.skill?.[skillName];
+			
+			let finalBonus = modValue;
+			let isProficient = '';
+			
+			if (customBonus) {
+				finalBonus = typeof customBonus === 'string' ? parseInt(customBonus) || modValue : customBonus;
+				isProficient = ' (Prof)';
+			}
+			
+			const finalStr = finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`;
+			
+			const diceData = {
+				toRoll: `1d20${finalStr}`,
+				name: `${skillName} Check`
+			};
+			const diceHtml = `<span onmousedown="event.preventDefault()" data-packed-dice='${JSON.stringify(diceData).qq()}' title="Click to roll ${skillName} (${ability.toUpperCase()})">${finalStr}</span>`;
+			
+			skillEntries.push(`${skillName} ${diceHtml}${isProficient}`);
+		});		// Group skills by category for better organization
+		const skillsByCategory = {
+			"Physical": ["Athletics", "Acrobatics", "Sleight of Hand", "Stealth"],
+			"Mental": ["Arcana", "History", "Investigation", "Nature", "Religion"],
+			"Wisdom": ["Animal Handling", "Insight", "Medicine", "Perception", "Survival"],
+			"Social": ["Deception", "Intimidation", "Performance", "Persuasion"]
+		};
+
+		const skillInfo = {type: "entries", name: "Skills", entries: []};
+
+		Object.entries(skillsByCategory).forEach(([category, categorySkills]) => {
+			const categoryEntries = categorySkills.map(skillName => {
+				return skillEntries.find(entry => entry.startsWith(skillName));
+			}).filter(Boolean);
+
+			if (categoryEntries.length) {
+				skillInfo.entries.push(`**${category}:** ${categoryEntries.join(' | ')}`);
+			}
+		});
+
+		renderer.recursiveRender(skillInfo, renderStack, {depth: 1});
+
+		// Languages if available
+		if (character.languages?.length) {
+			const langInfo = {
+				type: "entries",
+				name: "Languages",
+				entries: [character.languages.join(", ")]
+			};
+			renderer.recursiveRender(langInfo, renderStack, {depth: 1});
+		}
+
+		// Spellcasting
+		if (character.spellcasting) {
+			const sc = character.spellcasting;
+			const spellInfo = {
+				type: "entries",
+				name: "Spellcasting",
+				entries: [
+					`**Spell Save DC** ${sc.dc} | **Spell Attack Bonus** ${sc.mod}`
+				]
+			};
+
+			if (sc.spells) {
+				const spellLevels = [];
+				Object.entries(sc.spells).forEach(([level, spellData]) => {
+					const levelName = level === "0" ? "Cantrips" : `Level ${level}`;
+					const slots = spellData.slots ? ` (${spellData.slotsUsed || 0}/${spellData.slots} slots used)` : '';
+					const spellLinks = spellData.spells.map(spellName => {
+						// Create spell links - handle both string and object formats
+						if (typeof spellName === 'string') {
+							return `{@spell ${spellName}}`;
+						} else if (spellName.name) {
+							return `{@spell ${spellName.name}|${spellName.source || "PHB"}}`;
+						}
+						return spellName;
+					});
+					spellLevels.push(`**${levelName}${slots}:** ${spellLinks.join(', ')}`);
+				});
+				spellInfo.entries.push(...spellLevels);
+			}
+
+			renderer.recursiveRender(spellInfo, renderStack, {depth: 1});
+		}
+
+		// Action Economy reminder for players
+		const actionEconomyInfo = {
+			type: "entries",
+			name: "Action Economy",
+			entries: [
+				"**On Your Turn:** 1 Action, 1 Move, 1 Bonus Action (if available), 1 Free Interaction",
+				"**Reactions:** 1 per round (resets at start of your turn)",
+				"*Common Actions:* Attack, Cast a Spell, Dash, Disengage, Dodge, Help, Hide, Ready, Search, Use an Object"
+			]
+		};
+		renderer.recursiveRender(actionEconomyInfo, renderStack, {depth: 1});
+
+		// Actions
+		if (character.action?.length) {
+			const actionInfo = {
+				type: "entries",
+				name: "Actions",
+				entries: []
+			};
+
+			character.action.forEach(action => {
+				actionInfo.entries.push({
+					type: "entries",
+					name: action.name,
+					entries: action.entries
+				});
+			});
+
+			renderer.recursiveRender(actionInfo, renderStack, {depth: 1});
+		}
+
+		// Traits/Features
+		if (character.trait?.length) {
+			const traitInfo = {
+				type: "entries",
+				name: "Features & Traits",
+				entries: []
+			};
+
+			character.trait.forEach(trait => {
+				traitInfo.entries.push({
+					type: "entries",
+					name: trait.name,
+					entries: trait.entries
+				});
+			});
+
+			renderer.recursiveRender(traitInfo, renderStack, {depth: 1});
+		}
+
+		// Equipment
+		if (character.equipment?.length) {
+			const equipInfo = {
+				type: "entries",
+				name: "Equipment",
+				entries: []
+			};
+
+			const equipped = character.equipment.filter(item => item.equipped);
+			const other = character.equipment.filter(item => !item.equipped);
+
+			if (equipped.length) {
+				const equippedList = {
+					type: "list",
+					name: "Equipped",
+					items: equipped.map(item => {
+						const qty = item.quantity ? ` (${item.quantity})` : '';
+						const desc = item.description ? ` - ${item.description}` : '';
+						// Only create links for items with source data
+						const itemName = item.source ? `{@item ${item.name}|${item.source}}` : item.name;
+						return `${itemName}${qty}${desc}`;
+					})
+				};
+				equipInfo.entries.push(equippedList);
+			}
+
+			if (other.length) {
+				const otherList = {
+					type: "list",
+					name: "Other Equipment",
+					items: other.map(item => {
+						const qty = item.quantity ? ` (${item.quantity})` : '';
+						const desc = item.description ? ` - ${item.description}` : '';
+						// Only create links for items with source data
+						const itemName = item.source ? `{@item ${item.name}|${item.source}}` : item.name;
+						return `${itemName}${qty}${desc}`;
+					})
+				};
+				equipInfo.entries.push(otherList);
+			}
+
+			renderer.recursiveRender(equipInfo, renderStack, {depth: 1});
+		}
+
+		// Currency & Wealth
+		if (character.currency || (character.gp != null || character.sp != null || character.cp != null || character.pp != null || character.ep != null)) {
+			const currencyInfo = {
+				type: "entries",
+				name: "Currency",
+				entries: []
+			};
+
+			const coins = [];
+			if (character.currency) {
+				Object.entries(character.currency).forEach(([type, amount]) => {
+					if (amount > 0) coins.push(`${amount} ${type}`);
+				});
+			} else {
+				// Legacy format
+				if (character.pp > 0) coins.push(`${character.pp} pp`);
+				if (character.gp > 0) coins.push(`${character.gp} gp`);
+				if (character.ep > 0) coins.push(`${character.ep} ep`);
+				if (character.sp > 0) coins.push(`${character.sp} sp`);
+				if (character.cp > 0) coins.push(`${character.cp} cp`);
+			}
+
+			if (coins.length) {
+				currencyInfo.entries.push(coins.join(', '));
+			}
+
+			// Carrying capacity
+			const strScore = character.str || 10;
+			const carryingCapacity = strScore * 15;
+			currencyInfo.entries.push(`**Carrying Capacity:** ${carryingCapacity} lbs`);
+
+			renderer.recursiveRender(currencyInfo, renderStack, {depth: 1});
+		}
+
+		// Resources (Hit Dice, Inspiration, etc.)
+		if (character.resources?.length) {
+			const resourceInfo = {
+				type: "entries",
+				name: "Resources",
+				entries: character.resources.map(resource => `**${resource.name}:** ${resource.current}/${resource.max}`)
+			};
+			renderer.recursiveRender(resourceInfo, renderStack, {depth: 1});
+		}
+
+		// Conditions
+		if (character.conditions?.length) {
+			const conditionInfo = {
+				type: "entries",
+				name: "Current Conditions",
+				entries: character.conditions.map(condition => {
+					const duration = condition.duration ? ` (${condition.duration})` : '';
+					return `**${condition.name}${duration}**`;
+				})
+			};
+			renderer.recursiveRender(conditionInfo, renderStack, {depth: 1});
+		}
+
+		// Custom description
 		if (character.customText) {
-			renderer.recursiveRender({entries: [character.customText]}, renderStack, {depth: 1});
+			const customInfo = {
+				type: "entries",
+				name: "Description",
+				entries: [character.customText]
+			};
+			renderer.recursiveRender(customInfo, renderStack, {depth: 1});
+		}
+
+		// Fluff entries
+		if (character.fluff?.entries?.length) {
+			const fluffInfo = {
+				type: "entries",
+				name: "Background",
+				entries: character.fluff.entries
+			};
+			renderer.recursiveRender(fluffInfo, renderStack, {depth: 1});
+		}
+
+		// Character entries
+		if (character.entries) {
+			renderer.recursiveRender({entries: character.entries}, renderStack, {depth: 1});
 		}
 
 		renderStack.push(`</td></tr>`);
@@ -8515,8 +8939,11 @@ Renderer.character = class {
 		return renderStack.join("");
 	}
 
-	static bindListenersCompact (character) {
-		// No special listeners needed for character compact view
+	static bindListenersCompact (character, ele) {
+		// Bind dice listeners to the element
+		if (ele) {
+			Renderer.dice.bindOnclickListener(ele);
+		}
 	}
 
 	static pGetFluff (character) {
@@ -15441,6 +15868,7 @@ Renderer.hover = class {
 		switch (page) {
 			case UrlUtil.PG_BESTIARY: return Renderer.monster.bindListenersCompact.bind(Renderer.monster);
 			case UrlUtil.PG_RACES: return Renderer.race.bindListenersCompact.bind(Renderer.race);
+			case UrlUtil.PG_CHARACTERS: return Renderer.character.bindListenersCompact.bind(Renderer.character);
 			default: return null;
 		}
 	}

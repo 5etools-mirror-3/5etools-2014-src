@@ -1,0 +1,130 @@
+/* Simple Character Sheet Styling - Let 5etools handle dice rolling */
+.character-abilities {
+    margin: 10px 0;
+    padding: 8px;
+    background-color: rgb(248 249 250 / 50%);
+    border-radius: 4px;
+    border-left: 3px solid #007acc;
+}
+
+/* Basic layout improvements */
+.character-section {
+    margin: 8px 0;
+}
+
+.character-section-title {
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: #333;
+}
+
+/* Let 5etools native dice system handle all the rollable styling */
+
+/* Enhanced skill styling */
+.skill-item {
+    display: inline-block;
+    margin: 2px 3px;
+    padding: 2px 5px;
+    background-color: rgb(248 249 250 / 70%);
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    font-size: 0.85em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.skill-item:hover {
+    background-color: #e6f3ff;
+    border-color: #007acc;
+    color: #0056b3;
+}
+
+/* Rollable elements styling */
+.rollable {
+    cursor: pointer;
+    padding: 1px 2px;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+    color: #007acc;
+    text-decoration: none;
+}
+
+.rollable:hover {
+    background-color: #e6f3ff;
+    text-decoration: underline;
+    color: #0056b3;
+}
+
+/* Enhanced list styling for character content */
+.ve-list-hang-notitle > li {
+    margin-bottom: 0.25rem;
+}
+
+/* Better spacing for character entries */
+.stats td {
+    vertical-align: top;
+}
+
+.stats .pb-2 {
+    padding-bottom: 0.5rem !important;
+}
+
+.stats .pt-0 {
+    padding-top: 0 !important;
+}
+
+.stats .mt-2 {
+    margin-top: 0.5rem !important;
+}
+
+/* Improve readability of character sections */
+.ve-list-hang > li > span:first-child {
+    font-weight: 600;
+    color: #007acc;
+}
+
+/* Style for inline ability scores */
+.character-abilities .ability-score strong {
+    color: #333;
+    font-size: 0.85em;
+}
+
+/* Skill category styling */
+.stats p strong {
+    color: #2c5aa0;
+    font-weight: 600;
+}
+
+/* Saving throw styling */
+.rollable + .rollable::before {
+    content: " | ";
+    color: #666;
+    font-weight: normal;
+}
+
+/* Better organization for stats */
+.character-abilities p,
+.stats .ve-list-hang-notitle + p {
+    margin: 0.5rem 0;
+    line-height: 1.6;
+}
+
+/* Better mobile responsiveness */
+@media (width <= 768px) {
+    .ability-score {
+        display: block;
+        margin: 2px 0;
+        text-align: center;
+    }
+    
+    .character-abilities {
+        margin: 8px 0;
+        padding: 6px;
+    }
+    
+    .skill-item {
+        display: block;
+        margin: 2px 0;
+        text-align: center;
+    }
+}

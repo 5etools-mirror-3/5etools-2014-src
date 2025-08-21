@@ -14,6 +14,7 @@
 					"name": "Ranger",
 					"source": "PHB",
 					"level": 15,
+					"hd": 10,
 					"subclass": {
 						"name": "Hunter",
 						"source": "PHB"
@@ -108,6 +109,13 @@
 					"quantity": 10
 				}
 			],
+			"currency": {
+				"pp": 12,
+				"gp": 347,
+				"ep": 0,
+				"sp": 23,
+				"cp": 15
+			},
 			"spellcasting": {
 				"level": 15,
 				"ability": "wis",
@@ -300,15 +308,24 @@
 				{
 					"name": "Component Pouch",
 					"type": "equipment",
+					"source": "PHB",
 					"equipped": true
 				},
 				{
-					"name": "Scholar's Pack",
-					"type": "equipment"
+					"name": "Explorer's Pack",
+					"type": "equipment",
+					"source": "PHB"
 				},
 				{
 					"name": "Dagger",
 					"type": "weapon",
+					"source": "PHB",
+					"equipped": true
+				},
+				{
+					"name": "Quarterstaff",
+					"type": "weapon", 
+					"source": "PHB",
 					"equipped": true
 				}
 			],
