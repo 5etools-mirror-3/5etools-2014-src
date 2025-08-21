@@ -3672,7 +3672,6 @@ UrlUtil.PG_FEATS = "feats.html";
 UrlUtil.PG_OPT_FEATURES = "optionalfeatures.html";
 UrlUtil.PG_PSIONICS = "psionics.html";
 UrlUtil.PG_RACES = "races.html";
-UrlUtil.PG_CHARACTERS = "characters.html";
 UrlUtil.PG_REWARDS = "rewards.html";
 UrlUtil.PG_VARIANTRULES = "variantrules.html";
 UrlUtil.PG_ADVENTURE = "adventure.html";
@@ -3769,6 +3768,7 @@ UrlUtil.URL_TO_HASH_BUILDER["disease"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_
 UrlUtil.URL_TO_HASH_BUILDER["status"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CONDITIONS_DISEASES];
 UrlUtil.URL_TO_HASH_BUILDER["feat"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_FEATS];
 UrlUtil.URL_TO_HASH_BUILDER["optionalfeature"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_OPT_FEATURES];
+UrlUtil.URL_TO_HASH_BUILDER["character"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CHARACTERS];
 UrlUtil.URL_TO_HASH_BUILDER["psionic"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_PSIONICS];
 UrlUtil.URL_TO_HASH_BUILDER["race"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_RACES];
 UrlUtil.URL_TO_HASH_BUILDER["subrace"] = (it) => UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_RACES]({name: `${it.name} (${it.raceName})`, source: it.source});
@@ -3844,7 +3844,6 @@ UrlUtil.PG_TO_NAME[UrlUtil.PG_FEATS] = "Feats";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_OPT_FEATURES] = "Other Options and Features";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_PSIONICS] = "Psionics";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_RACES] = "Races";
-UrlUtil.PG_TO_NAME[UrlUtil.PG_CHARACTERS] = "Characters";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_REWARDS] = "Supernatural Gifts & Rewards";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_VARIANTRULES] = "Optional, Variant, and Expanded Rules";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_ADVENTURES] = "Adventures";
@@ -3860,7 +3859,7 @@ UrlUtil.PG_TO_NAME[UrlUtil.PG_MAKE_BREW] = "Homebrew Builder";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_DEMO_RENDER] = "Renderer Demo";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_TABLES] = "Tables";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_VEHICLES] = "Vehicles";
-// UrlUtil.PG_TO_NAME[UrlUtil.PG_CHARACTERS] = "";
+UrlUtil.PG_TO_NAME[UrlUtil.PG_CHARACTERS] = "Characters";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_ACTIONS] = "Actions";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_LANGUAGES] = "Languages";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_STATGEN] = "Stat Generator";
@@ -3948,7 +3947,6 @@ UrlUtil.CAT_TO_HOVER_PAGE[Parser.CAT_ID_SKILLS] = "skill";
 UrlUtil.CAT_TO_HOVER_PAGE[Parser.CAT_ID_SENSES] = "sense";
 UrlUtil.CAT_TO_HOVER_PAGE[Parser.CAT_ID_LEGENDARY_GROUP] = "legendaryGroup";
 UrlUtil.CAT_TO_HOVER_PAGE[Parser.CAT_ID_ITEM_MASTERY] = "itemMastery";
-UrlUtil.CAT_TO_HOVER_PAGE[Parser.CAT_ID_CHARACTER] = UrlUtil.PG_CHARACTERS;
 
 UrlUtil.HASH_START_CREATURE_SCALED = `${VeCt.HASH_SCALED}${HASH_SUB_KV_SEP}`;
 UrlUtil.HASH_START_CREATURE_SCALED_SPELL_SUMMON = `${VeCt.HASH_SCALED_SPELL_SUMMON}${HASH_SUB_KV_SEP}`;
@@ -4951,8 +4949,10 @@ globalThis.DataUtil = class {
 		"subclassFluff": "class",
 		"classFeature": "class",
 		"subclassFeature": "class",
+		"character": "character",
 	};
 	static _MULTI_SOURCE_PROP_TO_INDEX_NAME = {
+		"character": "index.json",
 		"class": "index.json",
 		"subclass": "index.json",
 		"classFeature": "index.json",
@@ -4977,6 +4977,7 @@ globalThis.DataUtil = class {
 			// endregion
 
 			// region Multi-source
+			case "character":
 			case "class":
 			case "classFluff":
 			case "subclass":
@@ -6947,23 +6948,19 @@ globalThis.DataUtil = class {
 		}
 	};
 
-	static character = class extends _DataUtilPropConfigSingleSource {
+	static character = class extends _DataUtilPropConfigMultiSource {
 		static _PAGE = UrlUtil.PG_CHARACTERS || "characters";
-		static _FILENAME = "characters.json";
+		static _DIR = "character";
+		static _PROP = "character";
 
 		static _psLoadJson = {};
 
 		static async loadJSON () {
 			const cacheKey = "site";
 			DataUtil.character._psLoadJson[cacheKey] ||= (async () => {
-				try {
-					const data = await this.loadRawJSON();
-					(data.character || []).forEach(it => it.__prop = "character");
-					return data;
-				} catch (e) {
-					// If no characters.json exists, return empty structure
-					return {character: []};
-				}
+				const data = await super.loadJSON();
+				(data.character || []).forEach(it => it.__prop = "character");
+				return data;
 			})();
 			return DataUtil.character._psLoadJson[cacheKey];
 		}

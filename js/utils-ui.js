@@ -1684,42 +1684,6 @@ class SearchUiUtil {
 		await pAddPrereleaseBrewIndex({brewUtil: PrereleaseUtil});
 		await pAddPrereleaseBrewIndex({brewUtil: BrewUtil2});
 
-		// Add character data manually
-		try {
-			const characterData = await DataUtil.character.loadJSON();
-			if (characterData && characterData.character) {
-				let charId = availContent.ALL.documentStore.length;
-				
-				// Create character category if it doesn't exist
-				if (!availContent["Character"]) {
-					availContent["Character"] = elasticlunr(function () {
-						this.addField("n");
-						this.addField("s");
-						this.setRef("id");
-					});
-					SearchUtil.removeStemmer(availContent["Character"]);
-				}
-
-				characterData.character.forEach(character => {
-					const doc = {
-						id: charId++,
-						n: character.name,
-						s: character.source || "Unknown",
-						u: character.name,
-						p: UrlUtil.PG_CHARACTERS,
-						h: 1,
-						c: Parser.CAT_ID_CHARACTER, // Use new character category
-						cf: "Character",
-					};
-
-					availContent.ALL.addDoc(doc);
-					availContent["Character"].addDoc(doc);
-				});
-			}
-		} catch (e) {
-			console.warn("Failed to load character data for search:", e);
-		}
-
 		return availContent;
 	}
 }

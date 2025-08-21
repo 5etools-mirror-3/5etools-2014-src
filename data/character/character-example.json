@@ -1,13 +1,8 @@
 {
-	"_meta": {
-		"internalCopies": [
-			"character"
-		]
-	},
 	"character": [
 		{
 			"name": "Aragorn",
-			"source": "Sam",
+			"source": "Example",
 			"page": 1,
 			"level": 15,
 			"race": {
@@ -41,7 +36,10 @@
 			],
 			"hp": {
 				"average": 124,
-				"formula": "15d10 + 30"
+				"formula": "15d10 + 30",
+				"current": 124,
+				"max": 124,
+				"temp": 0
 			},
 			"speed": {
 				"walk": 30
@@ -77,19 +75,37 @@
 				{
 					"name": "Andúril",
 					"type": "weapon",
-					"description": "Flame Tongue Longsword"
+					"description": "Flame Tongue Longsword",
+					"equipped": true
 				},
 				{
 					"name": "Studded Leather Armor",
-					"type": "armor"
+					"type": "armor",
+					"equipped": true
 				},
 				{
 					"name": "Shield",
-					"type": "armor"
+					"type": "armor",
+					"equipped": true
 				},
 				{
 					"name": "Longbow",
-					"type": "weapon"
+					"type": "weapon",
+					"equipped": true
+				},
+				{
+					"name": "Arrows",
+					"type": "equipment",
+					"quantity": 60
+				},
+				{
+					"name": "Rope (50 feet)",
+					"type": "equipment"
+				},
+				{
+					"name": "Rations (10 days)",
+					"type": "equipment",
+					"quantity": 10
 				}
 			],
 			"spellcasting": {
@@ -101,6 +117,7 @@
 				"spells": {
 					"1": {
 						"slots": 4,
+						"slotsUsed": 1,
 						"spells": [
 							"cure wounds",
 							"detect magic",
@@ -110,6 +127,7 @@
 					},
 					"2": {
 						"slots": 3,
+						"slotsUsed": 0,
 						"spells": [
 							"barkskin",
 							"pass without trace",
@@ -118,6 +136,7 @@
 					},
 					"3": {
 						"slots": 3,
+						"slotsUsed": 0,
 						"spells": [
 							"conjure animals",
 							"lightning arrow"
@@ -125,12 +144,32 @@
 					},
 					"4": {
 						"slots": 1,
+						"slotsUsed": 0,
 						"spells": [
 							"freedom of movement"
 						]
 					}
 				}
 			},
+			"resources": [
+				{
+					"name": "Hit Dice (d10)",
+					"max": 15,
+					"current": 15
+				},
+				{
+					"name": "Inspiration",
+					"max": 1,
+					"current": 0
+				}
+			],
+			"conditions": [
+				{
+					"name": "Hunter's Mark",
+					"duration": "1 hour (concentration)"
+				}
+			],
+			"notes": "",
 			"trait": [
 				{
 					"name": "Favored Enemy",
@@ -217,7 +256,10 @@
 			],
 			"hp": {
 				"average": 44,
-				"formula": "8d6 + 8"
+				"formula": "8d6 + 8",
+				"current": 44,
+				"max": 44,
+				"temp": 0
 			},
 			"speed": {
 				"walk": 30
@@ -252,11 +294,13 @@
 				{
 					"name": "Spellbook",
 					"type": "equipment",
-					"description": "Contains all known spells"
+					"description": "Contains all known spells",
+					"equipped": true
 				},
 				{
 					"name": "Component Pouch",
-					"type": "equipment"
+					"type": "equipment",
+					"equipped": true
 				},
 				{
 					"name": "Scholar's Pack",
@@ -264,7 +308,8 @@
 				},
 				{
 					"name": "Dagger",
-					"type": "weapon"
+					"type": "weapon",
+					"equipped": true
 				}
 			],
 			"spellcasting": {
@@ -284,6 +329,7 @@
 					},
 					"1": {
 						"slots": 4,
+						"slotsUsed": 0,
 						"spells": [
 							"detect magic",
 							"magic missile",
@@ -295,6 +341,7 @@
 					},
 					"2": {
 						"slots": 3,
+						"slotsUsed": 0,
 						"spells": [
 							"misty step",
 							"web",
@@ -305,6 +352,7 @@
 					},
 					"3": {
 						"slots": 3,
+						"slotsUsed": 0,
 						"spells": [
 							"fireball",
 							"counterspell",
@@ -314,6 +362,7 @@
 					},
 					"4": {
 						"slots": 2,
+						"slotsUsed": 0,
 						"spells": [
 							"polymorph",
 							"greater invisibility"
@@ -321,6 +370,20 @@
 					}
 				}
 			},
+			"resources": [
+				{
+					"name": "Hit Dice (d6)",
+					"max": 8,
+					"current": 8
+				},
+				{
+					"name": "Arcane Recovery",
+					"max": 1,
+					"current": 1
+				}
+			],
+			"conditions": [],
+			"notes": "",
 			"trait": [
 				{
 					"name": "Ritual Casting",

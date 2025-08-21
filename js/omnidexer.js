@@ -446,6 +446,20 @@ class IndexableDirectorySubclassFeature extends IndexableDirectory {
 	}
 }
 
+class IndexableDirectoryCharacter extends IndexableDirectory {
+	constructor () {
+		super({
+			category: Parser.CAT_ID_CHARACTER,
+			dir: "character",
+			primary: "name",
+			source: "source",
+			listProp: "character",
+			baseUrl: "characters.html",
+			isHover: true,
+		});
+	}
+}
+
 Omnidexer.TO_INDEX__FROM_INDEX_JSON = [
 	new IndexableDirectoryBestiary(),
 	new IndexableDirectorySpells(),
@@ -453,6 +467,7 @@ Omnidexer.TO_INDEX__FROM_INDEX_JSON = [
 	new IndexableDirectorySubclass(),
 	new IndexableDirectoryClassFeature(),
 	new IndexableDirectorySubclassFeature(),
+	new IndexableDirectoryCharacter(),
 ];
 
 class IndexableFile {

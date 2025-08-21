@@ -1200,7 +1200,13 @@ class Panel {
 			PANEL_TYP_STATS,
 			meta,
 		);
-		return DataLoader.pCacheAndGet(
+		
+		// Ensure character data is loaded for character pages
+		const preloadPromise = page === UrlUtil.PG_CHARACTERS 
+			? DataLoader.pCacheAndGetAllSite(UrlUtil.PG_CHARACTERS) 
+			: Promise.resolve();
+		
+		return preloadPromise.then(() => DataLoader.pCacheAndGet(
 			page,
 			source,
 			hash,
@@ -1231,7 +1237,7 @@ class Panel {
 				true,
 				!!title,
 			);
-		});
+		}));
 	}
 
 	_stats_bindCrScaleClickHandler (mon, meta, $contentInner, $contentStats) {

@@ -52,29 +52,6 @@ export class OmnisearchBacking {
 		partneredIndex.forEach(it => this._addToIndex(it));
 		// endregion
 
-		// region Character data
-		try {
-			const characterData = await DataUtil.character.loadJSON();
-			if (characterData && characterData.character && characterData.character.length) {
-				const characterIndex = characterData.character.map((char, i) => ({
-					id: this._maxId + 1 + i,
-					n: char.name,
-					s: char.source || "Unknown",
-					u: char.name,
-					p: UrlUtil.PG_CHARACTERS,
-					h: 1,
-					c: Parser.CAT_ID_CHARACTER,
-				}));
-				
-				// Re-update maxId
-				characterIndex.forEach((it, i) => it.id = this._maxId + 1 + i);
-				characterIndex.forEach(it => this._addToIndex(it));
-			}
-		} catch (e) {
-			console.warn("Failed to load character data for omnisearch:", e);
-		}
-		// endregion
-
 		this._adventureBookLookup = {};
 		[prereleaseIndex, brewIndex, siteIndex, partneredIndex].forEach(index => {
 			index.forEach(it => {

@@ -1,3 +1,4 @@
+
 import {RenderCharacters} from "./render-characters.js";
 
 class CharactersSublistManager extends SublistManager {
@@ -5,22 +6,22 @@ class CharactersSublistManager extends SublistManager {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-6 pl-0 pr-1",
+				css: "bold ve-col-5 pl-0 pr-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "Race",
-				css: "ve-col-3 px-1",
+				css: "ve-col-3-8 px-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
-				name: "Level",
-				css: "ve-text-center ve-col-1-5 px-1",
+				name: "Class",
+				css: "ve-col-1-2 px-1 ve-text-center",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
-				name: "Source",
-				css: "ve-text-center ve-col-1-5 pl-1 pr-0",
+				name: "Level",
+				css: "ve-col-2 pl-1 pr-0 ve-text-center",
 				colStyle: "text-center",
 			}),
 		];
@@ -30,15 +31,16 @@ class CharactersSublistManager extends SublistManager {
 		const cellsText = [
 			character.name,
 			character._fRace,
+			character._fClass,
 			character.level,
-			Parser.sourceJsonToAbv(character.source),
 		];
 
 		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst__row-border lst__row-inner">
-				${this.constructor._getRowCellsHtml({values: cellsText, templates: this.constructor._ROW_TEMPLATE})}
-			</a>
-		</div>`)
+				<a href="#${UrlUtil.autoEncodeHash(character)}" class="lst__row-border lst__row-inner">
+					${this.constructor._getRowCellsHtml({values: cellsText})}
+				</a>
+			</div>
+		`)
 			.contextmenu(evt => this._handleSublistItemContextMenu(evt, listItem))
 			.click(evt => this._listSub.doSelect(listItem, evt));
 
@@ -61,17 +63,20 @@ class CharactersSublistManager extends SublistManager {
 	}
 }
 
-class CharactersPage extends ListPage {
+class CharactersPage extends ListPageMultiSource {
 	constructor () {
-		const pageFilter = new PageFilterCharacters();
 		super({
-			dataSource: DataUtil.character.loadJSON.bind(DataUtil.character),
-			prereleaseDataSource: DataUtil.character.loadPrerelease.bind(DataUtil.character),
-			brewDataSource: DataUtil.character.loadBrew.bind(DataUtil.character),
-
-			pageFilter,
+			pageFilter: new PageFilterCharacters({
+				sourceFilterOpts: {
+					pFnOnChange: (...args) => this._pLoadSource(...args),
+				},
+			}),
 
 			dataProps: ["character"],
+
+			propLoader: "character",
+
+			pFnGetFluff: Renderer.character.pGetFluff.bind(Renderer.character),
 
 			bookViewOptions: {
 				namePlural: "characters",
@@ -120,42 +125,59 @@ class CharactersPage extends ListPage {
 		return listItem;
 	}
 
+	async _pOnLoad_pPreDataLoad () {
+		// Ensure Example source is loaded for hover/popout functionality
+		await this._pLoadSource("Example", "yes");
+	}
+
+	_addData (data) {
+		super._addData(data);
+		
+		// Also populate DataLoader cache for hover/popout functionality
+		if (data.character && data.character.length) {
+			DataLoader._pCache_addToCache({
+				allDataMerged: data, 
+				propAllowlist: new Set(["character"])
+			});
+		}
+	}
+
 	_renderStats_doBuildStatsTab ({ent}) {
-		this._$pgContent.empty().append(new RenderCharacters().$getRenderedCharacter(ent));
+		this._$pgContent.empty().append(RenderCharacters.$getRenderedCharacter(ent));
 	}
 
 	async _pGetFluff (character) {
 		return character.fluff || null;
 	}
 
-	_getSearchCache (entity) {
-		// Return the search cache created by the filter's mutateForFilters method
-		return entity._fSearch || "";
+	async _pPreloadSublistSources (json) {
+		if (json.l && json.l.items && json.l.sources) { // if it's an encounter file
+			json.items = json.l.items;
+			json.sources = json.l.sources;
+		}
+		const loaded = Object.keys(this._loadedSources)
+			.filter(it => this._loadedSources[it].loaded);
+		const lowerSources = json.sources?.map(it => it.toLowerCase()) || [];
+		const toLoad = Object.keys(this._loadedSources)
+			.filter(it => !loaded.includes(it))
+			.filter(it => lowerSources.includes(it.toLowerCase()));
+		const loadTotal = toLoad.length;
+		if (loadTotal) {
+			await Promise.all(toLoad.map(src => this._pLoadSource(src, "yes")));
+		}
 	}
 
-	// Add compact reference data support for DM screen integration
-	static getCompactReferenceData (character) {
-		const raceText = character.race ? 
-			(character.race.variant ? `Variant ${character.race.name}` : character.race.name) : 
-			"Unknown Race";
-		
-		const classText = character.class ? 
-			character.class.map(cls => {
-				let text = `${cls.name} ${cls.level}`;
-				if (cls.subclass) text += ` (${cls.subclass.name})`;
-				return text;
-			}).join(", ") : 
-			"Unknown Class";
-
-		return {
-			name: character.name,
-			source: character.source,
-			hash: UrlUtil.autoEncodeHash(character),
-			level: character.level,
-			race: raceText,
-			class: classText,
-			page: UrlUtil.PG_CHARACTERS,
-		};
+	_getSearchCache (entity) {
+		if (!entity._fSearch) {
+			entity._fSearch = [
+				entity.name,
+				entity._fRace,
+				entity._fClass,
+				entity._fBackground,
+				entity.customText || "",
+			].join(" ").toLowerCase();
+		}
+		return entity._fSearch;
 	}
 }
 

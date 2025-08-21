@@ -4761,11 +4761,6 @@ Renderer.utils = class {
 			// TODO(Future) revise/expand
 			case "@creatureFluff": { out.isFauxPage = true; out.page = "monsterFluff"; break; }
 
-			case "@character": {
-				out.page = UrlUtil.PG_CHARACTERS;
-				break;
-			}
-
 			default: throw new Error(`Unhandled tag "${tag}"`);
 		}
 
@@ -8478,6 +8473,54 @@ Renderer.race = class {
 			entity: race,
 			fluffProp: "raceFluff",
 		});
+	}
+};
+
+Renderer.character = class {
+	static getCompactRenderedString (character, {isStatic = false} = {}) {
+		const renderer = Renderer.get().setFirstSection(true);
+		const renderStack = [];
+
+		const ptLevel = `Level ${character.level || "?"}`;
+		const ptRace = character.race?.name || "Unknown Race";
+		const ptClass = character.class?.map(c => c.name).join("/") || "Unknown Class";
+
+		renderStack.push(`
+			${Renderer.utils.getExcludedTr({entity: character, dataProp: "character", page: UrlUtil.PG_CHARACTERS})}
+			${Renderer.utils.getNameTr(character, {page: UrlUtil.PG_CHARACTERS})}
+			<tr><td colspan="6" class="pb-2 pt-0">
+		`);
+
+		// Character basic info
+		const ptBasicInfo = {
+			type: "list",
+			style: "list-hang-notitle",
+			items: [
+				{type: "item", name: "Level:", entry: ptLevel},
+				{type: "item", name: "Race:", entry: ptRace},
+				{type: "item", name: "Class:", entry: ptClass},
+			].concat(character.background ? [{type: "item", name: "Background:", entry: character.background.name}] : [])
+			.concat(character.alignment ? [{type: "item", name: "Alignment:", entry: Parser.alignmentListToFull(character.alignment)}] : []),
+		};
+
+		renderer.recursiveRender(ptBasicInfo, renderStack, {depth: 1});
+
+		if (character.customText) {
+			renderer.recursiveRender({entries: [character.customText]}, renderStack, {depth: 1});
+		}
+
+		renderStack.push(`</td></tr>`);
+		renderStack.push(Renderer.utils.getPageTr(character));
+
+		return renderStack.join("");
+	}
+
+	static bindListenersCompact (character) {
+		// No special listeners needed for character compact view
+	}
+
+	static pGetFluff (character) {
+		return character.fluff || null;
 	}
 };
 
@@ -15361,7 +15404,6 @@ Renderer.hover = class {
 			case UrlUtil.PG_PSIONICS: return Renderer.psionic.getCompactRenderedString.bind(Renderer.psionic);
 			case UrlUtil.PG_REWARDS: return Renderer.reward.getCompactRenderedString.bind(Renderer.reward);
 			case UrlUtil.PG_RACES: return it => Renderer.race.getCompactRenderedString(it, {isStatic});
-			case UrlUtil.PG_CHARACTERS: return Renderer.character.getCompactRenderedString.bind(Renderer.character);
 			case UrlUtil.PG_DEITIES: return Renderer.deity.getCompactRenderedString.bind(Renderer.deity);
 			case UrlUtil.PG_OBJECTS: return Renderer.object.getCompactRenderedString.bind(Renderer.object);
 			case UrlUtil.PG_TRAPS_HAZARDS: return Renderer.traphazard.getCompactRenderedString.bind(Renderer.traphazard);
@@ -15372,6 +15414,7 @@ Renderer.hover = class {
 			case UrlUtil.PG_ACTIONS: return Renderer.action.getCompactRenderedString.bind(Renderer.action);
 			case UrlUtil.PG_LANGUAGES: return Renderer.language.getCompactRenderedString.bind(Renderer.language);
 			case UrlUtil.PG_CHAR_CREATION_OPTIONS: return Renderer.charoption.getCompactRenderedString.bind(Renderer.charoption);
+			case UrlUtil.PG_CHARACTERS: return Renderer.character.getCompactRenderedString.bind(Renderer.character);
 			case UrlUtil.PG_RECIPES: return Renderer.recipe.getCompactRenderedString.bind(Renderer.recipe);
 			case UrlUtil.PG_CLASS_SUBCLASS_FEATURES: return Renderer.hover.getGenericCompactRenderedString.bind(Renderer.hover);
 			case UrlUtil.PG_CREATURE_FEATURES: return Renderer.hover.getGenericCompactRenderedString.bind(Renderer.hover);
@@ -15398,7 +15441,6 @@ Renderer.hover = class {
 		switch (page) {
 			case UrlUtil.PG_BESTIARY: return Renderer.monster.bindListenersCompact.bind(Renderer.monster);
 			case UrlUtil.PG_RACES: return Renderer.race.bindListenersCompact.bind(Renderer.race);
-			case UrlUtil.PG_CHARACTERS: return Renderer.character.bindListenersCompact.bind(Renderer.character);
 			default: return null;
 		}
 	}
