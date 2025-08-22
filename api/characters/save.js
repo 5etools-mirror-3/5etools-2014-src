@@ -22,10 +22,14 @@ module.exports = async function handler(req, res) {
     }
 
     // Generate character ID if not provided
-    const finalCharacterId = characterId || characterData.name.toLowerCase()
+    let finalCharacterId = characterId || characterData.name.toLowerCase()
       .replace(/[^a-z0-9\s]/g, '') // Remove special characters
       .replace(/\s+/g, '-') // Replace spaces with dashes
       .substring(0, 50); // Limit length
+
+	 if (saveData.__fSource) {
+		finalCharacterId += `-${saveData.__fSource}`;
+	 }
 
     // Wrap character in the expected format
     const saveData = {

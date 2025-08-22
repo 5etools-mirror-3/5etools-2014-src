@@ -12,7 +12,10 @@
 		EXTERNAL_IMG_BASE: "https://5e.tools/",
 		
 		// Enable external image loading
-		USE_EXTERNAL_IMAGES: true
+		USE_EXTERNAL_IMAGES: true,
+		
+		// Force external images even if DEPLOYED_IMG_ROOT is set
+		FORCE_EXTERNAL_IMAGES: true
 	};
 	
 	/**
@@ -29,6 +32,12 @@
 		
 		if (IMAGE_CONFIG.USE_EXTERNAL_IMAGES) {
 			try {
+				// Always set external image URL, even if DEPLOYED_IMG_ROOT exists
+				if (IMAGE_CONFIG.FORCE_EXTERNAL_IMAGES) {
+					// Override any existing DEPLOYED_IMG_ROOT setting
+					globalThis.DEPLOYED_IMG_ROOT = IMAGE_CONFIG.EXTERNAL_IMG_BASE + "img/";
+				}
+				
 				// Set the base media URL for images to point to 5e.tools
 				Renderer.get().setBaseMediaUrl("img", IMAGE_CONFIG.EXTERNAL_IMG_BASE + "img/");
 				
@@ -39,7 +48,7 @@
 				console.log("✓ Test image URL:", testUrl);
 				
 				// Mark as successfully configured
-				window.IMAGE_CONFIG_LOADED = true;
+				globalThis.IMAGE_CONFIG_LOADED = true;
 				
 			} catch (error) {
 				console.error("Failed to configure external images:", error);
@@ -57,7 +66,7 @@
 	function initWithRetry() {
 		initAttempts++;
 		
-		if (window.IMAGE_CONFIG_LOADED) {
+		if (globalThis.IMAGE_CONFIG_LOADED) {
 			console.log("✓ Image config already loaded");
 			return;
 		}
@@ -103,7 +112,7 @@
 	document.addEventListener('toolsLoaded', initWithRetry);
 	
 	// Make config available globally for debugging and manual initialization
-	window.IMAGE_CONFIG = IMAGE_CONFIG;
-	window.initImageConfig = initImageConfig;
-	window.initImageConfigWithRetry = initWithRetry;
+	globalThis.IMAGE_CONFIG = IMAGE_CONFIG;
+	globalThis.initImageConfig = initImageConfig;
+	globalThis.initImageConfigWithRetry = initWithRetry;
 })();

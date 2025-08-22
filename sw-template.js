@@ -247,8 +247,23 @@ class RevisionCacheFirst extends Strategy {
 		const routeRegex = data.payload.routeRegex;
 		/**
 		 * These are the keys which have not been cached yet AND match the regex for routes
+		 * For external images, we'll convert local img/ paths to external URLs
 		 */
-		const routesToCache = validCacheKeys.filter((key) => (isTooManyKeys || !currentCacheKeys.has(key)) && routeRegex.test(key));
+		const routesToCache = validCacheKeys.filter((key) => (isTooManyKeys || !currentCacheKeys.has(key)) && routeRegex.test(key))
+			.map(key => {
+				// Convert local image paths to external 5e.tools URLs
+				if (key.includes('/img/') && !key.includes('5e.tools')) {
+					const cleanUrl = key.replace(/\?__WB_REVISION__=\w+$/m, "");
+					if (cleanUrl.includes(self.location.origin)) {
+						// Replace local origin with 5e.tools for images
+						const relativePath = cleanUrl.replace(self.location.origin + '/', '');
+						if (relativePath.startsWith('img/')) {
+							return `https://5e.tools/${relativePath}`;
+						}
+					}
+				}
+				return key;
+			});
 		console.log(`Found ${routesToCache.length} routes to cache`);
 
 		const fetchTotal = routesToCache.length;
@@ -283,11 +298,23 @@ class RevisionCacheFirst extends Strategy {
 				if (url === undefined || signal.aborted) return;
 
 				// this regex is a very bad idea, but it trims the cache version off the url
-				const cleanUrl = url.replace(/\?__WB_REVISION__=\w+$/m, "");
+				let cleanUrl = url.replace(/\?__WB_REVISION__=\w+$/m, "");
+				
+				// For external URLs (like 5e.tools images), use them directly
+				// For local URLs, keep the original behavior
+				let fetchUrl = cleanUrl;
+				let cacheKey = url;
+				
+				if (cleanUrl.startsWith('https://5e.tools/')) {
+					// External URL - use as-is for fetching
+					fetchUrl = cleanUrl;
+					// But cache with a local-style key for consistency
+					cacheKey = url;
+				}
 
 				// Hack around `failed to execute 'keys' on 'Cache': Operation too large`
 				// (See above)
-				const keysForUrl = isTooManyKeys ? await cache.keys(url) : null;
+				const keysForUrl = isTooManyKeys ? await cache.keys(cacheKey) : null;
 				if (isTooManyKeys && keysForUrl.length) {
 					console.log(`Skipping ${cleanUrl} (too many keys and already in cache)`);
 					fetched++;
@@ -295,9 +322,14 @@ class RevisionCacheFirst extends Strategy {
 					continue;
 				}
 
-				const response = await fetch(cleanUrl, this.constructor._FETCH_OPTIONS_VET);
-				// this await could be omitted to further speed up fetching at risk of failure during error
-				await cache.put(url, response);
+				try {
+					const response = await fetch(fetchUrl, this.constructor._FETCH_OPTIONS_VET);
+					// this await could be omitted to further speed up fetching at risk of failure during error
+					await cache.put(cacheKey, response);
+					console.log(`Cached: ${fetchUrl}`);
+				} catch (error) {
+					console.warn(`Failed to cache ${fetchUrl}:`, error);
+				}
 				fetched++;
 				postProgress({frozenFetched: fetched});
 			}
@@ -357,13 +389,25 @@ registerRoute(({request}) => request.destination === "font", new CacheFirst({
 
 /*
 the base case route - for images that have fallen through every other route
-this is external images, for homebrew as an example
+this includes both external images (from 5e.tools) and homebrew images
 */
 registerRoute(({request}) => request.destination === "image", new NetworkFirst({
 	cacheName: "external-image-cache",
 	plugins: [
 		// this is a safeguard against an utterly massive cache - these numbers may need tweaking
-		new ExpirationPlugin({maxAgeSeconds: 7 /* days */ * 24 * 60 * 60, maxEntries: 100, purgeOnQuotaError: true}),
+		new ExpirationPlugin({maxAgeSeconds: 7 /* days */ * 24 * 60 * 60, maxEntries: 500, purgeOnQuotaError: true}),
+	],
+}));
+
+/*
+Enhanced route for external 5e.tools images specifically
+This gives priority to images from the external 5e.tools domain
+*/
+registerRoute(({request}) => request.url.includes("5e.tools") && request.destination === "image", new CacheFirst({
+	cacheName: "5etools-external-images",
+	plugins: [
+		// Keep 5e.tools images longer since they're more stable
+		new ExpirationPlugin({maxAgeSeconds: 30 /* days */ * 24 * 60 * 60, maxEntries: 1000, purgeOnQuotaError: true}),
 	],
 }));
 

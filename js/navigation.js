@@ -924,12 +924,21 @@ NavBar.InteractionManager = class {
 			return;
 		}
 
-		if (isRequireImages && globalThis.DEPLOYED_IMG_ROOT) {
-			JqueryUtil.doToast({
-				type: "danger",
-				content: `The "${evt.currentTarget.innerText.split("(")[0].trim()}" option is not currently supported on this site version. Try again some other time!`,
+		// Updated logic: external images are now supported and encouraged
+		if (isRequireImages) {
+			const confirmation = await InputUiUtil.pGetUserBoolean({
+				title: "Preload External Images",
+				htmlDescription: `
+					<p>This will preload images from the external 5e.tools CDN.</p>
+					<p><strong>Note:</strong> Images will be cached from <code>https://5e.tools/</code> for offline use.</p>
+					<p>This may take some time and use significant bandwidth and storage.</p>
+					<p>Continue?</p>
+				`,
+				textYes: "Yes, Preload",
+				textNo: "Cancel"
 			});
-			return;
+			
+			if (!confirmation) return;
 		}
 
 		globalThis.swCacheRoutes(route);
