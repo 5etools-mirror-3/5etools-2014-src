@@ -1406,36 +1406,7 @@ class IndexableSpecialPages extends IndexableSpecial {
 	}
 }
 
-class IndexableSpecialCharacters {
-	_catId = Parser.pageCategoryToFull(UrlUtil.PG_CHARACTERS);
-	category = UrlUtil.PG_CHARACTERS;
-	
-	async pGetIndex () {
-		try {
-			// Load characters from the API
-			const response = await fetch('/api/characters/load');
-			if (!response.ok) {
-				console.warn('Failed to load characters for search indexing');
-				return [];
-			}
-			const characters = await response.json();
-			
-			return characters.map(character => ({
-				c: this._catId,
-				n: character.name,
-				s: character.source || "Unknown",
-				u: UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CHARACTERS](character),
-				p: character.page || 0,
-				h: 1, // Enable hover
-			}));
-		} catch (error) {
-			console.error('Error indexing characters for search:', error);
-			return [];
-		}
-	}
-}
-
 Omnidexer.TO_INDEX__SPECIAL = [
 	new IndexableSpecialPages(),
-	new IndexableSpecialCharacters(),
+	// Characters are indexed dynamically at runtime, not during build
 ];

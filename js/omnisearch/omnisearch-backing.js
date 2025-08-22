@@ -34,6 +34,9 @@ export class OmnisearchBacking {
 		const brewIndex = await BrewUtil2.pGetSearchIndex({id: this._maxId + 1});
 		brewIndex.forEach(it => this._addToIndex(it));
 
+		// Load dynamic character data from API
+		await this._pLoadCharacterIndex();
+
 		// region Partnered homebrew
 		//   Note that we filter out anything which is already in the user's homebrew, to avoid double-indexing
 		const sourcesBrew = new Set(
@@ -60,6 +63,34 @@ export class OmnisearchBacking {
 		});
 
 		this._initReInCategory();
+	}
+
+	static async _pLoadCharacterIndex () {
+		try {
+			// Load characters from the API
+			const response = await fetch('/api/characters/load');
+			if (!response.ok) {
+				console.warn('Failed to load characters for search indexing');
+				return;
+			}
+			const characters = await response.json();
+			
+			// Convert characters to search index format
+			const characterIndex = characters.map((character, i) => ({
+				id: this._maxId + 1 + i,
+				c: Parser.pageCategoryToFull(UrlUtil.PG_CHARACTERS),
+				n: character.name,
+				s: character.source || "Unknown",
+				u: UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CHARACTERS](character),
+				p: character.page || 0,
+				h: 1, // Enable hover
+			}));
+			
+			characterIndex.forEach(it => this._addToIndex(it));
+			console.log(`Added ${characterIndex.length} characters to search index`);
+		} catch (error) {
+			console.warn('Error loading characters for search:', error);
+		}
 	}
 
 	static _maxId = null;

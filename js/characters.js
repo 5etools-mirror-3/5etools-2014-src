@@ -81,7 +81,7 @@ class CharactersPage extends ListPageMultiSource {
 
 			dataProps: ["character"],
 
-			propLoader: "character",
+			propLoader: "character", // Required by ListPageMultiSource, but we override loading
 
 			pFnGetFluff: Renderer.character.pGetFluff.bind(Renderer.character),
 
@@ -97,6 +97,14 @@ class CharactersPage extends ListPageMultiSource {
 		// Characters are loaded from blob storage in _pOnLoad_pPreDataLoad
 		// No need to load from static files
 		return [];
+	}
+
+	// Override source loading since all characters come from API
+	async _pLoadSource (src, nextFilterVal) {
+		// Characters don't use traditional source loading
+		// All characters are loaded from API regardless of source
+		console.log(`Character source loading skipped for ${src} - using API data`);
+		return;
 	}
 
 	getListItem (character, chI, isExcluded) {
@@ -163,48 +171,18 @@ class CharactersPage extends ListPageMultiSource {
 		try {
 			console.log('Loading character data from Vercel Blob storage...');
 			
-			// First get the list of characters from blob storage
-			const listResponse = await fetch('/api/characters/list');
-			if (!listResponse.ok) {
-				throw new Error('Failed to fetch character list');
+			// Load all characters from the API
+			const response = await fetch('/api/characters/load');
+			if (!response.ok) {
+				throw new Error('Failed to fetch characters from API');
 			}
 			
-			const listData = await listResponse.json();
-			if (!listData.success) {
-				throw new Error(listData.error || 'Failed to get character list');
-			}
-
-			// Load each character's data
-			const characterDataPromises = listData.characters.map(async (charInfo) => {
-				try {
-					const loadResponse = await fetch(`/api/characters/load?url=${encodeURIComponent(charInfo.url)}`);
-					if (!loadResponse.ok) {
-						console.warn(`Failed to load character: ${charInfo.filename}`);
-						return null;
-					}
-					
-					const loadData = await loadResponse.json();
-					if (loadData.success && loadData.character) {
-						// Extract character from the wrapper format
-						if (loadData.character.character && Array.isArray(loadData.character.character)) {
-							return loadData.character.character[0]; // Return the actual character data
-						}
-						return loadData.character;
-					}
-					return null;
-				} catch (e) {
-					console.warn(`Error loading character ${charInfo.filename}:`, e);
-					return null;
-				}
-			});
-
-			const characterResults = await Promise.all(characterDataPromises);
-			const validCharacters = characterResults.filter(char => char);
+			const characters = await response.json();
 			
-			if (validCharacters.length > 0) {
+			if (characters && characters.length > 0) {
 				// Convert to expected 5etools format
 				const formattedData = {
-					character: validCharacters
+					character: characters
 				};
 				
 				// Process each character to ensure it has the required computed fields

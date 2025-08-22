@@ -6948,16 +6948,15 @@ globalThis.DataUtil = class {
 		}
 	};
 
-	static character = class extends _DataUtilPropConfigMultiSource {
+	static character = class {
 		static _PAGE = UrlUtil.PG_CHARACTERS || "characters";
-		static _DIR = "character";
 		static _PROP = "character";
 
 		static _psLoadJson = {};
 
 		static async loadJSON () {
 			const cacheKey = "site";
-			DataUtil.character._psLoadJson[cacheKey] ||= (async () => {
+			this._psLoadJson[cacheKey] ||= (async () => {
 				// Load characters from blob storage API instead of files
 				try {
 					const response = await fetch('/api/characters/load');
@@ -6974,18 +6973,34 @@ globalThis.DataUtil = class {
 					return {character: []};
 				}
 			})();
-			return DataUtil.character._psLoadJson[cacheKey];
+			return this._psLoadJson[cacheKey];
+		}
+
+		// Override methods that would try to load from files
+		static async pLoadIndex () {
+			console.warn('Character index loading disabled - characters are loaded from API');
+			return {};
+		}
+
+		static async pLoadAll () {
+			const json = await this.loadJSON();
+			return json[this._PROP] || [];
+		}
+
+		static async pLoadSingleSource (source) {
+			console.warn('Single source loading not supported for characters');
+			return {character: []};
 		}
 
 		static async loadPrerelease () {
 			const cacheKey = "prerelease";
-			this._psLoadJson[cacheKey] ||= DataUtil.character._loadPrereleaseBrew({brewUtil: typeof PrereleaseUtil !== "undefined" ? PrereleaseUtil : null});
+			this._psLoadJson[cacheKey] ||= this._loadPrereleaseBrew({brewUtil: typeof PrereleaseUtil !== "undefined" ? PrereleaseUtil : null});
 			return this._psLoadJson[cacheKey];
 		}
 
 		static async loadBrew () {
 			const cacheKey = "brew";
-			this._psLoadJson[cacheKey] ||= DataUtil.character._loadPrereleaseBrew({brewUtil: typeof BrewUtil2 !== "undefined" ? BrewUtil2 : null});
+			this._psLoadJson[cacheKey] ||= this._loadPrereleaseBrew({brewUtil: typeof BrewUtil2 !== "undefined" ? BrewUtil2 : null});
 			return this._psLoadJson[cacheKey];
 		}
 

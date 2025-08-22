@@ -1,3 +1,5 @@
+import { list } from '@vercel/blob';
+
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -17,10 +19,6 @@ export default async function handler(req, res) {
   try {
     const { url } = req.query;
 
-    if (!url) {
-      return res.status(400).json({ error: 'Character blob URL is required' });
-    }
-
     if (!process.env.BLOB_READ_WRITE_TOKEN) {
       return res.status(500).json({ 
         error: 'BLOB_READ_WRITE_TOKEN not configured',
@@ -28,7 +26,38 @@ export default async function handler(req, res) {
       });
     }
 
-    // Load character from blob URL
+    // If no URL provided, return all characters
+    if (!url) {
+      const { blobs } = await list({
+        prefix: 'characters/',
+        limit: 1000,
+        token: process.env.BLOB_READ_WRITE_TOKEN
+      });
+
+      const characterPromises = blobs
+        .filter(blob => blob.pathname.endsWith('.json'))
+        .map(async (blob) => {
+          try {
+            const response = await fetch(blob.url);
+            if (!response.ok) return null;
+            const characterData = await response.json();
+            // Extract character from wrapper if needed
+            if (characterData.character && Array.isArray(characterData.character)) {
+              return characterData.character[0];
+            }
+            return characterData;
+          } catch (e) {
+            console.warn(`Failed to load character from ${blob.pathname}:`, e);
+            return null;
+          }
+        });
+
+      const characters = (await Promise.all(characterPromises)).filter(Boolean);
+
+      return res.status(200).json(characters);
+    }
+
+    // Load specific character from blob URL
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Failed to fetch character from URL: ${response.statusText}`);
