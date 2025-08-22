@@ -199,7 +199,15 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 		// Load available characters
 		const loadCharacters = async () => {
 			try {
-				const response = await fetch('/api/characters/load');
+				// Add cache-busting timestamp to prevent stale data
+				const cacheBuster = Date.now();
+				const response = await fetch(`/api/characters/load?_t=${cacheBuster}`, {
+					cache: 'no-cache',
+					headers: {
+						'Cache-Control': 'no-cache, no-store, must-revalidate',
+						'Pragma': 'no-cache'
+					}
+				});
 				if (response.ok) {
 					const characters = await response.json();
 					$selCharacter.empty().append(`<option value="">Select a character...</option>`);
@@ -221,7 +229,15 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 			}
 			
 			try {
-				const response = await fetch('/api/characters/load');
+				// Add cache-busting timestamp to prevent stale data
+				const cacheBuster = Date.now();
+				const response = await fetch(`/api/characters/load?_t=${cacheBuster}`, {
+					cache: 'no-cache',
+					headers: {
+						'Cache-Control': 'no-cache, no-store, must-revalidate',
+						'Pragma': 'no-cache'
+					}
+				});
 				if (response.ok) {
 					const characters = await response.json();
 					const character = characters.find(c => c.name === characterName);

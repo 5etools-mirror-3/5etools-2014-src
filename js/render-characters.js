@@ -2,7 +2,20 @@
 
 export class RenderCharacters {
 	/**
-	 * Calculate total character level from class levels
+	 * Calculate total		const renderer = Renderer.get();
+		const characterId = character.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+		
+		return $$`<tr>
+			<th class="ve-tbl-border" colspan="6"></th>
+		</tr>
+		<tr id="character-${characterId}">
+			<th class="stats-name" colspan="6">
+				<div class="stats-name-page">
+					<span class="stats-name">${character.name}</span>
+					<span class="stats-source source${character.source}" title="${Parser.sourceJsonToFull(character.source)}">${Parser.sourceJsonToAbv(character.source)}</span>
+				</div>
+			</th>
+		</tr>vel from class levels
 	 * @param {Object} character - The character data object
 	 * @returns {number} Total level
 	 */

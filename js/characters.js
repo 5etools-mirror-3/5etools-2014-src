@@ -172,8 +172,15 @@ class CharactersPage extends ListPageMultiSource {
 		try {
 			console.log('Loading character data from Vercel Blob storage...');
 
-			// Load all characters from the API
-			const response = await fetch('/api/characters/load');
+			// Load all characters from the API with cache-busting
+			const cacheBuster = Date.now();
+			const response = await fetch(`/api/characters/load?_t=${cacheBuster}`, {
+				cache: 'no-cache',
+				headers: {
+					'Cache-Control': 'no-cache, no-store, must-revalidate',
+					'Pragma': 'no-cache'
+				}
+			});
 			if (!response.ok) {
 				throw new Error('Failed to fetch characters from API');
 			}

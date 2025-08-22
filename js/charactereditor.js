@@ -366,6 +366,9 @@ class CharacterEditorPage {
 			currentCharacterData = updatedCharacter;
 			localStorage.setItem('editingCharacter', JSON.stringify(updatedCharacter));
 
+			// Clear any cached character data to ensure fresh loads
+			this.clearCharacterCache();
+
 			// Ask if user wants to view the character on the characters page
 			setTimeout(() => {
 				if (confirm('Character updated successfully! Would you like to view it on the characters page?')) {
@@ -411,6 +414,9 @@ class CharacterEditorPage {
 			currentCharacterData = characterData;
 			isEditMode = true;
 			localStorage.setItem('editingCharacter', JSON.stringify(characterData));
+
+			// Clear any cached character data to ensure fresh loads
+			this.clearCharacterCache();
 
 			// Update URL to reflect edit mode
 			const newUrl = new URL(window.location.href);
@@ -682,6 +688,21 @@ class CharacterEditorPage {
 		// Generate an anchor that will scroll to the character row in the characters table
 		const characterId = this.generateCharacterId(characterName);
 		return `#character-${characterId}`;
+	}
+
+	clearCharacterCache() {
+		// Set a timestamp to indicate when character data was last updated
+		localStorage.setItem('characterDataLastUpdated', Date.now().toString());
+		
+		// Clear any application-level character cache that might exist
+		if (window.characterCache) {
+			window.characterCache = null;
+		}
+		
+		// Trigger a custom event that other parts of the app can listen to
+		window.dispatchEvent(new CustomEvent('characterDataUpdated', {
+			detail: { timestamp: Date.now() }
+		}));
 	}
 }
 

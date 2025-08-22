@@ -6,6 +6,11 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version');
+  
+  // Prevent caching of character data API responses
+  res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
+  res.setHeader('Expires', '0');
 
   if (req.method === 'OPTIONS') {
     res.status(200).end();
@@ -38,7 +43,15 @@ export default async function handler(req, res) {
         .filter(blob => blob.pathname.endsWith('.json'))
         .map(async (blob) => {
           try {
-            const response = await fetch(blob.url);
+            // Add cache-busting to prevent stale data
+            const response = await fetch(blob.url, {
+              cache: 'no-cache',
+              headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache',
+                'Expires': '0'
+              }
+            });
             if (!response.ok) return null;
             const characterData = await response.json();
             // Extract character from wrapper if needed
@@ -58,7 +71,14 @@ export default async function handler(req, res) {
     }
 
     // Load specific character from blob URL
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      cache: 'no-cache',
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
     if (!response.ok) {
       throw new Error(`Failed to fetch character from URL: ${response.statusText}`);
     }
