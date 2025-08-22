@@ -8664,8 +8664,11 @@ Renderer.character = class {
 						const skillName = isProficient ? `${skill.name} (Proficient)` : skill.name;
 						const rollableModifier = `{@dice 1d20${finalStr}|${finalStr}|${skillName}}`;
 
+						// Display skill name with proficiency indicator
+						const displayName = isProficient ? `<strong>${skill.name}</strong> ●` : skill.name;
+
 						return [
-							skill.name,
+							displayName,
 							skill.ability.toUpperCase(),
 							rollableModifier
 						];
