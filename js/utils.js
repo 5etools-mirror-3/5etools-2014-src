@@ -4949,10 +4949,10 @@ globalThis.DataUtil = class {
 		"subclassFluff": "class",
 		"classFeature": "class",
 		"subclassFeature": "class",
-		"character": "character",
+		// "character": "character", // Removed - now using Vercel Blob storage
 	};
 	static _MULTI_SOURCE_PROP_TO_INDEX_NAME = {
-		"character": "index.json",
+		// "character": "index.json", // Removed - now using Vercel Blob storage
 		"class": "index.json",
 		"subclass": "index.json",
 		"classFeature": "index.json",
@@ -6958,9 +6958,21 @@ globalThis.DataUtil = class {
 		static async loadJSON () {
 			const cacheKey = "site";
 			DataUtil.character._psLoadJson[cacheKey] ||= (async () => {
-				const data = await super.loadJSON();
-				(data.character || []).forEach(it => it.__prop = "character");
-				return data;
+				// Load characters from blob storage API instead of files
+				try {
+					const response = await fetch('/api/characters/load');
+					if (!response.ok) {
+						console.warn('Failed to load characters from API, returning empty array');
+						return {character: []};
+					}
+					const characters = await response.json();
+					// Ensure each character has the __prop set
+					characters.forEach(it => it.__prop = "character");
+					return {character: characters};
+				} catch (error) {
+					console.error('Error loading characters from API:', error);
+					return {character: []};
+				}
 			})();
 			return DataUtil.character._psLoadJson[cacheKey];
 		}

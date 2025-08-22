@@ -27,6 +27,13 @@ class CharactersSublistManager extends SublistManager {
 		];
 	}
 
+	static _getRowCellsHtml ({values, templates = null}) {
+		templates = templates || this._getRowTemplate();
+		return values
+			.map((val, i) => SublistCell.renderHtml({templates, cell: val, ix: i}))
+			.join("");
+	}
+
 	pGetSublistItem (character, hash) {
 		const cellsText = [
 			character.name,
@@ -37,7 +44,7 @@ class CharactersSublistManager extends SublistManager {
 
 		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
 				<a href="#${UrlUtil.autoEncodeHash(character)}" class="lst__row-border lst__row-inner">
-					${this.constructor._getRowCellsHtml({values: cellsText})}
+					${CharactersSublistManager._getRowCellsHtml({values: cellsText})}
 				</a>
 			</div>
 		`)
@@ -85,6 +92,13 @@ class CharactersPage extends ListPageMultiSource {
 		});
 	}
 
+	// Override the default multi-source loading to use our blob storage instead
+	async _pLoadAllSources () {
+		// Characters are loaded from blob storage in _pOnLoad_pPreDataLoad
+		// No need to load from static files
+		return [];
+	}
+
 	getListItem (character, chI, isExcluded) {
 		this._pageFilter.mutateAndAddToFilters(character, isExcluded);
 
@@ -129,12 +143,12 @@ class CharactersPage extends ListPageMultiSource {
 		// Ensure Example source is loaded for hover/popout functionality
 		await this._pLoadSource("Example", "yes");
 		
-		// Try to load character data from database API first
+		// Load character data from Vercel Blob storage
 		const databaseLoaded = await this._pLoadCharacterDataFromDatabase();
 		
-		// If database loading failed, the normal file loading will proceed
 		if (!databaseLoaded) {
-			console.log('Database loading failed, proceeding with normal file loading');
+			console.log('No characters found in blob storage - this is normal for a fresh installation');
+			// Don't fall back to old file loading - characters now only come from blob storage
 		}
 		
 		// Preload spell data so spell links work in character sheets
@@ -210,9 +224,31 @@ class CharactersPage extends ListPageMultiSource {
 			}
 		} catch (e) {
 			console.warn('Failed to load character data from blob storage:', e.message);
-			console.log('Falling back to static file loading');
 			return false;
 		}
+	}
+
+	// Set up periodic refresh of character data
+	_setupDatabaseRefresh() {
+		// Refresh character data every 5 minutes to catch updates
+		if (this._refreshInterval) {
+			clearInterval(this._refreshInterval);
+		}
+		
+		this._refreshInterval = setInterval(async () => {
+			console.log('Refreshing character data from blob storage...');
+			try {
+				const refreshed = await this._pLoadCharacterDataFromDatabase();
+				if (refreshed) {
+					// Re-render the list with fresh data
+					if (this._list) {
+						this._list.update();
+					}
+				}
+			} catch (e) {
+				console.warn('Failed to refresh character data:', e);
+			}
+		}, 5 * 60 * 1000); // 5 minutes
 	}
 
 	_processCharacterForDisplay(character) {
@@ -226,33 +262,6 @@ class CharactersPage extends ListPageMultiSource {
 		if (character.background) {
 			character._fBackground = character.background.name;
 		}
-	}
-
-	_setupDatabaseRefresh() {
-		// Set up periodic refresh of character data from database
-		setInterval(async () => {
-			try {
-				const response = await fetch('/api/characters');
-				if (response.ok) {
-					const characterData = await response.json();
-					const formattedData = {
-						character: Array.isArray(characterData) ? characterData : characterData.characters || []
-					};
-					
-					// Process characters
-					formattedData.character.forEach(char => this._processCharacterForDisplay(char));
-					
-					// Update the list if data has changed
-					const currentCount = this._dataList?.length || 0;
-					if (formattedData.character.length !== currentCount) {
-						this._addData(formattedData);
-						console.log('Character data refreshed from database');
-					}
-				}
-			} catch (e) {
-				console.debug('Database refresh failed (normal if database unavailable):', e.message);
-			}
-		}, 30000); // Refresh every 30 seconds
 	}
 
 	async loadCharacterById(characterId) {
@@ -287,16 +296,9 @@ class CharactersPage extends ListPageMultiSource {
 	}
 
 	_renderStats_doBuildStatsTab ({ent}) {
-		// Use the custom character renderer with dice rolling and reordered layout
-		let renderedContent;
-		if (typeof Renderer.characterCustom?.getCompactRenderedString === 'function') {
-			// Use custom character renderer with dice rolling and reordered layout
-			renderedContent = Renderer.characterCustom.getCompactRenderedString(ent);
-		} else {
-			// Fallback to hover renderer
-			const fn = Renderer.hover.getFnRenderCompact(UrlUtil.PG_CHARACTERS);
-			renderedContent = fn(ent);
-		}
+		// Use the hover renderer for character display
+		const fn = Renderer.hover.getFnRenderCompact(UrlUtil.PG_CHARACTERS);
+		const renderedContent = fn(ent);
 		
 		// Clear and populate the existing table directly
 		this._$pgContent.empty().html(`
@@ -319,39 +321,6 @@ class CharactersPage extends ListPageMultiSource {
 
 	async _pGetFluff (character) {
 		return character.fluff || null;
-	}
-
-	async _$pGetWrpControls ({$wrpContent}) {
-		const out = await super._$pGetWrpControls({$wrpContent});
-		const {$wrpPrint} = out;
-
-		// region Markdown
-		const pGetAsMarkdown = async () => {
-			const toRender = this._bookViewToShow?.length ? this._bookViewToShow : [this._fnGetEntLastLoaded()];
-			if (!Array.isArray(toRender)) return RendererMarkdown.character.pGetMarkdownDoc(toRender);
-			return toRender.map(character => RendererMarkdown.character.pGetMarkdownDoc(character)).join('\n\n---\n\n');
-		};
-
-		const $btnDownloadMarkdown = $(`<button class="ve-btn ve-btn-default ve-btn-sm">Download as Markdown</button>`)
-			.click(async () => DataUtil.userDownloadText("characters.md", await pGetAsMarkdown()));
-
-		const $btnCopyMarkdown = $(`<button class="ve-btn ve-btn-default ve-btn-sm px-2" title="Copy Markdown to Clipboard"><span class="glyphicon glyphicon-copy"></span></button>`)
-			.click(async () => {
-				await MiscUtil.pCopyTextToClipboard(await pGetAsMarkdown());
-				JqueryUtil.showCopiedEffect($btnCopyMarkdown);
-			});
-
-		const $btnDownloadMarkdownSettings = $(`<button class="ve-btn ve-btn-default ve-btn-sm px-2" title="Markdown Settings"><span class="glyphicon glyphicon-cog"></span></button>`)
-			.click(async () => RendererMarkdown.pShowSettingsModal());
-
-		$$`<div class="ve-flex-v-center ve-btn-group ml-2">
-			${$btnDownloadMarkdown}
-			${$btnCopyMarkdown}
-			${$btnDownloadMarkdownSettings}
-		</div>`.appendTo($wrpPrint);
-		// endregion
-
-		return out;
 	}
 
 	async _pPreloadSublistSources (json) {
@@ -393,21 +362,8 @@ window.addEventListener("load", () => {
 	// Initialize Edit Character button
 	$("#btn-edit-character").click(async () => {
 		if (charactersPage._currentCharacter) {
-			// Store character data for editor (Vercel serverless approach)
+			// Store character data for editor
 			localStorage.setItem('editingCharacter', JSON.stringify(charactersPage._currentCharacter));
-			
-			// Optional: Try to get load instructions from API 
-			try {
-				const response = await fetch(`/api/characters/load?source=${encodeURIComponent(charactersPage._currentCharacter.source || 'custom')}`);
-				
-				if (response.ok) {
-					const result = await response.json();
-					console.log('Character load API response:', result);
-					// The API provides instructions but doesn't actually return data in Vercel serverless
-				}
-			} catch (error) {
-				console.log('API load failed, using cached data:', error.message);
-			}
 			
 			// Navigate to character editor (data already stored in localStorage above)
 			window.location.href = 'charactereditor.html?edit=true';
