@@ -1037,11 +1037,39 @@ class _DataTypeLoaderRaceFeature extends _DataTypeLoaderPredefined {
 	_loadBrewArgs = {isAddBaseRaces: true};
 }
 
-class _DataTypeLoaderCharacter extends _DataTypeLoaderPredefined {
+class _DataTypeLoaderCharacter extends _DataTypeLoader {
 	static PROPS = ["character"];
 	static PAGE = UrlUtil.PG_CHARACTERS;
 
-	_loader = "character";
+	_getSiteIdent ({pageClean, sourceClean}) { return "character"; }
+
+	async _pGetSiteData ({pageClean, sourceClean}) {
+		// Load characters from API instead of static files
+		try {
+			const response = await fetch('/api/characters/load');
+			if (!response.ok) {
+				console.warn('Failed to load characters from API for DataLoader');
+				return {character: []};
+			}
+			const characters = await response.json();
+			// Ensure each character has the __prop set
+			characters.forEach(it => it.__prop = "character");
+			return {character: characters};
+		} catch (error) {
+			console.error('Error loading characters from API for DataLoader:', error);
+			return {character: []};
+		}
+	}
+
+	async _pGetStoredPrereleaseData () {
+		// No prerelease characters
+		return null;
+	}
+
+	async _pGetStoredBrewData () {
+		// No brew characters - they're all custom and loaded from API
+		return null;
+	}
 }
 
 class _DataTypeLoaderDeity extends _DataTypeLoaderPredefined {

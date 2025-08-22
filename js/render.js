@@ -8554,6 +8554,14 @@ Renderer.character = class {
 			combatStats.push(`<strong>Speed</strong> ${speeds.join(', ')}`);
 		}
 
+		// Add Initiative with dice rolling
+		const dexScore = character.dex || 10;
+		const dexMod = Parser.getAbilityModifier(dexScore);
+		const dexModValue = typeof dexMod === 'number' ? dexMod : parseInt(dexMod) || 0;
+		const initMod = character.initiative || dexModValue;
+		const initStr = initMod >= 0 ? `+${initMod}` : `${initMod}`;
+		combatStats.push(`<strong>Initiative</strong> {@dice 1d20${initStr}|${initStr}|Initiative}`);
+
 		// Calculate and display proficiency bonus
 		let profBonus = character.proficiencyBonus;
 		const characterLevel = Renderer.character._getCharacterLevel(character);
@@ -8573,25 +8581,30 @@ Renderer.character = class {
 		}
 
 
-		// Ability Scores Table
+		// Ability Scores Section
 		const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
-		const abilityTable = {
-			type: "table",
-			caption: "Ability Scores",
-			colLabels: abilities.map(ab => ab.toUpperCase()),
-			rows: [
-				abilities.map(ab => {
-					const score = character[ab] || 10;
-					const modifier = Parser.getAbilityModifier(score);
-					// Create clickable dice roll for ability checks
-					return `${score} ({@dice 1d20${modifier}|${modifier}|Ability Check})`;
-				})
+		const abilitySection = {
+			type: "entries",
+			name: "Ability Scores",
+			entries: [
+				{
+					type: "table",
+					colLabels: abilities.map(ab => ab.toUpperCase()),
+					rows: [
+						abilities.map(ab => {
+							const score = character[ab] || 10;
+							const modifier = Parser.getAbilityModifier(score);
+							// Create clickable dice roll for ability checks
+							return `${score} ({@dice 1d20${modifier}|${modifier}|Ability Check})`;
+						})
+					]
+				}
 			]
 		};
-		renderer.recursiveRender(abilityTable, renderStack, {depth: 1});
+		renderer.recursiveRender(abilitySection, renderStack, {depth: 1});
 
 
-		// Skills Table (show all skills, highlight proficient ones)
+		// Skills Section (show all skills, highlight proficient ones)
 		const allSkills = [
 			{key: 'acrobatics', name: 'Acrobatics', ability: 'dex'},
 			{key: 'animalHandling', name: 'Animal Handling', ability: 'wis'},
@@ -8613,71 +8626,81 @@ Renderer.character = class {
 			{key: 'survival', name: 'Survival', ability: 'wis'}
 		];
 
-		const skillsTable = {
-			type: "table",
-			caption: "Skills",
-			colLabels: ["Skill", "Ability", "Modifier"],
-			rows: allSkills.map(skill => {
-				const abilityScore = character[skill.ability] || 10;
-				const baseModifier = Parser.getAbilityModifier(abilityScore);
-				const baseModValue = typeof baseModifier === 'number' ? baseModifier : parseInt(baseModifier) || 0;
+		const skillsSection = {
+			type: "entries",
+			name: "Skills",
+			entries: [
+				{
+					type: "table",
+					colLabels: ["Skill", "Ability", "Modifier"],
+					rows: allSkills.map(skill => {
+						const abilityScore = character[skill.ability] || 10;
+						const baseModifier = Parser.getAbilityModifier(abilityScore);
+						const baseModValue = typeof baseModifier === 'number' ? baseModifier : parseInt(baseModifier) || 0;
 
-				// Check if character has proficiency in this skill
-				const skillBonus = character.skill?.[skill.key] || character.skill?.[skill.name.toLowerCase().replace(/\s+/g, '')];
+						// Check if character has proficiency in this skill
+						const skillBonus = character.skill?.[skill.key] || character.skill?.[skill.name.toLowerCase().replace(/\s+/g, '')];
 
-				let finalModifier = baseModValue;
-				let isProficient = false;
+						let finalModifier = baseModValue;
+						let isProficient = false;
 
-				if (skillBonus !== undefined) {
-					finalModifier = typeof skillBonus === 'string' ? parseInt(skillBonus) || baseModValue : skillBonus;
-					isProficient = true;
+						if (skillBonus !== undefined) {
+							finalModifier = typeof skillBonus === 'string' ? parseInt(skillBonus) || baseModValue : skillBonus;
+							isProficient = true;
+						}
+
+						const finalStr = finalModifier >= 0 ? `+${finalModifier}` : `${finalModifier}`;
+						// Create clickable dice roll for skill checks, with proficiency indicator in the roll name
+						const skillName = isProficient ? `${skill.name} (Proficient)` : skill.name;
+						const rollableModifier = `{@dice 1d20${finalStr}|${finalStr}|${skillName}}`;
+
+						return [
+							skill.name,
+							skill.ability.toUpperCase(),
+							rollableModifier
+						];
+					})
 				}
-
-				const finalStr = finalModifier >= 0 ? `+${finalModifier}` : `${finalModifier}`;
-				// Create clickable dice roll for skill checks, with proficiency indicator in the roll name
-				const skillName = isProficient ? `${skill.name} (Proficient)` : skill.name;
-				const rollableModifier = `{@dice 1d20${finalStr}|${finalStr}|${skillName}}`;
-
-				return [
-					skill.name,
-					skill.ability.toUpperCase(),
-					rollableModifier
-				];
-			})
+			]
 		};
-		renderer.recursiveRender(skillsTable, renderStack, {depth: 1});
+		renderer.recursiveRender(skillsSection, renderStack, {depth: 1});
 
-				// Saving Throws Table (show all abilities, highlight proficient ones)
-		const savingThrowsTable = {
-			type: "table",
-			caption: "Saving Throws",
-			colLabels: ["Ability", "Modifier"],
-			rows: abilities.map(ab => {
-				const score = character[ab] || 10;
-				const baseModifier = Parser.getAbilityModifier(score);
-				const baseModValue = typeof baseModifier === 'number' ? baseModifier : parseInt(baseModifier) || 0;
-				const saveBonus = character.save?.[ab];
+				// Saving Throws Section (show all abilities, highlight proficient ones)
+		const savingThrowsSection = {
+			type: "entries",
+			name: "Saving Throws",
+			entries: [
+				{
+					type: "table",
+					colLabels: ["Ability", "Modifier"],
+					rows: abilities.map(ab => {
+						const score = character[ab] || 10;
+						const baseModifier = Parser.getAbilityModifier(score);
+						const baseModValue = typeof baseModifier === 'number' ? baseModifier : parseInt(baseModifier) || 0;
+						const saveBonus = character.save?.[ab];
 
-				let finalModifier = baseModValue;
-				let isProficient = false;
+						let finalModifier = baseModValue;
+						let isProficient = false;
 
-				if (saveBonus) {
-					finalModifier = typeof saveBonus === 'string' ? parseInt(saveBonus) || baseModValue : saveBonus;
-					isProficient = true;
+						if (saveBonus) {
+							finalModifier = typeof saveBonus === 'string' ? parseInt(saveBonus) || baseModValue : saveBonus;
+							isProficient = true;
+						}
+
+						const finalStr = finalModifier >= 0 ? `+${finalModifier}` : `${finalModifier}`;
+						// Create clickable dice roll for saving throws, with proficiency indicator in the roll name
+						const saveName = isProficient ? `${Parser.attAbvToFull(ab)} Save (Proficient)` : `${Parser.attAbvToFull(ab)} Save`;
+						const rollableModifier = `{@dice 1d20${finalStr}|${finalStr}|${saveName}}`;
+
+						return [
+							Parser.attAbvToFull(ab),
+							rollableModifier
+						];
+					})
 				}
-
-				const finalStr = finalModifier >= 0 ? `+${finalModifier}` : `${finalModifier}`;
-				// Create clickable dice roll for saving throws, with proficiency indicator in the roll name
-				const saveName = isProficient ? `${Parser.attAbvToFull(ab)} Save (Proficient)` : `${Parser.attAbvToFull(ab)} Save`;
-				const rollableModifier = `{@dice 1d20${finalStr}|${finalStr}|${saveName}}`;
-
-				return [
-					Parser.attAbvToFull(ab),
-					rollableModifier
-				];
-			})
+			]
 		};
-		renderer.recursiveRender(savingThrowsTable, renderStack, {depth: 1});
+		renderer.recursiveRender(savingThrowsSection, renderStack, {depth: 1});
 
 		// Additional Combat Info - Passive Perception inline
 		const additionalCombat = [];
@@ -8692,13 +8715,14 @@ Renderer.character = class {
 		if (additionalCombat.length > 0) {
 			const additionalInfo = {
 				type: "entries",
+				name: "Combat",
 				entries: [`<p>${additionalCombat.join(', ')}</p>`]
 			};
 			renderer.recursiveRender(additionalInfo, renderStack, {depth: 1});
 		}
 
 
-		// Actions - moved higher for better logical flow
+		// Actions - collapsible section
 		if (character.action?.length) {
 			const actionInfo = {
 				type: "entries",
@@ -8717,7 +8741,7 @@ Renderer.character = class {
 			renderer.recursiveRender(actionInfo, renderStack, {depth: 1});
 		}
 
-		// Spellcasting
+		// Spellcasting - collapsible section
 		if (character.spellcasting) {
 			const sc = character.spellcasting;
 			const spellInfo = {
@@ -8776,7 +8800,7 @@ Renderer.character = class {
 			renderer.recursiveRender(spellInfo, renderStack, {depth: 1});
 		}
 
-		// Traits/Features
+		// Traits/Features - collapsible section
 		if (character.trait?.length) {
 			const traitInfo = {
 				type: "entries",
@@ -8797,7 +8821,7 @@ Renderer.character = class {
 
 
 
-		// Equipment from character data (use custom content instead of hardcoded forms)
+		// Equipment from character data - collapsible section
 		if (character.equipment?.length) {
 			const equipInfo = {
 				type: "entries",
@@ -8826,7 +8850,7 @@ Renderer.character = class {
 		const strScore = character.str || 10;
 		const carryingCapacity = strScore * 15;
 
-		// Resources (Hit Dice, Inspiration, etc.)
+		// Resources (Hit Dice, Inspiration, etc.) - collapsible section
 		if (character.resources?.length) {
 			const resourceInfo = {
 				type: "entries",
@@ -8836,7 +8860,7 @@ Renderer.character = class {
 			renderer.recursiveRender(resourceInfo, renderStack, {depth: 1});
 		}
 
-		// Conditions
+		// Conditions - collapsible section
 		if (character.conditions?.length) {
 			const conditionInfo = {
 				type: "entries",
