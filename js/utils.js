@@ -6955,6 +6955,7 @@ globalThis.DataUtil = class {
 		static _psLoadJson = {};
 
 		static async loadJSON () {
+			console.trace('DataUtil.character.loadJSON called from:');
 			const cacheKey = "site";
 			this._psLoadJson[cacheKey] ||= (async () => {
 				// Load characters from blob storage API instead of files

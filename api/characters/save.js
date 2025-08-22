@@ -34,8 +34,8 @@ export default async function handler(req, res) {
       character: [characterData]
     };
 
-    if (saveData.character[0].__fSource) {
-      finalCharacterId += `-${saveData.character[0].__fSource}`;
+    if (saveData.character[0]._fSource) {
+      finalCharacterId += `-${saveData.character[0]._fSource}`;
     }
 
     if (process.env.BLOB_READ_WRITE_TOKEN) {

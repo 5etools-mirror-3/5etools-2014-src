@@ -1201,12 +1201,53 @@ class Panel {
 			meta,
 		);
 		
-		// Ensure character data is loaded for character pages
-		const preloadPromise = page === UrlUtil.PG_CHARACTERS 
-			? DataLoader.pCacheAndGetAllSite(UrlUtil.PG_CHARACTERS) 
-			: Promise.resolve();
+		// Handle character pages differently since they use API-based loading
+		if (page === UrlUtil.PG_CHARACTERS) {
+			return fetch('/api/characters/load')
+				.then(response => {
+					if (!response.ok) {
+						throw new Error(`Failed to load characters: ${response.statusText}`);
+					}
+					return response.json();
+				})
+				.then(characters => {
+					// Find the specific character by hash
+					const character = characters.find(char => 
+						UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CHARACTERS](char) === hash
+					);
+					
+					if (!character) {
+						setTimeout(() => { throw new Error(`Failed to load entity: "${hash}" (${source}) from ${page}`); });
+						return this.doPopulate_Error({message: `Failed to load <code>${hash}</code> from page <code>${page}</code>! (Content does not exist.)`}, title);
+					}
+					
+					const fn = Renderer.hover.getFnRenderCompact(page);
+
+					const $contentInner = $(`<div class="panel-content-wrapper-inner"></div>`);
+					const $contentStats = $(`<table class="w-100 stats"></table>`).appendTo($contentInner);
+					$contentStats.append(fn(character));
+
+					const fnBind = Renderer.hover.getFnBindListenersCompact(page);
+					if (fnBind) fnBind($contentStats);
+
+					this.set$ContentTab(
+						PANEL_TYP_STATS,
+						meta,
+						$contentInner,
+						title,
+						ix,
+					);
+
+					return $contentInner;
+				})
+				.catch(error => {
+					console.error('Error loading character for DM screen:', error);
+					return this.doPopulate_Error({message: `Failed to load character from API: ${error.message}`}, title);
+				});
+		}
 		
-		return preloadPromise.then(() => DataLoader.pCacheAndGet(
+		// For non-character pages, use the existing DataLoader approach
+		return DataLoader.pCacheAndGet(
 			page,
 			source,
 			hash,
@@ -1237,7 +1278,7 @@ class Panel {
 				true,
 				!!title,
 			);
-		}));
+		});
 	}
 
 	_stats_bindCrScaleClickHandler (mon, meta, $contentInner, $contentStats) {

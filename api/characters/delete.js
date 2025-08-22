@@ -25,14 +25,14 @@ export default async function handler(req, res) {
     }
 
     if (!process.env.BLOB_READ_WRITE_TOKEN) {
-      return res.status(500).json({ 
+      return res.status(500).json({
         error: 'BLOB_READ_WRITE_TOKEN not configured',
         note: 'Cannot delete characters without blob storage configuration'
       });
     }
 
     const pathname = `characters/${characterId}.json`;
-    
+
     // Delete the character blob
     await del(pathname, {
       token: process.env.BLOB_READ_WRITE_TOKEN
@@ -46,7 +46,7 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Delete character error:', error);
-    
+
     // Handle case where character doesn't exist
     if (error.message && error.message.includes('not found')) {
       return res.status(404).json({

@@ -1,6 +1,25 @@
 import {OmnisearchState} from "./omnisearch-state.js";
 import {VetoolsConfig} from "../utils-config/utils-config-config.js";
-import {SITE_STYLE__CLASSIC} from "../consts.js";
+import 		const inCategoryAliasShort = {
+			"sp": [Parser.pageCategoryToFull(Parser.CAT_ID_SPELL)],
+			"bg": [Parser.pageCategoryToFull(Parser.CAT_ID_BACKGROUND)],
+			"itm": [Parser.pageCategoryToFull(Parser.CAT_ID_ITEM)],
+			"tbl": [Parser.pageCategoryToFull(Parser.CAT_ID_TABLE)],
+			"bk": [Parser.pageCategoryToFull(Parser.CAT_ID_BOOK)],
+			"adv": [Parser.pageCategoryToFull(Parser.CAT_ID_ADVENTURE)],
+			"ft": [Parser.pageCategoryToFull(Parser.CAT_ID_FEAT)],
+			"con": [Parser.pageCategoryToFull(Parser.CAT_ID_CONDITION)],
+			"veh": [Parser.pageCategoryToFull(Parser.CAT_ID_VEHICLE)],
+			"obj": [Parser.pageCategoryToFull(Parser.CAT_ID_OBJECT)],
+			"god": [Parser.pageCategoryToFull(Parser.CAT_ID_DEITY)],
+			"rcp": [Parser.pageCategoryToFull(Parser.CAT_ID_RECIPES)], // :^)
+			"char": [Parser.pageCategoryToFull(Parser.CAT_ID_CHARACTER)],
+
+			"cf": inCategoryAlias["classFeature"],
+			"scf": inCategoryAlias["subclassFeature"],
+			"mon": inCategoryAlias["monster"],
+			"opf": inCategoryAlias["optfeature"],
+		};C} from "../consts.js";
 import {SyntaxMetaCategories, SyntaxMetaGroup, SyntaxMetaPageRange, SyntaxMetaSource} from "./omnisearch-models.js";
 
 export class OmnisearchBacking {
@@ -33,6 +52,12 @@ export class OmnisearchBacking {
 
 		const brewIndex = await BrewUtil2.pGetSearchIndex({id: this._maxId + 1});
 		brewIndex.forEach(it => this._addToIndex(it));
+
+		// Load dynamic character data from API
+		await this._pLoadCharacterIndex();
+
+		// Load dynamic character data from API
+		await this._pLoadCharacterIndex();
 
 		// Load dynamic character data from API
 		await this._pLoadCharacterIndex();
@@ -78,7 +103,7 @@ export class OmnisearchBacking {
 			// Convert characters to search index format
 			const characterIndex = characters.map((character, i) => ({
 				id: this._maxId + 1 + i,
-				c: Parser.pageCategoryToFull(UrlUtil.PG_CHARACTERS),
+				c: Parser.CAT_ID_CHARACTER,
 				n: character.name,
 				s: character.source || "Unknown",
 				u: UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CHARACTERS](character),
@@ -113,6 +138,7 @@ export class OmnisearchBacking {
 		const inCategoryAlias = {
 			"creature": [Parser.pageCategoryToFull(Parser.CAT_ID_CREATURE)],
 			"monster": [Parser.pageCategoryToFull(Parser.CAT_ID_CREATURE)],
+			"character": [Parser.pageCategoryToFull(Parser.CAT_ID_CHARACTER)],
 
 			[new Renderer.tag.TagQuickref().tagName]: [Parser.pageCategoryToFull(Parser.CAT_ID_QUICKREF)],
 			[new Renderer.tag.TagRace().tagName]: [Parser.pageCategoryToFull(Parser.CAT_ID_RACE)],
@@ -142,6 +168,7 @@ export class OmnisearchBacking {
 			"obj": [Parser.pageCategoryToFull(Parser.CAT_ID_OBJECT)],
 			"god": [Parser.pageCategoryToFull(Parser.CAT_ID_DEITY)],
 			"rcp": [Parser.pageCategoryToFull(Parser.CAT_ID_RECIPES)], // :^)
+			"char": [Parser.pageCategoryToFull(Parser.CAT_ID_CHARACTER)],
 
 			"cf": inCategoryAlias["classFeature"],
 			"scf": inCategoryAlias["subclassFeature"],
