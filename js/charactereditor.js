@@ -187,6 +187,14 @@ class CharacterEditorPage {
 				this.loadTemplate();
 			}
 		});
+
+		// Delete button with triple confirmation
+		document.getElementById('deleteCharacter').addEventListener('click', () => {
+			this.deleteCharacter();
+		});
+
+		// Update button visibility based on edit mode
+		this.updateButtonVisibility();
 	}
 
 	validateJson() {
@@ -384,9 +392,12 @@ class CharacterEditorPage {
 			localStorage.setItem('editingCharacter', JSON.stringify(characterData));
 
 			// Update URL to reflect edit mode
-			const newUrl = new URL(window.location);
+			const newUrl = new URL(window.location.href);
 			newUrl.searchParams.set('edit', 'true');
 			window.history.replaceState({}, '', newUrl);
+
+			// Update button visibility to show delete button
+			this.updateButtonVisibility();
 
 			return result;
 		} catch (error) {
@@ -541,6 +552,95 @@ class CharacterEditorPage {
 			window.history.replaceState({}, '', newUrl);
 
 			return true; // Don't throw error, allow local-only operation
+		}
+	}
+
+	updateButtonVisibility() {
+		const deleteButton = document.getElementById('deleteCharacter');
+		if (deleteButton) {
+			deleteButton.style.display = isEditMode ? 'inline-block' : 'none';
+		}
+	}
+
+	async deleteCharacter() {
+		// Only allow deletion in edit mode
+		if (!isEditMode || !currentCharacterData) {
+			document.getElementById('message').textContent = 'Can only delete saved characters';
+			document.getElementById('message').style.color = 'red';
+			return;
+		}
+
+		const characterName = currentCharacterData.name || 'Unknown Character';
+
+		// First confirmation
+		if (!confirm(`Are you sure you want to delete "${characterName}"? This action cannot be undone.`)) {
+			return;
+		}
+
+		// Second confirmation
+		if (!confirm(`This will permanently delete "${characterName}". Are you absolutely sure?`)) {
+			return;
+		}
+
+		// Third confirmation - require typing the character name
+		const typedName = prompt(`To confirm deletion, please type the character name exactly: "${characterName}"`);
+		if (typedName !== characterName) {
+			document.getElementById('message').textContent = 'Character name did not match. Deletion cancelled.';
+			document.getElementById('message').style.color = 'orange';
+			return;
+		}
+
+		try {
+			const characterId = this.generateCharacterId(characterName);
+			const response = await fetch('/api/characters/delete', {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					characterId: characterId
+				})
+			});
+
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(error.error || 'Failed to delete character');
+			}
+
+			const result = await response.json();
+			console.log('Character deleted:', result);
+
+			// Clear local state
+			currentCharacterData = null;
+			isEditMode = false;
+			localStorage.removeItem('editingCharacter');
+
+			// Update URL to remove edit mode
+			const newUrl = new URL(window.location.href);
+			newUrl.searchParams.delete('edit');
+			window.history.replaceState({}, '', newUrl);
+
+			// Update button visibility
+			this.updateButtonVisibility();
+
+			// Load template to reset editor
+			this.loadTemplate();
+
+			// Show success message
+			document.getElementById('message').textContent = `Character "${characterName}" deleted successfully`;
+			document.getElementById('message').style.color = 'green';
+
+			// Optionally redirect to characters page after a delay
+			setTimeout(() => {
+				if (confirm('Character deleted. Would you like to go to the characters page?')) {
+					window.location.href = 'characters.html';
+				}
+			}, 2000);
+
+		} catch (error) {
+			console.error('Delete error:', error);
+			document.getElementById('message').textContent = 'Delete Error: ' + error.message;
+			document.getElementById('message').style.color = 'red';
 		}
 	}
 

@@ -11,12 +11,12 @@ class CharactersSublistManager extends SublistManager {
 			}),
 			new SublistCellTemplate({
 				name: "Race",
-				css: "ve-col-3-8 px-1",
+				css: "ve-col-1-2 px-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "Class",
-				css: "ve-col-1-2 px-1 ve-text-center",
+				css: "ve-col-3-8 px-1 ve-text-center",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
@@ -244,10 +244,10 @@ class CharactersPage extends ListPageMultiSource {
 				}
 				return classStr;
 			}).join("/");
-			
+
 			// Also create a simple class list for filtering/search
 			character._fClassSimple = character.class.map(cls => cls.name).join("/");
-			
+
 			// Calculate total level from class levels
 			character._fLevel = character.class.reduce((total, cls) => {
 				return total + (cls.level || 0);
