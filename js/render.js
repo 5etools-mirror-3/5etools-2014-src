@@ -2502,6 +2502,16 @@ globalThis.Renderer = function () {
 		this.recursiveRender(entry, tempStack, {depth});
 		return tempStack.join("");
 	};
+
+	this.renderEntries = function (entries, opts = {}) {
+		if (!Array.isArray(entries)) entries = [entries];
+		const depth = opts.depth || 0;
+		const tempStack = [];
+		entries.forEach(entry => {
+			this.recursiveRender(entry, tempStack, {depth});
+		});
+		return tempStack.join("");
+	};
 };
 
 // Unless otherwise specified, these use `"name"` as their name title prop
