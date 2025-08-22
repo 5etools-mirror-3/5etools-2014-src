@@ -1,4 +1,4 @@
-import { put } from '@vercel/blob';
+import { put, head } from '@vercel/blob';
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -39,17 +39,33 @@ export default async function handler(req, res) {
     }
 
     if (process.env.BLOB_READ_WRITE_TOKEN) {
-
       const pathname = `characters/${finalCharacterId}.json`;
+      
+      // Check if character already exists
+      let characterExists = false;
+      try {
+        await head(pathname, {
+          token: process.env.BLOB_READ_WRITE_TOKEN
+        });
+        characterExists = true;
+      } catch (error) {
+        // Character doesn't exist, which is fine
+        characterExists = false;
+      }
+
       const blob = await put(pathname, JSON.stringify(saveData, null, 2), {
         access: 'public',
         contentType: 'application/json',
+        allowOverwrite: true, // Allow overwriting existing characters
       });
 
       return res.status(200).json({
         success: true,
-        message: isEdit ? 'Character updated successfully' : 'Character saved successfully',
+        message: characterExists 
+          ? 'Character updated successfully' 
+          : 'Character created successfully',
         characterId: finalCharacterId,
+        wasUpdate: characterExists,
         blob: {
           url: blob.url,
           pathname: blob.pathname,
