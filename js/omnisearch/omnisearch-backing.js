@@ -99,7 +99,7 @@ export class OmnisearchBacking {
 				return;
 			}
 			const characters = await response.json();
-			
+
 			// Convert characters to search index format
 			const characterIndex = characters.map((character, i) => ({
 				id: this._maxId + 1 + i,
@@ -110,7 +110,7 @@ export class OmnisearchBacking {
 				p: character.page || 0,
 				h: 1, // Enable hover
 			}));
-			
+
 			characterIndex.forEach(it => this._addToIndex(it));
 			console.log(`Added ${characterIndex.length} characters to search index`);
 		} catch (error) {

@@ -20,7 +20,7 @@ export default async function handler(req, res) {
     const { url } = req.query;
 
     if (!process.env.BLOB_READ_WRITE_TOKEN) {
-      return res.status(500).json({ 
+      return res.status(500).json({
         error: 'BLOB_READ_WRITE_TOKEN not configured',
         note: 'Cannot load characters without blob storage configuration'
       });
@@ -62,7 +62,7 @@ export default async function handler(req, res) {
     if (!response.ok) {
       throw new Error(`Failed to fetch character from URL: ${response.statusText}`);
     }
-    
+
     const characterData = await response.json();
 
     return res.status(200).json({

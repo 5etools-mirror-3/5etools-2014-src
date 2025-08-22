@@ -1,11 +1,13 @@
+import { _ } from "../node_modules/ajv/dist/core";
+
 let editor;
 let currentCharacterData = null;
 let currentCharacterId = null;
 let isEditMode = false;
 
 // API configuration
-const API_BASE_URL = window.location.origin.includes('localhost') 
-  ? 'http://localhost:3000/api' 
+const API_BASE_URL = window.location.origin.includes('localhost')
+  ? 'http://localhost:3000/api'
   : '/api';
 
 class CharacterEditorPage {
@@ -20,14 +22,14 @@ class CharacterEditorPage {
 			PrereleaseUtil.pInit(),
 			BrewUtil2.pInit(),
 		]);
-		
+
 		// Check if we're in edit mode
 		const urlParams = new URLSearchParams(window.location.search);
 		isEditMode = urlParams.get('edit') === 'true';
 
 		// Initialize ACE editor using 5etools utility
 		this.ace = EditorUtil.initEditor("jsoninput", {mode: "ace/mode/json"});
-		
+
 		// Load character data if in edit mode
 		if (isEditMode) {
 			this.loadCharacterForEdit();
@@ -37,7 +39,7 @@ class CharacterEditorPage {
 
 		// Bind button events
 		this.bindEvents();
-		
+
 		// Auto-render on load if we have data
 		setTimeout(() => this.renderCharacter(), 500);
 	}
@@ -46,7 +48,7 @@ class CharacterEditorPage {
 		// First try to get character ID from URL or localStorage
 		const urlParams = new URLSearchParams(window.location.search);
 		const characterId = urlParams.get('id');
-		
+
 		if (characterId) {
 			// Load from API
 			await this.loadCharacterFromAPI(characterId);
@@ -90,7 +92,6 @@ class CharacterEditorPage {
 			name: "New Character",
 			source: "Custom",
 			page: 1,
-			level: 1,
 			race: {
 				name: "Human",
 				source: "PHB"
@@ -141,9 +142,24 @@ class CharacterEditorPage {
 					"You can add detailed background information here.",
 					"Include physical description, personality traits, and character history."
 				]
-			}
+			},
+			_fSource: 'ADD_YOUR_NAME_HERE'
 		};
 		this.ace.setValue(JSON.stringify(template, null, 2), 1);
+	}
+
+	/**
+	 * Calculate total character level from class levels
+	 * @param {Object} characterData - The character data object
+	 * @returns {number} Total level
+	 */
+	static getCharacterLevel(characterData) {
+		if (!characterData || !characterData.class || !Array.isArray(characterData.class)) {
+			return 0;
+		}
+		return characterData.class.reduce((total, cls) => {
+			return total + (cls.level || 0);
+		}, 0);
 	}
 
 	bindEvents() {
@@ -152,7 +168,7 @@ class CharacterEditorPage {
 			this.loadTemplate();
 		});
 
-		// Validate JSON button  
+		// Validate JSON button
 		document.getElementById('validateJson').addEventListener('click', () => {
 			this.validateJson();
 		});
@@ -193,22 +209,22 @@ class CharacterEditorPage {
 		try {
 			const jsonText = this.ace.getValue();
 			const characterData = JSON.parse(jsonText);
-			
+
 			// Process the character data first to add computed fields
 			this._processCharacterData(characterData);
-			
+
 			// Use the existing 5etools character rendering system
 			const fn = Renderer.hover.getFnRenderCompact(UrlUtil.PG_CHARACTERS);
 			const renderedContent = fn(characterData);
-			
+
 			// Clear and populate the output area using the same structure as characters page
 			const $output = $('#pagecontent');
 			$output.empty().append(renderedContent);
-			
+
 			// Bind listeners for dice rolling and other interactions using existing system
 			const fnBind = Renderer.hover.getFnBindListenersCompact(UrlUtil.PG_CHARACTERS);
 			if (fnBind) fnBind(characterData, $output[0]);
-			
+
 			document.getElementById('message').textContent = 'Character rendered successfully';
 			document.getElementById('message').style.color = 'green';
 		} catch (e) {
@@ -225,25 +241,27 @@ class CharacterEditorPage {
 		}
 		if (character.class && Array.isArray(character.class)) {
 			character._fClass = character.class.map(cls => cls.name).join("/");
+			// Calculate total level from class levels
+			character._fLevel = CharacterEditorPage.getCharacterLevel(character);
 		}
 		if (character.background) {
 			character._fBackground = character.background.name;
 		}
-		
+
 		// Ensure we have the standard character structure for rendering
 		// If the character uses the 'entries' format, convert some fields back to standard format
 		if (character.entries && !character.trait && !character.action) {
 			this._convertEntriesFormat(character);
 		}
 	}
-	
+
 	_convertEntriesFormat(character) {
 		// Convert from structured entries format to flat format for compatibility
 		if (!character.entries) return;
-		
+
 		character.trait = character.trait || [];
 		character.action = character.action || [];
-		
+
 		for (const entry of character.entries) {
 			if (entry.name === "Features & Traits" && entry.entries) {
 				for (const trait of entry.entries) {
@@ -279,7 +297,7 @@ class CharacterEditorPage {
 		try {
 			const jsonText = this.ace.getValue();
 			const characterData = JSON.parse(jsonText);
-			
+
 			if (isEditMode && currentCharacterData) {
 				// Update existing character
 				await this.updateCharacterInAPI(characterData);
@@ -300,7 +318,7 @@ class CharacterEditorPage {
 	async updateCharacterInAPI(updatedCharacter) {
 		// Update localStorage for immediate use
 		localStorage.setItem('editingCharacter', JSON.stringify(updatedCharacter));
-		
+
 		try {
 			const response = await fetch('/api/characters/save', {
 				method: 'POST',
@@ -321,16 +339,16 @@ class CharacterEditorPage {
 
 			const result = await response.json();
 			console.log('Character updated:', result);
-			
+
 			// Show instructions to user about manual save
 			if (result.instructions) {
 				this.showSaveInstructions(result);
 			}
-			
+
 			// Update local state
 			currentCharacterData = updatedCharacter;
 			localStorage.setItem('editingCharacter', JSON.stringify(updatedCharacter));
-			
+
 			return result;
 		} catch (error) {
 			throw new Error('Failed to update character: ' + error.message);
@@ -358,22 +376,22 @@ class CharacterEditorPage {
 
 			const result = await response.json();
 			console.log('Character saved:', result);
-			
+
 			// Show instructions to user about manual save
 			if (result.instructions) {
 				this.showSaveInstructions(result);
 			}
-			
+
 			// Update local state for potential future edits
 			currentCharacterData = characterData;
 			isEditMode = true;
 			localStorage.setItem('editingCharacter', JSON.stringify(characterData));
-			
+
 			// Update URL to reflect edit mode
 			const newUrl = new URL(window.location);
 			newUrl.searchParams.set('edit', 'true');
 			window.history.replaceState({}, '', newUrl);
-			
+
 			return result;
 		} catch (error) {
 			throw new Error('Failed to save character: ' + error.message);
@@ -404,7 +422,7 @@ class CharacterEditorPage {
 		if (typeof DataLoader !== 'undefined' && DataLoader._pCache_addEntityToCache) {
 			// Process the character data to match the expected format
 			this._processCharacterData(updatedCharacter);
-			
+
 			// Add/update the character in the cache
 			const hashBuilder = UrlUtil.URL_TO_HASH_BUILDER['character'];
 			if (hashBuilder) {
@@ -459,7 +477,7 @@ class CharacterEditorPage {
 						timestamp: Date.now()
 					}
 				};
-				
+
 				navigator.serviceWorker.controller.postMessage(message);
 				console.log('Notified service worker about character update');
 			}
@@ -473,7 +491,7 @@ class CharacterEditorPage {
 			// Generate a unique ID for new character
 			const characterId = this.generateCharacterId(characterData.name);
 			const apiUrl = '/api/characters';
-			
+
 			// Prepare character data for database
 			const characterPayload = {
 				...characterData,
@@ -481,7 +499,7 @@ class CharacterEditorPage {
 				created: new Date().toISOString(),
 				lastModified: new Date().toISOString()
 			};
-			
+
 			// Make POST request to create new character
 			const response = await fetch(apiUrl, {
 				method: 'POST',
@@ -491,41 +509,41 @@ class CharacterEditorPage {
 				body: JSON.stringify(characterPayload),
 				timeout: 10000 // 10 second timeout
 			});
-			
+
 			if (!response.ok) {
 				throw new Error(`HTTP ${response.status}: ${response.statusText}`);
 			}
-			
+
 			const result = await response.json();
 			console.log('Character created successfully:', result);
-			
+
 			// Update current character data with the returned ID
 			currentCharacterData = result;
 			isEditMode = true;
-			
+
 			// Update URL to reflect edit mode
 			const newUrl = new URL(window.location);
 			newUrl.searchParams.set('edit', 'true');
 			window.history.replaceState({}, '', newUrl);
-			
+
 			return true;
 		} catch (e) {
 			console.error('Failed to create character in database:', e);
-			
+
 			// If database save fails, fall back to local storage only
 			console.warn('Database save failed, storing locally only');
 			document.getElementById('message').textContent = 'Saved locally (database unavailable)';
 			document.getElementById('message').style.color = 'orange';
-			
+
 			// Update current character data for local editing
 			currentCharacterData = characterPayload;
 			isEditMode = true;
-			
+
 			// Update URL to reflect edit mode
 			const newUrl = new URL(window.location);
 			newUrl.searchParams.set('edit', 'true');
 			window.history.replaceState({}, '', newUrl);
-			
+
 			return true; // Don't throw error, allow local-only operation
 		}
 	}
