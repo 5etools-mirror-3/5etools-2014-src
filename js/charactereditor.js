@@ -366,6 +366,14 @@ class CharacterEditorPage {
 			currentCharacterData = updatedCharacter;
 			localStorage.setItem('editingCharacter', JSON.stringify(updatedCharacter));
 
+			// Ask if user wants to view the character on the characters page
+			setTimeout(() => {
+				if (confirm('Character updated successfully! Would you like to view it on the characters page?')) {
+					const characterAnchor = this.generateCharacterAnchor(updatedCharacter.name);
+					window.location.href = `characters.html${characterAnchor}`;
+				}
+			}, 1000);
+
 			return result;
 		} catch (error) {
 			throw new Error('Failed to update character: ' + error.message);
@@ -415,7 +423,8 @@ class CharacterEditorPage {
 			// Ask if user wants to view the character on the characters page
 			setTimeout(() => {
 				if (confirm('Character saved successfully! Would you like to view it on the characters page?')) {
-					window.location.href = 'characters.html';
+					const characterAnchor = this.generateCharacterAnchor(characterData.name);
+					window.location.href = `characters.html${characterAnchor}`;
 				}
 			}, 1000);
 
@@ -667,6 +676,12 @@ class CharacterEditorPage {
 	generateCharacterId(name) {
 		// Simple ID generation - replace spaces with dashes, lowercase
 		return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+	}
+
+	generateCharacterAnchor(characterName) {
+		// Generate an anchor that will scroll to the character row in the characters table
+		const characterId = this.generateCharacterId(characterName);
+		return `#character-${characterId}`;
 	}
 }
 

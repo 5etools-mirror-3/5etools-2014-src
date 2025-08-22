@@ -50,20 +50,22 @@ export class RenderCharacters {
 
 		const classText = character.class ?
 			character.class.map(cls => {
-				const classLink = `{@class ${cls.name}|${cls.source || "PHB"}}`;
-				let text = `${classLink} ${cls.level}`;
 				if (cls.subclass) {
-					// Create proper subclass link manually
-					const classSlug = `${cls.name.toLowerCase()}_${(cls.source || "PHB").toLowerCase()}`;
-					const subclassSlug = cls.subclass.name.toLowerCase().replace(/\s+/g, '');
-					const subclassUrl = `classes.html#${classSlug},state:sub_${subclassSlug}_${(cls.subclass.source || "PHB").toLowerCase()}=b1`;
-					text += ` (<a href="${subclassUrl}">${cls.subclass.name}</a>)`;
+					// Use the proper subclass shortName if available, otherwise fall back to name
+					const subclassName = cls.subclass.name || "Unknown";
+					const subclassShortName = cls.subclass.shortName || cls.subclass.name || "Unknown";
+					const subclassSource = cls.subclass.source || cls.source || "PHB";
+					
+					// Use the correct format: {@class ClassName||SubclassName|SubclassShortName|SubclassSource}
+					const classLink = `{@class ${cls.name}||${subclassName}|${subclassShortName}|${subclassSource}}`;
+					return `${classLink} ${cls.level}`;
+				} else {
+					// Generate class link without subclass
+					const classLink = `{@class ${cls.name}|${cls.source || "PHB"}}`;
+					return `${classLink} ${cls.level}`;
 				}
-				return text;
-			}).join(", ") :
-			"Unknown Class";
-
-		const alignmentText = character.alignment ?
+			}).join("/") :
+			"Unknown Class";		const alignmentText = character.alignment ?
 			(Array.isArray(character.alignment) ? character.alignment.join(" ") : character.alignment) :
 			"Unknown";
 

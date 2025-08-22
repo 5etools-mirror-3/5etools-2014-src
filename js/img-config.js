@@ -66,7 +66,6 @@
 		initAttempts++;
 
 		if (globalThis.IMAGE_CONFIG_LOADED) {
-			console.log("✓ Image config already loaded");
 			return;
 		}
 

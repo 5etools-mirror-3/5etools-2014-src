@@ -10,14 +10,14 @@ class CharactersSublistManager extends SublistManager {
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
-				name: "Race",
-				css: "ve-col-1-2 px-1",
-				colStyle: "",
-			}),
-			new SublistCellTemplate({
 				name: "Class",
 				css: "ve-col-3-8 px-1 ve-text-center",
 				colStyle: "text-center",
+			}),
+			new SublistCellTemplate({
+				name: "Race",
+				css: "ve-col-1-2 px-1",
+				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "Level",
@@ -37,8 +37,8 @@ class CharactersSublistManager extends SublistManager {
 	pGetSublistItem (character, hash) {
 		const cellsText = [
 			character.name,
-			character._fRace || "Unknown",
 			character._fClass || "Unknown",
+			character._fRace || "Unknown",
 			character._fLevel || 0,
 		];
 
@@ -57,9 +57,9 @@ class CharactersSublistManager extends SublistManager {
 			character.name,
 			{
 				hash,
-				race: character._fRace || "Unknown",
 				class: character._fClass || "Unknown",
-				level: character._fLevel || 0,
+				race: character._fRace || "Unknown",
+				level: character._fLevel || 1,
 			},
 			{
 				entity: character,

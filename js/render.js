@@ -8514,8 +8514,11 @@ Renderer.character = class {
 			const classLink = `{@class ${c.name}|${c.source || "PHB"}}`;
 			let subclassText = '';
 			if (c.subclass) {
-				const subclassShortName = c.subclass.name.toLowerCase().replace(/\s+/g, '');
-				subclassText = ` ({@class ${c.name}|${c.source || "PHB"}|${subclassShortName}|${c.subclass.source || "PHB"}})`;
+				// Use the proper subclass shortName if available, otherwise fall back to name
+				const subclassShortName = c.subclass.shortName || c.subclass.name;
+				
+				// Correct format: {@class ClassName||SubclassName|SubclassShortName|SubclassSource}
+				subclassText = ` ({@class ${c.name}||${c.subclass.name}|${subclassShortName}|${c.subclass.source || "PHB"}})`;
 			}
 			return `${classLink}${subclassText} ${c.level || ''}`;
 		}).join(", ") : ptClass;
