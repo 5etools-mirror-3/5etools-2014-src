@@ -78,5 +78,8 @@
 	"directories": {
 		"lib": "lib",
 		"test": "test"
+	},
+	"dependencies": {
+		"@vercel/blob": "^1.1.1"
 	}
 }
