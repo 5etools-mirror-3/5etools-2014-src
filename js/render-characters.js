@@ -1,6 +1,20 @@
 "use strict";
 
 export class RenderCharacters {
+	/**
+	 * Calculate total character level from class levels
+	 * @param {Object} character - The character data object
+	 * @returns {number} Total level
+	 */
+	static _getCharacterLevel(character) {
+		if (!character || !character.class || !Array.isArray(character.class)) {
+			return 0;
+		}
+		return character.class.reduce((total, cls) => {
+			return total + (cls.level || 0);
+		}, 0);
+	}
+
 	static _getModifierText(score) {
 		const mod = Math.floor((score - 10) / 2);
 		return mod >= 0 ? `+${mod}` : `${mod}`;
@@ -65,7 +79,7 @@ export class RenderCharacters {
 		</tr>
 		<tr>
 			<td colspan="6" class="stats-size-type-alignment">
-				<i>Level ${character.level} ${renderer.render(raceText)} ${renderer.render(classText)}, ${alignmentText}</i>
+				<i>Level ${RenderCharacters._getCharacterLevel(character)} ${renderer.render(raceText)} ${renderer.render(classText)}, ${alignmentText}</i>
 			</td>
 		</tr>`;
 	}
@@ -175,7 +189,7 @@ export class RenderCharacters {
 			<td colspan="6">
 				<div class="ve-flex">
 					<div class="ve-flex-v-center mr-2"><b>Proficiency Bonus:</b></div>
-					<div>${character.proficiencyBonus || `+${Math.ceil(character.level / 4) + 1}`}</div>
+					<div>${character.proficiencyBonus || `+${Math.ceil(RenderCharacters._getCharacterLevel(character) / 4) + 1}`}</div>
 				</div>
 			</td>
 		</tr>`;
@@ -369,7 +383,7 @@ export class RenderCharacters {
 	static getCompactRenderedString (character, opts = {}) {
 		opts = {...opts};
 
-		const ptLevel = `Level ${character.level || "?"}`;
+		const ptLevel = `Level ${RenderCharacters._getCharacterLevel(character) || "?"}`;
 		const ptRace = character.race?.name || "Unknown Race";
 		const ptClass = character.class?.map(c => c.name).join("/") || "Unknown Class";
 

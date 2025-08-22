@@ -1,26 +1,35 @@
 import {OmnisearchState} from "./omnisearch-state.js";
 import {VetoolsConfig} from "../utils-config/utils-config-config.js";
-import 		const inCategoryAliasShort = {
-			"sp": [Parser.pageCategoryToFull(Parser.CAT_ID_SPELL)],
-			"bg": [Parser.pageCategoryToFull(Parser.CAT_ID_BACKGROUND)],
-			"itm": [Parser.pageCategoryToFull(Parser.CAT_ID_ITEM)],
-			"tbl": [Parser.pageCategoryToFull(Parser.CAT_ID_TABLE)],
-			"bk": [Parser.pageCategoryToFull(Parser.CAT_ID_BOOK)],
-			"adv": [Parser.pageCategoryToFull(Parser.CAT_ID_ADVENTURE)],
-			"ft": [Parser.pageCategoryToFull(Parser.CAT_ID_FEAT)],
-			"con": [Parser.pageCategoryToFull(Parser.CAT_ID_CONDITION)],
-			"veh": [Parser.pageCategoryToFull(Parser.CAT_ID_VEHICLE)],
-			"obj": [Parser.pageCategoryToFull(Parser.CAT_ID_OBJECT)],
-			"god": [Parser.pageCategoryToFull(Parser.CAT_ID_DEITY)],
-			"rcp": [Parser.pageCategoryToFull(Parser.CAT_ID_RECIPES)], // :^)
-			"char": [Parser.pageCategoryToFull(Parser.CAT_ID_CHARACTER)],
-
-			"cf": inCategoryAlias["classFeature"],
-			"scf": inCategoryAlias["subclassFeature"],
-			"mon": inCategoryAlias["monster"],
-			"opf": inCategoryAlias["optfeature"],
-		};C} from "../consts.js";
+import {Parser} from "../consts.js";
 import {SyntaxMetaCategories, SyntaxMetaGroup, SyntaxMetaPageRange, SyntaxMetaSource} from "./omnisearch-models.js";
+
+const inCategoryAlias = {
+	"classFeature": [Parser.pageCategoryToFull(Parser.CAT_ID_CLASS_FEATURE)],
+	"subclassFeature": [Parser.pageCategoryToFull(Parser.CAT_ID_SUBCLASS_FEATURE)],
+	"monster": [Parser.pageCategoryToFull(Parser.CAT_ID_CREATURE)],
+	"optfeature": [Parser.pageCategoryToFull(Parser.CAT_ID_OPTIONAL_FEATURE)],
+};
+
+const inCategoryAliasShort = {
+	"sp": [Parser.pageCategoryToFull(Parser.CAT_ID_SPELL)],
+	"bg": [Parser.pageCategoryToFull(Parser.CAT_ID_BACKGROUND)],
+	"itm": [Parser.pageCategoryToFull(Parser.CAT_ID_ITEM)],
+	"tbl": [Parser.pageCategoryToFull(Parser.CAT_ID_TABLE)],
+	"bk": [Parser.pageCategoryToFull(Parser.CAT_ID_BOOK)],
+	"adv": [Parser.pageCategoryToFull(Parser.CAT_ID_ADVENTURE)],
+	"ft": [Parser.pageCategoryToFull(Parser.CAT_ID_FEAT)],
+	"con": [Parser.pageCategoryToFull(Parser.CAT_ID_CONDITION)],
+	"veh": [Parser.pageCategoryToFull(Parser.CAT_ID_VEHICLE)],
+	"obj": [Parser.pageCategoryToFull(Parser.CAT_ID_OBJECT)],
+	"god": [Parser.pageCategoryToFull(Parser.CAT_ID_DEITY)],
+	"rcp": [Parser.pageCategoryToFull(Parser.CAT_ID_RECIPES)], // :^)
+	"char": [Parser.pageCategoryToFull(Parser.CAT_ID_CHARACTER)],
+
+	"cf": inCategoryAlias["classFeature"],
+	"scf": inCategoryAlias["subclassFeature"],
+	"mon": inCategoryAlias["monster"],
+	"opf": inCategoryAlias["optfeature"],
+};
 
 export class OmnisearchBacking {
 	static _CATEGORY_COUNTS = {};

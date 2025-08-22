@@ -1,5 +1,3 @@
-import { _ } from "../node_modules/ajv/dist/core";
-
 let editor;
 let currentCharacterData = null;
 let currentCharacterId = null;

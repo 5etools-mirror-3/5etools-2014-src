@@ -8477,12 +8477,26 @@ Renderer.race = class {
 };
 
 Renderer.character = class {
+	/**
+	 * Calculate total character level from class levels
+	 * @param {Object} character - The character data object
+	 * @returns {number} Total level
+	 */
+	static _getCharacterLevel(character) {
+		if (!character || !character.class || !Array.isArray(character.class)) {
+			return 0;
+		}
+		return character.class.reduce((total, cls) => {
+			return total + (cls.level || 0);
+		}, 0);
+	}
+
 	static getCompactRenderedString (character, {isStatic = false} = {}) {
 		const renderer = Renderer.get().setFirstSection(true);
 		const renderStack = [];
 
 		// Header with basic character info
-		const ptLevel = character.level || "?";
+		const ptLevel = Renderer.character._getCharacterLevel(character) || "?";
 		const ptRace = character.race?.name || "Unknown Race";
 		const ptClass = character.class?.map(c => `${c.name}${c.subclass ? ` (${c.subclass.name})` : ''} ${c.level || ''}`).join(", ") || "Unknown Class";
 		const ptBackground = character.background?.name || "Unknown Background";
@@ -8539,8 +8553,9 @@ Renderer.character = class {
 
 		// Calculate and display proficiency bonus
 		let profBonus = character.proficiencyBonus;
-		if (!profBonus && character.level) {
-			profBonus = `+${Math.ceil(character.level / 4) + 1}`;
+		const characterLevel = Renderer.character._getCharacterLevel(character);
+		if (!profBonus && characterLevel > 0) {
+			profBonus = `+${Math.ceil(characterLevel / 4) + 1}`;
 		}
 		if (profBonus) {
 			combatStats.push(`<strong>Prof. Bonus</strong> ${profBonus}`);

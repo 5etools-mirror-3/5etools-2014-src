@@ -16,7 +16,14 @@ class PageFilterCharacters extends PageFilterBase {
 		character._fRace = character.race?.name || "Unknown";
 		character._fClass = character.class?.map(cls => cls.name).join("/") || "Unknown";
 		character._fBackground = character.background?.name || "Unknown";
-		character._fLevel = character.level || 1;
+		// Calculate total level from class levels
+		if (character.class && Array.isArray(character.class)) {
+			character._fLevel = character.class.reduce((total, cls) => {
+				return total + (cls.level || 0);
+			}, 0);
+		} else {
+			character._fLevel = 1;
+		}
 		character._fSource = character.source;
 	}
 

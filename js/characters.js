@@ -37,9 +37,9 @@ class CharactersSublistManager extends SublistManager {
 	pGetSublistItem (character, hash) {
 		const cellsText = [
 			character.name,
-			character._fRace,
-			character._fClass,
-			character.level,
+			character._fRace || "Unknown",
+			character._fClass || "Unknown",
+			character._fLevel || 0,
 		];
 
 		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
@@ -57,9 +57,9 @@ class CharactersSublistManager extends SublistManager {
 			character.name,
 			{
 				hash,
-				race: character._fRace,
-				class: character._fClass,
-				level: character.level,
+				race: character._fRace || "Unknown",
+				class: character._fClass || "Unknown",
+				level: character._fLevel || 0,
 			},
 			{
 				entity: character,
@@ -115,13 +115,14 @@ class CharactersPage extends ListPageMultiSource {
 
 		const hash = UrlUtil.autoEncodeHash(character);
 		const source = Parser.sourceJsonToAbv(character.source || "");
-		const classText = character.class ? character.class.map(cls => cls.name).join("/") : "Unknown";
+		const classText = character._fClass || "Unknown";
+		const level = character._fLevel || 0;
 
 		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
 			<span class="bold ve-col-4-2 pl-0">${character.name}</span>
-			<span class="ve-col-4-1">${character._fRace}</span>
+			<span class="ve-col-4-1">${character._fRace || "Unknown"}</span>
 			<span class="ve-col-1-7 ve-text-center">${classText}</span>
-			<span class="ve-col-1-7 ve-text-center">${character.level}</span>
+			<span class="ve-col-1-7 ve-text-center">${level}</span>
 			<span class="ve-col-1 ve-text-center ${Parser.sourceJsonToSourceClassname(character.source || "")} pr-0" title="${Parser.sourceJsonToFull(character.source || "")}">${source}</span>
 		</a>`;
 
@@ -132,9 +133,9 @@ class CharactersPage extends ListPageMultiSource {
 			{
 				hash,
 				source,
-				race: character._fRace,
+				race: character._fRace || "Unknown",
 				class: classText,
-				level: character.level,
+				level: level,
 			},
 			{
 				entity: character,
@@ -150,15 +151,15 @@ class CharactersPage extends ListPageMultiSource {
 	async _pOnLoad_pPreDataLoad () {
 		// Ensure Example source is loaded for hover/popout functionality
 		await this._pLoadSource("Example", "yes");
-		
+
 		// Load character data from Vercel Blob storage
 		const databaseLoaded = await this._pLoadCharacterDataFromDatabase();
-		
+
 		if (!databaseLoaded) {
 			console.log('No characters found in blob storage - this is normal for a fresh installation');
 			// Don't fall back to old file loading - characters now only come from blob storage
 		}
-		
+
 		// Preload spell data so spell links work in character sheets
 		try {
 			await DataLoader.pCacheAndGetAllSite(UrlUtil.PG_SPELLS);
@@ -170,31 +171,31 @@ class CharactersPage extends ListPageMultiSource {
 	async _pLoadCharacterDataFromDatabase() {
 		try {
 			console.log('Loading character data from Vercel Blob storage...');
-			
+
 			// Load all characters from the API
 			const response = await fetch('/api/characters/load');
 			if (!response.ok) {
 				throw new Error('Failed to fetch characters from API');
 			}
-			
+
 			const characters = await response.json();
-			
+
 			if (characters && characters.length > 0) {
 				// Convert to expected 5etools format
 				const formattedData = {
 					character: characters
 				};
-				
+
 				// Process each character to ensure it has the required computed fields
 				formattedData.character.forEach(char => this._processCharacterForDisplay(char));
-				
+
 				// Add to data loader cache
 				this._addData(formattedData);
 				console.log(`Loaded ${formattedData.character.length} characters from blob storage`);
-				
+
 				// Set up periodic refresh
 				this._setupDatabaseRefresh();
-				
+
 				return true;
 			} else {
 				console.warn('No valid characters found in blob storage');
@@ -212,7 +213,7 @@ class CharactersPage extends ListPageMultiSource {
 		if (this._refreshInterval) {
 			clearInterval(this._refreshInterval);
 		}
-		
+
 		this._refreshInterval = setInterval(async () => {
 			console.log('Refreshing character data from blob storage...');
 			try {
@@ -236,6 +237,12 @@ class CharactersPage extends ListPageMultiSource {
 		}
 		if (character.class && Array.isArray(character.class)) {
 			character._fClass = character.class.map(cls => cls.name).join("/");
+			// Calculate total level from class levels
+			character._fLevel = character.class.reduce((total, cls) => {
+				return total + (cls.level || 0);
+			}, 0);
+		} else {
+			character._fLevel = 1;
 		}
 		if (character.background) {
 			character._fBackground = character.background.name;
@@ -263,11 +270,11 @@ class CharactersPage extends ListPageMultiSource {
 
 	_addData (data) {
 		super._addData(data);
-		
+
 		// Also populate DataLoader cache for hover/popout functionality
 		if (data.character && data.character.length) {
 			DataLoader._pCache_addToCache({
-				allDataMerged: data, 
+				allDataMerged: data,
 				propAllowlist: new Set(["character"])
 			});
 		}
@@ -277,18 +284,18 @@ class CharactersPage extends ListPageMultiSource {
 		// Use the hover renderer for character display
 		const fn = Renderer.hover.getFnRenderCompact(UrlUtil.PG_CHARACTERS);
 		const renderedContent = fn(ent);
-		
+
 		// Clear and populate the existing table directly
 		this._$pgContent.empty().html(`
 			<tr><th class="ve-tbl-border" colspan="6"></th></tr>
 			<tr><td colspan="6">${renderedContent}</td></tr>
 			<tr><th class="ve-tbl-border" colspan="6"></th></tr>
 		`);
-		
+
 		// Bind listeners for interactive elements
 		const fnBind = Renderer.hover.getFnBindListenersCompact(UrlUtil.PG_CHARACTERS);
 		if (fnBind) fnBind(ent, this._$pgContent[0]);
-		
+
 		// Show Edit button and store current character
 		this._currentCharacter = ent;
 		const $editBtn = $("#btn-edit-character");
@@ -336,13 +343,13 @@ const charactersPage = new CharactersPage();
 charactersPage.sublistManager = new CharactersSublistManager();
 window.addEventListener("load", () => {
 	charactersPage.pOnLoad();
-	
+
 	// Initialize Edit Character button
 	$("#btn-edit-character").click(async () => {
 		if (charactersPage._currentCharacter) {
 			// Store character data for editor
 			localStorage.setItem('editingCharacter', JSON.stringify(charactersPage._currentCharacter));
-			
+
 			// Navigate to character editor (data already stored in localStorage above)
 			window.location.href = 'charactereditor.html?edit=true';
 		}
