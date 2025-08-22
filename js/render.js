@@ -8526,7 +8526,7 @@ Renderer.character = class {
 			if (c.subclass) {
 				// Use the proper subclass shortName if available, otherwise fall back to name
 				const subclassShortName = c.subclass.shortName || c.subclass.name;
-				
+
 				// Correct format: {@class ClassName||SubclassName|SubclassShortName|SubclassSource}
 				subclassText = ` ({@class ${c.name}||${c.subclass.name}|${subclassShortName}|${c.subclass.source || "PHB"}})`;
 			}
@@ -8665,7 +8665,7 @@ Renderer.character = class {
 						const rollableModifier = `{@dice 1d20${finalStr}|${finalStr}|${skillName}}`;
 
 						// Display skill name with proficiency indicator
-						const displayName = isProficient ? `<strong>${skill.name}</strong> ●` : skill.name;
+						const displayName = isProficient ? `<strong>${skill.name}</strong> (Proficient)` : skill.name;
 
 						return [
 							displayName,

@@ -21,7 +21,6 @@ import {
 	PANEL_TYP_GENERIC_EMBED,
 	PANEL_TYP_ERROR,
 	PANEL_TYP_BLANK,
-	PANEL_TYP_CHARACTERS,
 } from "./dmscreen/dmscreen-consts.js";
 import {DmMapper} from "./dmscreen/dmscreen-mapper.js";
 import {MoneyConverter} from "./dmscreen/dmscreen-moneyconverter.js";
@@ -300,6 +299,9 @@ class Board {
 
 		// search
 		this.availContent = await SearchUiUtil.pGetContentIndices();
+		
+		// Add characters from API to content indices
+		await this._pAddCharactersToContentIndex();
 
 		// add tabs
 		const omniTab = new AddMenuSearchTab({board: this, indexes: this.availContent});
@@ -324,6 +326,66 @@ class Board {
 		this.sideMenu.render();
 
 		this.doHideLoading();
+	}
+
+	async _pAddCharactersToContentIndex () {
+		try {
+			// Load character data from API
+			const response = await fetch('/api/characters/load', {
+				cache: 'no-cache',
+				headers: {
+					'Cache-Control': 'no-cache, no-store, must-revalidate',
+					'Pragma': 'no-cache'
+				}
+			});
+			
+			if (!response.ok) {
+				console.warn('Failed to load characters for DM screen search:', response.statusText);
+				return;
+			}
+			
+			const characters = await response.json();
+			
+			if (!characters || !Array.isArray(characters) || characters.length === 0) {
+				console.log('No characters found for DM screen search index');
+				return;
+			}
+			
+			// Initialize Character category in search index if it doesn't exist
+			if (!this.availContent.Character) {
+				this.availContent.Character = elasticlunr(function () {
+					this.addField("n");
+					this.addField("s");
+					this.setRef("id");
+				});
+				SearchUtil.removeStemmer(this.availContent.Character);
+			}
+			
+			// Add each character to the search indices
+			let nextId = this.availContent.ALL.documentStore.length || 0;
+			characters.forEach((character, index) => {
+				if (!character.name || !character.source) return;
+				
+				const doc = {
+					id: nextId++,
+					n: character.name,
+					s: character.source,
+					c: Parser.CAT_ID_CHARACTER,
+					cf: "Character",
+					u: UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CHARACTERS](character),
+					p: UrlUtil.PG_CHARACTERS
+				};
+				
+				// Add to both ALL and Character category indices
+				this.availContent.ALL.addDoc(doc);
+				this.availContent.Character.addDoc(doc);
+			});
+			
+			console.log(`Added ${characters.length} characters to DM screen search index`);
+			
+		} catch (error) {
+			console.warn('Failed to add characters to search index:', error);
+		}
 	}
 
 	async _pDoBuildAdventureOrBookIndex (
@@ -1053,11 +1115,6 @@ class Panel {
 					handleTabRenamed(panel);
 					return panel;
 				}
-				case PANEL_TYP_CHARACTERS: {
-					await panel.doPopulate_Characters(skipSetTab, saved.r);
-					handleTabRenamed(panel);
-					return panel;
-				}
 				case PANEL_TYP_ROLLBOX:
 					Renderer.dice.bindDmScreenPanel(panel, saved.r);
 					handleTabRenamed(panel);
@@ -1605,25 +1662,6 @@ class Panel {
 		});
 	}
 
-	async doPopulate_Characters (skipSetTab, title) { // FIXME skipSetTab is never used
-		const meta = {};
-		const ix = this.set$TabLoading(
-			PANEL_TYP_CHARACTERS,
-			meta,
-		);
-		
-		// Import and initialize the character panel manager
-		const module = await import("./dmscreen/dmscreen-panels.js");
-		const characterManager = new module.PanelContentManager_Characters({
-			board: this.board,
-			panel: this,
-		});
-		
-		await characterManager.pDoPopulate({
-			state: {},
-			title: title || "Characters",
-		});
-	}
 
 	set$ContentTab (type, contentMeta, $content, title, tabCanRename, tabRenamed) {
 		const ix = this.isTabs ? this.getNextTabIndex() : 0;
@@ -2102,7 +2140,7 @@ class Panel {
 
 	doRenderTitle () {
 		const displayText = this.title !== TITLE_LOADING
-		&& (this.type === PANEL_TYP_STATS || this.type === PANEL_TYP_CREATURE_SCALED_CR || this.type === PANEL_TYP_CREATURE_SCALED_SPELL_SUMMON || this.type === PANEL_TYP_CREATURE_SCALED_CLASS_SUMMON || this.type === PANEL_TYP_RULES || this.type === PANEL_TYP_ADVENTURES || this.type === PANEL_TYP_BOOKS || this.type === PANEL_TYP_CHARACTERS) ? this.title : "";
+		&& (this.type === PANEL_TYP_STATS || this.type === PANEL_TYP_CREATURE_SCALED_CR || this.type === PANEL_TYP_CREATURE_SCALED_SPELL_SUMMON || this.type === PANEL_TYP_CREATURE_SCALED_CLASS_SUMMON || this.type === PANEL_TYP_RULES || this.type === PANEL_TYP_ADVENTURES || this.type === PANEL_TYP_BOOKS) ? this.title : "";
 
 		this._doUpdatePanelTitleDisplay(displayText);
 		if (!displayText) this.$pnlTitle.addClass("hidden");
@@ -2623,14 +2661,6 @@ class Panel {
 							b: contentMeta.b,
 							c: contentMeta.c,
 						},
-					};
-				case PANEL_TYP_CHARACTERS:
-					return {
-						t: type,
-						r: toSaveTitle,
-						s: $content && $content.find('[data-getstate]').length 
-							? $content.find('[data-getstate]').data("getState")() 
-							: {},
 					};
 				case PANEL_TYP_TEXTBOX:
 					return {
@@ -3475,13 +3505,6 @@ class AddMenuSpecialTab extends AddMenuTab {
 			const $btnTimeTracker = $(`<button class="ve-btn ve-btn-primary ve-btn-sm">Add</button>`).appendTo($wrpTimeTracker);
 			$btnTimeTracker.on("click", () => {
 				this.menu.pnl.doPopulate_TimeTracker();
-				this.menu.doClose();
-			});
-
-			const $wrpCharacters = $(`<div class="ui-modal__row"><span>Characters</span></div>`).appendTo($tab);
-			const $btnCharacters = $(`<button class="ve-btn ve-btn-primary ve-btn-sm">Add</button>`).appendTo($wrpCharacters);
-			$btnCharacters.on("click", () => {
-				this.menu.pnl.doPopulate_Characters();
 				this.menu.doClose();
 			});
 

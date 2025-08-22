@@ -120,10 +120,10 @@ class CharactersPage extends ListPageMultiSource {
 
 		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
 			<span class="bold ve-col-4-2 pl-0">${character.name}</span>
-			<span class="ve-col-4-1">${character._fRace || "Unknown"}</span>
-			<span class="ve-col-1-7 ve-text-center">${classText}</span>
-			<span class="ve-col-1-7 ve-text-center">${level}</span>
-			<span class="ve-col-1 ve-text-center ${Parser.sourceJsonToSourceClassname(character.source || "")} pr-0" title="${Parser.sourceJsonToFull(character.source || "")}">${source}</span>
+			<span class="ve-col-1-7">${character._fRace || "Unknown"}</span>
+			<span class="ve-col-4-1">${classText}</span>
+			<span class="ve-col-1-7 ">${level}</span>
+			<span class="ve-col-1 ${Parser.sourceJsonToSourceClassname(character.source || "")} pr-0" title="${Parser.sourceJsonToFull(character.source || "")}">${source}</span>
 		</a>`;
 
 		const listItem = new ListItem(
