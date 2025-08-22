@@ -53,9 +53,11 @@ export class RenderCharacters {
 				const classLink = `{@class ${cls.name}|${cls.source || "PHB"}}`;
 				let text = `${classLink} ${cls.level}`;
 				if (cls.subclass) {
-					const subclassShortName = cls.subclass.name.toLowerCase().replace(/\s+/g, '');
-					const subclassLink = `{@class ${cls.name}|${cls.source || "PHB"}|${subclassShortName}|${cls.subclass.source || "PHB"}}`;
-					text += ` (${subclassLink})`;
+					// Create proper subclass link manually
+					const classSlug = `${cls.name.toLowerCase()}_${(cls.source || "PHB").toLowerCase()}`;
+					const subclassSlug = cls.subclass.name.toLowerCase().replace(/\s+/g, '');
+					const subclassUrl = `classes.html#${classSlug},state:sub_${subclassSlug}_${(cls.subclass.source || "PHB").toLowerCase()}=b1`;
+					text += ` (<a href="${subclassUrl}">${cls.subclass.name}</a>)`;
 				}
 				return text;
 			}).join(", ") :

@@ -7,6 +7,7 @@ import {
 import {InitiativeTracker} from "./initiativetracker/dmscreen-initiativetracker.js";
 import {InitiativeTrackerPlayerV0, InitiativeTrackerPlayerV1} from "./dmscreen-playerinitiativetracker.js";
 import {InitiativeTrackerCreatureViewer} from "./dmscreen-initiativetrackercreatureviewer.js";
+import {RenderCharacters} from "../render-characters.js";
 
 export class PanelContentManagerFactory {
 	static _PANEL_TYPES = {};
@@ -225,22 +226,24 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 					const characters = await response.json();
 					const character = characters.find(c => c.name === characterName);
 					if (character) {
-						// Import character rendering functions
-						if (typeof RenderCharacters !== 'undefined') {
-							const $rendered = RenderCharacters.$getRenderedCharacter(character);
-							$content.empty().append($rendered);
-						} else {
-							// Fallback simple rendering
-							const classInfo = character.class?.map(c => `${c.name} ${c.level}`).join(", ") || "Unknown";
-							$content.html(`
-								<div class="p-2">
-									<h4>${character.name}</h4>
-									<p><strong>Level:</strong> ${classInfo}</p>
-									<p><strong>Race:</strong> ${character.race?.name || "Unknown"}</p>
-									<p><strong>Background:</strong> ${character.background?.name || "Unknown"}</p>
-								</div>
-							`);
+						// Process character data to ensure computed fields exist
+						if (character.class && Array.isArray(character.class)) {
+							character._fClass = character.class.map(cls => {
+								let classStr = cls.name;
+								if (cls.subclass && cls.subclass.name) {
+									classStr += ` (${cls.subclass.name})`;
+								}
+								return classStr;
+							}).join("/");
+							character._fLevel = character.class.reduce((total, cls) => total + (cls.level || 0), 0);
 						}
+						if (character.race) {
+							character._fRace = character.race.variant ? `Variant ${character.race.name}` : character.race.name;
+						}
+						
+						// Use RenderCharacters to render the character
+						const $rendered = RenderCharacters.$getRenderedCharacter(character);
+						$content.empty().append($rendered);
 					}
 				}
 			} catch (error) {
