@@ -41,18 +41,17 @@
 				// Set the base media URL for images to point to 5e.tools
 				Renderer.get().setBaseMediaUrl("img", IMAGE_CONFIG.EXTERNAL_IMG_BASE + "img/");
 
-				console.log("✓ Image configuration: Using external images from", IMAGE_CONFIG.EXTERNAL_IMG_BASE + "img/");
+				// console.log("✓ Image configuration: Using external images from", IMAGE_CONFIG.EXTERNAL_IMG_BASE + "img/");
 
 				// Test that the configuration worked
-				const testUrl = Renderer.get().getMediaUrl("img", "test.webp");
-				console.log("✓ Test image URL:", testUrl);
+				// const testUrl = Renderer.get().getMediaUrl("img", "test.webp");
+				// console.log("✓ Test image URL:", testUrl);
 
 				// Mark as successfully configured
 				globalThis.IMAGE_CONFIG_LOADED = true;
 
 			} catch (error) {
 				console.error("Failed to configure external images:", error);
-				console.log("Falling back to local images");
 			}
 		} else {
 			console.log("Image configuration: Using local images");

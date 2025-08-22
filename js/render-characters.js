@@ -385,7 +385,13 @@ export class RenderCharacters {
 
 		const ptLevel = `Level ${RenderCharacters._getCharacterLevel(character) || "?"}`;
 		const ptRace = character.race?.name || "Unknown Race";
-		const ptClass = character.class?.map(c => c.name).join("/") || "Unknown Class";
+		const ptClass = character.class?.map(c => {
+			let classStr = c.name;
+			if (c.subclass && c.subclass.name) {
+				classStr += ` (${c.subclass.name})`;
+			}
+			return classStr;
+		}).join("/") || "Unknown Class";
 
 		const renderer = Renderer.get();
 

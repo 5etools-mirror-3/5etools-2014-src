@@ -236,7 +236,18 @@ class CharactersPage extends ListPageMultiSource {
 			character._fRace = character.race.variant ? `Variant ${character.race.name}` : character.race.name;
 		}
 		if (character.class && Array.isArray(character.class)) {
-			character._fClass = character.class.map(cls => cls.name).join("/");
+			// Create detailed class display with subclasses
+			character._fClass = character.class.map(cls => {
+				let classStr = cls.name;
+				if (cls.subclass && cls.subclass.name) {
+					classStr += ` (${cls.subclass.name})`;
+				}
+				return classStr;
+			}).join("/");
+			
+			// Also create a simple class list for filtering/search
+			character._fClassSimple = character.class.map(cls => cls.name).join("/");
+			
 			// Calculate total level from class levels
 			character._fLevel = character.class.reduce((total, cls) => {
 				return total + (cls.level || 0);

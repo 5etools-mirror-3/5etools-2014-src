@@ -21,6 +21,7 @@ import {
 	PANEL_TYP_GENERIC_EMBED,
 	PANEL_TYP_ERROR,
 	PANEL_TYP_BLANK,
+	PANEL_TYP_CHARACTERS,
 } from "./dmscreen/dmscreen-consts.js";
 import {DmMapper} from "./dmscreen/dmscreen-mapper.js";
 import {MoneyConverter} from "./dmscreen/dmscreen-moneyconverter.js";
@@ -1052,6 +1053,11 @@ class Panel {
 					handleTabRenamed(panel);
 					return panel;
 				}
+				case PANEL_TYP_CHARACTERS: {
+					await panel.doPopulate_Characters(skipSetTab, saved.r);
+					handleTabRenamed(panel);
+					return panel;
+				}
 				case PANEL_TYP_ROLLBOX:
 					Renderer.dice.bindDmScreenPanel(panel, saved.r);
 					handleTabRenamed(panel);
@@ -1599,6 +1605,26 @@ class Panel {
 		});
 	}
 
+	async doPopulate_Characters (skipSetTab, title) { // FIXME skipSetTab is never used
+		const meta = {};
+		const ix = this.set$TabLoading(
+			PANEL_TYP_CHARACTERS,
+			meta,
+		);
+		
+		// Import and initialize the character panel manager
+		const module = await import("./dmscreen/dmscreen-panels.js");
+		const characterManager = new module.PanelContentManager_Characters({
+			board: this.board,
+			panel: this,
+		});
+		
+		await characterManager.pDoPopulate({
+			state: {},
+			title: title || "Characters",
+		});
+	}
+
 	set$ContentTab (type, contentMeta, $content, title, tabCanRename, tabRenamed) {
 		const ix = this.isTabs ? this.getNextTabIndex() : 0;
 		return this.set$Tab(ix, type, contentMeta, $content, title, tabCanRename, tabRenamed);
@@ -2076,7 +2102,7 @@ class Panel {
 
 	doRenderTitle () {
 		const displayText = this.title !== TITLE_LOADING
-		&& (this.type === PANEL_TYP_STATS || this.type === PANEL_TYP_CREATURE_SCALED_CR || this.type === PANEL_TYP_CREATURE_SCALED_SPELL_SUMMON || this.type === PANEL_TYP_CREATURE_SCALED_CLASS_SUMMON || this.type === PANEL_TYP_RULES || this.type === PANEL_TYP_ADVENTURES || this.type === PANEL_TYP_BOOKS) ? this.title : "";
+		&& (this.type === PANEL_TYP_STATS || this.type === PANEL_TYP_CREATURE_SCALED_CR || this.type === PANEL_TYP_CREATURE_SCALED_SPELL_SUMMON || this.type === PANEL_TYP_CREATURE_SCALED_CLASS_SUMMON || this.type === PANEL_TYP_RULES || this.type === PANEL_TYP_ADVENTURES || this.type === PANEL_TYP_BOOKS || this.type === PANEL_TYP_CHARACTERS) ? this.title : "";
 
 		this._doUpdatePanelTitleDisplay(displayText);
 		if (!displayText) this.$pnlTitle.addClass("hidden");
@@ -2597,6 +2623,14 @@ class Panel {
 							b: contentMeta.b,
 							c: contentMeta.c,
 						},
+					};
+				case PANEL_TYP_CHARACTERS:
+					return {
+						t: type,
+						r: toSaveTitle,
+						s: $content && $content.find('[data-getstate]').length 
+							? $content.find('[data-getstate]').data("getState")() 
+							: {},
 					};
 				case PANEL_TYP_TEXTBOX:
 					return {
@@ -3441,6 +3475,13 @@ class AddMenuSpecialTab extends AddMenuTab {
 			const $btnTimeTracker = $(`<button class="ve-btn ve-btn-primary ve-btn-sm">Add</button>`).appendTo($wrpTimeTracker);
 			$btnTimeTracker.on("click", () => {
 				this.menu.pnl.doPopulate_TimeTracker();
+				this.menu.doClose();
+			});
+
+			const $wrpCharacters = $(`<div class="ui-modal__row"><span>Characters</span></div>`).appendTo($tab);
+			const $btnCharacters = $(`<button class="ve-btn ve-btn-primary ve-btn-sm">Add</button>`).appendTo($wrpCharacters);
+			$btnCharacters.on("click", () => {
+				this.menu.pnl.doPopulate_Characters();
 				this.menu.doClose();
 			});
 

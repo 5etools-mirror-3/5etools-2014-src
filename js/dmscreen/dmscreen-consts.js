@@ -21,6 +21,7 @@ export const PANEL_TYP_INITIATIVE_TRACKER_PLAYER_V0 = 151;
 export const PANEL_TYP_COUNTER = 16;
 export const PANEL_TYP_IMAGE = 20;
 export const PANEL_TYP_ADVENTURE_DYNAMIC_MAP = 21;
+export const PANEL_TYP_CHARACTERS = 22;
 export const PANEL_TYP_GENERIC_EMBED = 90;
 export const PANEL_TYP_ERROR = 98;
 export const PANEL_TYP_BLANK = 99;

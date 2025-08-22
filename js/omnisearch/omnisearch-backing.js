@@ -69,12 +69,6 @@ export class OmnisearchBacking {
 		// Load dynamic character data from API
 		await this._pLoadCharacterIndex();
 
-		// Load dynamic character data from API
-		await this._pLoadCharacterIndex();
-
-		// Load dynamic character data from API
-		await this._pLoadCharacterIndex();
-
 		// region Partnered homebrew
 		//   Note that we filter out anything which is already in the user's homebrew, to avoid double-indexing
 		const sourcesBrew = new Set(
