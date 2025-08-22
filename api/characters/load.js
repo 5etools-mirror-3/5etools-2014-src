@@ -15,44 +15,32 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { characterId, url } = req.query;
+    const { url } = req.query;
 
-    if (!characterId && !url) {
-      return res.status(400).json({ error: 'Character ID or URL is required' });
+    if (!url) {
+      return res.status(400).json({ error: 'Character blob URL is required' });
     }
 
-    let characterData;
-
-    if (process.env.BLOB_READ_WRITE_TOKEN && url) {
-      // Production mode with blob URL
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch character from URL: ${response.statusText}`);
-      }
-      characterData = await response.json();
-    } else if (characterId) {
-      // Development mode or fallback - try to load from local data
-      try {
-        const localUrl = `https://${req.headers.host}/data/character/${characterId}.json`;
-        const response = await fetch(localUrl);
-        if (response.ok) {
-          characterData = await response.json();
-        } else {
-          throw new Error(`Character ${characterId} not found locally`);
-        }
-      } catch (error) {
-        return res.status(404).json({
-          error: 'Character not found',
-          details: `Character ${characterId} not found. Use the character editor to create it.`
-        });
-      }
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      return res.status(500).json({ 
+        error: 'BLOB_READ_WRITE_TOKEN not configured',
+        note: 'Cannot load characters without blob storage configuration'
+      });
     }
+
+    // Load character from blob URL
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch character from URL: ${response.statusText}`);
+    }
+    
+    const characterData = await response.json();
 
     return res.status(200).json({
       success: true,
       message: 'Character loaded successfully',
       character: characterData,
-      loadedFrom: url || `data/character/${characterId}.json`
+      loadedFrom: url
     });
 
   } catch (error) {

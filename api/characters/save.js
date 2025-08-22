@@ -40,7 +40,7 @@ export default async function handler(req, res) {
 
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       const pathname = `characters/${finalCharacterId}.json`;
-      
+
       // Check if character already exists
       let characterExists = false;
       try {
@@ -61,8 +61,8 @@ export default async function handler(req, res) {
 
       return res.status(200).json({
         success: true,
-        message: characterExists 
-          ? 'Character updated successfully' 
+        message: characterExists
+          ? 'Character updated successfully'
           : 'Character created successfully',
         characterId: finalCharacterId,
         wasUpdate: characterExists,
