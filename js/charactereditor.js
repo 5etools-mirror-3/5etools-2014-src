@@ -244,9 +244,22 @@ class CharacterEditorPage {
 			character._fRace = character.race.variant ? `Variant ${character.race.name}` : character.race.name;
 		}
 		if (character.class && Array.isArray(character.class)) {
-			character._fClass = character.class.map(cls => cls.name).join("/");
+			// Create detailed class display with subclasses
+			character._fClass = character.class.map(cls => {
+				let classStr = cls.name;
+				if (cls.subclass && cls.subclass.name) {
+					classStr += ` (${cls.subclass.name})`;
+				}
+				return classStr;
+			}).join("/");
+
+			// Also create a simple class list for filtering/search
+			character._fClassSimple = character.class.map(cls => cls.name).join("/");
+
 			// Calculate total level from class levels
 			character._fLevel = CharacterEditorPage.getCharacterLevel(character);
+		} else {
+			character._fLevel = 1;
 		}
 		if (character.background) {
 			character._fBackground = character.background.name;
@@ -398,6 +411,13 @@ class CharacterEditorPage {
 
 			// Update button visibility to show delete button
 			this.updateButtonVisibility();
+
+			// Ask if user wants to view the character on the characters page
+			setTimeout(() => {
+				if (confirm('Character saved successfully! Would you like to view it on the characters page?')) {
+					window.location.href = 'characters.html';
+				}
+			}, 1000);
 
 			return result;
 		} catch (error) {

@@ -53,7 +53,8 @@ export class RenderCharacters {
 				const classLink = `{@class ${cls.name}|${cls.source || "PHB"}}`;
 				let text = `${classLink} ${cls.level}`;
 				if (cls.subclass) {
-					const subclassLink = `{@class ${cls.name}|${cls.source || "PHB"}|${cls.subclass.shortName || cls.subclass.name}|${cls.subclass.source || "PHB"}}`;
+					const subclassShortName = cls.subclass.name.toLowerCase().replace(/\s+/g, '');
+					const subclassLink = `{@class ${cls.name}|${cls.source || "PHB"}|${subclassShortName}|${cls.subclass.source || "PHB"}}`;
 					text += ` (${subclassLink})`;
 				}
 				return text;
