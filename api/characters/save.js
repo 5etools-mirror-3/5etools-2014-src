@@ -1,3 +1,5 @@
+const { put } = import('@vercel/blob');
+
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
@@ -38,7 +40,6 @@ export default async function handler(req, res) {
 
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       // Production mode - save to Vercel Blob storage
-      const { put } = await import('@vercel/blob');
 
       const pathname = `characters/${finalCharacterId}.json`;
       const blob = await put(pathname, JSON.stringify(saveData, null, 2), {
@@ -61,7 +62,7 @@ export default async function handler(req, res) {
       // Development mode - just return success without actually saving
       return res.status(200).json({
         success: true,
-        message: 'Character saved successfully (development mode)',
+        message: 'Character not saved',
         characterId: finalCharacterId,
         note: 'BLOB_READ_WRITE_TOKEN not configured - character not actually saved'
       });
