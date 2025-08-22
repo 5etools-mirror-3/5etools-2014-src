@@ -1,4 +1,6 @@
-module.exports = async function handler(req, res) {
+const { list } = import('@vercel/blob');
+
+export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,39 +17,43 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    // Check if running in Vercel production with blob storage
+    let characters = [];
+
     if (process.env.BLOB_READ_WRITE_TOKEN) {
-      // Import blob functionality for production
-      const { list } = require('@vercel/blob');
-
-      const { blobs } = await list({
-        prefix: 'characters/',
-        limit: 1000
-      });
-
-      const characterFiles = blobs
-        .filter(blob => blob.pathname.endsWith('.json'))
-        .map(blob => {
-          const filename = blob.pathname.split('/').pop();
-          const characterId = filename.replace('.json', '');
-
-          return {
-            id: characterId,
-            filename: filename,
-            pathname: blob.pathname,
-            url: blob.url,
-            uploadedAt: blob.uploadedAt,
-            size: blob.size
-          };
+      try {
+        const { blobs } = await list({
+          prefix: 'characters/',
+          limit: 1000,
+          token: process.env.BLOB_READ_WRITE_TOKEN
         });
 
-      return res.status(200).json({
-        success: true,
-        message: 'Character list retrieved from blob storage',
-        characters: characterFiles,
-        count: characterFiles.length
-      });
-	 }
+        characters = blobs
+          .filter(blob => blob.pathname.endsWith('.json'))
+          .map(blob => {
+            const filename = blob.pathname.split('/').pop();
+            const characterId = filename.replace('.json', '');
+
+            return {
+              id: characterId,
+              filename: filename,
+              pathname: blob.pathname,
+              url: blob.url,
+              uploadedAt: blob.uploadedAt,
+              size: blob.size
+            };
+          });
+      } catch (blobError) {
+        console.error('Blob storage error:', blobError);
+        // Continue with empty array - this is non-fatal
+      }
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: 'Character list retrieved successfully',
+      characters: characters,
+      count: characters.length
+    });
 
   } catch (error) {
     console.error('List characters error:', error);

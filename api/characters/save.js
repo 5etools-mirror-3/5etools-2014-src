@@ -1,4 +1,4 @@
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -27,14 +27,14 @@ module.exports = async function handler(req, res) {
       .replace(/\s+/g, '-') // Replace spaces with dashes
       .substring(0, 50); // Limit length
 
-	 if (saveData.__fSource) {
-		finalCharacterId += `-${saveData.__fSource}`;
-	 }
-
     // Wrap character in the expected format
     const saveData = {
       character: [characterData]
     };
+
+    if (saveData.character[0].__fSource) {
+      finalCharacterId += `-${saveData.character[0].__fSource}`;
+    }
 
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       // Production mode - save to Vercel Blob storage
@@ -56,6 +56,14 @@ module.exports = async function handler(req, res) {
           size: blob.size,
           uploadedAt: blob.uploadedAt
         }
+      });
+    } else {
+      // Development mode - just return success without actually saving
+      return res.status(200).json({
+        success: true,
+        message: 'Character saved successfully (development mode)',
+        characterId: finalCharacterId,
+        note: 'BLOB_READ_WRITE_TOKEN not configured - character not actually saved'
       });
     }
 
