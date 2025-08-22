@@ -87,9 +87,8 @@ class CharacterEditorPage {
 	loadTemplate() {
 		// Default character template with custom content example
 		const template = {
-			name: "New Character",
-			source: "Custom",
-			page: 1,
+			name: "Character",
+			source: "ADD_YOUR_NAME_HERE",
 			race: {
 				name: "Human",
 				source: "PHB"
@@ -140,8 +139,7 @@ class CharacterEditorPage {
 					"You can add detailed background information here.",
 					"Include physical description, personality traits, and character history."
 				]
-			},
-			_fSource: 'ADD_YOUR_NAME_HERE'
+			}
 		};
 		this.ace.setValue(JSON.stringify(template, null, 2), 1);
 	}

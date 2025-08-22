@@ -155,6 +155,7 @@ export class OmnisearchBacking {
 		// Safety check to ensure Parser is fully loaded
 		if (!Parser || !Parser.pageCategoryToFull || !Parser.CAT_ID_GROUPS) {
 			console.warn("Parser not fully loaded, deferring omnisearch initialization");
+			this._initializationFailed = true;
 			return;
 		}
 		
@@ -171,9 +172,13 @@ export class OmnisearchBacking {
 		for (const constant of requiredConstants) {
 			if (Parser[constant] === undefined || Parser[constant] === null) {
 				console.warn(`Parser constant ${constant} not available, deferring omnisearch initialization`);
+				this._initializationFailed = true;
 				return;
 			}
 		}
+		
+		// Reset the failure flag since we got this far
+		this._initializationFailed = false;
 
 		const inCategoryAlias = {};
 		
@@ -450,8 +455,15 @@ export class OmnisearchBacking {
 	/* -------------------------------------------- */
 
 	static getCategoryAliasesShort () {
+		// Try to initialize if not already done
 		this._initReInCategory();
+		
+		// If initialization failed but Parser is now available, try again
+		if (!this._IN_CATEGORY_ALIAS_SHORT && this._initializationFailed) {
+			this._initializationFailed = false; // Reset the flag
+			this._initReInCategory();
+		}
 
-		return this._IN_CATEGORY_ALIAS_SHORT;
+		return this._IN_CATEGORY_ALIAS_SHORT || {}; // Return empty object as fallback
 	}
 }
