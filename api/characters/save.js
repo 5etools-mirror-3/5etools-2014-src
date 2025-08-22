@@ -1,4 +1,4 @@
-const { put } = import('@vercel/blob');
+import { put } from '@vercel/blob';
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -39,7 +39,6 @@ export default async function handler(req, res) {
     }
 
     if (process.env.BLOB_READ_WRITE_TOKEN) {
-      // Production mode - save to Vercel Blob storage
 
       const pathname = `characters/${finalCharacterId}.json`;
       const blob = await put(pathname, JSON.stringify(saveData, null, 2), {

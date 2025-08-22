@@ -1,4 +1,4 @@
-const { list } = import('@vercel/blob');
+import { list } from '@vercel/blob';
 
 export default async function handler(req, res) {
   // Enable CORS
