@@ -107,6 +107,14 @@ export class OmnisearchBacking {
 			}
 			const characters = await response.json();
 
+			// Ensure each character has the __prop set for DataLoader
+			characters.forEach(it => it.__prop = "character");
+
+			// Cache characters for the DataLoader to avoid duplicate API calls
+			if (typeof DataLoader !== 'undefined' && DataLoader._DATA_TYPE_LOADERS && DataLoader._DATA_TYPE_LOADERS['characters.html']) {
+				DataLoader._DATA_TYPE_LOADERS['characters.html'].constructor._cachedCharacters = characters;
+			}
+
 			// Convert characters to search index format
 			const characterIndex = characters.map((character, i) => ({
 				id: this._maxId + 1 + i,

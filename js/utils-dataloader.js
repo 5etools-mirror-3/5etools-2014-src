@@ -1044,6 +1044,11 @@ class _DataTypeLoaderCharacter extends _DataTypeLoader {
 	_getSiteIdent ({pageClean, sourceClean}) { return "character"; }
 
 	async _pGetSiteData ({pageClean, sourceClean}) {
+		// Use cached characters if available, otherwise load from API
+		if (_DataTypeLoaderCharacter._cachedCharacters) {
+			return {character: _DataTypeLoaderCharacter._cachedCharacters};
+		}
+
 		// Load characters from API instead of static files
 		try {
 			const response = await fetch('/api/characters/load');
@@ -1054,12 +1059,19 @@ class _DataTypeLoaderCharacter extends _DataTypeLoader {
 			const characters = await response.json();
 			// Ensure each character has the __prop set
 			characters.forEach(it => it.__prop = "character");
+			
+			// Cache the characters for future use
+			_DataTypeLoaderCharacter._cachedCharacters = characters;
+			
 			return {character: characters};
 		} catch (error) {
 			console.error('Error loading characters from API for DataLoader:', error);
 			return {character: []};
 		}
 	}
+
+	// Cache for character data
+	static _cachedCharacters = null;
 
 	async _pGetStoredPrereleaseData () {
 		// No prerelease characters
