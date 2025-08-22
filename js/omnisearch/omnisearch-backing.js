@@ -1,34 +1,38 @@
 import {OmnisearchState} from "./omnisearch-state.js";
 import {VetoolsConfig} from "../utils-config/utils-config-config.js";
-import {Parser} from "../consts.js";
 import {SyntaxMetaCategories, SyntaxMetaGroup, SyntaxMetaPageRange, SyntaxMetaSource} from "./omnisearch-models.js";
 
-const inCategoryAlias = {
-	"classFeature": [Parser.pageCategoryToFull(Parser.CAT_ID_CLASS_FEATURE)],
-	"subclassFeature": [Parser.pageCategoryToFull(Parser.CAT_ID_SUBCLASS_FEATURE)],
-	"monster": [Parser.pageCategoryToFull(Parser.CAT_ID_CREATURE)],
-	"optfeature": [Parser.pageCategoryToFull(Parser.CAT_ID_OPTIONAL_FEATURE)],
-};
+"use strict";
 
 const inCategoryAliasShort = {
-	"sp": [Parser.pageCategoryToFull(Parser.CAT_ID_SPELL)],
-	"bg": [Parser.pageCategoryToFull(Parser.CAT_ID_BACKGROUND)],
-	"itm": [Parser.pageCategoryToFull(Parser.CAT_ID_ITEM)],
-	"tbl": [Parser.pageCategoryToFull(Parser.CAT_ID_TABLE)],
-	"bk": [Parser.pageCategoryToFull(Parser.CAT_ID_BOOK)],
-	"adv": [Parser.pageCategoryToFull(Parser.CAT_ID_ADVENTURE)],
-	"ft": [Parser.pageCategoryToFull(Parser.CAT_ID_FEAT)],
-	"con": [Parser.pageCategoryToFull(Parser.CAT_ID_CONDITION)],
-	"veh": [Parser.pageCategoryToFull(Parser.CAT_ID_VEHICLE)],
-	"obj": [Parser.pageCategoryToFull(Parser.CAT_ID_OBJECT)],
-	"god": [Parser.pageCategoryToFull(Parser.CAT_ID_DEITY)],
-	"rcp": [Parser.pageCategoryToFull(Parser.CAT_ID_RECIPES)], // :^)
-	"char": [Parser.pageCategoryToFull(Parser.CAT_ID_CHARACTER)],
-
-	"cf": inCategoryAlias["classFeature"],
-	"scf": inCategoryAlias["subclassFeature"],
-	"mon": inCategoryAlias["monster"],
-	"opf": inCategoryAlias["optfeature"],
+	"Spell": "S",
+	"Item": "I",
+	"Class": "C",
+	"Creature": "B",
+	"Background": "K",
+	"Race": "R",
+	"Other Reward": "O",
+	"Feat": "F",
+	"Psionic": "P",
+	"Adventure": "A",
+	"Deity": "D",
+	"Object": "J",
+	"Condition": "N",
+	"Disease": "N",
+	"Optional Feature": "T",
+	"Vehicle": "V",
+	"Action": "U",
+	"Language": "L",
+	"Cult": "G",
+	"Boon": "G",
+	"Book": "M",
+	"Table": "E",
+	"Variant Rule": "W",
+	"Hazard": "H",
+	"Trap": "H",
+	"Quickref": "Q",
+	"Recipe": "Y",
+	"Deck": "Z",
 };
 
 export class OmnisearchBacking {
@@ -140,50 +144,95 @@ export class OmnisearchBacking {
 	static _IN_CATEGORY_ALIAS = null;
 	static _IN_CATEGORY_ALIAS_SHORT = null;
 	static _RE_SYNTAX__IN_CATEGORY = null;
+	static _initializationFailed = false;
 
 	static _initReInCategory () {
 		if (this._RE_SYNTAX__IN_CATEGORY) return;
 
-		const inCategoryAlias = {
-			"creature": [Parser.pageCategoryToFull(Parser.CAT_ID_CREATURE)],
-			"monster": [Parser.pageCategoryToFull(Parser.CAT_ID_CREATURE)],
-			"character": [Parser.pageCategoryToFull(Parser.CAT_ID_CHARACTER)],
+		// If initialization previously failed, don't spam console warnings
+		if (this._initializationFailed) return;
 
-			[new Renderer.tag.TagQuickref().tagName]: [Parser.pageCategoryToFull(Parser.CAT_ID_QUICKREF)],
-			[new Renderer.tag.TagRace().tagName]: [Parser.pageCategoryToFull(Parser.CAT_ID_RACE)],
-			[new Renderer.tag.TagReward().tagName]: [Parser.pageCategoryToFull(Parser.CAT_ID_OTHER_REWARD)],
-			[new Renderer.tag.TagOptfeature().tagName]: Parser.CAT_ID_GROUPS["optionalfeature"].map(catId => Parser.pageCategoryToFull(catId)),
-			[new Renderer.tag.TagClassFeature().tagName]: [Parser.pageCategoryToFull(Parser.CAT_ID_CLASS_FEATURE)],
-			[new Renderer.tag.TagSubclassFeature().tagName]: [Parser.pageCategoryToFull(Parser.CAT_ID_SUBCLASS_FEATURE)],
-			[new Renderer.tag.TagVehupgrade().tagName]: Parser.CAT_ID_GROUPS["vehicleUpgrade"].map(catId => Parser.pageCategoryToFull(catId)),
-			[new Renderer.tag.TagLegroup().tagName]: [Parser.pageCategoryToFull(Parser.CAT_ID_LEGENDARY_GROUP)],
-			[new Renderer.tag.TagCharoption().tagName]: [Parser.pageCategoryToFull(Parser.CAT_ID_CHAR_CREATION_OPTIONS)],
-			[new Renderer.tag.TagItemMastery().tagName]: [Parser.pageCategoryToFull(Parser.CAT_ID_ITEM_MASTERY)],
-		};
+		// Safety check to ensure Parser is fully loaded
+		if (!Parser || !Parser.pageCategoryToFull || !Parser.CAT_ID_GROUPS) {
+			console.warn("Parser not fully loaded, deferring omnisearch initialization");
+			return;
+		}
+		
+		// Additional safety check for required constants
+		const requiredConstants = [
+			'CAT_ID_CREATURE', 'CAT_ID_CHARACTER', 'CAT_ID_QUICKREF', 'CAT_ID_RACE', 
+			'CAT_ID_OTHER_REWARD', 'CAT_ID_CLASS_FEATURE', 'CAT_ID_SUBCLASS_FEATURE',
+			'CAT_ID_LEGENDARY_GROUP', 'CAT_ID_CHAR_CREATION_OPTIONS', 'CAT_ID_ITEM_MASTERY',
+			'CAT_ID_SPELL', 'CAT_ID_BACKGROUND', 'CAT_ID_ITEM', 'CAT_ID_TABLE', 'CAT_ID_BOOK',
+			'CAT_ID_ADVENTURE', 'CAT_ID_FEAT', 'CAT_ID_CONDITION', 'CAT_ID_VEHICLE', 
+			'CAT_ID_OBJECT', 'CAT_ID_DEITY', 'CAT_ID_RECIPES'
+		];
+		
+		for (const constant of requiredConstants) {
+			if (Parser[constant] === undefined || Parser[constant] === null) {
+				console.warn(`Parser constant ${constant} not available, deferring omnisearch initialization`);
+				return;
+			}
+		}
+
+		const inCategoryAlias = {};
+		
+		// Safely add basic entries with null checks
+		if (Parser.CAT_ID_CREATURE) {
+			inCategoryAlias["creature"] = [Parser.pageCategoryToFull(Parser.CAT_ID_CREATURE)];
+			inCategoryAlias["monster"] = [Parser.pageCategoryToFull(Parser.CAT_ID_CREATURE)];
+		}
+		if (Parser.CAT_ID_CHARACTER) {
+			inCategoryAlias["character"] = [Parser.pageCategoryToFull(Parser.CAT_ID_CHARACTER)];
+		}
+
+		// Safely add Renderer tag entries if they exist
+		try {
+			if (Renderer && Renderer.tag) {
+				if (Renderer.tag.TagQuickref) inCategoryAlias[new Renderer.tag.TagQuickref().tagName] = [Parser.pageCategoryToFull(Parser.CAT_ID_QUICKREF)];
+				if (Renderer.tag.TagRace) inCategoryAlias[new Renderer.tag.TagRace().tagName] = [Parser.pageCategoryToFull(Parser.CAT_ID_RACE)];
+				if (Renderer.tag.TagReward) inCategoryAlias[new Renderer.tag.TagReward().tagName] = [Parser.pageCategoryToFull(Parser.CAT_ID_OTHER_REWARD)];
+				if (Renderer.tag.TagOptfeature && Parser.CAT_ID_GROUPS["optionalfeature"]) {
+					inCategoryAlias[new Renderer.tag.TagOptfeature().tagName] = Parser.CAT_ID_GROUPS["optionalfeature"].map(catId => Parser.pageCategoryToFull(catId));
+				}
+				if (Renderer.tag.TagClassFeature) inCategoryAlias[new Renderer.tag.TagClassFeature().tagName] = [Parser.pageCategoryToFull(Parser.CAT_ID_CLASS_FEATURE)];
+				if (Renderer.tag.TagSubclassFeature) inCategoryAlias[new Renderer.tag.TagSubclassFeature().tagName] = [Parser.pageCategoryToFull(Parser.CAT_ID_SUBCLASS_FEATURE)];
+				if (Renderer.tag.TagVehupgrade && Parser.CAT_ID_GROUPS["vehicleUpgrade"]) {
+					inCategoryAlias[new Renderer.tag.TagVehupgrade().tagName] = Parser.CAT_ID_GROUPS["vehicleUpgrade"].map(catId => Parser.pageCategoryToFull(catId));
+				}
+				if (Renderer.tag.TagLegroup) inCategoryAlias[new Renderer.tag.TagLegroup().tagName] = [Parser.pageCategoryToFull(Parser.CAT_ID_LEGENDARY_GROUP)];
+				if (Renderer.tag.TagCharoption) inCategoryAlias[new Renderer.tag.TagCharoption().tagName] = [Parser.pageCategoryToFull(Parser.CAT_ID_CHAR_CREATION_OPTIONS)];
+				if (Renderer.tag.TagItemMastery) inCategoryAlias[new Renderer.tag.TagItemMastery().tagName] = [Parser.pageCategoryToFull(Parser.CAT_ID_ITEM_MASTERY)];
+			}
+		} catch (e) {
+			console.warn("Error initializing some Renderer tag entries:", e);
+		}
 
 		inCategoryAlias["optionalfeature"] = inCategoryAlias["optfeature"];
 		inCategoryAlias["mastery"] = inCategoryAlias["itemMastery"];
 
-		const inCategoryAliasShort = {
-			"sp": [Parser.pageCategoryToFull(Parser.CAT_ID_SPELL)],
-			"bg": [Parser.pageCategoryToFull(Parser.CAT_ID_BACKGROUND)],
-			"itm": [Parser.pageCategoryToFull(Parser.CAT_ID_ITEM)],
-			"tbl": [Parser.pageCategoryToFull(Parser.CAT_ID_TABLE)],
-			"bk": [Parser.pageCategoryToFull(Parser.CAT_ID_BOOK)],
-			"adv": [Parser.pageCategoryToFull(Parser.CAT_ID_ADVENTURE)],
-			"ft": [Parser.pageCategoryToFull(Parser.CAT_ID_FEAT)],
-			"con": [Parser.pageCategoryToFull(Parser.CAT_ID_CONDITION)],
-			"veh": [Parser.pageCategoryToFull(Parser.CAT_ID_VEHICLE)],
-			"obj": [Parser.pageCategoryToFull(Parser.CAT_ID_OBJECT)],
-			"god": [Parser.pageCategoryToFull(Parser.CAT_ID_DEITY)],
-			"rcp": [Parser.pageCategoryToFull(Parser.CAT_ID_RECIPES)], // :^)
-			"char": [Parser.pageCategoryToFull(Parser.CAT_ID_CHARACTER)],
+		const inCategoryAliasShort = {};
+		
+		// Safely add short aliases with null checks
+		if (Parser.CAT_ID_SPELL) inCategoryAliasShort["sp"] = [Parser.pageCategoryToFull(Parser.CAT_ID_SPELL)];
+		if (Parser.CAT_ID_BACKGROUND) inCategoryAliasShort["bg"] = [Parser.pageCategoryToFull(Parser.CAT_ID_BACKGROUND)];
+		if (Parser.CAT_ID_ITEM) inCategoryAliasShort["itm"] = [Parser.pageCategoryToFull(Parser.CAT_ID_ITEM)];
+		if (Parser.CAT_ID_TABLE) inCategoryAliasShort["tbl"] = [Parser.pageCategoryToFull(Parser.CAT_ID_TABLE)];
+		if (Parser.CAT_ID_BOOK) inCategoryAliasShort["bk"] = [Parser.pageCategoryToFull(Parser.CAT_ID_BOOK)];
+		if (Parser.CAT_ID_ADVENTURE) inCategoryAliasShort["adv"] = [Parser.pageCategoryToFull(Parser.CAT_ID_ADVENTURE)];
+		if (Parser.CAT_ID_FEAT) inCategoryAliasShort["ft"] = [Parser.pageCategoryToFull(Parser.CAT_ID_FEAT)];
+		if (Parser.CAT_ID_CONDITION) inCategoryAliasShort["con"] = [Parser.pageCategoryToFull(Parser.CAT_ID_CONDITION)];
+		if (Parser.CAT_ID_VEHICLE) inCategoryAliasShort["veh"] = [Parser.pageCategoryToFull(Parser.CAT_ID_VEHICLE)];
+		if (Parser.CAT_ID_OBJECT) inCategoryAliasShort["obj"] = [Parser.pageCategoryToFull(Parser.CAT_ID_OBJECT)];
+		if (Parser.CAT_ID_DEITY) inCategoryAliasShort["god"] = [Parser.pageCategoryToFull(Parser.CAT_ID_DEITY)];
+		if (Parser.CAT_ID_RECIPES) inCategoryAliasShort["rcp"] = [Parser.pageCategoryToFull(Parser.CAT_ID_RECIPES)]; // :^)
+		if (Parser.CAT_ID_CHARACTER) inCategoryAliasShort["char"] = [Parser.pageCategoryToFull(Parser.CAT_ID_CHARACTER)];
 
-			"cf": inCategoryAlias["classFeature"],
-			"scf": inCategoryAlias["subclassFeature"],
-			"mon": inCategoryAlias["monster"],
-			"opf": inCategoryAlias["optfeature"],
-		};
+		// Reference existing aliases safely
+		if (inCategoryAlias["classFeature"]) inCategoryAliasShort["cf"] = inCategoryAlias["classFeature"];
+		if (inCategoryAlias["subclassFeature"]) inCategoryAliasShort["scf"] = inCategoryAlias["subclassFeature"];
+		if (inCategoryAlias["monster"]) inCategoryAliasShort["mon"] = inCategoryAlias["monster"];
+		if (inCategoryAlias["optfeature"]) inCategoryAliasShort["opf"] = inCategoryAlias["optfeature"];
 
 		const getLowercaseKeyed = obj => {
 			return Object.fromEntries(
