@@ -372,7 +372,7 @@ class CharacterEditorPage {
 			// Ask if user wants to view the character on the characters page
 			setTimeout(() => {
 				if (confirm('Character updated successfully! Would you like to view it on the characters page?')) {
-					const characterAnchor = this.generateCharacterAnchor(updatedCharacter.name);
+					const characterAnchor = this.generateCharacterAnchor(updatedCharacter.name, updatedCharacter.source);
 					window.location.href = `characters.html${characterAnchor}`;
 				}
 			}, 1000);
@@ -684,21 +684,21 @@ class CharacterEditorPage {
 		return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
 	}
 
-	generateCharacterAnchor(characterName) {
+	generateCharacterAnchor(characterName, characterSource) {
 		// Generate an anchor that will scroll to the character row in the characters table
 		const characterId = this.generateCharacterId(characterName);
-		return `#character-${characterId}`;
+		return `#${characterId}_${characterSource}`;
 	}
 
 	clearCharacterCache() {
 		// Set a timestamp to indicate when character data was last updated
 		localStorage.setItem('characterDataLastUpdated', Date.now().toString());
-		
+
 		// Clear any application-level character cache that might exist
 		if (window.characterCache) {
 			window.characterCache = null;
 		}
-		
+
 		// Trigger a custom event that other parts of the app can listen to
 		window.dispatchEvent(new CustomEvent('characterDataUpdated', {
 			detail: { timestamp: Date.now() }

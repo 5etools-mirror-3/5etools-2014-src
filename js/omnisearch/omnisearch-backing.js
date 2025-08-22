@@ -110,9 +110,13 @@ export class OmnisearchBacking {
 			// Ensure each character has the __prop set for DataLoader
 			characters.forEach(it => it.__prop = "character");
 
-			// Cache characters for the DataLoader to avoid duplicate API calls
-			if (typeof DataLoader !== 'undefined' && DataLoader._DATA_TYPE_LOADERS && DataLoader._DATA_TYPE_LOADERS['characters.html']) {
-				DataLoader._DATA_TYPE_LOADERS['characters.html'].constructor._cachedCharacters = characters;
+			// Add characters to DataLoader cache so they're available for hover popouts
+			if (typeof DataLoader !== 'undefined' && DataLoader._pCache_addToCache) {
+				DataLoader._pCache_addToCache({
+					allDataMerged: { character: characters },
+					propAllowlist: new Set(["character"])
+				});
+				console.log(`Cached ${characters.length} characters in DataLoader for hover functionality`);
 			}
 
 			// Convert characters to search index format

@@ -125,7 +125,7 @@ export class RenderCharacters {
 
 		const skillText = character.skill ?
 			Object.entries(character.skill)
-				.map(([k, v]) => `${StrUtil.toTitleCase(k)} ${v}`)
+				.map(([k, v]) => `<strong>${StrUtil.toTitleCase(k)}</strong> ● ${v}`)
 				.join(", ") :
 			"—";
 
