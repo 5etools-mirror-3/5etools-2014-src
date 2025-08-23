@@ -8665,7 +8665,7 @@ Renderer.character = class {
 						const rollableModifier = `{@dice 1d20${finalStr}|${finalStr}|${skillName}}`;
 
 						// Display skill name with proficiency indicator
-						const displayName = isProficient ? `<strong>${skill.name}</strong> (Proficient)` : skill.name;
+						const displayName = isProficient ? `<strong>${skill.name}</strong> ◉` : skill.name;
 
 						return [
 							displayName,
@@ -8705,8 +8705,11 @@ Renderer.character = class {
 						const saveName = isProficient ? `${Parser.attAbvToFull(ab)} Save (Proficient)` : `${Parser.attAbvToFull(ab)} Save`;
 						const rollableModifier = `{@dice 1d20${finalStr}|${finalStr}|${saveName}}`;
 
+						// Display ability name with proficiency indicator
+						const displayName = isProficient ? `<strong>${Parser.attAbvToFull(ab)}</strong> ◉` : Parser.attAbvToFull(ab);
+
 						return [
-							Parser.attAbvToFull(ab),
+							displayName,
 							rollableModifier
 						];
 					})
