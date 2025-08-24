@@ -1,0 +1,402 @@
+{
+	"name": "Garurt",
+	"source": "Sam",
+	"level": 6,
+	"race": {
+		"name": "Lizardfolk",
+		"source": "VGM",
+		"variant": true
+	},
+	"class": [
+		{
+			"name": "Warlock",
+			"source": "PHB",
+			"level": 6
+		}
+	],
+	"background": {
+		"name": "Sage",
+		"source": "PHB"
+	},
+	"alignment": [
+		"L",
+		"G"
+	],
+	"ac": [
+		{
+			"ac": 14,
+			"from": [
+				"natural"
+			]
+		}
+	],
+	"hp": {
+		"average": 52,
+		"formula": "8d6 + 8",
+		"current": 44,
+		"max": 52,
+		"temp": 0
+	},
+	"speed": {
+		"walk": 30,
+		"swim": 30
+	},
+	"str": 12,
+	"dex": 12,
+	"con": 16,
+	"int": 11,
+	"wis": 8,
+	"cha": 18,
+	"save": {
+		"wis": "+2",
+		"cha": "+7"
+	},
+	"skill": {
+		"deception": "+7",
+		"insight": "+1",
+		"investigation": "+3",
+		"perception": "+7",
+		"survival": "+2"
+	},
+	"passive": 9,
+	"languages": [
+		"Common",
+		"Draconic"
+	],
+	"proficiencyBonus": "+3",
+	"action": [
+		{
+			"name": "{@spell Eldritch Blast}",
+			"entries": [
+				"{@atk rs} {@hit 7} to hit, force damage, reach 120 ft. ({@damage 1d10 + 4 + 3}) with 3 cold damage ({@damage 1d10 + 4})"
+			]
+		},
+		{
+			"name": "Bite",
+			"entries": [
+				"{@atk rm} {@hit 4} ({@damage 1d6 + 1})"
+			]
+		}
+	],
+	"customText": "Hermione Granger is a brilliant witch known for her extensive knowledge of magic theory and her quick thinking in dangerous situations. Her mastery of transmutation magic makes her invaluable for solving complex problems.",
+	"fluff": {
+		"entries": [
+			"This character has gone on a deep journey to understand that he wants to work for himself and doesn't need to be subservient to a higher person. "
+		]
+	},
+	"entries": [
+		{
+			"type": "entries",
+			"name": "Background & Personality",
+			"entries": [
+				"Has a history of working for others when it is against his best interest and was found in Medusa's garden as a gardener looking after the place."
+			]
+		},
+		{
+			"type": "section",
+			"name": "Features & Traits",
+			"entries": [
+				{
+					"type": "entries",
+					"name": "Cunning Artisan",
+					"entries": [
+						"As part of a short rest, you can harvest bone and hide from a slain beast, construct, dragon, monstrosity, or plant creature of size small or larger to create one of the following items: a shield, a club, a javelin, or 1d4 darts or blowgun needles. To use this trait, you need a blade, such as a dagger, or appropriate artisan's tools, such as leatherworker's tools."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Hold Breath",
+					"entries": [
+						"You can hold your breath for up to 15 minutes at a time."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Natural Armor",
+					"entries": [
+						"You have tough, scaly skin. When you aren't wearing armor, your AC is 13 + your Dexterity modifier. You can use your natural armor to determine your AC if the armor you wear would leave you with a lower AC. A shield's benefits apply as normal while you use your natural armor"
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Tomb of Levistus",
+					"entries": [
+						"As a reaction when you take damage, you can entomb yourself in ice and get 10 temp hit points per level until after my next turn. i also vulnerability to fire damage. But i skip my next turn"
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Genie's Wrath",
+					"entries": [
+						"Once during each of your turns when you hit with an attack roll, you can deal extra damage to the target equal to your proficiency bonus. The type of this damage is cold"
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Bottled Respite",
+					"entries": [
+						"As an action, you can magically vanish and enter your vessel, which remains in the space you left. The interior of the vessel is an extradimensional space in the shape of a 20-foot-radius cylinder, 20 feet high, and resembles your vessel. The interior is appointed with cushions and low tables and is a comfortable temperature. While inside, you can hear the area around your vessel as if you were in its space. You can remain inside the vessel up to a number of hours equal to twice your proficiency bonus. You exit the vessel early if you use a bonus action to leave, if you die, or if the vessel is destroyed. When you exit the vessel, you appear in the unoccupied space closest to it. Any objects left in the vessel remain there until carried out, and if the vessel is destroyed, every object stored there harmlessly appears in the unoccupied spaces closest to the vessel's former space. Once you enter the vessel, you can't enter again until you finish a long rest.",
+						"The vessel's AC equals your spell save DC. Its hit points equal your warlock level plus your proficiency bonus, and it is immune to poison and psychic damage.",
+						"If the vessel is destroyed or you lose it, you can perform a 1-hour ceremony to receive a replacement from your patron. This ceremony can be performed during a short or long rest, and the previous vessel is destroyed if it still exists. The vessel vanishes in a flare of elemental power when you die."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Elemental Gift",
+					"entries": [
+						"You begin to take on characteristics of your patron's kind. You now have resistance to a damage type determined by your patron's kind which is cold (marid).",
+						"3/3 uses left",
+						"As a bonus action, you can give yourself a flying speed of 30 feet that lasts for 10 minutes, during which you can hover. You can use this bonus action a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest.",
+						{
+							"type": "statblock",
+							"prop": "subclass",
+							"source": "TCE",
+							"name": "Elemental Gift",
+							"displayName": "Elemental Gift",
+							"className": "Warklock",
+							"classSource": "PHB",
+							"collapsed": true
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "section",
+			"name": "Spellcasting",
+			"entries": [
+				"2/2 spell slots available",
+				"Spell casting ability charisma",
+				"Spell save DC 15",
+				"Spell Attack Bonus  {@d20 +7}",
+				{
+					"type": "entries",
+					"name": "Cantrips",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@spell eldritch blast}",
+								"{@spell Prestidigitation}",
+								"{@spell sword burst|tce}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Level 1",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@spell fog cloud}",
+								"{@spell detect evil and good}",
+								"{@spell witch bolt}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Level 2",
+					"entries": [
+						{
+							"type": "list",
+							"items": [
+								"{@spell invisibility}",
+								"{@spell spider climb}"
+							]
+						}
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Level 3",
+					"entries": [
+						"Spell Slots: 2",
+						{
+							"type": "list",
+							"items": [
+								"{@spell create food and water}",
+								"{@spell vampiric touch}"
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"type": "section",
+			"name": "Items",
+			"entries": [
+				"Tin Can (Genie Vessel)",
+				"(The vessel's AC equals your spell save DC. Its hit points equal your warlock level plus your proficiency bonus, and it is immune to poison and psychic damage.)",
+				"{@item leather armor|phb|Leather} Armor",
+				"{@item Staff|phb}",
+				"{@item Dungeoneer's Pack|phb}",
+				"2 {@item Dagger|phb}",
+				"{@item Sickle}",
+				"115gp of insence (10 is needed in order to cast my familiar)",
+				"Pouch of red powder",
+				"{@item Magic Paint} - 4 pots, 1000 sq ft each. Used: 14sqft",
+				"{@item Folding Boat}",
+				"{@item Oil of Slipperiness}",
+				"{@item Adamantine Armor} (in bottle)"
+			]
+		},
+		{
+			"type": "statblockInline",
+			"style": "inset",
+			"dataType": "monster",
+			"data": {
+				"name": "Lemmy",
+				"source": "MM",
+				"page": 254,
+				"srd": true,
+				"otherSources": [
+					{
+						"source": "RoT"
+					},
+					{
+						"source": "ToA"
+					},
+					{
+						"source": "WDMM"
+					},
+					{
+						"source": "GoS"
+					},
+					{
+						"source": "ERLW"
+					},
+					{
+						"source": "IMR"
+					},
+					{
+						"source": "EGW"
+					},
+					{
+						"source": "IDRotF"
+					}
+				],
+				"size": [
+					"T"
+				],
+				"type": "dragon",
+				"alignment": [
+					"N",
+					"G"
+				],
+				"ac": [
+					13
+				],
+				"hp": {
+					"average": 7,
+					"formula": "2d4 + 2"
+				},
+				"speed": {
+					"walk": 15,
+					"burrow": 60
+				},
+				"str": 6,
+				"dex": 15,
+				"con": 13,
+				"int": 10,
+				"wis": 12,
+				"cha": 10,
+				"skill": {
+					"perception": "+3",
+					"stealth": "+4"
+				},
+				"senses": [
+					"blindsight 10 ft.",
+					"darkvision 60 ft."
+				],
+				"passive": 13,
+				"languages": [
+					"understands Common and Draconic but can't speak"
+				],
+				"cr": "1/4",
+				"trait": [
+					{
+						"name": "Keen Senses",
+						"entries": [
+							"The pseudodragon has advantage on Wisdom ({@skill Perception}) checks that rely on sight, hearing, or smell."
+						]
+					},
+					{
+						"name": "Magic Resistance",
+						"entries": [
+							"The pseudodragon has advantage on saving throws against spells and other magical effects."
+						]
+					},
+					{
+						"name": "Limited Telepathy",
+						"entries": [
+							"The pseudodragon can magically communicate simple ideas, emotions, and images telepathically with any creature within 100 feet of it that can understand a language."
+						]
+					}
+				],
+				"action": [
+					{
+						"name": "Bite",
+						"entries": [
+							"{@atk mw} {@hit 4} to hit, reach 5 ft., one target. {@h}4 ({@damage 1d4 + 2}) piercing damage."
+						]
+					},
+					{
+						"name": "Sting",
+						"entries": [
+							"{@atk mw} {@hit 4} to hit, reach 5 ft., one creature. {@h}4 ({@damage 1d4 + 2}) piercing damage, and the target must succeed on a {@dc 11} Constitution saving throw or become {@condition poisoned} for 1 hour. If the saving throw fails by 5 or more, the target falls {@condition unconscious} for the same duration, or until it takes damage or another creature uses an action to shake it awake."
+						]
+					}
+				],
+				"environment": [
+					"mountain",
+					"forest",
+					"hill",
+					"urban",
+					"desert",
+					"coastal"
+				],
+				"familiar": true,
+				"soundClip": {
+					"type": "internal",
+					"path": "bestiary/pseudodragon.mp3"
+				},
+				"traitTags": [
+					"Keen Senses",
+					"Magic Resistance"
+				],
+				"senseTags": [
+					"B",
+					"D"
+				],
+				"languageTags": [
+					"C",
+					"CS",
+					"DR"
+				],
+				"damageTags": [
+					"P"
+				],
+				"miscTags": [
+					"MW"
+				],
+				"conditionInflict": [
+					"poisoned",
+					"unconscious"
+				],
+				"savingThrowForced": [
+					"constitution"
+				],
+				"hasToken": true,
+				"hasFluff": true,
+				"hasFluffImages": true
+			}
+		},
+		"When you cast find familiar, you infuse the summoned familiar with a measure of your eldritch power, granting the creature the following benefits: The familiar gains either a flying speed or a swimming speed (your choice) of 40 feet.",
+		" As a bonus action, you can command the familiar to take the Attack action. The familiar's weapon attacks are considered magical for the purpose of overcoming immunity and resistance to nonmagical attacks. If the familiar forces a creature to make a saving throw, it uses your spell save DC. When the familiar takes damage, you can use your reaction to grant it resistance against that damage."
+	]
+}

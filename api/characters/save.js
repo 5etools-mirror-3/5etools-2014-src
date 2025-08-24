@@ -1,4 +1,5 @@
 import { put, head } from '@vercel/blob';
+import { PasswordUtils } from '../sources/password-utils.js';
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -22,11 +23,44 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { characterData, isEdit, characterId } = req.body;
+    const { characterData, isEdit, characterId, source, password } = req.body;
 
     if (!characterData || !characterData.name) {
       return res.status(400).json({ error: 'Invalid character data' });
     }
+
+    // Get source from character data or request body
+    const characterSource = source || characterData.source;
+    if (!characterSource) {
+      return res.status(400).json({ 
+        error: 'Source is required. Please specify a source for your character.' 
+      });
+    }
+
+    // Password validation is required for all saves
+    if (!password) {
+      return res.status(400).json({ 
+        error: 'Password is required. Please provide the password for the source.' 
+      });
+    }
+
+    // Validate the password for the source
+    const sanitizedSource = PasswordUtils.sanitizeSourceName(characterSource);
+    if (!sanitizedSource) {
+      return res.status(400).json({ 
+        error: 'Invalid source name. Use only letters, numbers, underscores, and hyphens.' 
+      });
+    }
+
+    const isValidPassword = await PasswordUtils.validatePassword(sanitizedSource, password);
+    if (!isValidPassword) {
+      return res.status(403).json({ 
+        error: 'Access denied: Invalid or missing password for this source. Please create the source first or check your password.' 
+      });
+    }
+
+    // Ensure character data has the correct source
+    characterData.source = sanitizedSource;
 
     // Generate character ID if not provided
     let finalCharacterId = characterId || characterData.name.toLowerCase()
@@ -34,14 +68,13 @@ export default async function handler(req, res) {
       .replace(/\s+/g, '-') // Replace spaces with dashes
       .substring(0, 50); // Limit length
 
+    // Add source to character ID
+    finalCharacterId += `-${sanitizedSource}`;
+
     // Wrap character in the expected format
     const saveData = {
       character: [characterData]
     };
-
-    if (saveData.character[0].source) {
-      finalCharacterId += `-${saveData.character[0].source}`;
-    }
 
     if (process.env.BLOB_READ_WRITE_TOKEN) {
       const pathname = `characters/${finalCharacterId}.json`;
@@ -80,11 +113,12 @@ export default async function handler(req, res) {
         }
       });
     } else {
-      // Development mode - just return success without actually saving
+      // Development mode - password was validated but can't save without token
       return res.status(200).json({
         success: true,
-        message: 'Character not saved',
+        message: 'Password validated but character not saved',
         characterId: finalCharacterId,
+        source: sanitizedSource,
         note: 'BLOB_READ_WRITE_TOKEN not configured - character not actually saved'
       });
     }

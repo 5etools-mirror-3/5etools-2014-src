@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<!--5ETOOLS_CMP-->
+	<!--5ETOOLS_ANALYTICS-->
+	<!--5ETOOLS_ADCODE-->
+	<meta charset="utf-8">
+	<meta name="description" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<meta name="mobile-web-app-capable" content="yes">
+
+	<title>Source Management - 5etools</title>
+
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/main.css">
+
+	<!-- Favicons -->
+	<link rel="icon" type="image/svg+xml" href="favicon.svg">
+	<link rel="icon" type="image/png" sizes="256x256" href="favicon-256x256.png">
+	<link rel="icon" type="image/png" sizes="144x144" href="favicon-144x144.png">
+	<link rel="icon" type="image/png" sizes="128x128" href="favicon-128x128.png">
+	<link rel="icon" type="image/png" sizes="64x64" href="favicon-64x64.png">
+	<link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+
+	<!-- Chrome Web App Icons -->
+	<link rel="manifest" href="manifest.webmanifest">
+	<meta name="application-name" content="5etools">
+	<meta name="theme-color" content="#006bc4">
+
+	<!-- Windows Start Menu tiles -->
+	<meta name="msapplication-config" content="browserconfig.xml"/>
+	<meta name="msapplication-TileColor" content="#006bc4">
+
+	<!-- Apple Touch Icons -->
+	<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon-180x180.png">
+	<link rel="apple-touch-icon" sizes="360x360" href="apple-touch-icon-360x360.png">
+	<link rel="apple-touch-icon" sizes="167x167" href="apple-touch-icon-167x167.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="apple-touch-icon-120x120.png">
+	<meta name="apple-mobile-web-app-title" content="5etools">
+
+	<!-- macOS Safari Pinned Tab and Touch Bar -->
+	<link rel="mask-icon" href="safari-pinned-tab.svg" color="#006bc4">
+
+	<!-- OpenSearch -->
+	<link rel="search" href="open-search.xml" title="Search 5etools" type="application/opensearchdescription+xml">
+
+	<script type="text/javascript" src="sw-injector.js"></script>
+
+	<script type="module" src="js/styleswitch.js"></script>
+	<script type="text/javascript" src="js/navigation.js"></script>
+	<script type="module" src="js/browsercheck.js"></script>
+</head>
+
+<body>
+
+<div class="overlay-noise no-print"></div>
+
+<div class="cancer__wrp-sidebar cancer__wrp-sidebar-lhs cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__sidebar-inner cancer__sidebar-inner--top cancer__wrp-interactive"><!--5ETOOLS_AD_LEFT_1--></div><div class="cancer__sidebar-inner cancer__sidebar-inner--bottom cancer__wrp-interactive"><!--5ETOOLS_AD_LEFT_2--></div></div>
+<div class="cancer__wrp-sidebar cancer__wrp-sidebar-rhs cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__sidebar-inner cancer__sidebar-inner--top cancer__wrp-interactive"><!--5ETOOLS_AD_RIGHT_1--></div><div class="cancer__sidebar-inner cancer__sidebar-inner--bottom cancer__wrp-interactive"><!--5ETOOLS_AD_RIGHT_2--></div></div>
+
+<div class="viewport-wrapper">
+	<div class="cancer__wrp-leaderboard cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__wrp-leaderboard-inner cancer__wrp-interactive"><!--5ETOOLS_AD_LEADERBOARD--></div></div>
+
+	<header class="hidden-xs hidden-sm page__header">
+		<div class="container ve-flex-v-baseline">
+			<h1 class="page__title no-wrap my-0" id="page__title">Source Management</h1>
+			<p class="page__subtitle no-wrap my-0" id="page__subtitle">Create and manage character sources with password protection.</p>
+		</div>
+	</header>
+
+	<nav class="container page__nav" id="navigation">
+		<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
+	</nav>
+
+	<div class="container">
+		<!-- Create New Source Section -->
+		<div class="ve-flex-col mb-4 p-3" style=" border: 1px solid #dee2e6; border-radius: 6px;">
+			<h2 class="mb-3">Create New Source</h2>
+			<div class="mb-3">
+				<label for="new-source-name" class="form-label"><strong>Source Name:</strong></label>
+				<input type="text" id="new-source-name" class="form-control" placeholder="Enter source name (letters, numbers, underscores, hyphens only)" style="max-width: 400px;">
+				<small class="form-text text-muted">Source names can only contain letters, numbers, underscores, and hyphens.</small>
+			</div>
+			<div class="mb-3">
+				<label for="new-source-password" class="form-label"><strong>Password:</strong></label>
+				<input type="password" id="new-source-password" class="form-control" placeholder="Set a secure password for this source" style="max-width: 400px;">
+				<small class="form-text text-muted">This password will be required to save characters to this source.</small>
+			</div>
+			<div class="mb-3">
+				<label for="confirm-source-password" class="form-label"><strong>Confirm Password:</strong></label>
+				<input type="password" id="confirm-source-password" class="form-control" placeholder="Re-enter the password" style="max-width: 400px;">
+			</div>
+			<div class="mb-3">
+				<button class="ve-btn ve-btn-primary" id="create-source-btn">Create Source</button>
+			</div>
+			<div id="create-message" class="mt-2" style="font-weight: bold;"></div>
+		</div>
+
+		<!-- Login to Source Section -->
+		<div class="ve-flex-col mb-4 p-3" style=" border: 1px solid #dee2e6; border-radius: 6px;">
+			<h2 class="mb-3">Login to Existing Source</h2>
+			<p class="text-muted mb-3">Login to an existing source to cache your credentials for character management.</p>
+			<div class="ve-flex-h mb-3 align-items-end">
+				<div class="mr-3">
+					<label for="login-source-name" class="form-label"><strong>Source Name:</strong></label>
+					<input type="text" id="login-source-name" class="form-control" placeholder="Enter source name" style="width: 250px;">
+				</div>
+				<div class="mr-3">
+					<label for="login-source-password" class="form-label"><strong>Password:</strong></label>
+					<input type="password" id="login-source-password" class="form-control" placeholder="Enter password" style="width: 250px;">
+				</div>
+				<div>
+					<button class="ve-btn ve-btn-primary" id="login-source-btn">Login</button>
+				</div>
+			</div>
+			<div id="login-message" class="mt-2" style="font-weight: bold;"></div>
+		</div>
+
+		<!-- Source Access Testing Section -->
+		<div class="ve-flex-col mb-4 p-3" style=" border: 1px solid #dee2e6; border-radius: 6px;">
+			<h2 class="mb-3">Test Source Access</h2>
+			<p class="text-muted mb-3">Verify access to a source without caching credentials (for testing purposes).</p>
+			<div class="ve-flex-h mb-3 align-items-end">
+				<div class="mr-3">
+					<label for="test-source-name" class="form-label"><strong>Source Name:</strong></label>
+					<input type="text" id="test-source-name" class="form-control" placeholder="Enter source name" style="width: 250px;">
+				</div>
+				<div class="mr-3">
+					<label for="test-source-password" class="form-label"><strong>Password:</strong></label>
+					<input type="password" id="test-source-password" class="form-control" placeholder="Enter password" style="width: 250px;">
+				</div>
+				<div>
+					<button class="ve-btn ve-btn-default" id="test-access-btn">Test Access</button>
+				</div>
+			</div>
+			<div id="test-message" class="mt-2" style="font-weight: bold;"></div>
+		</div>
+
+		<!-- Cached Sources Section -->
+		<div class="ve-flex-col mb-4 p-3" style=" border: 1px solid #dee2e6; border-radius: 6px;">
+			<h2 class="mb-3">Cached Source Passwords</h2>
+			<p class="text-muted mb-3">These are sources you have previously accessed. Passwords are stored locally in your browser.</p>
+			<div id="cached-sources-list">
+				<p class="text-muted"><em>No cached sources found</em></p>
+			</div>
+			<div class="mt-3">
+				<button class="ve-btn ve-btn-warning ve-btn-sm" id="clear-cache-btn">Clear All Cached Passwords</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--5ETOOLS_SCRIPT_ANCHOR-->
+<!--5ETOOLS_AD_ADHESION-->
+
+<script type="text/javascript" defer src="lib/jquery.js"></script>
+<script type="text/javascript" defer src="js/parser.js"></script>
+<script type="text/javascript" defer src="js/utils.js"></script>
+<script type="text/javascript" defer src="js/utils-ui.js"></script>
+<script type="module" src="js/sources.js"></script>
+
+</body>
+</html>

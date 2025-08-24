@@ -8501,6 +8501,38 @@ Renderer.character = class {
 		}, 0);
 	}
 
+	/**
+	 * Check if character has proficiency in a given skill
+	 * @param {Object} character - The character data object
+	 * @param {Object} skill - The skill definition with key and name properties
+	 * @returns {Object} { isProficient: boolean, bonus: string|number|undefined }
+	 */
+	static _getSkillProficiency(character, skill) {
+		if (!character.skill) {
+			return { isProficient: false, bonus: undefined };
+		}
+
+		// Try multiple key formats to find skill bonus
+		const skillBonus = character.skill[skill.key] ||
+			character.skill[skill.name.toLowerCase().replace(/\s+/g, '')] ||
+			character.skill[skill.name.toLowerCase()];
+
+		return {
+			isProficient: skillBonus !== undefined,
+			bonus: skillBonus
+		};
+	}
+
+	/**
+	 * Format skill name with proficiency indicator
+	 * @param {string} skillName - The skill name
+	 * @param {boolean} isProficient - Whether the skill is proficient
+	 * @returns {string} Formatted skill name
+	 */
+	static _formatSkillName(skillName, isProficient) {
+		return isProficient ? `<strong>${skillName}</strong> ●` : skillName;
+	}
+
 	static getCompactRenderedString (character, {isStatic = false} = {}) {
 		const renderer = Renderer.get().setFirstSection(true);
 		const renderStack = [];
@@ -8648,24 +8680,22 @@ Renderer.character = class {
 						const baseModifier = Parser.getAbilityModifier(abilityScore);
 						const baseModValue = typeof baseModifier === 'number' ? baseModifier : parseInt(baseModifier) || 0;
 
-						// Check if character has proficiency in this skill
-						const skillBonus = character.skill?.[skill.key] || character.skill?.[skill.name.toLowerCase().replace(/\s+/g, '')];
+						// Get skill proficiency information
+						const { isProficient, bonus } = Renderer.character._getSkillProficiency(character, skill);
 
-						let finalModifier = baseModValue;
-						let isProficient = false;
-
-						if (skillBonus !== undefined) {
-							finalModifier = typeof skillBonus === 'string' ? parseInt(skillBonus) || baseModValue : skillBonus;
-							isProficient = true;
-						}
+						// Calculate final modifier
+						const finalModifier = isProficient
+							? (typeof bonus === 'string' ? parseInt(bonus) || baseModValue : bonus)
+							: baseModValue;
 
 						const finalStr = finalModifier >= 0 ? `+${finalModifier}` : `${finalModifier}`;
-						// Create clickable dice roll for skill checks, with proficiency indicator in the roll name
-						const skillName = isProficient ? `${skill.name} (Proficient)` : skill.name;
-						const rollableModifier = `{@dice 1d20${finalStr}|${finalStr}|${skillName}}`;
+						
+						// Create clickable dice roll with proficiency indicator in tooltip
+						const rollTooltip = isProficient ? `${skill.name} (Proficient)` : skill.name;
+						const rollableModifier = `{@dice 1d20${finalStr}|${finalStr}|${rollTooltip}}`;
 
-						// Display skill name with proficiency indicator
-						const displayName = isProficient ? `<strong>${skill.name}</strong> ◉` : skill.name;
+						// Format skill name with visual proficiency indicator
+						const displayName = Renderer.character._formatSkillName(skill.name, isProficient);
 
 						return [
 							displayName,

@@ -2,11 +2,101 @@ let editor;
 let currentCharacterData = null;
 let currentCharacterId = null;
 let isEditMode = false;
+let currentSource = null;
+let hasSourceAccess = false;
 
 // API configuration
 const API_BASE_URL = window.location.origin.includes('localhost')
   ? 'http://localhost:3000/api'
   : '/api';
+
+// Source Password Management
+class SourcePasswordManager {
+	static STORAGE_KEY = 'sourcePasswords';
+
+	// Get all cached passwords from localStorage
+	static getCachedPasswords() {
+		try {
+			const stored = localStorage.getItem(this.STORAGE_KEY);
+			return stored ? JSON.parse(stored) : {};
+		} catch (e) {
+			console.error('Error loading cached passwords:', e);
+			return {};
+		}
+	}
+
+	// Cache a password for a source
+	static cachePassword(sourceName, password) {
+		try {
+			const passwords = this.getCachedPasswords();
+			passwords[sourceName] = password;
+			localStorage.setItem(this.STORAGE_KEY, JSON.stringify(passwords));
+			return true;
+		} catch (e) {
+			console.error('Error caching password:', e);
+			return false;
+		}
+	}
+
+	// Get cached password for a source
+	static getCachedPassword(sourceName) {
+		const passwords = this.getCachedPasswords();
+		return passwords[sourceName] || null;
+	}
+
+	// Remove cached password for a source
+	static removeCachedPassword(sourceName) {
+		try {
+			const passwords = this.getCachedPasswords();
+			delete passwords[sourceName];
+			localStorage.setItem(this.STORAGE_KEY, JSON.stringify(passwords));
+			return true;
+		} catch (e) {
+			console.error('Error removing cached password:', e);
+			return false;
+		}
+	}
+
+	// Check if password is valid for a source
+	static async validatePassword(sourceName, password) {
+		try {
+			const response = await fetch(`${API_BASE_URL}/sources/validate`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ source: sourceName, password })
+			});
+
+			if (response.ok) {
+				const result = await response.json();
+				return result.valid === true;
+			}
+			return false;
+		} catch (e) {
+			console.error('Error validating password:', e);
+			return false;
+		}
+	}
+
+	// Create a new source with password
+	static async createSource(sourceName, password) {
+		try {
+			const response = await fetch(`${API_BASE_URL}/sources/create`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ source: sourceName, password })
+			});
+
+			if (response.ok) {
+				const result = await response.json();
+				return result.success === true;
+			}
+			return false;
+		} catch (e) {
+			console.error('Error creating source:', e);
+			return false;
+		}
+	}
+}
 
 class CharacterEditorPage {
 	constructor() {
@@ -38,8 +128,11 @@ class CharacterEditorPage {
 		// Bind button events
 		this.bindEvents();
 
-		// Auto-render on load if we have data
-		setTimeout(() => this.renderCharacter(), 500);
+		// Initialize source display
+		setTimeout(() => {
+			this.updateSourceDisplay();
+			this.renderCharacter();
+		}, 500);
 	}
 
 	async loadCharacterForEdit() {
@@ -193,6 +286,13 @@ class CharacterEditorPage {
 			this.deleteCharacter();
 		});
 
+		// Note: Source password management moved to sources.html page
+
+		// Watch for JSON changes to update source display
+		this.ace.session.on('change', () => {
+			this.updateSourceDisplay();
+		});
+
 		// Update button visibility based on edit mode
 		this.updateButtonVisibility();
 	}
@@ -315,6 +415,13 @@ class CharacterEditorPage {
 			const jsonText = this.ace.getValue();
 			const characterData = JSON.parse(jsonText);
 
+			// Check source password before saving
+			if (!await this.validateSourceAccess(characterData.source)) {
+				document.getElementById('message').textContent = 'Access denied: Invalid or missing password for this source';
+				document.getElementById('message').style.color = 'red';
+				return;
+			}
+
 			if (isEditMode && currentCharacterData) {
 				// Update existing character
 				await this.updateCharacterInAPI(characterData);
@@ -336,6 +443,9 @@ class CharacterEditorPage {
 		// Update localStorage for immediate use
 		localStorage.setItem('editingCharacter', JSON.stringify(updatedCharacter));
 
+		// Get password for validation
+		const password = document.getElementById('source-password').value;
+
 		try {
 			const response = await fetch('/api/characters/save', {
 				method: 'POST',
@@ -344,6 +454,10 @@ class CharacterEditorPage {
 				},
 				body: JSON.stringify({
 					characterData: updatedCharacter,
+					character: updatedCharacter,
+					source: updatedCharacter.source,
+					password: password,
+					filename: `${updatedCharacter.source || 'custom'}-characters.json`,
 					isEdit: true,
 					characterId: currentCharacterData ? this.generateCharacterId(currentCharacterData.name) : this.generateCharacterId(updatedCharacter.name)
 				})
@@ -384,6 +498,9 @@ class CharacterEditorPage {
 	}
 
 	async saveNewCharacterToAPI(characterData) {
+		// Get password for validation
+		const password = document.getElementById('source-password').value;
+
 		try {
 			const response = await fetch('/api/characters/save', {
 				method: 'POST',
@@ -392,6 +509,10 @@ class CharacterEditorPage {
 				},
 				body: JSON.stringify({
 					characterData: characterData,
+					character: characterData,
+					source: characterData.source,
+					password: password,
+					filename: `${characterData.source || 'custom'}-characters.json`,
 					isEdit: false,
 					characterId: this.generateCharacterId(characterData.name)
 				})
@@ -444,7 +565,7 @@ class CharacterEditorPage {
 		const messageEl = document.getElementById('message');
 		if (result.instructions && result.instructions.note) {
 			const instructionsHtml = `
-				<div style="background: #f8f9fa; border: 1px solid #dee2e6; padding: 10px; margin: 10px 0; border-radius: 4px;">
+				<div style="border: 1px solid #dee2e6; padding: 10px; margin: 10px 0; border-radius: 4px;">
 					<strong>Save Instructions:</strong><br>
 					${result.instructions.note}<br>
 					${result.instructions.suggestion ? `<em>${result.instructions.suggestion}</em><br>` : ''}
@@ -688,6 +809,75 @@ class CharacterEditorPage {
 		// Generate an anchor that will scroll to the character row in the characters table
 		const characterId = this.generateCharacterId(characterName);
 		return `#${characterId}_${characterSource}`;
+	}
+
+	// Source Password Management UI Methods
+	updateSourceDisplay() {
+		try {
+			const jsonText = this.ace.getValue();
+			const characterData = JSON.parse(jsonText);
+			const sourceName = characterData.source || 'Not set';
+
+			// document.getElementById('current-source').textContent = sourceName;
+			currentSource = sourceName !== 'Not set' ? sourceName : null;
+
+			// Update source status display
+			this.updateSourceStatus();
+		} catch (e) {
+			currentSource = null;
+		}
+	}
+
+	updateSourceStatus() {
+		const statusEl = document.getElementById('source-status');
+
+		if (!currentSource) {
+			statusEl.innerHTML = 'Use <a href="sources.html">Source Management</a> to login to a source or create new sources.';
+			hasSourceAccess = false;
+			return;
+		}
+
+		// Check if this source has a cached password
+		const cachedPassword = SourcePasswordManager.getCachedPassword(currentSource);
+		if (cachedPassword) {
+			statusEl.innerHTML = `You are logged in to source "<strong>${currentSource}</strong>". <a href="sources.html">Manage sources</a>.`;
+			hasSourceAccess = true;
+		} else {
+			statusEl.innerHTML = `Source "<strong>${currentSource}</strong>" requires authentication. <a href="sources.html">Login here</a>.`;
+			hasSourceAccess = false;
+		}
+	}
+
+	// Source creation functionality moved to sources.html page
+
+	async validateSourceAccess(sourceName) {
+		if (!sourceName || sourceName === 'ADD_YOUR_NAME_HERE' || sourceName === 'Not set') {
+			return false;
+		}
+
+		const password = document.getElementById('source-password').value;
+		if (!password) {
+			return false;
+		}
+
+		// First check cached password
+		const cachedPassword = SourcePasswordManager.getCachedPassword(sourceName);
+		if (cachedPassword === password) {
+			return true;
+		}
+
+		// If not cached, validate with server
+		try {
+			const isValid = await SourcePasswordManager.validatePassword(sourceName, password);
+			if (isValid) {
+				SourcePasswordManager.cachePassword(sourceName, password);
+				return true;
+			}
+		} catch (e) {
+			console.error('Error validating source access:', e);
+		}
+
+		return false;
 	}
 
 	clearCharacterCache() {
