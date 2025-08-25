@@ -224,7 +224,26 @@ class CharacterEditorPage {
 			wis: 10,
 			cha: 10,
 			passive: 10,
+			"save": {
+				"wis": "+0",
+				"cha": "+0"
+			},
+			"skill": {
+				"deception": "+0",
+				"insight": "+0",
+				"investigation": "+0",
+				"perception": "+0",
+				"survival": "+0"
+			},
 			proficiencyBonus: "+2",
+			"action": [
+				{
+					"name": "{@item Longsword}",
+					"entries": [
+					"{@atk rm} {@hit 4} ({@damage 1d6})"
+					]
+				}
+			],
 			"entries": [
 			{
 				"type": "entries",
@@ -239,7 +258,7 @@ class CharacterEditorPage {
         "2/2 spell slots available",
         "Spell casting ability charisma",
         "Spell save DC 15",
-        "Spell Attack Bonus  {@d20 +7}",
+        "Spell Attack Bonus  {@d20 +1}",
         {
           "type": "entries",
           "name": "Cantrips",
@@ -247,7 +266,7 @@ class CharacterEditorPage {
             {
               "type": "list",
               "items": [
-                "{@spell Prestidigitation}",
+                "{@spell Poison Spray}",
               ]
             }
           ]
@@ -259,8 +278,7 @@ class CharacterEditorPage {
             {
               "type": "list",
               "items": [
-                "{@spell fog cloud}",
-                "{@spell detect evil and good}",
+                "{@spell Fireball}",
               ]
             }
           ]
