@@ -78,6 +78,7 @@ export class PasswordUtils {
   static async validatePassword(sourceName, password) {
     try {
       const sourceData = await this.getSourcePassword(sourceName);
+		console.log(`Retrieved source data for "${sourceName}":${sourceData}`, sourceData);
       if (!sourceData) {
         return false; // Source doesn't exist
       }
