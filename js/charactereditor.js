@@ -455,11 +455,12 @@ class CharacterEditorPage {
 
 		// Get password from localStorage cache
 		const currentSource = this.getCurrentSourceName(updatedCharacter);
-		const password = SourcePasswordManager.getCachedPassword(currentSource);
+		const sanitizedSource = this.sanitizeSourceName(currentSource);
+		const password = SourcePasswordManager.getCachedPassword(sanitizedSource);
 
 		if (!password) {
 			const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
-			let errorMsg = `Error: No cached password found for source "${currentSource}".`;
+			let errorMsg = `Error: No cached password found for source "${currentSource}" (sanitized: "${sanitizedSource}").`;
 			if (cachedSources.length > 0) {
 				errorMsg += ` Available sources: ${cachedSources.join(', ')}. Please update the "source" field in your character JSON or visit Source Management.`;
 			} else {
@@ -522,11 +523,12 @@ class CharacterEditorPage {
 	async saveNewCharacterToAPI(characterData) {
 		// Get password from localStorage cache
 		const currentSource = this.getCurrentSourceName(characterData);
-		const password = SourcePasswordManager.getCachedPassword(currentSource);
+		const sanitizedSource = this.sanitizeSourceName(currentSource);
+		const password = SourcePasswordManager.getCachedPassword(sanitizedSource);
 
 		if (!password) {
 			const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
-			let errorMsg = `Error: No cached password found for source "${currentSource}".`;
+			let errorMsg = `Error: No cached password found for source "${currentSource}" (sanitized: "${sanitizedSource}").`;
 			if (cachedSources.length > 0) {
 				errorMsg += ` Available sources: ${cachedSources.join(', ')}. Please update the "source" field in your character JSON or visit Source Management.`;
 			} else {
@@ -914,8 +916,9 @@ class CharacterEditorPage {
 			currentSource = detectedSource;
 		}
 
-		// Check if this source has a cached password
-		const cachedPassword = SourcePasswordManager.getCachedPassword(detectedSource);
+		// Check if this source has a cached password (using sanitized name)
+		const sanitizedDetectedSource = this.sanitizeSourceName(detectedSource);
+		const cachedPassword = SourcePasswordManager.getCachedPassword(sanitizedDetectedSource);
 		if (cachedPassword) {
 			statusEl.innerHTML = `Detected source: "<strong>${detectedSource}</strong>" (authenticated). <a href="sources.html">Manage sources</a>.`;
 			hasSourceAccess = true;
@@ -930,19 +933,26 @@ class CharacterEditorPage {
 
 	// Source creation functionality moved to sources.html page
 
+	// Sanitize source name the same way the API does
+	sanitizeSourceName(sourceName) {
+		// Only allow letters, numbers, underscores, and hyphens
+		return sourceName.replace(/[^a-zA-Z0-9_-]/g, '').substring(0, 50);
+	}
+
 	async validateSourceAccess(sourceName) {
 		if (!sourceName || sourceName === 'ADD_YOUR_NAME_HERE' || sourceName === 'Not set') {
 			return false;
 		}
 
-		// Check if we have a cached password for this source
-		const cachedPassword = SourcePasswordManager.getCachedPassword(sourceName);
+		// Check if we have a cached password for this source (using sanitized name)
+		const sanitizedSource = this.sanitizeSourceName(sourceName);
+		const cachedPassword = SourcePasswordManager.getCachedPassword(sanitizedSource);
 		if (cachedPassword) {
 			return true;
 		}
 
 		// No cached password found
-		console.warn(`No cached password found for source: ${sourceName}`);
+		console.warn(`No cached password found for source: "${sourceName}" (sanitized: "${sanitizedSource}")`);
 		return false;
 	}
 
