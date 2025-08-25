@@ -1105,11 +1105,10 @@ class CharacterEditorPage {
 	}
 
 	generateCharacterAnchor(characterName, characterSource) {
-		// Generate an anchor that will scroll to the character row in the characters table
-		const characterId = this.generateCharacterId(characterName); // Use raw name for ID generation
-		const encodedName = encodeURIComponent(characterId); // Encode after generating ID
+		// Properly encode characterName and characterSource
+		const encodedName = encodeURIComponent(characterName); // Encode the raw name
 		const encodedSource = encodeURIComponent(characterSource);
-		return `#${encodedName}_${encodedSource}`;
+		return `#${encodedName}_${encodedSource}`.toLowerCase();
 	}
 
 	// Source Password Management UI Methods
