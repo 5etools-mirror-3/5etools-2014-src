@@ -18,18 +18,24 @@ export class PasswordUtils {
 
       const pathname = `passwords/${sourceName}.json`;
 
-      // Check if the password file exists
-      const response = await fetch(`https://pub-${process.env.VERCEL_BLOB_STORE_ID}.public.blob.vercel-storage.com/${pathname}`, {
-        method: 'GET'
-      });
+      // Check if the password file exists using the Vercel Blob SDK
+      const blobData = await head(pathname);
+
+      if (!blobData || !blobData.url) {
+        return null; // Source doesn't exist
+      }
+
+      // Fetch the actual content using the blob's public URL
+      const response = await fetch(blobData.url);
 
       if (!response.ok) {
-        return null; // Source doesn't exist
+        return null; // Error fetching the file
       }
 
       const passwordData = await response.json();
       return passwordData;
     } catch (error) {
+      console.error('Error in getSourcePassword:', error);
       return null; // Source doesn't exist or error occurred
     }
   }
