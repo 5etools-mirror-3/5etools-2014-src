@@ -8530,7 +8530,7 @@ Renderer.character = class {
 	 * @returns {string} Formatted skill name
 	 */
 	static _formatSkillName(skillName, isProficient) {
-		return isProficient ? `<strong>${skillName}</strong> ●` : skillName;
+		return isProficient ? `<strong>${skillName}</strong> ◉` : skillName;
 	}
 
 	static getCompactRenderedString (character, {isStatic = false} = {}) {
@@ -8689,7 +8689,7 @@ Renderer.character = class {
 							: baseModValue;
 
 						const finalStr = finalModifier >= 0 ? `+${finalModifier}` : `${finalModifier}`;
-						
+
 						// Create clickable dice roll with proficiency indicator in tooltip
 						const rollTooltip = isProficient ? `${skill.name} (Proficient)` : skill.name;
 						const rollableModifier = `{@dice 1d20${finalStr}|${finalStr}|${rollTooltip}}`;

@@ -4,7 +4,7 @@ export class RenderCharacters {
 	/**
 	 * Calculate total		const renderer = Renderer.get();
 		const characterId = character.name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-		
+
 		return $$`<tr>
 			<th class="ve-tbl-border" colspan="6"></th>
 		</tr>
@@ -56,8 +56,8 @@ export class RenderCharacters {
 
 	static _getRenderedSection_header (character) {
 		const raceText = character.race ?
-			(character.race.variant ? 
-				`Variant {@race ${character.race.name}|${character.race.source || "PHB"}}` : 
+			(character.race.variant ?
+				`Variant {@race ${character.race.name}|${character.race.source || "PHB"}}` :
 				`{@race ${character.race.name}|${character.race.source || "PHB"}}`) :
 			"Unknown Race";
 
@@ -68,7 +68,7 @@ export class RenderCharacters {
 					const subclassName = cls.subclass.name || "Unknown";
 					const subclassShortName = cls.subclass.shortName || cls.subclass.name || "Unknown";
 					const subclassSource = cls.subclass.source || cls.source || "PHB";
-					
+
 					// Use the correct format: {@class ClassName||SubclassName|SubclassShortName|SubclassSource}
 					const classLink = `{@class ${cls.name}||${subclassName}|${subclassShortName}|${subclassSource}}`;
 					return `${classLink} ${cls.level}`;
@@ -83,7 +83,7 @@ export class RenderCharacters {
 			"Unknown";
 
 		const renderer = Renderer.get();
-		
+
 		return $$`<tr>
 			<th class="ve-tbl-border" colspan="6"></th>
 		</tr>
@@ -127,7 +127,7 @@ export class RenderCharacters {
 			Object.entries(character.skill)
 				.map(([skillKey, skillValue]) => {
 					const skillName = StrUtil.toTitleCase(skillKey);
-					return `<strong>${skillName}</strong> ● ${skillValue}`;
+					return `<strong>${skillName}</strong> ◉ ${skillValue}`;
 				})
 				.join(", ") :
 			"—";

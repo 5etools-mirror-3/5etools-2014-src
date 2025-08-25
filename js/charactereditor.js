@@ -1012,11 +1012,21 @@ class CharacterEditorPage {
 			return;
 		}
 
-		// Password authentication required
-		const password = prompt(`Please enter the password for source "${currentCharacterData.source}" to delete this character:`);
+		// Get password from localStorage cache (same as save functionality)
+		const currentSource = this.getCurrentSourceName(currentCharacterData);
+		const sanitizedSource = this.sanitizeSourceName(currentSource);
+		const password = SourcePasswordManager.getCachedPassword(sanitizedSource);
+
 		if (!password) {
-			document.getElementById('message').textContent = 'Deletion cancelled - password required for security';
-			document.getElementById('message').style.color = 'orange';
+			const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
+			let errorMsg = `Error: No cached password found for source "${currentSource}" (sanitized: "${sanitizedSource}").`;
+			if (cachedSources.length > 0) {
+				errorMsg += ` Available sources: ${cachedSources.join(', ')}. Please update the "source" field or visit Source Management.`;
+			} else {
+				errorMsg += ` Please visit Source Management to login to a source first.`;
+			}
+			document.getElementById('message').textContent = errorMsg;
+			document.getElementById('message').style.color = 'red';
 			return;
 		}
 
