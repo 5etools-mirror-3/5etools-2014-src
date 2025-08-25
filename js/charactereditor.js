@@ -223,11 +223,59 @@ class CharacterEditorPage {
 			int: 10,
 			wis: 10,
 			cha: 10,
+			passive: 10,
 			proficiencyBonus: "+2",
-			equipment: [],
-			trait: [],
-			action: [],
-			customText: "This is where you can add custom character description and notes. You can include backstory, personality traits, bonds, ideals, flaws, and any other information about your character.",
+			"entries": [
+			{
+				"type": "entries",
+				"name": "Background & Personality",
+				"entries": [
+				"This is where you can add information about the background and personality of your character. The entries section here is highly editable and you can add a lot of stuff about your character. "
+				]
+			},    {
+      "type": "section",
+      "name": "Spellcasting",
+      "entries": [
+        "2/2 spell slots available",
+        "Spell casting ability charisma",
+        "Spell save DC 15",
+        "Spell Attack Bonus  {@d20 +7}",
+        {
+          "type": "entries",
+          "name": "Cantrips",
+          "entries": [
+            {
+              "type": "list",
+              "items": [
+                "{@spell Prestidigitation}",
+              ]
+            }
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Level 1",
+          "entries": [
+            {
+              "type": "list",
+              "items": [
+                "{@spell fog cloud}",
+                "{@spell detect evil and good}",
+              ]
+            }
+          ]
+        },
+      ]
+    },
+    {
+      "type": "section",
+      "name": "Items",
+      "entries": [
+        "{@item leather armor|phb|Leather} Armor",
+        "{@item Staff|phb}",
+        "{@item Dungeoneer's Pack|phb}",
+      ]
+    },],
 			fluff: {
 				entries: [
 					"This character is a blank template ready to be customized.",
@@ -248,7 +296,7 @@ class CharacterEditorPage {
 			"Ember", "Fox", "Gray", "Haven", "Iris", "Juno", "Kane", "Luna", "Max", "Nova",
 			"Onyx", "Phoenix", "Rain", "Storm", "Vale", "Winter", "Ash", "Blaze", "Clay", "Dawn"
 		];
-		
+
 		const lastNames = [
 			"Brightblade", "Stormwind", "Ironforge", "Goldleaf", "Shadowhawk", "Fireborn", "Starweaver", "Moonwhisper",
 			"Dragonbane", "Thornfield", "Blackwood", "Silverstone", "Redmane", "Whiteheart", "Greycloak", "Blueshield",
@@ -256,7 +304,7 @@ class CharacterEditorPage {
 			"Skyrender", "Voidcaller", "Sunblade", "Nightfall", "Dawnbreaker", "Duskweaver", "Starfinder", "Moontide",
 			"Flameheart", "Iceborn", "Stormcaller", "Thunderstrike", "Lightforge", "Shadowmend", "Wildborn", "Freewind"
 		];
-		
+
 		const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
 		const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
 		return `${firstName} ${lastName}`;
@@ -279,24 +327,24 @@ class CharacterEditorPage {
 			{ name: "Gnome", source: "PHB", subrace: "Rock Gnome" },
 			{ name: "Elf", source: "PHB", subrace: "Dark Elf (Drow)" }
 		];
-		
+
 		const selectedRace = races[Math.floor(Math.random() * races.length)];
 		const race = {
 			name: selectedRace.name,
 			source: selectedRace.source
 		};
-		
+
 		if (selectedRace.subrace) {
 			race.subrace = selectedRace.subrace;
 		}
-		
+
 		return race;
 	}
 
 	generateRandomClass() {
 		const classes = [
-			{ 
-				name: "Fighter", 
+			{
+				name: "Fighter",
 				source: "PHB",
 				subclasses: [
 					{ name: "Champion", shortName: "Champion", source: "PHB" },
@@ -304,8 +352,8 @@ class CharacterEditorPage {
 					{ name: "Eldritch Knight", shortName: "Eldritch Knight", source: "PHB" }
 				]
 			},
-			{ 
-				name: "Wizard", 
+			{
+				name: "Wizard",
 				source: "PHB",
 				subclasses: [
 					{ name: "School of Evocation", shortName: "Evocation", source: "PHB" },
@@ -313,8 +361,8 @@ class CharacterEditorPage {
 					{ name: "School of Divination", shortName: "Divination", source: "PHB" }
 				]
 			},
-			{ 
-				name: "Rogue", 
+			{
+				name: "Rogue",
 				source: "PHB",
 				subclasses: [
 					{ name: "Thief", shortName: "Thief", source: "PHB" },
@@ -322,8 +370,8 @@ class CharacterEditorPage {
 					{ name: "Arcane Trickster", shortName: "Arcane Trickster", source: "PHB" }
 				]
 			},
-			{ 
-				name: "Cleric", 
+			{
+				name: "Cleric",
 				source: "PHB",
 				subclasses: [
 					{ name: "Life Domain", shortName: "Life", source: "PHB" },
@@ -331,16 +379,16 @@ class CharacterEditorPage {
 					{ name: "War Domain", shortName: "War", source: "PHB" }
 				]
 			},
-			{ 
-				name: "Ranger", 
+			{
+				name: "Ranger",
 				source: "PHB",
 				subclasses: [
 					{ name: "Hunter", shortName: "Hunter", source: "PHB" },
 					{ name: "Beast Master", shortName: "Beast Master", source: "PHB" }
 				]
 			},
-			{ 
-				name: "Paladin", 
+			{
+				name: "Paladin",
 				source: "PHB",
 				subclasses: [
 					{ name: "Oath of Devotion", shortName: "Devotion", source: "PHB" },
@@ -348,32 +396,32 @@ class CharacterEditorPage {
 					{ name: "Oath of Vengeance", shortName: "Vengeance", source: "PHB" }
 				]
 			},
-			{ 
-				name: "Barbarian", 
+			{
+				name: "Barbarian",
 				source: "PHB",
 				subclasses: [
 					{ name: "Path of the Berserker", shortName: "Berserker", source: "PHB" },
 					{ name: "Path of the Totem Warrior", shortName: "Totem Warrior", source: "PHB" }
 				]
 			},
-			{ 
-				name: "Bard", 
+			{
+				name: "Bard",
 				source: "PHB",
 				subclasses: [
 					{ name: "College of Lore", shortName: "Lore", source: "PHB" },
 					{ name: "College of Valor", shortName: "Valor", source: "PHB" }
 				]
 			},
-			{ 
-				name: "Druid", 
+			{
+				name: "Druid",
 				source: "PHB",
 				subclasses: [
 					{ name: "Circle of the Land", shortName: "Land", source: "PHB" },
 					{ name: "Circle of the Moon", shortName: "Moon", source: "PHB" }
 				]
 			},
-			{ 
-				name: "Monk", 
+			{
+				name: "Monk",
 				source: "PHB",
 				subclasses: [
 					{ name: "Way of the Open Hand", shortName: "Open Hand", source: "PHB" },
@@ -381,16 +429,16 @@ class CharacterEditorPage {
 					{ name: "Way of the Four Elements", shortName: "Four Elements", source: "PHB" }
 				]
 			},
-			{ 
-				name: "Sorcerer", 
+			{
+				name: "Sorcerer",
 				source: "PHB",
 				subclasses: [
 					{ name: "Draconic Bloodline", shortName: "Draconic", source: "PHB" },
 					{ name: "Wild Magic", shortName: "Wild Magic", source: "PHB" }
 				]
 			},
-			{ 
-				name: "Warlock", 
+			{
+				name: "Warlock",
 				source: "PHB",
 				subclasses: [
 					{ name: "The Fiend", shortName: "Fiend", source: "PHB" },
@@ -399,10 +447,10 @@ class CharacterEditorPage {
 				]
 			}
 		];
-		
+
 		const selectedClass = classes[Math.floor(Math.random() * classes.length)];
 		const randomSubclass = selectedClass.subclasses[Math.floor(Math.random() * selectedClass.subclasses.length)];
-		
+
 		return {
 			name: selectedClass.name,
 			source: selectedClass.source,
