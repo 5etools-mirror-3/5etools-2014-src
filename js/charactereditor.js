@@ -181,30 +181,23 @@ class CharacterEditorPage {
 		// Check if a specific source was requested
 		const urlParams = new URLSearchParams(window.location.search);
 		const requestedSource = urlParams.get('source') || localStorage.getItem('newCharacterSource');
-		
+
 		// Clear the localStorage item after using it
 		if (localStorage.getItem('newCharacterSource')) {
 			localStorage.removeItem('newCharacterSource');
 		}
 
+		// Generate random character data
+		const randomName = this.generateRandomName();
+		const randomRace = this.generateRandomRace();
+		const randomClass = this.generateRandomClass();
+
 		// Default character template with custom content example
 		const template = {
-			name: "Character",
+			name: randomName,
 			source: requestedSource || "ADD_YOUR_NAME_HERE",
-			race: {
-				name: "Human",
-				source: "PHB"
-			},
-			class: [{
-				name: "Fighter",
-				source: "PHB",
-				level: 1,
-				subclass: {
-					name: "Champion",
-					shortName: "Champion",
-					source: "PHB"
-				}
-			}],
+			race: randomRace,
+			class: [randomClass],
 			background: {
 				name: "Acolyte",
 				source: "PHB"
@@ -244,6 +237,178 @@ class CharacterEditorPage {
 			}
 		};
 		this.ace.setValue(JSON.stringify(template, null, 2), 1);
+	}
+
+	// Random character generation methods
+	generateRandomName() {
+		const firstNames = [
+			"Aeliana", "Bael", "Caelynn", "Dain", "Elara", "Finn", "Gwen", "Hale", "Ivy", "Jace",
+			"Kira", "Lyra", "Mira", "Nolan", "Ora", "Pike", "Quinn", "Ren", "Sage", "Tara",
+			"Una", "Vale", "Wren", "Xara", "Yara", "Zara", "Aven", "Brix", "Cora", "Dex",
+			"Ember", "Fox", "Gray", "Haven", "Iris", "Juno", "Kane", "Luna", "Max", "Nova",
+			"Onyx", "Phoenix", "Rain", "Storm", "Vale", "Winter", "Ash", "Blaze", "Clay", "Dawn"
+		];
+		
+		const lastNames = [
+			"Brightblade", "Stormwind", "Ironforge", "Goldleaf", "Shadowhawk", "Fireborn", "Starweaver", "Moonwhisper",
+			"Dragonbane", "Thornfield", "Blackwood", "Silverstone", "Redmane", "Whiteheart", "Greycloak", "Blueshield",
+			"Swiftarrow", "Stronghammer", "Lightbringer", "Darkbane", "Frostborn", "Emberfall", "Windwalker", "Earthshaker",
+			"Skyrender", "Voidcaller", "Sunblade", "Nightfall", "Dawnbreaker", "Duskweaver", "Starfinder", "Moontide",
+			"Flameheart", "Iceborn", "Stormcaller", "Thunderstrike", "Lightforge", "Shadowmend", "Wildborn", "Freewind"
+		];
+		
+		const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+		const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+		return `${firstName} ${lastName}`;
+	}
+
+	generateRandomRace() {
+		const races = [
+			{ name: "Human", source: "PHB" },
+			{ name: "Elf", source: "PHB", subrace: "High Elf" },
+			{ name: "Dwarf", source: "PHB", subrace: "Mountain Dwarf" },
+			{ name: "Halfling", source: "PHB", subrace: "Lightfoot" },
+			{ name: "Dragonborn", source: "PHB" },
+			{ name: "Gnome", source: "PHB", subrace: "Forest Gnome" },
+			{ name: "Half-Elf", source: "PHB" },
+			{ name: "Half-Orc", source: "PHB" },
+			{ name: "Tiefling", source: "PHB" },
+			{ name: "Elf", source: "PHB", subrace: "Wood Elf" },
+			{ name: "Dwarf", source: "PHB", subrace: "Hill Dwarf" },
+			{ name: "Halfling", source: "PHB", subrace: "Stout" },
+			{ name: "Gnome", source: "PHB", subrace: "Rock Gnome" },
+			{ name: "Elf", source: "PHB", subrace: "Dark Elf (Drow)" }
+		];
+		
+		const selectedRace = races[Math.floor(Math.random() * races.length)];
+		const race = {
+			name: selectedRace.name,
+			source: selectedRace.source
+		};
+		
+		if (selectedRace.subrace) {
+			race.subrace = selectedRace.subrace;
+		}
+		
+		return race;
+	}
+
+	generateRandomClass() {
+		const classes = [
+			{ 
+				name: "Fighter", 
+				source: "PHB",
+				subclasses: [
+					{ name: "Champion", shortName: "Champion", source: "PHB" },
+					{ name: "Battle Master", shortName: "Battle Master", source: "PHB" },
+					{ name: "Eldritch Knight", shortName: "Eldritch Knight", source: "PHB" }
+				]
+			},
+			{ 
+				name: "Wizard", 
+				source: "PHB",
+				subclasses: [
+					{ name: "School of Evocation", shortName: "Evocation", source: "PHB" },
+					{ name: "School of Abjuration", shortName: "Abjuration", source: "PHB" },
+					{ name: "School of Divination", shortName: "Divination", source: "PHB" }
+				]
+			},
+			{ 
+				name: "Rogue", 
+				source: "PHB",
+				subclasses: [
+					{ name: "Thief", shortName: "Thief", source: "PHB" },
+					{ name: "Assassin", shortName: "Assassin", source: "PHB" },
+					{ name: "Arcane Trickster", shortName: "Arcane Trickster", source: "PHB" }
+				]
+			},
+			{ 
+				name: "Cleric", 
+				source: "PHB",
+				subclasses: [
+					{ name: "Life Domain", shortName: "Life", source: "PHB" },
+					{ name: "Light Domain", shortName: "Light", source: "PHB" },
+					{ name: "War Domain", shortName: "War", source: "PHB" }
+				]
+			},
+			{ 
+				name: "Ranger", 
+				source: "PHB",
+				subclasses: [
+					{ name: "Hunter", shortName: "Hunter", source: "PHB" },
+					{ name: "Beast Master", shortName: "Beast Master", source: "PHB" }
+				]
+			},
+			{ 
+				name: "Paladin", 
+				source: "PHB",
+				subclasses: [
+					{ name: "Oath of Devotion", shortName: "Devotion", source: "PHB" },
+					{ name: "Oath of the Ancients", shortName: "Ancients", source: "PHB" },
+					{ name: "Oath of Vengeance", shortName: "Vengeance", source: "PHB" }
+				]
+			},
+			{ 
+				name: "Barbarian", 
+				source: "PHB",
+				subclasses: [
+					{ name: "Path of the Berserker", shortName: "Berserker", source: "PHB" },
+					{ name: "Path of the Totem Warrior", shortName: "Totem Warrior", source: "PHB" }
+				]
+			},
+			{ 
+				name: "Bard", 
+				source: "PHB",
+				subclasses: [
+					{ name: "College of Lore", shortName: "Lore", source: "PHB" },
+					{ name: "College of Valor", shortName: "Valor", source: "PHB" }
+				]
+			},
+			{ 
+				name: "Druid", 
+				source: "PHB",
+				subclasses: [
+					{ name: "Circle of the Land", shortName: "Land", source: "PHB" },
+					{ name: "Circle of the Moon", shortName: "Moon", source: "PHB" }
+				]
+			},
+			{ 
+				name: "Monk", 
+				source: "PHB",
+				subclasses: [
+					{ name: "Way of the Open Hand", shortName: "Open Hand", source: "PHB" },
+					{ name: "Way of Shadow", shortName: "Shadow", source: "PHB" },
+					{ name: "Way of the Four Elements", shortName: "Four Elements", source: "PHB" }
+				]
+			},
+			{ 
+				name: "Sorcerer", 
+				source: "PHB",
+				subclasses: [
+					{ name: "Draconic Bloodline", shortName: "Draconic", source: "PHB" },
+					{ name: "Wild Magic", shortName: "Wild Magic", source: "PHB" }
+				]
+			},
+			{ 
+				name: "Warlock", 
+				source: "PHB",
+				subclasses: [
+					{ name: "The Fiend", shortName: "Fiend", source: "PHB" },
+					{ name: "The Great Old One", shortName: "Great Old One", source: "PHB" },
+					{ name: "The Archfey", shortName: "Archfey", source: "PHB" }
+				]
+			}
+		];
+		
+		const selectedClass = classes[Math.floor(Math.random() * classes.length)];
+		const randomSubclass = selectedClass.subclasses[Math.floor(Math.random() * selectedClass.subclasses.length)];
+		
+		return {
+			name: selectedClass.name,
+			source: selectedClass.source,
+			level: 1,
+			subclass: randomSubclass
+		};
 	}
 
 	/**
@@ -435,14 +600,14 @@ class CharacterEditorPage {
 		} catch (e) {
 			console.error('Save error:', e);
 			let errorMessage = 'Save Error: ' + e.message;
-			
+
 			// Provide helpful guidance for authentication errors
 			if (e.message.includes('Access denied') || e.message.includes('Invalid or missing password')) {
 				errorMessage += '\n\nTo fix this:\n1. Go to Source Management (gear icon)\n2. Create a new source with a password\n3. Or verify your password for the existing source';
 			} else if (e.message.includes('No cached password found')) {
 				errorMessage += '\n\nPlease go to Source Management (gear icon) and login to your source first.';
 			}
-			
+
 			document.getElementById('message').textContent = errorMessage;
 			document.getElementById('message').style.color = 'red';
 			document.getElementById('message').style.whiteSpace = 'pre-line'; // Allow line breaks in error message
@@ -899,7 +1064,7 @@ class CharacterEditorPage {
 
 	updateSourceStatus() {
 		const statusEl = document.getElementById('source-status');
-		
+
 		// Get the current character data to determine the best source
 		let characterData = {};
 		try {
@@ -911,7 +1076,7 @@ class CharacterEditorPage {
 
 		const detectedSource = this.getCurrentSourceName(characterData);
 		const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
-		
+
 		if (!currentSource) {
 			currentSource = detectedSource;
 		}
@@ -920,13 +1085,13 @@ class CharacterEditorPage {
 		const sanitizedDetectedSource = this.sanitizeSourceName(detectedSource);
 		const cachedPassword = SourcePasswordManager.getCachedPassword(sanitizedDetectedSource);
 		if (cachedPassword) {
-			statusEl.innerHTML = `Detected source: "<strong>${detectedSource}</strong>" (authenticated). <a href="sources.html">Manage sources</a>.`;
+			statusEl.innerHTML = `Detected password for: "<strong>${detectedSource}</strong>" (authenticated). <a href="sources.html">Manage sources</a>.`;
 			hasSourceAccess = true;
 		} else if (cachedSources.length > 0) {
-			statusEl.innerHTML = `Detected source: "<strong>${detectedSource}</strong>" (not authenticated). Available sources: ${cachedSources.join(', ')}. <a href="sources.html">Login here</a>.`;
+			statusEl.innerHTML = `No password found for: "<strong>${detectedSource}</strong>" (not authenticated). Available sources: ${cachedSources.join(', ')}. <a href="sources.html">Login here</a>.`;
 			hasSourceAccess = false;
 		} else {
-			statusEl.innerHTML = `No authenticated sources found. <a href="sources.html">Create and login to a source</a> to save characters.`;
+			statusEl.innerHTML = `No authenticated character sources found. <a href="sources.html">Create and login to a source</a> to save characters.`;
 			hasSourceAccess = false;
 		}
 	}

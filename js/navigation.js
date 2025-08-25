@@ -63,7 +63,7 @@ class NavBar {
 		this._addElement_divider(NavBar._CAT_PLAYER);
 		this._addElement_li(NavBar._CAT_PLAYER, "statgen.html", "Stat Generator");
 		this._addElement_li(NavBar._CAT_PLAYER, "characters.html", "Characters");
-		this._addElement_li(NavBar._CAT_PLAYER, "sources.html", "Source Management");
+		this._addElement_li(NavBar._CAT_PLAYER, "sources.html", "Character authentication");
 		this._addElement_divider(NavBar._CAT_PLAYER);
 		this._addElement_li(NavBar._CAT_PLAYER, "lifegen.html", "This Is Your Life");
 		this._addElement_li(NavBar._CAT_PLAYER, "names.html", "Names");
