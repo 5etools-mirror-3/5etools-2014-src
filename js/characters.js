@@ -318,7 +318,42 @@ class CharactersPage extends ListPageMultiSource {
 		this._currentCharacter = ent;
 		const $editBtn = $("#btn-edit-character");
 		if ($editBtn.length) {
+			// Check if user has access to the character's source
+			this._updateEditButtonVisibility(ent);
+		}
+	}
+
+	async _updateEditButtonVisibility(character) {
+		const $editBtn = $("#btn-edit-character");
+		const characterSource = character.source;
+		
+		if (!characterSource || characterSource === 'Unknown' || characterSource === '') {
+			// No source specified, hide edit button
+			$editBtn.hide();
+			return;
+		}
+
+		// Check if user has cached password for this source
+		const cachedPassword = this._getCachedPassword(characterSource);
+		
+		if (cachedPassword) {
+			// User has access, show edit button
 			$editBtn.show();
+			$editBtn.attr('title', `Edit character from source: ${characterSource}`);
+		} else {
+			// No access, hide edit button
+			$editBtn.hide();
+		}
+	}
+
+	_getCachedPassword(sourceName) {
+		try {
+			const stored = localStorage.getItem('sourcePasswords');
+			const passwords = stored ? JSON.parse(stored) : {};
+			return passwords[sourceName] || null;
+		} catch (e) {
+			console.error('Error loading cached passwords:', e);
+			return null;
 		}
 	}
 
@@ -365,6 +400,21 @@ window.addEventListener("load", () => {
 	// Initialize Edit Character button
 	$("#btn-edit-character").click(async () => {
 		if (charactersPage._currentCharacter) {
+			const character = charactersPage._currentCharacter;
+			const characterSource = character.source;
+			
+			// Double-check access before allowing edit
+			if (!characterSource || characterSource === 'Unknown' || characterSource === '') {
+				alert('This character has no source specified and cannot be edited.');
+				return;
+			}
+			
+			const cachedPassword = charactersPage._getCachedPassword(characterSource);
+			if (!cachedPassword) {
+				alert(`You need to login to source "${characterSource}" to edit this character. Please visit the Sources page to authenticate.`);
+				return;
+			}
+			
 			// Store character data for editor
 			localStorage.setItem('editingCharacter', JSON.stringify(charactersPage._currentCharacter));
 

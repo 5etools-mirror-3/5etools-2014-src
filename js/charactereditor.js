@@ -178,10 +178,19 @@ class CharacterEditorPage {
 	}
 
 	loadTemplate() {
+		// Check if a specific source was requested
+		const urlParams = new URLSearchParams(window.location.search);
+		const requestedSource = urlParams.get('source') || localStorage.getItem('newCharacterSource');
+		
+		// Clear the localStorage item after using it
+		if (localStorage.getItem('newCharacterSource')) {
+			localStorage.removeItem('newCharacterSource');
+		}
+
 		// Default character template with custom content example
 		const template = {
 			name: "Character",
-			source: "ADD_YOUR_NAME_HERE",
+			source: requestedSource || "ADD_YOUR_NAME_HERE",
 			race: {
 				name: "Human",
 				source: "PHB"
@@ -417,8 +426,18 @@ class CharacterEditorPage {
 			document.getElementById('message').style.color = 'green';
 		} catch (e) {
 			console.error('Save error:', e);
-			document.getElementById('message').textContent = 'Save Error: ' + e.message;
+			let errorMessage = 'Save Error: ' + e.message;
+			
+			// Provide helpful guidance for authentication errors
+			if (e.message.includes('Access denied') || e.message.includes('Invalid or missing password')) {
+				errorMessage += '\n\nTo fix this:\n1. Go to Source Management (gear icon)\n2. Create a new source with a password\n3. Or verify your password for the existing source';
+			} else if (e.message.includes('No cached password found')) {
+				errorMessage += '\n\nPlease go to Source Management (gear icon) and login to your source first.';
+			}
+			
+			document.getElementById('message').textContent = errorMessage;
 			document.getElementById('message').style.color = 'red';
+			document.getElementById('message').style.whiteSpace = 'pre-line'; // Allow line breaks in error message
 		}
 	}
 
@@ -443,10 +462,8 @@ class CharacterEditorPage {
 				},
 				body: JSON.stringify({
 					characterData: updatedCharacter,
-					character: updatedCharacter,
 					source: updatedCharacter.source,
 					password: password,
-					filename: `${updatedCharacter.source || 'custom'}-characters.json`,
 					isEdit: true,
 					characterId: currentCharacterData ? this.generateCharacterId(currentCharacterData.name) : this.generateCharacterId(updatedCharacter.name)
 				})
@@ -504,10 +521,8 @@ class CharacterEditorPage {
 				},
 				body: JSON.stringify({
 					characterData: characterData,
-					character: characterData,
 					source: characterData.source,
 					password: password,
-					filename: `${characterData.source || 'custom'}-characters.json`,
 					isEdit: false,
 					characterId: this.generateCharacterId(characterData.name)
 				})

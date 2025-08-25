@@ -348,6 +348,9 @@ class SourceManager {
 						<small class="text-muted d-block">Password cached</small>
 					</div>
 					<div>
+						<button class="ve-btn ve-btn-xs ve-btn-primary mr-2" onclick="sourceManager.createCharacterForSource('${this.escapeHtml(sourceName)}')">
+							Create Character
+						</button>
 						<button class="ve-btn ve-btn-xs ve-btn-danger" onclick="sourceManager.removeCachedSource('${this.escapeHtml(sourceName)}')">
 							Remove
 						</button>
@@ -358,6 +361,14 @@ class SourceManager {
 		html += '</div>';
 
 		listDiv.innerHTML = html;
+	}
+
+	createCharacterForSource(sourceName) {
+		// Set up the character creation for the specified source
+		localStorage.setItem('newCharacterSource', sourceName);
+		
+		// Navigate to character editor in create mode with source pre-set
+		window.location.href = `charactereditor.html?source=${encodeURIComponent(sourceName)}`;
 	}
 
 	removeCachedSource(sourceName) {
