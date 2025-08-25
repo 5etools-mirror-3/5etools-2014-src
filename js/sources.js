@@ -144,7 +144,7 @@ class SourceManager {
 		document.getElementById('new-source-name').addEventListener('keypress', (e) => {
 			if (e.key === 'Enter') this.createNewSource();
 		});
-		
+
 		document.getElementById('confirm-source-password').addEventListener('keypress', (e) => {
 			if (e.key === 'Enter') this.createNewSource();
 		});
@@ -208,21 +208,21 @@ class SourceManager {
 
 		try {
 			this.showMessage('create-message', 'Creating source...', 'blue');
-			
+
 			const success = await SourcePasswordManager.createSource(cleanSourceName, password);
-			
+
 			if (success) {
 				// Cache the password
 				SourcePasswordManager.cachePassword(cleanSourceName, password);
-				
+
 				// Clear form
 				sourceNameInput.value = '';
 				passwordInput.value = '';
 				confirmPasswordInput.value = '';
-				
+
 				// Update cached sources list
 				this.updateCachedSourcesList();
-				
+
 				this.showMessage('create-message', `Source "${cleanSourceName}" created successfully!`, 'green');
 			} else {
 				this.showMessage('create-message', 'Failed to create source. It may already exist.', 'red');
@@ -259,18 +259,18 @@ class SourceManager {
 
 		try {
 			this.showMessage('login-message', 'Logging in...', 'blue');
-			
+
 			const isValid = await SourcePasswordManager.validatePassword(sourceName, password);
-			
+
 			if (isValid) {
 				// Cache the password if valid
 				SourcePasswordManager.cachePassword(sourceName, password);
 				this.updateCachedSourcesList();
-				
+
 				// Clear form
 				sourceNameInput.value = '';
 				passwordInput.value = '';
-				
+
 				this.showMessage('login-message', `Successfully logged in to source "${sourceName}"!`, 'green');
 			} else {
 				this.showMessage('login-message', 'Login failed. Invalid source name or password.', 'red');
@@ -307,9 +307,9 @@ class SourceManager {
 
 		try {
 			this.showMessage('test-message', 'Testing access...', 'blue');
-			
+
 			const isValid = await SourcePasswordManager.validatePassword(sourceName, password);
-			
+
 			if (isValid) {
 				// Do NOT cache the password for testing - this is just verification
 				this.showMessage('test-message', `Access test successful for source "${sourceName}" (credentials not cached)`, 'green');
@@ -367,7 +367,7 @@ class SourceManager {
 	createCharacterForSource(sourceName) {
 		// Set up the character creation for the specified source
 		localStorage.setItem('newCharacterSource', sourceName);
-		
+
 		// Navigate to character editor in create mode with source pre-set
 		window.location.href = `charactereditor.html?source=${encodeURIComponent(sourceName)}`;
 	}
@@ -383,7 +383,7 @@ class SourceManager {
 		const element = document.getElementById(elementId);
 		element.textContent = message;
 		element.style.color = color;
-		
+
 		// Auto-clear success messages after 5 seconds
 		if (color === 'green') {
 			setTimeout(() => {
