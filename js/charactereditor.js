@@ -1168,7 +1168,7 @@ class CharacterEditorPage {
 	// Sanitize source name the same way the API does
 	sanitizeSourceName(sourceName) {
 		// Only allow letters, numbers, underscores, and hyphens
-		return sourceName.replace(/[^a-zA-Z0-9_-]/g, '').substring(0, 50);
+		return sourceName.replace(/[^a-zA-Z0-9_-]/g, '').substring(0, 50).toLowerCase();
 	}
 
 	async validateSourceAccess(sourceName) {
