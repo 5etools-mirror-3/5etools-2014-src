@@ -17,7 +17,7 @@ export class PasswordUtils {
       }
 
       const pathname = `passwords/${sourceName}.json`;
-      
+
       // Check if the password file exists
       const response = await fetch(`https://pub-${process.env.VERCEL_BLOB_STORE_ID}.public.blob.vercel-storage.com/${pathname}`, {
         method: 'GET'
@@ -58,7 +58,7 @@ export class PasswordUtils {
       };
 
       const pathname = `passwords/${sourceName}.json`;
-      
+
       const blob = await put(pathname, JSON.stringify(passwordData, null, 2), {
         access: 'public',
         contentType: 'application/json',
@@ -83,6 +83,9 @@ export class PasswordUtils {
       }
 
       const hashedInput = this.hashPassword(password, sourceData.salt);
+		console.log(`Validating password for source "${sourceName}" (sanitized: "${this.sanitizeSourceName(sourceName)}")`);
+		console.log(`Stored hash: ${sourceData.passwordHash}`);
+		console.log(`Input hash:  ${hashedInput}`);
       return hashedInput === sourceData.passwordHash;
     } catch (error) {
       return false;
