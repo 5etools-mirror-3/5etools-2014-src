@@ -238,7 +238,7 @@ class CharacterEditorPage {
 			proficiencyBonus: "+2",
 			"action": [
 				{
-					"name": "{@item Longsword}",
+					"name": "{@item Longsword|phb}",
 					"entries": [
 					"{@atk rm} {@hit 4} ({@damage 1d6})"
 					]
