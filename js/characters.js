@@ -325,8 +325,8 @@ class CharactersPage extends ListPageMultiSource {
 
 	async _updateEditButtonVisibility(character) {
 		const $editBtn = $("#btn-edit-character");
-		const characterSource = character.source;
-		
+		const characterSource = character.source.toLowerCase();
+
 		if (!characterSource || characterSource === 'Unknown' || characterSource === '') {
 			// No source specified, hide edit button
 			$editBtn.hide();
