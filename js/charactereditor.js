@@ -2,11 +2,101 @@ let editor;
 let currentCharacterData = null;
 let currentCharacterId = null;
 let isEditMode = false;
+let currentSource = null;
+let hasSourceAccess = false;
 
 // API configuration
 const API_BASE_URL = window.location.origin.includes('localhost')
   ? 'http://localhost:3000/api'
   : '/api';
+
+// Source Password Management
+class SourcePasswordManager {
+	static STORAGE_KEY = 'sourcePasswords';
+
+	// Get all cached passwords from localStorage
+	static getCachedPasswords() {
+		try {
+			const stored = localStorage.getItem(this.STORAGE_KEY);
+			return stored ? JSON.parse(stored) : {};
+		} catch (e) {
+			console.error('Error loading cached passwords:', e);
+			return {};
+		}
+	}
+
+	// Cache a password for a source
+	static cachePassword(sourceName, password) {
+		try {
+			const passwords = this.getCachedPasswords();
+			passwords[sourceName] = password;
+			localStorage.setItem(this.STORAGE_KEY, JSON.stringify(passwords));
+			return true;
+		} catch (e) {
+			console.error('Error caching password:', e);
+			return false;
+		}
+	}
+
+	// Get cached password for a source
+	static getCachedPassword(sourceName) {
+		const passwords = this.getCachedPasswords();
+		return passwords[sourceName] || null;
+	}
+
+	// Remove cached password for a source
+	static removeCachedPassword(sourceName) {
+		try {
+			const passwords = this.getCachedPasswords();
+			delete passwords[sourceName];
+			localStorage.setItem(this.STORAGE_KEY, JSON.stringify(passwords));
+			return true;
+		} catch (e) {
+			console.error('Error removing cached password:', e);
+			return false;
+		}
+	}
+
+	// Check if password is valid for a source
+	static async validatePassword(sourceName, password) {
+		try {
+			const response = await fetch(`${API_BASE_URL}/sources/validate`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ source: sourceName, password })
+			});
+
+			if (response.ok) {
+				const result = await response.json();
+				return result.valid === true;
+			}
+			return false;
+		} catch (e) {
+			console.error('Error validating password:', e);
+			return false;
+		}
+	}
+
+	// Create a new source with password
+	static async createSource(sourceName, password) {
+		try {
+			const response = await fetch(`${API_BASE_URL}/sources/create`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ source: sourceName, password })
+			});
+
+			if (response.ok) {
+				const result = await response.json();
+				return result.success === true;
+			}
+			return false;
+		} catch (e) {
+			console.error('Error creating source:', e);
+			return false;
+		}
+	}
+}
 
 class CharacterEditorPage {
 	constructor() {
@@ -38,8 +128,11 @@ class CharacterEditorPage {
 		// Bind button events
 		this.bindEvents();
 
-		// Auto-render on load if we have data
-		setTimeout(() => this.renderCharacter(), 500);
+		// Initialize source display
+		setTimeout(() => {
+			this.updateSourceDisplay();
+			this.renderCharacter();
+		}, 500);
 	}
 
 	async loadCharacterForEdit() {
@@ -85,24 +178,26 @@ class CharacterEditorPage {
 	}
 
 	loadTemplate() {
+		// Check if a specific source was requested
+		const urlParams = new URLSearchParams(window.location.search);
+		const requestedSource = urlParams.get('source') || localStorage.getItem('newCharacterSource');
+
+		// Clear the localStorage item after using it
+		if (localStorage.getItem('newCharacterSource')) {
+			localStorage.removeItem('newCharacterSource');
+		}
+
+		// Generate random character data
+		const randomName = this.generateRandomName();
+		const randomRace = this.generateRandomRace();
+		const randomClass = this.generateRandomClass();
+
 		// Default character template with custom content example
 		const template = {
-			name: "Character",
-			source: "ADD_YOUR_NAME_HERE",
-			race: {
-				name: "Human",
-				source: "PHB"
-			},
-			class: [{
-				name: "Fighter",
-				source: "PHB",
-				level: 1,
-				subclass: {
-					name: "Champion",
-					shortName: "Champion",
-					source: "PHB"
-				}
-			}],
+			name: randomName,
+			source: requestedSource || "ADD_YOUR_NAME_HERE",
+			race: randomRace,
+			class: [randomClass],
 			background: {
 				name: "Acolyte",
 				source: "PHB"
@@ -128,11 +223,77 @@ class CharacterEditorPage {
 			int: 10,
 			wis: 10,
 			cha: 10,
+			passive: 10,
+			"save": {
+				"wis": "+0",
+				"cha": "+0"
+			},
+			"skill": {
+				"deception": "+0",
+				"insight": "+0",
+				"investigation": "+0",
+				"perception": "+0",
+				"survival": "+0"
+			},
 			proficiencyBonus: "+2",
-			equipment: [],
-			trait: [],
-			action: [],
-			customText: "This is where you can add custom character description and notes. You can include backstory, personality traits, bonds, ideals, flaws, and any other information about your character.",
+			"action": [
+				{
+					"name": "{@item Longsword}",
+					"entries": [
+					"{@atk rm} {@hit 4} ({@damage 1d6})"
+					]
+				}
+			],
+			"entries": [
+			{
+				"type": "entries",
+				"name": "Background & Personality",
+				"entries": [
+				"This is where you can add information about the background and personality of your character. The entries section here is highly editable and you can add a lot of stuff about your character. "
+				]
+			},    {
+      "type": "section",
+      "name": "Spellcasting",
+      "entries": [
+        "2/2 spell slots available",
+        "Spell casting ability charisma",
+        "Spell save DC 15",
+        "Spell Attack Bonus  {@d20 +1}",
+        {
+          "type": "entries",
+          "name": "Cantrips",
+          "entries": [
+            {
+              "type": "list",
+              "items": [
+                "{@spell Poison Spray}",
+              ]
+            }
+          ]
+        },
+        {
+          "type": "entries",
+          "name": "Level 1",
+          "entries": [
+            {
+              "type": "list",
+              "items": [
+                "{@spell Fireball}",
+              ]
+            }
+          ]
+        },
+      ]
+    },
+    {
+      "type": "section",
+      "name": "Items",
+      "entries": [
+        "{@item leather armor|phb|Leather} Armor",
+        "{@item Staff|phb}",
+        "{@item Dungeoneer's Pack|phb}",
+      ]
+    },],
 			fluff: {
 				entries: [
 					"This character is a blank template ready to be customized.",
@@ -142,6 +303,178 @@ class CharacterEditorPage {
 			}
 		};
 		this.ace.setValue(JSON.stringify(template, null, 2), 1);
+	}
+
+	// Random character generation methods
+	generateRandomName() {
+		const firstNames = [
+			"Aeliana", "Bael", "Caelynn", "Dain", "Elara", "Finn", "Gwen", "Hale", "Ivy", "Jace",
+			"Kira", "Lyra", "Mira", "Nolan", "Ora", "Pike", "Quinn", "Ren", "Sage", "Tara",
+			"Una", "Vale", "Wren", "Xara", "Yara", "Zara", "Aven", "Brix", "Cora", "Dex",
+			"Ember", "Fox", "Gray", "Haven", "Iris", "Juno", "Kane", "Luna", "Max", "Nova",
+			"Onyx", "Phoenix", "Rain", "Storm", "Vale", "Winter", "Ash", "Blaze", "Clay", "Dawn"
+		];
+
+		const lastNames = [
+			"Brightblade", "Stormwind", "Ironforge", "Goldleaf", "Shadowhawk", "Fireborn", "Starweaver", "Moonwhisper",
+			"Dragonbane", "Thornfield", "Blackwood", "Silverstone", "Redmane", "Whiteheart", "Greycloak", "Blueshield",
+			"Swiftarrow", "Stronghammer", "Lightbringer", "Darkbane", "Frostborn", "Emberfall", "Windwalker", "Earthshaker",
+			"Skyrender", "Voidcaller", "Sunblade", "Nightfall", "Dawnbreaker", "Duskweaver", "Starfinder", "Moontide",
+			"Flameheart", "Iceborn", "Stormcaller", "Thunderstrike", "Lightforge", "Shadowmend", "Wildborn", "Freewind"
+		];
+
+		const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+		const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+		return `${firstName} ${lastName}`;
+	}
+
+	generateRandomRace() {
+		const races = [
+			{ name: "Human", source: "PHB" },
+			{ name: "Elf", source: "PHB", subrace: "High Elf" },
+			{ name: "Dwarf", source: "PHB", subrace: "Mountain Dwarf" },
+			{ name: "Halfling", source: "PHB", subrace: "Lightfoot" },
+			{ name: "Dragonborn", source: "PHB" },
+			{ name: "Gnome", source: "PHB", subrace: "Forest Gnome" },
+			{ name: "Half-Elf", source: "PHB" },
+			{ name: "Half-Orc", source: "PHB" },
+			{ name: "Tiefling", source: "PHB" },
+			{ name: "Elf", source: "PHB", subrace: "Wood Elf" },
+			{ name: "Dwarf", source: "PHB", subrace: "Hill Dwarf" },
+			{ name: "Halfling", source: "PHB", subrace: "Stout" },
+			{ name: "Gnome", source: "PHB", subrace: "Rock Gnome" },
+			{ name: "Elf", source: "PHB", subrace: "Dark Elf (Drow)" }
+		];
+
+		const selectedRace = races[Math.floor(Math.random() * races.length)];
+		const race = {
+			name: selectedRace.name,
+			source: selectedRace.source
+		};
+
+		if (selectedRace.subrace) {
+			race.subrace = selectedRace.subrace;
+		}
+
+		return race;
+	}
+
+	generateRandomClass() {
+		const classes = [
+			{
+				name: "Fighter",
+				source: "PHB",
+				subclasses: [
+					{ name: "Champion", shortName: "Champion", source: "PHB" },
+					{ name: "Battle Master", shortName: "Battle Master", source: "PHB" },
+					{ name: "Eldritch Knight", shortName: "Eldritch Knight", source: "PHB" }
+				]
+			},
+			{
+				name: "Wizard",
+				source: "PHB",
+				subclasses: [
+					{ name: "School of Evocation", shortName: "Evocation", source: "PHB" },
+					{ name: "School of Abjuration", shortName: "Abjuration", source: "PHB" },
+					{ name: "School of Divination", shortName: "Divination", source: "PHB" }
+				]
+			},
+			{
+				name: "Rogue",
+				source: "PHB",
+				subclasses: [
+					{ name: "Thief", shortName: "Thief", source: "PHB" },
+					{ name: "Assassin", shortName: "Assassin", source: "PHB" },
+					{ name: "Arcane Trickster", shortName: "Arcane Trickster", source: "PHB" }
+				]
+			},
+			{
+				name: "Cleric",
+				source: "PHB",
+				subclasses: [
+					{ name: "Life Domain", shortName: "Life", source: "PHB" },
+					{ name: "Light Domain", shortName: "Light", source: "PHB" },
+					{ name: "War Domain", shortName: "War", source: "PHB" }
+				]
+			},
+			{
+				name: "Ranger",
+				source: "PHB",
+				subclasses: [
+					{ name: "Hunter", shortName: "Hunter", source: "PHB" },
+					{ name: "Beast Master", shortName: "Beast Master", source: "PHB" }
+				]
+			},
+			{
+				name: "Paladin",
+				source: "PHB",
+				subclasses: [
+					{ name: "Oath of Devotion", shortName: "Devotion", source: "PHB" },
+					{ name: "Oath of the Ancients", shortName: "Ancients", source: "PHB" },
+					{ name: "Oath of Vengeance", shortName: "Vengeance", source: "PHB" }
+				]
+			},
+			{
+				name: "Barbarian",
+				source: "PHB",
+				subclasses: [
+					{ name: "Path of the Berserker", shortName: "Berserker", source: "PHB" },
+					{ name: "Path of the Totem Warrior", shortName: "Totem Warrior", source: "PHB" }
+				]
+			},
+			{
+				name: "Bard",
+				source: "PHB",
+				subclasses: [
+					{ name: "College of Lore", shortName: "Lore", source: "PHB" },
+					{ name: "College of Valor", shortName: "Valor", source: "PHB" }
+				]
+			},
+			{
+				name: "Druid",
+				source: "PHB",
+				subclasses: [
+					{ name: "Circle of the Land", shortName: "Land", source: "PHB" },
+					{ name: "Circle of the Moon", shortName: "Moon", source: "PHB" }
+				]
+			},
+			{
+				name: "Monk",
+				source: "PHB",
+				subclasses: [
+					{ name: "Way of the Open Hand", shortName: "Open Hand", source: "PHB" },
+					{ name: "Way of Shadow", shortName: "Shadow", source: "PHB" },
+					{ name: "Way of the Four Elements", shortName: "Four Elements", source: "PHB" }
+				]
+			},
+			{
+				name: "Sorcerer",
+				source: "PHB",
+				subclasses: [
+					{ name: "Draconic Bloodline", shortName: "Draconic", source: "PHB" },
+					{ name: "Wild Magic", shortName: "Wild Magic", source: "PHB" }
+				]
+			},
+			{
+				name: "Warlock",
+				source: "PHB",
+				subclasses: [
+					{ name: "The Fiend", shortName: "Fiend", source: "PHB" },
+					{ name: "The Great Old One", shortName: "Great Old One", source: "PHB" },
+					{ name: "The Archfey", shortName: "Archfey", source: "PHB" }
+				]
+			}
+		];
+
+		const selectedClass = classes[Math.floor(Math.random() * classes.length)];
+		const randomSubclass = selectedClass.subclasses[Math.floor(Math.random() * selectedClass.subclasses.length)];
+
+		return {
+			name: selectedClass.name,
+			source: selectedClass.source,
+			level: 1,
+			subclass: randomSubclass
+		};
 	}
 
 	/**
@@ -158,17 +491,20 @@ class CharacterEditorPage {
 		}, 0);
 	}
 
+	// Utility function to debounce calls
+	debounce(func, wait) {
+		let timeout;
+		return function(...args) {
+			const context = this;
+			clearTimeout(timeout);
+			timeout = setTimeout(() => func.apply(context, args), wait);
+		};
+	}
+
+	// Debounced render method
+	debouncedRenderCharacter = this.debounce(this.renderCharacter, 300);
+
 	bindEvents() {
-		// Load Template button
-		document.getElementById('loadTemplate').addEventListener('click', () => {
-			this.loadTemplate();
-		});
-
-		// Validate JSON button
-		document.getElementById('validateJson').addEventListener('click', () => {
-			this.validateJson();
-		});
-
 		// Render button
 		document.getElementById('charRender').addEventListener('click', () => {
 			this.renderCharacter();
@@ -179,34 +515,21 @@ class CharacterEditorPage {
 			this.saveCharacter();
 		});
 
-		// Reset button
-		document.getElementById('charReset').addEventListener('click', () => {
-			if (isEditMode) {
-				this.loadCharacterForEdit();
-			} else {
-				this.loadTemplate();
-			}
-		});
-
 		// Delete button with triple confirmation
 		document.getElementById('deleteCharacter').addEventListener('click', () => {
 			this.deleteCharacter();
 		});
 
+		// Note: Source password management moved to sources.html page
+
+		// Watch for JSON changes to update source display and render preview
+		this.ace.session.on('change', () => {
+			this.updateSourceDisplay();
+			this.debouncedRenderCharacter();
+		});
+
 		// Update button visibility based on edit mode
 		this.updateButtonVisibility();
-	}
-
-	validateJson() {
-		try {
-			const jsonText = this.ace.getValue();
-			JSON.parse(jsonText);
-			document.getElementById('message').textContent = 'JSON is valid';
-			document.getElementById('message').style.color = 'green';
-		} catch (e) {
-			document.getElementById('message').textContent = 'JSON Error: ' + e.message;
-			document.getElementById('message').style.color = 'red';
-		}
 	}
 
 	renderCharacter() {
@@ -315,6 +638,21 @@ class CharacterEditorPage {
 			const jsonText = this.ace.getValue();
 			const characterData = JSON.parse(jsonText);
 
+			// Auto-set source if missing or default
+			const currentSource = this.getCurrentSourceName(characterData);
+			if (!characterData.source || characterData.source === 'MyCharacters' || characterData.source === 'ADD_YOUR_NAME_HERE') {
+				characterData.source = currentSource;
+				// Update the JSON in the editor to reflect the change
+				this.ace.setValue(JSON.stringify(characterData, null, 2));
+			}
+
+			// Check source password before saving
+			if (!await this.validateSourceAccess(characterData.source)) {
+				document.getElementById('message').textContent = 'Access denied: Invalid or missing password for this source';
+				document.getElementById('message').style.color = 'red';
+				return;
+			}
+
 			if (isEditMode && currentCharacterData) {
 				// Update existing character
 				await this.updateCharacterInAPI(characterData);
@@ -327,14 +665,42 @@ class CharacterEditorPage {
 			document.getElementById('message').style.color = 'green';
 		} catch (e) {
 			console.error('Save error:', e);
-			document.getElementById('message').textContent = 'Save Error: ' + e.message;
+			let errorMessage = 'Save Error: ' + e.message;
+
+			// Provide helpful guidance for authentication errors
+			if (e.message.includes('Access denied') || e.message.includes('Invalid or missing password')) {
+				errorMessage += '\n\nTo fix this:\n1. Go to Source Management (gear icon)\n2. Create a new source with a password\n3. Or verify your password for the existing source';
+			} else if (e.message.includes('No cached password found')) {
+				errorMessage += '\n\nPlease go to Source Management (gear icon) and login to your source first.';
+			}
+
+			document.getElementById('message').textContent = errorMessage;
 			document.getElementById('message').style.color = 'red';
+			document.getElementById('message').style.whiteSpace = 'pre-line'; // Allow line breaks in error message
 		}
 	}
 
 	async updateCharacterInAPI(updatedCharacter) {
 		// Update localStorage for immediate use
 		localStorage.setItem('editingCharacter', JSON.stringify(updatedCharacter));
+
+		// Get password from localStorage cache
+		const currentSource = this.getCurrentSourceName(updatedCharacter);
+		const sanitizedSource = this.sanitizeSourceName(currentSource);
+		const password = SourcePasswordManager.getCachedPassword(sanitizedSource);
+
+		if (!password) {
+			const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
+			let errorMsg = `Error: No cached password found for source "${currentSource}" (sanitized: "${sanitizedSource}").`;
+			if (cachedSources.length > 0) {
+				errorMsg += ` Available sources: ${cachedSources.join(', ')}. Please update the "source" field in your character JSON or visit Source Management.`;
+			} else {
+				errorMsg += ` Please visit Source Management to create and login to a source first.`;
+			}
+			document.getElementById('message').textContent = errorMsg;
+			document.getElementById('message').style.color = 'red';
+			return;
+		}
 
 		try {
 			const response = await fetch('/api/characters/save', {
@@ -344,6 +710,8 @@ class CharacterEditorPage {
 				},
 				body: JSON.stringify({
 					characterData: updatedCharacter,
+					source: updatedCharacter.source,
+					password: password,
 					isEdit: true,
 					characterId: currentCharacterData ? this.generateCharacterId(currentCharacterData.name) : this.generateCharacterId(updatedCharacter.name)
 				})
@@ -384,6 +752,24 @@ class CharacterEditorPage {
 	}
 
 	async saveNewCharacterToAPI(characterData) {
+		// Get password from localStorage cache
+		const currentSource = this.getCurrentSourceName(characterData);
+		const sanitizedSource = this.sanitizeSourceName(currentSource);
+		const password = SourcePasswordManager.getCachedPassword(sanitizedSource);
+
+		if (!password) {
+			const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
+			let errorMsg = `Error: No cached password found for source "${currentSource}" (sanitized: "${sanitizedSource}").`;
+			if (cachedSources.length > 0) {
+				errorMsg += ` Available sources: ${cachedSources.join(', ')}. Please update the "source" field in your character JSON or visit Source Management.`;
+			} else {
+				errorMsg += ` Please visit Source Management to create and login to a source first.`;
+			}
+			document.getElementById('message').textContent = errorMsg;
+			document.getElementById('message').style.color = 'red';
+			return;
+		}
+
 		try {
 			const response = await fetch('/api/characters/save', {
 				method: 'POST',
@@ -392,6 +778,8 @@ class CharacterEditorPage {
 				},
 				body: JSON.stringify({
 					characterData: characterData,
+					source: characterData.source,
+					password: password,
 					isEdit: false,
 					characterId: this.generateCharacterId(characterData.name)
 				})
@@ -444,7 +832,7 @@ class CharacterEditorPage {
 		const messageEl = document.getElementById('message');
 		if (result.instructions && result.instructions.note) {
 			const instructionsHtml = `
-				<div style="background: #f8f9fa; border: 1px solid #dee2e6; padding: 10px; margin: 10px 0; border-radius: 4px;">
+				<div style="border: 1px solid #dee2e6; padding: 10px; margin: 10px 0; border-radius: 4px;">
 					<strong>Save Instructions:</strong><br>
 					${result.instructions.note}<br>
 					${result.instructions.suggestion ? `<em>${result.instructions.suggestion}</em><br>` : ''}
@@ -684,10 +1072,119 @@ class CharacterEditorPage {
 		return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
 	}
 
+	getCurrentSourceName(characterData) {
+		// Get source name from character data
+		const sourceFromData = characterData?.source;
+		if (sourceFromData && sourceFromData !== 'MyCharacters' && sourceFromData !== 'ADD_YOUR_NAME_HERE') {
+			return sourceFromData;
+		}
+
+		// Check if user came from sources page with a pre-set source
+		const urlParams = new URLSearchParams(window.location.search);
+		const sourceFromUrl = urlParams.get('source');
+		if (sourceFromUrl) {
+			return sourceFromUrl;
+		}
+
+		// Check if there's a cached source from localStorage
+		const newCharacterSource = localStorage.getItem('newCharacterSource');
+		if (newCharacterSource) {
+			// Clear it after using it once
+			localStorage.removeItem('newCharacterSource');
+			return newCharacterSource;
+		}
+
+		// Check for any cached sources - use the first one
+		const cachedPasswords = SourcePasswordManager.getCachedPasswords();
+		const availableSources = Object.keys(cachedPasswords);
+		if (availableSources.length > 0) {
+			return availableSources[0];
+		}
+
+		// Fallback to 'MyCharacters'
+		return 'MyCharacters';
+	}
+
 	generateCharacterAnchor(characterName, characterSource) {
 		// Generate an anchor that will scroll to the character row in the characters table
 		const characterId = this.generateCharacterId(characterName);
 		return `#${characterId}_${characterSource}`;
+	}
+
+	// Source Password Management UI Methods
+	updateSourceDisplay() {
+		try {
+			const jsonText = this.ace.getValue();
+			const characterData = JSON.parse(jsonText);
+			const sourceName = characterData.source || 'Not set';
+
+			// document.getElementById('current-source').textContent = sourceName;
+			currentSource = sourceName !== 'Not set' ? sourceName : null;
+
+			// Update source status display
+			this.updateSourceStatus();
+		} catch (e) {
+			currentSource = null;
+		}
+	}
+
+	updateSourceStatus() {
+		const statusEl = document.getElementById('source-status');
+
+		// Get the current character data to determine the best source
+		let characterData = {};
+		try {
+			const jsonText = this.ace.getValue();
+			characterData = JSON.parse(jsonText);
+		} catch (e) {
+			// Ignore parsing errors for status display
+		}
+
+		const detectedSource = this.getCurrentSourceName(characterData);
+		const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
+
+		if (!currentSource) {
+			currentSource = detectedSource;
+		}
+
+		// Check if this source has a cached password (using sanitized name)
+		const sanitizedDetectedSource = this.sanitizeSourceName(detectedSource);
+		const cachedPassword = SourcePasswordManager.getCachedPassword(sanitizedDetectedSource);
+		if (cachedPassword) {
+			statusEl.innerHTML = `Detected password for: "<strong>${detectedSource}</strong>" (authenticated). <a href="sources.html">Manage sources</a>.`;
+			hasSourceAccess = true;
+		} else if (cachedSources.length > 0) {
+			statusEl.innerHTML = `No password found for: "<strong>${detectedSource}</strong>" (not authenticated). Available sources: ${cachedSources.join(', ')}. <a href="sources.html">Login here</a>.`;
+			hasSourceAccess = false;
+		} else {
+			statusEl.innerHTML = `No authenticated character sources found. <a href="sources.html">Create and login to a source</a> to save characters.`;
+			hasSourceAccess = false;
+		}
+	}
+
+	// Source creation functionality moved to sources.html page
+
+	// Sanitize source name the same way the API does
+	sanitizeSourceName(sourceName) {
+		// Only allow letters, numbers, underscores, and hyphens
+		return sourceName.replace(/[^a-zA-Z0-9_-]/g, '').substring(0, 50);
+	}
+
+	async validateSourceAccess(sourceName) {
+		if (!sourceName || sourceName === 'ADD_YOUR_NAME_HERE' || sourceName === 'Not set') {
+			return false;
+		}
+
+		// Check if we have a cached password for this source (using sanitized name)
+		const sanitizedSource = this.sanitizeSourceName(sourceName);
+		const cachedPassword = SourcePasswordManager.getCachedPassword(sanitizedSource);
+		if (cachedPassword) {
+			return true;
+		}
+
+		// No cached password found
+		console.warn(`No cached password found for source: "${sourceName}" (sanitized: "${sanitizedSource}")`);
+		return false;
 	}
 
 	clearCharacterCache() {

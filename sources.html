@@ -11,11 +11,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 	<meta name="mobile-web-app-capable" content="yes">
 
-	<title>Character Editor - 5etools</title>
+	<title>Character authentication - 5etools</title>
 
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/main.css">
-	<link rel="stylesheet" href="css/renderdemo.css">
 
 	<!-- Favicons -->
 	<link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -53,7 +52,6 @@
 	<script type="text/javascript" src="sw-injector.js"></script>
 
 	<script type="module" src="js/styleswitch.js"></script>
-	<script type="text/javascript" src="js/navigation.js"></script>
 	<script type="module" src="js/browsercheck.js"></script>
 </head>
 
@@ -69,8 +67,8 @@
 
 	<header class="hidden-xs hidden-sm page__header">
 		<div class="container ve-flex-v-baseline">
-			<h1 class="page__title no-wrap my-0" id="page__title">Character Editor</h1>
-			<p class="page__subtitle no-wrap my-0" id="page__subtitle">Edit character JSON on the left, see the rendered character sheet on the right.</p>
+			<h1 class="page__title no-wrap my-0" id="page__title">Source Management</h1>
+			<p class="page__subtitle no-wrap my-0" id="page__subtitle">Create and manage character sources with password protection.</p>
 		</div>
 	</header>
 
@@ -78,33 +76,60 @@
 		<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
 	</nav>
 
-	<div class="view-col-wrapper">
-		<div class="view-col no-print" id="wrp-jsoninput">
-			<!-- Source Info Section -->
-			<div class="ve-flex-col mb-2 p-2" style="	border: 1px solid #dee2e6; border-radius: 4px;">
-				<div class="ve-flex-h">
-					<small class="text-muted">
-						<span id="source-status">Use <a href="sources.html">Character authentication</a> to login to a source or create new sources.</span>
-					</small>
-				</div>
+	<div class="container">
+		<!-- Create New Source Section -->
+		<div class="ve-flex-col mb-4 p-3" style=" border: 1px solid #dee2e6; border-radius: 6px;">
+			<h2 class="mb-3">Create Character source book</h2>
+			<div class="mb-3">
+				<label for="new-source-name" class="form-label"><strong>Source Name:</strong></label>
+				<input type="text" id="new-source-name" class="form-control" placeholder="Enter source name (letters, numbers, underscores, hyphens only)" style="max-width: 400px;">
+				<small class="form-text text-muted">Source names can only contain letters, numbers, underscores, and hyphens.</small>
 			</div>
-
-			<pre id="jsoninput" class="inputArea ace_editor"></pre>
-			<div class="ve-flex-h-right" style="align-items: center;">
-				<span id="message" class="mr-4"></span>
-				<button class="ve-btn ve-btn-default ve-btn-sm mr-2" id="charRender">Render</button>
-				<button class="ve-btn ve-btn-success ve-btn-sm mr-2" id="saveCharacter">Save</button>
-				<button class="ve-btn ve-btn-danger ve-btn-sm mr-2" id="deleteCharacter">Delete</button>
-
+			<div class="mb-3">
+				<label for="new-source-password" class="form-label"><strong>Password:</strong></label>
+				<input type="password" id="new-source-password" class="form-control" placeholder="Set a secure password for this source" style="max-width: 400px;">
+				<small class="form-text text-muted">This password will be required to save characters to this source.</small>
 			</div>
+			<div class="mb-3">
+				<label for="confirm-source-password" class="form-label"><strong>Confirm Password:</strong></label>
+				<input type="password" id="confirm-source-password" class="form-control" placeholder="Re-enter the password" style="max-width: 400px;">
+			</div>
+			<div class="mb-3">
+				<button class="ve-btn ve-btn-primary" id="create-source-btn">Create Source</button>
+			</div>
+			<div id="create-message" class="mt-2" style="font-weight: bold;"></div>
 		</div>
 
-		<div id="wrp-output" class="view-col">
-			<table id="pagecontent" class="w-100 stats">
-				<tr><th class="ve-tbl-border" colspan="6"></th></tr>
-				<tr><td colspan="6" class="initial-message initial-message--med">Edit the character JSON on the left to see the rendered character sheet here</td></tr>
-				<tr><th class="ve-tbl-border" colspan="6"></th></tr>
-			</table>
+		<!-- Login to Source Section -->
+		<div class="ve-flex-col mb-4 p-3" style=" border: 1px solid #dee2e6; border-radius: 6px;">
+			<h2 class="mb-3">Login to Existing Character Source</h2>
+			<p class="text-muted mb-3">Login to an existing source to cache your credentials for character management.</p>
+			<div class="ve-flex-h mb-3 align-items-end">
+				<div class="mr-3">
+					<label for="login-source-name" class="form-label"><strong>Source Name:</strong></label>
+					<input type="text" id="login-source-name" class="form-control" placeholder="Enter source name" style="width: 250px;">
+				</div>
+				<div class="mr-3">
+					<label for="login-source-password" class="form-label"><strong>Password:</strong></label>
+					<input type="password" id="login-source-password" class="form-control" placeholder="Enter password" style="width: 250px;">
+				</div>
+				<div>
+					<button class="ve-btn ve-btn-primary" id="login-source-btn">Login</button>
+				</div>
+			</div>
+			<div id="login-message" class="mt-2" style="font-weight: bold;"></div>
+		</div>
+
+		<!-- Cached Sources Section -->
+		<div class="ve-flex-col mb-4 p-3" style=" border: 1px solid #dee2e6; border-radius: 6px;">
+			<h2 class="mb-3">Cached Source Passwords</h2>
+			<p class="text-muted mb-3">These are sources you have previously accessed. Passwords are stored locally in your browser.</p>
+			<div id="cached-sources-list">
+				<p class="text-muted"><em>No cached sources found</em></p>
+			</div>
+			<div class="mt-3">
+				<button class="ve-btn ve-btn-warning ve-btn-sm" id="clear-cache-btn">Clear All Cached Passwords</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -113,27 +138,13 @@
 <!--5ETOOLS_AD_ADHESION-->
 
 <script type="text/javascript" defer src="lib/jquery.js"></script>
-<script type="text/javascript" defer src="lib/ace.js"></script>
 <script type="text/javascript" defer src="js/parser.js"></script>
 <script type="text/javascript" defer src="js/utils.js"></script>
 <script type="text/javascript" defer src="js/utils-ui.js"></script>
-<script type="text/javascript" defer src="lib/localforage.js"></script>
-<script type="module" defer src="js/omnidexer.js"></script>
-<script type="module" src="js/omnisearch.js"></script>
-<script type="module" src="js/filter.js"></script>
-<script type="text/javascript" defer src="js/utils-dataloader.js"></script>
-<script type="module" src="js/utils-font.js"></script>
-<script type="module" src="js/utils-brew.js"></script>
-<script type="module" src="js/utils-config.js"></script>
 <script type="text/javascript" defer src="js/render.js"></script>
-<script type="text/javascript" defer src="js/img-config.js"></script>
-<script type="text/javascript" defer src="js/render-dice.js"></script>
-<script type="text/javascript" defer src="js/render-markdown.js"></script>
-<script type="module" src="js/shim-esmodules.js"></script>
-<script type="text/javascript" defer src="js/hist.js"></script>
-<script type="text/javascript" defer src="js/charactereditor.js"></script>
-<script type="text/javascript" defer src="js/list2.js"></script>
-<script type="text/javascript" defer src="lib/elasticlunr.js"></script>
+<script type="text/javascript" defer src="js/navigation.js"></script>
+<script type="module" defer src="js/utils-brew.js"></script>
+<script type="module" src="js/sources.js"></script>
 
 </body>
 </html>
