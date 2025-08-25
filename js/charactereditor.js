@@ -251,17 +251,20 @@ class CharacterEditorPage {
 		}, 0);
 	}
 
+	// Utility function to debounce calls
+	debounce(func, wait) {
+		let timeout;
+		return function(...args) {
+			const context = this;
+			clearTimeout(timeout);
+			timeout = setTimeout(() => func.apply(context, args), wait);
+		};
+	}
+
+	// Debounced render method
+	debouncedRenderCharacter = this.debounce(this.renderCharacter, 300);
+
 	bindEvents() {
-		// Load Template button
-		document.getElementById('loadTemplate').addEventListener('click', () => {
-			this.loadTemplate();
-		});
-
-		// Validate JSON button
-		document.getElementById('validateJson').addEventListener('click', () => {
-			this.validateJson();
-		});
-
 		// Render button
 		document.getElementById('charRender').addEventListener('click', () => {
 			this.renderCharacter();
@@ -272,15 +275,6 @@ class CharacterEditorPage {
 			this.saveCharacter();
 		});
 
-		// Reset button
-		document.getElementById('charReset').addEventListener('click', () => {
-			if (isEditMode) {
-				this.loadCharacterForEdit();
-			} else {
-				this.loadTemplate();
-			}
-		});
-
 		// Delete button with triple confirmation
 		document.getElementById('deleteCharacter').addEventListener('click', () => {
 			this.deleteCharacter();
@@ -288,25 +282,14 @@ class CharacterEditorPage {
 
 		// Note: Source password management moved to sources.html page
 
-		// Watch for JSON changes to update source display
+		// Watch for JSON changes to update source display and render preview
 		this.ace.session.on('change', () => {
 			this.updateSourceDisplay();
+			this.debouncedRenderCharacter();
 		});
 
 		// Update button visibility based on edit mode
 		this.updateButtonVisibility();
-	}
-
-	validateJson() {
-		try {
-			const jsonText = this.ace.getValue();
-			JSON.parse(jsonText);
-			document.getElementById('message').textContent = 'JSON is valid';
-			document.getElementById('message').style.color = 'green';
-		} catch (e) {
-			document.getElementById('message').textContent = 'JSON Error: ' + e.message;
-			document.getElementById('message').style.color = 'red';
-		}
 	}
 
 	renderCharacter() {
@@ -443,8 +426,14 @@ class CharacterEditorPage {
 		// Update localStorage for immediate use
 		localStorage.setItem('editingCharacter', JSON.stringify(updatedCharacter));
 
-		// Get password for validation
-		const password = document.getElementById('source-password').value;
+		// Get password from localStorage cache
+		const currentSource = this.getCurrentSourceName(updatedCharacter);
+		const password = SourcePasswordManager.getCachedPassword(currentSource);
+
+		if (!password) {
+			document.getElementById('message').textContent = 'Error: No cached password found. Please login via Source Management.';
+			return;
+		}
 
 		try {
 			const response = await fetch('/api/characters/save', {
@@ -498,8 +487,14 @@ class CharacterEditorPage {
 	}
 
 	async saveNewCharacterToAPI(characterData) {
-		// Get password for validation
-		const password = document.getElementById('source-password').value;
+		// Get password from localStorage cache
+		const currentSource = this.getCurrentSourceName(characterData);
+		const password = SourcePasswordManager.getCachedPassword(currentSource);
+
+		if (!password) {
+			document.getElementById('message').textContent = 'Error: No cached password found. Please login via Source Management.';
+			return;
+		}
 
 		try {
 			const response = await fetch('/api/characters/save', {
@@ -805,6 +800,11 @@ class CharacterEditorPage {
 		return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
 	}
 
+	getCurrentSourceName(characterData) {
+		// Get source name from character data, fallback to 'MyCharacters'
+		return characterData?.source || 'MyCharacters';
+	}
+
 	generateCharacterAnchor(characterName, characterSource) {
 		// Generate an anchor that will scroll to the character row in the characters table
 		const characterId = this.generateCharacterId(characterName);
@@ -855,28 +855,14 @@ class CharacterEditorPage {
 			return false;
 		}
 
-		const password = document.getElementById('source-password').value;
-		if (!password) {
-			return false;
-		}
-
-		// First check cached password
+		// Check if we have a cached password for this source
 		const cachedPassword = SourcePasswordManager.getCachedPassword(sourceName);
-		if (cachedPassword === password) {
+		if (cachedPassword) {
 			return true;
 		}
 
-		// If not cached, validate with server
-		try {
-			const isValid = await SourcePasswordManager.validatePassword(sourceName, password);
-			if (isValid) {
-				SourcePasswordManager.cachePassword(sourceName, password);
-				return true;
-			}
-		} catch (e) {
-			console.error('Error validating source access:', e);
-		}
-
+		// No cached password found
+		console.warn(`No cached password found for source: ${sourceName}`);
 		return false;
 	}
 
