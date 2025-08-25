@@ -638,6 +638,13 @@ class CharacterEditorPage {
 			const jsonText = this.ace.getValue();
 			const characterData = JSON.parse(jsonText);
 
+			// Prevent name changes in edit mode to avoid creating duplicate characters
+			if (isEditMode && currentCharacterData && characterData.name !== currentCharacterData.name) {
+				document.getElementById('message').textContent = `Error: Cannot change character name from "${currentCharacterData.name}" to "${characterData.name}". Renaming creates duplicate characters. Please revert the name change.`;
+				document.getElementById('message').style.color = 'red';
+				return;
+			}
+
 			// Auto-set source if missing or default
 			const currentSource = this.getCurrentSourceName(characterData);
 			if (!characterData.source || characterData.source === 'MyCharacters' || characterData.source === 'ADD_YOUR_NAME_HERE') {
@@ -713,7 +720,7 @@ class CharacterEditorPage {
 					source: updatedCharacter.source,
 					password: password,
 					isEdit: true,
-					characterId: currentCharacterData ? this.generateCharacterId(currentCharacterData.name) : this.generateCharacterId(updatedCharacter.name)
+					characterId: currentCharacterData ? currentCharacterId : this.generateCharacterId(updatedCharacter.name)
 				})
 			});
 
@@ -1031,7 +1038,7 @@ class CharacterEditorPage {
 		}
 
 		try {
-			const characterId = this.generateCharacterId(characterName);
+			const characterId = currentCharacterId || this.generateCharacterId(characterName);
 			const characterSource = currentCharacterData.source;
 			
 			if (!characterSource) {
