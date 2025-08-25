@@ -149,9 +149,7 @@ class SourceManager {
 			if (e.key === 'Enter') this.createNewSource();
 		});
 
-		document.getElementById('test-source-password').addEventListener('keypress', (e) => {
-			if (e.key === 'Enter') this.testSourceAccess();
-		});
+		// Test source password element is not present in HTML, skip event listener
 
 		document.getElementById('login-source-password').addEventListener('keypress', (e) => {
 			if (e.key === 'Enter') this.loginToSource();
