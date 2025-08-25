@@ -401,8 +401,8 @@ window.addEventListener("load", () => {
 	$("#btn-edit-character").click(async () => {
 		if (charactersPage._currentCharacter) {
 			const character = charactersPage._currentCharacter;
-			const characterSource = character.source;
-			
+			const characterSource = character.source.toLowerCase();
+
 			// Double-check access before allowing edit
 			if (!characterSource || characterSource === 'Unknown' || characterSource === '') {
 				alert('This character has no source specified and cannot be edited.');
