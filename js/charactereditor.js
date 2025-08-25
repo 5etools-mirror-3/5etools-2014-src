@@ -936,8 +936,7 @@ class CharacterEditorPage {
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(characterPayload),
-				timeout: 10000 // 10 second timeout
+				body: JSON.stringify(characterPayload)
 			});
 
 			if (!response.ok) {
@@ -952,7 +951,7 @@ class CharacterEditorPage {
 			isEditMode = true;
 
 			// Update URL to reflect edit mode
-			const newUrl = new URL(window.location);
+			const newUrl = new URL(window.location.href);
 			newUrl.searchParams.set('edit', 'true');
 			window.history.replaceState({}, '', newUrl);
 
@@ -970,7 +969,7 @@ class CharacterEditorPage {
 			isEditMode = true;
 
 			// Update URL to reflect edit mode
-			const newUrl = new URL(window.location);
+			const newUrl = new URL(window.location.href);
 			newUrl.searchParams.set('edit', 'true');
 			window.history.replaceState({}, '', newUrl);
 
@@ -1107,10 +1106,10 @@ class CharacterEditorPage {
 
 	generateCharacterAnchor(characterName, characterSource) {
 		// Generate an anchor that will scroll to the character row in the characters table
-		const encodedName = encodeURIComponent(characterName);
+		const characterId = this.generateCharacterId(characterName); // Use raw name for ID generation
+		const encodedName = encodeURIComponent(characterId); // Encode after generating ID
 		const encodedSource = encodeURIComponent(characterSource);
-		const characterId = this.generateCharacterId(encodedName);
-		return `#${characterId}_${encodedSource}`;
+		return `#${encodedName}_${encodedSource}`;
 	}
 
 	// Source Password Management UI Methods
@@ -1203,6 +1202,11 @@ class CharacterEditorPage {
 			detail: { timestamp: Date.now() }
 		}));
 	}
+}
+
+// Use dynamic property assignment for characterCache
+if (!window['characterCache']) {
+    window['characterCache'] = {};
 }
 
 // Initialize when page loads
