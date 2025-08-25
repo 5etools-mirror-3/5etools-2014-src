@@ -407,6 +407,14 @@ class CharacterEditorPage {
 			const jsonText = this.ace.getValue();
 			const characterData = JSON.parse(jsonText);
 
+			// Auto-set source if missing or default
+			const currentSource = this.getCurrentSourceName(characterData);
+			if (!characterData.source || characterData.source === 'MyCharacters' || characterData.source === 'ADD_YOUR_NAME_HERE') {
+				characterData.source = currentSource;
+				// Update the JSON in the editor to reflect the change
+				this.ace.setValue(JSON.stringify(characterData, null, 2));
+			}
+
 			// Check source password before saving
 			if (!await this.validateSourceAccess(characterData.source)) {
 				document.getElementById('message').textContent = 'Access denied: Invalid or missing password for this source';
@@ -450,7 +458,15 @@ class CharacterEditorPage {
 		const password = SourcePasswordManager.getCachedPassword(currentSource);
 
 		if (!password) {
-			document.getElementById('message').textContent = 'Error: No cached password found. Please login via Source Management.';
+			const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
+			let errorMsg = `Error: No cached password found for source "${currentSource}".`;
+			if (cachedSources.length > 0) {
+				errorMsg += ` Available sources: ${cachedSources.join(', ')}. Please update the "source" field in your character JSON or visit Source Management.`;
+			} else {
+				errorMsg += ` Please visit Source Management to create and login to a source first.`;
+			}
+			document.getElementById('message').textContent = errorMsg;
+			document.getElementById('message').style.color = 'red';
 			return;
 		}
 
@@ -509,7 +525,15 @@ class CharacterEditorPage {
 		const password = SourcePasswordManager.getCachedPassword(currentSource);
 
 		if (!password) {
-			document.getElementById('message').textContent = 'Error: No cached password found. Please login via Source Management.';
+			const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
+			let errorMsg = `Error: No cached password found for source "${currentSource}".`;
+			if (cachedSources.length > 0) {
+				errorMsg += ` Available sources: ${cachedSources.join(', ')}. Please update the "source" field in your character JSON or visit Source Management.`;
+			} else {
+				errorMsg += ` Please visit Source Management to create and login to a source first.`;
+			}
+			document.getElementById('message').textContent = errorMsg;
+			document.getElementById('message').style.color = 'red';
 			return;
 		}
 
@@ -816,8 +840,36 @@ class CharacterEditorPage {
 	}
 
 	getCurrentSourceName(characterData) {
-		// Get source name from character data, fallback to 'MyCharacters'
-		return characterData?.source || 'MyCharacters';
+		// Get source name from character data
+		const sourceFromData = characterData?.source;
+		if (sourceFromData && sourceFromData !== 'MyCharacters' && sourceFromData !== 'ADD_YOUR_NAME_HERE') {
+			return sourceFromData;
+		}
+
+		// Check if user came from sources page with a pre-set source
+		const urlParams = new URLSearchParams(window.location.search);
+		const sourceFromUrl = urlParams.get('source');
+		if (sourceFromUrl) {
+			return sourceFromUrl;
+		}
+
+		// Check if there's a cached source from localStorage
+		const newCharacterSource = localStorage.getItem('newCharacterSource');
+		if (newCharacterSource) {
+			// Clear it after using it once
+			localStorage.removeItem('newCharacterSource');
+			return newCharacterSource;
+		}
+
+		// Check for any cached sources - use the first one
+		const cachedPasswords = SourcePasswordManager.getCachedPasswords();
+		const availableSources = Object.keys(cachedPasswords);
+		if (availableSources.length > 0) {
+			return availableSources[0];
+		}
+
+		// Fallback to 'MyCharacters'
+		return 'MyCharacters';
 	}
 
 	generateCharacterAnchor(characterName, characterSource) {
@@ -845,20 +897,33 @@ class CharacterEditorPage {
 
 	updateSourceStatus() {
 		const statusEl = document.getElementById('source-status');
+		
+		// Get the current character data to determine the best source
+		let characterData = {};
+		try {
+			const jsonText = this.ace.getValue();
+			characterData = JSON.parse(jsonText);
+		} catch (e) {
+			// Ignore parsing errors for status display
+		}
 
+		const detectedSource = this.getCurrentSourceName(characterData);
+		const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
+		
 		if (!currentSource) {
-			statusEl.innerHTML = 'Use <a href="sources.html">Source Management</a> to login to a source or create new sources.';
-			hasSourceAccess = false;
-			return;
+			currentSource = detectedSource;
 		}
 
 		// Check if this source has a cached password
-		const cachedPassword = SourcePasswordManager.getCachedPassword(currentSource);
+		const cachedPassword = SourcePasswordManager.getCachedPassword(detectedSource);
 		if (cachedPassword) {
-			statusEl.innerHTML = `You are logged in to source "<strong>${currentSource}</strong>". <a href="sources.html">Manage sources</a>.`;
+			statusEl.innerHTML = `Detected source: "<strong>${detectedSource}</strong>" (authenticated). <a href="sources.html">Manage sources</a>.`;
 			hasSourceAccess = true;
+		} else if (cachedSources.length > 0) {
+			statusEl.innerHTML = `Detected source: "<strong>${detectedSource}</strong>" (not authenticated). Available sources: ${cachedSources.join(', ')}. <a href="sources.html">Login here</a>.`;
+			hasSourceAccess = false;
 		} else {
-			statusEl.innerHTML = `Source "<strong>${currentSource}</strong>" requires authentication. <a href="sources.html">Login here</a>.`;
+			statusEl.innerHTML = `No authenticated sources found. <a href="sources.html">Create and login to a source</a> to save characters.`;
 			hasSourceAccess = false;
 		}
 	}
