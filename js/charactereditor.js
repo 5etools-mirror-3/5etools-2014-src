@@ -1012,6 +1012,14 @@ class CharacterEditorPage {
 			return;
 		}
 
+		// Password authentication required
+		const password = prompt(`Please enter the password for source "${currentCharacterData.source}" to delete this character:`);
+		if (!password) {
+			document.getElementById('message').textContent = 'Deletion cancelled - password required for security';
+			document.getElementById('message').style.color = 'orange';
+			return;
+		}
+
 		try {
 			const characterId = this.generateCharacterId(characterName);
 			const characterSource = currentCharacterData.source;
@@ -1020,6 +1028,9 @@ class CharacterEditorPage {
 				throw new Error('Character has no source specified - cannot delete');
 			}
 			
+			document.getElementById('message').textContent = 'Authenticating and deleting character...';
+			document.getElementById('message').style.color = 'orange';
+			
 			const response = await fetch('/api/characters/delete', {
 				method: 'DELETE',
 				headers: {
@@ -1027,7 +1038,8 @@ class CharacterEditorPage {
 				},
 				body: JSON.stringify({
 					characterId: characterId,
-					source: characterSource
+					source: characterSource,
+					password: password
 				})
 			});
 
