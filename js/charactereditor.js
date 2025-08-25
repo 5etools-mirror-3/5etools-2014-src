@@ -1014,13 +1014,20 @@ class CharacterEditorPage {
 
 		try {
 			const characterId = this.generateCharacterId(characterName);
+			const characterSource = currentCharacterData.source;
+			
+			if (!characterSource) {
+				throw new Error('Character has no source specified - cannot delete');
+			}
+			
 			const response = await fetch('/api/characters/delete', {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify({
-					characterId: characterId
+					characterId: characterId,
+					source: characterSource
 				})
 			});
 
