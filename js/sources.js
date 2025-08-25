@@ -113,7 +113,8 @@ class SourceManager {
 
 	init() {
 		this.setupEventListeners();
-		this.updateCachedSourcesList();
+		// Delay updateCachedSourcesList until after sourceManager is globally available
+		setTimeout(() => this.updateCachedSourcesList(), 0);
 	}
 
 	setupEventListeners() {
@@ -410,6 +411,8 @@ let sourceManager;
 
 window.addEventListener('load', () => {
 	sourceManager = new SourceManager();
+	// Make sourceManager available globally immediately
+	window.sourceManager = sourceManager;
 });
 
 // Export for global access
