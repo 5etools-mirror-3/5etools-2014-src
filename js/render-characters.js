@@ -436,11 +436,15 @@ export class RenderCharacters {
 	static bindListenersCompact (character, ele) {
 		// Bind dice listeners to the element
 		if (ele) {
-			Renderer.dice.bindOnclickListener(ele);
+			// Handle both jQuery objects and plain DOM elements
+			const domElement = ele.jquery ? ele[0] : ele;
+			if (domElement && domElement.addEventListener) {
+				Renderer.dice.bindOnclickListener(domElement);
 
-			// Add character sheet interactivity
-			if (Renderer.character._bindCharacterSheetListeners) {
-				Renderer.character._bindCharacterSheetListeners(ele);
+				// Add character sheet interactivity
+				if (Renderer.character._bindCharacterSheetListeners) {
+					Renderer.character._bindCharacterSheetListeners(domElement);
+				}
 			}
 		}
 	}
