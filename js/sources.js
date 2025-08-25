@@ -127,10 +127,13 @@ class SourceManager {
 			this.loginToSource();
 		});
 
-		// Test access button
-		document.getElementById('test-access-btn').addEventListener('click', () => {
-			this.testSourceAccess();
-		});
+		// Test access button (optional)
+		const testAccessBtn = document.getElementById('test-access-btn');
+		if (testAccessBtn) {
+			testAccessBtn.addEventListener('click', () => {
+				this.testSourceAccess();
+			});
+		}
 
 		// Clear cache button
 		document.getElementById('clear-cache-btn').addEventListener('click', () => {
