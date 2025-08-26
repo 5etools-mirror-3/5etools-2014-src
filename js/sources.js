@@ -163,7 +163,7 @@ class SourceManager {
 		const confirmPasswordInput = document.getElementById('confirm-source-password');
 		const messageDiv = document.getElementById('create-message');
 
-		const sourceName = sourceNameInput.value.trim();
+		const sourceName = sourceNameInput.value.trim().toLocaleString();
 		const password = passwordInput.value;
 		const confirmPassword = confirmPasswordInput.value;
 
@@ -239,7 +239,7 @@ class SourceManager {
 		const passwordInput = document.getElementById('login-source-password');
 		const messageDiv = document.getElementById('login-message');
 
-		const sourceName = sourceNameInput.value.trim();
+		const sourceName = sourceNameInput.value.trim().toLowerCase();
 		const password = passwordInput.value;
 
 		// Clear previous messages
@@ -287,7 +287,7 @@ class SourceManager {
 		const passwordInput = document.getElementById('test-source-password');
 		const messageDiv = document.getElementById('test-message');
 
-		const sourceName = sourceNameInput.value.trim();
+		const sourceName = sourceNameInput.value.trim().toLocaleString();
 		const password = passwordInput.value;
 
 		// Clear previous messages
