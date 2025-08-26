@@ -77,6 +77,26 @@
 	</nav>
 
 	<div class="container">
+		<!-- Login to Source Section -->
+		<div class="ve-flex-col mb-4 p-3" style=" border: 1px solid #dee2e6; border-radius: 6px;">
+			<h2 class="mb-3">Login to Existing Character Source</h2>
+			<p class="text-muted mb-3">Login to an existing source to cache your credentials for character management.</p>
+			<div class="ve-flex-h mb-3 align-items-end">
+				<div class="mr-3">
+					<label for="login-source-name" class="form-label"><strong>Source Name:</strong></label>
+					<input type="text" id="login-source-name" class="form-control" placeholder="Enter source name" style="width: 250px;">
+				</div>
+				<div class="mr-3">
+					<label for="login-source-password" class="form-label"><strong>Password:</strong></label>
+					<input type="password" id="login-source-password" class="form-control" placeholder="Enter password" style="width: 250px;">
+				</div>
+				<div>
+					<button class="ve-btn ve-btn-primary" id="login-source-btn">Login</button>
+				</div>
+			</div>
+			<div id="login-message" class="mt-2" style="font-weight: bold;"></div>
+		</div>
+
 		<!-- Create New Source Section -->
 		<div class="ve-flex-col mb-4 p-3" style=" border: 1px solid #dee2e6; border-radius: 6px;">
 			<h2 class="mb-3">Create Character source book</h2>
@@ -100,25 +120,7 @@
 			<div id="create-message" class="mt-2" style="font-weight: bold;"></div>
 		</div>
 
-		<!-- Login to Source Section -->
-		<div class="ve-flex-col mb-4 p-3" style=" border: 1px solid #dee2e6; border-radius: 6px;">
-			<h2 class="mb-3">Login to Existing Character Source</h2>
-			<p class="text-muted mb-3">Login to an existing source to cache your credentials for character management.</p>
-			<div class="ve-flex-h mb-3 align-items-end">
-				<div class="mr-3">
-					<label for="login-source-name" class="form-label"><strong>Source Name:</strong></label>
-					<input type="text" id="login-source-name" class="form-control" placeholder="Enter source name" style="width: 250px;">
-				</div>
-				<div class="mr-3">
-					<label for="login-source-password" class="form-label"><strong>Password:</strong></label>
-					<input type="password" id="login-source-password" class="form-control" placeholder="Enter password" style="width: 250px;">
-				</div>
-				<div>
-					<button class="ve-btn ve-btn-primary" id="login-source-btn">Login</button>
-				</div>
-			</div>
-			<div id="login-message" class="mt-2" style="font-weight: bold;"></div>
-		</div>
+
 
 		<!-- Cached Sources Section -->
 		<div class="ve-flex-col mb-4 p-3" style=" border: 1px solid #dee2e6; border-radius: 6px;">
