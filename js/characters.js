@@ -196,8 +196,8 @@ class CharactersPage extends ListPageMultiSource {
 				// Process each character to ensure it has the required computed fields
 				formattedData.character.forEach(char => this._processCharacterForDisplay(char));
 
-				// Add to data loader cache
-				this._addData(formattedData);
+				// Deduplicate characters before adding to prevent duplicates from multiple API calls
+				this._deduplicateAndAddCharacterData(formattedData);
 				console.log(`Loaded ${formattedData.character.length} characters from blob storage`);
 
 				// Set up periodic refresh
@@ -235,6 +235,30 @@ class CharactersPage extends ListPageMultiSource {
 				console.warn('Failed to refresh character data:', e);
 			}
 		}, 5 * 60 * 1000); // 5 minutes
+	}
+
+	// Deduplicate characters and add/replace them in the data list
+	_deduplicateAndAddCharacterData(formattedData) {
+		if (!formattedData.character || !Array.isArray(formattedData.character)) {
+			return;
+		}
+
+		// Remove existing characters from the data list to prevent duplicates
+		// Keep track of current index to maintain proper list item references
+		const existingCharacterIndices = [];
+		this._dataList.forEach((item, index) => {
+			if (item && typeof item === 'object' && 'name' in item) {
+				existingCharacterIndices.push(index);
+			}
+		});
+
+		// Remove existing characters in reverse order to maintain indices
+		existingCharacterIndices.reverse().forEach(index => {
+			this._dataList.splice(index, 1);
+		});
+
+		// Add the fresh character data
+		this._addData(formattedData);
 	}
 
 	_processCharacterForDisplay(character) {
