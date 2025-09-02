@@ -8597,9 +8597,9 @@ Renderer.character = class {
 				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
 				
 				// Create click-to-edit HP display
-				const hpDisplay = `<span class="character-stat-display" data-stat-path="hp.current" data-character-id="${characterId}" data-current-value="${currentHp}" data-max-value="${maxHp}" title="Click to edit Current HP" style="color: #006bc4; cursor: pointer;">${currentHp}</span>/<span class="character-stat-display" data-stat-path="hp.max" data-character-id="${characterId}" data-current-value="${maxHp}" title="Click to edit Max HP" style="color: #006bc4; cursor: pointer;">${maxHp}</span>`;
+				const hpDisplay = `<span class="character-stat-display" data-stat-path="hp.current" data-character-id="${characterId}" data-current-value="${currentHp}" data-max-value="${maxHp}" title="Click to edit Current HP" style="color: #006bc4; cursor: pointer;" onclick="Renderer.character.handleHpClick(event, this)">${currentHp}</span>/<span>${maxHp}</span>`;
 				
-				const tempHpDisplay = hp.temp ? ` (+<span class="character-stat-display" data-stat-path="hp.temp" data-character-id="${characterId}" data-current-value="${hp.temp}" title="Click to edit Temporary HP" style="color: #006bc4; cursor: pointer;">${hp.temp}</span> temp)` : '';
+				const tempHpDisplay = hp.temp ? ` (+<span class="character-stat-display" data-stat-path="hp.temp" data-character-id="${characterId}" data-current-value="${hp.temp}" title="Click to edit Temporary HP" style="color: #006bc4; cursor: pointer;" onclick="Renderer.character.handleHpClick(event, this)">${hp.temp}</span> temp)` : '';
 				
 				combatStats.push(`<strong>HP</strong> ${hpDisplay}${tempHpDisplay}`);
 			} else {
@@ -17253,6 +17253,96 @@ Renderer.getRollableRow = function (row, opts) {
 			if (mLowHigh[2].toLowerCase() === "lower") {
 				row[0].roll = {
 					min: -Renderer.dice.POS_INFINITE,
+					max: Number(mLowHigh[1]),
+				};
+			} else {
+				row[0].roll = {
+					min: Number(mLowHigh[1]),
+					max: Renderer.dice.POS_INFINITE,
+				};
+			}
+
+			return row;
+		}
+
+		// format: "95-00" or "12"
+		// u2012 = figure dash; u2013 = en-dash; u2014 = em dash; u2212 = minus sign
+		const m = /^(\d+)([-\u2013-\u2014\u2212](\d+))?$/.exec(cleanRow);
+		if (m) {
+			if (m[1] && !m[2]) {
+				row[0] = {
+					type: "cell",
+					roll: {
+						exact: Number(m[1]),
+					},
+				};
+				if (m[1][0] === "0") row[0].roll.pad = true;
+				Renderer.getRollableRow._handleInfiniteOpts(row, opts);
+			} else {
+				row[0] = {
+					type: "cell",
+					roll: {
+						min: Number(m[1]),
+						max: Number(m[3]),
+					},
+				};
+				if (m[1][0] === "0" || m[3][0] === "0") row[0].roll.pad = true;
+				Renderer.getRollableRow._handleInfiniteOpts(row, opts);
+			}
+		} else {
+			// format: "12+"
+			const m = /^(\d+)\+$/.exec(row[0]);
+			row[0] = {
+				type: "cell",
+				roll: {
+					min: Number(m[1]),
+					max: Renderer.dice.POS_INFINITE,
+				},
+			};
+		}
+	} catch (e) {
+		if (opts.cbErr) opts.cbErr(row[0], e);
+	}
+	return row;
+};
+Renderer.getRollableRow._handleInfiniteOpts = function (row, opts) {
+	if (!opts.isForceInfiniteResults) return;
+
+	const isExact = row[0].roll.exact != null;
+
+	if (opts.isFirstRow) {
+		if (!isExact) row[0].roll.displayMin = row[0].roll.min;
+		row[0].roll.min = -Renderer.dice.POS_INFINITE;
+	}
+
+	if (opts.isLastRow) {
+		if (!isExact) row[0].roll.displayMax = row[0].roll.max;
+		row[0].roll.max = Renderer.dice.POS_INFINITE;
+	}
+};
+
+Renderer.initLazyImageLoaders = function () {
+	const images = document.querySelectorAll(`img[${Renderer.utils.lazy.ATTR_IMG_FINAL_SRC}], canvas[${Renderer.utils.lazy.ATTR_IMG_FINAL_SRC}]`);
+
+	Renderer.utils.lazy.destroyObserver({observerId: "images"});
+
+	const observer = Renderer.utils.lazy.getCreateObserver({
+		observerId: "images",
+		fnOnObserve: ({entry}) => {
+			Renderer.utils.lazy.mutFinalizeEle(entry.target);
+		},
+	});
+
+	images.forEach(ele => observer.track(ele));
+};
+
+Renderer.HEAD_NEG_1 = "rd__b--0";
+Renderer.HEAD_0 = "rd__b--1";
+Renderer.HEAD_1 = "rd__b--2";
+Renderer.HEAD_2 = "rd__b--3";
+Renderer.HEAD_2_SUB_VARIANT = "rd__b--4";
+Renderer.DATA_NONE = "data-none";
+S_INFINITE,
 					max: Number(mLowHigh[1]),
 				};
 			} else {
