@@ -1,5 +1,6 @@
 
 import {RenderCharacters} from "./render-characters.js";
+import {CharacterManager} from "./character-manager.js";
 
 class CharactersSublistManager extends SublistManager {
 	static _getRowTemplate () {
@@ -152,13 +153,35 @@ class CharactersPage extends ListPageMultiSource {
 		// Ensure Example source is loaded for hover/popout functionality
 		await this._pLoadSource("Example", "yes");
 
-		// Load character data from Vercel Blob storage
-		const databaseLoaded = await this._pLoadCharacterDataFromDatabase();
-
-		if (!databaseLoaded) {
-			console.log('No characters found in blob storage - this is normal for a fresh installation');
-			// Don't fall back to old file loading - characters now only come from blob storage
+		// Use centralized character manager to load characters
+		try {
+			const characters = await CharacterManager.loadCharacters();
+			if (characters.length > 0) {
+				// Format for 5etools compatibility
+				const formattedData = { character: characters };
+				this._addData(formattedData);
+				console.log(`Loaded ${characters.length} characters via CharacterManager`);
+			} else {
+				console.log('No characters found - this is normal for a fresh installation');
+			}
+		} catch (e) {
+			console.warn('Failed to load characters via CharacterManager:', e);
 		}
+		
+		// Set up listener for character updates
+		CharacterManager.addListener((characters) => {
+			// Update the list when characters change
+			if (this._list) {
+				const formattedData = { character: characters };
+				// Clear existing data and add fresh data
+				this._dataList.length = 0;
+				this._addData(formattedData);
+				this._list.update();
+			}
+		});
+
+		// Start auto-refresh (like the original system)
+		CharacterManager.startAutoRefresh();
 
 		// Preload spell data so spell links work in character sheets
 		try {
@@ -168,98 +191,6 @@ class CharactersPage extends ListPageMultiSource {
 		}
 	}
 
-	async _pLoadCharacterDataFromDatabase() {
-		try {
-			console.log('Loading character data from Vercel Blob storage...');
-
-			// Load all characters from the API with cache-busting
-			const cacheBuster = Date.now();
-			const response = await fetch(`/api/characters/load?_t=${cacheBuster}`, {
-				cache: 'no-cache',
-				headers: {
-					'Cache-Control': 'no-cache, no-store, must-revalidate',
-					'Pragma': 'no-cache'
-				}
-			});
-			if (!response.ok) {
-				throw new Error('Failed to fetch characters from API');
-			}
-
-			const characters = await response.json();
-
-			if (characters && characters.length > 0) {
-				// Convert to expected 5etools format
-				const formattedData = {
-					character: characters
-				};
-
-				// Process each character to ensure it has the required computed fields
-				formattedData.character.forEach(char => this._processCharacterForDisplay(char));
-
-				// Deduplicate characters before adding to prevent duplicates from multiple API calls
-				this._deduplicateAndAddCharacterData(formattedData);
-				console.log(`Loaded ${formattedData.character.length} characters from blob storage`);
-
-				// Set up periodic refresh
-				this._setupDatabaseRefresh();
-
-				return true;
-			} else {
-				console.warn('No valid characters found in blob storage');
-				return false;
-			}
-		} catch (e) {
-			console.warn('Failed to load character data from blob storage:', e.message);
-			return false;
-		}
-	}
-
-	// Set up periodic refresh of character data
-	_setupDatabaseRefresh() {
-		// Refresh character data every 5 minutes to catch updates
-		if (this._refreshInterval) {
-			clearInterval(this._refreshInterval);
-		}
-
-		this._refreshInterval = setInterval(async () => {
-			console.log('Refreshing character data from blob storage...');
-			try {
-				const refreshed = await this._pLoadCharacterDataFromDatabase();
-				if (refreshed) {
-					// Re-render the list with fresh data
-					if (this._list) {
-						this._list.update();
-					}
-				}
-			} catch (e) {
-				console.warn('Failed to refresh character data:', e);
-			}
-		}, 5 * 60 * 1000); // 5 minutes
-	}
-
-	// Deduplicate characters and add/replace them in the data list
-	_deduplicateAndAddCharacterData(formattedData) {
-		if (!formattedData.character || !Array.isArray(formattedData.character)) {
-			return;
-		}
-
-		// Remove existing characters from the data list to prevent duplicates
-		// Keep track of current index to maintain proper list item references
-		const existingCharacterIndices = [];
-		this._dataList.forEach((item, index) => {
-			if (item && typeof item === 'object' && 'name' in item) {
-				existingCharacterIndices.push(index);
-			}
-		});
-
-		// Remove existing characters in reverse order to maintain indices
-		existingCharacterIndices.reverse().forEach(index => {
-			this._dataList.splice(index, 1);
-		});
-
-		// Add the fresh character data
-		this._addData(formattedData);
-	}
 
 	_processCharacterForDisplay(character) {
 		// Add computed fields that the filters and display expect

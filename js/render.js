@@ -9962,90 +9962,21 @@ Renderer.character = class {
 		}
 	}
 
-	// Update character stat on server using full character object update
+	// Update character stat using centralized CharacterManager
 	static async _updateCharacterStat(characterData, characterSource, statPath, newValue) {
 		if (!characterData || !characterSource || !statPath) return false;
 
-		try {
-			const cachedPasswords = localStorage.getItem('sourcePasswords');
-			if (!cachedPasswords) return false;
-
-			const passwords = JSON.parse(cachedPasswords);
-			const password = passwords[characterSource];
-			if (!password) return false;
-
-			// Update the stat using the provided path
-			this._setNestedProperty(characterData, statPath, this._parseStatValue(newValue));
-
-			// Generate character ID (same logic as in character editor)
+		// All character updates now go through CharacterManager
+		if (globalThis.CharacterManager) {
 			const characterId = characterData.id || this._generateCharacterId(characterData.name);
-
-			const API_BASE_URL = window.location.origin.includes('localhost')
-				? 'http://localhost:3000/api'
-				: '/api';
-
-			// Send full character data to save endpoint
-			const response = await fetch(`${API_BASE_URL}/characters/save`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					characterData: characterData,
-					source: characterSource,
-					password: password,
-					isEdit: true,
-					characterId: characterId
-				})
-			});
-
-			if (response.ok) {
-				return true;
-			} else {
-				const error = await response.json();
-				console.error('Server error updating character stat:', error);
-				return false;
-			}
-
-		} catch (e) {
-			console.error('Error updating character stat:', e);
-			return false;
+			return await globalThis.CharacterManager.updateCharacterStat(characterId, statPath, newValue);
 		}
+
+		console.warn('CharacterManager not available for stat update');
+		return false;
 	}
 
-	// Helper method to set nested properties using dot notation (e.g., "hp.current")
-	static _setNestedProperty(obj, path, value) {
-		const keys = path.split('.');
-		const lastKey = keys.pop();
-		const target = keys.reduce((current, key) => {
-			if (!current[key] || typeof current[key] !== 'object') {
-				current[key] = {};
-			}
-			return current[key];
-		}, obj);
-
-		// Handle null/empty values appropriately
-		if (value === null || value === '' || value === undefined) {
-			delete target[lastKey];
-		} else {
-			target[lastKey] = value;
-		}
-	}
-
-	// Helper method to parse stat values to appropriate types
-	static _parseStatValue(value) {
-		if (value === null || value === '' || value === undefined) {
-			return null;
-		}
-
-		// Try to parse as number if it looks like one
-		const numValue = Number(value);
-		if (!isNaN(numValue) && value.toString().trim() !== '') {
-			return numValue;
-		}
-
-		return value; // Return as string if not a number
-	}
-
-	// Helper method to generate character ID (copied from character editor logic)
+	// Helper method to generate character ID (kept for backward compatibility)
 	static _generateCharacterId(name) {
 		return name.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 20) + '_' + Date.now();
 	}

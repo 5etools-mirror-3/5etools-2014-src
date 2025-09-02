@@ -8,6 +8,7 @@ import {InitiativeTracker} from "./initiativetracker/dmscreen-initiativetracker.
 import {InitiativeTrackerPlayerV0, InitiativeTrackerPlayerV1} from "./dmscreen-playerinitiativetracker.js";
 import {InitiativeTrackerCreatureViewer} from "./dmscreen-initiativetrackercreatureviewer.js";
 import {RenderCharacters} from "../render-characters.js";
+import {CharacterManager} from "../character-manager.js";
 
 export class PanelContentManagerFactory {
 	static _PANEL_TYPES = {};
@@ -196,27 +197,16 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 		const $selCharacter = $controls.find("select");
 		const $btnRefresh = $controls.find("button");
 		
-		// Load available characters
+		// Load available characters using centralized manager
 		const loadCharacters = async () => {
 			try {
-				// Add cache-busting timestamp to prevent stale data
-				const cacheBuster = Date.now();
-				const response = await fetch(`/api/characters/load?_t=${cacheBuster}`, {
-					cache: 'no-cache',
-					headers: {
-						'Cache-Control': 'no-cache, no-store, must-revalidate',
-						'Pragma': 'no-cache'
-					}
+				const characters = await CharacterManager.loadCharacters();
+				$selCharacter.empty().append(`<option value="">Select a character...</option>`);
+				characters.forEach(char => {
+					$selCharacter.append(`<option value="${char.name}">${char.name}</option>`);
 				});
-				if (response.ok) {
-					const characters = await response.json();
-					$selCharacter.empty().append(`<option value="">Select a character...</option>`);
-					characters.forEach(char => {
-						$selCharacter.append(`<option value="${char.name}">${char.name}</option>`);
-					});
-				}
 			} catch (error) {
-				console.warn('Failed to load characters:', error);
+				console.warn('Failed to load characters via CharacterManager:', error);
 			}
 		};
 		
@@ -229,33 +219,11 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 			}
 			
 			try {
-				// Add cache-busting timestamp to prevent stale data
-				const cacheBuster = Date.now();
-				const response = await fetch(`/api/characters/load?_t=${cacheBuster}`, {
-					cache: 'no-cache',
-					headers: {
-						'Cache-Control': 'no-cache, no-store, must-revalidate',
-						'Pragma': 'no-cache'
-					}
-				});
-				if (response.ok) {
-					const characters = await response.json();
-					const character = characters.find(c => c.name === characterName);
-					if (character) {
-						// Process character data to ensure computed fields exist
-						if (character.class && Array.isArray(character.class)) {
-							character._fClass = character.class.map(cls => {
-								let classStr = cls.name;
-								if (cls.subclass && cls.subclass.name) {
-									classStr += ` (${cls.subclass.name})`;
-								}
-								return classStr;
-							}).join("/");
-							character._fLevel = character.class.reduce((total, cls) => total + (cls.level || 0), 0);
-						}
-						if (character.race) {
-							character._fRace = character.race.variant ? `Variant ${character.race.name}` : character.race.name;
-						}
+				// Use centralized character manager
+				const characters = await CharacterManager.loadCharacters();
+				const character = characters.find(c => c.name === characterName);
+				if (character) {
+					// Characters from CharacterManager are already processed with computed fields
 						
 						// Use RenderCharacters to render the character
 						const $rendered = RenderCharacters.$getRenderedCharacter(character);

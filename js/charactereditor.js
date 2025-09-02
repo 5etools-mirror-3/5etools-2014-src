@@ -1,3 +1,6 @@
+// Import CharacterManager for centralized character operations
+import {CharacterManager} from "./character-manager.js";
+
 let editor;
 let currentCharacterData = null;
 let currentCharacterId = null;
@@ -161,6 +164,17 @@ class CharacterEditorPage {
 
 	async loadCharacterFromAPI(characterId) {
 		try {
+			// Try CharacterManager first for consistency
+			const character = CharacterManager.getCharacterById(characterId);
+			if (character) {
+				currentCharacterData = character;
+				currentCharacterId = characterId;
+				this.ace.setValue(JSON.stringify(currentCharacterData, null, 2), 1);
+				document.getElementById('message').textContent = `Loaded character: ${character.name}`;
+				return;
+			}
+
+			// Fallback to direct API call if not in CharacterManager cache
 			const response = await fetch(`${API_BASE_URL}/characters/${characterId}`);
 			if (response.ok) {
 				const characterResponse = await response.json();
@@ -653,21 +667,39 @@ class CharacterEditorPage {
 				this.ace.setValue(JSON.stringify(characterData, null, 2));
 			}
 
-			// Check source password before saving
-			if (!await this.validateSourceAccess(characterData.source)) {
+			// Use CharacterManager for centralized permission checking
+			if (!CharacterManager.canEditCharacter(characterData)) {
 				document.getElementById('message').textContent = 'Access denied: Invalid or missing password for this source';
 				document.getElementById('message').style.color = 'red';
 				return;
 			}
 
-			if (isEditMode && currentCharacterData) {
-				// Update existing character
-				await this.updateCharacterInAPI(characterData);
-				document.getElementById('message').textContent = 'Character updated successfully';
+			// Use CharacterManager for all save operations
+			const success = await CharacterManager.saveCharacter(characterData, isEditMode && currentCharacterData);
+			
+			if (success) {
+				if (isEditMode && currentCharacterData) {
+					document.getElementById('message').textContent = 'Character updated successfully';
+				} else {
+					document.getElementById('message').textContent = 'Character saved successfully';
+					// Update local state for potential future edits
+					currentCharacterData = characterData;
+					isEditMode = true;
+					currentCharacterId = characterData.id || CharacterManager._generateCharacterId(characterData.name);
+					localStorage.setItem('editingCharacter', JSON.stringify(characterData));
+					// Update button visibility to show delete button
+					this.updateButtonVisibility();
+				}
+				
+				// Ask if user wants to view the character on the characters page
+				setTimeout(() => {
+					if (confirm('Character saved successfully! Would you like to view it on the characters page?')) {
+						const characterAnchor = this.generateCharacterAnchor(characterData.name);
+						window.location.href = `characters.html${characterAnchor}`;
+					}
+				}, 1000);
 			} else {
-				// Save new character
-				await this.saveNewCharacterToAPI(characterData);
-				document.getElementById('message').textContent = 'Character saved successfully';
+				throw new Error('Failed to save character via CharacterManager');
 			}
 			document.getElementById('message').style.color = 'green';
 		} catch (e) {

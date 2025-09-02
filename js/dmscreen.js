@@ -38,6 +38,7 @@ import {
 } from "./dmscreen/dmscreen-panels.js";
 
 import {OmnisearchBacking} from "./omnisearch/omnisearch-backing.js";
+import {CharacterManager} from "./character-manager.js";
 
 const UP = "UP";
 const RIGHT = "RIGHT";
@@ -330,24 +331,11 @@ class Board {
 
 	async _pAddCharactersToContentIndex () {
 		try {
-			// Load character data from API
-			const response = await fetch('/api/characters/load', {
-				cache: 'no-cache',
-				headers: {
-					'Cache-Control': 'no-cache, no-store, must-revalidate',
-					'Pragma': 'no-cache'
-				}
-			});
+			// Load character data using centralized manager
+			const characters = await CharacterManager.loadCharacters();
 			
-			if (!response.ok) {
-				console.warn('Failed to load characters for DM screen search:', response.statusText);
-				return;
-			}
-			
-			const characters = await response.json();
-			
-			if (!characters || !Array.isArray(characters) || characters.length === 0) {
-				console.log('No characters found for DM screen search index');
+			if (!characters.length) {
+				console.log('No characters found for DM screen search indexing');
 				return;
 			}
 			
@@ -1266,13 +1254,7 @@ class Panel {
 		
 		// Handle character pages differently since they use API-based loading
 		if (page === UrlUtil.PG_CHARACTERS) {
-			return fetch('/api/characters/load')
-				.then(response => {
-					if (!response.ok) {
-						throw new Error(`Failed to load characters: ${response.statusText}`);
-					}
-					return response.json();
-				})
+			return CharacterManager.loadCharacters()
 				.then(characters => {
 					// Find the specific character by hash
 					const character = characters.find(char => 

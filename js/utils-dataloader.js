@@ -1,5 +1,9 @@
 "use strict";
 
+// Import CharacterManager for centralized character loading
+// Note: This will be available after character-manager.js is loaded
+const getCharacterManager = () => globalThis.CharacterManager;
+
 /**
  * General notes:
  *  - Raw/`raw_` data *should* be left as-is from `DataUtil`, such that we match anything returned by a prop-specific
@@ -1044,12 +1048,18 @@ class _DataTypeLoaderCharacter extends _DataTypeLoader {
 	_getSiteIdent ({pageClean, sourceClean}) { return "character"; }
 
 	async _pGetSiteData ({pageClean, sourceClean}) {
-		// Use cached characters if available, otherwise load from API
-		if (_DataTypeLoaderCharacter._cachedCharacters) {
-			return {character: _DataTypeLoaderCharacter._cachedCharacters};
+		// Use centralized CharacterManager to prevent duplicate loads
+		const CharacterManager = getCharacterManager();
+		if (CharacterManager) {
+			try {
+				const characters = await CharacterManager.loadCharacters();
+				return {character: characters};
+			} catch (error) {
+				console.warn('Failed to load characters from CharacterManager for DataLoader:', error);
+			}
 		}
-
-		// Load characters from API instead of static files
+		
+		// Fallback to direct API load if CharacterManager is not available
 		try {
 			const response = await fetch('/api/characters/load');
 			if (!response.ok) {
@@ -1059,9 +1069,6 @@ class _DataTypeLoaderCharacter extends _DataTypeLoader {
 			const characters = await response.json();
 			// Ensure each character has the __prop set
 			characters.forEach(it => it.__prop = "character");
-			
-			// Cache the characters for future use
-			_DataTypeLoaderCharacter._cachedCharacters = characters;
 			
 			return {character: characters};
 		} catch (error) {
