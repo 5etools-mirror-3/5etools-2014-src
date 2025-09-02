@@ -224,14 +224,23 @@ class CharactersPage extends ListPageMultiSource {
 
 	async loadCharacterById(characterId) {
 		try {
+			// Try CharacterManager first for cached character
+			const character = CharacterManager.getCharacterById(characterId);
+			if (character) {
+				return character;
+			}
+			
+			// If not in cache, fallback to direct API call
 			const response = await fetch(`/api/characters/${characterId}`);
 			if (response.ok) {
 				const character = await response.json();
 				this._processCharacterForDisplay(character);
+				// Add to CharacterManager cache
+				CharacterManager.addOrUpdateCharacter(character);
 				return character;
 			}
 		} catch (e) {
-			console.warn(`Failed to load character ${characterId} from database:`, e.message);
+			console.warn(`Failed to load character ${characterId}:`, e.message);
 		}
 		return null;
 	}

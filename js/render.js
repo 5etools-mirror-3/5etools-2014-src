@@ -9968,7 +9968,7 @@ Renderer.character = class {
 
 		// All character updates now go through CharacterManager
 		if (globalThis.CharacterManager) {
-			const characterId = characterData.id || this._generateCharacterId(characterData.name);
+			const characterId = characterData.id || globalThis.CharacterManager._generateCompositeId(characterData.name, characterData.source);
 			return await globalThis.CharacterManager.updateCharacterStat(characterId, statPath, newValue);
 		}
 

@@ -118,14 +118,19 @@ class CharacterManager {
 		const processedCharacters = [];
 
 		for (const character of characters) {
-			if (!character || !character.id) {
-				console.warn('CharacterManager: Skipping character without ID:', character);
+			if (!character || !character.name) {
+				console.warn('CharacterManager: Skipping character without name:', character);
 				continue;
+			}
+
+			// Generate composite ID from name + source if no ID exists
+			if (!character.id) {
+				character.id = this._generateCompositeId(character.name, character.source);
 			}
 
 			// Check for duplicates by ID
 			if (this._characters.has(character.id)) {
-				console.warn(`CharacterManager: Duplicate character ID ${character.id}, skipping`);
+				console.warn(`CharacterManager: Duplicate character ${character.name} from ${character.source}, skipping`);
 				continue;
 			}
 
@@ -223,9 +228,14 @@ class CharacterManager {
 	 * @param {Object} character - Character data
 	 */
 	static addOrUpdateCharacter(character) {
-		if (!character || !character.id) {
-			console.warn('CharacterManager: Cannot add character without ID');
+		if (!character || !character.name) {
+			console.warn('CharacterManager: Cannot add character without name');
 			return;
+		}
+
+		// Generate composite ID if no ID exists
+		if (!character.id) {
+			character.id = this._generateCompositeId(character.name, character.source);
 		}
 
 		const processed = this._processCharacterForDisplay(character);
@@ -431,7 +441,7 @@ class CharacterManager {
 			const password = passwords[characterData.source];
 
 			// Generate character ID if needed
-			const characterId = characterData.id || this._generateCharacterId(characterData.name);
+			const characterId = characterData.id || this._generateCompositeId(characterData.name, characterData.source);
 
 			const API_BASE_URL = window.location.origin.includes('localhost')
 				? 'http://localhost:3000/api'
@@ -560,10 +570,23 @@ class CharacterManager {
 	}
 
 	/**
-	 * Helper to generate character ID
+	 * Generate composite ID from character name and source
+	 * @param {string} name - Character name
+	 * @param {string} source - Character source
+	 * @returns {string} Composite ID
 	 */
-	static _generateCharacterId(name) {
-		return name.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 20) + '_' + Date.now();
+	static _generateCompositeId(name, source) {
+		if (!name) return null;
+		const cleanName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+		const cleanSource = (source || 'unknown').toLowerCase().replace(/[^a-z0-9]/g, '');
+		return `${cleanName}_${cleanSource}`;
+	}
+
+	/**
+	 * Helper to generate character ID (legacy method, now uses composite ID)
+	 */
+	static _generateCharacterId(name, source) {
+		return this._generateCompositeId(name, source);
 	}
 }
 

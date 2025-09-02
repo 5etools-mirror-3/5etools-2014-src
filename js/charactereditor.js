@@ -685,7 +685,7 @@ class CharacterEditorPage {
 					// Update local state for potential future edits
 					currentCharacterData = characterData;
 					isEditMode = true;
-					currentCharacterId = characterData.id || CharacterManager._generateCharacterId(characterData.name);
+					currentCharacterId = characterData.id || CharacterManager._generateCompositeId(characterData.name, characterData.source);
 					localStorage.setItem('editingCharacter', JSON.stringify(characterData));
 					// Update button visibility to show delete button
 					this.updateButtonVisibility();
@@ -719,104 +719,9 @@ class CharacterEditorPage {
 		}
 	}
 
-	async updateCharacterInAPI(updatedCharacter) {
-		// Update localStorage for immediate use
-		localStorage.setItem('editingCharacter', JSON.stringify(updatedCharacter));
+	// REMOVED: updateCharacterInAPI - now handled by CharacterManager.saveCharacter()
 
-		// Get password from localStorage cache
-		const currentSource = this.getCurrentSourceName(updatedCharacter);
-		const sanitizedSource = this.sanitizeSourceName(currentSource);
-		const password = SourcePasswordManager.getCachedPassword(sanitizedSource);
-
-		if (!password) {
-			const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
-			let errorMsg = `Error: No cached password found for source "${currentSource}" (sanitized: "${sanitizedSource}").`;
-			if (cachedSources.length > 0) {
-				errorMsg += ` Available sources: ${cachedSources.join(', ')}. Please update the "source" field in your character JSON or visit Source Management.`;
-			} else {
-				errorMsg += ` Please visit Source Management to create and login to a source first.`;
-			}
-			document.getElementById('message').textContent = errorMsg;
-			document.getElementById('message').style.color = 'red';
-			return;
-		}
-
-		try {
-			const response = await fetch('/api/characters/save', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					characterData: updatedCharacter,
-					source: updatedCharacter.source,
-					password: password,
-					isEdit: true,
-					characterId: currentCharacterData ? currentCharacterId : this.generateCharacterId(updatedCharacter.name)
-				})
-			});
-
-			if (!response.ok) {
-				const error = await response.json();
-				throw new Error(error.error || 'Failed to update character');
-			}
-
-			const result = await response.json();
-			console.log('Character updated:', result);
-
-			// Show instructions to user about manual save
-			if (result.instructions) {
-				this.showSaveInstructions(result);
-			}
-
-			// Update local state
-			currentCharacterData = updatedCharacter;
-			localStorage.setItem('editingCharacter', JSON.stringify(updatedCharacter));
-
-			// Clear any cached character data to ensure fresh loads
-			this.clearCharacterCache();
-
-			// Ask if user wants to view the character on the characters page
-			setTimeout(() => {
-				if (confirm('Character updated successfully! Would you like to view it on the characters page?')) {
-					const characterAnchor = this.generateCharacterAnchor(updatedCharacter.name, updatedCharacter.source);
-					window.location.href = `characters.html${characterAnchor}`;
-				}
-			}, 1000);
-
-			return result;
-		} catch (error) {
-			throw new Error('Failed to update character: ' + error.message);
-		}
-	}
-
-	async saveNewCharacterToAPI(characterData) {
-		// Get password from localStorage cache
-		const currentSource = this.getCurrentSourceName(characterData);
-		const sanitizedSource = this.sanitizeSourceName(currentSource);
-		const password = SourcePasswordManager.getCachedPassword(sanitizedSource);
-
-		if (!password) {
-			const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
-			let errorMsg = `Error: No cached password found for source "${currentSource}" (sanitized: "${sanitizedSource}").`;
-			if (cachedSources.length > 0) {
-				errorMsg += ` Available sources: ${cachedSources.join(', ')}. Please update the "source" field in your character JSON or visit Source Management.`;
-			} else {
-				errorMsg += ` Please visit Source Management to create and login to a source first.`;
-			}
-			document.getElementById('message').textContent = errorMsg;
-			document.getElementById('message').style.color = 'red';
-			return;
-		}
-
-		try {
-			const response = await fetch('/api/characters/save', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					characterData: characterData,
+	// REMOVED: saveNewCharacterToAPI - now handled by CharacterManager.saveCharacter()
 					source: characterData.source,
 					password: password,
 					isEdit: false,
