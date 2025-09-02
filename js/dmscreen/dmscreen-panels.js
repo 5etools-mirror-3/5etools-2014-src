@@ -227,7 +227,7 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 					const renderedHtml = Renderer.character.getCompactRenderedString(updatedCharacter, {isStatic: false});
 					const $rendered = $(renderedHtml);
 					$content.empty().append($rendered);
-					Renderer._bindCharacterSheetListeners($content[0]);
+					Renderer.character._bindCharacterSheetListeners($content[0]);
 				}
 			}
 		};
@@ -261,7 +261,7 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 					$content.empty().append($rendered);
 					
 					// Bind character sheet listeners for quick edit functionality
-					Renderer._bindCharacterSheetListeners($content[0]);
+					Renderer.character._bindCharacterSheetListeners($content[0]);
 				}
 			} catch (error) {
 				console.warn('Failed to load character:', error);
