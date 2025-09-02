@@ -178,6 +178,28 @@ class CharactersPage extends ListPageMultiSource {
 				this._addData(formattedData);
 				this._list.update();
 			}
+			
+			// Re-render currently displayed character if it was updated
+			if (this._currentCharacter) {
+				const characterId = CharacterManager._generateCompositeId(this._currentCharacter.name, this._currentCharacter.source);
+				const updatedCharacter = characters.find(c => {
+					const id = CharacterManager._generateCompositeId(c.name, c.source);
+					return id === characterId;
+				});
+				
+				if (updatedCharacter) {
+					// Update the stored reference and re-render
+					this._currentCharacter = updatedCharacter;
+					
+					// Update global character edit data for consistency
+					if (globalThis._CHARACTER_EDIT_DATA) {
+						globalThis._CHARACTER_EDIT_DATA[characterId] = updatedCharacter;
+					}
+					
+					this._renderStats_doBuildStatsTab({ent: updatedCharacter});
+					console.log(`CharactersPage: Re-rendered character ${updatedCharacter.name} with updated data`);
+				}
+			}
 		});
 
 		// Start auto-refresh (like the original system)

@@ -8592,16 +8592,16 @@ Renderer.character = class {
 			if (hasEditAccess && !isStatic) {
 				// Render editable HP with click-to-edit functionality
 				// Store character data in a global registry instead of embedding in HTML
-				const characterId = globalThis.CharacterManager 
+				const characterId = globalThis.CharacterManager
 					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
 					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
 				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
 				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
 
 				// Create click-to-edit HP display
-				const hpDisplay = `<span class="character-stat-display" data-stat-path="hp.current" data-character-id="${characterId}" data-current-value="${currentHp}" data-max-value="${maxHp}" title="Click to edit Current HP" style="color: #006bc4; cursor: pointer;">${currentHp}</span>/<span>${maxHp}</span>`;
+				const hpDisplay = `<span class="character-stat-display" data-stat-path="hp.current" data-character-id="${characterId}" data-current-value="${currentHp}" data-max-value="${maxHp}" title="Click to edit" style="cursor: pointer; border-bottom: 1px dashed #666;">${currentHp}</span>/<span>${maxHp}</span>`;
 
-				const tempHpDisplay = hp.temp ? ` (+<span class="character-stat-display" data-stat-path="hp.temp" data-character-id="${characterId}" data-current-value="${hp.temp}" title="Click to edit Temporary HP" style="color: #006bc4; cursor: pointer;">${hp.temp}</span> temp)` : '';555
+				const tempHpDisplay = hp.temp ? ` (+<span class="character-stat-display" data-stat-path="hp.temp" data-character-id="${characterId}" data-current-value="${hp.temp}" title="Click to edit Temporary HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${hp.temp}</span> temp)` : '';
 				combatStats.push(`<strong>HP</strong> ${hpDisplay}${tempHpDisplay}`);
 			} else {
 				// Render static HP display

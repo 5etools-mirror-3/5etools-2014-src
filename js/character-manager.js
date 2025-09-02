@@ -662,6 +662,11 @@ class CharacterManager {
 					// Update localStorage cache if this character is being edited
 					this._updateLocalStorageCache(character);
 
+					// Update global character edit data for UI consistency
+					if (globalThis._CHARACTER_EDIT_DATA && globalThis._CHARACTER_EDIT_DATA[character.id]) {
+						globalThis._CHARACTER_EDIT_DATA[character.id] = character;
+					}
+
 					// Notify listeners to re-render
 					this._notifyListeners();
 
