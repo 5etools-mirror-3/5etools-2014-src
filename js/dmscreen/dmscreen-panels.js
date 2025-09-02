@@ -210,11 +210,36 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 			}
 		};
 		
+		// Add CharacterManager listener to re-render character when updated
+		let currentCharacterId = null;
+		const characterUpdateListener = (characters) => {
+			if (currentCharacterId) {
+				const updatedCharacter = characters.find(c => {
+					const id = CharacterManager._generateCompositeId(c.name, c.source);
+					return id === currentCharacterId;
+				});
+				
+				if (updatedCharacter) {
+					// Re-register the updated character
+					globalThis._CHARACTER_EDIT_DATA[currentCharacterId] = updatedCharacter;
+					
+					// Re-render the character
+					const renderedHtml = Renderer.character.getCompactRenderedString(updatedCharacter, {isStatic: false});
+					const $rendered = $(renderedHtml);
+					$content.empty().append($rendered);
+					Renderer._bindCharacterSheetListeners($content[0]);
+				}
+			}
+		};
+		
+		CharacterManager.addListener(characterUpdateListener);
+
 		// Handle character selection
 		$selCharacter.on("change", async () => {
 			const characterName = $selCharacter.val();
 			if (!characterName) {
 				$content.empty();
+				currentCharacterId = null;
 				return;
 			}
 			
@@ -224,8 +249,15 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 				const character = characters.find(c => c.name === characterName);
 				if (character) {
 					// Characters from CharacterManager are already processed with computed fields
-					// Use RenderCharacters to render the character
-					const $rendered = RenderCharacters.$getRenderedCharacter(character);
+					// Register character for editing in global registry
+					const characterId = CharacterManager._generateCompositeId(character.name, character.source);
+					currentCharacterId = characterId;
+					if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+					globalThis._CHARACTER_EDIT_DATA[characterId] = character;
+					
+					// Use RenderCharacters to render the character in non-static mode
+					const renderedHtml = Renderer.character.getCompactRenderedString(character, {isStatic: false});
+					const $rendered = $(renderedHtml);
 					$content.empty().append($rendered);
 					
 					// Bind character sheet listeners for quick edit functionality
@@ -234,10 +266,26 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 			} catch (error) {
 				console.warn('Failed to load character:', error);
 				$content.html(`<div class="p-2 text-danger">Failed to load character</div>`);
+				currentCharacterId = null;
 			}
 		});
 		
 		$btnRefresh.on("click", loadCharacters);
+		
+		// Clean up listener when panel is destroyed (if possible)
+		if ($container.data) {
+			const originalData = $container.data.bind($container);
+			$container.data = function(key, value) {
+				if (key === "cleanup" && typeof value === "function") {
+					const originalCleanup = value;
+					return originalData(key, () => {
+						CharacterManager.removeListener(characterUpdateListener);
+						originalCleanup();
+					});
+				}
+				return originalData(key, value);
+			};
+		}
 		
 		// Initial load
 		loadCharacters();
