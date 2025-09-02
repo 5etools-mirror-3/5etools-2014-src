@@ -9167,36 +9167,60 @@ Renderer.character = class {
 			Renderer.character._saveConditionsToStorage($ele);
 		});
 
-		// Generic stat update functionality with server sync
-		$ele.find('.character-stat-input').on('change blur', async function() {
-			const $input = $(this);
-			const characterSource = $input.attr('data-character-source');
-			const statPath = $input.attr('data-stat-path');
-			const newValue = $input.val();
+		// Click-to-edit functionality for character stats
+		$ele.find('.character-stat-display').on('click', function() {
+			const $display = $(this);
+			const statPath = $display.attr('data-stat-path');
+			const characterSource = $display.attr('data-character-source');
+			const characterData = $display.attr('data-character-data');
+			const currentValue = $display.attr('data-current-value');
 			
-			if (!characterSource || !Renderer.character._hasSourceAccess(characterSource)) {
-				return; // Skip server update if no source access
+			if (!Renderer.character._hasSourceAccess(characterSource)) {
+				return; // Skip if no edit access
 			}
 
-			try {
-				// Get character data from the input's data attribute
-				const characterDataStr = $input.attr('data-character-data');
-				if (!characterDataStr) {
-					console.warn('No character data found for stat update');
+			// Create input element
+			let inputType = 'number';
+			let minValue = 0;
+			let maxValue = null;
+			
+			if (statPath === 'hp.current') {
+				maxValue = $display.attr('data-max-value');
+			}
+			
+			const $input = $(`<input type="${inputType}" class="character-stat-input-edit" value="${currentValue}" min="${minValue}" ${maxValue ? `max="${maxValue}"` : ''} style="width: ${Math.max(40, currentValue.toString().length * 8 + 10)}px;" data-stat-path="${statPath}" data-character-source="${characterSource}" data-character-data="${characterData}" />`);
+			
+			// Replace display with input
+			$display.replaceWith($input);
+			$input.focus().select();
+			
+			// Handle save/cancel
+			$input.on('blur keydown', async function(e) {
+				if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== 'Escape') {
 					return;
 				}
-
-				// Parse character data and update the stat
-				const characterData = JSON.parse(atob(characterDataStr));
 				
-				// Update the stat using the path (e.g., "hp.current" -> characterData.hp.current)
-				const success = await Renderer.character._updateCharacterStat(characterData, characterSource, statPath, newValue);
-				if (!success) {
-					console.warn(`Failed to update character stat ${statPath} on server`);
+				const newValue = e.key === 'Escape' ? currentValue : $input.val();
+				
+				// Create new display span
+				const $newDisplay = $(`<span class="character-stat-display" data-stat-path="${statPath}" data-character-source="${characterSource}" data-character-data="${characterData}" data-current-value="${newValue}" ${maxValue ? `data-max-value="${maxValue}"` : ''} title="Click to edit" style="cursor: pointer; border-bottom: 1px dashed #666;">${newValue}</span>`);
+				
+				// Replace input with display
+				$input.replaceWith($newDisplay);
+				
+				// Update server if value changed and not escaped
+				if (e.key !== 'Escape' && newValue !== currentValue) {
+					try {
+						const characterDataParsed = JSON.parse(atob(characterData));
+						const success = await Renderer.character._updateCharacterStat(characterDataParsed, characterSource, statPath, newValue);
+						if (!success) {
+							console.warn(`Failed to update character stat ${statPath} on server`);
+						}
+					} catch (error) {
+						console.error('Error updating character stat:', error);
+					}
 				}
-			} catch (e) {
-				console.error('Error updating character stat:', e);
-			}
+			});
 		});
 
 		// Enhanced auto-save functionality for all inputs
