@@ -721,56 +721,6 @@ class CharacterEditorPage {
 
 	// REMOVED: updateCharacterInAPI - now handled by CharacterManager.saveCharacter()
 
-	// REMOVED: saveNewCharacterToAPI - now handled by CharacterManager.saveCharacter()
-					source: characterData.source,
-					password: password,
-					isEdit: false,
-					characterId: this.generateCharacterId(characterData.name)
-				})
-			});
-
-			if (!response.ok) {
-				const error = await response.json();
-				throw new Error(error.error || 'Failed to save character');
-			}
-
-			const result = await response.json();
-			console.log('Character saved:', result);
-
-			// Show instructions to user about manual save
-			if (result.instructions) {
-				this.showSaveInstructions(result);
-			}
-
-			// Update local state for potential future edits
-			currentCharacterData = characterData;
-			isEditMode = true;
-			localStorage.setItem('editingCharacter', JSON.stringify(characterData));
-
-			// Clear any cached character data to ensure fresh loads
-			this.clearCharacterCache();
-
-			// Update URL to reflect edit mode
-			const newUrl = new URL(window.location.href);
-			newUrl.searchParams.set('edit', 'true');
-			window.history.replaceState({}, '', newUrl);
-
-			// Update button visibility to show delete button
-			this.updateButtonVisibility();
-
-			// Ask if user wants to view the character on the characters page
-			setTimeout(() => {
-				if (confirm('Character saved successfully! Would you like to view it on the characters page?')) {
-					const characterAnchor = this.generateCharacterAnchor(characterData.name);
-					window.location.href = `characters.html${characterAnchor}`;
-				}
-			}, 1000);
-
-			return result;
-		} catch (error) {
-			throw new Error('Failed to save character: ' + error.message);
-		}
-	}
 
 	showSaveInstructions(result) {
 		const messageEl = document.getElementById('message');
@@ -862,8 +812,8 @@ class CharacterEditorPage {
 
 	async saveNewCharacter(characterData) {
 		try {
-			// Generate a unique ID for new character
-			const characterId = this.generateCharacterId(characterData.name);
+			// Generate a unique ID for new character using name + source
+			const characterId = CharacterManager._generateCompositeId(characterData.name, characterData.source);
 			const apiUrl = '/api/characters';
 
 			// Prepare character data for database
@@ -975,7 +925,7 @@ class CharacterEditorPage {
 		}
 
 		try {
-			const characterId = currentCharacterId || this.generateCharacterId(characterName);
+			const characterId = currentCharacterId || CharacterManager._generateCompositeId(characterName, currentCharacterData.source);
 			const characterSource = currentCharacterData.source;
 
 			if (!characterSource) {
@@ -1039,9 +989,9 @@ class CharacterEditorPage {
 		}
 	}
 
-	generateCharacterId(name) {
-		// Simple ID generation - replace spaces with dashes, lowercase
-		return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+	generateCharacterId(name, source) {
+		// Updated to use composite ID approach (name + source)
+		return CharacterManager._generateCompositeId(name, source);
 	}
 
 	getCurrentSourceName(characterData) {
