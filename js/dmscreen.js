@@ -38,7 +38,7 @@ import {
 } from "./dmscreen/dmscreen-panels.js";
 
 import {OmnisearchBacking} from "./omnisearch/omnisearch-backing.js";
-import {CharacterManager} from "./character-manager.js";
+// CharacterManager is available globally via character-manager.js script tag
 
 const UP = "UP";
 const RIGHT = "RIGHT";

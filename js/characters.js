@@ -1,6 +1,6 @@
 
 import {RenderCharacters} from "./render-characters.js";
-import {CharacterManager} from "./character-manager.js";
+// CharacterManager is available globally via character-manager.js script tag
 
 class CharactersSublistManager extends SublistManager {
 	static _getRowTemplate () {

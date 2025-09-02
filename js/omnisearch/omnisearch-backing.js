@@ -1,7 +1,7 @@
 import {OmnisearchState} from "./omnisearch-state.js";
 import {VetoolsConfig} from "../utils-config/utils-config-config.js";
 import {SyntaxMetaCategories, SyntaxMetaGroup, SyntaxMetaPageRange, SyntaxMetaSource} from "./omnisearch-models.js";
-import {CharacterManager} from "../character-manager.js";
+// CharacterManager is available globally via character-manager.js script tag
 
 "use strict";
 
