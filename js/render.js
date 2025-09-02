@@ -8590,10 +8590,16 @@ Renderer.character = class {
 			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
 			
 			if (hasEditAccess && !isStatic) {
-				// Render editable HP inputs
-				const characterData = JSON.stringify(character);
-				const tempHpInput = ` <input type="number" class="character-stat-input" value="${hp.temp || 0}" min="0" style="width: 40px;" title="Temporary HP" placeholder="0" data-stat-path="hp.temp" data-character-source="${character.source}" data-character-data="${characterData.replace(/"/g, '&quot;')}" />`;
-				combatStats.push(`<strong>HP</strong> <input type="number" class="character-stat-input" value="${currentHp}" min="0" max="${maxHp}" style="width: 50px;" title="Current HP" data-stat-path="hp.current" data-character-source="${character.source}" data-character-data="${characterData.replace(/"/g, '&quot;')}" />/${maxHp} (+${tempHpInput} temp)`);
+				// Render editable HP with click-to-edit functionality
+				const characterDataB64 = btoa(JSON.stringify(character));
+				const tempHpDisplay = hp.temp ? ` (+${hp.temp} temp)` : '';
+				
+				// Create click-to-edit HP display
+				const hpDisplay = `<span class="character-stat-display" data-stat-path="hp.current" data-character-source="${character.source}" data-character-data="${characterDataB64}" data-current-value="${currentHp}" data-max-value="${maxHp}" title="Click to edit Current HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${currentHp}</span>/<span class="character-stat-display" data-stat-path="hp.max" data-character-source="${character.source}" data-character-data="${characterDataB64}" data-current-value="${maxHp}" title="Click to edit Max HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${maxHp}</span>`;
+				
+				const tempHpDisplay2 = hp.temp ? ` (+<span class="character-stat-display" data-stat-path="hp.temp" data-character-source="${character.source}" data-character-data="${characterDataB64}" data-current-value="${hp.temp}" title="Click to edit Temporary HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${hp.temp}</span> temp)` : '';
+				
+				combatStats.push(`<strong>HP</strong> ${hpDisplay}${tempHpDisplay2}`);
 			} else {
 				// Render static HP display
 				combatStats.push(`<strong>HP</strong> ${currentHp}/${maxHp}${hp.temp ? ` (+${hp.temp} temp)` : ''}`);
@@ -9181,7 +9187,7 @@ Renderer.character = class {
 				}
 
 				// Parse character data and update the stat
-				const characterData = JSON.parse(characterDataStr.replace(/&quot;/g, '"'));
+				const characterData = JSON.parse(atob(characterDataStr));
 				
 				// Update the stat using the path (e.g., "hp.current" -> characterData.hp.current)
 				const success = await Renderer.character._updateCharacterStat(characterData, characterSource, statPath, newValue);
