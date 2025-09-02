@@ -620,7 +620,5 @@ class CharacterManager {
 	}
 }
 
-// Make it available globally for backward compatibility
+// Make it available globally for all scripts
 globalThis.CharacterManager = CharacterManager;
-
-export { CharacterManager };
