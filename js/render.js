@@ -8585,7 +8585,19 @@ Renderer.character = class {
 			const hp = character.hp;
 			const currentHp = hp.current != null ? hp.current : hp.average || hp.max || "?";
 			const maxHp = hp.max || hp.average || "?";
-			combatStats.push(`<strong>HP</strong> ${currentHp}/${maxHp}${hp.temp ? ` (+${hp.temp} temp)` : ''}`);
+			
+			// Check if user has edit access for this character's source
+			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
+			
+			if (hasEditAccess && !isStatic) {
+				// Render editable HP inputs
+				const characterData = JSON.stringify(character);
+				const tempHpInput = ` <input type="number" class="character-stat-input" value="${hp.temp || 0}" min="0" style="width: 40px;" title="Temporary HP" placeholder="0" data-stat-path="hp.temp" data-character-source="${character.source}" data-character-data="${characterData.replace(/"/g, '&quot;')}" />`;
+				combatStats.push(`<strong>HP</strong> <input type="number" class="character-stat-input" value="${currentHp}" min="0" max="${maxHp}" style="width: 50px;" title="Current HP" data-stat-path="hp.current" data-character-source="${character.source}" data-character-data="${characterData.replace(/"/g, '&quot;')}" />/${maxHp} (+${tempHpInput} temp)`);
+			} else {
+				// Render static HP display
+				combatStats.push(`<strong>HP</strong> ${currentHp}/${maxHp}${hp.temp ? ` (+${hp.temp} temp)` : ''}`);
+			}
 		}
 
 		if (character.speed) {
@@ -9147,6 +9159,38 @@ Renderer.character = class {
 
 			// Save conditions to localStorage
 			Renderer.character._saveConditionsToStorage($ele);
+		});
+
+		// Generic stat update functionality with server sync
+		$ele.find('.character-stat-input').on('change blur', async function() {
+			const $input = $(this);
+			const characterSource = $input.attr('data-character-source');
+			const statPath = $input.attr('data-stat-path');
+			const newValue = $input.val();
+			
+			if (!characterSource || !Renderer.character._hasSourceAccess(characterSource)) {
+				return; // Skip server update if no source access
+			}
+
+			try {
+				// Get character data from the input's data attribute
+				const characterDataStr = $input.attr('data-character-data');
+				if (!characterDataStr) {
+					console.warn('No character data found for stat update');
+					return;
+				}
+
+				// Parse character data and update the stat
+				const characterData = JSON.parse(characterDataStr.replace(/&quot;/g, '"'));
+				
+				// Update the stat using the path (e.g., "hp.current" -> characterData.hp.current)
+				const success = await Renderer.character._updateCharacterStat(characterData, characterSource, statPath, newValue);
+				if (!success) {
+					console.warn(`Failed to update character stat ${statPath} on server`);
+				}
+			} catch (e) {
+				console.error('Error updating character stat:', e);
+			}
 		});
 
 		// Enhanced auto-save functionality for all inputs
@@ -9862,6 +9906,111 @@ Renderer.character = class {
 		if (confirm('Equipment updated! Reload the page to see changes?')) {
 			location.reload();
 		}
+	}
+
+	// Check if user has edit access to character's source based on cached passwords
+	static _hasSourceAccess(source) {
+		if (!source) return false;
+		
+		// Check if we have a cached password for this source
+		try {
+			const cachedPasswords = localStorage.getItem('sourcePasswords');
+			if (!cachedPasswords) return false;
+			
+			const passwords = JSON.parse(cachedPasswords);
+			return passwords.hasOwnProperty(source);
+		} catch (e) {
+			console.error('Error checking source access:', e);
+			return false;
+		}
+	}
+
+	// Update character stat on server using full character object update
+	static async _updateCharacterStat(characterData, characterSource, statPath, newValue) {
+		if (!characterData || !characterSource || !statPath) return false;
+
+		try {
+			const cachedPasswords = localStorage.getItem('sourcePasswords');
+			if (!cachedPasswords) return false;
+			
+			const passwords = JSON.parse(cachedPasswords);
+			const password = passwords[characterSource];
+			if (!password) return false;
+
+			// Update the stat using the provided path
+			this._setNestedProperty(characterData, statPath, this._parseStatValue(newValue));
+
+			// Generate character ID (same logic as in character editor)
+			const characterId = characterData.id || this._generateCharacterId(characterData.name);
+
+			const API_BASE_URL = window.location.origin.includes('localhost')
+				? 'http://localhost:3000/api'
+				: '/api';
+
+			// Send full character data to save endpoint
+			const response = await fetch(`${API_BASE_URL}/characters/save`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					characterData: characterData,
+					source: characterSource,
+					password: password,
+					isEdit: true,
+					characterId: characterId
+				})
+			});
+
+			if (response.ok) {
+				return true;
+			} else {
+				const error = await response.json();
+				console.error('Server error updating character stat:', error);
+				return false;
+			}
+
+		} catch (e) {
+			console.error('Error updating character stat:', e);
+			return false;
+		}
+	}
+
+	// Helper method to set nested properties using dot notation (e.g., "hp.current")
+	static _setNestedProperty(obj, path, value) {
+		const keys = path.split('.');
+		const lastKey = keys.pop();
+		const target = keys.reduce((current, key) => {
+			if (!current[key] || typeof current[key] !== 'object') {
+				current[key] = {};
+			}
+			return current[key];
+		}, obj);
+		
+		// Handle null/empty values appropriately
+		if (value === null || value === '' || value === undefined) {
+			delete target[lastKey];
+		} else {
+			target[lastKey] = value;
+		}
+	}
+
+	// Helper method to parse stat values to appropriate types
+	static _parseStatValue(value) {
+		if (value === null || value === '' || value === undefined) {
+			return null;
+		}
+		
+		// Try to parse as number if it looks like one
+		const numValue = Number(value);
+		if (!isNaN(numValue) && value.toString().trim() !== '') {
+			return numValue;
+		}
+		
+		return value; // Return as string if not a number
+	}
+
+	// Helper method to generate character ID (copied from character editor logic)
+	static _generateCharacterId(name) {
+		return name.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 20) + '_' + Date.now();
 	}
 
 	static pGetFluff (character) {

@@ -359,7 +359,7 @@ class CharactersPage extends ListPageMultiSource {
 
 		// Check if user has cached password for this source
 		const cachedPassword = this._getCachedPassword(characterSource);
-		
+
 		if (cachedPassword) {
 			// User has access, show edit button
 			$editBtn.show();
@@ -432,13 +432,13 @@ window.addEventListener("load", () => {
 				alert('This character has no source specified and cannot be edited.');
 				return;
 			}
-			
+
 			const cachedPassword = charactersPage._getCachedPassword(characterSource);
 			if (!cachedPassword) {
 				alert(`You need to login to source "${characterSource}" to edit this character. Please visit the Sources page to authenticate.`);
 				return;
 			}
-			
+
 			// Store character data for editor
 			localStorage.setItem('editingCharacter', JSON.stringify(charactersPage._currentCharacter));
 
