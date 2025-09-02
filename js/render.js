@@ -8585,22 +8585,22 @@ Renderer.character = class {
 			const hp = character.hp;
 			const currentHp = hp.current != null ? hp.current : hp.average || hp.max || "?";
 			const maxHp = hp.max || hp.average || "?";
-			
+
 			// Check if user has edit access for this character's source
 			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
-			
+
 			if (hasEditAccess && !isStatic) {
 				// Render editable HP with click-to-edit functionality
 				// Store character data in a global registry instead of embedding in HTML
 				const characterId = `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
 				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
 				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
-				
+
 				// Create click-to-edit HP display
-				const hpDisplay = `<span class="character-stat-display" data-stat-path="hp.current" data-character-id="${characterId}" data-current-value="${currentHp}" data-max-value="${maxHp}" title="Click to edit Current HP" style="color: #006bc4; cursor: pointer;" onclick="Renderer.character.handleHpClick(event, this)">${currentHp}</span>/<span>${maxHp}</span>`;
-				
-				const tempHpDisplay = hp.temp ? ` (+<span class="character-stat-display" data-stat-path="hp.temp" data-character-id="${characterId}" data-current-value="${hp.temp}" title="Click to edit Temporary HP" style="color: #006bc4; cursor: pointer;" onclick="Renderer.character.handleHpClick(event, this)">${hp.temp}</span> temp)` : '';
-				
+				const hpDisplay = `<span class="character-stat-display" data-stat-path="hp.current" data-character-id="${characterId}" data-current-value="${currentHp}" data-max-value="${maxHp}" title="Click to edit Current HP" style="color: #006bc4; cursor: pointer;">${currentHp}</span>/<span>${maxHp}</span>`;
+
+				const tempHpDisplay = hp.temp ? ` (+<span class="character-stat-display" data-stat-path="hp.temp" data-character-id="${characterId}" data-current-value="${hp.temp}" title="Click to edit Temporary HP" style="color: #006bc4; cursor: pointer;">${hp.temp}</span> temp)` : '';
+
 				combatStats.push(`<strong>HP</strong> ${hpDisplay}${tempHpDisplay}`);
 			} else {
 				// Render static HP display
@@ -9175,14 +9175,14 @@ Renderer.character = class {
 			const statPath = $display.attr('data-stat-path');
 			const characterId = $display.attr('data-character-id');
 			const currentValue = $display.attr('data-current-value');
-			
+
 			// Get character data from global registry
 			if (!globalThis._CHARACTER_EDIT_DATA || !globalThis._CHARACTER_EDIT_DATA[characterId]) {
 				return; // Skip if character data not found
 			}
-			
+
 			const character = globalThis._CHARACTER_EDIT_DATA[characterId];
-			
+
 			if (!Renderer.character._hasSourceAccess(character.source)) {
 				return; // Skip if no edit access
 			}
@@ -9191,31 +9191,31 @@ Renderer.character = class {
 			let inputType = 'number';
 			let minValue = 0;
 			let maxValue = null;
-			
+
 			if (statPath === 'hp.current') {
 				maxValue = $display.attr('data-max-value');
 			}
-			
+
 			const $input = $(`<input type="${inputType}" class="character-stat-input-edit" value="${currentValue}" min="${minValue}" ${maxValue ? `max="${maxValue}"` : ''} style="width: ${Math.max(40, currentValue.toString().length * 8 + 10)}px;" data-stat-path="${statPath}" data-character-id="${characterId}" />`);
-			
+
 			// Replace display with input
 			$display.replaceWith($input);
 			$input.focus().select();
-			
+
 			// Handle save/cancel
 			$input.on('blur keydown', async function(e) {
 				if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== 'Escape') {
 					return;
 				}
-				
+
 				const newValue = e.key === 'Escape' ? currentValue : $input.val();
-				
+
 				// Create new display span
 				const $newDisplay = $(`<span class="character-stat-display" data-stat-path="${statPath}" data-character-id="${characterId}" data-current-value="${newValue}" ${maxValue ? `data-max-value="${maxValue}"` : ''} title="Click to edit" style="cursor: pointer; border-bottom: 1px dashed #666;">${newValue}</span>`);
-				
+
 				// Replace input with display
 				$input.replaceWith($newDisplay);
-				
+
 				// Update server if value changed and not escaped
 				if (e.key !== 'Escape' && newValue !== currentValue) {
 					try {
@@ -9948,12 +9948,12 @@ Renderer.character = class {
 	// Check if user has edit access to character's source based on cached passwords
 	static _hasSourceAccess(source) {
 		if (!source) return false;
-		
+
 		// Check if we have a cached password for this source
 		try {
 			const cachedPasswords = localStorage.getItem('sourcePasswords');
 			if (!cachedPasswords) return false;
-			
+
 			const passwords = JSON.parse(cachedPasswords);
 			return passwords.hasOwnProperty(source);
 		} catch (e) {
@@ -9969,7 +9969,7 @@ Renderer.character = class {
 		try {
 			const cachedPasswords = localStorage.getItem('sourcePasswords');
 			if (!cachedPasswords) return false;
-			
+
 			const passwords = JSON.parse(cachedPasswords);
 			const password = passwords[characterSource];
 			if (!password) return false;
@@ -10021,7 +10021,7 @@ Renderer.character = class {
 			}
 			return current[key];
 		}, obj);
-		
+
 		// Handle null/empty values appropriately
 		if (value === null || value === '' || value === undefined) {
 			delete target[lastKey];
@@ -10035,13 +10035,13 @@ Renderer.character = class {
 		if (value === null || value === '' || value === undefined) {
 			return null;
 		}
-		
+
 		// Try to parse as number if it looks like one
 		const numValue = Number(value);
 		if (!isNaN(numValue) && value.toString().trim() !== '') {
 			return numValue;
 		}
-		
+
 		return value; // Return as string if not a number
 	}
 
@@ -17253,96 +17253,6 @@ Renderer.getRollableRow = function (row, opts) {
 			if (mLowHigh[2].toLowerCase() === "lower") {
 				row[0].roll = {
 					min: -Renderer.dice.POS_INFINITE,
-					max: Number(mLowHigh[1]),
-				};
-			} else {
-				row[0].roll = {
-					min: Number(mLowHigh[1]),
-					max: Renderer.dice.POS_INFINITE,
-				};
-			}
-
-			return row;
-		}
-
-		// format: "95-00" or "12"
-		// u2012 = figure dash; u2013 = en-dash; u2014 = em dash; u2212 = minus sign
-		const m = /^(\d+)([-\u2013-\u2014\u2212](\d+))?$/.exec(cleanRow);
-		if (m) {
-			if (m[1] && !m[2]) {
-				row[0] = {
-					type: "cell",
-					roll: {
-						exact: Number(m[1]),
-					},
-				};
-				if (m[1][0] === "0") row[0].roll.pad = true;
-				Renderer.getRollableRow._handleInfiniteOpts(row, opts);
-			} else {
-				row[0] = {
-					type: "cell",
-					roll: {
-						min: Number(m[1]),
-						max: Number(m[3]),
-					},
-				};
-				if (m[1][0] === "0" || m[3][0] === "0") row[0].roll.pad = true;
-				Renderer.getRollableRow._handleInfiniteOpts(row, opts);
-			}
-		} else {
-			// format: "12+"
-			const m = /^(\d+)\+$/.exec(row[0]);
-			row[0] = {
-				type: "cell",
-				roll: {
-					min: Number(m[1]),
-					max: Renderer.dice.POS_INFINITE,
-				},
-			};
-		}
-	} catch (e) {
-		if (opts.cbErr) opts.cbErr(row[0], e);
-	}
-	return row;
-};
-Renderer.getRollableRow._handleInfiniteOpts = function (row, opts) {
-	if (!opts.isForceInfiniteResults) return;
-
-	const isExact = row[0].roll.exact != null;
-
-	if (opts.isFirstRow) {
-		if (!isExact) row[0].roll.displayMin = row[0].roll.min;
-		row[0].roll.min = -Renderer.dice.POS_INFINITE;
-	}
-
-	if (opts.isLastRow) {
-		if (!isExact) row[0].roll.displayMax = row[0].roll.max;
-		row[0].roll.max = Renderer.dice.POS_INFINITE;
-	}
-};
-
-Renderer.initLazyImageLoaders = function () {
-	const images = document.querySelectorAll(`img[${Renderer.utils.lazy.ATTR_IMG_FINAL_SRC}], canvas[${Renderer.utils.lazy.ATTR_IMG_FINAL_SRC}]`);
-
-	Renderer.utils.lazy.destroyObserver({observerId: "images"});
-
-	const observer = Renderer.utils.lazy.getCreateObserver({
-		observerId: "images",
-		fnOnObserve: ({entry}) => {
-			Renderer.utils.lazy.mutFinalizeEle(entry.target);
-		},
-	});
-
-	images.forEach(ele => observer.track(ele));
-};
-
-Renderer.HEAD_NEG_1 = "rd__b--0";
-Renderer.HEAD_0 = "rd__b--1";
-Renderer.HEAD_1 = "rd__b--2";
-Renderer.HEAD_2 = "rd__b--3";
-Renderer.HEAD_2_SUB_VARIANT = "rd__b--4";
-Renderer.DATA_NONE = "data-none";
-S_INFINITE,
 					max: Number(mLowHigh[1]),
 				};
 			} else {
