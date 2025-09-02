@@ -227,6 +227,9 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 					// Use RenderCharacters to render the character
 					const $rendered = RenderCharacters.$getRenderedCharacter(character);
 					$content.empty().append($rendered);
+					
+					// Bind character sheet listeners for quick edit functionality
+					Renderer._bindCharacterSheetListeners($content[0]);
 				}
 			} catch (error) {
 				console.warn('Failed to load character:', error);
