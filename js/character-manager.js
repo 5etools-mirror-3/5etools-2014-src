@@ -493,6 +493,9 @@ class CharacterManager {
 				// Also ensure localStorage is updated
 				this._updateLocalStorageCache(characterData);
 				
+				// Broadcast change to other tabs
+				this._broadcastSync('CHARACTER_UPDATED', { character: characterData });
+				
 				console.log(`CharacterManager: Successfully saved character: ${characterData.name}`);
 				return true;
 			} else {
@@ -607,8 +610,8 @@ class CharacterManager {
 	 */
 	static _generateCompositeId(name, source) {
 		if (!name) return null;
-		const cleanName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
-		const cleanSource = (source || 'unknown').toLowerCase().replace(/[^a-z0-9]/g, '');
+		const cleanName = name.toLowerCase().replace(/[^a-z0-9_-]/g, '');
+		const cleanSource = (source || 'unknown').toLowerCase().replace(/[^a-z0-9_-]/g, '');
 		return `${cleanName}_${cleanSource}`;
 	}
 
@@ -618,7 +621,100 @@ class CharacterManager {
 	static _generateCharacterId(name, source) {
 		return this._generateCompositeId(name, source);
 	}
+
+	/**
+	 * Initialize cross-tab synchronization
+	 * Listen for storage events to sync character changes across tabs
+	 */
+	static _initCrossTabSync() {
+		// Listen for localStorage changes from other tabs
+		window.addEventListener('storage', (event) => {
+			// Only handle our character-related storage changes
+			if (event.key === 'characterManager_sync' && event.newValue) {
+				try {
+					const syncData = JSON.parse(event.newValue);
+					this._handleCrossTabSync(syncData);
+				} catch (e) {
+					console.warn('CharacterManager: Error parsing cross-tab sync data:', e);
+				}
+			}
+		});
+	}
+
+	/**
+	 * Handle cross-tab synchronization events
+	 */
+	static _handleCrossTabSync(syncData) {
+		const { type, character, characterId } = syncData;
+
+		switch (type) {
+			case 'CHARACTER_UPDATED':
+				if (character && this._characters.has(character.id)) {
+					// Update the character in our local cache
+					this._characters.set(character.id, character);
+					
+					// Update the array
+					const index = this._charactersArray.findIndex(c => c.id === character.id);
+					if (index !== -1) {
+						this._charactersArray[index] = character;
+					}
+
+					// Update localStorage cache if this character is being edited
+					this._updateLocalStorageCache(character);
+
+					// Notify listeners to re-render
+					this._notifyListeners();
+
+					console.log(`CharacterManager: Synced character update from another tab: ${character.name}`);
+				}
+				break;
+
+			case 'CHARACTER_DELETED':
+				if (characterId && this._characters.has(characterId)) {
+					// Remove from cache
+					this._characters.delete(characterId);
+					this._charactersArray = this._charactersArray.filter(c => c.id !== characterId);
+
+					// Notify listeners
+					this._notifyListeners();
+
+					console.log(`CharacterManager: Synced character deletion from another tab: ${characterId}`);
+				}
+				break;
+
+			case 'CHARACTERS_RELOADED':
+				// Another tab reloaded characters, we should too
+				console.log('CharacterManager: Another tab reloaded characters, syncing...');
+				this.loadCharacters(true); // Force reload
+				break;
+		}
+	}
+
+	/**
+	 * Broadcast character changes to other tabs
+	 */
+	static _broadcastSync(type, data = {}) {
+		const syncData = {
+			type,
+			timestamp: Date.now(),
+			...data
+		};
+
+		// Use localStorage to communicate with other tabs
+		// The storage event will fire in other tabs but not this one
+		localStorage.setItem('characterManager_sync', JSON.stringify(syncData));
+		
+		// Clean up the sync item after a short delay to prevent clutter
+		setTimeout(() => {
+			if (localStorage.getItem('characterManager_sync') === JSON.stringify(syncData)) {
+				localStorage.removeItem('characterManager_sync');
+			}
+		}, 1000);
+	}
 }
+
+// Initialize cross-tab synchronization when the class is loaded
+CharacterManager._initCrossTabSync();
 
 // Make it available globally for all scripts
 globalThis.CharacterManager = CharacterManager;
