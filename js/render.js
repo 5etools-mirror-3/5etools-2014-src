@@ -8591,15 +8591,17 @@ Renderer.character = class {
 			
 			if (hasEditAccess && !isStatic) {
 				// Render editable HP with click-to-edit functionality
-				const characterDataB64 = btoa(JSON.stringify(character));
-				const tempHpDisplay = hp.temp ? ` (+${hp.temp} temp)` : '';
+				// Store character data in a global registry instead of embedding in HTML
+				const characterId = character.name + '_' + character.source + '_' + Date.now();
+				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
 				
 				// Create click-to-edit HP display
-				const hpDisplay = `<span class="character-stat-display" data-stat-path="hp.current" data-character-source="${character.source}" data-character-data="${characterDataB64}" data-current-value="${currentHp}" data-max-value="${maxHp}" title="Click to edit Current HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${currentHp}</span>/<span class="character-stat-display" data-stat-path="hp.max" data-character-source="${character.source}" data-character-data="${characterDataB64}" data-current-value="${maxHp}" title="Click to edit Max HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${maxHp}</span>`;
+				const hpDisplay = `<span class="character-stat-display" data-stat-path="hp.current" data-character-id="${characterId}" data-current-value="${currentHp}" data-max-value="${maxHp}" title="Click to edit Current HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${currentHp}</span>/<span class="character-stat-display" data-stat-path="hp.max" data-character-id="${characterId}" data-current-value="${maxHp}" title="Click to edit Max HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${maxHp}</span>`;
 				
-				const tempHpDisplay2 = hp.temp ? ` (+<span class="character-stat-display" data-stat-path="hp.temp" data-character-source="${character.source}" data-character-data="${characterDataB64}" data-current-value="${hp.temp}" title="Click to edit Temporary HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${hp.temp}</span> temp)` : '';
+				const tempHpDisplay = hp.temp ? ` (+<span class="character-stat-display" data-stat-path="hp.temp" data-character-id="${characterId}" data-current-value="${hp.temp}" title="Click to edit Temporary HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${hp.temp}</span> temp)` : '';
 				
-				combatStats.push(`<strong>HP</strong> ${hpDisplay}${tempHpDisplay2}`);
+				combatStats.push(`<strong>HP</strong> ${hpDisplay}${tempHpDisplay}`);
 			} else {
 				// Render static HP display
 				combatStats.push(`<strong>HP</strong> ${currentHp}/${maxHp}${hp.temp ? ` (+${hp.temp} temp)` : ''}`);
@@ -9171,11 +9173,17 @@ Renderer.character = class {
 		$ele.find('.character-stat-display').on('click', function() {
 			const $display = $(this);
 			const statPath = $display.attr('data-stat-path');
-			const characterSource = $display.attr('data-character-source');
-			const characterData = $display.attr('data-character-data');
+			const characterId = $display.attr('data-character-id');
 			const currentValue = $display.attr('data-current-value');
 			
-			if (!Renderer.character._hasSourceAccess(characterSource)) {
+			// Get character data from global registry
+			if (!globalThis._CHARACTER_EDIT_DATA || !globalThis._CHARACTER_EDIT_DATA[characterId]) {
+				return; // Skip if character data not found
+			}
+			
+			const character = globalThis._CHARACTER_EDIT_DATA[characterId];
+			
+			if (!Renderer.character._hasSourceAccess(character.source)) {
 				return; // Skip if no edit access
 			}
 
@@ -9188,7 +9196,7 @@ Renderer.character = class {
 				maxValue = $display.attr('data-max-value');
 			}
 			
-			const $input = $(`<input type="${inputType}" class="character-stat-input-edit" value="${currentValue}" min="${minValue}" ${maxValue ? `max="${maxValue}"` : ''} style="width: ${Math.max(40, currentValue.toString().length * 8 + 10)}px;" data-stat-path="${statPath}" data-character-source="${characterSource}" data-character-data="${characterData}" />`);
+			const $input = $(`<input type="${inputType}" class="character-stat-input-edit" value="${currentValue}" min="${minValue}" ${maxValue ? `max="${maxValue}"` : ''} style="width: ${Math.max(40, currentValue.toString().length * 8 + 10)}px;" data-stat-path="${statPath}" data-character-id="${characterId}" />`);
 			
 			// Replace display with input
 			$display.replaceWith($input);
@@ -9203,7 +9211,7 @@ Renderer.character = class {
 				const newValue = e.key === 'Escape' ? currentValue : $input.val();
 				
 				// Create new display span
-				const $newDisplay = $(`<span class="character-stat-display" data-stat-path="${statPath}" data-character-source="${characterSource}" data-character-data="${characterData}" data-current-value="${newValue}" ${maxValue ? `data-max-value="${maxValue}"` : ''} title="Click to edit" style="cursor: pointer; border-bottom: 1px dashed #666;">${newValue}</span>`);
+				const $newDisplay = $(`<span class="character-stat-display" data-stat-path="${statPath}" data-character-id="${characterId}" data-current-value="${newValue}" ${maxValue ? `data-max-value="${maxValue}"` : ''} title="Click to edit" style="cursor: pointer; border-bottom: 1px dashed #666;">${newValue}</span>`);
 				
 				// Replace input with display
 				$input.replaceWith($newDisplay);
@@ -9211,8 +9219,7 @@ Renderer.character = class {
 				// Update server if value changed and not escaped
 				if (e.key !== 'Escape' && newValue !== currentValue) {
 					try {
-						const characterDataParsed = JSON.parse(atob(characterData));
-						const success = await Renderer.character._updateCharacterStat(characterDataParsed, characterSource, statPath, newValue);
+						const success = await Renderer.character._updateCharacterStat(character, character.source, statPath, newValue);
 						if (!success) {
 							console.warn(`Failed to update character stat ${statPath} on server`);
 						}
