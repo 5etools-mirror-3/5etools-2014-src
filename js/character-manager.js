@@ -283,6 +283,9 @@ class CharacterManager {
 		// Update DataLoader cache
 		this._updateDataLoaderCache();
 
+		// Update localStorage cache if this character is currently being edited
+		this._updateLocalStorageCache(character);
+
 		// Notify listeners of the update
 		this._notifyListeners();
 
@@ -309,6 +312,29 @@ class CharacterManager {
 				allDataMerged: formattedData,
 				propAllowlist: new Set(["character"])
 			});
+		}
+	}
+
+	/**
+	 * Update localStorage cache if this character is currently being edited
+	 * @param {Object} character - Updated character data
+	 */
+	static _updateLocalStorageCache(character) {
+		try {
+			// Check if this character is currently being edited
+			const editingCharacterData = localStorage.getItem('editingCharacter');
+			if (editingCharacterData) {
+				const editingCharacter = JSON.parse(editingCharacterData);
+				// Match by composite ID (name + source)
+				const editingId = editingCharacter.id || this._generateCompositeId(editingCharacter.name, editingCharacter.source);
+				if (editingId === character.id) {
+					// Update the localStorage with the latest character data
+					localStorage.setItem('editingCharacter', JSON.stringify(character));
+					console.log(`CharacterManager: Updated localStorage cache for ${character.name}`);
+				}
+			}
+		} catch (e) {
+			console.warn('CharacterManager: Error updating localStorage cache:', e);
 		}
 	}
 
@@ -463,6 +489,10 @@ class CharacterManager {
 				// Update local cache
 				characterData.id = characterId;
 				this.addOrUpdateCharacter(characterData);
+				
+				// Also ensure localStorage is updated
+				this._updateLocalStorageCache(characterData);
+				
 				console.log(`CharacterManager: Successfully saved character: ${characterData.name}`);
 				return true;
 			} else {
@@ -500,13 +530,13 @@ class CharacterManager {
 			const parsedValue = this._parseStatValue(newValue);
 			this._setNestedProperty(character, statPath, parsedValue);
 
-			// Update local cache immediately for responsive UI
-			this.updateCharacterQuickEdit(characterId, { [this._getTopLevelProperty(statPath)]: this._getNestedProperty(character, this._getTopLevelProperty(statPath)) });
-
-			// Save to server
+			// Save to server first
 			const success = await this.saveCharacter(character, true);
 			
-			if (!success) {
+			if (success) {
+				// Only update local caches if server save succeeded
+				this.updateCharacterQuickEdit(characterId, { [this._getTopLevelProperty(statPath)]: this._getNestedProperty(character, this._getTopLevelProperty(statPath)) });
+			} else {
 				// Revert local changes if server update failed
 				console.warn('CharacterManager: Server update failed, reverting local changes');
 				await this.reloadCharacters();

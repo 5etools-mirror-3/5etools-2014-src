@@ -224,11 +224,9 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 				const character = characters.find(c => c.name === characterName);
 				if (character) {
 					// Characters from CharacterManager are already processed with computed fields
-						
-						// Use RenderCharacters to render the character
-						const $rendered = RenderCharacters.$getRenderedCharacter(character);
-						$content.empty().append($rendered);
-					}
+					// Use RenderCharacters to render the character
+					const $rendered = RenderCharacters.$getRenderedCharacter(character);
+					$content.empty().append($rendered);
 				}
 			} catch (error) {
 				console.warn('Failed to load character:', error);

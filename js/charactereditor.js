@@ -1,5 +1,4 @@
-// Import CharacterManager for centralized character operations
-import {CharacterManager} from "./character-manager.js";
+// CharacterManager is available globally via character-manager.js script tag
 
 let editor;
 let currentCharacterData = null;
