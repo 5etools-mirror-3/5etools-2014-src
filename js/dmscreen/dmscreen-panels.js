@@ -214,9 +214,12 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 		let currentCharacterId = null;
 		const characterUpdateListener = (characters) => {
 			console.log(`DM Screen Character Panel: Received character update, currentCharacterId: ${currentCharacterId}`);
+			console.log(`DM Screen Character Panel: Received ${characters.length} characters:`, characters.map(c => ({name: c.name, source: c.source, id: CharacterManager._generateCompositeId(c.name, c.source)})));
+			
 			if (currentCharacterId) {
 				const updatedCharacter = characters.find(c => {
 					const id = CharacterManager._generateCompositeId(c.name, c.source);
+					console.log(`DM Screen Character Panel: Checking character ${c.name} with ID ${id} against current ${currentCharacterId}`);
 					return id === currentCharacterId;
 				});
 				
@@ -232,7 +235,10 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 					Renderer.character._bindCharacterSheetListeners($content[0]);
 				} else {
 					console.log(`DM Screen Character Panel: No matching character found for ID ${currentCharacterId}`);
+					console.log(`DM Screen Character Panel: Available character IDs:`, characters.map(c => CharacterManager._generateCompositeId(c.name, c.source)));
 				}
+			} else {
+				console.log(`DM Screen Character Panel: No current character ID set, skipping update`);
 			}
 		};
 		

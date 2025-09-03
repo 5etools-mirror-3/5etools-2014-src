@@ -9032,10 +9032,11 @@ Renderer.character = class {
 	static _bindCharacterSheetListeners (ele) {
 		const $ele = $(ele);
 		console.log('DM Screen Debug: _bindCharacterSheetListeners called with element:', ele);
-		
+		console.log('DM Screen Debug: Element HTML:', ele.innerHTML.substring(0, 200));
+
 		const statDisplays = $ele.find('.character-stat-display');
 		console.log(`DM Screen Debug: Found ${statDisplays.length} character-stat-display elements`);
-		
+
 		if (statDisplays.length > 0) {
 			statDisplays.each(function(index, elem) {
 				const $elem = $(elem);
@@ -9043,24 +9044,34 @@ Renderer.character = class {
 					path: $elem.attr('data-stat-path'),
 					characterId: $elem.attr('data-character-id'),
 					value: $elem.attr('data-current-value'),
-					text: $elem.text().trim()
+					text: $elem.text().trim(),
+					classes: elem.className
 				});
 			});
 		}
 
+		// Test if we can bind a simple click handler
+		console.log('DM Screen Debug: Binding click handler to element');
+		$ele.off('click.characterStatTest').on('click.characterStatTest', '.character-stat-display', function(e) {
+			console.log('DM Screen Debug: TEST CLICK HANDLER FIRED!', this);
+		});
+
 		// Click-to-edit functionality for character stats
-		$ele.on('click', '.character-stat-display', function() {
+		$ele.on('click', '.character-stat-display', function(e) {
+			console.log('DM Screen Debug: Click event detected on character-stat-display');
 			const $display = $(this);
 			const statPath = $display.attr('data-stat-path');
 			const characterId = $display.attr('data-character-id');
 			const currentValue = $display.attr('data-current-value');
-			
+
 			console.log('DM Screen Debug: Character stat clicked:', {
+				element: this,
 				statPath,
-				characterId, 
+				characterId,
 				currentValue,
 				hasGlobalEditData: !!globalThis._CHARACTER_EDIT_DATA,
-				hasCharacterData: !!(globalThis._CHARACTER_EDIT_DATA && globalThis._CHARACTER_EDIT_DATA[characterId])
+				hasCharacterData: !!(globalThis._CHARACTER_EDIT_DATA && globalThis._CHARACTER_EDIT_DATA[characterId]),
+				globalEditDataKeys: globalThis._CHARACTER_EDIT_DATA ? Object.keys(globalThis._CHARACTER_EDIT_DATA) : 'undefined'
 			});
 
 			// Get character data from global registry
