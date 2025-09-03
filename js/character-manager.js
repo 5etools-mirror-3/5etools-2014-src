@@ -156,6 +156,35 @@ class CharacterManager {
 		// First, try to load from localStorage as a baseline
 		const localCharacters = this._loadFromLocalStorage();
 		
+		// Check if we can satisfy the request entirely from cache
+		if (localCharacters.length > 0) {
+			const now = Date.now();
+			const freshCharacters = [];
+			let allFresh = true;
+			
+			for (const character of localCharacters) {
+				// Apply source filtering if requested
+				if (sources && sources.length > 0 && !sources.includes(character.source)) {
+					continue;
+				}
+				
+				const cached = this._blobCache.get(character.id);
+				// Check if this character is fresh enough
+				if (cached && (now - (cached.lastFetched || 0)) <= this._freshnessThreshold) {
+					freshCharacters.push(character);
+				} else {
+					allFresh = false;
+					break; // Need to fetch from API
+				}
+			}
+			
+			// If we have fresh copies of all requested characters, use them
+			if (allFresh && freshCharacters.length > 0) {
+				console.log(`CharacterManager: Using ${freshCharacters.length} fresh characters from cache (no API call needed)`);
+				return this._processAndStoreCharacters(freshCharacters);
+			}
+		}
+		
 		try {
 			console.log(`CharacterManager: Loading character blob metadata from API${sources ? ` (filtered by sources: ${sources.join(', ')})` : ''}...`);
 			const cacheBuster = Date.now();
@@ -909,7 +938,8 @@ class CharacterManager {
 			case 'CHARACTERS_RELOADED':
 				// Another tab reloaded characters, we should too
 				console.log('CharacterManager: Another tab reloaded characters, syncing...');
-				this.loadCharacters(true); // Force reload
+				this.forceRefreshCharacters(); // Force refresh
+				this.loadCharacters(); // Reload
 				break;
 		}
 	}

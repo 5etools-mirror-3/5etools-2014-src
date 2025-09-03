@@ -53,17 +53,6 @@ class SourcePasswordManager {
 		}
 	}
 
-	// Clear all cached passwords
-	static clearAllCachedPasswords() {
-		try {
-			localStorage.removeItem(this.STORAGE_KEY);
-			return true;
-		} catch (e) {
-			console.error('Error clearing cached passwords:', e);
-			return false;
-		}
-	}
-
 	// Check if password is valid for a source
 	static async validatePassword(sourceName, password) {
 		try {
@@ -166,11 +155,6 @@ class SourceManager {
 				this.testSourceAccess();
 			});
 		}
-
-		// Clear cache button
-		document.getElementById('clear-cache-btn').addEventListener('click', () => {
-			this.clearAllCachedPasswords();
-		});
 
 		// Enter key support for inputs
 		document.getElementById('new-source-name').addEventListener('keypress', (e) => {
@@ -354,14 +338,6 @@ class SourceManager {
 		}
 	}
 
-	clearAllCachedPasswords() {
-		if (confirm('Are you sure you want to clear all cached source passwords? You will need to re-enter them.')) {
-			SourcePasswordManager.clearAllCachedPasswords();
-			this.updateCachedSourcesList();
-			this.showMessage('test-message', 'All cached passwords cleared.', 'green');
-		}
-	}
-
 	updateCachedSourcesList() {
 		const listDiv = document.getElementById('cached-sources-list');
 		const sourceSelect = document.getElementById('character-source-select');
@@ -376,10 +352,9 @@ class SourceManager {
 			let html = '<div class="list-group">';
 			sourceNames.forEach(sourceName => {
 				html += `
-					<div class="list-group-item d-flex justify-content-between align-items-center">
+					<div class="list-group-item d-flex justify-content-between align-items-center flex-column">
 						<div>
 							<strong>${this.escapeHtml(sourceName)}</strong>
-							<small class="text-muted d-block">Password cached</small>
 						</div>
 						<div>
 							<button class="ve-btn ve-btn-xs ve-btn-danger" onclick="sourceManager.removeCachedSource('${this.escapeHtml(sourceName)}')">
