@@ -1,0 +1,257 @@
+{
+  "character": [
+    {
+      "name": "Garurt",
+      "source": "sam",
+      "race": {
+        "name": "Lizardfolk"
+      },
+      "class": [
+        {
+          "name": "Warlock",
+          "source": "PHB",
+          "level": 6,
+          "subclass": {
+            "name": "Genie",
+            "source": "TCE"
+          },
+          "currentHitDice": 4
+        }
+      ],
+      "alignment": ["L", "C"],
+      "ac": [
+        {
+          "ac": 14,
+          "from": ["natural"]
+        }
+      ],
+      "hp": {
+        "average": 52,
+        "formula": "8d6 + 8",
+        "current": 52,
+        "max": 52,
+        "temp": 0
+      },
+      "speed": {
+        "walk": 30,
+        "swim": 30
+      },
+      "str": 12,
+      "dex": 12,
+      "con": 16,
+      "int": 11,
+      "wis": 8,
+      "cha": 18,
+      "save": {
+        "wis": "+2",
+        "cha": "+7"
+      },
+      "skill": {
+        "deception": "+7",
+        "insight": "+1",
+        "investigation": "+3",
+        "perception": "+7",
+        "survival": "+2"
+      },
+      "passive": 9,
+      "languages": ["Common", "Draconic"],
+      "proficiencyBonus": "+3",
+
+      "deathSaves": {
+        "successes": 0,
+        "failures": 0
+      },
+
+      "customTrackers": [
+        {
+          "name": "Eldritch Invocations",
+          "type": "counter",
+          "current": 2,
+          "max": 4,
+          "description": "Known invocations, can be changed on level up"
+        },
+        {
+          "name": "Pact Magic Recovery",
+          "type": "counter",
+          "current": 0,
+          "max": 1,
+          "description": "Short rest recovery available"
+        },
+        {
+          "name": "Advantage on Deception",
+          "type": "condition",
+          "active": true,
+          "duration": "Until next long rest",
+          "description": "From Mask of Many Faces"
+        },
+        {
+          "name": "Genie's Vessel Uses",
+          "type": "counter",
+          "current": 1,
+          "max": 1,
+          "description": "Enter vessel as bonus action (per long rest)"
+        }
+      ],
+
+      "action": [
+        {
+          "name": "{@spell Eldritch Blast}",
+          "entries": [
+            "{@atk rs} {@hit 7} to hit, force damage, reach 120 ft. ({@damage 1d10 + 4 + 3}) with 3 cold damage ({@damage 1d10 + 4})"
+          ]
+        },
+        {
+          "name": "Bite",
+          "entries": [
+            "{@atk rm} {@hit 4} ({@damage 1d6 + 1})"
+          ]
+        }
+      ],
+
+      "spells": {
+        "dc": 15,
+        "attackBonus": "+7",
+        "ability": "Charisma",
+        "levels": {
+          "0": {
+            "spells": [
+              "eldritch blast",
+              "prestidigitation",
+              {
+                "name": "sword burst",
+                "source": "TCE"
+              }
+            ]
+          },
+          "1": {
+            "maxSlots": 0,
+            "spells": [
+              "fog cloud",
+              "detect evil and good",
+              "witch bolt"
+            ]
+          },
+          "2": {
+            "maxSlots": 0,
+            "spells": [
+              "invisibility",
+              "spider climb"
+            ]
+          },
+          "3": {
+            "maxSlots": 2,
+            "slotsUsed": 0,
+            "spells": [
+              "create food and water",
+              "vampiric touch"
+            ]
+          }
+        }
+      },
+
+      "customText": "Updating the custom text will describe things that have happened on my journey.",
+
+      "fluff": {
+        "entries": [
+          "This character has gone on a deep journey to understand that he wants to work for himself and doesn't need to be subservient to a higher person."
+        ]
+      },
+
+      "entries": [
+        {
+          "type": "entries",
+          "name": "Background & Personality",
+          "entries": [
+            "Has a history of working for others when it is against his best interest and was found in Medusa's garden as a gardener looking after the place."
+          ]
+        },
+        {
+          "type": "section",
+          "name": "Features & Traits",
+          "entries": [
+            {
+              "type": "entries",
+              "name": "Cunning Artisan",
+              "entries": [
+                "As part of a short rest, you can harvest bone and hide from a slain beast, construct, dragon, monstrosity, or plant creature of size small or larger to create one of the following items: a shield, a club, a javelin, or 1d4 darts or blowgun needles. To use this trait, you need a blade, such as a dagger, or appropriate artisan's tools, such as leatherworker's tools."
+              ]
+            },
+            {
+              "type": "entries",
+              "name": "Hold Breath",
+              "entries": [
+                "You can hold your breath for up to 15 minutes at a time."
+              ]
+            },
+            {
+              "type": "entries",
+              "name": "Natural Armor",
+              "entries": [
+                "You have tough, scaly skin. When you aren't wearing armor, your AC is 13 + your Dexterity modifier. You can use your natural armor to determine your AC if the armor you wear would leave you with a lower AC. A shield's benefits apply as normal while you use your natural armor"
+              ]
+            },
+            {
+              "type": "entries",
+              "name": "Tomb of Levistus",
+              "entries": [
+                "As a reaction when you take damage, you can entomb yourself in ice and get 10 temp hit points per level until after my next turn. i also vulnerability to fire damage. But i skip my next turn"
+              ]
+            },
+            {
+              "type": "entries",
+              "name": "Genie's Wrath",
+              "entries": [
+                "Once during each of your turns when you hit with an attack roll, you can deal extra damage to the target equal to your proficiency bonus. The type of this damage is cold"
+              ]
+            },
+            {
+              "type": "entries",
+              "name": "Bottled Respite",
+              "entries": [
+                "As an action, you can magically vanish and enter your vessel, which remains in the space you left. The interior of the vessel is an extradimensional space in the shape of a 20-foot-radius cylinder, 20 feet high, and resembles your vessel. The interior is appointed with cushions and low tables and is a comfortable temperature. While inside, you can hear the area around your vessel as if you were in its space. You can remain inside the vessel up to a number of hours equal to twice your proficiency bonus. You exit the vessel early if you use a bonus action to leave, if you die, or if the vessel is destroyed. When you exit the vessel, you appear in the unoccupied space closest to it. Any objects left in the vessel remain there until carried out, and if the vessel is destroyed, every object stored there harmlessly appears in the unoccupied spaces closest to the vessel's former space. Once you enter the vessel, you can't enter again until you finish a long rest.",
+                "The vessel's AC equals your spell save DC. Its hit points equal your warlock level plus your proficiency bonus, and it is immune to poison and psychic damage.",
+                "If the vessel is destroyed or you lose it, you can perform a 1-hour ceremony to receive a replacement from your patron. This ceremony can be performed during a short or long rest, and the previous vessel is destroyed if it still exists. The vessel vanishes in a flare of elemental power when you die."
+              ]
+            },
+            {
+              "type": "entries",
+              "name": "Elemental Gift",
+              "entries": [
+                "You begin to take on characteristics of your patron's kind. You now have resistance to a damage type determined by your patron's kind which is cold (marid).",
+                "3/3 uses left",
+                "As a bonus action, you can give yourself a flying speed of 30 feet that lasts for 10 minutes, during which you can hover. You can use this bonus action a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest."
+              ]
+            }
+          ]
+        },
+        {
+          "type": "table",
+          "name": "Items",
+          "entries": [
+            "{@item Genie Vessel|Tin Can}",
+            "(The vessel's AC equals your spell save DC. Its hit points equal your warlock level plus your proficiency bonus, and it is immune to poison and psychic damage.)",
+            "{@item leather armor|phb|Leather} Armor",
+            "{@item Staff|phb}",
+            "{@item Dungeoneer's Pack|phb}",
+            "2 {@item Dagger|phb}",
+            "{@item Sickle|phb}",
+            "115gp of {@item Incense|phb} (10 is needed in order to cast my familiar)",
+            "{@item Pouch|phb} of red powder",
+            "{@item Magic Paint} - 4 pots, 1000 sq ft each. Used: 14sqft",
+            "{@item Folding Boat|dmg}",
+            "{@item Oil of Slipperiness|dmg}",
+            "{@item Adamantine Armor|dmg} (in bottle)"
+          ]
+        }
+      ],
+      "__prop": "character",
+      "_fRace": "Lizardfolk",
+      "_fClass": "Warlock (Genie)",
+      "_fBackground": "Unknown",
+      "_fLevel": 6,
+      "_fSource": "sam",
+      "_fClassSimple": "Warlock",
+      "id": "garurt_sam"
+    }
+  ]
+}

@@ -88,6 +88,130 @@ class CharacterManager {
 	}
 
 	/**
+	 * Check for stale characters in the background and update if needed
+	 * @param {Array<string>} [sources] - Optional list of sources to check
+	 */
+	static async _checkForStaleCharactersInBackground(sources = null) {
+		try {
+			// Wait a bit to not block the initial UI load
+			setTimeout(async () => {
+				const now = Date.now();
+				let hasStaleCharacters = false;
+				
+				// Check if any characters are stale
+				for (const [id, cached] of this._blobCache.entries()) {
+					if (sources && sources.length > 0) {
+						// Check if this character matches the source filter
+						const character = cached.character;
+						if (!character || !sources.includes(character.source)) {
+							continue;
+						}
+					}
+					
+					if ((now - (cached.lastFetched || 0)) > this._freshnessThreshold) {
+						hasStaleCharacters = true;
+						break;
+					}
+				}
+				
+				if (hasStaleCharacters) {
+					console.log('CharacterManager: Found stale characters, updating in background...');
+					// Force a background refresh
+					this.forceRefreshCharacters();
+					// This will trigger a new load that actually hits the API
+					const updated = await this._performFullApiLoad(sources);
+					if (updated.length > 0) {
+						console.log(`CharacterManager: Background update completed, refreshed ${updated.length} characters`);
+						this._notifyListeners();
+					}
+				}
+			}, 100); // Small delay to not block UI
+		} catch (e) {
+			console.warn('CharacterManager: Error in background staleness check:', e);
+		}
+	}
+
+	/**
+	 * Perform a full API load (used for background updates)
+	 * @param {Array<string>} [sources] - Optional list of sources to filter by
+	 */
+	static async _performFullApiLoad(sources = null) {
+		try {
+			console.log(`CharacterManager: Background API load${sources ? ` (filtered by sources: ${sources.join(', ')})` : ''}...`);
+			const cacheBuster = Date.now();
+			
+			// Build URL with optional sources parameter
+			let url = `/api/characters/load?_t=${cacheBuster}`;
+			if (sources && sources.length > 0) {
+				const sourcesParam = sources.map(s => `sources=${encodeURIComponent(s)}`).join('&');
+				url += `&${sourcesParam}`;
+			}
+			
+			const response = await fetch(url, {
+				cache: 'no-cache',
+				headers: {
+					'Cache-Control': 'no-cache, no-store, must-revalidate',
+					'Pragma': 'no-cache',
+					'Expires': '0'
+				}
+			});
+
+			if (!response.ok) {
+				throw new Error(`Failed to fetch character metadata: ${response.statusText}`);
+			}
+
+			const metadata = await response.json();
+			const blobs = metadata.blobs || [];
+			
+			// Fetch all characters from API
+			const fetchPromises = blobs.map(async (blob) => {
+				try {
+					const cacheBusterUrl = `${blob.url}${blob.url.includes('?') ? '&' : '?'}_t=${Date.now()}`;
+					const response = await fetch(`/api/characters/get?url=${encodeURIComponent(cacheBusterUrl)}&id=${encodeURIComponent(blob.id)}`, {
+						cache: 'no-cache',
+						headers: {
+							'Cache-Control': 'no-cache, no-store, must-revalidate',
+							'Pragma': 'no-cache',
+							'Expires': '0'
+						}
+					});
+					
+					if (!response.ok) {
+						return null;
+					}
+					
+					const apiResponse = await response.json();
+					if (!apiResponse.success) {
+						return null;
+					}
+					
+					const characterData = apiResponse.character;
+					const character = (characterData.character && Array.isArray(characterData.character)) 
+						? characterData.character[0] 
+						: characterData;
+					
+					// Update cache with lastFetched timestamp
+					this._blobCache.set(blob.id, {
+						blob: blob,
+						character: character,
+						lastFetched: Date.now()
+					});
+					
+					return character;
+				} catch (e) {
+					return null;
+				}
+			});
+
+			const fetchedCharacters = (await Promise.all(fetchPromises)).filter(c => c);
+			return this._processAndStoreCharacters(fetchedCharacters);
+		} catch (error) {
+			console.warn('CharacterManager: Background API load failed:', error);
+			return [];
+		}
+	}
+
+	/**
 	 * Register a listener for character data changes
 	 * @param {Function} callback - Called when characters are loaded/updated
 	 */
@@ -153,35 +277,44 @@ class CharacterManager {
 	 * @param {Array<string>} [sources] - Optional list of sources to filter by
 	 */
 	static async _performLoad(sources = null) {
-		// First, try to load from localStorage as a baseline
+		// First, always try to use localStorage as primary source
 		const localCharacters = this._loadFromLocalStorage();
 		
-		// Check if we can satisfy the request entirely from cache
 		if (localCharacters.length > 0) {
-			const now = Date.now();
-			const freshCharacters = [];
-			let allFresh = true;
-			
-			for (const character of localCharacters) {
-				// Apply source filtering if requested
-				if (sources && sources.length > 0 && !sources.includes(character.source)) {
-					continue;
-				}
-				
-				const cached = this._blobCache.get(character.id);
-				// Check if this character is fresh enough
-				if (cached && (now - (cached.lastFetched || 0)) <= this._freshnessThreshold) {
-					freshCharacters.push(character);
-				} else {
-					allFresh = false;
-					break; // Need to fetch from API
-				}
+			// Apply source filtering if requested
+			let charactersToUse = localCharacters;
+			if (sources && sources.length > 0) {
+				charactersToUse = localCharacters.filter(character => 
+					sources.includes(character.source)
+				);
 			}
 			
-			// If we have fresh copies of all requested characters, use them
-			if (allFresh && freshCharacters.length > 0) {
-				console.log(`CharacterManager: Using ${freshCharacters.length} fresh characters from cache (no API call needed)`);
-				return this._processAndStoreCharacters(freshCharacters);
+			if (charactersToUse.length > 0) {
+				console.log(`CharacterManager: Using ${charactersToUse.length} characters from localStorage cache (defaulting to local)`);
+				
+				// Process and store the local characters first
+				const processedCharacters = this._processAndStoreCharacters(charactersToUse);
+				
+				// Populate blob cache with current data for future freshness checks
+				const now = Date.now();
+				for (const character of charactersToUse) {
+					if (!this._blobCache.has(character.id)) {
+						this._blobCache.set(character.id, {
+							blob: {
+								id: character.id,
+								uploadedAt: now, // Use current time as placeholder
+								size: JSON.stringify(character).length
+							},
+							character: character,
+							lastFetched: now
+						});
+					}
+				}
+				
+				// Check for stale characters in the background (don't block the UI)
+				this._checkForStaleCharactersInBackground(sources);
+				
+				return processedCharacters;
 			}
 		}
 		

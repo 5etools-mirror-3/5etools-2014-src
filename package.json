@@ -80,6 +80,7 @@
 		"test": "test"
 	},
 	"dependencies": {
-		"@vercel/blob": "^1.1.1"
+		"@vercel/blob": "^1.1.1",
+		"@3d-dice/dice-box": "^1.0.6"
 	}
 }

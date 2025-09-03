@@ -18,6 +18,168 @@ Renderer.dice = {
 	_storage: null,
 
 	_isManualMode: false,
+	_is3dDiceEnabled: false,
+
+	// 3D Dice configuration methods
+	set3dDiceEnabled(enabled) {
+		this._is3dDiceEnabled = enabled;
+		if (enabled && window.DiceBoxManager) {
+			window.DiceBoxManager.enable().catch(console.error);
+		} else if (window.DiceBoxManager) {
+			window.DiceBoxManager.disable();
+		}
+	},
+
+	is3dDiceEnabled() {
+		return this._is3dDiceEnabled && window.DiceBoxManager && window.DiceBoxManager.isEnabled();
+	},
+
+	// Check if a dice tree can be rendered with 3D dice
+	_canUse3dDice(tree) {
+		if (!tree || !tree.toString) return false;
+		const diceString = tree.toString();
+		// Check for dice notation that 3D dice can handle
+		// Allow basic dice with arithmetic modifiers: 1d20, 2d6+3, 1d8-1, 3d4+2-1, etc.
+		// Also allow multiple dice types: 1d20+2d6+5
+		const cleanString = diceString.replace(/\s/g, '');
+		
+		// Pattern to match dice expressions with arithmetic modifiers
+		// Supports: XdY, XdY+Z, XdY-Z, XdY+Z-W, multiple dice combinations
+		const dicePattern = /^(\d*d\d+([+-]\d+)*)+([+-]\d+)*$/;
+		
+		return dicePattern.test(cleanString);
+	},
+
+	// Parse a complex dice expression into dice components and modifiers
+	_parseComplexDiceExpression(expression) {
+		const cleanExpr = expression.replace(/\s/g, '');
+		const diceComponents = [];
+		const modifiers = [];
+		
+		// Find all dice components (like 1d20, 2d6, etc.)
+		const diceRegex = /(\d*d\d+)/g;
+		let match;
+		let lastIndex = 0;
+		
+		while ((match = diceRegex.exec(cleanExpr)) !== null) {
+			// Check for any modifiers between last dice and this dice
+			const betweenText = cleanExpr.slice(lastIndex, match.index);
+			if (betweenText && lastIndex > 0) {
+				// Parse modifiers from between text
+				const modifierMatches = betweenText.match(/[+-]\d+/g);
+				if (modifierMatches) {
+					modifiers.push(...modifierMatches.map(m => parseInt(m)));
+				}
+			}
+			
+			diceComponents.push(match[0]);
+			lastIndex = match.index + match[0].length;
+		}
+		
+		// Check for trailing modifiers
+		const trailingText = cleanExpr.slice(lastIndex);
+		if (trailingText) {
+			const modifierMatches = trailingText.match(/[+-]\d+/g);
+			if (modifierMatches) {
+				modifiers.push(...modifierMatches.map(m => parseInt(m)));
+			}
+		}
+		
+		// Sum all modifiers
+		const totalModifiers = modifiers.reduce((sum, mod) => sum + mod, 0);
+		
+		return {
+			diceComponents,
+			modifiers: totalModifiers,
+			original: expression
+		};
+	},
+
+	// Handle 3D dice rolling
+	async _pHandle3dDiceRoll(tree, rolledBy, opts) {
+		try {
+			const diceNotation = tree.toString();
+			const label = rolledBy.label || "Roll";
+			
+			// Parse the expression to separate dice from static modifiers
+			const parsedExpression = this._parseComplexDiceExpression(diceNotation);
+			
+			// Roll 3D dice for each dice component
+			let allDiceResults = [];
+			let totalDiceValue = 0;
+			
+			for (const diceComponent of parsedExpression.diceComponents) {
+				const result3d = await window.DiceBoxManager.rollDice(diceComponent, label);
+				allDiceResults.push(...result3d.individual);
+				totalDiceValue += result3d.diceTotal;
+			}
+			
+			// Add static modifiers from the parsed expression
+			const staticModifier = parsedExpression.modifiers;
+			
+			// Check if the expression has complex modifiers (PB, summon levels, etc.)
+			const hasComplexModifiers = /\b(pb|summon|spell|class)\b/i.test(diceNotation);
+			
+			let fullResult;
+			let displayModifier = staticModifier;
+			
+			if (hasComplexModifiers) {
+				// For complex expressions with PB, summon levels, etc.
+				const meta = {};
+				if (opts.pb) meta.pb = opts.pb;
+				if (opts.summonSpellLevel) meta.summonSpellLevel = opts.summonSpellLevel;
+				if (opts.summonClassLevel) meta.summonClassLevel = opts.summonClassLevel;
+				
+				// Start with 3D dice results + static modifiers
+				fullResult = totalDiceValue + staticModifier;
+				
+				// Add complex modifiers
+				if (opts.pb && /\bpb\b/i.test(diceNotation)) {
+					fullResult += opts.pb;
+					displayModifier += opts.pb;
+				}
+			} else {
+				// For simple expressions, just sum dice + static modifiers
+				fullResult = totalDiceValue + staticModifier;
+			}
+			
+			// Still show in regular rollbox if not hidden
+			if (!opts.isHidden) {
+				Renderer.dice._showBox();
+				Renderer.dice._checkHandleName(rolledBy.name);
+				const $out = Renderer.dice._$lastRolledBy;
+				
+				const lbl = rolledBy.label && (!rolledBy.name || rolledBy.label.trim().toLowerCase() !== rolledBy.name.trim().toLowerCase()) ? rolledBy.label : null;
+				const title = `${rolledBy.name ? `${rolledBy.name} \u2014 ` : ""}${lbl ? `${lbl}: ` : ""}${diceNotation}`;
+				
+				const message = opts.fnGetMessage ? opts.fnGetMessage(fullResult) : null;
+				
+				const ptTarget = opts.target != null
+					? fullResult >= opts.target ? ` <b>&geq;${opts.target}</b>` : ` <span class="ve-muted">&lt;${opts.target}</span>`
+					: "";
+				
+				$out.append(`
+					<div class="out-roll-item" title="${title}">
+						<div>
+							${lbl ? `<span class="roll-label">${lbl}: </span>` : ""}
+							<span class="roll">${fullResult}</span>${ptTarget}
+							<span class="all-rolls ve-muted">[3D: ${allDiceResults.join(', ')}${displayModifier !== 0 ? ` ${displayModifier >= 0 ? '+' : ''}${displayModifier}` : ''}]</span>
+							${message ? `<span class="message">${message}</span>` : ""}
+						</div>
+						<div class="out-roll-item-button-wrp">
+							<button title="Copy to input" class="ve-btn ve-btn-default ve-btn-xs ve-btn-copy-roll" onclick="Renderer.dice._$iptRoll.val('${diceNotation.replace(/\s+/g, "")}'); Renderer.dice._$iptRoll.focus()"><span class="glyphicon glyphicon-pencil"></span></button>
+						</div>
+					</div>`);
+				Renderer.dice._scrollBottom();
+			}
+			
+			return fullResult;
+		} catch (error) {
+			console.error("3D dice roll failed, falling back to standard rolling:", error);
+			// Fall back to standard rolling
+			return this._pHandleRoll2_automatic(tree, rolledBy, {...opts, is3dFallback: true});
+		}
+	},
 
 	/* -------------------------------------------- */
 
@@ -695,6 +857,11 @@ Renderer.dice = {
 	 */
 	_pHandleRoll2_automatic (tree, rolledBy, opts) {
 		opts = opts || {};
+
+		// Check if 3D dice should be used (but not if this is a fallback from 3D dice failure)
+		if (!opts.is3dFallback && this.is3dDiceEnabled() && tree && this._canUse3dDice(tree)) {
+			return this._pHandle3dDiceRoll(tree, rolledBy, opts);
+		}
 
 		if (!opts.isHidden) Renderer.dice._showBox();
 		Renderer.dice._checkHandleName(rolledBy.name);

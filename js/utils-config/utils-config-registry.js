@@ -82,7 +82,22 @@ const settingsGroupMarkdown = new ConfigSettingsGroup({
 	],
 });
 
+const settingsGroupDice = new ConfigSettingsGroup({
+	groupId: "dice",
+	name: "Dice Rolling",
+	configSettings: [
+		new ConfigSettingBoolean({
+			configId: "enable3dDice",
+			name: "Enable 3D Dice",
+			help: "Use 3D animated dice for rolling instead of text results. Powered by dice-box library.",
+			isRowLabel: true,
+			default: false,
+		}),
+	],
+});
+
 export const SETTINGS_GROUPS = [
 	settingsGroupStyleSwitcher,
 	settingsGroupMarkdown,
+	settingsGroupDice,
 ];

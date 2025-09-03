@@ -127,13 +127,13 @@ class CharacterEditorPage {
 			const level = parseInt(localStorage.getItem('randomCharacterLevel') || '5');
 			const sourceName = localStorage.getItem('randomCharacterSource') || '';
 			const characterName = localStorage.getItem('randomCharacterName') || '';
-			
+
 			// Clear the generation flags
 			localStorage.removeItem('generateRandomCharacter');
 			localStorage.removeItem('randomCharacterLevel');
 			localStorage.removeItem('randomCharacterSource');
 			localStorage.removeItem('randomCharacterName');
-			
+
 			// Generate random character
 			console.log(`Generating random level ${level} character for source: ${sourceName}`);
 			await this.generateRandomCharacterAtLevel(level, characterName, sourceName);
@@ -456,19 +456,19 @@ class CharacterEditorPage {
 		let remainingLevels = totalLevel;
 
 		// 70% chance for single class, 25% for dual class, 5% for triple class
-		const classCount = totalLevel >= 3 && Math.random() < 0.3 ? 
+		const classCount = totalLevel >= 3 && Math.random() < 0.3 ?
 			(totalLevel >= 6 && Math.random() < 0.05 ? 3 : 2) : 1;
 
 		// Get unique random classes
 		const availableClasses = [
-			"Fighter", "Wizard", "Rogue", "Cleric", "Ranger", "Paladin", 
+			"Fighter", "Wizard", "Rogue", "Cleric", "Ranger", "Paladin",
 			"Barbarian", "Bard", "Druid", "Monk", "Sorcerer", "Warlock"
 		];
 
 		for (let i = 0; i < classCount; i++) {
 			const className = availableClasses.splice(Math.floor(Math.random() * availableClasses.length), 1)[0];
 			const classTemplate = this.generateRandomClass();
-			
+
 			// Assign levels
 			let levelsForThisClass;
 			if (i === classCount - 1) {
@@ -654,7 +654,7 @@ class CharacterEditorPage {
 	generateRandomSaves(abilityScores, classes, profBonus) {
 		const saves = {};
 		const allSaves = ["str", "dex", "con", "int", "wis", "cha"];
-		
+
 		// Determine proficient saves based on class
 		const proficientSaves = new Set();
 		classes.forEach(cls => {
@@ -713,7 +713,7 @@ class CharacterEditorPage {
 		// Randomly select 3-6 skills to be proficient in
 		const numSkills = 3 + Math.floor(Math.random() * 4);
 		const selectedSkills = [];
-		
+
 		for (let i = 0; i < numSkills; i++) {
 			const skill = skillList[Math.floor(Math.random() * skillList.length)];
 			if (!selectedSkills.includes(skill)) {
@@ -1061,13 +1061,13 @@ class CharacterEditorPage {
 
 	generateRandomSpells(classes, totalLevel) {
 		// Check if any class can cast spells
-		const casterClasses = classes.filter(cls => 
+		const casterClasses = classes.filter(cls =>
 			["Wizard", "Sorcerer", "Warlock", "Bard", "Cleric", "Druid", "Paladin", "Ranger"].includes(cls.name)
 		);
 
 		if (casterClasses.length === 0) return null;
 
-		const primaryCaster = casterClasses.reduce((highest, current) => 
+		const primaryCaster = casterClasses.reduce((highest, current) =>
 			current.level > highest.level ? current : highest
 		);
 
@@ -1097,7 +1097,7 @@ class CharacterEditorPage {
 
 	generateSpellSlots(casterClass) {
 		const levels = {};
-		
+
 		// Cantrips
 		levels["0"] = {
 			spells: this.getRandomCantrips(casterClass)
@@ -1122,7 +1122,7 @@ class CharacterEditorPage {
 		// Special handling for Warlock - they have unique slot mechanics
 		if (casterClass.name === "Warlock") {
 			const warlockLevel = casterClass.level;
-			
+
 			// Warlock slot progression
 			let slotLevel, numSlots;
 			if (warlockLevel >= 17) { slotLevel = 5; numSlots = 4; }
@@ -1134,7 +1134,7 @@ class CharacterEditorPage {
 			else if (warlockLevel >= 3) { slotLevel = 2; numSlots = 2; }
 			else if (warlockLevel >= 1) { slotLevel = 1; numSlots = 1; }
 			else return 0;
-			
+
 			// Warlocks only have slots at their highest available level
 			return spellLevel === slotLevel ? numSlots : 0;
 		}
@@ -1631,11 +1631,11 @@ class CharacterEditorPage {
 
 	generateRandomLanguages(race, classes) {
 		const languages = ["Common"];
-		
+
 		// Add racial languages
 		const racialLanguages = {
 			"Elf": "Elvish",
-			"Dwarf": "Dwarvish", 
+			"Dwarf": "Dwarvish",
 			"Halfling": "Halfling",
 			"Dragonborn": "Draconic",
 			"Gnome": "Gnomish",
@@ -1672,7 +1672,7 @@ class CharacterEditorPage {
 
 	generateRandomEquipment(classes, level) {
 		const equipment = ["{@item Explorer's Pack|phb}", "{@item Bedroll|phb}", "{@item Rope (50 feet)|phb}", "{@item Tinderbox|phb}", "{@item Rations (10 days)|phb}", "{@item Waterskin|phb}", "{@item Hempen Rope|phb}", "{@item Torch|phb} (x5)"];
-		
+
 		// Add class-specific equipment with more variety
 		classes.forEach(cls => {
 			switch (cls.name) {
@@ -1767,7 +1767,7 @@ class CharacterEditorPage {
 			const uncommonItems = ["{@item Potion of Healing|dmg}", "{@item Bag of Holding|dmg}", "{@item Cloak of Protection|dmg}", "{@item Boots of Elvenkind|dmg}", "{@item Bracers of Archery|dmg}"];
 			equipment.push(uncommonItems[Math.floor(Math.random() * uncommonItems.length)]);
 		}
-		
+
 		if (level >= 5) {
 			const rareItems = ["{@item +1 Weapon|dmg}", "{@item Ring of Protection|dmg}", "{@item Cloak of Displacement|dmg}", "{@item Wand of Magic Missiles|dmg}"];
 			equipment.push(rareItems[Math.floor(Math.random() * rareItems.length)]);
@@ -1788,7 +1788,7 @@ class CharacterEditorPage {
 			"{@item Grappling Hook|phb}", "{@item Crowbar|phb}", "{@item Hammer|phb}", "{@item Piton|phb} (x10)", "{@item Mirror|phb}",
 			"{@item Oil Flask|phb}", "{@item Lantern|phb}", "{@item Chain (10 feet)|phb}", "{@item Manacles|phb}", "{@item Magnifying Glass|phb}"
 		];
-		
+
 		const gearToAdd = Math.min(3 + Math.floor(level / 3), generalGear.length);
 		for (let i = 0; i < gearToAdd; i++) {
 			const randomGear = generalGear.splice(Math.floor(Math.random() * generalGear.length), 1)[0];
@@ -1805,9 +1805,9 @@ class CharacterEditorPage {
 			const finalLevel = Math.max(1, Math.min(20, parseInt(String(requestedLevel)) || 5));
 			const finalName = (characterName && characterName.trim()) || this.generateRandomName();
 			const finalSource = sourceName || 'RANDOM_GENERATED';
-			
+
 			console.log(`Generating random character: Level ${finalLevel}, Name: ${finalName || 'random'}, Source: ${finalSource}`);
-			
+
 			// Use existing generation logic but with provided parameters
 			const randomRace = this.generateRandomRace();
 			const randomClasses = this.generateRandomClasses(finalLevel);
@@ -1874,19 +1874,19 @@ class CharacterEditorPage {
 			messageEl.textContent = `Generated level ${totalLevel} ${finalName}!`;
 			messageEl.style.color = 'green';
 		}
-		
+
 		console.log(`Successfully generated level ${totalLevel} character: ${finalName}`);
-		
+
 		} catch (error) {
 			console.error('Error generating random character:', error);
-			
+
 			// Show error message if possible
 			const messageEl = document.getElementById('message');
 			if (messageEl) {
 				messageEl.textContent = `Error generating character: ${error.message}`;
 				messageEl.style.color = 'red';
 			}
-			
+
 			// Re-throw for upstream handling
 			throw error;
 		}
@@ -2077,7 +2077,7 @@ class CharacterEditorPage {
 
 			// Use CharacterManager for all save operations
 			const success = await CharacterManager.saveCharacter(characterData, isEditMode && currentCharacterData);
-			
+
 			if (success) {
 				if (isEditMode && currentCharacterData) {
 					document.getElementById('message').textContent = 'Character updated successfully';
@@ -2091,7 +2091,7 @@ class CharacterEditorPage {
 					// Update button visibility to show delete button
 					this.updateButtonVisibility();
 				}
-				
+
 				// Ask if user wants to view the character on the characters page
 				setTimeout(() => {
 					if (confirm('Character saved successfully! Would you like to view it on the characters page?')) {

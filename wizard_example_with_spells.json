@@ -1,0 +1,125 @@
+{
+  "character": [
+    {
+      "name": "Elara",
+      "source": "sam",
+      "race": {
+        "name": "High Elf"
+      },
+      "class": [
+        {
+          "name": "Wizard",
+          "source": "PHB",
+          "level": 5,
+          "subclass": {
+            "name": "Evocation",
+            "source": "PHB"
+          },
+          "currentHitDice": 3
+        }
+      ],
+      "alignment": ["L", "G"],
+      "ac": [
+        {
+          "ac": 12,
+          "from": ["natural"]
+        }
+      ],
+      "hp": {
+        "current": 28,
+        "max": 28
+      },
+      "str": 8,
+      "dex": 14,
+      "con": 13,
+      "int": 16,
+      "wis": 12,
+      "cha": 11,
+
+      "deathSaves": {
+        "successes": 0,
+        "failures": 0
+      },
+
+      "customTrackers": [
+        {
+          "name": "Arcane Recovery",
+          "type": "counter",
+          "current": 0,
+          "max": 1,
+          "description": "Recover spell slots once per long rest"
+        },
+        {
+          "name": "Portent Dice",
+          "type": "counter",
+          "current": 2,
+          "max": 2,
+          "description": "Divination Wizard feature (14, 8)"
+        },
+        {
+          "name": "Ritual Casting",
+          "type": "condition",
+          "active": true,
+          "duration": "Permanent",
+          "description": "Can cast spells as rituals"
+        },
+        {
+          "name": "Concentration",
+          "type": "condition",
+          "active": false,
+          "duration": "Variable",
+          "description": "Currently maintaining concentration"
+        }
+      ],
+
+      "spells": {
+        "dc": 14,
+        "attackBonus": "+6",
+        "ability": "Intelligence",
+        "levels": {
+          "0": {
+            "spells": [
+              "mage hand",
+              "minor illusion",
+              "prestidigitation",
+              "fire bolt"
+            ]
+          },
+          "1": {
+            "maxSlots": 4,
+            "slotsUsed": 2,
+            "spells": [
+              "magic missile",
+              "shield",
+              "identify",
+              "detect magic",
+              "alarm",
+              "comprehend languages"
+            ]
+          },
+          "2": {
+            "maxSlots": 3,
+            "slotsUsed": 1,
+            "spells": [
+              "misty step",
+              "web",
+              "scorching ray",
+              "invisibility"
+            ]
+          },
+          "3": {
+            "maxSlots": 2,
+            "slotsUsed": 0,
+            "spells": [
+              "fireball",
+              "counterspell",
+              "dispel magic"
+            ]
+          }
+        }
+      },
+
+      "id": "elara_sam"
+    }
+  ]
+}
