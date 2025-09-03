@@ -1,15 +1,11 @@
 # Complete 5etools Character Creation Guide
 
-This comprehensive guide will walk you through creating a complete D&D 5e character in JSON format for 5etools, from absolute beginner to advanced features.
-
 ## Quick Start Checklist
 
-Before you begin, you'll need:
-- ✅ A text editor (VS Code, Notepad++, or any JSON editor)
-- ✅ Basic understanding of your D&D character concept
-- ✅ Character sheet or notes with stats, class, race, etc.
-- ✅ Access to D&D 5e rules for reference
-
+Before you begin, you should know about:
+- ✅ to have read [from zero to hero](https://wiki.tercept.net/en/Homebrew/FromZeroToHero) to explain the 5e format 
+- ✅ you can use vscode with the [language server](https://marketplace.visualstudio.com/items?itemName=revilowaldow.5etools-language-server) in order to get auto complete if editing the json files outside of the site. this can really help with linking of source material's
+- 
 ## Table of Contents
 
 1. [Step-by-Step Character Creation](#1-step-by-step-character-creation)
@@ -31,22 +27,11 @@ Before you begin, you'll need:
 
 ## 1. Step-by-Step Character Creation
 
-### Step 1: Start with the Basic Template
+### Step 1: Log in to character source 
 
-Create a new file with `.json` extension and start with this template:
-
-```json
-{
-  "character": [
-    {
-      "name": "Your Character Name",
-      "source": "homebrew"
-    }
-  ]
-}
-```
-
-**💡 Important:** Always save as `.json` file type and use a text editor that validates JSON syntax.
+To go [https://5e.bne.sh/sources.html] and login or create a source. 
+after you do this there should be a create character button 
+<img width="250" height="178" alt="image" src="https://github.com/user-attachments/assets/647f787f-1be2-4461-955e-56f3c811d86e" />
 
 ### Step 2: Add Race and Class Information
 
@@ -181,29 +166,6 @@ Every character JSON must follow this exact structure:
   "character": [
     {
       // All character data goes here
-    }
-  ]
-}
-```
-
-### Why This Structure?
-
-- The `character` array allows for multiple character variants
-- 5etools expects this specific format for proper loading
-- The array structure supports future expansions
-
-### Multiple Characters in One File
-
-```json
-{
-  "character": [
-    {
-      "name": "Character Form 1",
-      // character data
-    },
-    {
-      "name": "Character Form 2", 
-      // alternate form data
     }
   ]
 }
