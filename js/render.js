@@ -8666,10 +8666,10 @@ Renderer.character = class {
 				if (hasEditAccess && !isStatic && characterId) {
 					// Editable hit dice with click handlers
 					const clickableCount = `<span class="character-stat-display" data-stat-path="hitDice.${dieType}.current" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" title="Click to edit ${dieType} hit dice used" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
-					combatStats.push(`${clickableCount}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
+					combatStats.push(`Hit Dice: ${clickableCount}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
 				} else {
 					// Static display
-					combatStats.push(`${current}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
+					combatStats.push(`Hit Dice: ${current}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
 				}
 			});
 		}
@@ -8701,11 +8701,10 @@ Renderer.character = class {
 
 		}
 		// Custom Trackers Section - flexible tracking for abilities, items, conditions
-
 		if (combatStats.length > 0) {
 			const combatInfo = {
 				type: "entries",
-				entries: [`<p>${combatStats.join('<br>')}</p>`]
+				entries: [`<div style="display: grid; grid-template-columns: 1fr 1fr;>${combatStats.map(e=> `<div>${e}</div>`).join('')}</div>`]
 			};
 			renderer.recursiveRender(combatInfo, renderStack, {depth: 1});
 		}
