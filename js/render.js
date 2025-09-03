@@ -8601,11 +8601,11 @@ Renderer.character = class {
 				// Create click-to-edit HP display
 				const hpDisplay = `<span class="character-stat-display" data-stat-path="hp.current" data-character-id="${characterId}" data-current-value="${currentHp}" data-max-value="${maxHp}" title="Click to edit" style="cursor: pointer; border-bottom: 1px dashed #666;">${currentHp}</span>/<span>${maxHp}</span>`;
 
-				const tempHpDisplay = hp.temp ? ` (+<span class="character-stat-display" data-stat-path="hp.temp" data-character-id="${characterId}" data-current-value="${hp.temp}" title="Click to edit Temporary HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${hp.temp}</span> temp)` : '';
+				const tempHpDisplay = (typeof hp.temp === 'number') ? ` (+<span class="character-stat-display" data-stat-path="hp.temp" data-character-id="${characterId}" data-current-value="${hp.temp}" title="Click to edit Temporary HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${hp.temp}</span> temp)` : '';
 				combatStats.push(`<strong>HP</strong> ${hpDisplay}${tempHpDisplay}`);
 			} else {
 				// Render static HP display
-				combatStats.push(`<strong>HP</strong> ${currentHp}/${maxHp}${hp.temp ? ` (+${hp.temp} temp)` : ''}`);
+				combatStats.push(`<strong>HP</strong> ${currentHp}/${maxHp}${(typeof hp.temp === 'number') ? ` (+${hp.temp} temp)` : ''}`);
 			}
 		}
 
@@ -9035,7 +9035,6 @@ Renderer.character = class {
 		console.log('DM Screen Debug: Element HTML:', ele.innerHTML.substring(0, 200));
 
 		const statDisplays = $ele.find('.character-stat-display');
-		console.log(`DM Screen Debug: Found ${statDisplays.length} character-stat-display elements`);
 
 		if (statDisplays.length > 0) {
 			statDisplays.each(function(index, elem) {
@@ -9050,29 +9049,12 @@ Renderer.character = class {
 			});
 		}
 
-		// Test if we can bind a simple click handler
-		console.log('DM Screen Debug: Binding click handler to element');
-		$ele.off('click.characterStatTest').on('click.characterStatTest', '.character-stat-display', function(e) {
-			console.log('DM Screen Debug: TEST CLICK HANDLER FIRED!', this);
-		});
-
 		// Click-to-edit functionality for character stats
 		$ele.on('click', '.character-stat-display', function(e) {
-			console.log('DM Screen Debug: Click event detected on character-stat-display');
 			const $display = $(this);
 			const statPath = $display.attr('data-stat-path');
 			const characterId = $display.attr('data-character-id');
 			const currentValue = $display.attr('data-current-value');
-
-			console.log('DM Screen Debug: Character stat clicked:', {
-				element: this,
-				statPath,
-				characterId,
-				currentValue,
-				hasGlobalEditData: !!globalThis._CHARACTER_EDIT_DATA,
-				hasCharacterData: !!(globalThis._CHARACTER_EDIT_DATA && globalThis._CHARACTER_EDIT_DATA[characterId]),
-				globalEditDataKeys: globalThis._CHARACTER_EDIT_DATA ? Object.keys(globalThis._CHARACTER_EDIT_DATA) : 'undefined'
-			});
 
 			// Get character data from global registry
 			if (!globalThis._CHARACTER_EDIT_DATA || !globalThis._CHARACTER_EDIT_DATA[characterId]) {
@@ -15455,7 +15437,51 @@ Renderer.hover = class {
 					() => Renderer.hover._doCloseAllWindows(),
 				),
 			]);
+
+			// Set up character update listener for hover windows
+			Renderer.hover._initCharacterUpdateListener();
 		}
+	}
+
+	static _initCharacterUpdateListener () {
+		// Set up listener for character data changes to refresh hover windows
+		if (globalThis.CharacterManager && !Renderer.hover._characterUpdateHandler) {
+			const characterUpdateHandler = (charactersArray) => {
+				Renderer.hover._refreshCharacterHoverWindows();
+			};
+
+			// Store the handler so we can remove it later if needed
+			Renderer.hover._characterUpdateHandler = characterUpdateHandler;
+			globalThis.CharacterManager.addListener(characterUpdateHandler);
+		}
+	}
+
+	static _refreshCharacterHoverWindows () {
+		// Find all hover windows that display character data and refresh them
+		Object.entries(Renderer.hover._WINDOW_METAS).forEach(([hoverId, windowMeta]) => {
+			// Check if this window contains character data
+			if (windowMeta.sourceData && windowMeta.$content && windowMeta.page === UrlUtil.PG_CHARACTERS) {
+				const character = windowMeta.sourceData;
+				const characterId = character.id || globalThis.CharacterManager?._generateCompositeId(character.name, character.source);
+
+				// Get updated character data
+				const updatedCharacter = globalThis.CharacterManager?.getCharacterById(characterId);
+				if (!updatedCharacter) return;
+
+				// Re-render the content with updated data
+				const fnRender = Renderer.hover.getFnRenderCompact(UrlUtil.PG_CHARACTERS);
+				if (fnRender) {
+					windowMeta.$content.empty().append(fnRender(updatedCharacter));
+
+					// Re-bind event listeners
+					const fnBind = Renderer.hover.getFnBindListenersCompact(UrlUtil.PG_CHARACTERS);
+					if (fnBind) fnBind(updatedCharacter, windowMeta.$content[0]);
+
+					// Update the stored source data
+					windowMeta.sourceData = updatedCharacter;
+				}
+			}
+		});
 	}
 
 	static cleanTempWindows () {
@@ -15667,6 +15693,7 @@ Renderer.hover = class {
 				isBookContent: page === UrlUtil.PG_RECIPES,
 				compactReferenceData,
 				sourceData: toRender,
+				page: page, // Add page information for character refresh functionality
 			},
 		);
 
@@ -16303,6 +16330,13 @@ Renderer.hover = class {
 		hoverWindow.getPosition = Renderer.hover._getShowWindow_getPosition.bind(this, {$hov, $wrpContent, position});
 
 		hoverWindow.$setContent = ($contentNxt) => $wrpContent.empty().append($contentNxt);
+
+		// Store metadata for character refresh functionality
+		if (opts.sourceData) {
+			hoverWindow.sourceData = opts.sourceData;
+			hoverWindow.$content = $content;
+			hoverWindow.page = opts.page; // Store the page information
+		}
 
 		if (opts.isPopout) Renderer.hover._getShowWindow_pDoPopout({$hov, position, mouseUpId, mouseMoveId, resizeId, hoverId, opts, hoverWindow, $content});
 
