@@ -203,6 +203,7 @@ class Board {
 		}
 		this.doCheckFillSpaces({isSkipSave: true});
 		this.initGlobalHandlers();
+		this.initCharacterUpdateListener();
 		await this._pLoadTempData();
 
 		$(document.body)
@@ -218,6 +219,41 @@ class Board {
 
 	initGlobalHandlers () {
 		window.onhashchange = () => this.pDoLoadUrlState();
+	}
+
+	initCharacterUpdateListener () {
+		// Set up listener for character data changes
+		if (globalThis.CharacterManager) {
+			const characterUpdateHandler = (charactersArray) => {
+				// Refresh all character panels when character data changes
+				this.refreshCharacterPanels();
+			};
+			
+			// Store the handler so we can remove it later if needed
+			this._characterUpdateHandler = characterUpdateHandler;
+			globalThis.CharacterManager.addListener(characterUpdateHandler);
+		}
+	}
+
+	refreshCharacterPanels () {
+		// Find all panels that display character stats
+		Object.values(this.panels).forEach(panel => {
+			if (panel.type === PANEL_TYP_STATS && panel.contentMeta && panel.contentMeta.p === UrlUtil.PG_CHARACTERS) {
+				// Re-populate the panel with updated character data
+				const {p: page, s: source, u: hash} = panel.contentMeta;
+				const currentTitle = panel.getTabTitle(panel.tabIndex);
+				panel.doPopulate_Stats(page, source, hash, false, currentTitle);
+			}
+		});
+		
+		// Also refresh any exiled character panels
+		this.exiledPanels.forEach(panel => {
+			if (panel.type === PANEL_TYP_STATS && panel.contentMeta && panel.contentMeta.p === UrlUtil.PG_CHARACTERS) {
+				const {p: page, s: source, u: hash} = panel.contentMeta;
+				const currentTitle = panel.getTabTitle(panel.tabIndex);
+				panel.doPopulate_Stats(page, source, hash, false, currentTitle);
+			}
+		});
 	}
 
 	async _pLoadTempData () {
@@ -657,6 +693,12 @@ class Board {
 	}
 
 	doReset () {
+		// Clean up character update listener
+		if (this._characterUpdateHandler && globalThis.CharacterManager) {
+			globalThis.CharacterManager.removeListener(this._characterUpdateHandler);
+			this._characterUpdateHandler = null;
+		}
+		
 		this.exiledPanels.forEach(p => p.destroy());
 		this.exiledPanels = [];
 		this.sideMenu.doUpdateHistory();
