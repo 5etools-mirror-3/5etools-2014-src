@@ -263,7 +263,7 @@ class CharacterEditorPage {
 			customTrackers: this.generateRandomTrackers(randomClasses),
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
-			entries: this.generateRandomEntries(randomRace, randomClasses),
+			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment),
 			fluff: {
 				entries: [
 					`${randomName} is a ${totalLevel === 1 ? 'beginning' : totalLevel < 5 ? 'novice' : totalLevel < 10 ? 'experienced' : 'veteran'} adventurer with a ${this.getPersonalityTrait()}.`,
@@ -271,7 +271,6 @@ class CharacterEditorPage {
 					this.getBackgroundStory(randomBackground.name)
 				]
 			},
-			equipment: randomEquipment,
 			languages: this.generateRandomLanguages(randomRace, randomClasses),
 			currency: this.generateRandomCurrency(totalLevel)
 		};
@@ -485,7 +484,7 @@ class CharacterEditorPage {
 				source: classTemplate.source,
 				level: levelsForThisClass,
 				subclass: this.getSubclassForClass(className),
-				currentHitDice: Math.max(1, Math.floor(levelsForThisClass * (0.5 + Math.random() * 0.5))) // Random hit dice between 50-100% of level
+				currentHitDice: levelsForThisClass // Hit dice should equal the level in that class
 			});
 
 			remainingLevels -= levelsForThisClass;
@@ -834,44 +833,228 @@ class CharacterEditorPage {
 		const actions = [];
 		const totalLevel = classes.reduce((sum, cls) => sum + cls.level, 0);
 		const profBonus = Math.ceil(totalLevel / 4) + 1;
+		const strMod = Math.floor((abilityScores.str - 10) / 2);
+		const dexMod = Math.floor((abilityScores.dex - 10) / 2);
+		const chaMod = Math.floor((abilityScores.cha - 10) / 2);
+		const wisMod = Math.floor((abilityScores.wis - 10) / 2);
+		const intMod = Math.floor((abilityScores.int - 10) / 2);
 
-		// Weapon attacks based on class
+		// Weapon attacks based on class with more variety
 		classes.forEach(cls => {
 			switch (cls.name) {
 				case "Fighter":
-				case "Paladin":
-					const strMod = Math.floor((abilityScores.str - 10) / 2);
 					actions.push({
 						name: "{@item Longsword|phb}",
-						entries: [`{@atk rm} {@hit ${strMod + profBonus}} ({@damage 1d8 + ${strMod}})`]
+						entries: [`{@atk rm} {@hit ${strMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + strMod + (cls.level >= 11 ? 2 : cls.level >= 5 ? 1 : 0)} ({@damage 1d8 + ${strMod}}) slashing damage.`]
 					});
+					actions.push({
+						name: "{@item Javelin|phb}",
+						entries: [`{@atk rm,rw} {@hit ${strMod + profBonus}} to hit, reach 5 ft. or range 30/120 ft., one target. {@h}${1 + strMod} ({@damage 1d6 + ${strMod}}) piercing damage.`]
+					});
+					if (cls.level >= 2) {
+						actions.push({
+							name: "Action Surge (Recharge 5-6)",
+							entries: ["Take one additional action on your turn."]
+						});
+					}
+					if (cls.level >= 5) {
+						actions.push({
+							name: "Extra Attack",
+							entries: ["When you take the Attack action, you can attack twice instead of once."]
+						});
+					}
 					break;
+
+				case "Paladin":
+					actions.push({
+						name: "{@item Longsword|phb}",
+						entries: [`{@atk rm} {@hit ${strMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + strMod} ({@damage 1d8 + ${strMod}}) slashing damage.`]
+					});
+					if (cls.level >= 2) {
+						actions.push({
+							name: "Divine Smite",
+							entries: [`When you hit with a melee weapon attack, expend a spell slot to deal additional radiant damage: 2d8 + 1d8 per spell level above 1st.`]
+						});
+					}
+					if (cls.level >= 3) {
+						actions.push({
+							name: "Lay on Hands",
+							entries: [`Heal ${cls.level * 5} hit points per long rest, distributed as you choose. Can also cure disease or poison.`]
+						});
+					}
+					break;
+
 				case "Rogue":
-				case "Ranger":
-					const dexMod = Math.floor((abilityScores.dex - 10) / 2);
 					actions.push({
 						name: "{@item Shortbow|phb}",
-						entries: [`{@atk rw} {@hit ${dexMod + profBonus}} ({@damage 1d6 + ${dexMod}})`]
+						entries: [`{@atk rw} {@hit ${dexMod + profBonus}} to hit, range 80/320 ft., one target. {@h}${1 + dexMod} ({@damage 1d6 + ${dexMod}}) piercing damage.`]
 					});
+					actions.push({
+						name: "{@item Dagger|phb}",
+						entries: [`{@atk rm,rw} {@hit ${dexMod + profBonus}} to hit, reach 5 ft. or range 20/60 ft., one target. {@h}${1 + dexMod} ({@damage 1d4 + ${dexMod}}) piercing damage.`]
+					});
+					actions.push({
+						name: "Sneak Attack (1/Turn)",
+						entries: [`Deal an extra ${Math.ceil(cls.level / 2)}d6 damage when you hit a target with a finesse or ranged weapon and have advantage, or when another enemy of the target is within 5 feet.`]
+					});
+					if (cls.level >= 2) {
+						actions.push({
+							name: "Cunning Action",
+							entries: ["Take the Dash, Disengage, or Hide action as a bonus action."]
+						});
+					}
 					break;
+
+				case "Ranger":
+					actions.push({
+						name: "{@item Longbow|phb}",
+						entries: [`{@atk rw} {@hit ${dexMod + profBonus}} to hit, range 150/600 ft., one target. {@h}${1 + dexMod} ({@damage 1d8 + ${dexMod}}) piercing damage.`]
+					});
+					actions.push({
+						name: "{@item Scimitar|phb}",
+						entries: [`{@atk rm} {@hit ${dexMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + dexMod} ({@damage 1d6 + ${dexMod}}) slashing damage.`]
+					});
+					if (cls.level >= 3) {
+						actions.push({
+							name: "Hunter's Mark",
+							entries: ["Choose a creature you can see within 90 feet. Deal an extra 1d6 damage when you hit it with a weapon attack."]
+						});
+					}
+					break;
+
 				case "Wizard":
-				case "Sorcerer":
-				case "Warlock":
 					actions.push({
 						name: "{@spell Fire Bolt}",
-						entries: [`{@atk rs} {@hit ${profBonus + Math.floor((abilityScores.cha - 10) / 2)}} ({@damage 1d10})`]
+						entries: [`{@atk rs} {@hit ${intMod + profBonus}} to hit, range 120 ft., one target. {@h}${1 + Math.floor(totalLevel / 5)} ({@damage ${Math.ceil((totalLevel + 5) / 6)}d10}) fire damage.`]
 					});
+					actions.push({
+						name: "{@item Dagger|phb}",
+						entries: [`{@atk rm,rw} {@hit ${dexMod + profBonus}} to hit, reach 5 ft. or range 20/60 ft., one target. {@h}${1 + dexMod} ({@damage 1d4 + ${dexMod}}) piercing damage.`]
+					});
+					if (cls.level >= 2) {
+						actions.push({
+							name: "Arcane Recovery",
+							entries: [`Once per day during a short rest, recover spell slots with a combined level of ${Math.ceil(cls.level / 2)}.`]
+						});
+					}
+					break;
+
+				case "Sorcerer":
+					actions.push({
+						name: "{@spell Fire Bolt}",
+						entries: [`{@atk rs} {@hit ${chaMod + profBonus}} to hit, range 120 ft., one target. {@h}${1 + Math.floor(totalLevel / 5)} ({@damage ${Math.ceil((totalLevel + 5) / 6)}d10}) fire damage.`]
+					});
+					if (cls.level >= 3) {
+						actions.push({
+							name: "Metamagic",
+							entries: [`Use sorcery points to modify spells. Known options vary by level.`]
+						});
+					}
+					break;
+
+				case "Warlock":
+					actions.push({
+						name: "{@spell Eldritch Blast}",
+						entries: [`{@atk rs} {@hit ${chaMod + profBonus}} to hit, range 120 ft., one creature. {@h}${1 + chaMod} ({@damage 1d10 + ${chaMod}}) force damage. ${cls.level >= 5 ? 'Two beams.' : cls.level >= 11 ? 'Three beams.' : cls.level >= 17 ? 'Four beams.' : 'One beam.'}`]
+					});
+					if (cls.level >= 2) {
+						actions.push({
+							name: "Eldritch Invocations",
+							entries: [`Various magical abilities known. Current invocations determined by level and patron.`]
+						});
+					}
+					break;
+
+				case "Cleric":
+					actions.push({
+						name: "{@item Mace|phb}",
+						entries: [`{@atk rm} {@hit ${strMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + strMod} ({@damage 1d6 + ${strMod}}) bludgeoning damage.`]
+					});
+					actions.push({
+						name: "{@spell Sacred Flame}",
+						entries: [`Target must make a DC ${8 + profBonus + wisMod} Dexterity saving throw or take ${Math.ceil((totalLevel + 5) / 6)}d8 radiant damage.`]
+					});
+					if (cls.level >= 2) {
+						actions.push({
+							name: "Channel Divinity (1/Rest)",
+							entries: [`Turn Undead or domain-specific effect. Save DC ${8 + profBonus + wisMod}.`]
+						});
+					}
+					break;
+
+				case "Druid":
+					actions.push({
+						name: "{@spell Druidcraft}",
+						entries: [`Create various minor nature effects within 30 feet.`]
+					});
+					actions.push({
+						name: "{@item Scimitar|phb}",
+						entries: [`{@atk rm} {@hit ${dexMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + dexMod} ({@damage 1d6 + ${dexMod}}) slashing damage.`]
+					});
+					if (cls.level >= 2) {
+						actions.push({
+							name: "Wild Shape (2/Rest)",
+							entries: [`Transform into a beast for ${cls.level} hours. Beast CR limited by level.`]
+						});
+					}
+					break;
+
+				case "Barbarian":
+					actions.push({
+						name: "{@item Greataxe|phb}",
+						entries: [`{@atk rm} {@hit ${strMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + strMod} ({@damage 1d12 + ${strMod}}) slashing damage.`]
+					});
+					actions.push({
+						name: "Rage (Bonus Action)",
+						entries: [`Gain resistance to bludgeoning, piercing, and slashing damage. +${Math.floor(cls.level / 9) + 2} damage on Strength-based attacks. Lasts 10 rounds.`]
+					});
+					if (cls.level >= 2) {
+						actions.push({
+							name: "Reckless Attack",
+							entries: [`Gain advantage on Strength-based attack rolls, but enemies have advantage against you until your next turn.`]
+						});
+					}
+					break;
+
+				case "Bard":
+					actions.push({
+						name: "{@item Rapier|phb}",
+						entries: [`{@atk rm} {@hit ${dexMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + dexMod} ({@damage 1d8 + ${dexMod}}) piercing damage.`]
+					});
+					actions.push({
+						name: "{@spell Vicious Mockery}",
+						entries: [`Target must make a DC ${8 + profBonus + chaMod} Wisdom saving throw or take ${Math.ceil((totalLevel + 5) / 6)}d4 psychic damage and have disadvantage on next attack.`]
+					});
+					if (cls.level >= 3) {
+						actions.push({
+							name: "Bardic Inspiration (Bonus Action)",
+							entries: [`Give an ally a d${cls.level < 5 ? 6 : cls.level < 10 ? 8 : cls.level < 15 ? 10 : 12} they can add to an attack, ability check, or saving throw. ${chaMod} uses per rest.`]
+						});
+					}
+					break;
+
+				case "Monk":
+					actions.push({
+						name: "Unarmed Strike",
+						entries: [`{@atk rm} {@hit ${dexMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + dexMod} ({@damage 1d${cls.level < 5 ? 4 : cls.level < 11 ? 6 : cls.level < 17 ? 8 : 10} + ${dexMod}}) bludgeoning damage.`]
+					});
+					if (cls.level >= 2) {
+						actions.push({
+							name: "Flurry of Blows (1 Ki Point)",
+							entries: [`After taking the Attack action, spend 1 ki point to make two unarmed strikes as a bonus action.`]
+						});
+						actions.push({
+							name: "Patient Defense (1 Ki Point)",
+							entries: [`Take the Dodge action as a bonus action.`]
+						});
+						actions.push({
+							name: "Step of the Wind (1 Ki Point)",
+							entries: [`Take Dash or Disengage as bonus action. Jump distance doubled for the turn.`]
+						});
+					}
 					break;
 			}
 		});
-
-		// Special abilities
-		if (classes.some(cls => cls.name === "Rogue" && cls.level >= 1)) {
-			actions.push({
-				name: "Sneak Attack",
-				entries: [`Once per turn, add ${Math.ceil(classes.find(cls => cls.name === "Rogue").level / 2)}d6 damage when you have advantage`]
-			});
-		}
 
 		return actions;
 	}
@@ -926,7 +1109,7 @@ class CharacterEditorPage {
 			if (maxSlots > 0) {
 				levels[level] = {
 					maxSlots: maxSlots,
-					slotsUsed: Math.floor(Math.random() * (maxSlots + 1)),
+					slotsUsed: maxSlots,
 					spells: this.getRandomSpells(casterClass, level)
 				};
 			}
@@ -936,6 +1119,27 @@ class CharacterEditorPage {
 	}
 
 	getSpellSlotsForLevel(casterClass, spellLevel) {
+		// Special handling for Warlock - they have unique slot mechanics
+		if (casterClass.name === "Warlock") {
+			const warlockLevel = casterClass.level;
+			
+			// Warlock slot progression
+			let slotLevel, numSlots;
+			if (warlockLevel >= 17) { slotLevel = 5; numSlots = 4; }
+			else if (warlockLevel >= 15) { slotLevel = 5; numSlots = 3; }
+			else if (warlockLevel >= 11) { slotLevel = 5; numSlots = 3; }
+			else if (warlockLevel >= 9) { slotLevel = 5; numSlots = 2; }
+			else if (warlockLevel >= 7) { slotLevel = 4; numSlots = 2; }
+			else if (warlockLevel >= 5) { slotLevel = 3; numSlots = 2; }
+			else if (warlockLevel >= 3) { slotLevel = 2; numSlots = 2; }
+			else if (warlockLevel >= 1) { slotLevel = 1; numSlots = 1; }
+			else return 0;
+			
+			// Warlocks only have slots at their highest available level
+			return spellLevel === slotLevel ? numSlots : 0;
+		}
+
+		// Regular full caster progression
 		const fullCasterSlots = [
 			[2, 0, 0, 0, 0, 0, 0, 0, 0], // Level 1
 			[3, 0, 0, 0, 0, 0, 0, 0, 0], // Level 2
@@ -979,7 +1183,7 @@ class CharacterEditorPage {
 		return spells.slice(0, 2 + Math.floor(Math.random() * 3));
 	}
 
-	generateRandomEntries(race, classes) {
+	generateRandomEntries(race, classes, equipment) {
 		const entries = [
 			{
 				type: "entries",
@@ -993,6 +1197,11 @@ class CharacterEditorPage {
 				type: "section",
 				name: "Features & Traits",
 				entries: this.generateClassFeatures(classes)
+			},
+			{
+				type: "section",
+				name: "Items",
+				entries: equipment || []
 			}
 		];
 
@@ -1008,29 +1217,385 @@ class CharacterEditorPage {
 					features.push({
 						type: "entries",
 						name: "Fighting Style",
-						entries: ["Choose a fighting style that defines your combat approach."]
+						entries: ["Choose a fighting style that defines your combat approach: Defense (+1 AC), Dueling (+2 damage with one-handed weapons), Great Weapon Fighting (reroll 1s and 2s on damage), or Archery (+2 attack with ranged weapons)."]
 					});
 					if (cls.level >= 2) {
 						features.push({
 							type: "entries",
 							name: "Action Surge",
-							entries: ["Once per short rest, take an additional action on your turn."]
+							entries: [`Once per short rest, take an additional action on your turn. At 17th level, you can use this feature twice before a rest.`]
+						});
+					}
+					if (cls.level >= 3) {
+						features.push({
+							type: "entries",
+							name: "Martial Archetype",
+							entries: ["Choose your specialization: Champion (improved critical hits), Battle Master (combat maneuvers), or Eldritch Knight (spellcasting)."]
+						});
+					}
+					if (cls.level >= 4) {
+						features.push({
+							type: "entries",
+							name: "Ability Score Improvement",
+							entries: [`You have improved your abilities or gained a feat. This feature is gained at levels 4, 6, 8, 12, 14, 16, and 19.`]
+						});
+					}
+					if (cls.level >= 5) {
+						features.push({
+							type: "entries",
+							name: "Extra Attack",
+							entries: [`When you take the Attack action, you can attack ${cls.level >= 20 ? 'four' : cls.level >= 11 ? 'three' : 'two'} times instead of once.`]
+						});
+					}
+					if (cls.level >= 9) {
+						features.push({
+							type: "entries",
+							name: "Indomitable",
+							entries: [`Reroll a failed saving throw. You can use this feature ${cls.level >= 17 ? '3' : cls.level >= 13 ? '2' : '1'} time(s) per long rest.`]
 						});
 					}
 					break;
+
+				case "Paladin":
+					features.push({
+						type: "entries",
+						name: "Divine Sense",
+						entries: [`Detect celestials, fiends, and undead within 60 feet. ${1 + Math.floor((abilityScores?.cha - 10) / 2) || 3} uses per long rest.`]
+					});
+					if (cls.level >= 2) {
+						features.push({
+							type: "entries",
+							name: "Divine Smite",
+							entries: ["When you hit with a melee weapon attack, you can expend a spell slot to deal 2d8 radiant damage, plus 1d8 for each spell level above 1st (max 5d8). +1d8 vs undead/fiends."]
+						});
+						features.push({
+							type: "entries",
+							name: "Lay on Hands",
+							entries: [`Heal ${cls.level * 5} hit points per long rest, distributed as you choose. Can also cure one disease or neutralize one poison.`]
+						});
+					}
+					if (cls.level >= 3) {
+						features.push({
+							type: "entries",
+							name: "Sacred Oath",
+							entries: ["Your sacred oath defines your purpose: Devotion (protection and honesty), Ancients (preserve life and joy), or Vengeance (punish wrongdoers)."]
+						});
+						features.push({
+							type: "entries",
+							name: "Channel Divinity",
+							entries: ["Use your sacred oath's supernatural abilities once per rest. Options depend on your chosen oath."]
+						});
+					}
+					if (cls.level >= 6) {
+						features.push({
+							type: "entries",
+							name: "Aura of Protection",
+							entries: [`You and friendly creatures within ${cls.level >= 18 ? '30' : '10'} feet add your Charisma modifier to saving throws.`]
+						});
+					}
+					break;
+
 				case "Wizard":
 					features.push({
 						type: "entries",
 						name: "Spellbook",
-						entries: ["Your spellbook contains the spells you have learned and can prepare."]
+						entries: ["Your spellbook contains the spells you have learned and can prepare. You can copy new spells into it from scrolls and other spellbooks."]
 					});
+					features.push({
+						type: "entries",
+						name: "Ritual Casting",
+						entries: ["You can cast spells with the ritual tag as rituals if they're in your spellbook, without expending a spell slot but taking 10 minutes longer."]
+					});
+					if (cls.level >= 2) {
+						features.push({
+							type: "entries",
+							name: "Arcane Tradition",
+							entries: ["Choose your school of magic: Evocation (destructive spells), Divination (foresight and knowledge), Enchantment (charm and control), or others."]
+						});
+						features.push({
+							type: "entries",
+							name: "Arcane Recovery",
+							entries: [`Once per day during a short rest, recover spell slots with a combined level of ${Math.ceil(cls.level / 2)} or lower.`]
+						});
+					}
+					if (cls.level >= 18) {
+						features.push({
+							type: "entries",
+							name: "Spell Mastery",
+							entries: ["Choose one 1st-level and one 2nd-level spell. You can cast them at will without expending spell slots."]
+						});
+					}
 					break;
+
 				case "Rogue":
 					features.push({
 						type: "entries",
 						name: "Sneak Attack",
-						entries: [`Deal an extra ${Math.ceil(cls.level / 2)}d6 damage when you have advantage on an attack.`]
+						entries: [`Deal an extra ${Math.ceil(cls.level / 2)}d6 damage when you have advantage on an attack with a finesse or ranged weapon, or when another enemy is within 5 feet of your target.`]
 					});
+					features.push({
+						type: "entries",
+						name: "Thieves' Cant",
+						entries: ["You know the secret language of rogues, allowing you to hide messages in seemingly normal conversation."]
+					});
+					if (cls.level >= 2) {
+						features.push({
+							type: "entries",
+							name: "Cunning Action",
+							entries: ["Use a bonus action to Dash, Disengage, or Hide."]
+						});
+					}
+					if (cls.level >= 3) {
+						features.push({
+							type: "entries",
+							name: "Roguish Archetype",
+							entries: ["Your specialty: Thief (climbing and stealing), Assassin (stealth and poison), or Arcane Trickster (magic and misdirection)."]
+						});
+					}
+					if (cls.level >= 5) {
+						features.push({
+							type: "entries",
+							name: "Uncanny Dodge",
+							entries: ["When an attacker you can see hits you, use your reaction to halve the damage."]
+						});
+					}
+					if (cls.level >= 7) {
+						features.push({
+							type: "entries",
+							name: "Evasion",
+							entries: ["When you make a Dexterity saving throw against an effect that deals half damage on success, you take no damage on success and half on failure."]
+						});
+					}
+					break;
+
+				case "Cleric":
+					features.push({
+						type: "entries",
+						name: "Divine Domain",
+						entries: ["Your domain grants additional spells and abilities: Life (healing), Light (radiant damage), War (combat prowess), or others based on your deity."]
+					});
+					if (cls.level >= 2) {
+						features.push({
+							type: "entries",
+							name: "Channel Divinity",
+							entries: [`Use divine energy to fuel magical effects. You can Turn Undead and use your domain feature ${cls.level >= 18 ? '3' : cls.level >= 6 ? '2' : '1'} time(s) per rest.`]
+						});
+					}
+					if (cls.level >= 5) {
+						features.push({
+							type: "entries",
+							name: "Destroy Undead",
+							entries: [`When you turn undead, creatures of CR ${Math.floor((cls.level - 5) / 3) + 1/2} or lower are destroyed instead of turned.`]
+						});
+					}
+					if (cls.level >= 10) {
+						features.push({
+							type: "entries",
+							name: "Divine Intervention",
+							entries: [`Once per day, call upon your deity for aid. Roll d100; success if you roll your cleric level or lower. On success, the DM chooses appropriate divine aid.`]
+						});
+					}
+					break;
+
+				case "Barbarian":
+					features.push({
+						type: "entries",
+						name: "Rage",
+						entries: [`Enter a battle fury ${cls.level < 3 ? '2' : cls.level < 6 ? '3' : cls.level < 12 ? '4' : cls.level < 17 ? '5' : '6'} times per long rest. Gain resistance to physical damage and +${Math.floor(cls.level / 9) + 2} damage on Strength attacks.`]
+					});
+					features.push({
+						type: "entries",
+						name: "Unarmored Defense",
+						entries: ["While not wearing armor, your AC equals 10 + Dex modifier + Con modifier."]
+					});
+					if (cls.level >= 2) {
+						features.push({
+							type: "entries",
+							name: "Reckless Attack",
+							entries: ["Gain advantage on Strength-based melee attacks, but enemies have advantage against you until your next turn."]
+						});
+						features.push({
+							type: "entries",
+							name: "Danger Sense",
+							entries: ["Advantage on Dexterity saving throws against effects you can see (traps, spells, etc.) while not blinded, deafened, or incapacitated."]
+						});
+					}
+					if (cls.level >= 3) {
+						features.push({
+							type: "entries",
+							name: "Primal Path",
+							entries: ["Your barbarian path: Path of the Berserker (frenzied combat), Path of the Totem Warrior (spiritual animals), or other primal traditions."]
+						});
+					}
+					break;
+
+				case "Ranger":
+					features.push({
+						type: "entries",
+						name: "Favored Enemy",
+						entries: ["Choose a creature type. You have advantage on Wisdom (Survival) checks to track them and Intelligence checks to recall information about them."]
+					});
+					features.push({
+						type: "entries",
+						name: "Natural Explorer",
+						entries: ["Choose a favored terrain. You and your party move stealthily at normal pace and remain alert while tracking, foraging, or navigating."]
+					});
+					if (cls.level >= 2) {
+						features.push({
+							type: "entries",
+							name: "Fighting Style",
+							entries: ["Choose Archery (+2 ranged attacks), Defense (+1 AC), Dueling (+2 one-handed damage), or Two-Weapon Fighting (add ability modifier to off-hand damage)."]
+						});
+					}
+					if (cls.level >= 3) {
+						features.push({
+							type: "entries",
+							name: "Hunter Conclave",
+							entries: ["Your ranger specialization: Hunter (monster slaying), Beast Master (animal companion), or other ranger traditions."]
+						});
+					}
+					break;
+
+				case "Warlock":
+					features.push({
+						type: "entries",
+						name: "Otherworldly Patron",
+						entries: ["Your patron grants you power: The Fiend (hellish magic), The Great Old One (alien mysteries), The Archfey (fey magic), or others."]
+					});
+					features.push({
+						type: "entries",
+						name: "Pact Magic",
+						entries: [`Your spell slots recharge on a short rest. You have ${cls.level < 2 ? '1' : cls.level < 11 ? '2' : cls.level < 17 ? '3' : '4'} spell slots of level ${cls.level < 3 ? '1' : cls.level < 5 ? '2' : cls.level < 7 ? '3' : cls.level < 9 ? '4' : '5'}.`]
+					});
+					if (cls.level >= 2) {
+						features.push({
+							type: "entries",
+							name: "Eldritch Invocations",
+							entries: [`Learn ${Math.floor((cls.level + 1) / 3) + 1} magical abilities that enhance your warlock powers. These can be changed when you gain a level.`]
+						});
+					}
+					if (cls.level >= 3) {
+						features.push({
+							type: "entries",
+							name: "Pact Boon",
+							entries: ["Choose your pact: Pact of the Chain (familiar), Pact of the Blade (weapon), Pact of the Tome (spells), or others depending on your patron."]
+						});
+					}
+					break;
+
+				case "Sorcerer":
+					features.push({
+						type: "entries",
+						name: "Sorcerous Origin",
+						entries: ["The source of your magic: Draconic Bloodline (dragon heritage), Wild Magic (chaotic surges), or other magical origins."]
+					});
+					if (cls.level >= 2) {
+						features.push({
+							type: "entries",
+							name: "Font of Magic",
+							entries: [`You have ${cls.level} sorcery points that recharge on a long rest. Convert between sorcery points and spell slots as a bonus action.`]
+						});
+					}
+					if (cls.level >= 3) {
+						features.push({
+							type: "entries",
+							name: "Metamagic",
+							entries: [`Learn ${Math.floor((cls.level - 1) / 4) + 2} ways to modify spells: Twinned (target two creatures), Quickened (cast as bonus action), Empowered (reroll damage), etc.`]
+						});
+					}
+					break;
+
+				case "Druid":
+					features.push({
+						type: "entries",
+						name: "Druidcraft",
+						entries: ["You know the druidcraft cantrip and can use it to create various minor nature effects."]
+					});
+					if (cls.level >= 2) {
+						features.push({
+							type: "entries",
+							name: "Wild Shape",
+							entries: [`Transform into a beast ${cls.level < 20 ? '2' : 'unlimited'} times per rest. Beast CR and restrictions depend on your level.`]
+						});
+						features.push({
+							type: "entries",
+							name: "Druid Circle",
+							entries: ["Your circle: Circle of the Land (bonus spells and recovery), Circle of the Moon (enhanced wild shape), or other druidic traditions."]
+						});
+					}
+					if (cls.level >= 18) {
+						features.push({
+							type: "entries",
+							name: "Timeless Body",
+							entries: ["You age more slowly and can't be aged magically. For every 10 years that pass, your body ages only 1 year."]
+						});
+					}
+					break;
+
+				case "Bard":
+					features.push({
+						type: "entries",
+						name: "Bardic Inspiration",
+						entries: [`As a bonus action, give an ally a d${cls.level < 5 ? '6' : cls.level < 10 ? '8' : cls.level < 15 ? '10' : '12'} to add to an attack, ability check, or saving throw. ${Math.floor((abilityScores?.cha - 10) / 2) + 1 || 3} uses per rest.`]
+					});
+					if (cls.level >= 2) {
+						features.push({
+							type: "entries",
+							name: "Jack of All Trades",
+							entries: ["Add half your proficiency bonus to any ability check that doesn't already include it."]
+						});
+					}
+					if (cls.level >= 3) {
+						features.push({
+							type: "entries",
+							name: "Bard College",
+							entries: ["Your specialization: College of Lore (knowledge and skills), College of Valor (combat prowess), or other bardic traditions."]
+						});
+						features.push({
+							type: "entries",
+							name: "Expertise",
+							entries: ["Double your proficiency bonus for two chosen skills. Gain two more at 10th level."]
+						});
+					}
+					break;
+
+				case "Monk":
+					features.push({
+						type: "entries",
+						name: "Unarmored Defense",
+						entries: ["While unarmored and not using a shield, AC = 10 + Dex modifier + Wis modifier."]
+					});
+					features.push({
+						type: "entries",
+						name: "Martial Arts",
+						entries: [`Unarmed strikes and monk weapons use d${cls.level < 5 ? '4' : cls.level < 11 ? '6' : cls.level < 17 ? '8' : '10'} for damage and can use Dex instead of Str. When you attack with these, you can make an unarmed strike as a bonus action.`]
+					});
+					if (cls.level >= 2) {
+						features.push({
+							type: "entries",
+							name: "Ki",
+							entries: [`You have ${cls.level} ki points. Spend 1 to use Flurry of Blows, Patient Defense, or Step of the Wind as bonus actions.`]
+						});
+						features.push({
+							type: "entries",
+							name: "Unarmored Movement",
+							entries: [`Your speed increases by ${Math.floor(cls.level / 6) * 5 + 10} feet while unarmored.`]
+						});
+					}
+					if (cls.level >= 3) {
+						features.push({
+							type: "entries",
+							name: "Monastic Tradition",
+							entries: ["Your path: Way of the Open Hand (combat techniques), Way of Shadow (stealth and infiltration), or other monastic traditions."]
+						});
+					}
+					if (cls.level >= 4) {
+						features.push({
+							type: "entries",
+							name: "Slow Fall",
+							entries: [`Reduce falling damage by ${cls.level * 5} points as a reaction.`]
+						});
+					}
 					break;
 			}
 		});
@@ -1106,59 +1671,162 @@ class CharacterEditorPage {
 	}
 
 	generateRandomEquipment(classes, level) {
-		const equipment = ["Explorer's Pack", "Bedroll", "Rope (50 feet)", "Tinderbox"];
+		const equipment = ["Explorer's Pack", "Bedroll", "Rope (50 feet)", "Tinderbox", "Rations (10 days)", "Waterskin", "Hempen Rope", "Torch (x5)"];
 		
-		// Add class-specific equipment
+		// Add class-specific equipment with more variety
 		classes.forEach(cls => {
 			switch (cls.name) {
 				case "Fighter":
 				case "Paladin":
-					equipment.push("Plate Armor", "Longsword", "Shield");
+					equipment.push(
+						level >= 5 ? "Plate Armor" : "Chain Mail",
+						"Longsword", "Shield", "Javelin (x4)", "Handaxe (x2)",
+						level >= 3 ? "Silvered Weapon" : "Whetstone"
+					);
+					if (cls.name === "Paladin") {
+						equipment.push("Holy Symbol", "Prayer Book", "Holy Water");
+					}
 					break;
 				case "Rogue":
+					equipment.push(
+						"Leather Armor", "Shortbow", "Arrows (x20)", "Thieves' Tools",
+						"Burglar's Pack", "Dagger (x2)", "Shortsword", "Caltrops",
+						level >= 3 ? "Poisoner's Kit" : "Ball Bearings"
+					);
+					break;
 				case "Ranger":
-					equipment.push("Leather Armor", "Shortbow", "Thieves' Tools");
+					equipment.push(
+						"Studded Leather Armor", "Longbow", "Arrows (x20)", "Scimitar (x2)",
+						"Survival Kit", "Hunting Trap", "Net", "Herbalism Kit",
+						level >= 2 ? "Component Pouch" : "Druidcraft Focus"
+					);
 					break;
 				case "Wizard":
-					equipment.push("Spellbook", "Component Pouch", "Dagger");
+					equipment.push(
+						"Spellbook", "Component Pouch", "Dagger", "Quarterstaff",
+						"Scholar's Pack", "Ink and Quill", "Spell Scroll (x2)",
+						level >= 3 ? "Arcane Focus (Crystal)" : "Arcane Focus (Wand)",
+						level >= 5 ? "Scroll Case" : "Parchment (x10)"
+					);
+					break;
+				case "Sorcerer":
+					equipment.push(
+						"Dagger (x2)", "Component Pouch", "Light Crossbow", "Bolts (x20)",
+						"Dungeoneer's Pack", "Arcane Focus (Crystal)",
+						level >= 3 ? "Metamagic Focus" : "Simple Weapon"
+					);
+					break;
+				case "Warlock":
+					equipment.push(
+						"Leather Armor", "Simple Weapon", "Dagger (x2)",
+						"Component Pouch", "Scholar's Pack", "Arcane Focus (Rod)",
+						level >= 3 ? "Pact Weapon" : "Light Crossbow and Bolts"
+					);
 					break;
 				case "Cleric":
-					equipment.push("Chain Mail", "Holy Symbol", "Mace");
+					equipment.push(
+						level >= 5 ? "Chain Mail" : "Leather Armor",
+						"Shield", "Mace", "Holy Symbol", "Priest's Pack",
+						"Prayer Book", "Holy Water", "Incense",
+						level >= 3 ? "Blessed Weapon" : "Simple Weapon"
+					);
+					break;
+				case "Druid":
+					equipment.push(
+						"Leather Armor", "Shield", "Scimitar", "Javelin (x4)",
+						"Herbalism Kit", "Wooden Shield", "Druidcraft Focus",
+						"Bedroll", level >= 2 ? "Wild Shape Focus" : "Nature Kit"
+					);
+					break;
+				case "Barbarian":
+					equipment.push(
+						"Unarmored Defense", "Greataxe", "Handaxe (x2)", "Javelin (x4)",
+						"Explorer's Pack", "Tribal Tokens",
+						level >= 3 ? "Rage Trinket" : "Hunting Gear"
+					);
+					break;
+				case "Bard":
+					equipment.push(
+						"Leather Armor", "Rapier", "Dagger", "Musical Instrument",
+						"Entertainer's Pack", "Lute", "Costume",
+						level >= 3 ? "Magical Instrument" : "Performance Props"
+					);
+					break;
+				case "Monk":
+					equipment.push(
+						"Simple Weapon", "Dart (x10)", "Dungeoneer's Pack",
+						"Meditation Beads", "Incense", "Prayer Wheel",
+						level >= 3 ? "Ki Focus" : "Simple Tools"
+					);
 					break;
 			}
 		});
 
-		// Add random magic items for higher levels
+		// Add level-appropriate magic items and equipment
+		if (level >= 3) {
+			const uncommonItems = ["Potion of Healing", "Bag of Holding", "Cloak of Protection", "Boots of Elvenkind", "Bracers of Archery"];
+			equipment.push(uncommonItems[Math.floor(Math.random() * uncommonItems.length)]);
+		}
+		
 		if (level >= 5) {
-			const magicItems = ["Potion of Healing", "Bag of Holding", "Cloak of Protection"];
-			equipment.push(magicItems[Math.floor(Math.random() * magicItems.length)]);
+			const rareItems = ["+1 Weapon", "Ring of Protection", "Cloak of Displacement", "Wand of Magic Missiles"];
+			equipment.push(rareItems[Math.floor(Math.random() * rareItems.length)]);
+		}
+
+		if (level >= 8) {
+			const veryRareItems = ["+2 Weapon", "Belt of Giant Strength", "Amulet of Health", "Rod of Lordly Might"];
+			equipment.push(veryRareItems[Math.floor(Math.random() * veryRareItems.length)]);
+		}
+
+		if (level >= 12) {
+			const legendaryItems = ["+3 Weapon", "Ring of Spell Storing", "Staff of Power", "Cloak of Invisibility"];
+			equipment.push(legendaryItems[Math.floor(Math.random() * legendaryItems.length)]);
+		}
+
+		// Add general adventuring gear based on level
+		const generalGear = [
+			"Grappling Hook", "Crowbar", "Hammer", "Piton (x10)", "Mirror",
+			"Oil Flask", "Lantern", "Chain (10 feet)", "Manacles", "Magnifying Glass"
+		];
+		
+		const gearToAdd = Math.min(3 + Math.floor(level / 3), generalGear.length);
+		for (let i = 0; i < gearToAdd; i++) {
+			const randomGear = generalGear.splice(Math.floor(Math.random() * generalGear.length), 1)[0];
+			if (randomGear) equipment.push(randomGear);
 		}
 
 		return equipment;
 	}
 
 	// Method to generate random character at specified level
-	generateRandomCharacterAtLevel(requestedLevel = 5, characterName = '', sourceName = 'RANDOM_GENERATED') {
-		// Use existing generation logic but with provided parameters
-		const randomName = characterName || this.generateRandomName();
-		const randomRace = this.generateRandomRace();
-		const randomClasses = this.generateRandomClasses(requestedLevel);
-		const randomBackground = this.generateRandomBackground();
-		const randomAbilityScores = this.generateRandomAbilityScores(randomClasses);
-		const randomEquipment = this.generateRandomEquipment(randomClasses, requestedLevel);
-		const randomActions = this.generateRandomActions(randomClasses, randomAbilityScores);
-		const randomSpells = this.generateRandomSpells(randomClasses, requestedLevel);
+	async generateRandomCharacterAtLevel(requestedLevel = 5, characterName = '', sourceName = 'RANDOM_GENERATED') {
+		try {
+			// Validate and sanitize parameters
+			const finalLevel = Math.max(1, Math.min(20, parseInt(String(requestedLevel)) || 5));
+			const finalName = (characterName && characterName.trim()) || this.generateRandomName();
+			const finalSource = sourceName || 'RANDOM_GENERATED';
+			
+			console.log(`Generating random character: Level ${finalLevel}, Name: ${finalName || 'random'}, Source: ${finalSource}`);
+			
+			// Use existing generation logic but with provided parameters
+			const randomRace = this.generateRandomRace();
+			const randomClasses = this.generateRandomClasses(finalLevel);
+			const randomBackground = this.generateRandomBackground();
+			const randomAbilityScores = this.generateRandomAbilityScores(randomClasses);
+			const randomEquipment = this.generateRandomEquipment(randomClasses, finalLevel);
+			const randomActions = this.generateRandomActions(randomClasses, randomAbilityScores);
+			const randomSpells = this.generateRandomSpells(randomClasses, finalLevel);
 
-		// Calculate derived stats
-		const totalLevel = randomClasses.reduce((sum, cls) => sum + cls.level, 0);
-		const profBonus = Math.ceil(totalLevel / 4) + 1;
-		const conMod = Math.floor((randomAbilityScores.con - 10) / 2);
-		const randomHp = this.calculateRandomHp(randomClasses, conMod);
+			// Calculate derived stats
+			const totalLevel = randomClasses.reduce((sum, cls) => sum + cls.level, 0);
+			const profBonus = Math.ceil(totalLevel / 4) + 1;
+			const conMod = Math.floor((randomAbilityScores.con - 10) / 2);
+			const randomHp = this.calculateRandomHp(randomClasses, conMod);
 
-		// Create character template
-		const template = {
-			name: randomName,
-			source: sourceName,
+			// Create character template
+			const template = {
+				name: finalName,
+				source: finalSource,
 			race: randomRace,
 			class: randomClasses,
 			background: randomBackground,
@@ -1180,15 +1848,14 @@ class CharacterEditorPage {
 			customTrackers: this.generateRandomTrackers(randomClasses),
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
-			entries: this.generateRandomEntries(randomRace, randomClasses),
+			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment),
 			fluff: {
 				entries: [
-					`${randomName} is a ${totalLevel === 1 ? 'beginning' : totalLevel < 5 ? 'novice' : totalLevel < 10 ? 'experienced' : 'veteran'} adventurer with a ${this.getPersonalityTrait()}.`,
+					`${finalName} is a ${totalLevel === 1 ? 'beginning' : totalLevel < 5 ? 'novice' : totalLevel < 10 ? 'experienced' : 'veteran'} adventurer with a ${this.getPersonalityTrait()}.`,
 					`Their journey has led them to master ${randomClasses.length === 1 ? 'the ways of the ' + randomClasses[0].name.toLowerCase() : 'multiple disciplines'}.`,
 					this.getBackgroundStory(randomBackground.name)
 				]
 			},
-			equipment: randomEquipment,
 			languages: this.generateRandomLanguages(randomRace, randomClasses),
 			currency: this.generateRandomCurrency(totalLevel)
 		};
@@ -1204,11 +1871,25 @@ class CharacterEditorPage {
 		// Show success message
 		const messageEl = document.getElementById('message');
 		if (messageEl) {
-			messageEl.textContent = `Generated level ${totalLevel} ${randomName}!`;
+			messageEl.textContent = `Generated level ${totalLevel} ${finalName}!`;
 			messageEl.style.color = 'green';
 		}
 		
-		console.log(`Successfully generated level ${totalLevel} character: ${randomName}`);
+		console.log(`Successfully generated level ${totalLevel} character: ${finalName}`);
+		
+		} catch (error) {
+			console.error('Error generating random character:', error);
+			
+			// Show error message if possible
+			const messageEl = document.getElementById('message');
+			if (messageEl) {
+				messageEl.textContent = `Error generating character: ${error.message}`;
+				messageEl.style.color = 'red';
+			}
+			
+			// Re-throw for upstream handling
+			throw error;
+		}
 	}
 
 	/**
