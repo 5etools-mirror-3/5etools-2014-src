@@ -129,6 +129,49 @@
 			<div id="cached-sources-list">
 				<p class="text-muted"><em>No cached sources found</em></p>
 			</div>
+			
+			<!-- Quick Character Generation -->
+			<div class="mt-4 pt-3" style="border-top: 1px solid #dee2e6;">
+				<h4 class="mb-3">Quick Character Generation</h4>
+				<p class="text-muted mb-3">Generate random D&D characters at any level with realistic multiclassing, equipment, and abilities. Select a source from your cached sources above.</p>
+				<div class="ve-flex-h mb-3 align-items-end">
+					<div class="mr-3">
+						<label for="character-name-input" class="form-label"><strong>Character Name:</strong></label>
+						<input type="text" id="character-name-input" class="form-control" placeholder="Enter character name (optional)" style="width: 200px;">
+						<small class="form-text text-muted">Leave blank for random name</small>
+					</div>
+					<div class="mr-3">
+						<label for="character-level-select" class="form-label"><strong>Character Level:</strong></label>
+						<select id="character-level-select" class="form-control" style="width: 150px;">
+							<option value="1">Level 1</option>
+							<option value="2">Level 2</option>
+							<option value="3">Level 3</option>
+							<option value="4">Level 4</option>
+							<option value="5" selected>Level 5</option>
+							<option value="6">Level 6</option>
+							<option value="7">Level 7</option>
+							<option value="8">Level 8</option>
+							<option value="9">Level 9</option>
+							<option value="10">Level 10</option>
+							<option value="12">Level 12</option>
+							<option value="15">Level 15</option>
+							<option value="20">Level 20</option>
+						</select>
+					</div>
+					<div class="mr-3">
+						<label for="character-source-select" class="form-label"><strong>Save to Source:</strong></label>
+						<select id="character-source-select" class="form-control" style="width: 200px;">
+							<option value="">Select a source...</option>
+						</select>
+					</div>
+					<div>
+						<button class="ve-btn ve-btn-success" id="generate-random-character" disabled>Generate & Open Character</button>
+					</div>
+				</div>
+				<div id="generation-message" class="mt-2" style="font-weight: bold;"></div>
+				<small class="text-muted">Generated characters will include random multiclassing, equipment, spells, and personality traits appropriate for the selected level.</small>
+			</div>
+			
 			<div class="mt-3">
 				<button class="ve-btn ve-btn-warning ve-btn-sm" id="clear-cache-btn">Clear All Cached Passwords</button>
 			</div>

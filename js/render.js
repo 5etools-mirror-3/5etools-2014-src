@@ -8684,7 +8684,8 @@ Renderer.character = class {
 				
 				hitDiceByType[hitDie].max += level;
 				hitDiceByType[hitDie].current += cls.currentHitDice;
-				hitDiceByType[hitDie].classes.push({ index: classIndex, level: level, currentUsage: cls.currentHitDice });
+				// Store actual current hit dice (available), not used
+				hitDiceByType[hitDie].classes.push({ index: classIndex, level: level, currentAvailable: cls.currentHitDice });
 			});
 
 			// Display hit dice by type
@@ -8701,10 +8702,10 @@ Renderer.character = class {
 				}
 
 				if (hasEditAccess && !isStatic && characterId) {
-					// For simplicity, we'll edit the combined total but distribute proportionally
+					// For hit dice, we edit the available dice directly  
 					// Store class information for proper updating
-					const classesData = classes.map(c => `${c.index}:${c.level}:${c.currentUsage}`).join(',');
-					const clickableCount = `<span class="character-stat-display" data-stat-path="class.currentHitDice.${dieType}" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" data-classes-data="${classesData}" title="Click to edit ${dieType} hit dice used" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
+					const classesData = classes.map(c => `${c.index}:${c.level}:${c.currentAvailable}`).join(',');
+					const clickableCount = `<span class="character-stat-display" data-stat-path="class.currentHitDice.${dieType}" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" data-classes-data="${classesData}" title="Click to edit ${dieType} hit dice available" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
 					combatStats.push(`Hit Dice: ${clickableCount}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
 				} else {
 					// Static display
@@ -9965,23 +9966,23 @@ Renderer.character = class {
 		// Parse the die type from the stat path (e.g., "class.currentHitDice.d8" -> "d8")
 		const dieType = statPath.replace('class.currentHitDice.', '');
 		
-		// Parse classes data: "0:6:4,1:2:1" means [classIndex:level:currentUsage]
+		// Parse classes data: "0:6:4,1:2:1" means [classIndex:level:currentAvailable]
 		const classes = classesData.split(',').map(classStr => {
-			const [index, level, currentUsage] = classStr.split(':').map(Number);
-			return { index, level, currentUsage };
+			const [index, level, currentAvailable] = classStr.split(':').map(Number);
+			return { index, level, currentAvailable };
 		});
 
 		// Calculate total max and current values to understand the change
 		const totalMax = classes.reduce((sum, cls) => sum + cls.level, 0);
-		const totalCurrent = classes.reduce((sum, cls) => sum + cls.currentUsage, 0);
+		const totalCurrent = classes.reduce((sum, cls) => sum + cls.currentAvailable, 0);
 		const targetCurrent = Math.max(0, Math.min(parseInt(newValue) || 0, totalMax));
 		const difference = targetCurrent - totalCurrent;
 
 		// Distribute the change across classes proportionally
 		if (difference !== 0) {
-			// If increasing usage (more used), start from highest level classes
-			// If decreasing usage (more available), start from lowest level classes
-			const sortedClasses = [...classes].sort((a, b) => difference > 0 ? b.level - a.level : a.level - b.level);
+			// If increasing available dice, start from classes with fewer dice
+			// If decreasing available dice, start from classes with more dice
+			const sortedClasses = [...classes].sort((a, b) => difference > 0 ? a.currentAvailable - b.currentAvailable : b.currentAvailable - a.currentAvailable);
 			
 			let remainingChange = Math.abs(difference);
 			
@@ -9997,17 +9998,17 @@ Renderer.character = class {
 				}
 				
 				if (difference > 0) {
-					// Increasing usage (reducing available dice)
-					const canUse = Math.min(remainingChange, currentClassData.currentHitDice || cls.level);
-					currentClassData.currentHitDice = (currentClassData.currentHitDice || cls.level) - canUse;
-					remainingChange -= canUse;
-				} else {
-					// Decreasing usage (adding available dice)
+					// Increasing available hit dice
 					const maxForClass = cls.level;
 					const currentForClass = currentClassData.currentHitDice || 0;
-					const canRestore = Math.min(remainingChange, maxForClass - currentForClass);
-					currentClassData.currentHitDice = currentForClass + canRestore;
-					remainingChange -= canRestore;
+					const canAdd = Math.min(remainingChange, maxForClass - currentForClass);
+					currentClassData.currentHitDice = currentForClass + canAdd;
+					remainingChange -= canAdd;
+				} else {
+					// Decreasing available hit dice
+					const canRemove = Math.min(remainingChange, currentClassData.currentHitDice || 0);
+					currentClassData.currentHitDice = (currentClassData.currentHitDice || 0) - canRemove;
+					remainingChange -= canRemove;
 				}
 			}
 		}

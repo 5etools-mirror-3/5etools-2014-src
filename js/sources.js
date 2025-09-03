@@ -128,6 +128,37 @@ class SourceManager {
 			this.loginToSource();
 		});
 
+		// Generate Random Character button
+		const generateBtn = document.getElementById('generate-random-character');
+		const sourceSelect = document.getElementById('character-source-select');
+		const levelSelect = document.getElementById('character-level-select');
+		const nameInput = document.getElementById('character-name-input');
+		const messageDiv = document.getElementById('generation-message');
+		
+		if (generateBtn && sourceSelect && levelSelect && nameInput && messageDiv) {
+			// Enable/disable generate button based on source selection
+			sourceSelect.addEventListener('change', () => {
+				generateBtn.disabled = !sourceSelect.value;
+			});
+			
+			// Handle character generation
+			generateBtn.addEventListener('click', () => {
+				const selectedSource = sourceSelect.value;
+				const selectedLevel = parseInt(levelSelect.value);
+				const characterName = nameInput.value.trim();
+				
+				if (!selectedSource) {
+					messageDiv.innerHTML = '<span style="color: #dc3545;">Please select a source first.</span>';
+					return;
+				}
+				
+				messageDiv.innerHTML = '<span style="color: #0066cc;">Generating character...</span>';
+				
+				// Generate character with the selected source
+				this.generateRandomCharacter(selectedSource, selectedLevel, characterName);
+			});
+		}
+
 		// Test access button (optional)
 		const testAccessBtn = document.getElementById('test-access-btn');
 		if (testAccessBtn) {
@@ -333,36 +364,55 @@ class SourceManager {
 
 	updateCachedSourcesList() {
 		const listDiv = document.getElementById('cached-sources-list');
+		const sourceSelect = document.getElementById('character-source-select');
+		const generateBtn = document.getElementById('generate-random-character');
 		const cachedPasswords = SourcePasswordManager.getCachedPasswords();
 		const sourceNames = Object.keys(cachedPasswords);
 
+		// Update the cached sources display
 		if (sourceNames.length === 0) {
 			listDiv.innerHTML = '<p class="text-muted"><em>No cached sources found</em></p>';
-			return;
+		} else {
+			let html = '<div class="list-group">';
+			sourceNames.forEach(sourceName => {
+				html += `
+					<div class="list-group-item d-flex justify-content-between align-items-center">
+						<div>
+							<strong>${this.escapeHtml(sourceName)}</strong>
+							<small class="text-muted d-block">Password cached</small>
+						</div>
+						<div>
+							<button class="ve-btn ve-btn-xs ve-btn-primary mr-2" onclick="sourceManager.createCharacterForSource('${this.escapeHtml(sourceName)}')">
+								Create Character
+							</button>
+							<button class="ve-btn ve-btn-xs ve-btn-danger" onclick="sourceManager.removeCachedSource('${this.escapeHtml(sourceName)}')">
+								Remove
+							</button>
+						</div>
+					</div>
+				`;
+			});
+			html += '</div>';
+			listDiv.innerHTML = html;
 		}
 
-		let html = '<div class="list-group">';
-		sourceNames.forEach(sourceName => {
-			html += `
-				<div class="list-group-item d-flex justify-content-between align-items-center">
-					<div>
-						<strong>${this.escapeHtml(sourceName)}</strong>
-						<small class="text-muted d-block">Password cached</small>
-					</div>
-					<div>
-						<button class="ve-btn ve-btn-xs ve-btn-primary mr-2" onclick="sourceManager.createCharacterForSource('${this.escapeHtml(sourceName)}')">
-							Create Character
-						</button>
-						<button class="ve-btn ve-btn-xs ve-btn-danger" onclick="sourceManager.removeCachedSource('${this.escapeHtml(sourceName)}')">
-							Remove
-						</button>
-					</div>
-				</div>
-			`;
-		});
-		html += '</div>';
-
-		listDiv.innerHTML = html;
+		// Update character source selector
+		if (sourceSelect) {
+			if (sourceNames.length === 0) {
+				sourceSelect.innerHTML = '<option value="">No cached sources available</option>';
+				if (generateBtn) generateBtn.disabled = true;
+			} else {
+				sourceSelect.innerHTML = '<option value="">Select a source...</option>';
+				sourceNames.forEach(sourceName => {
+					const option = document.createElement('option');
+					option.value = sourceName;
+					option.textContent = sourceName;
+					sourceSelect.appendChild(option);
+				});
+				// Enable generate button if a source is already selected
+				if (generateBtn) generateBtn.disabled = !sourceSelect.value;
+			}
+		}
 	}
 
 	createCharacterForSource(sourceName) {
@@ -393,6 +443,29 @@ class SourceManager {
 					element.style.color = '';
 				}
 			}, 5000);
+		}
+	}
+
+	async generateRandomCharacter(sourceName, level = 5, characterName = '') {
+		const messageDiv = document.getElementById('generation-message');
+
+		try {
+			// Show generating message
+			this.showMessage('generation-message', 'Generating character...', 'blue');
+
+			// Store the generation parameters for the character editor
+			localStorage.setItem('randomCharacterSource', sourceName);
+			localStorage.setItem('randomCharacterLevel', level.toString());
+			localStorage.setItem('randomCharacterName', characterName);
+			localStorage.setItem('generateRandomCharacter', 'true');
+
+			// Navigate to character editor with random generation parameters
+			const url = `charactereditor.html?source=${encodeURIComponent(sourceName)}&random=true&level=${level}&name=${encodeURIComponent(characterName)}`;
+			window.location.href = url;
+
+		} catch (error) {
+			console.error('Error generating character:', error);
+			this.showMessage('generation-message', 'Error generating character: ' + error.message, 'red');
 		}
 	}
 
