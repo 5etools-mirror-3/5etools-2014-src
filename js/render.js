@@ -8700,11 +8700,26 @@ Renderer.character = class {
 			}
 
 		}
-		// Custom Trackers Section - flexible tracking for abilities, items, conditions
+		// Combat Statistics Section
 		if (combatStats.length > 0) {
+			// Convert combat stats array to a 2-column table format
+			const tableRows = [];
+			for (let i = 0; i < combatStats.length; i += 2) {
+				const leftCell = combatStats[i] || '';
+				const rightCell = combatStats[i + 1] || '';
+				tableRows.push([leftCell, rightCell]);
+			}
+
 			const combatInfo = {
 				type: "entries",
-				entries: [`<div style="display: grid; grid-template-columns: 1fr 1fr;>${combatStats.map(e=> `<div>${e}</div>`).join('')}</div>`]
+				name: "Combat Statistics",
+				entries: [
+					{
+						type: "table",
+						colLabels: ["", ""],
+						rows: tableRows
+					}
+				]
 			};
 			renderer.recursiveRender(combatInfo, renderStack, {depth: 1});
 		}
