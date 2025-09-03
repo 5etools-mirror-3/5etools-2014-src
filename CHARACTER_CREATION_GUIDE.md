@@ -696,30 +696,38 @@ Common source abbreviations:
 
 ### Hit Dice Tracking
 
-Hit dice are used for healing during short rests.
+Hit dice are used for healing during short rests and are now tracked within each class.
 
 **Single Class:**
 ```json
-"hitDice": {
-  "d8": {
-    "max": 5,
-    "current": 3
-  }
+{
+  "class": [
+    {
+      "name": "Warlock",
+      "level": 5,
+      "currentHitDice": 3
+    }
+  ]
 }
 ```
 
 **Multiclass Example:**
 ```json
-"hitDice": {
-  "d10": {
-    "max": 8,     // Fighter levels
-    "current": 5
-  },
-  "d8": {
-    "max": 3,     // Rogue levels  
-    "current": 2
-  }
+{
+  "class": [
+    {
+      "name": "Fighter",
+      "level": 8,
+      "currentHitDice": 5
+    },
+    {
+      "name": "Rogue",
+      "level": 3,
+      "currentHitDice": 2
+    }
+  ]
 }
+```
 ```
 
 **Hit Die by Class:**
@@ -1042,7 +1050,8 @@ Flexible system for any trackable resource:
           "subclass": {
             "name": "Champion",
             "source": "PHB"
-          }
+          },
+          "currentHitDice": 3
         }
       ],
       "background": {
@@ -1082,12 +1091,6 @@ Flexible system for any trackable resource:
       },
       "proficiencyBonus": "+3",
       "languages": ["Common", "Orcish"],
-      "hitDice": {
-        "d10": {
-          "max": 5,
-          "current": 3
-        }
-      },
       "deathSaves": {
         "successes": 0,
         "failures": 0
@@ -1207,6 +1210,9 @@ Flexible system for any trackable resource:
           "subclass": {
             "name": "The Fiend",
             "source": "PHB"
+          },
+          "hitDice": {
+            "current": 2
           }
         }
       ],
@@ -1246,12 +1252,6 @@ Flexible system for any trackable resource:
       },
       "proficiencyBonus": "+2",
       "languages": ["Common", "Infernal"],
-      "hitDice": {
-        "d8": {
-          "max": 3,
-          "current": 2
-        }
-      },
       "deathSaves": {
         "successes": 0,
         "failures": 0
@@ -1701,42 +1701,81 @@ The spell system supports all caster types with flexible slot tracking.
 
 ## 6. Hit Dice Tracking
 
-Track hit dice for short rest healing.
+Hit dice are now **automatically calculated** from your character's class levels and are used for healing during short rests. **Hit dice usage is now tracked within each class** for better organization.
 
-### Single Class
+### Automatic Calculation
+
+The system automatically determines your hit dice based on your class information:
+
+**Hit Die by Class:**
+- **d12**: Barbarian
+- **d10**: Fighter, Paladin, Ranger
+- **d8**: Bard, Cleric, Druid, Monk, Rogue, Warlock
+- **d6**: Sorcerer, Wizard
+
+**You no longer need to manually specify hit dice types in your JSON!** The maximum number of hit dice equals your total levels in each class.
+
+### Tracking Hit Dice Usage
+
+To track how many hit dice you've used, add a `currentHitDice` property to each class:
 
 ```json
 {
-  "hitDice": {
-    "d8": {
-      "max": 5,
-      "current": 3
+  "class": [
+    {
+      "name": "Warlock",
+      "level": 6,
+      "currentHitDice": 4
     }
-  }
+  ]
 }
 ```
 
-### Multiclass
+**Key Points:**
+- `currentHitDice` represents how many hit dice you have LEFT (not used)
+- Maximum is automatically calculated from class level
+- Each class tracks its own hit dice usage independently
 
+### Examples
+
+**Single Class (Level 6 Warlock):**
 ```json
 {
-  "hitDice": {
-    "d10": {
-      "max": 8,
-      "current": 5
+  "class": [
+    {
+      "name": "Warlock",
+      "level": 6,
+      "currentHitDice": 4
+    }
+  ]
+}
+```
+- Automatically gets: 6d8 hit dice maximum
+- Currently has: 4d8 hit dice remaining (used 2)
+
+**Multiclass (Fighter 3/Rogue 2):**
+```json
+{
+  "class": [
+    {
+      "name": "Fighter",
+      "level": 3,
+      "currentHitDice": 1
     },
-    "d8": {
-      "max": 3,
-      "current": 2
+    {
+      "name": "Rogue", 
+      "level": 2,
+      "currentHitDice": 2
     }
-  }
+  ]
 }
 ```
+- Fighter: 1/3 d10 hit dice remaining (used 2)
+- Rogue: 2/2 d8 hit dice remaining (used 0)
+- Display combines by die type: 1d10 + 2d8 remaining
 
-- **max**: Total hit dice of this type
-- **current**: Available hit dice (editable)
-- Supports d4, d6, d8, d10, d12 die types
-- Each die type includes clickable dice roller
+**Optional Hit Dice Tracking:**
+If you don't include `currentHitDice` in a class, it defaults to full (all hit dice available).
 
 ## 7. Death Saves
 
@@ -1948,7 +1987,8 @@ For active effects, advantages, or status conditions:
           "subclass": {
             "name": "Champion",
             "source": "PHB"
-          }
+          },
+          "currentHitDice": 3
         }
       ],
       "alignment": ["L", "G"],
@@ -1981,12 +2021,6 @@ For active effects, advantages, or status conditions:
         "intimidation": "+5"
       },
       "proficiencyBonus": "+3",
-      "hitDice": {
-        "d10": {
-          "max": 5,
-          "current": 3
-        }
-      },
       "deathSaves": {
         "successes": 0,
         "failures": 0
