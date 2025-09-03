@@ -1273,14 +1273,16 @@ class Panel {
 					$contentStats.append(fn(character));
 
 					const fnBind = Renderer.hover.getFnBindListenersCompact(page);
-					if (fnBind) fnBind($contentStats);
+					if (fnBind) fnBind(character, $contentStats[0]);
 
-					this.set$ContentTab(
+					this.set$Tab(
+						ix,
 						PANEL_TYP_STATS,
 						meta,
 						$contentInner,
-						title,
-						ix,
+						title || character.name,
+						true,
+						!!title,
 					);
 
 					return $contentInner;
