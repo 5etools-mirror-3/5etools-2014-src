@@ -52,11 +52,12 @@ class CharacterManager {
 
 	/**
 	 * Load characters from the API (single source of truth)
+	 * @param {Array<string>} [sources] - Optional list of sources to filter by
 	 * @returns {Promise<Array>} Array of characters
 	 */
-	static async loadCharacters() {
-		// If already loaded, return cached data
-		if (this._isLoaded) {
+	static async loadCharacters(sources = null) {
+		// If already loaded and no specific sources requested, return cached data
+		if (this._isLoaded && !sources) {
 			return [...this._charactersArray];
 		}
 
@@ -66,11 +67,14 @@ class CharacterManager {
 		}
 
 		this._isLoading = true;
-		this._loadPromise = this._performLoad();
+		this._loadPromise = this._performLoad(sources);
 
 		try {
 			const characters = await this._loadPromise;
-			this._isLoaded = true;
+			// Only mark as loaded if we loaded everything (no source filter)
+			if (!sources) {
+				this._isLoaded = true;
+			}
 			return characters;
 		} finally {
 			this._isLoading = false;
@@ -80,12 +84,21 @@ class CharacterManager {
 
 	/**
 	 * Internal method to perform the actual loading
+	 * @param {Array<string>} [sources] - Optional list of sources to filter by
 	 */
-	static async _performLoad() {
+	static async _performLoad(sources = null) {
 		try {
-			console.log('CharacterManager: Loading character blob metadata from API...');
+			console.log(`CharacterManager: Loading character blob metadata from API${sources ? ` (filtered by sources: ${sources.join(', ')})` : ''}...`);
 			const cacheBuster = Date.now();
-			const response = await fetch(`/api/characters/load?_t=${cacheBuster}`, {
+			
+			// Build URL with optional sources parameter
+			let url = `/api/characters/load?_t=${cacheBuster}`;
+			if (sources && sources.length > 0) {
+				const sourcesParam = sources.map(s => `sources=${encodeURIComponent(s)}`).join('&');
+				url += `&${sourcesParam}`;
+			}
+			
+			const response = await fetch(url, {
 				cache: 'no-cache',
 				headers: {
 					'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -124,8 +137,9 @@ class CharacterManager {
 			// Fetch only the characters that need updating
 			const fetchPromises = toFetch.map(async (blob) => {
 				try {
+					// Use our new get endpoint with the blob URL for efficiency
 					const cacheBusterUrl = `${blob.url}${blob.url.includes('?') ? '&' : '?'}_t=${Date.now()}`;
-					const response = await fetch(cacheBusterUrl, {
+					const response = await fetch(`/api/characters/get?url=${encodeURIComponent(cacheBusterUrl)}&id=${encodeURIComponent(blob.id)}`, {
 						cache: 'no-cache',
 						headers: {
 							'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -139,7 +153,13 @@ class CharacterManager {
 						return null;
 					}
 					
-					const characterData = await response.json();
+					const apiResponse = await response.json();
+					if (!apiResponse.success) {
+						console.warn(`API error fetching character ${blob.id}:`, apiResponse.error);
+						return null;
+					}
+					
+					const characterData = apiResponse.character;
 					// Extract character from wrapper if needed
 					const character = (characterData.character && Array.isArray(characterData.character)) 
 						? characterData.character[0] 
@@ -559,11 +579,11 @@ class CharacterManager {
 				characterData.id = characterId;
 				this.addOrUpdateCharacter(characterData);
 				
-				// Get the updated character directly from the blob URL returned by save
-				if (saveResult.blob && saveResult.blob.url) {
+				// Get the updated character using the character ID
+				if (saveResult.characterId) {
 					try {
-						const cacheBusterUrl = `${saveResult.blob.url}${saveResult.blob.url.includes('?') ? '&' : '?'}_t=${Date.now()}`;
-						const refreshResponse = await fetch(cacheBusterUrl, {
+						// Use our new get endpoint to fetch the updated character
+						const refreshResponse = await fetch(`/api/characters/get?id=${encodeURIComponent(saveResult.characterId)}`, {
 							cache: 'no-cache',
 							headers: {
 								'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -573,7 +593,13 @@ class CharacterManager {
 						});
 						
 						if (refreshResponse.ok) {
-							const updatedData = await refreshResponse.json();
+							const apiResponse = await refreshResponse.json();
+							if (!apiResponse.success) {
+								console.warn('CharacterManager: API error refreshing character after save:', apiResponse.error);
+								return { success: true, data: characterData };
+							}
+							
+							const updatedData = apiResponse.character;
 							const updatedCharacter = (updatedData.character && Array.isArray(updatedData.character)) 
 								? updatedData.character[0] 
 								: updatedData;

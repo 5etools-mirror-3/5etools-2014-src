@@ -382,11 +382,8 @@ class SourceManager {
 							<small class="text-muted d-block">Password cached</small>
 						</div>
 						<div>
-							<button class="ve-btn ve-btn-xs ve-btn-primary mr-2" onclick="sourceManager.createCharacterForSource('${this.escapeHtml(sourceName)}')">
-								Create Character
-							</button>
 							<button class="ve-btn ve-btn-xs ve-btn-danger" onclick="sourceManager.removeCachedSource('${this.escapeHtml(sourceName)}')">
-								Remove
+								Logout
 							</button>
 						</div>
 					</div>
@@ -402,7 +399,7 @@ class SourceManager {
 				sourceSelect.innerHTML = '<option value="">No cached sources available</option>';
 				if (generateBtn) generateBtn.disabled = true;
 			} else {
-				sourceSelect.innerHTML = '<option value="">Select a source...</option>';
+				sourceSelect.innerHTML = '';
 				sourceNames.forEach(sourceName => {
 					const option = document.createElement('option');
 					option.value = sourceName;

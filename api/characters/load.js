@@ -22,7 +22,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { url } = req.query;
+    const { url, sources } = req.query;
 
     if (!process.env.BLOB_READ_WRITE_TOKEN) {
       return res.status(500).json({
@@ -39,7 +39,7 @@ export default async function handler(req, res) {
         token: process.env.BLOB_READ_WRITE_TOKEN
       });
 
-      const characterBlobs = blobs
+      let characterBlobs = blobs
         .filter(blob => blob.pathname.endsWith('.json'))
         .map(blob => {
           const filename = blob.pathname.split('/').pop();
@@ -55,10 +55,22 @@ export default async function handler(req, res) {
           };
         });
 
+      // Filter by sources if specified
+      if (sources) {
+        const sourceList = Array.isArray(sources) ? sources : [sources];
+        characterBlobs = characterBlobs.filter(blob => {
+          // Extract source from character ID (format: name-source)
+          const parts = blob.id.split('-');
+          const source = parts[parts.length - 1];
+          return sourceList.includes(source);
+        });
+      }
+
       return res.status(200).json({
         blobs: characterBlobs,
         count: characterBlobs.length,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        filteredBy: sources ? (Array.isArray(sources) ? sources : [sources]) : null
       });
     }
 
