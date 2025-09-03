@@ -10016,7 +10016,10 @@ Renderer.character = class {
 		// Update character through CharacterManager
 		if (globalThis.CharacterManager) {
 			const characterId = characterData.id || globalThis.CharacterManager._generateCompositeId(characterData.name, characterData.source);
-			return await globalThis.CharacterManager.updateCharacterData(characterId, characterData);
+			
+			// Use addOrUpdateCharacter to save the full character data
+			globalThis.CharacterManager.addOrUpdateCharacter(characterData);
+			return true;
 		}
 
 		console.warn('CharacterManager not available for hit dice update');
