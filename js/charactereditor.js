@@ -486,7 +486,8 @@ class CharacterEditorPage {
 			name: selectedClass.name,
 			source: selectedClass.source,
 			level: 1,
-			subclass: randomSubclass
+			subclass: randomSubclass,
+			currentHitDice: 1
 		};
 	}
 

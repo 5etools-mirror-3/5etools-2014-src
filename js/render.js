@@ -8647,25 +8647,64 @@ Renderer.character = class {
 		}
 
 
-		// Hit Dice Section - editable tracking
-		if (character.hitDice) {
-			let characterId = null;
+		// Hit Dice Section - derive from class levels and store usage in classes
+		if (character.class?.length) {
+			// Map class names to their hit die types
+			const classHitDice = {
+				'barbarian': 'd12',
+				'fighter': 'd10',
+				'paladin': 'd10', 
+				'ranger': 'd10',
+				'bard': 'd8',
+				'cleric': 'd8',
+				'druid': 'd8',
+				'monk': 'd8',
+				'rogue': 'd8',
+				'warlock': 'd8',
+				'sorcerer': 'd6',
+				'wizard': 'd6'
+			};
 
-			if (hasEditAccess && !isStatic) {
-				characterId = globalThis.CharacterManager
-					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
-					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
-				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
-				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
-			}
+			// Group classes by hit die type for display
+			const hitDiceByType = {};
+			
+			character.class.forEach((cls, classIndex) => {
+				const className = cls.name.toLowerCase();
+				const level = cls.level || 1;
+				const hitDie = classHitDice[className] || 'd8'; // Default to d8 if unknown class
+				
+				// Initialize hit dice usage if not present - use simple currentHitDice property
+				if (cls.currentHitDice === undefined) {
+					cls.currentHitDice = level; // Default to max (all available)
+				}
+				
+				if (!hitDiceByType[hitDie]) {
+					hitDiceByType[hitDie] = { max: 0, current: 0, classes: [] };
+				}
+				
+				hitDiceByType[hitDie].max += level;
+				hitDiceByType[hitDie].current += cls.currentHitDice;
+				hitDiceByType[hitDie].classes.push({ index: classIndex, level: level, currentUsage: cls.currentHitDice });
+			});
 
-			Object.entries(character.hitDice).forEach(([dieType, diceData]) => {
-				const current = diceData.current || 0;
-				const max = diceData.max || 0;
+			// Display hit dice by type
+			Object.entries(hitDiceByType).forEach(([dieType, data]) => {
+				const { max, current, classes } = data;
+
+				let characterId = null;
+				if (hasEditAccess && !isStatic) {
+					characterId = globalThis.CharacterManager
+						? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
+						: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+					if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+					globalThis._CHARACTER_EDIT_DATA[characterId] = character;
+				}
 
 				if (hasEditAccess && !isStatic && characterId) {
-					// Editable hit dice with click handlers
-					const clickableCount = `<span class="character-stat-display" data-stat-path="hitDice.${dieType}.current" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" title="Click to edit ${dieType} hit dice used" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
+					// For simplicity, we'll edit the combined total but distribute proportionally
+					// Store class information for proper updating
+					const classesData = classes.map(c => `${c.index}:${c.level}:${c.currentUsage}`).join(',');
+					const clickableCount = `<span class="character-stat-display" data-stat-path="class.currentHitDice.${dieType}" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" data-classes-data="${classesData}" title="Click to edit ${dieType} hit dice used" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
 					combatStats.push(`Hit Dice: ${clickableCount}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
 				} else {
 					// Static display
@@ -9011,8 +9050,6 @@ Renderer.character = class {
 			renderer.recursiveRender(traitInfo, renderStack, {depth: 1});
 		}
 
-
-
 		// Equipment from character data - collapsible section
 		if (character.equipment?.length) {
 			const equipInfo = {
@@ -9165,6 +9202,7 @@ Renderer.character = class {
 			const statPath = $display.attr('data-stat-path');
 			const characterId = $display.attr('data-character-id');
 			const currentValue = $display.attr('data-current-value');
+			const classesData = $display.attr('data-classes-data'); // For hit dice
 
 			// Get character data from global registry
 			if (!globalThis._CHARACTER_EDIT_DATA || !globalThis._CHARACTER_EDIT_DATA[characterId]) {
@@ -9184,9 +9222,11 @@ Renderer.character = class {
 
 			if (statPath === 'hp.current') {
 				maxValue = $display.attr('data-max-value');
+			} else if (statPath.startsWith('class.currentHitDice.')) {
+				maxValue = $display.attr('data-max-value');
 			}
 
-			const $input = $(`<input type="${inputType}" class="character-stat-input-edit" value="${currentValue}" min="${minValue}" ${maxValue ? `max="${maxValue}"` : ''} style="width: ${Math.max(40, currentValue.toString().length * 8 + 10)}px;" data-stat-path="${statPath}" data-character-id="${characterId}" />`);
+			const $input = $(`<input type="${inputType}" class="character-stat-input-edit" value="${currentValue}" min="${minValue}" ${maxValue ? `max="${maxValue}"` : ''} style="width: ${Math.max(40, currentValue.toString().length * 8 + 10)}px;" data-stat-path="${statPath}" data-character-id="${characterId}" ${classesData ? `data-classes-data="${classesData}"` : ''} />`);
 
 			// Replace display with input
 			$display.replaceWith($input);
@@ -9201,7 +9241,7 @@ Renderer.character = class {
 				const newValue = e.key === 'Escape' ? currentValue : $input.val();
 
 				// Create new display span
-				const $newDisplay = $(`<span class="character-stat-display" data-stat-path="${statPath}" data-character-id="${characterId}" data-current-value="${newValue}" ${maxValue ? `data-max-value="${maxValue}"` : ''} title="Click to edit" style="cursor: pointer; border-bottom: 1px dashed #666;">${newValue}</span>`);
+				const $newDisplay = $(`<span class="character-stat-display" data-stat-path="${statPath}" data-character-id="${characterId}" data-current-value="${newValue}" ${maxValue ? `data-max-value="${maxValue}"` : ''} ${classesData ? `data-classes-data="${classesData}"` : ''} title="Click to edit" style="cursor: pointer; border-bottom: 1px dashed #666;">${newValue}</span>`);
 
 				// Replace input with display
 				$input.replaceWith($newDisplay);
@@ -9209,9 +9249,17 @@ Renderer.character = class {
 				// Update server if value changed and not escaped
 				if (e.key !== 'Escape' && newValue !== currentValue) {
 					try {
-						const success = await Renderer.character._updateCharacterStat(character, character.source, statPath, newValue);
-						if (!success) {
-							console.warn(`Failed to update character stat ${statPath} on server`);
+						// Handle hit dice updates specially
+						if (statPath.startsWith('class.currentHitDice.') && classesData) {
+							const success = await Renderer.character._updateHitDiceFromClasses(character, character.source, statPath, newValue, classesData);
+							if (!success) {
+								console.warn(`Failed to update character hit dice ${statPath} on server`);
+							}
+						} else {
+							const success = await Renderer.character._updateCharacterStat(character, character.source, statPath, newValue);
+							if (!success) {
+								console.warn(`Failed to update character stat ${statPath} on server`);
+							}
 						}
 					} catch (error) {
 						console.error('Error updating character stat:', error);
@@ -9907,6 +9955,70 @@ Renderer.character = class {
 		}
 
 		console.warn('CharacterManager not available for stat update');
+		return false;
+	}
+
+	// Special handler for hit dice updates that need to be distributed across classes
+	static async _updateHitDiceFromClasses(characterData, characterSource, statPath, newValue, classesData) {
+		if (!characterData || !characterSource || !statPath || !classesData) return false;
+
+		// Parse the die type from the stat path (e.g., "class.currentHitDice.d8" -> "d8")
+		const dieType = statPath.replace('class.currentHitDice.', '');
+		
+		// Parse classes data: "0:6:4,1:2:1" means [classIndex:level:currentUsage]
+		const classes = classesData.split(',').map(classStr => {
+			const [index, level, currentUsage] = classStr.split(':').map(Number);
+			return { index, level, currentUsage };
+		});
+
+		// Calculate total max and current values to understand the change
+		const totalMax = classes.reduce((sum, cls) => sum + cls.level, 0);
+		const totalCurrent = classes.reduce((sum, cls) => sum + cls.currentUsage, 0);
+		const targetCurrent = Math.max(0, Math.min(parseInt(newValue) || 0, totalMax));
+		const difference = targetCurrent - totalCurrent;
+
+		// Distribute the change across classes proportionally
+		if (difference !== 0) {
+			// If increasing usage (more used), start from highest level classes
+			// If decreasing usage (more available), start from lowest level classes
+			const sortedClasses = [...classes].sort((a, b) => difference > 0 ? b.level - a.level : a.level - b.level);
+			
+			let remainingChange = Math.abs(difference);
+			
+			for (const cls of sortedClasses) {
+				if (remainingChange === 0) break;
+				
+				const currentClassData = characterData.class[cls.index];
+				if (!currentClassData) continue;
+				
+				// Use simple currentHitDice property
+				if (currentClassData.currentHitDice === undefined) {
+					currentClassData.currentHitDice = cls.level;
+				}
+				
+				if (difference > 0) {
+					// Increasing usage (reducing available dice)
+					const canUse = Math.min(remainingChange, currentClassData.currentHitDice || cls.level);
+					currentClassData.currentHitDice = (currentClassData.currentHitDice || cls.level) - canUse;
+					remainingChange -= canUse;
+				} else {
+					// Decreasing usage (adding available dice)
+					const maxForClass = cls.level;
+					const currentForClass = currentClassData.currentHitDice || 0;
+					const canRestore = Math.min(remainingChange, maxForClass - currentForClass);
+					currentClassData.currentHitDice = currentForClass + canRestore;
+					remainingChange -= canRestore;
+				}
+			}
+		}
+
+		// Update character through CharacterManager
+		if (globalThis.CharacterManager) {
+			const characterId = characterData.id || globalThis.CharacterManager._generateCompositeId(characterData.name, characterData.source);
+			return await globalThis.CharacterManager.updateCharacterData(characterId, characterData);
+		}
+
+		console.warn('CharacterManager not available for hit dice update');
 		return false;
 	}
 
