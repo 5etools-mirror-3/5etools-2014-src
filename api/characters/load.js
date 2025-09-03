@@ -44,7 +44,8 @@ export default async function handler(req, res) {
         .map(async (blob) => {
           try {
             // Add cache-busting to prevent stale data
-            const response = await fetch(blob.url, {
+            const cacheBusterUrl = `${blob.url}${blob.url.includes('?') ? '&' : '?'}_t=${Date.now()}`;
+            const response = await fetch(cacheBusterUrl, {
               cache: 'no-cache',
               headers: {
                 'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -71,7 +72,8 @@ export default async function handler(req, res) {
     }
 
     // Load specific character from blob URL
-    const response = await fetch(url, {
+    const cacheBusterUrl = `${url}${url.includes('?') ? '&' : '?'}_t=${Date.now()}`;
+    const response = await fetch(cacheBusterUrl, {
       cache: 'no-cache',
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
