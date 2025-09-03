@@ -8571,6 +8571,7 @@ Renderer.character = class {
 		const inlineSummary = `<p><em>Level ${ptLevel} ${raceLink} ${classLinks}, ${backgroundLink}, ${ptAlignment}</em></p>`;
 		renderer.recursiveRender({type: "entries", entries: [inlineSummary]}, renderStack, {depth: 1});
 
+		const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
 
 		// Combat Stats - Compact inline format
 		const combatStats = [];
@@ -8587,7 +8588,6 @@ Renderer.character = class {
 			const maxHp = hp.max || hp.average || "?";
 
 			// Check if user has edit access for this character's source
-			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
 			console.log(`Renderer: Character ${character.name}, hasEditAccess: ${hasEditAccess}, isStatic: ${isStatic}`);
 			if (hasEditAccess && !isStatic) {
 				// Render editable HP with click-to-edit functionality
@@ -8646,17 +8646,69 @@ Renderer.character = class {
 			combatStats.push(`<strong>Prof. Bonus</strong>: ${profBonus}`);
 		}
 
+
+		// Hit Dice Section - editable tracking
+		if (character.hitDice) {
+			let characterId = null;
+
+			if (hasEditAccess && !isStatic) {
+				characterId = globalThis.CharacterManager
+					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
+					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
+			}
+
+			Object.entries(character.hitDice).forEach(([dieType, diceData]) => {
+				const current = diceData.current || 0;
+				const max = diceData.max || 0;
+
+				if (hasEditAccess && !isStatic && characterId) {
+					// Editable hit dice with click handlers
+					const clickableCount = `<span class="character-stat-display" data-stat-path="hitDice.${dieType}.current" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" title="Click to edit ${dieType} hit dice used" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
+					combatStats.push(`${clickableCount}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
+				} else {
+					// Static display
+					combatStats.push(`${current}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
+				}
+			});
+		}
+
+		// Death Saves Section - editable tracking
+		if (character.deathSaves) {
+			const successes = character.deathSaves.successes || 0;
+			const failures = character.deathSaves.failures || 0;
+			let characterId = null;
+
+			if (hasEditAccess && !isStatic) {
+				characterId = globalThis.CharacterManager
+					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
+					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
+			}
+
+			let deathSaveDisplay;
+			if (hasEditAccess && !isStatic && characterId) {
+				// Editable death saves with click handlers
+				const successDisplay = `<span class="character-stat-display" data-stat-path="deathSaves.successes" data-character-id="${characterId}" data-current-value="${successes}" data-max-value="3" title="Click to edit death save successes" style="cursor: pointer; border-bottom: 1px dashed #666;">${successes}</span>`;
+				const failureDisplay = `<span class="character-stat-display" data-stat-path="deathSaves.failures" data-character-id="${characterId}" data-current-value="${failures}" data-max-value="3" title="Click to edit death save failures" style="cursor: pointer; border-bottom: 1px dashed #666;">${failures}</span>`;
+				combatStats.push(`<strong>Successes:</strong>: ${successDisplay}/3, <strong>Failures</strong>: ${failureDisplay}/3`);
+			} else {
+				// Static display
+				combatStats.push(`<strong>Successes</strong>: ${successes}/3, <strong>Failures</strong>: ${failures}/3`);
+			}
+
+		}
+		// Custom Trackers Section - flexible tracking for abilities, items, conditions
+
 		if (combatStats.length > 0) {
 			const combatInfo = {
 				type: "entries",
-				entries: [`<p>${combatStats.join(', ')}</p>`]
+				entries: [`<p>${combatStats.join('<br>')}</p>`]
 			};
 			renderer.recursiveRender(combatInfo, renderStack, {depth: 1});
 		}
-
-
-
-
 
 		// Ability Scores Section
 		const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
@@ -8870,80 +8922,8 @@ Renderer.character = class {
 			renderer.recursiveRender(spellInfo, renderStack, {depth: 1});
 		}
 
-				// Hit Dice Section - editable tracking
-		if (character.hitDice) {
-			const hitDiceEntries = [];
-			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
-			let characterId = null;
-
-			if (hasEditAccess && !isStatic) {
-				characterId = globalThis.CharacterManager
-					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
-					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
-				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
-				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
-			}
-
-			Object.entries(character.hitDice).forEach(([dieType, diceData]) => {
-				const current = diceData.current || 0;
-				const max = diceData.max || 0;
-
-				if (hasEditAccess && !isStatic && characterId) {
-					// Editable hit dice with click handlers
-					const clickableCount = `<span class="character-stat-display" data-stat-path="hitDice.${dieType}.current" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" title="Click to edit ${dieType} hit dice used" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
-					hitDiceEntries.push(`${clickableCount}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
-				} else {
-					// Static display
-					hitDiceEntries.push(`${current}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
-				}
-			});
-
-			if (hitDiceEntries.length > 0) {
-				const hitDiceInfo = {
-					type: "entries",
-					name: "Hit Dice",
-					entries: hitDiceEntries
-				};
-				renderer.recursiveRender(hitDiceInfo, renderStack, {depth: 1});
-			}
-		}
-
-		// Death Saves Section - editable tracking
-		if (character.deathSaves) {
-			const successes = character.deathSaves.successes || 0;
-			const failures = character.deathSaves.failures || 0;
-			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
-			let characterId = null;
-
-			if (hasEditAccess && !isStatic) {
-				characterId = globalThis.CharacterManager
-					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
-					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
-				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
-				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
-			}
-
-			let deathSaveDisplay;
-			if (hasEditAccess && !isStatic && characterId) {
-				// Editable death saves with click handlers
-				const successDisplay = `<span class="character-stat-display" data-stat-path="deathSaves.successes" data-character-id="${characterId}" data-current-value="${successes}" data-max-value="3" title="Click to edit death save successes" style="cursor: pointer; border-bottom: 1px dashed #666;">${successes}</span>`;
-				const failureDisplay = `<span class="character-stat-display" data-stat-path="deathSaves.failures" data-character-id="${characterId}" data-current-value="${failures}" data-max-value="3" title="Click to edit death save failures" style="cursor: pointer; border-bottom: 1px dashed #666;">${failures}</span>`;
-				deathSaveDisplay = `<strong>Successes:</strong>: ${successDisplay}/3, <strong>Failures</strong>: ${failureDisplay}/3`;
-			} else {
-				// Static display
-				deathSaveDisplay = `<strong>Successes</strong>: ${successes}/3, <strong>Failures</strong>: ${failures}/3`;
-			}
-
-			const deathSaveInfo = {
-				type: "entries",
-				name: "Death Saves",
-				entries: [deathSaveDisplay]
-			};
-			renderer.recursiveRender(deathSaveInfo, renderStack, {depth: 1});
-		}		// Custom Trackers Section - flexible tracking for abilities, items, conditions
 		if (character.customTrackers?.length) {
 			const trackerEntries = [];
-			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
 			let characterId = null;
 
 			if (hasEditAccess && !isStatic) {
