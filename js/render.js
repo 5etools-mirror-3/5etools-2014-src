@@ -8772,11 +8772,22 @@ Renderer.character = class {
 		// Hit Dice Section - editable tracking
 		if (character.hitDice) {
 			const hitDiceEntries = [];
+			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
+			let characterId = null;
+			
+			if (hasEditAccess && !isStatic) {
+				characterId = globalThis.CharacterManager
+					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
+					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
+			}
+			
 			Object.entries(character.hitDice).forEach(([dieType, diceData]) => {
 				const current = diceData.current || 0;
 				const max = diceData.max || 0;
-
-				if (isEditable && characterId) {
+				
+				if (hasEditAccess && !isStatic && characterId) {
 					// Editable hit dice with click handlers
 					const clickableCount = `<span class="character-stat-display" data-stat-path="hitDice.${dieType}.current" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" title="Click to edit ${dieType} hit dice used" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
 					hitDiceEntries.push(`<strong>${dieType}:</strong> ${clickableCount}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
@@ -8800,9 +8811,19 @@ Renderer.character = class {
 		if (character.deathSaves) {
 			const successes = character.deathSaves.successes || 0;
 			const failures = character.deathSaves.failures || 0;
-
+			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
+			let characterId = null;
+			
+			if (hasEditAccess && !isStatic) {
+				characterId = globalThis.CharacterManager
+					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
+					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
+			}
+			
 			let deathSaveDisplay;
-			if (isEditable && characterId) {
+			if (hasEditAccess && !isStatic && characterId) {
 				// Editable death saves with click handlers
 				const successDisplay = `<span class="character-stat-display" data-stat-path="deathSaves.successes" data-character-id="${characterId}" data-current-value="${successes}" data-max-value="3" title="Click to edit death save successes" style="cursor: pointer; border-bottom: 1px dashed #666;">${successes}</span>`;
 				const failureDisplay = `<span class="character-stat-display" data-stat-path="deathSaves.failures" data-character-id="${characterId}" data-current-value="${failures}" data-max-value="3" title="Click to edit death save failures" style="cursor: pointer; border-bottom: 1px dashed #666;">${failures}</span>`;
@@ -8811,13 +8832,69 @@ Renderer.character = class {
 				// Static display
 				deathSaveDisplay = `<strong>Successes:</strong> ${successes}/3, <strong>Failures:</strong> ${failures}/3`;
 			}
-
+			
 			const deathSaveInfo = {
-				type: "entries",
+				type: "entries", 
 				name: "Death Saves",
 				entries: [deathSaveDisplay]
 			};
 			renderer.recursiveRender(deathSaveInfo, renderStack, {depth: 1});
+		}		// Custom Trackers Section - flexible tracking for abilities, items, conditions
+		if (character.customTrackers?.length) {
+			const trackerEntries = [];
+			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
+			let characterId = null;
+			
+			if (hasEditAccess && !isStatic) {
+				characterId = globalThis.CharacterManager
+					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
+					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
+			}
+			
+			character.customTrackers.forEach((tracker, index) => {
+				const trackerName = tracker.name || `Tracker ${index + 1}`;
+				const description = tracker.description ? ` - ${tracker.description}` : '';
+				
+				if (tracker.type === 'counter') {
+					// Counter type tracker (current/max)
+					const current = tracker.current || 0;
+					const max = tracker.max || 1;
+					
+					if (hasEditAccess && !isStatic && characterId) {
+						// Editable counter with click handlers
+						const clickableCount = `<span class="character-stat-display" data-stat-path="customTrackers.${index}.current" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" title="Click to edit ${trackerName}" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
+						trackerEntries.push(`<strong>${trackerName}:</strong> ${clickableCount}/${max}${description}`);
+					} else {
+						// Static display
+						trackerEntries.push(`<strong>${trackerName}:</strong> ${current}/${max}${description}`);
+					}
+				} else if (tracker.type === 'condition') {
+					// Condition type tracker (active/inactive)
+					const active = tracker.active || false;
+					const duration = tracker.duration ? ` (${tracker.duration})` : '';
+					const status = active ? '✓ Active' : '✗ Inactive';
+					
+					if (hasEditAccess && !isStatic && characterId) {
+						// Editable condition with click handlers
+						const clickableStatus = `<span class="character-stat-display" data-stat-path="customTrackers.${index}.active" data-character-id="${characterId}" data-current-value="${active}" data-max-value="true" title="Click to toggle ${trackerName}" style="cursor: pointer; border-bottom: 1px dashed #666;">${status}</span>`;
+						trackerEntries.push(`<strong>${trackerName}:</strong> ${clickableStatus}${duration}${description}`);
+					} else {
+						// Static display
+						trackerEntries.push(`<strong>${trackerName}:</strong> ${status}${duration}${description}`);
+					}
+				}
+			});
+
+			if (trackerEntries.length > 0) {
+				const trackerInfo = {
+					type: "entries",
+					name: "Custom Trackers",
+					entries: trackerEntries
+				};
+				renderer.recursiveRender(trackerInfo, renderStack, {depth: 1});
+			}
 		}
 
 		// Additional Combat Info - Passive Perception inline
