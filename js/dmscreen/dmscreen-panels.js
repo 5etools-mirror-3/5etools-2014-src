@@ -213,6 +213,7 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 		// Add CharacterManager listener to re-render character when updated
 		let currentCharacterId = null;
 		const characterUpdateListener = (characters) => {
+			console.log(`DM Screen Character Panel: Received character update, currentCharacterId: ${currentCharacterId}`);
 			if (currentCharacterId) {
 				const updatedCharacter = characters.find(c => {
 					const id = CharacterManager._generateCompositeId(c.name, c.source);
@@ -220,6 +221,7 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 				});
 				
 				if (updatedCharacter) {
+					console.log(`DM Screen Character Panel: Re-rendering character ${updatedCharacter.name}`);
 					// Re-register the updated character
 					globalThis._CHARACTER_EDIT_DATA[currentCharacterId] = updatedCharacter;
 					
@@ -228,6 +230,8 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 					const $rendered = $(renderedHtml);
 					$content.empty().append($rendered);
 					Renderer.character._bindCharacterSheetListeners($content[0]);
+				} else {
+					console.log(`DM Screen Character Panel: No matching character found for ID ${currentCharacterId}`);
 				}
 			}
 		};
@@ -252,6 +256,7 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 					// Register character for editing in global registry
 					const characterId = CharacterManager._generateCompositeId(character.name, character.source);
 					currentCharacterId = characterId;
+					console.log(`DM Screen Character Panel: Selected character ${character.name}, ID: ${characterId}`);
 					if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
 					globalThis._CHARACTER_EDIT_DATA[characterId] = character;
 					

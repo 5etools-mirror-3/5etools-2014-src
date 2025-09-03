@@ -8588,7 +8588,7 @@ Renderer.character = class {
 
 			// Check if user has edit access for this character's source
 			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
-
+			console.log(`Renderer: Character ${character.name}, hasEditAccess: ${hasEditAccess}, isStatic: ${isStatic}`);
 			if (hasEditAccess && !isStatic) {
 				// Render editable HP with click-to-edit functionality
 				// Store character data in a global registry instead of embedding in HTML
@@ -9031,6 +9031,22 @@ Renderer.character = class {
 
 	static _bindCharacterSheetListeners (ele) {
 		const $ele = $(ele);
+		console.log('DM Screen Debug: _bindCharacterSheetListeners called with element:', ele);
+		
+		const statDisplays = $ele.find('.character-stat-display');
+		console.log(`DM Screen Debug: Found ${statDisplays.length} character-stat-display elements`);
+		
+		if (statDisplays.length > 0) {
+			statDisplays.each(function(index, elem) {
+				const $elem = $(elem);
+				console.log(`DM Screen Debug: Stat display ${index}:`, {
+					path: $elem.attr('data-stat-path'),
+					characterId: $elem.attr('data-character-id'),
+					value: $elem.attr('data-current-value'),
+					text: $elem.text().trim()
+				});
+			});
+		}
 
 		// Click-to-edit functionality for character stats
 		$ele.on('click', '.character-stat-display', function() {
@@ -9038,9 +9054,18 @@ Renderer.character = class {
 			const statPath = $display.attr('data-stat-path');
 			const characterId = $display.attr('data-character-id');
 			const currentValue = $display.attr('data-current-value');
+			
+			console.log('DM Screen Debug: Character stat clicked:', {
+				statPath,
+				characterId, 
+				currentValue,
+				hasGlobalEditData: !!globalThis._CHARACTER_EDIT_DATA,
+				hasCharacterData: !!(globalThis._CHARACTER_EDIT_DATA && globalThis._CHARACTER_EDIT_DATA[characterId])
+			});
 
 			// Get character data from global registry
 			if (!globalThis._CHARACTER_EDIT_DATA || !globalThis._CHARACTER_EDIT_DATA[characterId]) {
+				console.log('DM Screen Debug: No character data found in global registry for ID:', characterId);
 				return; // Skip if character data not found
 			}
 
