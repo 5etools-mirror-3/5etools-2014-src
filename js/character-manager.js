@@ -971,4 +971,5 @@ class CharacterManager {
 CharacterManager._initCrossTabSync();
 
 // Make it available globally for all scripts
+// @ts-ignore - Intentionally adding to globalThis
 globalThis.CharacterManager = CharacterManager;
