@@ -1671,7 +1671,7 @@ class CharacterEditorPage {
 	}
 
 	generateRandomEquipment(classes, level) {
-		const equipment = ["Explorer's Pack", "Bedroll", "Rope (50 feet)", "Tinderbox", "Rations (10 days)", "Waterskin", "Hempen Rope", "Torch (x5)"];
+		const equipment = ["{@item Explorer's Pack|phb}", "{@item Bedroll|phb}", "{@item Rope (50 feet)|phb}", "{@item Tinderbox|phb}", "{@item Rations (10 days)|phb}", "{@item Waterskin|phb}", "{@item Hempen Rope|phb}", "{@item Torch|phb} (x5)"];
 		
 		// Add class-specific equipment with more variety
 		classes.forEach(cls => {
@@ -1679,84 +1679,84 @@ class CharacterEditorPage {
 				case "Fighter":
 				case "Paladin":
 					equipment.push(
-						level >= 5 ? "Plate Armor" : "Chain Mail",
-						"Longsword", "Shield", "Javelin (x4)", "Handaxe (x2)",
-						level >= 3 ? "Silvered Weapon" : "Whetstone"
+						level >= 5 ? "{@item Plate Armor|phb}" : "{@item Chain Mail|phb}",
+						"{@item Longsword|phb}", "{@item Shield|phb}", "{@item Javelin|phb} (x4)", "{@item Handaxe|phb} (x2)",
+						level >= 3 ? "{@item Silvered Weapon|phb}" : "{@item Whetstone|phb}"
 					);
 					if (cls.name === "Paladin") {
-						equipment.push("Holy Symbol", "Prayer Book", "Holy Water");
+						equipment.push("{@item Holy Symbol|phb}", "{@item Prayer Book|phb}", "{@item Holy Water|phb}");
 					}
 					break;
 				case "Rogue":
 					equipment.push(
-						"Leather Armor", "Shortbow", "Arrows (x20)", "Thieves' Tools",
-						"Burglar's Pack", "Dagger (x2)", "Shortsword", "Caltrops",
-						level >= 3 ? "Poisoner's Kit" : "Ball Bearings"
+						"{@item Leather Armor|phb}", "{@item Shortbow|phb}", "{@item Arrows|phb} (x20)", "{@item Thieves' Tools|phb}",
+						"{@item Burglar's Pack|phb}", "{@item Dagger|phb} (x2)", "{@item Shortsword|phb}", "{@item Caltrops|phb}",
+						level >= 3 ? "{@item Poisoner's Kit|phb}" : "{@item Ball Bearings|phb}"
 					);
 					break;
 				case "Ranger":
 					equipment.push(
-						"Studded Leather Armor", "Longbow", "Arrows (x20)", "Scimitar (x2)",
-						"Survival Kit", "Hunting Trap", "Net", "Herbalism Kit",
-						level >= 2 ? "Component Pouch" : "Druidcraft Focus"
+						"{@item Studded Leather Armor|phb}", "{@item Longbow|phb}", "{@item Arrows|phb} (x20)", "{@item Scimitar|phb} (x2)",
+						"{@item Survival Kit|phb}", "{@item Hunting Trap|phb}", "{@item Net|phb}", "{@item Herbalism Kit|phb}",
+						level >= 2 ? "{@item Component Pouch|phb}" : "{@item Druidcraft Focus|phb}"
 					);
 					break;
 				case "Wizard":
 					equipment.push(
-						"Spellbook", "Component Pouch", "Dagger", "Quarterstaff",
-						"Scholar's Pack", "Ink and Quill", "Spell Scroll (x2)",
-						level >= 3 ? "Arcane Focus (Crystal)" : "Arcane Focus (Wand)",
-						level >= 5 ? "Scroll Case" : "Parchment (x10)"
+						"{@item Spellbook|phb}", "{@item Component Pouch|phb}", "{@item Dagger|phb}", "{@item Quarterstaff|phb}",
+						"{@item Scholar's Pack|phb}", "{@item Ink and Quill|phb}", "{@item Spell Scroll|phb} (x2)",
+						level >= 3 ? "{@item Arcane Focus (Crystal)|phb}" : "{@item Arcane Focus (Wand)|phb}",
+						level >= 5 ? "{@item Scroll Case|phb}" : "{@item Parchment|phb} (x10)"
 					);
 					break;
 				case "Sorcerer":
 					equipment.push(
-						"Dagger (x2)", "Component Pouch", "Light Crossbow", "Bolts (x20)",
-						"Dungeoneer's Pack", "Arcane Focus (Crystal)",
-						level >= 3 ? "Metamagic Focus" : "Simple Weapon"
+						"{@item Dagger|phb} (x2)", "{@item Component Pouch|phb}", "{@item Light Crossbow|phb}", "{@item Bolts|phb} (x20)",
+						"{@item Dungeoneer's Pack|phb}", "{@item Arcane Focus (Crystal)|phb}",
+						level >= 3 ? "{@item Metamagic Focus|phb}" : "{@item Simple Weapon|phb}"
 					);
 					break;
 				case "Warlock":
 					equipment.push(
-						"Leather Armor", "Simple Weapon", "Dagger (x2)",
-						"Component Pouch", "Scholar's Pack", "Arcane Focus (Rod)",
-						level >= 3 ? "Pact Weapon" : "Light Crossbow and Bolts"
+						"{@item Leather Armor|phb}", "{@item Simple Weapon|phb}", "{@item Dagger|phb} (x2)",
+						"{@item Component Pouch|phb}", "{@item Scholar's Pack|phb}", "{@item Arcane Focus (Rod)|phb}",
+						level >= 3 ? "{@item Pact Weapon|phb}" : "{@item Light Crossbow|phb} and {@item Bolts|phb}"
 					);
 					break;
 				case "Cleric":
 					equipment.push(
-						level >= 5 ? "Chain Mail" : "Leather Armor",
-						"Shield", "Mace", "Holy Symbol", "Priest's Pack",
-						"Prayer Book", "Holy Water", "Incense",
-						level >= 3 ? "Blessed Weapon" : "Simple Weapon"
+						level >= 5 ? "{@item Chain Mail|phb}" : "{@item Leather Armor|phb}",
+						"{@item Shield|phb}", "{@item Mace|phb}", "{@item Holy Symbol|phb}", "{@item Priest's Pack|phb}",
+						"{@item Prayer Book|phb}", "{@item Holy Water|phb}", "{@item Incense|phb}",
+						level >= 3 ? "{@item Blessed Weapon|phb}" : "{@item Simple Weapon|phb}"
 					);
 					break;
 				case "Druid":
 					equipment.push(
-						"Leather Armor", "Shield", "Scimitar", "Javelin (x4)",
-						"Herbalism Kit", "Wooden Shield", "Druidcraft Focus",
-						"Bedroll", level >= 2 ? "Wild Shape Focus" : "Nature Kit"
+						"{@item Leather Armor|phb}", "{@item Shield|phb}", "{@item Scimitar|phb}", "{@item Javelin|phb} (x4)",
+						"{@item Herbalism Kit|phb}", "{@item Wooden Shield|phb}", "{@item Druidcraft Focus|phb}",
+						"{@item Bedroll|phb}", level >= 2 ? "{@item Wild Shape Focus|phb}" : "{@item Nature Kit|phb}"
 					);
 					break;
 				case "Barbarian":
 					equipment.push(
-						"Unarmored Defense", "Greataxe", "Handaxe (x2)", "Javelin (x4)",
-						"Explorer's Pack", "Tribal Tokens",
-						level >= 3 ? "Rage Trinket" : "Hunting Gear"
+						"Unarmored Defense", "{@item Greataxe|phb}", "{@item Handaxe|phb} (x2)", "{@item Javelin|phb} (x4)",
+						"{@item Explorer's Pack|phb}", "{@item Tribal Tokens|phb}",
+						level >= 3 ? "{@item Rage Trinket|phb}" : "{@item Hunting Gear|phb}"
 					);
 					break;
 				case "Bard":
 					equipment.push(
-						"Leather Armor", "Rapier", "Dagger", "Musical Instrument",
-						"Entertainer's Pack", "Lute", "Costume",
-						level >= 3 ? "Magical Instrument" : "Performance Props"
+						"{@item Leather Armor|phb}", "{@item Rapier|phb}", "{@item Dagger|phb}", "{@item Musical Instrument|phb}",
+						"{@item Entertainer's Pack|phb}", "{@item Lute|phb}", "{@item Costume|phb}",
+						level >= 3 ? "{@item Magical Instrument|phb}" : "{@item Performance Props|phb}"
 					);
 					break;
 				case "Monk":
 					equipment.push(
-						"Simple Weapon", "Dart (x10)", "Dungeoneer's Pack",
-						"Meditation Beads", "Incense", "Prayer Wheel",
-						level >= 3 ? "Ki Focus" : "Simple Tools"
+						"{@item Simple Weapon|phb}", "{@item Dart|phb} (x10)", "{@item Dungeoneer's Pack|phb}",
+						"{@item Meditation Beads|phb}", "{@item Incense|phb}", "{@item Prayer Wheel|phb}",
+						level >= 3 ? "{@item Ki Focus|phb}" : "{@item Simple Tools|phb}"
 					);
 					break;
 			}
@@ -1764,29 +1764,29 @@ class CharacterEditorPage {
 
 		// Add level-appropriate magic items and equipment
 		if (level >= 3) {
-			const uncommonItems = ["Potion of Healing", "Bag of Holding", "Cloak of Protection", "Boots of Elvenkind", "Bracers of Archery"];
+			const uncommonItems = ["{@item Potion of Healing|dmg}", "{@item Bag of Holding|dmg}", "{@item Cloak of Protection|dmg}", "{@item Boots of Elvenkind|dmg}", "{@item Bracers of Archery|dmg}"];
 			equipment.push(uncommonItems[Math.floor(Math.random() * uncommonItems.length)]);
 		}
 		
 		if (level >= 5) {
-			const rareItems = ["+1 Weapon", "Ring of Protection", "Cloak of Displacement", "Wand of Magic Missiles"];
+			const rareItems = ["{@item +1 Weapon|dmg}", "{@item Ring of Protection|dmg}", "{@item Cloak of Displacement|dmg}", "{@item Wand of Magic Missiles|dmg}"];
 			equipment.push(rareItems[Math.floor(Math.random() * rareItems.length)]);
 		}
 
 		if (level >= 8) {
-			const veryRareItems = ["+2 Weapon", "Belt of Giant Strength", "Amulet of Health", "Rod of Lordly Might"];
+			const veryRareItems = ["{@item +2 Weapon|dmg}", "{@item Belt of Giant Strength|dmg}", "{@item Amulet of Health|dmg}", "{@item Rod of Lordly Might|dmg}"];
 			equipment.push(veryRareItems[Math.floor(Math.random() * veryRareItems.length)]);
 		}
 
 		if (level >= 12) {
-			const legendaryItems = ["+3 Weapon", "Ring of Spell Storing", "Staff of Power", "Cloak of Invisibility"];
+			const legendaryItems = ["{@item +3 Weapon|dmg}", "{@item Ring of Spell Storing|dmg}", "{@item Staff of Power|dmg}", "{@item Cloak of Invisibility|dmg}"];
 			equipment.push(legendaryItems[Math.floor(Math.random() * legendaryItems.length)]);
 		}
 
 		// Add general adventuring gear based on level
 		const generalGear = [
-			"Grappling Hook", "Crowbar", "Hammer", "Piton (x10)", "Mirror",
-			"Oil Flask", "Lantern", "Chain (10 feet)", "Manacles", "Magnifying Glass"
+			"{@item Grappling Hook|phb}", "{@item Crowbar|phb}", "{@item Hammer|phb}", "{@item Piton|phb} (x10)", "{@item Mirror|phb}",
+			"{@item Oil Flask|phb}", "{@item Lantern|phb}", "{@item Chain (10 feet)|phb}", "{@item Manacles|phb}", "{@item Magnifying Glass|phb}"
 		];
 		
 		const gearToAdd = Math.min(3 + Math.floor(level / 3), generalGear.length);
