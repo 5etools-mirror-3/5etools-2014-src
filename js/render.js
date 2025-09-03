@@ -8769,6 +8769,57 @@ Renderer.character = class {
 		};
 		renderer.recursiveRender(savingThrowsSection, renderStack, {depth: 1});
 
+		// Hit Dice Section - editable tracking
+		if (character.hitDice) {
+			const hitDiceEntries = [];
+			Object.entries(character.hitDice).forEach(([dieType, diceData]) => {
+				const current = diceData.current || 0;
+				const max = diceData.max || 0;
+
+				if (isEditable && characterId) {
+					// Editable hit dice with click handlers
+					const clickableCount = `<span class="character-stat-display" data-stat-path="hitDice.${dieType}.current" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" title="Click to edit ${dieType} hit dice used" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
+					hitDiceEntries.push(`<strong>${dieType}:</strong> ${clickableCount}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
+				} else {
+					// Static display
+					hitDiceEntries.push(`<strong>${dieType}:</strong> ${current}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
+				}
+			});
+
+			if (hitDiceEntries.length > 0) {
+				const hitDiceInfo = {
+					type: "entries",
+					name: "Hit Dice",
+					entries: hitDiceEntries
+				};
+				renderer.recursiveRender(hitDiceInfo, renderStack, {depth: 1});
+			}
+		}
+
+		// Death Saves Section - editable tracking
+		if (character.deathSaves) {
+			const successes = character.deathSaves.successes || 0;
+			const failures = character.deathSaves.failures || 0;
+
+			let deathSaveDisplay;
+			if (isEditable && characterId) {
+				// Editable death saves with click handlers
+				const successDisplay = `<span class="character-stat-display" data-stat-path="deathSaves.successes" data-character-id="${characterId}" data-current-value="${successes}" data-max-value="3" title="Click to edit death save successes" style="cursor: pointer; border-bottom: 1px dashed #666;">${successes}</span>`;
+				const failureDisplay = `<span class="character-stat-display" data-stat-path="deathSaves.failures" data-character-id="${characterId}" data-current-value="${failures}" data-max-value="3" title="Click to edit death save failures" style="cursor: pointer; border-bottom: 1px dashed #666;">${failures}</span>`;
+				deathSaveDisplay = `<strong>Successes:</strong> ${successDisplay}/3, <strong>Failures:</strong> ${failureDisplay}/3`;
+			} else {
+				// Static display
+				deathSaveDisplay = `<strong>Successes:</strong> ${successes}/3, <strong>Failures:</strong> ${failures}/3`;
+			}
+
+			const deathSaveInfo = {
+				type: "entries",
+				name: "Death Saves",
+				entries: [deathSaveDisplay]
+			};
+			renderer.recursiveRender(deathSaveInfo, renderStack, {depth: 1});
+		}
+
 		// Additional Combat Info - Passive Perception inline
 		const additionalCombat = [];
 		const wisScore = character.wis || 10;
@@ -8818,15 +8869,15 @@ Renderer.character = class {
 
 			// Add spell save DC and attack bonus if provided
 			if (character.spells.dc || character.spells.attackBonus) {
-				const dcText = character.spells.dc ? `**Spell Save DC** ${character.spells.dc}` : '';
-				const attackText = character.spells.attackBonus ? `**Spell Attack Bonus** ${character.spells.attackBonus}` : '';
+				const dcText = character.spells.dc ? `Spell Save DC: ${character.spells.dc}` : '';
+				const attackText = character.spells.attackBonus ? `Spell Attack Bonus: ${character.spells.attackBonus}` : '';
 				const separator = dcText && attackText ? ' | ' : '';
 				spellInfo.entries.push(`${dcText}${separator}${attackText}`);
 			}
 
 			// Add spellcasting ability if provided
 			if (character.spells.ability) {
-				spellInfo.entries.push(`**Spellcasting Ability** ${character.spells.ability}`);
+				spellInfo.entries.push(`Spellcasting Ability: ${character.spells.ability}`);
 			}
 
 			// Process spell levels
