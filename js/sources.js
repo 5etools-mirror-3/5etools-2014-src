@@ -134,26 +134,26 @@ class SourceManager {
 		const levelSelect = document.getElementById('character-level-select');
 		const nameInput = document.getElementById('character-name-input');
 		const messageDiv = document.getElementById('generation-message');
-		
+
 		if (generateBtn && sourceSelect && levelSelect && nameInput && messageDiv) {
 			// Enable/disable generate button based on source selection
 			sourceSelect.addEventListener('change', () => {
 				generateBtn.disabled = !sourceSelect.value;
 			});
-			
+
 			// Handle character generation
 			generateBtn.addEventListener('click', () => {
 				const selectedSource = sourceSelect.value;
 				const selectedLevel = parseInt(levelSelect.value);
 				const characterName = nameInput.value.trim();
-				
+
 				if (!selectedSource) {
 					messageDiv.innerHTML = '<span style="color: #dc3545;">Please select a source first.</span>';
 					return;
 				}
-				
+
 				messageDiv.innerHTML = '<span style="color: #0066cc;">Generating character...</span>';
-				
+
 				// Generate character with the selected source
 				this.generateRandomCharacter(selectedSource, selectedLevel, characterName);
 			});

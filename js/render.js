@@ -8653,7 +8653,7 @@ Renderer.character = class {
 			const classHitDice = {
 				'barbarian': 'd12',
 				'fighter': 'd10',
-				'paladin': 'd10', 
+				'paladin': 'd10',
 				'ranger': 'd10',
 				'bard': 'd8',
 				'cleric': 'd8',
@@ -8667,21 +8667,21 @@ Renderer.character = class {
 
 			// Group classes by hit die type for display
 			const hitDiceByType = {};
-			
+
 			character.class.forEach((cls, classIndex) => {
 				const className = cls.name.toLowerCase();
 				const level = cls.level || 1;
 				const hitDie = classHitDice[className] || 'd8'; // Default to d8 if unknown class
-				
+
 				// Initialize hit dice usage if not present - use simple currentHitDice property
 				if (cls.currentHitDice === undefined) {
 					cls.currentHitDice = level; // Default to max (all available)
 				}
-				
+
 				if (!hitDiceByType[hitDie]) {
 					hitDiceByType[hitDie] = { max: 0, current: 0, classes: [] };
 				}
-				
+
 				hitDiceByType[hitDie].max += level;
 				hitDiceByType[hitDie].current += cls.currentHitDice;
 				// Store actual current hit dice (available), not used
@@ -8702,7 +8702,7 @@ Renderer.character = class {
 				}
 
 				if (hasEditAccess && !isStatic && characterId) {
-					// For hit dice, we edit the available dice directly  
+					// For hit dice, we edit the available dice directly
 					// Store class information for proper updating
 					const classesData = classes.map(c => `${c.index}:${c.level}:${c.currentAvailable}`).join(',');
 					const clickableCount = `<span class="character-stat-display" data-stat-path="class.currentHitDice.${dieType}" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" data-classes-data="${classesData}" title="Click to edit ${dieType} hit dice available" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
@@ -9965,7 +9965,7 @@ Renderer.character = class {
 
 		// Parse the die type from the stat path (e.g., "class.currentHitDice.d8" -> "d8")
 		const dieType = statPath.replace('class.currentHitDice.', '');
-		
+
 		// Parse classes data: "0:6:4,1:2:1" means [classIndex:level:currentAvailable]
 		const classes = classesData.split(',').map(classStr => {
 			const [index, level, currentAvailable] = classStr.split(':').map(Number);
@@ -9983,20 +9983,20 @@ Renderer.character = class {
 			// If increasing available dice, start from classes with fewer dice
 			// If decreasing available dice, start from classes with more dice
 			const sortedClasses = [...classes].sort((a, b) => difference > 0 ? a.currentAvailable - b.currentAvailable : b.currentAvailable - a.currentAvailable);
-			
+
 			let remainingChange = Math.abs(difference);
-			
+
 			for (const cls of sortedClasses) {
 				if (remainingChange === 0) break;
-				
+
 				const currentClassData = characterData.class[cls.index];
 				if (!currentClassData) continue;
-				
+
 				// Use simple currentHitDice property
 				if (currentClassData.currentHitDice === undefined) {
 					currentClassData.currentHitDice = cls.level;
 				}
-				
+
 				if (difference > 0) {
 					// Increasing available hit dice
 					const maxForClass = cls.level;
@@ -10016,10 +10016,18 @@ Renderer.character = class {
 		// Update character through CharacterManager
 		if (globalThis.CharacterManager) {
 			const characterId = characterData.id || globalThis.CharacterManager._generateCompositeId(characterData.name, characterData.source);
+
+			// Save to server like other stat updates
+			const success = await globalThis.CharacterManager.saveCharacter(characterData, true);
 			
-			// Use addOrUpdateCharacter to save the full character data
-			globalThis.CharacterManager.addOrUpdateCharacter(characterData);
-			return true;
+			if (success) {
+				// Update local cache if server save succeeded
+				globalThis.CharacterManager.addOrUpdateCharacter(characterData);
+				return true;
+			} else {
+				console.warn('CharacterManager: Server update failed for hit dice');
+				return false;
+			}
 		}
 
 		console.warn('CharacterManager not available for hit dice update');

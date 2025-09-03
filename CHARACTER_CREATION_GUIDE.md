@@ -3,9 +3,9 @@
 ## Quick Start Checklist
 
 Before you begin, you should know about:
-- ✅ to have read [from zero to hero](https://wiki.tercept.net/en/Homebrew/FromZeroToHero) to explain the 5e format 
+- ✅ to have read [from zero to hero](https://wiki.tercept.net/en/Homebrew/FromZeroToHero) to explain the 5e format
 - ✅ you can use vscode with the [language server](https://marketplace.visualstudio.com/items?itemName=revilowaldow.5etools-language-server) in order to get auto complete if editing the json files outside of the site. this can really help with linking of source material's
-- 
+-
 ## Table of Contents
 
 1. [Step-by-Step Character Creation](#1-step-by-step-character-creation)
@@ -27,10 +27,10 @@ Before you begin, you should know about:
 
 ## 1. Step-by-Step Character Creation
 
-### Step 1: Log in to character source 
+### Step 1: Log in to character source
 
-To go [https://5e.bne.sh/sources.html] and login or create a source. 
-after you do this there should be a create character button 
+To go [https://5e.bne.sh/sources.html] and login or create a source.
+after you do this there should be a create character button
 <img width="250" height="178" alt="image" src="https://github.com/user-attachments/assets/647f787f-1be2-4461-955e-56f3c811d86e" />
 
 ### Step 2: Add Race and Class Information
@@ -254,7 +254,7 @@ Use two-letter codes:
 ```json
 {
   "str": 16,    // Strength
-  "dex": 14,    // Dexterity  
+  "dex": 14,    // Dexterity
   "con": 15,    // Constitution
   "int": 12,    // Intelligence
   "wis": 13,    // Wisdom
@@ -331,7 +331,7 @@ Add proficient saving throws:
 "class": [
   {
     "name": "Fighter",
-    "source": "PHB", 
+    "source": "PHB",
     "level": 3,
     "subclass": {
       "name": "Champion",
@@ -354,7 +354,7 @@ Add proficient saving throws:
 
 Common source abbreviations:
 - **PHB**: Player's Handbook
-- **XGE**: Xanathar's Guide to Everything  
+- **XGE**: Xanathar's Guide to Everything
 - **TCE**: Tasha's Cauldron of Everything
 - **SCAG**: Sword Coast Adventurer's Guide
 - **homebrew**: Custom/homebrew content
@@ -454,7 +454,7 @@ Common source abbreviations:
 ```json
 "skill": {
   "athletics": "+6",        // STR-based
-  "acrobatics": "+4",       // DEX-based  
+  "acrobatics": "+4",       // DEX-based
   "sleightOfHand": "+4",    // DEX-based
   "stealth": "+4",          // DEX-based
   "arcana": "+3",           // INT-based
@@ -496,7 +496,7 @@ Common source abbreviations:
 ```json
 "toolProficiencies": [
   "Smith's Tools",
-  "Thieves' Tools", 
+  "Thieves' Tools",
   "Playing Card Set"
 ]
 ```
@@ -547,7 +547,7 @@ Common source abbreviations:
   "0": {
     "spells": [
       "mage hand",
-      "prestidigitation", 
+      "prestidigitation",
       "minor illusion",
       "fire bolt"
     ]
@@ -564,7 +564,7 @@ Common source abbreviations:
     "slotsUsed": 2,
     "spells": [
       "magic missile",
-      "shield", 
+      "shield",
       "identify",
       "detect magic"
     ]
@@ -732,7 +732,7 @@ Hit dice are used for healing during short rests and are now tracked within each
 
 **Hit Die by Class:**
 - **d6**: Sorcerer, Wizard
-- **d8**: Bard, Cleric, Druid, Monk, Rogue, Warlock  
+- **d8**: Bard, Cleric, Druid, Monk, Rogue, Warlock
 - **d10**: Fighter, Paladin, Ranger
 - **d12**: Barbarian
 
@@ -889,7 +889,7 @@ Flexible system for any trackable resource:
 
 **Attack Tags:**
 - `{@atk mw}` - Melee weapon attack
-- `{@atk rw}` - Ranged weapon attack  
+- `{@atk rw}` - Ranged weapon attack
 - `{@atk ms}` - Melee spell attack
 - `{@atk rs}` - Ranged spell attack
 
@@ -953,7 +953,7 @@ Flexible system for any trackable resource:
 ```json
 "currency": {
   "cp": 50,     // Copper pieces
-  "sp": 100,    // Silver pieces  
+  "sp": 100,    // Silver pieces
   "gp": 250,    // Gold pieces
   "pp": 10      // Platinum pieces
 }
@@ -985,7 +985,7 @@ Flexible system for any trackable resource:
     ]
   },
   {
-    "name": "Dwarven Resilience", 
+    "name": "Dwarven Resilience",
     "entries": [
       "You have advantage on saving throws against poison, and you have resistance against poison damage."
     ]
@@ -1344,7 +1344,7 @@ Flexible system for any trackable resource:
   "level": 5
 }
 
-// ✅ Correct  
+// ✅ Correct
 {
   "name": "Character",
   "level": 5
@@ -1361,7 +1361,7 @@ Flexible system for any trackable resource:
 
 // ✅ Correct
 {
-  "name": "Character", 
+  "name": "Character",
   "level": 5
 }
 ```
@@ -1409,7 +1409,7 @@ Flexible system for any trackable resource:
 
 **Attack Bonuses:**
 - Melee: STR mod + proficiency bonus + magic bonus
-- Ranged: DEX mod + proficiency bonus + magic bonus  
+- Ranged: DEX mod + proficiency bonus + magic bonus
 - Spell: Spellcasting mod + proficiency bonus
 
 **Spell Save DC:**
@@ -1646,7 +1646,7 @@ The spell system supports all caster types with flexible slot tracking.
 {
   "spells": {
     "dc": 15,
-    "attackBonus": "+7", 
+    "attackBonus": "+7",
     "ability": "Intelligence",
     "levels": {
       "0": {
@@ -1673,7 +1673,7 @@ The spell system supports all caster types with flexible slot tracking.
   "spells": {
     "dc": 15,
     "attackBonus": "+7",
-    "ability": "Charisma", 
+    "ability": "Charisma",
     "levels": {
       "0": {
         "spells": ["eldritch blast", "prestidigitation"]
@@ -1763,7 +1763,7 @@ To track how many hit dice you've used, add a `currentHitDice` property to each 
       "currentHitDice": 1
     },
     {
-      "name": "Rogue", 
+      "name": "Rogue",
       "level": 2,
       "currentHitDice": 2
     }
@@ -1959,7 +1959,7 @@ For active effects, advantages, or status conditions:
 {
   "currency": {
     "cp": 50,
-    "sp": 100, 
+    "sp": 100,
     "gp": 250,
     "pp": 10
   }
