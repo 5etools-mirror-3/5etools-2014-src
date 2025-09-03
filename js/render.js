@@ -8808,59 +8808,67 @@ Renderer.character = class {
 			renderer.recursiveRender(actionInfo, renderStack, {depth: 1});
 		}
 
-		// Spellcasting - collapsible section
-		if (character.spellcasting) {
-			const sc = character.spellcasting;
+		// Spells - modern spellcasting system
+		if (character.spells) {
 			const spellInfo = {
 				type: "entries",
-				name: "Spellcasting",
-				entries: [
-					`**Spell Save DC** ${sc.dc} | **Spell Attack Bonus** ${sc.mod}`
-				]
+				name: "Spells",
+				entries: []
 			};
 
-			if (sc.spells) {
-				// Check if character is a warlock
-				const isWarlock = character.class?.some(cls => cls.name.toLowerCase() === 'warlock');
+			// Add spell save DC and attack bonus if provided
+			if (character.spells.dc || character.spells.attackBonus) {
+				const dcText = character.spells.dc ? `**Spell Save DC** ${character.spells.dc}` : '';
+				const attackText = character.spells.attackBonus ? `**Spell Attack Bonus** ${character.spells.attackBonus}` : '';
+				const separator = dcText && attackText ? ' | ' : '';
+				spellInfo.entries.push(`${dcText}${separator}${attackText}`);
+			}
 
+			// Add spellcasting ability if provided
+			if (character.spells.ability) {
+				spellInfo.entries.push(`**Spellcasting Ability** ${character.spells.ability}`);
+			}
+
+			// Process spell levels
+			if (character.spells.levels) {
 				const spellLevels = [];
-				Object.entries(sc.spells).forEach(([level, spellData]) => {
-					const levelName = level === "0" ? "Cantrips" : `Level ${level}`;
+
+				Object.entries(character.spells.levels).forEach(([level, levelData]) => {
+					const levelNum = parseInt(level);
+					const levelName = levelNum === 0 ? "Cantrips" : `Level ${levelNum}`;
+
+					if (!levelData.spells || levelData.spells.length === 0) return; // Skip empty levels
+
 					let slotsHtml = '';
 
-					if (spellData.slots) {
-						// For warlocks, only show warlock spell slots (usually only one level)
-						// For other classes, show all spell slots
-						let showSlots = true;
-						if (isWarlock && level !== "0") {
-							// For warlocks, only show the highest level slots they have
-							const warlockLevels = Object.keys(sc.spells).filter(l => l !== "0" && sc.spells[l].slots);
-							const highestLevel = Math.max(...warlockLevels.map(l => parseInt(l)));
-							showSlots = parseInt(level) === highestLevel;
-						}
+					// Only show slots if maxSlots > 0 and not cantrips
+					if (levelNum > 0 && levelData.maxSlots && levelData.maxSlots > 0) {
+						const characterId = character.id || `${character.name}_${character.source}`.toLowerCase().replace(/[^a-z0-9]/g, '');
+						const slotsUsed = levelData.slotsUsed != null ? levelData.slotsUsed : 0;
 
-						if (showSlots) {
-							// Default spell slots to full (long rest state)
-							const slotsUsed = spellData.slotsUsed != null ? spellData.slotsUsed : 0;
-							const totalSlots = spellData.slots;
-							slotsHtml = ` (<input type="number" class="character-input character-spell-slots-used" value="${slotsUsed}" min="0" max="${totalSlots}" style="width: 40px;" title="Slots used" />/${totalSlots} slots)`;
+						if (this._hasSourceAccess(character.source)) {
+							// Editable spell slots
+							slotsHtml = ` (<span class="character-stat-display" data-stat-path="spells.levels.${level}.slotsUsed" data-character-id="${characterId}" data-current-value="${slotsUsed}" data-max-value="${levelData.maxSlots}" title="Click to edit spell slots used" style="cursor: pointer; border-bottom: 1px dashed #666;">${slotsUsed}</span>/${levelData.maxSlots} slots)`;
+						} else {
+							// Static spell slots
+							slotsHtml = ` (${slotsUsed}/${levelData.maxSlots} slots)`;
 						}
 					}
 
-					// For warlocks, show all spells even if they don't have slots at that level
-					// Warlocks can cast lower-level spells using their higher-level slots
-
-					const spellLinks = spellData.spells.map(spellName => {
-						// Create spell links - handle both string and object formats
-						if (typeof spellName === 'string') {
-							return `{@spell ${spellName}}`;
-						} else if (spellName.name) {
-							return `{@spell ${spellName.name}|${spellName.source || "PHB"}}`;
+					// Process spells for this level
+					const spellLinks = levelData.spells.map(spell => {
+						if (typeof spell === 'string') {
+							return `{@spell ${spell}}`;
+						} else if (spell.name) {
+							const source = spell.source ? `|${spell.source}` : '';
+							return `{@spell ${spell.name}${source}}`;
 						}
-						return spellName;
+						return spell;
 					});
+
 					spellLevels.push(`**${levelName}${slotsHtml}:** ${spellLinks.join(', ')}`);
 				});
+
 				spellInfo.entries.push(...spellLevels);
 			}
 
