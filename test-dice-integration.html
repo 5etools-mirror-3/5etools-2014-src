@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Dice Integration Test</title>
+    <link rel="stylesheet" href="css/main.css">
+    <style>
+        body { padding: 20px; font-family: Arial, sans-serif; }
+        .test-container { max-width: 800px; margin: 0 auto; }
+        .dice-input { width: 200px; padding: 5px; margin: 10px; }
+        .test-button { padding: 10px 15px; margin: 5px; }
+        .result { margin: 10px 0; padding: 10px; background: #f0f0f0; }
+        .config-section { margin: 20px 0; padding: 10px; border: 1px solid #ddd; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>3D Dice Integration Test</h1>
+        
+        <div class="config-section">
+            <h3>3D Dice Settings</h3>
+            <label>
+                <input type="checkbox" id="enable3dDice" checked>
+                Enable 3D Dice (toggle without page reload)
+            </label>
+        </div>
+        
+        <div>
+            <h3>Test Dice Expressions</h3>
+            <input type="text" class="dice-input" value="2d20+2" placeholder="Enter dice expression">
+            <button class="test-button" onclick="testDiceRoll(this)">Roll</button>
+            <br>
+            
+            <input type="text" class="dice-input" value="2d20 + 3 + 4d6 - 2" placeholder="Enter dice expression">
+            <button class="test-button" onclick="testDiceRoll(this)">Roll</button>
+            <br>
+            
+            <input type="text" class="dice-input" value="1d20" placeholder="Enter dice expression">
+            <button class="test-button" onclick="testDiceRoll(this)">Roll</button>
+            <br>
+            
+            <input type="text" class="dice-input" value="3d6" placeholder="Enter dice expression">
+            <button class="test-button" onclick="testDiceRoll(this)">Roll</button>
+        </div>
+        
+        <div id="results">
+            <h3>Roll Results</h3>
+        </div>
+    </div>
+
+    <!-- Include required scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/utils-config/utils-config-registry.js"></script>
+    <script src="js/utils-dataloader.js"></script>
+    <script src="js/dice-box-manager.js"></script>
+    <script src="js/dice-config.js"></script>
+    <script src="js/render-dice.js"></script>
+    
+    <script>
+        // Initialize configuration system
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Wait for utils to be available
+            if (typeof UtilDataConverter !== 'undefined' && UtilDataConverter.pInit) {
+                await UtilDataConverter.pInit();
+            }
+            
+            // Set up 3D dice toggle
+            const checkbox = document.getElementById('enable3dDice');
+            checkbox.addEventListener('change', function() {
+                // Update the configuration directly
+                StorageUtil.syncSet('diceBoxEnable3dDice', checkbox.checked);
+                
+                // Update the dice system
+                if (checkbox.checked) {
+                    DiceBoxManager.enable();
+                    console.log('3D dice enabled');
+                } else {
+                    DiceBoxManager.disable();
+                    console.log('3D dice disabled');
+                }
+            });
+            
+            // Initialize 3D dice if enabled
+            if (checkbox.checked) {
+                try {
+                    await DiceBoxManager.enable();
+                    console.log('3D dice initialized successfully');
+                } catch (error) {
+                    console.error('Failed to initialize 3D dice:', error);
+                }
+            }
+        });
+        
+        async function testDiceRoll(button) {
+            const input = button.previousElementSibling;
+            const expression = input.value.trim();
+            
+            if (!expression) return;
+            
+            const resultsDiv = document.getElementById('results');
+            const resultElement = document.createElement('div');
+            resultElement.className = 'result';
+            
+            try {
+                resultElement.innerHTML = `<strong>Rolling:</strong> ${expression} <em>(processing...)</em>`;
+                resultsDiv.appendChild(resultElement);
+                
+                // Use the dice system
+                const result = await Renderer.dice.pRoll2(expression, {
+                    name: "Test Roll"
+                });
+                
+                resultElement.innerHTML = `
+                    <strong>Expression:</strong> ${expression}<br>
+                    <strong>Result:</strong> ${result.total}<br>
+                    <strong>Details:</strong> ${result.html || 'N/A'}<br>
+                    <strong>Using 3D Dice:</strong> ${DiceBoxManager.isEnabled() ? 'Yes' : 'No'}
+                `;
+            } catch (error) {
+                resultElement.innerHTML = `
+                    <strong>Expression:</strong> ${expression}<br>
+                    <strong>Error:</strong> ${error.message}<br>
+                    <strong>Using 3D Dice:</strong> ${DiceBoxManager.isEnabled() ? 'Yes' : 'No'}
+                `;
+                console.error('Dice roll error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -36,7 +36,7 @@ class DiceBoxManager {
 			this._diceBox = new window.DiceBox("#dice-box", {
 				assetPath: "/lib/dice-box-assets/",
 				origin: window.location.origin,
-				scale: 8,  // Reasonable size for dice
+				scale: 12,  // Larger dice for better visibility
 				gravity: 1,
 				mass: 1,
 				friction: 0.8,
@@ -44,7 +44,7 @@ class DiceBoxManager {
 				shadowIntensity: 0.6,
 				lightIntensity: 0.9,
 				spinForce: 1,  
-				throwForce: 4, 
+				throwForce: 6, // Stronger throw for full screen
 				enableShadows: true,
 				lightPosition: { x: -10, y: 30, z: 20 },
 				width: window.innerWidth,  // Full window width
@@ -59,6 +59,12 @@ class DiceBoxManager {
 			window.addEventListener('resize', () => {
 				if (this._diceBox && this._diceBox.resize) {
 					this._diceBox.resize(window.innerWidth, window.innerHeight);
+				}
+				// Also update the container styles
+				const container = document.getElementById('dice-box');
+				if (container) {
+					container.style.width = '100vw';
+					container.style.height = '100vh';
 				}
 			});
 
@@ -160,6 +166,9 @@ class DiceBoxManager {
 		}
 
 		try {
+			// Ensure dice container exists and is properly sized
+			this._ensureContainerReady();
+
 			// Parse the dice notation to extract individual dice
 			const diceArray = this._parseDiceNotation(diceNotation);
 
@@ -182,6 +191,33 @@ class DiceBoxManager {
 		} catch (error) {
 			console.error("Error rolling 3D dice:", error);
 			throw error;
+		}
+	}
+
+	/**
+	 * Ensure the dice container exists and is properly configured
+	 */
+	static _ensureContainerReady() {
+		let container = document.getElementById('dice-box');
+		if (!container) {
+			container = document.createElement('div');
+			container.id = 'dice-box';
+			document.body.appendChild(container);
+		}
+		
+		// Ensure proper styling for full-screen dice
+		container.style.position = 'fixed';
+		container.style.top = '0';
+		container.style.left = '0';
+		container.style.width = '100vw';
+		container.style.height = '100vh';
+		container.style.pointerEvents = 'none';
+		container.style.zIndex = '10000'; // Higher than modals
+		container.style.background = 'transparent';
+		
+		// Ensure the dice-box takes full window dimensions
+		if (this._diceBox && this._diceBox.resize) {
+			this._diceBox.resize(window.innerWidth, window.innerHeight);
 		}
 	}
 
@@ -261,6 +297,41 @@ class DiceBoxManager {
 			individual: diceResults,
 			rolls: rollResult
 		};
+	}
+
+	/**
+	 * Roll a single die and return the result
+	 * @param {number} faces - Number of sides on the die
+	 * @returns {Promise<number>} The rolled value
+	 */
+	static async rollSingleDie(faces) {
+		if (!this.isEnabled()) {
+			throw new Error("Dice-box not initialized or enabled");
+		}
+
+		try {
+			// Ensure dice container exists and is properly sized
+			this._ensureContainerReady();
+
+			// Create a single die
+			const diceArray = [{
+				sides: faces,
+				themeColor: this._getDiceTheme(faces)
+			}];
+
+			// Roll the die using dice-box
+			const rollResult = await this._diceBox.roll(diceArray);
+
+			// Auto-clear dice after 1.5 seconds for single die rolls
+			setTimeout(() => {
+				this.clearDice();
+			}, 1500);
+
+			return rollResult[0].value;
+		} catch (error) {
+			console.error("Error rolling single 3D die:", error);
+			throw error;
+		}
 	}
 
 	/**
