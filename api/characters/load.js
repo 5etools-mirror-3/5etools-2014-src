@@ -31,7 +31,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // If no URL provided, return all characters
+    // If no URL provided, return blob metadata for client-side selective loading
     if (!url) {
       const { blobs } = await list({
         prefix: 'characters/',
@@ -39,36 +39,27 @@ export default async function handler(req, res) {
         token: process.env.BLOB_READ_WRITE_TOKEN
       });
 
-      const characterPromises = blobs
+      const characterBlobs = blobs
         .filter(blob => blob.pathname.endsWith('.json'))
-        .map(async (blob) => {
-          try {
-            // Add cache-busting to prevent stale data
-            const cacheBusterUrl = `${blob.url}${blob.url.includes('?') ? '&' : '?'}_t=${Date.now()}`;
-            const response = await fetch(cacheBusterUrl, {
-              cache: 'no-cache',
-              headers: {
-                'Cache-Control': 'no-cache, no-store, must-revalidate',
-                'Pragma': 'no-cache',
-                'Expires': '0'
-              }
-            });
-            if (!response.ok) return null;
-            const characterData = await response.json();
-            // Extract character from wrapper if needed
-            if (characterData.character && Array.isArray(characterData.character)) {
-              return characterData.character[0];
-            }
-            return characterData;
-          } catch (e) {
-            console.warn(`Failed to load character from ${blob.pathname}:`, e);
-            return null;
-          }
+        .map(blob => {
+          const filename = blob.pathname.split('/').pop();
+          const characterId = filename.replace('.json', '');
+
+          return {
+            id: characterId,
+            filename: filename,
+            pathname: blob.pathname,
+            url: blob.url,
+            uploadedAt: blob.uploadedAt,
+            size: blob.size
+          };
         });
 
-      const characters = (await Promise.all(characterPromises)).filter(Boolean);
-
-      return res.status(200).json(characters);
+      return res.status(200).json({
+        blobs: characterBlobs,
+        count: characterBlobs.length,
+        timestamp: Date.now()
+      });
     }
 
     // Load specific character from blob URL

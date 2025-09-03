@@ -12,6 +12,7 @@ class CharacterManager {
 	static _loadPromise = null;
 	static _listeners = new Set();
 	static _refreshInterval = null;
+	static _blobCache = new Map(); // Map<id, {blob, character}> for caching with timestamps
 
 	static getInstance() {
 		if (!this._instance) {
@@ -82,7 +83,7 @@ class CharacterManager {
 	 */
 	static async _performLoad() {
 		try {
-			console.log('CharacterManager: Loading characters from API...');
+			console.log('CharacterManager: Loading character blob metadata from API...');
 			const cacheBuster = Date.now();
 			const response = await fetch(`/api/characters/load?_t=${cacheBuster}`, {
 				cache: 'no-cache',
@@ -94,11 +95,75 @@ class CharacterManager {
 			});
 
 			if (!response.ok) {
-				throw new Error(`Failed to fetch characters: ${response.statusText}`);
+				throw new Error(`Failed to fetch character metadata: ${response.statusText}`);
 			}
 
-			const characters = await response.json();
-			return this._processAndStoreCharacters(characters || []);
+			const metadata = await response.json();
+			const blobs = metadata.blobs || [];
+			
+			console.log(`CharacterManager: Found ${blobs.length} character blobs, checking for updates...`);
+			
+			// Determine which characters need to be fetched
+			const toFetch = [];
+			const cachedCharacters = [];
+			
+			for (const blob of blobs) {
+				const cached = this._blobCache.get(blob.id);
+				
+				// Check if we need to fetch this blob
+				if (!cached || cached.blob.uploadedAt !== blob.uploadedAt || cached.blob.size !== blob.size) {
+					toFetch.push(blob);
+				} else {
+					// Use cached character
+					cachedCharacters.push(cached.character);
+				}
+			}
+			
+			console.log(`CharacterManager: Using ${cachedCharacters.length} cached, fetching ${toFetch.length} updated characters`);
+			
+			// Fetch only the characters that need updating
+			const fetchPromises = toFetch.map(async (blob) => {
+				try {
+					const cacheBusterUrl = `${blob.url}${blob.url.includes('?') ? '&' : '?'}_t=${Date.now()}`;
+					const response = await fetch(cacheBusterUrl, {
+						cache: 'no-cache',
+						headers: {
+							'Cache-Control': 'no-cache, no-store, must-revalidate',
+							'Pragma': 'no-cache',
+							'Expires': '0'
+						}
+					});
+					
+					if (!response.ok) {
+						console.warn(`Failed to fetch character ${blob.id}: ${response.statusText}`);
+						return null;
+					}
+					
+					const characterData = await response.json();
+					// Extract character from wrapper if needed
+					const character = (characterData.character && Array.isArray(characterData.character)) 
+						? characterData.character[0] 
+						: characterData;
+					
+					// Update cache
+					this._blobCache.set(blob.id, {
+						blob: blob,
+						character: character
+					});
+					
+					return character;
+				} catch (e) {
+					console.warn(`Failed to load character from ${blob.pathname}:`, e);
+					return null;
+				}
+			});
+			
+			const fetchedCharacters = (await Promise.all(fetchPromises)).filter(Boolean);
+			
+			// Combine cached and fetched characters
+			const allCharacters = [...cachedCharacters, ...fetchedCharacters];
+			
+			return this._processAndStoreCharacters(allCharacters);
 		} catch (error) {
 			console.error('CharacterManager: Error loading characters:', error);
 			// Return empty array on error to prevent crashes
@@ -372,6 +437,7 @@ class CharacterManager {
 	static clearCache() {
 		this._characters.clear();
 		this._charactersArray.length = 0;
+		this._blobCache.clear(); // Clear blob cache as well
 		this._isLoaded = false;
 		this._isLoading = false;
 		this._loadPromise = null;
@@ -487,9 +553,51 @@ class CharacterManager {
 			});
 
 			if (response.ok) {
+				const saveResult = await response.json();
+				
 				// Update local cache
 				characterData.id = characterId;
 				this.addOrUpdateCharacter(characterData);
+				
+				// Get the updated character directly from the blob URL returned by save
+				if (saveResult.blob && saveResult.blob.url) {
+					try {
+						const cacheBusterUrl = `${saveResult.blob.url}${saveResult.blob.url.includes('?') ? '&' : '?'}_t=${Date.now()}`;
+						const refreshResponse = await fetch(cacheBusterUrl, {
+							cache: 'no-cache',
+							headers: {
+								'Cache-Control': 'no-cache, no-store, must-revalidate',
+								'Pragma': 'no-cache',
+								'Expires': '0'
+							}
+						});
+						
+						if (refreshResponse.ok) {
+							const updatedData = await refreshResponse.json();
+							const updatedCharacter = (updatedData.character && Array.isArray(updatedData.character)) 
+								? updatedData.character[0] 
+								: updatedData;
+							
+							// Update blob cache with the fresh blob info and character data
+							this._blobCache.set(characterId, {
+								blob: {
+									id: characterId,
+									url: saveResult.blob.url,
+									uploadedAt: saveResult.blob.uploadedAt,
+									size: saveResult.blob.size,
+									pathname: saveResult.blob.pathname
+								},
+								character: updatedCharacter
+							});
+							
+							// Update local cache with fresh data from server
+							this.addOrUpdateCharacter(updatedCharacter);
+							console.log(`CharacterManager: Refreshed character data from server: ${updatedCharacter.name}`);
+						}
+					} catch (e) {
+						console.warn('CharacterManager: Failed to refresh character after save:', e);
+					}
+				}
 				
 				// Also ensure localStorage is updated
 				this._updateLocalStorageCache(characterData);

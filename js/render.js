@@ -10021,8 +10021,6 @@ Renderer.character = class {
 			const success = await globalThis.CharacterManager.saveCharacter(characterData, true);
 			
 			if (success) {
-				// Update local cache if server save succeeded
-				globalThis.CharacterManager.addOrUpdateCharacter(characterData);
 				return true;
 			} else {
 				console.warn('CharacterManager: Server update failed for hit dice');
