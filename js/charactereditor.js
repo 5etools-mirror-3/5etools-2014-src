@@ -1,3 +1,5 @@
+// CharacterManager is available globally via character-manager.js script tag
+
 let editor;
 let currentCharacterData = null;
 let currentCharacterId = null;
@@ -161,6 +163,17 @@ class CharacterEditorPage {
 
 	async loadCharacterFromAPI(characterId) {
 		try {
+			// Try CharacterManager first for consistency
+			const character = CharacterManager.getCharacterById(characterId);
+			if (character) {
+				currentCharacterData = character;
+				currentCharacterId = characterId;
+				this.ace.setValue(JSON.stringify(currentCharacterData, null, 2), 1);
+				document.getElementById('message').textContent = `Loaded character: ${character.name}`;
+				return;
+			}
+
+			// Fallback to direct API call if not in CharacterManager cache
 			const response = await fetch(`${API_BASE_URL}/characters/${characterId}`);
 			if (response.ok) {
 				const characterResponse = await response.json();
@@ -653,21 +666,39 @@ class CharacterEditorPage {
 				this.ace.setValue(JSON.stringify(characterData, null, 2));
 			}
 
-			// Check source password before saving
-			if (!await this.validateSourceAccess(characterData.source)) {
+			// Use CharacterManager for centralized permission checking
+			if (!CharacterManager.canEditCharacter(characterData)) {
 				document.getElementById('message').textContent = 'Access denied: Invalid or missing password for this source';
 				document.getElementById('message').style.color = 'red';
 				return;
 			}
 
-			if (isEditMode && currentCharacterData) {
-				// Update existing character
-				await this.updateCharacterInAPI(characterData);
-				document.getElementById('message').textContent = 'Character updated successfully';
+			// Use CharacterManager for all save operations
+			const success = await CharacterManager.saveCharacter(characterData, isEditMode && currentCharacterData);
+			
+			if (success) {
+				if (isEditMode && currentCharacterData) {
+					document.getElementById('message').textContent = 'Character updated successfully';
+				} else {
+					document.getElementById('message').textContent = 'Character saved successfully';
+					// Update local state for potential future edits
+					currentCharacterData = characterData;
+					isEditMode = true;
+					currentCharacterId = characterData.id || CharacterManager._generateCompositeId(characterData.name, characterData.source);
+					localStorage.setItem('editingCharacter', JSON.stringify(characterData));
+					// Update button visibility to show delete button
+					this.updateButtonVisibility();
+				}
+				
+				// Ask if user wants to view the character on the characters page
+				setTimeout(() => {
+					if (confirm('Character saved successfully! Would you like to view it on the characters page?')) {
+						const characterAnchor = this.generateCharacterAnchor(characterData.name);
+						window.location.href = `characters.html${characterAnchor}`;
+					}
+				}, 1000);
 			} else {
-				// Save new character
-				await this.saveNewCharacterToAPI(characterData);
-				document.getElementById('message').textContent = 'Character saved successfully';
+				throw new Error('Failed to save character via CharacterManager');
 			}
 			document.getElementById('message').style.color = 'green';
 		} catch (e) {
@@ -687,153 +718,8 @@ class CharacterEditorPage {
 		}
 	}
 
-	async updateCharacterInAPI(updatedCharacter) {
-		// Update localStorage for immediate use
-		localStorage.setItem('editingCharacter', JSON.stringify(updatedCharacter));
+	// REMOVED: updateCharacterInAPI - now handled by CharacterManager.saveCharacter()
 
-		// Get password from localStorage cache
-		const currentSource = this.getCurrentSourceName(updatedCharacter);
-		const sanitizedSource = this.sanitizeSourceName(currentSource);
-		const password = SourcePasswordManager.getCachedPassword(sanitizedSource);
-
-		if (!password) {
-			const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
-			let errorMsg = `Error: No cached password found for source "${currentSource}" (sanitized: "${sanitizedSource}").`;
-			if (cachedSources.length > 0) {
-				errorMsg += ` Available sources: ${cachedSources.join(', ')}. Please update the "source" field in your character JSON or visit Source Management.`;
-			} else {
-				errorMsg += ` Please visit Source Management to create and login to a source first.`;
-			}
-			document.getElementById('message').textContent = errorMsg;
-			document.getElementById('message').style.color = 'red';
-			return;
-		}
-
-		try {
-			const response = await fetch('/api/characters/save', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					characterData: updatedCharacter,
-					source: updatedCharacter.source,
-					password: password,
-					isEdit: true,
-					characterId: currentCharacterData ? currentCharacterId : this.generateCharacterId(updatedCharacter.name)
-				})
-			});
-
-			if (!response.ok) {
-				const error = await response.json();
-				throw new Error(error.error || 'Failed to update character');
-			}
-
-			const result = await response.json();
-			console.log('Character updated:', result);
-
-			// Show instructions to user about manual save
-			if (result.instructions) {
-				this.showSaveInstructions(result);
-			}
-
-			// Update local state
-			currentCharacterData = updatedCharacter;
-			localStorage.setItem('editingCharacter', JSON.stringify(updatedCharacter));
-
-			// Clear any cached character data to ensure fresh loads
-			this.clearCharacterCache();
-
-			// Ask if user wants to view the character on the characters page
-			setTimeout(() => {
-				if (confirm('Character updated successfully! Would you like to view it on the characters page?')) {
-					const characterAnchor = this.generateCharacterAnchor(updatedCharacter.name, updatedCharacter.source);
-					window.location.href = `characters.html${characterAnchor}`;
-				}
-			}, 1000);
-
-			return result;
-		} catch (error) {
-			throw new Error('Failed to update character: ' + error.message);
-		}
-	}
-
-	async saveNewCharacterToAPI(characterData) {
-		// Get password from localStorage cache
-		const currentSource = this.getCurrentSourceName(characterData);
-		const sanitizedSource = this.sanitizeSourceName(currentSource);
-		const password = SourcePasswordManager.getCachedPassword(sanitizedSource);
-
-		if (!password) {
-			const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
-			let errorMsg = `Error: No cached password found for source "${currentSource}" (sanitized: "${sanitizedSource}").`;
-			if (cachedSources.length > 0) {
-				errorMsg += ` Available sources: ${cachedSources.join(', ')}. Please update the "source" field in your character JSON or visit Source Management.`;
-			} else {
-				errorMsg += ` Please visit Source Management to create and login to a source first.`;
-			}
-			document.getElementById('message').textContent = errorMsg;
-			document.getElementById('message').style.color = 'red';
-			return;
-		}
-
-		try {
-			const response = await fetch('/api/characters/save', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					characterData: characterData,
-					source: characterData.source,
-					password: password,
-					isEdit: false,
-					characterId: this.generateCharacterId(characterData.name)
-				})
-			});
-
-			if (!response.ok) {
-				const error = await response.json();
-				throw new Error(error.error || 'Failed to save character');
-			}
-
-			const result = await response.json();
-			console.log('Character saved:', result);
-
-			// Show instructions to user about manual save
-			if (result.instructions) {
-				this.showSaveInstructions(result);
-			}
-
-			// Update local state for potential future edits
-			currentCharacterData = characterData;
-			isEditMode = true;
-			localStorage.setItem('editingCharacter', JSON.stringify(characterData));
-
-			// Clear any cached character data to ensure fresh loads
-			this.clearCharacterCache();
-
-			// Update URL to reflect edit mode
-			const newUrl = new URL(window.location.href);
-			newUrl.searchParams.set('edit', 'true');
-			window.history.replaceState({}, '', newUrl);
-
-			// Update button visibility to show delete button
-			this.updateButtonVisibility();
-
-			// Ask if user wants to view the character on the characters page
-			setTimeout(() => {
-				if (confirm('Character saved successfully! Would you like to view it on the characters page?')) {
-					const characterAnchor = this.generateCharacterAnchor(characterData.name);
-					window.location.href = `characters.html${characterAnchor}`;
-				}
-			}, 1000);
-
-			return result;
-		} catch (error) {
-			throw new Error('Failed to save character: ' + error.message);
-		}
-	}
 
 	showSaveInstructions(result) {
 		const messageEl = document.getElementById('message');
@@ -925,8 +811,8 @@ class CharacterEditorPage {
 
 	async saveNewCharacter(characterData) {
 		try {
-			// Generate a unique ID for new character
-			const characterId = this.generateCharacterId(characterData.name);
+			// Generate a unique ID for new character using name + source
+			const characterId = CharacterManager._generateCompositeId(characterData.name, characterData.source);
 			const apiUrl = '/api/characters';
 
 			// Prepare character data for database
@@ -1038,16 +924,16 @@ class CharacterEditorPage {
 		}
 
 		try {
-			const characterId = currentCharacterId || this.generateCharacterId(characterName);
+			const characterId = currentCharacterId || CharacterManager._generateCompositeId(characterName, currentCharacterData.source);
 			const characterSource = currentCharacterData.source;
-			
+
 			if (!characterSource) {
 				throw new Error('Character has no source specified - cannot delete');
 			}
-			
+
 			document.getElementById('message').textContent = 'Authenticating and deleting character...';
 			document.getElementById('message').style.color = 'orange';
-			
+
 			const response = await fetch('/api/characters/delete', {
 				method: 'DELETE',
 				headers: {
@@ -1102,9 +988,9 @@ class CharacterEditorPage {
 		}
 	}
 
-	generateCharacterId(name) {
-		// Simple ID generation - replace spaces with dashes, lowercase
-		return name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+	generateCharacterId(name, source) {
+		// Updated to use composite ID approach (name + source)
+		return CharacterManager._generateCompositeId(name, source);
 	}
 
 	getCurrentSourceName(characterData) {

@@ -89,6 +89,7 @@ ${description ? `<meta  name="og:description" content="${description.qq()}">` : 
 <script type="text/javascript" defer src="/lib/localforage.js"></script>
 <script type="text/javascript" defer src="/lib/elasticlunr.js"></script>
 <script type="text/javascript" defer src="/js/parser.js"></script>
+<script type="text/javascript" defer src="/js/character-manager.js"></script>
 <script type="text/javascript" defer src="/js/utils.js"></script>
 <script type="text/javascript" defer src="/js/utils-ui.js"></script>
 <script type="module" defer src="/js/omnidexer.js"></script>

@@ -38,6 +38,7 @@ import {
 } from "./dmscreen/dmscreen-panels.js";
 
 import {OmnisearchBacking} from "./omnisearch/omnisearch-backing.js";
+// CharacterManager is available globally via character-manager.js script tag
 
 const UP = "UP";
 const RIGHT = "RIGHT";
@@ -202,6 +203,7 @@ class Board {
 		}
 		this.doCheckFillSpaces({isSkipSave: true});
 		this.initGlobalHandlers();
+		this.initCharacterUpdateListener();
 		await this._pLoadTempData();
 
 		$(document.body)
@@ -217,6 +219,41 @@ class Board {
 
 	initGlobalHandlers () {
 		window.onhashchange = () => this.pDoLoadUrlState();
+	}
+
+	initCharacterUpdateListener () {
+		// Set up listener for character data changes
+		if (globalThis.CharacterManager) {
+			const characterUpdateHandler = (charactersArray) => {
+				// Refresh all character panels when character data changes
+				this.refreshCharacterPanels();
+			};
+
+			// Store the handler so we can remove it later if needed
+			this._characterUpdateHandler = characterUpdateHandler;
+			globalThis.CharacterManager.addListener(characterUpdateHandler);
+		}
+	}
+
+	refreshCharacterPanels () {
+		// Find all panels that display character stats
+		Object.values(this.panels).forEach(panel => {
+			if (panel.type === PANEL_TYP_STATS && panel.contentMeta && panel.contentMeta.p === UrlUtil.PG_CHARACTERS) {
+				// Re-populate the panel with updated character data
+				const {p: page, s: source, u: hash} = panel.contentMeta;
+				const currentTitle = panel.getTabTitle(panel.tabIndex);
+				panel.doPopulate_Stats(page, source, hash, false, currentTitle);
+			}
+		});
+
+		// Also refresh any exiled character panels
+		this.exiledPanels.forEach(panel => {
+			if (panel.type === PANEL_TYP_STATS && panel.contentMeta && panel.contentMeta.p === UrlUtil.PG_CHARACTERS) {
+				const {p: page, s: source, u: hash} = panel.contentMeta;
+				const currentTitle = panel.getTabTitle(panel.tabIndex);
+				panel.doPopulate_Stats(page, source, hash, false, currentTitle);
+			}
+		});
 	}
 
 	async _pLoadTempData () {
@@ -299,7 +336,7 @@ class Board {
 
 		// search
 		this.availContent = await SearchUiUtil.pGetContentIndices();
-		
+
 		// Add characters from API to content indices
 		await this._pAddCharactersToContentIndex();
 
@@ -330,27 +367,14 @@ class Board {
 
 	async _pAddCharactersToContentIndex () {
 		try {
-			// Load character data from API
-			const response = await fetch('/api/characters/load', {
-				cache: 'no-cache',
-				headers: {
-					'Cache-Control': 'no-cache, no-store, must-revalidate',
-					'Pragma': 'no-cache'
-				}
-			});
-			
-			if (!response.ok) {
-				console.warn('Failed to load characters for DM screen search:', response.statusText);
+			// Load character data using centralized manager
+			const characters = await CharacterManager.loadCharacters();
+
+			if (!characters.length) {
+				console.log('No characters found for DM screen search indexing');
 				return;
 			}
-			
-			const characters = await response.json();
-			
-			if (!characters || !Array.isArray(characters) || characters.length === 0) {
-				console.log('No characters found for DM screen search index');
-				return;
-			}
-			
+
 			// Initialize Character category in search index if it doesn't exist
 			if (!this.availContent.Character) {
 				this.availContent.Character = elasticlunr(function () {
@@ -360,12 +384,12 @@ class Board {
 				});
 				SearchUtil.removeStemmer(this.availContent.Character);
 			}
-			
+
 			// Add each character to the search indices
 			let nextId = this.availContent.ALL.documentStore.length || 0;
 			characters.forEach((character, index) => {
 				if (!character.name || !character.source) return;
-				
+
 				const doc = {
 					id: nextId++,
 					n: character.name,
@@ -375,14 +399,14 @@ class Board {
 					u: UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CHARACTERS](character),
 					p: UrlUtil.PG_CHARACTERS
 				};
-				
+
 				// Add to both ALL and Character category indices
 				this.availContent.ALL.addDoc(doc);
 				this.availContent.Character.addDoc(doc);
 			});
-			
+
 			console.log(`Added ${characters.length} characters to DM screen search index`);
-			
+
 		} catch (error) {
 			console.warn('Failed to add characters to search index:', error);
 		}
@@ -669,6 +693,12 @@ class Board {
 	}
 
 	doReset () {
+		// Clean up character update listener
+		if (this._characterUpdateHandler && globalThis.CharacterManager) {
+			globalThis.CharacterManager.removeListener(this._characterUpdateHandler);
+			this._characterUpdateHandler = null;
+		}
+
 		this.exiledPanels.forEach(p => p.destroy());
 		this.exiledPanels = [];
 		this.sideMenu.doUpdateHistory();
@@ -1263,27 +1293,21 @@ class Panel {
 			PANEL_TYP_STATS,
 			meta,
 		);
-		
+
 		// Handle character pages differently since they use API-based loading
 		if (page === UrlUtil.PG_CHARACTERS) {
-			return fetch('/api/characters/load')
-				.then(response => {
-					if (!response.ok) {
-						throw new Error(`Failed to load characters: ${response.statusText}`);
-					}
-					return response.json();
-				})
+			return CharacterManager.loadCharacters()
 				.then(characters => {
 					// Find the specific character by hash
-					const character = characters.find(char => 
+					const character = characters.find(char =>
 						UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CHARACTERS](char) === hash
 					);
-					
+
 					if (!character) {
 						setTimeout(() => { throw new Error(`Failed to load entity: "${hash}" (${source}) from ${page}`); });
 						return this.doPopulate_Error({message: `Failed to load <code>${hash}</code> from page <code>${page}</code>! (Content does not exist.)`}, title);
 					}
-					
+
 					const fn = Renderer.hover.getFnRenderCompact(page);
 
 					const $contentInner = $(`<div class="panel-content-wrapper-inner"></div>`);
@@ -1291,14 +1315,16 @@ class Panel {
 					$contentStats.append(fn(character));
 
 					const fnBind = Renderer.hover.getFnBindListenersCompact(page);
-					if (fnBind) fnBind($contentStats);
+					if (fnBind) fnBind(character, $contentStats[0]);
 
-					this.set$ContentTab(
+					this.set$Tab(
+						ix,
 						PANEL_TYP_STATS,
 						meta,
 						$contentInner,
-						title,
-						ix,
+						title || character.name,
+						true,
+						!!title,
 					);
 
 					return $contentInner;
@@ -1308,7 +1334,7 @@ class Panel {
 					return this.doPopulate_Error({message: `Failed to load character from API: ${error.message}`}, title);
 				});
 		}
-		
+
 		// For non-character pages, use the existing DataLoader approach
 		return DataLoader.pCacheAndGet(
 			page,

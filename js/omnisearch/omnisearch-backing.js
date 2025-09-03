@@ -1,6 +1,7 @@
 import {OmnisearchState} from "./omnisearch-state.js";
 import {VetoolsConfig} from "../utils-config/utils-config-config.js";
 import {SyntaxMetaCategories, SyntaxMetaGroup, SyntaxMetaPageRange, SyntaxMetaSource} from "./omnisearch-models.js";
+// CharacterManager is available globally via character-manager.js script tag
 
 "use strict";
 
@@ -99,25 +100,16 @@ export class OmnisearchBacking {
 
 	static async _pLoadCharacterIndex () {
 		try {
-			// Load characters from the API
-			const response = await fetch('/api/characters/load');
-			if (!response.ok) {
-				console.warn('Failed to load characters for search indexing');
+			// Use centralized character manager to avoid duplication
+			const characters = await CharacterManager.loadCharacters();
+			
+			if (characters.length === 0) {
+				console.log('No characters found for search indexing');
 				return;
 			}
-			const characters = await response.json();
-
-			// Ensure each character has the __prop set for DataLoader
-			characters.forEach(it => it.__prop = "character");
-
-			// Add characters to DataLoader cache so they're available for hover popouts
-			if (typeof DataLoader !== 'undefined' && DataLoader._pCache_addToCache) {
-				DataLoader._pCache_addToCache({
-					allDataMerged: { character: characters },
-					propAllowlist: new Set(["character"])
-				});
-				console.log(`Cached ${characters.length} characters in DataLoader for hover functionality`);
-			}
+			
+			// Characters are already processed and cached by CharacterManager
+			console.log(`Loaded ${characters.length} characters for search indexing via CharacterManager`);
 
 			// Convert characters to search index format
 			const characterIndex = characters.map((character, i) => ({

@@ -6673,9 +6673,9 @@ Renderer.class = class {
 		renderer ||= Renderer.get();
 		styleHint ||= VetoolsConfig.get("styleSwitcher", "style");
 
-		return `<div><strong>Hit Point Die:</strong> ${renderer.render(Renderer.class.getHitDiceEntry(cls.hd, {styleHint}))} per ${cls.name} level</div>
-		<div><strong>Hit Points at Level 1:</strong> ${Renderer.class.getHitPointsAtFirstLevel(cls.hd, {styleHint})}</div>
-		<div><strong>Hit Points per ${cls.name} Level:</strong> ${Renderer.class.getHitPointsAtHigherLevels(cls.name, cls.hd, {styleHint})}</div>`;
+		return `<div><strong>Hit Point Die:</strong>: ${renderer.render(Renderer.class.getHitDiceEntry(cls.hd, {styleHint}))} per ${cls.name} level</div>
+		<div><strong>Hit Points at Level 1:</strong>: ${Renderer.class.getHitPointsAtFirstLevel(cls.hd, {styleHint})}</div>
+		<div><strong>Hit Points per ${cls.name} Level:</strong>: ${Renderer.class.getHitPointsAtHigherLevels(cls.name, cls.hd, {styleHint})}</div>`;
 	}
 
 	static getHtmlPtSavingThrows (cls) {
@@ -8571,6 +8571,7 @@ Renderer.character = class {
 		const inlineSummary = `<p><em>Level ${ptLevel} ${raceLink} ${classLinks}, ${backgroundLink}, ${ptAlignment}</em></p>`;
 		renderer.recursiveRender({type: "entries", entries: [inlineSummary]}, renderStack, {depth: 1});
 
+		const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
 
 		// Combat Stats - Compact inline format
 		const combatStats = [];
@@ -8578,14 +8579,34 @@ Renderer.character = class {
 		if (character.ac) {
 			const acValue = Array.isArray(character.ac) ? character.ac[0].ac : character.ac;
 			const acSource = Array.isArray(character.ac) && character.ac[0].from ? ` (${character.ac[0].from.join(', ')})` : '';
-			combatStats.push(`<strong>AC</strong> ${acValue}${acSource}`);
+			combatStats.push(`<strong>AC</strong>: ${acValue}${acSource}`);
 		}
 
 		if (character.hp) {
 			const hp = character.hp;
 			const currentHp = hp.current != null ? hp.current : hp.average || hp.max || "?";
 			const maxHp = hp.max || hp.average || "?";
-			combatStats.push(`<strong>HP</strong> ${currentHp}/${maxHp}${hp.temp ? ` (+${hp.temp} temp)` : ''}`);
+
+			// Check if user has edit access for this character's source
+			console.log(`Renderer: Character ${character.name}, hasEditAccess: ${hasEditAccess}, isStatic: ${isStatic}`);
+			if (hasEditAccess && !isStatic) {
+				// Render editable HP with click-to-edit functionality
+				// Store character data in a global registry instead of embedding in HTML
+				const characterId = globalThis.CharacterManager
+					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
+					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
+
+				// Create click-to-edit HP display
+				const hpDisplay = `<span class="character-stat-display" data-stat-path="hp.current" data-character-id="${characterId}" data-current-value="${currentHp}" data-max-value="${maxHp}" title="Click to edit" style="cursor: pointer; border-bottom: 1px dashed #666;">${currentHp}</span>/<span>${maxHp}</span>`;
+
+				const tempHpDisplay = (typeof hp.temp === 'number') ? ` (+<span class="character-stat-display" data-stat-path="hp.temp" data-character-id="${characterId}" data-current-value="${hp.temp}" title="Click to edit Temporary HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${hp.temp}</span> temp)` : '';
+				combatStats.push(`<strong>HP</strong>: ${hpDisplay}${tempHpDisplay}`);
+			} else {
+				// Render static HP display
+				combatStats.push(`<strong>HP</strong>: ${currentHp}/${maxHp}${(typeof hp.temp === 'number') ? ` (+${hp.temp} temp)` : ''}`);
+			}
 		}
 
 		if (character.speed) {
@@ -8593,7 +8614,7 @@ Renderer.character = class {
 			Object.entries(character.speed).forEach(([type, value]) => {
 				speeds.push(`${type === 'walk' ? '' : type + ' '}${value} ft.`);
 			});
-			combatStats.push(`<strong>Speed</strong> ${speeds.join(', ')}`);
+			combatStats.push(`<strong>Speed</strong>: ${speeds.join(', ')}`);
 		}
 
 		// Add Initiative with dice rolling
@@ -8602,7 +8623,18 @@ Renderer.character = class {
 		const dexModValue = typeof dexMod === 'number' ? dexMod : parseInt(dexMod) || 0;
 		const initMod = character.initiative || dexModValue;
 		const initStr = initMod >= 0 ? `+${initMod}` : `${initMod}`;
-		combatStats.push(`<strong>Initiative</strong> {@dice 1d20${initStr}|${initStr}|Initiative}`);
+		combatStats.push(`<strong>Initiative</strong>: {@dice 1d20${initStr}|${initStr}|Initiative}`);
+
+		// Additional Combat Info - Passive Perception inline
+		const additionalCombat = [];
+		const wisScore = character.wis || 10;
+		const wisMod = Parser.getAbilityModifier(wisScore);
+		const wisModValue = typeof wisMod === 'number' ? wisMod : parseInt(wisMod) || 0;
+		const perceptionSkill = character.skill?.perception || character.skill?.Perception || wisModValue;
+		const perceptionMod = typeof perceptionSkill === 'string' ? parseInt(perceptionSkill) || wisModValue : perceptionSkill;
+		const passivePerception = 10 + perceptionMod;
+		combatStats.push(`<strong>Passive Perception</strong>: ${passivePerception}`);
+
 
 		// Calculate and display proficiency bonus
 		let profBonus = character.proficiencyBonus;
@@ -8611,17 +8643,86 @@ Renderer.character = class {
 			profBonus = `+${Math.ceil(characterLevel / 4) + 1}`;
 		}
 		if (profBonus) {
-			combatStats.push(`<strong>Prof. Bonus</strong> ${profBonus}`);
+			combatStats.push(`<strong>Prof. Bonus</strong>: ${profBonus}`);
 		}
 
+
+		// Hit Dice Section - editable tracking
+		if (character.hitDice) {
+			let characterId = null;
+
+			if (hasEditAccess && !isStatic) {
+				characterId = globalThis.CharacterManager
+					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
+					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
+			}
+
+			Object.entries(character.hitDice).forEach(([dieType, diceData]) => {
+				const current = diceData.current || 0;
+				const max = diceData.max || 0;
+
+				if (hasEditAccess && !isStatic && characterId) {
+					// Editable hit dice with click handlers
+					const clickableCount = `<span class="character-stat-display" data-stat-path="hitDice.${dieType}.current" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" title="Click to edit ${dieType} hit dice used" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
+					combatStats.push(`Hit Dice: ${clickableCount}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
+				} else {
+					// Static display
+					combatStats.push(`Hit Dice: ${current}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
+				}
+			});
+		}
+
+		// Death Saves Section - editable tracking
+		if (character.deathSaves) {
+			const successes = character.deathSaves.successes || 0;
+			const failures = character.deathSaves.failures || 0;
+			let characterId = null;
+
+			if (hasEditAccess && !isStatic) {
+				characterId = globalThis.CharacterManager
+					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
+					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
+			}
+
+			let deathSaveDisplay;
+			if (hasEditAccess && !isStatic && characterId) {
+				// Editable death saves with click handlers
+				const successDisplay = `<span class="character-stat-display" data-stat-path="deathSaves.successes" data-character-id="${characterId}" data-current-value="${successes}" data-max-value="3" title="Click to edit death save successes" style="cursor: pointer; border-bottom: 1px dashed #666;">${successes}</span>`;
+				const failureDisplay = `<span class="character-stat-display" data-stat-path="deathSaves.failures" data-character-id="${characterId}" data-current-value="${failures}" data-max-value="3" title="Click to edit death save failures" style="cursor: pointer; border-bottom: 1px dashed #666;">${failures}</span>`;
+				combatStats.push(`<strong>Successes:</strong>: ${successDisplay}/3, <strong>Failures</strong>: ${failureDisplay}/3`);
+			} else {
+				// Static display
+				combatStats.push(`<strong>Successes</strong>: ${successes}/3, <strong>Failures</strong>: ${failures}/3`);
+			}
+
+		}
+		// Combat Statistics Section
 		if (combatStats.length > 0) {
+			// Convert combat stats array to a 2-column table format
+			const tableRows = [];
+			for (let i = 0; i < combatStats.length; i += 2) {
+				const leftCell = combatStats[i] || '';
+				const rightCell = combatStats[i + 1] || '';
+				tableRows.push([leftCell, rightCell]);
+			}
+
 			const combatInfo = {
 				type: "entries",
-				entries: [`<p>${combatStats.join(', ')}</p>`]
+				name: "Combat Statistics",
+				entries: [
+					{
+						type: "table",
+						colLabels: ["", ""],
+						rows: tableRows
+					}
+				]
 			};
 			renderer.recursiveRender(combatInfo, renderStack, {depth: 1});
 		}
-
 
 		// Ability Scores Section
 		const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
@@ -8748,25 +8849,6 @@ Renderer.character = class {
 		};
 		renderer.recursiveRender(savingThrowsSection, renderStack, {depth: 1});
 
-		// Additional Combat Info - Passive Perception inline
-		const additionalCombat = [];
-		const wisScore = character.wis || 10;
-		const wisMod = Parser.getAbilityModifier(wisScore);
-		const wisModValue = typeof wisMod === 'number' ? wisMod : parseInt(wisMod) || 0;
-		const perceptionSkill = character.skill?.perception || character.skill?.Perception || wisModValue;
-		const perceptionMod = typeof perceptionSkill === 'string' ? parseInt(perceptionSkill) || wisModValue : perceptionSkill;
-		const passivePerception = 10 + perceptionMod;
-		additionalCombat.push(`<strong>Passive Perception</strong> ${passivePerception}`);
-
-		if (additionalCombat.length > 0) {
-			const additionalInfo = {
-				type: "entries",
-				name: "Combat",
-				entries: [`<p>${additionalCombat.join(', ')}</p>`]
-			};
-			renderer.recursiveRender(additionalInfo, renderStack, {depth: 1});
-		}
-
 
 		// Actions - collapsible section
 		if (character.action?.length) {
@@ -8787,63 +8869,127 @@ Renderer.character = class {
 			renderer.recursiveRender(actionInfo, renderStack, {depth: 1});
 		}
 
-		// Spellcasting - collapsible section
-		if (character.spellcasting) {
-			const sc = character.spellcasting;
+		// Spells - modern spellcasting system
+		if (character.spells) {
 			const spellInfo = {
 				type: "entries",
-				name: "Spellcasting",
-				entries: [
-					`**Spell Save DC** ${sc.dc} | **Spell Attack Bonus** ${sc.mod}`
-				]
+				name: "Spells",
+				entries: []
 			};
 
-			if (sc.spells) {
-				// Check if character is a warlock
-				const isWarlock = character.class?.some(cls => cls.name.toLowerCase() === 'warlock');
+			// Add spell save DC and attack bonus if provided
+			if (character.spells.dc || character.spells.attackBonus) {
+				const dcText = character.spells.dc ? `Spell Save DC: ${character.spells.dc}` : '';
+				const attackText = character.spells.attackBonus ? `Spell Attack Bonus: ${character.spells.attackBonus}` : '';
+				const separator = dcText && attackText ? ' | ' : '';
+				spellInfo.entries.push(`${dcText}${separator}${attackText}`);
+			}
 
+			// Add spellcasting ability if provided
+			if (character.spells.ability) {
+				spellInfo.entries.push(`Spellcasting Ability: ${character.spells.ability}`);
+			}
+
+			// Process spell levels
+			if (character.spells.levels) {
 				const spellLevels = [];
-				Object.entries(sc.spells).forEach(([level, spellData]) => {
-					const levelName = level === "0" ? "Cantrips" : `Level ${level}`;
+
+				Object.entries(character.spells.levels).forEach(([level, levelData]) => {
+					const levelNum = parseInt(level);
+					const levelName = levelNum === 0 ? "Cantrips" : `Level ${levelNum}`;
+
+					if (!levelData.spells || levelData.spells.length === 0) return; // Skip empty levels
+
 					let slotsHtml = '';
 
-					if (spellData.slots) {
-						// For warlocks, only show warlock spell slots (usually only one level)
-						// For other classes, show all spell slots
-						let showSlots = true;
-						if (isWarlock && level !== "0") {
-							// For warlocks, only show the highest level slots they have
-							const warlockLevels = Object.keys(sc.spells).filter(l => l !== "0" && sc.spells[l].slots);
-							const highestLevel = Math.max(...warlockLevels.map(l => parseInt(l)));
-							showSlots = parseInt(level) === highestLevel;
-						}
+					// Only show slots if maxSlots > 0 and not cantrips
+					if (levelNum > 0 && levelData.maxSlots && levelData.maxSlots > 0) {
+						const characterId = character.id || `${character.name}_${character.source}`.toLowerCase().replace(/[^a-z0-9]/g, '');
+						const slotsUsed = levelData.slotsUsed != null ? levelData.slotsUsed : 0;
 
-						if (showSlots) {
-							// Default spell slots to full (long rest state)
-							const slotsUsed = spellData.slotsUsed != null ? spellData.slotsUsed : 0;
-							const totalSlots = spellData.slots;
-							slotsHtml = ` (<input type="number" class="character-input character-spell-slots-used" value="${slotsUsed}" min="0" max="${totalSlots}" style="width: 40px;" title="Slots used" />/${totalSlots} slots)`;
+						if (this._hasSourceAccess(character.source)) {
+							// Editable spell slots
+							slotsHtml = ` (<span class="character-stat-display" data-stat-path="spells.levels.${level}.slotsUsed" data-character-id="${characterId}" data-current-value="${slotsUsed}" data-max-value="${levelData.maxSlots}" title="Click to edit spell slots used" style="cursor: pointer; border-bottom: 1px dashed #666;">${slotsUsed}</span>/${levelData.maxSlots} slots)`;
+						} else {
+							// Static spell slots
+							slotsHtml = ` (${slotsUsed}/${levelData.maxSlots} slots)`;
 						}
 					}
 
-					// For warlocks, show all spells even if they don't have slots at that level
-					// Warlocks can cast lower-level spells using their higher-level slots
-
-					const spellLinks = spellData.spells.map(spellName => {
-						// Create spell links - handle both string and object formats
-						if (typeof spellName === 'string') {
-							return `{@spell ${spellName}}`;
-						} else if (spellName.name) {
-							return `{@spell ${spellName.name}|${spellName.source || "PHB"}}`;
+					// Process spells for this level
+					const spellLinks = levelData.spells.map(spell => {
+						if (typeof spell === 'string') {
+							return `{@spell ${spell}}`;
+						} else if (spell.name) {
+							const source = spell.source ? `|${spell.source}` : '';
+							return `{@spell ${spell.name}${source}}`;
 						}
-						return spellName;
+						return spell;
 					});
-					spellLevels.push(`**${levelName}${slotsHtml}:** ${spellLinks.join(', ')}`);
+
+					spellLevels.push(`{@color ${levelName}${slotsHtml}:|--rgb-name}: ${spellLinks.join(', ')}`);
 				});
+
 				spellInfo.entries.push(...spellLevels);
 			}
 
 			renderer.recursiveRender(spellInfo, renderStack, {depth: 1});
+		}
+
+		if (character.customTrackers?.length) {
+			const trackerEntries = [];
+			let characterId = null;
+
+			if (hasEditAccess && !isStatic) {
+				characterId = globalThis.CharacterManager
+					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
+					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
+			}
+
+			character.customTrackers.forEach((tracker, index) => {
+				const trackerName = tracker.name || `Tracker ${index + 1}`;
+				const description = tracker.description ? ` - ${tracker.description}` : '';
+
+				if (tracker.type === 'counter') {
+					// Counter type tracker (current/max)
+					const current = tracker.current || 0;
+					const max = tracker.max || 1;
+
+					if (hasEditAccess && !isStatic && characterId) {
+						// Editable counter with click handlers
+						const clickableCount = `<span class="character-stat-display" data-stat-path="customTrackers.${index}.current" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" title="Click to edit ${trackerName}" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
+						trackerEntries.push(`<strong>${trackerName}:</strong>: ${clickableCount}/${max}${description}`);
+					} else {
+						// Static display
+						trackerEntries.push(`<strong>${trackerName}:</strong>: ${current}/${max}${description}`);
+					}
+				} else if (tracker.type === 'condition') {
+					// Condition type tracker (active/inactive)
+					const active = tracker.active || false;
+					const duration = tracker.duration ? ` (${tracker.duration})` : '';
+					const status = active ? '✓ Active' : '✗ Inactive';
+
+					if (hasEditAccess && !isStatic && characterId) {
+						// Editable condition with click handlers
+						const clickableStatus = `<span class="character-stat-display" data-stat-path="customTrackers.${index}.active" data-character-id="${characterId}" data-current-value="${active}" data-max-value="true" title="Click to toggle ${trackerName}" style="cursor: pointer; border-bottom: 1px dashed #666;">${status}</span>`;
+						trackerEntries.push(`<strong>${trackerName}:</strong>: ${clickableStatus}${duration}${description}`);
+					} else {
+						// Static display
+						trackerEntries.push(`<strong>${trackerName}:</strong>: ${status}${duration}${description}`);
+					}
+				}
+			});
+
+			if (trackerEntries.length > 0) {
+				const trackerInfo = {
+					type: "entries",
+					name: "Custom Trackers",
+					entries: trackerEntries
+				};
+				renderer.recursiveRender(trackerInfo, renderStack, {depth: 1});
+			}
 		}
 
 		// Traits/Features - collapsible section
@@ -8923,7 +9069,7 @@ Renderer.character = class {
 		// if (character.customText) {
 		// 	const customInfo = {
 		// 		type: "entries",
-		// 		entries: [`<p><strong>Description:</strong> ${character.customText}</p>`]
+		// 		entries: [`<p><strong>Description:</strong>: ${character.customText}</p>`]
 		// 	};
 		// 	renderer.recursiveRender(customInfo, renderStack, {depth: 1});
 		// }
@@ -8934,7 +9080,7 @@ Renderer.character = class {
 		// 	const fluffText = character.fluff.entries.join(' ');
 		// 	const fluffInfo = {
 		// 		type: "entries",
-		// 		entries: [`<p><strong>Background:</strong> ${fluffText}</p>`]
+		// 		entries: [`<p><strong>Background:</strong>: ${fluffText}</p>`]
 		// 	};
 		// 	renderer.recursiveRender(fluffInfo, renderStack, {depth: 1});
 		// }
@@ -9011,202 +9157,71 @@ Renderer.character = class {
 	static _bindCharacterSheetListeners (ele) {
 		const $ele = $(ele);
 
-		// Rest Management
-		$ele.find('.character-short-rest').click(function() {
-			if (confirm('Take a short rest? This allows spending hit dice to heal and regains some abilities.')) {
-				// Short rest mechanics:
-				// - Can spend hit dice to heal
-				// - Some class features recharge
-				// - Warlock spell slots recharge
+		const statDisplays = $ele.find('.character-stat-display');
 
-				// Show hit dice spending dialog
-				const $hitDice = $ele.find('.character-hit-dice-remaining');
-				const $currentHp = $ele.find('.character-hp-current');
+		// Click-to-edit functionality for character stats
+		$ele.on('click', '.character-stat-display', function(e) {
+			const $display = $(this);
+			const statPath = $display.attr('data-stat-path');
+			const characterId = $display.attr('data-character-id');
+			const currentValue = $display.attr('data-current-value');
 
-				if ($hitDice.length && $currentHp.length) {
-					const available = parseInt($hitDice.first().val()) || 0;
-					if (available > 0) {
-						const spend = prompt(`You have ${available} hit dice available. How many would you like to spend?`, '0');
-						const spendNum = parseInt(spend) || 0;
+			// Get character data from global registry
+			if (!globalThis._CHARACTER_EDIT_DATA || !globalThis._CHARACTER_EDIT_DATA[characterId]) {
+				return; // Skip if character data not found
+			}
 
-						if (spendNum > 0 && spendNum <= available) {
-							// Roll hit dice and heal
-							let totalHealing = 0;
-							for (let i = 0; i < spendNum; i++) {
-								// Simulate hit die roll (d8 + CON mod as example)
-								const roll = Math.floor(Math.random() * 8) + 1;
-								const conMod = Math.floor((parseInt($ele.find('[data-character-name]').attr('data-con') || '10') - 10) / 2);
-								totalHealing += Math.max(1, roll + conMod);
-							}
+			const character = globalThis._CHARACTER_EDIT_DATA[characterId];
 
-							// Update HP and hit dice
-							const currentHp = parseInt($currentHp.val()) || 0;
-							const maxHp = parseInt($currentHp.attr('max')) || currentHp;
-							const newHp = Math.min(maxHp, currentHp + totalHealing);
+			if (!Renderer.character._hasSourceAccess(character.source)) {
+				return; // Skip if no edit access
+			}
 
-							$currentHp.val(newHp);
-							$hitDice.first().val(available - spendNum);
+			// Create input element
+			let inputType = 'number';
+			let minValue = 0;
+			let maxValue = null;
+
+			if (statPath === 'hp.current') {
+				maxValue = $display.attr('data-max-value');
+			}
+
+			const $input = $(`<input type="${inputType}" class="character-stat-input-edit" value="${currentValue}" min="${minValue}" ${maxValue ? `max="${maxValue}"` : ''} style="width: ${Math.max(40, currentValue.toString().length * 8 + 10)}px;" data-stat-path="${statPath}" data-character-id="${characterId}" />`);
+
+			// Replace display with input
+			$display.replaceWith($input);
+			$input.focus().select();
+
+			// Handle save/cancel
+			$input.on('blur keydown', async function(e) {
+				if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== 'Escape') {
+					return;
+				}
+
+				const newValue = e.key === 'Escape' ? currentValue : $input.val();
+
+				// Create new display span
+				const $newDisplay = $(`<span class="character-stat-display" data-stat-path="${statPath}" data-character-id="${characterId}" data-current-value="${newValue}" ${maxValue ? `data-max-value="${maxValue}"` : ''} title="Click to edit" style="cursor: pointer; border-bottom: 1px dashed #666;">${newValue}</span>`);
+
+				// Replace input with display
+				$input.replaceWith($newDisplay);
+
+				// Update server if value changed and not escaped
+				if (e.key !== 'Escape' && newValue !== currentValue) {
+					try {
+						const success = await Renderer.character._updateCharacterStat(character, character.source, statPath, newValue);
+						if (!success) {
+							console.warn(`Failed to update character stat ${statPath} on server`);
 						}
+					} catch (error) {
+						console.error('Error updating character stat:', error);
 					}
 				}
-
-				// Class-specific short rest recovery
-				Renderer.character._handleShortRestRecovery($ele);
-
-				// Trigger save
-				$ele.find('.character-input').trigger('change');
-
-				alert('Short rest complete! Class features that recharge on short rest have been restored.');
-			}
-		});
-
-		$ele.find('.character-long-rest').click(function() {
-			if (confirm('Take a long rest? This will restore all HP, all spell slots, and half your hit dice (minimum 1).')) {
-				// Long rest mechanics:
-				// - Restore all HP
-				// - Restore all spell slots
-				// - Restore half hit dice (minimum 1)
-				// - Remove exhaustion levels
-				// - Some conditions may end
-
-				// Restore HP to max
-				const $currentHp = $ele.find('.character-hp-current');
-				const maxHp = parseInt($currentHp.attr('max')) || parseInt($currentHp.val()) || 0;
-				$currentHp.val(maxHp);
-
-				// Clear temp HP
-				$ele.find('.character-hp-temp').val(0);
-
-				// Restore all spell slots
-				$ele.find('.character-spell-slots-used').val(0);
-
-				// Restore half hit dice (minimum 1)
-				$ele.find('.character-hit-dice-remaining').each(function() {
-					const $hitDie = $(this);
-					const max = parseInt($hitDie.attr('max')) || 1;
-					const restored = Math.max(1, Math.floor(max / 2));
-					const current = parseInt($hitDie.val()) || 0;
-					$hitDie.val(Math.min(max, current + restored));
-				});
-
-				// Clear death saves
-				$ele.find('.character-death-save').prop('checked', false);
-
-				// Remove some conditions that end on long rest
-				$ele.find('.character-condition-item').each(function() {
-					const conditionText = $(this).text().replace('×', '').trim();
-					const longRestConditions = ['Exhaustion', 'Poisoned'];
-					if (longRestConditions.some(condition => conditionText.includes(condition))) {
-						$(this).remove();
-					}
-				});
-
-				// Class-specific long rest recovery
-				Renderer.character._handleLongRestRecovery($ele);
-
-				// Trigger save
-				$ele.find('.character-input').trigger('change');
-
-				alert('Long rest complete! HP restored, spell slots recharged, hit dice partially restored, and class features recharged.');
-			}
-		});
-
-		// Condition tracker functionality with effects
-		$ele.find('.character-condition-add').click(function() {
-			const $select = $ele.find('.character-condition-select');
-			const condition = $select.val();
-			if (condition) {
-				const $conditionsList = $ele.find('.character-conditions-list');
-
-				// Get condition effects
-				const effects = Renderer.character._getConditionEffects(condition);
-				const effectsText = effects.length ? ` (${effects.join(', ')})` : '';
-
-				const conditionHtml = `<span class="character-condition-item" title="Click to remove. Effects: ${effects.join(', ')}" data-condition="${condition}">
-					${condition}${effectsText} <span class="character-condition-remove">×</span>
-				</span>`;
-				$conditionsList.append(conditionHtml);
-				$select.val(''); // Reset selection
-
-				// Apply condition effects
-				Renderer.character._applyConditionEffects($ele, condition, true);
-
-				// Save conditions to localStorage
-				Renderer.character._saveConditionsToStorage($ele);
-			}
-		});
-
-		// Remove condition functionality
-		$ele.on('click', '.character-condition-item', function() {
-			const condition = $(this).attr('data-condition');
-			if (condition) {
-				// Remove condition effects
-				Renderer.character._applyConditionEffects($ele, condition, false);
-			}
-			$(this).remove();
-
-			// Save conditions to localStorage
-			Renderer.character._saveConditionsToStorage($ele);
-		});
-
-		// Enhanced auto-save functionality for all inputs
-		$ele.find('.character-input').on('change input', function() {
-			const $input = $(this);
-			const characterName = $ele.closest('[data-character-name]').attr('data-character-name') || 'default';
-			const inputClass = $input.attr('class').split(' ').find(cls => cls.startsWith('character-'));
-			const key = `character-${characterName}-${inputClass}`;
-
-			// Handle different input types
-			let value;
-			if ($input.attr('type') === 'checkbox') {
-				value = $input.prop('checked');
-			} else {
-				value = $input.val();
-			}
-
-			localStorage.setItem(key, JSON.stringify(value));
-		});
-
-		// Enhanced load saved values from localStorage
-		const characterName = $ele.closest('[data-character-name]').attr('data-character-name') || 'default';
-		$ele.find('.character-input').each(function() {
-			const $input = $(this);
-			const inputClass = $input.attr('class').split(' ').find(cls => cls.startsWith('character-'));
-			const key = `character-${characterName}-${inputClass}`;
-			const savedValue = localStorage.getItem(key);
-			if (savedValue !== null) {
-				try {
-					const parsedValue = JSON.parse(savedValue);
-					if ($input.attr('type') === 'checkbox') {
-						$input.prop('checked', parsedValue);
-					} else {
-						$input.val(parsedValue);
-					}
-				} catch (e) {
-					// Fallback for old string values
-					$input.val(savedValue);
-				}
-			}
+			});
 		});
 
 		// Load saved conditions
 		Renderer.character._loadConditionsFromStorage($ele);
-
-		// Death save auto-clear functionality
-		$ele.find('.character-death-save').on('change', function() {
-			const $deathSaves = $ele.find('.character-death-saves');
-			const successCount = $deathSaves.find('.character-death-save-success:checked').length;
-			const failureCount = $deathSaves.find('.character-death-save-failure:checked').length;
-
-			// Auto-reset if 3 successes or failures
-			if (successCount >= 3 || failureCount >= 3) {
-				setTimeout(() => {
-					if (confirm(successCount >= 3 ? 'Character is stable! Reset death saves?' : 'Character dies! Reset death saves?')) {
-						$deathSaves.find('.character-death-save').prop('checked', false);
-					}
-				}, 100);
-			}
-		});
 
 		// Setup notes persistence
 		Renderer.character._setupCharacterNotePersistence();
@@ -9768,7 +9783,7 @@ Renderer.character = class {
 						 onmouseout="this.style.backgroundColor='white'">
 						<div style="display: flex; justify-content: space-between; align-items: flex-start;">
 							<div style="flex: 1;">
-								<strong>${name}</strong> <small>(${type})</small>
+								<strong>${name}</strong>: <small>(${type})</small>
 								${source ? `<small class="text-muted"> [${source}]</small>` : ''}
 								${descText ? `<br><small class="text-muted">${descText}</small>` : ''}
 							</div>
@@ -9862,6 +9877,42 @@ Renderer.character = class {
 		if (confirm('Equipment updated! Reload the page to see changes?')) {
 			location.reload();
 		}
+	}
+
+	// Check if user has edit access to character's source based on cached passwords
+	static _hasSourceAccess(source) {
+		if (!source) return false;
+
+		// Check if we have a cached password for this source
+		try {
+			const cachedPasswords = localStorage.getItem('sourcePasswords');
+			if (!cachedPasswords) return false;
+
+			const passwords = JSON.parse(cachedPasswords);
+			return passwords.hasOwnProperty(source);
+		} catch (e) {
+			console.error('Error checking source access:', e);
+			return false;
+		}
+	}
+
+	// Update character stat using centralized CharacterManager
+	static async _updateCharacterStat(characterData, characterSource, statPath, newValue) {
+		if (!characterData || !characterSource || !statPath) return false;
+
+		// All character updates now go through CharacterManager
+		if (globalThis.CharacterManager) {
+			const characterId = characterData.id || globalThis.CharacterManager._generateCompositeId(characterData.name, characterData.source);
+			return await globalThis.CharacterManager.updateCharacterStat(characterId, statPath, newValue);
+		}
+
+		console.warn('CharacterManager not available for stat update');
+		return false;
+	}
+
+	// Helper method to generate character ID (kept for backward compatibility)
+	static _generateCharacterId(name) {
+		return name.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 20) + '_' + Date.now();
 	}
 
 	static pGetFluff (character) {
@@ -15495,7 +15546,51 @@ Renderer.hover = class {
 					() => Renderer.hover._doCloseAllWindows(),
 				),
 			]);
+
+			// Set up character update listener for hover windows
+			Renderer.hover._initCharacterUpdateListener();
 		}
+	}
+
+	static _initCharacterUpdateListener () {
+		// Set up listener for character data changes to refresh hover windows
+		if (globalThis.CharacterManager && !Renderer.hover._characterUpdateHandler) {
+			const characterUpdateHandler = (charactersArray) => {
+				Renderer.hover._refreshCharacterHoverWindows();
+			};
+
+			// Store the handler so we can remove it later if needed
+			Renderer.hover._characterUpdateHandler = characterUpdateHandler;
+			globalThis.CharacterManager.addListener(characterUpdateHandler);
+		}
+	}
+
+	static _refreshCharacterHoverWindows () {
+		// Find all hover windows that display character data and refresh them
+		Object.entries(Renderer.hover._WINDOW_METAS).forEach(([hoverId, windowMeta]) => {
+			// Check if this window contains character data
+			if (windowMeta.sourceData && windowMeta.$content && windowMeta.page === UrlUtil.PG_CHARACTERS) {
+				const character = windowMeta.sourceData;
+				const characterId = character.id || globalThis.CharacterManager?._generateCompositeId(character.name, character.source);
+
+				// Get updated character data
+				const updatedCharacter = globalThis.CharacterManager?.getCharacterById(characterId);
+				if (!updatedCharacter) return;
+
+				// Re-render the content with updated data
+				const fnRender = Renderer.hover.getFnRenderCompact(UrlUtil.PG_CHARACTERS);
+				if (fnRender) {
+					windowMeta.$content.empty().append(fnRender(updatedCharacter));
+
+					// Re-bind event listeners
+					const fnBind = Renderer.hover.getFnBindListenersCompact(UrlUtil.PG_CHARACTERS);
+					if (fnBind) fnBind(updatedCharacter, windowMeta.$content[0]);
+
+					// Update the stored source data
+					windowMeta.sourceData = updatedCharacter;
+				}
+			}
+		});
 	}
 
 	static cleanTempWindows () {
@@ -15707,6 +15802,7 @@ Renderer.hover = class {
 				isBookContent: page === UrlUtil.PG_RECIPES,
 				compactReferenceData,
 				sourceData: toRender,
+				page: page, // Add page information for character refresh functionality
 			},
 		);
 
@@ -16343,6 +16439,13 @@ Renderer.hover = class {
 		hoverWindow.getPosition = Renderer.hover._getShowWindow_getPosition.bind(this, {$hov, $wrpContent, position});
 
 		hoverWindow.$setContent = ($contentNxt) => $wrpContent.empty().append($contentNxt);
+
+		// Store metadata for character refresh functionality
+		if (opts.sourceData) {
+			hoverWindow.sourceData = opts.sourceData;
+			hoverWindow.$content = $content;
+			hoverWindow.page = opts.page; // Store the page information
+		}
 
 		if (opts.isPopout) Renderer.hover._getShowWindow_pDoPopout({$hov, position, mouseUpId, mouseMoveId, resizeId, hoverId, opts, hoverWindow, $content});
 

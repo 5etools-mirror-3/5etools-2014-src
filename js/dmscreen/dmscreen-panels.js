@@ -8,6 +8,7 @@ import {InitiativeTracker} from "./initiativetracker/dmscreen-initiativetracker.
 import {InitiativeTrackerPlayerV0, InitiativeTrackerPlayerV1} from "./dmscreen-playerinitiativetracker.js";
 import {InitiativeTrackerCreatureViewer} from "./dmscreen-initiativetrackercreatureviewer.js";
 import {RenderCharacters} from "../render-characters.js";
+// CharacterManager is available globally via character-manager.js script tag
 
 export class PanelContentManagerFactory {
 	static _PANEL_TYPES = {};
@@ -196,79 +197,106 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 		const $selCharacter = $controls.find("select");
 		const $btnRefresh = $controls.find("button");
 		
-		// Load available characters
+		// Load available characters using centralized manager
 		const loadCharacters = async () => {
 			try {
-				// Add cache-busting timestamp to prevent stale data
-				const cacheBuster = Date.now();
-				const response = await fetch(`/api/characters/load?_t=${cacheBuster}`, {
-					cache: 'no-cache',
-					headers: {
-						'Cache-Control': 'no-cache, no-store, must-revalidate',
-						'Pragma': 'no-cache'
-					}
+				const characters = await CharacterManager.loadCharacters();
+				$selCharacter.empty().append(`<option value="">Select a character...</option>`);
+				characters.forEach(char => {
+					$selCharacter.append(`<option value="${char.name}">${char.name}</option>`);
 				});
-				if (response.ok) {
-					const characters = await response.json();
-					$selCharacter.empty().append(`<option value="">Select a character...</option>`);
-					characters.forEach(char => {
-						$selCharacter.append(`<option value="${char.name}">${char.name}</option>`);
-					});
-				}
 			} catch (error) {
-				console.warn('Failed to load characters:', error);
+				console.warn('Failed to load characters via CharacterManager:', error);
 			}
 		};
 		
+		// Add CharacterManager listener to re-render character when updated
+		let currentCharacterId = null;
+		const characterUpdateListener = (characters) => {
+			console.log(`DM Screen Character Panel: Received character update, currentCharacterId: ${currentCharacterId}`);
+			console.log(`DM Screen Character Panel: Received ${characters.length} characters:`, characters.map(c => ({name: c.name, source: c.source, id: CharacterManager._generateCompositeId(c.name, c.source)})));
+			
+			if (currentCharacterId) {
+				const updatedCharacter = characters.find(c => {
+					const id = CharacterManager._generateCompositeId(c.name, c.source);
+					console.log(`DM Screen Character Panel: Checking character ${c.name} with ID ${id} against current ${currentCharacterId}`);
+					return id === currentCharacterId;
+				});
+				
+				if (updatedCharacter) {
+					console.log(`DM Screen Character Panel: Re-rendering character ${updatedCharacter.name}`);
+					// Re-register the updated character
+					globalThis._CHARACTER_EDIT_DATA[currentCharacterId] = updatedCharacter;
+					
+					// Re-render the character
+					const renderedHtml = Renderer.character.getCompactRenderedString(updatedCharacter, {isStatic: false});
+					const $rendered = $(renderedHtml);
+					$content.empty().append($rendered);
+					Renderer.character._bindCharacterSheetListeners($content[0]);
+				} else {
+					console.log(`DM Screen Character Panel: No matching character found for ID ${currentCharacterId}`);
+					console.log(`DM Screen Character Panel: Available character IDs:`, characters.map(c => CharacterManager._generateCompositeId(c.name, c.source)));
+				}
+			} else {
+				console.log(`DM Screen Character Panel: No current character ID set, skipping update`);
+			}
+		};
+		
+		CharacterManager.addListener(characterUpdateListener);
+
 		// Handle character selection
 		$selCharacter.on("change", async () => {
 			const characterName = $selCharacter.val();
 			if (!characterName) {
 				$content.empty();
+				currentCharacterId = null;
 				return;
 			}
 			
 			try {
-				// Add cache-busting timestamp to prevent stale data
-				const cacheBuster = Date.now();
-				const response = await fetch(`/api/characters/load?_t=${cacheBuster}`, {
-					cache: 'no-cache',
-					headers: {
-						'Cache-Control': 'no-cache, no-store, must-revalidate',
-						'Pragma': 'no-cache'
-					}
-				});
-				if (response.ok) {
-					const characters = await response.json();
-					const character = characters.find(c => c.name === characterName);
-					if (character) {
-						// Process character data to ensure computed fields exist
-						if (character.class && Array.isArray(character.class)) {
-							character._fClass = character.class.map(cls => {
-								let classStr = cls.name;
-								if (cls.subclass && cls.subclass.name) {
-									classStr += ` (${cls.subclass.name})`;
-								}
-								return classStr;
-							}).join("/");
-							character._fLevel = character.class.reduce((total, cls) => total + (cls.level || 0), 0);
-						}
-						if (character.race) {
-							character._fRace = character.race.variant ? `Variant ${character.race.name}` : character.race.name;
-						}
-						
-						// Use RenderCharacters to render the character
-						const $rendered = RenderCharacters.$getRenderedCharacter(character);
-						$content.empty().append($rendered);
-					}
+				// Use centralized character manager
+				const characters = await CharacterManager.loadCharacters();
+				const character = characters.find(c => c.name === characterName);
+				if (character) {
+					// Characters from CharacterManager are already processed with computed fields
+					// Register character for editing in global registry
+					const characterId = CharacterManager._generateCompositeId(character.name, character.source);
+					currentCharacterId = characterId;
+					console.log(`DM Screen Character Panel: Selected character ${character.name}, ID: ${characterId}`);
+					if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+					globalThis._CHARACTER_EDIT_DATA[characterId] = character;
+					
+					// Use RenderCharacters to render the character in non-static mode
+					const renderedHtml = Renderer.character.getCompactRenderedString(character, {isStatic: false});
+					const $rendered = $(renderedHtml);
+					$content.empty().append($rendered);
+					
+					// Bind character sheet listeners for quick edit functionality
+					Renderer.character._bindCharacterSheetListeners($content[0]);
 				}
 			} catch (error) {
 				console.warn('Failed to load character:', error);
 				$content.html(`<div class="p-2 text-danger">Failed to load character</div>`);
+				currentCharacterId = null;
 			}
 		});
 		
 		$btnRefresh.on("click", loadCharacters);
+		
+		// Clean up listener when panel is destroyed (if possible)
+		if ($container.data) {
+			const originalData = $container.data.bind($container);
+			$container.data = function(key, value) {
+				if (key === "cleanup" && typeof value === "function") {
+					const originalCleanup = value;
+					return originalData(key, () => {
+						CharacterManager.removeListener(characterUpdateListener);
+						originalCleanup();
+					});
+				}
+				return originalData(key, value);
+			};
+		}
 		
 		// Initial load
 		loadCharacters();

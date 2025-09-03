@@ -6958,19 +6958,25 @@ globalThis.DataUtil = class {
 			console.trace('DataUtil.character.loadJSON called from:');
 			const cacheKey = "site";
 			this._psLoadJson[cacheKey] ||= (async () => {
-				// Load characters from blob storage API instead of files
+				// Use CharacterManager for centralized character loading
 				try {
-					const response = await fetch('/api/characters/load');
-					if (!response.ok) {
-						console.warn('Failed to load characters from API, returning empty array');
-						return {character: []};
+					if (globalThis.CharacterManager) {
+						const characters = await globalThis.CharacterManager.loadCharacters();
+						return {character: characters};
+					} else {
+						// Fallback to direct API call if CharacterManager not available
+						const response = await fetch('/api/characters/load');
+						if (!response.ok) {
+							console.warn('Failed to load characters from API, returning empty array');
+							return {character: []};
+						}
+						const characters = await response.json();
+						// Ensure each character has the __prop set
+						characters.forEach(it => it.__prop = "character");
+						return {character: characters};
 					}
-					const characters = await response.json();
-					// Ensure each character has the __prop set
-					characters.forEach(it => it.__prop = "character");
-					return {character: characters};
 				} catch (error) {
-					console.error('Error loading characters from API:', error);
+					console.error('Error loading characters:', error);
 					return {character: []};
 				}
 			})();
