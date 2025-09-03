@@ -8866,7 +8866,7 @@ Renderer.character = class {
 						return spell;
 					});
 
-					spellLevels.push(`**${levelName}${slotsHtml}:** ${spellLinks.join(', ')}`);
+					spellLevels.push(`{@color ${levelName}${slotsHtml}:|--rgb-name}: ${spellLinks.join(', ')}`);
 				});
 
 				spellInfo.entries.push(...spellLevels);
