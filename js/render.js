@@ -6673,9 +6673,9 @@ Renderer.class = class {
 		renderer ||= Renderer.get();
 		styleHint ||= VetoolsConfig.get("styleSwitcher", "style");
 
-		return `<div><strong>Hit Point Die:</strong> ${renderer.render(Renderer.class.getHitDiceEntry(cls.hd, {styleHint}))} per ${cls.name} level</div>
-		<div><strong>Hit Points at Level 1:</strong> ${Renderer.class.getHitPointsAtFirstLevel(cls.hd, {styleHint})}</div>
-		<div><strong>Hit Points per ${cls.name} Level:</strong> ${Renderer.class.getHitPointsAtHigherLevels(cls.name, cls.hd, {styleHint})}</div>`;
+		return `<div><strong>Hit Point Die:</strong>: ${renderer.render(Renderer.class.getHitDiceEntry(cls.hd, {styleHint}))} per ${cls.name} level</div>
+		<div><strong>Hit Points at Level 1:</strong>: ${Renderer.class.getHitPointsAtFirstLevel(cls.hd, {styleHint})}</div>
+		<div><strong>Hit Points per ${cls.name} Level:</strong>: ${Renderer.class.getHitPointsAtHigherLevels(cls.name, cls.hd, {styleHint})}</div>`;
 	}
 
 	static getHtmlPtSavingThrows (cls) {
@@ -8578,7 +8578,7 @@ Renderer.character = class {
 		if (character.ac) {
 			const acValue = Array.isArray(character.ac) ? character.ac[0].ac : character.ac;
 			const acSource = Array.isArray(character.ac) && character.ac[0].from ? ` (${character.ac[0].from.join(', ')})` : '';
-			combatStats.push(`<strong>AC</strong> ${acValue}${acSource}`);
+			combatStats.push(`<strong>AC</strong>: ${acValue}${acSource}`);
 		}
 
 		if (character.hp) {
@@ -8602,10 +8602,10 @@ Renderer.character = class {
 				const hpDisplay = `<span class="character-stat-display" data-stat-path="hp.current" data-character-id="${characterId}" data-current-value="${currentHp}" data-max-value="${maxHp}" title="Click to edit" style="cursor: pointer; border-bottom: 1px dashed #666;">${currentHp}</span>/<span>${maxHp}</span>`;
 
 				const tempHpDisplay = (typeof hp.temp === 'number') ? ` (+<span class="character-stat-display" data-stat-path="hp.temp" data-character-id="${characterId}" data-current-value="${hp.temp}" title="Click to edit Temporary HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${hp.temp}</span> temp)` : '';
-				combatStats.push(`<strong>HP</strong> ${hpDisplay}${tempHpDisplay}`);
+				combatStats.push(`<strong>HP</strong>: ${hpDisplay}${tempHpDisplay}`);
 			} else {
 				// Render static HP display
-				combatStats.push(`<strong>HP</strong> ${currentHp}/${maxHp}${(typeof hp.temp === 'number') ? ` (+${hp.temp} temp)` : ''}`);
+				combatStats.push(`<strong>HP</strong>: ${currentHp}/${maxHp}${(typeof hp.temp === 'number') ? ` (+${hp.temp} temp)` : ''}`);
 			}
 		}
 
@@ -8614,7 +8614,7 @@ Renderer.character = class {
 			Object.entries(character.speed).forEach(([type, value]) => {
 				speeds.push(`${type === 'walk' ? '' : type + ' '}${value} ft.`);
 			});
-			combatStats.push(`<strong>Speed</strong> ${speeds.join(', ')}`);
+			combatStats.push(`<strong>Speed</strong>: ${speeds.join(', ')}`);
 		}
 
 		// Add Initiative with dice rolling
@@ -8623,7 +8623,18 @@ Renderer.character = class {
 		const dexModValue = typeof dexMod === 'number' ? dexMod : parseInt(dexMod) || 0;
 		const initMod = character.initiative || dexModValue;
 		const initStr = initMod >= 0 ? `+${initMod}` : `${initMod}`;
-		combatStats.push(`<strong>Initiative</strong> {@dice 1d20${initStr}|${initStr}|Initiative}`);
+		combatStats.push(`<strong>Initiative</strong>: {@dice 1d20${initStr}|${initStr}|Initiative}`);
+
+		// Additional Combat Info - Passive Perception inline
+		const additionalCombat = [];
+		const wisScore = character.wis || 10;
+		const wisMod = Parser.getAbilityModifier(wisScore);
+		const wisModValue = typeof wisMod === 'number' ? wisMod : parseInt(wisMod) || 0;
+		const perceptionSkill = character.skill?.perception || character.skill?.Perception || wisModValue;
+		const perceptionMod = typeof perceptionSkill === 'string' ? parseInt(perceptionSkill) || wisModValue : perceptionSkill;
+		const passivePerception = 10 + perceptionMod;
+		combatStats.push(`<strong>Passive Perception</strong>: ${passivePerception}`);
+
 
 		// Calculate and display proficiency bonus
 		let profBonus = character.proficiencyBonus;
@@ -8632,7 +8643,7 @@ Renderer.character = class {
 			profBonus = `+${Math.ceil(characterLevel / 4) + 1}`;
 		}
 		if (profBonus) {
-			combatStats.push(`<strong>Prof. Bonus</strong> ${profBonus}`);
+			combatStats.push(`<strong>Prof. Bonus</strong>: ${profBonus}`);
 		}
 
 		if (combatStats.length > 0) {
@@ -8642,6 +8653,9 @@ Renderer.character = class {
 			};
 			renderer.recursiveRender(combatInfo, renderStack, {depth: 1});
 		}
+
+
+
 
 
 		// Ability Scores Section
@@ -8769,153 +8783,6 @@ Renderer.character = class {
 		};
 		renderer.recursiveRender(savingThrowsSection, renderStack, {depth: 1});
 
-		// Hit Dice Section - editable tracking
-		if (character.hitDice) {
-			const hitDiceEntries = [];
-			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
-			let characterId = null;
-			
-			if (hasEditAccess && !isStatic) {
-				characterId = globalThis.CharacterManager
-					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
-					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
-				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
-				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
-			}
-			
-			Object.entries(character.hitDice).forEach(([dieType, diceData]) => {
-				const current = diceData.current || 0;
-				const max = diceData.max || 0;
-				
-				if (hasEditAccess && !isStatic && characterId) {
-					// Editable hit dice with click handlers
-					const clickableCount = `<span class="character-stat-display" data-stat-path="hitDice.${dieType}.current" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" title="Click to edit ${dieType} hit dice used" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
-					hitDiceEntries.push(`<strong>${dieType}:</strong> ${clickableCount}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
-				} else {
-					// Static display
-					hitDiceEntries.push(`<strong>${dieType}:</strong> ${current}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
-				}
-			});
-
-			if (hitDiceEntries.length > 0) {
-				const hitDiceInfo = {
-					type: "entries",
-					name: "Hit Dice",
-					entries: hitDiceEntries
-				};
-				renderer.recursiveRender(hitDiceInfo, renderStack, {depth: 1});
-			}
-		}
-
-		// Death Saves Section - editable tracking
-		if (character.deathSaves) {
-			const successes = character.deathSaves.successes || 0;
-			const failures = character.deathSaves.failures || 0;
-			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
-			let characterId = null;
-			
-			if (hasEditAccess && !isStatic) {
-				characterId = globalThis.CharacterManager
-					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
-					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
-				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
-				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
-			}
-			
-			let deathSaveDisplay;
-			if (hasEditAccess && !isStatic && characterId) {
-				// Editable death saves with click handlers
-				const successDisplay = `<span class="character-stat-display" data-stat-path="deathSaves.successes" data-character-id="${characterId}" data-current-value="${successes}" data-max-value="3" title="Click to edit death save successes" style="cursor: pointer; border-bottom: 1px dashed #666;">${successes}</span>`;
-				const failureDisplay = `<span class="character-stat-display" data-stat-path="deathSaves.failures" data-character-id="${characterId}" data-current-value="${failures}" data-max-value="3" title="Click to edit death save failures" style="cursor: pointer; border-bottom: 1px dashed #666;">${failures}</span>`;
-				deathSaveDisplay = `<strong>Successes:</strong> ${successDisplay}/3, <strong>Failures:</strong> ${failureDisplay}/3`;
-			} else {
-				// Static display
-				deathSaveDisplay = `<strong>Successes:</strong> ${successes}/3, <strong>Failures:</strong> ${failures}/3`;
-			}
-			
-			const deathSaveInfo = {
-				type: "entries", 
-				name: "Death Saves",
-				entries: [deathSaveDisplay]
-			};
-			renderer.recursiveRender(deathSaveInfo, renderStack, {depth: 1});
-		}		// Custom Trackers Section - flexible tracking for abilities, items, conditions
-		if (character.customTrackers?.length) {
-			const trackerEntries = [];
-			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
-			let characterId = null;
-			
-			if (hasEditAccess && !isStatic) {
-				characterId = globalThis.CharacterManager
-					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
-					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
-				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
-				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
-			}
-			
-			character.customTrackers.forEach((tracker, index) => {
-				const trackerName = tracker.name || `Tracker ${index + 1}`;
-				const description = tracker.description ? ` - ${tracker.description}` : '';
-				
-				if (tracker.type === 'counter') {
-					// Counter type tracker (current/max)
-					const current = tracker.current || 0;
-					const max = tracker.max || 1;
-					
-					if (hasEditAccess && !isStatic && characterId) {
-						// Editable counter with click handlers
-						const clickableCount = `<span class="character-stat-display" data-stat-path="customTrackers.${index}.current" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" title="Click to edit ${trackerName}" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
-						trackerEntries.push(`<strong>${trackerName}:</strong> ${clickableCount}/${max}${description}`);
-					} else {
-						// Static display
-						trackerEntries.push(`<strong>${trackerName}:</strong> ${current}/${max}${description}`);
-					}
-				} else if (tracker.type === 'condition') {
-					// Condition type tracker (active/inactive)
-					const active = tracker.active || false;
-					const duration = tracker.duration ? ` (${tracker.duration})` : '';
-					const status = active ? '✓ Active' : '✗ Inactive';
-					
-					if (hasEditAccess && !isStatic && characterId) {
-						// Editable condition with click handlers
-						const clickableStatus = `<span class="character-stat-display" data-stat-path="customTrackers.${index}.active" data-character-id="${characterId}" data-current-value="${active}" data-max-value="true" title="Click to toggle ${trackerName}" style="cursor: pointer; border-bottom: 1px dashed #666;">${status}</span>`;
-						trackerEntries.push(`<strong>${trackerName}:</strong> ${clickableStatus}${duration}${description}`);
-					} else {
-						// Static display
-						trackerEntries.push(`<strong>${trackerName}:</strong> ${status}${duration}${description}`);
-					}
-				}
-			});
-
-			if (trackerEntries.length > 0) {
-				const trackerInfo = {
-					type: "entries",
-					name: "Custom Trackers",
-					entries: trackerEntries
-				};
-				renderer.recursiveRender(trackerInfo, renderStack, {depth: 1});
-			}
-		}
-
-		// Additional Combat Info - Passive Perception inline
-		const additionalCombat = [];
-		const wisScore = character.wis || 10;
-		const wisMod = Parser.getAbilityModifier(wisScore);
-		const wisModValue = typeof wisMod === 'number' ? wisMod : parseInt(wisMod) || 0;
-		const perceptionSkill = character.skill?.perception || character.skill?.Perception || wisModValue;
-		const perceptionMod = typeof perceptionSkill === 'string' ? parseInt(perceptionSkill) || wisModValue : perceptionSkill;
-		const passivePerception = 10 + perceptionMod;
-		additionalCombat.push(`<strong>Passive Perception</strong> ${passivePerception}`);
-
-		if (additionalCombat.length > 0) {
-			const additionalInfo = {
-				type: "entries",
-				name: "Combat",
-				entries: [`<p>${additionalCombat.join(', ')}</p>`]
-			};
-			renderer.recursiveRender(additionalInfo, renderStack, {depth: 1});
-		}
-
 
 		// Actions - collapsible section
 		if (character.action?.length) {
@@ -9003,6 +8870,134 @@ Renderer.character = class {
 			renderer.recursiveRender(spellInfo, renderStack, {depth: 1});
 		}
 
+				// Hit Dice Section - editable tracking
+		if (character.hitDice) {
+			const hitDiceEntries = [];
+			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
+			let characterId = null;
+
+			if (hasEditAccess && !isStatic) {
+				characterId = globalThis.CharacterManager
+					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
+					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
+			}
+
+			Object.entries(character.hitDice).forEach(([dieType, diceData]) => {
+				const current = diceData.current || 0;
+				const max = diceData.max || 0;
+
+				if (hasEditAccess && !isStatic && characterId) {
+					// Editable hit dice with click handlers
+					const clickableCount = `<span class="character-stat-display" data-stat-path="hitDice.${dieType}.current" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" title="Click to edit ${dieType} hit dice used" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
+					hitDiceEntries.push(`${clickableCount}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
+				} else {
+					// Static display
+					hitDiceEntries.push(`${current}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
+				}
+			});
+
+			if (hitDiceEntries.length > 0) {
+				const hitDiceInfo = {
+					type: "entries",
+					name: "Hit Dice",
+					entries: hitDiceEntries
+				};
+				renderer.recursiveRender(hitDiceInfo, renderStack, {depth: 1});
+			}
+		}
+
+		// Death Saves Section - editable tracking
+		if (character.deathSaves) {
+			const successes = character.deathSaves.successes || 0;
+			const failures = character.deathSaves.failures || 0;
+			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
+			let characterId = null;
+
+			if (hasEditAccess && !isStatic) {
+				characterId = globalThis.CharacterManager
+					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
+					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
+			}
+
+			let deathSaveDisplay;
+			if (hasEditAccess && !isStatic && characterId) {
+				// Editable death saves with click handlers
+				const successDisplay = `<span class="character-stat-display" data-stat-path="deathSaves.successes" data-character-id="${characterId}" data-current-value="${successes}" data-max-value="3" title="Click to edit death save successes" style="cursor: pointer; border-bottom: 1px dashed #666;">${successes}</span>`;
+				const failureDisplay = `<span class="character-stat-display" data-stat-path="deathSaves.failures" data-character-id="${characterId}" data-current-value="${failures}" data-max-value="3" title="Click to edit death save failures" style="cursor: pointer; border-bottom: 1px dashed #666;">${failures}</span>`;
+				deathSaveDisplay = `<strong>Successes:</strong>: ${successDisplay}/3, <strong>Failures</strong>: ${failureDisplay}/3`;
+			} else {
+				// Static display
+				deathSaveDisplay = `<strong>Successes</strong>: ${successes}/3, <strong>Failures</strong>: ${failures}/3`;
+			}
+
+			const deathSaveInfo = {
+				type: "entries",
+				name: "Death Saves",
+				entries: [deathSaveDisplay]
+			};
+			renderer.recursiveRender(deathSaveInfo, renderStack, {depth: 1});
+		}		// Custom Trackers Section - flexible tracking for abilities, items, conditions
+		if (character.customTrackers?.length) {
+			const trackerEntries = [];
+			const hasEditAccess = Renderer.character._hasSourceAccess(character.source);
+			let characterId = null;
+
+			if (hasEditAccess && !isStatic) {
+				characterId = globalThis.CharacterManager
+					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
+					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
+				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
+			}
+
+			character.customTrackers.forEach((tracker, index) => {
+				const trackerName = tracker.name || `Tracker ${index + 1}`;
+				const description = tracker.description ? ` - ${tracker.description}` : '';
+
+				if (tracker.type === 'counter') {
+					// Counter type tracker (current/max)
+					const current = tracker.current || 0;
+					const max = tracker.max || 1;
+
+					if (hasEditAccess && !isStatic && characterId) {
+						// Editable counter with click handlers
+						const clickableCount = `<span class="character-stat-display" data-stat-path="customTrackers.${index}.current" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" title="Click to edit ${trackerName}" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
+						trackerEntries.push(`<strong>${trackerName}:</strong>: ${clickableCount}/${max}${description}`);
+					} else {
+						// Static display
+						trackerEntries.push(`<strong>${trackerName}:</strong>: ${current}/${max}${description}`);
+					}
+				} else if (tracker.type === 'condition') {
+					// Condition type tracker (active/inactive)
+					const active = tracker.active || false;
+					const duration = tracker.duration ? ` (${tracker.duration})` : '';
+					const status = active ? '✓ Active' : '✗ Inactive';
+
+					if (hasEditAccess && !isStatic && characterId) {
+						// Editable condition with click handlers
+						const clickableStatus = `<span class="character-stat-display" data-stat-path="customTrackers.${index}.active" data-character-id="${characterId}" data-current-value="${active}" data-max-value="true" title="Click to toggle ${trackerName}" style="cursor: pointer; border-bottom: 1px dashed #666;">${status}</span>`;
+						trackerEntries.push(`<strong>${trackerName}:</strong>: ${clickableStatus}${duration}${description}`);
+					} else {
+						// Static display
+						trackerEntries.push(`<strong>${trackerName}:</strong>: ${status}${duration}${description}`);
+					}
+				}
+			});
+
+			if (trackerEntries.length > 0) {
+				const trackerInfo = {
+					type: "entries",
+					name: "Custom Trackers",
+					entries: trackerEntries
+				};
+				renderer.recursiveRender(trackerInfo, renderStack, {depth: 1});
+			}
+		}
+
 		// Traits/Features - collapsible section
 		if (character.trait?.length) {
 			const traitInfo = {
@@ -9080,7 +9075,7 @@ Renderer.character = class {
 		// if (character.customText) {
 		// 	const customInfo = {
 		// 		type: "entries",
-		// 		entries: [`<p><strong>Description:</strong> ${character.customText}</p>`]
+		// 		entries: [`<p><strong>Description:</strong>: ${character.customText}</p>`]
 		// 	};
 		// 	renderer.recursiveRender(customInfo, renderStack, {depth: 1});
 		// }
@@ -9091,7 +9086,7 @@ Renderer.character = class {
 		// 	const fluffText = character.fluff.entries.join(' ');
 		// 	const fluffInfo = {
 		// 		type: "entries",
-		// 		entries: [`<p><strong>Background:</strong> ${fluffText}</p>`]
+		// 		entries: [`<p><strong>Background:</strong>: ${fluffText}</p>`]
 		// 	};
 		// 	renderer.recursiveRender(fluffInfo, renderStack, {depth: 1});
 		// }
@@ -9167,23 +9162,8 @@ Renderer.character = class {
 
 	static _bindCharacterSheetListeners (ele) {
 		const $ele = $(ele);
-		console.log('DM Screen Debug: _bindCharacterSheetListeners called with element:', ele);
-		console.log('DM Screen Debug: Element HTML:', ele.innerHTML.substring(0, 200));
 
 		const statDisplays = $ele.find('.character-stat-display');
-
-		if (statDisplays.length > 0) {
-			statDisplays.each(function(index, elem) {
-				const $elem = $(elem);
-				console.log(`DM Screen Debug: Stat display ${index}:`, {
-					path: $elem.attr('data-stat-path'),
-					characterId: $elem.attr('data-character-id'),
-					value: $elem.attr('data-current-value'),
-					text: $elem.text().trim(),
-					classes: elem.className
-				});
-			});
-		}
 
 		// Click-to-edit functionality for character stats
 		$ele.on('click', '.character-stat-display', function(e) {
@@ -9194,7 +9174,6 @@ Renderer.character = class {
 
 			// Get character data from global registry
 			if (!globalThis._CHARACTER_EDIT_DATA || !globalThis._CHARACTER_EDIT_DATA[characterId]) {
-				console.log('DM Screen Debug: No character data found in global registry for ID:', characterId);
 				return; // Skip if character data not found
 			}
 
@@ -9810,7 +9789,7 @@ Renderer.character = class {
 						 onmouseout="this.style.backgroundColor='white'">
 						<div style="display: flex; justify-content: space-between; align-items: flex-start;">
 							<div style="flex: 1;">
-								<strong>${name}</strong> <small>(${type})</small>
+								<strong>${name}</strong>: <small>(${type})</small>
 								${source ? `<small class="text-muted"> [${source}]</small>` : ''}
 								${descText ? `<br><small class="text-muted">${descText}</small>` : ''}
 							</div>
