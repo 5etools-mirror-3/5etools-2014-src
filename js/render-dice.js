@@ -291,8 +291,12 @@ Renderer.dice = {
 
 		// Prevent multiple concurrent 3D dice rolls - wait for current to finish
 		if (this._activeDiceRoll) {
-			console.log("_preRoll3dDice: Waiting for active dice roll to complete...");
-			await this._activeDiceRoll;
+			console.log("⏳ _preRoll3dDice: Waiting for active dice roll to complete before starting new one...");
+			try {
+				await this._activeDiceRoll;
+			} catch (e) {
+				console.warn("⏳ Previous dice roll failed, continuing with new roll:", e);
+			}
 		}
 
 		try {
@@ -317,14 +321,16 @@ Renderer.dice = {
 			}
 
 			// Create a promise for this roll and track it
+			console.log("🎲 Starting new 3D dice roll...");
 			this._activeDiceRoll = this._rollDiceInternal(tree, diceNotation);
 			const result = await this._activeDiceRoll;
 			this._activeDiceRoll = null; // Clear when complete
+			console.log("🎲 3D dice roll completed successfully");
 			
 			return result;
 		} catch (error) {
 			this._activeDiceRoll = null; // Clear on error too
-			console.error("3D dice pre-roll failed, falling back to standard:", error);
+			console.error("🎲 3D dice pre-roll failed, falling back to standard:", error);
 			return null;
 		}
 	},
@@ -372,14 +378,10 @@ Renderer.dice = {
 				continue;
 			}
 
-			// As a last resort, roll a single die of the wanted faces to fill the slot
-			try {
-				const single = await window.DiceBoxManager.rollSingleDie(wantedFaces);
-				preRolled.push({val: single, faces: wantedFaces});
-			} catch (err) {
-				console.error("_preRoll3dDice: failed rolling fallback single die", {wantedFaces, err});
-				preRolled.push({val: RollerUtil.randomise(wantedFaces), faces: wantedFaces});
-			}
+			// As a last resort, use a mathematical roll instead of physical dice
+			// to avoid creating an infinite loop of dice rolling
+			console.warn("_preRoll3dDice: no matching die result found, using mathematical fallback", {wantedFaces, available: rawRolls.map(r => ({sides: r.sides || r.faces, value: r.value}))});
+			preRolled.push({val: RollerUtil.randomise(wantedFaces), faces: wantedFaces});
 		}
 
 		return preRolled;
