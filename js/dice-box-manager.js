@@ -188,10 +188,13 @@ class DiceBoxManager {
 			// Process results
 			const results = this._processRollResults(rollResult, diceNotation);
 
-			// Auto-clear dice after 2 seconds
-			setTimeout(() => {
-				this.clearDice();
-			}, 2000);
+			// Wait for dice to settle completely, then fade out smoothly
+			// Only clear after we have confirmed results
+			if (results && results.individual && results.individual.length > 0) {
+				setTimeout(() => {
+					this.fadeOutDice();
+				}, 3000); // Longer delay to ensure user sees results
+			}
 
 			return results;
 		} catch (error) {
@@ -298,10 +301,12 @@ class DiceBoxManager {
 			// Roll the die using dice-box with proper notation
 			const rollResult = await this._diceBox.roll(diceNotation);
 
-			// Auto-clear dice after 1.5 seconds for single die rolls
-			setTimeout(() => {
-				this.clearDice();
-			}, 1500);
+			// Only clear after we have a valid result
+			if (rollResult && rollResult[0] && typeof rollResult[0].value === 'number') {
+				setTimeout(() => {
+					this.fadeOutDice();
+				}, 2500); // Longer delay for single die
+			}
 
 			return rollResult[0].value;
 		} catch (error) {
@@ -311,11 +316,36 @@ class DiceBoxManager {
 	}
 
 	/**
-	 * Clear all dice from the scene
+	 * Clear all dice from the scene with smooth fade out
+	 */
+	static async fadeOutDice() {
+		const container = document.getElementById('dice-box');
+		if (container && this._diceBox) {
+			// Add fade out transition
+			container.style.transition = 'opacity 1s ease-out';
+			container.style.opacity = '0';
+			
+			// Wait for fade to complete, then actually clear dice
+			setTimeout(async () => {
+				await this._diceBox.clear();
+				// Reset opacity for next roll
+				container.style.opacity = '1';
+				container.style.transition = '';
+			}, 1000);
+		}
+	}
+
+	/**
+	 * Immediately clear all dice from the scene (for emergency/manual clearing)
 	 */
 	static async clearDice() {
 		if (this._diceBox) {
 			await this._diceBox.clear();
+			const container = document.getElementById('dice-box');
+			if (container) {
+				container.style.opacity = '1';
+				container.style.transition = '';
+			}
 		}
 	}
 }
