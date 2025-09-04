@@ -37,15 +37,15 @@ class DiceBoxManager {
 				id: "dice-box",
 				assetPath: "/lib/dice-box-assets/",
 				origin: window.location.origin,
-				scale: 8,  // Reasonable scale for visibility
-				gravity: 1,
-				mass: 1,
-				friction: 0.8,
-				restitution: 0.5,
-				shadowIntensity: 0.6,
-				lightIntensity: 0.9,
-				spinForce: 1,  
-				throwForce: 6,
+				scale: 4,  // Smaller dice for better visibility and less clutter
+				gravity: 0.8,  // Slightly reduced gravity for more natural rolling
+				mass: 1.2,  // Slightly heavier dice for more stable rolling
+				friction: 0.9,  // Higher friction for less sliding around
+				restitution: 0.3,  // Lower bounce for more realistic settling
+				shadowIntensity: 0.4,  // Lighter shadows for cleaner look
+				lightIntensity: 0.8,  // Balanced lighting
+				spinForce: 0.6,  // Reduced spin for more predictable rolls
+				throwForce: 3.5,  // Gentler throw force for better control
 				enableShadows: true,
 				lightPosition: { x: -10, y: 30, z: 20 },
 				// Explicit sizing to force full screen

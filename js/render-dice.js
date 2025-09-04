@@ -131,24 +131,26 @@ Renderer.dice = {
 	},
 
 	// Recursively find all dice in an expression and extract their properties
-	_findAllDiceInExpression(node, diceList = [], depth = 0) {
+	_findAllDiceInExpression(node, diceList = []) {
 		if (!node) return diceList;
 		
-		const indent = '  '.repeat(depth);
-		console.log(`${indent}Examining node:`, node.constructor?.name, node);
+		// Handle Pool nodes (dice pools like {2d8, 1d6})
+		if (node.constructor && node.constructor.name === 'Pool') {
+			// Process each node in the pool
+			if (node._nodesPool && Array.isArray(node._nodesPool)) {
+				for (const poolNode of node._nodesPool) {
+					this._findAllDiceInExpression(poolNode, diceList);
+				}
+			}
+			return diceList;
+		}
 		
 		// If this is a Dice node, extract its properties
 		if (node.constructor && node.constructor.name === 'Dice') {
-			console.log(`${indent}Found Dice node with _nodes:`, node._nodes);
-			console.log(`${indent}Dice node properties - _number:`, node._number, '_faces:', node._faces);
-			
 			if (node._nodes && node._nodes.length >= 2) {
 				// First node is count, second is faces
 				const countNode = node._nodes[0];
 				const facesNode = node._nodes[1];
-				
-				console.log(`${indent}Count node:`, countNode?.constructor?.name, countNode);
-				console.log(`${indent}Faces node:`, facesNode?.constructor?.name, facesNode);
 				
 				let count = 1;
 				let faces = 20; // default
@@ -160,11 +162,10 @@ Renderer.dice = {
 					} else if (countNode.constructor && countNode.constructor.name === 'NumberSymbol') {
 						count = countNode._value || 1;
 					} else if (typeof countNode.avg === 'function') {
-						// Try to evaluate as a number
 						try {
 							count = countNode.avg();
 						} catch (e) {
-							console.log(`${indent}Failed to evaluate count node:`, e);
+							// Fall back to default
 						}
 					}
 				}
@@ -176,22 +177,19 @@ Renderer.dice = {
 					} else if (facesNode.constructor && facesNode.constructor.name === 'NumberSymbol') {
 						faces = facesNode._value || 20;
 					} else if (typeof facesNode.avg === 'function') {
-						// Try to evaluate as a number
 						try {
 							faces = facesNode.avg();
 						} catch (e) {
-							console.log(`${indent}Failed to evaluate faces node:`, e);
+							// Fall back to default
 						}
 					}
 				}
 				
-				console.log(`${indent}Extracted dice: ${count}d${faces}`);
 				diceList.push({ count, faces });
 			} else {
 				// Simple dice node, try to extract from properties
 				const count = node._number || 1;
 				const faces = node._faces || 20;
-				console.log(`${indent}Simple dice from properties: ${count}d${faces}`);
 				diceList.push({ count, faces });
 			}
 		}
@@ -199,7 +197,7 @@ Renderer.dice = {
 		// Recursively search child nodes
 		if (node._nodes && Array.isArray(node._nodes)) {
 			for (const childNode of node._nodes) {
-				this._findAllDiceInExpression(childNode, diceList, depth + 1);
+				this._findAllDiceInExpression(childNode, diceList);
 			}
 		}
 		
@@ -210,37 +208,43 @@ Renderer.dice = {
 	_extractDiceNotation(tree) {
 		if (!tree) return null;
 		
-		console.log(`Extracting dice notation from tree:`, tree);
-		console.log(`Tree constructor:`, tree.constructor?.name);
-		
 		// Find all dice in the expression
 		const diceList = this._findAllDiceInExpression(tree);
-		console.log(`Found dice list:`, diceList);
 		
 		if (diceList.length === 0) return null;
 		
-		// For now, handle the simple case of a single dice type
+		// For single dice type, use exact notation
 		if (diceList.length === 1) {
 			const dice = diceList[0];
-			const notation = `${dice.count}d${dice.faces}`;
-			console.log(`Extracted single dice notation: ${notation}`);
-			return notation;
+			return `${dice.count}d${dice.faces}`;
 		}
 		
-		// For multiple dice types, we'll need to roll them separately
-		// For now, just use the first dice type found
-		const firstDice = diceList[0];
-		const totalCount = diceList.reduce((sum, dice) => sum + dice.count, 0);
-		const notation = `${totalCount}d${firstDice.faces}`;
-		console.log(`Extracted multi-dice notation (using first type): ${notation}`);
-		return notation;
+		// For multiple dice types, create a combined notation
+		// Group dice by faces to combine same types
+		const diceByFaces = new Map();
+		for (const dice of diceList) {
+			const existing = diceByFaces.get(dice.faces) || 0;
+			diceByFaces.set(dice.faces, existing + dice.count);
+		}
+		
+		// If all dice are the same type after grouping, use that
+		if (diceByFaces.size === 1) {
+			const [faces, count] = diceByFaces.entries().next().value;
+			return `${count}d${faces}`;
+		}
+		
+		// For mixed dice types, create a string like "2d8+1d6"
+		// The 3D dice system can handle this format
+		const diceNotations = [];
+		for (const [faces, count] of diceByFaces.entries()) {
+			diceNotations.push(`${count}d${faces}`);
+		}
+		return diceNotations.join('+');
 	},
 
 	// Pre-roll 3D dice by counting how many dice the expression will need
 	async _preRoll3dDice(tree) {
-		console.log(`_preRoll3dDice called with tree:`, tree);
 		if (!this._shouldUse3dDice() || !tree) {
-			console.log(`_preRoll3dDice: skipping (shouldUse3dDice: ${this._shouldUse3dDice()}, hasTree: ${!!tree})`);
 			return null;
 		}
 
@@ -248,14 +252,10 @@ Renderer.dice = {
 			// Extract proper dice notation from the expression
 			const diceNotation = this._extractDiceNotation(tree);
 			if (!diceNotation) {
-				console.log(`No dice found in expression, skipping 3D dice`);
 				return null;
 			}
 			
-			console.log(`Rolling 3D dice with notation: ${diceNotation}`);
 			const rollResult = await window.DiceBoxManager.rollDice(diceNotation, "5etools Roll");
-			console.log(`3D dice results:`, rollResult.individual);
-			
 			return rollResult.individual;
 		} catch (error) {
 			console.error("3D dice pre-roll failed, falling back to standard:", error);
