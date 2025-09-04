@@ -48,24 +48,27 @@ class DiceBoxManager {
 				throwForce: 6,
 				enableShadows: true,
 				lightPosition: { x: -10, y: 30, z: 20 },
+				// Explicit sizing to force full screen
 				width: window.innerWidth,
-				height: window.innerHeight
+				height: window.innerHeight,
+				container: "#dice-box",
+				// Force canvas to fill container
+				canvas: {
+					width: window.innerWidth,
+					height: window.innerHeight
+				}
 			});
 
 			await this._diceBox.init();
 			this._isInitialized = true;
 
+			// Ensure container is properly configured after initialization
+			this._ensureContainerReady();
+
 			// Add window resize handler to keep dice-box full screen
 			window.addEventListener('resize', () => {
-				if (this._diceBox && this._diceBox.resize) {
-					this._diceBox.resize(window.innerWidth, window.innerHeight);
-				}
-				// Also update the container styles
-				const container = document.getElementById('dice-box');
-				if (container) {
-					container.style.width = '100vw';
-					container.style.height = '100vh';
-				}
+				// Re-ensure container is properly configured on resize
+				this._ensureContainerReady();
 			});
 
 		} catch (error) {
@@ -101,7 +104,7 @@ class DiceBoxManager {
 					diceContainer.style.width = '100vw';
 					diceContainer.style.height = '100vh';
 					diceContainer.style.pointerEvents = 'none'; // Don't block clicks
-					diceContainer.style.zIndex = '1000'; // Above other content
+					diceContainer.style.zIndex = '10000'; // Above other content
 					document.body.appendChild(diceContainer);
 					console.log("Created dice-box container");
 				}
@@ -126,7 +129,7 @@ class DiceBoxManager {
 						diceContainer.style.width = '100vw';
 						diceContainer.style.height = '100vh';
 						diceContainer.style.pointerEvents = 'none'; // Don't block clicks
-						diceContainer.style.zIndex = '1000'; // Above other content
+						diceContainer.style.zIndex = '10000'; // Above other content
 						document.body.appendChild(diceContainer);
 						console.log("Created dice-box container");
 					}
@@ -206,15 +209,36 @@ class DiceBoxManager {
 			document.body.appendChild(container);
 		}
 		
-		// Ensure proper styling for full-screen dice
-		container.style.position = 'fixed';
-		container.style.top = '0';
-		container.style.left = '0';
-		container.style.width = '100vw';
-		container.style.height = '100vh';
-		container.style.pointerEvents = 'none';
-		container.style.zIndex = '10000'; // Higher than modals
-		container.style.background = 'transparent';
+		// Ensure proper styling for full-screen dice with important declarations
+		container.style.cssText = `
+			position: fixed !important;
+			top: 0 !important;
+			left: 0 !important;
+			width: 100vw !important;
+			height: 100vh !important;
+			pointer-events: none !important;
+			z-index: 10000 !important;
+			background: transparent !important;
+			margin: 0 !important;
+			padding: 0 !important;
+			border: none !important;
+			box-sizing: border-box !important;
+			overflow: hidden !important;
+		`;
+		
+		// Also ensure any canvas inside is properly sized
+		const canvas = container.querySelector('canvas');
+		if (canvas) {
+			canvas.style.cssText = `
+				width: 100% !important;
+				height: 100% !important;
+				display: block !important;
+			`;
+		}
+		
+		// Debug logging
+		console.log(`DiceBox container dimensions: ${container.offsetWidth}x${container.offsetHeight}`);
+		console.log(`Window dimensions: ${window.innerWidth}x${window.innerHeight}`);
 		
 		// Ensure the dice-box takes full window dimensions
 		if (this._diceBox && this._diceBox.resize) {
