@@ -141,7 +141,8 @@ Renderer.dice = {
 			nodeFaces: node._faces,
 			nodeNumber: node._number,
 			hasNodes: node._nodes ? node._nodes.length : 'none',
-			toString: node.toString ? node.toString() : 'no toString'
+			toString: node.toString ? node.toString() : 'no toString',
+			currentDiceListLength: diceList.length
 		});
 
 		// Handle Pool nodes (dice pools like {2d8, 1d6})
