@@ -19,6 +19,7 @@ Renderer.dice = {
 
 	_isManualMode: false,
 	_is3dDiceEnabled: false,
+	_activeDiceRoll: null, // Prevent multiple concurrent 3D dice rolls
 
 	// 3D Dice configuration methods
 	set3dDiceEnabled(enabled) {
@@ -134,8 +135,18 @@ Renderer.dice = {
 	_findAllDiceInExpression(node, diceList = []) {
 		if (!node) return diceList;
 
+		console.log("_findAllDiceInExpression processing node:", {
+			nodeType: node.constructor ? node.constructor.name : 'unknown',
+			nodeValue: node._value,
+			nodeFaces: node._faces,
+			nodeNumber: node._number,
+			hasNodes: node._nodes ? node._nodes.length : 'none',
+			toString: node.toString ? node.toString() : 'no toString'
+		});
+
 		// Handle Pool nodes (dice pools like {2d8, 1d6})
 		if (node.constructor && node.constructor.name === 'Pool') {
+			console.log("Processing Pool node with", node._nodesPool ? node._nodesPool.length : 0, "pool nodes");
 			// Process each node in the pool
 			if (node._nodesPool && Array.isArray(node._nodesPool)) {
 				for (const poolNode of node._nodesPool) {
@@ -147,6 +158,7 @@ Renderer.dice = {
 
 		// If this is a Dice node, extract its properties
 		if (node.constructor && node.constructor.name === 'Dice') {
+			console.log("Found Dice node, extracting properties...");
 			if (node._nodes && node._nodes.length >= 2) {
 				// First node is count, second is faces
 				const countNode = node._nodes[0];
@@ -186,24 +198,24 @@ Renderer.dice = {
 				}
 
 				diceList.push({ count, faces });
-				console.debug("_findAllDiceInExpression found dice", {count, faces, nodeType: node.constructor.name});
+				console.log("_findAllDiceInExpression found dice", {count, faces, nodeType: node.constructor.name});
 			} else {
 				// Simple dice node, try to extract from properties
 				const count = node._number || 1;
 				const faces = node._faces || 20;
 				diceList.push({ count, faces });
-				console.debug("_findAllDiceInExpression found simple dice", {count, faces, nodeType: node.constructor.name});
+				console.log("_findAllDiceInExpression found simple dice", {count, faces, nodeType: node.constructor.name});
 			}
 			return diceList; // Don't recurse further into dice nodes
 		}
 
 		// Skip pure numbers/constants - these are NOT dice
 		if (node.constructor && (
-			node.constructor.name === 'NumberSymbol' || 
+			node.constructor.name === 'NumberSymbol' ||
 			node.constructor.name === 'Number' ||
 			node.constructor.name === 'Constant'
 		)) {
-			console.debug("_findAllDiceInExpression skipping pure number", {
+			console.log("_findAllDiceInExpression skipping pure number", {
 				value: node._value,
 				nodeType: node.constructor.name
 			});
@@ -212,6 +224,7 @@ Renderer.dice = {
 
 		// Recursively search child nodes
 		if (node._nodes && Array.isArray(node._nodes)) {
+			console.log(`_findAllDiceInExpression recursing into ${node._nodes.length} child nodes`);
 			for (const childNode of node._nodes) {
 				this._findAllDiceInExpression(childNode, diceList);
 			}
@@ -226,21 +239,23 @@ Renderer.dice = {
 
 		// Find all dice in the expression
 		const diceList = this._findAllDiceInExpression(tree);
-		console.debug("_extractDiceNotation diceList", {
+		console.log("_extractDiceNotation diceList", {
 			diceList,
 			treeType: tree.constructor ? tree.constructor.name : 'unknown',
 			treeString: tree.toString ? tree.toString() : 'no toString'
 		});
 
 		if (diceList.length === 0) {
-			console.debug("_extractDiceNotation: no dice found in expression");
+			console.log("_extractDiceNotation: no dice found in expression");
 			return null;
 		}
 
 		// For single dice type, use exact notation
 		if (diceList.length === 1) {
 			const dice = diceList[0];
-			return `${dice.count}d${dice.faces}`;
+			const notation = `${dice.count}d${dice.faces}`;
+			console.log(`_extractDiceNotation: single dice ${notation}`);
+			return notation;
 		}
 
 		// For multiple dice types, create a combined notation
@@ -254,7 +269,9 @@ Renderer.dice = {
 		// If all dice are the same type after grouping, use that
 		if (diceByFaces.size === 1) {
 			const [faces, count] = diceByFaces.entries().next().value;
-			return `${count}d${faces}`;
+			const notation = `${count}d${faces}`;
+			console.log(`_extractDiceNotation: grouped single type ${notation}`);
+			return notation;
 		}
 
 		// For mixed dice types, create a string like "2d8+1d6"
@@ -263,85 +280,110 @@ Renderer.dice = {
 		for (const [faces, count] of diceByFaces.entries()) {
 			diceNotations.push(`${count}d${faces}`);
 		}
-		return diceNotations.join('+');
+		const notation = diceNotations.join('+');
+		console.log(`_extractDiceNotation: mixed dice ${notation}`);
+		return notation;
 	},
 
 	// Pre-roll 3D dice by counting how many dice the expression will need
 	async _preRoll3dDice(tree) {
 		if (!this._shouldUse3dDice() || !tree) return null;
 
+		// Prevent multiple concurrent 3D dice rolls - wait for current to finish
+		if (this._activeDiceRoll) {
+			console.log("_preRoll3dDice: Waiting for active dice roll to complete...");
+			await this._activeDiceRoll;
+		}
+
 		try {
+			// Debug the tree structure first
+			console.log("=== _preRoll3dDice DEBUG START ===");
+			console.log("Tree type:", tree.constructor ? tree.constructor.name : 'unknown');
+			console.log("Tree toString:", tree.toString ? tree.toString() : 'no toString');
+			console.log("Tree structure:", tree);
+			
 			// Extract proper dice notation from the expression
 			const diceNotation = this._extractDiceNotation(tree);
-			console.debug("_preRoll3dDice extracted", {
-				diceNotation, 
+			console.log("_preRoll3dDice extracted", {
+				diceNotation,
 				treeType: tree.constructor ? tree.constructor.name : 'unknown',
 				treeToString: tree.toString ? tree.toString() : 'no toString'
 			});
+			
 			if (!diceNotation) {
-				console.debug("_preRoll3dDice: no dice notation found, skipping 3D dice");
+				console.log("_preRoll3dDice: no dice notation found, skipping 3D dice");
+				console.log("=== _preRoll3dDice DEBUG END (no dice) ===");
 				return null;
 			}
 
-			// Count how many individual dice the evaluator expects (for ordering/consumption)
-			const expectedCount = this._countDiceInExpression(tree);
-			// Also build an ordered faces array for any fallback single-die rolls
-			const diceList = this._findAllDiceInExpression(tree) || [];
-			const facesArray = [];
-			for (const d of diceList) {
-				for (let i = 0; i < Math.max(1, Math.round(d.count || 1)); ++i) facesArray.push(d.faces || 20);
-			}
-
-			// Ask DiceBoxManager to roll the grouped notation
-			const rollResult = await window.DiceBoxManager.rollDice(diceNotation, "5etools Roll");
-			console.debug("_preRoll3dDice rollResult", {rollResult});
-
-			// Build a faces-aware mapping for evaluator consumption. DiceBox may return dice in a different
-			// order/grouping than the evaluator expects, so we map values to the faces the evaluator will
-			// consume (facesArray).
-			const rawRolls = (rollResult && rollResult.rolls) ? [...rollResult.rolls] : [];
-			let individual = (rollResult && rollResult.individual) ? [...rollResult.individual] : [];
-
-			const preRolled = [];
-
-			// Attempt to match returned dice by faces to the facesArray order
-			for (let i = 0; i < expectedCount; ++i) {
-				const wantedFaces = facesArray[i] || facesArray[facesArray.length - 1] || 20;
-
-				// Try to find a raw roll with matching faces (various libs use different prop names)
-				let foundIndex = rawRolls.findIndex(r => (r.sides === wantedFaces) || (r.faces === wantedFaces) || (r.sidesCount === wantedFaces) || (r.sides && r.sides === wantedFaces));
-
-				if (foundIndex >= 0) {
-					const found = rawRolls.splice(foundIndex, 1)[0];
-					preRolled.push({val: typeof found.value === 'number' ? found.value : (found.result || found.roll || 0), faces: wantedFaces});
-					continue;
-				}
-
-				// Fallback: if dice-box provided flattened individual array, try taking next value
-				if (individual.length) {
-					const v = individual.shift();
-					preRolled.push({val: v, faces: wantedFaces});
-					continue;
-				}
-
-				// As a last resort, roll a single die of the wanted faces to fill the slot
-				try {
-					const single = await window.DiceBoxManager.rollSingleDie(wantedFaces);
-					preRolled.push({val: single, faces: wantedFaces});
-				} catch (err) {
-					console.error("_preRoll3dDice: failed rolling fallback single die", {wantedFaces, err});
-					preRolled.push({val: RollerUtil.randomise(wantedFaces), faces: wantedFaces});
-				}
-			}
-
-			return preRolled;
+			// Create a promise for this roll and track it
+			this._activeDiceRoll = this._rollDiceInternal(tree, diceNotation);
+			const result = await this._activeDiceRoll;
+			this._activeDiceRoll = null; // Clear when complete
+			
+			return result;
 		} catch (error) {
+			this._activeDiceRoll = null; // Clear on error too
 			console.error("3D dice pre-roll failed, falling back to standard:", error);
 			return null;
 		}
 	},
 
+	// Internal method to handle the actual dice rolling
+	async _rollDiceInternal(tree, diceNotation) {
+		// Count how many individual dice the evaluator expects (for ordering/consumption)
+		const expectedCount = this._countDiceInExpression(tree);
+		// Also build an ordered faces array for any fallback single-die rolls
+		const diceList = this._findAllDiceInExpression(tree) || [];
+		const facesArray = [];
+		for (const d of diceList) {
+			for (let i = 0; i < Math.max(1, Math.round(d.count || 1)); ++i) facesArray.push(d.faces || 20);
+		}
 
+		// Ask DiceBoxManager to roll the grouped notation
+		const rollResult = await window.DiceBoxManager.rollDice(diceNotation, "5etools Roll");
+		console.debug("_preRoll3dDice rollResult", {rollResult});
+
+		// Build a faces-aware mapping for evaluator consumption. DiceBox may return dice in a different
+		// order/grouping than the evaluator expects, so we map values to the faces the evaluator will
+		// consume (facesArray).
+		const rawRolls = (rollResult && rollResult.rolls) ? [...rollResult.rolls] : [];
+		let individual = (rollResult && rollResult.individual) ? [...rollResult.individual] : [];
+
+		const preRolled = [];
+
+		// Attempt to match returned dice by faces to the facesArray order
+		for (let i = 0; i < expectedCount; ++i) {
+			const wantedFaces = facesArray[i] || facesArray[facesArray.length - 1] || 20;
+
+			// Try to find a raw roll with matching faces (various libs use different prop names)
+			let foundIndex = rawRolls.findIndex(r => (r.sides === wantedFaces) || (r.faces === wantedFaces) || (r.sidesCount === wantedFaces) || (r.sides && r.sides === wantedFaces));
+
+			if (foundIndex >= 0) {
+				const found = rawRolls.splice(foundIndex, 1)[0];
+				preRolled.push({val: typeof found.value === 'number' ? found.value : (found.result || found.roll || 0), faces: wantedFaces});
+				continue;
+			}
+
+			// Fallback: if dice-box provided flattened individual array, try taking next value
+			if (individual.length) {
+				const v = individual.shift();
+				preRolled.push({val: v, faces: wantedFaces});
+				continue;
+			}
+
+			// As a last resort, roll a single die of the wanted faces to fill the slot
+			try {
+				const single = await window.DiceBoxManager.rollSingleDie(wantedFaces);
+				preRolled.push({val: single, faces: wantedFaces});
+			} catch (err) {
+				console.error("_preRoll3dDice: failed rolling fallback single die", {wantedFaces, err});
+				preRolled.push({val: RollerUtil.randomise(wantedFaces), faces: wantedFaces});
+			}
+		}
+
+		return preRolled;
+	},
 
 	/* -------------------------------------------- */
 

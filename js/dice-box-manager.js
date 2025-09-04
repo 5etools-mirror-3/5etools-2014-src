@@ -176,6 +176,13 @@ class DiceBoxManager {
 		const rollId = `roll_${++this._rollCounter}_${Date.now()}`;
 		this._activeRolls.add(rollId);
 
+		console.log(`🎲 DiceBoxManager.rollDice START: ${rollId}`, {
+			notation: diceNotation,
+			label,
+			activeRolls: Array.from(this._activeRolls),
+			rollCounter: this._rollCounter
+		});
+
 		try {
 			// Ensure dice container exists and is properly sized
 			this._ensureContainerReady();
@@ -195,15 +202,17 @@ class DiceBoxManager {
 			
 			if (diceComponents.length > 1) {
 				// Handle pool dice by rolling each component separately
+				console.log(`🎲 ${rollId}: Rolling pool dice with ${diceComponents.length} components`);
 				return await this._rollPoolDice(diceComponents, rollId, diceNotation);
 			} else {
 				// Handle single dice notation (includes modifiers like "2d6+4")
+				console.log(`🎲 ${rollId}: Rolling single notation`);
 				return await this._rollSingleNotation(cleanNotation, rollId, diceNotation);
 			}
 		} catch (error) {
 			// Remove from active rolls on error
 			this._activeRolls.delete(rollId);
-			console.error("Error rolling 3D dice:", error);
+			console.error(`🎲 ${rollId}: Error rolling 3D dice:`, error);
 			throw error;
 		}
 	}
