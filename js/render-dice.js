@@ -186,12 +186,28 @@ Renderer.dice = {
 				}
 
 				diceList.push({ count, faces });
+				console.debug("_findAllDiceInExpression found dice", {count, faces, nodeType: node.constructor.name});
 			} else {
 				// Simple dice node, try to extract from properties
 				const count = node._number || 1;
 				const faces = node._faces || 20;
 				diceList.push({ count, faces });
+				console.debug("_findAllDiceInExpression found simple dice", {count, faces, nodeType: node.constructor.name});
 			}
+			return diceList; // Don't recurse further into dice nodes
+		}
+
+		// Skip pure numbers/constants - these are NOT dice
+		if (node.constructor && (
+			node.constructor.name === 'NumberSymbol' || 
+			node.constructor.name === 'Number' ||
+			node.constructor.name === 'Constant'
+		)) {
+			console.debug("_findAllDiceInExpression skipping pure number", {
+				value: node._value,
+				nodeType: node.constructor.name
+			});
+			return diceList; // Don't recurse into pure numbers
 		}
 
 		// Recursively search child nodes
@@ -210,9 +226,16 @@ Renderer.dice = {
 
 		// Find all dice in the expression
 		const diceList = this._findAllDiceInExpression(tree);
-		console.debug("_extractDiceNotation diceList", {diceList});
+		console.debug("_extractDiceNotation diceList", {
+			diceList,
+			treeType: tree.constructor ? tree.constructor.name : 'unknown',
+			treeString: tree.toString ? tree.toString() : 'no toString'
+		});
 
-		if (diceList.length === 0) return null;
+		if (diceList.length === 0) {
+			console.debug("_extractDiceNotation: no dice found in expression");
+			return null;
+		}
 
 		// For single dice type, use exact notation
 		if (diceList.length === 1) {
@@ -250,8 +273,15 @@ Renderer.dice = {
 		try {
 			// Extract proper dice notation from the expression
 			const diceNotation = this._extractDiceNotation(tree);
-			console.debug("_preRoll3dDice extracted", {diceNotation});
-			if (!diceNotation) return null;
+			console.debug("_preRoll3dDice extracted", {
+				diceNotation, 
+				treeType: tree.constructor ? tree.constructor.name : 'unknown',
+				treeToString: tree.toString ? tree.toString() : 'no toString'
+			});
+			if (!diceNotation) {
+				console.debug("_preRoll3dDice: no dice notation found, skipping 3D dice");
+				return null;
+			}
 
 			// Count how many individual dice the evaluator expects (for ordering/consumption)
 			const expectedCount = this._countDiceInExpression(tree);

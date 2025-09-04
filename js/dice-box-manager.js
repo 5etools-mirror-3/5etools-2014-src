@@ -163,7 +163,7 @@ class DiceBoxManager {
 
 	/**
 	 * Parse dice notation and roll 3D dice
-	 * @param {string} diceNotation - Dice notation like "1d20+5" or "2d6"
+	 * @param {string} diceNotation - Dice notation like "1d20+5" or "2d6" or "2d8+1d6"
 	 * @param {string} label - Label for the roll
 	 * @returns {Promise<Object>} Roll result with unique roll ID
 	 */
@@ -184,30 +184,137 @@ class DiceBoxManager {
 			const cleanNotation = diceNotation.replace(/\s+/g, '');
 			console.debug("DiceBoxManager.rollDice input", {diceNotation, cleanNotation, label});
 
-			// Validate that it's a proper dice notation
-			if (!cleanNotation.match(/\d*d\d+/)) {
+			// Validate that it's a proper dice notation - support pools, complex expressions, and modifiers
+			// Examples: "1d20", "2d8+1d6", "1d20+5", "3d6+2d4+1"
+			if (!cleanNotation.match(/\d*d\d+([+-]\d*d\d+|[+-]\d+)*/)) {
 				throw new Error(`Invalid dice notation: ${diceNotation}`);
 			}
 
-			// Roll the dice using dice-box with the notation string directly
-			const rollResult = await this._diceBox.roll(cleanNotation);
-
-			// Process results immediately - don't wait for settling
-			const results = this._processRollResults(rollResult, diceNotation);
-			results.rollId = rollId; // Add roll ID to results
-
-			// Wait for dice to settle before starting fade countdown
-			if (results && results.individual && results.individual.length > 0) {
-				this._waitForSettlingThenFade(rollId);
+			// Check if this is a pool notation (multiple different dice types like "2d8+1d6")
+			const diceComponents = this._splitDiceNotation(cleanNotation);
+			
+			if (diceComponents.length > 1) {
+				// Handle pool dice by rolling each component separately
+				return await this._rollPoolDice(diceComponents, rollId, diceNotation);
+			} else {
+				// Handle single dice notation (includes modifiers like "2d6+4")
+				return await this._rollSingleNotation(cleanNotation, rollId, diceNotation);
 			}
-
-			return results;
 		} catch (error) {
 			// Remove from active rolls on error
 			this._activeRolls.delete(rollId);
 			console.error("Error rolling 3D dice:", error);
 			throw error;
 		}
+	}
+
+	/**
+	 * Split dice notation into components (separating different dice types)
+	 * @param {string} notation - Like "2d8+1d6+3" or "1d20+5"
+	 * @returns {Array} Array of {type: 'dice'|'modifier', notation: string, value?: number}
+	 */
+	static _splitDiceNotation(notation) {
+		const components = [];
+		const parts = notation.split(/([+-])/);
+		
+		let currentSign = '+';
+		for (let i = 0; i < parts.length; i++) {
+			const part = parts[i].trim();
+			if (part === '+' || part === '-') {
+				currentSign = part;
+			} else if (part) {
+				if (part.match(/\d*d\d+/)) {
+					// This is a dice component
+					components.push({
+						type: 'dice',
+						notation: (currentSign === '-' ? '-' : '') + part
+					});
+				} else if (part.match(/^\d+$/)) {
+					// This is a numeric modifier
+					components.push({
+						type: 'modifier',
+						notation: currentSign + part,
+						value: parseInt(currentSign + part)
+					});
+				}
+			}
+		}
+		
+		console.debug("_splitDiceNotation", {notation, components});
+		return components;
+	}
+
+	/**
+	 * Roll pool dice (multiple different dice types)
+	 * @param {Array} diceComponents - Array of dice and modifier components
+	 * @param {string} rollId - Roll ID for tracking
+	 * @param {string} originalNotation - Original notation
+	 * @returns {Promise<Object>} Combined results
+	 */
+	static async _rollPoolDice(diceComponents, rollId, originalNotation) {
+		const allResults = [];
+		const diceResults = [];
+		let modifierTotal = 0;
+
+		// Roll each dice component separately
+		for (const component of diceComponents) {
+			if (component.type === 'dice') {
+				// Roll this dice notation using dice-box
+				const rollResult = await this._diceBox.roll(component.notation.replace(/^-/, ''));
+				const results = rollResult.map(die => die.value);
+				
+				// If negative dice (shouldn't happen in normal usage), negate results
+				if (component.notation.startsWith('-')) {
+					results.forEach((val, idx) => results[idx] = -val);
+				}
+				
+				allResults.push(...results);
+				diceResults.push(...results);
+			} else if (component.type === 'modifier') {
+				modifierTotal += component.value;
+			}
+		}
+
+		const diceTotal = diceResults.reduce((sum, val) => sum + val, 0);
+		const results = {
+			diceResults,
+			diceTotal,
+			modifier: modifierTotal,
+			total: diceTotal + modifierTotal,
+			notation: originalNotation,
+			individual: diceResults,
+			rollId
+		};
+
+		// Wait for dice to settle before starting fade countdown
+		if (results.individual && results.individual.length > 0) {
+			this._waitForSettlingThenFade(rollId);
+		}
+
+		return results;
+	}
+
+	/**
+	 * Roll single dice notation (may include numeric modifiers)
+	 * @param {string} cleanNotation - Clean notation like "2d6+4"
+	 * @param {string} rollId - Roll ID for tracking
+	 * @param {string} originalNotation - Original notation
+	 * @returns {Promise<Object>} Results
+	 */
+	static async _rollSingleNotation(cleanNotation, rollId, originalNotation) {
+		// Roll the dice using dice-box with the notation string directly
+		const rollResult = await this._diceBox.roll(cleanNotation);
+
+		// Process results immediately - don't wait for settling
+		const results = this._processRollResults(rollResult, originalNotation);
+		results.rollId = rollId; // Add roll ID to results
+
+		// Wait for dice to settle before starting fade countdown
+		if (results && results.individual && results.individual.length > 0) {
+			this._waitForSettlingThenFade(rollId);
+		}
+
+		return results;
 	}
 
 	/**
@@ -358,10 +465,16 @@ class DiceBoxManager {
 		const maxSettleChecks = 15; // Maximum 3 seconds at 200ms intervals
 		const settleCheckInterval = 200; // Check every 200ms
 		
-		console.debug(`Starting settling check for roll ${rollId}`);
+		console.debug(`Starting settling check for roll ${rollId} (${this._activeRolls.size} active rolls)`);
 		
 		const checkSettling = () => {
 			settleCheckCount++;
+			
+			// Check if this roll ID is still in active rolls (might have been cleared)
+			if (!this._activeRolls.has(rollId)) {
+				console.debug(`Roll ${rollId} no longer active, stopping settle check`);
+				return;
+			}
 			
 			// After reasonable time, assume settled (failsafe)
 			if (settleCheckCount >= maxSettleChecks) {
@@ -388,18 +501,33 @@ class DiceBoxManager {
 		
 		// Start checking after a brief initial delay
 		setTimeout(checkSettling, settleCheckInterval);
+		
+		// Also add a hard timeout as absolute fallback (6 seconds total)
+		setTimeout(() => {
+			if (this._activeRolls.has(rollId)) {
+				console.warn(`Roll ${rollId} hit hard timeout, forcing fade`);
+				this._fadeOutSpecificRoll(rollId);
+			}
+		}, 6000);
 	}
 
 	/**
 	 * Fade out a specific roll by ID (for concurrent roll support)
 	 */
 	static async _fadeOutSpecificRoll(rollId) {
+		console.debug(`Attempting to fade out roll ${rollId}, ${this._activeRolls.size} active rolls before removal`);
+		
 		// Remove from active rolls tracking
 		this._activeRolls.delete(rollId);
+		
+		console.debug(`After removing roll ${rollId}, ${this._activeRolls.size} active rolls remaining`);
 
 		// If this is the last active roll, fade out all dice
 		if (this._activeRolls.size === 0) {
+			console.debug("All rolls complete, fading out dice");
 			this.fadeOutDice();
+		} else {
+			console.debug(`Keeping dice visible, ${this._activeRolls.size} rolls still active:`, Array.from(this._activeRolls));
 		}
 		// For concurrent rolls, we don't fade individual dice since dice-box
 		// doesn't support selective clearing. Instead, we wait for all rolls
@@ -410,22 +538,32 @@ class DiceBoxManager {
 	 * Clear all dice from the scene with smooth fade out
 	 */
 	static async fadeOutDice() {
+		console.debug("fadeOutDice called");
 		const container = document.getElementById('dice-box');
 		if (container && this._diceBox) {
+			console.debug("fadeOutDice: container and diceBox available, starting fade");
 			// Clear all active roll tracking
 			this._activeRolls.clear();
 
 			// Add fade out transition
 			container.style.transition = 'opacity 1s ease-out';
 			container.style.opacity = '0';
+			console.debug("fadeOutDice: set opacity to 0, waiting 1s before clearing");
 
 			// Wait for fade to complete, then actually clear dice
 			setTimeout(async () => {
+				console.debug("fadeOutDice: clearing dice from scene");
 				await this._diceBox.clear();
 				// Reset opacity for next roll
 				container.style.opacity = '1';
 				container.style.transition = '';
+				console.debug("fadeOutDice: complete, reset opacity to 1");
 			}, 1000);
+		} else {
+			console.debug("fadeOutDice: missing container or diceBox", {
+				hasContainer: !!container,
+				hasDiceBox: !!this._diceBox
+			});
 		}
 	}
 
@@ -433,6 +571,7 @@ class DiceBoxManager {
 	 * Immediately clear all dice from the scene (for emergency/manual clearing)
 	 */
 	static async clearDice() {
+		console.debug("clearDice called - manual override");
 		if (this._diceBox) {
 			await this._diceBox.clear();
 			const container = document.getElementById('dice-box');
@@ -441,6 +580,30 @@ class DiceBoxManager {
 				container.style.transition = '';
 			}
 		}
+		// Clear all active roll tracking
+		this._activeRolls.clear();
+		console.debug("clearDice complete");
+	}
+
+	/**
+	 * Force fade out all dice (for testing/debugging)
+	 */
+	static forceFadeOut() {
+		console.debug("forceFadeOut called - forcing all dice to fade");
+		this._activeRolls.clear();
+		this.fadeOutDice();
+	}
+
+	/**
+	 * Get debug info about active rolls
+	 */
+	static getDebugInfo() {
+		return {
+			isEnabled: this.isEnabled(),
+			activeRolls: Array.from(this._activeRolls),
+			rollCounter: this._rollCounter,
+			isInitialized: this._isInitialized
+		};
 	}
 }
 
