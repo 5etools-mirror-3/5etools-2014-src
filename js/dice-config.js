@@ -19,25 +19,32 @@ class DiceConfig {
 		if (comp) {
 			comp._addHookBase("dice_enable3dDice", () => {
 				const enabled = window.VetoolsConfig.get("dice", "enable3dDice");
+				console.log(`DiceConfig: 3D dice setting changed to: ${enabled}`);
 				if (window.Renderer && window.Renderer.dice) {
 					window.Renderer.dice.set3dDiceEnabled(enabled);
+					console.log(`DiceConfig: Set 3D dice enabled to: ${enabled}`);
 				}
 			});
 		}
 	}
 
 	static async _initializeDice() {
+		console.log("DiceConfig: Starting dice initialization...");
+		
 		// Wait for other scripts to load
 		await this._waitForDependencies();
+		console.log("DiceConfig: Dependencies loaded");
 
 		// Always apply current configuration first, regardless of 3D dice availability
 		this._applyCurrentConfig();
 
 		// Initialize DiceBoxManager only if enabled
 		const enabled = window.VetoolsConfig ? window.VetoolsConfig.get("dice", "enable3dDice") : false;
+		console.log(`DiceConfig: 3D dice setting is: ${enabled}`);
 		
 		if (enabled && window.DiceBoxManager) {
 			try {
+				console.log("DiceConfig: Initializing DiceBoxManager...");
 				await window.DiceBoxManager.init();
 				console.log("DiceConfig: 3D dice system initialized successfully");
 			} catch (error) {
@@ -48,7 +55,7 @@ class DiceConfig {
 				}
 			}
 		} else {
-			console.log("DiceConfig: 3D dice disabled or DiceBoxManager not found");
+			console.log(`DiceConfig: 3D dice disabled (${enabled}) or DiceBoxManager not found (${!!window.DiceBoxManager})`);
 		}
 	}
 

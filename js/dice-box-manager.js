@@ -141,7 +141,9 @@ class DiceBoxManager {
 				}
 			}
 		});
-	}	static async enable() {
+	}
+
+	static async enable() {
 		if (!this._isInitialized) {
 			await this.init();
 		}

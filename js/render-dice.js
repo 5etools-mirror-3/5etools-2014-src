@@ -22,11 +22,16 @@ Renderer.dice = {
 
 	// 3D Dice configuration methods
 	set3dDiceEnabled(enabled) {
+		console.log(`set3dDiceEnabled called with: ${enabled}`);
 		this._is3dDiceEnabled = enabled;
 		if (enabled && window.DiceBoxManager) {
+			console.log("Enabling DiceBoxManager...");
 			window.DiceBoxManager.enable().catch(console.error);
 		} else if (window.DiceBoxManager) {
+			console.log("Disabling DiceBoxManager...");
 			window.DiceBoxManager.disable();
+		} else {
+			console.log("DiceBoxManager not available");
 		}
 	},
 
@@ -36,9 +41,9 @@ Renderer.dice = {
 
 	// Check if 3D dice should be used for this expression
 	_shouldUse3dDice() {
-		// 3D dice should be used when enabled, for any dice expression
-		// Individual dice will be handled at the RollerUtil level
-		return this.is3dDiceEnabled();
+		const should = this.is3dDiceEnabled();
+		console.log(`_shouldUse3dDice: ${should} (enabled: ${this._is3dDiceEnabled}, manager available: ${!!window.DiceBoxManager})`);
+		return should;
 	},
 
 	// Parse a complex dice expression into dice components and modifiers
