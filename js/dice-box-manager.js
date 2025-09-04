@@ -183,6 +183,14 @@ class DiceBoxManager {
 			rollCounter: this._rollCounter
 		});
 
+		// Add stack trace to see where this roll is being called from
+		console.log(`🔍 DiceBoxManager.rollDice called from:`, new Error().stack);
+
+		// Log any d20 rolls for debugging (but don't block them)
+		if (diceNotation === '1d20' || diceNotation === 'd20') {
+			console.log(`ℹ️ d20 roll detected: ${diceNotation} (${label})`);
+		}
+
 		try {
 			// Ensure dice container exists and is properly sized
 			this._ensureContainerReady();
@@ -269,6 +277,7 @@ class DiceBoxManager {
 		for (const component of diceComponents) {
 			if (component.type === 'dice') {
 				// Roll this dice notation using dice-box
+				console.log(`🎲 ${rollId}: Rolling pool component: ${component.notation}`);
 				const rollResult = await this._diceBox.roll(component.notation.replace(/^-/, ''));
 				const results = rollResult.map(die => die.value);
 				
@@ -312,6 +321,7 @@ class DiceBoxManager {
 	 */
 	static async _rollSingleNotation(cleanNotation, rollId, originalNotation) {
 		// Roll the dice using dice-box with the notation string directly
+		console.log(`🎲 ${rollId}: Rolling single notation: ${cleanNotation}`);
 		const rollResult = await this._diceBox.roll(cleanNotation);
 
 		// Process results immediately - don't wait for settling

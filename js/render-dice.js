@@ -20,6 +20,7 @@ Renderer.dice = {
 	_isManualMode: false,
 	_is3dDiceEnabled: false,
 	_activeDiceRoll: null, // Prevent multiple concurrent 3D dice rolls
+	_dice3dRollInProgress: false, // Additional flag to prevent spurious rolls
 
 	// 3D Dice configuration methods
 	set3dDiceEnabled(enabled) {
@@ -44,6 +45,12 @@ Renderer.dice = {
 	_shouldUse3dDice() {
 		const should = this.is3dDiceEnabled();
 		console.log(`_shouldUse3dDice: ${should} (enabled: ${this._is3dDiceEnabled}, manager available: ${!!window.DiceBoxManager}, manager enabled: ${window.DiceBoxManager ? window.DiceBoxManager.isEnabled() : false})`);
+		
+		// Add stack trace to see where this is being called from
+		if (should) {
+			console.log("🔍 _shouldUse3dDice called from:", new Error().stack);
+		}
+		
 		return should;
 	},
 
@@ -100,26 +107,20 @@ Renderer.dice = {
 
 		// Handle Dice node
 		if (node.constructor && node.constructor.name === 'Dice') {
-			// For a dice expression, we need to recursively count dice in all sub-expressions
-			if (node._nodes) {
-				for (let i = 0; i < node._nodes.length; i++) {
-					const subNode = node._nodes[i];
-					if (i === 0) {
-						// First node is number of dice - evaluate it to get actual count
-						try {
-							const numDice = subNode.avg ? subNode.avg() : (subNode._value || 1);
-							count += Math.max(1, Math.round(numDice));
-						} catch (e) {
-							count += 1; // fallback to 1 die
-						}
-					} else {
-						// Recursively count dice in other nodes (like in complex expressions)
-						count += this._countDiceInExpression(subNode);
-					}
+			// For a dice expression, extract the number of dice from the first child node
+			if (node._nodes && node._nodes.length > 0) {
+				const countNode = node._nodes[0];
+				try {
+					const numDice = countNode.avg ? countNode.avg() : (countNode._value || 1);
+					count += Math.max(1, Math.round(numDice));
+				} catch (e) {
+					count += 1; // fallback to 1 die
 				}
 			} else {
 				count += 1; // Simple die
 			}
+			// Don't recurse further into dice nodes - return early like _findAllDiceInExpression
+			return count;
 		}
 		// Handle other node types that might contain dice
 		else if (node._nodes && Array.isArray(node._nodes)) {
@@ -142,7 +143,13 @@ Renderer.dice = {
 			nodeNumber: node._number,
 			hasNodes: node._nodes ? node._nodes.length : 'none',
 			toString: node.toString ? node.toString() : 'no toString',
-			currentDiceListLength: diceList.length
+			currentDiceListLength: diceList.length,
+			nodeStructure: node._nodes ? node._nodes.map(n => ({
+				type: n.constructor ? n.constructor.name : 'unknown',
+				value: n._value,
+				faces: n._faces,
+				number: n._number
+			})) : 'no _nodes'
 		});
 
 		// Handle Pool nodes (dice pools like {2d8, 1d6})
@@ -159,14 +166,18 @@ Renderer.dice = {
 
 		// If this is a Dice node, extract its properties
 		if (node.constructor && node.constructor.name === 'Dice') {
-			console.log("Found Dice node, extracting properties...");
+			console.log("Found Dice node, extracting properties...", {
+				nodeString: node.toString ? node.toString() : 'no toString',
+				nodesLength: node._nodes ? node._nodes.length : 0,
+				currentDiceList: diceList.map(d => `${d.count}d${d.faces}`)
+			});
 			if (node._nodes && node._nodes.length >= 2) {
 				// First node is count, second is faces
 				const countNode = node._nodes[0];
 				const facesNode = node._nodes[1];
 
 				let count = 1;
-				let faces = 20; // default
+				let faces = null; // Don't default to 20 - let it be determined from the actual node
 
 				// Extract count
 				if (countNode) {
@@ -188,24 +199,45 @@ Renderer.dice = {
 					if (facesNode._value !== undefined) {
 						faces = facesNode._value;
 					} else if (facesNode.constructor && facesNode.constructor.name === 'NumberSymbol') {
-						faces = facesNode._value || 20;
+						faces = facesNode._value; // Don't default to 20
 					} else if (typeof facesNode.avg === 'function') {
 						try {
 							faces = facesNode.avg();
 						} catch (e) {
-							// Fall back to default
+							// Don't set a default here
 						}
 					}
 				}
 
-				diceList.push({ count, faces });
-				console.log("_findAllDiceInExpression found dice", {count, faces, nodeType: node.constructor.name});
+				// Only add to dice list if we extracted valid faces
+				if (faces && faces > 0) {
+					diceList.push({ count, faces });
+				} else {
+					console.log("_findAllDiceInExpression skipping Dice node with invalid faces", {
+						count,
+						faces,
+						facesNodeValue: facesNode ? facesNode._value : 'no facesNode',
+						facesNodeType: facesNode && facesNode.constructor ? facesNode.constructor.name : 'unknown'
+					});
+				}
 			} else {
 				// Simple dice node, try to extract from properties
 				const count = node._number || 1;
-				const faces = node._faces || 20;
-				diceList.push({ count, faces });
-				console.log("_findAllDiceInExpression found simple dice", {count, faces, nodeType: node.constructor.name});
+				const faces = node._faces;
+				
+				// Only add to dice list if we have valid faces (don't default to 20)
+				if (faces && faces > 0) {
+					diceList.push({ count, faces });
+					console.log("_findAllDiceInExpression found simple dice", {count, faces, nodeType: node.constructor.name});
+				} else {
+					console.log("_findAllDiceInExpression skipping Dice node with no valid faces", {
+						count, 
+						faces, 
+						nodeFaces: node._faces,
+						nodeType: node.constructor.name,
+						nodeString: node.toString ? node.toString() : 'no toString'
+					});
+				}
 			}
 			return diceList; // Don't recurse further into dice nodes
 		}
@@ -290,15 +322,18 @@ Renderer.dice = {
 	async _preRoll3dDice(tree) {
 		if (!this._shouldUse3dDice() || !tree) return null;
 
-		// Prevent multiple concurrent 3D dice rolls - wait for current to finish
-		if (this._activeDiceRoll) {
-			console.log("⏳ _preRoll3dDice: Waiting for active dice roll to complete before starting new one...");
-			try {
-				await this._activeDiceRoll;
-			} catch (e) {
-				console.warn("⏳ Previous dice roll failed, continuing with new roll:", e);
-			}
+		// Prevent multiple concurrent 3D dice rolls - return null if another roll is active
+		if (this._activeDiceRoll || this._dice3dRollInProgress) {
+			console.log("⏳ _preRoll3dDice: Another dice roll is active, skipping this request to prevent spurious rolls", {
+				activeDiceRoll: !!this._activeDiceRoll,
+				dice3dRollInProgress: this._dice3dRollInProgress,
+				treeString: tree.toString ? tree.toString() : 'no toString'
+			});
+			return null;
 		}
+
+		// Set the in-progress flag
+		this._dice3dRollInProgress = true;
 
 		try {
 			// Debug the tree structure first
@@ -333,6 +368,9 @@ Renderer.dice = {
 			this._activeDiceRoll = null; // Clear on error too
 			console.error("🎲 3D dice pre-roll failed, falling back to standard:", error);
 			return null;
+		} finally {
+			// Always clear the in-progress flag
+			this._dice3dRollInProgress = false;
 		}
 	},
 
