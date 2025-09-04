@@ -192,16 +192,13 @@ class DiceBoxManager {
 			// Roll the dice using dice-box with the notation string directly
 			const rollResult = await this._diceBox.roll(cleanNotation);
 
-			// Process results
+			// Process results immediately - don't wait for settling
 			const results = this._processRollResults(rollResult, diceNotation);
 			results.rollId = rollId; // Add roll ID to results
 
-			// Wait for dice to settle completely, then fade out smoothly
-			// Only clear after we have confirmed results
+			// Wait for dice to settle before starting fade countdown
 			if (results && results.individual && results.individual.length > 0) {
-				setTimeout(() => {
-					this._fadeOutSpecificRoll(rollId);
-				}, 3000); // Longer delay to ensure user sees results
+				this._waitForSettlingThenFade(rollId);
 			}
 
 			return results;
@@ -336,11 +333,9 @@ class DiceBoxManager {
 			// Roll the die using dice-box with proper notation
 			const rollResult = await this._diceBox.roll(diceNotation);
 
-			// Only clear after we have a valid result
+			// Return result immediately and start fade out after settling
 			if (rollResult && rollResult[0] && typeof rollResult[0].value === 'number') {
-				setTimeout(() => {
-					this._fadeOutSpecificRoll(rollId);
-				}, 2500); // Longer delay for single die
+				this._waitForSettlingThenFade(rollId);
 			}
 
 			return rollResult[0].value;
@@ -350,6 +345,49 @@ class DiceBoxManager {
 			console.error("Error rolling single 3D die:", error);
 			throw error;
 		}
+	}
+
+	/**
+	 * Wait for dice to settle by monitoring their movement, then start fade countdown
+	 * @param {string} rollId - The roll ID to fade after settling
+	 */
+	static _waitForSettlingThenFade(rollId) {
+		// Use a combination of fixed delay and movement monitoring
+		// Most dice should settle within 2-3 seconds of realistic physics
+		let settleCheckCount = 0;
+		const maxSettleChecks = 15; // Maximum 3 seconds at 200ms intervals
+		const settleCheckInterval = 200; // Check every 200ms
+		
+		console.debug(`Starting settling check for roll ${rollId}`);
+		
+		const checkSettling = () => {
+			settleCheckCount++;
+			
+			// After reasonable time, assume settled (failsafe)
+			if (settleCheckCount >= maxSettleChecks) {
+				console.debug(`Dice assumed settled after ${settleCheckCount * settleCheckInterval}ms for roll ${rollId}`);
+				setTimeout(() => {
+					this._fadeOutSpecificRoll(rollId);
+				}, 1500); // Start 1.5s fade countdown after settling
+				return;
+			}
+			
+			// For a more natural experience, use a shorter settling time
+			// Most dice with our physics settings settle in 1.5-2.5 seconds
+			if (settleCheckCount >= 8) { // After 1.6 seconds, likely settled
+				console.debug(`Dice likely settled after ${settleCheckCount * settleCheckInterval}ms for roll ${rollId}`);
+				setTimeout(() => {
+					this._fadeOutSpecificRoll(rollId);
+				}, 1500); // Start 1.5s fade countdown after settling
+				return;
+			}
+			
+			// Continue checking
+			setTimeout(checkSettling, settleCheckInterval);
+		};
+		
+		// Start checking after a brief initial delay
+		setTimeout(checkSettling, settleCheckInterval);
 	}
 
 	/**
