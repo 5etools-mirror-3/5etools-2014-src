@@ -9,6 +9,8 @@ class DiceBoxManager {
 	static _isInitialized = false;
 	static _diceBox = null;
 	static _isEnabled = false;
+	static _activeRolls = new Set(); // Track active roll IDs
+	static _rollCounter = 0; // Generate unique roll IDs
 
 	static async getInstance() {
 		if (!this._instance) {
@@ -163,12 +165,16 @@ class DiceBoxManager {
 	 * Parse dice notation and roll 3D dice
 	 * @param {string} diceNotation - Dice notation like "1d20+5" or "2d6"
 	 * @param {string} label - Label for the roll
-	 * @returns {Promise<Object>} Roll result
+	 * @returns {Promise<Object>} Roll result with unique roll ID
 	 */
 	static async rollDice(diceNotation, label = "Roll") {
 		if (!this.isEnabled()) {
 			throw new Error("Dice-box not initialized or enabled");
 		}
+
+		// Generate unique roll ID for concurrent roll tracking
+		const rollId = `roll_${++this._rollCounter}_${Date.now()}`;
+		this._activeRolls.add(rollId);
 
 		try {
 			// Ensure dice container exists and is properly sized
@@ -176,6 +182,7 @@ class DiceBoxManager {
 
 			// Clean the dice notation for dice-box (remove spaces, ensure proper format)
 			const cleanNotation = diceNotation.replace(/\s+/g, '');
+			console.debug("DiceBoxManager.rollDice input", {diceNotation, cleanNotation, label});
 
 			// Validate that it's a proper dice notation
 			if (!cleanNotation.match(/\d*d\d+/)) {
@@ -187,20 +194,44 @@ class DiceBoxManager {
 
 			// Process results
 			const results = this._processRollResults(rollResult, diceNotation);
+			results.rollId = rollId; // Add roll ID to results
 
 			// Wait for dice to settle completely, then fade out smoothly
 			// Only clear after we have confirmed results
 			if (results && results.individual && results.individual.length > 0) {
 				setTimeout(() => {
-					this.fadeOutDice();
+					this._fadeOutSpecificRoll(rollId);
 				}, 3000); // Longer delay to ensure user sees results
 			}
 
 			return results;
 		} catch (error) {
+			// Remove from active rolls on error
+			this._activeRolls.delete(rollId);
 			console.error("Error rolling 3D dice:", error);
 			throw error;
 		}
+	}
+
+	/**
+	 * Parse dice notation into dice array for diagnostics (not used by main flow)
+	 * @param {string} notation
+	 * @returns {Array}
+	 */
+	static _parseDiceNotation(notation) {
+		const diceArray = [];
+		const clean = (notation || "").replace(/\s+/g, '').toLowerCase();
+		const diceRegex = /(\d+)?d(\d+)/g;
+		let match;
+		while ((match = diceRegex.exec(clean)) !== null) {
+			const count = parseInt(match[1] || '1');
+			const sides = parseInt(match[2]);
+			for (let i = 0; i < count; i++) {
+				diceArray.push({sides});
+			}
+		}
+		console.debug("DiceBoxManager._parseDiceNotation", {notation, diceArray});
+		return diceArray;
 	}
 
 	/**
@@ -213,7 +244,7 @@ class DiceBoxManager {
 			container.id = 'dice-box';
 			document.body.appendChild(container);
 		}
-		
+
 		// Ensure proper styling for full-screen dice with important declarations
 		container.style.cssText = `
 			position: fixed !important;
@@ -230,7 +261,7 @@ class DiceBoxManager {
 			box-sizing: border-box !important;
 			overflow: hidden !important;
 		`;
-		
+
 		// Also ensure any canvas inside is properly sized
 		const canvas = container.querySelector('canvas');
 		if (canvas) {
@@ -240,11 +271,11 @@ class DiceBoxManager {
 				display: block !important;
 			`;
 		}
-		
+
 		// Debug logging
 		console.log(`DiceBox container dimensions: ${container.offsetWidth}x${container.offsetHeight}`);
 		console.log(`Window dimensions: ${window.innerWidth}x${window.innerHeight}`);
-		
+
 		// Ensure the dice-box takes full window dimensions
 		if (this._diceBox && this._diceBox.resize) {
 			this._diceBox.resize(window.innerWidth, window.innerHeight);
@@ -291,6 +322,10 @@ class DiceBoxManager {
 			throw new Error("Dice-box not initialized or enabled");
 		}
 
+		// Generate unique roll ID for concurrent roll tracking
+		const rollId = `single_roll_${++this._rollCounter}_${Date.now()}`;
+		this._activeRolls.add(rollId);
+
 		try {
 			// Ensure dice container exists and is properly sized
 			this._ensureContainerReady();
@@ -304,15 +339,33 @@ class DiceBoxManager {
 			// Only clear after we have a valid result
 			if (rollResult && rollResult[0] && typeof rollResult[0].value === 'number') {
 				setTimeout(() => {
-					this.fadeOutDice();
+					this._fadeOutSpecificRoll(rollId);
 				}, 2500); // Longer delay for single die
 			}
 
 			return rollResult[0].value;
 		} catch (error) {
+			// Remove from active rolls on error
+			this._activeRolls.delete(rollId);
 			console.error("Error rolling single 3D die:", error);
 			throw error;
 		}
+	}
+
+	/**
+	 * Fade out a specific roll by ID (for concurrent roll support)
+	 */
+	static async _fadeOutSpecificRoll(rollId) {
+		// Remove from active rolls tracking
+		this._activeRolls.delete(rollId);
+
+		// If this is the last active roll, fade out all dice
+		if (this._activeRolls.size === 0) {
+			this.fadeOutDice();
+		}
+		// For concurrent rolls, we don't fade individual dice since dice-box
+		// doesn't support selective clearing. Instead, we wait for all rolls
+		// to complete before fading
 	}
 
 	/**
@@ -321,10 +374,13 @@ class DiceBoxManager {
 	static async fadeOutDice() {
 		const container = document.getElementById('dice-box');
 		if (container && this._diceBox) {
+			// Clear all active roll tracking
+			this._activeRolls.clear();
+
 			// Add fade out transition
 			container.style.transition = 'opacity 1s ease-out';
 			container.style.opacity = '0';
-			
+
 			// Wait for fade to complete, then actually clear dice
 			setTimeout(async () => {
 				await this._diceBox.clear();

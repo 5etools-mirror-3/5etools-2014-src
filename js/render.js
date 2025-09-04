@@ -9998,7 +9998,7 @@ Renderer.character = class {
 				}
 
 				if (difference > 0) {
-					// Increasing available hit dice
+					// Increasing available hit dice	
 					const maxForClass = cls.level;
 					const currentForClass = currentClassData.currentHitDice || 0;
 					const canAdd = Math.min(remainingChange, maxForClass - currentForClass);
