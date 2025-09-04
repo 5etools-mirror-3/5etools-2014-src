@@ -85,7 +85,7 @@ class DiceBoxManager {
 
 			try {
 				// Try to import DiceBox as ES module from local copy first
-				const { default: DiceBox } = await import("../lib/dice-box-assets/dice-box.es.min.js");
+				const { default: DiceBox } = await import("/lib/dice-box-assets/dice-box.es.min.js");
 
 				// Make it available globally
 				window.DiceBox = DiceBox;
