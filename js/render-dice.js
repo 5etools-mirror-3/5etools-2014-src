@@ -86,42 +86,58 @@ Renderer.dice = {
 		};
 	},
 
-	// Roll 3D dice for a dice expression
+	// Pre-roll 3D dice for simple expressions
 	async _preRoll3dDice(tree) {
 		if (!this._shouldUse3dDice() || !tree) {
 			return null;
 		}
 
 		try {
-			// Extract simple dice notation from the parsed tree
-			const diceNotation = this._extractDiceNotationFromTree(tree);
+			// For simple dice expressions, get the dice notation and roll all at once
+			const diceNotation = this._extractSimpleDiceNotation(tree);
 			
 			if (!diceNotation) {
+				// For complex expressions, fall back to standard rolling
 				return null;
 			}
 
-			// Roll using the complete dice notation at once
+			console.log(`Rolling 3D dice for: ${diceNotation}`);
 			const rollResult = await window.DiceBoxManager.rollDice(diceNotation, "5etools Roll");
+			console.log(`3D dice results:`, rollResult.individual);
 			
-			// Return the individual dice results for injection into the tree
 			return rollResult.individual;
 		} catch (error) {
-			console.error("3D dice roll failed:", error);
+			console.error("3D dice pre-roll failed, falling back to standard:", error);
 			return null;
 		}
 	},
 
-	// Extract a simple dice notation string from the syntax tree
-	_extractDiceNotationFromTree(tree) {
-		// This is a simplified approach - for complex expressions,
-		// we'll fall back to standard rolling
+	// Extract simple dice notation from common patterns
+	_extractSimpleDiceNotation(tree) {
+		// Handle simple dice expressions like "1d20", "2d6", "3d8+2"
 		if (tree && tree.constructor && tree.constructor.name === 'Dice') {
 			const faces = tree._faces;
 			const count = tree._number || 1;
 			return `${count}d${faces}`;
 		}
 		
-		// For more complex expressions, return null to fall back to standard rolling
+		// Handle expressions with dice + modifier like "1d20+5"
+		if (tree && tree.constructor && tree.constructor.name === 'BinaryOp') {
+			const left = tree._nodes?.[0];
+			const right = tree._nodes?.[1];
+			
+			// Check if left side is dice and right side is a number
+			if (left && left.constructor && left.constructor.name === 'Dice' &&
+				right && right.constructor && right.constructor.name === 'NumberSymbol') {
+				const faces = left._faces;
+				const count = left._number || 1;
+				const modifier = right._value;
+				const operator = tree._symbol === '+' ? '+' : (tree._symbol === '-' ? '' : tree._symbol);
+				return `${count}d${faces}${operator}${modifier}`;
+			}
+		}
+		
+		// For other complex expressions, return null to fall back to standard rolling
 		return null;
 	},
 
@@ -803,19 +819,8 @@ Renderer.dice = {
 	async _pHandleRoll2_automatic (tree, rolledBy, opts) {
 		opts = opts || {};
 
-		// Pre-roll 3D dice if enabled
+		// Pre-roll 3D dice if enabled for simple expressions
 		const dice3dValues = await this._preRoll3dDice(tree);
-		
-		// Store 3D dice values in meta for synchronous access
-		const meta = {};
-		if (opts.pb) meta.pb = opts.pb;
-		if (opts.summonSpellLevel) meta.summonSpellLevel = opts.summonSpellLevel;
-		if (opts.summonClassLevel) meta.summonClassLevel = opts.summonClassLevel;
-		
-		// Add 3D dice values if available
-		if (dice3dValues) {
-			meta._3dDiceValues = [...dice3dValues]; // Copy array so we can shift values
-		}
 
 		if (!opts.isHidden) Renderer.dice._showBox();
 		Renderer.dice._checkHandleName(rolledBy.name);
@@ -826,6 +831,11 @@ Renderer.dice = {
 			if (opts.pb) meta.pb = opts.pb;
 			if (opts.summonSpellLevel) meta.summonSpellLevel = opts.summonSpellLevel;
 			if (opts.summonClassLevel) meta.summonClassLevel = opts.summonClassLevel;
+			
+			// Add 3D dice values if available
+			if (dice3dValues) {
+				meta._3dDiceValues = [...dice3dValues]; // Copy array so we can shift values
+			}
 
 			const result = tree.evl(meta);
 			const fullHtml = (meta.html || []).join("");
@@ -2138,7 +2148,7 @@ Renderer.dice.parsed = {
 		static _facesToValue (faces, fnName, meta) {
 			switch (fnName) {
 				case "evl": {
-					// Use 3D dice if enabled and pre-rolled values are available in meta
+					// Use pre-rolled 3D dice values if available, otherwise standard rolling
 					if (meta && meta._3dDiceValues && meta._3dDiceValues.length > 0) {
 						return meta._3dDiceValues.shift(); // Use next pre-rolled value
 					}
