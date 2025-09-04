@@ -42,7 +42,7 @@ Renderer.dice = {
 	// Check if 3D dice should be used for this expression
 	_shouldUse3dDice() {
 		const should = this.is3dDiceEnabled();
-		console.log(`_shouldUse3dDice: ${should} (enabled: ${this._is3dDiceEnabled}, manager available: ${!!window.DiceBoxManager})`);
+		console.log(`_shouldUse3dDice: ${should} (enabled: ${this._is3dDiceEnabled}, manager available: ${!!window.DiceBoxManager}, manager enabled: ${window.DiceBoxManager ? window.DiceBoxManager.isEnabled() : false})`);
 		return should;
 	},
 
@@ -51,12 +51,12 @@ Renderer.dice = {
 		const cleanExpr = expression.replace(/\s/g, '');
 		const diceComponents = [];
 		const modifiers = [];
-		
+
 		// Find all dice components (like 1d20, 2d6, etc.)
 		const diceRegex = /(\d*d\d+)/g;
 		let match;
 		let lastIndex = 0;
-		
+
 		while ((match = diceRegex.exec(cleanExpr)) !== null) {
 			// Check for any modifiers between last dice and this dice
 			const betweenText = cleanExpr.slice(lastIndex, match.index);
@@ -67,11 +67,11 @@ Renderer.dice = {
 					modifiers.push(...modifierMatches.map(m => parseInt(m)));
 				}
 			}
-			
+
 			diceComponents.push(match[0]);
 			lastIndex = match.index + match[0].length;
 		}
-		
+
 		// Check for trailing modifiers
 		const trailingText = cleanExpr.slice(lastIndex);
 		if (trailingText) {
@@ -80,10 +80,10 @@ Renderer.dice = {
 				modifiers.push(...modifierMatches.map(m => parseInt(m)));
 			}
 		}
-		
+
 		// Sum all modifiers
 		const totalModifiers = modifiers.reduce((sum, mod) => sum + mod, 0);
-		
+
 		return {
 			diceComponents,
 			modifiers: totalModifiers,
@@ -91,22 +91,168 @@ Renderer.dice = {
 		};
 	},
 
-	// Pre-roll 3D dice for simple expressions
+	// Count how many dice rolls this expression will need
+	_countDiceInExpression(node) {
+		if (!node) return 0;
+		
+		let count = 0;
+		
+		// Handle Dice node
+		if (node.constructor && node.constructor.name === 'Dice') {
+			// For a dice expression, we need to recursively count dice in all sub-expressions
+			if (node._nodes) {
+				for (let i = 0; i < node._nodes.length; i++) {
+					const subNode = node._nodes[i];
+					if (i === 0) {
+						// First node is number of dice - evaluate it to get actual count
+						try {
+							const numDice = subNode.avg ? subNode.avg() : (subNode._value || 1);
+							count += Math.max(1, Math.round(numDice));
+						} catch (e) {
+							count += 1; // fallback to 1 die
+						}
+					} else {
+						// Recursively count dice in other nodes (like in complex expressions)
+						count += this._countDiceInExpression(subNode);
+					}
+				}
+			} else {
+				count += 1; // Simple die
+			}
+		}
+		// Handle other node types that might contain dice
+		else if (node._nodes && Array.isArray(node._nodes)) {
+			for (const subNode of node._nodes) {
+				count += this._countDiceInExpression(subNode);
+			}
+		}
+		
+		return count;
+	},
+
+	// Recursively find all dice in an expression and extract their properties
+	_findAllDiceInExpression(node, diceList = [], depth = 0) {
+		if (!node) return diceList;
+		
+		const indent = '  '.repeat(depth);
+		console.log(`${indent}Examining node:`, node.constructor?.name, node);
+		
+		// If this is a Dice node, extract its properties
+		if (node.constructor && node.constructor.name === 'Dice') {
+			console.log(`${indent}Found Dice node with _nodes:`, node._nodes);
+			console.log(`${indent}Dice node properties - _number:`, node._number, '_faces:', node._faces);
+			
+			if (node._nodes && node._nodes.length >= 2) {
+				// First node is count, second is faces
+				const countNode = node._nodes[0];
+				const facesNode = node._nodes[1];
+				
+				console.log(`${indent}Count node:`, countNode?.constructor?.name, countNode);
+				console.log(`${indent}Faces node:`, facesNode?.constructor?.name, facesNode);
+				
+				let count = 1;
+				let faces = 20; // default
+				
+				// Extract count
+				if (countNode) {
+					if (countNode._value !== undefined) {
+						count = countNode._value;
+					} else if (countNode.constructor && countNode.constructor.name === 'NumberSymbol') {
+						count = countNode._value || 1;
+					} else if (typeof countNode.avg === 'function') {
+						// Try to evaluate as a number
+						try {
+							count = countNode.avg();
+						} catch (e) {
+							console.log(`${indent}Failed to evaluate count node:`, e);
+						}
+					}
+				}
+				
+				// Extract faces
+				if (facesNode) {
+					if (facesNode._value !== undefined) {
+						faces = facesNode._value;
+					} else if (facesNode.constructor && facesNode.constructor.name === 'NumberSymbol') {
+						faces = facesNode._value || 20;
+					} else if (typeof facesNode.avg === 'function') {
+						// Try to evaluate as a number
+						try {
+							faces = facesNode.avg();
+						} catch (e) {
+							console.log(`${indent}Failed to evaluate faces node:`, e);
+						}
+					}
+				}
+				
+				console.log(`${indent}Extracted dice: ${count}d${faces}`);
+				diceList.push({ count, faces });
+			} else {
+				// Simple dice node, try to extract from properties
+				const count = node._number || 1;
+				const faces = node._faces || 20;
+				console.log(`${indent}Simple dice from properties: ${count}d${faces}`);
+				diceList.push({ count, faces });
+			}
+		}
+		
+		// Recursively search child nodes
+		if (node._nodes && Array.isArray(node._nodes)) {
+			for (const childNode of node._nodes) {
+				this._findAllDiceInExpression(childNode, diceList, depth + 1);
+			}
+		}
+		
+		return diceList;
+	},
+
+	// Extract dice notation from expression for 3D dice
+	_extractDiceNotation(tree) {
+		if (!tree) return null;
+		
+		console.log(`Extracting dice notation from tree:`, tree);
+		console.log(`Tree constructor:`, tree.constructor?.name);
+		
+		// Find all dice in the expression
+		const diceList = this._findAllDiceInExpression(tree);
+		console.log(`Found dice list:`, diceList);
+		
+		if (diceList.length === 0) return null;
+		
+		// For now, handle the simple case of a single dice type
+		if (diceList.length === 1) {
+			const dice = diceList[0];
+			const notation = `${dice.count}d${dice.faces}`;
+			console.log(`Extracted single dice notation: ${notation}`);
+			return notation;
+		}
+		
+		// For multiple dice types, we'll need to roll them separately
+		// For now, just use the first dice type found
+		const firstDice = diceList[0];
+		const totalCount = diceList.reduce((sum, dice) => sum + dice.count, 0);
+		const notation = `${totalCount}d${firstDice.faces}`;
+		console.log(`Extracted multi-dice notation (using first type): ${notation}`);
+		return notation;
+	},
+
+	// Pre-roll 3D dice by counting how many dice the expression will need
 	async _preRoll3dDice(tree) {
+		console.log(`_preRoll3dDice called with tree:`, tree);
 		if (!this._shouldUse3dDice() || !tree) {
+			console.log(`_preRoll3dDice: skipping (shouldUse3dDice: ${this._shouldUse3dDice()}, hasTree: ${!!tree})`);
 			return null;
 		}
 
 		try {
-			// For simple dice expressions, get the dice notation and roll all at once
-			const diceNotation = this._extractSimpleDiceNotation(tree);
-			
+			// Extract proper dice notation from the expression
+			const diceNotation = this._extractDiceNotation(tree);
 			if (!diceNotation) {
-				// For complex expressions, fall back to standard rolling
+				console.log(`No dice found in expression, skipping 3D dice`);
 				return null;
 			}
-
-			console.log(`Rolling 3D dice for: ${diceNotation}`);
+			
+			console.log(`Rolling 3D dice with notation: ${diceNotation}`);
 			const rollResult = await window.DiceBoxManager.rollDice(diceNotation, "5etools Roll");
 			console.log(`3D dice results:`, rollResult.individual);
 			
@@ -117,34 +263,6 @@ Renderer.dice = {
 		}
 	},
 
-	// Extract simple dice notation from common patterns
-	_extractSimpleDiceNotation(tree) {
-		// Handle simple dice expressions like "1d20", "2d6", "3d8+2"
-		if (tree && tree.constructor && tree.constructor.name === 'Dice') {
-			const faces = tree._faces;
-			const count = tree._number || 1;
-			return `${count}d${faces}`;
-		}
-		
-		// Handle expressions with dice + modifier like "1d20+5"
-		if (tree && tree.constructor && tree.constructor.name === 'BinaryOp') {
-			const left = tree._nodes?.[0];
-			const right = tree._nodes?.[1];
-			
-			// Check if left side is dice and right side is a number
-			if (left && left.constructor && left.constructor.name === 'Dice' &&
-				right && right.constructor && right.constructor.name === 'NumberSymbol') {
-				const faces = left._faces;
-				const count = left._number || 1;
-				const modifier = right._value;
-				const operator = tree._symbol === '+' ? '+' : (tree._symbol === '-' ? '' : tree._symbol);
-				return `${count}d${faces}${operator}${modifier}`;
-			}
-		}
-		
-		// For other complex expressions, return null to fall back to standard rolling
-		return null;
-	},
 
 
 	/* -------------------------------------------- */
@@ -836,7 +954,7 @@ Renderer.dice = {
 			if (opts.pb) meta.pb = opts.pb;
 			if (opts.summonSpellLevel) meta.summonSpellLevel = opts.summonSpellLevel;
 			if (opts.summonClassLevel) meta.summonClassLevel = opts.summonClassLevel;
-			
+
 			// Add 3D dice values if available
 			if (dice3dValues) {
 				meta._3dDiceValues = [...dice3dValues]; // Copy array so we can shift values
@@ -984,8 +1102,10 @@ Use <span class="out-roll-item-code">/macro list</span> to list saved macros.<br
 				Use <span class="out-roll-item-code">/macro add myName 1d2+3</span> to add (or update) a macro. Macro names should not contain spaces or hashes.<br>
 				Use <span class="out-roll-item-code">/macro remove myName</span> to remove a macro.<br>
 				Use <span class="out-roll-item-code">#myName</span> to roll a macro.<br>
-				Use <span class="out-roll-item-code">/iterroll roll count [target]</span> to roll multiple times, optionally against a target.
-				Use <span class="out-roll-item-code">/clear</span> to clear the roller.`,
+				Use <span class="out-roll-item-code">/iterroll roll count [target]</span> to roll multiple times, optionally against a target.<br>
+				Use <span class="out-roll-item-code">/clear</span> to clear the roller.<br>
+				<br>
+				<strong>3D Dice:</strong> Enable "3D Dice" in Settings → Dice Rolling for animated dice physics. Simple rolls like <span class="out-roll-item-code">2d6</span>, <span class="out-roll-item-code">1d20+5</span> will use 3D animation when enabled. Complex expressions fall back to instant results.`,
 				Renderer.dice.SYSTEM_USER,
 			);
 			return;
