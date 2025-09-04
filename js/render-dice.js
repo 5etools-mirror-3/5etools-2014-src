@@ -86,91 +86,45 @@ Renderer.dice = {
 		};
 	},
 
-	// Pre-roll all 3D dice for a dice expression
+	// Roll 3D dice for a dice expression
 	async _preRoll3dDice(tree) {
 		if (!this._shouldUse3dDice() || !tree) {
 			return null;
 		}
 
 		try {
-			// Count how many dice we need by simulating the roll
-			const diceNeeded = this._countDiceNeeded(tree);
+			// Extract simple dice notation from the parsed tree
+			const diceNotation = this._extractDiceNotationFromTree(tree);
 			
-			if (diceNeeded.length === 0) {
+			if (!diceNotation) {
 				return null;
 			}
 
-			// Roll all needed dice with 3D dice
-			const all3dResults = [];
-			for (const {faces, count} of diceNeeded) {
-				for (let i = 0; i < count; i++) {
-					const result = await window.DiceBoxManager.rollSingleDie(faces);
-					all3dResults.push(result);
-				}
-			}
-
-			return all3dResults;
+			// Roll using the complete dice notation at once
+			const rollResult = await window.DiceBoxManager.rollDice(diceNotation, "5etools Roll");
+			
+			// Return the individual dice results for injection into the tree
+			return rollResult.individual;
 		} catch (error) {
-			console.error("3D dice pre-roll failed:", error);
+			console.error("3D dice roll failed:", error);
 			return null;
 		}
 	},
 
-	// Count how many dice of each type are needed
-	_countDiceNeeded(tree) {
-		const diceNeeded = [];
+	// Extract a simple dice notation string from the syntax tree
+	_extractDiceNotationFromTree(tree) {
+		// This is a simplified approach - for complex expressions,
+		// we'll fall back to standard rolling
+		if (tree && tree.constructor && tree.constructor.name === 'Dice') {
+			const faces = tree._faces;
+			const count = tree._number || 1;
+			return `${count}d${faces}`;
+		}
 		
-		// Recursively traverse the syntax tree to count all dice
-		this._traverseTreeForDice(tree, diceNeeded);
-		
-		return diceNeeded;
+		// For more complex expressions, return null to fall back to standard rolling
+		return null;
 	},
 
-	_traverseTreeForDice(node, diceNeeded) {
-		if (!node) return;
-		
-		// Check if this is a Dice node by looking for dice-like properties
-		if (node.constructor && node.constructor.name === 'Dice') {
-			const faces = node._faces;
-			const count = node._number || 1;
-			
-			// Add to our count, accounting for dice modifiers that might create additional dice
-			let totalCount = count;
-			
-			// Account for rerolls and explodes that might create more dice (conservative estimate)
-			if (node._modifiers && node._modifiers.length > 0) {
-				totalCount = Math.ceil(totalCount * 2); // More aggressive estimate for complex modifiers
-			}
-			
-			// Find existing entry or create new one
-			let existing = diceNeeded.find(d => d.faces === faces);
-			if (existing) {
-				existing.count += totalCount;
-			} else {
-				diceNeeded.push({faces, count: totalCount});
-			}
-		}
-		
-		// Recursively traverse child nodes by checking all properties
-		for (const key in node) {
-			if (node.hasOwnProperty(key)) {
-				const prop = node[key];
-				if (prop && typeof prop === 'object') {
-					if (Array.isArray(prop)) {
-						// Handle arrays of nodes
-						for (const item of prop) {
-							if (item && typeof item === 'object') {
-								this._traverseTreeForDice(item, diceNeeded);
-							}
-						}
-					} else {
-						// Handle single node properties
-						this._traverseTreeForDice(prop, diceNeeded);
-					}
-				}
-			}
-		}
-	},
 
 	/* -------------------------------------------- */
 

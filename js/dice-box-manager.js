@@ -32,11 +32,12 @@ class DiceBoxManager {
 				throw new Error("DiceBox library failed to load properly");
 			}
 
-			// Initialize dice-box with full screen configuration
-			this._diceBox = new window.DiceBox("#dice-box", {
+			// Initialize dice-box with full screen configuration using new v1.1.0 API
+			this._diceBox = new window.DiceBox({
+				id: "dice-box",
 				assetPath: "/lib/dice-box-assets/",
 				origin: window.location.origin,
-				scale: 12,  // Larger dice for better visibility
+				scale: 8,  // Reasonable scale for visibility
 				gravity: 1,
 				mass: 1,
 				friction: 0.8,
@@ -44,12 +45,11 @@ class DiceBoxManager {
 				shadowIntensity: 0.6,
 				lightIntensity: 0.9,
 				spinForce: 1,  
-				throwForce: 6, // Stronger throw for full screen
+				throwForce: 6,
 				enableShadows: true,
 				lightPosition: { x: -10, y: 30, z: 20 },
-				width: window.innerWidth,  // Full window width
-				height: window.innerHeight, // Full window height
-				container: "#dice-box"  // Make sure container is properly set
+				width: window.innerWidth,
+				height: window.innerHeight
 			});
 
 			await this._diceBox.init();
@@ -169,15 +169,16 @@ class DiceBoxManager {
 			// Ensure dice container exists and is properly sized
 			this._ensureContainerReady();
 
-			// Parse the dice notation to extract individual dice
-			const diceArray = this._parseDiceNotation(diceNotation);
+			// Clean the dice notation for dice-box (remove spaces, ensure proper format)
+			const cleanNotation = diceNotation.replace(/\s+/g, '');
 
-			if (diceArray.length === 0) {
+			// Validate that it's a proper dice notation
+			if (!cleanNotation.match(/\d*d\d+/)) {
 				throw new Error(`Invalid dice notation: ${diceNotation}`);
 			}
 
-			// Roll the dice using dice-box
-			const rollResult = await this._diceBox.roll(diceArray);
+			// Roll the dice using dice-box with the notation string directly
+			const rollResult = await this._diceBox.roll(cleanNotation);
 
 			// Process results
 			const results = this._processRollResults(rollResult, diceNotation);
@@ -221,54 +222,6 @@ class DiceBoxManager {
 		}
 	}
 
-	/**
-	 * Parse dice notation into dice-box format
-	 * @param {string} notation - Dice notation like "1d20+5", "2d6", etc.
-	 * @returns {Array} Array of dice objects for dice-box
-	 */
-	static _parseDiceNotation(notation) {
-		const diceArray = [];
-
-		// Remove spaces and convert to lowercase
-		const clean = notation.replace(/\s+/g, '').toLowerCase();
-
-		// Match dice patterns like "2d6", "1d20", etc.
-		const diceRegex = /(\d+)?d(\d+)/g;
-		let match;
-
-		while ((match = diceRegex.exec(clean)) !== null) {
-			const count = parseInt(match[1] || '1');
-			const sides = parseInt(match[2]);
-
-			// Add dice to array
-			for (let i = 0; i < count; i++) {
-				diceArray.push({
-					sides: sides,
-					themeColor: this._getDiceTheme(sides)
-				});
-			}
-		}
-
-		return diceArray;
-	}
-
-	/**
-	 * Get appropriate theme color for dice type
-	 * @param {number} sides - Number of sides on the die
-	 * @returns {string} Theme color
-	 */
-	static _getDiceTheme(sides) {
-		const themes = {
-			4: '#ff6b6b',    // Red for d4
-			6: '#4ecdc4',    // Teal for d6
-			8: '#45b7d1',    // Blue for d8
-			10: '#f9ca24',   // Yellow for d10
-			12: '#f0932b',   // Orange for d12
-			20: '#eb4d4b',   // Dark red for d20
-			100: '#6c5ce7'   // Purple for d100
-		};
-		return themes[sides] || '#95a5a6'; // Default gray
-	}
 
 	/**
 	 * Process roll results from dice-box
@@ -313,14 +266,11 @@ class DiceBoxManager {
 			// Ensure dice container exists and is properly sized
 			this._ensureContainerReady();
 
-			// Create a single die
-			const diceArray = [{
-				sides: faces,
-				themeColor: this._getDiceTheme(faces)
-			}];
+			// Create dice notation for a single die
+			const diceNotation = `1d${faces}`;
 
-			// Roll the die using dice-box
-			const rollResult = await this._diceBox.roll(diceArray);
+			// Roll the die using dice-box with proper notation
+			const rollResult = await this._diceBox.roll(diceNotation);
 
 			// Auto-clear dice after 1.5 seconds for single die rolls
 			setTimeout(() => {
