@@ -448,10 +448,9 @@ class CharacterManager {
 	 * @returns {Array} Processed characters
 	 */
 	static _processAndStoreCharacters(characters) {
-		// Clear existing data
-		this._characters.clear();
-		this._charactersArray.length = 0;
-
+		// Merge incoming characters into the existing cache instead of replacing everything.
+		// This preserves characters that weren't part of this payload (e.g., because we only
+		// fetched a subset of blobs that were stale) so they don't disappear from the UI.
 		const processedCharacters = [];
 
 		for (const character of characters) {
@@ -465,20 +464,18 @@ class CharacterManager {
 				character.id = this._generateCompositeId(character.name, character.source);
 			}
 
-			// Check for duplicates by ID
-			if (this._characters.has(character.id)) {
-				console.warn(`CharacterManager: Duplicate character ${character.name} from ${character.source}, skipping`);
-				continue;
-			}
-
 			// Process character for display
 			const processedCharacter = this._processCharacterForDisplay(character);
 
-			// Store in both map and array
+			// Upsert into the map (replace/update existing or add new)
 			this._characters.set(character.id, processedCharacter);
-			this._charactersArray.push(processedCharacter);
+
+			// Track which characters were part of this update (returned to caller)
 			processedCharacters.push(processedCharacter);
 		}
+
+		// Rebuild the array from the full map so we keep characters not present in this payload
+		this._charactersArray = Array.from(this._characters.values());
 
 		// Populate DataLoader cache for hover/popout functionality and offline support
 		if (processedCharacters.length > 0) {
@@ -491,8 +488,8 @@ class CharacterManager {
 			}
 		}
 
-		// Save to localStorage cache for offline access
-		this._saveToLocalStorage(processedCharacters);
+		// Save the full cache to localStorage for offline access (preserve all characters)
+		this._saveToLocalStorage(Array.from(this._characters.values()));
 
 		// Notify listeners of the update
 		this._notifyListeners();
