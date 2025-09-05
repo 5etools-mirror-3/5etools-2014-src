@@ -121,6 +121,7 @@ class SourceManager {
 		const generateBtn = document.getElementById('generate-random-character');
 		const sourceSelect = document.getElementById('character-source-select');
 		const levelSelect = document.getElementById('character-level-select');
+		const baseClassSelect = document.getElementById('character-base-class-select');
 		const nameInput = document.getElementById('character-name-input');
 		const messageDiv = document.getElementById('generation-message');
 
@@ -134,6 +135,7 @@ class SourceManager {
 			generateBtn.addEventListener('click', () => {
 				const selectedSource = sourceSelect.value;
 				const selectedLevel = parseInt(levelSelect.value);
+				const selectedBaseClass = baseClassSelect ? baseClassSelect.value : '';
 				const characterName = nameInput.value.trim();
 
 				if (!selectedSource) {
@@ -144,7 +146,13 @@ class SourceManager {
 				messageDiv.innerHTML = '<span style="color: #0066cc;">Generating character...</span>';
 
 				// Generate character with the selected source
-				this.generateRandomCharacter(selectedSource, selectedLevel, characterName);
+				// Store optional base class in localStorage and pass via URL
+				if (selectedBaseClass) {
+					localStorage.setItem('randomCharacterBaseClass', selectedBaseClass);
+				} else {
+					localStorage.removeItem('randomCharacterBaseClass');
+				}
+				this.generateRandomCharacter(selectedSource, selectedLevel, characterName, selectedBaseClass);
 			});
 		}
 
@@ -418,7 +426,7 @@ class SourceManager {
 		}
 	}
 
-	async generateRandomCharacter(sourceName, level = 5, characterName = '') {
+	async generateRandomCharacter(sourceName, level = 5, characterName = '', baseClass = '') {
 		const messageDiv = document.getElementById('generation-message');
 
 		try {
@@ -430,9 +438,14 @@ class SourceManager {
 			localStorage.setItem('randomCharacterLevel', level.toString());
 			localStorage.setItem('randomCharacterName', characterName);
 			localStorage.setItem('generateRandomCharacter', 'true');
+			if (baseClass) {
+				localStorage.setItem('randomCharacterBaseClass', baseClass);
+			} else {
+				localStorage.removeItem('randomCharacterBaseClass');
+			}
 
-			// Navigate to character editor with random generation parameters
-			const url = `charactereditor.html?source=${encodeURIComponent(sourceName)}&random=true&level=${level}&name=${encodeURIComponent(characterName)}`;
+			// Navigate to character editor with random generation parameters (include baseClass param for clarity)
+			const url = `charactereditor.html?source=${encodeURIComponent(sourceName)}&random=true&level=${level}&name=${encodeURIComponent(characterName)}${baseClass ? `&baseClass=${encodeURIComponent(baseClass)}` : ''}`;
 			window.location.href = url;
 
 		} catch (error) {
