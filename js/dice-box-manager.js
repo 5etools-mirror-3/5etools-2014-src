@@ -73,9 +73,6 @@ class DiceBoxManager {
 
 			await this._diceBox.init();
 
-			// Detect available themes
-			await this.detectAvailableThemes();
-
 			// Set current theme to match what was initialized
 			this._currentTheme = preferredTheme;
 			this._isInitialized = true;
@@ -629,35 +626,6 @@ class DiceBoxManager {
 	 */
 	static getAvailableThemes() {
 		return Array.from(this._availableThemes).sort();
-	}
-
-	/**
-	 * Detect available themes by checking the themes directory
-	 * @returns {Promise<Array<string>>} Available theme names
-	 */
-	static async detectAvailableThemes() {
-		const themes = new Set(["default"]); // Always include default
-
-		try {
-			// Try to fetch the themes directory listing
-			const response = await fetch("/lib/dice-box-assets/themes/");
-			if (response.ok) {
-				const html = await response.text();
-				// Parse directory listing for theme folders
-				const themeMatches = html.match(/href="([^"]+)\/"/g) || [];
-				themeMatches.forEach(match => {
-					const themeName = match.replace(/href="|\/"/g, "");
-					if (themeName && themeName !== ".." && themeName !== ".") {
-						themes.add(themeName);
-					}
-				});
-			}
-		} catch (error) {
-			console.warn("DiceBoxManager: Could not detect available themes:", error);
-		}
-
-		this._availableThemes = themes;
-		return Array.from(themes);
 	}
 
 }

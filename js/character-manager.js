@@ -76,8 +76,20 @@ class CharacterManager {
 	 */
 	static _saveToLocalStorage(characters) {
 		try {
-			localStorage.setItem(this._STORAGE_KEY, JSON.stringify(characters));
-			console.log(`CharacterManager: Saved ${characters.length} characters to localStorage cache`);
+			// Be defensive: merge incoming characters with any existing stored characters
+			// to avoid accidental overwrites when callers pass partial lists.
+			const incoming = Array.isArray(characters) ? characters : [];
+			const existing = this._loadFromLocalStorage();
+			const map = new Map();
+			for (const c of existing) {
+				if (c && c.id) map.set(c.id, c);
+			}
+			for (const c of incoming) {
+				if (c && c.id) map.set(c.id, c);
+			}
+			const merged = Array.from(map.values());
+			localStorage.setItem(this._STORAGE_KEY, JSON.stringify(merged));
+			console.log(`CharacterManager: Saved ${merged.length} characters to localStorage cache (merged ${incoming.length} incoming)`);
 		} catch (e) {
 			console.warn('CharacterManager: Failed to save to localStorage:', e);
 		}
@@ -567,6 +579,11 @@ class CharacterManager {
 			return;
 		}
 
+		// Ensure we don't end up with duplicate characters that differ only by id
+		// (e.g., old saved copies). Remove any existing entries with the same
+		// name+source composite ID but a different id before upserting.
+		this._dedupeByNameAndSource(character);
+
 		// Generate composite ID if no ID exists
 		if (!character.id) {
 			character.id = this._generateCompositeId(character.name, character.source);
@@ -591,6 +608,47 @@ class CharacterManager {
 
 		// Notify listeners
 		this._notifyListeners();
+	}
+
+	/**
+	 * Remove any cached characters that share the same name+source as the
+	 * provided character but have a different id. This prevents duplicate
+	 * entries after edits or re-saves where a character may have been saved
+	 * under a different id previously.
+	 * @param {Object} character
+	 */
+	static _dedupeByNameAndSource(character) {
+		try {
+			if (!character || !character.name) return;
+			const targetComposite = this._generateCompositeId(character.name, character.source);
+			const toRemove = [];
+
+			for (const [id, c] of this._characters.entries()) {
+				if (!c || !c.name) continue;
+				const comp = this._generateCompositeId(c.name, c.source);
+				if (comp === targetComposite && id !== (character.id || targetComposite)) {
+					toRemove.push(id);
+				}
+			}
+
+			if (toRemove.length === 0) return;
+
+			for (const id of toRemove) {
+				this._characters.delete(id);
+				const idx = this._charactersArray.findIndex(cc => cc.id === id);
+				if (idx !== -1) this._charactersArray.splice(idx, 1);
+				if (this._blobCache.has(id)) this._blobCache.delete(id);
+			}
+
+			// Persist the deduped state to localStorage
+			try {
+				this._saveToLocalStorage([...this._charactersArray]);
+			} catch (e) {
+				console.warn('CharacterManager: Error saving deduped cache to localStorage:', e);
+			}
+		} catch (e) {
+			console.warn('CharacterManager: Error during deduplication:', e);
+		}
 	}
 
 	/**
