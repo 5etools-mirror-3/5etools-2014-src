@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Dice Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f0f0f0;
+        }
+
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .dice-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .dice-button:hover {
+            background: #0056b3;
+        }
+
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .rollable-dice {
+            color: #007bff;
+            text-decoration: underline;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .rollable-dice:hover {
+            background: #e3f2fd;
+        }
+
+        /* Include dice box styles */
+        #dice-box {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .dice-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            z-index: 10000;
+            font-family: monospace;
+            font-size: 14px;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .dice-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+            display: flex;
+            gap: 10px;
+        }
+
+        .dice-toggle-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .dice-toggle-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>3D Dice Integration Test</h1>
+
+        <div id="status-container">
+            <div id="status" class="status">Initializing...</div>
+        </div>
+
+        <div class="controls">
+            <h3>3D Dice Controls</h3>
+            <label>
+                <input type="checkbox" id="enable-3d-dice"> Enable 3D Dice
+            </label>
+            <br>
+            <label>
+                <input type="checkbox" id="show-notifications" checked> Show Notifications
+            </label>
+        </div>
+
+        <div>
+            <h3>Test Dice Rolls</h3>
+            <p>Click on the dice below to test rolling:</p>
+
+            <button class="dice-button" onclick="testRoll('1d20')">1d20</button>
+            <button class="dice-button" onclick="testRoll('2d6')">2d6</button>
+            <button class="dice-button" onclick="testRoll('1d8+3')">1d8+3</button>
+            <button class="dice-button" onclick="testRoll('3d6')">3d6</button>
+            <button class="dice-button" onclick="testRoll('1d12+5')">1d12+5</button>
+            <button class="dice-button" onclick="testRoll('4d6')">4d6</button>
+
+            <br><br>
+
+            <p>Or try these clickable dice (simulating 5etools dice):</p>
+            <span class="rollable-dice" data-packed-dice='{"toRoll":"1d20+5"}' onclick="simulateClick(this)">Attack Roll (1d20+5)</span><br>
+            <span class="rollable-dice" data-packed-dice='{"toRoll":"2d6+3"}' onclick="simulateClick(this)">Damage Roll (2d6+3)</span><br>
+            <span class="rollable-dice" data-packed-dice='{"toRoll":"1d4"}' onclick="simulateClick(this)">Healing Potion (1d4)</span><br>
+        </div>
+
+        <div>
+            <h3>Manual Test</h3>
+            <input type="text" id="manual-dice" placeholder="Enter dice notation (e.g., 2d8+3)" value="1d20">
+            <button class="dice-button" onclick="rollManualDice()">Roll</button>
+        </div>
+
+        <div>
+            <h3>Results Log</h3>
+            <div id="results-log" style="background: #f8f9fa; padding: 10px; border-radius: 5px; min-height: 100px; margin-top: 10px; font-family: monospace; font-size: 12px;"></div>
+        </div>
+    </div>
+
+    <!-- Dice container -->
+    <div id="dice-box"></div>
+
+    <!-- Load required scripts -->
+    <!-- Load only the dice-box manager, it will handle loading the library -->
+    <script src="js/dice-box-manager.js"></script>
+
+    <script>
+        let diceEnabled = false;
+        let notificationsEnabled = true;
+
+        // Initialize the test
+        async function initTest() {
+            const statusEl = document.getElementById('status');
+
+            try {
+                statusEl.textContent = 'Initializing dice system...';
+                console.log('DiceBoxManager found:', window.DiceBoxManager);
+
+                // The manager will handle loading the DiceBox library
+                await DiceBoxManager.init();
+
+                statusEl.textContent = 'Dice system ready!';
+                statusEl.className = 'status success';
+
+                // Set up controls
+                setupControls();
+
+                logResult('✅ 3D Dice system initialized successfully');
+                if (window.DiceBox) {
+                    logResult('📦 DiceBox version: ' + (window.DiceBox.version || 'loaded'));
+                }
+            } catch (error) {
+                statusEl.textContent = 'Failed to initialize dice system: ' + error.message;
+                statusEl.className = 'status error';
+                logResult('❌ Failed to initialize: ' + error.message);
+                console.error('Full error:', error);
+            }
+        }
+
+        function setupControls() {
+            const enableCheckbox = document.getElementById('enable-3d-dice');
+            const notifCheckbox = document.getElementById('show-notifications');
+
+            enableCheckbox.addEventListener('change', (e) => {
+                diceEnabled = e.target.checked;
+                if (diceEnabled) {
+                    DiceBoxManager.enable();
+                    logResult('🎲 3D Dice enabled');
+                } else {
+                    DiceBoxManager.disable();
+                    logResult('📄 3D Dice disabled (using standard rolling)');
+                }
+            });
+
+            notifCheckbox.addEventListener('change', (e) => {
+                notificationsEnabled = e.target.checked;
+                DiceBoxManager.setShowNotifications(notificationsEnabled);
+                logResult(notificationsEnabled ? '🔔 Notifications enabled' : '🔕 Notifications disabled');
+            });
+        }
+
+        async function testRoll(diceNotation) {
+            try {
+                if (diceEnabled && DiceBoxManager.isEnabled()) {
+                    const result = await DiceBoxManager.rollDice(diceNotation, `Test: ${diceNotation}`);
+                    logResult(`🎲 3D Roll ${diceNotation}: ${result.total} (dice: [${result.individual.join(', ')}], mod: ${result.modifier})`);
+                } else {
+                    // Simulate standard rolling
+                    const result = simulateStandardRoll(diceNotation);
+                    logResult(`📄 Standard Roll ${diceNotation}: ${result}`);
+                }
+            } catch (error) {
+                logResult(`❌ Error rolling ${diceNotation}: ${error.message}`);
+            }
+        }
+
+        function simulateClick(element) {
+            const diceData = JSON.parse(element.getAttribute('data-packed-dice'));
+            testRoll(diceData.toRoll);
+        }
+
+        function rollManualDice() {
+            const input = document.getElementById('manual-dice');
+            const diceNotation = input.value.trim();
+            if (diceNotation) {
+                testRoll(diceNotation);
+            }
+        }
+
+        function simulateStandardRoll(notation) {
+            // Simple dice rolling simulation
+            const match = notation.match(/(\d+)d(\d+)([+-]\d+)?/);
+            if (!match) return 'Invalid notation';
+
+            const count = parseInt(match[1]);
+            const sides = parseInt(match[2]);
+            const modifier = match[3] ? parseInt(match[3]) : 0;
+
+            let total = 0;
+            for (let i = 0; i < count; i++) {
+                total += Math.floor(Math.random() * sides) + 1;
+            }
+
+            return total + modifier;
+        }
+
+        function logResult(message) {
+            const log = document.getElementById('results-log');
+            const timestamp = new Date().toLocaleTimeString();
+            log.innerHTML += `[${timestamp}] ${message}\n`;
+            log.scrollTop = log.scrollHeight;
+        }
+
+        // Start the test when page loads
+        window.addEventListener('load', initTest);
+    </script>
+</body>
+</html>

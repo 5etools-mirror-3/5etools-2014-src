@@ -18,6 +18,280 @@ Renderer.dice = {
 	_storage: null,
 
 	_isManualMode: false,
+	_is3dDiceEnabled: false,
+
+	// 3D Dice configuration methods
+	set3dDiceEnabled(enabled) {
+		this._is3dDiceEnabled = enabled;
+		if (enabled && window.DiceBoxManager) {
+			window.DiceBoxManager.enable().catch(console.error);
+		} else if (window.DiceBoxManager) {
+			window.DiceBoxManager.disable();
+		} else {
+		}
+	},
+
+	is3dDiceEnabled() {
+		return this._is3dDiceEnabled && window.DiceBoxManager && window.DiceBoxManager.isEnabled();
+	},
+
+	// Check if 3D dice should be used for this expression
+	_shouldUse3dDice() {
+		const should = this.is3dDiceEnabled();
+
+		// Add stack trace to see where this is being called from
+		if (should) {
+		}
+
+		return should;
+	},
+
+
+	// Count how many dice rolls this expression will need
+	_countDiceInExpression(node) {
+		if (!node) return 0;
+
+		let count = 0;
+
+		// Handle Dice node
+		if (node.constructor && node.constructor.name === 'Dice') {
+			// For a dice expression, extract the number of dice from the first child node
+			if (node._nodes && node._nodes.length > 0) {
+				const countNode = node._nodes[0];
+				try {
+					const numDice = countNode.avg ? countNode.avg() : (countNode._value || 1);
+					count += Math.max(1, Math.round(numDice));
+				} catch (e) {
+					count += 1; // fallback to 1 die
+				}
+			} else {
+				count += 1; // Simple die
+			}
+			// Don't recurse further into dice nodes - return early like _findAllDiceInExpression
+			return count;
+		}
+		// Handle other node types that might contain dice
+		else if (node._nodes && Array.isArray(node._nodes)) {
+			for (const subNode of node._nodes) {
+				count += this._countDiceInExpression(subNode);
+			}
+		}
+
+		return count;
+	},
+
+	// Recursively find all dice in an expression and extract their properties
+	_findAllDiceInExpression(node, diceList = []) {
+		if (!node) return diceList;
+
+		// Handle Pool nodes (dice pools like {2d8, 1d6})
+		if (node.constructor && node.constructor.name === 'Pool') {
+			// Process each node in the pool
+			if (node._nodesPool && Array.isArray(node._nodesPool)) {
+				for (const poolNode of node._nodesPool) {
+					this._findAllDiceInExpression(poolNode, diceList);
+				}
+			}
+			return diceList;
+		}
+
+		// If this is a Dice node, extract its properties
+		if (node.constructor && node.constructor.name === 'Dice') {
+			if (node._nodes && node._nodes.length >= 2) {
+				// First node is count, second is faces
+				const countNode = node._nodes[0];
+				const facesNode = node._nodes[1];
+
+				let count = 1;
+				let faces = null; // Don't default to 20 - let it be determined from the actual node
+
+				// Extract count
+				if (countNode) {
+					if (countNode._value !== undefined) {
+						count = countNode._value;
+					} else if (countNode.constructor && countNode.constructor.name === 'NumberSymbol') {
+						count = countNode._value || 1;
+					} else if (typeof countNode.avg === 'function') {
+						try {
+							count = countNode.avg();
+						} catch (e) {
+							// Fall back to default
+						}
+					}
+				}
+
+				// Extract faces
+				if (facesNode) {
+					if (facesNode._value !== undefined) {
+						faces = facesNode._value;
+					} else if (facesNode.constructor && facesNode.constructor.name === 'NumberSymbol') {
+						faces = facesNode._value; // Don't default to 20
+					} else if (typeof facesNode.avg === 'function') {
+						try {
+							faces = facesNode.avg();
+						} catch (e) {
+							// Don't set a default here
+						}
+					}
+				}
+
+				// Only add to dice list if we extracted valid faces
+				if (faces && faces > 0) {
+					diceList.push({ count, faces });
+				}
+			} else {
+				// Simple dice node, try to extract from properties
+				const count = node._number || 1;
+				const faces = node._faces;
+
+				// Only add to dice list if we have valid faces (don't default to 20)
+				if (faces && faces > 0) {
+					diceList.push({ count, faces });
+				}
+			}
+			return diceList; // Don't recurse further into dice nodes
+		}
+
+		// Skip pure numbers/constants - these are NOT dice
+		if (node.constructor && (
+			node.constructor.name === 'NumberSymbol' ||
+			node.constructor.name === 'Number' ||
+			node.constructor.name === 'Constant'
+		)) {
+			console.log("_findAllDiceInExpression skipping pure number", {
+				value: node._value,
+				nodeType: node.constructor.name
+			});
+			return diceList; // Don't recurse into pure numbers
+		}
+
+		// Recursively search child nodes
+		if (node._nodes && Array.isArray(node._nodes)) {
+			for (const childNode of node._nodes) {
+				this._findAllDiceInExpression(childNode, diceList);
+			}
+		}
+
+		return diceList;
+	},
+
+	// Extract dice notation from expression for 3D dice
+	_extractDiceNotation(tree) {
+		if (!tree) return null;
+
+		// Find all dice in the expression
+		const diceList = this._findAllDiceInExpression(tree);
+
+		if (diceList.length === 0) {
+			return null;
+		}
+
+		// For single dice type, use exact notation
+		if (diceList.length === 1) {
+			const dice = diceList[0];
+			const notation = `${dice.count}d${dice.faces}`;
+			return notation;
+		}
+
+		// For multiple dice types, create a combined notation
+		// Group dice by faces to combine same types
+		const diceByFaces = new Map();
+		for (const dice of diceList) {
+			const existing = diceByFaces.get(dice.faces) || 0;
+			diceByFaces.set(dice.faces, existing + dice.count);
+		}
+
+		// If all dice are the same type after grouping, use that
+		if (diceByFaces.size === 1) {
+			const [faces, count] = diceByFaces.entries().next().value;
+			const notation = `${count}d${faces}`;
+			return notation;
+		}
+
+		// For mixed dice types, create a string like "2d8+1d6"
+		// The 3D dice system can handle this format
+		const diceNotations = [];
+		for (const [faces, count] of diceByFaces.entries()) {
+			diceNotations.push(`${count}d${faces}`);
+		}
+		const notation = diceNotations.join('+');
+		return notation;
+	},
+
+	// Pre-roll 3D dice by counting how many dice the expression will need
+	async _preRoll3dDice(tree) {
+		if (!this._shouldUse3dDice() || !tree) return null;
+
+		// Generate unique roll ID for concurrent roll support
+		const rollId = `preroll_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+		try {
+			// Extract proper dice notation from the expression
+			const diceNotation = this._extractDiceNotation(tree);
+
+			if (!diceNotation) {
+				return null;
+			}
+
+			// Roll dice directly - no need to block concurrent rolls
+			const result = await this._rollDiceInternal(tree, diceNotation, rollId);
+
+			return result;
+		} catch (error) {
+			console.error(`🎲 3D dice pre-roll failed (${rollId}), falling back to standard:`, error);
+			return null;
+		}
+	},
+
+	// Internal method to handle the actual dice rolling
+	async _rollDiceInternal(tree, diceNotation, rollId = null) {
+		// Count how many individual dice the evaluator expects (for ordering/consumption)
+		const expectedCount = this._countDiceInExpression(tree);
+		// Also build an ordered faces array for any fallback single-die rolls
+		const diceList = this._findAllDiceInExpression(tree) || [];
+		const facesArray = [];
+		for (const d of diceList) {
+			for (let i = 0; i < Math.max(1, Math.round(d.count || 1)); ++i) facesArray.push(d.faces || 20);
+		}
+
+		// Ask DiceBoxManager to roll the grouped notation
+		const rollResult = await window.DiceBoxManager.rollDice(diceNotation, "5etools Roll");
+
+		// Build a faces-aware mapping for evaluator consumption. DiceBox may return dice in a different
+		// order/grouping than the evaluator expects, so we map values to the faces the evaluator will
+		// consume (facesArray).
+		const rawRolls = (rollResult && rollResult.rolls) ? [...rollResult.rolls] : [];
+		let individual = (rollResult && rollResult.individual) ? [...rollResult.individual] : [];
+
+		const preRolled = [];
+
+		// Attempt to match returned dice by faces to the facesArray order
+		for (let i = 0; i < expectedCount; ++i) {
+			const wantedFaces = facesArray[i] || facesArray[facesArray.length - 1] || 20;
+
+			// Try to find a raw roll with matching faces (various libs use different prop names)
+			let foundIndex = rawRolls.findIndex(r => (r.sides === wantedFaces) || (r.faces === wantedFaces) || (r.sidesCount === wantedFaces) || (r.sides && r.sides === wantedFaces));
+
+			if (foundIndex >= 0) {
+				const found = rawRolls.splice(foundIndex, 1)[0];
+				preRolled.push({val: typeof found.value === 'number' ? found.value : (found.result || found.roll || 0), faces: wantedFaces});
+				continue;
+			}
+
+			// Fallback: if dice-box provided flattened individual array, try taking next value
+			if (individual.length) {
+				const v = individual.shift();
+				preRolled.push({val: v, faces: wantedFaces});
+				continue;
+			}
+
+			// As a last resort, use a mathematical roll instead of physical dice
+			// to avoid creating an infinite loop of dice rolling
+			preRolled.push({val: RollerUtil.randomise(wantedFaces), faces: wantedFaces});
+		}
+
+		return preRolled;
+	},
 
 	/* -------------------------------------------- */
 
@@ -67,20 +341,24 @@ Renderer.dice = {
 	/* -------------------------------------------- */
 
 	bindOnclickListener (ele) {
-		ele.addEventListener("click", (evt) => {
-			const eleDice = evt.target.hasAttribute("data-packed-dice")
-				? evt.target
-				// Tolerate e.g. Bestiary wrapped proficiency dice rollers
-				: evt.target.parentElement?.hasAttribute("data-packed-dice")
-					? evt.target.parentElement
-					: null;
+		// If no element passed, default to document.body
+		ele = ele || document.body;
 
-			if (!eleDice) return;
+		// Ensure we only attach the delegated handler once per page
+		if (!ele.__diceDelegated) {
+			const delegatedHandler = (evt) => {
+				// Use closest to tolerate inner elements inside the roll button
+				const tgt = evt.target.closest && evt.target.closest('[data-packed-dice]');
+				if (!tgt) return;
+				evt.preventDefault();
+				evt.stopImmediatePropagation();
+				Renderer.dice.pRollerClickUseData(evt, tgt).then(null);
+			};
 
-			evt.preventDefault();
-			evt.stopImmediatePropagation();
-			Renderer.dice.pRollerClickUseData(evt, eleDice).then(null);
-		});
+			// Use capture to catch events early and handle dynamically added nodes
+			ele.addEventListener("click", delegatedHandler, true);
+			ele.__diceDelegated = true;
+		}
 	},
 
 	/* -------------------------------------------- */
@@ -524,30 +802,30 @@ Renderer.dice = {
 
 	getEventModifiedRollMeta (evt, entry) {
 		// Change roll type/count depending on CTRL/SHIFT status
-		const out = {rollCount: 1, entry};
+		const out = {rollCount: 1, entry: MiscUtil.copyFast(entry)}; // Create a copy to avoid modifying original
 
 		if (evt.shiftKey) {
-			if (entry.subType === "damage") { // If SHIFT is held, roll crit
+			if (out.entry.subType === "damage") { // If SHIFT is held, roll crit
 				const dice = [];
 				// TODO(future) in order for this to correctly catch everything, would need to parse the toRoll as a tree and then pull all dice expressions from the first level of that tree
-				entry.toRoll
+				out.entry.toRoll
 					.replace(/\s+/g, "") // clean whitespace
 					.replace(/\d*?d\d+/gi, m0 => dice.push(m0));
-				entry.toRoll = `${entry.toRoll}${dice.length ? `+${dice.join("+")}` : ""}`;
-			} else if (entry.subType === "d20") { // If SHIFT is held, roll advantage
+				out.entry.toRoll = `${out.entry.toRoll}${dice.length ? `+${dice.join("+")}` : ""}`;
+			} else if (out.entry.subType === "d20") { // If SHIFT is held, roll advantage
 				// If we have a cached d20mod value, use it
-				if (entry.d20mod != null) entry.toRoll = `2d20dl1${entry.d20mod}`;
-				else entry.toRoll = entry.toRoll.replace(/^\s*1?\s*d\s*20/, "2d20dl1");
+				if (out.entry.d20mod != null) out.entry.toRoll = `2d20dl1${out.entry.d20mod}`;
+				else out.entry.toRoll = out.entry.toRoll.replace(/^\s*1?\s*d\s*20/, "2d20dl1");
 			} else out.rollCount = 2; // otherwise, just roll twice
 		}
 
 		if (EventUtil.isCtrlMetaKey(evt)) {
-			if (entry.subType === "damage") { // If CTRL is held, half the damage
-				entry.toRoll = `floor((${entry.toRoll}) / 2)`;
-			} else if (entry.subType === "d20") { // If CTRL is held, roll disadvantage (assuming SHIFT is not held)
+			if (out.entry.subType === "damage") { // If CTRL is held, half the damage
+				out.entry.toRoll = `floor((${out.entry.toRoll}) / 2)`;
+			} else if (out.entry.subType === "d20") { // If CTRL is held, roll disadvantage (assuming SHIFT is not held)
 				// If we have a cached d20mod value, use it
-				if (entry.d20mod != null) entry.toRoll = `2d20dh1${entry.d20mod}`;
-				else entry.toRoll = entry.toRoll.replace(/^\s*1?\s*d\s*20/, "2d20dh1");
+				if (out.entry.d20mod != null) out.entry.toRoll = `2d20dh1${out.entry.d20mod}`;
+				else out.entry.toRoll = out.entry.toRoll.replace(/^\s*1?\s*d\s*20/, "2d20dh1");
 			} else out.rollCount = 2; // otherwise, just roll twice
 		}
 
@@ -693,8 +971,11 @@ Renderer.dice = {
 	 * @param [opts.target] Generic target number (e.g. save DC, AC) to meet/beat.
 	 * @param [opts.isHidden] If the result should not be posted to the rollbox.
 	 */
-	_pHandleRoll2_automatic (tree, rolledBy, opts) {
+	async _pHandleRoll2_automatic (tree, rolledBy, opts) {
 		opts = opts || {};
+
+		// Pre-roll 3D dice if enabled for simple expressions
+		const dice3dValues = await this._preRoll3dDice(tree);
 
 		if (!opts.isHidden) Renderer.dice._showBox();
 		Renderer.dice._checkHandleName(rolledBy.name);
@@ -705,6 +986,11 @@ Renderer.dice = {
 			if (opts.pb) meta.pb = opts.pb;
 			if (opts.summonSpellLevel) meta.summonSpellLevel = opts.summonSpellLevel;
 			if (opts.summonClassLevel) meta.summonClassLevel = opts.summonClassLevel;
+
+			// Add 3D dice values if available
+			if (dice3dValues) {
+				meta._3dDiceValues = [...dice3dValues]; // Copy array so we can shift values
+			}
 
 			const result = tree.evl(meta);
 			const fullHtml = (meta.html || []).join("");
@@ -848,8 +1134,10 @@ Use <span class="out-roll-item-code">/macro list</span> to list saved macros.<br
 				Use <span class="out-roll-item-code">/macro add myName 1d2+3</span> to add (or update) a macro. Macro names should not contain spaces or hashes.<br>
 				Use <span class="out-roll-item-code">/macro remove myName</span> to remove a macro.<br>
 				Use <span class="out-roll-item-code">#myName</span> to roll a macro.<br>
-				Use <span class="out-roll-item-code">/iterroll roll count [target]</span> to roll multiple times, optionally against a target.
-				Use <span class="out-roll-item-code">/clear</span> to clear the roller.`,
+				Use <span class="out-roll-item-code">/iterroll roll count [target]</span> to roll multiple times, optionally against a target.<br>
+				Use <span class="out-roll-item-code">/clear</span> to clear the roller.<br>
+				<br>
+				<strong>3D Dice:</strong> Enable "3D Dice" in Settings → Dice Rolling for animated dice physics. Simple rolls like <span class="out-roll-item-code">2d6</span>, <span class="out-roll-item-code">1d20+5</span> will use 3D animation when enabled. Complex expressions fall back to instant results.`,
 				Renderer.dice.SYSTEM_USER,
 			);
 			return;
@@ -2014,9 +2302,35 @@ Renderer.dice.parsed = {
 	},
 
 	Dice: class extends Renderer.dice.AbstractSymbol {
-		static _facesToValue (faces, fnName) {
+		static _facesToValue (faces, fnName, meta) {
 			switch (fnName) {
-				case "evl": return RollerUtil.randomise(faces);
+				case "evl": {
+						// Use pre-rolled 3D dice values if available, otherwise standard rolling
+						if (meta && meta._3dDiceValues && meta._3dDiceValues.length > 0) {
+							// Entries may be plain numbers (legacy) or objects {val, faces} (newer mapping).
+							// Prefer to consume an entry matching the requested faces when possible, to avoid
+							// mismatches caused by different ordering between the 3D renderer and evaluator.
+							let idx = -1;
+							for (let i = 0; i < meta._3dDiceValues.length; ++i) {
+								const e = meta._3dDiceValues[i];
+								if (typeof e === 'number') { idx = 0; break; } // legacy numeric array: just take the first
+								if (e && typeof e === 'object' && e.faces === faces) { idx = i; break; }
+							}
+							if (idx === -1) {
+								// No face-matching entry found; fall back to shift() (sequential consumption)
+								const e = meta._3dDiceValues.shift();
+								if (typeof e === 'number') return e;
+								if (e && typeof e.val === 'number') return e.val;
+								return RollerUtil.randomise(faces);
+							} else {
+								const e = meta._3dDiceValues.splice(idx, 1)[0];
+								if (typeof e === 'number') return e;
+								if (e && typeof e.val === 'number') return e.val;
+								return RollerUtil.randomise(faces);
+							}
+						}
+						return RollerUtil.randomise(faces);
+				}
 				case "avg": return (faces + 1) / 2;
 				case "min": return 1;
 				case "max": return faces;
@@ -2065,7 +2379,7 @@ Renderer.dice.parsed = {
 		}
 
 		_invoke_handlePart (fnName, meta, view, num, faces, isLast) {
-			const rolls = Array.from({length: num}, () => ({val: Renderer.dice.parsed.Dice._facesToValue(faces, fnName)}));
+			const rolls = Array.from({length: num}, () => ({val: Renderer.dice.parsed.Dice._facesToValue(faces, fnName, meta)}));
 			if (!rolls.length) rolls.push({val: 0});
 
 			let displayRolls;
@@ -2079,8 +2393,8 @@ Renderer.dice.parsed = {
 
 					const modOpts = {
 						faces,
-						fnGetRerolls: toReroll => [...new Array(toReroll.length)].map(() => ({val: Renderer.dice.parsed.Dice._facesToValue(faces, fnName)})),
-						fnGetExplosions: toExplode => [...new Array(toExplode.length)].map(() => ({val: Renderer.dice.parsed.Dice._facesToValue(faces, fnName)})),
+						fnGetRerolls: toReroll => [...new Array(toReroll.length)].map(() => ({val: Renderer.dice.parsed.Dice._facesToValue(faces, fnName, meta)})),
+						fnGetExplosions: toExplode => [...new Array(toExplode.length)].map(() => ({val: Renderer.dice.parsed.Dice._facesToValue(faces, fnName, meta)})),
 					};
 
 					displayRolls = Renderer.dice.parsed._handleModifiers(fnName, meta, rolls, nodeMod, modOpts);

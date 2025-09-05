@@ -1,0 +1,22 @@
+// 3D Dice Box Styles
+// Styles for the dice-box integration
+
+#dice-box {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 10000;
+	pointer-events: none;
+	background: transparent;
+	overflow: hidden;
+	
+	// Ensure full screen coverage
+	margin: 0;
+	padding: 0;
+	border: none;
+	
+	// Ensure compatibility across browsers
+	box-sizing: border-box;
+}

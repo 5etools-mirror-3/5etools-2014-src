@@ -82,7 +82,51 @@ const settingsGroupMarkdown = new ConfigSettingsGroup({
 	],
 });
 
+const _DICE_THEME_OPTIONS = {
+	"default": "Default",
+	"blueGreenMetal": "Blue Green Metal",
+	"diceOfRolling": "Dice of Rolling",
+	"diceOfRolling-fate": "Dice of Rolling - Fate",
+	"gemstone": "Gemstone",
+	"rock": "Rock",
+	"rust": "Rust",
+	"wooden": "Wooden"
+};
+
+const settingsGroupDice = new ConfigSettingsGroup({
+	groupId: "dice",
+	name: "Dice Rolling",
+	configSettings: [
+		new ConfigSettingBoolean({
+			configId: "enable3dDice",
+			name: "Enable 3D Dice",
+			help: "Use 3D animated dice for rolling instead of text results. Powered by dice-box library.",
+			isRowLabel: true,
+			default: false,
+		}),
+		new ConfigSettingEnum({
+			configId: "theme3d",
+			name: "3D Dice Theme",
+			help: "The visual theme to use for 3D dice. Only applies when 3D dice are enabled.",
+			isRowLabel: true,
+			default: "default",
+			values: [
+				"default",
+				"blueGreenMetal",
+				"diceOfRolling",
+				"diceOfRolling-fate",
+				"gemstone",
+				"rock",
+				"rust",
+				"wooden"
+			],
+			fnDisplay: it => _DICE_THEME_OPTIONS[it] || it,
+		}),
+	],
+});
+
 export const SETTINGS_GROUPS = [
 	settingsGroupStyleSwitcher,
 	settingsGroupMarkdown,
+	settingsGroupDice,
 ];

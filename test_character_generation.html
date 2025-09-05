@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Character Generation</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .character-preview { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .level-selector { margin: 10px 0; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+        pre { background: #eee; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Enhanced Character Generation Test</h1>
+
+    <div class="level-selector">
+        <label for="levelSelect">Character Level: </label>
+        <select id="levelSelect">
+            <option value="1">Level 1</option>
+            <option value="3">Level 3</option>
+            <option value="5">Level 5</option>
+            <option value="8">Level 8</option>
+            <option value="10">Level 10</option>
+            <option value="15">Level 15</option>
+            <option value="20">Level 20</option>
+        </select>
+
+        <button onclick="generateRandomCharacter()">Generate Random Character</button>
+        <button onclick="generateMultipleCharacters()">Generate 5 Characters</button>
+    </div>
+
+    <div id="characterDisplay"></div>
+
+    <script>
+        // Mock the character generation functionality for testing
+        function generateRandomCharacter() {
+            const level = document.getElementById('levelSelect').value;
+
+            // This would integrate with the actual charactereditor.js functionality
+            const mockCharacter = {
+                name: generateMockName(),
+                level: level,
+                classes: generateMockClasses(parseInt(level)),
+                race: generateMockRace(),
+                background: generateMockBackground()
+            };
+
+            displayCharacter(mockCharacter);
+        }
+
+        function generateMultipleCharacters() {
+            const display = document.getElementById('characterDisplay');
+            display.innerHTML = '<h3>Generated Characters:</h3>';
+
+            for (let i = 0; i < 5; i++) {
+                const level = 1 + Math.floor(Math.random() * 10);
+                const mockCharacter = {
+                    name: generateMockName(),
+                    level: level,
+                    classes: generateMockClasses(level),
+                    race: generateMockRace(),
+                    background: generateMockBackground()
+                };
+                displayCharacter(mockCharacter);
+            }
+        }
+
+        function displayCharacter(character) {
+            const display = document.getElementById('characterDisplay');
+            const charDiv = document.createElement('div');
+            charDiv.className = 'character-preview';
+
+            const classString = character.classes.map(c => `${c.name} ${c.level}`).join(', ');
+
+            charDiv.innerHTML = `
+                <h4>${character.name}</h4>
+                <p><strong>Total Level:</strong> ${character.level}</p>
+                <p><strong>Classes:</strong> ${classString}</p>
+                <p><strong>Race:</strong> ${character.race}</p>
+                <p><strong>Background:</strong> ${character.background}</p>
+            `;
+
+            display.appendChild(charDiv);
+        }
+
+        function generateMockName() {
+            const first = ["Aeliana", "Bael", "Caelynn", "Dain", "Elara", "Finn", "Gwen", "Hale"];
+            const last = ["Brightblade", "Stormwind", "Ironforge", "Goldleaf", "Shadowhawk", "Fireborn"];
+            return first[Math.floor(Math.random() * first.length)] + " " +
+                   last[Math.floor(Math.random() * last.length)];
+        }
+
+        function generateMockRace() {
+            const races = ["Human", "Elf", "Dwarf", "Halfling", "Dragonborn", "Tiefling", "Half-Orc", "Gnome"];
+            return races[Math.floor(Math.random() * races.length)];
+        }
+
+        function generateMockBackground() {
+            const backgrounds = ["Acolyte", "Criminal", "Folk Hero", "Noble", "Sage", "Soldier"];
+            return backgrounds[Math.floor(Math.random() * backgrounds.length)];
+        }
+
+        function generateMockClasses(totalLevel) {
+            const classes = ["Fighter", "Wizard", "Rogue", "Cleric", "Ranger", "Paladin", "Barbarian", "Bard"];
+            const result = [];
+            let remainingLevels = totalLevel;
+
+            // 70% single class, 25% dual class, 5% triple class
+            const classCount = totalLevel >= 3 && Math.random() < 0.3 ?
+                (totalLevel >= 6 && Math.random() < 0.05 ? 3 : 2) : 1;
+
+            for (let i = 0; i < classCount; i++) {
+                const className = classes[Math.floor(Math.random() * classes.length)];
+                let levelsForThisClass;
+
+                if (i === classCount - 1) {
+                    levelsForThisClass = remainingLevels;
+                } else {
+                    const maxLevels = Math.min(remainingLevels - (classCount - i - 1), Math.floor(remainingLevels * 0.7));
+                    levelsForThisClass = Math.max(1, Math.floor(Math.random() * maxLevels) + 1);
+                }
+
+                result.push({
+                    name: className,
+                    level: levelsForThisClass
+                });
+
+                remainingLevels -= levelsForThisClass;
+            }
+
+            return result;
+        }
+    </script>
+</body>
+</html>
