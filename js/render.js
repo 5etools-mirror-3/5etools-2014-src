@@ -8778,7 +8778,7 @@ Renderer.character = class {
 							const score = character[ab] || 10;
 							const modifier = Parser.getAbilityModifier(score);
 							// Create clickable dice roll for ability checks
-							return `${score} ({@dice 1d20${modifier}|${modifier}|Ability Check})`;
+							return `${score} ({@ability ${ab} 1d20${modifier}|${modifier}|Ability Check})`;
 						})
 					]
 				}
@@ -8833,7 +8833,7 @@ Renderer.character = class {
 
 						// Create clickable dice roll with proficiency indicator in tooltip
 						const rollTooltip = isProficient ? `${skill.name} (Proficient)` : skill.name;
-						const rollableModifier = `{@dice 1d20${finalStr}|${finalStr}|${rollTooltip}}`;
+						const rollableModifier = `{@skillCheck ${skill.ability} 1d20${finalStr}|${finalStr}|${rollTooltip}}`;
 
 						// Format skill name with visual proficiency indicator
 						const displayName = Renderer.character._formatSkillName(skill.name, isProficient);
@@ -8874,7 +8874,7 @@ Renderer.character = class {
 						const finalStr = finalModifier >= 0 ? `+${finalModifier}` : `${finalModifier}`;
 						// Create clickable dice roll for saving throws, with proficiency indicator in the roll name
 						const saveName = isProficient ? `${Parser.attAbvToFull(ab)} Save (Proficient)` : `${Parser.attAbvToFull(ab)} Save`;
-						const rollableModifier = `{@dice 1d20${finalStr}|${finalStr}|${saveName}}`;
+						const rollableModifier = `{@savingThrow ${ab} 1d20${finalStr}|${finalStr}|${saveName}}`;
 
 						// Display ability name with proficiency indicator
 						const displayName = isProficient ? `<strong>${Parser.attAbvToFull(ab)}</strong> ◉` : Parser.attAbvToFull(ab);
@@ -9998,7 +9998,7 @@ Renderer.character = class {
 				}
 
 				if (difference > 0) {
-					// Increasing available hit dice	
+					// Increasing available hit dice
 					const maxForClass = cls.level;
 					const currentForClass = currentClassData.currentHitDice || 0;
 					const canAdd = Math.min(remainingChange, maxForClass - currentForClass);
@@ -10019,7 +10019,7 @@ Renderer.character = class {
 
 			// Save to server like other stat updates
 			const success = await globalThis.CharacterManager.saveCharacter(characterData, true);
-			
+
 			if (success) {
 				return true;
 			} else {

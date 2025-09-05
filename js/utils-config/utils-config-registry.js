@@ -95,7 +95,7 @@ const _DICE_THEME_OPTIONS = {
 
 const settingsGroupDice = new ConfigSettingsGroup({
 	groupId: "dice",
-	name: "Dice Rolling",
+	name: "Dice Rolling (reload page to apply changes)",
 	configSettings: [
 		new ConfigSettingBoolean({
 			configId: "enable3dDice",
