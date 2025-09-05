@@ -2,6 +2,7 @@ import {ConfigSettingsGroup} from "./util-config-settings-group.js";
 import {ConfigSettingBoolean, ConfigSettingEnum, ConfigSettingExternal} from "./utils-config-setting-base.js";
 import {SITE_STYLE__CLASSIC, SITE_STYLE_DISPLAY} from "../consts.js";
 import {StyleSwitcher} from "../styleswitch.js";
+import { M } from "../../lib/dice-box-assets/Dice.js";
 
 const settingsGroupStyleSwitcher = new ConfigSettingsGroup({
 	groupId: "styleSwitcher",
@@ -93,6 +94,16 @@ const _DICE_THEME_OPTIONS = {
 	"wooden": "Wooden"
 };
 
+const DICE_THEME_OPTIONS =  [
+	"default",
+	"blueGreenMetal",
+	"diceOfRolling",
+	"diceOfRolling-fate",
+	"gemstone",
+	"rock",
+	"rust",
+	"wooden"
+]
 const settingsGroupDice = new ConfigSettingsGroup({
 	groupId: "dice",
 	name: "Dice Rolling (reload page to apply changes)",
@@ -102,24 +113,15 @@ const settingsGroupDice = new ConfigSettingsGroup({
 			name: "Enable 3D Dice",
 			help: "Use 3D animated dice for rolling instead of text results. Powered by dice-box library.",
 			isRowLabel: true,
-			default: false,
+			default: true,
 		}),
 		new ConfigSettingEnum({
 			configId: "theme3d",
 			name: "3D Dice Theme",
 			help: "The visual theme to use for 3D dice. Only applies when 3D dice are enabled.",
 			isRowLabel: true,
-			default: "default",
-			values: [
-				"default",
-				"blueGreenMetal",
-				"diceOfRolling",
-				"diceOfRolling-fate",
-				"gemstone",
-				"rock",
-				"rust",
-				"wooden"
-			],
+			default: DICE_THEME_OPTIONS[Math.floor(Math.random() * DICE_THEME_OPTIONS.length)],
+			values: DICE_THEME_OPTIONS,
 			fnDisplay: it => _DICE_THEME_OPTIONS[it] || it,
 		}),
 	],
