@@ -2726,13 +2726,62 @@ class CharacterEditorPage {
 			entries.push(mannerismDescriptions[Math.floor(Math.random() * mannerismDescriptions.length)]);
 		}
 
+		// Add obsession if available
+		if (characterDepth && characterDepth.obsession) {
+			const obsessionDescriptions = [
+				`They have an unusual obsession: ${characterDepth.obsession.toLowerCase()}.`,
+				`Among their many quirks, they are particularly known for how they ${characterDepth.obsession.toLowerCase()}.`,
+				`One thing that sets them apart is their unique habit of ${characterDepth.obsession.toLowerCase()}.`,
+				`Their companions often find it amusing that they ${characterDepth.obsession.toLowerCase()}.`
+			];
+			entries.push(obsessionDescriptions[Math.floor(Math.random() * obsessionDescriptions.length)]);
+		}
+
+		// Add secret if available
+		if (characterDepth && characterDepth.secret) {
+			const secretDescriptions = [
+				`They harbor a mysterious secret: ${characterDepth.secret.toLowerCase()}.`,
+				`Few know the truth about them: ${characterDepth.secret.toLowerCase()}.`,
+				`Hidden beneath their adventuring exterior lies an intriguing mystery: ${characterDepth.secret.toLowerCase()}.`,
+				`There's something unexplained about their past: ${characterDepth.secret.toLowerCase()}.`
+			];
+			entries.push(secretDescriptions[Math.floor(Math.random() * secretDescriptions.length)]);
+		}
+
+		// Add relationship if available
+		if (characterDepth && characterDepth.relationship) {
+			const relationshipDescriptions = [
+				`Their personal life is complicated by an important connection: ${characterDepth.relationship.toLowerCase()}.`,
+				`There's someone significant in their story: ${characterDepth.relationship.toLowerCase()}.`,
+				`Their adventures are influenced by a personal matter: ${characterDepth.relationship.toLowerCase()}.`,
+				`Beyond their public persona, they carry a burden: ${characterDepth.relationship.toLowerCase()}.`
+			];
+			entries.push(relationshipDescriptions[Math.floor(Math.random() * relationshipDescriptions.length)]);
+		}
+
+		// Add supernatural quirk if available
+		if (characterDepth && characterDepth.supernaturalQuirk) {
+			const supernaturalDescriptions = [
+				`There's something subtly magical about them: ${characterDepth.supernaturalQuirk.toLowerCase()}.`,
+				`Those who observe them carefully might notice something unusual: ${characterDepth.supernaturalQuirk.toLowerCase()}.`,
+				`They possess a minor magical oddity that few understand: ${characterDepth.supernaturalQuirk.toLowerCase()}.`,
+				`Magic seems to touch them in unexpected ways: ${characterDepth.supernaturalQuirk.toLowerCase()}.`
+			];
+			entries.push(supernaturalDescriptions[Math.floor(Math.random() * supernaturalDescriptions.length)]);
+		}
+
 		// Add concluding statement with variety
 		const conclusions = [
 			`Their ${background.name.toLowerCase()} background has shaped their worldview and prepared them for the road ahead.`,
 			`Every experience has led them to this moment, ready to face whatever destiny awaits.`,
 			`They stand at the threshold of adventure, their past a foundation for the legends they will create.`,
 			`With their unique combination of skills, heritage, and personality, they are destined for great things.`,
-			`The world is vast and full of mysteries, and they are eager to explore every one.`
+			`The world is vast and full of mysteries, and they are eager to explore every one.`,
+			`They are a walking collection of stories, secrets, and dreams waiting to unfold.`,
+			`In a world of magic and wonder, they are perfectly suited to become a legend.`,
+			`Their tale is just beginning, but already it promises to be extraordinary.`,
+			`Whether by fate or choice, they are exactly where they need to be to change the world.`,
+			`Adventure calls to them, and they answer with enthusiasm and mysterious purpose.`
 		];
 		entries.push(conclusions[Math.floor(Math.random() * conclusions.length)]);
 
@@ -2839,24 +2888,38 @@ class CharacterEditorPage {
 			]
 		};
 
-		// Universal personality traits (for variety)
+		// Universal personality traits (for variety) - Fantasy Enhanced
 		const universalTraits = [
-			"I have a habit of collecting small, seemingly worthless objects that catch my eye.",
-			"I speak to animals as if they can understand complex conversations.",
-			"I keep a detailed journal of everyone I meet and their secrets.",
-			"I'm superstitious about certain numbers, colors, or days of the week.",
-			"I unconsciously count things - steps, coins, people in a room.",
-			"I have strong opinions about food and will judge people by their eating habits.",
-			"I talk to myself when I think no one is listening.",
-			"I always know exactly how much money I have down to the copper piece.",
-			"I make up elaborate stories about strangers I see on the street.",
-			"I have a specific ritual I perform before sleeping in a new place.",
-			"I'm fascinated by locks and mechanical puzzles, even simple ones.",
-			"I remember faces perfectly but often forget names completely.",
-			"I instinctively categorize people as 'trustworthy' or 'dangerous' within minutes.",
-			"I have an irrational fear of a common, harmless thing.",
-			"I collect stories and rumors like some people collect coins.",
-			"I never sit with my back to a door or window."
+			"I have a habit of collecting small, seemingly worthless objects that I'm convinced are actually magical.",
+			"I speak to animals, plants, and inanimate objects as if they can understand complex philosophical discussions.",
+			"I keep a detailed journal of everyone I meet, rating their potential as allies, enemies, or magical beings in disguise.",
+			"I'm convinced that certain numbers, colors, or celestial alignments control the fate of the universe.",
+			"I unconsciously count things in ancient draconic numerals, which confuses most people.",
+			"I have strong opinions about food and believe certain dishes can predict the future or ward off curses.",
+			"I talk to myself constantly, but claim I'm actually consulting with my 'invisible advisor' from another plane.",
+			"I always know exactly how much money I have because I believe coins whisper their values to me.",
+			"I make up elaborate backstories for strangers, often involving secret royal bloodlines or hidden magical powers.",
+			"I perform a complex ritual involving moon phases and herb burning before sleeping anywhere new.",
+			"I'm fascinated by locks because I believe each one guards a portal to another dimension.",
+			"I remember faces perfectly because I think everyone might be a shapeshifter, doppelganger, or reincarnated soul.",
+			"I can instantly sense whether someone has been touched by magic, cursed, or blessed by the gods.",
+			"I have an irrational fear of mirrors because I once saw something that wasn't my reflection.",
+			"I collect stories and rumors because I believe they're prophecies waiting to unfold.",
+			"I never sit with my back to a door because assassins from my past life might still be hunting me.",
+			"I'm convinced that certain weather patterns are messages from my deceased grandmother's spirit.",
+			"I taste everything before eating it, claiming I can detect poison, curses, or transmutation magic.",
+			"I believe that shoes hold the memories of everywhere they've been, so I treat them with reverence.",
+			"I'm obsessed with star patterns and insist they reveal the true names of everyone I meet.",
+			"I collect different types of string and rope, convinced that the perfect knot can solve any problem.",
+			"I speak in rhymes when nervous because I think it confuses evil spirits trying to curse me.",
+			"I'm convinced that my shadow is actually my twin from an alternate reality trying to communicate.",
+			"I believe that certain foods can only be eaten on specific days, or terrible luck will follow.",
+			"I insist on learning at least one word in every language I encounter because 'words have power.'",
+			"I'm fascinated by door hinges and believe they're actually tiny portals between worlds.",
+			"I collect pressed flowers and leaves, claiming each one holds the essence of a different fae creature.",
+			"I'm convinced that all cats are actually familiars reporting to a secret magical council.",
+			"I believe that certain colors should never be worn together as they create 'chaos resonance.'",
+			"I taste rainwater from different regions, convinced each drop carries messages from cloud spirits."
 		];
 
 		// Get background traits
@@ -3073,18 +3136,38 @@ class CharacterEditorPage {
 			}
 		}
 
-		// Add mannerisms and quirks
+		// Fantasy Enhanced Mannerisms and Quirks
 		const mannerismList = [
-			"Taps fingers in complex patterns when thinking",
-			"Always sits facing the door",
-			"Unconsciously touches a particular piece of jewelry or clothing",
-			"Makes small talk with animals or inanimate objects",
-			"Has a specific way of arranging their belongings",
-			"Quotes proverbs or sayings frequently",
-			"Changes their voice slightly when lying",
-			"Always knows exactly what time it is",
-			"Compulsively organizes things into neat arrangements",
-			"Whistles or hums the same tune when nervous"
+			"Taps fingers in complex patterns that supposedly channel arcane energy while thinking",
+			"Always sits facing the door because 'you never know when a portal might open'",
+			"Unconsciously touches a particular piece of jewelry while muttering protective wards",
+			"Makes small talk with their weapons, thanking them for their service after battles",
+			"Arranges their belongings in specific patterns that 'maintain cosmic balance'",
+			"Quotes ancient proverbs in dead languages that they claim their ancestors whisper to them",
+			"Changes their voice to match the last person they spoke to, claiming it helps them 'understand souls'",
+			"Always knows exactly what time it is because they can hear the heartbeat of the world",
+			"Compulsively organizes things by perceived magical properties rather than practical use",
+			"Whistles or hums melodies they claim were taught to them by wind spirits when nervous",
+			"Draws tiny protective symbols in the dirt wherever they sit or sleep",
+			"Bows formally to every tree they pass, apologizing for disturbing the dryads",
+			"Collects a small stone from every place they visit, building a 'memory cairn'",
+			"Insists on tasting the air in new locations to 'detect magical residue'",
+			"Braids small trinkets into their hair or beard as offerings to their ancestors",
+			"Makes elaborate hand gestures when speaking, claiming it amplifies their words' power",
+			"Sniffs people when first meeting them to determine their 'spiritual aura'",
+			"Leaves small gifts (coins, flowers, food) at doorways to appease household spirits",
+			"Counts their steps in groups of seven because it's a 'magically significant number'",
+			"Spins around three times before entering any building to 'confuse malevolent spirits'",
+			"Always eats dessert first because 'life is uncertain and sweetness should be savored'",
+			"Talks to their reflection in still water, claiming it's their 'water-self' from another realm",
+			"Collects interesting rocks and claims each one has a unique 'earth-song'",
+			"Draws constellations in the air while stargazing, mapping invisible ley lines",
+			"Sleeps with one foot outside their blankets because their 'dream-spirit needs an escape route'",
+			"Names every horse, mule, or mount they encounter, believing names give animals power",
+			"Builds tiny shrines from twigs and stones at campsites to honor local nature spirits",
+			"Apologizes to their food before eating it, thanking the plant or animal for its sacrifice",
+			"Keeps a different colored piece of cloth for each day of the week to 'align with cosmic forces'",
+			"Whispers secrets to flowers, believing they'll carry messages to the fae courts"
 		];
 
 		mannerisms.push(mannerismList[Math.floor(Math.random() * mannerismList.length)]);
@@ -3095,13 +3178,99 @@ class CharacterEditorPage {
 			}
 		}
 
+		// Add amusing obsessions and habits
+		const obsessions = [
+			"Collects different types of buttons and sews them onto their clothing in meaningful patterns",
+			"Believes that every tavern has a 'perfect seat' and spends time finding it",
+			"Keeps a detailed log of every insult they've ever received and their planned comebacks",
+			"Obsessed with finding the 'ultimate' recipe for their favorite dish",
+			"Collects signatures from every person they meet, claiming it captures part of their soul",
+			"Believes they can predict the weather by observing how people's eyebrows move",
+			"Keeps detailed notes on the sleeping patterns of their companions",
+			"Obsessed with symmetry and gets anxious when things are unbalanced",
+			"Collects tears in tiny vials (their own and others') for different emotional states",
+			"Believes they can determine someone's deepest fear by watching how they eat soup",
+			"Keeps a record of every door they've walked through and rates them by 'mystical significance'",
+			"Obsessed with finding their 'cosmic twin' - someone who shares their exact birthday and birthmark",
+			"Collects dust from different regions, convinced it holds the essence of that place",
+			"Believes they can communicate with the spirits of broken objects by fixing them",
+			"Keeps detailed genealogies of every family they meet, looking for patterns in bloodlines"
+		];
+
+		// Add mysterious secrets and backstory elements
+		const secrets = [
+			"They once spoke to a dying dragon who whispered the location of their lost hoard",
+			"They have a recurring dream about a tower that doesn't exist in any known realm",
+			"They were present at a historical event but don't remember why or how",
+			"They own an object that occasionally becomes warm for no apparent reason",
+			"They can sometimes understand languages they've never studied when the moon is full",
+			"They have a birthmark that perfectly matches a constellation that appears only once a century",
+			"They occasionally find messages written in their own handwriting that they don't remember writing",
+			"They once met their future self in a mysterious encounter they can't fully recall",
+			"They have prophetic dreams about people they haven't met yet",
+			"They were born during a magical phenomenon that the locals still discuss in whispers",
+			"They carry a key that doesn't fit any lock they've found, but they know it's important",
+			"They can sometimes see magical auras around certain people, but only in candlelight",
+			"They were raised by beings who claimed to be their parents but looked nothing like them",
+			"They have memories of a life that history books say never existed",
+			"They sometimes speak in their sleep using the voice of someone else entirely"
+		];
+
+		// Add character relationships and connections
+		const relationships = [
+			"They owe a life debt to a mysterious figure who saved them from certain death",
+			"They have a rival from their youth who always seems to appear at the worst possible moments",
+			"They're secretly in love with someone they can never have due to social circumstances",
+			"They have a mentor who communicates only through cryptic riddles and symbolic gifts",
+			"They're being followed by someone who claims to be their sibling from another timeline",
+			"They have a pen pal in another plane of existence who sends letters through magical means",
+			"They're searching for their childhood imaginary friend who they now believe was real",
+			"They have a standing bet with a powerful fae about the outcome of their adventures",
+			"They're secretly nobility but renounced their title for reasons they won't discuss",
+			"They have a twin who lives a completely opposite life in another city",
+			"They're part of a secret organization that meets only during lunar eclipses",
+			"They have a nemesis who is identical to them in every way except for moral alignment",
+			"They're engaged to be married to someone they've never actually met",
+			"They have a patron deity who occasionally possesses stray animals to give them advice",
+			"They're the reincarnation of someone famous, but they're the only one who knows it"
+		];
+
+		// Add supernatural quirks and abilities
+		const supernaturalQuirks = [
+			"Plants grow slightly faster when they're happy",
+			"Their sneezes are always in groups of three and seem to predict minor events",
+			"They can taste colors when they're extremely focused",
+			"Their hair changes color slightly based on the weather",
+			"They can sense when someone is lying, but only if they're holding something made of wood",
+			"Animals are either immediately drawn to them or completely terrified - there's no middle ground",
+			"They can smell magic, but it always smells like their least favorite food",
+			"Their dreams sometimes leak into reality as tiny, harmless illusions",
+			"They can hear music that no one else can hear when they're in natural settings",
+			"Their reflection in mirrors occasionally lags a few seconds behind their actual movements",
+			"They can communicate basic emotions to insects through humming",
+			"Their shadow sometimes points in directions that don't match the light source",
+			"They can taste the emotional history of any food they eat",
+			"Their footprints occasionally glow for a few minutes after they walk away",
+			"They can sense the age of any wooden object by touching it"
+		];
+
+		// Randomly add these elements
+		const selectedObsession = Math.random() < 0.6 ? obsessions[Math.floor(Math.random() * obsessions.length)] : null;
+		const selectedSecret = Math.random() < 0.7 ? secrets[Math.floor(Math.random() * secrets.length)] : null;
+		const selectedRelationship = Math.random() < 0.5 ? relationships[Math.floor(Math.random() * relationships.length)] : null;
+		const selectedSupernatural = Math.random() < 0.4 ? supernaturalQuirks[Math.floor(Math.random() * supernaturalQuirks.length)] : null;
+
 		return {
 			personalityTraits: traits.slice(0, Math.min(4, traits.length)),
 			ideals: ideals,
 			bonds: bonds.slice(0, Math.min(2, bonds.length)),
 			flaws: flaws,
 			mannerisms: mannerisms,
-			quirks: quirks
+			quirks: quirks,
+			obsession: selectedObsession,
+			secret: selectedSecret,
+			relationship: selectedRelationship,
+			supernaturalQuirk: selectedSupernatural
 		};
 	}
 
