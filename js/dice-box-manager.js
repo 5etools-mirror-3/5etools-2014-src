@@ -37,8 +37,8 @@ class DiceBoxManager {
 			}
 
 			// Get user's preferred theme before initialization
-			const preferredTheme = window.VetoolsConfig ? 
-				(window.VetoolsConfig.get("dice", "theme3d") || "default") : 
+			const preferredTheme = window.VetoolsConfig ?
+				(window.VetoolsConfig.get("dice", "theme3d") || "default") :
 				"default";
 
 			// Initialize dice-box with full screen configuration using new v1.1.0 API
@@ -207,7 +207,7 @@ class DiceBoxManager {
 
 			// Check if this is a pool notation (multiple different dice types like "2d8+1d6")
 			const diceComponents = this._splitDiceNotation(cleanNotation);
-			
+
 			if (diceComponents.length > 1) {
 				// Handle pool dice by rolling each component separately
 				return await this._rollPoolDice(diceComponents, rollId, diceNotation);
@@ -230,7 +230,7 @@ class DiceBoxManager {
 	static _splitDiceNotation(notation) {
 		const components = [];
 		const parts = notation.split(/([+-])/);
-		
+
 		let currentSign = '+';
 		for (let i = 0; i < parts.length; i++) {
 			const part = parts[i].trim();
@@ -253,7 +253,7 @@ class DiceBoxManager {
 				}
 			}
 		}
-		
+
 		return components;
 	}
 
@@ -275,12 +275,12 @@ class DiceBoxManager {
 				// Roll this dice notation using dice-box
 				const rollResult = await this._diceBox.roll(component.notation.replace(/^-/, ''));
 				const results = rollResult.map(die => die.value);
-				
+
 				// If negative dice (shouldn't happen in normal usage), negate results
 				if (component.notation.startsWith('-')) {
 					results.forEach((val, idx) => results[idx] = -val);
 				}
-				
+
 				allResults.push(...results);
 				diceResults.push(...results);
 			} else if (component.type === 'modifier') {
@@ -522,7 +522,7 @@ class DiceBoxManager {
 			return;
 		}
 
-		
+
 		try {
 			// First clear any existing dice - themes only apply before/after rolls
 			if (this._diceBox.clear) {
@@ -533,7 +533,7 @@ class DiceBoxManager {
 			if (this._diceBox.updateConfig) {
 				this._diceBox.updateConfig({theme: theme});
 				this._currentTheme = theme;
-				
+
 				// Store theme preference
 				if (window.VetoolsConfig) {
 					window.VetoolsConfig.set("dice", "theme3d", theme);
@@ -560,10 +560,10 @@ class DiceBoxManager {
 	 * @returns {Promise<void>}
 	 */
 	static async _reinitializeWithTheme(theme) {
-		
+
 		// Store current state
 		const wasEnabled = this._isEnabled;
-		
+
 		// Destroy current instance if it exists
 		if (this._diceBox) {
 			try {
@@ -573,10 +573,10 @@ class DiceBoxManager {
 			}
 			this._diceBox = null;
 		}
-		
+
 		// Clear active rolls
 		this._activeRolls.clear();
-		
+
 		// Reinitialize with new theme
 		this._diceBox = new window.DiceBox({
 			id: "dice-box",
@@ -608,10 +608,10 @@ class DiceBoxManager {
 		await this._diceBox.init();
 		this._currentTheme = theme;
 		this._isEnabled = wasEnabled;
-		
+
 		// Ensure container is ready
 		this._ensureContainerReady();
-		
+
 	}
 
 
@@ -637,7 +637,7 @@ class DiceBoxManager {
 	 */
 	static async detectAvailableThemes() {
 		const themes = new Set(["default"]); // Always include default
-		
+
 		try {
 			// Try to fetch the themes directory listing
 			const response = await fetch("/lib/dice-box-assets/themes/");
