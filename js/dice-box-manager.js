@@ -78,7 +78,6 @@ class DiceBoxManager {
 
 			// Set current theme to match what was initialized
 			this._currentTheme = preferredTheme;
-			console.log(`DiceBoxManager: Initialized with theme: ${preferredTheme}`);
 			this._isInitialized = true;
 
 			// Ensure container is properly configured after initialization
@@ -100,7 +99,6 @@ class DiceBoxManager {
 		return new Promise(async (resolve, reject) => {
 			// Check if already loaded
 			if (window.DiceBox) {
-				console.log("DiceBox already loaded");
 				resolve();
 				return;
 			}
@@ -125,7 +123,6 @@ class DiceBoxManager {
 					diceContainer.style.pointerEvents = 'none'; // Don't block clicks
 					diceContainer.style.zIndex = '10000'; // Above other content
 					document.body.appendChild(diceContainer);
-					console.log("Created dice-box container");
 				}
 
 				resolve();
@@ -136,7 +133,6 @@ class DiceBoxManager {
 				try {
 					const { default: DiceBox } = await import("https://unpkg.com/@3d-dice/dice-box@1.1.3/dist/dice-box.es.min.js");
 					window.DiceBox = DiceBox;
-					console.log("DiceBox loaded from CDN fallback");
 
 					if (!document.getElementById('dice-box')) {
 						const diceContainer = document.createElement('div');
@@ -150,7 +146,6 @@ class DiceBoxManager {
 						diceContainer.style.pointerEvents = 'none'; // Don't block clicks
 						diceContainer.style.zIndex = '10000'; // Above other content
 						document.body.appendChild(diceContainer);
-						console.log("Created dice-box container");
 					}
 
 					resolve();
@@ -197,28 +192,12 @@ class DiceBoxManager {
 		const rollId = `roll_${++this._rollCounter}_${Date.now()}`;
 		this._activeRolls.add(rollId);
 
-		console.log(`🎲 DiceBoxManager.rollDice START: ${rollId}`, {
-			notation: diceNotation,
-			label,
-			activeRolls: Array.from(this._activeRolls),
-			rollCounter: this._rollCounter
-		});
-
-		// Add stack trace to see where this roll is being called from
-		console.log(`🔍 DiceBoxManager.rollDice called from:`, new Error().stack);
-
-		// Log any d20 rolls for debugging (but don't block them)
-		if (diceNotation === '1d20' || diceNotation === 'd20') {
-			console.log(`ℹ️ d20 roll detected: ${diceNotation} (${label})`);
-		}
-
 		try {
 			// Ensure dice container exists and is properly sized
 			this._ensureContainerReady();
 
 			// Clean the dice notation for dice-box (remove spaces, ensure proper format)
 			const cleanNotation = diceNotation.replace(/\s+/g, '');
-			console.debug("DiceBoxManager.rollDice input", {diceNotation, cleanNotation, label});
 
 			// Validate that it's a proper dice notation - support pools, complex expressions, and modifiers
 			// Examples: "1d20", "2d8+1d6", "1d20+5", "3d6+2d4+1"
@@ -231,11 +210,9 @@ class DiceBoxManager {
 			
 			if (diceComponents.length > 1) {
 				// Handle pool dice by rolling each component separately
-				console.log(`🎲 ${rollId}: Rolling pool dice with ${diceComponents.length} components`);
 				return await this._rollPoolDice(diceComponents, rollId, diceNotation);
 			} else {
 				// Handle single dice notation (includes modifiers like "2d6+4")
-				console.log(`🎲 ${rollId}: Rolling single notation`);
 				return await this._rollSingleNotation(cleanNotation, rollId, diceNotation);
 			}
 		} catch (error) {
@@ -278,7 +255,6 @@ class DiceBoxManager {
 			}
 		}
 		
-		console.debug("_splitDiceNotation", {notation, components});
 		return components;
 	}
 
@@ -298,7 +274,6 @@ class DiceBoxManager {
 		for (const component of diceComponents) {
 			if (component.type === 'dice') {
 				// Roll this dice notation using dice-box
-				console.log(`🎲 ${rollId}: Rolling pool component: ${component.notation}`);
 				const rollResult = await this._diceBox.roll(component.notation.replace(/^-/, ''));
 				const results = rollResult.map(die => die.value);
 				
@@ -342,7 +317,6 @@ class DiceBoxManager {
 	 */
 	static async _rollSingleNotation(cleanNotation, rollId, originalNotation) {
 		// Roll the dice using dice-box with the notation string directly
-		console.log(`🎲 ${rollId}: Rolling single notation: ${cleanNotation}`);
 		const rollResult = await this._diceBox.roll(cleanNotation);
 
 		// Process results immediately - don't wait for settling
@@ -374,7 +348,6 @@ class DiceBoxManager {
 				diceArray.push({sides});
 			}
 		}
-		console.debug("DiceBoxManager._parseDiceNotation", {notation, diceArray});
 		return diceArray;
 	}
 
@@ -415,10 +388,6 @@ class DiceBoxManager {
 				display: block !important;
 			`;
 		}
-
-		// Debug logging
-		console.log(`DiceBox container dimensions: ${container.offsetWidth}x${container.offsetHeight}`);
-		console.log(`Window dimensions: ${window.innerWidth}x${window.innerHeight}`);
 
 		// Ensure the dice-box takes full window dimensions
 		if (this._diceBox && this._diceBox.resize) {
@@ -478,22 +447,17 @@ class DiceBoxManager {
 		let settleCheckCount = 0;
 		const maxSettleChecks = 25; // Maximum 5 seconds at 200ms intervals
 		const settleCheckInterval = 200; // Check every 200ms
-		
-		console.log(`🎲 ${rollId}: Starting settling check (${this._activeRolls.size} active rolls)`);
-		
 		const checkSettling = () => {
 			settleCheckCount++;
 			
 			// Check if this roll ID is still in active rolls (might have been cleared)
 			if (!this._activeRolls.has(rollId)) {
-				console.log(`🎲 ${rollId}: No longer active, stopping settle check`);
 				return;
 			}
 			
 			// Give dice plenty of time to settle naturally
 			// Don't be too aggressive about clearing them
 			if (settleCheckCount >= maxSettleChecks) {
-				console.log(`🎲 ${rollId}: Assumed settled after ${settleCheckCount * settleCheckInterval}ms`);
 				setTimeout(() => {
 					this._fadeOutSpecificRoll(rollId);
 				}, 2000); // Start 2s fade countdown after settling (longer delay)
@@ -503,7 +467,6 @@ class DiceBoxManager {
 			// Wait longer before assuming settled - let physics do their thing
 			// Most dice with our physics settings need 3-4 seconds to fully settle
 			if (settleCheckCount >= 15) { // After 3 seconds, likely settled
-				console.log(`🎲 ${rollId}: Likely settled after ${settleCheckCount * settleCheckInterval}ms`);
 				setTimeout(() => {
 					this._fadeOutSpecificRoll(rollId);
 				}, 2000); // Start 2s fade countdown after settling
@@ -530,19 +493,12 @@ class DiceBoxManager {
 	 * Fade out a specific roll by ID (for concurrent roll support)
 	 */
 	static async _fadeOutSpecificRoll(rollId) {
-		console.debug(`Attempting to fade out roll ${rollId}, ${this._activeRolls.size} active rolls before removal`);
-		
 		// Remove from active rolls tracking
 		this._activeRolls.delete(rollId);
-		
-		console.debug(`After removing roll ${rollId}, ${this._activeRolls.size} active rolls remaining`);
 
 		// If this is the last active roll, fade out all dice
 		if (this._activeRolls.size === 0) {
-			console.debug("All rolls complete, fading out dice");
 			this.fadeOutDice();
-		} else {
-			console.debug(`Keeping dice visible, ${this._activeRolls.size} rolls still active:`, Array.from(this._activeRolls));
 		}
 		// For concurrent rolls, we don't fade individual dice since dice-box
 		// doesn't support selective clearing. Instead, we wait for all rolls
@@ -553,32 +509,22 @@ class DiceBoxManager {
 	 * Clear all dice from the scene with smooth fade out
 	 */
 	static async fadeOutDice() {
-		console.debug("fadeOutDice called");
 		const container = document.getElementById('dice-box');
 		if (container && this._diceBox) {
-			console.debug("fadeOutDice: container and diceBox available, starting fade");
 			// Clear all active roll tracking
 			this._activeRolls.clear();
 
 			// Add fade out transition
 			container.style.transition = 'opacity 1s ease-out';
 			container.style.opacity = '0';
-			console.debug("fadeOutDice: set opacity to 0, waiting 1s before clearing");
 
 			// Wait for fade to complete, then actually clear dice
 			setTimeout(async () => {
-				console.debug("fadeOutDice: clearing dice from scene");
 				await this._diceBox.clear();
 				// Reset opacity for next roll
 				container.style.opacity = '1';
 				container.style.transition = '';
-				console.debug("fadeOutDice: complete, reset opacity to 1");
 			}, 1000);
-		} else {
-			console.debug("fadeOutDice: missing container or diceBox", {
-				hasContainer: !!container,
-				hasDiceBox: !!this._diceBox
-			});
 		}
 	}
 
@@ -586,7 +532,6 @@ class DiceBoxManager {
 	 * Immediately clear all dice from the scene (for emergency/manual clearing)
 	 */
 	static async clearDice() {
-		console.debug("clearDice called - manual override");
 		if (this._diceBox) {
 			await this._diceBox.clear();
 			const container = document.getElementById('dice-box');
@@ -597,17 +542,8 @@ class DiceBoxManager {
 		}
 		// Clear all active roll tracking
 		this._activeRolls.clear();
-		console.debug("clearDice complete");
 	}
 
-	/**
-	 * Force fade out all dice (for testing/debugging)
-	 */
-	static forceFadeOut() {
-		console.debug("forceFadeOut called - forcing all dice to fade");
-		this._activeRolls.clear();
-		this.fadeOutDice();
-	}
 
 	/**
 	 * Set the current theme for 3D dice
@@ -620,7 +556,6 @@ class DiceBoxManager {
 			return;
 		}
 
-		console.log(`DiceBoxManager: Setting theme to: ${theme}`);
 		
 		try {
 			// First clear any existing dice - themes only apply before/after rolls
@@ -630,10 +565,8 @@ class DiceBoxManager {
 
 			// Use dice-box's updateConfig method which is the correct way to change themes
 			if (this._diceBox.updateConfig) {
-				console.log(`DiceBoxManager: Updating config with theme ${theme}...`);
 				this._diceBox.updateConfig({theme: theme});
 				this._currentTheme = theme;
-				console.log(`DiceBoxManager: Theme ${theme} applied successfully`);
 				
 				// Store theme preference
 				VetoolsConfig.set(this._configKeys.dicetheme, theme);
@@ -659,7 +592,6 @@ class DiceBoxManager {
 	 * @returns {Promise<void>}
 	 */
 	static async _reinitializeWithTheme(theme) {
-		console.log(`DiceBoxManager: Reinitializing DiceBox with theme: ${theme}`);
 		
 		// Store current state
 		const wasEnabled = this._isEnabled;
@@ -695,7 +627,7 @@ class DiceBoxManager {
 			lightPosition: { x: -10, y: 30, z: 20 },
 			// Set the theme during initialization
 			theme: theme,
-			themeColor: this._getThemeColor(theme),
+			themeColor: "#4a7c59", // Default theme color
 			width: window.innerWidth,
 			height: window.innerHeight,
 			container: "#dice-box",
@@ -712,27 +644,8 @@ class DiceBoxManager {
 		// Ensure container is ready
 		this._ensureContainerReady();
 		
-		console.log(`DiceBoxManager: Successfully reinitialized with theme: ${theme}`);
 	}
 
-	/**
-	 * Get theme color for a given theme
-	 * @param {string} theme - Theme name
-	 * @returns {string} Theme color hex code
-	 */
-	static _getThemeColor(theme) {
-		const themeColors = {
-			"default": "#4a7c59",
-			"rust": "#aa4f4a",
-			"blueGreenMetal": "#4a7c7c",
-			"gemstone": "#7c4aa0",
-			"rock": "#8c7853",
-			"wooden": "#8b4513",
-			"diceOfRolling": "#5a5a5a",
-			"diceOfRolling-fate": "#3a3a3a"
-		};
-		return themeColors[theme] || themeColors["default"];
-	}
 
 	/**
 	 * Get the current theme
@@ -776,23 +689,9 @@ class DiceBoxManager {
 		}
 
 		this._availableThemes = themes;
-		console.log("DiceBoxManager: Detected themes:", Array.from(themes));
 		return Array.from(themes);
 	}
 
-	/**
-	 * Get debug info about active rolls
-	 */
-	static getDebugInfo() {
-		return {
-			isEnabled: this.isEnabled(),
-			activeRolls: Array.from(this._activeRolls),
-			rollCounter: this._rollCounter,
-			isInitialized: this._isInitialized,
-			currentTheme: this._currentTheme,
-			availableThemes: this.getAvailableThemes()
-		};
-	}
 }
 
 // Export for global use

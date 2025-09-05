@@ -38,58 +38,14 @@ Renderer.dice = {
 	// Check if 3D dice should be used for this expression
 	_shouldUse3dDice() {
 		const should = this.is3dDiceEnabled();
-		
+
 		// Add stack trace to see where this is being called from
 		if (should) {
 		}
-		
+
 		return should;
 	},
 
-	// Parse a complex dice expression into dice components and modifiers
-	_parseComplexDiceExpression(expression) {
-		const cleanExpr = expression.replace(/\s/g, '');
-		const diceComponents = [];
-		const modifiers = [];
-
-		// Find all dice components (like 1d20, 2d6, etc.)
-		const diceRegex = /(\d*d\d+)/g;
-		let match;
-		let lastIndex = 0;
-
-		while ((match = diceRegex.exec(cleanExpr)) !== null) {
-			// Check for any modifiers between last dice and this dice
-			const betweenText = cleanExpr.slice(lastIndex, match.index);
-			if (betweenText && lastIndex > 0) {
-				// Parse modifiers from between text
-				const modifierMatches = betweenText.match(/[+-]\d+/g);
-				if (modifierMatches) {
-					modifiers.push(...modifierMatches.map(m => parseInt(m)));
-				}
-			}
-
-			diceComponents.push(match[0]);
-			lastIndex = match.index + match[0].length;
-		}
-
-		// Check for trailing modifiers
-		const trailingText = cleanExpr.slice(lastIndex);
-		if (trailingText) {
-			const modifierMatches = trailingText.match(/[+-]\d+/g);
-			if (modifierMatches) {
-				modifiers.push(...modifierMatches.map(m => parseInt(m)));
-			}
-		}
-
-		// Sum all modifiers
-		const totalModifiers = modifiers.reduce((sum, mod) => sum + mod, 0);
-
-		return {
-			diceComponents,
-			modifiers: totalModifiers,
-			original: expression
-		};
-	},
 
 	// Count how many dice rolls this expression will need
 	_countDiceInExpression(node) {
@@ -128,21 +84,6 @@ Renderer.dice = {
 	_findAllDiceInExpression(node, diceList = []) {
 		if (!node) return diceList;
 
-			nodeType: node.constructor ? node.constructor.name : 'unknown',
-			nodeValue: node._value,
-			nodeFaces: node._faces,
-			nodeNumber: node._number,
-			hasNodes: node._nodes ? node._nodes.length : 'none',
-			toString: node.toString ? node.toString() : 'no toString',
-			currentDiceListLength: diceList.length,
-			nodeStructure: node._nodes ? node._nodes.map(n => ({
-				type: n.constructor ? n.constructor.name : 'unknown',
-				value: n._value,
-				faces: n._faces,
-				number: n._number
-			})) : 'no _nodes'
-		});
-
 		// Handle Pool nodes (dice pools like {2d8, 1d6})
 		if (node.constructor && node.constructor.name === 'Pool') {
 			// Process each node in the pool
@@ -156,10 +97,6 @@ Renderer.dice = {
 
 		// If this is a Dice node, extract its properties
 		if (node.constructor && node.constructor.name === 'Dice') {
-				nodeString: node.toString ? node.toString() : 'no toString',
-				nodesLength: node._nodes ? node._nodes.length : 0,
-				currentDiceList: diceList.map(d => `${d.count}d${d.faces}`)
-			});
 			if (node._nodes && node._nodes.length >= 2) {
 				// First node is count, second is faces
 				const countNode = node._nodes[0];
@@ -201,28 +138,15 @@ Renderer.dice = {
 				// Only add to dice list if we extracted valid faces
 				if (faces && faces > 0) {
 					diceList.push({ count, faces });
-				} else {
-						count,
-						faces,
-						facesNodeValue: facesNode ? facesNode._value : 'no facesNode',
-						facesNodeType: facesNode && facesNode.constructor ? facesNode.constructor.name : 'unknown'
-					});
 				}
 			} else {
 				// Simple dice node, try to extract from properties
 				const count = node._number || 1;
 				const faces = node._faces;
-				
+
 				// Only add to dice list if we have valid faces (don't default to 20)
 				if (faces && faces > 0) {
 					diceList.push({ count, faces });
-				} else {
-						count, 
-						faces, 
-						nodeFaces: node._faces,
-						nodeType: node.constructor.name,
-						nodeString: node.toString ? node.toString() : 'no toString'
-					});
 				}
 			}
 			return diceList; // Don't recurse further into dice nodes
@@ -234,6 +158,7 @@ Renderer.dice = {
 			node.constructor.name === 'Number' ||
 			node.constructor.name === 'Constant'
 		)) {
+			console.log("_findAllDiceInExpression skipping pure number", {
 				value: node._value,
 				nodeType: node.constructor.name
 			});
@@ -256,10 +181,6 @@ Renderer.dice = {
 
 		// Find all dice in the expression
 		const diceList = this._findAllDiceInExpression(tree);
-			diceList,
-			treeType: tree.constructor ? tree.constructor.name : 'unknown',
-			treeString: tree.toString ? tree.toString() : 'no toString'
-		});
 
 		if (diceList.length === 0) {
 			return null;
@@ -305,23 +226,16 @@ Renderer.dice = {
 		const rollId = `preroll_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
 		try {
-			// Debug the tree structure first
-			
 			// Extract proper dice notation from the expression
 			const diceNotation = this._extractDiceNotation(tree);
-				rollId,
-				diceNotation,
-				treeType: tree.constructor ? tree.constructor.name : 'unknown',
-				treeToString: tree.toString ? tree.toString() : 'no toString'
-			});
-			
+
 			if (!diceNotation) {
 				return null;
 			}
 
 			// Roll dice directly - no need to block concurrent rolls
 			const result = await this._rollDiceInternal(tree, diceNotation, rollId);
-			
+
 			return result;
 		} catch (error) {
 			console.error(`🎲 3D dice pre-roll failed (${rollId}), falling back to standard:`, error);
@@ -889,15 +803,6 @@ Renderer.dice = {
 	getEventModifiedRollMeta (evt, entry) {
 		// Change roll type/count depending on CTRL/SHIFT status
 		const out = {rollCount: 1, entry: MiscUtil.copyFast(entry)}; // Create a copy to avoid modifying original
-
-		// Debug: log when modifier keys are pressed
-		if (evt.shiftKey || EventUtil.isCtrlMetaKey(evt)) {
-				shiftKey: evt.shiftKey,
-				ctrlKey: EventUtil.isCtrlMetaKey(evt),
-				subType: entry.subType,
-				originalRoll: entry.toRoll
-			});
-		}
 
 		if (evt.shiftKey) {
 			if (out.entry.subType === "damage") { // If SHIFT is held, roll crit
