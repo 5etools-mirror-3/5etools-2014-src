@@ -8777,7 +8777,7 @@ Renderer.character = class {
 							const score = character[ab] || 10;
 							const modifier = Parser.getAbilityModifier(score);
 							// Create clickable dice roll for ability checks
-							return `${score} ({@ability ${ab} ${modifier}})`;
+							return `{@ability ${ab} ${score}}`;
 						})
 					]
 				}

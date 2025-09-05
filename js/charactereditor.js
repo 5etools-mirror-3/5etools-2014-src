@@ -224,8 +224,8 @@ class CharacterEditorPage {
 
 		// Generate random character data
 		const randomName = this.generateRandomName();
-		const randomRace = this.generateRandomRace(randomClasses);
 		const randomClasses = this.generateRandomClasses(requestedLevel);
+		const randomRace = this.generateRandomRace(randomClasses);
 		const randomBackground = this.generateRandomBackground();
 		const randomAbilityScores = this.generateRandomAbilityScores(randomClasses, randomRace);
 		const randomEquipment = this.generateRandomEquipment(randomClasses, requestedLevel, randomAbilityScores, randomRace);
@@ -263,7 +263,7 @@ class CharacterEditorPage {
 			customTrackers: this.generateRandomTrackers(randomClasses),
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
-			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment),
+			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores),
 			characterDepth: this.generateCharacterDepth(randomBackground, randomRace, randomClasses),
 			fluff: {
 				entries: [
@@ -2159,7 +2159,7 @@ class CharacterEditorPage {
 		return spells.slice(0, 2 + Math.floor(Math.random() * 3));
 	}
 
-	generateRandomEntries(race, classes, equipment) {
+	generateRandomEntries(race, classes, equipment, abilityScores) {
 		const entries = [
 			{
 				type: "entries",
@@ -2172,7 +2172,7 @@ class CharacterEditorPage {
 			{
 				type: "section",
 				name: "Features & Traits",
-				entries: this.generateClassFeatures(classes)
+				entries: this.generateClassFeatures(classes, abilityScores)
 			},
 			{
 				type: "section",
@@ -2184,7 +2184,7 @@ class CharacterEditorPage {
 		return entries;
 	}
 
-	generateClassFeatures(classes) {
+	generateClassFeatures(classes, abilityScores) {
 		const features = [];
 
 		classes.forEach(cls => {
@@ -2605,6 +2605,96 @@ class CharacterEditorPage {
 		return stories[backgroundName] || "Their unique background has prepared them for the challenges ahead.";
 	}
 
+	generateCharacterDepth(background, race, classes) {
+		const traits = [];
+		const ideals = [];
+		const bonds = [];
+		const flaws = [];
+
+		// Background-based personality traits
+		const backgroundTraits = {
+			"Acolyte": ["I idolize a particular hero of my faith.", "I can find common ground between the fiercest enemies."],
+			"Criminal": ["I always have a plan for what to do when things go wrong.", "I am incredibly slow to trust."],
+			"Folk Hero": ["I judge people by their actions, not their words.", "I have a family, but I have no idea where they are."],
+			"Noble": ["My eloquent flattery makes everyone I talk to feel wonderful.", "I hide a truly scandalous secret."],
+			"Sage": ["I am horribly awkward in social situations.", "I am convinced of the significance of my destiny."],
+			"Soldier": ["I can stare down a hell hound without flinching.", "I made a terrible mistake in battle that cost many lives."]
+		};
+
+		const backgroundIdeals = {
+			"Acolyte": ["Faith. I trust that my deity will guide my actions."],
+			"Criminal": ["Freedom. Chains are meant to be broken."],
+			"Folk Hero": ["Destiny. Nothing and no one can steer me away from my higher calling."],
+			"Noble": ["Responsibility. It is my duty to respect those beneath me."],
+			"Sage": ["Knowledge. The path to power and self-improvement is through knowledge."],
+			"Soldier": ["Greater Good. Our lot is to lay down our lives in defense of others."]
+		};
+
+		// Add background traits
+		const bgTraits = backgroundTraits[background.name] || ["I have a mysterious past that drives me forward."];
+		traits.push(bgTraits[Math.floor(Math.random() * bgTraits.length)]);
+
+		const bgIdeals = backgroundIdeals[background.name] || ["Purpose. I seek to understand my place in the world."];
+		ideals.push(bgIdeals[Math.floor(Math.random() * bgIdeals.length)]);
+
+		// Add race-influenced traits
+		const raceTraits = {
+			"Human": "I strive to prove myself worthy of the opportunities I've been given.",
+			"Elf": "I find beauty in the smallest things and cherish moments of peace.",
+			"Dwarf": "Honor and tradition guide my every decision.",
+			"Halfling": "I believe in the power of friendship and community.",
+			"Dragonborn": "I carry the pride of my draconic heritage in everything I do.",
+			"Gnome": "Curiosity drives me to explore every mystery I encounter.",
+			"Half-Elf": "I often feel caught between two worlds, but I've learned to make my own path.",
+			"Half-Orc": "I work hard to overcome the prejudices others hold against me.",
+			"Tiefling": "I've learned to be self-reliant, as others often fear what they don't understand."
+		};
+
+		if (raceTraits[race.name]) {
+			traits.push(raceTraits[race.name]);
+		}
+
+		// Add class-influenced bonds and motivations
+		classes.forEach(cls => {
+			const classBonds = {
+				"Fighter": "I fight to protect those who cannot protect themselves.",
+				"Wizard": "My spellbook is my most treasured possession.",
+				"Rogue": "I owe my life to the mentor who taught me everything I know.",
+				"Cleric": "My faith is the cornerstone of my identity.",
+				"Ranger": "The wilderness is my home and I am its guardian.",
+				"Paladin": "I have sworn an oath that defines my purpose.",
+				"Barbarian": "My clan and tribe are everything to me.",
+				"Bard": "I seek to preserve the stories and songs of old.",
+				"Druid": "The natural world must be protected from those who would exploit it.",
+				"Monk": "My monastery taught me discipline and inner peace.",
+				"Sorcerer": "I must learn to control the power that flows through my blood.",
+				"Warlock": "My pact binds me to a destiny I'm still learning to understand."
+			};
+
+			if (classBonds[cls.name]) {
+				bonds.push(classBonds[cls.name]);
+			}
+		});
+
+		// Add some universal flaws
+		const universalFlaws = [
+			"I can't resist a pretty face.",
+			"I'm too greedy for my own good.",
+			"I can't keep a secret to save my life.",
+			"I have a weakness for the vices of the city.",
+			"I speak without thinking through my words.",
+			"I'm convinced that no one could ever fool me."
+		];
+		flaws.push(universalFlaws[Math.floor(Math.random() * universalFlaws.length)]);
+
+		return {
+			personalityTraits: traits.slice(0, 2),
+			ideals: ideals,
+			bonds: bonds.slice(0, 1),
+			flaws: flaws.slice(0, 1)
+		};
+	}
+
 
 	generateRandomCurrency(level) {
 		const baseGold = 50 + (level * 30) + Math.floor(Math.random() * 100);
@@ -2977,8 +3067,8 @@ class CharacterEditorPage {
 			console.log(`Generating random character: Level ${finalLevel}, Name: ${finalName || 'random'}, Source: ${finalSource}`);
 
 			// Use existing generation logic but with provided parameters
-			const randomRace = this.generateRandomRace(randomClasses);
 			const randomClasses = this.generateRandomClasses(finalLevel);
+			const randomRace = this.generateRandomRace(randomClasses);
 			const randomBackground = this.generateRandomBackground();
 			const randomAbilityScores = this.generateRandomAbilityScores(randomClasses, randomRace);
 			const randomEquipment = this.generateRandomEquipment(randomClasses, finalLevel, randomAbilityScores, randomRace);
@@ -3016,7 +3106,7 @@ class CharacterEditorPage {
 			customTrackers: this.generateRandomTrackers(randomClasses),
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
-			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment),
+			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores),
 			characterDepth: this.generateCharacterDepth(randomBackground, randomRace, randomClasses),
 			fluff: {
 				entries: [
