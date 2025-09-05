@@ -2239,17 +2239,109 @@ class CharacterEditorPage {
 						return String(a);
 					};
 					const aStr = alignToString(tempAlignment);
-					let joinReason = '';
-					if (aStr.includes('Good')) {
-						joinReason = `Driven by conscience and compassion, they are here to slow suffering—protect a besieged village, escort the helpless, or stop a cruelty they once failed to prevent.`;
-					} else if (aStr.includes('Evil')) {
-						joinReason = `Calculating and self-interested, they use the party as a tool: to gain wealth, leverage enemies, or secure an advantage that furthers their private aims.`;
-					} else if (aStr.includes('Lawful')) {
-						joinReason = `Bound by oath or law, they accompany the group to fulfill a contract, honor a vow, or see an ordered plan through to completion.`;
-					} else if (aStr.includes('Chaotic')) {
-						joinReason = `Restless and impulsive, they travel for the thrill of upheaval: to find trouble to fix or cause, to break rules, and to follow sudden opportunities.`;
-					} else {
-						joinReason = `Pragmatic and curious, they're here for survival, to settle a debt, or because pursuing knowledge or resources is in their interest.`;
+					// More varied, alignment-biased party-joining reasons. Build a pool from applicable alignment traits
+					// and pick one (occasionally two) sentences so characters with the same alignment vary.
+					const reasonPools = {
+						// Axis-level pools
+						Good: [
+							`They answer calls for aid—protecting the innocent, escorting the wounded, or standing against cruelty they cannot abide.`,
+							`A sense of duty to others drives them; they cannot ignore pleas for help or leave injustice unchecked.`,
+							`Having failed to save someone once, they now seek to make amends by defending those who cannot defend themselves.`,
+							`They champion causes that lift others, from food and shelter drives to leading relief efforts when towns suffer.`,
+							`They pursue a personal code of mercy—rescuing captives, uncovering abuses, and exposing corrupt power.`
+						],
+						Evil: [
+							`They view the party as a means to private ends: riches, influence, or a path to settle old scores.`,
+							`Pragmatic and ruthless, they tolerate companions who further their aims while keeping useful allies close.`,
+							`They seek power or forbidden knowledge and will use the group's skills to get closer to what they desire.`,
+							`A vendetta or a promised reward draws them—whatever benefits them most is worth the company of others.`,
+							`They are opportunistic: the party is a tool to exploit weaknesses and open doors to darker gains.`
+						],
+						Lawful: [
+							`Bound by oath, contract, or duty, they travel to uphold a promise or complete an assigned task.`,
+							`They serve an order or authority and act to see plans through rather than chase personal whim.`,
+							`A code guides them: justice, duty, or law compels their involvement with the group's objectives.`,
+							`Procedure and precedent matter; they join to ensure tasks are handled correctly and records kept.`,
+							`They pursue restitution or legal redress—bringing wrongdoers to justice through the party's effort.`
+						],
+						Chaotic: [
+							`They hunger for change and the unpredictable—adventure, mischief, and chances to upend stale order.`,
+							`Impulse and curiosity push them on; the party is simply the most interesting route to new horizons.`,
+							`Escaping a past of control, they now ride with those who let them act freely and take risks.`,
+							`They delight in shaking up the status quo; chaos is a tool to reveal truth or topple rot.`,
+							`They chase rumor and sensation—where danger and novelty call, they will follow.`
+						],
+						Neutral: [
+							`Pragmatic and adaptable, they join because it serves their goals—survival, profit, or learning.`,
+							`They keep balance and avoid extremes; joining the group is a measured decision that benefits them.`,
+							`A mixture of curiosity and convenience: the party offers resources or travel the character needs right now.`,
+							`They pursue knowledge, trade, or a stable life—the party's opportunities fit those aims.`,
+							`They prefer solving present problems and will aid others when it aligns with practical needs.`
+						],
+						// Combo-specific pools (finer-grained flavor)
+						"Lawful Good": [
+							`A paragon of duty and compassion, they travel to enforce mercy and uphold sacred oaths.`,
+							`They lead by example—restoring order and setting right what regulations have bent under greed.`,
+							`Sent forth by a temple or guild, they act to protect the vulnerable and bring calm to shaken places.`
+						],
+						"Neutral Good": [
+							`They do what is right without dogma—help where needed and leave formalities to others.`,
+							`Driven by compassion more than creed, they aid those in need and seek practical outcomes.`,
+							`They carry quiet favors and debts; joining the party repays kindness or furthers relief efforts.`
+						],
+						"Chaotic Good": [
+							`They break unjust laws to free the oppressed, using unpredictability as their ally.`,
+							`A rebel at heart, they seek allies who will act boldly and refuse to be mired in red tape.`,
+							`They pursue idealistic change—overthrowing corrupt rulers or starting revolutions that heal communities.`
+						],
+						"Lawful Neutral": [
+							`Their loyalty is to system and stability; they join to ensure orders are fulfilled and records stay true.`,
+							`They respect hierarchy and procedure and serve best when missions have clear rules and consequences.`,
+							`They are an arbiter or investigator sent to observe, report, and correct failures of governance.`
+						],
+						"True Neutral": [
+							`A pragmatist who keeps the scales even—they join when balance or survival is at stake.`,
+							`They pursue harmony and will help whichever side prevents greater harm to the world.`,
+							`They value stability and avoid crusades, joining only if it maintains or restores equilibrium.`
+						],
+						"Chaotic Neutral": [
+							`They answer only to whim and chance; the party is simply the most entertaining company.`,
+							`Unpredictable and free, they seek novelty and will abandon causes that feel stale.`,
+							`They follow curiosity first—where a rumor leads, they will go, whether noble or profane.`
+						],
+						"Lawful Evil": [
+							`They manipulate systems and contracts to their benefit, using law as a blade.`,
+							`Ordered cruelty: they prefer schemes with rules because rules can be exploited reliably.`,
+							`They seek allies who can provide plausible deniability while they expand influence through institutions.`
+						],
+						"Neutral Evil": [
+							`Selfish and practical, they pursue personal gain with little concern for others.`,
+							`They make deals that benefit them and betray when profitable; the party is one such expedient.`,
+							`They prefer subtle gains—assets, contact networks, or secrets that increase their power.`
+						],
+						"Chaotic Evil": [
+							`They revel in anarchy and terror; the party is a means to sow chaos or feed a destructive whim.`,
+							`Violence and upheaval appeal; they ally with those who amplify their freedom to act without restraint.`,
+							`They are driven by wanton ambition or bloodlust—companions are temporary tools for a dark agenda.`
+						]
+					};
+
+					let pool = [];
+					// If we have a two-word alignment (e.g., "Lawful Good"), prefer combo-specific pool first
+					if (aStr.indexOf(' ') > -1 && reasonPools[aStr]) pool = pool.concat(reasonPools[aStr]);
+					// Always include axis-level flavor so combos remain varied
+					if (aStr.includes('Good')) pool = pool.concat(reasonPools.Good);
+					if (aStr.includes('Evil')) pool = pool.concat(reasonPools.Evil);
+					if (aStr.includes('Lawful')) pool = pool.concat(reasonPools.Lawful);
+					if (aStr.includes('Chaotic')) pool = pool.concat(reasonPools.Chaotic);
+					if (!pool.length) pool = pool.concat(reasonPools.Neutral);
+
+					const choose = (arr) => arr[Math.floor(Math.random() * arr.length)];
+					let joinReason = choose(pool);
+					// 20% chance to compound with a second, different reason for extra flavor
+					if (Math.random() < 0.2) {
+						let other = choose(pool);
+						if (other !== joinReason) joinReason = `${joinReason} ${other}`;
 					}
 					// Tie to specific hooks or bonds if present
 					const tieParts = [];
@@ -3579,7 +3671,7 @@ class CharacterEditorPage {
 				equipment.push("{@item Shield|PHB}");
 				equipment.push(strMod >= 0 ? "{@item Warhammer|PHB}" : "{@item Mace|PHB}");
 				equipment.push("{@item Light Crossbow|PHB}");
-				equipment.push("{@item Crossbow Bolts|PHB} (20)");
+				equipment.push("{@item Crossbow Bolt|PHB} (20)");
 				equipment.push("{@item Priest's Pack|PHB}");
 				equipment.push("{@item Holy Symbol|PHB}");
 				equipment.push("{@item Book|PHB}");
@@ -3612,10 +3704,29 @@ class CharacterEditorPage {
 					equipment.push("{@item Shortsword|phb}");
 				}
 				equipment.push("{@item Light Crossbow|phb}");
-				equipment.push("{@item Crossbow Bolts|phb} (20)");
+				equipment.push("{@item Crossbow Bolt|phb} (20)");
 				equipment.push("{@item Dungeoneer's Pack|phb}");
 				if (classLevel >= 3) equipment.push("{@item Masterwork Weapon|dmg}");
 				if (classLevel >= 5) equipment.push("{@item +1 Weapon|dmg}");
+				// Replace placeholder masterwork/magic entries with valid PHB weapons
+				if (classLevel >= 3) {
+					const fighterWeaponOptions = [
+						"{@item Longsword|PHB}",
+						"{@item Greatsword|PHB}",
+						"{@item Battleaxe|PHB}",
+						"{@item Warhammer|PHB}",
+						"{@item Halberd|PHB}",
+						"{@item Rapier|PHB}"
+					];
+					const pick = fighterWeaponOptions[Math.floor(Math.random() * fighterWeaponOptions.length)];
+					equipment.push(pick);
+				}
+				if (classLevel >= 5) {
+					// Add an additional weapon for higher level fighters instead of an undefined +1 weapon
+					const extraOptions = ["{@item Maul|PHB}", "{@item Greatsword|PHB}", "{@item Glaive|PHB}"];
+					const pickExtra = extraOptions[Math.floor(Math.random() * extraOptions.length)];
+					equipment.push(pickExtra);
+				}
 				break;
 
 			case "Monk":
@@ -3646,7 +3757,7 @@ class CharacterEditorPage {
 				equipment.push("{@item Studded Leather Armor|phb}");
 				equipment.push("{@item Shortsword|phb} (2)");
 				equipment.push("{@item Longbow|phb}");
-				equipment.push("{@item Arrows|phb} (20)");
+				equipment.push("{@item Arrow|phb} (20)");
 				equipment.push("{@item Dungeoneer's Pack|phb}");
 				equipment.push("{@item Survival Kit|phb}");
 				equipment.push("{@item Hunting Trap|phb} (3)");
@@ -3658,12 +3769,12 @@ class CharacterEditorPage {
 				equipment.push("{@item Leather Armor|phb}");
 				equipment.push("{@item Shortsword|phb} (2)");
 				equipment.push("{@item Shortbow|phb}");
-				equipment.push("{@item Arrows|phb} (20)");
+				equipment.push("{@item Arrow|phb} (20)");
 				equipment.push("{@item Thieves' Tools|phb}");
 				equipment.push("{@item Burglar's Pack|phb}");
 				equipment.push("{@item Dagger|phb} (2)");
-				equipment.push("{@item Caltrops|phb} (2 bags)");
-				equipment.push("{@item Ball Bearings|phb} (1000)");
+				equipment.push("{@item Caltrops (bag of 20)|phb}");
+				equipment.push("{@item Ball Bearing|phb} (1000)");
 				if (classLevel >= 3) equipment.push("{@item Poisoner's Kit|phb}");
 				if (classLevel >= 5) equipment.push("{@item +1 Thieves' Tools|dmg}");
 				break;
@@ -3672,17 +3783,19 @@ class CharacterEditorPage {
 				equipment.push("{@item Dagger|phb} (2)");
 				equipment.push("{@item Component Pouch|phb}");
 				equipment.push("{@item Light Crossbow|phb}");
-				equipment.push("{@item Crossbow Bolts|phb} (20)");
+				equipment.push("{@item Crossbow Bolt|phb} (20)");
 				equipment.push("{@item Dungeoneer's Pack|phb}");
 				equipment.push("{@item Arcane Focus|phb} (crystal)");
-				if (classLevel >= 3) equipment.push("{@item Metamagic Crystal|dmg}");
+				// 'Metamagic Crystal' was a non-standard/placeholder token. Replace with a valid DMG wondrous item
+				// that benefits spellcasters. Use Pearl of Power as a conservative, supported fallback.
+				if (classLevel >= 3) equipment.push("{@item Pearl of Power|dmg}");
 				if (classLevel >= 5) equipment.push("{@item Wand of Magic Missiles|dmg}");
 				break;
 
 			case "Warlock":
 				equipment.push("{@item Leather Armor|phb}");
 				equipment.push("{@item Light Crossbow|phb}");
-				equipment.push("{@item Crossbow Bolts|phb} (20)");
+				equipment.push("{@item Crossbow Bolt|phb} (20)");
 				equipment.push("{@item Component Pouch|phb}");
 				equipment.push("{@item Scholar's Pack|phb}");
 				equipment.push("{@item Arcane Focus|phb} (rod)");
@@ -3715,10 +3828,10 @@ class CharacterEditorPage {
 
 		const racialEquipment = {
 			"Dwarf": ["{@item Smith's Tools|phb}", "{@item Warhammer|phb}"],
-			"Elf": ["{@item Longbow|phb}", "{@item Arrows|phb} (20)", "{@item Longsword|phb}"],
+			"Elf": ["{@item Longbow|phb}", "{@item Arrow|phb} (20)", "{@item Longsword|phb}"],
 			"Halfling": ["{@item Sling|phb}", "{@item Sling Bullets|phb} (20)"],
 			"Human": [],
-			"Dragonborn": ["{@item Dragon Scale|phb}"],
+			"Dragonborn": [],
 			"Gnome": ["{@item Tinker's Tools|phb}"],
 			"Half-Elf": ["{@item Musical Instrument|phb}"],
 			"Half-Orc": ["{@item Greataxe|phb}"],
@@ -3798,7 +3911,7 @@ class CharacterEditorPage {
 			"{@item Potion of Invisibility|dmg}",
 			"{@item Potion of Speed|dmg}",
 			"{@item Potion of Water Breathing|dmg}",
-			"{@item Antitoxin|phb}",
+			"{@item Antitoxin (vial)|phb}",
 			"{@item Potion of Heroism|dmg}"
 		];
 
@@ -3828,13 +3941,13 @@ class CharacterEditorPage {
 			"{@item Piton|phb} (10)",
 			"{@item Grappling Hook|phb}",
 			"{@item Manacles|phb}",
-			"{@item Mirror|phb}",
-			"{@item Oil|phb} (flask)",
-			"{@item Lantern|phb} (hooded)",
+			"{@item Oil (flask)|phb}",
+			"{@item Hooded Lantern|phb}",
 			"{@item Chain|phb} (10 feet)",
 			"{@item Magnifying Glass|phb}",
 			"{@item Spyglass|phb}",
-			"{@item Caltrops|phb} (bag of 20)"
+			"{@item Caltrops (bag of 20)|phb}",
+			"Mirror"
 		];
 
 		// Add gear based on level
