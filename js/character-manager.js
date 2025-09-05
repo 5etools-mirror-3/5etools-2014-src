@@ -653,27 +653,43 @@ class CharacterManager {
 	 * @param {Object} character - Updated character data
 	 */
 	static _updateLocalStorageCache(character) {
+		// Update 'editingCharacter' entry if it exists and matches this character
 		try {
-			// Check if this character is currently being edited
 			const editingCharacterData = localStorage.getItem('editingCharacter');
 			if (editingCharacterData) {
 				const editingCharacter = JSON.parse(editingCharacterData);
-				// Match by composite ID (name + source)
 				const editingId = editingCharacter.id || this._generateCompositeId(editingCharacter.name, editingCharacter.source);
 				if (editingId === character.id) {
-					// Update the localStorage with the latest character data
 					localStorage.setItem('editingCharacter', JSON.stringify(character));
 				}
 			}
 		} catch (e) {
-			console.warn('CharacterManager: Error updating localStorage cache:', e);
+			console.warn('CharacterManager: Error updating editingCharacter in localStorage:', e);
 		}
 
-		// Also update the full character cache for offline access
+		// Merge the updated character into the full character cache in localStorage instead of overwriting it
 		try {
-			this._saveToLocalStorage([...this._charactersArray]);
+			// Load existing stored characters (may be empty)
+			const stored = this._loadFromLocalStorage();
+			const mergedMap = new Map();
+
+			// Add existing stored characters first
+			for (const c of stored) {
+				if (c && c.id) mergedMap.set(c.id, c);
+			}
+
+			// Add current in-memory characters (they should be authoritative)
+			for (const c of this._charactersArray) {
+				if (c && c.id) mergedMap.set(c.id, c);
+			}
+
+			// Ensure the recently updated character is included (upsert)
+			if (character && character.id) mergedMap.set(character.id, character);
+
+			const mergedArray = Array.from(mergedMap.values());
+			this._saveToLocalStorage(mergedArray);
 		} catch (e) {
-			console.warn('CharacterManager: Error updating full localStorage cache:', e);
+			console.warn('CharacterManager: Error merging character into localStorage cache:', e);
 		}
 	}
 
