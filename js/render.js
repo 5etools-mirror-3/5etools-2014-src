@@ -8789,7 +8789,7 @@ Renderer.character = class {
 		// Skills Section (show all skills, highlight proficient ones)
 		const allSkills = [
 			{key: 'acrobatics', name: 'Acrobatics', ability: 'dex'},
-			{key: 'animalHandling', name: 'Animal Handling', ability: 'wis'},
+			{key: 'animal_handling', name: 'Animal Handling', ability: 'wis'},
 			{key: 'arcana', name: 'Arcana', ability: 'int'},
 			{key: 'athletics', name: 'Athletics', ability: 'str'},
 			{key: 'deception', name: 'Deception', ability: 'cha'},
@@ -8803,7 +8803,7 @@ Renderer.character = class {
 			{key: 'performance', name: 'Performance', ability: 'cha'},
 			{key: 'persuasion', name: 'Persuasion', ability: 'cha'},
 			{key: 'religion', name: 'Religion', ability: 'int'},
-			{key: 'sleightOfHand', name: 'Sleight of Hand', ability: 'dex'},
+			{key: 'sleight_of_hand', name: 'Sleight of Hand', ability: 'dex'},
 			{key: 'stealth', name: 'Stealth', ability: 'dex'},
 			{key: 'survival', name: 'Survival', ability: 'wis'}
 		];
@@ -8832,7 +8832,7 @@ Renderer.character = class {
 
 						// Create clickable dice roll with proficiency indicator in tooltip
 						const rollTooltip = isProficient ? `${skill.name} (Proficient)` : skill.name;
-						const rollableModifier = `{@skillCheck ${skill.ability} ${finalStr}}`;
+						const rollableModifier = `{@skillCheck ${skill.key} ${finalStr}}`;
 
 						// Format skill name with visual proficiency indicator
 						const displayName = Renderer.character._formatSkillName(skill.name, isProficient);
