@@ -54,7 +54,7 @@ class DiceBoxManager {
 				shadowIntensity: 0.4,  // Lighter shadows for cleaner look
 				lightIntensity: 0.8,  // Balanced lighting
 				spinForce: 0.6,  // Reduced spin for more predictable rolls
-				throwForce: 3.5,  // Gentler throw force for better control
+				throwForce: 6,  // Gentler throw force for better control
 				enableShadows: true,
 				lightPosition: { x: -10, y: 30, z: 20 },
 				// Theme configuration - use user's preference from start
@@ -590,7 +590,7 @@ class DiceBoxManager {
 			shadowIntensity: 0.4,
 			lightIntensity: 0.8,
 			spinForce: 0.6,
-			throwForce: 3.5,
+			throwForce: 6,
 			enableShadows: true,
 			lightPosition: { x: -10, y: 30, z: 20 },
 			// Set the theme during initialization
