@@ -67,8 +67,7 @@ export class PasswordUtils {
 
       const blob = await put(pathname, JSON.stringify(passwordData, null, 2), {
         access: 'public',
-        contentType: 'application/json',
-        cacheControlMaxAge: 0,
+        contentType: 'application/json'
       });
 
       return {

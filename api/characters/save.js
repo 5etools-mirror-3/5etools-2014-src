@@ -95,7 +95,7 @@ export default async function handler(req, res) {
         access: 'public',
         contentType: 'application/json',
         allowOverwrite: true, // Allow overwriting existing characters
-        cacheControlMaxAge: 0, // Disable caching for character data
+        cacheControlMaxAge: 1800, // Cache for 30 minutes to save bandwidth
       });
 
       return res.status(200).json({
