@@ -238,6 +238,9 @@ class CharacterEditorPage {
 		const conMod = Math.floor((randomAbilityScores.con - 10) / 2);
 		const randomHp = this.calculateRandomHp(randomClasses, conMod);
 
+		// Generate character depth first so we can use it in fluff
+		const characterDepth = this.generateCharacterDepth(randomBackground, randomRace, randomClasses);
+		
 		// Default character template with random content
 		const template = {
 			name: randomName,
@@ -264,13 +267,9 @@ class CharacterEditorPage {
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
 			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores),
-			characterDepth: this.generateCharacterDepth(randomBackground, randomRace, randomClasses),
+			characterDepth: characterDepth,
 			fluff: {
-				entries: [
-					`${randomName} is a ${totalLevel === 1 ? 'beginning' : totalLevel < 5 ? 'novice' : totalLevel < 10 ? 'experienced' : 'veteran'} adventurer.`,
-					`Their journey has led them to master ${randomClasses.length === 1 ? 'the ways of the ' + randomClasses[0].name.toLowerCase() : 'multiple disciplines'}.`,
-					this.getBackgroundStory(randomBackground.name)
-				]
+				entries: this.generateFluffEntries(randomName, totalLevel, randomClasses, randomRace, randomBackground, characterDepth)
 			},
 			languages: this.generateLanguageProficiencies(randomClasses, randomRace, null),
 			toolProficiencies: this.generateToolProficiencies(randomClasses, randomRace, null),
@@ -1041,13 +1040,12 @@ class CharacterEditorPage {
 		const saves = {};
 		const allSaves = ["str", "dex", "con", "int", "wis", "cha"];
 
-		// Determine proficient saves based on class
+		// In D&D 5e, you only get saving throw proficiencies from your FIRST class when multiclassing
 		const proficientSaves = new Set();
-		classes.forEach(cls => {
-			switch (cls.name) {
+		if (classes.length > 0) {
+			const primaryClass = classes[0];
+			switch (primaryClass.name) {
 				case "Fighter":
-					proficientSaves.add("str").add("con");
-					break;
 				case "Barbarian":
 					proficientSaves.add("str").add("con");
 					break;
@@ -1057,8 +1055,10 @@ class CharacterEditorPage {
 					break;
 				case "Cleric":
 				case "Druid":
-				case "Monk":
 					proficientSaves.add("wis").add("con");
+					break;
+				case "Monk":
+					proficientSaves.add("str").add("dex");
 					break;
 				case "Ranger":
 					proficientSaves.add("str").add("dex");
@@ -1068,20 +1068,19 @@ class CharacterEditorPage {
 					break;
 				case "Sorcerer":
 				case "Warlock":
-					proficientSaves.add("wis").add("cha");
+					proficientSaves.add("con").add("cha");
 					break;
 				case "Wizard":
 					proficientSaves.add("int").add("wis");
 					break;
 			}
-		});
+		}
 
-		allSaves.forEach(save => {
+		// Only include saves where the character has proficiency
+		proficientSaves.forEach(save => {
 			const modifier = Math.floor((abilityScores[save] - 10) / 2);
-			const total = modifier + (proficientSaves.has(save) ? profBonus : 0);
-			if (total !== 0 || proficientSaves.has(save)) {
-				saves[save] = total >= 0 ? `+${total}` : `${total}`;
-			}
+			const total = modifier + profBonus;
+			saves[save] = total >= 0 ? `+${total}` : `${total}`;
 		});
 
 		return saves;
@@ -1098,43 +1097,42 @@ class CharacterEditorPage {
 			"sleight_of_hand": "dex", "stealth": "dex", "survival": "wis"
 		};
 
-		// Get class skill choices and proficiencies
 		const proficientSkills = new Set();
-		const skillChoices = [];
 
-		classes.forEach(cls => {
-			const classSkills = this.getClassSkillProficiencies(cls.name);
+		// In D&D 5e, you only get skill proficiencies from your FIRST class when multiclassing
+		if (classes.length > 0) {
+			const primaryClass = classes[0];
+			const classSkills = this.getClassSkillProficiencies(primaryClass.name);
 			const availableSkills = classSkills.choices || [];
 			const automaticSkills = classSkills.automatic || [];
 			const numChoices = classSkills.numChoices || 2;
 
-			// Add automatic proficiencies
+			// Add automatic proficiencies from first class only
 			automaticSkills.forEach(skill => proficientSkills.add(skill));
 
-			// Add weighted random choices from available skills
+			// Add random choices from first class only
 			if (availableSkills.length > 0) {
-				const selectedFromClass = this.selectWeightedSkills(availableSkills, numChoices, classes, race);
+				const selectedFromClass = this.selectWeightedSkills(availableSkills, numChoices, [primaryClass], race);
 				selectedFromClass.forEach(skill => proficientSkills.add(skill));
 			}
-		});
+		}
 
-		// Add racial skill proficiencies
+		// Add racial skill proficiencies (limited)
 		const racialSkills = this.getRacialSkillProficiencies(race);
 		racialSkills.forEach(skill => proficientSkills.add(skill));
 
-		// Add background skill proficiencies (randomly generated)
-		const backgroundSkills = this.generateBackgroundSkills(background);
-		backgroundSkills.forEach(skill => proficientSkills.add(skill));
+		// Add background skill proficiencies (should be exactly 2 for most backgrounds)
+		if (background) {
+			const backgroundSkills = this.generateBackgroundSkills(background);
+			backgroundSkills.forEach(skill => proficientSkills.add(skill));
+		}
 
-		// Calculate skill modifiers for all skills
-		Object.keys(skillAbilityMap).forEach(skill => {
-			const ability = skillAbilityMap[skill];
-			const abilityMod = Math.floor((abilityScores[ability] - 10) / 2);
-			const isProficient = proficientSkills.has(skill);
-			const total = abilityMod + (isProficient ? profBonus : 0);
-			
-			// Only include skills with non-zero modifiers or proficiency
-			if (total !== 0 || isProficient) {
+		// Only include skills where the character has proficiency
+		proficientSkills.forEach(skill => {
+			if (skillAbilityMap[skill]) {
+				const ability = skillAbilityMap[skill];
+				const abilityMod = Math.floor((abilityScores[ability] - 10) / 2);
+				const total = abilityMod + profBonus;
 				skills[skill] = total >= 0 ? `+${total}` : `${total}`;
 			}
 		});
@@ -2594,15 +2592,151 @@ class CharacterEditorPage {
 	}
 
 	getBackgroundStory(backgroundName) {
-		const stories = {
-			"Acolyte": "Their time in service to the divine has shaped their worldview and granted them insight into the mysteries of faith.",
-			"Criminal": "A past of shadows and questionable choices has taught them to think quickly and trust sparingly.",
-			"Folk Hero": "Standing up for the common people against tyranny has made them a symbol of hope in their homeland.",
-			"Noble": "Born to privilege, they seek to prove their worth beyond their bloodline and station.",
-			"Sage": "Years of study and research have filled their mind with esoteric knowledge and burning questions.",
-			"Soldier": "Military service instilled discipline and tactical thinking that serves them well in any conflict."
+		const storyOptions = {
+			"Acolyte": [
+				"Their time in service to the divine has shaped their worldview and granted them insight into the mysteries of faith.",
+				"Years of temple duties taught them that faith requires both devotion and action in the world.",
+				"They discovered their calling through a divine vision that continues to guide their path.",
+				"Sacred texts and rituals became their foundation, but experience taught them faith's true meaning.",
+				"They served as a bridge between the mortal and divine realms in their religious community."
+			],
+			"Criminal": [
+				"A past of shadows and questionable choices has taught them to think quickly and trust sparingly.",
+				"The criminal underworld was their university, teaching lessons in survival and human nature.",
+				"They learned that everyone has a price, but some things are worth more than money.",
+				"A life of crime ended when they realized redemption was possible, but the skills remain.",
+				"Streets and alleyways were their classroom, where they mastered reading people's true intentions."
+			],
+			"Folk Hero": [
+				"Standing up for the common people against tyranny has made them a symbol of hope in their homeland.",
+				"A moment of courage in the face of injustice revealed their true character and destiny.",
+				"They learned that heroism isn't about glory—it's about doing what's right when it matters most.",
+				"Their actions inspired others to believe that one person can make a difference against overwhelming odds.",
+				"They discovered that the greatest victories are won by those who fight for others, not themselves."
+			],
+			"Noble": [
+				"Born to privilege, they seek to prove their worth beyond their bloodline and station.",
+				"Court politics taught them that the most dangerous battles are fought with words and alliances.",
+				"They rejected the comfortable life of nobility to forge their own path in the world.",
+				"Family honor weighs heavily on their shoulders, driving them to exceed all expectations.",
+				"They learned that true leadership means using privilege to serve those who have less."
+			],
+			"Hermit": [
+				"Years of solitude and contemplation gave them unique insights into the nature of existence and truth.",
+				"They withdrew from the world to study a great mystery that still drives their quest for answers.",
+				"Isolation taught them that wisdom often comes from understanding what you don't know.",
+				"Their hermitage became a place of pilgrimage for those seeking guidance and enlightenment.",
+				"They discovered that sometimes you must lose yourself completely to find who you truly are."
+			],
+			"Entertainer": [
+				"The stage taught them to read crowds and understand what moves the human heart.",
+				"They learned that performance is a form of magic that can transform both actor and audience.",
+				"Traveling from place to place, they collected stories and songs while spreading joy and news.",
+				"They discovered that the best entertainment reveals truth about life through laughter and tears.",
+				"Their art became their voice, speaking truths that ordinary conversation could never convey."
+			],
+			"Sage": [
+				"Years of study and research have filled their mind with esoteric knowledge and burning questions.",
+				"They uncovered forgotten lore that changed their understanding of the world and their place in it.",
+				"Ancient texts and modern theories became their passion, but experience taught them wisdom's true value.",
+				"They learned that knowledge without wisdom is dangerous, but wisdom without knowledge is powerless.",
+				"Their research revealed connections between disparate fields that others thought unrelated."
+			],
+			"Soldier": [
+				"Military service instilled discipline and tactical thinking that serves them well in any conflict.",
+				"They learned leadership under fire and discovered they could inspire others in the darkest times.",
+				"Battle taught them the difference between courage and fearlessness, and which one truly matters.",
+				"They carry scars from conflicts that remind them why peace is worth fighting for.",
+				"Military life showed them that victory often goes to those who adapt fastest to changing circumstances."
+			]
 		};
-		return stories[backgroundName] || "Their unique background has prepared them for the challenges ahead.";
+
+		const options = storyOptions[backgroundName] || [
+			"Their unique background has prepared them for the challenges that lie ahead.",
+			"Life experiences have shaped them into someone ready to face any adventure.",
+			"The path that led them here was neither straight nor easy, but it made them who they are."
+		];
+		
+		return options[Math.floor(Math.random() * options.length)];
+	}
+
+	generateFluffEntries(name, totalLevel, classes, race, background, characterDepth) {
+		const entries = [];
+		
+		// Basic introduction with variety
+		const introOptions = [
+			`${name} is a ${totalLevel === 1 ? 'beginning' : totalLevel < 5 ? 'novice' : totalLevel < 10 ? 'experienced' : 'veteran'} adventurer with a compelling story.`,
+			`Meet ${name}, a ${totalLevel === 1 ? 'fledgling' : totalLevel < 5 ? 'developing' : totalLevel < 10 ? 'accomplished' : 'seasoned'} ${race.name.toLowerCase()} seeking their destiny.`,
+			`${name} stands ready to face whatever challenges await, their ${totalLevel === 1 ? 'raw potential' : totalLevel < 5 ? 'growing skills' : totalLevel < 10 ? 'proven abilities' : 'legendary prowess'} evident to all who meet them.`,
+			`The story of ${name} is still being written, each chapter more extraordinary than the last.`
+		];
+		entries.push(introOptions[Math.floor(Math.random() * introOptions.length)]);
+
+		// Class mastery description with variety
+		const classDescriptions = [
+			`Their journey has led them to master ${classes.length === 1 ? 'the ways of the ' + classes[0].name.toLowerCase() : 'multiple disciplines'}.`,
+			`They have ${classes.length === 1 ? 'dedicated themselves to the path of the ' + classes[0].name.toLowerCase() : 'chosen the challenging road of multiclass mastery'}.`,
+			`${classes.length === 1 ? 'The ' + classes[0].name.toLowerCase() + ' tradition flows through their every action' : 'They blend multiple fighting styles and philosophies with remarkable skill'}.`,
+			`Through ${classes.length === 1 ? 'focused dedication to their chosen class' : 'diverse training across multiple disciplines'}, they have become a formidable force.`
+		];
+		entries.push(classDescriptions[Math.floor(Math.random() * classDescriptions.length)]);
+
+		// Add background story
+		entries.push(this.getBackgroundStory(background.name));
+
+		// Add racial perspective with variety
+		const racialDescriptions = [
+			`As a ${race.name}, they bring unique perspectives and abilities to their adventures.`,
+			`Their ${race.name.toLowerCase()} heritage is evident in both their approach to problems and their natural talents.`,
+			`The wisdom and traditions of the ${race.name.toLowerCase()} people guide them through difficult decisions.`,
+			`They carry the strengths of their ${race.name.toLowerCase()} lineage with them wherever they go.`
+		];
+		entries.push(racialDescriptions[Math.floor(Math.random() * racialDescriptions.length)]);
+
+		// Add personality insight if available
+		if (characterDepth && characterDepth.personalityTraits && characterDepth.personalityTraits.length > 0) {
+			const personalityInsights = [
+				`Those who know them well would say they are someone who ${characterDepth.personalityTraits[0].toLowerCase()}.`,
+				`Their personality is defined by how they ${characterDepth.personalityTraits[0].toLowerCase()}.`,
+				`One of their most notable traits is that they ${characterDepth.personalityTraits[0].toLowerCase()}.`,
+				`People often notice that they ${characterDepth.personalityTraits[0].toLowerCase()}.`
+			];
+			entries.push(personalityInsights[Math.floor(Math.random() * personalityInsights.length)]);
+		}
+
+		// Add motivational insight
+		if (characterDepth && characterDepth.ideals && characterDepth.ideals.length > 0) {
+			const ideal = characterDepth.ideals[0];
+			const motivationalInsights = [
+				`They are driven by a strong belief in ${ideal.toLowerCase()}.`,
+				`Their actions are guided by their conviction that ${ideal.toLowerCase()}.`,
+				`At their core, they hold fast to the principle that ${ideal.toLowerCase()}.`,
+				`What motivates them most is their belief that ${ideal.toLowerCase()}.`
+			];
+			entries.push(motivationalInsights[Math.floor(Math.random() * motivationalInsights.length)]);
+		}
+
+		// Add mannerism if available
+		if (characterDepth && characterDepth.mannerisms && characterDepth.mannerisms.length > 0) {
+			const mannerismDescriptions = [
+				`Those who observe them closely will notice they ${characterDepth.mannerisms[0].toLowerCase()}.`,
+				`A distinctive quirk of theirs is how they ${characterDepth.mannerisms[0].toLowerCase()}.`,
+				`They have a habit of ${characterDepth.mannerisms[0].toLowerCase()}.`
+			];
+			entries.push(mannerismDescriptions[Math.floor(Math.random() * mannerismDescriptions.length)]);
+		}
+
+		// Add concluding statement with variety
+		const conclusions = [
+			`Their ${background.name.toLowerCase()} background has shaped their worldview and prepared them for the road ahead.`,
+			`Every experience has led them to this moment, ready to face whatever destiny awaits.`,
+			`They stand at the threshold of adventure, their past a foundation for the legends they will create.`,
+			`With their unique combination of skills, heritage, and personality, they are destined for great things.`,
+			`The world is vast and full of mysteries, and they are eager to explore every one.`
+		];
+		entries.push(conclusions[Math.floor(Math.random() * conclusions.length)]);
+
+		return entries;
 	}
 
 	generateCharacterDepth(background, race, classes) {
@@ -2610,88 +2744,364 @@ class CharacterEditorPage {
 		const ideals = [];
 		const bonds = [];
 		const flaws = [];
+		const quirks = [];
+		const mannerisms = [];
 
-		// Background-based personality traits
+		// Expanded background-based personality traits
 		const backgroundTraits = {
-			"Acolyte": ["I idolize a particular hero of my faith.", "I can find common ground between the fiercest enemies."],
-			"Criminal": ["I always have a plan for what to do when things go wrong.", "I am incredibly slow to trust."],
-			"Folk Hero": ["I judge people by their actions, not their words.", "I have a family, but I have no idea where they are."],
-			"Noble": ["My eloquent flattery makes everyone I talk to feel wonderful.", "I hide a truly scandalous secret."],
-			"Sage": ["I am horribly awkward in social situations.", "I am convinced of the significance of my destiny."],
-			"Soldier": ["I can stare down a hell hound without flinching.", "I made a terrible mistake in battle that cost many lives."]
+			"Acolyte": [
+				"I idolize a particular hero of my faith and quote their teachings constantly.",
+				"I can find common ground between the fiercest enemies through shared faith.",
+				"I've memorized countless prayers and recite them in times of stress.",
+				"I believe that suffering is a test of faith that must be endured.",
+				"I see omens and divine signs everywhere I look.",
+				"I'm haunted by visions that I believe are prophetic messages."
+			],
+			"Criminal": [
+				"I always have a plan for what to do when things go wrong.",
+				"I am incredibly slow to trust, but fiercely loyal once I do.",
+				"I speak in code and cant, making references only other criminals understand.",
+				"I can't resist taking something that isn't nailed down when no one's looking.",
+				"I judge people by how useful they could be in a heist or con.",
+				"I have a tell that reveals when I'm lying, but I don't know what it is."
+			],
+			"Folk Hero": [
+				"I judge people by their actions, not their words or station.",
+				"I have a family somewhere, but I have no idea where they are now.",
+				"I stand up for the common folk against tyranny, no matter the cost.",
+				"I'm always ready with a story about my heroic deeds to inspire others.",
+				"I believe that everyone deserves a second chance at redemption.",
+				"I can't resist helping someone who reminds me of my younger self."
+			],
+			"Noble": [
+				"My eloquent flattery makes everyone I talk to feel like royalty.",
+				"I hide a truly scandalous secret that would ruin my family name.",
+				"I expect the finest accommodations wherever I go and get cranky without them.",
+				"I was raised to believe I'm destined for greatness beyond my birthright.",
+				"I unconsciously mimic the speech patterns of whoever I'm talking to.",
+				"I collect trinkets and tokens from every place I visit to remember my travels."
+			],
+			"Sage": [
+				"I am horribly awkward in social situations but brilliant in academic ones.",
+				"I am convinced that I'm destined to discover something that will change the world.",
+				"I quote obscure historical texts in normal conversation without realizing it.",
+				"I become obsessively focused on puzzles and mysteries until I solve them.",
+				"I believe that knowledge should be shared freely, regardless of consequences.",
+				"I have theories about everything and love debating them with anyone who'll listen."
+			],
+			"Soldier": [
+				"I can stare down a hell hound without flinching, but children make me nervous.",
+				"I made a terrible mistake in battle that cost lives, and it haunts my dreams.",
+				"I maintain my equipment with obsessive care, even in the safest circumstances.",
+				"I use military jargon and tactical thinking in everyday situations.",
+				"I have a lucky charm that I believe kept me alive through countless battles.",
+				"I sleep lightly and wake at the slightest sound, always ready for danger."
+			]
 		};
 
+		// Expanded background ideals
 		const backgroundIdeals = {
-			"Acolyte": ["Faith. I trust that my deity will guide my actions."],
-			"Criminal": ["Freedom. Chains are meant to be broken."],
-			"Folk Hero": ["Destiny. Nothing and no one can steer me away from my higher calling."],
-			"Noble": ["Responsibility. It is my duty to respect those beneath me."],
-			"Sage": ["Knowledge. The path to power and self-improvement is through knowledge."],
-			"Soldier": ["Greater Good. Our lot is to lay down our lives in defense of others."]
+			"Acolyte": [
+				"Faith. I trust that my deity will guide my actions through any darkness.",
+				"Tradition. The sacred texts and rituals must be preserved unchanged.",
+				"Charity. I am called to ease suffering wherever I find it.",
+				"Truth. Sacred knowledge must not be corrupted by mortal interpretation."
+			],
+			"Criminal": [
+				"Freedom. Chains and rules are meant to be broken by those clever enough.",
+				"Honor. Even among thieves, there must be codes we live by.",
+				"Redemption. Everyone deserves a chance to atone for their past mistakes.",
+				"Survival. In a harsh world, you do whatever it takes to stay alive."
+			],
+			"Folk Hero": [
+				"Destiny. Nothing and no one can steer me away from my higher calling.",
+				"Justice. The powerful should not prey upon the weak without consequence.",
+				"Hope. I must be a beacon of inspiration for those who have given up.",
+				"Legacy. My deeds will outlive me and inspire future generations."
+			],
+			"Noble": [
+				"Responsibility. It is my duty to use my privilege to help those beneath me.",
+				"Power. I am destined to rule, and others are destined to follow.",
+				"Excellence. I must be the best at everything I attempt to maintain my reputation.",
+				"Tradition. The old ways have worked for centuries and must be preserved."
+			],
+			"Sage": [
+				"Knowledge. The path to power and enlightenment runs through understanding.",
+				"Truth. Lies and deception corrupt the purity of knowledge itself.",
+				"Discovery. Every mystery solved brings us closer to ultimate understanding.",
+				"Teaching. Knowledge hoarded is knowledge wasted - it must be shared."
+			],
+			"Soldier": [
+				"Greater Good. Our lot is to lay down our lives in defense of others.",
+				"Duty. Orders must be followed, even when they lead to personal sacrifice.",
+				"Brotherhood. My comrades-in-arms are closer than family to me.",
+				"Victory. In war, there are no second places - only winners and casualties."
+			]
 		};
 
-		// Add background traits
-		const bgTraits = backgroundTraits[background.name] || ["I have a mysterious past that drives me forward."];
-		traits.push(bgTraits[Math.floor(Math.random() * bgTraits.length)]);
+		// Universal personality traits (for variety)
+		const universalTraits = [
+			"I have a habit of collecting small, seemingly worthless objects that catch my eye.",
+			"I speak to animals as if they can understand complex conversations.",
+			"I keep a detailed journal of everyone I meet and their secrets.",
+			"I'm superstitious about certain numbers, colors, or days of the week.",
+			"I unconsciously count things - steps, coins, people in a room.",
+			"I have strong opinions about food and will judge people by their eating habits.",
+			"I talk to myself when I think no one is listening.",
+			"I always know exactly how much money I have down to the copper piece.",
+			"I make up elaborate stories about strangers I see on the street.",
+			"I have a specific ritual I perform before sleeping in a new place.",
+			"I'm fascinated by locks and mechanical puzzles, even simple ones.",
+			"I remember faces perfectly but often forget names completely.",
+			"I instinctively categorize people as 'trustworthy' or 'dangerous' within minutes.",
+			"I have an irrational fear of a common, harmless thing.",
+			"I collect stories and rumors like some people collect coins.",
+			"I never sit with my back to a door or window."
+		];
 
-		const bgIdeals = backgroundIdeals[background.name] || ["Purpose. I seek to understand my place in the world."];
-		ideals.push(bgIdeals[Math.floor(Math.random() * bgIdeals.length)]);
-
-		// Add race-influenced traits
-		const raceTraits = {
-			"Human": "I strive to prove myself worthy of the opportunities I've been given.",
-			"Elf": "I find beauty in the smallest things and cherish moments of peace.",
-			"Dwarf": "Honor and tradition guide my every decision.",
-			"Halfling": "I believe in the power of friendship and community.",
-			"Dragonborn": "I carry the pride of my draconic heritage in everything I do.",
-			"Gnome": "Curiosity drives me to explore every mystery I encounter.",
-			"Half-Elf": "I often feel caught between two worlds, but I've learned to make my own path.",
-			"Half-Orc": "I work hard to overcome the prejudices others hold against me.",
-			"Tiefling": "I've learned to be self-reliant, as others often fear what they don't understand."
-		};
-
-		if (raceTraits[race.name]) {
-			traits.push(raceTraits[race.name]);
+		// Get background traits
+		const bgTraits = backgroundTraits[background.name] || [
+			"My past shaped me in ways I'm still discovering.",
+			"I carry the values of my upbringing even as I forge a new path.",
+			"Experience has taught me to be cautious but not cynical."
+		];
+		
+		// Add 1-2 background traits
+		const numBgTraits = Math.random() < 0.7 ? 1 : 2;
+		for (let i = 0; i < numBgTraits; i++) {
+			const trait = bgTraits[Math.floor(Math.random() * bgTraits.length)];
+			if (!traits.includes(trait)) {
+				traits.push(trait);
+			}
 		}
 
-		// Add class-influenced bonds and motivations
-		classes.forEach(cls => {
-			const classBonds = {
-				"Fighter": "I fight to protect those who cannot protect themselves.",
-				"Wizard": "My spellbook is my most treasured possession.",
-				"Rogue": "I owe my life to the mentor who taught me everything I know.",
-				"Cleric": "My faith is the cornerstone of my identity.",
-				"Ranger": "The wilderness is my home and I am its guardian.",
-				"Paladin": "I have sworn an oath that defines my purpose.",
-				"Barbarian": "My clan and tribe are everything to me.",
-				"Bard": "I seek to preserve the stories and songs of old.",
-				"Druid": "The natural world must be protected from those who would exploit it.",
-				"Monk": "My monastery taught me discipline and inner peace.",
-				"Sorcerer": "I must learn to control the power that flows through my blood.",
-				"Warlock": "My pact binds me to a destiny I'm still learning to understand."
-			};
-
-			if (classBonds[cls.name]) {
-				bonds.push(classBonds[cls.name]);
+		// Add universal traits
+		const numUniversalTraits = 3 - traits.length + Math.floor(Math.random() * 2);
+		for (let i = 0; i < numUniversalTraits; i++) {
+			const trait = universalTraits[Math.floor(Math.random() * universalTraits.length)];
+			if (!traits.includes(trait)) {
+				traits.push(trait);
 			}
+		}
+
+		// Get background ideals
+		const bgIdeals = backgroundIdeals[background.name] || [
+			"Purpose. I seek to understand my place in this vast world.",
+			"Growth. Every challenge is an opportunity to become stronger.",
+			"Balance. Extremes in any direction lead to suffering."
+		];
+		ideals.push(bgIdeals[Math.floor(Math.random() * bgIdeals.length)]);
+
+		// Race-influenced traits and quirks
+		const raceTraits = {
+			"Human": [
+				"I strive to prove that humans can achieve anything other races can.",
+				"I'm fascinated by other cultures and try to learn their customs.",
+				"I believe that human adaptability is our greatest strength.",
+				"I work harder than others because I know my time is limited."
+			],
+			"Elf": [
+				"I find beauty in the smallest details that others overlook.",
+				"I have trouble relating to the urgency that shorter-lived races feel.",
+				"I remember things from decades ago as if they happened yesterday.",
+				"I prefer the company of books and nature to most people."
+			],
+			"Dwarf": [
+				"I judge the quality of people by the quality of their craftsmanship.",
+				"I have strong opinions about proper ale, stonework, and beard grooming.",
+				"Family honor is worth more than gold or gems to me.",
+				"I keep grudges the way others keep diaries - detailed and long-lasting."
+			],
+			"Halfling": [
+				"A good meal and warm hearth can solve most of life's problems.",
+				"I make friends easily but miss my homeland constantly.",
+				"I believe luck is just as important as skill in any endeavor.",
+				"I collect recipes and cooking techniques from every culture I encounter."
+			],
+			"Dragonborn": [
+				"I carry the pride and dignity of dragons in everything I do.",
+				"I have strong opinions about honor that others might find old-fashioned.",
+				"I'm fascinated by draconic lore and history.",
+				"I feel a deep connection to my draconic ancestry that influences my decisions."
+			],
+			"Gnome": [
+				"Every mechanism, spell, or mystery demands investigation.",
+				"I have at least three ongoing projects that seem unrelated to others.",
+				"I find it hard to take threats seriously when there are puzzles to solve.",
+				"I leave small improvements wherever I go - fixed locks, organized shelves, etc."
+			],
+			"Half-Elf": [
+				"I often feel caught between worlds but have learned to make my own path.",
+				"I'm unusually good at reading people and social situations.",
+				"I collect stories about others who've found their place in the world.",
+				"I sometimes feel like I'm performing a role rather than being myself."
+			],
+			"Half-Orc": [
+				"I work twice as hard to overcome others' prejudices and expectations.",
+				"I have a gentle side that surprises people who judge me by appearance.",
+				"I'm protective of others who face discrimination or bullying.",
+				"I've learned to channel my anger into productive pursuits."
+			],
+			"Tiefling": [
+				"I've learned to be self-reliant because others often fear what they don't understand.",
+				"I use humor and charm to disarm people's preconceptions about me.",
+				"I'm fascinated by the nature of good and evil, choices and consequences.",
+				"I keep detailed mental notes about who treats me fairly versus who doesn't."
+			]
+		};
+
+		// Add racial trait
+		const racialOptions = raceTraits[race.name] || [
+			"My heritage influences how I see the world in subtle ways.",
+			"I carry the strengths and struggles of my people with pride."
+		];
+		traits.push(racialOptions[Math.floor(Math.random() * racialOptions.length)]);
+
+		// Class-influenced bonds and motivations
+		const classBonds = {
+			"Fighter": [
+				"I fight to protect those who cannot protect themselves.",
+				"My weapons are extensions of my will and identity.",
+				"I'm searching for a worthy opponent who can truly test my skills.",
+				"I carry the memory of everyone I've failed to save."
+			],
+			"Wizard": [
+				"My spellbook is my most treasured possession and greatest achievement.",
+				"I'm seeking to unlock a particular magical mystery that obsesses me.",
+				"My magical mentor's teachings guide me, even though they're gone.",
+				"I believe magic is the key to solving the world's greatest problems."
+			],
+			"Rogue": [
+				"I owe my life and skills to a mentor who saw potential in me.",
+				"I'm working to uncover the truth behind a conspiracy that affected me personally.",
+				"My reputation in certain circles is worth more than gold.",
+				"I have a code of ethics that might surprise people who judge me by my methods."
+			],
+			"Cleric": [
+				"My faith is the cornerstone of everything I am and do.",
+				"I'm on a divine mission that I must complete, no matter the cost.",
+				"My deity speaks to me through signs and dreams that guide my path.",
+				"I must prove worthy of the divine power that flows through me."
+			],
+			"Ranger": [
+				"The wilderness is my true home, and I'm its sworn protector.",
+				"I'm tracking something or someone important across vast distances.",
+				"My animal companion understands me better than most people do.",
+				"I know secrets about the natural world that could change everything."
+			],
+			"Paladin": [
+				"My oath defines who I am and gives meaning to every action.",
+				"I must be a living example of the ideals I've sworn to uphold.",
+				"I'm seeking to right a great wrong that haunts me.",
+				"My divine purpose is clear, even when the path is not."
+			],
+			"Barbarian": [
+				"My tribe and its traditions are the foundation of my identity.",
+				"I'm on a quest to prove myself worthy of my ancestors' legacy.",
+				"The rage within me is both my greatest strength and my biggest fear.",
+				"I must find balance between my wild nature and civilized expectations."
+			],
+			"Bard": [
+				"I seek to preserve the stories and songs that others have forgotten.",
+				"My art is how I make sense of the world and share truth with others.",
+				"I'm collecting material for the greatest work of my career.",
+				"Every person I meet has a story worth telling, if I listen carefully."
+			],
+			"Druid": [
+				"The natural world must be protected from those who would exploit it.",
+				"I'm investigating an unnatural threat to the balance of nature.",
+				"My connection to nature gives me perspective on mortal concerns.",
+				"I must learn to bridge the gap between civilization and wilderness."
+			],
+			"Monk": [
+				"My monastery's teachings guide me toward inner peace and understanding.",
+				"I'm on a pilgrimage to test my discipline and spiritual growth.",
+				"I seek to master not just martial arts, but the balance of body and soul.",
+				"I must prove that my philosophy can withstand the challenges of the world."
+			],
+			"Sorcerer": [
+				"I must learn to control the chaotic power that flows through my blood.",
+				"My magical heritage connects me to forces beyond mortal understanding.",
+				"I'm searching for others who share my unique magical nature.",
+				"I fear what I might become if I lose control of my abilities."
+			],
+			"Warlock": [
+				"My pact binds me to a destiny I'm still learning to understand.",
+				"I must fulfill the terms of my agreement, willingly or not.",
+				"I'm seeking a way to gain power without losing my soul.",
+				"My patron's influence grows stronger, and I'm not sure I can resist it."
+			]
+		};
+
+		// Add class bonds
+		classes.forEach(cls => {
+			const classOptions = classBonds[cls.name] || [
+				`My training as a ${cls.name.toLowerCase()} has shaped my worldview.`,
+				`I carry the responsibility of my class with honor and determination.`
+			];
+			bonds.push(classOptions[Math.floor(Math.random() * classOptions.length)]);
 		});
 
-		// Add some universal flaws
+		// Expanded universal flaws
 		const universalFlaws = [
-			"I can't resist a pretty face.",
-			"I'm too greedy for my own good.",
-			"I can't keep a secret to save my life.",
-			"I have a weakness for the vices of the city.",
-			"I speak without thinking through my words.",
-			"I'm convinced that no one could ever fool me."
+			"I can't resist a pretty face, even when I know it'll lead to trouble.",
+			"My greed often overrides my better judgment.",
+			"I can't keep a secret to save my life, literally.",
+			"I have a weakness for gambling, drinking, or other vices.",
+			"I speak without thinking and regularly put my foot in my mouth.",
+			"I'm convinced that no one could ever fool me, making me an easy mark.",
+			"I'm too curious for my own good and poke my nose where it doesn't belong.",
+			"I have a crippling phobia that can paralyze me at the worst times.",
+			"I'm terribly vain about my appearance or abilities.",
+			"I can't resist showing off, even when it's dangerous or inappropriate.",
+			"I hold grudges longer than most people think is reasonable.",
+			"I'm painfully honest, even when lies would be kinder or safer.",
+			"I trust too easily and get taken advantage of regularly.",
+			"I'm haunted by nightmares or memories that affect my rest.",
+			"I have a compulsion to correct others' mistakes or misstatements.",
+			"I'm jealous of others' success and can't hide it well.",
+			"I overthink every decision until I miss my opportunity to act.",
+			"I'm stubborn to a fault and rarely admit when I'm wrong."
 		];
-		flaws.push(universalFlaws[Math.floor(Math.random() * universalFlaws.length)]);
+		
+		// Add 1-2 flaws
+		const numFlaws = Math.random() < 0.6 ? 1 : 2;
+		for (let i = 0; i < numFlaws; i++) {
+			const flaw = universalFlaws[Math.floor(Math.random() * universalFlaws.length)];
+			if (!flaws.includes(flaw)) {
+				flaws.push(flaw);
+			}
+		}
+
+		// Add mannerisms and quirks
+		const mannerismList = [
+			"Taps fingers in complex patterns when thinking",
+			"Always sits facing the door",
+			"Unconsciously touches a particular piece of jewelry or clothing",
+			"Makes small talk with animals or inanimate objects",
+			"Has a specific way of arranging their belongings",
+			"Quotes proverbs or sayings frequently",
+			"Changes their voice slightly when lying",
+			"Always knows exactly what time it is",
+			"Compulsively organizes things into neat arrangements",
+			"Whistles or hums the same tune when nervous"
+		];
+
+		mannerisms.push(mannerismList[Math.floor(Math.random() * mannerismList.length)]);
+		if (Math.random() < 0.4) {
+			const secondMannerism = mannerismList[Math.floor(Math.random() * mannerismList.length)];
+			if (!mannerisms.includes(secondMannerism)) {
+				mannerisms.push(secondMannerism);
+			}
+		}
 
 		return {
-			personalityTraits: traits.slice(0, 2),
+			personalityTraits: traits.slice(0, Math.min(4, traits.length)),
 			ideals: ideals,
-			bonds: bonds.slice(0, 1),
-			flaws: flaws.slice(0, 1)
+			bonds: bonds.slice(0, Math.min(2, bonds.length)),
+			flaws: flaws,
+			mannerisms: mannerisms,
+			quirks: quirks
 		};
 	}
 
@@ -2709,29 +3119,32 @@ class CharacterEditorPage {
 	generateRandomEquipment(classes, level, abilityScores, race) {
 		const equipment = new Set();
 		
-		// Core adventuring gear for all characters
-		equipment.add("{@item Backpack|phb}");
-		equipment.add("{@item Bedroll|phb}");
-		equipment.add("{@item Mess Kit|phb}");
-		equipment.add("{@item Tinderbox|phb}");
-		equipment.add("{@item Torch|phb} (10)");
-		equipment.add("{@item Rations|phb} (10 days)");
-		equipment.add("{@item Waterskin|phb}");
-		equipment.add("{@item Hempen Rope|phb} (50 feet)");
+		// Core adventuring gear for all characters - using valid item names
+		equipment.add("{@item Backpack|PHB}");
+		equipment.add("{@item Bedroll|PHB}");
+		equipment.add("{@item Mess Kit|PHB}");
+		equipment.add("{@item Tinderbox|PHB}");
+		equipment.add("{@item Torch|PHB}");
+		equipment.add("{@item Rations (1 day)|PHB}");
+		equipment.add("{@item Waterskin|PHB}");
+		equipment.add("{@item Hempen Rope (50 feet)|PHB}");
 
-		// Add class-specific starting equipment and progressions
-		classes.forEach(cls => {
-			const classEquipment = this.getClassEquipment(cls.name, cls.level, abilityScores);
+		// Add class-specific starting equipment only from primary class
+		if (classes.length > 0) {
+			const primaryClass = classes[0];
+			const classEquipment = this.getClassEquipment(primaryClass.name, primaryClass.level, abilityScores);
 			classEquipment.forEach(item => equipment.add(item));
-		});
+		}
 
 		// Add racial equipment bonuses
 		const racialEquipment = this.getRacialEquipment(race);
 		racialEquipment.forEach(item => equipment.add(item));
 
-		// Add level-appropriate magical items
-		const magicalItems = this.generateMagicalItems(classes, level, abilityScores);
-		magicalItems.forEach(item => equipment.add(item));
+		// Add level-appropriate magical items (only for higher levels)
+		if (level >= 5) {
+			const magicalItems = this.generateMagicalItems(classes, level, abilityScores);
+			magicalItems.forEach(item => equipment.add(item));
+		}
 
 		// Add consumables and utility items based on level
 		const consumables = this.generateConsumables(level);
@@ -2751,35 +3164,30 @@ class CharacterEditorPage {
 
 		switch (className) {
 			case "Barbarian":
-				equipment.push("{@item Greataxe|phb}");
-				equipment.push("{@item Handaxe|phb} (2)");
-				equipment.push("{@item Javelin|phb} (4)");
-				equipment.push("{@item Explorer's Pack|phb}");
-				if (classLevel >= 3) equipment.push("{@item Rage Idol|phb}");
-				if (classLevel >= 5) equipment.push("{@item Silvered Weapon|dmg}");
+				equipment.push("{@item Greataxe|PHB}");
+				equipment.push("{@item Handaxe|PHB}");
+				equipment.push("{@item Javelin|PHB}");
+				equipment.push("{@item Explorer's Pack|PHB}");
 				break;
 
 			case "Bard":
-				equipment.push("{@item Leather Armor|phb}");
-				equipment.push(dexMod > strMod ? "{@item Rapier|phb}" : "{@item Longsword|phb}");
-				equipment.push("{@item Dagger|phb}");
-				equipment.push("{@item Entertainer's Pack|phb}");
-				equipment.push("{@item Lute|phb}");
-				equipment.push("{@item Vicious Mockery Focus|phb}");
-				if (classLevel >= 3) equipment.push("{@item Instrument of the Bards|dmg}");
+				equipment.push("{@item Leather Armor|PHB}");
+				equipment.push(dexMod > strMod ? "{@item Rapier|PHB}" : "{@item Longsword|PHB}");
+				equipment.push("{@item Dagger|PHB}");
+				equipment.push("{@item Entertainer's Pack|PHB}");
+				equipment.push("{@item Lute|PHB}");
 				break;
 
 			case "Cleric":
-				equipment.push(classLevel >= 5 ? "{@item Chain Mail|phb}" : "{@item Scale Mail|phb}");
-				equipment.push("{@item Shield|phb}");
-				equipment.push(strMod >= 0 ? "{@item Warhammer|phb}" : "{@item Mace|phb}");
-				equipment.push("{@item Light Crossbow|phb}");
-				equipment.push("{@item Crossbow Bolts|phb} (20)");
-				equipment.push("{@item Priest's Pack|phb}");
-				equipment.push("{@item Holy Symbol|phb}");
-				equipment.push("{@item Prayer Book|phb}");
-				equipment.push("{@item Holy Water|phb} (2)");
-				if (classLevel >= 3) equipment.push("{@item Blessed Weapon|dmg}");
+				equipment.push(classLevel >= 5 ? "{@item Chain Mail|PHB}" : "{@item Scale Mail|PHB}");
+				equipment.push("{@item Shield|PHB}");
+				equipment.push(strMod >= 0 ? "{@item Warhammer|PHB}" : "{@item Mace|PHB}");
+				equipment.push("{@item Light Crossbow|PHB}");
+				equipment.push("{@item Crossbow Bolts (20)|PHB}");
+				equipment.push("{@item Priest's Pack|PHB}");
+				equipment.push("{@item Holy Symbol|PHB}");
+				equipment.push("{@item Book|PHB}");
+				equipment.push("{@item Holy Water (flask)|PHB}");
 				break;
 
 			case "Druid":
