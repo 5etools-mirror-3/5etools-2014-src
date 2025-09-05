@@ -238,9 +238,9 @@ class CharacterEditorPage {
 		const conMod = Math.floor((randomAbilityScores.con - 10) / 2);
 		const randomHp = this.calculateRandomHp(randomClasses, conMod);
 
-		// Generate character depth first so we can use it in fluff
-		const characterDepth = this.generateCharacterDepth(randomBackground, randomRace, randomClasses);
-		
+	// Generate character depth first so we can use it in fluff (store as fluff, not as a top-level field)
+	const characterDepth = this.generateCharacterDepth(randomBackground, randomRace, randomClasses);
+	const depthFluff = this.generateFluffEntries(randomName, totalLevel, randomClasses, randomRace, randomBackground, characterDepth);
 		// Default character template with random content
 		const template = {
 			name: randomName,
@@ -267,9 +267,9 @@ class CharacterEditorPage {
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
 			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores),
-			characterDepth: characterDepth,
+			// characterDepth intentionally not stored as a top-level field; move into fluff
 			fluff: {
-				entries: this.generateFluffEntries(randomName, totalLevel, randomClasses, randomRace, randomBackground, characterDepth)
+				entries: depthFluff
 			},
 			languages: this.generateLanguageProficiencies(randomClasses, randomRace, null),
 			toolProficiencies: this.generateToolProficiencies(randomClasses, randomRace, null),
@@ -2586,7 +2586,24 @@ class CharacterEditorPage {
 			"desire for justice",
 			"love of adventure",
 			"quest for redemption",
-			"need to prove themselves"
+			"need to prove themselves",
+			"quietly sardonic humor",
+			"unwavering loyalty to friends",
+			"calm in the face of danger",
+			"reckless bravado when provoked",
+			"gentle compassion for the weak",
+			"sly opportunism",
+			"habitual honesty to a fault",
+			"habitual exaggeration of stories",
+			"melancholic nostalgia",
+			"overly analytical mind",
+			"childlike wonder",
+			"a short temper that melts fast",
+			"mischievous streak",
+			"a tendency to brood",
+			"affinity for animals",
+			"a love of fine things",
+			"a practical, matter-of-fact demeanor"
 		];
 		return traits[Math.floor(Math.random() * traits.length)];
 	}
@@ -2598,63 +2615,100 @@ class CharacterEditorPage {
 				"Years of temple duties taught them that faith requires both devotion and action in the world.",
 				"They discovered their calling through a divine vision that continues to guide their path.",
 				"Sacred texts and rituals became their foundation, but experience taught them faith's true meaning.",
-				"They served as a bridge between the mortal and divine realms in their religious community."
+				"They served as a bridge between the mortal and divine realms in their religious community.",
+				"They wrestle with the tension between doctrine and compassion, choosing people over rules when called to do so."
 			],
 			"Criminal": [
 				"A past of shadows and questionable choices has taught them to think quickly and trust sparingly.",
 				"The criminal underworld was their university, teaching lessons in survival and human nature.",
 				"They learned that everyone has a price, but some things are worth more than money.",
 				"A life of crime ended when they realized redemption was possible, but the skills remain.",
-				"Streets and alleyways were their classroom, where they mastered reading people's true intentions."
+				"Streets and alleyways were their classroom, where they mastered reading people's true intentions.",
+				"They still keep a few contacts in the old haunts, useful for information or a quick exit."
 			],
 			"Folk Hero": [
 				"Standing up for the common people against tyranny has made them a symbol of hope in their homeland.",
 				"A moment of courage in the face of injustice revealed their true character and destiny.",
 				"They learned that heroism isn't about glory—it's about doing what's right when it matters most.",
 				"Their actions inspired others to believe that one person can make a difference against overwhelming odds.",
-				"They discovered that the greatest victories are won by those who fight for others, not themselves."
+				"They discovered that the greatest victories are won by those who fight for others, not themselves.",
+				"Their legend is small-town sized but deeply felt: children still point to where they stood."
 			],
 			"Noble": [
 				"Born to privilege, they seek to prove their worth beyond their bloodline and station.",
 				"Court politics taught them that the most dangerous battles are fought with words and alliances.",
 				"They rejected the comfortable life of nobility to forge their own path in the world.",
 				"Family honor weighs heavily on their shoulders, driving them to exceed all expectations.",
-				"They learned that true leadership means using privilege to serve those who have less."
+				"They learned that true leadership means using privilege to serve those who have less.",
+				"They keep a small memento from home—a reminder of promises made and debts unpaid."
 			],
 			"Hermit": [
 				"Years of solitude and contemplation gave them unique insights into the nature of existence and truth.",
 				"They withdrew from the world to study a great mystery that still drives their quest for answers.",
 				"Isolation taught them that wisdom often comes from understanding what you don't know.",
 				"Their hermitage became a place of pilgrimage for those seeking guidance and enlightenment.",
-				"They discovered that sometimes you must lose yourself completely to find who you truly are."
+				"They discovered that sometimes you must lose yourself completely to find who you truly are.",
+				"Loneliness and peace live side by side in their recollections; both shaped their courage."
 			],
 			"Entertainer": [
 				"The stage taught them to read crowds and understand what moves the human heart.",
 				"They learned that performance is a form of magic that can transform both actor and audience.",
 				"Traveling from place to place, they collected stories and songs while spreading joy and news.",
 				"They discovered that the best entertainment reveals truth about life through laughter and tears.",
-				"Their art became their voice, speaking truths that ordinary conversation could never convey."
+				"Their art became their voice, speaking truths that ordinary conversation could never convey.",
+				"They hide a private sorrow behind a practiced smile; it gives depth to every piece they perform."
 			],
 			"Sage": [
 				"Years of study and research have filled their mind with esoteric knowledge and burning questions.",
 				"They uncovered forgotten lore that changed their understanding of the world and their place in it.",
 				"Ancient texts and modern theories became their passion, but experience taught them wisdom's true value.",
 				"They learned that knowledge without wisdom is dangerous, but wisdom without knowledge is powerless.",
-				"Their research revealed connections between disparate fields that others thought unrelated."
+				"Their research revealed connections between disparate fields that others thought unrelated.",
+				"They keep detailed notebooks—marginalia that sometimes reveal more about them than their publications."
 			],
 			"Soldier": [
 				"Military service instilled discipline and tactical thinking that serves them well in any conflict.",
 				"They learned leadership under fire and discovered they could inspire others in the darkest times.",
 				"Battle taught them the difference between courage and fearlessness, and which one truly matters.",
 				"They carry scars from conflicts that remind them why peace is worth fighting for.",
-				"Military life showed them that victory often goes to those who adapt fastest to changing circumstances."
+				"Military life showed them that victory often goes to those who adapt fastest to changing circumstances.",
+				"They still follow a rigid routine—sleep, clean kit, train—because structure keeps fear at bay."
+			],
+			"Outlander": [
+				"Raised beyond the edges of civilization, they learned to move quietly through wild places.",
+				"The rhythms of seasons and animals shaped their skills and their sense of home.",
+				"They can find food and water where others would perish, and they trust the land before strangers.",
+				"They carry a keepsake from a late parent: a small bone bead or carved wooden token worn on a cord."
+			],
+			"Guild Artisan": [
+				"Years apprenticed to a guild taught them pride in craft and the value of a steady hand.",
+				"They know guild politics, tariffs, and the hidden markets where tradespeople make a living.",
+				"Their work is their reputation; they guard it jealously and take insult to sloppy punishment.",
+				"A secret inferior batch of work haunts them—a mistake they fear others will discover."
+			],
+			"Urchin": [
+				"City smarts and nimble feet kept them alive when institutions failed them.",
+				"They learned to survive by reading people and finding pockets of charity or opportunity.",
+				"They treasure a single keepsake—a coin, a scrap of cloth, a folded note—that reminds them of someone kind."
+			],
+			"Sailor": [
+				"Life at sea taught them to respect the weather and the crew that keeps a ship alive.",
+				"They can splice a line, read stars, and tell tall tales of monstrous waves and distant ports.",
+				"They still get the occasional restless itch for salt wind and horizon even on land."
+			],
+			"Charlatan": [
+				"They made a living with smiles, sleight of hand, and carefully practiced lies.",
+				"A false identity once saved them from ruin; part of them misses the cleverness of that life.",
+				"They know how to spot marks and will avoid burning bridges that might be useful later."
 			]
 		};
 
 		const options = storyOptions[backgroundName] || [
 			"Their unique background has prepared them for the challenges that lie ahead.",
 			"Life experiences have shaped them into someone ready to face any adventure.",
-			"The path that led them here was neither straight nor easy, but it made them who they are."
+			"The path that led them here was neither straight nor easy, but it made them who they are.",
+			"They carry small, meaningful rituals learned long ago that shape their daily life.",
+			"A defining event—either triumph or loss—still echoes in their decisions today."
 		];
 		
 		return options[Math.floor(Math.random() * options.length)];
@@ -2662,13 +2716,15 @@ class CharacterEditorPage {
 
 	generateFluffEntries(name, totalLevel, classes, race, background, characterDepth) {
 		const entries = [];
-		
+
 		// Basic introduction with variety
 		const introOptions = [
 			`${name} is a ${totalLevel === 1 ? 'beginning' : totalLevel < 5 ? 'novice' : totalLevel < 10 ? 'experienced' : 'veteran'} adventurer with a compelling story.`,
 			`Meet ${name}, a ${totalLevel === 1 ? 'fledgling' : totalLevel < 5 ? 'developing' : totalLevel < 10 ? 'accomplished' : 'seasoned'} ${race.name.toLowerCase()} seeking their destiny.`,
 			`${name} stands ready to face whatever challenges await, their ${totalLevel === 1 ? 'raw potential' : totalLevel < 5 ? 'growing skills' : totalLevel < 10 ? 'proven abilities' : 'legendary prowess'} evident to all who meet them.`,
-			`The story of ${name} is still being written, each chapter more extraordinary than the last.`
+			`The story of ${name} is still being written, each chapter more extraordinary than the last.`,
+			`${name} carries the marks of many journeys — small trophies, scars, and a pocketful of hard-won wisdom.`,
+			`Though quiet at first, ${name} has a presence that reveals a life shaped by challenge and choice.`
 		];
 		entries.push(introOptions[Math.floor(Math.random() * introOptions.length)]);
 
@@ -2677,7 +2733,9 @@ class CharacterEditorPage {
 			`Their journey has led them to master ${classes.length === 1 ? 'the ways of the ' + classes[0].name.toLowerCase() : 'multiple disciplines'}.`,
 			`They have ${classes.length === 1 ? 'dedicated themselves to the path of the ' + classes[0].name.toLowerCase() : 'chosen the challenging road of multiclass mastery'}.`,
 			`${classes.length === 1 ? 'The ' + classes[0].name.toLowerCase() + ' tradition flows through their every action' : 'They blend multiple fighting styles and philosophies with remarkable skill'}.`,
-			`Through ${classes.length === 1 ? 'focused dedication to their chosen class' : 'diverse training across multiple disciplines'}, they have become a formidable force.`
+			`Through ${classes.length === 1 ? 'focused dedication to their chosen class' : 'diverse training across multiple disciplines'}, they have become a formidable force.`,
+			`${name} is known to favor ${classes.map(c => c.name.toLowerCase()).join(' and ')} techniques in the field.`,
+			`They are constantly refining their craft, training long after others have retired for the night.`
 		];
 		entries.push(classDescriptions[Math.floor(Math.random() * classDescriptions.length)]);
 
@@ -2689,44 +2747,67 @@ class CharacterEditorPage {
 			`As a ${race.name}, they bring unique perspectives and abilities to their adventures.`,
 			`Their ${race.name.toLowerCase()} heritage is evident in both their approach to problems and their natural talents.`,
 			`The wisdom and traditions of the ${race.name.toLowerCase()} people guide them through difficult decisions.`,
-			`They carry the strengths of their ${race.name.toLowerCase()} lineage with them wherever they go.`
+			`They carry the strengths of their ${race.name.toLowerCase()} lineage with them wherever they go.`,
+			`Despite their heritage, ${name} has adapted to life on the road and learned to blend cultures with ease.`,
+			`Their upbringing among the ${race.name.toLowerCase()} taught them both resilience and courtesy in equal measure.`
 		];
 		entries.push(racialDescriptions[Math.floor(Math.random() * racialDescriptions.length)]);
 
-		// Add personality insight if available
+		// Personality / traits
 		if (characterDepth && characterDepth.personalityTraits && characterDepth.personalityTraits.length > 0) {
 			const personalityInsights = [
 				`Those who know them well would say they are someone who ${characterDepth.personalityTraits[0].toLowerCase()}.`,
 				`Their personality is defined by how they ${characterDepth.personalityTraits[0].toLowerCase()}.`,
 				`One of their most notable traits is that they ${characterDepth.personalityTraits[0].toLowerCase()}.`,
-				`People often notice that they ${characterDepth.personalityTraits[0].toLowerCase()}.`
+				`People often notice that they ${characterDepth.personalityTraits[0].toLowerCase()}.`,
+				`Under pressure, they often rely on ${characterDepth.personalityTraits[0].toLowerCase()} to guide their actions.`,
+				`They wear their ${characterDepth.personalityTraits[0].toLowerCase()} like a shield, hiding softer truths underneath.`
 			];
 			entries.push(personalityInsights[Math.floor(Math.random() * personalityInsights.length)]);
 		}
 
-		// Add motivational insight
+		// Motivations / ideals
 		if (characterDepth && characterDepth.ideals && characterDepth.ideals.length > 0) {
 			const ideal = characterDepth.ideals[0];
 			const motivationalInsights = [
 				`They are driven by a strong belief in ${ideal.toLowerCase()}.`,
 				`Their actions are guided by their conviction that ${ideal.toLowerCase()}.`,
 				`At their core, they hold fast to the principle that ${ideal.toLowerCase()}.`,
-				`What motivates them most is their belief that ${ideal.toLowerCase()}.`
+				`What motivates them most is their belief that ${ideal.toLowerCase()}.`,
+				`Their ideals push them toward choices that others might call reckless but which they call necessary.`,
+				`They would sooner sacrifice comfort than betray the ideal of ${ideal.toLowerCase()}.`
 			];
 			entries.push(motivationalInsights[Math.floor(Math.random() * motivationalInsights.length)]);
 		}
 
-		// Add mannerism if available
+		// Goals and fears
+		const goals = [
+			`They seek a long-lost relic tied to their family or culture.`,
+			`They want to prove themselves to a mentor or rival.`,
+			`They are searching for a place they can finally call home.`,
+			`They crave recognition for a deed they performed long ago.`
+		];
+		const fears = [
+			`They secretly fear losing the few people they love.`,
+			`They dread the memory of a failure that haunts them.`,
+			`They are afraid their past will catch up to them one day.`,
+			`They fear becoming the very thing they fight against.`
+		];
+		entries.push(goals[Math.floor(Math.random() * goals.length)]);
+		entries.push(fears[Math.floor(Math.random() * fears.length)]);
+
+		// Mannerisms / quirks
 		if (characterDepth && characterDepth.mannerisms && characterDepth.mannerisms.length > 0) {
 			const mannerismDescriptions = [
 				`Those who observe them closely will notice they ${characterDepth.mannerisms[0].toLowerCase()}.`,
 				`A distinctive quirk of theirs is how they ${characterDepth.mannerisms[0].toLowerCase()}.`,
-				`They have a habit of ${characterDepth.mannerisms[0].toLowerCase()}.`
+				`They have a habit of ${characterDepth.mannerisms[0].toLowerCase()}.`,
+				`Small gestures reveal their true mood: ${characterDepth.mannerisms[0].toLowerCase()}.`
 			];
 			entries.push(mannerismDescriptions[Math.floor(Math.random() * mannerismDescriptions.length)]);
 		}
 
-		// Add obsession if available
+		// Obsession / secret / relationship
 		if (characterDepth && characterDepth.obsession) {
 			const obsessionDescriptions = [
 				`They have an unusual obsession: ${characterDepth.obsession.toLowerCase()}.`,
@@ -2737,7 +2818,6 @@ class CharacterEditorPage {
 			entries.push(obsessionDescriptions[Math.floor(Math.random() * obsessionDescriptions.length)]);
 		}
 
-		// Add secret if available
 		if (characterDepth && characterDepth.secret) {
 			const secretDescriptions = [
 				`They harbor a mysterious secret: ${characterDepth.secret.toLowerCase()}.`,
@@ -2748,7 +2828,6 @@ class CharacterEditorPage {
 			entries.push(secretDescriptions[Math.floor(Math.random() * secretDescriptions.length)]);
 		}
 
-		// Add relationship if available
 		if (characterDepth && characterDepth.relationship) {
 			const relationshipDescriptions = [
 				`Their personal life is complicated by an important connection: ${characterDepth.relationship.toLowerCase()}.`,
@@ -2759,7 +2838,7 @@ class CharacterEditorPage {
 			entries.push(relationshipDescriptions[Math.floor(Math.random() * relationshipDescriptions.length)]);
 		}
 
-		// Add supernatural quirk if available
+		// Supernatural quirk if available
 		if (characterDepth && characterDepth.supernaturalQuirk) {
 			const supernaturalDescriptions = [
 				`There's something subtly magical about them: ${characterDepth.supernaturalQuirk.toLowerCase()}.`,
@@ -2769,6 +2848,15 @@ class CharacterEditorPage {
 			];
 			entries.push(supernaturalDescriptions[Math.floor(Math.random() * supernaturalDescriptions.length)]);
 		}
+
+		// Notable accomplishments and hooks
+		const accomplishments = [
+			`${name} once thwarted a small band of raiders, saving a village and earning the gratitude of many.`,
+			`They recovered a minor artifact from ruins that others had given up on.`,
+			`They earned a reputation in a distant town for solving problems others could not.`,
+			`A bold gamble paid off once, and the tale of that gamble still follows them.`
+		];
+		entries.push(accomplishments[Math.floor(Math.random() * accomplishments.length)]);
 
 		// Add concluding statement with variety
 		const conclusions = [
@@ -2781,7 +2869,8 @@ class CharacterEditorPage {
 			`In a world of magic and wonder, they are perfectly suited to become a legend.`,
 			`Their tale is just beginning, but already it promises to be extraordinary.`,
 			`Whether by fate or choice, they are exactly where they need to be to change the world.`,
-			`Adventure calls to them, and they answer with enthusiasm and mysterious purpose.`
+			`Adventure calls to them, and they answer with enthusiasm and mysterious purpose.`,
+			`${name} prefers to let their actions speak louder than words — but their story is far from silent.`
 		];
 		entries.push(conclusions[Math.floor(Math.random() * conclusions.length)]);
 
@@ -3684,12 +3773,13 @@ class CharacterEditorPage {
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
 			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores),
-			characterDepth: this.generateCharacterDepth(randomBackground, randomRace, randomClasses),
+			// characterDepth intentionally not stored as a top-level field; include depth info in fluff
 			fluff: {
 				entries: [
 					`${finalName} is a ${totalLevel === 1 ? 'beginning' : totalLevel < 5 ? 'novice' : totalLevel < 10 ? 'experienced' : 'veteran'} adventurer.`,
 					`Their journey has led them to master ${randomClasses.length === 1 ? 'the ways of the ' + randomClasses[0].name.toLowerCase() : 'multiple disciplines'}.`,
-					this.getBackgroundStory(randomBackground.name)
+					this.getBackgroundStory(randomBackground.name),
+					...this.generateFluffEntries(finalName, totalLevel, randomClasses, randomRace, randomBackground, this.generateCharacterDepth(randomBackground, randomRace, randomClasses))
 				]
 			},
 			languages: this.generateLanguageProficiencies(randomClasses, randomRace, null),
