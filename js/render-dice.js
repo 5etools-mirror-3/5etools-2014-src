@@ -19,21 +19,15 @@ Renderer.dice = {
 
 	_isManualMode: false,
 	_is3dDiceEnabled: false,
-	_activeDiceRoll: null, // Prevent multiple concurrent 3D dice rolls
-	_dice3dRollInProgress: false, // Additional flag to prevent spurious rolls
 
 	// 3D Dice configuration methods
 	set3dDiceEnabled(enabled) {
-		console.log(`set3dDiceEnabled called with: ${enabled}`);
 		this._is3dDiceEnabled = enabled;
 		if (enabled && window.DiceBoxManager) {
-			console.log("Enabling DiceBoxManager...");
 			window.DiceBoxManager.enable().catch(console.error);
 		} else if (window.DiceBoxManager) {
-			console.log("Disabling DiceBoxManager...");
 			window.DiceBoxManager.disable();
 		} else {
-			console.log("DiceBoxManager not available");
 		}
 	},
 
@@ -44,11 +38,9 @@ Renderer.dice = {
 	// Check if 3D dice should be used for this expression
 	_shouldUse3dDice() {
 		const should = this.is3dDiceEnabled();
-		console.log(`_shouldUse3dDice: ${should} (enabled: ${this._is3dDiceEnabled}, manager available: ${!!window.DiceBoxManager}, manager enabled: ${window.DiceBoxManager ? window.DiceBoxManager.isEnabled() : false})`);
 		
 		// Add stack trace to see where this is being called from
 		if (should) {
-			console.log("🔍 _shouldUse3dDice called from:", new Error().stack);
 		}
 		
 		return should;
@@ -136,7 +128,6 @@ Renderer.dice = {
 	_findAllDiceInExpression(node, diceList = []) {
 		if (!node) return diceList;
 
-		console.log("_findAllDiceInExpression processing node:", {
 			nodeType: node.constructor ? node.constructor.name : 'unknown',
 			nodeValue: node._value,
 			nodeFaces: node._faces,
@@ -154,7 +145,6 @@ Renderer.dice = {
 
 		// Handle Pool nodes (dice pools like {2d8, 1d6})
 		if (node.constructor && node.constructor.name === 'Pool') {
-			console.log("Processing Pool node with", node._nodesPool ? node._nodesPool.length : 0, "pool nodes");
 			// Process each node in the pool
 			if (node._nodesPool && Array.isArray(node._nodesPool)) {
 				for (const poolNode of node._nodesPool) {
@@ -166,7 +156,6 @@ Renderer.dice = {
 
 		// If this is a Dice node, extract its properties
 		if (node.constructor && node.constructor.name === 'Dice') {
-			console.log("Found Dice node, extracting properties...", {
 				nodeString: node.toString ? node.toString() : 'no toString',
 				nodesLength: node._nodes ? node._nodes.length : 0,
 				currentDiceList: diceList.map(d => `${d.count}d${d.faces}`)
@@ -213,7 +202,6 @@ Renderer.dice = {
 				if (faces && faces > 0) {
 					diceList.push({ count, faces });
 				} else {
-					console.log("_findAllDiceInExpression skipping Dice node with invalid faces", {
 						count,
 						faces,
 						facesNodeValue: facesNode ? facesNode._value : 'no facesNode',
@@ -228,9 +216,7 @@ Renderer.dice = {
 				// Only add to dice list if we have valid faces (don't default to 20)
 				if (faces && faces > 0) {
 					diceList.push({ count, faces });
-					console.log("_findAllDiceInExpression found simple dice", {count, faces, nodeType: node.constructor.name});
 				} else {
-					console.log("_findAllDiceInExpression skipping Dice node with no valid faces", {
 						count, 
 						faces, 
 						nodeFaces: node._faces,
@@ -248,7 +234,6 @@ Renderer.dice = {
 			node.constructor.name === 'Number' ||
 			node.constructor.name === 'Constant'
 		)) {
-			console.log("_findAllDiceInExpression skipping pure number", {
 				value: node._value,
 				nodeType: node.constructor.name
 			});
@@ -257,7 +242,6 @@ Renderer.dice = {
 
 		// Recursively search child nodes
 		if (node._nodes && Array.isArray(node._nodes)) {
-			console.log(`_findAllDiceInExpression recursing into ${node._nodes.length} child nodes`);
 			for (const childNode of node._nodes) {
 				this._findAllDiceInExpression(childNode, diceList);
 			}
@@ -272,14 +256,12 @@ Renderer.dice = {
 
 		// Find all dice in the expression
 		const diceList = this._findAllDiceInExpression(tree);
-		console.log("_extractDiceNotation diceList", {
 			diceList,
 			treeType: tree.constructor ? tree.constructor.name : 'unknown',
 			treeString: tree.toString ? tree.toString() : 'no toString'
 		});
 
 		if (diceList.length === 0) {
-			console.log("_extractDiceNotation: no dice found in expression");
 			return null;
 		}
 
@@ -287,7 +269,6 @@ Renderer.dice = {
 		if (diceList.length === 1) {
 			const dice = diceList[0];
 			const notation = `${dice.count}d${dice.faces}`;
-			console.log(`_extractDiceNotation: single dice ${notation}`);
 			return notation;
 		}
 
@@ -303,7 +284,6 @@ Renderer.dice = {
 		if (diceByFaces.size === 1) {
 			const [faces, count] = diceByFaces.entries().next().value;
 			const notation = `${count}d${faces}`;
-			console.log(`_extractDiceNotation: grouped single type ${notation}`);
 			return notation;
 		}
 
@@ -314,7 +294,6 @@ Renderer.dice = {
 			diceNotations.push(`${count}d${faces}`);
 		}
 		const notation = diceNotations.join('+');
-		console.log(`_extractDiceNotation: mixed dice ${notation}`);
 		return notation;
 	},
 
@@ -322,60 +301,36 @@ Renderer.dice = {
 	async _preRoll3dDice(tree) {
 		if (!this._shouldUse3dDice() || !tree) return null;
 
-		// Prevent multiple concurrent 3D dice rolls - return null if another roll is active
-		if (this._activeDiceRoll || this._dice3dRollInProgress) {
-			console.log("⏳ _preRoll3dDice: Another dice roll is active, skipping this request to prevent spurious rolls", {
-				activeDiceRoll: !!this._activeDiceRoll,
-				dice3dRollInProgress: this._dice3dRollInProgress,
-				treeString: tree.toString ? tree.toString() : 'no toString'
-			});
-			return null;
-		}
-
-		// Set the in-progress flag
-		this._dice3dRollInProgress = true;
+		// Generate unique roll ID for concurrent roll support
+		const rollId = `preroll_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
 		try {
 			// Debug the tree structure first
-			console.log("=== _preRoll3dDice DEBUG START ===");
-			console.log("Tree type:", tree.constructor ? tree.constructor.name : 'unknown');
-			console.log("Tree toString:", tree.toString ? tree.toString() : 'no toString');
-			console.log("Tree structure:", tree);
 			
 			// Extract proper dice notation from the expression
 			const diceNotation = this._extractDiceNotation(tree);
-			console.log("_preRoll3dDice extracted", {
+				rollId,
 				diceNotation,
 				treeType: tree.constructor ? tree.constructor.name : 'unknown',
 				treeToString: tree.toString ? tree.toString() : 'no toString'
 			});
 			
 			if (!diceNotation) {
-				console.log("_preRoll3dDice: no dice notation found, skipping 3D dice");
-				console.log("=== _preRoll3dDice DEBUG END (no dice) ===");
 				return null;
 			}
 
-			// Create a promise for this roll and track it
-			console.log("🎲 Starting new 3D dice roll...");
-			this._activeDiceRoll = this._rollDiceInternal(tree, diceNotation);
-			const result = await this._activeDiceRoll;
-			this._activeDiceRoll = null; // Clear when complete
-			console.log("🎲 3D dice roll completed successfully");
+			// Roll dice directly - no need to block concurrent rolls
+			const result = await this._rollDiceInternal(tree, diceNotation, rollId);
 			
 			return result;
 		} catch (error) {
-			this._activeDiceRoll = null; // Clear on error too
-			console.error("🎲 3D dice pre-roll failed, falling back to standard:", error);
+			console.error(`🎲 3D dice pre-roll failed (${rollId}), falling back to standard:`, error);
 			return null;
-		} finally {
-			// Always clear the in-progress flag
-			this._dice3dRollInProgress = false;
 		}
 	},
 
 	// Internal method to handle the actual dice rolling
-	async _rollDiceInternal(tree, diceNotation) {
+	async _rollDiceInternal(tree, diceNotation, rollId = null) {
 		// Count how many individual dice the evaluator expects (for ordering/consumption)
 		const expectedCount = this._countDiceInExpression(tree);
 		// Also build an ordered faces array for any fallback single-die rolls
@@ -387,7 +342,6 @@ Renderer.dice = {
 
 		// Ask DiceBoxManager to roll the grouped notation
 		const rollResult = await window.DiceBoxManager.rollDice(diceNotation, "5etools Roll");
-		console.debug("_preRoll3dDice rollResult", {rollResult});
 
 		// Build a faces-aware mapping for evaluator consumption. DiceBox may return dice in a different
 		// order/grouping than the evaluator expects, so we map values to the faces the evaluator will
@@ -419,7 +373,6 @@ Renderer.dice = {
 
 			// As a last resort, use a mathematical roll instead of physical dice
 			// to avoid creating an infinite loop of dice rolling
-			console.warn("_preRoll3dDice: no matching die result found, using mathematical fallback", {wantedFaces, available: rawRolls.map(r => ({sides: r.sides || r.faces, value: r.value}))});
 			preRolled.push({val: RollerUtil.randomise(wantedFaces), faces: wantedFaces});
 		}
 
@@ -939,7 +892,6 @@ Renderer.dice = {
 
 		// Debug: log when modifier keys are pressed
 		if (evt.shiftKey || EventUtil.isCtrlMetaKey(evt)) {
-			console.debug("Dice modifier keys detected:", {
 				shiftKey: evt.shiftKey,
 				ctrlKey: EventUtil.isCtrlMetaKey(evt),
 				subType: entry.subType,

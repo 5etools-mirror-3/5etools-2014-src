@@ -11,6 +11,8 @@ class DiceBoxManager {
 	static _isEnabled = false;
 	static _activeRolls = new Set(); // Track active roll IDs
 	static _rollCounter = 0; // Generate unique roll IDs
+	static _currentTheme = "default"; // Current theme
+	static _availableThemes = new Set(["default", "blueGreenMetal", "diceOfRolling", "diceOfRolling-fate", "gemstone", "rock", "rust", "wooden"]); // Available themes
 
 	static async getInstance() {
 		if (!this._instance) {
@@ -34,6 +36,11 @@ class DiceBoxManager {
 				throw new Error("DiceBox library failed to load properly");
 			}
 
+			// Get user's preferred theme before initialization
+			const preferredTheme = window.VetoolsConfig ? 
+				(window.VetoolsConfig.get("dice", "theme3d") || "default") : 
+				"default";
+
 			// Initialize dice-box with full screen configuration using new v1.1.0 API
 			this._diceBox = new window.DiceBox({
 				id: "dice-box",
@@ -50,6 +57,9 @@ class DiceBoxManager {
 				throwForce: 3.5,  // Gentler throw force for better control
 				enableShadows: true,
 				lightPosition: { x: -10, y: 30, z: 20 },
+				// Theme configuration - use user's preference from start
+				theme: preferredTheme,
+				themeColor: "#4a7c59", // Default theme color
 				// Explicit sizing to force full screen
 				width: window.innerWidth,
 				height: window.innerHeight,
@@ -62,6 +72,13 @@ class DiceBoxManager {
 			});
 
 			await this._diceBox.init();
+
+			// Detect available themes
+			await this.detectAvailableThemes();
+
+			// Set current theme to match what was initialized
+			this._currentTheme = preferredTheme;
+			console.log(`DiceBoxManager: Initialized with theme: ${preferredTheme}`);
 			this._isInitialized = true;
 
 			// Ensure container is properly configured after initialization
@@ -159,6 +176,10 @@ class DiceBoxManager {
 
 	static isEnabled() {
 		return this._isEnabled && this._isInitialized;
+	}
+
+	static isInitialized() {
+		return this._isInitialized;
 	}
 
 	/**
@@ -589,6 +610,177 @@ class DiceBoxManager {
 	}
 
 	/**
+	 * Set the current theme for 3D dice
+	 * @param {string} theme - Theme name (default, rust, gemstone, rock, smooth, wooden)
+	 * @returns {Promise<void>}
+	 */
+	static async setTheme(theme) {
+		if (!this.isEnabled()) {
+			console.warn("DiceBoxManager: Cannot set theme - not initialized or enabled");
+			return;
+		}
+
+		console.log(`DiceBoxManager: Setting theme to: ${theme}`);
+		
+		try {
+			// First clear any existing dice - themes only apply before/after rolls
+			if (this._diceBox.clear) {
+				await this._diceBox.clear();
+			}
+
+			// Use dice-box's updateConfig method which is the correct way to change themes
+			if (this._diceBox.updateConfig) {
+				console.log(`DiceBoxManager: Updating config with theme ${theme}...`);
+				this._diceBox.updateConfig({theme: theme});
+				this._currentTheme = theme;
+				console.log(`DiceBoxManager: Theme ${theme} applied successfully`);
+				
+				// Store theme preference
+				VetoolsConfig.set(this._configKeys.dicetheme, theme);
+			} else {
+				// Try alternative: reinitialize DiceBox with new theme
+				console.warn(`DiceBoxManager: updateConfig method not available, reinitializing DiceBox with new theme`);
+				await this._reinitializeWithTheme(theme);
+			}
+		} catch (error) {
+			console.warn(`DiceBoxManager: Theme ${theme} failed to load, trying reinitialization approach.`, error);
+			try {
+				await this._reinitializeWithTheme(theme);
+			} catch (reinitError) {
+				console.error(`DiceBoxManager: Failed to apply theme ${theme}:`, reinitError);
+				this._currentTheme = "default";
+			}
+		}
+	}
+
+	/**
+	 * Reinitialize DiceBox with a new theme (fallback method)
+	 * @param {string} theme - Theme name
+	 * @returns {Promise<void>}
+	 */
+	static async _reinitializeWithTheme(theme) {
+		console.log(`DiceBoxManager: Reinitializing DiceBox with theme: ${theme}`);
+		
+		// Store current state
+		const wasEnabled = this._isEnabled;
+		
+		// Destroy current instance if it exists
+		if (this._diceBox) {
+			try {
+				if (this._diceBox.clear) await this._diceBox.clear();
+			} catch (e) {
+				console.warn("Error clearing dice during reinitialization:", e);
+			}
+			this._diceBox = null;
+		}
+		
+		// Clear active rolls
+		this._activeRolls.clear();
+		
+		// Reinitialize with new theme
+		this._diceBox = new window.DiceBox({
+			id: "dice-box",
+			assetPath: "/lib/dice-box-assets/",
+			origin: window.location.origin,
+			scale: 4,
+			gravity: 0.8,
+			mass: 1.2,
+			friction: 0.9,
+			restitution: 0.3,
+			shadowIntensity: 0.4,
+			lightIntensity: 0.8,
+			spinForce: 0.6,
+			throwForce: 3.5,
+			enableShadows: true,
+			lightPosition: { x: -10, y: 30, z: 20 },
+			// Set the theme during initialization
+			theme: theme,
+			themeColor: this._getThemeColor(theme),
+			width: window.innerWidth,
+			height: window.innerHeight,
+			container: "#dice-box",
+			canvas: {
+				width: window.innerWidth,
+				height: window.innerHeight
+			}
+		});
+
+		await this._diceBox.init();
+		this._currentTheme = theme;
+		this._isEnabled = wasEnabled;
+		
+		// Ensure container is ready
+		this._ensureContainerReady();
+		
+		console.log(`DiceBoxManager: Successfully reinitialized with theme: ${theme}`);
+	}
+
+	/**
+	 * Get theme color for a given theme
+	 * @param {string} theme - Theme name
+	 * @returns {string} Theme color hex code
+	 */
+	static _getThemeColor(theme) {
+		const themeColors = {
+			"default": "#4a7c59",
+			"rust": "#aa4f4a",
+			"blueGreenMetal": "#4a7c7c",
+			"gemstone": "#7c4aa0",
+			"rock": "#8c7853",
+			"wooden": "#8b4513",
+			"diceOfRolling": "#5a5a5a",
+			"diceOfRolling-fate": "#3a3a3a"
+		};
+		return themeColors[theme] || themeColors["default"];
+	}
+
+	/**
+	 * Get the current theme
+	 * @returns {string} Current theme name
+	 */
+	static getCurrentTheme() {
+		return this._currentTheme;
+	}
+
+	/**
+	 * Get list of available themes
+	 * @returns {Array<string>} Available theme names
+	 */
+	static getAvailableThemes() {
+		return Array.from(this._availableThemes).sort();
+	}
+
+	/**
+	 * Detect available themes by checking the themes directory
+	 * @returns {Promise<Array<string>>} Available theme names
+	 */
+	static async detectAvailableThemes() {
+		const themes = new Set(["default"]); // Always include default
+		
+		try {
+			// Try to fetch the themes directory listing
+			const response = await fetch("/lib/dice-box-assets/themes/");
+			if (response.ok) {
+				const html = await response.text();
+				// Parse directory listing for theme folders
+				const themeMatches = html.match(/href="([^"]+)\/"/g) || [];
+				themeMatches.forEach(match => {
+					const themeName = match.replace(/href="|\/"/g, "");
+					if (themeName && themeName !== ".." && themeName !== ".") {
+						themes.add(themeName);
+					}
+				});
+			}
+		} catch (error) {
+			console.warn("DiceBoxManager: Could not detect available themes:", error);
+		}
+
+		this._availableThemes = themes;
+		console.log("DiceBoxManager: Detected themes:", Array.from(themes));
+		return Array.from(themes);
+	}
+
+	/**
 	 * Get debug info about active rolls
 	 */
 	static getDebugInfo() {
@@ -596,7 +788,9 @@ class DiceBoxManager {
 			isEnabled: this.isEnabled(),
 			activeRolls: Array.from(this._activeRolls),
 			rollCounter: this._rollCounter,
-			isInitialized: this._isInitialized
+			isInitialized: this._isInitialized,
+			currentTheme: this._currentTheme,
+			availableThemes: this.getAvailableThemes()
 		};
 	}
 }
