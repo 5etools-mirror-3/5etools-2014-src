@@ -3735,7 +3735,8 @@ class CharacterEditorPage {
 				equipment.push("{@item Dart|phb} (10)");
 				equipment.push("{@item Meditation Beads|phb}");
 				equipment.push("{@item Incense|phb} (10)");
-				if (classLevel >= 3) equipment.push("{@item Ki Focus|dmg}");
+				// 'Ki Focus' was a non-standard/placeholder token. Replace with a supported DMG wondrous item.
+				if (classLevel >= 3) equipment.push("{@item Amulet of Health|dmg}");
 				if (classLevel >= 5) equipment.push("{@item Bracers of Defense|dmg}");
 				break;
 
@@ -3869,7 +3870,11 @@ class CharacterEditorPage {
 				"{@item Ring of Protection|dmg}",
 				"{@item Cloak of Displacement|dmg}",
 				"{@item Boots of Speed|dmg}",
-				"{@item Amulet of Health|dmg}"
+				"{@item Amulet of Health|dmg}",
+				"{@item Bag of Holding|dmg}",
+				"{@item Necklace of Adaptation|dmg}",
+				"{@item Boots of Elvenkind|dmg}",
+				"{@item Bracers of Defense|dmg}"
 			];
 			items.push(rareItems[Math.floor(Math.random() * rareItems.length)]);
 		}
@@ -3880,7 +3885,11 @@ class CharacterEditorPage {
 				"{@item +2 Armor|dmg}",
 				"{@item Belt of Giant Strength|dmg}",
 				"{@item Rod of Lordly Might|dmg}",
-				"{@item Ring of Spell Storing|dmg}"
+				"{@item Ring of Spell Storing|dmg}",
+				"{@item Stone of Good Luck|dmg}",
+				"{@item Sun Blade|dmg}",
+				"{@item Scimitar of Speed|dmg}",
+				"{@item Cloak of the Bat|dmg}"
 			];
 			items.push(veryRareItems[Math.floor(Math.random() * veryRareItems.length)]);
 		}
@@ -3891,7 +3900,13 @@ class CharacterEditorPage {
 				"{@item +3 Armor|dmg}",
 				"{@item Cloak of Invisibility|dmg}",
 				"{@item Staff of Power|dmg}",
-				"{@item Ring of Three Wishes|dmg}"
+				"{@item Ring of Three Wishes|dmg}",
+				"{@item Holy Avenger|dmg}",
+				"{@item Robe of the Archmagi|dmg}",
+				"{@item Vorpal Sword|dmg}",
+				"{@item Luck Blade|dmg}",
+				"{@item Ring of Regeneration|dmg}",
+				"{@item Hammer of Thunderbolts|dmg}"
 			];
 			items.push(legendaryItems[Math.floor(Math.random() * legendaryItems.length)]);
 		}
