@@ -224,17 +224,17 @@ class CharacterEditorPage {
 
 		// Generate random character data
 		const randomName = this.generateRandomName();
-		const randomRace = this.generateRandomRace();
+		const randomRace = this.generateRandomRace(randomClasses);
 		const randomClasses = this.generateRandomClasses(requestedLevel);
 		const randomBackground = this.generateRandomBackground();
-		const randomAbilityScores = this.generateRandomAbilityScores(randomClasses);
-		const randomEquipment = this.generateRandomEquipment(randomClasses, requestedLevel);
+		const randomAbilityScores = this.generateRandomAbilityScores(randomClasses, randomRace);
+		const randomEquipment = this.generateRandomEquipment(randomClasses, requestedLevel, randomAbilityScores, randomRace);
 		const randomActions = this.generateRandomActions(randomClasses, randomAbilityScores);
-		const randomSpells = this.generateRandomSpells(randomClasses, requestedLevel);
+		const randomSpells = this.generateRandomSpells(randomClasses, requestedLevel, randomAbilityScores);
 
 		// Calculate derived stats
 		const totalLevel = randomClasses.reduce((sum, cls) => sum + cls.level, 0);
-		const profBonus = Math.ceil(totalLevel / 4) + 1;
+		const profBonus = Math.floor((totalLevel - 1) / 4) + 2;
 		const conMod = Math.floor((randomAbilityScores.con - 10) / 2);
 		const randomHp = this.calculateRandomHp(randomClasses, conMod);
 
@@ -254,7 +254,7 @@ class CharacterEditorPage {
 			...randomAbilityScores,
 			passive: 10 + Math.floor((randomAbilityScores.wis - 10) / 2) + (this.hasSkillProficiency("perception", randomClasses) ? profBonus : 0),
 			save: this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
-			skill: this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus),
+			skill: this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, null),
 			proficiencyBonus: `+${profBonus}`,
 			deathSaves: {
 				successes: 0,
@@ -264,14 +264,16 @@ class CharacterEditorPage {
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
 			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment),
+			characterDepth: this.generateCharacterDepth(randomBackground, randomRace, randomClasses),
 			fluff: {
 				entries: [
-					`${randomName} is a ${totalLevel === 1 ? 'beginning' : totalLevel < 5 ? 'novice' : totalLevel < 10 ? 'experienced' : 'veteran'} adventurer with a ${this.getPersonalityTrait()}.`,
+					`${randomName} is a ${totalLevel === 1 ? 'beginning' : totalLevel < 5 ? 'novice' : totalLevel < 10 ? 'experienced' : 'veteran'} adventurer.`,
 					`Their journey has led them to master ${randomClasses.length === 1 ? 'the ways of the ' + randomClasses[0].name.toLowerCase() : 'multiple disciplines'}.`,
 					this.getBackgroundStory(randomBackground.name)
 				]
 			},
-			languages: this.generateRandomLanguages(randomRace, randomClasses),
+			languages: this.generateLanguageProficiencies(randomClasses, randomRace, null),
+			toolProficiencies: this.generateToolProficiencies(randomClasses, randomRace, null),
 			currency: this.generateRandomCurrency(totalLevel)
 		};
 		this.ace.setValue(JSON.stringify(template, null, 2), 1);
@@ -300,35 +302,95 @@ class CharacterEditorPage {
 		return `${firstName} ${lastName}`;
 	}
 
-	generateRandomRace() {
-		const races = [
-			{ name: "Human", source: "PHB" },
-			{ name: "Elf", source: "PHB", subrace: "High Elf" },
-			{ name: "Dwarf", source: "PHB", subrace: "Mountain Dwarf" },
-			{ name: "Halfling", source: "PHB", subrace: "Lightfoot" },
-			{ name: "Dragonborn", source: "PHB" },
-			{ name: "Gnome", source: "PHB", subrace: "Forest Gnome" },
-			{ name: "Half-Elf", source: "PHB" },
-			{ name: "Half-Orc", source: "PHB" },
-			{ name: "Tiefling", source: "PHB" },
-			{ name: "Elf", source: "PHB", subrace: "Wood Elf" },
-			{ name: "Dwarf", source: "PHB", subrace: "Hill Dwarf" },
-			{ name: "Halfling", source: "PHB", subrace: "Stout" },
-			{ name: "Gnome", source: "PHB", subrace: "Rock Gnome" },
-			{ name: "Elf", source: "PHB", subrace: "Dark Elf (Drow)" }
+	generateRandomRace(classes) {
+		// Enhanced race selection with class synergy considerations
+		const raceOptions = [
+			{ name: "Human", source: "PHB", subraces: ["Standard", "Variant"] },
+			{ name: "Elf", source: "PHB", subraces: ["High Elf", "Wood Elf", "Dark Elf (Drow)"] },
+			{ name: "Dwarf", source: "PHB", subraces: ["Hill Dwarf", "Mountain Dwarf"] },
+			{ name: "Halfling", source: "PHB", subraces: ["Lightfoot", "Stout"] },
+			{ name: "Dragonborn", source: "PHB", subraces: ["Standard"] },
+			{ name: "Gnome", source: "PHB", subraces: ["Forest Gnome", "Rock Gnome"] },
+			{ name: "Half-Elf", source: "PHB", subraces: ["Standard"] },
+			{ name: "Half-Orc", source: "PHB", subraces: ["Standard"] },
+			{ name: "Tiefling", source: "PHB", subraces: ["Standard"] }
 		];
 
-		const selectedRace = races[Math.floor(Math.random() * races.length)];
+		// If classes are provided, weight races that synergize well
+		let weightedRaces = [];
+		if (classes && classes.length > 0) {
+			raceOptions.forEach(raceOption => {
+				const synergy = this.calculateRaceClassSynergy(raceOption, classes);
+				const weight = Math.max(1, synergy);
+				for (let i = 0; i < weight; i++) {
+					weightedRaces.push(raceOption);
+				}
+			});
+		} else {
+			weightedRaces = [...raceOptions];
+		}
+
+		const selectedRaceOption = weightedRaces[Math.floor(Math.random() * weightedRaces.length)];
+		const selectedSubrace = selectedRaceOption.subraces[
+			Math.floor(Math.random() * selectedRaceOption.subraces.length)
+		];
+
 		const race = {
-			name: selectedRace.name,
-			source: selectedRace.source
+			name: selectedRaceOption.name,
+			source: selectedRaceOption.source
 		};
 
-		if (selectedRace.subrace) {
-			race.subrace = selectedRace.subrace;
+		if (selectedSubrace !== "Standard") {
+			race.subrace = selectedSubrace;
 		}
 
 		return race;
+	}
+
+	calculateRaceClassSynergy(race, classes) {
+		let synergy = 3; // Base weight
+
+		classes.forEach(cls => {
+			switch (cls.name) {
+				case "Fighter":
+				case "Paladin":
+					if (race.name === "Dragonborn" || race.name === "Half-Orc" || 
+						(race.name === "Dwarf" && race.subraces.includes("Mountain Dwarf"))) {
+						synergy += 2;
+					}
+					break;
+				case "Wizard":
+					if (race.name === "High Elf" || race.name === "Gnome" || 
+						(race.name === "Human" && race.subraces.includes("Variant"))) {
+						synergy += 2;
+					}
+					break;
+				case "Rogue":
+				case "Ranger":
+					if (race.name === "Elf" || race.name === "Halfling" || 
+						race.name === "Half-Elf") {
+						synergy += 2;
+					}
+					break;
+				case "Bard":
+				case "Sorcerer":
+				case "Warlock":
+					if (race.name === "Half-Elf" || race.name === "Tiefling" || 
+						race.name === "Dragonborn") {
+						synergy += 2;
+					}
+					break;
+				case "Cleric":
+				case "Druid":
+					if (race.name === "Human" || (race.name === "Dwarf" && 
+						race.subraces.includes("Hill Dwarf")) || race.name === "Half-Elf") {
+						synergy += 2;
+					}
+					break;
+			}
+		});
+
+		return synergy;
 	}
 
 	generateRandomClass() {
@@ -574,46 +636,370 @@ class CharacterEditorPage {
 		return backgrounds[Math.floor(Math.random() * backgrounds.length)];
 	}
 
-	generateRandomAbilityScores(classes) {
-		// Point buy system with some randomization
-		const baseStats = {
-			str: 8 + Math.floor(Math.random() * 8),
-			dex: 8 + Math.floor(Math.random() * 8),
-			con: 10 + Math.floor(Math.random() * 6), // Slightly higher CON
-			int: 8 + Math.floor(Math.random() * 8),
-			wis: 8 + Math.floor(Math.random() * 8),
-			cha: 8 + Math.floor(Math.random() * 8)
-		};
+	generateRandomAbilityScores(classes, race) {
+		// Enhanced ability score generation using multiple methods
+		const method = Math.random();
+		let baseStats;
+		
+		if (method < 0.4) {
+			// Standard Array (40% chance) - balanced and reliable
+			baseStats = this.generateStandardArray();
+		} else if (method < 0.7) {
+			// Point Buy (30% chance) - customized allocation
+			baseStats = this.generatePointBuyStats(classes);
+		} else {
+			// 4d6 drop lowest (30% chance) - more random, potentially stronger
+			baseStats = this.roll4d6DropLowest();
+		}
 
-		// Boost primary stats based on classes
+		// Apply racial bonuses
+		baseStats = this.applyRacialAbilityBonuses(baseStats, race);
+		
+		// Intelligently allocate scores based on class priorities
+		baseStats = this.optimizeStatsForClasses(baseStats, classes);
+		
+		// Ensure multiclassing requirements are met if applicable
+		if (classes.length > 1) {
+			baseStats = this.ensureMulticlassRequirements(baseStats, classes);
+		}
+
+		return baseStats;
+	}
+
+	generateStandardArray() {
+		// Standard array: 15, 14, 13, 12, 10, 8
+		const standardScores = [15, 14, 13, 12, 10, 8];
+		const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+		const stats = {};
+		
+		// Shuffle the array for random assignment
+		for (let i = standardScores.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[standardScores[i], standardScores[j]] = [standardScores[j], standardScores[i]];
+		}
+		
+		abilities.forEach((ability, index) => {
+			stats[ability] = standardScores[index];
+		});
+		
+		return stats;
+	}
+
+	generatePointBuyStats(classes) {
+		// Point buy system - start with base 8 and distribute 27 points
+		const stats = { str: 8, dex: 8, con: 8, int: 8, wis: 8, cha: 8 };
+		let points = 27;
+		
+		// Get primary stats for each class
+		const priorities = this.getClassAbilityPriorities(classes);
+		
+		// Allocate points based on priorities, with some randomization
+		const sortedPriorities = Object.entries(priorities)
+			.sort(([,a], [,b]) => b - a)
+			.map(([ability]) => ability);
+		
+		// First pass: ensure key stats are at least decent (13+)
+		sortedPriorities.forEach((ability, index) => {
+			if (index < 2 && points > 0) { // Top 2 priorities
+				const targetMin = 13 + Math.floor(Math.random() * 3); // 13-15
+				const pointsNeeded = Math.min(points, Math.max(0, targetMin - stats[ability]));
+				const actualPoints = Math.min(pointsNeeded, this.getPointBuyCost(stats[ability], stats[ability] + pointsNeeded));
+				stats[ability] += actualPoints;
+				points -= actualPoints;
+			}
+		});
+		
+		// Second pass: distribute remaining points with preference for higher priority stats
+		while (points > 0) {
+			const weightedAbilities = [];
+			sortedPriorities.forEach((ability, index) => {
+				const weight = Math.max(1, 6 - index); // Higher weight for higher priority
+				for (let i = 0; i < weight; i++) {
+					if (stats[ability] < 15) { // Cap at 15 for point buy
+						weightedAbilities.push(ability);
+					}
+				}
+			});
+			
+			if (weightedAbilities.length === 0) break;
+			
+			const chosenAbility = weightedAbilities[Math.floor(Math.random() * weightedAbilities.length)];
+			const cost = this.getPointBuyCost(stats[chosenAbility], stats[chosenAbility] + 1);
+			if (points >= cost && stats[chosenAbility] < 15) {
+				stats[chosenAbility]++;
+				points -= cost;
+			} else {
+				break;
+			}
+		}
+		
+		return stats;
+	}
+
+	getPointBuyCost(currentScore, targetScore) {
+		// Point buy costs: 8-13 cost 1 point each, 14-15 cost 2 points each
+		let cost = 0;
+		for (let score = currentScore; score < targetScore; score++) {
+			cost += (score >= 13) ? 2 : 1;
+		}
+		return cost;
+	}
+
+	roll4d6DropLowest() {
+		const stats = {};
+		const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+		
+		abilities.forEach(ability => {
+			// Roll 4d6, drop lowest
+			const rolls = [];
+			for (let i = 0; i < 4; i++) {
+				rolls.push(Math.floor(Math.random() * 6) + 1);
+			}
+			rolls.sort((a, b) => b - a);
+			stats[ability] = rolls[0] + rolls[1] + rolls[2]; // Sum of highest 3
+		});
+		
+		return stats;
+	}
+
+	getClassAbilityPriorities(classes) {
+		const priorities = { str: 0, dex: 0, con: 1, int: 0, wis: 0, cha: 0 }; // Base CON priority
+		
 		classes.forEach(cls => {
 			switch (cls.name) {
 				case "Fighter":
-				case "Paladin":
+					if (cls.subclass?.shortName === "Eldritch Knight") {
+						priorities.int += 2;
+						priorities.str += 3;
+					} else {
+						priorities.str += 3;
+						priorities.dex += 1;
+					}
+					break;
 				case "Barbarian":
-					baseStats.str = Math.max(baseStats.str, 13 + Math.floor(Math.random() * 5));
+					priorities.str += 3;
+					priorities.con += 2;
+					break;
+				case "Paladin":
+					priorities.str += 3;
+					priorities.cha += 2;
+					break;
+				case "Ranger":
+					priorities.dex += 3;
+					priorities.wis += 2;
 					break;
 				case "Rogue":
-				case "Ranger":
+					priorities.dex += 3;
+					if (cls.subclass?.shortName === "Arcane Trickster") {
+						priorities.int += 1;
+					}
+					break;
 				case "Monk":
-					baseStats.dex = Math.max(baseStats.dex, 13 + Math.floor(Math.random() * 5));
-					break;
-				case "Wizard":
-					baseStats.int = Math.max(baseStats.int, 13 + Math.floor(Math.random() * 5));
-					break;
-				case "Cleric":
-				case "Druid":
-					baseStats.wis = Math.max(baseStats.wis, 13 + Math.floor(Math.random() * 5));
+					priorities.dex += 3;
+					priorities.wis += 2;
 					break;
 				case "Bard":
+					priorities.cha += 3;
+					priorities.dex += 1;
+					break;
+				case "Cleric":
+					priorities.wis += 3;
+					if (cls.subclass?.shortName === "War") {
+						priorities.str += 1;
+					}
+					break;
+				case "Druid":
+					priorities.wis += 3;
+					break;
 				case "Sorcerer":
+					priorities.cha += 3;
+					priorities.con += 1;
+					break;
 				case "Warlock":
-					baseStats.cha = Math.max(baseStats.cha, 13 + Math.floor(Math.random() * 5));
+					priorities.cha += 3;
+					break;
+				case "Wizard":
+					priorities.int += 3;
+					priorities.dex += 1;
 					break;
 			}
 		});
+		
+		return priorities;
+	}
 
-		return baseStats;
+	applyRacialAbilityBonuses(stats, race) {
+		const bonuses = this.getRacialAbilityBonuses(race);
+		const newStats = { ...stats };
+		
+		Object.entries(bonuses).forEach(([ability, bonus]) => {
+			newStats[ability] = (newStats[ability] || 8) + bonus;
+		});
+		
+		return newStats;
+	}
+
+	getRacialAbilityBonuses(race) {
+		const bonuses = {};
+		
+		switch (race.name) {
+			case "Human":
+				if (race.subrace === "Variant") {
+					// Variant human gets +1 to two different abilities
+					const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+					const chosen = [];
+					while (chosen.length < 2) {
+						const ability = abilities[Math.floor(Math.random() * abilities.length)];
+						if (!chosen.includes(ability)) {
+							chosen.push(ability);
+							bonuses[ability] = 1;
+						}
+					}
+				} else {
+					// Standard human gets +1 to all abilities
+					['str', 'dex', 'con', 'int', 'wis', 'cha'].forEach(ability => {
+						bonuses[ability] = 1;
+					});
+				}
+				break;
+			case "Dwarf":
+				bonuses.con = 2;
+				if (race.subrace === "Mountain Dwarf") {
+					bonuses.str = 2;
+				} else if (race.subrace === "Hill Dwarf") {
+					bonuses.wis = 1;
+				}
+				break;
+			case "Elf":
+				bonuses.dex = 2;
+				if (race.subrace === "High Elf") {
+					bonuses.int = 1;
+				} else if (race.subrace === "Wood Elf") {
+					bonuses.wis = 1;
+				} else if (race.subrace === "Dark Elf (Drow)") {
+					bonuses.cha = 1;
+				}
+				break;
+			case "Halfling":
+				bonuses.dex = 2;
+				if (race.subrace === "Lightfoot") {
+					bonuses.cha = 1;
+				} else if (race.subrace === "Stout") {
+					bonuses.con = 1;
+				}
+				break;
+			case "Dragonborn":
+				bonuses.str = 2;
+				bonuses.cha = 1;
+				break;
+			case "Gnome":
+				bonuses.int = 2;
+				if (race.subrace === "Forest Gnome") {
+					bonuses.dex = 1;
+				} else if (race.subrace === "Rock Gnome") {
+					bonuses.con = 1;
+				}
+				break;
+			case "Half-Elf":
+				bonuses.cha = 2;
+				// Choose two other abilities for +1 each
+				const abilities = ['str', 'dex', 'con', 'int', 'wis'];
+				const chosen = [];
+				while (chosen.length < 2) {
+					const ability = abilities[Math.floor(Math.random() * abilities.length)];
+					if (!chosen.includes(ability)) {
+						chosen.push(ability);
+						bonuses[ability] = 1;
+					}
+				}
+				break;
+			case "Half-Orc":
+				bonuses.str = 2;
+				bonuses.con = 1;
+				break;
+			case "Tiefling":
+				bonuses.int = 1;
+				bonuses.cha = 2;
+				break;
+		}
+		
+		return bonuses;
+	}
+
+	optimizeStatsForClasses(stats, classes) {
+		// This method fine-tunes stat allocation after racial bonuses
+		// to ensure the character is viable for their chosen classes
+		
+		const priorities = this.getClassAbilityPriorities(classes);
+		const sortedPriorities = Object.entries(priorities)
+			.sort(([,a], [,b]) => b - a)
+			.map(([ability]) => ability);
+		
+		// Ensure primary stats are at least 13 (especially for multiclassing)
+		const newStats = { ...stats };
+		
+		sortedPriorities.slice(0, 2).forEach(ability => {
+			if (newStats[ability] < 13) {
+				// Find lowest priority stat to swap with
+				const lowestPriority = sortedPriorities[sortedPriorities.length - 1];
+				if (newStats[lowestPriority] > newStats[ability]) {
+					[newStats[ability], newStats[lowestPriority]] = [newStats[lowestPriority], newStats[ability]];
+				}
+			}
+		});
+		
+		return newStats;
+	}
+
+	ensureMulticlassRequirements(stats, classes) {
+		// Ensure multiclassing ability score requirements are met
+		const requirements = {
+			"Barbarian": { str: 13 },
+			"Bard": { cha: 13 },
+			"Cleric": { wis: 13 },
+			"Druid": { wis: 13 },
+			"Fighter": { str: 13, dex: 13 }, // Either STR or DEX 13
+			"Monk": { dex: 13, wis: 13 },
+			"Paladin": { str: 13, cha: 13 },
+			"Ranger": { dex: 13, wis: 13 },
+			"Rogue": { dex: 13 },
+			"Sorcerer": { cha: 13 },
+			"Warlock": { cha: 13 },
+			"Wizard": { int: 13 }
+		};
+		
+		const newStats = { ...stats };
+		
+		classes.forEach(cls => {
+			const reqs = requirements[cls.name];
+			if (reqs) {
+				Object.entries(reqs).forEach(([ability, minScore]) => {
+					if (cls.name === "Fighter" && (newStats.str >= 13 || newStats.dex >= 13)) {
+						return; // Fighter only needs STR OR DEX
+					}
+					if (newStats[ability] < minScore) {
+						// Find a stat to swap with
+						const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+						const swapCandidate = abilities.find(a => 
+							newStats[a] >= minScore && 
+							!this.isStatRequired(a, classes, requirements)
+						);
+						if (swapCandidate) {
+							[newStats[ability], newStats[swapCandidate]] = [newStats[swapCandidate], newStats[ability]];
+						}
+					}
+				});
+			}
+		});
+		
+		return newStats;
+	}
+
+	isStatRequired(ability, classes, requirements) {
+		return classes.some(cls => {
+			const reqs = requirements[cls.name];
+			return reqs && reqs[ability];
+		});
 	}
 
 	generateRandomAlignment() {
@@ -701,43 +1087,442 @@ class CharacterEditorPage {
 		return saves;
 	}
 
-	generateRandomSkills(abilityScores, classes, profBonus) {
+	generateRandomSkills(abilityScores, classes, profBonus, race, background) {
 		const skills = {};
-		const skillList = [
+		const skillAbilityMap = {
+			"acrobatics": "dex", "animal_handling": "wis", "arcana": "int",
+			"athletics": "str", "deception": "cha", "history": "int",
+			"insight": "wis", "intimidation": "cha", "investigation": "int",
+			"medicine": "wis", "nature": "int", "perception": "wis",
+			"performance": "cha", "persuasion": "cha", "religion": "int",
+			"sleight_of_hand": "dex", "stealth": "dex", "survival": "wis"
+		};
+
+		// Get class skill choices and proficiencies
+		const proficientSkills = new Set();
+		const skillChoices = [];
+
+		classes.forEach(cls => {
+			const classSkills = this.getClassSkillProficiencies(cls.name);
+			const availableSkills = classSkills.choices || [];
+			const automaticSkills = classSkills.automatic || [];
+			const numChoices = classSkills.numChoices || 2;
+
+			// Add automatic proficiencies
+			automaticSkills.forEach(skill => proficientSkills.add(skill));
+
+			// Add weighted random choices from available skills
+			if (availableSkills.length > 0) {
+				const selectedFromClass = this.selectWeightedSkills(availableSkills, numChoices, classes, race);
+				selectedFromClass.forEach(skill => proficientSkills.add(skill));
+			}
+		});
+
+		// Add racial skill proficiencies
+		const racialSkills = this.getRacialSkillProficiencies(race);
+		racialSkills.forEach(skill => proficientSkills.add(skill));
+
+		// Add background skill proficiencies (randomly generated)
+		const backgroundSkills = this.generateBackgroundSkills(background);
+		backgroundSkills.forEach(skill => proficientSkills.add(skill));
+
+		// Calculate skill modifiers for all skills
+		Object.keys(skillAbilityMap).forEach(skill => {
+			const ability = skillAbilityMap[skill];
+			const abilityMod = Math.floor((abilityScores[ability] - 10) / 2);
+			const isProficient = proficientSkills.has(skill);
+			const total = abilityMod + (isProficient ? profBonus : 0);
+			
+			// Only include skills with non-zero modifiers or proficiency
+			if (total !== 0 || isProficient) {
+				skills[skill] = total >= 0 ? `+${total}` : `${total}`;
+			}
+		});
+
+		return skills;
+	}
+
+	getClassSkillProficiencies(className) {
+		const classSkills = {
+			"Barbarian": {
+				choices: ["animal_handling", "athletics", "intimidation", "nature", "perception", "survival"],
+				numChoices: 2
+			},
+			"Bard": {
+				automatic: ["performance"],
+				choices: Object.keys({
+					"acrobatics": true, "animal_handling": true, "arcana": true, "athletics": true, 
+					"deception": true, "history": true, "insight": true, "intimidation": true,
+					"investigation": true, "medicine": true, "nature": true, "perception": true,
+					"persuasion": true, "religion": true, "sleight_of_hand": true, "stealth": true, "survival": true
+				}),
+				numChoices: 3
+			},
+			"Cleric": {
+				choices: ["history", "insight", "medicine", "persuasion", "religion"],
+				numChoices: 2
+			},
+			"Druid": {
+				choices: ["arcana", "animal_handling", "insight", "medicine", "nature", "perception", "religion", "survival"],
+				numChoices: 2
+			},
+			"Fighter": {
+				choices: ["acrobatics", "animal_handling", "athletics", "history", "insight", "intimidation", "perception", "survival"],
+				numChoices: 2
+			},
+			"Monk": {
+				choices: ["acrobatics", "athletics", "history", "insight", "religion", "stealth"],
+				numChoices: 2
+			},
+			"Paladin": {
+				choices: ["athletics", "insight", "intimidation", "medicine", "persuasion", "religion"],
+				numChoices: 2
+			},
+			"Ranger": {
+				choices: ["animal_handling", "athletics", "insight", "investigation", "nature", "perception", "stealth", "survival"],
+				numChoices: 3
+			},
+			"Rogue": {
+				automatic: ["sleight_of_hand", "stealth"],
+				choices: ["acrobatics", "athletics", "deception", "insight", "intimidation", "investigation", "perception", "performance", "persuasion"],
+				numChoices: 2
+			},
+			"Sorcerer": {
+				choices: ["arcana", "deception", "insight", "intimidation", "persuasion", "religion"],
+				numChoices: 2
+			},
+			"Warlock": {
+				choices: ["arcana", "deception", "history", "intimidation", "investigation", "nature", "religion"],
+				numChoices: 2
+			},
+			"Wizard": {
+				choices: ["arcana", "history", "insight", "investigation", "medicine", "religion"],
+				numChoices: 2
+			}
+		};
+
+		return classSkills[className] || { choices: [], numChoices: 0 };
+	}
+
+	selectWeightedSkills(availableSkills, numChoices, classes, race) {
+		const selected = [];
+		const skillWeights = {};
+
+		// Initialize all skills with base weight
+		availableSkills.forEach(skill => {
+			skillWeights[skill] = 1;
+		});
+
+		// Weight skills based on class synergy
+		classes.forEach(cls => {
+			const classWeights = this.getClassSkillWeights(cls.name);
+			Object.keys(classWeights).forEach(skill => {
+				if (skillWeights[skill] !== undefined) {
+					skillWeights[skill] *= classWeights[skill];
+				}
+			});
+		});
+
+		// Weight skills based on racial traits
+		const racialWeights = this.getRacialSkillWeights(race);
+		Object.keys(racialWeights).forEach(skill => {
+			if (skillWeights[skill] !== undefined) {
+				skillWeights[skill] *= racialWeights[skill];
+			}
+		});
+
+		// Select skills using weighted random selection
+		for (let i = 0; i < numChoices && selected.length < availableSkills.length; i++) {
+			const remainingSkills = availableSkills.filter(skill => !selected.includes(skill));
+			if (remainingSkills.length === 0) break;
+
+			const totalWeight = remainingSkills.reduce((sum, skill) => sum + skillWeights[skill], 0);
+			let random = Math.random() * totalWeight;
+			
+			for (const skill of remainingSkills) {
+				random -= skillWeights[skill];
+				if (random <= 0) {
+					selected.push(skill);
+					break;
+				}
+			}
+		}
+
+		return selected;
+	}
+
+	getClassSkillWeights(className) {
+		const weights = {
+			"Barbarian": {
+				"athletics": 3, "intimidation": 3, "survival": 2.5, "animal_handling": 2, "nature": 2, "perception": 2
+			},
+			"Bard": {
+				"performance": 3, "persuasion": 2.5, "deception": 2, "history": 2, "insight": 2
+			},
+			"Cleric": {
+				"religion": 3, "insight": 2.5, "medicine": 2, "history": 2, "persuasion": 2
+			},
+			"Druid": {
+				"nature": 3, "survival": 2.5, "animal_handling": 2.5, "medicine": 2, "perception": 2
+			},
+			"Fighter": {
+				"athletics": 3, "intimidation": 2, "history": 2, "perception": 2, "survival": 1.5
+			},
+			"Monk": {
+				"acrobatics": 3, "athletics": 2.5, "stealth": 2, "insight": 2, "religion": 1.5
+			},
+			"Paladin": {
+				"religion": 3, "athletics": 2.5, "intimidation": 2, "medicine": 2, "insight": 2
+			},
+			"Ranger": {
+				"survival": 3, "perception": 3, "nature": 2.5, "stealth": 2, "animal_handling": 2
+			},
+			"Rogue": {
+				"stealth": 3, "sleight_of_hand": 3, "perception": 2.5, "investigation": 2, "deception": 2
+			},
+			"Sorcerer": {
+				"arcana": 3, "persuasion": 2, "deception": 2, "intimidation": 1.5
+			},
+			"Warlock": {
+				"arcana": 3, "deception": 2.5, "intimidation": 2, "investigation": 2
+			},
+			"Wizard": {
+				"arcana": 3, "investigation": 2.5, "history": 2.5, "religion": 2, "medicine": 1.5
+			}
+		};
+		
+		return weights[className] || {};
+	}
+
+	getRacialSkillWeights(race) {
+		if (!race) return {};
+		
+		const weights = {
+			"Elf": { "perception": 2 },
+			"Half-Elf": { "persuasion": 2, "deception": 1.5 },
+			"Human": {},
+			"Dwarf": { "history": 2 },
+			"Halfling": { "stealth": 2 },
+			"Dragonborn": { "intimidation": 2 },
+			"Gnome": { "arcana": 2 },
+			"Half-Orc": { "intimidation": 2.5, "athletics": 1.5 },
+			"Tiefling": { "deception": 2, "intimidation": 1.5 }
+		};
+
+		return weights[race.name] || {};
+	}
+
+	getRacialSkillProficiencies(race) {
+		if (!race) return [];
+		
+		const racialSkills = {
+			"Elf": ["perception"],
+			"Half-Elf": Math.random() < 0.7 ? ["persuasion"] : [],
+			"Variant Human": Math.random() < 0.5 ? [this.getRandomSkill()] : [],
+			"Drow": ["perception"],
+			"Wood Elf": ["perception"],
+			"High Elf": ["perception"]
+		};
+
+		return racialSkills[race.name] || [];
+	}
+
+	generateBackgroundSkills(background) {
+		// Generate 2 background skills that make thematic sense
+		const backgroundSkillSets = [
+			["history", "religion"], // Acolyte
+			["deception", "sleight_of_hand"], // Criminal
+			["insight", "persuasion"], // Folk Hero
+			["athletics", "survival"], // Outlander
+			["history", "persuasion"], // Noble
+			["investigation", "nature"], // Hermit
+			["performance", "persuasion"], // Entertainer
+			["animal_handling", "survival"], // Folk Hero
+			["arcana", "history"], // Sage
+			["athletics", "intimidation"], // Soldier
+			["deception", "stealth"], // Criminal
+			["medicine", "religion"] // Acolyte
+		];
+
+		return backgroundSkillSets[Math.floor(Math.random() * backgroundSkillSets.length)];
+	}
+
+	getRandomSkill() {
+		const skills = [
 			"acrobatics", "animal_handling", "arcana", "athletics", "deception",
 			"history", "insight", "intimidation", "investigation", "medicine",
 			"nature", "perception", "performance", "persuasion", "religion",
 			"sleight_of_hand", "stealth", "survival"
 		];
+		return skills[Math.floor(Math.random() * skills.length)];
+	}
 
-		// Randomly select 3-6 skills to be proficient in
-		const numSkills = 3 + Math.floor(Math.random() * 4);
-		const selectedSkills = [];
+	generateToolProficiencies(classes, race, background) {
+		const toolProficiencies = new Set();
 
-		for (let i = 0; i < numSkills; i++) {
-			const skill = skillList[Math.floor(Math.random() * skillList.length)];
-			if (!selectedSkills.includes(skill)) {
-				selectedSkills.push(skill);
+		// Class-based tool proficiencies
+		classes.forEach(cls => {
+			const classTools = this.getClassToolProficiencies(cls.name);
+			classTools.forEach(tool => toolProficiencies.add(tool));
+		});
+
+		// Racial tool proficiencies
+		const racialTools = this.getRacialToolProficiencies(race);
+		racialTools.forEach(tool => toolProficiencies.add(tool));
+
+		// Background tool proficiencies (thematic selection)
+		const backgroundTools = this.generateBackgroundTools(background);
+		backgroundTools.forEach(tool => toolProficiencies.add(tool));
+
+		return Array.from(toolProficiencies);
+	}
+
+	getClassToolProficiencies(className) {
+		const classTools = {
+			"Barbarian": [],
+			"Bard": ["musical_instrument", "musical_instrument", "musical_instrument"], // 3 instruments
+			"Cleric": [],
+			"Druid": ["herbalism_kit"],
+			"Fighter": Math.random() < 0.5 ? ["smith_tools"] : [],
+			"Monk": Math.random() < 0.6 ? ["artisan_tools"] : [],
+			"Paladin": [],
+			"Ranger": [],
+			"Rogue": ["thieves_tools"],
+			"Sorcerer": [],
+			"Warlock": [],
+			"Wizard": []
+		};
+
+		return classTools[className] || [];
+	}
+
+	getRacialToolProficiencies(race) {
+		if (!race) return [];
+		
+		const racialTools = {
+			"Dwarf": ["smith_tools", "brewer_supplies", "mason_tools"],
+			"Mountain Dwarf": ["smith_tools"],
+			"Hill Dwarf": [],
+			"Elf": [],
+			"High Elf": [],
+			"Wood Elf": [],
+			"Drow": [],
+			"Halfling": [],
+			"Human": [],
+			"Variant Human": Math.random() < 0.5 ? ["artisan_tools"] : [],
+			"Dragonborn": [],
+			"Gnome": ["tinker_tools"],
+			"Forest Gnome": ["tinker_tools"],
+			"Rock Gnome": ["tinker_tools", "artisan_tools"],
+			"Half-Elf": [],
+			"Half-Orc": [],
+			"Tiefling": []
+		};
+
+		return racialTools[race.name] || [];
+	}
+
+	generateBackgroundTools(background) {
+		const toolSets = [
+			["gaming_set"], // Gambler
+			["forgery_kit"], // Criminal
+			["cartographer_tools"], // Outlander
+			["artisan_tools"], // Guild Artisan
+			["musical_instrument"], // Entertainer
+			["herbalism_kit"], // Hermit
+			["gaming_set"], // Noble
+			["alchemist_supplies"], // Sage
+			["smith_tools"], // Soldier
+			["thieves_tools"], // Criminal
+			["mason_tools"], // Guild Artisan
+			["brewer_supplies"] // Tavern Keep
+		];
+
+		return toolSets[Math.floor(Math.random() * toolSets.length)];
+	}
+
+	generateLanguageProficiencies(classes, race, background) {
+		const languages = new Set();
+
+		// Common is always known
+		languages.add("Common");
+
+		// Racial languages
+		const racialLanguages = this.getRacialLanguages(race);
+		racialLanguages.forEach(lang => languages.add(lang));
+
+		// Class languages
+		const classLanguages = this.getClassLanguages(classes);
+		classLanguages.forEach(lang => languages.add(lang));
+
+		// Background languages (1-2 additional)
+		const backgroundLanguages = this.generateBackgroundLanguages(background);
+		backgroundLanguages.forEach(lang => languages.add(lang));
+
+		return Array.from(languages);
+	}
+
+	getRacialLanguages(race) {
+		if (!race) return [];
+		
+		const racialLanguages = {
+			"Dwarf": ["Dwarvish"],
+			"Elf": ["Elvish"],
+			"Halfling": ["Halfling"],
+			"Human": Math.random() < 0.8 ? [this.getRandomLanguage()] : [],
+			"Variant Human": [this.getRandomLanguage()],
+			"Dragonborn": ["Draconic"],
+			"Gnome": ["Gnomish"],
+			"Half-Elf": ["Elvish"],
+			"Half-Orc": ["Orc"],
+			"Tiefling": ["Infernal"]
+		};
+
+		return racialLanguages[race.name] || [];
+	}
+
+	getClassLanguages(classes) {
+		const languages = [];
+		
+		classes.forEach(cls => {
+			switch (cls.name) {
+				case "Cleric":
+				case "Paladin":
+					if (Math.random() < 0.7) languages.push("Celestial");
+					break;
+				case "Druid":
+					languages.push("Druidic");
+					break;
+				case "Warlock":
+					if (Math.random() < 0.6) languages.push(Math.random() < 0.5 ? "Abyssal" : "Infernal");
+					break;
+			}
+		});
+
+		return languages;
+	}
+
+	generateBackgroundLanguages(background) {
+		const languageOptions = ["Elvish", "Dwarvish", "Giant", "Gnomish", "Goblin", "Halfling", "Orc"];
+		const numLanguages = Math.random() < 0.6 ? 1 : 2;
+		const selected = [];
+
+		for (let i = 0; i < numLanguages; i++) {
+			const lang = languageOptions[Math.floor(Math.random() * languageOptions.length)];
+			if (!selected.includes(lang)) {
+				selected.push(lang);
 			}
 		}
 
-		selectedSkills.forEach(skill => {
-			const abilityMap = {
-				"acrobatics": "dex", "animal_handling": "wis", "arcana": "int",
-				"athletics": "str", "deception": "cha", "history": "int",
-				"insight": "wis", "intimidation": "cha", "investigation": "int",
-				"medicine": "wis", "nature": "int", "perception": "wis",
-				"performance": "cha", "persuasion": "cha", "religion": "int",
-				"sleight_of_hand": "dex", "stealth": "dex", "survival": "wis"
-			};
+		return selected;
+	}
 
-			const ability = abilityMap[skill];
-			const modifier = Math.floor((abilityScores[ability] - 10) / 2);
-			const total = modifier + profBonus;
-			skills[skill] = total >= 0 ? `+${total}` : `${total}`;
-		});
-
-		return skills;
+	getRandomLanguage() {
+		const languages = [
+			"Elvish", "Dwarvish", "Giant", "Gnomish", "Goblin", "Halfling", "Orc",
+			"Abyssal", "Celestial", "Draconic", "Deep Speech", "Infernal", "Primordial", "Sylvan"
+		];
+		return languages[Math.floor(Math.random() * languages.length)];
 	}
 
 	hasSkillProficiency(skill, classes) {
@@ -832,7 +1617,7 @@ class CharacterEditorPage {
 	generateRandomActions(classes, abilityScores) {
 		const actions = [];
 		const totalLevel = classes.reduce((sum, cls) => sum + cls.level, 0);
-		const profBonus = Math.ceil(totalLevel / 4) + 1;
+		const profBonus = Math.floor((totalLevel - 1) / 4) + 2;
 		const strMod = Math.floor((abilityScores.str - 10) / 2);
 		const dexMod = Math.floor((abilityScores.dex - 10) / 2);
 		const chaMod = Math.floor((abilityScores.cha - 10) / 2);
@@ -1059,7 +1844,7 @@ class CharacterEditorPage {
 		return actions;
 	}
 
-	generateRandomSpells(classes, totalLevel) {
+	generateRandomSpells(classes, totalLevel, abilityScores) {
 		// Check if any class can cast spells
 		const casterClasses = classes.filter(cls =>
 			["Wizard", "Sorcerer", "Warlock", "Bard", "Cleric", "Druid", "Paladin", "Ranger"].includes(cls.name)
@@ -1067,23 +1852,21 @@ class CharacterEditorPage {
 
 		if (casterClasses.length === 0) return null;
 
-		const primaryCaster = casterClasses.reduce((highest, current) =>
-			current.level > highest.level ? current : highest
-		);
+		// Handle multiclass spellcasting
+		if (casterClasses.length > 1) {
+			return this.generateMulticlassSpellcasting(casterClasses, abilityScores);
+		}
 
-		const spellcastingAbility = {
-			"Wizard": "Intelligence", "Sorcerer": "Charisma", "Warlock": "Charisma",
-			"Bard": "Charisma", "Cleric": "Wisdom", "Druid": "Wisdom",
-			"Paladin": "Charisma", "Ranger": "Wisdom"
-		}[primaryCaster.name];
+		const primaryCaster = casterClasses[0];
+		const spellcastingInfo = this.getSpellcastingInfo(primaryCaster.name);
+		
+		if (!spellcastingInfo) return null;
 
-		const abilityScore = {
-			"Intelligence": "int", "Charisma": "cha", "Wisdom": "wis"
-		}[spellcastingAbility];
-
-		// Use moderate spell ability score
-		const spellMod = Math.floor((15 - 10) / 2); // Assume 15 in casting stat
-		const profBonus = Math.ceil(totalLevel / 4) + 1;
+		const spellcastingAbility = spellcastingInfo.ability;
+		const abilityScore = spellcastingInfo.abilityKey;
+		const actualAbilityScore = abilityScores[abilityScore];
+		const spellMod = Math.floor((actualAbilityScore - 10) / 2);
+		const profBonus = Math.floor((totalLevel - 1) / 4) + 2;
 		const spellDC = 8 + profBonus + spellMod;
 		const spellAttack = profBonus + spellMod;
 
@@ -1091,16 +1874,90 @@ class CharacterEditorPage {
 			dc: spellDC,
 			attackBonus: spellAttack >= 0 ? `+${spellAttack}` : `${spellAttack}`,
 			ability: spellcastingAbility,
-			levels: this.generateSpellSlots(primaryCaster)
+			levels: this.generateSpellSlots(primaryCaster, abilityScores),
+			spellsKnown: this.calculateSpellsKnown(primaryCaster)
 		};
 	}
 
-	generateSpellSlots(casterClass) {
+	getSpellcastingInfo(className) {
+		const spellcastingMap = {
+			"Wizard": { ability: "Intelligence", abilityKey: "int", type: "prepared", ritual: true },
+			"Sorcerer": { ability: "Charisma", abilityKey: "cha", type: "known", metamagic: true },
+			"Warlock": { ability: "Charisma", abilityKey: "cha", type: "known", pact: true },
+			"Bard": { ability: "Charisma", abilityKey: "cha", type: "known", ritual: true },
+			"Cleric": { ability: "Wisdom", abilityKey: "wis", type: "prepared", ritual: true },
+			"Druid": { ability: "Wisdom", abilityKey: "wis", type: "prepared", ritual: true },
+			"Paladin": { ability: "Charisma", abilityKey: "cha", type: "prepared", divine: true },
+			"Ranger": { ability: "Wisdom", abilityKey: "wis", type: "known", natural: true }
+		};
+
+		return spellcastingMap[className] || null;
+	}
+
+	generateMulticlassSpellcasting(casterClasses, abilityScores) {
+		// Calculate multiclass spell slot levels
+		let spellSlotLevel = 0;
+		const casterLevels = {};
+
+		casterClasses.forEach(cls => {
+			const casterType = this.getCasterType(cls.name);
+			if (casterType === "full") {
+				spellSlotLevel += cls.level;
+			} else if (casterType === "half") {
+				spellSlotLevel += Math.floor(cls.level / 2);
+			} else if (casterType === "third") {
+				spellSlotLevel += Math.floor(cls.level / 3);
+			}
+			casterLevels[cls.name] = cls.level;
+		});
+
+		// Use primary caster for spell attack bonus and DC
+		const primaryCaster = casterClasses.reduce((highest, current) =>
+			current.level > highest.level ? current : highest
+		);
+
+		const spellcastingInfo = this.getSpellcastingInfo(primaryCaster.name);
+		const actualAbilityScore = abilityScores[spellcastingInfo.abilityKey];
+		const spellMod = Math.floor((actualAbilityScore - 10) / 2);
+		const totalLevel = casterClasses.reduce((sum, cls) => sum + cls.level, 0);
+		const profBonus = Math.floor((totalLevel - 1) / 4) + 2;
+
+		return {
+			dc: 8 + profBonus + spellMod,
+			attackBonus: (profBonus + spellMod) >= 0 ? `+${profBonus + spellMod}` : `${profBonus + spellMod}`,
+			ability: spellcastingInfo.ability,
+			levels: this.generateMulticlassSpellSlots(spellSlotLevel),
+			multiclass: true,
+			casterLevels: casterLevels
+		};
+	}
+
+	getCasterType(className) {
+		const fullCasters = ["Wizard", "Sorcerer", "Warlock", "Bard", "Cleric", "Druid"];
+		const halfCasters = ["Paladin", "Ranger"];
+		const thirdCasters = ["Eldritch Knight", "Arcane Trickster"];
+
+		if (fullCasters.includes(className)) return "full";
+		if (halfCasters.includes(className)) return "half";
+		if (thirdCasters.includes(className)) return "third";
+		return "none";
+	}
+
+	generateSpellSlots(casterClass, abilityScores) {
 		const levels = {};
+		const spellcastingInfo = this.getSpellcastingInfo(casterClass.name);
+		
+		if (!spellcastingInfo) return {};
+
+		// Calculate spell preparation modifier for prepared casters
+		const abilityMod = Math.floor((abilityScores[spellcastingInfo.abilityKey] - 10) / 2);
+		const spellsPrepared = spellcastingInfo.type === "prepared" ? 
+			Math.max(1, abilityMod + casterClass.level) : null;
 
 		// Cantrips
+		const cantripCount = this.getCantripCount(casterClass.name, casterClass.level);
 		levels["0"] = {
-			spells: this.getRandomCantrips(casterClass)
+			spells: this.getRandomCantrips(casterClass, cantripCount)
 		};
 
 		// Spell slots based on class and level
@@ -1159,17 +2016,136 @@ class CharacterEditorPage {
 		return fullCasterSlots[classLevel - 1][spellLevel - 1] || 0;
 	}
 
-	getRandomCantrips(casterClass) {
-		const cantrips = {
-			"Wizard": ["fire bolt", "mage hand", "prestidigitation"],
-			"Sorcerer": ["fire bolt", "light", "minor illusion"],
-			"Warlock": ["eldritch blast", "minor illusion", "prestidigitation"],
-			"Bard": ["vicious mockery", "minor illusion", "mage hand"],
-			"Cleric": ["sacred flame", "guidance", "thaumaturgy"],
-			"Druid": ["druidcraft", "guidance", "produce flame"]
+	getCantripCount(className, classLevel) {
+		const cantripProgression = {
+			"Wizard": [3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
+			"Sorcerer": [4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6],
+			"Warlock": [2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+			"Bard": [2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+			"Cleric": [3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5],
+			"Druid": [2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+			"Paladin": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			"Ranger": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 		};
 
-		return cantrips[casterClass.name] || ["fire bolt", "mage hand", "prestidigitation"];
+		const progression = cantripProgression[className];
+		return progression ? progression[Math.min(classLevel - 1, 19)] : 0;
+	}
+
+	getRandomCantrips(casterClass, cantripCount) {
+		const classCantrips = {
+			"Wizard": [
+				"Acid Splash", "Blade Ward", "Chill Touch", "Dancing Lights", "Fire Bolt",
+				"Friends", "Light", "Mage Hand", "Mending", "Message", "Minor Illusion",
+				"Poison Spray", "Prestidigitation", "Ray of Frost", "Shocking Grasp", "True Strike"
+			],
+			"Sorcerer": [
+				"Acid Splash", "Blade Ward", "Chill Touch", "Dancing Lights", "Fire Bolt",
+				"Friends", "Light", "Mage Hand", "Mending", "Message", "Minor Illusion",
+				"Poison Spray", "Prestidigitation", "Ray of Frost", "Shocking Grasp", "True Strike"
+			],
+			"Warlock": [
+				"Blade Ward", "Chill Touch", "Create Bonfire", "Eldritch Blast", "Friends",
+				"Frostbite", "Magic Stone", "Mage Hand", "Minor Illusion", "Poison Spray",
+				"Prestidigitation", "Toll the Dead", "True Strike"
+			],
+			"Bard": [
+				"Blade Ward", "Dancing Lights", "Friends", "Light", "Mage Hand", "Mending",
+				"Message", "Minor Illusion", "Prestidigitation", "Thunderclap", "True Strike", "Vicious Mockery"
+			],
+			"Cleric": [
+				"Guidance", "Light", "Mending", "Resistance", "Sacred Flame", "Spare the Dying",
+				"Thaumaturgy", "Toll the Dead", "Word of Radiance"
+			],
+			"Druid": [
+				"Create Bonfire", "Druidcraft", "Frostbite", "Guidance", "Magic Stone",
+				"Mending", "Poison Spray", "Produce Flame", "Resistance", "Shillelagh",
+				"Thorn Whip", "Thunderclap"
+			]
+		};
+
+		const availableCantrips = classCantrips[casterClass.name] || [];
+		const selectedCantrips = [];
+
+		// Always include signature cantrips for certain classes
+		const signatureCantrips = {
+			"Warlock": ["Eldritch Blast"],
+			"Cleric": ["Sacred Flame", "Guidance"],
+			"Druid": ["Druidcraft"]
+		};
+
+		const signatures = signatureCantrips[casterClass.name] || [];
+		signatures.forEach(cantrip => {
+			if (selectedCantrips.length < cantripCount) {
+				selectedCantrips.push(cantrip);
+			}
+		});
+
+		// Fill remaining slots with random appropriate cantrips
+		while (selectedCantrips.length < cantripCount && selectedCantrips.length < availableCantrips.length) {
+			const randomCantrip = availableCantrips[Math.floor(Math.random() * availableCantrips.length)];
+			if (!selectedCantrips.includes(randomCantrip)) {
+				selectedCantrips.push(randomCantrip);
+			}
+		}
+
+		return selectedCantrips;
+	}
+
+	generateMulticlassSpellSlots(totalCasterLevel) {
+		const levels = {};
+		
+		// Multiclass spellcaster slot progression
+		const multiclassSlots = [
+			[2, 0, 0, 0, 0, 0, 0, 0, 0], // Level 1
+			[3, 0, 0, 0, 0, 0, 0, 0, 0], // Level 2
+			[4, 2, 0, 0, 0, 0, 0, 0, 0], // Level 3
+			[4, 3, 0, 0, 0, 0, 0, 0, 0], // Level 4
+			[4, 3, 2, 0, 0, 0, 0, 0, 0], // Level 5
+			[4, 3, 3, 0, 0, 0, 0, 0, 0], // Level 6
+			[4, 3, 3, 1, 0, 0, 0, 0, 0], // Level 7
+			[4, 3, 3, 2, 0, 0, 0, 0, 0], // Level 8
+			[4, 3, 3, 3, 1, 0, 0, 0, 0], // Level 9
+			[4, 3, 3, 3, 2, 0, 0, 0, 0], // Level 10
+			[4, 3, 3, 3, 2, 1, 0, 0, 0], // Level 11
+			[4, 3, 3, 3, 2, 1, 0, 0, 0], // Level 12
+			[4, 3, 3, 3, 2, 1, 1, 0, 0], // Level 13
+			[4, 3, 3, 3, 2, 1, 1, 0, 0], // Level 14
+			[4, 3, 3, 3, 2, 1, 1, 1, 0], // Level 15
+			[4, 3, 3, 3, 2, 1, 1, 1, 0], // Level 16
+			[4, 3, 3, 3, 2, 1, 1, 1, 1], // Level 17
+			[4, 3, 3, 3, 3, 1, 1, 1, 1], // Level 18
+			[4, 3, 3, 3, 3, 2, 1, 1, 1], // Level 19
+			[4, 3, 3, 3, 3, 2, 2, 1, 1]  // Level 20
+		];
+
+		if (totalCasterLevel > 0 && totalCasterLevel <= 20) {
+			const slotArray = multiclassSlots[totalCasterLevel - 1];
+			for (let level = 1; level <= 9; level++) {
+				const maxSlots = slotArray[level - 1];
+				if (maxSlots > 0) {
+					levels[level] = {
+						maxSlots: maxSlots,
+						slotsUsed: 0,
+						spells: []
+					};
+				}
+			}
+		}
+
+		return levels;
+	}
+
+	calculateSpellsKnown(casterClass) {
+		const spellsKnownProgression = {
+			"Sorcerer": [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 12, 13, 13, 14, 14, 15, 15, 15, 15],
+			"Bard": [4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 15, 16, 18, 19, 19, 20, 22, 22, 22],
+			"Ranger": [0, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11],
+			"Warlock": [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15]
+		};
+
+		const progression = spellsKnownProgression[casterClass.name];
+		return progression ? progression[Math.min(casterClass.level - 1, 19)] : null;
 	}
 
 	getRandomSpells(casterClass, level) {
@@ -1629,36 +2605,6 @@ class CharacterEditorPage {
 		return stories[backgroundName] || "Their unique background has prepared them for the challenges ahead.";
 	}
 
-	generateRandomLanguages(race, classes) {
-		const languages = ["Common"];
-
-		// Add racial languages
-		const racialLanguages = {
-			"Elf": "Elvish",
-			"Dwarf": "Dwarvish",
-			"Halfling": "Halfling",
-			"Dragonborn": "Draconic",
-			"Gnome": "Gnomish",
-			"Half-Orc": "Orcish",
-			"Tiefling": "Infernal"
-		};
-
-		if (racialLanguages[race.name]) {
-			languages.push(racialLanguages[race.name]);
-		}
-
-		// Add bonus languages
-		const bonusLanguages = ["Celestial", "Abyssal", "Giant", "Primordial", "Sylvan"];
-		const numBonus = Math.floor(Math.random() * 3);
-		for (let i = 0; i < numBonus; i++) {
-			const lang = bonusLanguages[Math.floor(Math.random() * bonusLanguages.length)];
-			if (!languages.includes(lang)) {
-				languages.push(lang);
-			}
-		}
-
-		return languages;
-	}
 
 	generateRandomCurrency(level) {
 		const baseGold = 50 + (level * 30) + Math.floor(Math.random() * 100);
@@ -1670,132 +2616,354 @@ class CharacterEditorPage {
 		};
 	}
 
-	generateRandomEquipment(classes, level) {
-		const equipment = ["{@item Explorer's Pack|phb}", "{@item Bedroll|phb}", "{@item Rope (50 feet)|phb}", "{@item Tinderbox|phb}", "{@item Rations (10 days)|phb}", "{@item Waterskin|phb}", "{@item Hempen Rope|phb}", "{@item Torch|phb} (x5)"];
+	generateRandomEquipment(classes, level, abilityScores, race) {
+		const equipment = new Set();
+		
+		// Core adventuring gear for all characters
+		equipment.add("{@item Backpack|phb}");
+		equipment.add("{@item Bedroll|phb}");
+		equipment.add("{@item Mess Kit|phb}");
+		equipment.add("{@item Tinderbox|phb}");
+		equipment.add("{@item Torch|phb} (10)");
+		equipment.add("{@item Rations|phb} (10 days)");
+		equipment.add("{@item Waterskin|phb}");
+		equipment.add("{@item Hempen Rope|phb} (50 feet)");
 
-		// Add class-specific equipment with more variety
+		// Add class-specific starting equipment and progressions
 		classes.forEach(cls => {
-			switch (cls.name) {
-				case "Fighter":
-				case "Paladin":
-					equipment.push(
-						level >= 5 ? "{@item Plate Armor|phb}" : "{@item Chain Mail|phb}",
-						"{@item Longsword|phb}", "{@item Shield|phb}", "{@item Javelin|phb} (x4)", "{@item Handaxe|phb} (x2)",
-						level >= 3 ? "{@item Silvered Weapon|phb}" : "{@item Whetstone|phb}"
-					);
-					if (cls.name === "Paladin") {
-						equipment.push("{@item Holy Symbol|phb}", "{@item Prayer Book|phb}", "{@item Holy Water|phb}");
-					}
-					break;
-				case "Rogue":
-					equipment.push(
-						"{@item Leather Armor|phb}", "{@item Shortbow|phb}", "{@item Arrows|phb} (x20)", "{@item Thieves' Tools|phb}",
-						"{@item Burglar's Pack|phb}", "{@item Dagger|phb} (x2)", "{@item Shortsword|phb}", "{@item Caltrops|phb}",
-						level >= 3 ? "{@item Poisoner's Kit|phb}" : "{@item Ball Bearings|phb}"
-					);
-					break;
-				case "Ranger":
-					equipment.push(
-						"{@item Studded Leather Armor|phb}", "{@item Longbow|phb}", "{@item Arrows|phb} (x20)", "{@item Scimitar|phb} (x2)",
-						"{@item Survival Kit|phb}", "{@item Hunting Trap|phb}", "{@item Net|phb}", "{@item Herbalism Kit|phb}",
-						level >= 2 ? "{@item Component Pouch|phb}" : "{@item Druidcraft Focus|phb}"
-					);
-					break;
-				case "Wizard":
-					equipment.push(
-						"{@item Spellbook|phb}", "{@item Component Pouch|phb}", "{@item Dagger|phb}", "{@item Quarterstaff|phb}",
-						"{@item Scholar's Pack|phb}", "{@item Ink and Quill|phb}", "{@item Spell Scroll|phb} (x2)",
-						level >= 3 ? "{@item Arcane Focus (Crystal)|phb}" : "{@item Arcane Focus (Wand)|phb}",
-						level >= 5 ? "{@item Scroll Case|phb}" : "{@item Parchment|phb} (x10)"
-					);
-					break;
-				case "Sorcerer":
-					equipment.push(
-						"{@item Dagger|phb} (x2)", "{@item Component Pouch|phb}", "{@item Light Crossbow|phb}", "{@item Bolts|phb} (x20)",
-						"{@item Dungeoneer's Pack|phb}", "{@item Arcane Focus (Crystal)|phb}",
-						level >= 3 ? "{@item Metamagic Focus|phb}" : "{@item Simple Weapon|phb}"
-					);
-					break;
-				case "Warlock":
-					equipment.push(
-						"{@item Leather Armor|phb}", "{@item Simple Weapon|phb}", "{@item Dagger|phb} (x2)",
-						"{@item Component Pouch|phb}", "{@item Scholar's Pack|phb}", "{@item Arcane Focus (Rod)|phb}",
-						level >= 3 ? "{@item Pact Weapon|phb}" : "{@item Light Crossbow|phb} and {@item Bolts|phb}"
-					);
-					break;
-				case "Cleric":
-					equipment.push(
-						level >= 5 ? "{@item Chain Mail|phb}" : "{@item Leather Armor|phb}",
-						"{@item Shield|phb}", "{@item Mace|phb}", "{@item Holy Symbol|phb}", "{@item Priest's Pack|phb}",
-						"{@item Prayer Book|phb}", "{@item Holy Water|phb}", "{@item Incense|phb}",
-						level >= 3 ? "{@item Blessed Weapon|phb}" : "{@item Simple Weapon|phb}"
-					);
-					break;
-				case "Druid":
-					equipment.push(
-						"{@item Leather Armor|phb}", "{@item Shield|phb}", "{@item Scimitar|phb}", "{@item Javelin|phb} (x4)",
-						"{@item Herbalism Kit|phb}", "{@item Wooden Shield|phb}", "{@item Druidcraft Focus|phb}",
-						"{@item Bedroll|phb}", level >= 2 ? "{@item Wild Shape Focus|phb}" : "{@item Nature Kit|phb}"
-					);
-					break;
-				case "Barbarian":
-					equipment.push(
-						"Unarmored Defense", "{@item Greataxe|phb}", "{@item Handaxe|phb} (x2)", "{@item Javelin|phb} (x4)",
-						"{@item Explorer's Pack|phb}", "{@item Tribal Tokens|phb}",
-						level >= 3 ? "{@item Rage Trinket|phb}" : "{@item Hunting Gear|phb}"
-					);
-					break;
-				case "Bard":
-					equipment.push(
-						"{@item Leather Armor|phb}", "{@item Rapier|phb}", "{@item Dagger|phb}", "{@item Musical Instrument|phb}",
-						"{@item Entertainer's Pack|phb}", "{@item Lute|phb}", "{@item Costume|phb}",
-						level >= 3 ? "{@item Magical Instrument|phb}" : "{@item Performance Props|phb}"
-					);
-					break;
-				case "Monk":
-					equipment.push(
-						"{@item Simple Weapon|phb}", "{@item Dart|phb} (x10)", "{@item Dungeoneer's Pack|phb}",
-						"{@item Meditation Beads|phb}", "{@item Incense|phb}", "{@item Prayer Wheel|phb}",
-						level >= 3 ? "{@item Ki Focus|phb}" : "{@item Simple Tools|phb}"
-					);
-					break;
-			}
+			const classEquipment = this.getClassEquipment(cls.name, cls.level, abilityScores);
+			classEquipment.forEach(item => equipment.add(item));
 		});
 
-		// Add level-appropriate magic items and equipment
-		if (level >= 3) {
-			const uncommonItems = ["{@item Potion of Healing|dmg}", "{@item Bag of Holding|dmg}", "{@item Cloak of Protection|dmg}", "{@item Boots of Elvenkind|dmg}", "{@item Bracers of Archery|dmg}"];
-			equipment.push(uncommonItems[Math.floor(Math.random() * uncommonItems.length)]);
-		}
+		// Add racial equipment bonuses
+		const racialEquipment = this.getRacialEquipment(race);
+		racialEquipment.forEach(item => equipment.add(item));
 
-		if (level >= 5) {
-			const rareItems = ["{@item +1 Weapon|dmg}", "{@item Ring of Protection|dmg}", "{@item Cloak of Displacement|dmg}", "{@item Wand of Magic Missiles|dmg}"];
-			equipment.push(rareItems[Math.floor(Math.random() * rareItems.length)]);
-		}
+		// Add level-appropriate magical items
+		const magicalItems = this.generateMagicalItems(classes, level, abilityScores);
+		magicalItems.forEach(item => equipment.add(item));
 
-		if (level >= 8) {
-			const veryRareItems = ["{@item +2 Weapon|dmg}", "{@item Belt of Giant Strength|dmg}", "{@item Amulet of Health|dmg}", "{@item Rod of Lordly Might|dmg}"];
-			equipment.push(veryRareItems[Math.floor(Math.random() * veryRareItems.length)]);
-		}
+		// Add consumables and utility items based on level
+		const consumables = this.generateConsumables(level);
+		consumables.forEach(item => equipment.add(item));
 
-		if (level >= 12) {
-			const legendaryItems = ["{@item +3 Weapon|dmg}", "{@item Ring of Spell Storing|dmg}", "{@item Staff of Power|dmg}", "{@item Cloak of Invisibility|dmg}"];
-			equipment.push(legendaryItems[Math.floor(Math.random() * legendaryItems.length)]);
-		}
+		// Add adventuring tools based on character build
+		const adventuringGear = this.generateAdventuringGear(classes, level);
+		adventuringGear.forEach(item => equipment.add(item));
 
-		// Add general adventuring gear based on level
-		const generalGear = [
-			"{@item Grappling Hook|phb}", "{@item Crowbar|phb}", "{@item Hammer|phb}", "{@item Piton|phb} (x10)", "{@item Mirror|phb}",
-			"{@item Oil Flask|phb}", "{@item Lantern|phb}", "{@item Chain (10 feet)|phb}", "{@item Manacles|phb}", "{@item Magnifying Glass|phb}"
-		];
+		return Array.from(equipment);
+	}
 
-		const gearToAdd = Math.min(3 + Math.floor(level / 3), generalGear.length);
-		for (let i = 0; i < gearToAdd; i++) {
-			const randomGear = generalGear.splice(Math.floor(Math.random() * generalGear.length), 1)[0];
-			if (randomGear) equipment.push(randomGear);
+	getClassEquipment(className, classLevel, abilityScores) {
+		const equipment = [];
+		const strMod = Math.floor((abilityScores.str - 10) / 2);
+		const dexMod = Math.floor((abilityScores.dex - 10) / 2);
+
+		switch (className) {
+			case "Barbarian":
+				equipment.push("{@item Greataxe|phb}");
+				equipment.push("{@item Handaxe|phb} (2)");
+				equipment.push("{@item Javelin|phb} (4)");
+				equipment.push("{@item Explorer's Pack|phb}");
+				if (classLevel >= 3) equipment.push("{@item Rage Idol|phb}");
+				if (classLevel >= 5) equipment.push("{@item Silvered Weapon|dmg}");
+				break;
+
+			case "Bard":
+				equipment.push("{@item Leather Armor|phb}");
+				equipment.push(dexMod > strMod ? "{@item Rapier|phb}" : "{@item Longsword|phb}");
+				equipment.push("{@item Dagger|phb}");
+				equipment.push("{@item Entertainer's Pack|phb}");
+				equipment.push("{@item Lute|phb}");
+				equipment.push("{@item Vicious Mockery Focus|phb}");
+				if (classLevel >= 3) equipment.push("{@item Instrument of the Bards|dmg}");
+				break;
+
+			case "Cleric":
+				equipment.push(classLevel >= 5 ? "{@item Chain Mail|phb}" : "{@item Scale Mail|phb}");
+				equipment.push("{@item Shield|phb}");
+				equipment.push(strMod >= 0 ? "{@item Warhammer|phb}" : "{@item Mace|phb}");
+				equipment.push("{@item Light Crossbow|phb}");
+				equipment.push("{@item Crossbow Bolts|phb} (20)");
+				equipment.push("{@item Priest's Pack|phb}");
+				equipment.push("{@item Holy Symbol|phb}");
+				equipment.push("{@item Prayer Book|phb}");
+				equipment.push("{@item Holy Water|phb} (2)");
+				if (classLevel >= 3) equipment.push("{@item Blessed Weapon|dmg}");
+				break;
+
+			case "Druid":
+				equipment.push("{@item Leather Armor|phb}");
+				equipment.push("{@item Shield|phb} (wooden)");
+				equipment.push("{@item Scimitar|phb}");
+				equipment.push("{@item Javelin|phb} (4)");
+				equipment.push("{@item Druidcraft Focus|phb}");
+				equipment.push("{@item Herbalism Kit|phb}");
+				equipment.push("{@item Explorer's Pack|phb}");
+				if (classLevel >= 2) equipment.push("{@item Component Pouch|phb}");
+				if (classLevel >= 4) equipment.push("{@item Grove Guardian Charm|dmg}");
+				break;
+
+			case "Fighter":
+				if (strMod >= dexMod) {
+					equipment.push(classLevel >= 5 ? "{@item Plate Armor|phb}" : "{@item Chain Mail|phb}");
+					equipment.push("{@item Shield|phb}");
+					equipment.push("{@item Longsword|phb}");
+					equipment.push("{@item Handaxe|phb} (2)");
+				} else {
+					equipment.push("{@item Leather Armor|phb}");
+					equipment.push("{@item Longbow|phb}");
+					equipment.push("{@item Arrows|phb} (20)");
+					equipment.push("{@item Rapier|phb}");
+					equipment.push("{@item Shortsword|phb}");
+				}
+				equipment.push("{@item Light Crossbow|phb}");
+				equipment.push("{@item Crossbow Bolts|phb} (20)");
+				equipment.push("{@item Dungeoneer's Pack|phb}");
+				if (classLevel >= 3) equipment.push("{@item Masterwork Weapon|dmg}");
+				if (classLevel >= 5) equipment.push("{@item +1 Weapon|dmg}");
+				break;
+
+			case "Monk":
+				equipment.push("{@item Shortsword|phb}");
+				equipment.push("{@item Dungeoneer's Pack|phb}");
+				equipment.push("{@item Dart|phb} (10)");
+				equipment.push("{@item Meditation Beads|phb}");
+				equipment.push("{@item Incense|phb} (10)");
+				if (classLevel >= 3) equipment.push("{@item Ki Focus|dmg}");
+				if (classLevel >= 5) equipment.push("{@item Bracers of Defense|dmg}");
+				break;
+
+			case "Paladin":
+				equipment.push(classLevel >= 5 ? "{@item Plate Armor|phb}" : "{@item Chain Mail|phb}");
+				equipment.push("{@item Shield|phb}");
+				equipment.push("{@item Longsword|phb}");
+				equipment.push("{@item Javelin|phb} (5)");
+				equipment.push("{@item Explorer's Pack|phb}");
+				equipment.push("{@item Holy Symbol|phb}");
+				equipment.push("{@item Prayer Book|phb}");
+				equipment.push("{@item Holy Water|phb} (4)");
+				equipment.push("{@item Blessed Oil|phb} (2)");
+				if (classLevel >= 3) equipment.push("{@item Divine Weapon|dmg}");
+				if (classLevel >= 5) equipment.push("{@item +1 Shield|dmg}");
+				break;
+
+			case "Ranger":
+				equipment.push("{@item Studded Leather Armor|phb}");
+				equipment.push("{@item Shortsword|phb} (2)");
+				equipment.push("{@item Longbow|phb}");
+				equipment.push("{@item Arrows|phb} (20)");
+				equipment.push("{@item Dungeoneer's Pack|phb}");
+				equipment.push("{@item Survival Kit|phb}");
+				equipment.push("{@item Hunting Trap|phb} (3)");
+				if (classLevel >= 2) equipment.push("{@item Component Pouch|phb}");
+				if (classLevel >= 3) equipment.push("{@item Ranger's Cloak|dmg}");
+				break;
+
+			case "Rogue":
+				equipment.push("{@item Leather Armor|phb}");
+				equipment.push("{@item Shortsword|phb} (2)");
+				equipment.push("{@item Shortbow|phb}");
+				equipment.push("{@item Arrows|phb} (20)");
+				equipment.push("{@item Thieves' Tools|phb}");
+				equipment.push("{@item Burglar's Pack|phb}");
+				equipment.push("{@item Dagger|phb} (2)");
+				equipment.push("{@item Caltrops|phb} (2 bags)");
+				equipment.push("{@item Ball Bearings|phb} (1000)");
+				if (classLevel >= 3) equipment.push("{@item Poisoner's Kit|phb}");
+				if (classLevel >= 5) equipment.push("{@item +1 Thieves' Tools|dmg}");
+				break;
+
+			case "Sorcerer":
+				equipment.push("{@item Dagger|phb} (2)");
+				equipment.push("{@item Component Pouch|phb}");
+				equipment.push("{@item Light Crossbow|phb}");
+				equipment.push("{@item Crossbow Bolts|phb} (20)");
+				equipment.push("{@item Dungeoneer's Pack|phb}");
+				equipment.push("{@item Arcane Focus|phb} (crystal)");
+				if (classLevel >= 3) equipment.push("{@item Metamagic Crystal|dmg}");
+				if (classLevel >= 5) equipment.push("{@item Wand of Magic Missiles|dmg}");
+				break;
+
+			case "Warlock":
+				equipment.push("{@item Leather Armor|phb}");
+				equipment.push("{@item Light Crossbow|phb}");
+				equipment.push("{@item Crossbow Bolts|phb} (20)");
+				equipment.push("{@item Component Pouch|phb}");
+				equipment.push("{@item Scholar's Pack|phb}");
+				equipment.push("{@item Arcane Focus|phb} (rod)");
+				equipment.push("{@item Dagger|phb} (2)");
+				equipment.push("{@item Simple Weapon|phb}");
+				if (classLevel >= 3) equipment.push("{@item Pact Weapon|dmg}");
+				if (classLevel >= 5) equipment.push("{@item Rod of the Pact Keeper|dmg}");
+				break;
+
+			case "Wizard":
+				equipment.push("{@item Dagger|phb}");
+				equipment.push("{@item Component Pouch|phb}");
+				equipment.push("{@item Scholar's Pack|phb}");
+				equipment.push("{@item Spellbook|phb}");
+				equipment.push("{@item Arcane Focus|phb} (orb)");
+				equipment.push("{@item Ink|phb} (1 ounce bottle)");
+				equipment.push("{@item Quill|phb}");
+				equipment.push("{@item Parchment|phb} (10 sheets)");
+				equipment.push("{@item Spell Scroll (1st level)|dmg} (2)");
+				if (classLevel >= 3) equipment.push("{@item Pearl of Power|dmg}");
+				if (classLevel >= 5) equipment.push("{@item Staff of the Magi|dmg}");
+				break;
 		}
 
 		return equipment;
+	}
+
+	getRacialEquipment(race) {
+		if (!race) return [];
+		
+		const racialEquipment = {
+			"Dwarf": ["{@item Smith's Tools|phb}", "{@item Warhammer|phb}"],
+			"Elf": ["{@item Longbow|phb}", "{@item Arrows|phb} (20)", "{@item Longsword|phb}"],
+			"Halfling": ["{@item Sling|phb}", "{@item Sling Bullets|phb} (20)"],
+			"Human": [],
+			"Dragonborn": ["{@item Dragon Scale|phb}"],
+			"Gnome": ["{@item Tinker's Tools|phb}"],
+			"Half-Elf": ["{@item Musical Instrument|phb}"],
+			"Half-Orc": ["{@item Greataxe|phb}"],
+			"Tiefling": ["{@item Infernal Contract|phb}"]
+		};
+
+		return racialEquipment[race.name] || [];
+	}
+
+	generateMagicalItems(classes, level, abilityScores) {
+		const items = [];
+		
+		// Always include healing potions
+		const healingPotions = Math.max(1, Math.floor(level / 3));
+		for (let i = 0; i < healingPotions; i++) {
+			items.push(level >= 5 ? "{@item Potion of Greater Healing|dmg}" : "{@item Potion of Healing|dmg}");
+		}
+
+		if (level >= 3) {
+			const uncommonItems = [
+				"{@item Bag of Holding|dmg}",
+				"{@item Cloak of Protection|dmg}",
+				"{@item Boots of Elvenkind|dmg}",
+				"{@item Gloves of Missile Snaring|dmg}",
+				"{@item Bracers of Archery|dmg}",
+				"{@item Eyes of the Eagle|dmg}"
+			];
+			items.push(uncommonItems[Math.floor(Math.random() * uncommonItems.length)]);
+		}
+
+		if (level >= 5) {
+			const rareItems = [
+				"{@item +1 Armor|dmg}",
+				"{@item +1 Weapon|dmg}",
+				"{@item Ring of Protection|dmg}",
+				"{@item Cloak of Displacement|dmg}",
+				"{@item Boots of Speed|dmg}",
+				"{@item Amulet of Health|dmg}"
+			];
+			items.push(rareItems[Math.floor(Math.random() * rareItems.length)]);
+		}
+
+		if (level >= 8) {
+			const veryRareItems = [
+				"{@item +2 Weapon|dmg}",
+				"{@item +2 Armor|dmg}",
+				"{@item Belt of Giant Strength|dmg}",
+				"{@item Rod of Lordly Might|dmg}",
+				"{@item Ring of Spell Storing|dmg}"
+			];
+			items.push(veryRareItems[Math.floor(Math.random() * veryRareItems.length)]);
+		}
+
+		if (level >= 11) {
+			const legendaryItems = [
+				"{@item +3 Weapon|dmg}",
+				"{@item +3 Armor|dmg}",
+				"{@item Cloak of Invisibility|dmg}",
+				"{@item Staff of Power|dmg}",
+				"{@item Ring of Three Wishes|dmg}"
+			];
+			items.push(legendaryItems[Math.floor(Math.random() * legendaryItems.length)]);
+		}
+
+		return items;
+	}
+
+	generateConsumables(level) {
+		const consumables = [];
+		
+		// Potions scale with level
+		const potionCount = Math.min(5, 1 + Math.floor(level / 2));
+		const potionTypes = [
+			"{@item Potion of Climbing|dmg}",
+			"{@item Potion of Fire Resistance|dmg}",
+			"{@item Potion of Flying|dmg}",
+			"{@item Potion of Invisibility|dmg}",
+			"{@item Potion of Speed|dmg}",
+			"{@item Potion of Water Breathing|dmg}",
+			"{@item Antitoxin|phb}",
+			"{@item Potion of Heroism|dmg}"
+		];
+
+		for (let i = 0; i < potionCount; i++) {
+			consumables.push(potionTypes[Math.floor(Math.random() * potionTypes.length)]);
+		}
+
+		// Scrolls for spellcasters
+		if (level >= 3) {
+			const scrollCount = Math.floor(level / 3);
+			for (let i = 0; i < scrollCount; i++) {
+				const scrollLevel = Math.min(Math.floor(level / 3), 5);
+				consumables.push(`{@item Spell Scroll (${scrollLevel}${this.getOrdinalSuffix(scrollLevel)} level)|dmg}`);
+			}
+		}
+
+		return consumables;
+	}
+
+	generateAdventuringGear(classes, level) {
+		const gear = [];
+		
+		// Basic adventuring tools
+		const basicGear = [
+			"{@item Crowbar|phb}",
+			"{@item Hammer|phb}",
+			"{@item Piton|phb} (10)",
+			"{@item Grappling Hook|phb}",
+			"{@item Manacles|phb}",
+			"{@item Mirror|phb}",
+			"{@item Oil|phb} (flask)",
+			"{@item Lantern|phb} (hooded)",
+			"{@item Chain|phb} (10 feet)",
+			"{@item Magnifying Glass|phb}",
+			"{@item Spyglass|phb}",
+			"{@item Caltrops|phb} (bag of 20)"
+		];
+
+		// Add gear based on level
+		const gearCount = Math.min(Math.floor(level / 2) + 2, basicGear.length);
+		const selectedGear = [];
+		
+		while (selectedGear.length < gearCount && selectedGear.length < basicGear.length) {
+			const randomGear = basicGear[Math.floor(Math.random() * basicGear.length)];
+			if (!selectedGear.includes(randomGear)) {
+				selectedGear.push(randomGear);
+			}
+		}
+
+		return selectedGear;
+	}
+
+	getOrdinalSuffix(num) {
+		const j = num % 10;
+		const k = num % 100;
+		if (j === 1 && k !== 11) return "st";
+		if (j === 2 && k !== 12) return "nd";
+		if (j === 3 && k !== 13) return "rd";
+		return "th";
 	}
 
 	// Method to generate random character at specified level
@@ -1809,17 +2977,17 @@ class CharacterEditorPage {
 			console.log(`Generating random character: Level ${finalLevel}, Name: ${finalName || 'random'}, Source: ${finalSource}`);
 
 			// Use existing generation logic but with provided parameters
-			const randomRace = this.generateRandomRace();
+			const randomRace = this.generateRandomRace(randomClasses);
 			const randomClasses = this.generateRandomClasses(finalLevel);
 			const randomBackground = this.generateRandomBackground();
-			const randomAbilityScores = this.generateRandomAbilityScores(randomClasses);
-			const randomEquipment = this.generateRandomEquipment(randomClasses, finalLevel);
+			const randomAbilityScores = this.generateRandomAbilityScores(randomClasses, randomRace);
+			const randomEquipment = this.generateRandomEquipment(randomClasses, finalLevel, randomAbilityScores, randomRace);
 			const randomActions = this.generateRandomActions(randomClasses, randomAbilityScores);
-			const randomSpells = this.generateRandomSpells(randomClasses, finalLevel);
+			const randomSpells = this.generateRandomSpells(randomClasses, finalLevel, randomAbilityScores);
 
 			// Calculate derived stats
 			const totalLevel = randomClasses.reduce((sum, cls) => sum + cls.level, 0);
-			const profBonus = Math.ceil(totalLevel / 4) + 1;
+			const profBonus = Math.floor((totalLevel - 1) / 4) + 2;
 			const conMod = Math.floor((randomAbilityScores.con - 10) / 2);
 			const randomHp = this.calculateRandomHp(randomClasses, conMod);
 
@@ -1839,7 +3007,7 @@ class CharacterEditorPage {
 			...randomAbilityScores,
 			passive: 10 + Math.floor((randomAbilityScores.wis - 10) / 2) + (this.hasSkillProficiency("perception", randomClasses) ? profBonus : 0),
 			save: this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
-			skill: this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus),
+			skill: this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, null),
 			proficiencyBonus: `+${profBonus}`,
 			deathSaves: {
 				successes: 0,
@@ -1849,14 +3017,16 @@ class CharacterEditorPage {
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
 			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment),
+			characterDepth: this.generateCharacterDepth(randomBackground, randomRace, randomClasses),
 			fluff: {
 				entries: [
-					`${finalName} is a ${totalLevel === 1 ? 'beginning' : totalLevel < 5 ? 'novice' : totalLevel < 10 ? 'experienced' : 'veteran'} adventurer with a ${this.getPersonalityTrait()}.`,
+					`${finalName} is a ${totalLevel === 1 ? 'beginning' : totalLevel < 5 ? 'novice' : totalLevel < 10 ? 'experienced' : 'veteran'} adventurer.`,
 					`Their journey has led them to master ${randomClasses.length === 1 ? 'the ways of the ' + randomClasses[0].name.toLowerCase() : 'multiple disciplines'}.`,
 					this.getBackgroundStory(randomBackground.name)
 				]
 			},
-			languages: this.generateRandomLanguages(randomRace, randomClasses),
+			languages: this.generateLanguageProficiencies(randomClasses, randomRace, null),
+			toolProficiencies: this.generateToolProficiencies(randomClasses, randomRace, null),
 			currency: this.generateRandomCurrency(totalLevel)
 		};
 
@@ -2095,7 +3265,8 @@ class CharacterEditorPage {
 				// Ask if user wants to view the character on the characters page
 				setTimeout(() => {
 					if (confirm('Character saved successfully! Would you like to view it on the characters page?')) {
-						const characterAnchor = this.generateCharacterAnchor(characterData.name);
+						const src = characterData.source || this.getCurrentSourceName(characterData) || 'mycharacters';
+						const characterAnchor = this.generateCharacterAnchor(characterData.name, src);
 						window.location.href = `characters.html${characterAnchor}`;
 					}
 				}, 1000);
@@ -2259,8 +3430,14 @@ class CharacterEditorPage {
 			document.getElementById('message').textContent = 'Saved locally (database unavailable)';
 			document.getElementById('message').style.color = 'orange';
 
-			// Update current character data for local editing
-			currentCharacterData = characterPayload;
+			// Update current character data for local editing (construct a local fallback payload)
+			const fallbackPayload = {
+				...characterData,
+				id: CharacterManager._generateCompositeId(characterData.name, characterData.source),
+				created: new Date().toISOString(),
+				lastModified: new Date().toISOString()
+			};
+			currentCharacterData = fallbackPayload;
 			isEditMode = true;
 
 			// Update URL to reflect edit mode
@@ -2429,10 +3606,9 @@ class CharacterEditorPage {
 	}
 
 	generateCharacterAnchor(characterName, characterSource) {
-		// Properly encode characterName and characterSource
-		const encodedName = encodeURIComponent(characterName); // Encode the raw name
-		const encodedSource = encodeURIComponent(characterSource);
-		return `#${encodedName}_${encodedSource}`.toLowerCase();
+		// Use the canonical composite id generator so anchors match IDs used by CharacterManager
+		const id = CharacterManager._generateCompositeId(characterName, characterSource);
+		return id ? `#${id}` : '#';
 	}
 
 	// Source Password Management UI Methods
@@ -2516,8 +3692,8 @@ class CharacterEditorPage {
 		localStorage.setItem('characterDataLastUpdated', Date.now().toString());
 
 		// Clear any application-level character cache that might exist
-		if (window.characterCache) {
-			window.characterCache = null;
+		if (window['characterCache']) {
+			window['characterCache'] = null;
 		}
 
 		// Trigger a custom event that other parts of the app can listen to
