@@ -29,7 +29,6 @@ class CharacterManager {
 	 */
 	static setFreshnessThreshold(milliseconds) {
 		this._freshnessThreshold = milliseconds;
-		console.log(`CharacterManager: Freshness threshold set to ${milliseconds}ms (${milliseconds / 1000}s)`);
 	}
 
 	/**
@@ -44,13 +43,11 @@ class CharacterManager {
 					cached.lastFetched = 0; // Force stale
 				}
 			}
-			console.log(`CharacterManager: Forced refresh for ${characterIds.length} characters`);
 		} else {
 			// Clear all lastFetched timestamps
 			for (const [id, cached] of this._blobCache.entries()) {
 				cached.lastFetched = 0;
 			}
-			console.log(`CharacterManager: Forced refresh for all ${this._blobCache.size} cached characters`);
 		}
 	}
 
@@ -62,11 +59,10 @@ class CharacterManager {
 		try {
 			const stored = localStorage.getItem(this._STORAGE_KEY);
 			if (!stored) return [];
-			
+
 			const data = JSON.parse(stored);
 			if (!Array.isArray(data)) return [];
-			
-			console.log(`CharacterManager: Loaded ${data.length} characters from localStorage cache`);
+
 			return data;
 		} catch (e) {
 			console.warn('CharacterManager: Failed to load from localStorage:', e);
@@ -97,7 +93,7 @@ class CharacterManager {
 			setTimeout(async () => {
 				const now = Date.now();
 				let hasStaleCharacters = false;
-				
+
 				// Check if any characters are stale
 				for (const [id, cached] of this._blobCache.entries()) {
 					if (sources && sources.length > 0) {
@@ -107,21 +103,19 @@ class CharacterManager {
 							continue;
 						}
 					}
-					
+
 					if ((now - (cached.lastFetched || 0)) > this._freshnessThreshold) {
 						hasStaleCharacters = true;
 						break;
 					}
 				}
-				
+
 				if (hasStaleCharacters) {
-					console.log('CharacterManager: Found stale characters, updating in background...');
 					// Force a background refresh
 					this.forceRefreshCharacters();
 					// This will trigger a new load that actually hits the API
 					const updated = await this._performFullApiLoad(sources);
 					if (updated.length > 0) {
-						console.log(`CharacterManager: Background update completed, refreshed ${updated.length} characters`);
 						this._notifyListeners();
 					}
 				}
@@ -137,16 +131,15 @@ class CharacterManager {
 	 */
 	static async _performFullApiLoad(sources = null) {
 		try {
-			console.log(`CharacterManager: Background API load${sources ? ` (filtered by sources: ${sources.join(', ')})` : ''}...`);
 			const cacheBuster = Date.now();
-			
+
 			// Build URL with optional sources parameter
 			let url = `/api/characters/load?_t=${cacheBuster}`;
 			if (sources && sources.length > 0) {
 				const sourcesParam = sources.map(s => `sources=${encodeURIComponent(s)}`).join('&');
 				url += `&${sourcesParam}`;
 			}
-			
+
 			const response = await fetch(url, {
 				cache: 'no-cache',
 				headers: {
@@ -162,7 +155,7 @@ class CharacterManager {
 
 			const metadata = await response.json();
 			const blobs = metadata.blobs || [];
-			
+
 			// Fetch all characters from API
 			const fetchPromises = blobs.map(async (blob) => {
 				try {
@@ -175,28 +168,28 @@ class CharacterManager {
 							'Expires': '0'
 						}
 					});
-					
+
 					if (!response.ok) {
 						return null;
 					}
-					
+
 					const apiResponse = await response.json();
 					if (!apiResponse.success) {
 						return null;
 					}
-					
+
 					const characterData = apiResponse.character;
-					const character = (characterData.character && Array.isArray(characterData.character)) 
-						? characterData.character[0] 
+					const character = (characterData.character && Array.isArray(characterData.character))
+						? characterData.character[0]
 						: characterData;
-					
+
 					// Update cache with lastFetched timestamp
 					this._blobCache.set(blob.id, {
 						blob: blob,
 						character: character,
 						lastFetched: Date.now()
 					});
-					
+
 					return character;
 				} catch (e) {
 					return null;
@@ -279,22 +272,21 @@ class CharacterManager {
 	static async _performLoad(sources = null) {
 		// First, always try to use localStorage as primary source
 		const localCharacters = this._loadFromLocalStorage();
-		
+
 		if (localCharacters.length > 0) {
 			// Apply source filtering if requested
 			let charactersToUse = localCharacters;
 			if (sources && sources.length > 0) {
-				charactersToUse = localCharacters.filter(character => 
+				charactersToUse = localCharacters.filter(character =>
 					sources.includes(character.source)
 				);
 			}
-			
+
 			if (charactersToUse.length > 0) {
-				console.log(`CharacterManager: Using ${charactersToUse.length} characters from localStorage cache (defaulting to local)`);
-				
+
 				// Process and store the local characters first
 				const processedCharacters = this._processAndStoreCharacters(charactersToUse);
-				
+
 				// Populate blob cache with current data for future freshness checks
 				const now = Date.now();
 				for (const character of charactersToUse) {
@@ -310,25 +302,24 @@ class CharacterManager {
 						});
 					}
 				}
-				
+
 				// Check for stale characters in the background (don't block the UI)
 				this._checkForStaleCharactersInBackground(sources);
-				
+
 				return processedCharacters;
 			}
 		}
-		
+
 		try {
-			console.log(`CharacterManager: Loading character blob metadata from API${sources ? ` (filtered by sources: ${sources.join(', ')})` : ''}...`);
 			const cacheBuster = Date.now();
-			
+
 			// Build URL with optional sources parameter
 			let url = `/api/characters/load?_t=${cacheBuster}`;
 			if (sources && sources.length > 0) {
 				const sourcesParam = sources.map(s => `sources=${encodeURIComponent(s)}`).join('&');
 				url += `&${sourcesParam}`;
 			}
-			
+
 			const response = await fetch(url, {
 				cache: 'no-cache',
 				headers: {
@@ -344,23 +335,21 @@ class CharacterManager {
 
 			const metadata = await response.json();
 			const blobs = metadata.blobs || [];
-			
-			console.log(`CharacterManager: Found ${blobs.length} character blobs, checking for updates...`);
-			
+
 			// Determine which characters need to be fetched
 			const toFetch = [];
 			const cachedCharacters = [];
 			const now = Date.now();
-			
+
 			for (const blob of blobs) {
 				const cached = this._blobCache.get(blob.id);
-				
+
 				// Check if we need to fetch this blob
-				const needsFetch = !cached || 
-					cached.blob.uploadedAt !== blob.uploadedAt || 
+				const needsFetch = !cached ||
+					cached.blob.uploadedAt !== blob.uploadedAt ||
 					cached.blob.size !== blob.size ||
 					(now - (cached.lastFetched || 0)) > this._freshnessThreshold;
-				
+
 				if (needsFetch) {
 					toFetch.push(blob);
 				} else {
@@ -368,18 +357,16 @@ class CharacterManager {
 					cachedCharacters.push(cached.character);
 				}
 			}
-			
+
 			// Log cache analysis
 			const staleCount = toFetch.filter(blob => {
 				const cached = this._blobCache.get(blob.id);
-				return cached && 
-					cached.blob.uploadedAt === blob.uploadedAt && 
+				return cached &&
+					cached.blob.uploadedAt === blob.uploadedAt &&
 					cached.blob.size === blob.size &&
 					(now - (cached.lastFetched || 0)) > this._freshnessThreshold;
 			}).length;
-			
-			console.log(`CharacterManager: Using ${cachedCharacters.length} cached, fetching ${toFetch.length} characters (${toFetch.length - staleCount} changed, ${staleCount} stale)`);
-			
+
 			// Fetch only the characters that need updating
 			const fetchPromises = toFetch.map(async (blob) => {
 				try {
@@ -393,64 +380,62 @@ class CharacterManager {
 							'Expires': '0'
 						}
 					});
-					
+
 					if (!response.ok) {
 						console.warn(`Failed to fetch character ${blob.id}: ${response.statusText}`);
 						return null;
 					}
-					
+
 					const apiResponse = await response.json();
 					if (!apiResponse.success) {
 						console.warn(`API error fetching character ${blob.id}:`, apiResponse.error);
 						return null;
 					}
-					
+
 					const characterData = apiResponse.character;
 					// Extract character from wrapper if needed
-					const character = (characterData.character && Array.isArray(characterData.character)) 
-						? characterData.character[0] 
+					const character = (characterData.character && Array.isArray(characterData.character))
+						? characterData.character[0]
 						: characterData;
-					
+
 					// Update cache with lastFetched timestamp
 					this._blobCache.set(blob.id, {
 						blob: blob,
 						character: character,
 						lastFetched: Date.now()
 					});
-					
+
 					return character;
 				} catch (e) {
 					console.warn(`Failed to load character from ${blob.pathname}:`, e);
 					return null;
 				}
 			});
-			
+
 			const fetchedCharacters = (await Promise.all(fetchPromises)).filter(Boolean);
-			
+
 			// Combine cached and fetched characters
 			const allCharacters = [...cachedCharacters, ...fetchedCharacters];
-			
+
 			return this._processAndStoreCharacters(allCharacters);
 		} catch (error) {
 			console.error('CharacterManager: Error loading characters from API:', error);
-			
+
 			// Fall back to localStorage cache if available
 			if (localCharacters.length > 0) {
-				console.log(`CharacterManager: Falling back to localStorage cache with ${localCharacters.length} characters`);
-				
 				// Process and store the cached characters
 				const processedCharacters = this._processAndStoreCharacters(localCharacters);
-				
+
 				// Apply source filtering if requested
 				if (sources && sources.length > 0) {
-					return processedCharacters.filter(character => 
+					return processedCharacters.filter(character =>
 						sources.includes(character.source)
 					);
 				}
-				
+
 				return processedCharacters;
 			}
-			
+
 			console.warn('CharacterManager: No cached characters available offline');
 			// Return empty array on error to prevent crashes
 			return [];
@@ -488,15 +473,13 @@ class CharacterManager {
 
 			// Process character for display
 			const processedCharacter = this._processCharacterForDisplay(character);
-			
+
 			// Store in both map and array
 			this._characters.set(character.id, processedCharacter);
 			this._charactersArray.push(processedCharacter);
 			processedCharacters.push(processedCharacter);
 		}
 
-		console.log(`CharacterManager: Loaded ${processedCharacters.length} unique characters`);
-		
 		// Populate DataLoader cache for hover/popout functionality and offline support
 		if (processedCharacters.length > 0) {
 			const formattedData = { character: processedCharacters };
@@ -505,16 +488,15 @@ class CharacterManager {
 					allDataMerged: formattedData,
 					propAllowlist: new Set(["character"])
 				});
-				console.log(`CharacterManager: Populated DataLoader cache with ${processedCharacters.length} characters`);
 			}
 		}
-		
+
 		// Save to localStorage cache for offline access
 		this._saveToLocalStorage(processedCharacters);
-		
+
 		// Notify listeners of the update
 		this._notifyListeners();
-		
+
 		return processedCharacters;
 	}
 
@@ -594,7 +576,7 @@ class CharacterManager {
 		}
 
 		const processed = this._processCharacterForDisplay(character);
-		
+
 		// Update or add to map
 		const existingIndex = this._charactersArray.findIndex(c => c.id === character.id);
 		if (existingIndex >= 0) {
@@ -604,12 +586,12 @@ class CharacterManager {
 			// Add new
 			this._charactersArray.push(processed);
 		}
-		
+
 		this._characters.set(character.id, processed);
-		
+
 		// Update DataLoader cache to maintain consistency
 		this._updateDataLoaderCache();
-		
+
 		// Notify listeners
 		this._notifyListeners();
 	}
@@ -628,7 +610,7 @@ class CharacterManager {
 
 		// Apply updates
 		Object.assign(character, updates);
-		
+
 		// Update in array as well
 		const arrayIndex = this._charactersArray.findIndex(c => c.id === characterId);
 		if (arrayIndex >= 0) {
@@ -644,7 +626,6 @@ class CharacterManager {
 		// Notify listeners of the update
 		this._notifyListeners();
 
-		console.log(`CharacterManager: Quick edit applied to ${character.name}:`, updates);
 		return true;
 	}
 
@@ -685,13 +666,12 @@ class CharacterManager {
 				if (editingId === character.id) {
 					// Update the localStorage with the latest character data
 					localStorage.setItem('editingCharacter', JSON.stringify(character));
-					console.log(`CharacterManager: Updated localStorage cache for ${character.name}`);
 				}
 			}
 		} catch (e) {
 			console.warn('CharacterManager: Error updating localStorage cache:', e);
 		}
-		
+
 		// Also update the full character cache for offline access
 		try {
 			this._saveToLocalStorage([...this._charactersArray]);
@@ -707,12 +687,12 @@ class CharacterManager {
 	static removeCharacter(id) {
 		if (this._characters.has(id)) {
 			this._characters.delete(id);
-			
+
 			const index = this._charactersArray.findIndex(c => c.id === id);
 			if (index >= 0) {
 				this._charactersArray.splice(index, 1);
 			}
-			
+
 			// Notify listeners
 			this._notifyListeners();
 		}
@@ -751,7 +731,6 @@ class CharacterManager {
 		}
 
 		this._refreshInterval = setInterval(async () => {
-			console.log('CharacterManager: Auto-refreshing character data...');
 			try {
 				await this.reloadCharacters();
 			} catch (e) {
@@ -759,7 +738,6 @@ class CharacterManager {
 			}
 		}, intervalMs);
 
-		console.log(`CharacterManager: Auto-refresh enabled (${intervalMs / 1000}s interval)`);
 	}
 
 	/**
@@ -788,8 +766,8 @@ class CharacterManager {
 	 */
 	static canEditCharacter(characterOrSource) {
 		try {
-			const source = typeof characterOrSource === 'string' 
-				? characterOrSource 
+			const source = typeof characterOrSource === 'string'
+				? characterOrSource
 				: characterOrSource?.source;
 
 			if (!source || source === 'Unknown' || source === '') {
@@ -850,11 +828,11 @@ class CharacterManager {
 
 			if (response.ok) {
 				const saveResult = await response.json();
-				
+
 				// Update local cache - the local copy is already correct after save
 				characterData.id = characterId;
 				this.addOrUpdateCharacter(characterData);
-				
+
 				// Update blob cache with the fresh blob info from save result
 				if (saveResult.blob) {
 					this._blobCache.set(characterId, {
@@ -868,15 +846,14 @@ class CharacterManager {
 						character: characterData,
 						lastFetched: Date.now() // Mark as fresh since we just saved it
 					});
-					console.log(`CharacterManager: Updated blob cache for character: ${characterData.name}`);
 				}
-				
+
 				// Also ensure localStorage is updated
 				this._updateLocalStorageCache(characterData);
-				
+
 				// Broadcast change to other tabs
 				this._broadcastSync('CHARACTER_UPDATED', { character: characterData });
-				
+
 				console.log(`CharacterManager: Successfully saved character: ${characterData.name}`);
 				return true;
 			} else {
@@ -916,7 +893,7 @@ class CharacterManager {
 
 			// Save to server first
 			const success = await this.saveCharacter(character, true);
-			
+
 			if (success) {
 				// Only update local caches if server save succeeded
 				this.updateCharacterQuickEdit(characterId, { [this._getTopLevelProperty(statPath)]: this._getNestedProperty(character, this._getTopLevelProperty(statPath)) });
@@ -960,7 +937,7 @@ class CharacterManager {
 			}
 			return current[key];
 		}, obj);
-		
+
 		// Handle null/empty values appropriately
 		if (value === null || value === '' || value === undefined) {
 			delete target[lastKey];
@@ -1033,7 +1010,7 @@ class CharacterManager {
 				if (character && this._characters.has(character.id)) {
 					// Update the character in our local cache
 					this._characters.set(character.id, character);
-					
+
 					// Update the array
 					const index = this._charactersArray.findIndex(c => c.id === character.id);
 					if (index !== -1) {
@@ -1090,7 +1067,7 @@ class CharacterManager {
 		// Use localStorage to communicate with other tabs
 		// The storage event will fire in other tabs but not this one
 		localStorage.setItem('characterManager_sync', JSON.stringify(syncData));
-		
+
 		// Clean up the sync item after a short delay to prevent clutter
 		setTimeout(() => {
 			if (localStorage.getItem('characterManager_sync') === JSON.stringify(syncData)) {

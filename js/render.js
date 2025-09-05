@@ -8588,7 +8588,6 @@ Renderer.character = class {
 			const maxHp = hp.max || hp.average || "?";
 
 			// Check if user has edit access for this character's source
-			console.log(`Renderer: Character ${character.name}, hasEditAccess: ${hasEditAccess}, isStatic: ${isStatic}`);
 			if (hasEditAccess && !isStatic) {
 				// Render editable HP with click-to-edit functionality
 				// Store character data in a global registry instead of embedding in HTML
@@ -8833,7 +8832,7 @@ Renderer.character = class {
 
 						// Create clickable dice roll with proficiency indicator in tooltip
 						const rollTooltip = isProficient ? `${skill.name} (Proficient)` : skill.name;
-						const rollableModifier = `{@skillCheck ${skill.ability} 1d20${finalStr}|${finalStr}|${rollTooltip}}`;
+						const rollableModifier = `{@skillCheck ${skill.ability} ${finalStr}}`;
 
 						// Format skill name with visual proficiency indicator
 						const displayName = Renderer.character._formatSkillName(skill.name, isProficient);
@@ -8874,7 +8873,7 @@ Renderer.character = class {
 						const finalStr = finalModifier >= 0 ? `+${finalModifier}` : `${finalModifier}`;
 						// Create clickable dice roll for saving throws, with proficiency indicator in the roll name
 						const saveName = isProficient ? `${Parser.attAbvToFull(ab)} Save (Proficient)` : `${Parser.attAbvToFull(ab)} Save`;
-						const rollableModifier = `{@savingThrow ${ab} 1d20${finalStr}|${finalStr}|${saveName}}`;
+						const rollableModifier = `{@savingThrow ${ab} ${finalStr}}`;
 
 						// Display ability name with proficiency indicator
 						const displayName = isProficient ? `<strong>${Parser.attAbvToFull(ab)}</strong> ◉` : Parser.attAbvToFull(ab);

@@ -218,7 +218,6 @@ class DiceBoxManager {
 		} catch (error) {
 			// Remove from active rolls on error
 			this._activeRolls.delete(rollId);
-			console.error(`🎲 ${rollId}: Error rolling 3D dice:`, error);
 			throw error;
 		}
 	}
@@ -303,6 +302,8 @@ class DiceBoxManager {
 		// Wait for dice to settle before starting fade countdown
 		if (results.individual && results.individual.length > 0) {
 			this._waitForSettlingThenFade(rollId);
+		} else {
+			this._waitForSettlingThenFade(rollId);
 		}
 
 		return results;
@@ -325,6 +326,8 @@ class DiceBoxManager {
 
 		// Wait for dice to settle before starting fade countdown
 		if (results && results.individual && results.individual.length > 0) {
+			this._waitForSettlingThenFade(rollId);
+		} else {
 			this._waitForSettlingThenFade(rollId);
 		}
 
@@ -442,51 +445,14 @@ class DiceBoxManager {
 	 * @param {string} rollId - The roll ID to fade after settling
 	 */
 	static _waitForSettlingThenFade(rollId) {
-		// Use a more patient approach - allow dice proper time to settle
-		// Most dice should settle within 3-4 seconds of realistic physics
-		let settleCheckCount = 0;
-		const maxSettleChecks = 25; // Maximum 5 seconds at 200ms intervals
-		const settleCheckInterval = 200; // Check every 200ms
-		const checkSettling = () => {
-			settleCheckCount++;
-			
-			// Check if this roll ID is still in active rolls (might have been cleared)
-			if (!this._activeRolls.has(rollId)) {
-				return;
-			}
-			
-			// Give dice plenty of time to settle naturally
-			// Don't be too aggressive about clearing them
-			if (settleCheckCount >= maxSettleChecks) {
-				setTimeout(() => {
-					this._fadeOutSpecificRoll(rollId);
-				}, 2000); // Start 2s fade countdown after settling (longer delay)
-				return;
-			}
-			
-			// Wait longer before assuming settled - let physics do their thing
-			// Most dice with our physics settings need 3-4 seconds to fully settle
-			if (settleCheckCount >= 15) { // After 3 seconds, likely settled
-				setTimeout(() => {
-					this._fadeOutSpecificRoll(rollId);
-				}, 2000); // Start 2s fade countdown after settling
-				return;
-			}
-			
-			// Continue checking
-			setTimeout(checkSettling, settleCheckInterval);
-		};
-		
-		// Start checking after a longer initial delay to let dice start moving
-		setTimeout(checkSettling, 500); // Wait 500ms before first check
-		
-		// Also add a hard timeout as absolute fallback (8 seconds total)
+		// Simplified approach: just wait a fixed time and then fade
+		// Most dice settle within 3-4 seconds with realistic physics
 		setTimeout(() => {
+			// Check if this roll ID is still active
 			if (this._activeRolls.has(rollId)) {
-				console.warn(`🎲 ${rollId}: Hit hard timeout, forcing fade`);
 				this._fadeOutSpecificRoll(rollId);
 			}
-		}, 8000);
+		}, 4000); // Simple 4 second delay
 	}
 
 	/**
@@ -569,7 +535,9 @@ class DiceBoxManager {
 				this._currentTheme = theme;
 				
 				// Store theme preference
-				VetoolsConfig.set(this._configKeys.dicetheme, theme);
+				if (window.VetoolsConfig) {
+					window.VetoolsConfig.set("dice", "theme3d", theme);
+				}
 			} else {
 				// Try alternative: reinitialize DiceBox with new theme
 				console.warn(`DiceBoxManager: updateConfig method not available, reinitializing DiceBox with new theme`);

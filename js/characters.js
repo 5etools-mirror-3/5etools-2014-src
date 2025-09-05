@@ -167,7 +167,7 @@ class CharactersPage extends ListPageMultiSource {
 		} catch (e) {
 			console.warn('Failed to load characters via CharacterManager:', e);
 		}
-		
+
 		// Set up listener for character updates
 		CharacterManager.addListener((characters) => {
 			// Update the list when characters change
@@ -178,7 +178,7 @@ class CharactersPage extends ListPageMultiSource {
 				this._addData(formattedData);
 				this._list.update();
 			}
-			
+
 			// Re-render currently displayed character if it was updated
 			if (this._currentCharacter) {
 				const characterId = CharacterManager._generateCompositeId(this._currentCharacter.name, this._currentCharacter.source);
@@ -186,18 +186,17 @@ class CharactersPage extends ListPageMultiSource {
 					const id = CharacterManager._generateCompositeId(c.name, c.source);
 					return id === characterId;
 				});
-				
+
 				if (updatedCharacter) {
 					// Update the stored reference and re-render
 					this._currentCharacter = updatedCharacter;
-					
+
 					// Update global character edit data for consistency
 					if (globalThis._CHARACTER_EDIT_DATA) {
 						globalThis._CHARACTER_EDIT_DATA[characterId] = updatedCharacter;
 					}
-					
+
 					this._renderStats_doBuildStatsTab({ent: updatedCharacter});
-					console.log(`CharactersPage: Re-rendered character ${updatedCharacter.name} with updated data`);
 				}
 			}
 		});
@@ -251,7 +250,7 @@ class CharactersPage extends ListPageMultiSource {
 			if (character) {
 				return character;
 			}
-			
+
 			// If not in cache, fallback to direct API call
 			const response = await fetch(`/api/characters/${characterId}`);
 			if (response.ok) {
