@@ -144,7 +144,7 @@ class CharacterEditorPage {
 			this.loadCharacterForEdit();
 		} else {
 			// Load default template
-			this.loadTemplate();
+			await this.loadTemplate();
 		}
 
 		// Bind button events
@@ -210,7 +210,7 @@ class CharacterEditorPage {
 		}
 	}
 
-	loadTemplate() {
+	async loadTemplate() {
 		// Get URL parameters
 		const urlParams = new URLSearchParams(window.location.search);
 		const requestedSource = urlParams.get('source') || localStorage.getItem('newCharacterSource');
@@ -235,11 +235,11 @@ class CharacterEditorPage {
 		const randomActions = this.generateRandomActions(randomClasses, randomAbilityScores);
 		const randomSpells = this.generateRandomSpells(randomClasses, requestedLevel, randomAbilityScores);
 
-		// Calculate derived stats
-		const totalLevel = randomClasses.reduce((sum, cls) => sum + cls.level, 0);
-		const profBonus = Math.floor((totalLevel - 1) / 4) + 2;
-		const conMod = Math.floor((randomAbilityScores.con - 10) / 2);
-		const randomHp = this.calculateRandomHp(randomClasses, conMod);
+	// Calculate derived stats
+	const totalLevel = randomClasses.reduce((sum, cls) => sum + cls.level, 0);
+	const profBonus = Math.floor((totalLevel - 1) / 4) + 2;
+	const conMod = Math.floor((randomAbilityScores.con - 10) / 2);
+	const randomHp = this.calculateRandomHp(randomClasses, conMod);
 
 	// Generate character depth first so we can use it in fluff (store as fluff, not as a top-level field)
 		const characterDepth = this.generateCharacterDepth(randomBackground, randomRace, randomClasses, randomAlignment);
@@ -260,7 +260,7 @@ class CharacterEditorPage {
 			...randomAbilityScores,
 			passive: 10 + Math.floor((randomAbilityScores.wis - 10) / 2) + (this.hasSkillProficiency("perception", randomClasses) ? profBonus : 0),
 			save: this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
-			skill: this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, randomBackground),
+			skill: await this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, randomBackground),
 			proficiencyBonus: `+${profBonus}`,
 			deathSaves: {
 				successes: 0,
@@ -277,7 +277,7 @@ class CharacterEditorPage {
 			toolProficiencies: this.generateToolProficiencies(randomClasses, randomRace, null),
 			currency: this.generateRandomCurrency(totalLevel)
 		};
-		this.ace.setValue(JSON.stringify(template, null, 2), 1);
+	this.ace.setValue(JSON.stringify(template, null, 2), 1);
 	}
 
 	// Random character generation methods
@@ -487,7 +487,7 @@ class CharacterEditorPage {
 				source: "PHB",
 				subclasses: [
 					{ name: "Draconic Bloodline", shortName: "Draconic", source: "PHB" },
-					{ name: "Wild Magic", shortName: "Wild Magic", source: "PHB" }
+					{ name: "Wild Magic", shortName: "Wild Magic", source: "TCE" }
 				]
 			},
 			{
@@ -1104,7 +1104,7 @@ class CharacterEditorPage {
 		return saves;
 	}
 
-	generateRandomSkills(abilityScores, classes, profBonus, race, background) {
+	async generateRandomSkills(abilityScores, classes, profBonus, race, background) {
 		const skills = {};
 		const skillAbilityMap = {
 			"acrobatics": "dex", "animal_handling": "wis", "arcana": "int",
@@ -1140,13 +1140,31 @@ class CharacterEditorPage {
 		racialSkills.forEach(skill => proficientSkills.add(skill));
 
 		// Add background skill proficiencies (should be exactly 2 for most backgrounds)
-		if (background) {
+		if (background && typeof DataLoader !== 'undefined') {
+			try {
+				// Attempt to find canonical background entry by name
+				await DataLoader.pCacheAndGetAllSite(UrlUtil.PG_BACKGROUNDS);
+				const allBgs = (DataLoader._CACHE && DataLoader._CACHE.getAllSite) ? DataLoader._CACHE.getAllSite(UrlUtil.PG_BACKGROUNDS) : [];
+				const found = (allBgs || []).find(b => (b.name || '').toLowerCase() === (background.name || '').toLowerCase());
+				if (found && found.skill) {
+					// `found.skill` may be an array of skill names or objects
+					const skillsFromData = Array.isArray(found.skill) ? found.skill.map(s => typeof s === 'string' ? s : s.name).filter(Boolean) : [];
+					skillsFromData.forEach(s => proficientSkills.add(s));
+				} else {
+					const backgroundSkills = this.generateBackgroundSkills(background);
+					backgroundSkills.forEach(skill => proficientSkills.add(skill));
+				}
+			} catch (e) {
+				const backgroundSkills = this.generateBackgroundSkills(background);
+				backgroundSkills.forEach(skill => proficientSkills.add(skill));
+			}
+		} else if (background) {
 			const backgroundSkills = this.generateBackgroundSkills(background);
 			backgroundSkills.forEach(skill => proficientSkills.add(skill));
 		}
 
 		// Only include skills where the character has proficiency
-		proficientSkills.forEach(skill => {
+	proficientSkills.forEach(skill => {
 			if (skillAbilityMap[skill]) {
 				const ability = skillAbilityMap[skill];
 				const abilityMod = Math.floor((abilityScores[ability] - 10) / 2);
@@ -2082,7 +2100,7 @@ class CharacterEditorPage {
 				"Poison Spray", "Prestidigitation", "Ray of Frost", "Shocking Grasp", "True Strike"
 			],
 			"Warlock": [
-				"Blade Ward", "Chill Touch", "Create Bonfire", "Eldritch Blast", "Friends",
+				"Blade Ward", "Chill Touch", "Create Bonfire|XGE", "Eldritch Blast", "Friends",
 				"Frostbite", "Magic Stone", "Mage Hand", "Minor Illusion", "Poison Spray",
 				"Prestidigitation", "Toll the Dead", "True Strike"
 			],
@@ -2095,7 +2113,7 @@ class CharacterEditorPage {
 				"Thaumaturgy", "Toll the Dead", "Word of Radiance|XGE"
 			],
 			"Druid": [
-				"Create Bonfire", "Druidcraft", "Frostbite", "Guidance", "Magic Stone",
+				"Create Bonfire|XGE", "Druidcraft", "Frostbite|XGE", "Guidance", "Magic Stone",
 				"Mending", "Poison Spray", "Produce Flame", "Resistance", "Shillelagh",
 				"Thorn Whip", "Thunderclap"
 			]
@@ -3717,7 +3735,7 @@ class CharacterEditorPage {
 				} else {
 					equipment.push("{@item Leather Armor|phb}");
 					equipment.push("{@item Longbow|phb}");
-					equipment.push("{@item Arrows|phb} (20)");
+					equipment.push("{@item Arrow|phb} (20)");
 					equipment.push("{@item Rapier|phb}");
 					equipment.push("{@item Shortsword|phb}");
 				}
@@ -3765,10 +3783,16 @@ class CharacterEditorPage {
 				equipment.push("{@item Javelin|phb} (5)");
 				equipment.push("{@item Explorer's Pack|phb}");
 				equipment.push("{@item Holy Symbol|phb}");
-				equipment.push("{@item Holy Water|phb} (4)");
-				equipment.push("{@item Blessed Oil|phb} (2)");
+				// Use canonical PHB item tokens: Holy Water (flask) and Healer's Kit for paladin consumables/tools
+				equipment.push("{@item Holy Water (flask)|phb} (2)");
+				equipment.push("{@item Healer's Kit|phb}");
 				equipment.push("Prayer Book");
-				if (classLevel >= 3) equipment.push("{@item Divine Weapon|dmg}");
+				// 'Divine Weapon' is a class feature, not an item token — give concrete gear instead
+				if (classLevel >= 3) {
+					// Provide a small holy stash appropriate to a low-level paladin
+					equipment.push("{@item Potion of Healing|dmg}");
+					equipment.push("{@item Holy Water (flask)|phb} (1)");
+				}
 				if (classLevel >= 5) equipment.push("{@item +1 Shield|dmg}");
 				break;
 
@@ -3818,7 +3842,17 @@ class CharacterEditorPage {
 				equipment.push("{@item Scholar's Pack|phb}");
 				equipment.push("{@item Arcane Focus|phb} (rod)");
 				equipment.push("{@item Dagger|phb} (2)");
-				if (classLevel >= 3) equipment.push("{@item Pact Weapon|dmg}");
+				if (classLevel >= 3) {
+					// 'Pact Weapon' is a feature, not an item token. Provide a sensible weapon choice instead.
+					const warlockWeaponOptions = [
+						"{@item Quarterstaff|phb}",
+						"{@item Longsword|phb}",
+						"{@item Shortsword|phb}",
+						"{@item Scimitar|phb}",
+						"{@item Mace|phb}"
+					];
+					equipment.push(warlockWeaponOptions[Math.floor(Math.random() * warlockWeaponOptions.length)]);
+				}
 				if (classLevel >= 5) equipment.push("{@item Rod of the Pact Keeper|dmg}");
 				break;
 
@@ -4049,7 +4083,7 @@ class CharacterEditorPage {
 			...randomAbilityScores,
 			passive: 10 + Math.floor((randomAbilityScores.wis - 10) / 2) + (this.hasSkillProficiency("perception", randomClasses) ? profBonus : 0),
 			save: this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
-			skill: this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, randomBackground),
+			skill: await this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, randomBackground),
 			proficiencyBonus: `+${profBonus}`,
 			deathSaves: {
 				successes: 0,
@@ -4590,7 +4624,7 @@ class CharacterEditorPage {
 			this.updateButtonVisibility();
 
 			// Load template to reset editor
-			this.loadTemplate();
+			await this.loadTemplate();
 
 			// Show success message
 			document.getElementById('message').textContent = `Character "${characterName}" deleted successfully`;
