@@ -7,13 +7,10 @@ let isEditMode = false;
 let currentSource = null;
 let hasSourceAccess = false;
 
-// API configuration
-const API_BASE_URL = window.location.origin.includes('localhost')
-  ? 'http://localhost:3000/api'
-  : '/api';
+// API configuration is declared elsewhere (e.g., sources.js)
 
 // Source Password Management
-class SourcePasswordManager {
+class CharacterSourcePasswordManager {
 	static STORAGE_KEY = 'sourcePasswords';
 
 	// Get all cached passwords from localStorage
@@ -263,7 +260,7 @@ class CharacterEditorPage {
 			...randomAbilityScores,
 			passive: 10 + Math.floor((randomAbilityScores.wis - 10) / 2) + (this.hasSkillProficiency("perception", randomClasses) ? profBonus : 0),
 			save: this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
-			skill: this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, null),
+			skill: this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, randomBackground),
 			proficiencyBonus: `+${profBonus}`,
 			deathSaves: {
 				successes: 0,
@@ -1347,7 +1344,28 @@ class CharacterEditorPage {
 	}
 
 	generateBackgroundSkills(background) {
-		// Generate 2 background skills that make thematic sense
+		// If a canonical background object is provided, map its name to the standard skill pair
+		const map = {
+			"Acolyte": ["history", "religion"],
+			"Charlatan": ["deception", "sleight_of_hand"],
+			"Criminal": ["deception", "stealth"],
+			"Entertainer": ["performance", "persuasion"],
+			"Folk Hero": ["animal_handling", "survival"],
+			"Guild Artisan": ["insight", "persuasion"],
+			"Hermit": ["medicine", "religion"],
+			"Noble": ["history", "persuasion"],
+			"Outlander": ["athletics", "survival"],
+			"Sage": ["arcana", "history"],
+			"Sailor": ["athletics", "perception"],
+			"Soldier": ["athletics", "intimidation"],
+			"Urchin": ["sleight_of_hand", "stealth"]
+		};
+
+		if (background && typeof background === 'object' && background.name && map[background.name]) {
+			return map[background.name];
+		}
+
+		// Fallback: random pair from a curated list
 		const backgroundSkillSets = [
 			["history", "religion"], // Acolyte
 			["deception", "sleight_of_hand"], // Criminal
@@ -2070,11 +2088,11 @@ class CharacterEditorPage {
 			],
 			"Bard": [
 				"Blade Ward", "Dancing Lights", "Friends", "Light", "Mage Hand", "Mending",
-				"Message", "Minor Illusion", "Prestidigitation", "Thunderclap", "True Strike", "Vicious Mockery"
+				"Message", "Minor Illusion", "Prestidigitation", "Thunderclap|XGE", "True Strike", "Vicious Mockery"
 			],
 			"Cleric": [
 				"Guidance", "Light", "Mending", "Resistance", "Sacred Flame", "Spare the Dying",
-				"Thaumaturgy", "Toll the Dead", "Word of Radiance"
+				"Thaumaturgy", "Toll the Dead", "Word of Radiance|XGE"
 			],
 			"Druid": [
 				"Create Bonfire", "Druidcraft", "Frostbite", "Guidance", "Magic Stone",
@@ -3747,9 +3765,9 @@ class CharacterEditorPage {
 				equipment.push("{@item Javelin|phb} (5)");
 				equipment.push("{@item Explorer's Pack|phb}");
 				equipment.push("{@item Holy Symbol|phb}");
-				equipment.push("{@item Prayer Book|phb}");
 				equipment.push("{@item Holy Water|phb} (4)");
 				equipment.push("{@item Blessed Oil|phb} (2)");
+				equipment.push("Prayer Book");
 				if (classLevel >= 3) equipment.push("{@item Divine Weapon|dmg}");
 				if (classLevel >= 5) equipment.push("{@item +1 Shield|dmg}");
 				break;
@@ -3760,10 +3778,9 @@ class CharacterEditorPage {
 				equipment.push("{@item Longbow|phb}");
 				equipment.push("{@item Arrow|phb} (20)");
 				equipment.push("{@item Dungeoneer's Pack|phb}");
-				equipment.push("{@item Survival Kit|phb}");
 				equipment.push("{@item Hunting Trap|phb} (3)");
 				if (classLevel >= 2) equipment.push("{@item Component Pouch|phb}");
-				if (classLevel >= 3) equipment.push("{@item Ranger's Cloak|dmg}");
+				if (classLevel >= 3) equipment.push("{@item Cloak of Elvenkind|dmg}");
 				break;
 
 			case "Rogue":
@@ -3801,7 +3818,6 @@ class CharacterEditorPage {
 				equipment.push("{@item Scholar's Pack|phb}");
 				equipment.push("{@item Arcane Focus|phb} (rod)");
 				equipment.push("{@item Dagger|phb} (2)");
-				equipment.push("{@item Simple Weapon|phb}");
 				if (classLevel >= 3) equipment.push("{@item Pact Weapon|dmg}");
 				if (classLevel >= 5) equipment.push("{@item Rod of the Pact Keeper|dmg}");
 				break;
@@ -3830,13 +3846,13 @@ class CharacterEditorPage {
 		const racialEquipment = {
 			"Dwarf": ["{@item Smith's Tools|phb}", "{@item Warhammer|phb}"],
 			"Elf": ["{@item Longbow|phb}", "{@item Arrow|phb} (20)", "{@item Longsword|phb}"],
-			"Halfling": ["{@item Sling|phb}", "{@item Sling Bullets|phb} (20)"],
+			"Halfling": ["{@item Sling|phb}", "{@item Sling Bullet|phb} (20)"],
 			"Human": [],
 			"Dragonborn": [],
 			"Gnome": ["{@item Tinker's Tools|phb}"],
 			"Half-Elf": ["{@item Musical Instrument|phb}"],
 			"Half-Orc": ["{@item Greataxe|phb}"],
-			"Tiefling": ["{@item Infernal Contract|phb}"]
+			"Tiefling": ["{@item Cloak of Protection|dmg}"]
 		};
 
 		return racialEquipment[race.name] || [];
@@ -3958,7 +3974,7 @@ class CharacterEditorPage {
 			"{@item Manacles|phb}",
 			"{@item Oil (flask)|phb}",
 			"{@item Hooded Lantern|phb}",
-			"{@item Chain|phb} (10 feet)",
+			"{@item Chain (10 feet)|phb}",
 			"{@item Magnifying Glass|phb}",
 			"{@item Spyglass|phb}",
 			"{@item Caltrops (bag of 20)|phb}",
@@ -4033,7 +4049,7 @@ class CharacterEditorPage {
 			...randomAbilityScores,
 			passive: 10 + Math.floor((randomAbilityScores.wis - 10) / 2) + (this.hasSkillProficiency("perception", randomClasses) ? profBonus : 0),
 			save: this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
-			skill: this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, null),
+			skill: this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, randomBackground),
 			proficiencyBonus: `+${profBonus}`,
 			deathSaves: {
 				successes: 0,
@@ -4514,10 +4530,10 @@ class CharacterEditorPage {
 		// Get password from localStorage cache (same as save functionality)
 		const currentSource = this.getCurrentSourceName(currentCharacterData);
 		const sanitizedSource = this.sanitizeSourceName(currentSource);
-		const password = SourcePasswordManager.getCachedPassword(sanitizedSource);
+		const password = CharacterSourcePasswordManager.getCachedPassword(sanitizedSource);
 
 		if (!password) {
-			const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
+			const cachedSources = Object.keys(CharacterSourcePasswordManager.getCachedPasswords());
 			let errorMsg = `Error: No cached password found for source "${currentSource}" (sanitized: "${sanitizedSource}").`;
 			if (cachedSources.length > 0) {
 				errorMsg += ` Available sources: ${cachedSources.join(', ')}. Please update the "source" field or visit Source Management.`;
@@ -4622,7 +4638,7 @@ class CharacterEditorPage {
 		}
 
 		// Check for any cached sources - use the first one
-		const cachedPasswords = SourcePasswordManager.getCachedPasswords();
+		const cachedPasswords = CharacterSourcePasswordManager.getCachedPasswords();
 		const availableSources = Object.keys(cachedPasswords);
 		if (availableSources.length > 0) {
 			return availableSources[0];
@@ -4668,7 +4684,7 @@ class CharacterEditorPage {
 		}
 
 		const detectedSource = this.getCurrentSourceName(characterData);
-		const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
+			const cachedSources = Object.keys(CharacterSourcePasswordManager.getCachedPasswords());
 
 		if (!currentSource) {
 			currentSource = detectedSource;
@@ -4676,7 +4692,7 @@ class CharacterEditorPage {
 
 		// Check if this source has a cached password (using sanitized name)
 		const sanitizedDetectedSource = this.sanitizeSourceName(detectedSource);
-		const cachedPassword = SourcePasswordManager.getCachedPassword(sanitizedDetectedSource);
+			const cachedPassword = CharacterSourcePasswordManager.getCachedPassword(sanitizedDetectedSource);
 		if (cachedPassword) {
 			statusEl.innerHTML = `Detected password for: "<strong>${detectedSource}</strong>" (authenticated). <a href="sources.html">Manage sources</a>.`;
 			hasSourceAccess = true;
@@ -4704,7 +4720,7 @@ class CharacterEditorPage {
 
 		// Check if we have a cached password for this source (using sanitized name)
 		const sanitizedSource = this.sanitizeSourceName(sourceName);
-		const cachedPassword = SourcePasswordManager.getCachedPassword(sanitizedSource);
+			const cachedPassword = CharacterSourcePasswordManager.getCachedPassword(sanitizedSource);
 		if (cachedPassword) {
 			return true;
 		}
