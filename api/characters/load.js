@@ -1,4 +1,5 @@
 import { list } from '@vercel/blob';
+import Cache from './cache.js';
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -33,7 +34,33 @@ export default async function handler(req, res) {
 
     // If no URL provided, return blob metadata for client-side selective loading
     if (!url) {
-      const { blobs } = await list({
+      // Support forcing a fresh list via ?force=true
+      const force = req.query.force === 'true' || req.query.force === '1';
+
+      // If we have a fresh cached result and client didn't force, return it
+      if (!force && Cache.isFresh()) {
+        let cached = Cache.getCachedBlobs().blobs || [];
+        // Apply source filter on cached result if requested
+        if (sources) {
+          const sourceList = Array.isArray(sources) ? sources : [sources];
+          cached = cached.filter(blob => {
+            const parts = blob.id.split('-');
+            const source = parts[parts.length - 1];
+            return sourceList.includes(source);
+          });
+        }
+
+        return res.status(200).json({
+          blobs: cached,
+          count: cached.length,
+          timestamp: _cachedCharacterBlobsTs,
+          cached: true,
+          filteredBy: sources ? (Array.isArray(sources) ? sources : [sources]) : null
+        });
+      }
+
+  // Otherwise fetch from blob storage and update the server-side cache
+  const { blobs } = await list({
         prefix: 'characters/',
         limit: 1000,
         token: process.env.BLOB_READ_WRITE_TOKEN
@@ -55,6 +82,9 @@ export default async function handler(req, res) {
           };
         });
 
+  // Update the shared in-memory cache unfiltered (so we can filter per-request cheaply)
+  Cache.setCachedBlobs(characterBlobs);
+
       // Filter by sources if specified
       if (sources) {
         const sourceList = Array.isArray(sources) ? sources : [sources];
@@ -69,7 +99,8 @@ export default async function handler(req, res) {
       return res.status(200).json({
         blobs: characterBlobs,
         count: characterBlobs.length,
-        timestamp: Date.now(),
+        timestamp: _cachedCharacterBlobsTs,
+        cached: false,
         filteredBy: sources ? (Array.isArray(sources) ? sources : [sources]) : null
       });
     }

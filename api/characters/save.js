@@ -1,5 +1,6 @@
 import { put, head } from '@vercel/blob';
 import { PasswordUtils } from '../sources/password-utils.js';
+import Cache from './cache.js';
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -97,6 +98,13 @@ export default async function handler(req, res) {
         allowOverwrite: true, // Allow overwriting existing characters
         cacheControlMaxAge: 1800, // Cache for 30 minutes to save bandwidth
       });
+
+      // Invalidate the server-side blob list cache so next list() call fetches fresh metadata
+      try {
+        Cache.invalidate();
+      } catch (e) {
+        console.warn('Failed to invalidate character list cache after save:', e);
+      }
 
       return res.status(200).json({
         success: true,
