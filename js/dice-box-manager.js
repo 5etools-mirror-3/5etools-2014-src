@@ -459,13 +459,9 @@ class DiceBoxManager {
 		// Remove from active rolls tracking
 		this._activeRolls.delete(rollId);
 
-		// If this is the last active roll, fade out all dice
-		if (this._activeRolls.size === 0) {
-			this.fadeOutDice();
-		}
-		// For concurrent rolls, we don't fade individual dice since dice-box
-		// doesn't support selective clearing. Instead, we wait for all rolls
-		// to complete before fading
+		// Always fade out dice after this roll completes, don't wait for other rolls
+		// This ensures dice fade even if other roll IDs get stuck
+		this.fadeOutDice();
 	}
 
 	/**

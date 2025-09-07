@@ -143,10 +143,9 @@ class CharacterManager {
 	 */
 	static async _performFullApiLoad(sources = null) {
 		try {
-			const cacheBuster = Date.now();
 
 			// Build URL with optional sources parameter
-			let url = `/api/characters/load?_t=${cacheBuster}`;
+			let url = `/api/characters/load`;
 			if (sources && sources.length > 0) {
 				const sourcesParam = sources.map(s => `sources=${encodeURIComponent(s)}`).join('&');
 				url += `&${sourcesParam}`;
