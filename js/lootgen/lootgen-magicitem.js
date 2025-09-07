@@ -1,4 +1,5 @@
 import {TOOLTIP_NOTHING} from "./lootgen-const.js";
+import {LootGenRender} from "./lootgen-render.js";
 
 export class LootGenMagicItem extends BaseComponent {
 	static async pGetMagicItemRoll (
@@ -410,7 +411,7 @@ export class LootGenMagicItem extends BaseComponent {
 
 	_getRender_getDispBaseEntry ({prop = "baseEntry"} = {}) {
 		const dispBaseEntry = ee`<div class="mr-2"></div>`;
-		const hkBaseEntry = () => dispBaseEntry.html(Renderer.get().render(this._state.isItemsAltChooseRoll ? `{@i ${this._state[prop]}}` : this._state[prop]));
+		const hkBaseEntry = () => dispBaseEntry.html(LootGenRender.er(this._state.isItemsAltChooseRoll ? `{@i ${this._state[prop]}}` : this._state[prop]));
 		this._addHookBase(prop, hkBaseEntry);
 		hkBaseEntry();
 		return dispBaseEntry;
@@ -485,7 +486,7 @@ class LootGenMagicItemSpellScroll extends LootGenMagicItem {
 		const dispSpell = ee`<div class="no-wrap"></div>`;
 		const hkSpell = () => {
 			if (!this._state.spell) return dispSpell.html(`<span class="help-subtle" title="${TOOLTIP_NOTHING.qq()}">(no spell)</span>`);
-			dispSpell.html(Renderer.get().render(`{@spell ${this._state.spell.name}|${this._state.spell.source}}`));
+			dispSpell.html(LootGenRender.er(`{@spell ${this._state.spell.name}|${this._state.spell.source}}`));
 		};
 		this._addHookBase("spell", hkSpell);
 		hkSpell();
@@ -500,7 +501,7 @@ class LootGenMagicItemSpellScroll extends LootGenMagicItem {
 					${btnRerollSpell}
 					${dispSpell}
 					<span class="ve-muted mx-2 no-wrap">-or-</span>
-					<div class="no-wrap">${Renderer.get().render(`{@filter see all ${Parser.spLevelToFullLevelText(this._state.spellLevel, {isDash: true})} spells|spells|level=${this._state.spellLevel}}`)}</div>
+					<div class="no-wrap">${LootGenRender.er(`{@filter see all ${Parser.spLevelToFullLevelText(this._state.spellLevel, {isDash: true})} spells|spells|level=${this._state.spellLevel}}`)}</div>
 					<span>)</span>
 				</div>
 				${dispRoll}
@@ -540,7 +541,7 @@ class LootGenMagicItemSubItems extends LootGenMagicItem {
 			});
 
 		const dispSubItem = ee`<div></div>`;
-		const hkItem = () => dispSubItem.html(Renderer.get().render(`{@item ${DataUtil.proxy.getUidPacked("item", this._state.item, "item", {isMaintainCase: true})}}`));
+		const hkItem = () => dispSubItem.html(LootGenRender.er(`{@item ${DataUtil.proxy.getUidPacked("item", this._state.item, "item", {isMaintainCase: true})}}`));
 		this._addHookBase("item", hkItem);
 		hkItem();
 

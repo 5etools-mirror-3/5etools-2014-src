@@ -1,4 +1,5 @@
 import {LootGenGeneratorBase} from "./lootgen-generator-base.js";
+import {LootGenRender} from "./lootgen-render.js";
 
 /** @abstract */
 class LootGenGeneratorFindTreasureBase extends LootGenGeneratorBase {
@@ -146,7 +147,7 @@ export class LootGenGeneratorFindTreasure extends LootGenGeneratorFindTreasureBa
 	_source = Parser.SRC_DMG;
 
 	_getHtmlBasedOn () {
-		return Renderer.get().render(`Based on the tables and rules in the {@book ${Parser.sourceJsonToFull(Parser.SRC_DMG)}|DMG|7|Treasure Tables}, pages 133-149.`);
+		return LootGenRender.er(`Based on the tables and rules in the {@book ${Parser.sourceJsonToFull(Parser.SRC_DMG)}|DMG|7|Treasure Tables}, pages 133-149.`);
 	}
 
 	_render_getStgHoardAdditional () { return null; }

@@ -1325,31 +1325,6 @@
 					}
 				}
 			],
-			"chooseSystem": [
-				{
-					"name": "Necrotic Damage",
-					"system": {
-						"damage.parts": [
-							[
-								"1d6 + floor(@classes.barbarian.levels / 2)",
-								"necrotic"
-							]
-						]
-					}
-				},
-				{
-					"name": "Radiant Damage",
-					"system": {
-						"damage.parts": [
-							[
-								"1d6 + floor(@classes.barbarian.levels / 2)",
-								"radiant"
-							]
-						]
-					}
-				}
-			],
-			"isChooseSystemRenderEntries": true,
 			"migrationVersion": 3
 		},
 		{
@@ -2134,7 +2109,7 @@
 							{
 								"custom": {
 									"enabled": true,
-									"formula": "@scale.order-domain.divine-strike"
+									"formula": "@scale.trickery-domain.divine-strike"
 								},
 								"types": [
 									"poison"
