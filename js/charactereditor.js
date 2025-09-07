@@ -7,13 +7,10 @@ let isEditMode = false;
 let currentSource = null;
 let hasSourceAccess = false;
 
-// API configuration
-const API_BASE_URL = window.location.origin.includes('localhost')
-  ? 'http://localhost:3000/api'
-  : '/api';
+// API configuration is declared elsewhere (e.g., sources.js)
 
 // Source Password Management
-class SourcePasswordManager {
+class CharacterSourcePasswordManager {
 	static STORAGE_KEY = 'sourcePasswords';
 
 	// Get all cached passwords from localStorage
@@ -127,22 +124,27 @@ class CharacterEditorPage {
 			const level = parseInt(localStorage.getItem('randomCharacterLevel') || '5');
 			const sourceName = localStorage.getItem('randomCharacterSource') || '';
 			const characterName = localStorage.getItem('randomCharacterName') || '';
+			// Prefer explicit URL param 'baseClass' if present, otherwise fall back to localStorage
+			const urlParams = new URLSearchParams(window.location.search);
+			const baseClass = urlParams.get('baseClass') || localStorage.getItem('randomCharacterBaseClass') || '';
 
 			// Clear the generation flags
 			localStorage.removeItem('generateRandomCharacter');
 			localStorage.removeItem('randomCharacterLevel');
 			localStorage.removeItem('randomCharacterSource');
 			localStorage.removeItem('randomCharacterName');
+			// Also clear optional base class so it doesn't persist
+			localStorage.removeItem('randomCharacterBaseClass');
 
 			// Generate random character
 			console.log(`Generating random level ${level} character for source: ${sourceName}`);
-			await this.generateRandomCharacterAtLevel(level, characterName, sourceName);
+			await this.generateRandomCharacterAtLevel(level, characterName, sourceName, baseClass);
 		} else if (isEditMode) {
 			// Load character data if in edit mode
 			this.loadCharacterForEdit();
 		} else {
 			// Load default template
-			this.loadTemplate();
+			await this.loadTemplate();
 		}
 
 		// Bind button events
@@ -208,7 +210,7 @@ class CharacterEditorPage {
 		}
 	}
 
-	loadTemplate() {
+	async loadTemplate() {
 		// Get URL parameters
 		const urlParams = new URLSearchParams(window.location.search);
 		const requestedSource = urlParams.get('source') || localStorage.getItem('newCharacterSource');
@@ -227,20 +229,21 @@ class CharacterEditorPage {
 		const randomClasses = this.generateRandomClasses(requestedLevel);
 		const randomRace = this.generateRandomRace(randomClasses);
 		const randomBackground = this.generateRandomBackground();
+		const randomAlignment = this.generateRandomAlignment();
 		const randomAbilityScores = this.generateRandomAbilityScores(randomClasses, randomRace);
 		const randomEquipment = this.generateRandomEquipment(randomClasses, requestedLevel, randomAbilityScores, randomRace);
 		const randomActions = this.generateRandomActions(randomClasses, randomAbilityScores);
 		const randomSpells = this.generateRandomSpells(randomClasses, requestedLevel, randomAbilityScores);
 
-		// Calculate derived stats
-		const totalLevel = randomClasses.reduce((sum, cls) => sum + cls.level, 0);
-		const profBonus = Math.floor((totalLevel - 1) / 4) + 2;
-		const conMod = Math.floor((randomAbilityScores.con - 10) / 2);
-		const randomHp = this.calculateRandomHp(randomClasses, conMod);
+	// Calculate derived stats
+	const totalLevel = randomClasses.reduce((sum, cls) => sum + cls.level, 0);
+	const profBonus = Math.floor((totalLevel - 1) / 4) + 2;
+	const conMod = Math.floor((randomAbilityScores.con - 10) / 2);
+	const randomHp = this.calculateRandomHp(randomClasses, conMod);
 
 	// Generate character depth first so we can use it in fluff (store as fluff, not as a top-level field)
-	const characterDepth = this.generateCharacterDepth(randomBackground, randomRace, randomClasses);
-	const depthFluff = this.generateFluffEntries(randomName, totalLevel, randomClasses, randomRace, randomBackground, characterDepth);
+		const characterDepth = this.generateCharacterDepth(randomBackground, randomRace, randomClasses, randomAlignment);
+		const depthFluff = this.generateFluffEntries(randomName, totalLevel, randomClasses, randomRace, randomBackground, characterDepth, randomAlignment);
 		// Default character template with random content
 		const template = {
 			name: randomName,
@@ -248,7 +251,7 @@ class CharacterEditorPage {
 			race: randomRace,
 			class: randomClasses,
 			background: randomBackground,
-			alignment: this.generateRandomAlignment(),
+			alignment: randomAlignment,
 			ac: this.generateRandomAC(randomClasses, randomAbilityScores),
 			hp: randomHp,
 			speed: {
@@ -257,7 +260,7 @@ class CharacterEditorPage {
 			...randomAbilityScores,
 			passive: 10 + Math.floor((randomAbilityScores.wis - 10) / 2) + (this.hasSkillProficiency("perception", randomClasses) ? profBonus : 0),
 			save: this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
-			skill: this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, null),
+			skill: await this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, randomBackground),
 			proficiencyBonus: `+${profBonus}`,
 			deathSaves: {
 				successes: 0,
@@ -266,8 +269,7 @@ class CharacterEditorPage {
 			customTrackers: this.generateRandomTrackers(randomClasses),
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
-			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores),
-			// characterDepth intentionally not stored as a top-level field; move into fluff
+			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores, randomBackground, randomAlignment),
 			fluff: {
 				entries: depthFluff
 			},
@@ -275,7 +277,7 @@ class CharacterEditorPage {
 			toolProficiencies: this.generateToolProficiencies(randomClasses, randomRace, null),
 			currency: this.generateRandomCurrency(totalLevel)
 		};
-		this.ace.setValue(JSON.stringify(template, null, 2), 1);
+	this.ace.setValue(JSON.stringify(template, null, 2), 1);
 	}
 
 	// Random character generation methods
@@ -353,20 +355,20 @@ class CharacterEditorPage {
 			switch (cls.name) {
 				case "Fighter":
 				case "Paladin":
-					if (race.name === "Dragonborn" || race.name === "Half-Orc" || 
+					if (race.name === "Dragonborn" || race.name === "Half-Orc" ||
 						(race.name === "Dwarf" && race.subraces.includes("Mountain Dwarf"))) {
 						synergy += 2;
 					}
 					break;
 				case "Wizard":
-					if (race.name === "High Elf" || race.name === "Gnome" || 
+					if (race.name === "High Elf" || race.name === "Gnome" ||
 						(race.name === "Human" && race.subraces.includes("Variant"))) {
 						synergy += 2;
 					}
 					break;
 				case "Rogue":
 				case "Ranger":
-					if (race.name === "Elf" || race.name === "Halfling" || 
+					if (race.name === "Elf" || race.name === "Halfling" ||
 						race.name === "Half-Elf") {
 						synergy += 2;
 					}
@@ -374,14 +376,14 @@ class CharacterEditorPage {
 				case "Bard":
 				case "Sorcerer":
 				case "Warlock":
-					if (race.name === "Half-Elf" || race.name === "Tiefling" || 
+					if (race.name === "Half-Elf" || race.name === "Tiefling" ||
 						race.name === "Dragonborn") {
 						synergy += 2;
 					}
 					break;
 				case "Cleric":
 				case "Druid":
-					if (race.name === "Human" || (race.name === "Dwarf" && 
+					if (race.name === "Human" || (race.name === "Dwarf" &&
 						race.subraces.includes("Hill Dwarf")) || race.name === "Half-Elf") {
 						synergy += 2;
 					}
@@ -485,7 +487,7 @@ class CharacterEditorPage {
 				source: "PHB",
 				subclasses: [
 					{ name: "Draconic Bloodline", shortName: "Draconic", source: "PHB" },
-					{ name: "Wild Magic", shortName: "Wild Magic", source: "PHB" }
+					{ name: "Wild Magic", shortName: "Wild Magic", source: "TCE" }
 				]
 			},
 			{
@@ -512,7 +514,7 @@ class CharacterEditorPage {
 	}
 
 	// Generate multiple classes with levels distributed across them
-	generateRandomClasses(totalLevel) {
+	generateRandomClasses(totalLevel, baseClass = '') {
 		const classes = [];
 		let remainingLevels = totalLevel;
 
@@ -526,8 +528,22 @@ class CharacterEditorPage {
 			"Barbarian", "Bard", "Druid", "Monk", "Sorcerer", "Warlock"
 		];
 
+		// If a baseClass is provided and valid, force it to be the first class
+		let forcedClass = null;
+		if (baseClass && availableClasses.includes(baseClass)) {
+			forcedClass = baseClass;
+			// remove it from availableClasses so it isn't chosen again
+			const idx = availableClasses.indexOf(baseClass);
+			if (idx !== -1) availableClasses.splice(idx, 1);
+		}
+
 		for (let i = 0; i < classCount; i++) {
-			const className = availableClasses.splice(Math.floor(Math.random() * availableClasses.length), 1)[0];
+			let className;
+			if (i === 0 && forcedClass) {
+				className = forcedClass;
+			} else {
+				className = availableClasses.splice(Math.floor(Math.random() * availableClasses.length), 1)[0];
+			}
 			const classTemplate = this.generateRandomClass();
 
 			// Assign levels
@@ -540,11 +556,13 @@ class CharacterEditorPage {
 				levelsForThisClass = Math.max(1, Math.floor(Math.random() * maxLevels) + 1);
 			}
 
+			// If this is the forced base class and classTemplate doesn't match, ensure source is consistent
+			const subclass = this.getSubclassForClass(className);
 			classes.push({
 				name: className,
 				source: classTemplate.source,
 				level: levelsForThisClass,
-				subclass: this.getSubclassForClass(className),
+				subclass: subclass,
 				currentHitDice: levelsForThisClass // Hit dice should equal the level in that class
 			});
 
@@ -639,7 +657,7 @@ class CharacterEditorPage {
 		// Enhanced ability score generation using multiple methods
 		const method = Math.random();
 		let baseStats;
-		
+
 		if (method < 0.4) {
 			// Standard Array (40% chance) - balanced and reliable
 			baseStats = this.generateStandardArray();
@@ -653,10 +671,10 @@ class CharacterEditorPage {
 
 		// Apply racial bonuses
 		baseStats = this.applyRacialAbilityBonuses(baseStats, race);
-		
+
 		// Intelligently allocate scores based on class priorities
 		baseStats = this.optimizeStatsForClasses(baseStats, classes);
-		
+
 		// Ensure multiclassing requirements are met if applicable
 		if (classes.length > 1) {
 			baseStats = this.ensureMulticlassRequirements(baseStats, classes);
@@ -670,17 +688,17 @@ class CharacterEditorPage {
 		const standardScores = [15, 14, 13, 12, 10, 8];
 		const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 		const stats = {};
-		
+
 		// Shuffle the array for random assignment
 		for (let i = standardScores.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
 			[standardScores[i], standardScores[j]] = [standardScores[j], standardScores[i]];
 		}
-		
+
 		abilities.forEach((ability, index) => {
 			stats[ability] = standardScores[index];
 		});
-		
+
 		return stats;
 	}
 
@@ -688,15 +706,15 @@ class CharacterEditorPage {
 		// Point buy system - start with base 8 and distribute 27 points
 		const stats = { str: 8, dex: 8, con: 8, int: 8, wis: 8, cha: 8 };
 		let points = 27;
-		
+
 		// Get primary stats for each class
 		const priorities = this.getClassAbilityPriorities(classes);
-		
+
 		// Allocate points based on priorities, with some randomization
 		const sortedPriorities = Object.entries(priorities)
 			.sort(([,a], [,b]) => b - a)
 			.map(([ability]) => ability);
-		
+
 		// First pass: ensure key stats are at least decent (13+)
 		sortedPriorities.forEach((ability, index) => {
 			if (index < 2 && points > 0) { // Top 2 priorities
@@ -707,7 +725,7 @@ class CharacterEditorPage {
 				points -= actualPoints;
 			}
 		});
-		
+
 		// Second pass: distribute remaining points with preference for higher priority stats
 		while (points > 0) {
 			const weightedAbilities = [];
@@ -719,9 +737,9 @@ class CharacterEditorPage {
 					}
 				}
 			});
-			
+
 			if (weightedAbilities.length === 0) break;
-			
+
 			const chosenAbility = weightedAbilities[Math.floor(Math.random() * weightedAbilities.length)];
 			const cost = this.getPointBuyCost(stats[chosenAbility], stats[chosenAbility] + 1);
 			if (points >= cost && stats[chosenAbility] < 15) {
@@ -731,7 +749,7 @@ class CharacterEditorPage {
 				break;
 			}
 		}
-		
+
 		return stats;
 	}
 
@@ -747,7 +765,7 @@ class CharacterEditorPage {
 	roll4d6DropLowest() {
 		const stats = {};
 		const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
-		
+
 		abilities.forEach(ability => {
 			// Roll 4d6, drop lowest
 			const rolls = [];
@@ -757,13 +775,13 @@ class CharacterEditorPage {
 			rolls.sort((a, b) => b - a);
 			stats[ability] = rolls[0] + rolls[1] + rolls[2]; // Sum of highest 3
 		});
-		
+
 		return stats;
 	}
 
 	getClassAbilityPriorities(classes) {
 		const priorities = { str: 0, dex: 0, con: 1, int: 0, wis: 0, cha: 0 }; // Base CON priority
-		
+
 		classes.forEach(cls => {
 			switch (cls.name) {
 				case "Fighter":
@@ -823,24 +841,24 @@ class CharacterEditorPage {
 					break;
 			}
 		});
-		
+
 		return priorities;
 	}
 
 	applyRacialAbilityBonuses(stats, race) {
 		const bonuses = this.getRacialAbilityBonuses(race);
 		const newStats = { ...stats };
-		
+
 		Object.entries(bonuses).forEach(([ability, bonus]) => {
 			newStats[ability] = (newStats[ability] || 8) + bonus;
 		});
-		
+
 		return newStats;
 	}
 
 	getRacialAbilityBonuses(race) {
 		const bonuses = {};
-		
+
 		switch (race.name) {
 			case "Human":
 				if (race.subrace === "Variant") {
@@ -921,22 +939,22 @@ class CharacterEditorPage {
 				bonuses.cha = 2;
 				break;
 		}
-		
+
 		return bonuses;
 	}
 
 	optimizeStatsForClasses(stats, classes) {
 		// This method fine-tunes stat allocation after racial bonuses
 		// to ensure the character is viable for their chosen classes
-		
+
 		const priorities = this.getClassAbilityPriorities(classes);
 		const sortedPriorities = Object.entries(priorities)
 			.sort(([,a], [,b]) => b - a)
 			.map(([ability]) => ability);
-		
+
 		// Ensure primary stats are at least 13 (especially for multiclassing)
 		const newStats = { ...stats };
-		
+
 		sortedPriorities.slice(0, 2).forEach(ability => {
 			if (newStats[ability] < 13) {
 				// Find lowest priority stat to swap with
@@ -946,7 +964,7 @@ class CharacterEditorPage {
 				}
 			}
 		});
-		
+
 		return newStats;
 	}
 
@@ -966,9 +984,9 @@ class CharacterEditorPage {
 			"Warlock": { cha: 13 },
 			"Wizard": { int: 13 }
 		};
-		
+
 		const newStats = { ...stats };
-		
+
 		classes.forEach(cls => {
 			const reqs = requirements[cls.name];
 			if (reqs) {
@@ -979,8 +997,8 @@ class CharacterEditorPage {
 					if (newStats[ability] < minScore) {
 						// Find a stat to swap with
 						const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
-						const swapCandidate = abilities.find(a => 
-							newStats[a] >= minScore && 
+						const swapCandidate = abilities.find(a =>
+							newStats[a] >= minScore &&
 							!this.isStatRequired(a, classes, requirements)
 						);
 						if (swapCandidate) {
@@ -990,7 +1008,7 @@ class CharacterEditorPage {
 				});
 			}
 		});
-		
+
 		return newStats;
 	}
 
@@ -1086,7 +1104,7 @@ class CharacterEditorPage {
 		return saves;
 	}
 
-	generateRandomSkills(abilityScores, classes, profBonus, race, background) {
+	async generateRandomSkills(abilityScores, classes, profBonus, race, background) {
 		const skills = {};
 		const skillAbilityMap = {
 			"acrobatics": "dex", "animal_handling": "wis", "arcana": "int",
@@ -1122,13 +1140,31 @@ class CharacterEditorPage {
 		racialSkills.forEach(skill => proficientSkills.add(skill));
 
 		// Add background skill proficiencies (should be exactly 2 for most backgrounds)
-		if (background) {
+		if (background && typeof DataLoader !== 'undefined') {
+			try {
+				// Attempt to find canonical background entry by name
+				await DataLoader.pCacheAndGetAllSite(UrlUtil.PG_BACKGROUNDS);
+				const allBgs = (DataLoader._CACHE && DataLoader._CACHE.getAllSite) ? DataLoader._CACHE.getAllSite(UrlUtil.PG_BACKGROUNDS) : [];
+				const found = (allBgs || []).find(b => (b.name || '').toLowerCase() === (background.name || '').toLowerCase());
+				if (found && found.skill) {
+					// `found.skill` may be an array of skill names or objects
+					const skillsFromData = Array.isArray(found.skill) ? found.skill.map(s => typeof s === 'string' ? s : s.name).filter(Boolean) : [];
+					skillsFromData.forEach(s => proficientSkills.add(s));
+				} else {
+					const backgroundSkills = this.generateBackgroundSkills(background);
+					backgroundSkills.forEach(skill => proficientSkills.add(skill));
+				}
+			} catch (e) {
+				const backgroundSkills = this.generateBackgroundSkills(background);
+				backgroundSkills.forEach(skill => proficientSkills.add(skill));
+			}
+		} else if (background) {
 			const backgroundSkills = this.generateBackgroundSkills(background);
 			backgroundSkills.forEach(skill => proficientSkills.add(skill));
 		}
 
 		// Only include skills where the character has proficiency
-		proficientSkills.forEach(skill => {
+	proficientSkills.forEach(skill => {
 			if (skillAbilityMap[skill]) {
 				const ability = skillAbilityMap[skill];
 				const abilityMod = Math.floor((abilityScores[ability] - 10) / 2);
@@ -1149,7 +1185,7 @@ class CharacterEditorPage {
 			"Bard": {
 				automatic: ["performance"],
 				choices: Object.keys({
-					"acrobatics": true, "animal_handling": true, "arcana": true, "athletics": true, 
+					"acrobatics": true, "animal_handling": true, "arcana": true, "athletics": true,
 					"deception": true, "history": true, "insight": true, "intimidation": true,
 					"investigation": true, "medicine": true, "nature": true, "perception": true,
 					"persuasion": true, "religion": true, "sleight_of_hand": true, "stealth": true, "survival": true
@@ -1236,7 +1272,7 @@ class CharacterEditorPage {
 
 			const totalWeight = remainingSkills.reduce((sum, skill) => sum + skillWeights[skill], 0);
 			let random = Math.random() * totalWeight;
-			
+
 			for (const skill of remainingSkills) {
 				random -= skillWeights[skill];
 				if (random <= 0) {
@@ -1288,13 +1324,13 @@ class CharacterEditorPage {
 				"arcana": 3, "investigation": 2.5, "history": 2.5, "religion": 2, "medicine": 1.5
 			}
 		};
-		
+
 		return weights[className] || {};
 	}
 
 	getRacialSkillWeights(race) {
 		if (!race) return {};
-		
+
 		const weights = {
 			"Elf": { "perception": 2 },
 			"Half-Elf": { "persuasion": 2, "deception": 1.5 },
@@ -1312,7 +1348,7 @@ class CharacterEditorPage {
 
 	getRacialSkillProficiencies(race) {
 		if (!race) return [];
-		
+
 		const racialSkills = {
 			"Elf": ["perception"],
 			"Half-Elf": Math.random() < 0.7 ? ["persuasion"] : [],
@@ -1326,7 +1362,28 @@ class CharacterEditorPage {
 	}
 
 	generateBackgroundSkills(background) {
-		// Generate 2 background skills that make thematic sense
+		// If a canonical background object is provided, map its name to the standard skill pair
+		const map = {
+			"Acolyte": ["history", "religion"],
+			"Charlatan": ["deception", "sleight_of_hand"],
+			"Criminal": ["deception", "stealth"],
+			"Entertainer": ["performance", "persuasion"],
+			"Folk Hero": ["animal_handling", "survival"],
+			"Guild Artisan": ["insight", "persuasion"],
+			"Hermit": ["medicine", "religion"],
+			"Noble": ["history", "persuasion"],
+			"Outlander": ["athletics", "survival"],
+			"Sage": ["arcana", "history"],
+			"Sailor": ["athletics", "perception"],
+			"Soldier": ["athletics", "intimidation"],
+			"Urchin": ["sleight_of_hand", "stealth"]
+		};
+
+		if (background && typeof background === 'object' && background.name && map[background.name]) {
+			return map[background.name];
+		}
+
+		// Fallback: random pair from a curated list
 		const backgroundSkillSets = [
 			["history", "religion"], // Acolyte
 			["deception", "sleight_of_hand"], // Criminal
@@ -1396,7 +1453,7 @@ class CharacterEditorPage {
 
 	getRacialToolProficiencies(race) {
 		if (!race) return [];
-		
+
 		const racialTools = {
 			"Dwarf": ["smith_tools", "brewer_supplies", "mason_tools"],
 			"Mountain Dwarf": ["smith_tools"],
@@ -1462,7 +1519,7 @@ class CharacterEditorPage {
 
 	getRacialLanguages(race) {
 		if (!race) return [];
-		
+
 		const racialLanguages = {
 			"Dwarf": ["Dwarvish"],
 			"Elf": ["Elvish"],
@@ -1481,7 +1538,7 @@ class CharacterEditorPage {
 
 	getClassLanguages(classes) {
 		const languages = [];
-		
+
 		classes.forEach(cls => {
 			switch (cls.name) {
 				case "Cleric":
@@ -1857,7 +1914,7 @@ class CharacterEditorPage {
 
 		const primaryCaster = casterClasses[0];
 		const spellcastingInfo = this.getSpellcastingInfo(primaryCaster.name);
-		
+
 		if (!spellcastingInfo) return null;
 
 		const spellcastingAbility = spellcastingInfo.ability;
@@ -1944,12 +2001,12 @@ class CharacterEditorPage {
 	generateSpellSlots(casterClass, abilityScores) {
 		const levels = {};
 		const spellcastingInfo = this.getSpellcastingInfo(casterClass.name);
-		
+
 		if (!spellcastingInfo) return {};
 
 		// Calculate spell preparation modifier for prepared casters
 		const abilityMod = Math.floor((abilityScores[spellcastingInfo.abilityKey] - 10) / 2);
-		const spellsPrepared = spellcastingInfo.type === "prepared" ? 
+		const spellsPrepared = spellcastingInfo.type === "prepared" ?
 			Math.max(1, abilityMod + casterClass.level) : null;
 
 		// Cantrips
@@ -2043,20 +2100,20 @@ class CharacterEditorPage {
 				"Poison Spray", "Prestidigitation", "Ray of Frost", "Shocking Grasp", "True Strike"
 			],
 			"Warlock": [
-				"Blade Ward", "Chill Touch", "Create Bonfire", "Eldritch Blast", "Friends",
+				"Blade Ward", "Chill Touch", "Create Bonfire|XGE", "Eldritch Blast", "Friends",
 				"Frostbite", "Magic Stone", "Mage Hand", "Minor Illusion", "Poison Spray",
 				"Prestidigitation", "Toll the Dead", "True Strike"
 			],
 			"Bard": [
 				"Blade Ward", "Dancing Lights", "Friends", "Light", "Mage Hand", "Mending",
-				"Message", "Minor Illusion", "Prestidigitation", "Thunderclap", "True Strike", "Vicious Mockery"
+				"Message", "Minor Illusion", "Prestidigitation", "Thunderclap|XGE", "True Strike", "Vicious Mockery"
 			],
 			"Cleric": [
 				"Guidance", "Light", "Mending", "Resistance", "Sacred Flame", "Spare the Dying",
-				"Thaumaturgy", "Toll the Dead", "Word of Radiance"
+				"Thaumaturgy", "Toll the Dead", "Word of Radiance|XGE"
 			],
 			"Druid": [
-				"Create Bonfire", "Druidcraft", "Frostbite", "Guidance", "Magic Stone",
+				"Create Bonfire|XGE", "Druidcraft", "Frostbite|XGE", "Guidance", "Magic Stone",
 				"Mending", "Poison Spray", "Produce Flame", "Resistance", "Shillelagh",
 				"Thorn Whip", "Thunderclap"
 			]
@@ -2092,7 +2149,7 @@ class CharacterEditorPage {
 
 	generateMulticlassSpellSlots(totalCasterLevel) {
 		const levels = {};
-		
+
 		// Multiclass spellcaster slot progression
 		const multiclassSlots = [
 			[2, 0, 0, 0, 0, 0, 0, 0, 0], // Level 1
@@ -2157,15 +2214,184 @@ class CharacterEditorPage {
 		return spells.slice(0, 2 + Math.floor(Math.random() * 3));
 	}
 
-	generateRandomEntries(race, classes, equipment, abilityScores) {
+	generateRandomEntries(race, classes, equipment, abilityScores, background = null, alignment = null) {
 		const entries = [
 			{
-				type: "entries",
+				type: "section",
 				name: "Background & Personality",
-				entries: [
-					`This ${race.name} has dedicated their life to mastering ${classes.length === 1 ? 'the ' + classes[0].name.toLowerCase() + ' arts' : 'multiple combat disciplines'}.`,
-					`${this.getPersonalityTrait()} drives them to seek adventure and challenge.`
-				]
+				entries: (function(self, race, classes, abilityScores, providedBackground, providedAlignment){
+					// Use provided background/alignment when available, otherwise pick randomly
+					const tempBackground = providedBackground || self.generateRandomBackground();
+					const tempAlignment = providedAlignment || self.generateRandomAlignment();
+					const totalLevel = classes.reduce((s, c) => s + (c.level || 1), 0) || 1;
+					const previewName = `${race.name} adventurer`;
+					const depth = self.generateCharacterDepth(tempBackground, race, classes, tempAlignment);
+
+					// small helper to pick labeled depth entries
+					const pick = (label, n = 1) => {
+						if (!Array.isArray(depth)) return [];
+						return depth.filter(d => d.startsWith(label + ':')).slice(0, n).map(d => d.replace(label + ':', '').trim());
+					};
+
+					// Build a concise, consistent backstory paragraph
+					const origin = pick('Origin', 1)[0] || '';
+					const turning = pick('TurningPoint', 1)[0] || '';
+					const hook = pick('Hook', 1)[0] || '';
+					const relation = pick('Relationship', 1)[0] || '';
+					const place = pick('Place', 1)[0] || '';
+					const contact = pick('Contact', 1)[0] || '';
+					const bgVignette = self.getBackgroundStory(tempBackground.name);
+					const backstoryParts = [];
+					backstoryParts.push(`${previewName} was shaped by ${tempBackground.name.toLowerCase()} life${place ? ' in ' + place : ''}.`);
+					if (origin) backstoryParts.push(origin);
+					if (turning) backstoryParts.push(turning);
+					if (bgVignette) backstoryParts.push(bgVignette);
+					if (contact) backstoryParts.push(`A central figure: ${contact} has left a mark on their life.`);
+					if (hook) backstoryParts.push(`A notable episode: ${hook}.`);
+					const backstory = backstoryParts.join(' ');
+
+					// Personality paragraph (compact)
+					const personalities = pick('Personality', 3);
+					const ideals = pick('Ideal', 1);
+					const flaws = pick('Flaw', 1);
+					const personality = [];
+					if (personalities.length) personality.push(`They are known for ${personalities.join(', ')}.`);
+					if (ideals.length) personality.push(`An inner creed: ${ideals[0]}.`);
+					if (flaws.length) personality.push(`A weakness haunts them: ${flaws[0]}.`);
+					const personalityPara = personality.join(' ');
+
+					// Party-joining reason — strongly alignment-aware and tied to hooks/bonds
+					const bonds = pick('Bond', 1);
+					const obsession = pick('Obsession', 1)[0] || '';
+					const alignToString = (a) => {
+						if (!a) return 'Neutral';
+						if (Array.isArray(a)) {
+							const axis = a[0];
+							const moral = a[1] || 'N';
+							const axisMap = { 'L': 'Lawful', 'N': 'Neutral', 'C': 'Chaotic' };
+							const moralMap = { 'G': 'Good', 'N': 'Neutral', 'E': 'Evil' };
+							return `${axisMap[axis] || 'Neutral'} ${moralMap[moral] || ''}`.trim();
+						}
+						return String(a);
+					};
+					const aStr = alignToString(tempAlignment);
+					// More varied, alignment-biased party-joining reasons. Build a pool from applicable alignment traits
+					// and pick one (occasionally two) sentences so characters with the same alignment vary.
+					const reasonPools = {
+						// Axis-level pools
+						Good: [
+							`They answer calls for aid—protecting the innocent, escorting the wounded, or standing against cruelty they cannot abide.`,
+							`A sense of duty to others drives them; they cannot ignore pleas for help or leave injustice unchecked.`,
+							`Having failed to save someone once, they now seek to make amends by defending those who cannot defend themselves.`,
+							`They champion causes that lift others, from food and shelter drives to leading relief efforts when towns suffer.`,
+							`They pursue a personal code of mercy—rescuing captives, uncovering abuses, and exposing corrupt power.`
+						],
+						Evil: [
+							`They view the party as a means to private ends: riches, influence, or a path to settle old scores.`,
+							`Pragmatic and ruthless, they tolerate companions who further their aims while keeping useful allies close.`,
+							`They seek power or forbidden knowledge and will use the group's skills to get closer to what they desire.`,
+							`A vendetta or a promised reward draws them—whatever benefits them most is worth the company of others.`,
+							`They are opportunistic: the party is a tool to exploit weaknesses and open doors to darker gains.`
+						],
+						Lawful: [
+							`Bound by oath, contract, or duty, they travel to uphold a promise or complete an assigned task.`,
+							`They serve an order or authority and act to see plans through rather than chase personal whim.`,
+							`A code guides them: justice, duty, or law compels their involvement with the group's objectives.`,
+							`Procedure and precedent matter; they join to ensure tasks are handled correctly and records kept.`,
+							`They pursue restitution or legal redress—bringing wrongdoers to justice through the party's effort.`
+						],
+						Chaotic: [
+							`They hunger for change and the unpredictable—adventure, mischief, and chances to upend stale order.`,
+							`Impulse and curiosity push them on; the party is simply the most interesting route to new horizons.`,
+							`Escaping a past of control, they now ride with those who let them act freely and take risks.`,
+							`They delight in shaking up the status quo; chaos is a tool to reveal truth or topple rot.`,
+							`They chase rumor and sensation—where danger and novelty call, they will follow.`
+						],
+						Neutral: [
+							`Pragmatic and adaptable, they join because it serves their goals—survival, profit, or learning.`,
+							`They keep balance and avoid extremes; joining the group is a measured decision that benefits them.`,
+							`A mixture of curiosity and convenience: the party offers resources or travel the character needs right now.`,
+							`They pursue knowledge, trade, or a stable life—the party's opportunities fit those aims.`,
+							`They prefer solving present problems and will aid others when it aligns with practical needs.`
+						],
+						// Combo-specific pools (finer-grained flavor)
+						"Lawful Good": [
+							`A paragon of duty and compassion, they travel to enforce mercy and uphold sacred oaths.`,
+							`They lead by example—restoring order and setting right what regulations have bent under greed.`,
+							`Sent forth by a temple or guild, they act to protect the vulnerable and bring calm to shaken places.`
+						],
+						"Neutral Good": [
+							`They do what is right without dogma—help where needed and leave formalities to others.`,
+							`Driven by compassion more than creed, they aid those in need and seek practical outcomes.`,
+							`They carry quiet favors and debts; joining the party repays kindness or furthers relief efforts.`
+						],
+						"Chaotic Good": [
+							`They break unjust laws to free the oppressed, using unpredictability as their ally.`,
+							`A rebel at heart, they seek allies who will act boldly and refuse to be mired in red tape.`,
+							`They pursue idealistic change—overthrowing corrupt rulers or starting revolutions that heal communities.`
+						],
+						"Lawful Neutral": [
+							`Their loyalty is to system and stability; they join to ensure orders are fulfilled and records stay true.`,
+							`They respect hierarchy and procedure and serve best when missions have clear rules and consequences.`,
+							`They are an arbiter or investigator sent to observe, report, and correct failures of governance.`
+						],
+						"True Neutral": [
+							`A pragmatist who keeps the scales even—they join when balance or survival is at stake.`,
+							`They pursue harmony and will help whichever side prevents greater harm to the world.`,
+							`They value stability and avoid crusades, joining only if it maintains or restores equilibrium.`
+						],
+						"Chaotic Neutral": [
+							`They answer only to whim and chance; the party is simply the most entertaining company.`,
+							`Unpredictable and free, they seek novelty and will abandon causes that feel stale.`,
+							`They follow curiosity first—where a rumor leads, they will go, whether noble or profane.`
+						],
+						"Lawful Evil": [
+							`They manipulate systems and contracts to their benefit, using law as a blade.`,
+							`Ordered cruelty: they prefer schemes with rules because rules can be exploited reliably.`,
+							`They seek allies who can provide plausible deniability while they expand influence through institutions.`
+						],
+						"Neutral Evil": [
+							`Selfish and practical, they pursue personal gain with little concern for others.`,
+							`They make deals that benefit them and betray when profitable; the party is one such expedient.`,
+							`They prefer subtle gains—assets, contact networks, or secrets that increase their power.`
+						],
+						"Chaotic Evil": [
+							`They revel in anarchy and terror; the party is a means to sow chaos or feed a destructive whim.`,
+							`Violence and upheaval appeal; they ally with those who amplify their freedom to act without restraint.`,
+							`They are driven by wanton ambition or bloodlust—companions are temporary tools for a dark agenda.`
+						]
+					};
+
+					let pool = [];
+					// If we have a two-word alignment (e.g., "Lawful Good"), prefer combo-specific pool first
+					if (aStr.indexOf(' ') > -1 && reasonPools[aStr]) pool = pool.concat(reasonPools[aStr]);
+					// Always include axis-level flavor so combos remain varied
+					if (aStr.includes('Good')) pool = pool.concat(reasonPools.Good);
+					if (aStr.includes('Evil')) pool = pool.concat(reasonPools.Evil);
+					if (aStr.includes('Lawful')) pool = pool.concat(reasonPools.Lawful);
+					if (aStr.includes('Chaotic')) pool = pool.concat(reasonPools.Chaotic);
+					if (!pool.length) pool = pool.concat(reasonPools.Neutral);
+
+					const choose = (arr) => arr[Math.floor(Math.random() * arr.length)];
+					let joinReason = choose(pool);
+					// 20% chance to compound with a second, different reason for extra flavor
+					if (Math.random() < 0.2) {
+						let other = choose(pool);
+						if (other !== joinReason) joinReason = `${joinReason} ${other}`;
+					}
+					// Tie to specific hooks or bonds if present
+					const tieParts = [];
+					if (bonds.length) tieParts.push(`A vow to ${bonds[0]} pulls them.`);
+					if (relation) tieParts.push(`A connection to ${relation} complicates their path.`);
+					if (contact) tieParts.push(`${contact} factors into their motives.`);
+					if (obsession) tieParts.push(`An obsession — ${obsession} — colors their choices.`);
+					if (hook) tieParts.push(`Rumors of ${hook} first drew them to travel.`);
+					const joinPara = [joinReason].concat(tieParts).join(' ');
+
+					// Return a concise set: backstory, personality, join reason
+					const result = [backstory, personalityPara || `${self.getPersonalityTrait()}`, joinPara];
+					return result;
+				})(this, race, classes, abilityScores, background, alignment)
 			},
 			{
 				type: "section",
@@ -2609,6 +2835,7 @@ class CharacterEditorPage {
 	}
 
 	getBackgroundStory(backgroundName) {
+		// Return cinematic, long-form background vignettes for each background type
 		const storyOptions = {
 			"Acolyte": [
 				"Their time in service to the divine has shaped their worldview and granted them insight into the mysteries of faith.",
@@ -2703,187 +2930,159 @@ class CharacterEditorPage {
 			]
 		};
 
-		const options = storyOptions[backgroundName] || [
-			"Their unique background has prepared them for the challenges that lie ahead.",
-			"Life experiences have shaped them into someone ready to face any adventure.",
-			"The path that led them here was neither straight nor easy, but it made them who they are.",
-			"They carry small, meaningful rituals learned long ago that shape their daily life.",
-			"A defining event—either triumph or loss—still echoes in their decisions today."
+		// If we have a tailored cinematic vignette for this background, return one at random
+		const options = storyOptions[backgroundName];
+		if (options && options.length) return options[Math.floor(Math.random() * options.length)];
+
+		// Very cinematic generic fallback
+		const generic = [
+			`They were born beneath a sliver of moonlight that seemed to mark them as different. The world they learned to navigate was harsh and beautiful in equal measure: the taste of cold iron, the hush of candlelit halls, the roar of storm-driven seas. Memory and rumor braided together until they became legend in the places they’d once called home. Now, they carry those echoes like armor — a fragile thing of memory that nevertheless steels them for whatever horrors and wonders the road might deliver.`,
+			`Once, their life was a quiet rhythm of work and small affection; then everything changed in a single, terrible moment — a fire, a betrayal, a proclamation from a dying hand. That fracture marked them: everything before is dim, and everything after is the long, burning attempt to put the pieces back together in a world that insists on asking for more.`
 		];
-		
-		return options[Math.floor(Math.random() * options.length)];
+
+		return generic[Math.floor(Math.random() * generic.length)];
 	}
 
-	generateFluffEntries(name, totalLevel, classes, race, background, characterDepth) {
+	generateFluffEntries(name, totalLevel, classes, race, background, characterDepth, alignment = null) {
 		const entries = [];
 
-		// Basic introduction with variety
-		const introOptions = [
-			`${name} is a ${totalLevel === 1 ? 'beginning' : totalLevel < 5 ? 'novice' : totalLevel < 10 ? 'experienced' : 'veteran'} adventurer with a compelling story.`,
-			`Meet ${name}, a ${totalLevel === 1 ? 'fledgling' : totalLevel < 5 ? 'developing' : totalLevel < 10 ? 'accomplished' : 'seasoned'} ${race.name.toLowerCase()} seeking their destiny.`,
-			`${name} stands ready to face whatever challenges await, their ${totalLevel === 1 ? 'raw potential' : totalLevel < 5 ? 'growing skills' : totalLevel < 10 ? 'proven abilities' : 'legendary prowess'} evident to all who meet them.`,
-			`The story of ${name} is still being written, each chapter more extraordinary than the last.`,
-			`${name} carries the marks of many journeys — small trophies, scars, and a pocketful of hard-won wisdom.`,
-			`Though quiet at first, ${name} has a presence that reveals a life shaped by challenge and choice.`
-		];
-		entries.push(introOptions[Math.floor(Math.random() * introOptions.length)]);
+		// helper to pull depth entries by label prefix (e.g., 'Personality:', 'Ideal:')
+		const getDepthByLabel = (label, count = 1) => {
+			if (!Array.isArray(characterDepth)) return [];
+			const matches = characterDepth.filter(d => d.startsWith(label + ':'));
+			return matches.slice(0, count).map(m => m.replace(label + ':', '').trim());
+		};
 
-		// Class mastery description with variety
-		const classDescriptions = [
-			`Their journey has led them to master ${classes.length === 1 ? 'the ways of the ' + classes[0].name.toLowerCase() : 'multiple disciplines'}.`,
-			`They have ${classes.length === 1 ? 'dedicated themselves to the path of the ' + classes[0].name.toLowerCase() : 'chosen the challenging road of multiclass mastery'}.`,
-			`${classes.length === 1 ? 'The ' + classes[0].name.toLowerCase() + ' tradition flows through their every action' : 'They blend multiple fighting styles and philosophies with remarkable skill'}.`,
-			`Through ${classes.length === 1 ? 'focused dedication to their chosen class' : 'diverse training across multiple disciplines'}, they have become a formidable force.`,
-			`${name} is known to favor ${classes.map(c => c.name.toLowerCase()).join(' and ')} techniques in the field.`,
-			`They are constantly refining their craft, training long after others have retired for the night.`
-		];
-		entries.push(classDescriptions[Math.floor(Math.random() * classDescriptions.length)]);
+		// 1) Cinematic opening — establish tone and stakes
+	entries.push(`${name} moves through the world like a story told in fragments: thunder at dusk, a handkerchief soaked with memory, the glint of steel in moonlight. ${totalLevel === 1 ? 'Their tale has only just begun' : totalLevel < 5 ? 'They are sharpening into something dangerous and true' : totalLevel < 10 ? 'They carry the weight of many trials' : 'They are a presence that reshapes the stories of those around them'}. Born of ${race.name} blood and honed by the discipline of ${classes.map(c => c.name).join(' and ')}, they travel with the quiet certainty of someone who has paid for what they know.`);
 
-		// Add background story
-		entries.push(this.getBackgroundStory(background.name));
+		// 2) Expansive background tableau with sensory detail
+		const bg = this.getBackgroundStory(background.name);
+		let bgExpansion = bg;
+		// Pull origin and turning point from flat characterDepth entries if present
+		const originParts = getDepthByLabel('Origin', 1);
+		const turningParts = getDepthByLabel('TurningPoint', 1);
+		if (originParts.length) bgExpansion += ` ${originParts[0]}`;
+		if (turningParts.length) bgExpansion += ` ${turningParts[0]}`;
+		// Add more sensory and cinematic flourishes
+		bgExpansion += ` The memory of that place lingers in small things: a taste, a chord, the way light hits certain stones. It formed a map of desires and fears that they consult like an old friend.`;
+		entries.push(bgExpansion);
 
-		// Add racial perspective with variety
-		const racialDescriptions = [
-			`As a ${race.name}, they bring unique perspectives and abilities to their adventures.`,
-			`Their ${race.name.toLowerCase()} heritage is evident in both their approach to problems and their natural talents.`,
-			`The wisdom and traditions of the ${race.name.toLowerCase()} people guide them through difficult decisions.`,
-			`They carry the strengths of their ${race.name.toLowerCase()} lineage with them wherever they go.`,
-			`Despite their heritage, ${name} has adapted to life on the road and learned to blend cultures with ease.`,
-			`Their upbringing among the ${race.name.toLowerCase()} taught them both resilience and courtesy in equal measure.`
-		];
-		entries.push(racialDescriptions[Math.floor(Math.random() * racialDescriptions.length)]);
+		// 2b) Detailed background ledger — family, station, mentors, scars and skills
+		const hooks = getDepthByLabel('Hook', 4);
+		const relationships = getDepthByLabel('Relationship', 2);
+		const familyParts = getDepthByLabel('Family', 2);
+		const backgroundLedger = [];
+		// Upbringing and station
+		backgroundLedger.push(`Raised in the context of ${background.name.toLowerCase() || 'their background'}, their childhood shaped practical skills and expectations.`);
+		if (familyParts.length) backgroundLedger.push(`Family ties: ${familyParts.join('; ')}.`);
+		// Mentors and training
+		const mentor = getDepthByLabel('Mentor', 1);
+		if (mentor.length) backgroundLedger.push(`A mentor or teacher left a lasting mark: ${mentor[0]}.`);
+		// Scars, marks and signatures
+		const notable = getDepthByLabel('Notable', 2);
+		if (notable.length) backgroundLedger.push(`Marked by ${notable.join('; ')}, they wear proof of their story on skin and manner.`);
+		// Skills and craft
+		backgroundLedger.push(`Years of practice gave them skills: ${classes.map(c => c.name).join(', ')} craft showing in small, everyday talents.`);
+		// Hooks
+		if (hooks.length) backgroundLedger.push(`Whispers follow them: ${hooks.slice(0,3).join('; ')}.`);
+		if (relationships.length) backgroundLedger.push(`Connections: ${relationships.join('; ')}.`);
+		entries.push(backgroundLedger.join(' '));
 
-		// Personality / traits
-		if (characterDepth && characterDepth.personalityTraits && characterDepth.personalityTraits.length > 0) {
-			const personalityInsights = [
-				`Those who know them well would say they are someone who ${characterDepth.personalityTraits[0].toLowerCase()}.`,
-				`Their personality is defined by how they ${characterDepth.personalityTraits[0].toLowerCase()}.`,
-				`One of their most notable traits is that they ${characterDepth.personalityTraits[0].toLowerCase()}.`,
-				`People often notice that they ${characterDepth.personalityTraits[0].toLowerCase()}.`,
-				`Under pressure, they often rely on ${characterDepth.personalityTraits[0].toLowerCase()} to guide their actions.`,
-				`They wear their ${characterDepth.personalityTraits[0].toLowerCase()} like a shield, hiding softer truths underneath.`
-			];
-			entries.push(personalityInsights[Math.floor(Math.random() * personalityInsights.length)]);
+	// 3) Deep personality portrait — derive from flat characterDepth entries
+	const personalityTraits = getDepthByLabel('Personality', 4);
+	const ideals = getDepthByLabel('Ideal', 2);
+	const flaws = getDepthByLabel('Flaw', 3);
+	const mannerisms = getDepthByLabel('Mannerism', 3);
+	const obsessions = getDepthByLabel('Obsession', 1);
+	const bonds = getDepthByLabel('Bond', 2);
+	const personalityParts = [];
+	if (personalityTraits.length) personalityParts.push(`At their center is ${personalityTraits.join(', ')}.`);
+	if (ideals.length) personalityParts.push(`Those impulses are guided by an inner creed: ${ideals.join('; ')}.`);
+	if (flaws.length) personalityParts.push(`Yet for every nobility there is a shadow: ${flaws.join('; ')} — fissures that stories exploit and enemies pry at.`);
+	// Mannerisms and coping
+	if (mannerisms.length) personalityParts.push(`They show it in small rituals: ${mannerisms.join('; ')}.`);
+	// Obsessions and bonds give impetus
+	if (obsessions.length) personalityParts.push(`A single obsession colors many decisions: ${obsessions[0]}.`);
+	if (bonds.length) personalityParts.push(`Loyalty tethers them: ${bonds.join('; ')}.`);
+	// Strengths and reputation
+	personalityParts.push(`They move through stress with particular tools — a calm word, a quick blade, a stubborn refusal — and are known for ${Math.random() < 0.5 ? 'steadfastness' : 'a wry, cutting wit'} among peers.`);
+	personalityParts.push(`In the crucible of combat and council alike, these traits bloom into choices; sometimes brave, sometimes ruinous, always telling.`);
+	entries.push(personalityParts.join(' '));
+
+		// 4) Relationships, bonds and obsessions — theatrical and specific
+		const relations = [];
+	if (relationships.length) relations.push(`There is a figure who lives at the edge of their story: ${relationships.join('; ')}. This link pulls them toward both tenderness and ruin.`);
+	if (bonds.length) relations.push(`Promises bind them to ${bonds.join(', ')} — oaths kept by blood and by debt.`);
+	if (obsessions.length) relations.push(`A private obsession gnaws at them: ${obsessions.join('; ')}. It is a bright, terrible beacon that guides every perilous step.`);
+	if (relations.length) entries.push(relations.join(' '));
+
+		// 5) Secrets, prophecy, and supernatural hooks — dramatic tone
+	const secrets = [];
+	const secretEntries = getDepthByLabel('Secret', 2);
+	const supernatural = getDepthByLabel('Supernatural', 1);
+	if (secretEntries.length) secrets.push(`They carry a secret like a second heart: ${secretEntries.join('; ')}. It hums beneath their ribs and will not be quiet.`);
+	if (supernatural.length) secrets.push(`Occasionally the ordinary fractures and something uncanny slips through: ${supernatural.join('; ')}. Those moments leave behind charred questions and glittering clues.`);
+	if (secrets.length) entries.push(secrets.join(' '));
+
+		// 6) Mannerisms and rituals — evocative, cinematic imagery
+		const manners = [];
+	if (mannerisms.length) manners.push(`They move with idiosyncrasies that betray their inner weather: ${mannerisms.join('; ')}.`);
+	manners.push(`Small rituals — arranging a cup just so, whispering the same phrase into their palm, tracing a scar with a thoughtful finger — are how they speak when words are too dangerous.`);
+	entries.push(manners.join(' '));
+
+		// 7) Achievements and hooks — longer, adventure-ready seeds
+		const hookText = hooks.length ? hooks.join('; ') : 'a string of rescues, betrayals, and bargains that will not stay buried';
+	entries.push(`Rumors follow them: ${hookText}. Those whispers open doors and close them — rewards and threats braided together.`);
+
+		// 8) Party-joining paragraphs (alignment-aware)
+		const partyReasons = [];
+		// Normalize alignment to string like 'Lawful Good', 'Neutral', etc.
+		const alignToString = (a) => {
+			if (!a) return 'Neutral';
+			if (Array.isArray(a)) {
+				const axis = a[0];
+				const moral = a[1] || 'N';
+				const axisMap = { 'L': 'Lawful', 'N': 'Neutral', 'C': 'Chaotic' };
+				const moralMap = { 'G': 'Good', 'N': 'Neutral', 'E': 'Evil' };
+				return `${axisMap[axis] || 'Neutral'} ${moralMap[moral] || ''}`.trim();
+			}
+			return String(a);
+		};
+		const alignStr = alignToString(alignment);
+		// Build several possible party-joining rationales, biased by alignment
+		if (alignStr.includes('Good')) {
+			partyReasons.push(`They would join the party to relieve suffering and fight injustice; their conscience cannot ignore pleas for help.`);
+		}
+		if (alignStr.includes('Lawful')) {
+			partyReasons.push(`Duty, oaths, or a contract bind them; they see strength in order and believe the group is the best instrument to achieve a right end.`);
+		}
+		if (alignStr.includes('Chaotic')) {
+			partyReasons.push(`They crave the unpredictability of companionship and adventure; the party offers freedom, mischief, and a way to upend stifling structures.`);
+		}
+		if (alignStr.includes('Evil')) {
+			partyReasons.push(`Personal gain, influence, or a hidden agenda guides them — they see the party as a useful tool to be wielded when necessary.`);
+		}
+		if (alignStr === 'Neutral' || alignStr.includes('Neutral')) {
+			partyReasons.push(`Pragmatism and curiosity pull them toward the group: advantages, knowledge, and survival are neutral currencies worth pursuing.`);
+		}
+		// Tie party reason to hooks or bonds if available
+		if (hooks.length) partyReasons.push(`A rumor tied to ${hooks[0]} is what first drew them to the company.`);
+		if (bonds && bonds.length) partyReasons.push(`A vow to ${bonds[0]} compels them to travel with those who might help fulfill it.`);
+		// Add 1-2 party paragraphs
+		if (partyReasons.length) {
+			entries.push(partyReasons.slice(0, 2).join(' '));
 		}
 
-		// Motivations / ideals
-		if (characterDepth && characterDepth.ideals && characterDepth.ideals.length > 0) {
-			const ideal = characterDepth.ideals[0];
-			const motivationalInsights = [
-				`They are driven by a strong belief in ${ideal.toLowerCase()}.`,
-				`Their actions are guided by their conviction that ${ideal.toLowerCase()}.`,
-				`At their core, they hold fast to the principle that ${ideal.toLowerCase()}.`,
-				`What motivates them most is their belief that ${ideal.toLowerCase()}.`,
-				`Their ideals push them toward choices that others might call reckless but which they call necessary.`,
-				`They would sooner sacrifice comfort than betray the ideal of ${ideal.toLowerCase()}.`
-			];
-			entries.push(motivationalInsights[Math.floor(Math.random() * motivationalInsights.length)]);
-		}
-
-		// Goals and fears
-		const goals = [
-			`They seek a long-lost relic tied to their family or culture.`,
-			`They want to prove themselves to a mentor or rival.`,
-			`They are searching for a place they can finally call home.`,
-			`They crave recognition for a deed they performed long ago.`
-		];
-		const fears = [
-			`They secretly fear losing the few people they love.`,
-			`They dread the memory of a failure that haunts them.`,
-			`They are afraid their past will catch up to them one day.`,
-			`They fear becoming the very thing they fight against.`
-		];
-		entries.push(goals[Math.floor(Math.random() * goals.length)]);
-		entries.push(fears[Math.floor(Math.random() * fears.length)]);
-
-		// Mannerisms / quirks
-		if (characterDepth && characterDepth.mannerisms && characterDepth.mannerisms.length > 0) {
-			const mannerismDescriptions = [
-				`Those who observe them closely will notice they ${characterDepth.mannerisms[0].toLowerCase()}.`,
-				`A distinctive quirk of theirs is how they ${characterDepth.mannerisms[0].toLowerCase()}.`,
-				`They have a habit of ${characterDepth.mannerisms[0].toLowerCase()}.`,
-				`Small gestures reveal their true mood: ${characterDepth.mannerisms[0].toLowerCase()}.`
-			];
-			entries.push(mannerismDescriptions[Math.floor(Math.random() * mannerismDescriptions.length)]);
-		}
-
-		// Obsession / secret / relationship
-		if (characterDepth && characterDepth.obsession) {
-			const obsessionDescriptions = [
-				`They have an unusual obsession: ${characterDepth.obsession.toLowerCase()}.`,
-				`Among their many quirks, they are particularly known for how they ${characterDepth.obsession.toLowerCase()}.`,
-				`One thing that sets them apart is their unique habit of ${characterDepth.obsession.toLowerCase()}.`,
-				`Their companions often find it amusing that they ${characterDepth.obsession.toLowerCase()}.`
-			];
-			entries.push(obsessionDescriptions[Math.floor(Math.random() * obsessionDescriptions.length)]);
-		}
-
-		if (characterDepth && characterDepth.secret) {
-			const secretDescriptions = [
-				`They harbor a mysterious secret: ${characterDepth.secret.toLowerCase()}.`,
-				`Few know the truth about them: ${characterDepth.secret.toLowerCase()}.`,
-				`Hidden beneath their adventuring exterior lies an intriguing mystery: ${characterDepth.secret.toLowerCase()}.`,
-				`There's something unexplained about their past: ${characterDepth.secret.toLowerCase()}.`
-			];
-			entries.push(secretDescriptions[Math.floor(Math.random() * secretDescriptions.length)]);
-		}
-
-		if (characterDepth && characterDepth.relationship) {
-			const relationshipDescriptions = [
-				`Their personal life is complicated by an important connection: ${characterDepth.relationship.toLowerCase()}.`,
-				`There's someone significant in their story: ${characterDepth.relationship.toLowerCase()}.`,
-				`Their adventures are influenced by a personal matter: ${characterDepth.relationship.toLowerCase()}.`,
-				`Beyond their public persona, they carry a burden: ${characterDepth.relationship.toLowerCase()}.`
-			];
-			entries.push(relationshipDescriptions[Math.floor(Math.random() * relationshipDescriptions.length)]);
-		}
-
-		// Supernatural quirk if available
-		if (characterDepth && characterDepth.supernaturalQuirk) {
-			const supernaturalDescriptions = [
-				`There's something subtly magical about them: ${characterDepth.supernaturalQuirk.toLowerCase()}.`,
-				`Those who observe them carefully might notice something unusual: ${characterDepth.supernaturalQuirk.toLowerCase()}.`,
-				`They possess a minor magical oddity that few understand: ${characterDepth.supernaturalQuirk.toLowerCase()}.`,
-				`Magic seems to touch them in unexpected ways: ${characterDepth.supernaturalQuirk.toLowerCase()}.`
-			];
-			entries.push(supernaturalDescriptions[Math.floor(Math.random() * supernaturalDescriptions.length)]);
-		}
-
-		// Notable accomplishments and hooks
-		const accomplishments = [
-			`${name} once thwarted a small band of raiders, saving a village and earning the gratitude of many.`,
-			`They recovered a minor artifact from ruins that others had given up on.`,
-			`They earned a reputation in a distant town for solving problems others could not.`,
-			`A bold gamble paid off once, and the tale of that gamble still follows them.`
-		];
-		entries.push(accomplishments[Math.floor(Math.random() * accomplishments.length)]);
-
-		// Add concluding statement with variety
-		const conclusions = [
-			`Their ${background.name.toLowerCase()} background has shaped their worldview and prepared them for the road ahead.`,
-			`Every experience has led them to this moment, ready to face whatever destiny awaits.`,
-			`They stand at the threshold of adventure, their past a foundation for the legends they will create.`,
-			`With their unique combination of skills, heritage, and personality, they are destined for great things.`,
-			`The world is vast and full of mysteries, and they are eager to explore every one.`,
-			`They are a walking collection of stories, secrets, and dreams waiting to unfold.`,
-			`In a world of magic and wonder, they are perfectly suited to become a legend.`,
-			`Their tale is just beginning, but already it promises to be extraordinary.`,
-			`Whether by fate or choice, they are exactly where they need to be to change the world.`,
-			`Adventure calls to them, and they answer with enthusiasm and mysterious purpose.`,
-			`${name} prefers to let their actions speak louder than words — but their story is far from silent.`
-		];
-		entries.push(conclusions[Math.floor(Math.random() * conclusions.length)]);
+		// 9) Concluding cinematic prophecy — future-facing and evocative
+		entries.push(`Now they stand at a crossroads: the road behind is full of ghosts, the road ahead a maw of possibility. Every choice will echo, and somewhere beyond the next ridge waits the chapter that might finally name them.`);
 
 		return entries;
 	}
 
-	generateCharacterDepth(background, race, classes) {
-		const traits = [];
-		const ideals = [];
-		const bonds = [];
-		const flaws = [];
-		const quirks = [];
-		const mannerisms = [];
+	generateCharacterDepth(background, race, classes, alignment = null) {
+		// Return a flat array of labeled depth strings (e.g., 'Personality: ...') for rendering
+		const entries = [];
 
 		// Expanded background-based personality traits
 		const backgroundTraits = {
@@ -3017,22 +3216,22 @@ class CharacterEditorPage {
 			"I carry the values of my upbringing even as I forge a new path.",
 			"Experience has taught me to be cautious but not cynical."
 		];
-		
-		// Add 1-2 background traits
-		const numBgTraits = Math.random() < 0.7 ? 1 : 2;
+
+		// Add 1-3 background traits
+		const numBgTraits = 1 + Math.floor(Math.random() * 3); // 1-3
 		for (let i = 0; i < numBgTraits; i++) {
 			const trait = bgTraits[Math.floor(Math.random() * bgTraits.length)];
-			if (!traits.includes(trait)) {
-				traits.push(trait);
-			}
+			entries.push(`Personality: ${trait}`);
 		}
 
 		// Add universal traits
-		const numUniversalTraits = 3 - traits.length + Math.floor(Math.random() * 2);
+		const numUniversalTraits = 1 + Math.floor(Math.random() * 3); // 1-3
+		const addedUniversal = new Set();
 		for (let i = 0; i < numUniversalTraits; i++) {
 			const trait = universalTraits[Math.floor(Math.random() * universalTraits.length)];
-			if (!traits.includes(trait)) {
-				traits.push(trait);
+			if (!addedUniversal.has(trait)) {
+				entries.push(`Personality: ${trait}`);
+				addedUniversal.add(trait);
 			}
 		}
 
@@ -3042,7 +3241,67 @@ class CharacterEditorPage {
 			"Growth. Every challenge is an opportunity to become stronger.",
 			"Balance. Extremes in any direction lead to suffering."
 		];
-		ideals.push(bgIdeals[Math.floor(Math.random() * bgIdeals.length)]);
+	const chosenIdeal = bgIdeals[Math.floor(Math.random() * bgIdeals.length)];
+	entries.push(`Ideal: ${chosenIdeal}`);
+
+		// Build a cinematic origin blurb and a dramatic turning point
+		// Generate an alignment-influenced small-world seed: compose place/contact so same alignment varies
+		const normalizeAlign = (a) => {
+			if (!a) return 'N';
+			if (Array.isArray(a)) return a.join('');
+			return String(a);
+		};
+		const aKey = normalizeAlign(alignment);
+
+		// Prefix/suffix pools biased by alignment axis/moral
+		const axis = (aKey[0] || 'N');
+		const moral = (aKey[1] || 'N');
+
+		const placeCores = [
+			"Hollow", "Vale", "Ford", "Haven", "Cross", "March", "Hold", "Barrow", "Mire", "Glen"
+		];
+		const placePrefixes = {
+			'L': ["High", "Iron", "Grey", "Stone", "Crown"],
+			'N': ["Wind", "Ash", "Everg", "Dun", "Raven"],
+			'C': ["Wild", "Crimson", "Feral", "Storm", "Briar"]
+		};
+		const placeSuffixes = {
+			'G': ["ford", "stead", "port", "bridge"],
+			'N': ["marsh", "well", "field", "grove"],
+			'E': ["scar", "fen", "barrow", "reach"]
+		};
+
+		const pickFrom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+		const prefixPool = placePrefixes[axis] || placePrefixes['N'];
+		const suffixPool = placeSuffixes[moral] || placeSuffixes['N'];
+		const chosenPlace = `${pickFrom(prefixPool)}${pickFrom(placeCores)}${pickFrom(suffixPool)}`;
+
+		// Contact/name pools vary by moral leaning to avoid repeats across same-alignment characters
+		const namesByMoral = {
+			'G': ["Alden", "Maera", "Edrin", "Serah", "Ithar"],
+			'N': ["Corin", "Lys", "Borin", "Mira", "Joren"],
+			'E': ["Sylas", "Riona", "Thesse", "Varr", "Neka"]
+		};
+		const chosenPerson = pickFrom(namesByMoral[moral] || namesByMoral['N']);
+
+		entries.push(`Place: ${chosenPlace}`);
+		entries.push(`Contact: ${chosenPerson}`);
+
+		// Origin uses chosenPlace
+		const origin = Math.random() < 0.5
+			? `They were raised in ${chosenPlace}, where horizon and hardship braided together and small mercies mattered.`
+			: `They grew up near ${chosenPlace}, amid candlelit halls and carved stone, where duty was spoken like prayer.`;
+		entries.push(`Origin: ${origin}`);
+
+		// Turning point references chosenPerson or chosenPlace for consistency
+		let turningPoint = '';
+		if (Math.random() < 0.9) {
+			turningPoint = Math.random() < 0.5
+				? `${chosenPerson} once saved them from a disaster that left scars and a promise to repay.`
+				: `A single night at ${chosenPlace} — a riot, a betrayal, a fire — broke the life they'd known and set them on a different road.`;
+			entries.push(`TurningPoint: ${turningPoint}`);
+		}
 
 		// Race-influenced traits and quirks
 		const raceTraits = {
@@ -3107,7 +3366,7 @@ class CharacterEditorPage {
 			"My heritage influences how I see the world in subtle ways.",
 			"I carry the strengths and struggles of my people with pride."
 		];
-		traits.push(racialOptions[Math.floor(Math.random() * racialOptions.length)]);
+		entries.push(`Personality: ${racialOptions[Math.floor(Math.random() * racialOptions.length)]}`);
 
 		// Class-influenced bonds and motivations
 		const classBonds = {
@@ -3185,13 +3444,14 @@ class CharacterEditorPage {
 			]
 		};
 
-		// Add class bonds
+		// Add class bonds (prioritize first class as strongest bond)
 		classes.forEach(cls => {
 			const classOptions = classBonds[cls.name] || [
 				`My training as a ${cls.name.toLowerCase()} has shaped my worldview.`,
 				`I carry the responsibility of my class with honor and determination.`
 			];
-			bonds.push(classOptions[Math.floor(Math.random() * classOptions.length)]);
+			const chosen = classOptions[Math.floor(Math.random() * classOptions.length)];
+			entries.push(`Bond: ${chosen}`);
 		});
 
 		// Expanded universal flaws
@@ -3215,14 +3475,12 @@ class CharacterEditorPage {
 			"I overthink every decision until I miss my opportunity to act.",
 			"I'm stubborn to a fault and rarely admit when I'm wrong."
 		];
-		
-		// Add 1-2 flaws
-		const numFlaws = Math.random() < 0.6 ? 1 : 2;
+
+		// Add 1-3 flaws
+		const numFlaws = 1 + Math.floor(Math.random() * 3);
 		for (let i = 0; i < numFlaws; i++) {
 			const flaw = universalFlaws[Math.floor(Math.random() * universalFlaws.length)];
-			if (!flaws.includes(flaw)) {
-				flaws.push(flaw);
-			}
+			entries.push(`Flaw: ${flaw}`);
 		}
 
 		// Fantasy Enhanced Mannerisms and Quirks
@@ -3259,12 +3517,11 @@ class CharacterEditorPage {
 			"Whispers secrets to flowers, believing they'll carry messages to the fae courts"
 		];
 
-		mannerisms.push(mannerismList[Math.floor(Math.random() * mannerismList.length)]);
-		if (Math.random() < 0.4) {
-			const secondMannerism = mannerismList[Math.floor(Math.random() * mannerismList.length)];
-			if (!mannerisms.includes(secondMannerism)) {
-				mannerisms.push(secondMannerism);
-			}
+		const man1 = mannerismList[Math.floor(Math.random() * mannerismList.length)];
+		entries.push(`Mannerism: ${man1}`);
+		if (Math.random() < 0.5) {
+			const man2 = mannerismList[Math.floor(Math.random() * mannerismList.length)];
+			if (man2 !== man1) entries.push(`Mannerism: ${man2}`);
 		}
 
 		// Add amusing obsessions and habits
@@ -3344,23 +3601,32 @@ class CharacterEditorPage {
 		];
 
 		// Randomly add these elements
-		const selectedObsession = Math.random() < 0.6 ? obsessions[Math.floor(Math.random() * obsessions.length)] : null;
-		const selectedSecret = Math.random() < 0.7 ? secrets[Math.floor(Math.random() * secrets.length)] : null;
-		const selectedRelationship = Math.random() < 0.5 ? relationships[Math.floor(Math.random() * relationships.length)] : null;
-		const selectedSupernatural = Math.random() < 0.4 ? supernaturalQuirks[Math.floor(Math.random() * supernaturalQuirks.length)] : null;
+	const selectedObsession = Math.random() < 0.8 ? obsessions[Math.floor(Math.random() * obsessions.length)] : null;
+	const selectedSecret = Math.random() < 0.85 ? secrets[Math.floor(Math.random() * secrets.length)] : null;
+	const selectedRelationship = Math.random() < 0.75 ? relationships[Math.floor(Math.random() * relationships.length)] : null;
+	const selectedSupernatural = Math.random() < 0.5 ? supernaturalQuirks[Math.floor(Math.random() * supernaturalQuirks.length)] : null;
 
-		return {
-			personalityTraits: traits.slice(0, Math.min(4, traits.length)),
-			ideals: ideals,
-			bonds: bonds.slice(0, Math.min(2, bonds.length)),
-			flaws: flaws,
-			mannerisms: mannerisms,
-			quirks: quirks,
-			obsession: selectedObsession,
-			secret: selectedSecret,
-			relationship: selectedRelationship,
-			supernaturalQuirk: selectedSupernatural
-		};
+	// temporary hooks list we'll push into entries below
+	const hooks = [];
+
+	if (selectedObsession) entries.push(`Obsession: ${selectedObsession}`);
+	if (selectedSecret) entries.push(`Secret: ${selectedSecret}`);
+	if (selectedRelationship) entries.push(`Relationship: ${selectedRelationship}`);
+	if (selectedSupernatural) entries.push(`Supernatural: ${selectedSupernatural}`);
+
+	// Add some hooks for plot or accomplishments
+	hooks.push(`${name} once ${Math.random() < 0.5 ? 'saved' : 'defeated'} ${Math.random() < 0.5 ? 'a local lord' : 'a band of raiders'} in a night that songs still whisper about`);
+	hooks.push(`${Math.random() < 0.6 ? 'recovered' : 'nearly lost'} an artifact tied to their family or a vanished cult`);
+	if (Math.random() < 0.5) hooks.push(`${name} maintains uneasy dealings with a shadowy contact whispered about as 'The Broker'`);
+	hooks.forEach(h => entries.push(`Hook: ${h}`));
+
+		// Shuffle entries slightly to vary ordering
+		for (let i = entries.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[entries[i], entries[j]] = [entries[j], entries[i]];
+		}
+
+		return entries;
 	}
 
 
@@ -3376,7 +3642,7 @@ class CharacterEditorPage {
 
 	generateRandomEquipment(classes, level, abilityScores, race) {
 		const equipment = new Set();
-		
+
 		// Core adventuring gear for all characters - using valid item names
 		equipment.add("{@item Backpack|PHB}");
 		equipment.add("{@item Bedroll|PHB}");
@@ -3441,7 +3707,7 @@ class CharacterEditorPage {
 				equipment.push("{@item Shield|PHB}");
 				equipment.push(strMod >= 0 ? "{@item Warhammer|PHB}" : "{@item Mace|PHB}");
 				equipment.push("{@item Light Crossbow|PHB}");
-				equipment.push("{@item Crossbow Bolts (20)|PHB}");
+				equipment.push("{@item Crossbow Bolt|PHB} (20)");
 				equipment.push("{@item Priest's Pack|PHB}");
 				equipment.push("{@item Holy Symbol|PHB}");
 				equipment.push("{@item Book|PHB}");
@@ -3469,15 +3735,34 @@ class CharacterEditorPage {
 				} else {
 					equipment.push("{@item Leather Armor|phb}");
 					equipment.push("{@item Longbow|phb}");
-					equipment.push("{@item Arrows|phb} (20)");
+					equipment.push("{@item Arrow|phb} (20)");
 					equipment.push("{@item Rapier|phb}");
 					equipment.push("{@item Shortsword|phb}");
 				}
 				equipment.push("{@item Light Crossbow|phb}");
-				equipment.push("{@item Crossbow Bolts|phb} (20)");
+				equipment.push("{@item Crossbow Bolt|phb} (20)");
 				equipment.push("{@item Dungeoneer's Pack|phb}");
 				if (classLevel >= 3) equipment.push("{@item Masterwork Weapon|dmg}");
 				if (classLevel >= 5) equipment.push("{@item +1 Weapon|dmg}");
+				// Replace placeholder masterwork/magic entries with valid PHB weapons
+				if (classLevel >= 3) {
+					const fighterWeaponOptions = [
+						"{@item Longsword|PHB}",
+						"{@item Greatsword|PHB}",
+						"{@item Battleaxe|PHB}",
+						"{@item Warhammer|PHB}",
+						"{@item Halberd|PHB}",
+						"{@item Rapier|PHB}"
+					];
+					const pick = fighterWeaponOptions[Math.floor(Math.random() * fighterWeaponOptions.length)];
+					equipment.push(pick);
+				}
+				if (classLevel >= 5) {
+					// Add an additional weapon for higher level fighters instead of an undefined +1 weapon
+					const extraOptions = ["{@item Maul|PHB}", "{@item Greatsword|PHB}", "{@item Glaive|PHB}"];
+					const pickExtra = extraOptions[Math.floor(Math.random() * extraOptions.length)];
+					equipment.push(pickExtra);
+				}
 				break;
 
 			case "Monk":
@@ -3486,7 +3771,8 @@ class CharacterEditorPage {
 				equipment.push("{@item Dart|phb} (10)");
 				equipment.push("{@item Meditation Beads|phb}");
 				equipment.push("{@item Incense|phb} (10)");
-				if (classLevel >= 3) equipment.push("{@item Ki Focus|dmg}");
+				// 'Ki Focus' was a non-standard/placeholder token. Replace with a supported DMG wondrous item.
+				if (classLevel >= 3) equipment.push("{@item Amulet of Health|dmg}");
 				if (classLevel >= 5) equipment.push("{@item Bracers of Defense|dmg}");
 				break;
 
@@ -3497,10 +3783,16 @@ class CharacterEditorPage {
 				equipment.push("{@item Javelin|phb} (5)");
 				equipment.push("{@item Explorer's Pack|phb}");
 				equipment.push("{@item Holy Symbol|phb}");
-				equipment.push("{@item Prayer Book|phb}");
-				equipment.push("{@item Holy Water|phb} (4)");
-				equipment.push("{@item Blessed Oil|phb} (2)");
-				if (classLevel >= 3) equipment.push("{@item Divine Weapon|dmg}");
+				// Use canonical PHB item tokens: Holy Water (flask) and Healer's Kit for paladin consumables/tools
+				equipment.push("{@item Holy Water (flask)|phb} (2)");
+				equipment.push("{@item Healer's Kit|phb}");
+				equipment.push("Prayer Book");
+				// 'Divine Weapon' is a class feature, not an item token — give concrete gear instead
+				if (classLevel >= 3) {
+					// Provide a small holy stash appropriate to a low-level paladin
+					equipment.push("{@item Potion of Healing|dmg}");
+					equipment.push("{@item Holy Water (flask)|phb} (1)");
+				}
 				if (classLevel >= 5) equipment.push("{@item +1 Shield|dmg}");
 				break;
 
@@ -3508,24 +3800,23 @@ class CharacterEditorPage {
 				equipment.push("{@item Studded Leather Armor|phb}");
 				equipment.push("{@item Shortsword|phb} (2)");
 				equipment.push("{@item Longbow|phb}");
-				equipment.push("{@item Arrows|phb} (20)");
+				equipment.push("{@item Arrow|phb} (20)");
 				equipment.push("{@item Dungeoneer's Pack|phb}");
-				equipment.push("{@item Survival Kit|phb}");
 				equipment.push("{@item Hunting Trap|phb} (3)");
 				if (classLevel >= 2) equipment.push("{@item Component Pouch|phb}");
-				if (classLevel >= 3) equipment.push("{@item Ranger's Cloak|dmg}");
+				if (classLevel >= 3) equipment.push("{@item Cloak of Elvenkind|dmg}");
 				break;
 
 			case "Rogue":
 				equipment.push("{@item Leather Armor|phb}");
 				equipment.push("{@item Shortsword|phb} (2)");
 				equipment.push("{@item Shortbow|phb}");
-				equipment.push("{@item Arrows|phb} (20)");
+				equipment.push("{@item Arrow|phb} (20)");
 				equipment.push("{@item Thieves' Tools|phb}");
 				equipment.push("{@item Burglar's Pack|phb}");
 				equipment.push("{@item Dagger|phb} (2)");
-				equipment.push("{@item Caltrops|phb} (2 bags)");
-				equipment.push("{@item Ball Bearings|phb} (1000)");
+				equipment.push("{@item Caltrops (bag of 20)|phb}");
+				equipment.push("{@item Ball Bearing|phb} (1000)");
 				if (classLevel >= 3) equipment.push("{@item Poisoner's Kit|phb}");
 				if (classLevel >= 5) equipment.push("{@item +1 Thieves' Tools|dmg}");
 				break;
@@ -3534,23 +3825,34 @@ class CharacterEditorPage {
 				equipment.push("{@item Dagger|phb} (2)");
 				equipment.push("{@item Component Pouch|phb}");
 				equipment.push("{@item Light Crossbow|phb}");
-				equipment.push("{@item Crossbow Bolts|phb} (20)");
+				equipment.push("{@item Crossbow Bolt|phb} (20)");
 				equipment.push("{@item Dungeoneer's Pack|phb}");
 				equipment.push("{@item Arcane Focus|phb} (crystal)");
-				if (classLevel >= 3) equipment.push("{@item Metamagic Crystal|dmg}");
+				// 'Metamagic Crystal' was a non-standard/placeholder token. Replace with a valid DMG wondrous item
+				// that benefits spellcasters. Use Pearl of Power as a conservative, supported fallback.
+				if (classLevel >= 3) equipment.push("{@item Pearl of Power|dmg}");
 				if (classLevel >= 5) equipment.push("{@item Wand of Magic Missiles|dmg}");
 				break;
 
 			case "Warlock":
 				equipment.push("{@item Leather Armor|phb}");
 				equipment.push("{@item Light Crossbow|phb}");
-				equipment.push("{@item Crossbow Bolts|phb} (20)");
+				equipment.push("{@item Crossbow Bolt|phb} (20)");
 				equipment.push("{@item Component Pouch|phb}");
 				equipment.push("{@item Scholar's Pack|phb}");
 				equipment.push("{@item Arcane Focus|phb} (rod)");
 				equipment.push("{@item Dagger|phb} (2)");
-				equipment.push("{@item Simple Weapon|phb}");
-				if (classLevel >= 3) equipment.push("{@item Pact Weapon|dmg}");
+				if (classLevel >= 3) {
+					// 'Pact Weapon' is a feature, not an item token. Provide a sensible weapon choice instead.
+					const warlockWeaponOptions = [
+						"{@item Quarterstaff|phb}",
+						"{@item Longsword|phb}",
+						"{@item Shortsword|phb}",
+						"{@item Scimitar|phb}",
+						"{@item Mace|phb}"
+					];
+					equipment.push(warlockWeaponOptions[Math.floor(Math.random() * warlockWeaponOptions.length)]);
+				}
 				if (classLevel >= 5) equipment.push("{@item Rod of the Pact Keeper|dmg}");
 				break;
 
@@ -3574,17 +3876,17 @@ class CharacterEditorPage {
 
 	getRacialEquipment(race) {
 		if (!race) return [];
-		
+
 		const racialEquipment = {
 			"Dwarf": ["{@item Smith's Tools|phb}", "{@item Warhammer|phb}"],
-			"Elf": ["{@item Longbow|phb}", "{@item Arrows|phb} (20)", "{@item Longsword|phb}"],
-			"Halfling": ["{@item Sling|phb}", "{@item Sling Bullets|phb} (20)"],
+			"Elf": ["{@item Longbow|phb}", "{@item Arrow|phb} (20)", "{@item Longsword|phb}"],
+			"Halfling": ["{@item Sling|phb}", "{@item Sling Bullet|phb} (20)"],
 			"Human": [],
-			"Dragonborn": ["{@item Dragon Scale|phb}"],
+			"Dragonborn": [],
 			"Gnome": ["{@item Tinker's Tools|phb}"],
 			"Half-Elf": ["{@item Musical Instrument|phb}"],
 			"Half-Orc": ["{@item Greataxe|phb}"],
-			"Tiefling": ["{@item Infernal Contract|phb}"]
+			"Tiefling": ["{@item Cloak of Protection|dmg}"]
 		};
 
 		return racialEquipment[race.name] || [];
@@ -3592,7 +3894,7 @@ class CharacterEditorPage {
 
 	generateMagicalItems(classes, level, abilityScores) {
 		const items = [];
-		
+
 		// Always include healing potions
 		const healingPotions = Math.max(1, Math.floor(level / 3));
 		for (let i = 0; i < healingPotions; i++) {
@@ -3618,7 +3920,11 @@ class CharacterEditorPage {
 				"{@item Ring of Protection|dmg}",
 				"{@item Cloak of Displacement|dmg}",
 				"{@item Boots of Speed|dmg}",
-				"{@item Amulet of Health|dmg}"
+				"{@item Amulet of Health|dmg}",
+				"{@item Bag of Holding|dmg}",
+				"{@item Necklace of Adaptation|dmg}",
+				"{@item Boots of Elvenkind|dmg}",
+				"{@item Bracers of Defense|dmg}"
 			];
 			items.push(rareItems[Math.floor(Math.random() * rareItems.length)]);
 		}
@@ -3629,7 +3935,11 @@ class CharacterEditorPage {
 				"{@item +2 Armor|dmg}",
 				"{@item Belt of Giant Strength|dmg}",
 				"{@item Rod of Lordly Might|dmg}",
-				"{@item Ring of Spell Storing|dmg}"
+				"{@item Ring of Spell Storing|dmg}",
+				"{@item Stone of Good Luck|dmg}",
+				"{@item Sun Blade|dmg}",
+				"{@item Scimitar of Speed|dmg}",
+				"{@item Cloak of the Bat|dmg}"
 			];
 			items.push(veryRareItems[Math.floor(Math.random() * veryRareItems.length)]);
 		}
@@ -3640,7 +3950,13 @@ class CharacterEditorPage {
 				"{@item +3 Armor|dmg}",
 				"{@item Cloak of Invisibility|dmg}",
 				"{@item Staff of Power|dmg}",
-				"{@item Ring of Three Wishes|dmg}"
+				"{@item Ring of Three Wishes|dmg}",
+				"{@item Holy Avenger|dmg}",
+				"{@item Robe of the Archmagi|dmg}",
+				"{@item Vorpal Sword|dmg}",
+				"{@item Luck Blade|dmg}",
+				"{@item Ring of Regeneration|dmg}",
+				"{@item Hammer of Thunderbolts|dmg}"
 			];
 			items.push(legendaryItems[Math.floor(Math.random() * legendaryItems.length)]);
 		}
@@ -3650,7 +3966,7 @@ class CharacterEditorPage {
 
 	generateConsumables(level) {
 		const consumables = [];
-		
+
 		// Potions scale with level
 		const potionCount = Math.min(5, 1 + Math.floor(level / 2));
 		const potionTypes = [
@@ -3660,7 +3976,7 @@ class CharacterEditorPage {
 			"{@item Potion of Invisibility|dmg}",
 			"{@item Potion of Speed|dmg}",
 			"{@item Potion of Water Breathing|dmg}",
-			"{@item Antitoxin|phb}",
+			"{@item Antitoxin (vial)|phb}",
 			"{@item Potion of Heroism|dmg}"
 		];
 
@@ -3682,7 +3998,7 @@ class CharacterEditorPage {
 
 	generateAdventuringGear(classes, level) {
 		const gear = [];
-		
+
 		// Basic adventuring tools
 		const basicGear = [
 			"{@item Crowbar|phb}",
@@ -3690,19 +4006,19 @@ class CharacterEditorPage {
 			"{@item Piton|phb} (10)",
 			"{@item Grappling Hook|phb}",
 			"{@item Manacles|phb}",
-			"{@item Mirror|phb}",
-			"{@item Oil|phb} (flask)",
-			"{@item Lantern|phb} (hooded)",
-			"{@item Chain|phb} (10 feet)",
+			"{@item Oil (flask)|phb}",
+			"{@item Hooded Lantern|phb}",
+			"{@item Chain (10 feet)|phb}",
 			"{@item Magnifying Glass|phb}",
 			"{@item Spyglass|phb}",
-			"{@item Caltrops|phb} (bag of 20)"
+			"{@item Caltrops (bag of 20)|phb}",
+			"Mirror"
 		];
 
 		// Add gear based on level
 		const gearCount = Math.min(Math.floor(level / 2) + 2, basicGear.length);
 		const selectedGear = [];
-		
+
 		while (selectedGear.length < gearCount && selectedGear.length < basicGear.length) {
 			const randomGear = basicGear[Math.floor(Math.random() * basicGear.length)];
 			if (!selectedGear.includes(randomGear)) {
@@ -3723,7 +4039,7 @@ class CharacterEditorPage {
 	}
 
 	// Method to generate random character at specified level
-	async generateRandomCharacterAtLevel(requestedLevel = 5, characterName = '', sourceName = 'RANDOM_GENERATED') {
+	async generateRandomCharacterAtLevel(requestedLevel = 5, characterName = '', sourceName = 'RANDOM_GENERATED', baseClass = '') {
 		try {
 			// Validate and sanitize parameters
 			const finalLevel = Math.max(1, Math.min(20, parseInt(String(requestedLevel)) || 5));
@@ -3733,9 +4049,10 @@ class CharacterEditorPage {
 			console.log(`Generating random character: Level ${finalLevel}, Name: ${finalName || 'random'}, Source: ${finalSource}`);
 
 			// Use existing generation logic but with provided parameters
-			const randomClasses = this.generateRandomClasses(finalLevel);
+			const randomClasses = this.generateRandomClasses(finalLevel, baseClass);
 			const randomRace = this.generateRandomRace(randomClasses);
 			const randomBackground = this.generateRandomBackground();
+			const randomAlignment = this.generateRandomAlignment();
 			const randomAbilityScores = this.generateRandomAbilityScores(randomClasses, randomRace);
 			const randomEquipment = this.generateRandomEquipment(randomClasses, finalLevel, randomAbilityScores, randomRace);
 			const randomActions = this.generateRandomActions(randomClasses, randomAbilityScores);
@@ -3748,13 +4065,16 @@ class CharacterEditorPage {
 			const randomHp = this.calculateRandomHp(randomClasses, conMod);
 
 			// Create character template
+			const characterDepth = this.generateCharacterDepth(randomBackground, randomRace, randomClasses, randomAlignment);
+			const depthFluff = this.generateFluffEntries(finalName, totalLevel, randomClasses, randomRace, randomBackground, characterDepth, randomAlignment);
+
 			const template = {
 				name: finalName,
 				source: finalSource,
 			race: randomRace,
 			class: randomClasses,
 			background: randomBackground,
-			alignment: this.generateRandomAlignment(),
+			alignment: randomAlignment,
 			ac: this.generateRandomAC(randomClasses, randomAbilityScores),
 			hp: randomHp,
 			speed: {
@@ -3763,7 +4083,7 @@ class CharacterEditorPage {
 			...randomAbilityScores,
 			passive: 10 + Math.floor((randomAbilityScores.wis - 10) / 2) + (this.hasSkillProficiency("perception", randomClasses) ? profBonus : 0),
 			save: this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
-			skill: this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, null),
+			skill: await this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, randomBackground),
 			proficiencyBonus: `+${profBonus}`,
 			deathSaves: {
 				successes: 0,
@@ -3772,14 +4092,14 @@ class CharacterEditorPage {
 			customTrackers: this.generateRandomTrackers(randomClasses),
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
-			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores),
+			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores, randomBackground, randomAlignment),
 			// characterDepth intentionally not stored as a top-level field; include depth info in fluff
 			fluff: {
 				entries: [
 					`${finalName} is a ${totalLevel === 1 ? 'beginning' : totalLevel < 5 ? 'novice' : totalLevel < 10 ? 'experienced' : 'veteran'} adventurer.`,
 					`Their journey has led them to master ${randomClasses.length === 1 ? 'the ways of the ' + randomClasses[0].name.toLowerCase() : 'multiple disciplines'}.`,
 					this.getBackgroundStory(randomBackground.name),
-					...this.generateFluffEntries(finalName, totalLevel, randomClasses, randomRace, randomBackground, this.generateCharacterDepth(randomBackground, randomRace, randomClasses))
+					...this.generateFluffEntries(finalName, totalLevel, randomClasses, randomRace, randomBackground, this.generateCharacterDepth(randomBackground, randomRace, randomClasses), null)
 				]
 			},
 			languages: this.generateLanguageProficiencies(randomClasses, randomRace, null),
@@ -4244,10 +4564,10 @@ class CharacterEditorPage {
 		// Get password from localStorage cache (same as save functionality)
 		const currentSource = this.getCurrentSourceName(currentCharacterData);
 		const sanitizedSource = this.sanitizeSourceName(currentSource);
-		const password = SourcePasswordManager.getCachedPassword(sanitizedSource);
+		const password = CharacterSourcePasswordManager.getCachedPassword(sanitizedSource);
 
 		if (!password) {
-			const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
+			const cachedSources = Object.keys(CharacterSourcePasswordManager.getCachedPasswords());
 			let errorMsg = `Error: No cached password found for source "${currentSource}" (sanitized: "${sanitizedSource}").`;
 			if (cachedSources.length > 0) {
 				errorMsg += ` Available sources: ${cachedSources.join(', ')}. Please update the "source" field or visit Source Management.`;
@@ -4304,7 +4624,7 @@ class CharacterEditorPage {
 			this.updateButtonVisibility();
 
 			// Load template to reset editor
-			this.loadTemplate();
+			await this.loadTemplate();
 
 			// Show success message
 			document.getElementById('message').textContent = `Character "${characterName}" deleted successfully`;
@@ -4352,7 +4672,7 @@ class CharacterEditorPage {
 		}
 
 		// Check for any cached sources - use the first one
-		const cachedPasswords = SourcePasswordManager.getCachedPasswords();
+		const cachedPasswords = CharacterSourcePasswordManager.getCachedPasswords();
 		const availableSources = Object.keys(cachedPasswords);
 		if (availableSources.length > 0) {
 			return availableSources[0];
@@ -4398,7 +4718,7 @@ class CharacterEditorPage {
 		}
 
 		const detectedSource = this.getCurrentSourceName(characterData);
-		const cachedSources = Object.keys(SourcePasswordManager.getCachedPasswords());
+			const cachedSources = Object.keys(CharacterSourcePasswordManager.getCachedPasswords());
 
 		if (!currentSource) {
 			currentSource = detectedSource;
@@ -4406,7 +4726,7 @@ class CharacterEditorPage {
 
 		// Check if this source has a cached password (using sanitized name)
 		const sanitizedDetectedSource = this.sanitizeSourceName(detectedSource);
-		const cachedPassword = SourcePasswordManager.getCachedPassword(sanitizedDetectedSource);
+			const cachedPassword = CharacterSourcePasswordManager.getCachedPassword(sanitizedDetectedSource);
 		if (cachedPassword) {
 			statusEl.innerHTML = `Detected password for: "<strong>${detectedSource}</strong>" (authenticated). <a href="sources.html">Manage sources</a>.`;
 			hasSourceAccess = true;
@@ -4434,7 +4754,7 @@ class CharacterEditorPage {
 
 		// Check if we have a cached password for this source (using sanitized name)
 		const sanitizedSource = this.sanitizeSourceName(sourceName);
-		const cachedPassword = SourcePasswordManager.getCachedPassword(sanitizedSource);
+			const cachedPassword = CharacterSourcePasswordManager.getCachedPassword(sanitizedSource);
 		if (cachedPassword) {
 			return true;
 		}
