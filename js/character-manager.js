@@ -63,7 +63,8 @@ class CharacterP2P {
 	// Instead, if a turnApiKey is provided we will use the TurnWebRTC relay WebSocket
 	// as the signaling channel at wss://turnwebrtc.com/api/relay/{room}?apikey=KEY
 	// (exposing the key in-browser is intentional for this flow)
-	const turnApiKey = opts && opts['turnApiKey'] || "d881b9e9-09ec-4a9d-a826-4e10e7c75298";
+	// Note: TurnWebRTC service currently has SSL certificate issues, so we'll skip it by default
+	const turnApiKey = opts && opts['turnApiKey']; // Removed default key due to SSL issues
 	let iceServers = []; // no in-browser ICE credential fetch
 
 		// Create RTCPeerConnection with discovered ICE servers (or empty array)
@@ -176,6 +177,13 @@ class CharacterP2P {
 						this._startPeriodicAnnounce();
 					}
 				});
+
+				this._signalingSocket.addEventListener('error', (ev) => {
+					console.warn('CharacterP2P: signaling socket error', ev);
+					// Try fallback to local WebSocket if TurnWebRTC fails
+					this._signalingSocket = null;
+					this._tryLocalWebSocketFallback();
+				});
 			} catch (e) {
 				console.info(`CharacterP2P: could not connect to signaling URL ${signalingUrl}`, e);
 				this._signalingSocket = null;
@@ -183,6 +191,32 @@ class CharacterP2P {
 			}
 		} else {
 			console.info('CharacterP2P: no signaling URL available; operating in manual offer/answer mode.');
+		}
+	}
+
+	/**
+	 * Try to connect to local WebSocket as fallback when TurnWebRTC fails
+	 */
+	static _tryLocalWebSocketFallback() {
+		try {
+			const proto = (window && window.location && window.location.protocol === 'https:') ? 'wss:' : 'ws:';
+			const fallbackUrl = `${proto}//${window.location.host}/character-p2p`;
+			
+			console.info('CharacterP2P: Attempting local WebSocket fallback:', fallbackUrl);
+			this._signalingSocket = new WebSocket(fallbackUrl);
+			
+			this._signalingSocket.addEventListener('open', () => {
+				console.info('CharacterP2P: Local WebSocket fallback connected');
+			});
+			
+			this._signalingSocket.addEventListener('error', (ev) => {
+				console.info('CharacterP2P: Local WebSocket fallback also failed, operating in manual mode');
+				this._signalingSocket = null;
+			});
+			
+		} catch (e) {
+			console.info('CharacterP2P: Local WebSocket fallback failed:', e);
+			this._signalingSocket = null;
 		}
 	}
 
