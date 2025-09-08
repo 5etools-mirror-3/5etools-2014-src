@@ -734,11 +734,27 @@ class CharacterManager {
 	 */
 	static removeCharacter(id) {
 		if (this._characters.has(id)) {
+			// Remove from in-memory caches
 			this._characters.delete(id);
 
 			const index = this._charactersArray.findIndex(c => c.id === id);
-			if (index >= 0) {
-				this._charactersArray.splice(index, 1);
+			if (index >= 0) this._charactersArray.splice(index, 1);
+
+			// Remove any blob cache entry
+			if (this._blobCache.has(id)) this._blobCache.delete(id);
+
+			// Persist the updated full cache to localStorage so deletions survive reloads
+			try {
+				this._saveToLocalStorage([...this._charactersArray]);
+			} catch (e) {
+				console.warn('CharacterManager: Failed to persist deletion to localStorage:', e);
+			}
+
+			// Broadcast deletion to other tabs
+			try {
+				this._broadcastSync('CHARACTER_DELETED', { characterId: id });
+			} catch (e) {
+				console.warn('CharacterManager: Failed to broadcast CHARACTER_DELETED:', e);
 			}
 
 			// Notify listeners

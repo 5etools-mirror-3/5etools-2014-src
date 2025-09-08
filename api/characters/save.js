@@ -33,30 +33,30 @@ export default async function handler(req, res) {
     // Get source from character data or request body
     const characterSource = source || characterData.source;
     if (!characterSource) {
-      return res.status(400).json({ 
-        error: 'Source is required. Please specify a source for your character.' 
+      return res.status(400).json({
+        error: 'Source is required. Please specify a source for your character.'
       });
     }
 
     // Password validation is required for all saves
     if (!password) {
-      return res.status(400).json({ 
-        error: 'Password is required. Please provide the password for the source.' 
+      return res.status(400).json({
+        error: 'Password is required. Please provide the password for the source.'
       });
     }
 
     // Validate the password for the source
     const sanitizedSource = PasswordUtils.sanitizeSourceName(characterSource);
     if (!sanitizedSource) {
-      return res.status(400).json({ 
-        error: 'Invalid source name. Use only letters, numbers, underscores, and hyphens.' 
+      return res.status(400).json({
+        error: 'Invalid source name. Use only letters, numbers, underscores, and hyphens.'
       });
     }
 
     const isValidPassword = await PasswordUtils.validatePassword(sanitizedSource, password);
     if (!isValidPassword) {
-      return res.status(403).json({ 
-        error: 'Access denied: Invalid or missing password for this source. Please create the source first or check your password.' 
+      return res.status(403).json({
+        error: 'Access denied: Invalid or missing password for this source. Please create the source first or check your password.'
       });
     }
 

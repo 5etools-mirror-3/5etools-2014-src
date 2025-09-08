@@ -100,6 +100,7 @@ class CharacterSourcePasswordManager {
 class CharacterEditorPage {
 	constructor() {
 		this.ace = null;
+		this._classDataCache = new Map(); // Cache for loaded class JSON data
 		this.initOnLoad();
 	}
 
@@ -228,8 +229,8 @@ class CharacterEditorPage {
 		const randomName = this.generateRandomName();
 		const randomClasses = this.generateRandomClasses(requestedLevel);
 		const randomRace = this.generateRandomRace(randomClasses);
-		const randomBackground = this.generateRandomBackground();
 		const randomAlignment = this.generateRandomAlignment();
+		const randomBackground = this.generateRandomBackground(randomRace, randomAlignment);
 		const randomAbilityScores = this.generateRandomAbilityScores(randomClasses, randomRace);
 		const randomEquipment = this.generateRandomEquipment(randomClasses, requestedLevel, randomAbilityScores, randomRace);
 		const randomActions = this.generateRandomActions(randomClasses, randomAbilityScores);
@@ -243,9 +244,13 @@ class CharacterEditorPage {
 
 	// Generate character depth first so we can use it in fluff (store as fluff, not as a top-level field)
 		const characterDepth = this.generateCharacterDepth(randomBackground, randomRace, randomClasses, randomAlignment);
-		const depthFluff = this.generateFluffEntries(randomName, totalLevel, randomClasses, randomRace, randomBackground, characterDepth, randomAlignment);
+		const depthFluff = await this.generateFluffEntries(randomName, totalLevel, randomClasses, randomRace, randomBackground, characterDepth, randomAlignment);
+
+		// Generate all features and traits (racial traits + class/subclass features)
+		const allFeatureEntries = await this.generateAllFeatureEntries(randomClasses, randomRace);
+
 		// Default character template with random content
-		const template = {
+		let template = {
 			name: randomName,
 			source: requestedSource || "ADD_YOUR_NAME_HERE",
 			race: randomRace,
@@ -255,7 +260,7 @@ class CharacterEditorPage {
 			ac: this.generateRandomAC(randomClasses, randomAbilityScores),
 			hp: randomHp,
 			speed: {
-				walk: 30 + (randomRace.name === "Wood Elf" ? 5 : 0) // Some races get speed bonuses
+				walk: 30 // Default speed, will be overridden by race data
 			},
 			...randomAbilityScores,
 			passive: 10 + Math.floor((randomAbilityScores.wis - 10) / 2) + (this.hasSkillProficiency("perception", randomClasses) ? profBonus : 0),
@@ -269,7 +274,7 @@ class CharacterEditorPage {
 			customTrackers: this.generateRandomTrackers(randomClasses),
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
-			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores, randomBackground, randomAlignment),
+			entries: [...await this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores, randomBackground, randomAlignment)],
 			fluff: {
 				entries: depthFluff
 			},
@@ -277,6 +282,9 @@ class CharacterEditorPage {
 			toolProficiencies: this.generateToolProficiencies(randomClasses, randomRace, null),
 			currency: this.generateRandomCurrency(totalLevel)
 		};
+
+		// Apply race data to set actual character stats
+		template = await this.applyRaceDataToCharacter(randomRace, template);
 	this.ace.setValue(JSON.stringify(template, null, 2), 1);
 	}
 
@@ -635,7 +643,7 @@ class CharacterEditorPage {
 		return availableSubclasses[Math.floor(Math.random() * availableSubclasses.length)];
 	}
 
-	generateRandomBackground() {
+	generateRandomBackground(race = null, alignment = null) {
 		const backgrounds = [
 			{ name: "Acolyte", source: "PHB" },
 			{ name: "Criminal", source: "PHB" },
@@ -650,7 +658,175 @@ class CharacterEditorPage {
 			{ name: "Outlander", source: "PHB" },
 			{ name: "Sailor", source: "PHB" }
 		];
-		return backgrounds[Math.floor(Math.random() * backgrounds.length)];
+
+		// If no race or alignment provided, return random
+		if (!race && !alignment) {
+			return backgrounds[Math.floor(Math.random() * backgrounds.length)];
+		}
+
+		// Create weighted background selection based on race and alignment
+		const backgroundWeights = {};
+		backgrounds.forEach(bg => {
+			backgroundWeights[bg.name] = { background: bg, weight: 1 };
+		});
+
+		// Apply racial influences
+		if (race) {
+			const racialBackgroundAffinities = this.getRacialBackgroundAffinities(race);
+			Object.entries(racialBackgroundAffinities).forEach(([bgName, bonus]) => {
+				if (backgroundWeights[bgName]) {
+					backgroundWeights[bgName].weight += bonus;
+				}
+			});
+		}
+
+		// Apply alignment influences
+		if (alignment) {
+			const alignmentBackgroundAffinities = this.getAlignmentBackgroundAffinities(alignment);
+			Object.entries(alignmentBackgroundAffinities).forEach(([bgName, bonus]) => {
+				if (backgroundWeights[bgName]) {
+					backgroundWeights[bgName].weight += bonus;
+				}
+			});
+		}
+
+		// Create weighted array for selection
+		const weightedBackgrounds = [];
+		Object.values(backgroundWeights).forEach(({ background, weight }) => {
+			for (let i = 0; i < weight; i++) {
+				weightedBackgrounds.push(background);
+			}
+		});
+
+		return weightedBackgrounds[Math.floor(Math.random() * weightedBackgrounds.length)];
+	}
+
+	getRacialBackgroundAffinities(race) {
+		const affinities = {};
+
+		switch (race.name) {
+			case "Human":
+				// Humans are versatile, slight preference for social/civilized backgrounds
+				affinities["Noble"] = 2;
+				affinities["Guild Artisan"] = 2;
+				affinities["Soldier"] = 2;
+				affinities["Entertainer"] = 1;
+				break;
+			case "Elf":
+				// Elves favor cultured, magical, or nature-connected backgrounds
+				affinities["Sage"] = 3;
+				affinities["Hermit"] = 2;
+				affinities["Entertainer"] = 2;
+				affinities["Noble"] = 2;
+				affinities["Outlander"] = 1;
+				break;
+			case "Dwarf":
+				// Dwarves favor crafting, military, or traditional backgrounds
+				affinities["Guild Artisan"] = 4;
+				affinities["Soldier"] = 3;
+				affinities["Folk Hero"] = 2;
+				affinities["Acolyte"] = 1;
+				break;
+			case "Halfling":
+				// Halflings favor peaceful, social, or traveling backgrounds
+				affinities["Folk Hero"] = 3;
+				affinities["Entertainer"] = 3;
+				affinities["Guild Artisan"] = 2;
+				affinities["Sailor"] = 2;
+				break;
+			case "Dragonborn":
+				// Dragonborn favor noble, military, or honor-based backgrounds
+				affinities["Noble"] = 3;
+				affinities["Soldier"] = 3;
+				affinities["Acolyte"] = 2;
+				affinities["Folk Hero"] = 2;
+				break;
+			case "Gnome":
+				// Gnomes favor scholarly, crafting, or tinkering backgrounds
+				affinities["Sage"] = 4;
+				affinities["Guild Artisan"] = 3;
+				affinities["Hermit"] = 2;
+				affinities["Entertainer"] = 1;
+				break;
+			case "Half-Elf":
+				// Half-elves favor social, artistic, or wandering backgrounds
+				affinities["Entertainer"] = 3;
+				affinities["Charlatan"] = 2;
+				affinities["Folk Hero"] = 2;
+				affinities["Sailor"] = 2;
+				affinities["Noble"] = 1;
+				break;
+			case "Half-Orc":
+				// Half-orcs favor physical, outcast, or proving backgrounds
+				affinities["Outlander"] = 3;
+				affinities["Soldier"] = 3;
+				affinities["Folk Hero"] = 2;
+				affinities["Criminal"] = 2;
+				break;
+			case "Tiefling":
+				// Tieflings favor outcast, mysterious, or cunning backgrounds
+				affinities["Charlatan"] = 3;
+				affinities["Criminal"] = 2;
+				affinities["Entertainer"] = 2;
+				affinities["Hermit"] = 2;
+				affinities["Outlander"] = 1;
+				break;
+			default:
+				// Unknown race, no specific preferences
+				break;
+		}
+
+		return affinities;
+	}
+
+	getAlignmentBackgroundAffinities(alignment) {
+		const affinities = {};
+
+		if (!Array.isArray(alignment)) return affinities;
+
+		const [law, good] = alignment;
+
+		// Lawful alignments
+		if (law === "L") {
+			affinities["Acolyte"] = 2;
+			affinities["Soldier"] = 2;
+			affinities["Noble"] = 2;
+			affinities["Guild Artisan"] = 1;
+		}
+
+		// Chaotic alignments
+		if (law === "C") {
+			affinities["Criminal"] = 2;
+			affinities["Charlatan"] = 2;
+			affinities["Entertainer"] = 1;
+			affinities["Outlander"] = 1;
+			affinities["Sailor"] = 1;
+		}
+
+		// Good alignments
+		if (good === "G") {
+			affinities["Acolyte"] = 2;
+			affinities["Folk Hero"] = 3;
+			affinities["Sage"] = 1;
+			affinities["Hermit"] = 1;
+		}
+
+		// Evil alignments
+		if (good === "E") {
+			affinities["Criminal"] = 3;
+			affinities["Charlatan"] = 2;
+			affinities["Noble"] = 1; // Corrupt nobility
+		}
+
+		// Neutral alignments (no strong preferences, but some mild tendencies)
+		if (alignment.length === 1 && alignment[0] === "N") {
+			// True neutral - balanced approach
+			affinities["Hermit"] = 2;
+			affinities["Outlander"] = 1;
+			affinities["Sage"] = 1;
+		}
+
+		return affinities;
 	}
 
 	generateRandomAbilityScores(classes, race) {
@@ -975,7 +1151,7 @@ class CharacterEditorPage {
 			"Bard": { cha: 13 },
 			"Cleric": { wis: 13 },
 			"Druid": { wis: 13 },
-			"Fighter": { str: 13, dex: 13 }, // Either STR or DEX 13
+			"Fighter": { str: 13 }, // STR OR DEX 13 (handled specially below)
 			"Monk": { dex: 13, wis: 13 },
 			"Paladin": { str: 13, cha: 13 },
 			"Ranger": { dex: 13, wis: 13 },
@@ -990,22 +1166,36 @@ class CharacterEditorPage {
 		classes.forEach(cls => {
 			const reqs = requirements[cls.name];
 			if (reqs) {
-				Object.entries(reqs).forEach(([ability, minScore]) => {
-					if (cls.name === "Fighter" && (newStats.str >= 13 || newStats.dex >= 13)) {
-						return; // Fighter only needs STR OR DEX
-					}
-					if (newStats[ability] < minScore) {
-						// Find a stat to swap with
+				// Special case for Fighter: needs STR 13 OR DEX 13, not both
+				if (cls.name === "Fighter") {
+					if (newStats.str < 13 && newStats.dex < 13) {
+						// Need to ensure at least one is 13+
 						const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
 						const swapCandidate = abilities.find(a =>
-							newStats[a] >= minScore &&
+							newStats[a] >= 13 &&
 							!this.isStatRequired(a, classes, requirements)
 						);
 						if (swapCandidate) {
-							[newStats[ability], newStats[swapCandidate]] = [newStats[swapCandidate], newStats[ability]];
+							// Prefer boosting STR for simplicity
+							[newStats.str, newStats[swapCandidate]] = [newStats[swapCandidate], newStats.str];
 						}
 					}
-				});
+				} else {
+					// Standard multiclassing requirements for other classes
+					Object.entries(reqs).forEach(([ability, minScore]) => {
+						if (newStats[ability] < minScore) {
+							// Find a stat to swap with
+							const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+							const swapCandidate = abilities.find(a =>
+								newStats[a] >= minScore &&
+								!this.isStatRequired(a, classes, requirements)
+							);
+							if (swapCandidate) {
+								[newStats[ability], newStats[swapCandidate]] = [newStats[swapCandidate], newStats[ability]];
+							}
+						}
+					});
+				}
 			}
 		});
 
@@ -1027,6 +1217,495 @@ class CharacterEditorPage {
 		];
 		return alignments[Math.floor(Math.random() * alignments.length)];
 	}
+
+	// Class data loading methods for high-level character enhancement
+	async loadClassData(className) {
+		// Check cache first
+		if (this._classDataCache.has(className)) {
+			return this._classDataCache.get(className);
+		}
+
+		try {
+			// Load class data from 5etools JSON files
+			const classFileName = `class-${className.toLowerCase()}.json`;
+			const response = await fetch(`data/class/${classFileName}`);
+
+			if (!response.ok) {
+				console.warn(`Could not load class data for ${className}`);
+				return null;
+			}
+
+			const classData = await response.json();
+
+			// Cache the loaded data
+			this._classDataCache.set(className, classData);
+
+			return classData;
+		} catch (error) {
+			console.error(`Error loading class data for ${className}:`, error);
+			return null;
+		}
+	}
+
+	async getClassFeaturesAtLevel(className, level) {
+		const classData = await this.loadClassData(className);
+		if (!classData || !classData.class || !classData.class[0]) {
+			return [];
+		}
+
+		const classInfo = classData.class[0];
+		const features = [];
+
+		// Extract class features for the given level and all lower levels
+		if (classInfo.classFeatures) {
+			classInfo.classFeatures.forEach(featureRef => {
+				let featureName = null;
+				let featureSource = null;
+				let featureLevel = null;
+
+				if (typeof featureRef === 'string') {
+					// Parse string format: "Feature Name|Class||Level|Source"
+					const parts = featureRef.split('|');
+					featureName = parts[0];
+					featureLevel = parseInt(parts[3]) || 1;
+					featureSource = parts[4] || 'PHB';
+				} else if (featureRef.classFeature) {
+					// Parse object format with classFeature property
+					const parts = featureRef.classFeature.split('|');
+					featureName = parts[0];
+					featureLevel = parseInt(parts[3]) || 1;
+					featureSource = parts[4] || 'PHB';
+				}
+
+				if (featureName && featureLevel <= level) {
+					// Find the actual feature in the classFeature array
+					const feature = classData.classFeature?.find(f =>
+						f.name === featureName &&
+						f.level === featureLevel &&
+						f.className === className &&
+						(f.source === featureSource || featureSource === 'PHB')
+					);
+					if (feature) {
+						features.push({
+							name: feature.name,
+							level: feature.level,
+							entries: feature.entries || [],
+							source: feature.source || 'PHB',
+							type: 'class'
+						});
+					}
+				}
+			});
+		}
+
+		return features.sort((a, b) => a.level - b.level);
+	}
+
+	async getSubclassFeaturesAtLevel(className, subclassName, level) {
+		const classData = await this.loadClassData(className);
+		if (!classData || !classData.subclass) {
+			return [];
+		}
+
+		const subclass = classData.subclass.find(sc =>
+			sc.name === subclassName || sc.shortName === subclassName
+		);
+
+		if (!subclass) {
+			return [];
+		}
+
+		const features = [];
+
+		// Extract subclass features for the given level and all lower levels
+		if (subclass.subclassFeatures) {
+			subclass.subclassFeatures.forEach(featureRef => {
+				let featureName = null;
+				let featureSource = null;
+				let featureLevel = null;
+
+				if (typeof featureRef === 'string') {
+					// Parse string format: "Feature Name|Class|Subclass|Level|Source"
+					const parts = featureRef.split('|');
+					featureName = parts[0];
+					featureLevel = parseInt(parts[3]) || 1;
+					featureSource = parts[4] || 'PHB';
+				} else if (featureRef.subclassFeature) {
+					// Parse object format with subclassFeature property
+					const parts = featureRef.subclassFeature.split('|');
+					featureName = parts[0];
+					featureLevel = parseInt(parts[3]) || 1;
+					featureSource = parts[4] || 'PHB';
+				}
+
+				if (featureName && featureLevel <= level) {
+					// Find the actual feature in the subclassFeature array
+					const feature = classData.subclassFeature?.find(f =>
+						f.name === featureName &&
+						f.level === featureLevel &&
+						f.className === className &&
+						f.subclassShortName === subclass.shortName &&
+						(f.source === featureSource || featureSource === 'PHB')
+					);
+					if (feature) {
+						features.push({
+							name: feature.name,
+							level: feature.level,
+							entries: feature.entries || [],
+							source: feature.source || 'PHB',
+							type: 'subclass',
+							subclass: subclass.name
+						});
+					}
+				}
+			});
+		}
+
+		return features.sort((a, b) => a.level - b.level);
+	}
+
+	async generateClassFeaturesDescription(classes) {
+		const descriptions = [];
+
+		for (const classInfo of classes) {
+			const className = classInfo.name;
+			const level = classInfo.level;
+			const subclassName = classInfo.subclass?.name || classInfo.subclass?.shortName;
+
+			// Get class features
+			const classFeatures = await this.getClassFeaturesAtLevel(className, level);
+			const subclassFeatures = subclassName ?
+				await this.getSubclassFeaturesAtLevel(className, subclassName, level) : [];
+
+			const allFeatures = [...classFeatures, ...subclassFeatures];
+
+			if (allFeatures.length > 0) {
+				// Focus on the most impactful features for high-level characters
+				const significantFeatures = allFeatures.filter(f =>
+					f.level >= Math.max(1, level - 5) && // Recent features
+					(f.level % 2 === 1 || f.level >= 10) // Odd levels or high levels
+				);
+
+				if (significantFeatures.length > 0) {
+					const featureNames = significantFeatures
+						.slice(-3) // Last 3 significant features
+						.map(f => f.name)
+						.join(', ');
+
+					descriptions.push(
+						`As a ${level}${this.getOrdinalSuffix(level)}-level ${className}${subclassName ? ` (${subclassName})` : ''}, ` +
+						`they have mastered ${featureNames}${significantFeatures.length > 3 ? ' among other abilities' : ''}.`
+					);
+				}
+			}
+		}
+
+		return descriptions;
+	}
+
+	async generateAllFeatureEntries(classes, race) {
+		const featureEntries = [];
+
+		// Add racial traits
+		const racialTraits = await this.getRacialTraits(race);
+		racialTraits.forEach(trait => {
+			featureEntries.push({
+				name: trait.name,
+				entries: trait.entries || [`${race.name} racial trait.`]
+			});
+		});
+
+		// Add class and subclass features
+		for (const classInfo of classes) {
+			const className = classInfo.name;
+			const level = classInfo.level;
+			const subclassName = classInfo.subclass?.name || classInfo.subclass?.shortName;
+
+			// Get all class features for this level
+			const classFeatures = await this.getClassFeaturesAtLevel(className, level);
+			const subclassFeatures = subclassName ?
+				await this.getSubclassFeaturesAtLevel(className, subclassName, level) : [];
+
+			// Add class features
+			classFeatures.forEach(feature => {
+				featureEntries.push({
+					name: feature.name,
+					entries: feature.entries || [`${className} feature gained at ${feature.level}${this.getOrdinalSuffix(feature.level)} level.`]
+				});
+			});
+
+			// Add subclass features
+			subclassFeatures.forEach(feature => {
+				featureEntries.push({
+					name: feature.name,
+					entries: feature.entries || [`${feature.subclass} feature gained at ${feature.level}${this.getOrdinalSuffix(feature.level)} level.`]
+				});
+			});
+		}
+
+		return featureEntries;
+	}
+
+	async applyRaceDataToCharacter(race, characterTemplate) {
+		try {
+			// Load race data from 5etools JSON files
+			const raceFileName = `races.json`;
+			const response = await fetch(`data/${raceFileName}`);
+
+			if (!response.ok) {
+				console.warn(`Could not load race data`);
+				return characterTemplate;
+			}
+
+			const raceData = await response.json();
+
+			// Find the specific race
+			const raceInfo = raceData.race?.find(r =>
+				r.name === race.name && r.source === race.source
+			);
+
+			if (!raceInfo) {
+				console.warn(`Race ${race.name} not found in data`);
+				return characterTemplate;
+			}
+
+			// Apply speed from race data
+			if (raceInfo.speed) {
+				if (typeof raceInfo.speed === 'number') {
+					characterTemplate.speed = { walk: raceInfo.speed };
+				} else {
+					characterTemplate.speed = {
+						walk: raceInfo.speed.walk || 30,
+						...(raceInfo.speed.fly && { fly: raceInfo.speed.fly }),
+						...(raceInfo.speed.swim && { swim: raceInfo.speed.swim }),
+						...(raceInfo.speed.climb && { climb: raceInfo.speed.climb }),
+						...(raceInfo.speed.burrow && { burrow: raceInfo.speed.burrow })
+					};
+				}
+			}
+
+			// Apply size from race data
+			if (raceInfo.size && raceInfo.size.length > 0) {
+				characterTemplate.size = raceInfo.size[0]; // Use first size (usually just one)
+			}
+
+			// Apply languages from race data
+			if (raceInfo.languageProficiencies) {
+				const languages = [];
+				raceInfo.languageProficiencies.forEach(langProf => {
+					// Add specific languages
+					Object.keys(langProf).forEach(lang => {
+						if (langProf[lang] === true && lang !== 'anyStandard' && lang !== 'any') {
+							languages.push(lang.charAt(0).toUpperCase() + lang.slice(1));
+						}
+					});
+
+					// Handle "any standard" language choices
+					if (langProf.anyStandard) {
+						const standardLanguages = ['Dwarvish', 'Elvish', 'Giant', 'Gnomish', 'Goblin', 'Halfling', 'Orc'];
+						const randomLang = standardLanguages[Math.floor(Math.random() * standardLanguages.length)];
+						languages.push(randomLang);
+					}
+				});
+
+				// Always include Common if not already present
+				if (!languages.includes('Common') && !languages.includes('common')) {
+					languages.unshift('Common');
+				}
+
+				characterTemplate.languages = languages;
+			}
+
+			// Apply darkvision from race data
+			if (raceInfo.darkvision) {
+				if (!characterTemplate.senses) characterTemplate.senses = [];
+				characterTemplate.senses.push(`Darkvision ${raceInfo.darkvision} ft.`);
+			}
+
+			// Apply damage resistances from race data
+			if (raceInfo.resist) {
+				if (!characterTemplate.resist) characterTemplate.resist = [];
+				raceInfo.resist.forEach(resistance => {
+					if (typeof resistance === 'string') {
+						characterTemplate.resist.push(resistance);
+					} else if (resistance.resist) {
+						resistance.resist.forEach(res => characterTemplate.resist.push(res));
+					}
+				});
+			}
+
+			// Apply damage immunities from race data
+			if (raceInfo.immune) {
+				if (!characterTemplate.immune) characterTemplate.immune = [];
+				raceInfo.immune.forEach(immunity => {
+					if (typeof immunity === 'string') {
+						characterTemplate.immune.push(immunity);
+					}
+				});
+			}
+
+			// Apply condition immunities from race data
+			if (raceInfo.conditionImmune) {
+				if (!characterTemplate.conditionImmune) characterTemplate.conditionImmune = [];
+				raceInfo.conditionImmune.forEach(immunity => characterTemplate.conditionImmune.push(immunity));
+			}
+
+			return characterTemplate;
+		} catch (error) {
+			console.error(`Error applying race data:`, error);
+			return characterTemplate;
+		}
+	}
+
+	async getRacialTraits(race) {
+		try {
+			// Load race data from 5etools JSON files
+			const raceFileName = `races.json`;
+			const response = await fetch(`data/${raceFileName}`);
+
+			if (!response.ok) {
+				console.warn(`Could not load race data`);
+				return [];
+			}
+
+			const raceData = await response.json();
+
+			// Find the specific race
+			const raceInfo = raceData.race?.find(r =>
+				r.name === race.name && r.source === race.source
+			);
+
+			if (!raceInfo) {
+				console.warn(`Race ${race.name} not found in data`);
+				return [];
+			}
+
+			const traits = [];
+
+			// Add main racial traits (excluding basic stats that are applied to character directly)
+			const excludedTraitNames = ['Age', 'Size', 'Speed', 'Languages', 'Ability Score Increase'];
+
+			if (raceInfo.entries) {
+				raceInfo.entries.forEach(entry => {
+					if (typeof entry === 'object' && entry.name && !excludedTraitNames.includes(entry.name)) {
+						traits.push({
+							name: entry.name,
+							entries: entry.entries || [entry.entry || 'Racial trait.']
+						});
+					}
+				});
+			}
+
+			// Add specific racial features like ability score increases, languages, etc.
+			if (raceInfo.ability && raceInfo.ability.length > 0) {
+				const abilityText = raceInfo.ability.map(ab => {
+					if (ab.choose) {
+						return `Choose ${ab.choose.count || 1} ability score${(ab.choose.count || 1) > 1 ? 's' : ''} to increase by ${ab.choose.amount || 1}.`;
+					} else {
+						const abilities = Object.entries(ab)
+							.filter(([key, value]) => key !== 'choose' && typeof value === 'number')
+							.map(([ability, bonus]) => `${ability.toUpperCase()} +${bonus}`)
+							.join(', ');
+						return abilities;
+					}
+				}).filter(Boolean).join(' ');
+
+				if (abilityText) {
+					traits.push({
+						name: "Ability Score Increase",
+						entries: [abilityText]
+					});
+				}
+			}
+
+			// Add size
+			if (raceInfo.size) {
+				const sizeText = Array.isArray(raceInfo.size)
+					? raceInfo.size.map(s => s.toUpperCase()).join(' or ')
+					: raceInfo.size.toUpperCase();
+				traits.push({
+					name: "Size",
+					entries: [`Your size is ${sizeText}.`]
+				});
+			}
+
+			// Add speed
+			if (raceInfo.speed) {
+				let speedText = '';
+				if (typeof raceInfo.speed === 'number') {
+					speedText = `Your base walking speed is ${raceInfo.speed} feet.`;
+				} else if (typeof raceInfo.speed === 'object') {
+					const speeds = [];
+					if (raceInfo.speed.walk) speeds.push(`walking speed ${raceInfo.speed.walk} feet`);
+					if (raceInfo.speed.fly) speeds.push(`flying speed ${raceInfo.speed.fly} feet`);
+					if (raceInfo.speed.swim) speeds.push(`swimming speed ${raceInfo.speed.swim} feet`);
+					if (raceInfo.speed.climb) speeds.push(`climbing speed ${raceInfo.speed.climb} feet`);
+					speedText = `Your base ${speeds.join(', ')}.`;
+				}
+
+				if (speedText) {
+					traits.push({
+						name: "Speed",
+						entries: [speedText]
+					});
+				}
+			}
+
+			// Handle subraces
+			if (race.subrace && raceInfo.subraces) {
+				const subrace = raceInfo.subraces.find(sr => sr.name === race.subrace);
+				if (subrace && subrace.entries) {
+					subrace.entries.forEach(entry => {
+						if (typeof entry === 'object' && entry.name) {
+							traits.push({
+								name: `${entry.name} (${race.subrace})`,
+								entries: entry.entries || [entry.entry || 'Subrace trait.']
+							});
+						}
+					});
+				}
+			}
+
+			return traits;
+		} catch (error) {
+			console.error(`Error loading racial traits:`, error);
+			return [];
+		}
+	}
+
+	async generateClassFeatureEntries(classes) {
+		const featureEntries = [];
+
+		for (const classInfo of classes) {
+			const className = classInfo.name;
+			const level = classInfo.level;
+			const subclassName = classInfo.subclass?.name || classInfo.subclass?.shortName;
+
+			// Get all class features for this level
+			const classFeatures = await this.getClassFeaturesAtLevel(className, level);
+			const subclassFeatures = subclassName ?
+				await this.getSubclassFeaturesAtLevel(className, subclassName, level) : [];
+
+			// Add class features
+			classFeatures.forEach(feature => {
+				featureEntries.push({
+					name: feature.name,
+					entries: feature.entries || [`${className} feature gained at ${feature.level}${this.getOrdinalSuffix(feature.level)} level.`]
+				});
+			});
+
+			// Add subclass features
+			subclassFeatures.forEach(feature => {
+				featureEntries.push({
+					name: feature.name,
+					entries: feature.entries || [`${feature.subclass} feature gained at ${feature.level}${this.getOrdinalSuffix(feature.level)} level.`]
+				});
+			});
+		}
+
+		return featureEntries;
+	}
+
 
 	generateRandomAC(classes, abilityScores) {
 		const dexMod = Math.floor((abilityScores.dex - 10) / 2);
@@ -1597,16 +2276,23 @@ class CharacterEditorPage {
 			};
 
 			const hitDie = hitDieMap[cls.name] || 8;
-			const classHp = hitDie + (cls.level - 1) * (Math.floor(hitDie / 2) + 1 + conMod);
+			// First level: max hit die + CON mod
+			// Subsequent levels: average of hit die + CON mod per level
+			const classHp = hitDie + (cls.level - 1) * (Math.floor(hitDie / 2) + 1);
 			totalHp += classHp;
 			hitDice.push(`${cls.level}d${hitDie}`);
 		});
 
-		totalHp += conMod * classes.reduce((sum, cls) => sum + cls.level, 0);
+		// Add Constitution modifier per total character level (not double-counted)
+		const totalLevel = classes.reduce((sum, cls) => sum + cls.level, 0);
+		totalHp += conMod * totalLevel;
+
+		// Ensure minimum 1 HP per level
+		totalHp = Math.max(totalHp, totalLevel);
 
 		return {
 			average: totalHp,
-			formula: hitDice.join(" + "),
+			formula: hitDice.join(" + ") + (conMod !== 0 ? ` ${conMod >= 0 ? '+' : ''}${conMod * totalLevel}` : ''),
 			current: totalHp,
 			max: totalHp,
 			temp: 0
@@ -2214,15 +2900,15 @@ class CharacterEditorPage {
 		return spells.slice(0, 2 + Math.floor(Math.random() * 3));
 	}
 
-	generateRandomEntries(race, classes, equipment, abilityScores, background = null, alignment = null) {
+	async generateRandomEntries(race, classes, equipment, abilityScores, background = null, alignment = null) {
 		const entries = [
 			{
 				type: "section",
 				name: "Background & Personality",
 				entries: (function(self, race, classes, abilityScores, providedBackground, providedAlignment){
 					// Use provided background/alignment when available, otherwise pick randomly
-					const tempBackground = providedBackground || self.generateRandomBackground();
 					const tempAlignment = providedAlignment || self.generateRandomAlignment();
+					const tempBackground = providedBackground || self.generateRandomBackground(race, tempAlignment);
 					const totalLevel = classes.reduce((s, c) => s + (c.level || 1), 0) || 1;
 					const previewName = `${race.name} adventurer`;
 					const depth = self.generateCharacterDepth(tempBackground, race, classes, tempAlignment);
@@ -2242,11 +2928,12 @@ class CharacterEditorPage {
 					const contact = pick('Contact', 1)[0] || '';
 					const bgVignette = self.getBackgroundStory(tempBackground.name);
 					const backstoryParts = [];
-					backstoryParts.push(`${previewName} was shaped by ${tempBackground.name.toLowerCase()} life${place ? ' in ' + place : ''}.`);
+					backstoryParts.push(`${previewName} was shaped life as a ${tempBackground.name.toLowerCase()} ${place ? ' in ' + place : ''}.`);
 					if (origin) backstoryParts.push(origin);
 					if (turning) backstoryParts.push(turning);
 					if (bgVignette) backstoryParts.push(bgVignette);
 					if (contact) backstoryParts.push(`A central figure: ${contact} has left a mark on their life.`);
+
 					if (hook) backstoryParts.push(`A notable episode: ${hook}.`);
 					const backstory = backstoryParts.join(' ');
 
@@ -2396,7 +3083,7 @@ class CharacterEditorPage {
 			{
 				type: "section",
 				name: "Features & Traits",
-				entries: this.generateClassFeatures(classes, abilityScores)
+				entries: await this.generateAllFeatureEntries(classes, race)
 			},
 			{
 				type: "section",
@@ -2408,6 +3095,7 @@ class CharacterEditorPage {
 		return entries;
 	}
 
+	// DEPRECATED: Use generateAllFeatureEntries() instead - loads actual rule text from JSON data
 	generateClassFeatures(classes, abilityScores) {
 		const features = [];
 
@@ -2943,7 +3631,7 @@ class CharacterEditorPage {
 		return generic[Math.floor(Math.random() * generic.length)];
 	}
 
-	generateFluffEntries(name, totalLevel, classes, race, background, characterDepth, alignment = null) {
+	async generateFluffEntries(name, totalLevel, classes, race, background, characterDepth, alignment = null) {
 		const entries = [];
 
 		// helper to pull depth entries by label prefix (e.g., 'Personality:', 'Ideal:')
@@ -3010,7 +3698,8 @@ class CharacterEditorPage {
 	personalityParts.push(`In the crucible of combat and council alike, these traits bloom into choices; sometimes brave, sometimes ruinous, always telling.`);
 	entries.push(personalityParts.join(' '));
 
-		// 4) Relationships, bonds and obsessions — theatrical and specific
+
+		// 5) Relationships, bonds and obsessions — theatrical and specific
 		const relations = [];
 	if (relationships.length) relations.push(`There is a figure who lives at the edge of their story: ${relationships.join('; ')}. This link pulls them toward both tenderness and ruin.`);
 	if (bonds.length) relations.push(`Promises bind them to ${bonds.join(', ')} — oaths kept by blood and by debt.`);
@@ -3078,6 +3767,102 @@ class CharacterEditorPage {
 		entries.push(`Now they stand at a crossroads: the road behind is full of ghosts, the road ahead a maw of possibility. Every choice will echo, and somewhere beyond the next ridge waits the chapter that might finally name them.`);
 
 		return entries;
+	}
+
+	/**
+	 * Select an origin that fits the character's background and alignment for narrative consistency
+	 */
+	_selectThematicOrigin(originTemplates, background, alignment) {
+		const pickFrom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+		// Map backgrounds to preferred origin categories
+		const backgroundThemes = {
+			"Acolyte": ["mystical", "scholarly", "noble"],
+			"Criminal": ["urban", "tragic", "exotic"],
+			"Folk Hero": ["rural", "artisan", "military"],
+			"Noble": ["noble", "urban", "scholarly"],
+			"Sage": ["scholarly", "mystical", "urban"],
+			"Soldier": ["military", "urban", "tragic"],
+			"Charlatan": ["urban", "exotic", "artisan"],
+			"Entertainer": ["exotic", "urban", "artisan"],
+			"Guild Artisan": ["artisan", "urban", "rural"],
+			"Hermit": ["rural", "mystical", "scholarly"],
+			"Outlander": ["rural", "exotic", "tragic"],
+			"Sailor": ["artisan", "exotic", "urban"]
+		};
+
+		// Get alignment moral component for additional filtering
+		const moral = (alignment && alignment[1]) || 'N';
+
+		// Get preferred themes for this background
+		const preferredThemes = backgroundThemes[background?.name] || ["rural", "urban", "artisan"];
+
+		// Try to find origins that match the preferred themes
+		let candidateOrigins = [];
+
+		for (const theme of preferredThemes) {
+			const themeOrigins = this._getOriginsByTheme(originTemplates, theme);
+			candidateOrigins.push(...themeOrigins);
+		}
+
+		// If no themed matches, fall back to alignment-appropriate origins
+		if (candidateOrigins.length === 0) {
+			candidateOrigins = this._getOriginsByAlignment(originTemplates, moral);
+		}
+
+		// Final fallback: use all origins
+		if (candidateOrigins.length === 0) {
+			candidateOrigins = originTemplates;
+		}
+
+		return pickFrom(candidateOrigins);
+	}
+
+	/**
+	 * Get origins that match a specific theme
+	 */
+	_getOriginsByTheme(originTemplates, theme) {
+		const themeKeywords = {
+			"rural": ["fields", "wild lands", "outskirts", "pastoral", "forest", "stream"],
+			"urban": ["streets", "walls", "markets", "districts", "guildhalls", "crowds"],
+			"noble": ["comfort", "grand halls", "towers", "estate", "privilege", "etiquette"],
+			"mystical": ["magic", "feywild", "temples", "library-towers", "divine", "ancient"],
+			"tragic": ["burned", "orphaned", "plague", "war", "famine", "disaster"],
+			"artisan": ["forges", "merchants", "docks", "workshops", "sparks", "creating"],
+			"scholarly": ["libraries", "halls of learning", "scholars", "philosophy", "books"],
+			"military": ["garrison", "warrior", "training yards", "discipline", "courage"],
+			"exotic": ["carnival", "road-folk", "underground", "festival", "traveling"]
+		};
+
+		const keywords = themeKeywords[theme] || [];
+		return originTemplates.filter(origin =>
+			keywords.some(keyword => origin.toLowerCase().includes(keyword))
+		);
+	}
+
+	/**
+	 * Get origins appropriate for alignment
+	 */
+	_getOriginsByAlignment(originTemplates, moral) {
+		if (moral === 'G') {
+			// Good characters: avoid the most tragic/dark origins
+			return originTemplates.filter(origin =>
+				!origin.toLowerCase().includes('burned') &&
+				!origin.toLowerCase().includes('betrayal') &&
+				!origin.toLowerCase().includes('plague')
+			);
+		} else if (moral === 'E') {
+			// Evil characters: can have darker origins
+			return originTemplates.filter(origin =>
+				origin.toLowerCase().includes('shadow') ||
+				origin.toLowerCase().includes('underground') ||
+				origin.toLowerCase().includes('betrayal') ||
+				origin.toLowerCase().includes('power')
+			);
+		}
+
+		// Neutral: any origin works
+		return originTemplates;
 	}
 
 	generateCharacterDepth(background, race, classes, alignment = null) {
@@ -3290,62 +4075,63 @@ class CharacterEditorPage {
 
 		// Origin uses chosenPlace with much more variety and depth
 		const originTemplates = [
-			// Rural/wilderness origins
-			`Born in the shadow of ${chosenPlace}, they learned early that survival meant reading the wind's warnings and the forest's whispers.`,
-			`Raised on the outskirts of ${chosenPlace}, where the road dust settled thick and strangers brought both opportunity and danger.`,
-			`They spent their youth in ${chosenPlace}'s fields, where seasons marked time and hard work carved character into bone.`,
-			`Growing up in ${chosenPlace}'s pastoral embrace, they knew every stream, every hidden path, every family's story for three generations.`,
-			`In the wild lands near ${chosenPlace}, they learned that nature's beauty and cruelty were often indistinguishable.`,
-			
-			// Urban/civilized origins  
-			`The crowded streets of ${chosenPlace} raised them, teaching lessons in survival that no academy could match.`,
-			`Born within ${chosenPlace}'s walls, they grew up amid the clash of commerce, politics, and a thousand different dreams.`,
-			`${chosenPlace}'s markets were their playground, where they learned to read faces, voices, and the weight of coin in a purse.`,
-			`Raised in ${chosenPlace}'s shadow districts, they understood that reputation was currency and silence was sometimes golden.`,
-			`The guildhalls of ${chosenPlace} shaped their youth, where tradition and innovation wrestled for the future's direction.`,
-			
-			// Noble/privileged origins
-			`Born to comfort in ${chosenPlace}, they learned that privilege was both a gift and a burden that followed you everywhere.`,
-			`Raised in ${chosenPlace}'s grand halls, where etiquette was armor and politics were played with smiles and daggers.`,
-			`The towers of ${chosenPlace} were their childhood realm, where books and tutors filled days but couldn't answer the heart's questions.`,
-			`In ${chosenPlace}'s estate grounds, they learned that power came with expectations that could crush the soul.`,
-			
-			// Mystical/magical origins
-			`${chosenPlace} thrummed with old magic, and they grew up feeling its pulse in their bones like a second heartbeat.`,
-			`Raised where ${chosenPlace} touched the feywild, reality seemed negotiable and dreams had weight and consequence.`,
-			`The temples of ${chosenPlace} filled their childhood with incense, prayer, and the weight of divine attention.`,
-			`In ${chosenPlace}'s library-towers, they learned that knowledge was the most dangerous magic of all.`,
-			
-			// Tragic/difficult origins
-			`${chosenPlace} burned when they were young, teaching them that safety was illusion and home was what you carried within.`,
-			`Orphaned in ${chosenPlace}'s plague years, they learned that kindness from strangers could mean the difference between life and death.`,
-			`War came to ${chosenPlace} in their youth, showing them how quickly civilization's veneer could crack and fall away.`,
-			`The famine that struck ${chosenPlace} taught them to value every crust, every kindness, every tomorrow not promised.`,
-			
-			// Artisan/trade origins
-			`The forges of ${chosenPlace} sang their childhood lullabies, where sparks flew like stars and pride was measured in perfect joints and keen edges.`,
-			`Raised among ${chosenPlace}'s merchants, they learned that everything had a price, but not everything should be for sale.`,
-			`The docks of ${chosenPlace} raised them on tales of distant shores and the understanding that horizons were meant to be chased.`,
-			`In ${chosenPlace}'s workshops, they discovered that creating something lasting was its own form of immortality.`,
-			
-			// Scholarly/learned origins
-			`${chosenPlace}'s ancient libraries were their second home, where dusty tomes held more adventure than the world outside.`,
-			`Raised in ${chosenPlace}'s halls of learning, they understood that questions were often more valuable than answers.`,
-			`The scholars of ${chosenPlace} filled their youth with philosophy, debate, and the dangerous idea that the world could be better.`,
-			
-			// Military/martial origins
-			`The garrison at ${chosenPlace} raised them on discipline, honor, and the knowledge that strength without wisdom was merely violence.`,
-			`Born to ${chosenPlace}'s warrior tradition, they learned that true courage wasn't the absence of fear, but action despite it.`,
-			`The training yards of ${chosenPlace} were their childhood playground, where wooden swords taught lessons that steel would later test.`,
-			
-			// Exotic/unusual origins
-			`They came of age in ${chosenPlace}'s traveling carnival, where illusion and reality danced together under painted canvas.`,
-			`Raised by the road-folk who passed through ${chosenPlace}, home was wherever their wagon stopped and family was whoever shared the fire.`,
-			`The underground of ${chosenPlace} was their world, where sunlight was rumor and survival meant knowing which shadows to trust.`,
-			`Born during ${chosenPlace}'s great festival, they grew up believing that celebration and sorrow were twin faces of the same truth.`
+			// Rural/wilderness upbringing
+			`They learned early that survival meant reading the wind's warnings and the forest's whispers.`,
+			`Childhood on dusty roads taught them to expect strangers and seize opportunity when it appeared.`,
+			`Seasons marked their youth; hard work and long days carved character into bone.`,
+			`Raised among pastoral rhythms, they knew every stream, hidden path, and the stories of three generations.`,
+			`They grew up where nature's beauty and cruelty were often indistinguishable.`,
+
+			// Urban/civilized upbringing
+			`Crowded streets taught them lessons in survival that no academy could match.`,
+			`They grew up amid the clash of commerce, politics, and a thousand different dreams.`,
+			`Markets were their playground, where they learned to read faces, voices, and the weight of coin.`,
+			`Growing up in the shadow districts taught them that reputation was currency and silence was sometimes golden.`,
+			`Guildhalls shaped their youth, where tradition and innovation wrestled for the future's direction.`,
+
+			// Noble/privileged upbringing
+			`Born to comfort, they learned that privilege was both a gift and a burden that followed you everywhere.`,
+			`Grand halls taught them that etiquette is armor and politics are played with smiles and daggers.`,
+			`Books and tutors filled their childhood, yet the heart's questions remained unanswered.`,
+			`Estate life taught them that power comes with expectations that can crush the soul.`,
+
+			// Mystical/magical upbringing
+			`They grew up feeling an old magic's pulse in their bones, like a second heartbeat.`,
+			`A childhood touched by fey influence made reality feel negotiable and dreams weighty.`,
+			`Temples filled their youth with incense, prayer, and the heavy attentions of the divine.`,
+			`Library-towers taught them that knowledge can be more dangerous than steel.`,
+
+			// Tragic/difficult upbringing
+			`Their home burned when they were young, teaching them that safety is an illusion and home is what you carry within.`,
+			`Orphaned during plague years, they learned that kindness from strangers could mean the difference between life and death.`,
+			`War reached them in youth, showing how quickly civilization's veneer can crack and fall away.`,
+			`Famine taught them to value every crust, every kindness, and every tomorrow not promised.`,
+
+			// Artisan/trade upbringing
+			`The forges sang childhood lullabies, where sparks flew like stars and pride was measured in perfect joints and keen edges.`,
+			`Raised among merchants, they learned that everything had a price, but not everything should be for sale.`,
+			`Docks and tales of distant shores taught them that horizons were meant to be chased.`,
+			`Workshops showed them that creating something lasting is its own form of immortality.`,
+
+			// Scholarly/learned upbringing
+			`Ancient libraries became a second home where dusty tomes held more adventure than the world outside.`,
+			`Halls of learning taught them that questions are often more valuable than answers.`,
+			`Scholars filled their youth with philosophy, debate, and the dangerous idea that the world could be better.`,
+
+			// Military/martial upbringing
+			`Garrisons taught discipline, honor, and the knowledge that strength without wisdom is merely violence.`,
+			`A warrior tradition showed them that true courage is action despite fear.`,
+			`Training yards were childhood playgrounds where wooden swords taught lessons steel later tested.`,
+
+			// Exotic/unusual upbringing
+			`They came of age in traveling carnivals, where illusion and reality danced under painted canvas.`,
+			`Raised by road-folk, home was wherever the wagon stopped and family whoever shared the fire.`,
+			`Underground life made sunlight a rumor and survival a matter of knowing which shadows to trust.`,
+			`Born during great festivals, they learned that celebration and sorrow are twin faces of the same truth.`
 		];
-		
-		const origin = pickFrom(originTemplates);
+
+		// Select origin based on background for better narrative consistency
+		const origin = this._selectThematicOrigin(originTemplates, background, alignment);
 		entries.push(`Origin: ${origin}`);
 
 		// Turning point references chosenPerson or chosenPlace for consistency
@@ -3361,7 +4147,7 @@ class CharacterEditorPage {
 				`A heated argument with ${chosenPerson} forced them to question everything they thought they believed.`,
 				`${chosenPerson}'s act of selfless courage inspired them to seek something greater than comfort or safety.`,
 				`The day ${chosenPerson} asked for their help was the day they discovered they were capable of more than they knew.`,
-				
+
 				// Place-centered turning points
 				`A single night at ${chosenPlace} — a riot, a betrayal, a fire — broke the life they'd known and set them on a different road.`,
 				`The day they decided to leave ${chosenPlace} forever was the day they truly began to live.`,
@@ -3371,21 +4157,21 @@ class CharacterEditorPage {
 				`The ancient ruins near ${chosenPlace} called to them one night, showing visions that demanded action.`,
 				`A terrible storm that devastated ${chosenPlace} revealed both the fragility of civilization and their own inner strength.`,
 				`The traveling merchant who stopped at ${chosenPlace} carried more than goods — they carried a destiny that would not be denied.`,
-				
+
 				// Internal/philosophical turning points
 				`A moment of perfect clarity during meditation at ${chosenPlace} showed them their true purpose.`,
 				`The book they found in ${chosenPlace}'s old library contained ideas that set their mind ablaze with possibility.`,
 				`A prophetic dream while staying at ${chosenPlace} revealed a future they could either embrace or fight to change.`,
 				`The simple act of showing mercy to an enemy near ${chosenPlace} taught them more about strength than years of training.`,
 				`A conversation with ${chosenPerson} about the nature of justice planted seeds that would eventually reshape their entire worldview.`,
-				
+
 				// Mystical/supernatural turning points
 				`The night the dead walked near ${chosenPlace}, they learned that death was not the ending they'd been taught.`,
 				`When magic first manifested around them in ${chosenPlace}, reality became both more wonderful and more dangerous.`,
 				`A divine vision experienced at ${chosenPlace} left them forever changed, marked by forces beyond mortal understanding.`,
 				`The demon that appeared to them near ${chosenPlace} offered power, but their refusal taught them more about their own character than acceptance ever could.`,
 				`During the eclipse visible from ${chosenPlace}, they felt something ancient stir within them — a calling that could not be ignored.`,
-				
+
 				// Achievement/discovery turning points
 				`Their first real victory in ${chosenPlace} taught them that success was hollow without someone to share it with.`,
 				`The failure that humiliated them before all of ${chosenPlace} became the foundation stone of their true strength.`,
@@ -3393,7 +4179,7 @@ class CharacterEditorPage {
 				`The test they failed in ${chosenPlace} revealed gifts they never knew they possessed.`,
 				`Solving an ancient puzzle left behind in ${chosenPlace} unlocked not just secrets, but a passion for uncovering truth.`
 			];
-			
+
 			turningPoint = pickFrom(turningPointTemplates);
 			entries.push(`TurningPoint: ${turningPoint}`);
 		}
@@ -4146,8 +4932,8 @@ class CharacterEditorPage {
 			// Use existing generation logic but with provided parameters
 			const randomClasses = this.generateRandomClasses(finalLevel, baseClass);
 			const randomRace = this.generateRandomRace(randomClasses);
-			const randomBackground = this.generateRandomBackground();
 			const randomAlignment = this.generateRandomAlignment();
+			const randomBackground = this.generateRandomBackground(randomRace, randomAlignment);
 			const randomAbilityScores = this.generateRandomAbilityScores(randomClasses, randomRace);
 			const randomEquipment = this.generateRandomEquipment(randomClasses, finalLevel, randomAbilityScores, randomRace);
 			const randomActions = this.generateRandomActions(randomClasses, randomAbilityScores);
@@ -4161,7 +4947,10 @@ class CharacterEditorPage {
 
 			// Create character template
 			const characterDepth = this.generateCharacterDepth(randomBackground, randomRace, randomClasses, randomAlignment);
-			const depthFluff = this.generateFluffEntries(finalName, totalLevel, randomClasses, randomRace, randomBackground, characterDepth, randomAlignment);
+			const depthFluff = await this.generateFluffEntries(finalName, totalLevel, randomClasses, randomRace, randomBackground, characterDepth, randomAlignment);
+
+			// Generate additional fluff entries for the template
+			const additionalFluff = await this.generateFluffEntries(finalName, totalLevel, randomClasses, randomRace, randomBackground, this.generateCharacterDepth(randomBackground, randomRace, randomClasses), null);
 
 			const template = {
 				name: finalName,
@@ -4187,14 +4976,14 @@ class CharacterEditorPage {
 			customTrackers: this.generateRandomTrackers(randomClasses),
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
-			entries: this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores, randomBackground, randomAlignment),
+			entries: [...await this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores, randomBackground, randomAlignment)],
 			// characterDepth intentionally not stored as a top-level field; include depth info in fluff
 			fluff: {
 				entries: [
 					`${finalName} is a ${totalLevel === 1 ? 'beginning' : totalLevel < 5 ? 'novice' : totalLevel < 10 ? 'experienced' : 'veteran'} adventurer.`,
 					`Their journey has led them to master ${randomClasses.length === 1 ? 'the ways of the ' + randomClasses[0].name.toLowerCase() : 'multiple disciplines'}.`,
 					this.getBackgroundStory(randomBackground.name),
-					...this.generateFluffEntries(finalName, totalLevel, randomClasses, randomRace, randomBackground, this.generateCharacterDepth(randomBackground, randomRace, randomClasses), null)
+					...additionalFluff
 				]
 			},
 			languages: this.generateLanguageProficiencies(randomClasses, randomRace, null),
@@ -4704,6 +5493,15 @@ class CharacterEditorPage {
 
 			const result = await response.json();
 			console.log('Character deleted:', result);
+
+			// Inform CharacterManager so it can remove from its in-memory cache and localStorage
+			try {
+				if (typeof CharacterManager !== 'undefined' && CharacterManager.removeCharacter) {
+					CharacterManager.removeCharacter(characterId);
+				}
+			} catch (e) {
+				console.warn('Error notifying CharacterManager of deletion:', e);
+			}
 
 			// Clear local state
 			currentCharacterData = null;
