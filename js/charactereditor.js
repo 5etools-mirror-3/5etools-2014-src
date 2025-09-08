@@ -274,18 +274,22 @@ class CharacterEditorPage {
 			customTrackers: this.generateRandomTrackers(randomClasses),
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
-			entries: [...await this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores, randomBackground, randomAlignment)],
-			fluff: {
-				entries: depthFluff
-			},
 			languages: this.generateLanguageProficiencies(randomClasses, randomRace, null),
 			toolProficiencies: this.generateToolProficiencies(randomClasses, randomRace, null),
-			currency: this.generateRandomCurrency(totalLevel)
+			currency: this.generateRandomCurrency(totalLevel),
+			entries: [...await this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores, randomName, randomBackground, randomAlignment)],
+			fluff: {
+				entries: depthFluff
+			}
 		};
 
 		// Apply race data to set actual character stats
 		template = await this.applyRaceDataToCharacter(randomRace, template);
-	this.ace.setValue(JSON.stringify(template, null, 2), 1);
+
+		// Apply class data to set spellcasting and other class features
+		template = await this.applyClassDataToCharacter(randomClasses, template, totalLevel);
+
+		this.ace.setValue(JSON.stringify(template, null, 2), 1);
 	}
 
 	// Random character generation methods
@@ -1557,6 +1561,173 @@ class CharacterEditorPage {
 		}
 	}
 
+
+	async applyClassDataToCharacter(classes, characterTemplate, totalLevel) {
+		try {
+			// Apply data for each class
+			for (const classEntry of classes) {
+				const classData = await this.loadClassData(classEntry.name);
+				if (!classData || !classData.class || !classData.class[0]) {
+					console.warn(`Could not load class data for ${classEntry.name}`);
+					continue;
+				}
+
+				const classInfo = classData.class[0];
+				const subclasses = classData.subclass || [];
+				const classLevel = classEntry.level || 1;
+
+				// Hit dice are already stored in the class object, no need to duplicate
+
+				// Apply spellcasting ability and progression to existing spells section
+				if (classInfo.spellcastingAbility) {
+					// Enhance the existing spells object with spellcasting information
+					characterTemplate.spells.spellcastingAbility = classInfo.spellcastingAbility;
+					characterTemplate.spells.casterProgression = classInfo.casterProgression;
+
+					// Calculate spell slots
+					if (classInfo.casterProgression === 'full') {
+						characterTemplate.spells.spellSlots = this.calculateSpellSlots(classLevel, 'full');
+					} else if (classInfo.casterProgression === 'half') {
+						characterTemplate.spells.spellSlots = this.calculateSpellSlots(Math.floor(classLevel / 2), 'full');
+					}
+
+					// Add cantrips
+					if (classInfo.cantripProgression) {
+						const cantripCount = classInfo.cantripProgression[Math.min(classLevel - 1, classInfo.cantripProgression.length - 1)];
+						characterTemplate.spells.cantripsKnown = cantripCount;
+					}
+
+					// Add spells prepared/known
+					if (classInfo.preparedSpells) {
+						characterTemplate.spells.spellsPrepared = classInfo.preparedSpells;
+					}
+					if (classInfo.spellsKnownProgressionFixed) {
+						const spellsKnown = classInfo.spellsKnownProgressionFixed[Math.min(classLevel - 1, classInfo.spellsKnownProgressionFixed.length - 1)];
+						characterTemplate.spells.spellsKnown = spellsKnown;
+					}
+				}
+
+				// Apply subclass spellcasting if it exists (subclass info already in class object)
+				if (classEntry.subclass && classLevel >= 3) {
+					const subclass = subclasses.find(sc =>
+						sc.name === classEntry.subclass.name ||
+						sc.shortName === classEntry.subclass.shortName
+					);
+
+					if (subclass && subclass.spellcastingAbility && !classInfo.spellcastingAbility) {
+						// Only apply subclass spellcasting if main class doesn't have it
+						if (!characterTemplate.spellcasting) characterTemplate.spellcasting = {};
+						characterTemplate.spellcasting.ability = subclass.spellcastingAbility;
+						characterTemplate.spellcasting.casterProgression = subclass.casterProgression || 'third';
+					}
+				}
+			}
+
+			// Apply ability score improvements based on class levels
+			characterTemplate = this.applyAbilityScoreImprovements(classes, characterTemplate);
+
+			return characterTemplate;
+		} catch (error) {
+			console.error(`Error applying class data:`, error);
+			return characterTemplate;
+		}
+	}
+
+	calculateSpellSlots(casterLevel, progression) {
+		if (casterLevel <= 0) return {};
+
+		// Spell slots table for full casters
+		const fullCasterSlots = [
+			[2, 0, 0, 0, 0, 0, 0, 0, 0], // Level 1
+			[3, 0, 0, 0, 0, 0, 0, 0, 0], // Level 2
+			[4, 2, 0, 0, 0, 0, 0, 0, 0], // Level 3
+			[4, 3, 0, 0, 0, 0, 0, 0, 0], // Level 4
+			[4, 3, 2, 0, 0, 0, 0, 0, 0], // Level 5
+			[4, 3, 3, 0, 0, 0, 0, 0, 0], // Level 6
+			[4, 3, 3, 1, 0, 0, 0, 0, 0], // Level 7
+			[4, 3, 3, 2, 0, 0, 0, 0, 0], // Level 8
+			[4, 3, 3, 3, 1, 0, 0, 0, 0], // Level 9
+			[4, 3, 3, 3, 2, 0, 0, 0, 0], // Level 10
+			[4, 3, 3, 3, 2, 1, 0, 0, 0], // Level 11
+			[4, 3, 3, 3, 2, 1, 0, 0, 0], // Level 12
+			[4, 3, 3, 3, 2, 1, 1, 0, 0], // Level 13
+			[4, 3, 3, 3, 2, 1, 1, 0, 0], // Level 14
+			[4, 3, 3, 3, 2, 1, 1, 1, 0], // Level 15
+			[4, 3, 3, 3, 2, 1, 1, 1, 0], // Level 16
+			[4, 3, 3, 3, 2, 1, 1, 1, 1], // Level 17
+			[4, 3, 3, 3, 3, 1, 1, 1, 1], // Level 18
+			[4, 3, 3, 3, 3, 2, 1, 1, 1], // Level 19
+			[4, 3, 3, 3, 3, 2, 2, 1, 1]  // Level 20
+		];
+
+		if (casterLevel > 20) casterLevel = 20;
+		const slots = fullCasterSlots[casterLevel - 1];
+
+		const spellSlots = {};
+		for (let i = 0; i < slots.length; i++) {
+			if (slots[i] > 0) {
+				spellSlots[`level${i + 1}`] = slots[i];
+			}
+		}
+
+		return spellSlots;
+	}
+
+	applyAbilityScoreImprovements(classes, characterTemplate) {
+		// In D&D 5e, classes get ability score improvements at certain levels
+		const asiLevels = [4, 8, 12, 16, 19]; // Standard ASI levels
+
+		// Calculate total ASI points available based on class levels
+		let totalASIPoints = 0;
+
+		classes.forEach(classEntry => {
+			const classLevel = classEntry.level || 1;
+
+			// Count how many ASI levels this class has reached
+			const availableASIs = asiLevels.filter(level => classLevel >= level).length;
+			totalASIPoints += availableASIs * 2; // Each ASI gives 2 points to distribute
+		});
+
+		// Apply ASI improvements to existing ability scores
+		if (totalASIPoints > 0) {
+			// Prioritize improvements based on class needs
+			const priorities = this.getClassAbilityPriorities(classes);
+
+			// Convert priorities to sorted array
+			const abilityOrder = Object.keys(priorities)
+				.sort((a, b) => priorities[b] - priorities[a])
+				.slice(0, 3); // Focus on top 3 abilities
+
+			// Distribute ASI points intelligently
+			let pointsToDistribute = totalASIPoints;
+
+			while (pointsToDistribute > 0) {
+				let improved = false;
+
+				for (const ability of abilityOrder) {
+					if (pointsToDistribute <= 0) break;
+
+					// Don't go above 20 (racial bonuses might have pushed some scores higher)
+					if (characterTemplate[ability] < 20) {
+						characterTemplate[ability]++;
+						pointsToDistribute--;
+						improved = true;
+
+						// Don't over-improve any single stat
+						if (characterTemplate[ability] >= 18) {
+							break;
+						}
+					}
+				}
+
+				// Safety check to prevent infinite loop
+				if (!improved) break;
+			}
+		}
+
+		return characterTemplate;
+	}
+
 	async getRacialTraits(race) {
 		try {
 			// Load race data from 5etools JSON files
@@ -1596,60 +1767,8 @@ class CharacterEditorPage {
 				});
 			}
 
-			// Add specific racial features like ability score increases, languages, etc.
-			if (raceInfo.ability && raceInfo.ability.length > 0) {
-				const abilityText = raceInfo.ability.map(ab => {
-					if (ab.choose) {
-						return `Choose ${ab.choose.count || 1} ability score${(ab.choose.count || 1) > 1 ? 's' : ''} to increase by ${ab.choose.amount || 1}.`;
-					} else {
-						const abilities = Object.entries(ab)
-							.filter(([key, value]) => key !== 'choose' && typeof value === 'number')
-							.map(([ability, bonus]) => `${ability.toUpperCase()} +${bonus}`)
-							.join(', ');
-						return abilities;
-					}
-				}).filter(Boolean).join(' ');
-
-				if (abilityText) {
-					traits.push({
-						name: "Ability Score Increase",
-						entries: [abilityText]
-					});
-				}
-			}
-
-			// Add size
-			if (raceInfo.size) {
-				const sizeText = Array.isArray(raceInfo.size)
-					? raceInfo.size.map(s => s.toUpperCase()).join(' or ')
-					: raceInfo.size.toUpperCase();
-				traits.push({
-					name: "Size",
-					entries: [`Your size is ${sizeText}.`]
-				});
-			}
-
-			// Add speed
-			if (raceInfo.speed) {
-				let speedText = '';
-				if (typeof raceInfo.speed === 'number') {
-					speedText = `Your base walking speed is ${raceInfo.speed} feet.`;
-				} else if (typeof raceInfo.speed === 'object') {
-					const speeds = [];
-					if (raceInfo.speed.walk) speeds.push(`walking speed ${raceInfo.speed.walk} feet`);
-					if (raceInfo.speed.fly) speeds.push(`flying speed ${raceInfo.speed.fly} feet`);
-					if (raceInfo.speed.swim) speeds.push(`swimming speed ${raceInfo.speed.swim} feet`);
-					if (raceInfo.speed.climb) speeds.push(`climbing speed ${raceInfo.speed.climb} feet`);
-					speedText = `Your base ${speeds.join(', ')}.`;
-				}
-
-				if (speedText) {
-					traits.push({
-						name: "Speed",
-						entries: [speedText]
-					});
-				}
-			}
+			// Note: Ability Score Increase, Size, and Speed are excluded from traits
+			// and should be extracted separately using getRacialStats method
 
 			// Handle subraces
 			if (race.subrace && raceInfo.subraces) {
@@ -1670,6 +1789,203 @@ class CharacterEditorPage {
 		} catch (error) {
 			console.error(`Error loading racial traits:`, error);
 			return [];
+		}
+	}
+
+	async getRacialStats(race) {
+		try {
+			// Load race data from 5etools JSON files
+			const raceFileName = `races.json`;
+			const response = await fetch(`data/${raceFileName}`);
+
+			if (!response.ok) {
+				console.warn(`Could not load race data`);
+				return {};
+			}
+
+			const raceData = await response.json();
+
+			// Find the specific race
+			const raceInfo = raceData.race?.find(r =>
+				r.name === race.name && r.source === race.source
+			);
+
+			if (!raceInfo) {
+				console.warn(`Race ${race.name} not found in data`);
+				return {};
+			}
+
+			const racialStats = {};
+
+			// Extract Ability Score Increase
+			if (raceInfo.ability && raceInfo.ability.length > 0) {
+				const abilityText = raceInfo.ability.map(ab => {
+					if (ab.choose) {
+						return `Choose ${ab.choose.count || 1} ability score${(ab.choose.count || 1) > 1 ? 's' : ''} to increase by ${ab.choose.amount || 1}.`;
+					} else {
+						const abilities = Object.entries(ab)
+							.filter(([key, value]) => key !== 'choose' && typeof value === 'number')
+							.map(([ability, bonus]) => `${ability.toUpperCase()} +${bonus}`)
+							.join(', ');
+						return abilities;
+					}
+				}).filter(Boolean).join(' ');
+
+				if (abilityText) {
+					racialStats.abilityScoreIncrease = {
+						name: "Ability Score Increase",
+						description: abilityText,
+						raw: raceInfo.ability
+					};
+				}
+			}
+
+			// Extract Size
+			if (raceInfo.size) {
+				const sizeText = Array.isArray(raceInfo.size)
+					? raceInfo.size.map(s => s.toUpperCase()).join(' or ')
+					: raceInfo.size.toUpperCase();
+				racialStats.size = {
+					name: "Size",
+					description: `Your size is ${sizeText}.`,
+					raw: raceInfo.size
+				};
+			}
+
+			// Extract Speed
+			if (raceInfo.speed) {
+				let speedText = '';
+				if (typeof raceInfo.speed === 'number') {
+					speedText = `Your base walking speed is ${raceInfo.speed} feet.`;
+				} else if (typeof raceInfo.speed === 'object') {
+					const speeds = [];
+					if (raceInfo.speed.walk) speeds.push(`walking speed ${raceInfo.speed.walk} feet`);
+					if (raceInfo.speed.fly) speeds.push(`flying speed ${raceInfo.speed.fly} feet`);
+					if (raceInfo.speed.swim) speeds.push(`swimming speed ${raceInfo.speed.swim} feet`);
+					if (raceInfo.speed.climb) speeds.push(`climbing speed ${raceInfo.speed.climb} feet`);
+					speedText = `Your base ${speeds.join(', ')}.`;
+				}
+
+				if (speedText) {
+					racialStats.speed = {
+						name: "Speed",
+						description: speedText,
+						raw: raceInfo.speed
+					};
+				}
+			}
+
+			// Handle subraces
+			if (race.subrace && raceInfo.subraces) {
+				const subrace = raceInfo.subraces.find(sr => sr.name === race.subrace);
+				if (subrace) {
+					// Check if subrace has additional ability score increases
+					if (subrace.ability && subrace.ability.length > 0) {
+						const subraceAbilityText = subrace.ability.map(ab => {
+							if (ab.choose) {
+								return `Choose ${ab.choose.count || 1} ability score${(ab.choose.count || 1) > 1 ? 's' : ''} to increase by ${ab.choose.amount || 1}.`;
+							} else {
+								const abilities = Object.entries(ab)
+									.filter(([key, value]) => key !== 'choose' && typeof value === 'number')
+									.map(([ability, bonus]) => `${ability.toUpperCase()} +${bonus}`)
+									.join(', ');
+								return abilities;
+							}
+						}).filter(Boolean).join(' ');
+
+						if (subraceAbilityText) {
+							if (racialStats.abilityScoreIncrease) {
+								racialStats.abilityScoreIncrease.description += ` ${subraceAbilityText}`;
+								racialStats.abilityScoreIncrease.raw = racialStats.abilityScoreIncrease.raw.concat(subrace.ability);
+							} else {
+								racialStats.abilityScoreIncrease = {
+									name: "Ability Score Increase",
+									description: subraceAbilityText,
+									raw: subrace.ability
+								};
+							}
+						}
+					}
+
+					// Check if subrace modifies speed
+					if (subrace.speed) {
+						let subraceSpeedText = '';
+						if (typeof subrace.speed === 'number') {
+							subraceSpeedText = `Your base walking speed is ${subrace.speed} feet.`;
+						} else if (typeof subrace.speed === 'object') {
+							const speeds = [];
+							if (subrace.speed.walk) speeds.push(`walking speed ${subrace.speed.walk} feet`);
+							if (subrace.speed.fly) speeds.push(`flying speed ${subrace.speed.fly} feet`);
+							if (subrace.speed.swim) speeds.push(`swimming speed ${subrace.speed.swim} feet`);
+							if (subrace.speed.climb) speeds.push(`climbing speed ${subrace.speed.climb} feet`);
+							subraceSpeedText = `Your base ${speeds.join(', ')}.`;
+						}
+
+						if (subraceSpeedText) {
+							racialStats.speed = {
+								name: "Speed",
+								description: subraceSpeedText,
+								raw: subrace.speed
+							};
+						}
+					}
+				}
+			}
+
+			// Extract Age
+			if (raceInfo.age) {
+				let ageText = '';
+				let randomAge = null;
+				
+				if (raceInfo.age.mature && raceInfo.age.max) {
+					// Generate random age based on race maturity and max age
+					const maturityAge = raceInfo.age.mature;
+					const maxAge = raceInfo.age.max;
+					
+					// Most characters are young adults to middle-aged (mature age to 70% of max age)
+					const youngAdultMax = Math.floor(maxAge * 0.7);
+					randomAge = maturityAge + Math.floor(Math.random() * (youngAdultMax - maturityAge));
+					
+					ageText = `${randomAge} years old. Your people mature at ${maturityAge} and live up to ${maxAge} years.`;
+				} else if (typeof raceInfo.age === 'string' || (raceInfo.age.entries && raceInfo.age.entries.length > 0)) {
+					// Handle age descriptions without specific numbers
+					const ageDescription = typeof raceInfo.age === 'string' 
+						? raceInfo.age 
+						: raceInfo.age.entries.join(' ');
+					
+					// Try to extract numbers for random generation
+					const maturityMatch = ageDescription.match(/mature.*?(\d+)/i);
+					const maxMatch = ageDescription.match(/live.*?(\d+)/i);
+					
+					if (maturityMatch && maxMatch) {
+						const maturityAge = parseInt(maturityMatch[1]);
+						const maxAge = parseInt(maxMatch[1]);
+						const youngAdultMax = Math.floor(maxAge * 0.7);
+						randomAge = maturityAge + Math.floor(Math.random() * (youngAdultMax - maturityAge));
+						ageText = `${randomAge} years old. ${ageDescription}`;
+					} else {
+						// Fallback for races without clear age ranges
+						randomAge = 20 + Math.floor(Math.random() * 30); // 20-49 years
+						ageText = `${randomAge} years old. ${ageDescription}`;
+					}
+				} else {
+					// Fallback for races without age data
+					randomAge = 20 + Math.floor(Math.random() * 30); // 20-49 years
+					ageText = `${randomAge} years old.`;
+				}
+
+				racialStats.age = {
+					name: "Age",
+					description: ageText,
+					value: randomAge,
+					raw: raceInfo.age
+				};
+			}
+
+			return racialStats;
+		} catch (error) {
+			console.error(`Error loading racial stats:`, error);
+			return {};
 		}
 	}
 
@@ -2900,7 +3216,7 @@ class CharacterEditorPage {
 		return spells.slice(0, 2 + Math.floor(Math.random() * 3));
 	}
 
-	async generateRandomEntries(race, classes, equipment, abilityScores, background = null, alignment = null) {
+	async generateRandomEntries(race, classes, equipment, abilityScores, finalName, background = null, alignment = null) {
 		const entries = [
 			{
 				type: "section",
@@ -2910,7 +3226,6 @@ class CharacterEditorPage {
 					const tempAlignment = providedAlignment || self.generateRandomAlignment();
 					const tempBackground = providedBackground || self.generateRandomBackground(race, tempAlignment);
 					const totalLevel = classes.reduce((s, c) => s + (c.level || 1), 0) || 1;
-					const previewName = `${race.name} adventurer`;
 					const depth = self.generateCharacterDepth(tempBackground, race, classes, tempAlignment);
 
 					// small helper to pick labeled depth entries
@@ -2928,7 +3243,7 @@ class CharacterEditorPage {
 					const contact = pick('Contact', 1)[0] || '';
 					const bgVignette = self.getBackgroundStory(tempBackground.name);
 					const backstoryParts = [];
-					backstoryParts.push(`${previewName} was shaped life as a ${tempBackground.name.toLowerCase()} ${place ? ' in ' + place : ''}.`);
+					backstoryParts.push(`${finalName} was shaped life as a ${tempBackground.name.toLowerCase()} ${place ? ' in ' + place : ''}.`);
 					if (origin) backstoryParts.push(origin);
 					if (turning) backstoryParts.push(turning);
 					if (bgVignette) backstoryParts.push(bgVignette);
@@ -4043,16 +4358,16 @@ class CharacterEditorPage {
 		const moral = (aKey[1] || 'N');
 
 		const placeCores = [
-			"Hollow", "Vale", "Ford", "Haven", "Cross", "March", "Hold", "Barrow", "Mire", "Glen"
+			"hollow", "ford", "haven", "cross", "march", "hold", "barrow", "mire", "glen", "green"
 		];
 		const placePrefixes = {
 			'L': ["High", "Iron", "Grey", "Stone", "Crown"],
-			'N': ["Wind", "Ash", "Everg", "Dun", "Raven"],
+			'N': ["Wind", "Ash", "Everg", "Dun", "Raven", 'Outer '],
 			'C': ["Wild", "Crimson", "Feral", "Storm", "Briar"]
 		};
 		const placeSuffixes = {
-			'G': ["ford", "stead", "port", "bridge"],
-			'N': ["marsh", "well", "field", "grove"],
+			'G': ["ford", "stead", "port", "bridge", "vale", ' Castle'],
+			'N': ["marsh", "well", "field", "grove", "wood"],
 			'E': ["scar", "fen", "barrow", "reach"]
 		};
 
@@ -4952,7 +5267,7 @@ class CharacterEditorPage {
 			// Generate additional fluff entries for the template
 			const additionalFluff = await this.generateFluffEntries(finalName, totalLevel, randomClasses, randomRace, randomBackground, this.generateCharacterDepth(randomBackground, randomRace, randomClasses), null);
 
-			const template = {
+			let template = {
 				name: finalName,
 				source: finalSource,
 			race: randomRace,
@@ -4962,7 +5277,7 @@ class CharacterEditorPage {
 			ac: this.generateRandomAC(randomClasses, randomAbilityScores),
 			hp: randomHp,
 			speed: {
-				walk: 30 + (randomRace.name === "Wood Elf" ? 5 : 0) // Some races get speed bonuses
+				walk: 30 // Default speed, will be overridden by race data
 			},
 			...randomAbilityScores,
 			passive: 10 + Math.floor((randomAbilityScores.wis - 10) / 2) + (this.hasSkillProficiency("perception", randomClasses) ? profBonus : 0),
@@ -4976,7 +5291,10 @@ class CharacterEditorPage {
 			customTrackers: this.generateRandomTrackers(randomClasses),
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
-			entries: [...await this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores, randomBackground, randomAlignment)],
+			languages: this.generateLanguageProficiencies(randomClasses, randomRace, null),
+			toolProficiencies: this.generateToolProficiencies(randomClasses, randomRace, null),
+			currency: this.generateRandomCurrency(totalLevel),
+			entries: [...await this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores, finalName, randomBackground, randomAlignment)],
 			// characterDepth intentionally not stored as a top-level field; include depth info in fluff
 			fluff: {
 				entries: [
@@ -4986,10 +5304,13 @@ class CharacterEditorPage {
 					...additionalFluff
 				]
 			},
-			languages: this.generateLanguageProficiencies(randomClasses, randomRace, null),
-			toolProficiencies: this.generateToolProficiencies(randomClasses, randomRace, null),
-			currency: this.generateRandomCurrency(totalLevel)
 		};
+
+		// Apply race data to set actual character stats
+		template = await this.applyRaceDataToCharacter(randomRace, template);
+
+		// Apply class data to set spellcasting and other class features
+		template = await this.applyClassDataToCharacter(randomClasses, template, totalLevel);
 
 		// Update the editor with the new character
 		this.ace.setValue(JSON.stringify(template, null, 2), 1);

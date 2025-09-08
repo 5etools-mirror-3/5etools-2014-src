@@ -7965,8 +7965,6 @@ Renderer.race = class {
 		const entsAttributes = [
 			ent.abilityEntry || (ent.ability ? {type: "item", name: "Ability Scores:", entry: Renderer.getAbilityData(ent.ability).asText} : null),
 			ent.creatureTypesEntry || (this._getRaceRenderableEntriesMeta_creatureType({ent, styleHint})),
-			ent.sizeEntry || (ent.size ? {type: "item", name: "Size:", entry: Renderer.utils.getRenderedSize(ent.size || [Parser.SZ_VARIES])} : null),
-			ent.speedEntry || (ent.speed != null ? {type: "item", name: "Speed:", entry: Parser.getSpeedString(ent, {isLongForm: true})} : null),
 		]
 			.filter(Boolean);
 
@@ -8645,6 +8643,36 @@ Renderer.character = class {
 			combatStats.push(`<strong>Prof. Bonus</strong>: ${profBonus}`);
 		}
 
+		if (character.size) {
+			const sizeFull = Parser.sizeAbvToFull(character.size) || character.size;
+			combatStats.push(`<strong>Size</strong>: ${sizeFull}`);
+		}
+		
+		if (character.age) {
+			combatStats.push(`<strong>Age</strong>: ${character.age}`);
+		}
+
+		if (character.senses) {
+			const sensesFull = Object.entries(character.senses)
+				.map(([type, value]) => `${value}`).filter(Boolean)
+				.join(', ');
+			combatStats.push(`<strong>Senses</strong>: ${sensesFull}`);
+		}
+
+		if (character.resist) {
+			const sensesFull = Object.entries(character.resist)
+				.map(([type, value]) => `${value}`).filter(Boolean)
+				.join(', ');
+			combatStats.push(`<strong>Resistant</strong>: ${sensesFull}`);
+		}
+
+
+		if (character.immune) {
+			const sensesFull = Object.entries(character.immune)
+				.map(([type, value]) => `${value}`).filter(Boolean)
+				.join(', ');
+			combatStats.push(`<strong>Immune</strong>: ${sensesFull}`);
+		}
 
 		// Hit Dice Section - derive from class levels and store usage in classes
 		if (character.class?.length) {
@@ -8739,6 +8767,9 @@ Renderer.character = class {
 			}
 
 		}
+
+
+
 		// Combat Statistics Section
 		if (combatStats.length > 0) {
 			// Convert combat stats array to a 2-column table format
@@ -9036,6 +9067,7 @@ Renderer.character = class {
 			const traitInfo = {
 				type: "entries",
 				name: "Features & Traits",
+				collapsed: false,
 				entries: []
 			};
 

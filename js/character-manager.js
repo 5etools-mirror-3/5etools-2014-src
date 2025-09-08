@@ -22,8 +22,33 @@ class CharacterP2P {
 	static _pc = null;
 	static _dc = null;
 	static _signalingSocket = null;
+	static _lastInitOpts = null;
 	static clientId = Math.random().toString(36).slice(2, 10);
 	static _onOpen = [];
+	static _knownPeers = new Set();
+	static _reconnectAttempts = 0;
+	static _reconnectTimer = null;
+	static _maxReconnectAttempts = 6;
+	static _announceTimer = null;
+	static _announceInterval = 30 * 1000; // 30s
+
+	static _startPeriodicAnnounce() {
+		if (this._announceTimer) return;
+		if (typeof document !== 'undefined' && document.visibilityState !== 'visible') return;
+		this._announceTimer = setInterval(() => {
+			try {
+				if (this._dc && this._dc.readyState === 'open') {
+					this.send({ type: 'PEER_ANNOUNCE', clientId: this.clientId });
+				} else if (this._signalingSocket && this._signalingSocket.readyState === WebSocket.OPEN) {
+					this._signalingSocket.send(JSON.stringify({ type: 'relay', payload: { type: 'PEER_ANNOUNCE', clientId: this.clientId }, origin: this.clientId }));
+				}
+			} catch (e) { /* ignore */ }
+		}, this._announceInterval);
+	}
+
+	static _stopPeriodicAnnounce() {
+		if (this._announceTimer) { clearInterval(this._announceTimer); this._announceTimer = null; }
+	}
 
 
 
@@ -32,6 +57,8 @@ class CharacterP2P {
 	 * @param {{signalingUrl?: string}} opts
 	 */
 	static async init(opts = {}) {
+		// remember opts so reconnect attempts can re-use them
+		this._lastInitOpts = opts || {};
 	// turnApiKey is optional. We do NOT fetch TURN credentials from the API in-browser.
 	// Instead, if a turnApiKey is provided we will use the TurnWebRTC relay WebSocket
 	// as the signaling channel at wss://turnwebrtc.com/api/relay/{room}?apikey=KEY
@@ -67,7 +94,6 @@ class CharacterP2P {
 				const path = (window && window.location && window.location.pathname) ? window.location.pathname.replace(/\//g, '_') : '';
 				const room = encodeURIComponent(`${host}`);
 				signalingUrl = `wss://turnwebrtc.com/api/relay/${room}?apikey=${encodeURIComponent(turnApiKey)}`;
-				console.info('CharacterP2P: using TurnWebRTC relay signaling URL for auto-join', signalingUrl);
 			} catch (e) {
 				console.warn('CharacterP2P: could not construct TurnWebRTC relay URL', e);
 				signalingUrl = null;
@@ -88,7 +114,7 @@ class CharacterP2P {
 			try {
 				this._signalingSocket = new WebSocket(signalingUrl);
 				this._signalingSocket.addEventListener('open', () => {
-					console.info('CharacterP2P: signaling socket open', signalingUrl);
+					// console.info('CharacterP2P: signaling socket open', signalingUrl);
 
 					// Auto-create and send an offer after a staggered delay to reduce collisions.
 					try {
@@ -135,6 +161,21 @@ class CharacterP2P {
 						console.warn('CharacterP2P: error parsing signaling message', e);
 					}
 				});
+
+				// Reset reconnect attempts on successful open
+				this._signalingSocket.addEventListener('open', () => {
+					this._reconnectAttempts = 0;
+					if (this._reconnectTimer) { clearTimeout(this._reconnectTimer); this._reconnectTimer = null; }
+				});
+
+				this._signalingSocket.addEventListener('close', (ev) => {
+					console.info('CharacterP2P: signaling socket closed', ev);
+					// Start periodic announces while the tab is visible so peers coming online
+					// can discover us. This avoids aggressive reconnect attempts.
+					if (typeof document !== 'undefined' && document.visibilityState === 'visible') {
+						this._startPeriodicAnnounce();
+					}
+				});
 			} catch (e) {
 				console.info(`CharacterP2P: could not connect to signaling URL ${signalingUrl}`, e);
 				this._signalingSocket = null;
@@ -148,14 +189,34 @@ class CharacterP2P {
 	static _setupDataChannel(dc) {
 		this._dc = dc;
 		this._dc.onopen = () => {
-			console.info('CharacterP2P: data channel open');
-			this._onOpen.forEach(fn => fn());
+			// Announce ourselves so peers can list connected clients
+			try {
+				this._knownPeers.add(this.clientId);
+				this._onOpen.forEach(fn => fn());
+				this.send({ type: 'PEER_ANNOUNCE', clientId: this.clientId });
+			} catch (e) {
+				console.warn('CharacterP2P: peer announce failed', e);
+			}
+			// After a short delay, log discovered peers (excluding self)
+			setTimeout(() => {
+				const others = Array.from(this._knownPeers).filter(id => id !== this.clientId);
+				console.info('CharacterP2P: known peers', others);
+			}, 600);
 		};
 		this._dc.onmessage = (ev) => {
 			try {
 				const data = JSON.parse(ev.data);
 				// Attach origin if not present
 				data.origin = data.origin || 'p2p';
+				if (data.type === 'PEER_ANNOUNCE' && data.clientId) {
+					if (!this._knownPeers.has(data.clientId)) {
+						this._knownPeers.add(data.clientId);
+						console.info('CharacterP2P: discovered peer', data.clientId);
+						// Reply with our announce so discovery is mutual
+						try { this.send({ type: 'PEER_ANNOUNCE', clientId: this.clientId }); } catch (e) { /* ignore */ }
+					}
+					return;
+				}
 				if (typeof CharacterManager !== 'undefined' && CharacterManager._handleP2PSync) {
 					CharacterManager._handleP2PSync(data);
 				}
@@ -1453,7 +1514,6 @@ class CharacterManager {
 
 			// Use provided signalingUrl (prefer ws://) or manual flow with optional in-browser TURN key.
 			CharacterP2P.init(opts);
-			console.log('CharacterManager: p2pInit complete');
 		} catch (e) {
 			console.warn('CharacterManager: p2pInit failed', e);
 		}
@@ -1523,3 +1583,22 @@ try {
 } catch (e) {
 	// ignore in non-browser contexts
 }
+
+// Manage periodic peer announces based on tab visibility
+try {
+	if (typeof document !== 'undefined' && typeof window !== 'undefined') {
+		document.addEventListener('visibilitychange', () => {
+			try {
+				if (document.visibilityState === 'visible') {
+					if (typeof CharacterP2P !== 'undefined' && typeof CharacterP2P._startPeriodicAnnounce === 'function') {
+						CharacterP2P._startPeriodicAnnounce();
+					}
+				} else {
+					if (typeof CharacterP2P !== 'undefined' && typeof CharacterP2P._stopPeriodicAnnounce === 'function') {
+						CharacterP2P._stopPeriodicAnnounce();
+					}
+				}
+			} catch (e) { /* ignore */ }
+		});
+	}
+} catch (e) { /* ignore in non-browser contexts */ }
