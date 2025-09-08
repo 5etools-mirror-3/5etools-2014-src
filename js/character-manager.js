@@ -76,15 +76,34 @@ class CharacterP2P {
 
 			// Handle remote datachannel (incoming)
 			this._pc.ondatachannel = (ev) => {
+				console.info('CharacterP2P: Received remote data channel');
 				this._setupDataChannel(ev.channel);
 			};
 
 			// Gather ICE candidates and send via signaling if present
 			this._pc.onicecandidate = (ev) => {
-				if (!ev.candidate) return;
+				if (!ev.candidate) {
+					console.info('CharacterP2P: ICE gathering complete');
+					return;
+				}
+				console.debug('CharacterP2P: New ICE candidate:', ev.candidate.type, ev.candidate.candidate);
 				if (this._signalingSocket && this._signalingSocket.readyState === WebSocket.OPEN) {
 					this._signalingSocket.send(JSON.stringify({ type: 'ice', candidate: ev.candidate, origin: this.clientId }));
 				}
+			};
+			
+			// Add connection state change logging
+			this._pc.onconnectionstatechange = () => {
+				console.info('CharacterP2P: Connection state:', this._pc.connectionState);
+				if (this._pc.connectionState === 'connected') {
+					console.info('CharacterP2P: WebRTC connection established!');
+				} else if (this._pc.connectionState === 'failed') {
+					console.warn('CharacterP2P: WebRTC connection failed');
+				}
+			};
+			
+			this._pc.oniceconnectionstatechange = () => {
+				console.info('CharacterP2P: ICE connection state:', this._pc.iceConnectionState);
 			};
 		}
 
@@ -101,14 +120,22 @@ class CharacterP2P {
 				// Auto-create and send an offer after a staggered delay to reduce collisions.
 				try {
 					const seed = parseInt(this.clientId.slice(0, 4), 36) || Math.floor(Math.random() * 65535);
-					const delay = seed % 4000; // up to 4s stagger
+					const delay = seed % 3000; // up to 3s stagger (reduced for faster connection)
+					console.info(`CharacterP2P: Will send offer in ${delay}ms with clientId: ${this.clientId}`);
 					setTimeout(async () => {
 						try {
-							if (this._dc && this._dc.readyState === 'open') return;
+							if (this._dc && this._dc.readyState === 'open') {
+								console.info('CharacterP2P: Data channel already open, skipping offer');
+								return;
+							}
+							console.info('CharacterP2P: Creating offer...');
 							const offer = await this.createOffer();
 							if (this._signalingSocket && this._signalingSocket.readyState === WebSocket.OPEN) {
+								console.info('CharacterP2P: Sending offer to signaling server');
 								this._signalingSocket.send(JSON.stringify({ type: 'offer', offer, origin: this.clientId }));
 								this._offered = true;
+							} else {
+								console.warn('CharacterP2P: Signaling socket not ready when trying to send offer');
 							}
 						} catch (e) {
 							console.warn('CharacterP2P: auto-offer failed', e);
@@ -150,14 +177,12 @@ class CharacterP2P {
 			});
 			
 			this._signalingSocket.addEventListener('error', (ev) => {
-				console.info('CharacterP2P: HTTP fallback also failed, trying local WebSocket');
+				console.info('CharacterP2P: HTTP fallback also failed, operating in manual mode');
 				this._signalingSocket = null;
-				this._tryLocalWebSocketFallback();
 			});
 			
 		} catch (e) {
 			console.info('CharacterP2P: HTTP fallback failed:', e);
-			this._tryLocalWebSocketFallback();
 		}
 	}
 
@@ -170,14 +195,25 @@ class CharacterP2P {
 		this._signalingSocket.addEventListener('message', async (ev) => {
 			try {
 				const msg = JSON.parse(ev.data);
+				console.info('CharacterP2P: Received message:', msg.type, 'from:', msg.origin);
 				if (msg.origin === this.clientId) return; // ignore own messages
+				
 				if (msg.type === 'offer') {
+					console.info('CharacterP2P: Received offer, creating answer...');
 					const answer = await this.acceptOffer(msg.offer);
+					console.info('CharacterP2P: Sending answer back...');
 					this._signalingSocket.send(JSON.stringify({ type: 'answer', answer, origin: this.clientId }));
 				} else if (msg.type === 'answer') {
+					console.info('CharacterP2P: Received answer, setting remote answer...');
 					await this.setRemoteAnswer(msg.answer);
 				} else if (msg.type === 'ice' && msg.candidate) {
-					try { await this._pc.addIceCandidate(msg.candidate); } catch (e) { /* ignore */ }
+					console.debug('CharacterP2P: Adding ICE candidate:', msg.candidate.type);
+					try {
+						await this._pc.addIceCandidate(msg.candidate);
+						console.debug('CharacterP2P: ICE candidate added successfully');
+					} catch (e) {
+						console.warn('CharacterP2P: Failed to add ICE candidate:', e.message);
+					}
 				} else if (msg.type === 'relay' && msg.payload) {
 					try {
 						const payload = msg.payload;
@@ -201,36 +237,13 @@ class CharacterP2P {
 		});
 	}
 
-	/**
-	 * Try to connect to local WebSocket as fallback when TurnWebRTC fails
-	 */
-	static _tryLocalWebSocketFallback() {
-		try {
-			const proto = (window && window.location && window.location.protocol === 'https:') ? 'wss:' : 'ws:';
-			const fallbackUrl = `${proto}//${window.location.host}/character-p2p`;
-			
-			console.info('CharacterP2P: Attempting local WebSocket fallback:', fallbackUrl);
-			this._signalingSocket = new WebSocket(fallbackUrl);
-			
-			this._signalingSocket.addEventListener('open', () => {
-				console.info('CharacterP2P: Local WebSocket fallback connected');
-				this._setupWebSocketMessageHandlers();
-			});
-			
-			this._signalingSocket.addEventListener('error', (ev) => {
-				console.info('CharacterP2P: Local WebSocket fallback also failed, operating in manual mode');
-				this._signalingSocket = null;
-			});
-			
-		} catch (e) {
-			console.info('CharacterP2P: Local WebSocket fallback failed:', e);
-			this._signalingSocket = null;
-		}
-	}
 
 	static _setupDataChannel(dc) {
+		console.info('CharacterP2P: Setting up data channel, state:', dc.readyState);
 		this._dc = dc;
+		
 		this._dc.onopen = () => {
+			console.info('CharacterP2P: Data channel opened successfully!');
 			// Announce ourselves so peers can list connected clients
 			try {
 				this._knownPeers.add(this.clientId);
@@ -245,6 +258,11 @@ class CharacterP2P {
 				console.info('CharacterP2P: known peers', others);
 			}, 600);
 		};
+		
+		this._dc.onerror = (error) => {
+			console.error('CharacterP2P: Data channel error:', error);
+		};
+		
 		this._dc.onmessage = (ev) => {
 			try {
 				const data = JSON.parse(ev.data);
@@ -266,7 +284,17 @@ class CharacterP2P {
 				console.warn('CharacterP2P: error parsing message', e);
 			}
 		};
-		this._dc.onclose = () => console.info('CharacterP2P: data channel closed');
+		
+		this._dc.onclose = () => {
+			console.info('CharacterP2P: Data channel closed');
+			this._dc = null;
+		};
+		
+		// If the channel is already open, trigger the onopen handler
+		if (dc.readyState === 'open') {
+			console.info('CharacterP2P: Data channel already open, triggering onopen');
+			this._dc.onopen();
+		}
 	}
 
 	/**
@@ -275,15 +303,35 @@ class CharacterP2P {
 	static async createOffer() {
 		if (!this._pc) this.init();
 
-		// Create datachannel
-		const dc = this._pc.createDataChannel('character-sync');
+		// Create datachannel with better configuration
+		console.info('CharacterP2P: Creating data channel...');
+		const dc = this._pc.createDataChannel('character-sync', {
+			ordered: true,
+			maxRetransmits: 3
+		});
 		this._setupDataChannel(dc);
 
+		console.info('CharacterP2P: Creating offer...');
 		const offer = await this._pc.createOffer();
 		await this._pc.setLocalDescription(offer);
+		console.info('CharacterP2P: Local description set, waiting for ICE candidates...');
 
-		// Wait for ICE gathering to finish briefly (best-effort)
-		await new Promise(res => setTimeout(res, 200));
+		// Wait for ICE gathering to finish with better timeout handling
+		await new Promise(res => {
+			if (this._pc.iceGatheringState === 'complete') {
+				res();
+			} else {
+				const timeout = setTimeout(res, 1000); // 1 second timeout
+				const onicechange = () => {
+					if (this._pc.iceGatheringState === 'complete') {
+						clearTimeout(timeout);
+						this._pc.removeEventListener('icegatheringstatechange', onicechange);
+						res();
+					}
+				};
+				this._pc.addEventListener('icegatheringstatechange', onicechange);
+			}
+		});
 
 		return this._pc.localDescription ? this._pc.localDescription.sdp : offer.sdp;
 	}
@@ -296,9 +344,11 @@ class CharacterP2P {
 
 		// If passed an object with sdp, normalize
 		const offer = (typeof remoteOffer === 'string') ? { type: 'offer', sdp: remoteOffer } : remoteOffer;
+		console.info('CharacterP2P: Setting remote offer description...');
 		await this._pc.setRemoteDescription(offer);
 
 		// Create answer
+		console.info('CharacterP2P: Creating answer...');
 		const answer = await this._pc.createAnswer();
 		await this._pc.setLocalDescription(answer);
 
@@ -333,7 +383,7 @@ class CharacterP2P {
 				this._signalingSocket.send(JSON.stringify({ type: 'relay', payload: payload, origin: this.clientId }));
 				return true;
 			}
-			console.warn('CharacterP2P: no open channel to send message');
+			console.warn('CharacterP2P: no open channel to send message - DC state:', this._dc ? this._dc.readyState : 'null', 'WS state:', this._signalingSocket ? this._signalingSocket.readyState : 'null');
 			return false;
 		} catch (e) {
 			console.warn('CharacterP2P: send failed', e);
