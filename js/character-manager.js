@@ -63,9 +63,12 @@ class CharacterP2P {
 	// Instead, if a turnApiKey is provided we will use the TurnWebRTC relay WebSocket
 	// as the signaling channel at wss://turnwebrtc.com/api/relay/{room}?apikey=KEY
 	// (exposing the key in-browser is intentional for this flow)
-	// Note: TurnWebRTC service currently has SSL certificate issues, so we'll skip it by default
-	const turnApiKey = opts && opts['turnApiKey']; // Removed default key due to SSL issues
-	let iceServers = []; // no in-browser ICE credential fetch
+	const turnApiKey = opts && opts['turnApiKey'] || "d881b9e9-09ec-4a9d-a826-4e10e7c75298";
+	// Use Google's public STUN servers for local network discovery
+	let iceServers = [
+		{ urls: 'stun:stun.l.google.com:19302' },
+		{ urls: 'stun:stun1.l.google.com:19302' }
+	];
 
 		// Create RTCPeerConnection with discovered ICE servers (or empty array)
 		if (!this._pc) {
@@ -85,113 +88,117 @@ class CharacterP2P {
 			};
 		}
 
-		// Determine signaling URL. Prefer TurnWebRTC relay if a turnApiKey was provided;
-		// otherwise fall back to a same-origin WebSocket at /character-p2p.
-		let signalingUrl = null;
-		if (turnApiKey) {
-			try {
-				const host = (window && window.location && window.location.hostname) ? window.location.hostname : 'global';
-				// Use hostname + pathname as a deterministic room so all pages on the same site join
-				const path = (window && window.location && window.location.pathname) ? window.location.pathname.replace(/\//g, '_') : '';
-				const room = 'characters'
-				signalingUrl = `wss://turnwebrtc.com/api/relay/${room}?apikey=${encodeURIComponent(turnApiKey)}`;
-			} catch (e) {
-				console.warn('CharacterP2P: could not construct TurnWebRTC relay URL', e);
-				signalingUrl = null;
-			}
-		}
+		// Determine signaling URL. Try TurnWebRTC with SSL fallback.
+		const room = 'characters'
+		let signalingUrl = `wss://turnwebrtc.com/api/relay/${room}?apikey=${turnApiKey}`;
 
-		if (!signalingUrl) {
-			try {
-				const proto = (window && window.location && window.location.protocol === 'https:') ? 'wss:' : 'ws:';
-				signalingUrl = `${proto}//${window.location.host}/character-p2p`;
-			} catch (e) {
-				console.warn('CharacterP2P: could not construct same-origin signaling URL', e);
-				signalingUrl = null;
-			}
-		}
+		try {
+			this._signalingSocket = new WebSocket(signalingUrl);
+			this._signalingSocket.addEventListener('open', () => {
+				console.info('CharacterP2P: signaling socket open', signalingUrl);
+				this._setupWebSocketMessageHandlers();
 
-		if (signalingUrl) {
-			try {
-				this._signalingSocket = new WebSocket(signalingUrl);
-				this._signalingSocket.addEventListener('open', () => {
-					// console.info('CharacterP2P: signaling socket open', signalingUrl);
-
-					// Auto-create and send an offer after a staggered delay to reduce collisions.
-					try {
-						const seed = parseInt(this.clientId.slice(0, 4), 36) || Math.floor(Math.random() * 65535);
-						const delay = seed % 4000; // up to 4s stagger
-						setTimeout(async () => {
-							try {
-								if (this._dc && this._dc.readyState === 'open') return;
-								const offer = await this.createOffer();
-								if (this._signalingSocket && this._signalingSocket.readyState === WebSocket.OPEN) {
-									this._signalingSocket.send(JSON.stringify({ type: 'offer', offer, origin: this.clientId }));
-									this._offered = true;
-								}
-							} catch (e) {
-								console.warn('CharacterP2P: auto-offer failed', e);
+				// Auto-create and send an offer after a staggered delay to reduce collisions.
+				try {
+					const seed = parseInt(this.clientId.slice(0, 4), 36) || Math.floor(Math.random() * 65535);
+					const delay = seed % 4000; // up to 4s stagger
+					setTimeout(async () => {
+						try {
+							if (this._dc && this._dc.readyState === 'open') return;
+							const offer = await this.createOffer();
+							if (this._signalingSocket && this._signalingSocket.readyState === WebSocket.OPEN) {
+								this._signalingSocket.send(JSON.stringify({ type: 'offer', offer, origin: this.clientId }));
+								this._offered = true;
 							}
-						}, delay);
-					} catch (e) {
-						console.info('CharacterP2P: failed to schedule auto-offer', e);
-					}
-				});
-				this._signalingSocket.addEventListener('message', async (ev) => {
+						} catch (e) {
+							console.warn('CharacterP2P: auto-offer failed', e);
+						}
+					}, delay);
+				} catch (e) {
+					console.info('CharacterP2P: failed to schedule auto-offer', e);
+				}
+			});
+
+			this._signalingSocket.addEventListener('error', (ev) => {
+				console.warn('CharacterP2P: signaling socket error', ev);
+				// Try HTTP fallback if HTTPS failed due to SSL certificate issues
+				this._signalingSocket = null;
+				this._tryHttpFallback(room, turnApiKey);
+			});
+		} catch (e) {
+			console.info(`CharacterP2P: could not connect to signaling URL ${signalingUrl}`, e);
+			this._signalingSocket = null;
+			console.info('CharacterP2P: operating in manual offer/answer mode.');
+		}
+	}
+
+	/**
+	 * Try HTTP fallback when HTTPS WebSocket fails due to SSL certificate issues
+	 */
+	static _tryHttpFallback(room, turnApiKey) {
+		try {
+			// Try unsecured WebSocket connection as fallback
+			const httpSignalingUrl = `ws://turnwebrtc.com/api/relay/${room}?apikey=${turnApiKey}`;
+			console.info('CharacterP2P: Trying HTTP fallback:', httpSignalingUrl);
+			
+			this._signalingSocket = new WebSocket(httpSignalingUrl);
+			
+			this._signalingSocket.addEventListener('open', () => {
+				console.info('CharacterP2P: HTTP fallback WebSocket connected');
+				// Set up the same message handlers as the main connection
+				this._setupWebSocketMessageHandlers();
+			});
+			
+			this._signalingSocket.addEventListener('error', (ev) => {
+				console.info('CharacterP2P: HTTP fallback also failed, trying local WebSocket');
+				this._signalingSocket = null;
+				this._tryLocalWebSocketFallback();
+			});
+			
+		} catch (e) {
+			console.info('CharacterP2P: HTTP fallback failed:', e);
+			this._tryLocalWebSocketFallback();
+		}
+	}
+
+	/**
+	 * Set up WebSocket message handlers (shared between HTTPS and HTTP connections)
+	 */
+	static _setupWebSocketMessageHandlers() {
+		if (!this._signalingSocket) return;
+		
+		this._signalingSocket.addEventListener('message', async (ev) => {
+			try {
+				const msg = JSON.parse(ev.data);
+				if (msg.origin === this.clientId) return; // ignore own messages
+				if (msg.type === 'offer') {
+					const answer = await this.acceptOffer(msg.offer);
+					this._signalingSocket.send(JSON.stringify({ type: 'answer', answer, origin: this.clientId }));
+				} else if (msg.type === 'answer') {
+					await this.setRemoteAnswer(msg.answer);
+				} else if (msg.type === 'ice' && msg.candidate) {
+					try { await this._pc.addIceCandidate(msg.candidate); } catch (e) { /* ignore */ }
+				} else if (msg.type === 'relay' && msg.payload) {
 					try {
-						const msg = JSON.parse(ev.data);
-						if (msg.origin === this.clientId) return; // ignore own messages
-						if (msg.type === 'offer') {
-							const answer = await this.acceptOffer(msg.offer);
-							this._signalingSocket.send(JSON.stringify({ type: 'answer', answer, origin: this.clientId }));
-						} else if (msg.type === 'answer') {
-							await this.setRemoteAnswer(msg.answer);
-						} else if (msg.type === 'ice' && msg.candidate) {
-							try { await this._pc.addIceCandidate(msg.candidate); } catch (e) { /* ignore */ }
-						} else if (msg.type === 'relay' && msg.payload) {
-							try {
-								const payload = msg.payload;
-								if (typeof CharacterManager !== 'undefined' && CharacterManager._handleP2PSync) {
-									CharacterManager._handleP2PSync(payload);
-								}
-							} catch (e) {
-								console.warn('CharacterP2P: error handling relay payload', e);
-							}
+						const payload = msg.payload;
+						if (typeof CharacterManager !== 'undefined' && CharacterManager._handleP2PSync) {
+							CharacterManager._handleP2PSync(payload);
 						}
 					} catch (e) {
-						console.warn('CharacterP2P: error parsing signaling message', e);
+						console.warn('CharacterP2P: error handling relay payload', e);
 					}
-				});
-
-				// Reset reconnect attempts on successful open
-				this._signalingSocket.addEventListener('open', () => {
-					this._reconnectAttempts = 0;
-					if (this._reconnectTimer) { clearTimeout(this._reconnectTimer); this._reconnectTimer = null; }
-				});
-
-				this._signalingSocket.addEventListener('close', (ev) => {
-					console.info('CharacterP2P: signaling socket closed', ev);
-					// Start periodic announces while the tab is visible so peers coming online
-					// can discover us. This avoids aggressive reconnect attempts.
-					if (typeof document !== 'undefined' && document.visibilityState === 'visible') {
-						this._startPeriodicAnnounce();
-					}
-				});
-
-				this._signalingSocket.addEventListener('error', (ev) => {
-					console.warn('CharacterP2P: signaling socket error', ev);
-					// Try fallback to local WebSocket if TurnWebRTC fails
-					this._signalingSocket = null;
-					this._tryLocalWebSocketFallback();
-				});
+				}
 			} catch (e) {
-				console.info(`CharacterP2P: could not connect to signaling URL ${signalingUrl}`, e);
-				this._signalingSocket = null;
-				console.info('CharacterP2P: operating in manual offer/answer mode.');
+				console.warn('CharacterP2P: error parsing signaling message', e);
 			}
-		} else {
-			console.info('CharacterP2P: no signaling URL available; operating in manual offer/answer mode.');
-		}
+		});
+		
+		this._signalingSocket.addEventListener('close', (ev) => {
+			console.info('CharacterP2P: signaling socket closed', ev);
+			if (typeof document !== 'undefined' && document.visibilityState === 'visible') {
+				this._startPeriodicAnnounce();
+			}
+		});
 	}
 
 	/**
@@ -207,6 +214,7 @@ class CharacterP2P {
 			
 			this._signalingSocket.addEventListener('open', () => {
 				console.info('CharacterP2P: Local WebSocket fallback connected');
+				this._setupWebSocketMessageHandlers();
 			});
 			
 			this._signalingSocket.addEventListener('error', (ev) => {
@@ -644,10 +652,10 @@ class CharacterManager {
 						if (blob.url && blob.url.startsWith('localStorage://')) {
 							const characterId = blob.url.replace('localStorage://', '');
 							const characters = this._loadFromLocalStorage();
-							const character = characters.find(c => 
+							const character = characters.find(c =>
 								this._generateCompositeId(c.name, c.source) === characterId
 							);
-							
+
 							if (!character) {
 								console.warn(`CharacterManager: Character ${characterId} not found in localStorage`);
 								return null;
@@ -804,10 +812,10 @@ class CharacterManager {
 		try {
 			const characters = this._loadFromLocalStorage();
 			const blobs = [];
-			
+
 			for (const character of characters) {
 				if (!character || !character.name) continue;
-				
+
 				const characterId = this._generateCompositeId(character.name, character.source);
 				const blob = {
 					id: characterId,
@@ -817,21 +825,21 @@ class CharacterManager {
 					uploadedAt: new Date().toISOString(),
 					size: JSON.stringify(character).length
 				};
-				
+
 				blobs.push(blob);
 			}
-			
+
 			// If sources filter requested, apply it to the returned list
 			if (sources) {
 				const sourceList = Array.isArray(sources) ? sources : [sources];
 				return blobs.filter(blob => {
-					const character = characters.find(c => 
+					const character = characters.find(c =>
 						this._generateCompositeId(c.name, c.source) === blob.id
 					);
 					return character && sourceList.includes(character.source);
 				});
 			}
-			
+
 			return blobs;
 		} catch (e) {
 			console.warn('CharacterManager: Error creating localStorage blob list:', e);
@@ -1668,6 +1676,7 @@ try {
 						// If a TURN key is present on window or a meta tag, pass it to p2pInit so
 						// the browser can fetch TurnWebRTC credentials directly (insecure to expose key).
 						const key = window['TURN_WEB_RTC'] || (document.querySelector && document.querySelector("meta[name=\"turn-web-rtc\"]")?.getAttribute('content'));
+
 						try {
 							if (key) CM.p2pInit({ turnApiKey: key });
 							else CM.p2pInit();
