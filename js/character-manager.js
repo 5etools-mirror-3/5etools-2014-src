@@ -92,7 +92,7 @@ class CharacterP2P {
 				const host = (window && window.location && window.location.hostname) ? window.location.hostname : 'global';
 				// Use hostname + pathname as a deterministic room so all pages on the same site join
 				const path = (window && window.location && window.location.pathname) ? window.location.pathname.replace(/\//g, '_') : '';
-				const room = encodeURIComponent(`${host}`);
+				const room = 'characters'
 				signalingUrl = `wss://turnwebrtc.com/api/relay/${room}?apikey=${encodeURIComponent(turnApiKey)}`;
 			} catch (e) {
 				console.warn('CharacterP2P: could not construct TurnWebRTC relay URL', e);
@@ -606,6 +606,29 @@ class CharacterManager {
 			if (charactersToFetch.length > 0) {
 				const fetchPromises = charactersToFetch.map(async (blob) => {
 					try {
+						// Handle localStorage URLs differently
+						if (blob.url && blob.url.startsWith('localStorage://')) {
+							const characterId = blob.url.replace('localStorage://', '');
+							const characters = this._loadFromLocalStorage();
+							const character = characters.find(c => 
+								this._generateCompositeId(c.name, c.source) === characterId
+							);
+							
+							if (!character) {
+								console.warn(`CharacterManager: Character ${characterId} not found in localStorage`);
+								return null;
+							}
+
+							// Update cache with localStorage data
+							this._blobCache.set(blob.id, {
+								blob: blob,
+								character: character,
+								lastFetched: now
+							});
+
+							return character;
+						}
+
 						// Use the /api/characters/get endpoint for individual character fetching
 						const response = await fetch(`/api/characters/get?url=${encodeURIComponent(blob.url)}&id=${encodeURIComponent(blob.id)}`);
 
@@ -692,10 +715,10 @@ class CharacterManager {
 				}
 			}
 
-			let url = `/api/characters/load`;
+			let url = `/api/characters/list`;
 			if (sources && sources.length > 0) {
 				const sourcesParam = sources.map(s => `sources=${encodeURIComponent(s)}`).join('&');
-				url += `&${sourcesParam}`;
+				url += `?${sourcesParam}`;
 			}
 
 			const response = await fetch(url, {
@@ -712,7 +735,7 @@ class CharacterManager {
 			}
 
 			const metadata = await response.json();
-			const blobs = metadata.blobs || [];
+			const blobs = metadata.characters || [];
 
 			// Cache the unfiltered blob list for future use
 			try {
@@ -734,9 +757,52 @@ class CharacterManager {
 			return blobs;
 		} catch (e) {
 			console.warn('CharacterManager: Error fetching blob list metadata:', e);
+			// Fall back to localStorage if API is not available
+			return this._getLocalStorageBlobList(sources);
+		}
+	}
+
+	/**
+	 * Get blob list from localStorage characters (fallback when API is not available)
+	 * @param {Array<string>} [sources] - Optional list of sources to filter by
+	 */
+	static _getLocalStorageBlobList(sources = null) {
+		try {
+			const characters = this._loadFromLocalStorage();
+			const blobs = [];
+			
+			for (const character of characters) {
+				if (!character || !character.name) continue;
+				
+				const characterId = this._generateCompositeId(character.name, character.source);
+				const blob = {
+					id: characterId,
+					url: `localStorage://${characterId}`,
+					filename: `${characterId}.json`,
+					pathname: `characters/${characterId}.json`,
+					uploadedAt: new Date().toISOString(),
+					size: JSON.stringify(character).length
+				};
+				
+				blobs.push(blob);
+			}
+			
+			// If sources filter requested, apply it to the returned list
+			if (sources) {
+				const sourceList = Array.isArray(sources) ? sources : [sources];
+				return blobs.filter(blob => {
+					const character = characters.find(c => 
+						this._generateCompositeId(c.name, c.source) === blob.id
+					);
+					return character && sourceList.includes(character.source);
+				});
+			}
+			
+			return blobs;
+		} catch (e) {
+			console.warn('CharacterManager: Error creating localStorage blob list:', e);
 			return [];
 		}
-
 	}
 
 	/**
