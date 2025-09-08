@@ -3288,18 +3288,113 @@ class CharacterEditorPage {
 		entries.push(`Place: ${chosenPlace}`);
 		entries.push(`Contact: ${chosenPerson}`);
 
-		// Origin uses chosenPlace
-		const origin = Math.random() < 0.5
-			? `They were raised in ${chosenPlace}, where horizon and hardship braided together and small mercies mattered.`
-			: `They grew up near ${chosenPlace}, amid candlelit halls and carved stone, where duty was spoken like prayer.`;
+		// Origin uses chosenPlace with much more variety and depth
+		const originTemplates = [
+			// Rural/wilderness origins
+			`Born in the shadow of ${chosenPlace}, they learned early that survival meant reading the wind's warnings and the forest's whispers.`,
+			`Raised on the outskirts of ${chosenPlace}, where the road dust settled thick and strangers brought both opportunity and danger.`,
+			`They spent their youth in ${chosenPlace}'s fields, where seasons marked time and hard work carved character into bone.`,
+			`Growing up in ${chosenPlace}'s pastoral embrace, they knew every stream, every hidden path, every family's story for three generations.`,
+			`In the wild lands near ${chosenPlace}, they learned that nature's beauty and cruelty were often indistinguishable.`,
+			
+			// Urban/civilized origins  
+			`The crowded streets of ${chosenPlace} raised them, teaching lessons in survival that no academy could match.`,
+			`Born within ${chosenPlace}'s walls, they grew up amid the clash of commerce, politics, and a thousand different dreams.`,
+			`${chosenPlace}'s markets were their playground, where they learned to read faces, voices, and the weight of coin in a purse.`,
+			`Raised in ${chosenPlace}'s shadow districts, they understood that reputation was currency and silence was sometimes golden.`,
+			`The guildhalls of ${chosenPlace} shaped their youth, where tradition and innovation wrestled for the future's direction.`,
+			
+			// Noble/privileged origins
+			`Born to comfort in ${chosenPlace}, they learned that privilege was both a gift and a burden that followed you everywhere.`,
+			`Raised in ${chosenPlace}'s grand halls, where etiquette was armor and politics were played with smiles and daggers.`,
+			`The towers of ${chosenPlace} were their childhood realm, where books and tutors filled days but couldn't answer the heart's questions.`,
+			`In ${chosenPlace}'s estate grounds, they learned that power came with expectations that could crush the soul.`,
+			
+			// Mystical/magical origins
+			`${chosenPlace} thrummed with old magic, and they grew up feeling its pulse in their bones like a second heartbeat.`,
+			`Raised where ${chosenPlace} touched the feywild, reality seemed negotiable and dreams had weight and consequence.`,
+			`The temples of ${chosenPlace} filled their childhood with incense, prayer, and the weight of divine attention.`,
+			`In ${chosenPlace}'s library-towers, they learned that knowledge was the most dangerous magic of all.`,
+			
+			// Tragic/difficult origins
+			`${chosenPlace} burned when they were young, teaching them that safety was illusion and home was what you carried within.`,
+			`Orphaned in ${chosenPlace}'s plague years, they learned that kindness from strangers could mean the difference between life and death.`,
+			`War came to ${chosenPlace} in their youth, showing them how quickly civilization's veneer could crack and fall away.`,
+			`The famine that struck ${chosenPlace} taught them to value every crust, every kindness, every tomorrow not promised.`,
+			
+			// Artisan/trade origins
+			`The forges of ${chosenPlace} sang their childhood lullabies, where sparks flew like stars and pride was measured in perfect joints and keen edges.`,
+			`Raised among ${chosenPlace}'s merchants, they learned that everything had a price, but not everything should be for sale.`,
+			`The docks of ${chosenPlace} raised them on tales of distant shores and the understanding that horizons were meant to be chased.`,
+			`In ${chosenPlace}'s workshops, they discovered that creating something lasting was its own form of immortality.`,
+			
+			// Scholarly/learned origins
+			`${chosenPlace}'s ancient libraries were their second home, where dusty tomes held more adventure than the world outside.`,
+			`Raised in ${chosenPlace}'s halls of learning, they understood that questions were often more valuable than answers.`,
+			`The scholars of ${chosenPlace} filled their youth with philosophy, debate, and the dangerous idea that the world could be better.`,
+			
+			// Military/martial origins
+			`The garrison at ${chosenPlace} raised them on discipline, honor, and the knowledge that strength without wisdom was merely violence.`,
+			`Born to ${chosenPlace}'s warrior tradition, they learned that true courage wasn't the absence of fear, but action despite it.`,
+			`The training yards of ${chosenPlace} were their childhood playground, where wooden swords taught lessons that steel would later test.`,
+			
+			// Exotic/unusual origins
+			`They came of age in ${chosenPlace}'s traveling carnival, where illusion and reality danced together under painted canvas.`,
+			`Raised by the road-folk who passed through ${chosenPlace}, home was wherever their wagon stopped and family was whoever shared the fire.`,
+			`The underground of ${chosenPlace} was their world, where sunlight was rumor and survival meant knowing which shadows to trust.`,
+			`Born during ${chosenPlace}'s great festival, they grew up believing that celebration and sorrow were twin faces of the same truth.`
+		];
+		
+		const origin = pickFrom(originTemplates);
 		entries.push(`Origin: ${origin}`);
 
 		// Turning point references chosenPerson or chosenPlace for consistency
 		let turningPoint = '';
 		if (Math.random() < 0.9) {
-			turningPoint = Math.random() < 0.5
-				? `${chosenPerson} once saved them from a disaster that left scars and a promise to repay.`
-				: `A single night at ${chosenPlace} — a riot, a betrayal, a fire — broke the life they'd known and set them on a different road.`;
+			const turningPointTemplates = [
+				// Person-centered turning points
+				`${chosenPerson} once saved them from a disaster that left scars and a promise to repay.`,
+				`A chance meeting with ${chosenPerson} opened their eyes to possibilities they'd never imagined.`,
+				`${chosenPerson}'s unexpected betrayal shattered their trust but taught them to rely on themselves.`,
+				`When ${chosenPerson} died, they inherited not just grief but a mission that would define their path.`,
+				`${chosenPerson}'s words of wisdom during their darkest hour became a guiding star they still follow.`,
+				`A heated argument with ${chosenPerson} forced them to question everything they thought they believed.`,
+				`${chosenPerson}'s act of selfless courage inspired them to seek something greater than comfort or safety.`,
+				`The day ${chosenPerson} asked for their help was the day they discovered they were capable of more than they knew.`,
+				
+				// Place-centered turning points
+				`A single night at ${chosenPlace} — a riot, a betrayal, a fire — broke the life they'd known and set them on a different road.`,
+				`The day they decided to leave ${chosenPlace} forever was the day they truly began to live.`,
+				`A hidden secret discovered in ${chosenPlace} changed not just their life, but their understanding of the world itself.`,
+				`The festival at ${chosenPlace} should have been a celebration, but instead became a revelation that everything they knew was wrong.`,
+				`When strangers arrived at ${chosenPlace} with news of the wider world, wanderlust struck like lightning.`,
+				`The ancient ruins near ${chosenPlace} called to them one night, showing visions that demanded action.`,
+				`A terrible storm that devastated ${chosenPlace} revealed both the fragility of civilization and their own inner strength.`,
+				`The traveling merchant who stopped at ${chosenPlace} carried more than goods — they carried a destiny that would not be denied.`,
+				
+				// Internal/philosophical turning points
+				`A moment of perfect clarity during meditation at ${chosenPlace} showed them their true purpose.`,
+				`The book they found in ${chosenPlace}'s old library contained ideas that set their mind ablaze with possibility.`,
+				`A prophetic dream while staying at ${chosenPlace} revealed a future they could either embrace or fight to change.`,
+				`The simple act of showing mercy to an enemy near ${chosenPlace} taught them more about strength than years of training.`,
+				`A conversation with ${chosenPerson} about the nature of justice planted seeds that would eventually reshape their entire worldview.`,
+				
+				// Mystical/supernatural turning points
+				`The night the dead walked near ${chosenPlace}, they learned that death was not the ending they'd been taught.`,
+				`When magic first manifested around them in ${chosenPlace}, reality became both more wonderful and more dangerous.`,
+				`A divine vision experienced at ${chosenPlace} left them forever changed, marked by forces beyond mortal understanding.`,
+				`The demon that appeared to them near ${chosenPlace} offered power, but their refusal taught them more about their own character than acceptance ever could.`,
+				`During the eclipse visible from ${chosenPlace}, they felt something ancient stir within them — a calling that could not be ignored.`,
+				
+				// Achievement/discovery turning points
+				`Their first real victory in ${chosenPlace} taught them that success was hollow without someone to share it with.`,
+				`The failure that humiliated them before all of ${chosenPlace} became the foundation stone of their true strength.`,
+				`Creating something beautiful for the first time in ${chosenPlace} showed them that legacy came from what you built, not what you conquered.`,
+				`The test they failed in ${chosenPlace} revealed gifts they never knew they possessed.`,
+				`Solving an ancient puzzle left behind in ${chosenPlace} unlocked not just secrets, but a passion for uncovering truth.`
+			];
+			
+			turningPoint = pickFrom(turningPointTemplates);
 			entries.push(`TurningPoint: ${turningPoint}`);
 		}
 

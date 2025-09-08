@@ -269,7 +269,7 @@ class CharacterManager {
 		try {
 			// First, get the blob list (this uses the cached list endpoint data)
 			const blobs = await this._getBlobList(sources);
-			
+
 			if (!blobs || blobs.length === 0) {
 				console.log('CharacterManager: No character blobs found');
 				return this._loadFromLocalStorage();
@@ -300,7 +300,7 @@ class CharacterManager {
 					try {
 						// Use the /api/characters/get endpoint for individual character fetching
 						const response = await fetch(`/api/characters/get?url=${encodeURIComponent(blob.url)}&id=${encodeURIComponent(blob.id)}`);
-						
+
 						if (!response.ok) {
 							console.warn(`CharacterManager: Failed to fetch character ${blob.id}: ${response.statusText}`);
 							return null;
@@ -337,7 +337,7 @@ class CharacterManager {
 
 			// Combine cached and newly fetched characters
 			const allCharacters = [...cachedCharacters, ...fetchedCharacters];
-			
+
 			// If no characters found, try localStorage as fallback
 			if (allCharacters.length === 0) {
 				console.log('CharacterManager: No characters loaded from API, trying localStorage');
@@ -384,9 +384,7 @@ class CharacterManager {
 				}
 			}
 
-			// Fetch fresh metadata from server
-			const cacheBuster = Date.now();
-			let url = `/api/characters/load?_t=${cacheBuster}`;
+			let url = `/api/characters/load`;
 			if (sources && sources.length > 0) {
 				const sourcesParam = sources.map(s => `sources=${encodeURIComponent(s)}`).join('&');
 				url += `&${sourcesParam}`;
@@ -768,14 +766,14 @@ class CharacterManager {
 		this._isLoading = false;
 		this._loadPromise = null;
 		this._stopAutoRefresh();
-		
+
 		// Also clear the blob list cache
 		try {
 			localStorage.removeItem(this._LIST_CACHE_KEY);
 		} catch (e) {
 			console.warn('CharacterManager: Error clearing blob list cache:', e);
 		}
-		
+
 		this._notifyListeners();
 	}
 
