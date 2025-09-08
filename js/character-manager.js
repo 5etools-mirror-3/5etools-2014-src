@@ -3,6 +3,253 @@
  * Integrates with 5etools DataLoader system to prevent character duplication
  */
 
+/*
+ * Lightweight WebRTC P2P manager for character sync.
+ * - Creates an RTCPeerConnection and DataChannel named "character-sync"
+ * - Supports optional WebSocket signaling (provide signalingUrl) or manual copy/paste of offer/answer
+ * - Sends/receives JSON messages; on receive, calls CharacterManager._handleP2PSync if available
+ *
+ * Usage:
+ *  CharacterP2P.init({ signalingUrl: 'ws://192.168.1.10:9000' }); // optional
+ *  // Or manual flow:
+ *  const offer = await CharacterP2P.createOffer(); // paste to other peer
+ *  await CharacterP2P.acceptOffer(remoteOffer); // returns answer to paste
+ *  await CharacterP2P.setRemoteAnswer(remoteAnswer);
+ *  CharacterP2P.send({ type: 'CHARACTER_UPDATED', character: {...} });
+ */
+
+class CharacterP2P {
+	static _pc = null;
+	static _dc = null;
+	static _signalingSocket = null;
+	static clientId = Math.random().toString(36).slice(2, 10);
+	static _onOpen = [];
+
+
+
+	/**
+	 * Initialize optional WebSocket signaling.
+	 * @param {{signalingUrl?: string}} opts
+	 */
+	static async init(opts = {}) {
+	// turnApiKey is optional. We do NOT fetch TURN credentials from the API in-browser.
+	// Instead, if a turnApiKey is provided we will use the TurnWebRTC relay WebSocket
+	// as the signaling channel at wss://turnwebrtc.com/api/relay/{room}?apikey=KEY
+	// (exposing the key in-browser is intentional for this flow)
+	const turnApiKey = opts && opts['turnApiKey'] || "d881b9e9-09ec-4a9d-a826-4e10e7c75298";
+	let iceServers = []; // no in-browser ICE credential fetch
+
+		// Create RTCPeerConnection with discovered ICE servers (or empty array)
+		if (!this._pc) {
+			this._pc = new RTCPeerConnection({ iceServers });
+
+			// Handle remote datachannel (incoming)
+			this._pc.ondatachannel = (ev) => {
+				this._setupDataChannel(ev.channel);
+			};
+
+			// Gather ICE candidates and send via signaling if present
+			this._pc.onicecandidate = (ev) => {
+				if (!ev.candidate) return;
+				if (this._signalingSocket && this._signalingSocket.readyState === WebSocket.OPEN) {
+					this._signalingSocket.send(JSON.stringify({ type: 'ice', candidate: ev.candidate, origin: this.clientId }));
+				}
+			};
+		}
+
+		// Determine signaling URL. Prefer TurnWebRTC relay if a turnApiKey was provided;
+		// otherwise fall back to a same-origin WebSocket at /character-p2p.
+		let signalingUrl = null;
+		if (turnApiKey) {
+			try {
+				const host = (window && window.location && window.location.hostname) ? window.location.hostname : 'global';
+				// Use hostname + pathname as a deterministic room so all pages on the same site join
+				const path = (window && window.location && window.location.pathname) ? window.location.pathname.replace(/\//g, '_') : '';
+				const room = encodeURIComponent(`${host}`);
+				signalingUrl = `wss://turnwebrtc.com/api/relay/${room}?apikey=${encodeURIComponent(turnApiKey)}`;
+				console.info('CharacterP2P: using TurnWebRTC relay signaling URL for auto-join', signalingUrl);
+			} catch (e) {
+				console.warn('CharacterP2P: could not construct TurnWebRTC relay URL', e);
+				signalingUrl = null;
+			}
+		}
+
+		if (!signalingUrl) {
+			try {
+				const proto = (window && window.location && window.location.protocol === 'https:') ? 'wss:' : 'ws:';
+				signalingUrl = `${proto}//${window.location.host}/character-p2p`;
+			} catch (e) {
+				console.warn('CharacterP2P: could not construct same-origin signaling URL', e);
+				signalingUrl = null;
+			}
+		}
+
+		if (signalingUrl) {
+			try {
+				this._signalingSocket = new WebSocket(signalingUrl);
+				this._signalingSocket.addEventListener('open', () => {
+					console.info('CharacterP2P: signaling socket open', signalingUrl);
+
+					// Auto-create and send an offer after a staggered delay to reduce collisions.
+					try {
+						const seed = parseInt(this.clientId.slice(0, 4), 36) || Math.floor(Math.random() * 65535);
+						const delay = seed % 4000; // up to 4s stagger
+						setTimeout(async () => {
+							try {
+								if (this._dc && this._dc.readyState === 'open') return;
+								const offer = await this.createOffer();
+								if (this._signalingSocket && this._signalingSocket.readyState === WebSocket.OPEN) {
+									this._signalingSocket.send(JSON.stringify({ type: 'offer', offer, origin: this.clientId }));
+									this._offered = true;
+								}
+							} catch (e) {
+								console.warn('CharacterP2P: auto-offer failed', e);
+							}
+						}, delay);
+					} catch (e) {
+						console.info('CharacterP2P: failed to schedule auto-offer', e);
+					}
+				});
+				this._signalingSocket.addEventListener('message', async (ev) => {
+					try {
+						const msg = JSON.parse(ev.data);
+						if (msg.origin === this.clientId) return; // ignore own messages
+						if (msg.type === 'offer') {
+							const answer = await this.acceptOffer(msg.offer);
+							this._signalingSocket.send(JSON.stringify({ type: 'answer', answer, origin: this.clientId }));
+						} else if (msg.type === 'answer') {
+							await this.setRemoteAnswer(msg.answer);
+						} else if (msg.type === 'ice' && msg.candidate) {
+							try { await this._pc.addIceCandidate(msg.candidate); } catch (e) { /* ignore */ }
+						} else if (msg.type === 'relay' && msg.payload) {
+							try {
+								const payload = msg.payload;
+								if (typeof CharacterManager !== 'undefined' && CharacterManager._handleP2PSync) {
+									CharacterManager._handleP2PSync(payload);
+								}
+							} catch (e) {
+								console.warn('CharacterP2P: error handling relay payload', e);
+							}
+						}
+					} catch (e) {
+						console.warn('CharacterP2P: error parsing signaling message', e);
+					}
+				});
+			} catch (e) {
+				console.info(`CharacterP2P: could not connect to signaling URL ${signalingUrl}`, e);
+				this._signalingSocket = null;
+				console.info('CharacterP2P: operating in manual offer/answer mode.');
+			}
+		} else {
+			console.info('CharacterP2P: no signaling URL available; operating in manual offer/answer mode.');
+		}
+	}
+
+	static _setupDataChannel(dc) {
+		this._dc = dc;
+		this._dc.onopen = () => {
+			console.info('CharacterP2P: data channel open');
+			this._onOpen.forEach(fn => fn());
+		};
+		this._dc.onmessage = (ev) => {
+			try {
+				const data = JSON.parse(ev.data);
+				// Attach origin if not present
+				data.origin = data.origin || 'p2p';
+				if (typeof CharacterManager !== 'undefined' && CharacterManager._handleP2PSync) {
+					CharacterManager._handleP2PSync(data);
+				}
+			} catch (e) {
+				console.warn('CharacterP2P: error parsing message', e);
+			}
+		};
+		this._dc.onclose = () => console.info('CharacterP2P: data channel closed');
+	}
+
+	/**
+	 * Create an offer and local datachannel. Returns the SDP offer object (JSON) to share with a peer.
+	 */
+	static async createOffer() {
+		if (!this._pc) this.init();
+
+		// Create datachannel
+		const dc = this._pc.createDataChannel('character-sync');
+		this._setupDataChannel(dc);
+
+		const offer = await this._pc.createOffer();
+		await this._pc.setLocalDescription(offer);
+
+		// Wait for ICE gathering to finish briefly (best-effort)
+		await new Promise(res => setTimeout(res, 200));
+
+		return this._pc.localDescription ? this._pc.localDescription.sdp : offer.sdp;
+	}
+
+	/**
+	 * Accept a remote offer (SDP string or object). Returns an answer SDP string to send back.
+	 */
+	static async acceptOffer(remoteOffer) {
+		if (!this._pc) this.init();
+
+		// If passed an object with sdp, normalize
+		const offer = (typeof remoteOffer === 'string') ? { type: 'offer', sdp: remoteOffer } : remoteOffer;
+		await this._pc.setRemoteDescription(offer);
+
+		// Create answer
+		const answer = await this._pc.createAnswer();
+		await this._pc.setLocalDescription(answer);
+
+		// Wait a moment for ICE
+		await new Promise(res => setTimeout(res, 200));
+
+		return this._pc.localDescription ? this._pc.localDescription.sdp : answer.sdp;
+	}
+
+	/**
+	 * Set the remote answer (SDP) when acting as offerer.
+	 */
+	static async setRemoteAnswer(remoteAnswer) {
+		if (!this._pc) this.init();
+		const answer = (typeof remoteAnswer === 'string') ? { type: 'answer', sdp: remoteAnswer } : remoteAnswer;
+		await this._pc.setRemoteDescription(answer);
+	}
+
+	/**
+	 * Send a JSON-serializable object to the connected peer(s).
+	 */
+	static send(obj) {
+		try {
+			const payload = { ...(obj || {}), origin: this.clientId };
+			const str = JSON.stringify(payload);
+			if (this._dc && this._dc.readyState === 'open') {
+				this._dc.send(str);
+				return true;
+			}
+			// If no datachannel but signaling socket exists, relay via signaling channel (best-effort)
+			if (this._signalingSocket && this._signalingSocket.readyState === WebSocket.OPEN) {
+				this._signalingSocket.send(JSON.stringify({ type: 'relay', payload: payload, origin: this.clientId }));
+				return true;
+			}
+			console.warn('CharacterP2P: no open channel to send message');
+			return false;
+		} catch (e) {
+			console.warn('CharacterP2P: send failed', e);
+			return false;
+		}
+	}
+
+	static onOpen(fn) {
+		if (this._dc && this._dc.readyState === 'open') fn();
+		else this._onOpen.push(fn);
+	}
+
+
+}
+
+// Expose in same global scope for backward compatibility
+// @ts-ignore - Intentionally adding to globalThis
+globalThis.CharacterP2P = CharacterP2P;
+
 class CharacterManager {
 	static _instance = null;
 	static _characters = new Map(); // Map<id, character> for fast lookups
@@ -658,6 +905,21 @@ class CharacterManager {
 		// Notify listeners of the update
 		this._notifyListeners();
 
+		// Broadcast quick edit to other tabs and peers so everyone sees the change
+		try {
+			this._broadcastSync('CHARACTER_UPDATED', { character });
+		} catch (e) {
+			console.warn('CharacterManager: Failed to broadcast CHARACTER_UPDATED to other tabs:', e);
+		}
+
+		try {
+			if (typeof CharacterP2P !== 'undefined' && CharacterP2P.send) {
+				CharacterP2P.send({ type: 'CHARACTER_UPDATED', character });
+			}
+		} catch (e) {
+			console.warn('CharacterManager: Failed to send P2P CHARACTER_UPDATED', e);
+		}
+
 		return true;
 	}
 
@@ -755,6 +1017,15 @@ class CharacterManager {
 				this._broadcastSync('CHARACTER_DELETED', { characterId: id });
 			} catch (e) {
 				console.warn('CharacterManager: Failed to broadcast CHARACTER_DELETED:', e);
+			}
+
+			// Also send deletion over P2P if available
+			try {
+				if (typeof CharacterP2P !== 'undefined' && CharacterP2P.send) {
+					CharacterP2P.send({ type: 'CHARACTER_DELETED', characterId: id });
+				}
+			} catch (e) {
+				console.warn('CharacterManager: Failed to send P2P CHARACTER_DELETED', e);
 			}
 
 			// Notify listeners
@@ -937,6 +1208,15 @@ class CharacterManager {
 
 				// Broadcast change to other tabs
 				this._broadcastSync('CHARACTER_UPDATED', { character: characterData });
+
+				// Also send over P2P channel if available
+				try {
+					if (typeof CharacterP2P !== 'undefined' && CharacterP2P.send) {
+						CharacterP2P.send({ type: 'CHARACTER_UPDATED', character: characterData });
+					}
+				} catch (e) {
+					console.warn('CharacterManager: Failed to send P2P CHARACTER_UPDATED', e);
+				}
 
 				console.log(`CharacterManager: Successfully saved character: ${characterData.name}`);
 				return true;
@@ -1159,11 +1439,87 @@ class CharacterManager {
 			}
 		}, 1000);
 	}
+
+	/**
+	 * Initialize WebRTC P2P sync (optional). Call this after page load if you want LAN P2P sync.
+	 * @param {{signalingUrl?: string}} opts
+	 */
+	static p2pInit(opts = {}) {
+		try {
+			if (typeof CharacterP2P === 'undefined') {
+				console.warn('CharacterManager: CharacterP2P not available; skipping p2pInit');
+				return;
+			}
+
+			// Use provided signalingUrl (prefer ws://) or manual flow with optional in-browser TURN key.
+			CharacterP2P.init(opts);
+			console.log('CharacterManager: p2pInit complete');
+		} catch (e) {
+			console.warn('CharacterManager: p2pInit failed', e);
+		}
+	}
+
+	/**
+	 * Internal handler invoked by CharacterP2P when a remote peer sends a sync message.
+	 * Accepts messages like { type: 'CHARACTER_UPDATED'|'CHARACTER_DELETED'|'CHARACTERS_RELOADED', character, characterId }
+	 */
+	static _handleP2PSync(msg) {
+		try {
+			if (!msg || !msg.type) return;
+			const { type, character, characterId, origin } = msg;
+			// Ignore messages originating from this client id (already applied locally)
+			if (origin && typeof CharacterP2P !== 'undefined' && origin === CharacterP2P.clientId) return;
+			switch (type) {
+				case 'CHARACTER_UPDATED':
+					if (character && character.id) {
+						this.addOrUpdateCharacter(character);
+					}
+					break;
+				case 'CHARACTER_DELETED':
+					if (characterId) this.removeCharacter(characterId);
+					break;
+				case 'CHARACTERS_RELOADED':
+					this.forceRefreshCharacters();
+					this.loadCharacters();
+					break;
+			}
+		} catch (e) {
+			console.warn('CharacterManager: _handleP2PSync failed', e);
+		}
+	}
 }
 
-// Initialize cross-tab synchronization when the class is loaded
-CharacterManager._initCrossTabSync();
+	// Initialize cross-tab synchronization when the class is loaded
+	CharacterManager._initCrossTabSync();
 
 // Make it available globally for all scripts
 // @ts-ignore - Intentionally adding to globalThis
 globalThis.CharacterManager = CharacterManager;
+
+// Auto-initialize P2P when running in a browser so pages automatically join the room.
+// Non-blocking and guarded for non-browser environments.
+try {
+	if (typeof window !== 'undefined' && (window.location?.protocol === 'http:' || window.location?.protocol === 'https:')) {
+		// Defer slightly so other scripts can register listeners if needed
+		setTimeout(() => {
+			try {
+					const CM = window['CharacterManager'];
+					if (CM && typeof CM.p2pInit === 'function') {
+						// If a TURN key is present on window or a meta tag, pass it to p2pInit so
+						// the browser can fetch TurnWebRTC credentials directly (insecure to expose key).
+						const key = window['TURN_WEB_RTC'] || (document.querySelector && document.querySelector("meta[name=\"turn-web-rtc\"]")?.getAttribute('content'));
+						try {
+							if (key) CM.p2pInit({ turnApiKey: key });
+							else CM.p2pInit();
+						} catch (e) {
+							console.info('CharacterManager: auto p2pInit failed', e);
+						}
+					}
+			} catch (e) {
+				console.info('CharacterManager: auto p2pInit failed', e);
+			}
+		}, 500);
+	}
+} catch (e) {
+	// ignore in non-browser contexts
+}
