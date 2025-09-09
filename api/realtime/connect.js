@@ -38,29 +38,44 @@ export default async function handler(req, res) {
     let sessionResponse;
     
     if (existingSessionId) {
-      // Try to add a track to existing session
+      // First check if session exists, then try to add a track
       console.log(`Attempting to join existing session: ${existingSessionId}`);
       try {
-        sessionResponse = await fetch(`https://rtc.live.cloudflare.com/v1/apps/${sfuAppId}/sessions/${existingSessionId}/tracks/new`, {
-          method: 'POST',
+        // First, check if the session exists
+        const sessionCheckResponse = await fetch(`https://rtc.live.cloudflare.com/v1/apps/${sfuAppId}/sessions/${existingSessionId}`, {
+          method: 'GET',
           headers: {
-            'Authorization': `Bearer ${sfuAppToken}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            sessionDescription: sessionDescription,
-            trackName: `user-${userId}-${Date.now()}`
-          })
+            'Authorization': `Bearer ${sfuAppToken}`
+          }
         });
         
-        if (sessionResponse.ok) {
-          console.log(`Successfully joined existing session ${existingSessionId}`);
+        if (sessionCheckResponse.ok) {
+          // Session exists, try to add a track
+          console.log(`Session ${existingSessionId} exists, adding track...`);
+          sessionResponse = await fetch(`https://rtc.live.cloudflare.com/v1/apps/${sfuAppId}/sessions/${existingSessionId}/tracks/new`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${sfuAppToken}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              sessionDescription: sessionDescription,
+              trackName: `user-${userId}-${Date.now()}`
+            })
+          });
+          
+          if (sessionResponse.ok) {
+            console.log(`Successfully joined existing session ${existingSessionId}`);
+          } else {
+            const errorText = await sessionResponse.text();
+            console.log(`Failed to join existing session: ${sessionResponse.status} - ${errorText}`);
+            sessionResponse = null;
+          }
         } else {
-          console.log(`Failed to join existing session, will create new one`);
-          sessionResponse = null;
+          console.log(`Session ${existingSessionId} does not exist, will create new one`);
         }
       } catch (error) {
-        console.log(`Error joining existing session: ${error.message}`);
+        console.log(`Error checking/joining existing session: ${error.message}`);
         sessionResponse = null;
       }
     }
@@ -94,16 +109,21 @@ export default async function handler(req, res) {
     }
 
     const sessionData = await sessionResponse.json();
-    console.log(`Cloudflare SFU: Created session ${sessionData.sessionId} for user ${userId}`);
+    
+    // Determine which session ID we're actually using
+    const actualSessionId = existingSessionId && sessionResponse.status === 200 ? existingSessionId : sessionData.sessionId;
+    
+    console.log(`Cloudflare SFU: User ${userId} connected to session ${actualSessionId}`);
 
     // The response from Cloudflare includes sessionDescription (SDP answer)
     return res.status(200).json({
       success: true,
-      sessionId: sessionData.sessionId, // Use Cloudflare's actual session ID
+      sessionId: actualSessionId, // Use the actual session ID (existing or new)
       userId: userId,
+      joinedExisting: !!existingSessionId && sessionResponse.status === 200,
       // Pass through the session data from Cloudflare
       sessionData: {
-        sessionId: sessionData.sessionId,
+        sessionId: actualSessionId,
         sessionDescription: sessionData.sessionDescription, // SDP answer from Cloudflare
         tracks: sessionData.tracks || [],
         appId: sfuAppId

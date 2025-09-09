@@ -746,11 +746,9 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 		try {
 			console.log('CharacterP2P: Connecting to Cloudflare SFU for cross-device sync...');
 			
-			// First, get or create a shared session ID
-			const sessionInfo = await this._getSharedSession();
-			this._sessionId = sessionInfo.sessionId;
-			
-			console.log('CharacterP2P: Using shared session:', this._sessionId);
+			// Use a fixed session name that all clients will try to join
+			this._sessionId = 'character-sync-shared-session';
+			console.log('CharacterP2P: Using shared session name:', this._sessionId);
 			
 			// Create WebRTC peer connection for the SFU
 			this._pc = new RTCPeerConnection({
@@ -807,7 +805,7 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 			};
 			
 			// Now join the existing session or add a track to it
-			await this._joinCloudflareSession(sessionInfo.sessionId);
+			await this._joinCloudflareSession(this._sessionId);
 			
 		} catch (error) {
 			this._connectionState = 'disconnected';
@@ -819,12 +817,26 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 	 * Get or create a shared session that all devices can join
 	 */
 	static async _getSharedSession() {
-		// Use signaling server to coordinate shared session
-		const response = await fetch('/api/realtime/signaling?room=character-sync');
-		if (!response.ok) {
-			throw new Error(`Failed to get shared session: ${response.status}`);
+		try {
+			console.log('CharacterP2P: Getting shared session from signaling server...');
+			// Use signaling server to coordinate shared session
+			const response = await fetch('/api/realtime/signaling?room=character-sync');
+			if (!response.ok) {
+				console.error('CharacterP2P: Signaling server failed:', response.status);
+				throw new Error(`Failed to get shared session: ${response.status}`);
+			}
+			const result = await response.json();
+			console.log('CharacterP2P: Got shared session from signaling server:', result.sessionId);
+			return result;
+		} catch (error) {
+			console.warn('CharacterP2P: Signaling server unavailable, will use fallback approach:', error.message);
+			// Fallback: use a fixed session name that all clients will use
+			return {
+				sessionId: 'character-sync-shared-session',
+				room: 'character-sync',
+				clients: 0
+			};
 		}
-		return await response.json();
 	}
 	
 	/**
