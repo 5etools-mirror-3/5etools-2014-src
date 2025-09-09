@@ -16,28 +16,34 @@ export default async function handler(req, res) {
 
   try {
     const turnWebRtcKey = process.env.TURN_WEB_RTC;
-    const cfTurnApiKey = process.env.CL_TURN_API_KEY;
+    const cfTurnKeyId = process.env.CL_TURN_KEY_ID;
+    const cfTurnApiToken = process.env.CL_TURN_API_TOKEN;
 
-    if (!turnWebRtcKey && !cfTurnApiKey) {
+    if (!turnWebRtcKey && (!cfTurnKeyId || !cfTurnApiToken)) {
       return res.status(500).json({
         error: 'WebRTC credentials not configured',
-        note: 'Neither TURN_WEB_RTC nor CL_TURN_API_KEY environment variables are set'
+        note: 'Need either TURN_WEB_RTC or both CL_TURN_KEY_ID and CL_TURN_API_TOKEN environment variables'
       });
     }
 
     // Prefer Cloudflare Realtime if available
-    if (cfTurnApiKey) {
+    if (cfTurnKeyId && cfTurnApiToken) {
       try {
-        // Fetch TURN credentials from Cloudflare using correct endpoint
-        const response = await fetch(`https://rtc.live.cloudflare.com/v1/turn/keys/${cfTurnApiKey}/credentials/generate-ice-servers`, {
-          method: 'GET',
+        // Fetch TURN credentials from Cloudflare using exact curl format from docs
+        const response = await fetch(`https://rtc.live.cloudflare.com/v1/turn/keys/${cfTurnKeyId}/credentials/generate-ice-servers`, {
+          method: 'POST',
           headers: {
+            'Authorization': `Bearer ${cfTurnApiToken}`,
             'Content-Type': 'application/json'
-          }
+          },
+          body: JSON.stringify({
+            ttl: 86400
+          })
         });
 
         if (!response.ok) {
-          throw new Error(`Cloudflare API error: ${response.status} ${response.statusText}`);
+          const errorText = await response.text();
+          throw new Error(`Cloudflare API error: ${response.status} ${response.statusText} - ${errorText}`);
         }
 
         const credentials = await response.json();
@@ -47,13 +53,26 @@ export default async function handler(req, res) {
           success: true,
           provider: 'cloudflare',
           iceServers: credentials.iceServers || credentials,
-          signalingUrl: `wss://rtc.live.cloudflare.com/v1/rooms/5etools-characters/websocket?access_token=${cfTurnApiKey}`,
-          expiresAt: Date.now() + (3600 * 1000) // 1 hour from now
+          expiresAt: Date.now() + (86400 * 1000) // 24 hours from now
         });
       } catch (error) {
         console.error('Cloudflare TURN credentials failed:', error);
         // Fall back to TurnWebRTC if Cloudflare fails
       }
+    }
+
+    // Fallback to TurnWebRTC (less reliable)
+    if (turnWebRtcKey) {
+      return res.status(200).json({
+        success: true,
+        provider: 'turnwebrtc',
+        iceServers: [
+          { urls: 'stun:stun.l.google.com:19302' },
+          { urls: 'stun:stun1.l.google.com:19302' }
+        ],
+        signalingUrl: `wss://turnwebrtc.com/api/relay/characters?apikey=${turnWebRtcKey}`,
+        expiresAt: Date.now() + (3600 * 1000) // 1 hour from now
+      });
     }
 
     return res.status(500).json({

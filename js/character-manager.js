@@ -61,15 +61,17 @@ class CharacterP2P {
 		this._lastInitOpts = opts || {};
 
 		try {
-			// Fetch WebRTC credentials from our API endpoint
-			console.info('CharacterP2P: Fetching WebRTC credentials...');
+			// Fetch ICE servers from our API endpoint
+			console.info('CharacterP2P: Fetching ICE servers...');
 			const response = await fetch('/api/webrtc/credentials');
 			if (!response.ok) {
-				throw new Error(`Failed to fetch credentials: ${response.status}`);
+				const errorText = await response.text();
+				throw new Error(`Failed to fetch credentials: ${response.status} ${response.statusText} - ${errorText}`);
 			}
 
 			const credentials = await response.json();
-			console.info('CharacterP2P: Using provider:', credentials.provider);
+			console.info('CharacterP2P: Using ICE servers from:', credentials.provider);
+			console.info('CharacterP2P: ICE servers:', credentials.iceServers);
 
 			// Create RTCPeerConnection with fetched ICE servers
 			if (!this._pc) {
@@ -81,26 +83,20 @@ class CharacterP2P {
 					this._setupDataChannel(ev.channel);
 				};
 
-				// Gather ICE candidates and send via signaling if present
+				// Log ICE candidates for debugging
 				this._pc.onicecandidate = (ev) => {
 					if (!ev.candidate) {
 						console.info('CharacterP2P: ICE gathering complete');
 						return;
 					}
 					console.debug('CharacterP2P: New ICE candidate:', ev.candidate.type, ev.candidate.candidate);
-					if (this._signalingSocket && this._signalingSocket.readyState === WebSocket.OPEN) {
-						const message = this._provider === 'cloudflare' 
-							? { type: 'ice-candidate', candidate: ev.candidate }
-							: { type: 'ice', candidate: ev.candidate, origin: this.clientId };
-						this._signalingSocket.send(JSON.stringify(message));
-					}
 				};
 
 				// Add connection state change logging
 				this._pc.onconnectionstatechange = () => {
 					console.info('CharacterP2P: Connection state:', this._pc.connectionState);
 					if (this._pc.connectionState === 'connected') {
-						console.info('CharacterP2P: WebRTC connection established!');
+						console.info('CharacterP2P: WebRTC P2P connection established!');
 					} else if (this._pc.connectionState === 'failed') {
 						console.warn('CharacterP2P: WebRTC connection failed');
 					}
@@ -111,147 +107,25 @@ class CharacterP2P {
 				};
 			}
 
-			// Store provider info for message formatting
-			this._provider = credentials.provider;
-			this._credentials = credentials;
-
-			// Connect to signaling server
-			const signalingUrl = credentials.signalingUrl;
-			console.info('CharacterP2P: Connecting to signaling URL:', signalingUrl);
-			
-			this._signalingSocket = new WebSocket(signalingUrl);
-			this._signalingSocket.addEventListener('open', () => {
-				console.info('CharacterP2P: Signaling socket connected via', credentials.provider);
-				this._setupWebSocketMessageHandlers();
-
-				// Different join messages for different providers
-				if (credentials.provider === 'cloudflare') {
-					// Cloudflare Realtime join message
-					this._signalingSocket.send(JSON.stringify({ type: 'join' }));
-				} else {
-					// TurnWebRTC ping message
-					this._signalingSocket.send(JSON.stringify({ type: 'ping', origin: this.clientId }));
-				}
-				
-				// Auto-create and send an offer after connection is established
-				setTimeout(async () => {
-					try {
-						if (this._dc && this._dc.readyState === 'open') {
-							console.info('CharacterP2P: Data channel already open, skipping offer');
-							return;
-						}
-						console.info(`CharacterP2P: Creating offer with clientId: ${this.clientId}`);
-						const offer = await this.createOffer();
-						if (this._signalingSocket && this._signalingSocket.readyState === WebSocket.OPEN) {
-							console.info('CharacterP2P: Sending offer to signaling server');
-							const message = credentials.provider === 'cloudflare'
-								? { type: 'offer', offer }
-								: { type: 'offer', offer, origin: this.clientId };
-							this._signalingSocket.send(JSON.stringify(message));
-							this._offered = true;
-						} else {
-							console.warn('CharacterP2P: Signaling socket not ready when trying to send offer');
-						}
-					} catch (e) {
-						console.warn('CharacterP2P: auto-offer failed', e);
-					}
-				}, 1000);
-			});
-
-			this._signalingSocket.addEventListener('error', (ev) => {
-				console.warn('CharacterP2P: signaling socket error', ev);
-				this._signalingSocket = null;
-				console.info('CharacterP2P: operating in manual offer/answer mode.');
-			});
+			console.info('CharacterP2P: Direct P2P WebRTC ready. Use createOffer() and acceptOffer() for manual connection.');
 
 		} catch (error) {
 			console.error('CharacterP2P: Failed to initialize WebRTC:', error);
-			console.info('CharacterP2P: operating in manual offer/answer mode.');
+			console.info('CharacterP2P: Will use basic STUN servers as fallback');
+			
+			// Fallback to basic STUN servers
+			if (!this._pc) {
+				this._pc = new RTCPeerConnection({ 
+					iceServers: [
+						{ urls: 'stun:stun.l.google.com:19302' },
+						{ urls: 'stun:stun1.l.google.com:19302' }
+					]
+				});
+			}
 		}
 	}
 
 
-	/**
-	 * Set up WebSocket message handlers (shared between HTTPS and HTTP connections)
-	 */
-	static _setupWebSocketMessageHandlers() {
-		if (!this._signalingSocket) return;
-
-		this._signalingSocket.addEventListener('message', async (ev) => {
-			try {
-				const msg = JSON.parse(ev.data);
-				console.debug('CharacterP2P: Raw message:', msg);
-
-				// Handle different message formats based on provider
-				if (this._provider === 'cloudflare') {
-					// Cloudflare Realtime message format
-					if (msg.type === 'offer') {
-						console.info('CharacterP2P: Received Cloudflare offer, creating answer...');
-						const answer = await this.acceptOffer(msg.offer);
-						console.info('CharacterP2P: Sending answer back...');
-						this._signalingSocket.send(JSON.stringify({ type: 'answer', answer }));
-					} else if (msg.type === 'answer') {
-						console.info('CharacterP2P: Received Cloudflare answer, setting remote answer...');
-						await this.setRemoteAnswer(msg.answer);
-					} else if (msg.type === 'ice-candidate' && msg.candidate) {
-						console.debug('CharacterP2P: Adding Cloudflare ICE candidate:', msg.candidate.type);
-						try {
-							await this._pc.addIceCandidate(msg.candidate);
-							console.debug('CharacterP2P: ICE candidate added successfully');
-						} catch (e) {
-							console.warn('CharacterP2P: Failed to add ICE candidate:', e.message);
-						}
-					} else if (msg.type === 'join') {
-						console.info('CharacterP2P: Peer joined Cloudflare room');
-					} else if (msg.type === 'leave') {
-						console.info('CharacterP2P: Peer left Cloudflare room');
-					} else {
-						console.debug('CharacterP2P: Unknown Cloudflare message type:', msg.type);
-					}
-				} else {
-					// TurnWebRTC message format
-					console.info('CharacterP2P: Received TurnWebRTC message:', msg.type, 'from:', msg.origin);
-					if (msg.origin === this.clientId) return; // ignore own messages
-					
-					if (msg.type === 'offer') {
-						console.info('CharacterP2P: Received TurnWebRTC offer, creating answer...');
-						const answer = await this.acceptOffer(msg.offer);
-						console.info('CharacterP2P: Sending answer back...');
-						this._signalingSocket.send(JSON.stringify({ type: 'answer', answer, origin: this.clientId }));
-					} else if (msg.type === 'answer') {
-						console.info('CharacterP2P: Received TurnWebRTC answer, setting remote answer...');
-						await this.setRemoteAnswer(msg.answer);
-					} else if (msg.type === 'ice' && msg.candidate) {
-						console.debug('CharacterP2P: Adding TurnWebRTC ICE candidate:', msg.candidate.type);
-						try {
-							await this._pc.addIceCandidate(msg.candidate);
-							console.debug('CharacterP2P: ICE candidate added successfully');
-						} catch (e) {
-							console.warn('CharacterP2P: Failed to add ICE candidate:', e.message);
-						}
-					} else if (msg.type === 'relay' && msg.payload) {
-						try {
-							const payload = msg.payload;
-							if (typeof CharacterManager !== 'undefined' && CharacterManager._handleP2PSync) {
-								CharacterManager._handleP2PSync(payload);
-							}
-						} catch (e) {
-							console.warn('CharacterP2P: error handling relay payload', e);
-						}
-					}
-				}
-			} catch (e) {
-				console.warn('CharacterP2P: error parsing signaling message', e);
-			}
-		});
-
-		this._signalingSocket.addEventListener('close', (ev) => {
-			console.info('CharacterP2P: signaling socket closed', ev);
-			if (typeof document !== 'undefined' && document.visibilityState === 'visible') {
-				this._startPeriodicAnnounce();
-			}
-		});
-	}
 
 
 	static _setupDataChannel(dc) {
@@ -384,7 +258,7 @@ class CharacterP2P {
 	}
 
 	/**
-	 * Send a JSON-serializable object to the connected peer(s).
+	 * Send a JSON-serializable object to the connected peer via data channel.
 	 */
 	static send(obj) {
 		try {
@@ -394,12 +268,7 @@ class CharacterP2P {
 				this._dc.send(str);
 				return true;
 			}
-			// If no datachannel but signaling socket exists, relay via signaling channel (best-effort)
-			if (this._signalingSocket && this._signalingSocket.readyState === WebSocket.OPEN) {
-				this._signalingSocket.send(JSON.stringify({ type: 'relay', payload: payload, origin: this.clientId }));
-				return true;
-			}
-			console.warn('CharacterP2P: no open channel to send message - DC state:', this._dc ? this._dc.readyState : 'null', 'WS state:', this._signalingSocket ? this._signalingSocket.readyState : 'null');
+			console.warn('CharacterP2P: no open data channel to send message - DC state:', this._dc ? this._dc.readyState : 'null');
 			return false;
 		} catch (e) {
 			console.warn('CharacterP2P: send failed', e);
@@ -418,11 +287,6 @@ class CharacterP2P {
 	static getStatus() {
 		return {
 			clientId: this.clientId,
-			signalingSocket: this._signalingSocket ? {
-				ready: this._signalingSocket.readyState === WebSocket.OPEN,
-				state: this._signalingSocket.readyState,
-				url: this._signalingSocket.url
-			} : null,
 			peerConnection: this._pc ? {
 				connectionState: this._pc.connectionState,
 				iceConnectionState: this._pc.iceConnectionState,
@@ -433,31 +297,10 @@ class CharacterP2P {
 				readyState: this._dc.readyState,
 				label: this._dc.label
 			} : null,
-			knownPeers: Array.from(this._knownPeers),
-			offered: this._offered
+			knownPeers: Array.from(this._knownPeers)
 		};
 	}
 
-	/**
-	 * Force attempt to connect (debugging helper)
-	 */
-	static async forceOffer() {
-		if (!this._signalingSocket || this._signalingSocket.readyState !== WebSocket.OPEN) {
-			console.warn('CharacterP2P: Cannot send offer - no signaling connection');
-			return false;
-		}
-		try {
-			console.info('CharacterP2P: Force creating offer...');
-			const offer = await this.createOffer();
-			this._signalingSocket.send(JSON.stringify({ type: 'offer', offer, origin: this.clientId }));
-			this._offered = true;
-			console.info('CharacterP2P: Force offer sent');
-			return true;
-		} catch (e) {
-			console.error('CharacterP2P: Force offer failed:', e);
-			return false;
-		}
-	}
 
 
 }
@@ -468,8 +311,10 @@ globalThis.CharacterP2P = CharacterP2P;
 
 // Expose debugging helpers globally for console testing
 globalThis.p2pStatus = () => CharacterP2P.getStatus();
-globalThis.p2pForceOffer = () => CharacterP2P.forceOffer();
 globalThis.p2pInit = (opts) => CharacterP2P.init(opts);
+globalThis.p2pCreateOffer = () => CharacterP2P.createOffer();
+globalThis.p2pAcceptOffer = (offer) => CharacterP2P.acceptOffer(offer);
+globalThis.p2pSetRemoteAnswer = (answer) => CharacterP2P.setRemoteAnswer(answer);
 
 class CharacterManager {
 	static _instance = null;
