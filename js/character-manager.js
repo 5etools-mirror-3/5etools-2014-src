@@ -752,6 +752,16 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 				this._connectionState = 'connected';
 				this._reconnectAttempts = 0;
 				
+				// Send test message to verify communication
+				setTimeout(() => {
+					console.log('CharacterP2P: Sending test message...');
+					this._sendMessage({
+						type: 'TEST_MESSAGE',
+						userId: this.clientId,
+						message: 'Hello from ' + this.clientId
+					});
+				}, 1000);
+				
 				// Announce presence
 				this._sendMessage({
 					type: 'USER_JOINED',
@@ -863,6 +873,10 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 				}
 				break;
 				
+			case 'TEST_MESSAGE':
+				console.log('CharacterP2P: Received test message:', data.message);
+				break;
+				
 			case 'HEARTBEAT':
 				// Heartbeat from another user, ignore
 				break;
@@ -882,8 +896,11 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 				userId: this.clientId,
 				timestamp: Date.now()
 			};
+			console.log('CharacterP2P: Sending message:', data.type, 'to session:', this._sessionId);
 			this._dc.send(JSON.stringify(message));
 			return true;
+		} else {
+			console.warn('CharacterP2P: Cannot send message, data channel not open. State:', this._dc ? this._dc.readyState : 'null');
 		}
 		return false;
 	}

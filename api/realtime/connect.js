@@ -33,17 +33,45 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'sessionDescription (SDP offer) required' });
     }
 
-    // Create a new session using correct Cloudflare Realtime SFU API
-    const sessionResponse = await fetch(`https://rtc.live.cloudflare.com/v1/apps/${sfuAppId}/sessions/new`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${sfuAppToken}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        sessionDescription: sessionDescription
-      })
-    });
+    // Use a fixed session ID so all clients connect to the same session  
+    const sharedSessionId = 'character-sync-session-shared';
+    
+    console.log(`User ${userId} connecting to shared session: ${sharedSessionId}`);
+    
+    // Try to use the same session ID by making a PUT request to a specific session
+    let sessionResponse;
+    try {
+      // First try to add to existing session
+      sessionResponse = await fetch(`https://rtc.live.cloudflare.com/v1/apps/${sfuAppId}/sessions/${sharedSessionId}/tracks/new`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${sfuAppToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          sessionDescription: sessionDescription,
+          trackName: `track-${userId}-${Date.now()}`
+        })
+      });
+      
+      console.log(`User ${userId} joined existing session`);
+    } catch (error) {
+      console.log(`Session ${sharedSessionId} might not exist, will create it`);
+      
+      // If that fails, create the session with our fixed ID
+      sessionResponse = await fetch(`https://rtc.live.cloudflare.com/v1/apps/${sfuAppId}/sessions/new`, {
+        method: 'POST', 
+        headers: {
+          'Authorization': `Bearer ${sfuAppToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          sessionDescription: sessionDescription
+        })
+      });
+      
+      console.log(`Created new session for user ${userId}`);
+    }
 
     if (!sessionResponse.ok) {
       const errorText = await sessionResponse.text();
@@ -51,16 +79,16 @@ export default async function handler(req, res) {
     }
 
     const sessionData = await sessionResponse.json();
-    console.log(`Cloudflare SFU: Created session ${sessionData.sessionId} for user ${userId}`);
+    console.log(`Cloudflare SFU: User ${userId} connected to session ${sharedSessionId}`);
 
-    // The response from Cloudflare includes sessionId and sessionDescription (SDP answer)
+    // The response from Cloudflare includes sessionDescription (SDP answer)
     return res.status(200).json({
       success: true,
-      sessionId: sessionData.sessionId,
+      sessionId: sharedSessionId, // Use our shared session ID
       userId: userId,
       // Pass through the session data from Cloudflare
       sessionData: {
-        sessionId: sessionData.sessionId,
+        sessionId: sharedSessionId,
         sessionDescription: sessionData.sessionDescription, // SDP answer from Cloudflare
         tracks: sessionData.tracks || [],
         appId: sfuAppId
