@@ -293,15 +293,12 @@ class DiceBoxManager {
 			total: diceTotal + modifierTotal,
 			notation: originalNotation,
 			individual: diceResults,
-			rollId
+			rollId,
+			// Add method to trigger fade after results are processed
+			startFadeCountdown: () => this._waitForSettlingThenFade(rollId)
 		};
 
-		// Wait for dice to settle before starting fade countdown
-		if (results.individual && results.individual.length > 0) {
-			this._waitForSettlingThenFade(rollId);
-		} else {
-			this._waitForSettlingThenFade(rollId);
-		}
+		// DON'T start fade countdown here - let the caller do it after processing results
 
 		return results;
 	}
@@ -320,13 +317,11 @@ class DiceBoxManager {
 		// Process results immediately - don't wait for settling
 		const results = this._processRollResults(rollResult, originalNotation);
 		results.rollId = rollId; // Add roll ID to results
+		
+		// Add method to trigger fade after results are processed
+		results.startFadeCountdown = () => this._waitForSettlingThenFade(rollId);
 
-		// Wait for dice to settle before starting fade countdown
-		if (results && results.individual && results.individual.length > 0) {
-			this._waitForSettlingThenFade(rollId);
-		} else {
-			this._waitForSettlingThenFade(rollId);
-		}
+		// DON'T start fade countdown here - let the caller do it after processing results
 
 		return results;
 	}
@@ -439,6 +434,8 @@ class DiceBoxManager {
 
 	/**
 	 * Wait for dice to settle by monitoring their movement, then start fade countdown
+	 * This method is now called AFTER results are processed by the dice renderer,
+	 * ensuring users see the final result before the dice fade away.
 	 * @param {string} rollId - The roll ID to fade after settling
 	 */
 	static _waitForSettlingThenFade(rollId) {

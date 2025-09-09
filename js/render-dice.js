@@ -470,6 +470,14 @@ Renderer.dice = {
 			preRolled.push({val: RollerUtil.randomise(wantedFaces), faces: wantedFaces});
 		}
 
+		// Now that we've processed the dice results, trigger the fade countdown
+		if (rollResult && typeof rollResult.startFadeCountdown === 'function') {
+			// Add a small delay to ensure the results are fully processed and displayed
+			setTimeout(() => {
+				rollResult.startFadeCountdown();
+			}, 100); // 100ms delay to ensure UI updates are complete
+		}
+
 		// Determine crit/fumble based on the evaluator-used dice (respecting modifiers like dl1/dh1)
 		try {
 			let hasNat20 = false;

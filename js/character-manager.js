@@ -38,6 +38,10 @@ class CharacterP2P {
 	static _connectionState = 'disconnected'; // disconnected, connecting, connected
 	static _autoDiscoveryInterval = null;
 	static _autoDiscoveryTimeout = 2000; // 2 seconds
+	
+	// WebRTC credentials caching
+	static _CREDENTIALS_CACHE_KEY = 'CharacterP2P_WebRTC_Credentials';
+	static _CREDENTIALS_CACHE_TTL = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
 
 	static _startPeriodicAnnounce() {
 		if (this._announceTimer) return;
@@ -96,23 +100,33 @@ class CharacterP2P {
 	}
 
 	/**
-	 * Start automatic peer discovery
+	 * Start automatic peer discovery (local tabs + local network)
 	 */
 	static _startAutoDiscovery() {
 		if (this._autoDiscoveryInterval) {
 			return;
 		}
 
-		console.info('CharacterP2P: Starting automatic peer discovery...');
+		console.info('CharacterP2P: Starting automatic peer discovery (local network)...');
 		this._setupBroadcastChannel();
 
-		// Send initial discovery message
+		// Send initial discovery message for local tabs
 		this._sendDiscoveryMessage();
+		
+		// Start local network discovery
+		this._startLocalNetworkDiscovery();
 
 		// Set up periodic discovery messages
 		this._autoDiscoveryInterval = setInterval(() => {
 			if (this._connectionState === 'disconnected') {
 				this._sendDiscoveryMessage();
+				this._attemptLocalNetworkConnections();
+				this._checkLocalNetworkMessages(); // Check for local network signaling
+			}
+		}, this._autoDiscoveryTimeout);
+	}
+				this._checkForCrossMachinePeers(); // Check for cross-machine peers
+				this._checkForHttpMessages(); // Check for cross-machine offers/answers
 			}
 		}, this._autoDiscoveryTimeout);
 	}
@@ -128,9 +142,10 @@ class CharacterP2P {
 	}
 
 	/**
-	 * Send discovery message to other tabs
+	 * Send discovery message to other tabs and register for cross-machine signaling
 	 */
 	static _sendDiscoveryMessage() {
+		// Send to local tabs via BroadcastChannel
 		if (this._broadcastChannel) {
 			this._broadcastChannel.postMessage({
 				type: 'PEER_DISCOVERY',
@@ -139,7 +154,413 @@ class CharacterP2P {
 				timestamp: Date.now()
 			});
 		}
+		
+		// Also register for cross-machine signaling (non-blocking)
+		this._registerForSignaling().catch(() => {});
 	}
+
+	/**
+	 * Get cached WebRTC credentials from localStorage
+	 * @returns {Object|null} Cached credentials or null if expired/not found
+	 */
+	static _getCachedCredentials() {
+		try {
+			const cached = localStorage.getItem(this._CREDENTIALS_CACHE_KEY);
+			if (!cached) {
+				return null;
+			}
+
+			const data = JSON.parse(cached);
+			const now = Date.now();
+
+			// Check if credentials are still valid
+			if (now - data.timestamp > this._CREDENTIALS_CACHE_TTL) {
+				console.info('CharacterP2P: Cached credentials expired, will fetch new ones');
+				localStorage.removeItem(this._CREDENTIALS_CACHE_KEY);
+				return null;
+			}
+
+			console.info('CharacterP2P: Using cached WebRTC credentials from:', data.credentials.provider);
+			return data.credentials;
+
+		} catch (error) {
+			console.warn('CharacterP2P: Error reading cached credentials:', error);
+			localStorage.removeItem(this._CREDENTIALS_CACHE_KEY);
+			return null;
+		}
+	}
+
+	/**
+	 * Cache WebRTC credentials in localStorage
+	 * @param {Object} credentials - The credentials object to cache
+	 */
+	static _cacheCredentials(credentials) {
+		try {
+			const cacheData = {
+				credentials: credentials,
+				timestamp: Date.now()
+			};
+
+			localStorage.setItem(this._CREDENTIALS_CACHE_KEY, JSON.stringify(cacheData));
+			console.info('CharacterP2P: Cached WebRTC credentials for 4 hours');
+
+		} catch (error) {
+			console.warn('CharacterP2P: Failed to cache credentials:', error);
+		}
+	}
+
+	/**
+	 * Clear cached WebRTC credentials
+	 */
+	static _clearCachedCredentials() {
+		try {
+			localStorage.removeItem(this._CREDENTIALS_CACHE_KEY);
+			console.info('CharacterP2P: Cleared cached credentials');
+		} catch (error) {
+			console.warn('CharacterP2P: Error clearing cached credentials:', error);
+		}
+	}
+	
+	/**
+	 * Start local network discovery using browser-based techniques
+	 */
+	static _startLocalNetworkDiscovery() {
+		// Use localStorage as a cross-origin local network signal
+		// This works when multiple devices access the same local server
+		this._registerLocalNetworkPresence();
+		
+		// Set up WebRTC-based local network scanning
+		this._setupLocalNetworkScanning();
+	}
+	
+	/**
+	 * Register our presence for local network discovery
+	 */
+	static _registerLocalNetworkPresence() {
+		try {
+			const networkPeers = JSON.parse(localStorage.getItem('character_p2p_local_peers') || '[]');
+			
+			// Add or update our entry
+			const ourEntry = {
+				clientId: this.clientId,
+				timestamp: Date.now(),
+				userAgent: navigator.userAgent.substring(0, 100), // For identification
+				connectionState: this._connectionState
+			};
+			
+			// Remove old entries (older than 30 seconds) and our old entries
+			const cutoff = Date.now() - 30000;
+			const cleanedPeers = networkPeers.filter(peer => 
+				peer.timestamp > cutoff && peer.clientId !== this.clientId
+			);
+			
+			// Add our current entry
+			cleanedPeers.push(ourEntry);
+			
+			localStorage.setItem('character_p2p_local_peers', JSON.stringify(cleanedPeers));
+			console.debug(`CharacterP2P: Registered local network presence (${cleanedPeers.length} total peers)`);
+		} catch (error) {
+			console.debug('CharacterP2P: Local network presence registration failed:', error.message);
+		}
+	}
+	
+	/**
+	 * Set up WebRTC-based local network scanning
+	 */
+	static _setupLocalNetworkScanning() {
+		// This creates temporary peer connections to discover local network interfaces
+		// and helps WebRTC understand the local network topology
+		try {
+			const tempPc = new RTCPeerConnection({
+				iceServers: [
+					{ urls: 'stun:stun.l.google.com:19302' } // Basic STUN for local discovery
+				]
+			});
+			
+			// Create a temporary data channel to trigger ICE gathering
+			const tempDc = tempPc.createDataChannel('discovery', { ordered: false });
+			
+			tempPc.onicecandidate = (event) => {
+				if (event.candidate) {
+					const candidate = event.candidate;
+					// Log local network candidates for debugging
+					if (candidate.candidate.includes('typ host')) {
+						console.debug('CharacterP2P: Found local network interface:', 
+							candidate.candidate.split(' ')[4], // IP address
+							candidate.candidate.split(' ')[5]  // Port
+						);
+					}
+				}
+			};
+			
+			// Create offer to start ICE gathering
+			tempPc.createOffer().then(offer => {
+				return tempPc.setLocalDescription(offer);
+			}).then(() => {
+				// Clean up after 5 seconds
+				setTimeout(() => {
+					tempPc.close();
+				}, 5000);
+			}).catch(error => {
+				console.debug('CharacterP2P: Local network scanning failed:', error.message);
+				tempPc.close();
+			});
+		} catch (error) {
+			console.debug('CharacterP2P: WebRTC local network scanning not available:', error.message);
+		}
+	}
+	
+	/**
+	 * Attempt to connect to local network peers
+	 */
+	static _attemptLocalNetworkConnections() {
+		try {
+			// Update our presence
+			this._registerLocalNetworkPresence();
+			
+			// Check for other local peers
+			const networkPeers = JSON.parse(localStorage.getItem('character_p2p_local_peers') || '[]');
+			const availablePeers = networkPeers.filter(peer => 
+				peer.clientId !== this.clientId && 
+				peer.connectionState === 'disconnected' &&
+				!this._knownPeers.has(peer.clientId)
+			);
+			
+			if (availablePeers.length > 0) {
+				console.info(`CharacterP2P: Found ${availablePeers.length} local network peer(s)`);
+				
+				// Try to connect to peers (use clientId comparison to avoid duplicate connections)
+				for (const peer of availablePeers) {
+					if (this.clientId > peer.clientId) {
+						console.info(`CharacterP2P: Attempting local network connection to ${peer.clientId}`);
+						this._knownPeers.add(peer.clientId);
+						
+						// Create connection using localStorage signaling
+						this._connectionState = 'connecting';
+						this._isInitiator = true;
+						this._createLocalNetworkOffer(peer.clientId);
+					}
+				}
+			}
+		} catch (error) {
+		console.debug('CharacterP2P: Local network connection attempt failed:', error.message);
+		}
+	}
+	
+	/**
+	 * Create and send offer for local network connection using localStorage signaling
+	 */
+	static async _createLocalNetworkOffer(targetClientId) {
+		try {
+			if (!this._pc) {
+				await this.init();
+			}
+
+			// Create data channel (we're the initiator)
+			const dc = this._pc.createDataChannel('character-sync', {
+				ordered: true,
+				maxRetransmits: 3
+			});
+			this._setupDataChannel(dc);
+
+			console.info('CharacterP2P: Creating local network offer for', targetClientId);
+			const offer = await this._pc.createOffer();
+			await this._pc.setLocalDescription(offer);
+
+			// Wait for ICE candidates to be gathered
+			await new Promise(resolve => {
+				if (this._pc.iceGatheringState === 'complete') {
+					resolve();
+				} else {
+					const timeout = setTimeout(resolve, 3000); // Wait up to 3 seconds
+					const onicechange = () => {
+						if (this._pc.iceGatheringState === 'complete') {
+							clearTimeout(timeout);
+							this._pc.removeEventListener('icegatheringstatechange', onicechange);
+							resolve();
+						}
+					};
+					this._pc.addEventListener('icegatheringstatechange', onicechange);
+				}
+			});
+
+			// Store offer in localStorage for target peer to find
+			const offerMessage = {
+				type: 'OFFER',
+				from: this.clientId,
+				to: targetClientId,
+				offer: this._pc.localDescription,
+				timestamp: Date.now(),
+				id: `offer_${this.clientId}_${targetClientId}_${Date.now()}`
+			};
+			
+			this._storeLocalNetworkMessage(offerMessage);
+			console.info('CharacterP2P: Local network offer sent to', targetClientId);
+
+		} catch (error) {
+			console.error('CharacterP2P: Error creating local network offer:', error);
+			this._connectionState = 'disconnected';
+		}
+	}
+	
+	/**
+	 * Store signaling message in localStorage for local network peers
+	 */
+	static _storeLocalNetworkMessage(message) {
+		try {
+			const messages = JSON.parse(localStorage.getItem('character_p2p_local_messages') || '[]');
+			
+			// Clean old messages (older than 1 minute)
+			const cutoff = Date.now() - 60000;
+			const cleanMessages = messages.filter(msg => msg.timestamp > cutoff);
+			
+			// Add new message
+			cleanMessages.push(message);
+			
+			localStorage.setItem('character_p2p_local_messages', JSON.stringify(cleanMessages));
+		} catch (error) {
+			console.debug('CharacterP2P: Failed to store local network message:', error.message);
+		}
+	}
+	
+	/**
+	 * Check for local network signaling messages addressed to us
+	 */
+	static _checkLocalNetworkMessages() {
+		try {
+			const messages = JSON.parse(localStorage.getItem('character_p2p_local_messages') || '[]');
+			const ourMessages = messages.filter(msg => msg.to === this.clientId && msg.from !== this.clientId);
+			
+			for (const message of ourMessages) {
+				// Process message and then remove it
+				this._handleLocalNetworkMessage(message);
+				this._removeLocalNetworkMessage(message.id);
+			}
+		} catch (error) {
+			console.debug('CharacterP2P: Failed to check local network messages:', error.message);
+		}
+	}
+	
+	/**
+	 * Remove processed message from localStorage
+	 */
+	static _removeLocalNetworkMessage(messageId) {
+		try {
+			const messages = JSON.parse(localStorage.getItem('character_p2p_local_messages') || '[]');
+			const filteredMessages = messages.filter(msg => msg.id !== messageId);
+			localStorage.setItem('character_p2p_local_messages', JSON.stringify(filteredMessages));
+		} catch (error) {
+			console.debug('CharacterP2P: Failed to remove local network message:', error.message);
+		}
+	}
+	
+	/**
+	 * Handle local network signaling messages
+	 */
+	static async _handleLocalNetworkMessage(message) {
+		try {
+			console.info(`CharacterP2P: Received local network ${message.type} from ${message.from}`);
+			
+			switch (message.type) {
+				case 'OFFER':
+					await this._handleLocalNetworkOffer(message);
+					break;
+				case 'ANSWER':
+					await this._handleLocalNetworkAnswer(message);
+					break;
+				case 'ICE_CANDIDATE':
+					await this._handleLocalNetworkIceCandidate(message);
+					break;
+			}
+		} catch (error) {
+			console.error('CharacterP2P: Error handling local network message:', error);
+		}
+	}
+	
+	/**
+	 * Handle local network offer
+	 */
+	static async _handleLocalNetworkOffer(message) {
+		if (this._connectionState !== 'disconnected') {
+			console.debug('CharacterP2P: Ignoring local network offer, already connecting/connected');
+			return;
+		}
+
+		this._connectionState = 'connecting';
+		this._isInitiator = false;
+
+		if (!this._pc) {
+			await this.init();
+		}
+
+		// Set remote description
+		await this._pc.setRemoteDescription(message.offer);
+
+		// Create answer
+		const answer = await this._pc.createAnswer();
+		await this._pc.setLocalDescription(answer);
+
+		// Wait for ICE candidates
+		await new Promise(resolve => setTimeout(resolve, 500));
+
+		// Send answer back via localStorage
+		const answerMessage = {
+			type: 'ANSWER',
+			from: this.clientId,
+			to: message.from,
+			answer: this._pc.localDescription,
+			timestamp: Date.now(),
+			id: `answer_${this.clientId}_${message.from}_${Date.now()}`
+		};
+
+		this._storeLocalNetworkMessage(answerMessage);
+		console.info('CharacterP2P: Local network answer sent to', message.from);
+	}
+	
+	/**
+	 * Handle local network answer
+	 */
+	static async _handleLocalNetworkAnswer(message) {
+		if (!this._pc) {
+			console.error('CharacterP2P: No peer connection to handle local network answer');
+			return;
+		}
+
+		await this._pc.setRemoteDescription(message.answer);
+		console.info('CharacterP2P: Local network connection setup complete with', message.from);
+	}
+	
+	/**
+	 * Handle local network ICE candidate
+	 */
+	static async _handleLocalNetworkIceCandidate(message) {
+		if (!this._pc) {
+			return;
+		}
+
+	await this._pc.addIceCandidate(message.candidate);
+	console.debug('CharacterP2P: Added local network ICE candidate from', message.from);
+}
+
+/**
+ * Send ICE candidate via localStorage for local network connections
+ */
+static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
+	try {
+		const iceCandidateMessage = {
+			type: 'ICE_CANDIDATE',
+			from: this.clientId,
+			to: targetClientId || 'broadcast', // Send to specific peer or broadcast
+			candidate: candidate,
+			timestamp: Date.now(),
+			id: `ice_${this.clientId}_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`
+		};
+		
+		this._storeLocalNetworkMessage(iceCandidateMessage);
+	} catch (error) {
+		console.debug('CharacterP2P: Failed to send local network ICE candidate:', error.message);
+	}
+}
 
 	/**
 	 * Handle peer discovery message from another tab
@@ -316,17 +737,26 @@ class CharacterP2P {
 		// remember opts so reconnect attempts can re-use them
 		this._lastInitOpts = opts || {};
 
-		try {
-			// Fetch ICE servers from our API endpoint
-			console.info('CharacterP2P: Fetching ICE servers...');
-			const response = await fetch('/api/webrtc/credentials');
-			if (!response.ok) {
-				const errorText = await response.text();
-				throw new Error(`Failed to fetch credentials: ${response.status} ${response.statusText} - ${errorText}`);
-			}
+	try {
+			// Try to get cached credentials first
+			let credentials = this._getCachedCredentials();
+			
+			if (!credentials) {
+				// Fetch ICE servers from our API endpoint
+				console.info('CharacterP2P: Fetching fresh ICE servers from API...');
+				const response = await fetch('/api/webrtc/credentials');
+				if (!response.ok) {
+					const errorText = await response.text();
+					throw new Error(`Failed to fetch credentials: ${response.status} ${response.statusText} - ${errorText}`);
+				}
 
-			const credentials = await response.json();
-			console.info('CharacterP2P: Using ICE servers from:', credentials.provider);
+				credentials = await response.json();
+				console.info('CharacterP2P: Fetched fresh ICE servers from:', credentials.provider);
+				
+				// Cache the fresh credentials
+				this._cacheCredentials(credentials);
+			}
+			
 			console.info('CharacterP2P: ICE servers:', credentials.iceServers);
 
 			// Create RTCPeerConnection with fetched ICE servers
@@ -339,7 +769,7 @@ class CharacterP2P {
 					this._setupDataChannel(ev.channel);
 				};
 
-				// Handle ICE candidates and send them to other tabs
+				// Handle ICE candidates and send them to other tabs and HTTP peers
 				this._pc.onicecandidate = (ev) => {
 					if (!ev.candidate) {
 						console.info('CharacterP2P: ICE gathering complete');
@@ -356,6 +786,9 @@ class CharacterP2P {
 							timestamp: Date.now()
 						});
 					}
+					
+					// Also send ICE candidate via localStorage for local network connections
+					this._sendLocalNetworkIceCandidate(ev.candidate);
 				};
 
 				// Add connection state change logging
@@ -404,14 +837,17 @@ class CharacterP2P {
 					}
 					console.debug('CharacterP2P: New ICE candidate:', ev.candidate.type, ev.candidate.candidate);
 					
-					if (this._broadcastChannel) {
-						this._broadcastChannel.postMessage({
-							type: 'ICE_CANDIDATE',
-							clientId: this.clientId,
-							candidate: ev.candidate,
-							timestamp: Date.now()
-						});
-					}
+				if (this._broadcastChannel) {
+					this._broadcastChannel.postMessage({
+						type: 'ICE_CANDIDATE',
+						clientId: this.clientId,
+						candidate: ev.candidate,
+						timestamp: Date.now()
+					});
+				}
+				
+				// Also send ICE candidate via localStorage for local network connections
+				this._sendLocalNetworkIceCandidate(ev.candidate);
 				};
 				
 				this._pc.onconnectionstatechange = () => {
