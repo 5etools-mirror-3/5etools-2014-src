@@ -24,23 +24,20 @@ export default async function handler(req, res) {
     }
 
     const { userId } = req.body;
-    
+
     if (!userId) {
       return res.status(400).json({ error: 'userId required' });
     }
 
-    // Create or join a session for character sync
-    const sessionName = 'character-sync-session';
-    
-    // Use Cloudflare Calls API to create/join session
-    const sessionResponse = await fetch(`https://rtc.live.cloudflare.com/v1/apps/${sfuAppId}/sessions/${sessionName}`, {
-      method: 'PUT',
+    // Create a new session using correct Cloudflare Realtime SFU API
+    const sessionResponse = await fetch(`https://rtc.live.cloudflare.com/v1/apps/${sfuAppId}/sessions/new`, {
+      method: 'POST',
       headers: {
         'Authorization': `Bearer ${sfuAppToken}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        // Session configuration
+        // Session configuration for character sync
       })
     });
 
@@ -50,15 +47,20 @@ export default async function handler(req, res) {
     }
 
     const sessionData = await sessionResponse.json();
-    console.log(`Cloudflare SFU: User ${userId} connected to session`);
+    console.log(`Cloudflare SFU: Created session ${sessionData.sessionId} for user ${userId}`);
 
+    // The response from Cloudflare includes sessionId, offer, tracks etc.
     return res.status(200).json({
       success: true,
-      sessionId: sessionName,
-      connectionInfo: {
-        appId: sfuAppId,
-        sessionName: sessionName,
-        // Don't expose the token to client
+      sessionId: sessionData.sessionId,
+      userId: userId,
+      // Pass through the session data from Cloudflare
+      sessionData: {
+        sessionId: sessionData.sessionId,
+        offer: sessionData.offer,
+        tracks: sessionData.tracks || [],
+        appId: sfuAppId
+        // Don't expose the secret token to client
       }
     });
 
