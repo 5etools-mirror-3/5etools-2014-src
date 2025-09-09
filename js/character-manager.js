@@ -4,44 +4,28 @@
  */
 
 /*
- * Lightweight WebRTC P2P manager for character sync.
- * - Creates an RTCPeerConnection and DataChannel named "character-sync"
- * - Supports optional WebSocket signaling (provide signalingUrl) or manual copy/paste of offer/answer
- * - Sends/receives JSON messages; on receive, calls CharacterManager._handleP2PSync if available
+ * Cloudflare Real-time Character Sync
+ * - Connects all users to a shared session via Cloudflare SFU
+ * - Automatically broadcasts character updates to all connected users
+ * - No WebRTC complexity - just works across all devices and networks
+ * - Uses SFU_APP_ID and SFU_APP_TOKEN environment variables
  *
  * Usage:
- *  CharacterP2P.init({ signalingUrl: 'ws://192.168.1.10:9000' }); // optional
- *  // Or manual flow:
- *  const offer = await CharacterP2P.createOffer(); // paste to other peer
- *  await CharacterP2P.acceptOffer(remoteOffer); // returns answer to paste
- *  await CharacterP2P.setRemoteAnswer(remoteAnswer);
- *  CharacterP2P.send({ type: 'CHARACTER_UPDATED', character: {...} });
+ *  CharacterP2P.init(); // Automatically connects to Cloudflare session
+ *  // Character updates are automatically broadcast to all users
  */
 
 class CharacterP2P {
-	static _pc = null;
-	static _dc = null;
-	static _signalingSocket = null;
-	static _lastInitOpts = null;
+	static _ws = null;
+	static _sessionId = null;
 	static clientId = Math.random().toString(36).slice(2, 10);
 	static _onOpen = [];
-	static _knownPeers = new Set();
+	static _connectionState = 'disconnected'; // disconnected, connecting, connected
 	static _reconnectAttempts = 0;
 	static _reconnectTimer = null;
-	static _maxReconnectAttempts = 6;
-	static _announceTimer = null;
-	static _announceInterval = 30 * 1000; // 30s
-	
-	// New properties for automatic connection
-	static _broadcastChannel = null;
-	static _isInitiator = false;
-	static _connectionState = 'disconnected'; // disconnected, connecting, connected
-	static _autoDiscoveryInterval = null;
-	static _autoDiscoveryTimeout = 2000; // 2 seconds
-	
-	// WebRTC credentials caching
-	static _CREDENTIALS_CACHE_KEY = 'CharacterP2P_WebRTC_Credentials';
-	static _CREDENTIALS_CACHE_TTL = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
+	static _maxReconnectAttempts = 5;
+	static _connectedUsers = new Set();
+	static _heartbeatInterval = null;
 
 	static _startPeriodicAnnounce() {
 		if (this._announceTimer) return;
@@ -122,11 +106,6 @@ class CharacterP2P {
 				this._sendDiscoveryMessage();
 				this._attemptLocalNetworkConnections();
 				this._checkLocalNetworkMessages(); // Check for local network signaling
-			}
-		}, this._autoDiscoveryTimeout);
-	}
-				this._checkForCrossMachinePeers(); // Check for cross-machine peers
-				this._checkForHttpMessages(); // Check for cross-machine offers/answers
 			}
 		}, this._autoDiscoveryTimeout);
 	}
@@ -730,375 +709,335 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 
 
 	/**
-	 * Initialize WebRTC connection with Cloudflare Realtime or fallback providers.
-	 * @param {{}} opts - Options (unused, kept for compatibility)
+	 * Initialize Cloudflare real-time connection for character sync.
+	 * Connects to a shared session where all users can receive character updates.
 	 */
-	static async init(opts = {}) {
-		// remember opts so reconnect attempts can re-use them
-		this._lastInitOpts = opts || {};
-
-	try {
-			// Try to get cached credentials first
-			let credentials = this._getCachedCredentials();
-			
-			if (!credentials) {
-				// Fetch ICE servers from our API endpoint
-				console.info('CharacterP2P: Fetching fresh ICE servers from API...');
-				const response = await fetch('/api/webrtc/credentials');
-				if (!response.ok) {
-					const errorText = await response.text();
-					throw new Error(`Failed to fetch credentials: ${response.status} ${response.statusText} - ${errorText}`);
-				}
-
-				credentials = await response.json();
-				console.info('CharacterP2P: Fetched fresh ICE servers from:', credentials.provider);
-				
-				// Cache the fresh credentials
-				this._cacheCredentials(credentials);
-			}
-			
-			console.info('CharacterP2P: ICE servers:', credentials.iceServers);
-
-			// Create RTCPeerConnection with fetched ICE servers
-			if (!this._pc) {
-				this._pc = new RTCPeerConnection({ iceServers: credentials.iceServers });
-
-				// Handle remote datachannel (incoming)
-				this._pc.ondatachannel = (ev) => {
-					console.info('CharacterP2P: Received remote data channel');
-					this._setupDataChannel(ev.channel);
-				};
-
-				// Handle ICE candidates and send them to other tabs and HTTP peers
-				this._pc.onicecandidate = (ev) => {
-					if (!ev.candidate) {
-						console.info('CharacterP2P: ICE gathering complete');
-						return;
-					}
-					console.debug('CharacterP2P: New ICE candidate:', ev.candidate.type, ev.candidate.candidate);
-					
-					// Send ICE candidate to other tabs via BroadcastChannel
-					if (this._broadcastChannel) {
-						this._broadcastChannel.postMessage({
-							type: 'ICE_CANDIDATE',
-							clientId: this.clientId,
-							candidate: ev.candidate,
-							timestamp: Date.now()
-						});
-					}
-					
-					// Also send ICE candidate via localStorage for local network connections
-					this._sendLocalNetworkIceCandidate(ev.candidate);
-				};
-
-				// Add connection state change logging
-				this._pc.onconnectionstatechange = () => {
-					console.info('CharacterP2P: Connection state:', this._pc.connectionState);
-					if (this._pc.connectionState === 'connected') {
-						console.info('CharacterP2P: WebRTC P2P connection established!');
-					} else if (this._pc.connectionState === 'failed') {
-						console.warn('CharacterP2P: WebRTC connection failed');
-					}
-				};
-
-				this._pc.oniceconnectionstatechange = () => {
-					console.info('CharacterP2P: ICE connection state:', this._pc.iceConnectionState);
-				};
-			}
-
-			console.info('CharacterP2P: Direct P2P WebRTC ready. Starting automatic peer discovery...');
-			
-			// Start automatic peer discovery
-			this._startAutoDiscovery();
-
+	static async init() {
+		console.log('CharacterP2P: Connecting to Cloudflare real-time session...');
+		
+		try {
+			// Connect to Cloudflare session
+			await this._connectToCloudflare();
 		} catch (error) {
-			console.error('CharacterP2P: Failed to initialize WebRTC:', error);
-			console.info('CharacterP2P: Will use basic STUN servers as fallback');
+			console.error('CharacterP2P: Failed to connect to Cloudflare:', error);
+			this._scheduleReconnect();
+		}
+	}
+	
+	/**
+	 * Connect to Cloudflare real-time session
+	 */
+	static async _connectToCloudflare() {
+		this._connectionState = 'connecting';
+		
+		try {
+			// Get connection info from our API
+			const response = await fetch('/api/realtime/connect', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ userId: this.clientId })
+			});
 			
-			// Fallback to basic STUN servers
-			if (!this._pc) {
-				this._pc = new RTCPeerConnection({ 
-					iceServers: [
-						{ urls: 'stun:stun.l.google.com:19302' },
-						{ urls: 'stun:stun1.l.google.com:19302' }
-					]
+			if (!response.ok) {
+				throw new Error(`Connection failed: ${response.status}`);
+			}
+			
+			const connectionInfo = await response.json();
+			this._sessionId = connectionInfo.sessionId;
+			
+			// Connect via WebSocket to Cloudflare
+			const wsUrl = `wss://rtc.live.cloudflare.com/v1/apps/${connectionInfo.connectionInfo.appId}/sessions/${connectionInfo.sessionId}/websocket`;
+			this._ws = new WebSocket(wsUrl);
+			
+			this._ws.onopen = () => {
+				console.log('CharacterP2P: Connected to Cloudflare session');
+				this._connectionState = 'connected';
+				this._reconnectAttempts = 0;
+				
+				// Start heartbeat
+				this._startHeartbeat();
+				
+				// Announce presence
+				this._sendMessage({
+					type: 'USER_JOINED',
+					userId: this.clientId
 				});
 				
-				// Set up the same event handlers for fallback connection
-				this._pc.ondatachannel = (ev) => {
-					console.info('CharacterP2P: Received remote data channel');
-					this._setupDataChannel(ev.channel);
-				};
+				// Notify listeners
+				this._onOpen.forEach(fn => fn());
+				this._onOpen = [];
+			};
+			
+			this._ws.onmessage = (event) => {
+				try {
+					const data = JSON.parse(event.data);
+					this._handleMessage(data);
+				} catch (error) {
+					console.warn('CharacterP2P: Failed to parse message:', error);
+				}
+			};
+			
+			this._ws.onclose = () => {
+				console.log('CharacterP2P: Connection closed');
+				this._connectionState = 'disconnected';
+				this._stopHeartbeat();
+				this._scheduleReconnect();
+			};
+			
+			this._ws.onerror = (error) => {
+				console.error('CharacterP2P: WebSocket error:', error);
+				this._connectionState = 'disconnected';
+			};
+			
+		} catch (error) {
+			this._connectionState = 'disconnected';
+			throw error;
+		}
+	}
+	
+	/**
+	 * Handle incoming messages from Cloudflare session
+	 */
+	static _handleMessage(data) {
+		// Don't process our own messages
+		if (data.userId === this.clientId) {
+			return;
+		}
+		
+		switch (data.type) {
+			case 'USER_JOINED':
+				this._connectedUsers.add(data.userId);
+				console.log(`CharacterP2P: User ${data.userId} joined (${this._connectedUsers.size} total users)`);
+				break;
 				
-				this._pc.onicecandidate = (ev) => {
-					if (!ev.candidate) {
-						console.info('CharacterP2P: ICE gathering complete');
-						return;
-					}
-					console.debug('CharacterP2P: New ICE candidate:', ev.candidate.type, ev.candidate.candidate);
-					
-				if (this._broadcastChannel) {
-					this._broadcastChannel.postMessage({
-						type: 'ICE_CANDIDATE',
-						clientId: this.clientId,
-						candidate: ev.candidate,
-						timestamp: Date.now()
+			case 'USER_LEFT':
+				this._connectedUsers.delete(data.userId);
+				console.log(`CharacterP2P: User ${data.userId} left (${this._connectedUsers.size} total users)`);
+				break;
+				
+			case 'CHARACTER_UPDATED':
+				if (typeof CharacterManager !== 'undefined' && CharacterManager._handleP2PSync) {
+					CharacterManager._handleP2PSync({
+						type: 'CHARACTER_UPDATED',
+						character: data.character,
+						origin: data.userId
 					});
 				}
+				break;
 				
-				// Also send ICE candidate via localStorage for local network connections
-				this._sendLocalNetworkIceCandidate(ev.candidate);
-				};
-				
-				this._pc.onconnectionstatechange = () => {
-					console.info('CharacterP2P: Connection state:', this._pc.connectionState);
-					if (this._pc.connectionState === 'connected') {
-						console.info('CharacterP2P: WebRTC P2P connection established!');
-					} else if (this._pc.connectionState === 'failed') {
-						console.warn('CharacterP2P: WebRTC connection failed');
-					}
-				};
-				
-				this._pc.oniceconnectionstatechange = () => {
-					console.info('CharacterP2P: ICE connection state:', this._pc.iceConnectionState);
-				};
-			}
-			
-			// Start automatic discovery even with fallback STUN
-			this._startAutoDiscovery();
-		}
-	}
-
-
-
-
-	static _setupDataChannel(dc) {
-		console.info('CharacterP2P: Setting up data channel, state:', dc.readyState);
-		this._dc = dc;
-
-		this._dc.onopen = () => {
-			console.info('CharacterP2P: Data channel opened successfully!');
-			
-			// Update connection state
-			this._connectionState = 'connected';
-			
-			// Stop discovery since we're now connected
-			this._stopAutoDiscovery();
-			
-			// Announce ourselves so peers can list connected clients
-			try {
-				this._knownPeers.add(this.clientId);
-				this._onOpen.forEach(fn => fn());
-				this.send({ type: 'PEER_ANNOUNCE', clientId: this.clientId });
-			} catch (e) {
-				console.warn('CharacterP2P: peer announce failed', e);
-			}
-			// After a short delay, log discovered peers (excluding self)
-			setTimeout(() => {
-				const others = Array.from(this._knownPeers).filter(id => id !== this.clientId);
-				console.info('CharacterP2P: known peers', others);
-			}, 600);
-		};
-
-		this._dc.onerror = (error) => {
-			console.error('CharacterP2P: Data channel error:', error);
-		};
-
-		this._dc.onmessage = (ev) => {
-			try {
-				const data = JSON.parse(ev.data);
-				// Attach origin if not present
-				data.origin = data.origin || 'p2p';
-				if (data.type === 'PEER_ANNOUNCE' && data.clientId) {
-					if (!this._knownPeers.has(data.clientId)) {
-						this._knownPeers.add(data.clientId);
-						console.info('CharacterP2P: discovered peer', data.clientId);
-						// Reply with our announce so discovery is mutual
-						try { this.send({ type: 'PEER_ANNOUNCE', clientId: this.clientId }); } catch (e) { /* ignore */ }
-					}
-					return;
-				}
+			case 'CHARACTER_DELETED':
 				if (typeof CharacterManager !== 'undefined' && CharacterManager._handleP2PSync) {
-					CharacterManager._handleP2PSync(data);
+					CharacterManager._handleP2PSync({
+						type: 'CHARACTER_DELETED',
+						characterId: data.characterId,
+						origin: data.userId
+					});
 				}
-			} catch (e) {
-				console.warn('CharacterP2P: error parsing message', e);
-			}
-		};
-
-		this._dc.onclose = () => {
-			console.info('CharacterP2P: Data channel closed');
-			this._dc = null;
-			
-			// Reset connection state and restart discovery
-			this._connectionState = 'disconnected';
-			this._startAutoDiscovery();
-		};
-
-		// If the channel is already open, trigger the onopen handler
-		if (dc.readyState === 'open') {
-			console.info('CharacterP2P: Data channel already open, triggering onopen');
-			this._dc.onopen();
+				break;
+				
+			case 'HEARTBEAT':
+				// Heartbeat from another user, ignore
+				break;
+				
+			default:
+				console.debug('CharacterP2P: Unknown message type:', data.type);
 		}
 	}
-
+	
 	/**
-	 * Create an offer and local datachannel. Returns the SDP offer object (JSON) to share with a peer.
+	 * Send a message to all users in the Cloudflare session
 	 */
-	static async createOffer() {
-		if (!this._pc) this.init();
-
-		// Create datachannel with better configuration
-		console.info('CharacterP2P: Creating data channel...');
-		const dc = this._pc.createDataChannel('character-sync', {
-			ordered: true,
-			maxRetransmits: 3
-		});
-		this._setupDataChannel(dc);
-
-		console.info('CharacterP2P: Creating offer...');
-		const offer = await this._pc.createOffer();
-		await this._pc.setLocalDescription(offer);
-		console.info('CharacterP2P: Local description set, waiting for ICE candidates...');
-
-		// Wait for ICE gathering to finish with better timeout handling
-		await new Promise(res => {
-			if (this._pc.iceGatheringState === 'complete') {
-				res();
-			} else {
-				const timeout = setTimeout(res, 1000); // 1 second timeout
-				const onicechange = () => {
-					if (this._pc.iceGatheringState === 'complete') {
-						clearTimeout(timeout);
-						this._pc.removeEventListener('icegatheringstatechange', onicechange);
-						res();
-					}
-				};
-				this._pc.addEventListener('icegatheringstatechange', onicechange);
-			}
-		});
-
-		return this._pc.localDescription ? this._pc.localDescription.sdp : offer.sdp;
+	static _sendMessage(data) {
+		if (this._ws && this._ws.readyState === WebSocket.OPEN) {
+			const message = {
+				...data,
+				userId: this.clientId,
+				timestamp: Date.now()
+			};
+			this._ws.send(JSON.stringify(message));
+			return true;
+		}
+		return false;
 	}
-
+	
 	/**
-	 * Accept a remote offer (SDP string or object). Returns an answer SDP string to send back.
+	 * Start heartbeat to keep connection alive
 	 */
-	static async acceptOffer(remoteOffer) {
-		if (!this._pc) this.init();
-
-		// If passed an object with sdp, normalize
-		const offer = (typeof remoteOffer === 'string') ? { type: 'offer', sdp: remoteOffer } : remoteOffer;
-		console.info('CharacterP2P: Setting remote offer description...');
-		await this._pc.setRemoteDescription(offer);
-
-		// Create answer
-		console.info('CharacterP2P: Creating answer...');
-		const answer = await this._pc.createAnswer();
-		await this._pc.setLocalDescription(answer);
-
-		// Wait a moment for ICE
-		await new Promise(res => setTimeout(res, 200));
-
-		return this._pc.localDescription ? this._pc.localDescription.sdp : answer.sdp;
+	static _startHeartbeat() {
+		this._heartbeatInterval = setInterval(() => {
+			this._sendMessage({ type: 'HEARTBEAT' });
+		}, 30000); // Every 30 seconds
 	}
-
+	
 	/**
-	 * Set the remote answer (SDP) when acting as offerer.
+	 * Stop heartbeat
 	 */
-	static async setRemoteAnswer(remoteAnswer) {
-		if (!this._pc) this.init();
-		const answer = (typeof remoteAnswer === 'string') ? { type: 'answer', sdp: remoteAnswer } : remoteAnswer;
-		await this._pc.setRemoteDescription(answer);
-	}
-
-	/**
-	 * Send a JSON-serializable object to the connected peer via data channel.
-	 */
-	static send(obj) {
-		try {
-			const payload = { ...(obj || {}), origin: this.clientId };
-			const str = JSON.stringify(payload);
-			if (this._dc && this._dc.readyState === 'open') {
-				this._dc.send(str);
-				return true;
-			}
-			console.warn('CharacterP2P: no open data channel to send message - DC state:', this._dc ? this._dc.readyState : 'null');
-			return false;
-		} catch (e) {
-			console.warn('CharacterP2P: send failed', e);
-			return false;
+	static _stopHeartbeat() {
+		if (this._heartbeatInterval) {
+			clearInterval(this._heartbeatInterval);
+			this._heartbeatInterval = null;
 		}
 	}
-
-	static onOpen(fn) {
-		if (this._dc && this._dc.readyState === 'open') fn();
-		else this._onOpen.push(fn);
-	}
-
+	
 	/**
-	 * Get current connection status for debugging
+	 * Schedule reconnection attempt
+	 */
+	static _scheduleReconnect() {
+		if (this._reconnectTimer) {
+			return;
+		}
+		
+		if (this._reconnectAttempts >= this._maxReconnectAttempts) {
+			console.error('CharacterP2P: Max reconnection attempts reached');
+			return;
+		}
+		
+		this._reconnectAttempts++;
+		const delay = Math.min(1000 * Math.pow(2, this._reconnectAttempts), 30000);
+		
+		console.log(`CharacterP2P: Reconnecting in ${delay}ms (attempt ${this._reconnectAttempts})`);
+		
+		this._reconnectTimer = setTimeout(() => {
+			this._reconnectTimer = null;
+			this.init();
+		}, delay);
+	}
+	
+	/**
+	 * Send character update to all users (called by CharacterManager)
+	 */
+	static send(data) {
+		if (data.type === 'CHARACTER_UPDATED' && data.character) {
+			return this._sendMessage({
+				type: 'CHARACTER_UPDATED',
+				character: data.character
+			});
+		}
+		
+		if (data.type === 'CHARACTER_DELETED' && data.characterId) {
+			return this._sendMessage({
+				type: 'CHARACTER_DELETED',
+				characterId: data.characterId
+			});
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Register callback for when connection is established
+	 */
+	static onOpen(callback) {
+		if (this._connectionState === 'connected') {
+			callback();
+		} else {
+			this._onOpen.push(callback);
+		}
+	}
+	
+	/**
+	 * Get connection status
 	 */
 	static getStatus() {
 		return {
 			clientId: this.clientId,
 			connectionState: this._connectionState,
-			isInitiator: this._isInitiator,
-			peerConnection: this._pc ? {
-				connectionState: this._pc.connectionState,
-				iceConnectionState: this._pc.iceConnectionState,
-				iceGatheringState: this._pc.iceGatheringState,
-				signalingState: this._pc.signalingState
-			} : null,
-			dataChannel: this._dc ? {
-				readyState: this._dc.readyState,
-				label: this._dc.label
-			} : null,
-			knownPeers: Array.from(this._knownPeers),
-			broadcastChannelReady: !!this._broadcastChannel
+			sessionId: this._sessionId,
+			connectedUsers: this._connectedUsers.size,
+			reconnectAttempts: this._reconnectAttempts
 		};
 	}
-
+	
 	/**
-	 * Cleanup resources when page unloads or component is destroyed
+	 * Cleanup connection
 	 */
 	static cleanup() {
-		this._stopAutoDiscovery();
-		this._stopPeriodicAnnounce();
-		
-		if (this._broadcastChannel) {
-			this._broadcastChannel.close();
-			this._broadcastChannel = null;
+		if (this._ws) {
+			// Send leave message
+			this._sendMessage({
+				type: 'USER_LEFT',
+				userId: this.clientId
+			});
+			
+			this._ws.close();
+			this._ws = null;
 		}
 		
-		if (this._dc) {
-			this._dc.close();
-			this._dc = null;
-		}
+		this._stopHeartbeat();
 		
-		if (this._pc) {
-			this._pc.close();
-			this._pc = null;
+		if (this._reconnectTimer) {
+			clearTimeout(this._reconnectTimer);
+			this._reconnectTimer = null;
 		}
 		
 		this._connectionState = 'disconnected';
-		this._knownPeers.clear();
+		this._connectedUsers.clear();
+		this._reconnectAttempts = 0;
 	}
-
-
-
+	
+	// Legacy compatibility methods - now no-ops since we're using Cloudflare
+	static _startPeriodicAnnounce() { /* handled by Cloudflare session */ }
+	static _stopPeriodicAnnounce() { /* handled by Cloudflare session */ }
 }
 
-// Expose in same global scope for backward compatibility
-// @ts-ignore - Intentionally adding to globalThis
+// Expose globally for backward compatibility
 globalThis.CharacterP2P = CharacterP2P;
 
-// Expose debugging helpers globally for console testing
+// Debugging helpers
 globalThis.p2pStatus = () => CharacterP2P.getStatus();
-globalThis.p2pInit = (opts) => CharacterP2P.init(opts);
-globalThis.p2pCreateOffer = () => CharacterP2P.createOffer();
-globalThis.p2pAcceptOffer = (offer) => CharacterP2P.acceptOffer(offer);
-globalThis.p2pSetRemoteAnswer = (answer) => CharacterP2P.setRemoteAnswer(answer);
+globalThis.p2pInit = () => CharacterP2P.init();
+
+// Auto-initialization in browser environment
+try {
+	if (typeof document !== 'undefined' && typeof window !== 'undefined') {
+		// Initialize P2P connection after a short delay
+		setTimeout(() => {
+			try {
+				const CM = window['CharacterManager'];
+				if (CM && typeof CM.p2pInit === 'function') {
+					console.info('CharacterManager: Auto-initializing P2P connection...');
+					try {
+						CharacterP2P.init();
+					} catch (e) {
+						console.info('CharacterManager: auto p2pInit failed', e);
+					}
+				}
+			} catch (e) {
+				console.info('CharacterManager: auto p2pInit failed', e);
+			}
+		}, 500);
+	}
+} catch (e) {
+	// ignore in non-browser contexts
+}
+
+// Manage periodic peer announces based on tab visibility
+try {
+	if (typeof document !== 'undefined' && typeof window !== 'undefined') {
+		document.addEventListener('visibilitychange', () => {
+			try {
+				if (document.visibilityState === 'visible') {
+					if (typeof CharacterP2P !== 'undefined' && typeof CharacterP2P._startPeriodicAnnounce === 'function') {
+						CharacterP2P._startPeriodicAnnounce();
+					}
+				} else {
+					if (typeof CharacterP2P !== 'undefined' && typeof CharacterP2P._stopPeriodicAnnounce === 'function') {
+						CharacterP2P._stopPeriodicAnnounce();
+					}
+				}
+			} catch (e) { /* ignore */ }
+		});
+		
+		// Add cleanup on page unload
+		window.addEventListener('beforeunload', () => {
+			try {
+				if (typeof CharacterP2P !== 'undefined' && typeof CharacterP2P.cleanup === 'function') {
+					CharacterP2P.cleanup();
+				}
+			} catch (e) { /* ignore */ }
+		});
+	}
+} catch (e) { /* ignore in non-browser contexts */ }
 
 class CharacterManager {
 	static _instance = null;
