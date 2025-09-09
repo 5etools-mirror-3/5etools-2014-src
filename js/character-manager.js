@@ -733,23 +733,7 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 		this._connectionState = 'connecting';
 		
 		try {
-			// Get session from our API
-			const response = await fetch('/api/realtime/connect', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ userId: this.clientId })
-			});
-			
-			if (!response.ok) {
-				throw new Error(`Connection failed: ${response.status}`);
-			}
-			
-			const connectionInfo = await response.json();
-			this._sessionId = connectionInfo.sessionId;
-			
-			console.log('CharacterP2P: Got session info:', connectionInfo.sessionId);
-			
-			// Create WebRTC peer connection for the SFU
+			// Create WebRTC peer connection for the SFU first
 			this._pc = new RTCPeerConnection({
 				iceServers: [
 					// Cloudflare provides STUN servers
@@ -799,18 +783,38 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 				this._connectionState = 'disconnected';
 			};
 			
-			// Set remote description from Cloudflare session
-			if (connectionInfo.sessionData.offer) {
-				await this._pc.setRemoteDescription(connectionInfo.sessionData.offer);
-				
-				// Create answer
-				const answer = await this._pc.createAnswer();
-				await this._pc.setLocalDescription(answer);
-				
-				// Send answer back to Cloudflare via renegotiate API
-				await this._sendAnswerToCloudflare(connectionInfo.sessionId, answer);
+			// Create SDP offer
+			console.log('CharacterP2P: Creating SDP offer...');
+			const offer = await this._pc.createOffer();
+			await this._pc.setLocalDescription(offer);
+			
+			// Send offer to Cloudflare to create session
+			const response = await fetch('/api/realtime/connect', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ 
+					userId: this.clientId,
+					sessionDescription: offer
+				})
+			});
+			
+			if (!response.ok) {
+				const errorText = await response.text();
+				throw new Error(`Connection failed: ${response.status} - ${errorText}`);
+			}
+			
+			const connectionInfo = await response.json();
+			this._sessionId = connectionInfo.sessionId;
+			
+			console.log('CharacterP2P: Session created:', connectionInfo.sessionId);
+			
+			// Set remote description from Cloudflare response (answer)
+			if (connectionInfo.sessionData && connectionInfo.sessionData.sessionDescription) {
+				console.log('CharacterP2P: Setting remote description...');
+				await this._pc.setRemoteDescription(connectionInfo.sessionData.sessionDescription);
+				console.log('CharacterP2P: WebRTC connection established with Cloudflare SFU');
 			} else {
-				console.warn('CharacterP2P: No offer received from Cloudflare session');
+				console.warn('CharacterP2P: No answer received from Cloudflare session');
 			}
 			
 		} catch (error) {
@@ -865,32 +869,6 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 				
 			default:
 				console.debug('CharacterP2P: Unknown message type:', data.type);
-		}
-	}
-	
-	/**
-	 * Send answer back to Cloudflare for WebRTC negotiation
-	 */
-	static async _sendAnswerToCloudflare(sessionId, answer) {
-		try {
-			// Use the renegotiate endpoint to send our answer
-			const response = await fetch(`/api/realtime/renegotiate`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({
-					sessionId,
-					answer
-				})
-			});
-			
-			if (!response.ok) {
-				throw new Error(`Failed to send answer: ${response.status}`);
-			}
-			
-			console.log('CharacterP2P: Answer sent to Cloudflare successfully');
-		} catch (error) {
-			console.error('CharacterP2P: Failed to send answer to Cloudflare:', error);
-			throw error;
 		}
 	}
 	
@@ -2055,6 +2033,16 @@ class CharacterManager {
 	}
 
 	/**
+	 * Promise-based save character method (matches 5etools naming convention)
+	 * @param {Object} characterData - Character data to save
+	 * @param {boolean} isEdit - Whether this is an edit of existing character
+	 * @returns {Promise<boolean>} Success status
+	 */
+	static async pSaveCharacter(characterData, isEdit = false) {
+		return this.saveCharacter(characterData, isEdit);
+	}
+	
+	/**
 	 * Save character to server (handles both new and existing characters)
 	 * @param {Object} characterData - Character data to save
 	 * @param {boolean} isEdit - Whether this is an edit of existing character
@@ -2145,6 +2133,69 @@ class CharacterManager {
 		}
 	}
 
+	/**
+	 * Delete a character from server and sync the deletion
+	 * @param {string} characterId - Character ID
+	 * @returns {Promise<boolean>} Success status
+	 */
+	static async pDeleteCharacter(characterId) {
+		const character = this.getCharacterById(characterId);
+		if (!character) {
+			console.warn(`CharacterManager: Character ${characterId} not found for deletion`);
+			return false;
+		}
+		
+		if (!this.canEditCharacter(character)) {
+			console.warn(`CharacterManager: No permission to delete character: ${character.name}`);
+			return false;
+		}
+		
+		try {
+			const cachedPasswords = localStorage.getItem('sourcePasswords');
+			const passwords = JSON.parse(cachedPasswords);
+			const password = passwords[character.source];
+			
+			const API_BASE_URL = window.location.origin.includes('localhost')
+				? 'http://localhost:3000/api'
+				: '/api';
+			
+			// Call delete API
+			const response = await fetch(`${API_BASE_URL}/characters/delete`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					characterId: characterId,
+					source: character.source,
+					password: password
+				})
+			});
+			
+			if (response.ok) {
+				// Remove from local caches
+				this.removeCharacter(characterId);
+				
+				// Also send over P2P channel if available
+				try {
+					if (typeof CharacterP2P !== 'undefined' && CharacterP2P.send) {
+						CharacterP2P.send({ type: 'CHARACTER_DELETED', characterId });
+					}
+				} catch (e) {
+					console.warn('CharacterManager: Failed to send P2P CHARACTER_DELETED', e);
+				}
+				
+				console.log(`CharacterManager: Successfully deleted character: ${character.name}`);
+				return true;
+			} else {
+				const error = await response.json();
+				console.error('CharacterManager: Server error deleting character:', error);
+				return false;
+			}
+		} catch (error) {
+			console.error('CharacterManager: Error deleting character:', error);
+			return false;
+		}
+	}
+	
 	/**
 	 * Update a character stat and save to server
 	 * @param {string} characterId - Character ID

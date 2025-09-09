@@ -23,10 +23,14 @@ export default async function handler(req, res) {
       });
     }
 
-    const { userId } = req.body;
-
+    const { userId, sessionDescription } = req.body;
+    
     if (!userId) {
       return res.status(400).json({ error: 'userId required' });
+    }
+
+    if (!sessionDescription) {
+      return res.status(400).json({ error: 'sessionDescription (SDP offer) required' });
     }
 
     // Create a new session using correct Cloudflare Realtime SFU API
@@ -37,7 +41,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        // Session configuration for character sync
+        sessionDescription: sessionDescription
       })
     });
 
@@ -49,7 +53,7 @@ export default async function handler(req, res) {
     const sessionData = await sessionResponse.json();
     console.log(`Cloudflare SFU: Created session ${sessionData.sessionId} for user ${userId}`);
 
-    // The response from Cloudflare includes sessionId, offer, tracks etc.
+    // The response from Cloudflare includes sessionId and sessionDescription (SDP answer)
     return res.status(200).json({
       success: true,
       sessionId: sessionData.sessionId,
@@ -57,7 +61,7 @@ export default async function handler(req, res) {
       // Pass through the session data from Cloudflare
       sessionData: {
         sessionId: sessionData.sessionId,
-        offer: sessionData.offer,
+        sessionDescription: sessionData.sessionDescription, // SDP answer from Cloudflare
         tracks: sessionData.tracks || [],
         appId: sfuAppId
         // Don't expose the secret token to client
