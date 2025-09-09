@@ -715,6 +715,17 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 	 * Connects to a shared session where all users can receive character updates.
 	 */
 	static async init() {
+		// Prevent multiple simultaneous initialization attempts
+		if (this._connectionState === 'connecting') {
+			console.log('CharacterP2P: Already connecting, ignoring duplicate init()');
+			return;
+		}
+		
+		if (this._connectionState === 'connected') {
+			console.log('CharacterP2P: Already connected');
+			return;
+		}
+		
 		console.log('CharacterP2P: Connecting to Cloudflare real-time session...');
 		
 		try {
@@ -727,16 +738,23 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 	}
 	
 	/**
-	 * Connect to Cloudflare real-time session using WebRTC
+	 * Connect to Cloudflare SFU for cross-device real-time communication
 	 */
 	static async _connectToCloudflare() {
 		this._connectionState = 'connecting';
 		
 		try {
-			// Create WebRTC peer connection for the SFU first
+			console.log('CharacterP2P: Connecting to Cloudflare SFU for cross-device sync...');
+			
+			// First, get or create a shared session ID
+			const sessionInfo = await this._getSharedSession();
+			this._sessionId = sessionInfo.sessionId;
+			
+			console.log('CharacterP2P: Using shared session:', this._sessionId);
+			
+			// Create WebRTC peer connection for the SFU
 			this._pc = new RTCPeerConnection({
 				iceServers: [
-					// Cloudflare provides STUN servers
 					{ urls: 'stun:stun.cloudflare.com:3478' }
 				]
 			});
@@ -752,13 +770,13 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 				this._connectionState = 'connected';
 				this._reconnectAttempts = 0;
 				
-				// Send test message to verify communication
+				// Send test message
 				setTimeout(() => {
-					console.log('CharacterP2P: Sending test message...');
+					console.log('CharacterP2P: Sending cross-device test message...');
 					this._sendMessage({
 						type: 'TEST_MESSAGE',
 						userId: this.clientId,
-						message: 'Hello from ' + this.clientId
+						message: 'Hello from device ' + this.clientId
 					});
 				}, 1000);
 				
@@ -788,48 +806,58 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 				this._scheduleReconnect();
 			};
 			
-			this._dc.onerror = (error) => {
-				console.error('CharacterP2P: Data channel error:', error);
-				this._connectionState = 'disconnected';
-			};
-			
-			// Create SDP offer
-			console.log('CharacterP2P: Creating SDP offer...');
-			const offer = await this._pc.createOffer();
-			await this._pc.setLocalDescription(offer);
-			
-			// Send offer to Cloudflare to create session
-			const response = await fetch('/api/realtime/connect', {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ 
-					userId: this.clientId,
-					sessionDescription: offer
-				})
-			});
-			
-			if (!response.ok) {
-				const errorText = await response.text();
-				throw new Error(`Connection failed: ${response.status} - ${errorText}`);
-			}
-			
-			const connectionInfo = await response.json();
-			this._sessionId = connectionInfo.sessionId;
-			
-			console.log('CharacterP2P: Session created:', connectionInfo.sessionId);
-			
-			// Set remote description from Cloudflare response (answer)
-			if (connectionInfo.sessionData && connectionInfo.sessionData.sessionDescription) {
-				console.log('CharacterP2P: Setting remote description...');
-				await this._pc.setRemoteDescription(connectionInfo.sessionData.sessionDescription);
-				console.log('CharacterP2P: WebRTC connection established with Cloudflare SFU');
-			} else {
-				console.warn('CharacterP2P: No answer received from Cloudflare session');
-			}
+			// Now join the existing session or add a track to it
+			await this._joinCloudflareSession(sessionInfo.sessionId);
 			
 		} catch (error) {
 			this._connectionState = 'disconnected';
 			throw error;
+		}
+	}
+	
+	/**
+	 * Get or create a shared session that all devices can join
+	 */
+	static async _getSharedSession() {
+		// Use signaling server to coordinate shared session
+		const response = await fetch('/api/realtime/signaling?room=character-sync');
+		if (!response.ok) {
+			throw new Error(`Failed to get shared session: ${response.status}`);
+		}
+		return await response.json();
+	}
+	
+	/**
+	 * Join an existing Cloudflare SFU session
+	 */
+	static async _joinCloudflareSession(sessionId) {
+		// Create offer
+		const offer = await this._pc.createOffer();
+		await this._pc.setLocalDescription(offer);
+		
+		// Send offer to Cloudflare - either create new session or add track to existing
+		const response = await fetch('/api/realtime/connect', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				userId: this.clientId,
+				sessionDescription: offer,
+				existingSessionId: sessionId // Tell API to use this session ID
+			})
+		});
+		
+		if (!response.ok) {
+			const errorText = await response.text();
+			throw new Error(`Failed to join session: ${response.status} - ${errorText}`);
+		}
+		
+		const connectionInfo = await response.json();
+		console.log('CharacterP2P: Joined Cloudflare session:', connectionInfo.sessionId);
+		
+		// Set remote description
+		if (connectionInfo.sessionData?.sessionDescription) {
+			await this._pc.setRemoteDescription(connectionInfo.sessionData.sessionDescription);
+			console.log('CharacterP2P: WebRTC connection established');
 		}
 	}
 	
@@ -896,9 +924,14 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 				userId: this.clientId,
 				timestamp: Date.now()
 			};
-			console.log('CharacterP2P: Sending message:', data.type, 'to session:', this._sessionId);
-			this._dc.send(JSON.stringify(message));
-			return true;
+			console.log('CharacterP2P: Sending message:', data.type, 'to Cloudflare SFU');
+			
+			try {
+				this._dc.send(JSON.stringify(message));
+				return true;
+			} catch (error) {
+				console.warn('CharacterP2P: Failed to send message via data channel:', error);
+			}
 		} else {
 			console.warn('CharacterP2P: Cannot send message, data channel not open. State:', this._dc ? this._dc.readyState : 'null');
 		}
@@ -997,21 +1030,20 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 	 * Cleanup connection
 	 */
 	static cleanup() {
-		// Send leave message before closing
-		if (this._dc && this._dc.readyState === 'open') {
+		// Send leave message before disconnecting
+		if (this._connectionState === 'connected') {
 			this._sendMessage({
 				type: 'USER_LEFT',
 				userId: this.clientId
 			});
 		}
 		
-		// Clean up data channel
+		// Clean up any WebRTC components (if they exist)
 		if (this._dc) {
 			this._dc.close();
 			this._dc = null;
 		}
 		
-		// Clean up peer connection
 		if (this._pc) {
 			this._pc.close();
 			this._pc = null;
