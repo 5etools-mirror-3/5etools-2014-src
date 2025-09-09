@@ -98,7 +98,7 @@ class CharacterP2P {
 
 		// Send initial discovery message for local tabs
 		this._sendDiscoveryMessage();
-		
+
 		// Start local network discovery
 		this._startLocalNetworkDiscovery();
 
@@ -135,7 +135,7 @@ class CharacterP2P {
 				timestamp: Date.now()
 			});
 		}
-		
+
 		// Also register for cross-machine signaling (non-blocking)
 		this._registerForSignaling().catch(() => {});
 	}
@@ -201,7 +201,7 @@ class CharacterP2P {
 			console.warn('CharacterP2P: Error clearing cached credentials:', error);
 		}
 	}
-	
+
 	/**
 	 * Start local network discovery using browser-based techniques
 	 */
@@ -209,18 +209,18 @@ class CharacterP2P {
 		// Use localStorage as a cross-origin local network signal
 		// This works when multiple devices access the same local server
 		this._registerLocalNetworkPresence();
-		
+
 		// Set up WebRTC-based local network scanning
 		this._setupLocalNetworkScanning();
 	}
-	
+
 	/**
 	 * Register our presence for local network discovery
 	 */
 	static _registerLocalNetworkPresence() {
 		try {
 			const networkPeers = JSON.parse(localStorage.getItem('character_p2p_local_peers') || '[]');
-			
+
 			// Add or update our entry
 			const ourEntry = {
 				clientId: this.clientId,
@@ -228,23 +228,23 @@ class CharacterP2P {
 				userAgent: navigator.userAgent.substring(0, 100), // For identification
 				connectionState: this._connectionState
 			};
-			
+
 			// Remove old entries (older than 30 seconds) and our old entries
 			const cutoff = Date.now() - 30000;
-			const cleanedPeers = networkPeers.filter(peer => 
+			const cleanedPeers = networkPeers.filter(peer =>
 				peer.timestamp > cutoff && peer.clientId !== this.clientId
 			);
-			
+
 			// Add our current entry
 			cleanedPeers.push(ourEntry);
-			
+
 			localStorage.setItem('character_p2p_local_peers', JSON.stringify(cleanedPeers));
 			console.debug(`CharacterP2P: Registered local network presence (${cleanedPeers.length} total peers)`);
 		} catch (error) {
 			console.debug('CharacterP2P: Local network presence registration failed:', error.message);
 		}
 	}
-	
+
 	/**
 	 * Set up WebRTC-based local network scanning
 	 */
@@ -257,23 +257,23 @@ class CharacterP2P {
 					{ urls: 'stun:stun.l.google.com:19302' } // Basic STUN for local discovery
 				]
 			});
-			
+
 			// Create a temporary data channel to trigger ICE gathering
 			const tempDc = tempPc.createDataChannel('discovery', { ordered: false });
-			
+
 			tempPc.onicecandidate = (event) => {
 				if (event.candidate) {
 					const candidate = event.candidate;
 					// Log local network candidates for debugging
 					if (candidate.candidate.includes('typ host')) {
-						console.debug('CharacterP2P: Found local network interface:', 
+						console.debug('CharacterP2P: Found local network interface:',
 							candidate.candidate.split(' ')[4], // IP address
 							candidate.candidate.split(' ')[5]  // Port
 						);
 					}
 				}
 			};
-			
+
 			// Create offer to start ICE gathering
 			tempPc.createOffer().then(offer => {
 				return tempPc.setLocalDescription(offer);
@@ -290,7 +290,7 @@ class CharacterP2P {
 			console.debug('CharacterP2P: WebRTC local network scanning not available:', error.message);
 		}
 	}
-	
+
 	/**
 	 * Attempt to connect to local network peers
 	 */
@@ -298,24 +298,24 @@ class CharacterP2P {
 		try {
 			// Update our presence
 			this._registerLocalNetworkPresence();
-			
+
 			// Check for other local peers
 			const networkPeers = JSON.parse(localStorage.getItem('character_p2p_local_peers') || '[]');
-			const availablePeers = networkPeers.filter(peer => 
-				peer.clientId !== this.clientId && 
+			const availablePeers = networkPeers.filter(peer =>
+				peer.clientId !== this.clientId &&
 				peer.connectionState === 'disconnected' &&
 				!this._knownPeers.has(peer.clientId)
 			);
-			
+
 			if (availablePeers.length > 0) {
 				console.info(`CharacterP2P: Found ${availablePeers.length} local network peer(s)`);
-				
+
 				// Try to connect to peers (use clientId comparison to avoid duplicate connections)
 				for (const peer of availablePeers) {
 					if (this.clientId > peer.clientId) {
 						console.info(`CharacterP2P: Attempting local network connection to ${peer.clientId}`);
 						this._knownPeers.add(peer.clientId);
-						
+
 						// Create connection using localStorage signaling
 						this._connectionState = 'connecting';
 						this._isInitiator = true;
@@ -327,7 +327,7 @@ class CharacterP2P {
 		console.debug('CharacterP2P: Local network connection attempt failed:', error.message);
 		}
 	}
-	
+
 	/**
 	 * Create and send offer for local network connection using localStorage signaling
 	 */
@@ -374,7 +374,7 @@ class CharacterP2P {
 				timestamp: Date.now(),
 				id: `offer_${this.clientId}_${targetClientId}_${Date.now()}`
 			};
-			
+
 			this._storeLocalNetworkMessage(offerMessage);
 			console.info('CharacterP2P: Local network offer sent to', targetClientId);
 
@@ -383,27 +383,27 @@ class CharacterP2P {
 			this._connectionState = 'disconnected';
 		}
 	}
-	
+
 	/**
 	 * Store signaling message in localStorage for local network peers
 	 */
 	static _storeLocalNetworkMessage(message) {
 		try {
 			const messages = JSON.parse(localStorage.getItem('character_p2p_local_messages') || '[]');
-			
+
 			// Clean old messages (older than 1 minute)
 			const cutoff = Date.now() - 60000;
 			const cleanMessages = messages.filter(msg => msg.timestamp > cutoff);
-			
+
 			// Add new message
 			cleanMessages.push(message);
-			
+
 			localStorage.setItem('character_p2p_local_messages', JSON.stringify(cleanMessages));
 		} catch (error) {
 			console.debug('CharacterP2P: Failed to store local network message:', error.message);
 		}
 	}
-	
+
 	/**
 	 * Check for local network signaling messages addressed to us
 	 */
@@ -411,7 +411,7 @@ class CharacterP2P {
 		try {
 			const messages = JSON.parse(localStorage.getItem('character_p2p_local_messages') || '[]');
 			const ourMessages = messages.filter(msg => msg.to === this.clientId && msg.from !== this.clientId);
-			
+
 			for (const message of ourMessages) {
 				// Process message and then remove it
 				this._handleLocalNetworkMessage(message);
@@ -421,7 +421,7 @@ class CharacterP2P {
 			console.debug('CharacterP2P: Failed to check local network messages:', error.message);
 		}
 	}
-	
+
 	/**
 	 * Remove processed message from localStorage
 	 */
@@ -434,14 +434,14 @@ class CharacterP2P {
 			console.debug('CharacterP2P: Failed to remove local network message:', error.message);
 		}
 	}
-	
+
 	/**
 	 * Handle local network signaling messages
 	 */
 	static async _handleLocalNetworkMessage(message) {
 		try {
 			console.info(`CharacterP2P: Received local network ${message.type} from ${message.from}`);
-			
+
 			switch (message.type) {
 				case 'OFFER':
 					await this._handleLocalNetworkOffer(message);
@@ -457,7 +457,7 @@ class CharacterP2P {
 			console.error('CharacterP2P: Error handling local network message:', error);
 		}
 	}
-	
+
 	/**
 	 * Handle local network offer
 	 */
@@ -497,7 +497,7 @@ class CharacterP2P {
 		this._storeLocalNetworkMessage(answerMessage);
 		console.info('CharacterP2P: Local network answer sent to', message.from);
 	}
-	
+
 	/**
 	 * Handle local network answer
 	 */
@@ -510,7 +510,7 @@ class CharacterP2P {
 		await this._pc.setRemoteDescription(message.answer);
 		console.info('CharacterP2P: Local network connection setup complete with', message.from);
 	}
-	
+
 	/**
 	 * Handle local network ICE candidate
 	 */
@@ -536,7 +536,7 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 			timestamp: Date.now(),
 			id: `ice_${this.clientId}_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`
 		};
-		
+
 		this._storeLocalNetworkMessage(iceCandidateMessage);
 	} catch (error) {
 		console.debug('CharacterP2P: Failed to send local network ICE candidate:', error.message);
@@ -552,10 +552,10 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 
 		// If both peers are disconnected and we haven't initiated a connection yet,
 		// determine who should create the offer (use clientId comparison for consistency)
-		if (this._connectionState === 'disconnected' && 
+		if (this._connectionState === 'disconnected' &&
 			message.connectionState === 'disconnected' &&
 			this.clientId > message.clientId) { // Higher clientId initiates
-			
+
 			this._connectionState = 'connecting';
 			this._isInitiator = true;
 			console.info('CharacterP2P: Initiating connection to peer:', message.clientId);
@@ -720,14 +720,14 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 			console.log('CharacterP2P: Already connecting, ignoring duplicate init()');
 			return;
 		}
-		
+
 		if (this._connectionState === 'connected') {
 			console.log('CharacterP2P: Already connected');
 			return;
 		}
-		
+
 		console.log('CharacterP2P: Connecting to Cloudflare real-time session...');
-		
+
 		try {
 			// Connect to Cloudflare session
 			await this._connectToCloudflare();
@@ -736,143 +736,72 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 			this._scheduleReconnect();
 		}
 	}
-	
+
 	/**
-	 * Connect to Cloudflare SFU for cross-device real-time communication
+	 * Connect to Cloudflare Workers WebSocket for cross-device real-time communication
 	 */
 	static async _connectToCloudflare() {
 		this._connectionState = 'connecting';
-		
+
 		try {
-			console.log('CharacterP2P: Connecting to Cloudflare SFU for cross-device sync...');
-			
-			// Use a fixed session name that all clients will try to join
-			this._sessionId = 'character-sync-shared-session';
-			console.log('CharacterP2P: Using shared session name:', this._sessionId);
-			
-			// Create WebRTC peer connection for the SFU
-			this._pc = new RTCPeerConnection({
-				iceServers: [
-					{ urls: 'stun:stun.cloudflare.com:3478' }
-				]
-			});
-			
-			// Create data channel for character sync messages
-			this._dc = this._pc.createDataChannel('character-sync', {
-				ordered: true
-			});
-			
-			// Set up data channel event handlers
-			this._dc.onopen = () => {
-				console.log('CharacterP2P: Data channel opened');
+			console.log('CharacterP2P: Connecting to Cloudflare Workers WebSocket...');
+
+			// Replace with your actual Cloudflare Worker URL
+			// Deploy the worker and update this URL
+			const workerUrl = 'wss://5etools-character-sync.thesamueljim.workers.dev/';
+			const wsUrl = `${workerUrl}?room=character-sync&userId=${this.clientId}`;
+
+			console.log('CharacterP2P: Connecting to:', wsUrl);
+
+			// Create WebSocket connection to Cloudflare Worker
+			this._ws = new WebSocket(wsUrl);
+
+			this._ws.onopen = () => {
+				console.log('CharacterP2P: WebSocket connected to Cloudflare Worker');
 				this._connectionState = 'connected';
 				this._reconnectAttempts = 0;
-				
+
 				// Send test message
 				setTimeout(() => {
 					console.log('CharacterP2P: Sending cross-device test message...');
 					this._sendMessage({
 						type: 'TEST_MESSAGE',
-						userId: this.clientId,
 						message: 'Hello from device ' + this.clientId
 					});
 				}, 1000);
-				
-				// Announce presence
-				this._sendMessage({
-					type: 'USER_JOINED',
-					userId: this.clientId
-				});
-				
+
 				// Notify listeners
 				this._onOpen.forEach(fn => fn());
 				this._onOpen = [];
 			};
-			
-			this._dc.onmessage = (event) => {
+
+			this._ws.onmessage = (event) => {
 				try {
 					const data = JSON.parse(event.data);
 					this._handleMessage(data);
 				} catch (error) {
-					console.warn('CharacterP2P: Failed to parse message:', error);
+					console.warn('CharacterP2P: Failed to parse WebSocket message:', error);
 				}
 			};
-			
-			this._dc.onclose = () => {
-				console.log('CharacterP2P: Data channel closed');
+
+			this._ws.onclose = (event) => {
+				console.log('CharacterP2P: WebSocket closed:', event.code, event.reason);
 				this._connectionState = 'disconnected';
 				this._scheduleReconnect();
 			};
-			
-			// Now join the existing session or add a track to it
-			await this._joinCloudflareSession(this._sessionId);
-			
+
+			this._ws.onerror = (error) => {
+				console.error('CharacterP2P: WebSocket error:', error);
+				this._connectionState = 'disconnected';
+			};
+
 		} catch (error) {
 			this._connectionState = 'disconnected';
 			throw error;
 		}
 	}
-	
-	/**
-	 * Get or create a shared session that all devices can join
-	 */
-	static async _getSharedSession() {
-		try {
-			console.log('CharacterP2P: Getting shared session from signaling server...');
-			// Use signaling server to coordinate shared session
-			const response = await fetch('/api/realtime/signaling?room=character-sync');
-			if (!response.ok) {
-				console.error('CharacterP2P: Signaling server failed:', response.status);
-				throw new Error(`Failed to get shared session: ${response.status}`);
-			}
-			const result = await response.json();
-			console.log('CharacterP2P: Got shared session from signaling server:', result.sessionId);
-			return result;
-		} catch (error) {
-			console.warn('CharacterP2P: Signaling server unavailable, will use fallback approach:', error.message);
-			// Fallback: use a fixed session name that all clients will use
-			return {
-				sessionId: 'character-sync-shared-session',
-				room: 'character-sync',
-				clients: 0
-			};
-		}
-	}
-	
-	/**
-	 * Join an existing Cloudflare SFU session
-	 */
-	static async _joinCloudflareSession(sessionId) {
-		// Create offer
-		const offer = await this._pc.createOffer();
-		await this._pc.setLocalDescription(offer);
-		
-		// Send offer to Cloudflare - either create new session or add track to existing
-		const response = await fetch('/api/realtime/connect', {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				userId: this.clientId,
-				sessionDescription: offer,
-				existingSessionId: sessionId // Tell API to use this session ID
-			})
-		});
-		
-		if (!response.ok) {
-			const errorText = await response.text();
-			throw new Error(`Failed to join session: ${response.status} - ${errorText}`);
-		}
-		
-		const connectionInfo = await response.json();
-		console.log('CharacterP2P: Joined Cloudflare session:', connectionInfo.sessionId);
-		
-		// Set remote description
-		if (connectionInfo.sessionData?.sessionDescription) {
-			await this._pc.setRemoteDescription(connectionInfo.sessionData.sessionDescription);
-			console.log('CharacterP2P: WebRTC connection established');
-		}
-	}
-	
+
+
 	/**
 	 * Handle incoming messages from Cloudflare session
 	 */
@@ -881,18 +810,18 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 		if (data.userId === this.clientId) {
 			return;
 		}
-		
+
 		switch (data.type) {
 			case 'USER_JOINED':
 				this._connectedUsers.add(data.userId);
 				console.log(`CharacterP2P: User ${data.userId} joined (${this._connectedUsers.size} total users)`);
 				break;
-				
+
 			case 'USER_LEFT':
 				this._connectedUsers.delete(data.userId);
 				console.log(`CharacterP2P: User ${data.userId} left (${this._connectedUsers.size} total users)`);
 				break;
-				
+
 			case 'CHARACTER_UPDATED':
 				if (typeof CharacterManager !== 'undefined' && CharacterManager._handleP2PSync) {
 					CharacterManager._handleP2PSync({
@@ -902,7 +831,7 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 					});
 				}
 				break;
-				
+
 			case 'CHARACTER_DELETED':
 				if (typeof CharacterManager !== 'undefined' && CharacterManager._handleP2PSync) {
 					CharacterManager._handleP2PSync({
@@ -912,44 +841,44 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 					});
 				}
 				break;
-				
+
 			case 'TEST_MESSAGE':
 				console.log('CharacterP2P: Received test message:', data.message);
 				break;
-				
+
 			case 'HEARTBEAT':
 				// Heartbeat from another user, ignore
 				break;
-				
+
 			default:
 				console.debug('CharacterP2P: Unknown message type:', data.type);
 		}
 	}
-	
+
 	/**
 	 * Send a message to all users via data channel
 	 */
 	static _sendMessage(data) {
-		if (this._dc && this._dc.readyState === 'open') {
+		if (this._ws && this._ws.readyState === WebSocket.OPEN) {
 			const message = {
 				...data,
 				userId: this.clientId,
 				timestamp: Date.now()
 			};
-			console.log('CharacterP2P: Sending message:', data.type, 'to Cloudflare SFU');
-			
+			console.log('CharacterP2P: Sending message:', data.type, 'to Cloudflare Worker');
+
 			try {
-				this._dc.send(JSON.stringify(message));
+				this._ws.send(JSON.stringify(message));
 				return true;
 			} catch (error) {
-				console.warn('CharacterP2P: Failed to send message via data channel:', error);
+				console.warn('CharacterP2P: Failed to send message via WebSocket:', error);
 			}
 		} else {
-			console.warn('CharacterP2P: Cannot send message, data channel not open. State:', this._dc ? this._dc.readyState : 'null');
+			console.warn('CharacterP2P: Cannot send message, WebSocket not open. State:', this._ws ? this._ws.readyState : 'null');
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Start heartbeat to keep connection alive
 	 */
@@ -958,7 +887,7 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 			this._sendMessage({ type: 'HEARTBEAT' });
 		}, 30000); // Every 30 seconds
 	}
-	
+
 	/**
 	 * Stop heartbeat
 	 */
@@ -968,7 +897,7 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 			this._heartbeatInterval = null;
 		}
 	}
-	
+
 	/**
 	 * Schedule reconnection attempt
 	 */
@@ -976,23 +905,23 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 		if (this._reconnectTimer) {
 			return;
 		}
-		
+
 		if (this._reconnectAttempts >= this._maxReconnectAttempts) {
 			console.error('CharacterP2P: Max reconnection attempts reached');
 			return;
 		}
-		
+
 		this._reconnectAttempts++;
 		const delay = Math.min(1000 * Math.pow(2, this._reconnectAttempts), 30000);
-		
+
 		console.log(`CharacterP2P: Reconnecting in ${delay}ms (attempt ${this._reconnectAttempts})`);
-		
+
 		this._reconnectTimer = setTimeout(() => {
 			this._reconnectTimer = null;
 			this.init();
 		}, delay);
 	}
-	
+
 	/**
 	 * Send character update to all users (called by CharacterManager)
 	 */
@@ -1003,17 +932,17 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 				character: data.character
 			});
 		}
-		
+
 		if (data.type === 'CHARACTER_DELETED' && data.characterId) {
 			return this._sendMessage({
 				type: 'CHARACTER_DELETED',
 				characterId: data.characterId
 			});
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Register callback for when connection is established
 	 */
@@ -1024,7 +953,7 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 			this._onOpen.push(callback);
 		}
 	}
-	
+
 	/**
 	 * Get connection status
 	 */
@@ -1037,7 +966,7 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 			reconnectAttempts: this._reconnectAttempts
 		};
 	}
-	
+
 	/**
 	 * Cleanup connection
 	 */
@@ -1049,30 +978,36 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 				userId: this.clientId
 			});
 		}
-		
+
+		// Clean up WebSocket connection
+		if (this._ws) {
+			this._ws.close();
+			this._ws = null;
+		}
+
 		// Clean up any WebRTC components (if they exist)
 		if (this._dc) {
 			this._dc.close();
 			this._dc = null;
 		}
-		
+
 		if (this._pc) {
 			this._pc.close();
 			this._pc = null;
 		}
-		
+
 		this._stopHeartbeat();
-		
+
 		if (this._reconnectTimer) {
 			clearTimeout(this._reconnectTimer);
 			this._reconnectTimer = null;
 		}
-		
+
 		this._connectionState = 'disconnected';
 		this._connectedUsers.clear();
 		this._reconnectAttempts = 0;
 	}
-	
+
 	// Legacy compatibility methods - now no-ops since we're using Cloudflare
 	static _startPeriodicAnnounce() { /* handled by Cloudflare session */ }
 	static _stopPeriodicAnnounce() { /* handled by Cloudflare session */ }
@@ -1125,7 +1060,7 @@ try {
 				}
 			} catch (e) { /* ignore */ }
 		});
-		
+
 		// Add cleanup on page unload
 		window.addEventListener('beforeunload', () => {
 			try {
@@ -2102,7 +2037,7 @@ class CharacterManager {
 	static async pSaveCharacter(characterData, isEdit = false) {
 		return this.saveCharacter(characterData, isEdit);
 	}
-	
+
 	/**
 	 * Save character to server (handles both new and existing characters)
 	 * @param {Object} characterData - Character data to save
@@ -2205,21 +2140,21 @@ class CharacterManager {
 			console.warn(`CharacterManager: Character ${characterId} not found for deletion`);
 			return false;
 		}
-		
+
 		if (!this.canEditCharacter(character)) {
 			console.warn(`CharacterManager: No permission to delete character: ${character.name}`);
 			return false;
 		}
-		
+
 		try {
 			const cachedPasswords = localStorage.getItem('sourcePasswords');
 			const passwords = JSON.parse(cachedPasswords);
 			const password = passwords[character.source];
-			
+
 			const API_BASE_URL = window.location.origin.includes('localhost')
 				? 'http://localhost:3000/api'
 				: '/api';
-			
+
 			// Call delete API
 			const response = await fetch(`${API_BASE_URL}/characters/delete`, {
 				method: 'POST',
@@ -2230,11 +2165,11 @@ class CharacterManager {
 					password: password
 				})
 			});
-			
+
 			if (response.ok) {
 				// Remove from local caches
 				this.removeCharacter(characterId);
-				
+
 				// Also send over P2P channel if available
 				try {
 					if (typeof CharacterP2P !== 'undefined' && CharacterP2P.send) {
@@ -2243,7 +2178,7 @@ class CharacterManager {
 				} catch (e) {
 					console.warn('CharacterManager: Failed to send P2P CHARACTER_DELETED', e);
 				}
-				
+
 				console.log(`CharacterManager: Successfully deleted character: ${character.name}`);
 				return true;
 			} else {
@@ -2256,7 +2191,7 @@ class CharacterManager {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * Update a character stat and save to server
 	 * @param {string} characterId - Character ID
@@ -2565,7 +2500,7 @@ try {
 				}
 			} catch (e) { /* ignore */ }
 		});
-		
+
 		// Add cleanup on page unload
 		window.addEventListener('beforeunload', () => {
 			try {
