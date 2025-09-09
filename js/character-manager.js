@@ -748,7 +748,7 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 
 			// Replace with your actual Cloudflare Worker URL
 			// Deploy the worker and update this URL
-			const workerUrl = 'wss://5etools-character-sync.thesamueljim.workers.dev/';
+			const workerUrl = 'wss://5etools-character-sync.thesamueljim.workers.dev';
 			const wsUrl = `${workerUrl}?room=character-sync&userId=${this.clientId}`;
 
 			console.log('CharacterP2P: Connecting to:', wsUrl);
