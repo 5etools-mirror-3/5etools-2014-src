@@ -1204,10 +1204,12 @@ class ListPage {
 	_pOnLoad_bindMiscButtons () {
 		const $btnReset = $("#reset");
 		// TODO(MODULES) refactor
-		import("./utils-brew/utils-brew-ui-manage.js")
-			.then(({ManageBrewUi}) => {
-				ManageBrewUi.bindBtngroupManager(e_({id: "btngroup-manager"}));
-			});
+		if (document.getElementById("btngroup-manager")) {
+			import("./utils-brew/utils-brew-ui-manage.js")
+				.then(({ManageBrewUi}) => {
+					ManageBrewUi.bindBtngroupManager(e_({id: "btngroup-manager"}));
+				});
+		}
 		this._renderListFeelingLucky({$btnReset});
 		this._renderListShowHide({
 			$wrpList: $(`#listcontainer`),
