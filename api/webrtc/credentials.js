@@ -28,16 +28,12 @@ export default async function handler(req, res) {
     // Prefer Cloudflare Realtime if available
     if (cfTurnApiKey) {
       try {
-        // Fetch TURN credentials from Cloudflare
-        const response = await fetch('https://rtc.live.cloudflare.com/v1/turn/credentials', {
-          method: 'POST',
+        // Fetch TURN credentials from Cloudflare using correct endpoint
+        const response = await fetch(`https://rtc.live.cloudflare.com/v1/turn/keys/${cfTurnApiKey}/credentials/generate-ice-servers`, {
+          method: 'GET',
           headers: {
-            'Authorization': `Bearer ${cfTurnApiKey}`,
             'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            ttl: 3600 // 1 hour TTL
-          })
+          }
         });
 
         if (!response.ok) {
@@ -45,11 +41,12 @@ export default async function handler(req, res) {
         }
 
         const credentials = await response.json();
+        console.log('Cloudflare credentials response:', credentials);
 
         return res.status(200).json({
           success: true,
           provider: 'cloudflare',
-          iceServers: credentials.iceServers,
+          iceServers: credentials.iceServers || credentials,
           signalingUrl: `wss://rtc.live.cloudflare.com/v1/rooms/5etools-characters/websocket?access_token=${cfTurnApiKey}`,
           expiresAt: Date.now() + (3600 * 1000) // 1 hour from now
         });
