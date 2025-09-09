@@ -15,11 +15,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    const turnWebRtcKey = process.env.TURN_WEB_RTC;
-    const cfTurnKeyId = process.env.CL_TURN_KEY_ID;
+    const cfTurnKeyId = process.env.TURN_WEB_RTC;
     const cfTurnApiToken = process.env.CL_TURN_API_TOKEN;
 
-    if (!turnWebRtcKey && (!cfTurnKeyId || !cfTurnApiToken)) {
+    if (!cfTurnKeyId && !cfTurnApiToken) {
       return res.status(500).json({
         error: 'WebRTC credentials not configured',
         note: 'Need either TURN_WEB_RTC or both CL_TURN_KEY_ID and CL_TURN_API_TOKEN environment variables'
@@ -59,20 +58,6 @@ export default async function handler(req, res) {
         console.error('Cloudflare TURN credentials failed:', error);
         // Fall back to TurnWebRTC if Cloudflare fails
       }
-    }
-
-    // Fallback to TurnWebRTC (less reliable)
-    if (turnWebRtcKey) {
-      return res.status(200).json({
-        success: true,
-        provider: 'turnwebrtc',
-        iceServers: [
-          { urls: 'stun:stun.l.google.com:19302' },
-          { urls: 'stun:stun1.l.google.com:19302' }
-        ],
-        signalingUrl: `wss://turnwebrtc.com/api/relay/characters?apikey=${turnWebRtcKey}`,
-        expiresAt: Date.now() + (3600 * 1000) // 1 hour from now
-      });
     }
 
     return res.status(500).json({
