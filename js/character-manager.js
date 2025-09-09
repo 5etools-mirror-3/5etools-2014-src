@@ -31,6 +31,13 @@ class CharacterP2P {
 	static _maxReconnectAttempts = 6;
 	static _announceTimer = null;
 	static _announceInterval = 30 * 1000; // 30s
+	
+	// New properties for automatic connection
+	static _broadcastChannel = null;
+	static _isInitiator = false;
+	static _connectionState = 'disconnected'; // disconnected, connecting, connected
+	static _autoDiscoveryInterval = null;
+	static _autoDiscoveryTimeout = 2000; // 2 seconds
 
 	static _startPeriodicAnnounce() {
 		if (this._announceTimer) return;
@@ -48,6 +55,255 @@ class CharacterP2P {
 
 	static _stopPeriodicAnnounce() {
 		if (this._announceTimer) { clearInterval(this._announceTimer); this._announceTimer = null; }
+	}
+
+	/**
+	 * Setup BroadcastChannel for tab-to-tab signaling
+	 */
+	static _setupBroadcastChannel() {
+		if (!this._broadcastChannel) {
+			this._broadcastChannel = new BroadcastChannel('character-p2p-signaling');
+			this._broadcastChannel.onmessage = (event) => this._handleSignalingMessage(event.data);
+			console.info('CharacterP2P: BroadcastChannel setup for signaling');
+		}
+	}
+
+	/**
+	 * Handle signaling messages from other tabs
+	 */
+	static _handleSignalingMessage(message) {
+		if (message.clientId === this.clientId) {
+			// Ignore messages from self
+			return;
+		}
+
+		switch (message.type) {
+			case 'PEER_DISCOVERY':
+				this._handlePeerDiscovery(message);
+				break;
+			case 'OFFER':
+				this._handleIncomingOffer(message);
+				break;
+			case 'ANSWER':
+				this._handleIncomingAnswer(message);
+				break;
+			case 'ICE_CANDIDATE':
+				this._handleIncomingIceCandidate(message);
+				break;
+			default:
+				console.debug('CharacterP2P: Unknown signaling message type:', message.type);
+		}
+	}
+
+	/**
+	 * Start automatic peer discovery
+	 */
+	static _startAutoDiscovery() {
+		if (this._autoDiscoveryInterval) {
+			return;
+		}
+
+		console.info('CharacterP2P: Starting automatic peer discovery...');
+		this._setupBroadcastChannel();
+
+		// Send initial discovery message
+		this._sendDiscoveryMessage();
+
+		// Set up periodic discovery messages
+		this._autoDiscoveryInterval = setInterval(() => {
+			if (this._connectionState === 'disconnected') {
+				this._sendDiscoveryMessage();
+			}
+		}, this._autoDiscoveryTimeout);
+	}
+
+	/**
+	 * Stop automatic peer discovery
+	 */
+	static _stopAutoDiscovery() {
+		if (this._autoDiscoveryInterval) {
+			clearInterval(this._autoDiscoveryInterval);
+			this._autoDiscoveryInterval = null;
+		}
+	}
+
+	/**
+	 * Send discovery message to other tabs
+	 */
+	static _sendDiscoveryMessage() {
+		if (this._broadcastChannel) {
+			this._broadcastChannel.postMessage({
+				type: 'PEER_DISCOVERY',
+				clientId: this.clientId,
+				connectionState: this._connectionState,
+				timestamp: Date.now()
+			});
+		}
+	}
+
+	/**
+	 * Handle peer discovery message from another tab
+	 */
+	static _handlePeerDiscovery(message) {
+		console.info('CharacterP2P: Discovered peer:', message.clientId);
+		this._knownPeers.add(message.clientId);
+
+		// If both peers are disconnected and we haven't initiated a connection yet,
+		// determine who should create the offer (use clientId comparison for consistency)
+		if (this._connectionState === 'disconnected' && 
+			message.connectionState === 'disconnected' &&
+			this.clientId > message.clientId) { // Higher clientId initiates
+			
+			this._connectionState = 'connecting';
+			this._isInitiator = true;
+			console.info('CharacterP2P: Initiating connection to peer:', message.clientId);
+			this._createAndSendOffer();
+		}
+	}
+
+	/**
+	 * Create and send offer automatically
+	 */
+	static async _createAndSendOffer() {
+		try {
+			if (!this._pc) {
+				await this.init();
+			}
+
+			// Create data channel (we're the initiator)
+			const dc = this._pc.createDataChannel('character-sync', {
+				ordered: true,
+				maxRetransmits: 3
+			});
+			this._setupDataChannel(dc);
+
+			console.info('CharacterP2P: Creating automatic offer...');
+			const offer = await this._pc.createOffer();
+			await this._pc.setLocalDescription(offer);
+
+			// Wait for ICE candidates to be gathered
+			await new Promise(resolve => {
+				if (this._pc.iceGatheringState === 'complete') {
+					resolve();
+				} else {
+					const timeout = setTimeout(resolve, 1000);
+					const onicechange = () => {
+						if (this._pc.iceGatheringState === 'complete') {
+							clearTimeout(timeout);
+							this._pc.removeEventListener('icegatheringstatechange', onicechange);
+							resolve();
+						}
+					};
+					this._pc.addEventListener('icegatheringstatechange', onicechange);
+				}
+			});
+
+			// Send offer via BroadcastChannel
+			if (this._broadcastChannel) {
+				this._broadcastChannel.postMessage({
+					type: 'OFFER',
+					clientId: this.clientId,
+					offer: this._pc.localDescription,
+					timestamp: Date.now()
+				});
+			}
+
+			console.info('CharacterP2P: Offer sent via BroadcastChannel');
+
+		} catch (error) {
+			console.error('CharacterP2P: Error creating automatic offer:', error);
+			this._connectionState = 'disconnected';
+		}
+	}
+
+	/**
+	 * Handle incoming offer from another tab
+	 */
+	static async _handleIncomingOffer(message) {
+		try {
+			if (this._connectionState !== 'disconnected') {
+				console.debug('CharacterP2P: Ignoring offer, already connecting/connected');
+				return;
+			}
+
+			this._connectionState = 'connecting';
+			this._isInitiator = false;
+			console.info('CharacterP2P: Received offer from:', message.clientId);
+
+			if (!this._pc) {
+				await this.init();
+			}
+
+			// Set remote description
+			await this._pc.setRemoteDescription(message.offer);
+
+			// Create answer
+			const answer = await this._pc.createAnswer();
+			await this._pc.setLocalDescription(answer);
+
+			// Wait for ICE candidates
+			await new Promise(resolve => setTimeout(resolve, 200));
+
+			// Send answer back
+			if (this._broadcastChannel) {
+				this._broadcastChannel.postMessage({
+					type: 'ANSWER',
+					clientId: this.clientId,
+					targetClientId: message.clientId,
+					answer: this._pc.localDescription,
+					timestamp: Date.now()
+				});
+			}
+
+			console.info('CharacterP2P: Answer sent to:', message.clientId);
+
+		} catch (error) {
+			console.error('CharacterP2P: Error handling offer:', error);
+			this._connectionState = 'disconnected';
+		}
+	}
+
+	/**
+	 * Handle incoming answer from another tab
+	 */
+	static async _handleIncomingAnswer(message) {
+		try {
+			// Only handle answers meant for us
+			if (message.targetClientId !== this.clientId) {
+				return;
+			}
+
+			console.info('CharacterP2P: Received answer from:', message.clientId);
+
+			if (!this._pc) {
+				console.error('CharacterP2P: No peer connection to handle answer');
+				return;
+			}
+
+			await this._pc.setRemoteDescription(message.answer);
+			console.info('CharacterP2P: Connection setup complete!');
+
+		} catch (error) {
+			console.error('CharacterP2P: Error handling answer:', error);
+			this._connectionState = 'disconnected';
+		}
+	}
+
+	/**
+	 * Handle incoming ICE candidate from another tab
+	 */
+	static async _handleIncomingIceCandidate(message) {
+		try {
+			if (!this._pc) {
+				return;
+			}
+
+			await this._pc.addIceCandidate(message.candidate);
+			console.debug('CharacterP2P: Added ICE candidate from:', message.clientId);
+
+		} catch (error) {
+			console.debug('CharacterP2P: Error adding ICE candidate:', error);
+		}
 	}
 
 
@@ -83,13 +339,23 @@ class CharacterP2P {
 					this._setupDataChannel(ev.channel);
 				};
 
-				// Log ICE candidates for debugging
+				// Handle ICE candidates and send them to other tabs
 				this._pc.onicecandidate = (ev) => {
 					if (!ev.candidate) {
 						console.info('CharacterP2P: ICE gathering complete');
 						return;
 					}
 					console.debug('CharacterP2P: New ICE candidate:', ev.candidate.type, ev.candidate.candidate);
+					
+					// Send ICE candidate to other tabs via BroadcastChannel
+					if (this._broadcastChannel) {
+						this._broadcastChannel.postMessage({
+							type: 'ICE_CANDIDATE',
+							clientId: this.clientId,
+							candidate: ev.candidate,
+							timestamp: Date.now()
+						});
+					}
 				};
 
 				// Add connection state change logging
@@ -107,7 +373,10 @@ class CharacterP2P {
 				};
 			}
 
-			console.info('CharacterP2P: Direct P2P WebRTC ready. Use createOffer() and acceptOffer() for manual connection.');
+			console.info('CharacterP2P: Direct P2P WebRTC ready. Starting automatic peer discovery...');
+			
+			// Start automatic peer discovery
+			this._startAutoDiscovery();
 
 		} catch (error) {
 			console.error('CharacterP2P: Failed to initialize WebRTC:', error);
@@ -121,7 +390,46 @@ class CharacterP2P {
 						{ urls: 'stun:stun1.l.google.com:19302' }
 					]
 				});
+				
+				// Set up the same event handlers for fallback connection
+				this._pc.ondatachannel = (ev) => {
+					console.info('CharacterP2P: Received remote data channel');
+					this._setupDataChannel(ev.channel);
+				};
+				
+				this._pc.onicecandidate = (ev) => {
+					if (!ev.candidate) {
+						console.info('CharacterP2P: ICE gathering complete');
+						return;
+					}
+					console.debug('CharacterP2P: New ICE candidate:', ev.candidate.type, ev.candidate.candidate);
+					
+					if (this._broadcastChannel) {
+						this._broadcastChannel.postMessage({
+							type: 'ICE_CANDIDATE',
+							clientId: this.clientId,
+							candidate: ev.candidate,
+							timestamp: Date.now()
+						});
+					}
+				};
+				
+				this._pc.onconnectionstatechange = () => {
+					console.info('CharacterP2P: Connection state:', this._pc.connectionState);
+					if (this._pc.connectionState === 'connected') {
+						console.info('CharacterP2P: WebRTC P2P connection established!');
+					} else if (this._pc.connectionState === 'failed') {
+						console.warn('CharacterP2P: WebRTC connection failed');
+					}
+				};
+				
+				this._pc.oniceconnectionstatechange = () => {
+					console.info('CharacterP2P: ICE connection state:', this._pc.iceConnectionState);
+				};
 			}
+			
+			// Start automatic discovery even with fallback STUN
+			this._startAutoDiscovery();
 		}
 	}
 
@@ -134,6 +442,13 @@ class CharacterP2P {
 
 		this._dc.onopen = () => {
 			console.info('CharacterP2P: Data channel opened successfully!');
+			
+			// Update connection state
+			this._connectionState = 'connected';
+			
+			// Stop discovery since we're now connected
+			this._stopAutoDiscovery();
+			
 			// Announce ourselves so peers can list connected clients
 			try {
 				this._knownPeers.add(this.clientId);
@@ -178,6 +493,10 @@ class CharacterP2P {
 		this._dc.onclose = () => {
 			console.info('CharacterP2P: Data channel closed');
 			this._dc = null;
+			
+			// Reset connection state and restart discovery
+			this._connectionState = 'disconnected';
+			this._startAutoDiscovery();
 		};
 
 		// If the channel is already open, trigger the onopen handler
@@ -287,6 +606,8 @@ class CharacterP2P {
 	static getStatus() {
 		return {
 			clientId: this.clientId,
+			connectionState: this._connectionState,
+			isInitiator: this._isInitiator,
 			peerConnection: this._pc ? {
 				connectionState: this._pc.connectionState,
 				iceConnectionState: this._pc.iceConnectionState,
@@ -297,8 +618,35 @@ class CharacterP2P {
 				readyState: this._dc.readyState,
 				label: this._dc.label
 			} : null,
-			knownPeers: Array.from(this._knownPeers)
+			knownPeers: Array.from(this._knownPeers),
+			broadcastChannelReady: !!this._broadcastChannel
 		};
+	}
+
+	/**
+	 * Cleanup resources when page unloads or component is destroyed
+	 */
+	static cleanup() {
+		this._stopAutoDiscovery();
+		this._stopPeriodicAnnounce();
+		
+		if (this._broadcastChannel) {
+			this._broadcastChannel.close();
+			this._broadcastChannel = null;
+		}
+		
+		if (this._dc) {
+			this._dc.close();
+			this._dc = null;
+		}
+		
+		if (this._pc) {
+			this._pc.close();
+			this._pc = null;
+		}
+		
+		this._connectionState = 'disconnected';
+		this._knownPeers.clear();
 	}
 
 
@@ -1668,6 +2016,15 @@ try {
 					if (typeof CharacterP2P !== 'undefined' && typeof CharacterP2P._stopPeriodicAnnounce === 'function') {
 						CharacterP2P._stopPeriodicAnnounce();
 					}
+				}
+			} catch (e) { /* ignore */ }
+		});
+		
+		// Add cleanup on page unload
+		window.addEventListener('beforeunload', () => {
+			try {
+				if (typeof CharacterP2P !== 'undefined' && typeof CharacterP2P.cleanup === 'function') {
+					CharacterP2P.cleanup();
 				}
 			} catch (e) { /* ignore */ }
 		});
