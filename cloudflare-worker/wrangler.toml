@@ -1,0 +1,19 @@
+name = "5etools-character-sync"
+main = "character-sync.js"
+compatibility_date = "2024-01-01"
+
+# Durable Object bindings
+[[durable_objects.bindings]]
+name = "ROOM_MANAGER"
+class_name = "RoomManager"
+
+# Durable Object migrations
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["RoomManager"]
+
+[env.production]
+name = "5etools-character-sync"
+
+[env.development] 
+name = "5etools-character-sync-dev"
