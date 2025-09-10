@@ -122,6 +122,7 @@ class SourceManager {
 		const sourceSelect = document.getElementById('character-source-select');
 		const levelSelect = document.getElementById('character-level-select');
 		const baseClassSelect = document.getElementById('character-base-class-select');
+		const raceSelect = document.getElementById('character-race-select');
 		const nameInput = document.getElementById('character-name-input');
 		const messageDiv = document.getElementById('generation-message');
 
@@ -136,6 +137,7 @@ class SourceManager {
 				const selectedSource = sourceSelect.value;
 				const selectedLevel = parseInt(levelSelect.value);
 				const selectedBaseClass = baseClassSelect ? baseClassSelect.value : '';
+				const selectedRace = raceSelect ? raceSelect.value : '';
 				const characterName = nameInput.value.trim();
 
 				if (!selectedSource) {
@@ -146,13 +148,18 @@ class SourceManager {
 				messageDiv.innerHTML = '<span style="color: #0066cc;">Generating character...</span>';
 
 				// Generate character with the selected source
-				// Store optional base class in localStorage and pass via URL
+				// Store optional base class and race in localStorage and pass via URL
 				if (selectedBaseClass) {
 					localStorage.setItem('randomCharacterBaseClass', selectedBaseClass);
 				} else {
 					localStorage.removeItem('randomCharacterBaseClass');
 				}
-				this.generateRandomCharacter(selectedSource, selectedLevel, characterName, selectedBaseClass);
+				if (selectedRace) {
+					localStorage.setItem('randomCharacterRace', selectedRace);
+				} else {
+					localStorage.removeItem('randomCharacterRace');
+				}
+				this.generateRandomCharacter(selectedSource, selectedLevel, characterName, selectedBaseClass, selectedRace);
 			});
 		}
 
@@ -426,7 +433,7 @@ class SourceManager {
 		}
 	}
 
-	async generateRandomCharacter(sourceName, level = 5, characterName = '', baseClass = '') {
+	async generateRandomCharacter(sourceName, level = 5, characterName = '', baseClass = '', race = '') {
 		const messageDiv = document.getElementById('generation-message');
 
 		try {
@@ -443,9 +450,17 @@ class SourceManager {
 			} else {
 				localStorage.removeItem('randomCharacterBaseClass');
 			}
+			if (race) {
+				localStorage.setItem('randomCharacterRace', race);
+			} else {
+				localStorage.removeItem('randomCharacterRace');
+			}
 
-			// Navigate to character editor with random generation parameters (include baseClass param for clarity)
-			const url = `charactereditor.html?source=${encodeURIComponent(sourceName)}&random=true&level=${level}&name=${encodeURIComponent(characterName)}${baseClass ? `&baseClass=${encodeURIComponent(baseClass)}` : ''}`;
+			// Navigate to character editor with random generation parameters (include baseClass and race params for clarity)
+			const urlParams = [`source=${encodeURIComponent(sourceName)}`, 'random=true', `level=${level}`, `name=${encodeURIComponent(characterName)}`];
+			if (baseClass) urlParams.push(`baseClass=${encodeURIComponent(baseClass)}`);
+			if (race) urlParams.push(`race=${encodeURIComponent(race)}`);
+			const url = `charactereditor.html?${urlParams.join('&')}`;
 			window.location.href = url;
 
 		} catch (error) {

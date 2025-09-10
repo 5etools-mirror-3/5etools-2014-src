@@ -125,21 +125,23 @@ class CharacterEditorPage {
 			const level = parseInt(localStorage.getItem('randomCharacterLevel') || '5');
 			const sourceName = localStorage.getItem('randomCharacterSource') || '';
 			const characterName = localStorage.getItem('randomCharacterName') || '';
-			// Prefer explicit URL param 'baseClass' if present, otherwise fall back to localStorage
+			// Prefer explicit URL params if present, otherwise fall back to localStorage
 			const urlParams = new URLSearchParams(window.location.search);
 			const baseClass = urlParams.get('baseClass') || localStorage.getItem('randomCharacterBaseClass') || '';
+			const race = urlParams.get('race') || localStorage.getItem('randomCharacterRace') || '';
 
 			// Clear the generation flags
 			localStorage.removeItem('generateRandomCharacter');
 			localStorage.removeItem('randomCharacterLevel');
 			localStorage.removeItem('randomCharacterSource');
 			localStorage.removeItem('randomCharacterName');
-			// Also clear optional base class so it doesn't persist
+			// Also clear optional parameters so they don't persist
 			localStorage.removeItem('randomCharacterBaseClass');
+			localStorage.removeItem('randomCharacterRace');
 
 			// Generate random character
 			console.log(`Generating random level ${level} character for source: ${sourceName}`);
-			await this.generateRandomCharacterAtLevel(level, characterName, sourceName, baseClass);
+			await this.generateRandomCharacterAtLevel(level, characterName, sourceName, baseClass, race);
 		} else if (isEditMode) {
 			// Load character data if in edit mode
 			this.loadCharacterForEdit();
@@ -257,7 +259,7 @@ class CharacterEditorPage {
 			class: randomClasses,
 			background: randomBackground,
 			alignment: randomAlignment,
-			ac: this.generateRandomAC(randomClasses, randomAbilityScores),
+			ac: this.generateRandomAC(randomClasses, randomAbilityScores, randomRace),
 			hp: randomHp,
 			speed: {
 				walk: 30 // Default speed, will be overridden by race data
@@ -316,48 +318,146 @@ class CharacterEditorPage {
 	}
 
 	generateRandomRace(classes) {
-		// Enhanced race selection with class synergy considerations
+		// Enhanced race selection with class synergy considerations - expanded race list
 		const raceOptions = [
-			{ name: "Human", source: "PHB", subraces: ["Standard", "Variant"] },
-			{ name: "Elf", source: "PHB", subraces: ["High Elf", "Wood Elf", "Dark Elf (Drow)"] },
-			{ name: "Dwarf", source: "PHB", subraces: ["Hill Dwarf", "Mountain Dwarf"] },
-			{ name: "Halfling", source: "PHB", subraces: ["Lightfoot", "Stout"] },
-			{ name: "Dragonborn", source: "PHB", subraces: ["Standard"] },
-			{ name: "Gnome", source: "PHB", subraces: ["Forest Gnome", "Rock Gnome"] },
-			{ name: "Half-Elf", source: "PHB", subraces: ["Standard"] },
-			{ name: "Half-Orc", source: "PHB", subraces: ["Standard"] },
-			{ name: "Tiefling", source: "PHB", subraces: ["Standard"] }
+			// Core PHB Races with higher weights for familiarity
+			{ name: "Human", source: "PHB", weight: 3 },
+			{ name: "Elf", source: "PHB", weight: 3 },
+			{ name: "Dwarf", source: "PHB", weight: 3 },
+			{ name: "Halfling", source: "PHB", weight: 3 },
+			{ name: "Dragonborn", source: "PHB", weight: 2 },
+			{ name: "Gnome", source: "PHB", weight: 2 },
+			{ name: "Half-Elf", source: "PHB", weight: 2 },
+			{ name: "Half-Orc", source: "PHB", weight: 2 },
+			{ name: "Tiefling", source: "PHB", weight: 2 },
+			
+			// Popular expanded races
+			{ name: "Aasimar", source: "MPMM", weight: 2 },
+			{ name: "Genasi", source: "MPMM", weight: 2 },
+			{ name: "Goliath", source: "MPMM", weight: 2 },
+			{ name: "Tabaxi", source: "MPMM", weight: 2 },
+			{ name: "Tortle", source: "MPMM", weight: 2 },
+			{ name: "Triton", source: "MPMM", weight: 2 },
+			
+			// More exotic races with lower weights
+			{ name: "Aarakocra", source: "MPMM", weight: 1 },
+			{ name: "Bugbear", source: "MPMM", weight: 1 },
+			{ name: "Centaur", source: "MPMM", weight: 1 },
+			{ name: "Changeling", source: "MPMM", weight: 1 },
+			{ name: "Deep Gnome", source: "MPMM", weight: 1 },
+			{ name: "Duergar", source: "MPMM", weight: 1 },
+			{ name: "Eladrin", source: "MPMM", weight: 1 },
+			{ name: "Fairy", source: "MPMM", weight: 1 },
+			{ name: "Firbolg", source: "MPMM", weight: 1 },
+			{ name: "Githyanki", source: "MPMM", weight: 1 },
+			{ name: "Githzerai", source: "MPMM", weight: 1 },
+			{ name: "Goblin", source: "MPMM", weight: 1 },
+			{ name: "Harengon", source: "MPMM", weight: 1 },
+			{ name: "Hobgoblin", source: "MPMM", weight: 1 },
+			{ name: "Kenku", source: "MPMM", weight: 1 },
+			{ name: "Kobold", source: "MPMM", weight: 1 },
+			{ name: "Lizardfolk", source: "MPMM", weight: 1 },
+			{ name: "Minotaur", source: "MPMM", weight: 1 },
+			{ name: "Orc", source: "MPMM", weight: 1 },
+			{ name: "Satyr", source: "MPMM", weight: 1 },
+			{ name: "Sea Elf", source: "MPMM", weight: 1 },
+			{ name: "Shadar-Kai", source: "MPMM", weight: 1 },
+			{ name: "Shifter", source: "MPMM", weight: 1 },
+			{ name: "Yuan-Ti", source: "MPMM", weight: 1 }
 		];
 
 		// If classes are provided, weight races that synergize well
 		let weightedRaces = [];
 		if (classes && classes.length > 0) {
 			raceOptions.forEach(raceOption => {
-				const synergy = this.calculateRaceClassSynergy(raceOption, classes);
-				const weight = Math.max(1, synergy);
-				for (let i = 0; i < weight; i++) {
+				const classSynergy = this.calculateRaceClassSynergy(raceOption, classes);
+				const totalWeight = Math.max(1, raceOption.weight * classSynergy);
+				for (let i = 0; i < totalWeight; i++) {
 					weightedRaces.push(raceOption);
 				}
 			});
 		} else {
-			weightedRaces = [...raceOptions];
+			// No class provided - use base weights
+			raceOptions.forEach(raceOption => {
+				for (let i = 0; i < raceOption.weight; i++) {
+					weightedRaces.push(raceOption);
+				}
+			});
 		}
 
 		const selectedRaceOption = weightedRaces[Math.floor(Math.random() * weightedRaces.length)];
-		const selectedSubrace = selectedRaceOption.subraces[
-			Math.floor(Math.random() * selectedRaceOption.subraces.length)
-		];
 
-		const race = {
+		// Return the race structure matching 5etools format
+		return {
 			name: selectedRaceOption.name,
 			source: selectedRaceOption.source
 		};
+	}
 
-		if (selectedSubrace !== "Standard") {
-			race.subrace = selectedSubrace;
+	generateForcedRace(forcedRaceName) {
+		// Expanded race options with their source data - matches 5etools structure
+		const raceOptions = [
+			// Core PHB Races
+			{ name: "Human", source: "PHB" },
+			{ name: "Elf", source: "PHB" },
+			{ name: "Dwarf", source: "PHB" },
+			{ name: "Halfling", source: "PHB" },
+			{ name: "Dragonborn", source: "PHB" },
+			{ name: "Gnome", source: "PHB" },
+			{ name: "Half-Elf", source: "PHB" },
+			{ name: "Half-Orc", source: "PHB" },
+			{ name: "Tiefling", source: "PHB" },
+			
+			// Expanded Races from various sources
+			{ name: "Aarakocra", source: "MPMM" },
+			{ name: "Aasimar", source: "MPMM" },
+			{ name: "Bugbear", source: "MPMM" },
+			{ name: "Centaur", source: "MPMM" },
+			{ name: "Changeling", source: "MPMM" },
+			{ name: "Deep Gnome", source: "MPMM" },
+			{ name: "Duergar", source: "MPMM" },
+			{ name: "Eladrin", source: "MPMM" },
+			{ name: "Fairy", source: "MPMM" },
+			{ name: "Firbolg", source: "MPMM" },
+			{ name: "Genasi", source: "MPMM" },
+			{ name: "Githyanki", source: "MPMM" },
+			{ name: "Githzerai", source: "MPMM" },
+			{ name: "Goblin", source: "MPMM" },
+			{ name: "Goliath", source: "MPMM" },
+			{ name: "Harengon", source: "MPMM" },
+			{ name: "Hobgoblin", source: "MPMM" },
+			{ name: "Kenku", source: "MPMM" },
+			{ name: "Kobold", source: "MPMM" },
+			{ name: "Lizardfolk", source: "MPMM" },
+			{ name: "Minotaur", source: "MPMM" },
+			{ name: "Orc", source: "MPMM" },
+			{ name: "Satyr", source: "MPMM" },
+			{ name: "Sea Elf", source: "MPMM" },
+			{ name: "Shadar-Kai", source: "MPMM" },
+			{ name: "Shifter", source: "MPMM" },
+			{ name: "Tabaxi", source: "MPMM" },
+			{ name: "Tortle", source: "MPMM" },
+			{ name: "Triton", source: "MPMM" },
+			{ name: "Yuan-Ti", source: "MPMM" }
+		];
+
+		// Find the forced race option
+		const raceOption = raceOptions.find(option => option.name === forcedRaceName);
+		
+		if (!raceOption) {
+			console.warn(`Unknown race: ${forcedRaceName}, falling back to Human`);
+			// Fallback to Human if race not found
+			return {
+				name: "Human",
+				source: "PHB"
+			};
 		}
 
-		return race;
+		// Return the race structure matching 5etools format
+		return {
+			name: raceOption.name,
+			source: raceOption.source
+		};
 	}
 
 	calculateRaceClassSynergy(race, classes) {
@@ -537,7 +637,7 @@ class CharacterEditorPage {
 		// Get unique random classes
 		const availableClasses = [
 			"Fighter", "Wizard", "Rogue", "Cleric", "Ranger", "Paladin",
-			"Barbarian", "Bard", "Druid", "Monk", "Sorcerer", "Warlock"
+			"Barbarian", "Bard", "Druid", "Monk", "Sorcerer", "Warlock", "Artificer"
 		];
 
 		// If a baseClass is provided and valid, force it to be the first class
@@ -587,59 +687,169 @@ class CharacterEditorPage {
 	getSubclassForClass(className) {
 		const subclasses = {
 			"Fighter": [
+				// PHB Core
 				{ name: "Champion", shortName: "Champion", source: "PHB" },
 				{ name: "Battle Master", shortName: "Battle Master", source: "PHB" },
-				{ name: "Eldritch Knight", shortName: "Eldritch Knight", source: "PHB" }
+				{ name: "Eldritch Knight", shortName: "Eldritch Knight", source: "PHB" },
+				// Expanded
+				{ name: "Arcane Archer", shortName: "Arcane Archer", source: "XGE" },
+				{ name: "Cavalier", shortName: "Cavalier", source: "XGE" },
+				{ name: "Samurai", shortName: "Samurai", source: "XGE" },
+				{ name: "Echo Knight", shortName: "Echo Knight", source: "EGW" },
+				{ name: "Psi Warrior", shortName: "Psi Warrior", source: "TCE" },
+				{ name: "Rune Knight", shortName: "Rune Knight", source: "TCE" }
 			],
 			"Wizard": [
-				{ name: "School of Evocation", shortName: "Evocation", source: "PHB" },
+				// PHB Core - All Schools
 				{ name: "School of Abjuration", shortName: "Abjuration", source: "PHB" },
-				{ name: "School of Divination", shortName: "Divination", source: "PHB" }
+				{ name: "School of Conjuration", shortName: "Conjuration", source: "PHB" },
+				{ name: "School of Divination", shortName: "Divination", source: "PHB" },
+				{ name: "School of Enchantment", shortName: "Enchantment", source: "PHB" },
+				{ name: "School of Evocation", shortName: "Evocation", source: "PHB" },
+				{ name: "School of Illusion", shortName: "Illusion", source: "PHB" },
+				{ name: "School of Necromancy", shortName: "Necromancy", source: "PHB" },
+				{ name: "School of Transmutation", shortName: "Transmutation", source: "PHB" },
+				// Expanded
+				{ name: "Bladesinging", shortName: "Bladesinging", source: "TCE" },
+				{ name: "War Magic", shortName: "War", source: "XGE" },
+				{ name: "Order of Scribes", shortName: "Scribes", source: "TCE" },
+				{ name: "Chronurgy Magic", shortName: "Chronurgy", source: "EGW" },
+				{ name: "Graviturgy Magic", shortName: "Graviturgy", source: "EGW" }
 			],
 			"Rogue": [
+				// PHB Core
 				{ name: "Thief", shortName: "Thief", source: "PHB" },
 				{ name: "Assassin", shortName: "Assassin", source: "PHB" },
-				{ name: "Arcane Trickster", shortName: "Arcane Trickster", source: "PHB" }
+				{ name: "Arcane Trickster", shortName: "Arcane Trickster", source: "PHB" },
+				// Expanded
+				{ name: "Mastermind", shortName: "Mastermind", source: "XGE" },
+				{ name: "Scout", shortName: "Scout", source: "XGE" },
+				{ name: "Swashbuckler", shortName: "Swashbuckler", source: "XGE" },
+				{ name: "Inquisitive", shortName: "Inquisitive", source: "XGE" },
+				{ name: "Phantom", shortName: "Phantom", source: "TCE" },
+				{ name: "Soulknife", shortName: "Soulknife", source: "TCE" }
 			],
 			"Cleric": [
+				// PHB Core
+				{ name: "Knowledge Domain", shortName: "Knowledge", source: "PHB" },
 				{ name: "Life Domain", shortName: "Life", source: "PHB" },
 				{ name: "Light Domain", shortName: "Light", source: "PHB" },
-				{ name: "War Domain", shortName: "War", source: "PHB" }
+				{ name: "Nature Domain", shortName: "Nature", source: "PHB" },
+				{ name: "Tempest Domain", shortName: "Tempest", source: "PHB" },
+				{ name: "Trickery Domain", shortName: "Trickery", source: "PHB" },
+				{ name: "War Domain", shortName: "War", source: "PHB" },
+				// Expanded
+				{ name: "Death Domain", shortName: "Death", source: "DMG" },
+				{ name: "Arcana Domain", shortName: "Arcana", source: "SCAG" },
+				{ name: "Forge Domain", shortName: "Forge", source: "XGE" },
+				{ name: "Grave Domain", shortName: "Grave", source: "XGE" },
+				{ name: "Order Domain", shortName: "Order", source: "TCE" },
+				{ name: "Peace Domain", shortName: "Peace", source: "TCE" },
+				{ name: "Twilight Domain", shortName: "Twilight", source: "TCE" }
 			],
 			"Ranger": [
+				// PHB Core
 				{ name: "Hunter", shortName: "Hunter", source: "PHB" },
-				{ name: "Beast Master", shortName: "Beast Master", source: "PHB" }
+				{ name: "Beast Master", shortName: "Beast Master", source: "PHB" },
+				// Expanded
+				{ name: "Gloom Stalker", shortName: "Gloom Stalker", source: "XGE" },
+				{ name: "Horizon Walker", shortName: "Horizon Walker", source: "XGE" },
+				{ name: "Monster Slayer", shortName: "Monster Slayer", source: "XGE" },
+				{ name: "Fey Wanderer", shortName: "Fey Wanderer", source: "TCE" },
+				{ name: "Swarmkeeper", shortName: "Swarmkeeper", source: "TCE" },
+				{ name: "Drakewarden", shortName: "Drakewarden", source: "FTD" }
 			],
 			"Paladin": [
+				// PHB Core
 				{ name: "Oath of Devotion", shortName: "Devotion", source: "PHB" },
 				{ name: "Oath of the Ancients", shortName: "Ancients", source: "PHB" },
-				{ name: "Oath of Vengeance", shortName: "Vengeance", source: "PHB" }
+				{ name: "Oath of Vengeance", shortName: "Vengeance", source: "PHB" },
+				// Expanded
+				{ name: "Oathbreaker", shortName: "Oathbreaker", source: "DMG" },
+				{ name: "Oath of the Crown", shortName: "Crown", source: "SCAG" },
+				{ name: "Oath of Conquest", shortName: "Conquest", source: "XGE" },
+				{ name: "Oath of Redemption", shortName: "Redemption", source: "XGE" },
+				{ name: "Oath of Glory", shortName: "Glory", source: "TCE" },
+				{ name: "Oath of the Watchers", shortName: "Watchers", source: "TCE" }
 			],
 			"Barbarian": [
+				// PHB Core
 				{ name: "Path of the Berserker", shortName: "Berserker", source: "PHB" },
-				{ name: "Path of the Totem Warrior", shortName: "Totem Warrior", source: "PHB" }
+				{ name: "Path of the Totem Warrior", shortName: "Totem Warrior", source: "PHB" },
+				// Expanded
+				{ name: "Path of the Battlerager", shortName: "Battlerager", source: "SCAG" },
+				{ name: "Path of the Ancestral Guardian", shortName: "Ancestral Guardian", source: "XGE" },
+				{ name: "Path of the Storm Herald", shortName: "Storm Herald", source: "XGE" },
+				{ name: "Path of the Zealot", shortName: "Zealot", source: "XGE" },
+				{ name: "Path of the Beast", shortName: "Beast", source: "TCE" },
+				{ name: "Path of Wild Magic", shortName: "Wild Magic", source: "TCE" }
 			],
 			"Bard": [
+				// PHB Core
 				{ name: "College of Lore", shortName: "Lore", source: "PHB" },
-				{ name: "College of Valor", shortName: "Valor", source: "PHB" }
+				{ name: "College of Valor", shortName: "Valor", source: "PHB" },
+				// Expanded
+				{ name: "College of Swords", shortName: "Swords", source: "XGE" },
+				{ name: "College of Whispers", shortName: "Whispers", source: "XGE" },
+				{ name: "College of Glamour", shortName: "Glamour", source: "XGE" },
+				{ name: "College of Creation", shortName: "Creation", source: "TCE" },
+				{ name: "College of Eloquence", shortName: "Eloquence", source: "TCE" }
 			],
 			"Druid": [
+				// PHB Core
 				{ name: "Circle of the Land", shortName: "Land", source: "PHB" },
-				{ name: "Circle of the Moon", shortName: "Moon", source: "PHB" }
+				{ name: "Circle of the Moon", shortName: "Moon", source: "PHB" },
+				// Expanded
+				{ name: "Circle of Dreams", shortName: "Dreams", source: "XGE" },
+				{ name: "Circle of the Shepherd", shortName: "Shepherd", source: "XGE" },
+				{ name: "Circle of Spores", shortName: "Spores", source: "TCE" },
+				{ name: "Circle of Stars", shortName: "Stars", source: "TCE" },
+				{ name: "Circle of Wildfire", shortName: "Wildfire", source: "TCE" }
 			],
 			"Monk": [
+				// PHB Core
 				{ name: "Way of the Open Hand", shortName: "Open Hand", source: "PHB" },
 				{ name: "Way of Shadow", shortName: "Shadow", source: "PHB" },
-				{ name: "Way of the Four Elements", shortName: "Four Elements", source: "PHB" }
+				{ name: "Way of the Four Elements", shortName: "Four Elements", source: "PHB" },
+				// Expanded
+				{ name: "Way of the Long Death", shortName: "Long Death", source: "SCAG" },
+				{ name: "Way of the Sun Soul", shortName: "Sun Soul", source: "XGE" },
+				{ name: "Way of the Drunken Master", shortName: "Drunken Master", source: "XGE" },
+				{ name: "Way of the Kensei", shortName: "Kensei", source: "XGE" },
+				{ name: "Way of Mercy", shortName: "Mercy", source: "TCE" },
+				{ name: "Way of the Astral Self", shortName: "Astral Self", source: "TCE" },
+				{ name: "Way of the Ascendant Dragon", shortName: "Ascendant Dragon", source: "FTD" }
 			],
 			"Sorcerer": [
+				// PHB Core
 				{ name: "Draconic Bloodline", shortName: "Draconic", source: "PHB" },
-				{ name: "Wild Magic", shortName: "Wild Magic", source: "PHB" }
+				{ name: "Wild Magic", shortName: "Wild", source: "PHB" },
+				// Expanded
+				{ name: "Storm Sorcery", shortName: "Storm", source: "XGE" },
+				{ name: "Divine Soul", shortName: "Divine Soul", source: "XGE" },
+				{ name: "Shadow Magic", shortName: "Shadow", source: "XGE" },
+				{ name: "Aberrant Mind", shortName: "Aberrant Mind", source: "TCE" },
+				{ name: "Clockwork Soul", shortName: "Clockwork Soul", source: "TCE" }
 			],
 			"Warlock": [
+				// PHB Core
+				{ name: "The Archfey", shortName: "Archfey", source: "PHB" },
 				{ name: "The Fiend", shortName: "Fiend", source: "PHB" },
 				{ name: "The Great Old One", shortName: "Great Old One", source: "PHB" },
-				{ name: "The Archfey", shortName: "Archfey", source: "PHB" }
+				// Expanded
+				{ name: "The Undying", shortName: "Undying", source: "SCAG" },
+				{ name: "The Celestial", shortName: "Celestial", source: "XGE" },
+				{ name: "The Hexblade", shortName: "Hexblade", source: "XGE" },
+				{ name: "The Fathomless", shortName: "Fathomless", source: "TCE" },
+				{ name: "The Genie", shortName: "Genie", source: "TCE" },
+				{ name: "The Undead", shortName: "Undead", source: "VRGR" }
+			],
+			"Artificer": [
+				// TCE Core
+				{ name: "Alchemist", shortName: "Alchemist", source: "TCE" },
+				{ name: "Armorer", shortName: "Armorer", source: "TCE" },
+				{ name: "Artillerist", shortName: "Artillerist", source: "TCE" },
+				{ name: "Battle Smith", shortName: "Battle Smith", source: "TCE" }
 			]
 		};
 
@@ -1936,27 +2146,27 @@ class CharacterEditorPage {
 			if (raceInfo.age) {
 				let ageText = '';
 				let randomAge = null;
-				
+
 				if (raceInfo.age.mature && raceInfo.age.max) {
 					// Generate random age based on race maturity and max age
 					const maturityAge = raceInfo.age.mature;
 					const maxAge = raceInfo.age.max;
-					
+
 					// Most characters are young adults to middle-aged (mature age to 70% of max age)
 					const youngAdultMax = Math.floor(maxAge * 0.7);
 					randomAge = maturityAge + Math.floor(Math.random() * (youngAdultMax - maturityAge));
-					
+
 					ageText = `${randomAge} years old. Your people mature at ${maturityAge} and live up to ${maxAge} years.`;
 				} else if (typeof raceInfo.age === 'string' || (raceInfo.age.entries && raceInfo.age.entries.length > 0)) {
 					// Handle age descriptions without specific numbers
-					const ageDescription = typeof raceInfo.age === 'string' 
-						? raceInfo.age 
+					const ageDescription = typeof raceInfo.age === 'string'
+						? raceInfo.age
 						: raceInfo.age.entries.join(' ');
-					
+
 					// Try to extract numbers for random generation
 					const maturityMatch = ageDescription.match(/mature.*?(\d+)/i);
 					const maxMatch = ageDescription.match(/live.*?(\d+)/i);
-					
+
 					if (maturityMatch && maxMatch) {
 						const maturityAge = parseInt(maturityMatch[1]);
 						const maxAge = parseInt(maxMatch[1]);
@@ -2023,10 +2233,44 @@ class CharacterEditorPage {
 	}
 
 
-	generateRandomAC(classes, abilityScores) {
+	generateRandomAC(classes, abilityScores, race = null) {
 		const dexMod = Math.floor((abilityScores.dex - 10) / 2);
+		const conMod = Math.floor((abilityScores.con - 10) / 2);
+		const wisMod = Math.floor((abilityScores.wis - 10) / 2);
+		
 		let baseAC = 10 + dexMod;
 		let armorType = "natural";
+
+		// Check for racial natural armor first
+		if (race && race.name) {
+			const racialAC = this.getRacialNaturalArmor(race.name, dexMod);
+			if (racialAC) {
+				return [{
+					ac: racialAC.ac,
+					from: [racialAC.type]
+				}];
+			}
+		}
+
+		// Check for class-based unarmored AC bonuses
+		const monkClass = classes.find(cls => cls.name === "Monk");
+		const barbarianClass = classes.find(cls => cls.name === "Barbarian");
+		
+		if (monkClass && Math.random() < 0.6) {
+			// Monk Unarmored Defense: 10 + Dex + Wis
+			baseAC = 10 + dexMod + wisMod;
+			return [{
+				ac: Math.max(baseAC, 10 + dexMod), // Don't go below normal unarmored AC
+				from: ["Unarmored Defense (Monk)"]
+			}];
+		} else if (barbarianClass && Math.random() < 0.6) {
+			// Barbarian Unarmored Defense: 10 + Dex + Con
+			baseAC = 10 + dexMod + conMod;
+			return [{
+				ac: Math.max(baseAC, 10 + dexMod), // Don't go below normal unarmored AC
+				from: ["Unarmored Defense (Barbarian)"]
+			}];
+		}
 
 		// Determine armor based on class
 		const hasHeavyArmor = classes.some(cls => ["Fighter", "Paladin", "Cleric"].includes(cls.name));
@@ -2047,6 +2291,29 @@ class CharacterEditorPage {
 			ac: baseAC,
 			from: [armorType]
 		}];
+	}
+
+	getRacialNaturalArmor(raceName, dexMod) {
+		const racialArmor = {
+			"Lizardfolk": {
+				ac: 13 + dexMod,
+				type: "natural armor"
+			},
+			"Loxodon": {
+				ac: 12 + dexMod,
+				type: "natural armor"
+			},
+			"Tortle": {
+				ac: 17, // Fixed AC, no Dex bonus
+				type: "natural armor"
+			},
+			"Warforged": {
+				ac: 11 + dexMod, // Base integrated protection
+				type: "integrated protection"
+			}
+		};
+
+		return racialArmor[raceName] || null;
 	}
 
 	generateRandomSaves(abilityScores, classes, profBonus) {
@@ -2583,27 +2850,36 @@ class CharacterEditorPage {
 	calculateRandomHp(classes, conMod) {
 		let totalHp = 0;
 		let hitDice = [];
+		let isFirstLevel = true;
 
 		classes.forEach(cls => {
 			const hitDieMap = {
-				"Barbarian": 12, "Fighter": 10, "Paladin": 10, "Ranger": 10,
+				"Barbarian": 12, "Fighter": 10, "Paladin": 10, "Ranger": 10, "Artificer": 8,
 				"Bard": 8, "Cleric": 8, "Druid": 8, "Monk": 8, "Rogue": 8, "Warlock": 8,
 				"Sorcerer": 6, "Wizard": 6
 			};
 
 			const hitDie = hitDieMap[cls.name] || 8;
-			// First level: max hit die + CON mod
-			// Subsequent levels: average of hit die + CON mod per level
-			const classHp = hitDie + (cls.level - 1) * (Math.floor(hitDie / 2) + 1);
+			let classHp = 0;
+
+			// For each level in this class
+			for (let level = 1; level <= cls.level; level++) {
+				if (isFirstLevel) {
+					// First character level ever: max hit die + CON mod
+					classHp += hitDie + conMod;
+					isFirstLevel = false;
+				} else {
+					// Subsequent levels: average hit die + CON mod
+					classHp += Math.floor(hitDie / 2) + 1 + conMod;
+				}
+			}
+
 			totalHp += classHp;
 			hitDice.push(`${cls.level}d${hitDie}`);
 		});
 
-		// Add Constitution modifier per total character level (not double-counted)
-		const totalLevel = classes.reduce((sum, cls) => sum + cls.level, 0);
-		totalHp += conMod * totalLevel;
-
 		// Ensure minimum 1 HP per level
+		const totalLevel = classes.reduce((sum, cls) => sum + cls.level, 0);
 		totalHp = Math.max(totalHp, totalLevel);
 
 		return {
@@ -2685,13 +2961,17 @@ class CharacterEditorPage {
 		classes.forEach(cls => {
 			switch (cls.name) {
 				case "Fighter":
+					// Main weapon attack with proper damage calculation
+					const longswordDamage = Math.max(1, 4 + strMod); // Average of 1d8 + STR
 					actions.push({
 						name: "{@item Longsword|phb}",
-						entries: [`{@atk rm} {@hit ${strMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + strMod + (cls.level >= 11 ? 2 : cls.level >= 5 ? 1 : 0)} ({@damage 1d8 + ${strMod}}) slashing damage.`]
+						entries: [`{@atk rm} {@hit ${strMod + profBonus}} to hit, reach 5 ft., one target. {@h}${longswordDamage} ({@damage 1d8 + ${strMod}}) slashing damage.`]
 					});
+					// Ranged/thrown weapon option
+					const javelinDamage = Math.max(1, 3 + strMod); // Average of 1d6 + STR
 					actions.push({
 						name: "{@item Javelin|phb}",
-						entries: [`{@atk rm,rw} {@hit ${strMod + profBonus}} to hit, reach 5 ft. or range 30/120 ft., one target. {@h}${1 + strMod} ({@damage 1d6 + ${strMod}}) piercing damage.`]
+						entries: [`{@atk rm,rw} {@hit ${strMod + profBonus}} to hit, reach 5 ft. or range 30/120 ft., one target. {@h}${javelinDamage} ({@damage 1d6 + ${strMod}}) piercing damage.`]
 					});
 					if (cls.level >= 2) {
 						actions.push({
@@ -2708,9 +2988,10 @@ class CharacterEditorPage {
 					break;
 
 				case "Paladin":
+					const paladinSwordDamage = Math.max(1, 4 + strMod); // Average of 1d8 + STR
 					actions.push({
 						name: "{@item Longsword|phb}",
-						entries: [`{@atk rm} {@hit ${strMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + strMod} ({@damage 1d8 + ${strMod}}) slashing damage.`]
+						entries: [`{@atk rm} {@hit ${strMod + profBonus}} to hit, reach 5 ft., one target. {@h}${paladinSwordDamage} ({@damage 1d8 + ${strMod}}) slashing damage.`]
 					});
 					if (cls.level >= 2) {
 						actions.push({
@@ -2727,13 +3008,15 @@ class CharacterEditorPage {
 					break;
 
 				case "Rogue":
+					const shortbowDamage = Math.max(1, 3 + dexMod); // Average of 1d6 + DEX
+					const daggerDamage = Math.max(1, 2 + dexMod); // Average of 1d4 + DEX
 					actions.push({
 						name: "{@item Shortbow|phb}",
-						entries: [`{@atk rw} {@hit ${dexMod + profBonus}} to hit, range 80/320 ft., one target. {@h}${1 + dexMod} ({@damage 1d6 + ${dexMod}}) piercing damage.`]
+						entries: [`{@atk rw} {@hit ${dexMod + profBonus}} to hit, range 80/320 ft., one target. {@h}${shortbowDamage} ({@damage 1d6 + ${dexMod}}) piercing damage.`]
 					});
 					actions.push({
 						name: "{@item Dagger|phb}",
-						entries: [`{@atk rm,rw} {@hit ${dexMod + profBonus}} to hit, reach 5 ft. or range 20/60 ft., one target. {@h}${1 + dexMod} ({@damage 1d4 + ${dexMod}}) piercing damage.`]
+						entries: [`{@atk rm,rw} {@hit ${dexMod + profBonus}} to hit, reach 5 ft. or range 20/60 ft., one target. {@h}${daggerDamage} ({@damage 1d4 + ${dexMod}}) piercing damage.`]
 					});
 					actions.push({
 						name: "Sneak Attack (1/Turn)",
@@ -2748,13 +3031,15 @@ class CharacterEditorPage {
 					break;
 
 				case "Ranger":
+					const longbowDamage = Math.max(1, 4 + dexMod); // Average of 1d8 + DEX
+					const scimitarDamage = Math.max(1, 3 + dexMod); // Average of 1d6 + DEX
 					actions.push({
 						name: "{@item Longbow|phb}",
-						entries: [`{@atk rw} {@hit ${dexMod + profBonus}} to hit, range 150/600 ft., one target. {@h}${1 + dexMod} ({@damage 1d8 + ${dexMod}}) piercing damage.`]
+						entries: [`{@atk rw} {@hit ${dexMod + profBonus}} to hit, range 150/600 ft., one target. {@h}${longbowDamage} ({@damage 1d8 + ${dexMod}}) piercing damage.`]
 					});
 					actions.push({
 						name: "{@item Scimitar|phb}",
-						entries: [`{@atk rm} {@hit ${dexMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + dexMod} ({@damage 1d6 + ${dexMod}}) slashing damage.`]
+						entries: [`{@atk rm} {@hit ${dexMod + profBonus}} to hit, reach 5 ft., one target. {@h}${scimitarDamage} ({@damage 1d6 + ${dexMod}}) slashing damage.`]
 					});
 					if (cls.level >= 3) {
 						actions.push({
@@ -2769,9 +3054,10 @@ class CharacterEditorPage {
 						name: "{@spell Fire Bolt}",
 						entries: [`{@atk rs} {@hit ${intMod + profBonus}} to hit, range 120 ft., one target. {@h}${1 + Math.floor(totalLevel / 5)} ({@damage ${Math.ceil((totalLevel + 5) / 6)}d10}) fire damage.`]
 					});
+					const wizardDaggerDamage = Math.max(1, 2 + dexMod); // Average of 1d4 + DEX
 					actions.push({
 						name: "{@item Dagger|phb}",
-						entries: [`{@atk rm,rw} {@hit ${dexMod + profBonus}} to hit, reach 5 ft. or range 20/60 ft., one target. {@h}${1 + dexMod} ({@damage 1d4 + ${dexMod}}) piercing damage.`]
+						entries: [`{@atk rm,rw} {@hit ${dexMod + profBonus}} to hit, reach 5 ft. or range 20/60 ft., one target. {@h}${wizardDaggerDamage} ({@damage 1d4 + ${dexMod}}) piercing damage.`]
 					});
 					if (cls.level >= 2) {
 						actions.push({
@@ -2808,9 +3094,10 @@ class CharacterEditorPage {
 					break;
 
 				case "Cleric":
+					const maceDamage = Math.max(1, 3 + strMod); // Average of 1d6 + STR
 					actions.push({
 						name: "{@item Mace|phb}",
-						entries: [`{@atk rm} {@hit ${strMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + strMod} ({@damage 1d6 + ${strMod}}) bludgeoning damage.`]
+						entries: [`{@atk rm} {@hit ${strMod + profBonus}} to hit, reach 5 ft., one target. {@h}${maceDamage} ({@damage 1d6 + ${strMod}}) bludgeoning damage.`]
 					});
 					actions.push({
 						name: "{@spell Sacred Flame}",
@@ -2829,9 +3116,10 @@ class CharacterEditorPage {
 						name: "{@spell Druidcraft}",
 						entries: [`Create various minor nature effects within 30 feet.`]
 					});
+					const druidScimitarDamage = Math.max(1, 3 + dexMod); // Average of 1d6 + DEX
 					actions.push({
 						name: "{@item Scimitar|phb}",
-						entries: [`{@atk rm} {@hit ${dexMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + dexMod} ({@damage 1d6 + ${dexMod}}) slashing damage.`]
+						entries: [`{@atk rm} {@hit ${dexMod + profBonus}} to hit, reach 5 ft., one target. {@h}${druidScimitarDamage} ({@damage 1d6 + ${dexMod}}) slashing damage.`]
 					});
 					if (cls.level >= 2) {
 						actions.push({
@@ -2842,9 +3130,10 @@ class CharacterEditorPage {
 					break;
 
 				case "Barbarian":
+					const greataxeDamage = Math.max(1, 6 + strMod); // Average of 1d12 + STR
 					actions.push({
 						name: "{@item Greataxe|phb}",
-						entries: [`{@atk rm} {@hit ${strMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + strMod} ({@damage 1d12 + ${strMod}}) slashing damage.`]
+						entries: [`{@atk rm} {@hit ${strMod + profBonus}} to hit, reach 5 ft., one target. {@h}${greataxeDamage} ({@damage 1d12 + ${strMod}}) slashing damage.`]
 					});
 					actions.push({
 						name: "Rage (Bonus Action)",
@@ -2859,9 +3148,10 @@ class CharacterEditorPage {
 					break;
 
 				case "Bard":
+					const rapierDamage = Math.max(1, 4 + dexMod); // Average of 1d8 + DEX
 					actions.push({
 						name: "{@item Rapier|phb}",
-						entries: [`{@atk rm} {@hit ${dexMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + dexMod} ({@damage 1d8 + ${dexMod}}) piercing damage.`]
+						entries: [`{@atk rm} {@hit ${dexMod + profBonus}} to hit, reach 5 ft., one target. {@h}${rapierDamage} ({@damage 1d8 + ${dexMod}}) piercing damage.`]
 					});
 					actions.push({
 						name: "{@spell Vicious Mockery}",
@@ -2876,9 +3166,11 @@ class CharacterEditorPage {
 					break;
 
 				case "Monk":
+					const martialArtsHitDie = cls.level < 5 ? 4 : cls.level < 11 ? 6 : cls.level < 17 ? 8 : 10;
+					const unarmedStrikeDamage = Math.max(1, Math.floor(martialArtsHitDie / 2) + 1 + dexMod); // Average of martial arts die + DEX
 					actions.push({
 						name: "Unarmed Strike",
-						entries: [`{@atk rm} {@hit ${dexMod + profBonus}} to hit, reach 5 ft., one target. {@h}${1 + dexMod} ({@damage 1d${cls.level < 5 ? 4 : cls.level < 11 ? 6 : cls.level < 17 ? 8 : 10} + ${dexMod}}) bludgeoning damage.`]
+						entries: [`{@atk rm} {@hit ${dexMod + profBonus}} to hit, reach 5 ft., one target. {@h}${unarmedStrikeDamage} ({@damage 1d${martialArtsHitDie} + ${dexMod}}) bludgeoning damage.`]
 					});
 					if (cls.level >= 2) {
 						actions.push({
@@ -3206,14 +3498,318 @@ class CharacterEditorPage {
 	}
 
 	getRandomSpells(casterClass, level) {
+		const classSpellLists = this.getClassSpellList(casterClass.name, level);
+		if (!classSpellLists || classSpellLists.length === 0) {
+			return [];
+		}
+
+		// Calculate appropriate number of spells for this level
+		const spellCount = this.getSpellCountForLevel(casterClass, level);
+		const selectedSpells = [];
+
+		// Always include signature/important spells for the class
+		const signatureSpells = this.getSignatureSpells(casterClass.name, level);
+		signatureSpells.forEach(spell => {
+			if (selectedSpells.length < spellCount && classSpellLists.includes(spell)) {
+				selectedSpells.push(spell);
+			}
+		});
+
+		// Fill remaining slots with random appropriate spells
+		const availableSpells = classSpellLists.filter(spell => !selectedSpells.includes(spell));
+		while (selectedSpells.length < spellCount && availableSpells.length > 0) {
+			const randomIndex = Math.floor(Math.random() * availableSpells.length);
+			const randomSpell = availableSpells.splice(randomIndex, 1)[0];
+			selectedSpells.push(randomSpell);
+		}
+
+		return selectedSpells;
+	}
+
+	getClassSpellList(className, level) {
 		const spellLists = {
-			1: ["magic missile", "shield", "cure wounds", "healing word", "burning hands"],
-			2: ["misty step", "scorching ray", "spiritual weapon", "hold person"],
-			3: ["fireball", "counterspell", "spirit guardians", "fly"]
+			"Wizard": {
+				0: ["Acid Splash", "Chill Touch", "Dancing Lights", "Fire Bolt", "Light", "Mage Hand", "Mending", "Message", "Minor Illusion", "Poison Spray", "Prestidigitation", "Ray of Frost", "Shocking Grasp", "True Strike"],
+				1: ["Alarm", "Burning Hands", "Charm Person", "Color Spray", "Comprehend Languages", "Detect Magic", "Disguise Self", "Expeditious Retreat", "False Life", "Feather Fall", "Find Familiar", "Fog Cloud", "Grease", "Identify", "Illusory Script", "Jump", "Longstrider", "Mage Armor", "Magic Missile", "Protection from Evil and Good", "Shield", "Silent Image", "Sleep", "Thunderwave", "Unseen Servant"],
+				2: ["Acid Arrow", "Alter Self", "Arcane Lock", "Blur", "Continual Flame", "Darkness", "Darkvision", "Detect Thoughts", "Enlarge/Reduce", "Flaming Sphere", "Gentle Repose", "Gust of Wind", "Hold Person", "Invisibility", "Knock", "Levitate", "Locate Object", "Magic Mouth", "Magic Weapon", "Mirror Image", "Misty Step", "Ray of Enfeeblement", "Rope Trick", "Scorching Ray", "See Invisibility", "Shatter", "Spider Climb", "Suggestion", "Web"],
+				3: ["Animate Dead", "Bestow Curse", "Blink", "Clairvoyance", "Counterspell", "Daylight", "Dispel Magic", "Fear", "Fireball", "Fly", "Gaseous Form", "Glyph of Warding", "Haste", "Hypnotic Pattern", "Lightning Bolt", "Magic Circle", "Major Image", "Nondetection", "Phantom Steed", "Protection from Energy", "Remove Curse", "Sending", "Sleet Storm", "Slow", "Stinking Cloud", "Suggestion", "Tongues", "Vampiric Touch", "Water Breathing"],
+				4: ["Arcane Eye", "Banishment", "Black Tentacles", "Blight", "Confusion", "Conjure Minor Elementals", "Control Water", "Dimension Door", "Fabricate", "Fire Shield", "Greater Invisibility", "Hallucinatory Terrain", "Ice Storm", "Locate Creature", "Phantasmal Killer", "Polymorph", "Private Sanctum", "Resilient Sphere", "Secret Chest", "Stone Shape", "Stoneskin", "Wall of Fire"],
+				5: ["Animate Objects", "Bigby's Hand", "Cloudkill", "Cone of Cold", "Conjure Elemental", "Contact Other Plane", "Creation", "Dominate Person", "Dream", "Geas", "Hold Monster", "Legend Lore", "Modify Memory", "Passwall", "Planar Binding", "Scrying", "Seeming", "Telekinesis", "Telepathic Bond", "Teleportation Circle", "Wall of Force", "Wall of Stone"],
+				6: ["Chain Lightning", "Circle of Death", "Contingency", "Create Undead", "Disintegrate", "Eyebite", "Flesh to Stone", "Globe of Invulnerability", "Guards and Wards", "Magic Jar", "Mass Suggestion", "Move Earth", "Otto's Irresistible Dance", "Programmed Illusion", "True Seeing", "Wall of Ice"],
+				7: ["Delayed Blast Fireball", "Etherealness", "Finger of Death", "Forcecage", "Mirage Arcane", "Plane Shift", "Prismatic Spray", "Project Image", "Reverse Gravity", "Sequester", "Simulacrum", "Symbol", "Teleport"],
+				8: ["Antipathy/Sympathy", "Clone", "Control Weather", "Demiplane", "Dominate Monster", "Feeblemind", "Incendiary Cloud", "Maze", "Mind Blank", "Power Word Stun", "Sunburst", "Telepathy"],
+				9: ["Astral Projection", "Foresight", "Gate", "Imprisonment", "Meteor Swarm", "Power Word Kill", "Prismatic Wall", "Shapechange", "Time Stop", "True Polymorph", "Wish"]
+			},
+			"Sorcerer": {
+				0: ["Acid Splash", "Chill Touch", "Dancing Lights", "Fire Bolt", "Light", "Mage Hand", "Mending", "Message", "Minor Illusion", "Poison Spray", "Prestidigitation", "Ray of Frost", "Shocking Grasp", "True Strike"],
+				1: ["Burning Hands", "Charm Person", "Color Spray", "Comprehend Languages", "Detect Magic", "Disguise Self", "Expeditious Retreat", "False Life", "Feather Fall", "Fog Cloud", "Jump", "Mage Armor", "Magic Missile", "Shield", "Silent Image", "Sleep", "Thunderwave"],
+				2: ["Alter Self", "Blur", "Darkness", "Darkvision", "Detect Thoughts", "Enhance Ability", "Enlarge/Reduce", "Gust of Wind", "Hold Person", "Invisibility", "Knock", "Levitate", "Mirror Image", "Misty Step", "Scorching Ray", "See Invisibility", "Shatter", "Spider Climb", "Suggestion", "Web"],
+				3: ["Blink", "Counterspell", "Daylight", "Dispel Magic", "Fear", "Fireball", "Fly", "Gaseous Form", "Haste", "Hypnotic Pattern", "Lightning Bolt", "Major Image", "Protection from Energy", "Sleet Storm", "Slow", "Stinking Cloud", "Tongues", "Water Breathing", "Water Walk"],
+				4: ["Banishment", "Blight", "Confusion", "Dimension Door", "Greater Invisibility", "Ice Storm", "Polymorph", "Wall of Fire"],
+				5: ["Animate Objects", "Cloudkill", "Cone of Cold", "Creation", "Dominate Person", "Hold Monster", "Insect Plague", "Seeming", "Telekinesis", "Wall of Stone"],
+				6: ["Chain Lightning", "Circle of Death", "Disintegrate", "Eyebite", "Globe of Invulnerability", "Mass Suggestion", "Move Earth", "Sunbeam", "True Seeing"],
+				7: ["Delayed Blast Fireball", "Etherealness", "Finger of Death", "Fire Storm", "Plane Shift", "Prismatic Spray", "Reverse Gravity", "Teleport"],
+				8: ["Dominate Monster", "Earthquake", "Incendiary Cloud", "Power Word Stun", "Sunburst"],
+				9: ["Gate", "Meteor Swarm", "Power Word Kill", "Time Stop", "Wish"]
+			},
+			"Bard": {
+				0: ["Dancing Lights", "Light", "Mage Hand", "Mending", "Message", "Minor Illusion", "Prestidigitation", "True Strike", "Vicious Mockery"],
+				1: ["Animal Friendship", "Bane", "Charm Person", "Comprehend Languages", "Cure Wounds", "Detect Magic", "Disguise Self", "Dissonant Whispers", "Faerie Fire", "Feather Fall", "Healing Word", "Heroism", "Identify", "Illusory Script", "Longstrider", "Silent Image", "Sleep", "Speak with Animals", "Tasha's Hideous Laughter", "Thunderwave", "Unseen Servant"],
+				2: ["Animal Messenger", "Blindness/Deafness", "Calm Emotions", "Cloud of Daggers", "Crown of Madness", "Detect Thoughts", "Enhance Ability", "Enthrall", "Heat Metal", "Hold Person", "Invisibility", "Knock", "Lesser Restoration", "Locate Animals or Plants", "Locate Object", "Magic Mouth", "See Invisibility", "Shatter", "Silence", "Suggestion", "Zone of Truth"],
+				3: ["Bestow Curse", "Clairvoyance", "Counterspell", "Dispel Magic", "Fear", "Glyph of Warding", "Hypnotic Pattern", "Leomund's Tiny Hut", "Major Image", "Nondetection", "Plant Growth", "Sending", "Speak with Dead", "Speak with Plants", "Stinking Cloud", "Tongues"],
+				4: ["Compulsion", "Confusion", "Dimension Door", "Freedom of Movement", "Greater Invisibility", "Hallucinatory Terrain", "Locate Creature", "Polymorph"],
+				5: ["Animate Objects", "Awaken", "Dominate Person", "Dream", "Geas", "Greater Restoration", "Hold Monster", "Legend Lore", "Mass Cure Wounds", "Mislead", "Modify Memory", "Planar Binding", "Raise Dead", "Scrying", "Seeming", "Teleportation Circle"],
+				6: ["Eyebite", "Find the Path", "Guards and Wards", "Mass Suggestion", "Otto's Irresistible Dance", "Programmed Illusion", "True Seeing"],
+				7: ["Etherealness", "Forcecage", "Mirage Arcane", "Mordenkainen's Magnificent Mansion", "Plane Shift", "Project Image", "Regenerate", "Resurrection", "Symbol", "Teleport"],
+				8: ["Dominate Monster", "Feeblemind", "Glibness", "Mind Blank", "Power Word Stun"],
+				9: ["Foresight", "Power Word Kill", "True Polymorph"]
+			},
+			"Cleric": {
+				0: ["Guidance", "Light", "Mending", "Resistance", "Sacred Flame", "Spare the Dying", "Thaumaturgy"],
+				1: ["Bless", "Command", "Create or Destroy Water", "Cure Wounds", "Detect Evil and Good", "Detect Magic", "Detect Poison and Disease", "Guiding Bolt", "Healing Word", "Inflict Wounds", "Protection from Evil and Good", "Purify Food and Drink", "Sanctuary", "Shield of Faith"],
+				2: ["Aid", "Augury", "Blindness/Deafness", "Calm Emotions", "Continual Flame", "Enhance Ability", "Find Traps", "Gentle Repose", "Hold Person", "Lesser Restoration", "Locate Object", "Prayer of Healing", "Protection from Poison", "Silence", "Spiritual Weapon", "Warding Bond", "Zone of Truth"],
+				3: ["Animate Dead", "Beacon of Hope", "Bestow Curse", "Clairvoyance", "Create Food and Water", "Daylight", "Dispel Magic", "Glyph of Warding", "Magic Circle", "Mass Healing Word", "Meld into Stone", "Protection from Energy", "Remove Curse", "Revivify", "Sending", "Speak with Dead", "Spirit Guardians", "Tongues", "Water Walk"],
+				4: ["Banishment", "Control Water", "Divination", "Freedom of Movement", "Guardian of Faith", "Locate Creature", "Stone Shape"],
+				5: ["Commune", "Contagion", "Dispel Evil and Good", "Flame Strike", "Geas", "Greater Restoration", "Hallow", "Insect Plague", "Legend Lore", "Mass Cure Wounds", "Planar Binding", "Raise Dead", "Scrying"],
+				6: ["Blade Barrier", "Create Undead", "Find the Path", "Forbiddance", "Harm", "Heal", "Heroes' Feast", "Planar Ally", "True Seeing", "Word of Recall"],
+				7: ["Divine Word", "Etherealness", "Fire Storm", "Plane Shift", "Regenerate", "Resurrection", "Symbol"],
+				8: ["Antimagic Field", "Control Weather", "Earthquake", "Holy Aura"],
+				9: ["Astral Projection", "Gate", "Mass Heal", "True Resurrection"]
+			},
+			"Druid": {
+				0: ["Druidcraft", "Guidance", "Mending", "Poison Spray", "Produce Flame", "Resistance", "Shillelagh", "Thorn Whip"],
+				1: ["Animal Friendship", "Charm Person", "Create or Destroy Water", "Cure Wounds", "Detect Magic", "Detect Poison and Disease", "Entangle", "Faerie Fire", "Fog Cloud", "Goodberry", "Healing Word", "Jump", "Longstrider", "Purify Food and Drink", "Speak with Animals", "Thunderwave"],
+				2: ["Animal Messenger", "Barkskin", "Beast Sense", "Darkvision", "Enhance Ability", "Find Traps", "Flame Blade", "Flaming Sphere", "Gust of Wind", "Heat Metal", "Hold Person", "Lesser Restoration", "Locate Animals or Plants", "Locate Object", "Moonbeam", "Pass without Trace", "Protection from Poison", "Spike Growth"],
+				3: ["Call Lightning", "Conjure Animals", "Daylight", "Dispel Magic", "Meld into Stone", "Plant Growth", "Protection from Energy", "Sleet Storm", "Speak with Plants", "Stone Shape", "Wall of Wind", "Water Breathing", "Water Walk", "Wind Wall"],
+				4: ["Blight", "Confusion", "Conjure Minor Elementals", "Conjure Woodland Beings", "Control Water", "Dominate Beast", "Freedom of Movement", "Giant Insect", "Hallucinatory Terrain", "Ice Storm", "Locate Creature", "Polymorph", "Stone Shape", "Stoneskin", "Wall of Fire"],
+				5: ["Antilife Shell", "Awaken", "Commune with Nature", "Conjure Elemental", "Contagion", "Geas", "Greater Restoration", "Insect Plague", "Mass Cure Wounds", "Planar Binding", "Raise Dead", "Reincarnate", "Scrying", "Tree Stride", "Wall of Stone"],
+				6: ["Conjure Fey", "Find the Path", "Heal", "Heroes' Feast", "Move Earth", "Sunbeam", "Transport via Plants", "Wall of Thorns", "Wind Walk"],
+				7: ["Fire Storm", "Mirage Arcane", "Plane Shift", "Regenerate", "Reverse Gravity"],
+				8: ["Animal Shapes", "Antipathy/Sympathy", "Control Weather", "Earthquake", "Feeblemind", "Sunburst"],
+				9: ["Foresight", "Shapechange", "Storm of Vengeance", "True Resurrection"]
+			},
+			"Paladin": {
+				1: ["Bless", "Command", "Compelled Duel", "Cure Wounds", "Detect Evil and Good", "Detect Magic", "Detect Poison and Disease", "Divine Favor", "Heroism", "Protection from Evil and Good", "Purify Food and Drink", "Sanctuary", "Searing Smite", "Shield of Faith", "Thunderous Smite", "Wrathful Smite"],
+				2: ["Aid", "Branding Smite", "Find Steed", "Lesser Restoration", "Locate Object", "Magic Weapon", "Protection from Poison", "Zone of Truth"],
+				3: ["Aura of Vitality", "Blinding Smite", "Create Food and Water", "Crusader's Mantle", "Daylight", "Dispel Magic", "Elemental Weapon", "Magic Circle", "Remove Curse", "Revivify"],
+				4: ["Aura of Life", "Aura of Purity", "Banishment", "Death Ward", "Freedom of Movement", "Locate Creature", "Staggering Smite"],
+				5: ["Banishing Smite", "Circle of Power", "Destructive Wave", "Dispel Evil and Good", "Geas", "Greater Restoration", "Hallow", "Raise Dead"]
+			},
+			"Ranger": {
+				1: ["Alarm", "Animal Friendship", "Cure Wounds", "Detect Magic", "Detect Poison and Disease", "Ensnaring Strike", "Fog Cloud", "Goodberry", "Hail of Thorns", "Hunter's Mark", "Jump", "Longstrider", "Speak with Animals"],
+				2: ["Animal Messenger", "Barkskin", "Beast Sense", "Cordon of Arrows", "Darkvision", "Find Traps", "Lesser Restoration", "Locate Animals or Plants", "Locate Object", "Pass without Trace", "Protection from Poison", "Silence", "Spike Growth"],
+				3: ["Conjure Animals", "Conjure Barrage", "Daylight", "Lightning Arrow", "Nondetection", "Plant Growth", "Protection from Energy", "Speak with Plants", "Water Breathing", "Water Walk", "Wind Wall"],
+				4: ["Conjure Woodland Beings", "Freedom of Movement", "Grasping Vine", "Locate Creature", "Stoneskin"],
+				5: ["Commune with Nature", "Conjure Volley", "Swift Quiver", "Tree Stride"]
+			},
+			"Warlock": {
+				0: ["Chill Touch", "Eldritch Blast", "Mage Hand", "Minor Illusion", "Poison Spray", "Prestidigitation", "True Strike"],
+				1: ["Arms of Hadar", "Charm Person", "Comprehend Languages", "Expeditious Retreat", "Hellish Rebuke", "Hex", "Illusory Script", "Protection from Evil and Good", "Unseen Servant"],
+				2: ["Cloud of Daggers", "Crown of Madness", "Darkness", "Enthrall", "Hold Person", "Invisibility", "Mirror Image", "Misty Step", "Ray of Enfeeblement", "Shatter", "Spider Climb", "Suggestion"],
+				3: ["Counterspell", "Dispel Magic", "Fear", "Fireball", "Fly", "Gaseous Form", "Hunger of Hadar", "Hypnotic Pattern", "Magic Circle", "Major Image", "Remove Curse", "Tongues", "Vampiric Touch"],
+				4: ["Banishment", "Blight", "Confusion", "Dimension Door", "Hallucinatory Terrain"],
+				5: ["Contact Other Plane", "Dream", "Hold Monster", "Scrying"],
+				6: ["Arcane Gate", "Circle of Death", "Conjure Fey", "Create Undead", "Eyebite", "Flesh to Stone", "Mass Suggestion", "True Seeing"],
+				7: ["Etherealness", "Finger of Death", "Forcecage", "Plane Shift"],
+				8: ["Demiplane", "Dominate Monster", "Feeblemind", "Glibness", "Power Word Stun"],
+				9: ["Astral Projection", "Foresight", "Imprisonment", "Power Word Kill", "True Polymorph"]
+			}
 		};
 
-		const spells = spellLists[level] || [];
-		return spells.slice(0, 2 + Math.floor(Math.random() * 3));
+		return spellLists[className]?.[level] || [];
+	}
+
+	getSignatureSpells(className, level) {
+		const signatures = {
+			"Wizard": {
+				0: ["Fire Bolt", "Mage Hand"],
+				1: ["Magic Missile", "Shield"],
+				2: ["Misty Step", "Web"],
+				3: ["Fireball", "Counterspell"],
+				4: ["Greater Invisibility", "Polymorph"],
+				5: ["Cone of Cold", "Telekinesis"],
+				6: ["Disintegrate", "Chain Lightning"],
+				7: ["Delayed Blast Fireball", "Teleport"],
+				8: ["Mind Blank", "Power Word Stun"],
+				9: ["Wish", "Time Stop"]
+			},
+			"Sorcerer": {
+				0: ["Fire Bolt", "Minor Illusion"],
+				1: ["Magic Missile", "Shield"],
+				2: ["Misty Step", "Scorching Ray"],
+				3: ["Fireball", "Haste"],
+				4: ["Greater Invisibility", "Polymorph"],
+				5: ["Cone of Cold", "Telekinesis"],
+				6: ["Chain Lightning", "Disintegrate"],
+				7: ["Delayed Blast Fireball", "Reverse Gravity"],
+				8: ["Power Word Stun", "Sunburst"],
+				9: ["Meteor Swarm", "Wish"]
+			},
+			"Warlock": {
+				0: ["Eldritch Blast"],
+				1: ["Hex", "Arms of Hadar"],
+				2: ["Hold Person", "Invisibility"],
+				3: ["Counterspell", "Fireball"],
+				4: ["Dimension Door", "Banishment"],
+				5: ["Hold Monster", "Scrying"],
+				6: ["Mass Suggestion", "Circle of Death"],
+				7: ["Finger of Death", "Plane Shift"],
+				8: ["Dominate Monster", "Feeblemind"],
+				9: ["Foresight", "Power Word Kill"]
+			},
+			"Bard": {
+				0: ["Vicious Mockery", "Minor Illusion"],
+				1: ["Healing Word", "Dissonant Whispers"],
+				2: ["Heat Metal", "Suggestion"],
+				3: ["Counterspell", "Hypnotic Pattern"],
+				4: ["Greater Invisibility", "Polymorph"],
+				5: ["Dominate Person", "Mass Cure Wounds"],
+				6: ["Mass Suggestion", "Otto's Irresistible Dance"],
+				7: ["Forcecage", "Mordenkainen's Magnificent Mansion"],
+				8: ["Feeblemind", "Dominate Monster"],
+				9: ["True Polymorph", "Foresight"]
+			},
+			"Cleric": {
+				0: ["Sacred Flame", "Guidance"],
+				1: ["Cure Wounds", "Guiding Bolt"],
+				2: ["Spiritual Weapon", "Hold Person"],
+				3: ["Spirit Guardians", "Dispel Magic"],
+				4: ["Guardian of Faith", "Freedom of Movement"],
+				5: ["Flame Strike", "Greater Restoration"],
+				6: ["Heal", "Harm"],
+				7: ["Fire Storm", "Resurrection"],
+				8: ["Antimagic Field", "Holy Aura"],
+				9: ["Mass Heal", "True Resurrection"]
+			},
+			"Druid": {
+				0: ["Druidcraft", "Produce Flame"],
+				1: ["Cure Wounds", "Faerie Fire"],
+				2: ["Heat Metal", "Moonbeam"],
+				3: ["Call Lightning", "Conjure Animals"],
+				4: ["Ice Storm", "Polymorph"],
+				5: ["Insect Plague", "Tree Stride"],
+				6: ["Sunbeam", "Transport via Plants"],
+				7: ["Fire Storm", "Reverse Gravity"],
+				8: ["Earthquake", "Animal Shapes"],
+				9: ["Shapechange", "Storm of Vengeance"]
+			},
+			"Paladin": {
+				1: ["Cure Wounds", "Bless"],
+				2: ["Aid", "Lesser Restoration"],
+				3: ["Revivify", "Remove Curse"],
+				4: ["Freedom of Movement", "Death Ward"],
+				5: ["Greater Restoration", "Dispel Evil and Good"]
+			},
+			"Ranger": {
+				1: ["Hunter's Mark", "Cure Wounds"],
+				2: ["Pass without Trace", "Spike Growth"],
+				3: ["Conjure Animals", "Lightning Arrow"],
+				4: ["Freedom of Movement", "Locate Creature"],
+				5: ["Swift Quiver", "Tree Stride"]
+			}
+		};
+
+		return signatures[className]?.[level] || [];
+	}
+
+	getSpellCountForLevel(casterClass, level) {
+		// Get appropriate spell count based on class type and character level
+		const classLevel = casterClass.level;
+		
+		// For cantrips (level 0), use cantrip progression
+		if (level === 0) {
+			return this.getCantripCount(casterClass.name, classLevel);
+		}
+		
+		// For spell levels, use different logic based on caster type
+		const spellsKnownByClass = {
+			// Prepared casters get more spells since they can change daily
+			"Wizard": { 
+				1: Math.min(6 + Math.floor(classLevel / 2), 15), 
+				2: Math.min(4 + Math.floor(classLevel / 3), 10), 
+				3: Math.min(2 + Math.floor(classLevel / 4), 8),
+				4: Math.min(2 + Math.floor(classLevel / 5), 6),
+				5: Math.min(2 + Math.floor(classLevel / 6), 5),
+				6: Math.min(1 + Math.floor(classLevel / 7), 4),
+				7: Math.min(1 + Math.floor(classLevel / 8), 3),
+				8: Math.min(1 + Math.floor(classLevel / 9), 3),
+				9: Math.min(1 + Math.floor(classLevel / 10), 2)
+			},
+			"Cleric": { 
+				1: Math.min(4 + Math.floor(classLevel / 3), 12), 
+				2: Math.min(3 + Math.floor(classLevel / 4), 8), 
+				3: Math.min(2 + Math.floor(classLevel / 5), 6),
+				4: Math.min(2 + Math.floor(classLevel / 6), 5),
+				5: Math.min(2 + Math.floor(classLevel / 7), 4),
+				6: Math.min(1 + Math.floor(classLevel / 8), 3),
+				7: Math.min(1 + Math.floor(classLevel / 9), 3),
+				8: Math.min(1 + Math.floor(classLevel / 10), 2),
+				9: Math.min(1 + Math.floor(classLevel / 11), 2)
+			},
+			"Druid": { 
+				1: Math.min(4 + Math.floor(classLevel / 3), 12), 
+				2: Math.min(3 + Math.floor(classLevel / 4), 8), 
+				3: Math.min(2 + Math.floor(classLevel / 5), 6),
+				4: Math.min(2 + Math.floor(classLevel / 6), 5),
+				5: Math.min(2 + Math.floor(classLevel / 7), 4),
+				6: Math.min(1 + Math.floor(classLevel / 8), 3),
+				7: Math.min(1 + Math.floor(classLevel / 9), 3),
+				8: Math.min(1 + Math.floor(classLevel / 10), 2),
+				9: Math.min(1 + Math.floor(classLevel / 11), 2)
+			},
+			// Known casters have fewer spells but keep them permanently
+			"Sorcerer": { 
+				1: Math.min(2 + Math.floor(classLevel / 4), 6), 
+				2: Math.min(1 + Math.floor(classLevel / 6), 4), 
+				3: Math.min(1 + Math.floor(classLevel / 8), 3),
+				4: Math.min(1 + Math.floor(classLevel / 10), 2),
+				5: Math.min(1 + Math.floor(classLevel / 12), 2),
+				6: Math.min(1 + Math.floor(classLevel / 14), 2),
+				7: Math.min(1 + Math.floor(classLevel / 16), 1),
+				8: Math.min(1 + Math.floor(classLevel / 18), 1),
+				9: Math.min(1 + Math.floor(classLevel / 20), 1)
+			},
+			"Bard": { 
+				1: Math.min(4 + Math.floor(classLevel / 3), 10), 
+				2: Math.min(2 + Math.floor(classLevel / 4), 6), 
+				3: Math.min(2 + Math.floor(classLevel / 5), 5),
+				4: Math.min(1 + Math.floor(classLevel / 7), 3),
+				5: Math.min(1 + Math.floor(classLevel / 9), 3),
+				6: Math.min(1 + Math.floor(classLevel / 11), 2),
+				7: Math.min(1 + Math.floor(classLevel / 13), 2),
+				8: Math.min(1 + Math.floor(classLevel / 15), 1),
+				9: Math.min(1 + Math.floor(classLevel / 17), 1)
+			},
+			// Pact magic caster
+			"Warlock": { 
+				1: Math.min(2 + Math.floor(classLevel / 5), 5), 
+				2: Math.min(2 + Math.floor(classLevel / 6), 4), 
+				3: Math.min(2 + Math.floor(classLevel / 7), 3),
+				4: Math.min(1 + Math.floor(classLevel / 8), 2),
+				5: Math.min(1 + Math.floor(classLevel / 10), 2),
+				6: Math.min(1 + Math.floor(classLevel / 12), 1),
+				7: Math.min(1 + Math.floor(classLevel / 14), 1),
+				8: Math.min(1 + Math.floor(classLevel / 16), 1),
+				9: Math.min(1 + Math.floor(classLevel / 18), 1)
+			},
+			// Half-casters
+			"Paladin": { 
+				1: Math.min(2 + Math.floor(classLevel / 6), 4), 
+				2: Math.min(2 + Math.floor(classLevel / 8), 3), 
+				3: Math.min(1 + Math.floor(classLevel / 10), 2),
+				4: Math.min(1 + Math.floor(classLevel / 12), 1),
+				5: Math.min(1 + Math.floor(classLevel / 16), 1)
+			},
+			"Ranger": { 
+				1: Math.min(2 + Math.floor(classLevel / 6), 4), 
+				2: Math.min(2 + Math.floor(classLevel / 8), 3), 
+				3: Math.min(1 + Math.floor(classLevel / 10), 2),
+				4: Math.min(1 + Math.floor(classLevel / 12), 1),
+				5: Math.min(1 + Math.floor(classLevel / 16), 1)
+			}
+		};
+
+		return spellsKnownByClass[casterClass.name]?.[level] || Math.max(1, Math.floor(classLevel / 8));
 	}
 
 	async generateRandomEntries(race, classes, equipment, abilityScores, finalName, background = null, alignment = null) {
@@ -5235,7 +5831,7 @@ class CharacterEditorPage {
 	}
 
 	// Method to generate random character at specified level
-	async generateRandomCharacterAtLevel(requestedLevel = 5, characterName = '', sourceName = 'RANDOM_GENERATED', baseClass = '') {
+	async generateRandomCharacterAtLevel(requestedLevel = 5, characterName = '', sourceName = 'RANDOM_GENERATED', baseClass = '', race = '') {
 		try {
 			// Validate and sanitize parameters
 			const finalLevel = Math.max(1, Math.min(20, parseInt(String(requestedLevel)) || 5));
@@ -5246,7 +5842,7 @@ class CharacterEditorPage {
 
 			// Use existing generation logic but with provided parameters
 			const randomClasses = this.generateRandomClasses(finalLevel, baseClass);
-			const randomRace = this.generateRandomRace(randomClasses);
+			const randomRace = race ? this.generateForcedRace(race) : this.generateRandomRace(randomClasses);
 			const randomAlignment = this.generateRandomAlignment();
 			const randomBackground = this.generateRandomBackground(randomRace, randomAlignment);
 			const randomAbilityScores = this.generateRandomAbilityScores(randomClasses, randomRace);
@@ -5274,7 +5870,7 @@ class CharacterEditorPage {
 			class: randomClasses,
 			background: randomBackground,
 			alignment: randomAlignment,
-			ac: this.generateRandomAC(randomClasses, randomAbilityScores),
+			ac: this.generateRandomAC(randomClasses, randomAbilityScores, randomRace),
 			hp: randomHp,
 			speed: {
 				walk: 30 // Default speed, will be overridden by race data
