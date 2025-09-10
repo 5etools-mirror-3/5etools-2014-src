@@ -54,7 +54,6 @@ class CharacterP2P {
 		if (!this._broadcastChannel) {
 			this._broadcastChannel = new BroadcastChannel('character-p2p-signaling');
 			this._broadcastChannel.onmessage = (event) => this._handleSignalingMessage(event.data);
-			console.info('CharacterP2P: BroadcastChannel setup for signaling');
 		}
 	}
 
@@ -93,7 +92,6 @@ class CharacterP2P {
 			return;
 		}
 
-		console.info('CharacterP2P: Starting automatic peer discovery (local network)...');
 		this._setupBroadcastChannel();
 
 		// Send initial discovery message for local tabs
@@ -156,12 +154,10 @@ class CharacterP2P {
 
 			// Check if credentials are still valid
 			if (now - data.timestamp > this._CREDENTIALS_CACHE_TTL) {
-				console.info('CharacterP2P: Cached credentials expired, will fetch new ones');
 				localStorage.removeItem(this._CREDENTIALS_CACHE_KEY);
 				return null;
 			}
 
-			console.info('CharacterP2P: Using cached WebRTC credentials from:', data.credentials.provider);
 			return data.credentials;
 
 		} catch (error) {
@@ -183,7 +179,6 @@ class CharacterP2P {
 			};
 
 			localStorage.setItem(this._CREDENTIALS_CACHE_KEY, JSON.stringify(cacheData));
-			console.info('CharacterP2P: Cached WebRTC credentials for 4 hours');
 
 		} catch (error) {
 			console.warn('CharacterP2P: Failed to cache credentials:', error);
@@ -196,7 +191,6 @@ class CharacterP2P {
 	static _clearCachedCredentials() {
 		try {
 			localStorage.removeItem(this._CREDENTIALS_CACHE_KEY);
-			console.info('CharacterP2P: Cleared cached credentials');
 		} catch (error) {
 			console.warn('CharacterP2P: Error clearing cached credentials:', error);
 		}
@@ -239,7 +233,6 @@ class CharacterP2P {
 			cleanedPeers.push(ourEntry);
 
 			localStorage.setItem('character_p2p_local_peers', JSON.stringify(cleanedPeers));
-			console.debug(`CharacterP2P: Registered local network presence (${cleanedPeers.length} total peers)`);
 		} catch (error) {
 			console.debug('CharacterP2P: Local network presence registration failed:', error.message);
 		}
@@ -308,13 +301,11 @@ class CharacterP2P {
 			);
 
 			if (availablePeers.length > 0) {
-				console.info(`CharacterP2P: Found ${availablePeers.length} local network peer(s)`);
-
+	
 				// Try to connect to peers (use clientId comparison to avoid duplicate connections)
 				for (const peer of availablePeers) {
 					if (this.clientId > peer.clientId) {
-						console.info(`CharacterP2P: Attempting local network connection to ${peer.clientId}`);
-						this._knownPeers.add(peer.clientId);
+								this._knownPeers.add(peer.clientId);
 
 						// Create connection using localStorage signaling
 						this._connectionState = 'connecting';
@@ -344,7 +335,6 @@ class CharacterP2P {
 			});
 			this._setupDataChannel(dc);
 
-			console.info('CharacterP2P: Creating local network offer for', targetClientId);
 			const offer = await this._pc.createOffer();
 			await this._pc.setLocalDescription(offer);
 
@@ -376,7 +366,6 @@ class CharacterP2P {
 			};
 
 			this._storeLocalNetworkMessage(offerMessage);
-			console.info('CharacterP2P: Local network offer sent to', targetClientId);
 
 		} catch (error) {
 			console.error('CharacterP2P: Error creating local network offer:', error);
@@ -440,8 +429,7 @@ class CharacterP2P {
 	 */
 	static async _handleLocalNetworkMessage(message) {
 		try {
-			console.info(`CharacterP2P: Received local network ${message.type} from ${message.from}`);
-
+	
 			switch (message.type) {
 				case 'OFFER':
 					await this._handleLocalNetworkOffer(message);
@@ -495,7 +483,6 @@ class CharacterP2P {
 		};
 
 		this._storeLocalNetworkMessage(answerMessage);
-		console.info('CharacterP2P: Local network answer sent to', message.from);
 	}
 
 	/**
@@ -508,7 +495,6 @@ class CharacterP2P {
 		}
 
 		await this._pc.setRemoteDescription(message.answer);
-		console.info('CharacterP2P: Local network connection setup complete with', message.from);
 	}
 
 	/**
@@ -520,7 +506,6 @@ class CharacterP2P {
 		}
 
 	await this._pc.addIceCandidate(message.candidate);
-	console.debug('CharacterP2P: Added local network ICE candidate from', message.from);
 }
 
 /**
@@ -547,7 +532,6 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 	 * Handle peer discovery message from another tab
 	 */
 	static _handlePeerDiscovery(message) {
-		console.info('CharacterP2P: Discovered peer:', message.clientId);
 		this._knownPeers.add(message.clientId);
 
 		// If both peers are disconnected and we haven't initiated a connection yet,
@@ -558,7 +542,6 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 
 			this._connectionState = 'connecting';
 			this._isInitiator = true;
-			console.info('CharacterP2P: Initiating connection to peer:', message.clientId);
 			this._createAndSendOffer();
 		}
 	}
@@ -579,7 +562,6 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 			});
 			this._setupDataChannel(dc);
 
-			console.info('CharacterP2P: Creating automatic offer...');
 			const offer = await this._pc.createOffer();
 			await this._pc.setLocalDescription(offer);
 
@@ -610,7 +592,6 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 				});
 			}
 
-			console.info('CharacterP2P: Offer sent via BroadcastChannel');
 
 		} catch (error) {
 			console.error('CharacterP2P: Error creating automatic offer:', error);
@@ -630,7 +611,6 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 
 			this._connectionState = 'connecting';
 			this._isInitiator = false;
-			console.info('CharacterP2P: Received offer from:', message.clientId);
 
 			if (!this._pc) {
 				await this.init();
@@ -657,7 +637,6 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 				});
 			}
 
-			console.info('CharacterP2P: Answer sent to:', message.clientId);
 
 		} catch (error) {
 			console.error('CharacterP2P: Error handling offer:', error);
@@ -675,7 +654,6 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 				return;
 			}
 
-			console.info('CharacterP2P: Received answer from:', message.clientId);
 
 			if (!this._pc) {
 				console.error('CharacterP2P: No peer connection to handle answer');
@@ -683,7 +661,6 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 			}
 
 			await this._pc.setRemoteDescription(message.answer);
-			console.info('CharacterP2P: Connection setup complete!');
 
 		} catch (error) {
 			console.error('CharacterP2P: Error handling answer:', error);
@@ -717,16 +694,13 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 	static async init() {
 		// Prevent multiple simultaneous initialization attempts
 		if (this._connectionState === 'connecting') {
-			console.log('CharacterP2P: Already connecting, ignoring duplicate init()');
 			return;
 		}
 
 		if (this._connectionState === 'connected') {
-			console.log('CharacterP2P: Already connected');
 			return;
 		}
 
-		console.log('CharacterP2P: Connecting to Cloudflare real-time session...');
 
 		try {
 			// Connect to Cloudflare session
@@ -744,26 +718,22 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 		this._connectionState = 'connecting';
 
 		try {
-			console.log('CharacterP2P: Connecting to Cloudflare Workers WebSocket...');
 
 			// Replace with your actual Cloudflare Worker URL
 			// Deploy the worker and update this URL
 			const workerUrl = 'wss://5etools-character-sync.thesamueljim.workers.dev';
 			const wsUrl = `${workerUrl}?room=character-sync&userId=${this.clientId}`;
 
-			console.log('CharacterP2P: Connecting to:', wsUrl);
 
 			// Create WebSocket connection to Cloudflare Worker
 			this._ws = new WebSocket(wsUrl);
 
 			this._ws.onopen = () => {
-				console.log('CharacterP2P: WebSocket connected to Cloudflare Worker');
 				this._connectionState = 'connected';
 				this._reconnectAttempts = 0;
 
 				// Send test message
 				setTimeout(() => {
-					console.log('CharacterP2P: Sending cross-device test message...');
 					this._sendMessage({
 						type: 'TEST_MESSAGE',
 						message: 'Hello from device ' + this.clientId
@@ -785,8 +755,7 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 			};
 
 			this._ws.onclose = (event) => {
-				console.log('CharacterP2P: WebSocket closed:', event.code, event.reason);
-				this._connectionState = 'disconnected';
+					this._connectionState = 'disconnected';
 				this._scheduleReconnect();
 			};
 
@@ -814,12 +783,10 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 		switch (data.type) {
 			case 'USER_JOINED':
 				this._connectedUsers.add(data.userId);
-				console.log(`CharacterP2P: User ${data.userId} joined (${this._connectedUsers.size} total users)`);
 				break;
 
 			case 'USER_LEFT':
 				this._connectedUsers.delete(data.userId);
-				console.log(`CharacterP2P: User ${data.userId} left (${this._connectedUsers.size} total users)`);
 				break;
 
 			case 'CHARACTER_UPDATED':
@@ -843,8 +810,7 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 				break;
 
 			case 'TEST_MESSAGE':
-				console.log('CharacterP2P: Received test message:', data.message);
-				break;
+					break;
 
 			case 'HEARTBEAT':
 				// Heartbeat from another user, ignore
@@ -865,7 +831,6 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 				userId: this.clientId,
 				timestamp: Date.now()
 			};
-			console.log('CharacterP2P: Sending message:', data.type, 'to Cloudflare Worker');
 
 			try {
 				this._ws.send(JSON.stringify(message));
@@ -914,7 +879,6 @@ static _sendLocalNetworkIceCandidate(candidate, targetClientId = null) {
 		this._reconnectAttempts++;
 		const delay = Math.min(1000 * Math.pow(2, this._reconnectAttempts), 30000);
 
-		console.log(`CharacterP2P: Reconnecting in ${delay}ms (attempt ${this._reconnectAttempts})`);
 
 		this._reconnectTimer = setTimeout(() => {
 			this._reconnectTimer = null;
@@ -1028,16 +992,13 @@ try {
 			try {
 				const CM = window['CharacterManager'];
 				if (CM && typeof CM.p2pInit === 'function') {
-					console.info('CharacterManager: Auto-initializing P2P connection...');
 					try {
 						CharacterP2P.init();
 					} catch (e) {
-						console.info('CharacterManager: auto p2pInit failed', e);
-					}
+						}
 				}
 			} catch (e) {
-				console.info('CharacterManager: auto p2pInit failed', e);
-			}
+				}
 		}, 500);
 	}
 } catch (e) {
@@ -1161,7 +1122,6 @@ class CharacterManager {
 			}
 			const merged = Array.from(map.values());
 			localStorage.setItem(this._STORAGE_KEY, JSON.stringify(merged));
-			console.log(`CharacterManager: Saved ${merged.length} characters to localStorage cache (merged ${incoming.length} incoming)`);
 		} catch (e) {
 			console.warn('CharacterManager: Failed to save to localStorage:', e);
 		}
@@ -1340,7 +1300,6 @@ class CharacterManager {
 			const blobs = await this._getBlobList(sources);
 
 			if (!blobs || blobs.length === 0) {
-				console.log('CharacterManager: No character blobs found');
 				return this._loadFromLocalStorage();
 			}
 
@@ -1360,7 +1319,6 @@ class CharacterManager {
 				}
 			}
 
-			console.log(`CharacterManager: Using ${cachedCharacters.length} cached characters, fetching ${charactersToFetch.length} characters`);
 
 			// Fetch only the characters we don't have cached or that are stale
 			const fetchedCharacters = [];
@@ -1432,7 +1390,6 @@ class CharacterManager {
 
 			// If no characters found, try localStorage as fallback
 			if (allCharacters.length === 0) {
-				console.log('CharacterManager: No characters loaded from API, trying localStorage');
 				return this._loadFromLocalStorage();
 			}
 
@@ -1958,7 +1915,6 @@ class CharacterManager {
 	static invalidateBlobListCache() {
 		try {
 			localStorage.removeItem(this._LIST_CACHE_KEY);
-			console.log('CharacterManager: Blob list cache invalidated');
 		} catch (e) {
 			console.warn('CharacterManager: Error invalidating blob list cache:', e);
 		}
@@ -2116,7 +2072,6 @@ class CharacterManager {
 					console.warn('CharacterManager: Failed to send P2P CHARACTER_UPDATED', e);
 				}
 
-				console.log(`CharacterManager: Successfully saved character: ${characterData.name}`);
 				return true;
 			} else {
 				const error = await response.json();
@@ -2179,7 +2134,6 @@ class CharacterManager {
 					console.warn('CharacterManager: Failed to send P2P CHARACTER_DELETED', e);
 				}
 
-				console.log(`CharacterManager: Successfully deleted character: ${character.name}`);
 				return true;
 			} else {
 				const error = await response.json();
@@ -2353,7 +2307,6 @@ class CharacterManager {
 					// Notify listeners to re-render
 					this._notifyListeners();
 
-					console.log(`CharacterManager: Synced character update from another tab: ${character.name}`);
 				}
 				break;
 
@@ -2366,13 +2319,11 @@ class CharacterManager {
 					// Notify listeners
 					this._notifyListeners();
 
-					console.log(`CharacterManager: Synced character deletion from another tab: ${characterId}`);
 				}
 				break;
 
 			case 'CHARACTERS_RELOADED':
 				// Another tab reloaded characters, we should too
-				console.log('CharacterManager: Another tab reloaded characters, syncing...');
 				this.forceRefreshCharacters(); // Force refresh
 				this.loadCharacters(); // Reload
 				break;
@@ -2468,16 +2419,13 @@ try {
 						// If a TURN key is present on window or a meta tag, pass it to p2pInit so
 						// the browser can fetch TurnWebRTC credentials directly (insecure to expose key).
 
-						console.info('CharacterManager: Auto-initializing P2P connection...');
-						try {
+							try {
 							CharacterP2P.init();
 						} catch (e) {
-							console.info('CharacterManager: auto p2pInit failed', e);
-						}
+								}
 					}
 			} catch (e) {
-				console.info('CharacterManager: auto p2pInit failed', e);
-			}
+				}
 		}, 500);
 	}
 } catch (e) {

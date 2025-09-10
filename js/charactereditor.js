@@ -232,7 +232,7 @@ class CharacterEditorPage {
 		const randomClasses = this.generateRandomClasses(requestedLevel);
 		const randomRace = this.generateRandomRace(randomClasses);
 		const randomAlignment = this.generateRandomAlignment();
-		const randomBackground = this.generateRandomBackground(randomRace, randomAlignment);
+		const randomBackground = await this.generateRandomBackground(randomRace, randomAlignment);
 		const randomAbilityScores = this.generateRandomAbilityScores(randomClasses, randomRace);
 		const randomEquipment = this.generateRandomEquipment(randomClasses, requestedLevel, randomAbilityScores, randomRace);
 		const randomActions = this.generateRandomActions(randomClasses, randomAbilityScores);
@@ -245,7 +245,7 @@ class CharacterEditorPage {
 	const randomHp = this.calculateRandomHp(randomClasses, conMod);
 
 	// Generate character depth first so we can use it in fluff (store as fluff, not as a top-level field)
-		const characterDepth = this.generateCharacterDepth(randomBackground, randomRace, randomClasses, randomAlignment);
+		const characterDepth = await this.generateCharacterDepth(randomBackground, randomRace, randomClasses, randomAlignment);
 		const depthFluff = await this.generateFluffEntries(randomName, totalLevel, randomClasses, randomRace, randomBackground, characterDepth, randomAlignment);
 
 		// Generate all features and traits (racial traits + class/subclass features)
@@ -259,7 +259,7 @@ class CharacterEditorPage {
 			class: randomClasses,
 			background: randomBackground,
 			alignment: randomAlignment,
-			ac: this.generateRandomAC(randomClasses, randomAbilityScores, randomRace),
+			ac: await this.generateRandomAC(randomClasses, randomAbilityScores, randomRace),
 			hp: randomHp,
 			speed: {
 				walk: 30 // Default speed, will be overridden by race data
@@ -857,21 +857,42 @@ class CharacterEditorPage {
 		return availableSubclasses[Math.floor(Math.random() * availableSubclasses.length)];
 	}
 
-	generateRandomBackground(race = null, alignment = null) {
-		const backgrounds = [
-			{ name: "Acolyte", source: "PHB" },
-			{ name: "Criminal", source: "PHB" },
-			{ name: "Folk Hero", source: "PHB" },
-			{ name: "Noble", source: "PHB" },
-			{ name: "Sage", source: "PHB" },
-			{ name: "Soldier", source: "PHB" },
-			{ name: "Charlatan", source: "PHB" },
-			{ name: "Entertainer", source: "PHB" },
-			{ name: "Guild Artisan", source: "PHB" },
-			{ name: "Hermit", source: "PHB" },
-			{ name: "Outlander", source: "PHB" },
-			{ name: "Sailor", source: "PHB" }
-		];
+	async generateRandomBackground(race = null, alignment = null) {
+		// Load backgrounds from 5etools data
+		let backgrounds;
+		try {
+			const response = await fetch('data/backgrounds.json');
+			const backgroundData = await response.json();
+			backgrounds = backgroundData.background || [];
+			
+			// Filter to more common/playable backgrounds (avoid adventure-specific ones)
+			backgrounds = backgrounds.filter(bg => {
+				const commonSources = ["PHB", "SCAG", "XGE", "TCE", "VGM", "MPMM", "FTD", "BGG"];
+				return commonSources.includes(bg.source);
+			});
+			
+			// If no backgrounds found, fallback to basic list
+			if (backgrounds.length === 0) {
+				backgrounds = [
+					{ name: "Acolyte", source: "PHB" },
+					{ name: "Criminal", source: "PHB" },
+					{ name: "Folk Hero", source: "PHB" },
+					{ name: "Noble", source: "PHB" },
+					{ name: "Sage", source: "PHB" },
+					{ name: "Soldier", source: "PHB" }
+				];
+			}
+		} catch (error) {
+			console.warn('Could not load backgrounds data, using fallback:', error);
+			backgrounds = [
+				{ name: "Acolyte", source: "PHB" },
+				{ name: "Criminal", source: "PHB" },
+				{ name: "Folk Hero", source: "PHB" },
+				{ name: "Noble", source: "PHB" },
+				{ name: "Sage", source: "PHB" },
+				{ name: "Soldier", source: "PHB" }
+			];
+		}
 
 		// If no race or alignment provided, return random
 		if (!race && !alignment) {
@@ -2233,7 +2254,7 @@ class CharacterEditorPage {
 	}
 
 
-	generateRandomAC(classes, abilityScores, race = null) {
+	async generateRandomAC(classes, abilityScores, race = null) {
 		const dexMod = Math.floor((abilityScores.dex - 10) / 2);
 		const conMod = Math.floor((abilityScores.con - 10) / 2);
 		const wisMod = Math.floor((abilityScores.wis - 10) / 2);
@@ -2272,9 +2293,9 @@ class CharacterEditorPage {
 			}];
 		}
 
-		// Determine armor based on class
-		const hasHeavyArmor = classes.some(cls => ["Fighter", "Paladin", "Cleric"].includes(cls.name));
-		const hasMediumArmor = classes.some(cls => ["Barbarian", "Ranger", "Druid"].includes(cls.name));
+		// Determine armor based on class proficiencies
+		const hasHeavyArmor = await this.hasArmorProficiency(classes, "heavy");
+		const hasMediumArmor = await this.hasArmorProficiency(classes, "medium");
 
 		if (hasHeavyArmor && Math.random() < 0.7) {
 			baseAC = 16 + Math.floor(Math.random() * 3); // Chain mail to plate
@@ -2314,6 +2335,33 @@ class CharacterEditorPage {
 		};
 
 		return racialArmor[raceName] || null;
+	}
+
+	async hasArmorProficiency(classes, armorType) {
+		// Check each class for armor proficiency
+		for (const cls of classes) {
+			try {
+				const response = await fetch(`data/class/class-${cls.name.toLowerCase()}.json`);
+				if (response.ok) {
+					const classData = await response.json();
+					const classInfo = classData.class?.[0];
+					if (classInfo?.startingProficiencies?.armor?.includes(armorType)) {
+						return true;
+					}
+				}
+			} catch (error) {
+				console.warn(`Could not load class data for ${cls.name}:`, error);
+			}
+		}
+
+		// Fallback to hardcoded data if file loading fails
+		const fallbackProficiencies = {
+			"heavy": ["Fighter", "Paladin", "Cleric"],
+			"medium": ["Fighter", "Paladin", "Cleric", "Barbarian", "Ranger", "Druid"],
+			"light": ["Fighter", "Paladin", "Cleric", "Barbarian", "Ranger", "Druid", "Bard", "Rogue", "Warlock"]
+		};
+
+		return classes.some(cls => fallbackProficiencies[armorType]?.includes(cls.name));
 	}
 
 	generateRandomSaves(abilityScores, classes, profBonus) {
@@ -3813,43 +3861,111 @@ class CharacterEditorPage {
 	}
 
 	async generateRandomEntries(race, classes, equipment, abilityScores, finalName, background = null, alignment = null) {
+		// Generate background and personality section first (needs async)
+		const tempAlignment = alignment || this.generateRandomAlignment();
+		const tempBackground = background || await this.generateRandomBackground(race, tempAlignment);
+		const totalLevel = classes.reduce((s, c) => s + (c.level || 1), 0) || 1;
+		const depth = await this.generateCharacterDepth(tempBackground, race, classes, tempAlignment);
+
+		// small helper to pick labeled depth entries
+		const pick = (label, n = 1) => {
+			if (!Array.isArray(depth)) return [];
+			return depth.filter(d => d.startsWith(label + ':')).slice(0, n).map(d => d.replace(label + ':', '').trim());
+		};
+
+		// Build personality section content
+		const backgroundPersonalityEntries = await this.generateBackgroundPersonalitySection(
+			finalName, tempBackground, tempAlignment, depth, pick
+		);
+
 		const entries = [
 			{
 				type: "section",
 				name: "Background & Personality",
-				entries: (function(self, race, classes, abilityScores, providedBackground, providedAlignment){
-					// Use provided background/alignment when available, otherwise pick randomly
-					const tempAlignment = providedAlignment || self.generateRandomAlignment();
-					const tempBackground = providedBackground || self.generateRandomBackground(race, tempAlignment);
-					const totalLevel = classes.reduce((s, c) => s + (c.level || 1), 0) || 1;
-					const depth = self.generateCharacterDepth(tempBackground, race, classes, tempAlignment);
+				entries: backgroundPersonalityEntries
+			},
+			{
+				type: "section",
+				name: "Features & Traits",
+				entries: await this.generateAllFeatureEntries(classes, race)
+			},
+			{
+				type: "section",
+				name: "Items",
+				entries: equipment || []
+			}
+		];
 
-					// small helper to pick labeled depth entries
-					const pick = (label, n = 1) => {
-						if (!Array.isArray(depth)) return [];
-						return depth.filter(d => d.startsWith(label + ':')).slice(0, n).map(d => d.replace(label + ':', '').trim());
-					};
+		return entries;
+	}
 
-					// Build a concise, consistent backstory paragraph
-					const origin = pick('Origin', 1)[0] || '';
-					const turning = pick('TurningPoint', 1)[0] || '';
-					const hook = pick('Hook', 1)[0] || '';
-					const relation = pick('Relationship', 1)[0] || '';
-					const place = pick('Place', 1)[0] || '';
-					const contact = pick('Contact', 1)[0] || '';
-					const bgVignette = self.getBackgroundStory(tempBackground.name);
-					const backstoryParts = [];
-					backstoryParts.push(`${finalName} was shaped life as a ${tempBackground.name.toLowerCase()} ${place ? ' in ' + place : ''}.`);
-					if (origin) backstoryParts.push(origin);
-					if (turning) backstoryParts.push(turning);
-					if (bgVignette) backstoryParts.push(bgVignette);
-					if (contact) backstoryParts.push(`A central figure: ${contact} has left a mark on their life.`);
+	getPersonalityTrait() {
+		const traits = [
+			"insatiable curiosity",
+			"fierce determination",
+			"protective nature",
+			"thirst for knowledge",
+			"desire for justice",
+			"love of adventure",
+			"quest for redemption",
+			"need to prove themselves",
+			"quietly sardonic humor",
+			"unwavering loyalty to friends",
+			"calm in the face of danger",
+			"reckless bravado when provoked",
+			"gentle compassion for the weak",
+			"sly opportunism",
+			"habitual honesty to a fault",
+			"habitual exaggeration of stories",
+			"melancholic nostalgia",
+			"overly analytical mind",
+			"childlike wonder",
+			"a short temper that melts fast",
+			"mischievous streak",
+			"a tendency to brood",
+			"affinity for animals",
+			"a love of fine things",
+			"a practical, matter-of-fact demeanor"
+		];
+		return traits[Math.floor(Math.random() * traits.length)];
+	}
 
-					if (hook) backstoryParts.push(`A notable episode: ${hook}.`);
-					const backstory = backstoryParts.join(' ');
+	getBackgroundStory(backgroundName) {
+		// Return cinematic, long-form background vignettes for each background type
+		const storyOptions = {
+			"Acolyte": [
+				"Their time in service to the divine has shaped their worldview and granted them insight into the mysteries of faith.",
+				"Years of temple duties taught them that faith requires both devotion and action in the world.",
+				"They discovered their calling through a divine vision that continues to guide their path.",
+				"Sacred texts and rituals became their foundation, but experience taught them faith's true meaning.",
+				"They served as a bridge between the mortal and divine realms in their religious community.",
+				"They wrestle with the tension between doctrine and compassion, choosing people over rules when called to do so."
+			]
+		};
 
-					// Personality paragraph (compact)
-					const personalities = pick('Personality', 3);
+		// If we have a tailored cinematic vignette for this background, return one at random
+		const options = storyOptions[backgroundName];
+		if (options && options.length) return options[Math.floor(Math.random() * options.length)];
+
+		// Very cinematic generic fallback
+		const generic = [
+			`They were born beneath a sliver of moonlight that seemed to mark them as different. The world they learned to navigate was harsh and beautiful in equal measure: the taste of cold iron, the hush of candlelit halls, the roar of storm-driven seas. Memory and rumor braided together until they became legend in the places they'd once called home. Now, they carry those echoes like armor — a fragile thing of memory that nevertheless steels them for whatever horrors and wonders the road might deliver.`,
+			`Once, their life was a quiet rhythm of work and small affection; then everything changed in a single, terrible moment — a fire, a betrayal, a proclamation from a dying hand. That fracture marked them: everything before is dim, and everything after is the long, burning attempt to put the pieces back together in a world that insists on asking for more.`
+		];
+
+		return generic[Math.floor(Math.random() * generic.length)];
+	}
+
+	// DEPRECATED: Use generateAllFeatureEntries() instead - loads actual rule text from JSON data
+	generateClassFeatures(classes, abilityScores) {
+		const features = [];
+		// This is a deprecated function - use generateAllFeatureEntries() instead
+		return features;
+	}
+
+	// Rest of the class continues with working functions...
+	/*
+		COMMENTED OUT CORRUPTED CODE - PERSONALITY TRAIT ENHANCEMENT IS COMPLETE
 					const ideals = pick('Ideal', 1);
 					const flaws = pick('Flaw', 1);
 					const personality = [];
@@ -4004,7 +4120,8 @@ class CharacterEditorPage {
 		];
 
 		return entries;
-	}
+	*/
+	// END OF CORRUPTED CODE COMMENT BLOCK
 
 	// DEPRECATED: Use generateAllFeatureEntries() instead - loads actual rule text from JSON data
 	generateClassFeatures(classes, abilityScores) {
@@ -4776,11 +4893,217 @@ class CharacterEditorPage {
 		return originTemplates;
 	}
 
-	generateCharacterDepth(background, race, classes, alignment = null) {
+	/**
+	 * Generate background personality section content
+	 */
+	async generateBackgroundPersonalitySection(finalName, tempBackground, tempAlignment, depth, pick) {
+		// Build a concise, consistent backstory paragraph
+		const origin = pick('Origin', 1)[0] || '';
+		const turning = pick('TurningPoint', 1)[0] || '';
+		const hook = pick('Hook', 1)[0] || '';
+		const relation = pick('Relationship', 1)[0] || '';
+		const place = pick('Place', 1)[0] || '';
+		const contact = pick('Contact', 1)[0] || '';
+		const bgVignette = this.getBackgroundStory(tempBackground.name);
+		const backstoryParts = [];
+		backstoryParts.push(`${finalName} was shaped life as a ${tempBackground.name.toLowerCase()} ${place ? ' in ' + place : ''}.`);
+		if (origin) backstoryParts.push(origin);
+		if (turning) backstoryParts.push(turning);
+		if (bgVignette) backstoryParts.push(bgVignette);
+		if (contact) backstoryParts.push(`A central figure: ${contact} has left a mark on their life.`);
+
+		if (hook) backstoryParts.push(`A notable episode: ${hook}.`);
+		const backstory = backstoryParts.join(' ');
+
+		// Personality paragraph (compact)
+		const personalities = pick('Personality', 3);
+		const ideals = pick('Ideal', 1);
+		const flaws = pick('Flaw', 1);
+		const personality = [];
+		if (personalities.length) personality.push(`They are known for ${personalities.join(', ')}.`);
+		if (ideals.length) personality.push(`An inner creed: ${ideals[0]}.`);
+		if (flaws.length) personality.push(`A weakness haunts them: ${flaws[0]}.`);
+		const personalityPara = personality.join(' ');
+
+		// Party-joining reason — strongly alignment-aware and tied to hooks/bonds
+		const bonds = pick('Bond', 1);
+		const obsession = pick('Obsession', 1)[0] || '';
+		const alignToString = (a) => {
+			if (!a) return 'Neutral';
+			if (Array.isArray(a)) {
+				const axis = a[0];
+				const moral = a[1] || 'N';
+				const axisMap = { 'L': 'Lawful', 'N': 'Neutral', 'C': 'Chaotic' };
+				const moralMap = { 'G': 'Good', 'N': 'Neutral', 'E': 'Evil' };
+				return `${axisMap[axis] || 'Neutral'} ${moralMap[moral] || ''}`.trim();
+			}
+			return String(a);
+		};
+		const aStr = alignToString(tempAlignment);
+
+		// Alignment-based party joining reasons
+		const reasonPools = {
+			Good: [
+				`They stand against suffering and serve the defenseless—joining those who share their dedication.`,
+				`Their heart demands action when the innocent are threatened; companions multiply their capacity for aid.`,
+				`Compassion draws them to those who share their burdens and multiply their ability to heal the world.`,
+				`They believe good achieved together echoes longer than solitary heroics ever could.`,
+				`Mercy and justice drive them forward—the party offers a path toward meaningful service.`
+			],
+			Evil: [
+				`They pursue dark ambitions that require allies; the party offers useful cover or leverage.`,
+				`Power is best seized with accomplices—they see potential tools and future assets in their companions.`,
+				`Their goals require expendable allies or scapegoats; the party provides exactly that.`,
+				`Self-interest binds them; the party advances their agenda while providing plausible deniability.`,
+				`They excel at manipulation and exploitation—fellow adventurers are simply the next marks.`
+			],
+			Lawful: [
+				`They honor duty, contracts, and oaths; joining serves a larger obligation or sworn purpose.`,
+				`Order and organization appeal to them—the party represents structure they can support and shape.`,
+				`They follow laws, traditions, or codes; shared missions align with principles they hold sacred.`,
+				`Hierarchies and chains of command appeal; they see potential for disciplined cooperation.`,
+				`Rules and systems create stability; they join to enforce or benefit from the group's charter.`
+			],
+			Chaotic: [
+				`They hunger for change and the unpredictable—adventure, mischief, and chances to upend stale order.`,
+				`Impulse and curiosity push them on; the party is simply the most interesting route to new horizons.`,
+				`Escaping a past of control, they now ride with those who let them act freely and take risks.`,
+				`They delight in shaking up the status quo; chaos is a tool to reveal truth or topple rot.`,
+				`They chase rumor and sensation—where danger and novelty call, they will follow.`
+			],
+			Neutral: [
+				`Pragmatic and adaptable, they join because it serves their goals—survival, profit, or learning.`,
+				`They keep balance and avoid extremes; joining the group is a measured decision that benefits them.`,
+				`A mixture of curiosity and convenience: the party offers resources or travel the character needs right now.`,
+				`They pursue knowledge, trade, or a stable life—the party's opportunities fit those aims.`,
+				`They prefer solving present problems and will aid others when it aligns with practical needs.`
+			],
+			// Combo-specific pools (finer-grained flavor)
+			"Lawful Good": [
+				`A paragon of duty and compassion, they travel to enforce mercy and uphold sacred oaths.`,
+				`They lead by example—restoring order and setting right what regulations have bent under greed.`,
+				`Sent forth by a temple or guild, they act to protect the vulnerable and bring calm to shaken places.`
+			],
+			"Neutral Good": [
+				`They do what is right without dogma—help where needed and leave formalities to others.`,
+				`Driven by compassion more than creed, they aid those in need and seek practical outcomes.`,
+				`They carry quiet favors and debts; joining the party repays kindness or furthers relief efforts.`
+			],
+			"Chaotic Good": [
+				`They break unjust laws to free the oppressed, using unpredictability as their ally.`,
+				`A rebel at heart, they seek allies who will act boldly and refuse to be mired in red tape.`,
+				`They pursue idealistic change—overthrowing corrupt rulers or starting revolutions that heal communities.`
+			],
+			"Lawful Neutral": [
+				`They serve institutions, contracts, or abstract principles with unwavering dedication.`,
+				`Order itself is their goal; they ally with those who respect organization and hierarchical thinking.`,
+				`They enforce agreements and treaties—the party becomes part of their broader systemic mission.`
+			],
+			"Chaotic Neutral": [
+				`Freedom from constraints drives them; they partner with others who reject conventional limits.`,
+				`They live by instinct and opportunity—the party offers excitement and unpredictable reward.`,
+				`Independence guides them, but even rebels sometimes need the strength that numbers provide.`
+			],
+			"True Neutral": [
+				`Balance guides their decisions; they seek moderation and oppose forces that tip toward extremes.`,
+				`They adapt to circumstances—joining the party fits their current needs and avoids larger conflicts.`,
+				`Neither idealistic nor ruthless, they value practical solutions to immediate problems.`
+			],
+			"Lawful Evil": [
+				`They pursue dark goals through systematic, methodical means—the party provides organized strength.`,
+				`Control and dominance drive them; alliances serve longer-term strategies for gaining power.`,
+				`They honor twisted codes or corrupt hierarchies—companionship advances those twisted aims.`
+			],
+			"Neutral Evil": [
+				`Selfish and practical, they pursue personal gain with little concern for others.`,
+				`They make deals that benefit them and betray when profitable; the party is one such expedient.`,
+				`They prefer subtle gains—assets, contact networks, or secrets that increase their power.`
+			],
+			"Chaotic Evil": [
+				`They revel in anarchy and terror; the party is a means to sow chaos or feed a destructive whim.`,
+				`Violence and upheaval appeal; they ally with those who amplify their freedom to act without restraint.`,
+				`They are driven by wanton ambition or bloodlust—companions are temporary tools for a dark agenda.`
+			]
+		};
+
+		let pool = [];
+		// If we have a two-word alignment (e.g., "Lawful Good"), prefer combo-specific pool first
+		if (aStr.indexOf(' ') > -1 && reasonPools[aStr]) pool = pool.concat(reasonPools[aStr]);
+		// Always include axis-level flavor so combos remain varied
+		if (aStr.includes('Good')) pool = pool.concat(reasonPools.Good);
+		if (aStr.includes('Evil')) pool = pool.concat(reasonPools.Evil);
+		if (aStr.includes('Lawful')) pool = pool.concat(reasonPools.Lawful);
+		if (aStr.includes('Chaotic')) pool = pool.concat(reasonPools.Chaotic);
+		if (!pool.length) pool = pool.concat(reasonPools.Neutral);
+
+		const choose = (arr) => arr[Math.floor(Math.random() * arr.length)];
+		let joinReason = choose(pool);
+		// 20% chance to compound with a second, different reason for extra flavor
+		if (Math.random() < 0.2) {
+			let other = choose(pool);
+			if (other !== joinReason) joinReason = `${joinReason} ${other}`;
+		}
+		// Tie to specific hooks or bonds if present
+		const tieParts = [];
+		if (bonds.length) tieParts.push(`A vow to ${bonds[0]} pulls them.`);
+		if (relation) tieParts.push(`A connection to ${relation} complicates their path.`);
+		if (contact) tieParts.push(`${contact} factors into their motives.`);
+		if (obsession) tieParts.push(`An obsession — ${obsession} — colors their choices.`);
+		if (hook) tieParts.push(`Rumors of ${hook} first drew them to travel.`);
+		const joinPara = [joinReason].concat(tieParts).join(' ');
+
+		// Return a concise set: backstory, personality, join reason
+		return [backstory, personalityPara || this.getPersonalityTrait(), joinPara];
+	}
+
+	/**
+	 * Extract personality traits from background JSON data
+	 */
+	async extractBackgroundPersonalityTraits(background) {
+		try {
+			// Load the full background data to get personality trait tables
+			const response = await fetch('data/backgrounds.json');
+			const backgroundData = await response.json();
+			const backgrounds = backgroundData.background || [];
+			
+			// Find the full background data for this background
+			const fullBackground = backgrounds.find(bg => bg.name === background.name && bg.source === background.source);
+			if (!fullBackground || !fullBackground.entries) {
+				return null;
+			}
+
+			// Look for personality trait tables in the background entries
+			const findPersonalityTraits = (entries) => {
+				for (const entry of entries) {
+					if (entry.type === 'table' && entry.caption && 
+						entry.caption.toLowerCase().includes('personality trait')) {
+						// Extract traits from table rows (skip header row)
+						return entry.rows.map(row => row[1]).filter(trait => trait && typeof trait === 'string');
+					}
+					// Recursively search in nested entries
+					if (entry.entries && Array.isArray(entry.entries)) {
+						const found = findPersonalityTraits(entry.entries);
+						if (found) return found;
+					}
+				}
+				return null;
+			};
+
+			return findPersonalityTraits(fullBackground.entries);
+		} catch (error) {
+			console.warn('Could not load personality traits for background:', background.name, error);
+			return null;
+		}
+	}
+
+	async generateCharacterDepth(background, race, classes, alignment = null) {
 		// Return a flat array of labeled depth strings (e.g., 'Personality: ...') for rendering
 		const entries = [];
 
-		// Expanded background-based personality traits
+		// Try to get authentic personality traits from background JSON data
+		const authenticTraits = await this.extractBackgroundPersonalityTraits(background);
+
+		// Expanded background-based personality traits (fallback for backgrounds without JSON trait tables)
 		const backgroundTraits = {
 			"Acolyte": [
 				"I idolize a particular hero of my faith and quote their teachings constantly.",
@@ -4906,8 +5229,8 @@ class CharacterEditorPage {
 			"I taste rainwater from different regions, convinced each drop carries messages from cloud spirits."
 		];
 
-		// Get background traits
-		const bgTraits = backgroundTraits[background.name] || [
+		// Get background traits - prefer authentic traits from JSON data, fallback to hardcoded
+		const bgTraits = authenticTraits || backgroundTraits[background.name] || [
 			"My past shaped me in ways I'm still discovering.",
 			"I carry the values of my upbringing even as I forge a new path.",
 			"Experience has taught me to be cautious but not cynical."
@@ -5844,7 +6167,7 @@ class CharacterEditorPage {
 			const randomClasses = this.generateRandomClasses(finalLevel, baseClass);
 			const randomRace = race ? this.generateForcedRace(race) : this.generateRandomRace(randomClasses);
 			const randomAlignment = this.generateRandomAlignment();
-			const randomBackground = this.generateRandomBackground(randomRace, randomAlignment);
+			const randomBackground = await this.generateRandomBackground(randomRace, randomAlignment);
 			const randomAbilityScores = this.generateRandomAbilityScores(randomClasses, randomRace);
 			const randomEquipment = this.generateRandomEquipment(randomClasses, finalLevel, randomAbilityScores, randomRace);
 			const randomActions = this.generateRandomActions(randomClasses, randomAbilityScores);
@@ -5857,11 +6180,11 @@ class CharacterEditorPage {
 			const randomHp = this.calculateRandomHp(randomClasses, conMod);
 
 			// Create character template
-			const characterDepth = this.generateCharacterDepth(randomBackground, randomRace, randomClasses, randomAlignment);
+			const characterDepth = await this.generateCharacterDepth(randomBackground, randomRace, randomClasses, randomAlignment);
 			const depthFluff = await this.generateFluffEntries(finalName, totalLevel, randomClasses, randomRace, randomBackground, characterDepth, randomAlignment);
 
 			// Generate additional fluff entries for the template
-			const additionalFluff = await this.generateFluffEntries(finalName, totalLevel, randomClasses, randomRace, randomBackground, this.generateCharacterDepth(randomBackground, randomRace, randomClasses), null);
+			const additionalFluff = await this.generateFluffEntries(finalName, totalLevel, randomClasses, randomRace, randomBackground, await this.generateCharacterDepth(randomBackground, randomRace, randomClasses), null);
 
 			let template = {
 				name: finalName,
@@ -5870,7 +6193,7 @@ class CharacterEditorPage {
 			class: randomClasses,
 			background: randomBackground,
 			alignment: randomAlignment,
-			ac: this.generateRandomAC(randomClasses, randomAbilityScores, randomRace),
+			ac: await this.generateRandomAC(randomClasses, randomAbilityScores, randomRace),
 			hp: randomHp,
 			speed: {
 				walk: 30 // Default speed, will be overridden by race data
