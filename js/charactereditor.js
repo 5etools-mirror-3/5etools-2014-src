@@ -111,36 +111,26 @@ class CharacterEditorPage {
 			BrewUtil2.pInit(),
 		]);
 
-		// Check if we're in edit mode
+		// Check URL parameters for edit mode and random generation
 		const urlParams = new URLSearchParams(window.location.search);
 		isEditMode = urlParams.get('edit') === 'true';
 
 		// Initialize ACE editor using 5etools utility
 		this.ace = EditorUtil.initEditor("jsoninput", {mode: "ace/mode/json"});
 
-		// Check for random character generation from sources.html
-		const shouldGenerateRandom = localStorage.getItem('generateRandomCharacter') === 'true';
+		// Check for random character generation from URL parameters
+		const shouldGenerateRandom = urlParams.get('random') === 'true';
+		
 		if (shouldGenerateRandom && !isEditMode) {
-			// Get generation parameters
-			const level = parseInt(localStorage.getItem('randomCharacterLevel') || '5');
-			const sourceName = localStorage.getItem('randomCharacterSource') || '';
-			const characterName = localStorage.getItem('randomCharacterName') || '';
-			// Prefer explicit URL params if present, otherwise fall back to localStorage
-			const urlParams = new URLSearchParams(window.location.search);
-			const baseClass = urlParams.get('baseClass') || localStorage.getItem('randomCharacterBaseClass') || '';
-			const race = urlParams.get('race') || localStorage.getItem('randomCharacterRace') || '';
-
-			// Clear the generation flags
-			localStorage.removeItem('generateRandomCharacter');
-			localStorage.removeItem('randomCharacterLevel');
-			localStorage.removeItem('randomCharacterSource');
-			localStorage.removeItem('randomCharacterName');
-			// Also clear optional parameters so they don't persist
-			localStorage.removeItem('randomCharacterBaseClass');
-			localStorage.removeItem('randomCharacterRace');
+			// Get generation parameters from URL
+			const level = parseInt(urlParams.get('level') || '5');
+			const sourceName = urlParams.get('source') || '';
+			const characterName = urlParams.get('name') || '';
+			const baseClass = urlParams.get('baseClass') || '';
+			const race = urlParams.get('race') || '';
 
 			// Generate random character
-			console.log(`Generating random level ${level} character for source: ${sourceName}`);
+			console.log(`Generating random level ${level} character for source: ${sourceName} (baseClass: ${baseClass}, race: ${race})`);
 			await this.generateRandomCharacterAtLevel(level, characterName, sourceName, baseClass, race);
 		} else if (isEditMode) {
 			// Load character data if in edit mode
@@ -468,13 +458,13 @@ class CharacterEditorPage {
 				case "Fighter":
 				case "Paladin":
 					if (race.name === "Dragonborn" || race.name === "Half-Orc" ||
-						(race.name === "Dwarf" && race.subraces.includes("Mountain Dwarf"))) {
+						(race.name === "Dwarf" && race.subraces && race.subraces.includes("Mountain Dwarf"))) {
 						synergy += 2;
 					}
 					break;
 				case "Wizard":
 					if (race.name === "High Elf" || race.name === "Gnome" ||
-						(race.name === "Human" && race.subraces.includes("Variant"))) {
+						(race.name === "Human" && race.subraces && race.subraces.includes("Variant"))) {
 						synergy += 2;
 					}
 					break;
@@ -496,7 +486,7 @@ class CharacterEditorPage {
 				case "Cleric":
 				case "Druid":
 					if (race.name === "Human" || (race.name === "Dwarf" &&
-						race.subraces.includes("Hill Dwarf")) || race.name === "Half-Elf") {
+						race.subraces && race.subraces.includes("Hill Dwarf")) || race.name === "Half-Elf") {
 						synergy += 2;
 					}
 					break;
@@ -1809,9 +1799,14 @@ class CharacterEditorPage {
 
 				// Hit dice are already stored in the class object, no need to duplicate
 
-				// Apply spellcasting ability and progression to existing spells section
+				// Apply spellcasting ability and progression to spells section
 				if (classInfo.spellcastingAbility) {
-					// Enhance the existing spells object with spellcasting information
+					// Initialize spells object if it doesn't exist
+					if (!characterTemplate.spells) {
+						characterTemplate.spells = {};
+					}
+					
+					// Enhance the spells object with spellcasting information
 					characterTemplate.spells.spellcastingAbility = classInfo.spellcastingAbility;
 					characterTemplate.spells.casterProgression = classInfo.casterProgression;
 
@@ -6306,6 +6301,52 @@ class CharacterEditorPage {
 			this.deleteCharacter();
 		});
 
+		// Set up listener for character updates from WebSocket/P2P sync
+		if (typeof CharacterManager !== 'undefined' && CharacterManager.addListener) {
+			CharacterManager.addListener((characters) => {
+				// Check if the currently loaded character was updated
+				if (currentCharacterData && currentCharacterData.id) {
+					const updatedCharacter = characters.find(c => c.id === currentCharacterData.id);
+					if (updatedCharacter) {
+						// Update the JSON editor with the new data (preserving scroll position)
+						const currentScrollPos = this.ace.session.getScrollTop();
+						this.ace.setValue(JSON.stringify(updatedCharacter, null, 2), 1);
+						this.ace.session.setScrollTop(currentScrollPos);
+						
+						// Update our local reference
+						currentCharacterData = updatedCharacter;
+						
+						// Re-render the character preview (with scroll preservation)
+						this.renderCharacter();
+					}
+				}
+			});
+		}
+
+		// Set up listener for cross-tab sync via localStorage events
+		window.addEventListener('storage', (event) => {
+			if (event.key === 'editingCharacter' && event.newValue && currentCharacterData) {
+				try {
+					const updatedCharacter = JSON.parse(event.newValue);
+					// Only update if it's the same character we're editing
+					if (updatedCharacter.id === currentCharacterData.id) {
+						// Update the JSON editor with the new data (preserving scroll position)
+						const currentScrollPos = this.ace.session.getScrollTop();
+						this.ace.setValue(JSON.stringify(updatedCharacter, null, 2), 1);
+						this.ace.session.setScrollTop(currentScrollPos);
+						
+						// Update our local reference
+						currentCharacterData = updatedCharacter;
+						
+						// Re-render the character preview (with scroll preservation)
+						this.renderCharacter();
+					}
+				} catch (e) {
+					console.warn('Error handling cross-tab character sync:', e);
+				}
+			}
+		});
+
 		// Note: Source password management moved to sources.html page
 
 		// Watch for JSON changes to update source display and render preview
@@ -6330,9 +6371,20 @@ class CharacterEditorPage {
 			const fn = Renderer.hover.getFnRenderCompact(UrlUtil.PG_CHARACTERS);
 			const renderedContent = fn(characterData);
 
-			// Clear and populate the output area using the same structure as characters page
+			// Save scroll position before content replacement
 			const $output = $('#pagecontent');
+			const scrollPosition = $output.scrollTop();
+
+			// Clear and populate the output area using the same structure as characters page
 			$output.empty().append(renderedContent);
+
+			// Restore scroll position after content is rendered
+			// Use requestAnimationFrame to ensure DOM is updated before restoring scroll
+			requestAnimationFrame(() => {
+				if (scrollPosition > 0) {
+					$output.scrollTop(scrollPosition);
+				}
+			});
 
 			// Bind listeners for dice rolling and other interactions using existing system
 			const fnBind = Renderer.hover.getFnBindListenersCompact(UrlUtil.PG_CHARACTERS);

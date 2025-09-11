@@ -440,26 +440,16 @@ class SourceManager {
 			// Show generating message
 			this.showMessage('generation-message', 'Generating character...', 'blue');
 
-			// Store the generation parameters for the character editor
-			localStorage.setItem('randomCharacterSource', sourceName);
-			localStorage.setItem('randomCharacterLevel', level.toString());
-			localStorage.setItem('randomCharacterName', characterName);
-			localStorage.setItem('generateRandomCharacter', 'true');
-			if (baseClass) {
-				localStorage.setItem('randomCharacterBaseClass', baseClass);
-			} else {
-				localStorage.removeItem('randomCharacterBaseClass');
-			}
-			if (race) {
-				localStorage.setItem('randomCharacterRace', race);
-			} else {
-				localStorage.removeItem('randomCharacterRace');
-			}
-
-			// Navigate to character editor with random generation parameters (include baseClass and race params for clarity)
-			const urlParams = [`source=${encodeURIComponent(sourceName)}`, 'random=true', `level=${level}`, `name=${encodeURIComponent(characterName)}`];
+			// Navigate to character editor with random generation parameters
+			const urlParams = [`source=${encodeURIComponent(sourceName)}`, 'random=true', `level=${level}`];
+			
+			// Add name parameter (encode empty string as well for consistency)
+			urlParams.push(`name=${encodeURIComponent(characterName)}`);
+			
+			// Add optional parameters
 			if (baseClass) urlParams.push(`baseClass=${encodeURIComponent(baseClass)}`);
 			if (race) urlParams.push(`race=${encodeURIComponent(race)}`);
+			
 			const url = `charactereditor.html?${urlParams.join('&')}`;
 			window.location.href = url;
 
