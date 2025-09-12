@@ -120,7 +120,7 @@ class CharacterEditorPage {
 
 		// Check for random character generation from URL parameters
 		const shouldGenerateRandom = urlParams.get('random') === 'true';
-		
+
 		if (shouldGenerateRandom && !isEditMode) {
 			// Get generation parameters from URL
 			const level = parseInt(urlParams.get('level') || '5');
@@ -230,7 +230,7 @@ class CharacterEditorPage {
 
 	// Calculate derived stats
 	const totalLevel = randomClasses.reduce((sum, cls) => sum + cls.level, 0);
-	const profBonus = Math.floor((totalLevel - 1) / 4) + 2;
+	const profBonus = this.getProficiencyBonus(totalLevel);
 	const conMod = Math.floor((randomAbilityScores.con - 10) / 2);
 	const randomHp = this.calculateRandomHp(randomClasses, conMod);
 
@@ -247,7 +247,10 @@ class CharacterEditorPage {
 			source: requestedSource || "ADD_YOUR_NAME_HERE",
 			race: randomRace,
 			class: randomClasses,
-			background: randomBackground,
+			background: {
+				name: randomBackground.name,
+				source: randomBackground.source
+			},
 			alignment: randomAlignment,
 			ac: await this.generateRandomAC(randomClasses, randomAbilityScores, randomRace),
 			hp: randomHp,
@@ -256,7 +259,7 @@ class CharacterEditorPage {
 			},
 			...randomAbilityScores,
 			passive: 10 + Math.floor((randomAbilityScores.wis - 10) / 2) + (this.hasSkillProficiency("perception", randomClasses) ? profBonus : 0),
-			save: this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
+			save: await this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
 			skill: await this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, randomBackground),
 			proficiencyBonus: `+${profBonus}`,
 			deathSaves: {
@@ -266,8 +269,6 @@ class CharacterEditorPage {
 			customTrackers: this.generateRandomTrackers(randomClasses),
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
-			languages: this.generateLanguageProficiencies(randomClasses, randomRace, null),
-			toolProficiencies: this.generateToolProficiencies(randomClasses, randomRace, null),
 			currency: this.generateRandomCurrency(totalLevel),
 			entries: [...await this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores, randomName, randomBackground, randomAlignment)],
 			fluff: {
@@ -320,7 +321,7 @@ class CharacterEditorPage {
 			{ name: "Half-Elf", source: "PHB", weight: 2 },
 			{ name: "Half-Orc", source: "PHB", weight: 2 },
 			{ name: "Tiefling", source: "PHB", weight: 2 },
-			
+
 			// Popular expanded races
 			{ name: "Aasimar", source: "MPMM", weight: 2 },
 			{ name: "Genasi", source: "MPMM", weight: 2 },
@@ -328,7 +329,7 @@ class CharacterEditorPage {
 			{ name: "Tabaxi", source: "MPMM", weight: 2 },
 			{ name: "Tortle", source: "MPMM", weight: 2 },
 			{ name: "Triton", source: "MPMM", weight: 2 },
-			
+
 			// More exotic races with lower weights
 			{ name: "Aarakocra", source: "MPMM", weight: 1 },
 			{ name: "Bugbear", source: "MPMM", weight: 1 },
@@ -397,7 +398,7 @@ class CharacterEditorPage {
 			{ name: "Half-Elf", source: "PHB" },
 			{ name: "Half-Orc", source: "PHB" },
 			{ name: "Tiefling", source: "PHB" },
-			
+
 			// Expanded Races from various sources
 			{ name: "Aarakocra", source: "MPMM" },
 			{ name: "Aasimar", source: "MPMM" },
@@ -433,7 +434,7 @@ class CharacterEditorPage {
 
 		// Find the forced race option
 		const raceOption = raceOptions.find(option => option.name === forcedRaceName);
-		
+
 		if (!raceOption) {
 			console.warn(`Unknown race: ${forcedRaceName}, falling back to Human`);
 			// Fallback to Human if race not found
@@ -854,13 +855,13 @@ class CharacterEditorPage {
 			const response = await fetch('data/backgrounds.json');
 			const backgroundData = await response.json();
 			backgrounds = backgroundData.background || [];
-			
+
 			// Filter to more common/playable backgrounds (avoid adventure-specific ones)
 			backgrounds = backgrounds.filter(bg => {
 				const commonSources = ["PHB", "SCAG", "XGE", "TCE", "VGM", "MPMM", "FTD", "BGG"];
 				return commonSources.includes(bg.source);
 			});
-			
+
 			// If no backgrounds found, fallback to basic list
 			if (backgrounds.length === 0) {
 				backgrounds = [
@@ -1246,8 +1247,8 @@ class CharacterEditorPage {
 		return priorities;
 	}
 
-	applyRacialAbilityBonuses(stats, race) {
-		const bonuses = this.getRacialAbilityBonuses(race);
+	async applyRacialAbilityBonuses(stats, race) {
+		const bonuses = await this.getRacialAbilityBonuses(race);
 		const newStats = { ...stats };
 
 		Object.entries(bonuses).forEach(([ability, bonus]) => {
@@ -1257,91 +1258,65 @@ class CharacterEditorPage {
 		return newStats;
 	}
 
-	getRacialAbilityBonuses(race) {
+	async getRacialAbilityBonuses(race) {
 		const bonuses = {};
-
-		switch (race.name) {
-			case "Human":
-				if (race.subrace === "Variant") {
-					// Variant human gets +1 to two different abilities
-					const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
-					const chosen = [];
-					while (chosen.length < 2) {
-						const ability = abilities[Math.floor(Math.random() * abilities.length)];
-						if (!chosen.includes(ability)) {
-							chosen.push(ability);
-							bonuses[ability] = 1;
-						}
-					}
-				} else {
-					// Standard human gets +1 to all abilities
-					['str', 'dex', 'con', 'int', 'wis', 'cha'].forEach(ability => {
-						bonuses[ability] = 1;
-					});
-				}
-				break;
-			case "Dwarf":
-				bonuses.con = 2;
-				if (race.subrace === "Mountain Dwarf") {
-					bonuses.str = 2;
-				} else if (race.subrace === "Hill Dwarf") {
-					bonuses.wis = 1;
-				}
-				break;
-			case "Elf":
-				bonuses.dex = 2;
-				if (race.subrace === "High Elf") {
-					bonuses.int = 1;
-				} else if (race.subrace === "Wood Elf") {
-					bonuses.wis = 1;
-				} else if (race.subrace === "Dark Elf (Drow)") {
-					bonuses.cha = 1;
-				}
-				break;
-			case "Halfling":
-				bonuses.dex = 2;
-				if (race.subrace === "Lightfoot") {
-					bonuses.cha = 1;
-				} else if (race.subrace === "Stout") {
-					bonuses.con = 1;
-				}
-				break;
-			case "Dragonborn":
-				bonuses.str = 2;
-				bonuses.cha = 1;
-				break;
-			case "Gnome":
-				bonuses.int = 2;
-				if (race.subrace === "Forest Gnome") {
-					bonuses.dex = 1;
-				} else if (race.subrace === "Rock Gnome") {
-					bonuses.con = 1;
-				}
-				break;
-			case "Half-Elf":
-				bonuses.cha = 2;
-				// Choose two other abilities for +1 each
-				const abilities = ['str', 'dex', 'con', 'int', 'wis'];
-				const chosen = [];
-				while (chosen.length < 2) {
-					const ability = abilities[Math.floor(Math.random() * abilities.length)];
-					if (!chosen.includes(ability)) {
-						chosen.push(ability);
-						bonuses[ability] = 1;
-					}
-				}
-				break;
-			case "Half-Orc":
-				bonuses.str = 2;
-				bonuses.con = 1;
-				break;
-			case "Tiefling":
-				bonuses.int = 1;
-				bonuses.cha = 2;
-				break;
+		
+		if (!race || !race.name) {
+			return bonuses;
 		}
 
-		return bonuses;
+		try {
+			// Load race data from 5etools JSON files
+			const response = await fetch('data/races.json');
+			if (!response.ok) {
+				console.warn('Could not load race data for ability bonuses');
+				return bonuses;
+			}
+
+			const raceData = await response.json();
+			const raceInfo = raceData.race?.find(r => 
+				r.name === race.name && r.source === race.source
+			);
+
+			if (!raceInfo || !raceInfo.ability || !raceInfo.ability.length) {
+				return bonuses; // No ability bonuses
+			}
+
+			// Process each ability bonus entry
+			for (const abilityEntry of raceInfo.ability) {
+				// Handle direct ability bonuses (e.g., {str: 2, con: 1})
+				const directBonuses = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+				directBonuses.forEach(ability => {
+					if (abilityEntry[ability]) {
+						bonuses[ability] = (bonuses[ability] || 0) + abilityEntry[ability];
+					}
+				});
+
+				// Handle "choose" format for flexible bonuses
+				if (abilityEntry.choose) {
+					const choose = abilityEntry.choose;
+					const count = choose.count || 1;
+					const amount = choose.amount || 1;
+					const availableAbilities = choose.from || ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+					
+					// Randomly select abilities for bonuses
+					const chosen = [];
+					while (chosen.length < count && chosen.length < availableAbilities.length) {
+						const randomAbility = availableAbilities[Math.floor(Math.random() * availableAbilities.length)];
+						if (!chosen.includes(randomAbility)) {
+							chosen.push(randomAbility);
+							bonuses[randomAbility] = (bonuses[randomAbility] || 0) + amount;
+						}
+					}
+				}
+			}
+
+			return bonuses;
+
+		} catch (error) {
+			console.error('Error loading racial ability bonuses:', error);
+			return bonuses; // Return empty bonuses on error
+		}
 	}
 
 	optimizeStatsForClasses(stats, classes) {
@@ -1468,6 +1443,31 @@ class CharacterEditorPage {
 			return classData;
 		} catch (error) {
 			console.error(`Error loading class data for ${className}:`, error);
+			return null;
+		}
+	}
+
+	async loadFeatData() {
+		// Check cache first
+		if (this._featDataCache) {
+			return this._featDataCache;
+		}
+
+		try {
+			const response = await fetch('data/feats.json');
+			if (!response.ok) {
+				console.warn('Could not load feat data');
+				return null;
+			}
+
+			const featData = await response.json();
+
+			// Cache the loaded data
+			this._featDataCache = featData;
+
+			return featData;
+		} catch (e) {
+			console.error('Error loading feat data:', e);
 			return null;
 		}
 	}
@@ -1701,10 +1701,10 @@ class CharacterEditorPage {
 				} else {
 					characterTemplate.speed = {
 						walk: raceInfo.speed.walk || 30,
-						...(raceInfo.speed.fly && { fly: raceInfo.speed.fly }),
-						...(raceInfo.speed.swim && { swim: raceInfo.speed.swim }),
-						...(raceInfo.speed.climb && { climb: raceInfo.speed.climb }),
-						...(raceInfo.speed.burrow && { burrow: raceInfo.speed.burrow })
+						...(raceInfo.speed.fly && typeof raceInfo.speed.fly === 'number' && { fly: raceInfo.speed.fly }),
+						...(raceInfo.speed.swim && typeof raceInfo.speed.swim === 'number' && { swim: raceInfo.speed.swim }),
+						...(raceInfo.speed.climb && typeof raceInfo.speed.climb === 'number' && { climb: raceInfo.speed.climb }),
+						...(raceInfo.speed.burrow && typeof raceInfo.speed.burrow === 'number' && { burrow: raceInfo.speed.burrow })
 					};
 				}
 			}
@@ -1714,32 +1714,6 @@ class CharacterEditorPage {
 				characterTemplate.size = raceInfo.size[0]; // Use first size (usually just one)
 			}
 
-			// Apply languages from race data
-			if (raceInfo.languageProficiencies) {
-				const languages = [];
-				raceInfo.languageProficiencies.forEach(langProf => {
-					// Add specific languages
-					Object.keys(langProf).forEach(lang => {
-						if (langProf[lang] === true && lang !== 'anyStandard' && lang !== 'any') {
-							languages.push(lang.charAt(0).toUpperCase() + lang.slice(1));
-						}
-					});
-
-					// Handle "any standard" language choices
-					if (langProf.anyStandard) {
-						const standardLanguages = ['Dwarvish', 'Elvish', 'Giant', 'Gnomish', 'Goblin', 'Halfling', 'Orc'];
-						const randomLang = standardLanguages[Math.floor(Math.random() * standardLanguages.length)];
-						languages.push(randomLang);
-					}
-				});
-
-				// Always include Common if not already present
-				if (!languages.includes('Common') && !languages.includes('common')) {
-					languages.unshift('Common');
-				}
-
-				characterTemplate.languages = languages;
-			}
 
 			// Apply darkvision from race data
 			if (raceInfo.darkvision) {
@@ -1805,7 +1779,7 @@ class CharacterEditorPage {
 					if (!characterTemplate.spells) {
 						characterTemplate.spells = {};
 					}
-					
+
 					// Enhance the spells object with spellcasting information
 					characterTemplate.spells.spellcastingAbility = classInfo.spellcastingAbility;
 					characterTemplate.spells.casterProgression = classInfo.casterProgression;
@@ -2253,7 +2227,7 @@ class CharacterEditorPage {
 		const dexMod = Math.floor((abilityScores.dex - 10) / 2);
 		const conMod = Math.floor((abilityScores.con - 10) / 2);
 		const wisMod = Math.floor((abilityScores.wis - 10) / 2);
-		
+
 		let baseAC = 10 + dexMod;
 		let armorType = "natural";
 
@@ -2271,7 +2245,7 @@ class CharacterEditorPage {
 		// Check for class-based unarmored AC bonuses
 		const monkClass = classes.find(cls => cls.name === "Monk");
 		const barbarianClass = classes.find(cls => cls.name === "Barbarian");
-		
+
 		if (monkClass && Math.random() < 0.6) {
 			// Monk Unarmored Defense: 10 + Dex + Wis
 			baseAC = 10 + dexMod + wisMod;
@@ -2359,7 +2333,7 @@ class CharacterEditorPage {
 		return classes.some(cls => fallbackProficiencies[armorType]?.includes(cls.name));
 	}
 
-	generateRandomSaves(abilityScores, classes, profBonus) {
+	async generateRandomSaves(abilityScores, classes, profBonus) {
 		const saves = {};
 		const allSaves = ["str", "dex", "con", "int", "wis", "cha"];
 
@@ -2367,35 +2341,16 @@ class CharacterEditorPage {
 		const proficientSaves = new Set();
 		if (classes.length > 0) {
 			const primaryClass = classes[0];
-			switch (primaryClass.name) {
-				case "Fighter":
-				case "Barbarian":
-					proficientSaves.add("str").add("con");
-					break;
-				case "Bard":
-				case "Paladin":
-					proficientSaves.add("wis").add("cha");
-					break;
-				case "Cleric":
-				case "Druid":
-					proficientSaves.add("wis").add("con");
-					break;
-				case "Monk":
-					proficientSaves.add("str").add("dex");
-					break;
-				case "Ranger":
-					proficientSaves.add("str").add("dex");
-					break;
-				case "Rogue":
-					proficientSaves.add("dex").add("int");
-					break;
-				case "Sorcerer":
-				case "Warlock":
-					proficientSaves.add("con").add("cha");
-					break;
-				case "Wizard":
-					proficientSaves.add("int").add("wis");
-					break;
+			try {
+				const classData = await this.loadClassData(primaryClass.name);
+				if (classData && classData.class && classData.class[0] && classData.class[0].proficiency) {
+					// Add saving throw proficiencies from class data
+					classData.class[0].proficiency.forEach(save => {
+						proficientSaves.add(save);
+					});
+				}
+			} catch (e) {
+				console.warn(`Could not load saving throw proficiencies for ${primaryClass.name}:`, e);
 			}
 		}
 
@@ -2407,6 +2362,11 @@ class CharacterEditorPage {
 		});
 
 		return saves;
+	}
+
+	// Standard D&D 5e proficiency bonus by total character level
+	getProficiencyBonus(totalLevel) {
+		return Math.ceil(totalLevel / 4) + 1;
 	}
 
 	async generateRandomSkills(abilityScores, classes, profBonus, race, background) {
@@ -2425,7 +2385,7 @@ class CharacterEditorPage {
 		// In D&D 5e, you only get skill proficiencies from your FIRST class when multiclassing
 		if (classes.length > 0) {
 			const primaryClass = classes[0];
-			const classSkills = this.getClassSkillProficiencies(primaryClass.name);
+			const classSkills = await this.getClassSkillProficiencies(primaryClass.name);
 			const availableSkills = classSkills.choices || [];
 			const automaticSkills = classSkills.automatic || [];
 			const numChoices = classSkills.numChoices || 2;
@@ -2481,66 +2441,49 @@ class CharacterEditorPage {
 		return skills;
 	}
 
-	getClassSkillProficiencies(className) {
-		const classSkills = {
-			"Barbarian": {
-				choices: ["animal_handling", "athletics", "intimidation", "nature", "perception", "survival"],
-				numChoices: 2
-			},
-			"Bard": {
-				automatic: ["performance"],
-				choices: Object.keys({
-					"acrobatics": true, "animal_handling": true, "arcana": true, "athletics": true,
-					"deception": true, "history": true, "insight": true, "intimidation": true,
-					"investigation": true, "medicine": true, "nature": true, "perception": true,
-					"persuasion": true, "religion": true, "sleight_of_hand": true, "stealth": true, "survival": true
-				}),
-				numChoices: 3
-			},
-			"Cleric": {
-				choices: ["history", "insight", "medicine", "persuasion", "religion"],
-				numChoices: 2
-			},
-			"Druid": {
-				choices: ["arcana", "animal_handling", "insight", "medicine", "nature", "perception", "religion", "survival"],
-				numChoices: 2
-			},
-			"Fighter": {
-				choices: ["acrobatics", "animal_handling", "athletics", "history", "insight", "intimidation", "perception", "survival"],
-				numChoices: 2
-			},
-			"Monk": {
-				choices: ["acrobatics", "athletics", "history", "insight", "religion", "stealth"],
-				numChoices: 2
-			},
-			"Paladin": {
-				choices: ["athletics", "insight", "intimidation", "medicine", "persuasion", "religion"],
-				numChoices: 2
-			},
-			"Ranger": {
-				choices: ["animal_handling", "athletics", "insight", "investigation", "nature", "perception", "stealth", "survival"],
-				numChoices: 3
-			},
-			"Rogue": {
-				automatic: ["sleight_of_hand", "stealth"],
-				choices: ["acrobatics", "athletics", "deception", "insight", "intimidation", "investigation", "perception", "performance", "persuasion"],
-				numChoices: 2
-			},
-			"Sorcerer": {
-				choices: ["arcana", "deception", "insight", "intimidation", "persuasion", "religion"],
-				numChoices: 2
-			},
-			"Warlock": {
-				choices: ["arcana", "deception", "history", "intimidation", "investigation", "nature", "religion"],
-				numChoices: 2
-			},
-			"Wizard": {
-				choices: ["arcana", "history", "insight", "investigation", "medicine", "religion"],
-				numChoices: 2
+	async getClassSkillProficiencies(className) {
+		try {
+			const classData = await this.loadClassData(className);
+			if (!classData || !classData.class || !classData.class[0]) {
+				console.warn(`Could not load class data for skill proficiencies: ${className}`);
+				return { choices: [], numChoices: 0, automatic: [] };
 			}
-		};
 
-		return classSkills[className] || { choices: [], numChoices: 0 };
+			const classInfo = classData.class[0];
+			const skillProfs = classInfo.startingProficiencies?.skills?.[0];
+
+			if (!skillProfs) {
+				return { choices: [], numChoices: 0, automatic: [] };
+			}
+
+			// Convert skill names from JSON format (spaces) to internal format (underscores)
+			const convertSkillName = (skill) => {
+				return skill.replace(/\s+/g, '_').toLowerCase();
+			};
+
+			// Handle choose structure: { choose: { from: [...], count: N } }
+			if (skillProfs.choose) {
+				return {
+					choices: (skillProfs.choose.from || []).map(convertSkillName),
+					numChoices: skillProfs.choose.count || 2,
+					automatic: []
+				};
+			}
+
+			// Handle direct array of skills (automatic proficiencies)
+			if (Array.isArray(skillProfs)) {
+				return {
+					choices: [],
+					numChoices: 0,
+					automatic: skillProfs.map(convertSkillName)
+				};
+			}
+
+			return { choices: [], numChoices: 0, automatic: [] };
+		} catch (e) {
+			console.error(`Error loading skill proficiencies for ${className}:`, e);
+			return { choices: [], numChoices: 0, automatic: [] };
+		}
 	}
 
 	selectWeightedSkills(availableSkills, numChoices, classes, race) {
@@ -2993,7 +2936,7 @@ class CharacterEditorPage {
 	generateRandomActions(classes, abilityScores) {
 		const actions = [];
 		const totalLevel = classes.reduce((sum, cls) => sum + cls.level, 0);
-		const profBonus = Math.floor((totalLevel - 1) / 4) + 2;
+		const profBonus = this.getProficiencyBonus(totalLevel);
 		const strMod = Math.floor((abilityScores.str - 10) / 2);
 		const dexMod = Math.floor((abilityScores.dex - 10) / 2);
 		const chaMod = Math.floor((abilityScores.cha - 10) / 2);
@@ -3258,7 +3201,7 @@ class CharacterEditorPage {
 		const abilityScore = spellcastingInfo.abilityKey;
 		const actualAbilityScore = abilityScores[abilityScore];
 		const spellMod = Math.floor((actualAbilityScore - 10) / 2);
-		const profBonus = Math.floor((totalLevel - 1) / 4) + 2;
+		const profBonus = this.getProficiencyBonus(totalLevel);
 		const spellDC = 8 + profBonus + spellMod;
 		const spellAttack = profBonus + spellMod;
 
@@ -3312,7 +3255,7 @@ class CharacterEditorPage {
 		const actualAbilityScore = abilityScores[spellcastingInfo.abilityKey];
 		const spellMod = Math.floor((actualAbilityScore - 10) / 2);
 		const totalLevel = casterClasses.reduce((sum, cls) => sum + cls.level, 0);
-		const profBonus = Math.floor((totalLevel - 1) / 4) + 2;
+		const profBonus = this.getProficiencyBonus(totalLevel);
 
 		return {
 			dc: 8 + profBonus + spellMod,
@@ -3758,18 +3701,18 @@ class CharacterEditorPage {
 	getSpellCountForLevel(casterClass, level) {
 		// Get appropriate spell count based on class type and character level
 		const classLevel = casterClass.level;
-		
+
 		// For cantrips (level 0), use cantrip progression
 		if (level === 0) {
 			return this.getCantripCount(casterClass.name, classLevel);
 		}
-		
+
 		// For spell levels, use different logic based on caster type
 		const spellsKnownByClass = {
 			// Prepared casters get more spells since they can change daily
-			"Wizard": { 
-				1: Math.min(6 + Math.floor(classLevel / 2), 15), 
-				2: Math.min(4 + Math.floor(classLevel / 3), 10), 
+			"Wizard": {
+				1: Math.min(6 + Math.floor(classLevel / 2), 15),
+				2: Math.min(4 + Math.floor(classLevel / 3), 10),
 				3: Math.min(2 + Math.floor(classLevel / 4), 8),
 				4: Math.min(2 + Math.floor(classLevel / 5), 6),
 				5: Math.min(2 + Math.floor(classLevel / 6), 5),
@@ -3778,9 +3721,9 @@ class CharacterEditorPage {
 				8: Math.min(1 + Math.floor(classLevel / 9), 3),
 				9: Math.min(1 + Math.floor(classLevel / 10), 2)
 			},
-			"Cleric": { 
-				1: Math.min(4 + Math.floor(classLevel / 3), 12), 
-				2: Math.min(3 + Math.floor(classLevel / 4), 8), 
+			"Cleric": {
+				1: Math.min(4 + Math.floor(classLevel / 3), 12),
+				2: Math.min(3 + Math.floor(classLevel / 4), 8),
 				3: Math.min(2 + Math.floor(classLevel / 5), 6),
 				4: Math.min(2 + Math.floor(classLevel / 6), 5),
 				5: Math.min(2 + Math.floor(classLevel / 7), 4),
@@ -3789,9 +3732,9 @@ class CharacterEditorPage {
 				8: Math.min(1 + Math.floor(classLevel / 10), 2),
 				9: Math.min(1 + Math.floor(classLevel / 11), 2)
 			},
-			"Druid": { 
-				1: Math.min(4 + Math.floor(classLevel / 3), 12), 
-				2: Math.min(3 + Math.floor(classLevel / 4), 8), 
+			"Druid": {
+				1: Math.min(4 + Math.floor(classLevel / 3), 12),
+				2: Math.min(3 + Math.floor(classLevel / 4), 8),
 				3: Math.min(2 + Math.floor(classLevel / 5), 6),
 				4: Math.min(2 + Math.floor(classLevel / 6), 5),
 				5: Math.min(2 + Math.floor(classLevel / 7), 4),
@@ -3801,9 +3744,9 @@ class CharacterEditorPage {
 				9: Math.min(1 + Math.floor(classLevel / 11), 2)
 			},
 			// Known casters have fewer spells but keep them permanently
-			"Sorcerer": { 
-				1: Math.min(2 + Math.floor(classLevel / 4), 6), 
-				2: Math.min(1 + Math.floor(classLevel / 6), 4), 
+			"Sorcerer": {
+				1: Math.min(2 + Math.floor(classLevel / 4), 6),
+				2: Math.min(1 + Math.floor(classLevel / 6), 4),
 				3: Math.min(1 + Math.floor(classLevel / 8), 3),
 				4: Math.min(1 + Math.floor(classLevel / 10), 2),
 				5: Math.min(1 + Math.floor(classLevel / 12), 2),
@@ -3812,9 +3755,9 @@ class CharacterEditorPage {
 				8: Math.min(1 + Math.floor(classLevel / 18), 1),
 				9: Math.min(1 + Math.floor(classLevel / 20), 1)
 			},
-			"Bard": { 
-				1: Math.min(4 + Math.floor(classLevel / 3), 10), 
-				2: Math.min(2 + Math.floor(classLevel / 4), 6), 
+			"Bard": {
+				1: Math.min(4 + Math.floor(classLevel / 3), 10),
+				2: Math.min(2 + Math.floor(classLevel / 4), 6),
 				3: Math.min(2 + Math.floor(classLevel / 5), 5),
 				4: Math.min(1 + Math.floor(classLevel / 7), 3),
 				5: Math.min(1 + Math.floor(classLevel / 9), 3),
@@ -3824,9 +3767,9 @@ class CharacterEditorPage {
 				9: Math.min(1 + Math.floor(classLevel / 17), 1)
 			},
 			// Pact magic caster
-			"Warlock": { 
-				1: Math.min(2 + Math.floor(classLevel / 5), 5), 
-				2: Math.min(2 + Math.floor(classLevel / 6), 4), 
+			"Warlock": {
+				1: Math.min(2 + Math.floor(classLevel / 5), 5),
+				2: Math.min(2 + Math.floor(classLevel / 6), 4),
 				3: Math.min(2 + Math.floor(classLevel / 7), 3),
 				4: Math.min(1 + Math.floor(classLevel / 8), 2),
 				5: Math.min(1 + Math.floor(classLevel / 10), 2),
@@ -3836,16 +3779,16 @@ class CharacterEditorPage {
 				9: Math.min(1 + Math.floor(classLevel / 18), 1)
 			},
 			// Half-casters
-			"Paladin": { 
-				1: Math.min(2 + Math.floor(classLevel / 6), 4), 
-				2: Math.min(2 + Math.floor(classLevel / 8), 3), 
+			"Paladin": {
+				1: Math.min(2 + Math.floor(classLevel / 6), 4),
+				2: Math.min(2 + Math.floor(classLevel / 8), 3),
 				3: Math.min(1 + Math.floor(classLevel / 10), 2),
 				4: Math.min(1 + Math.floor(classLevel / 12), 1),
 				5: Math.min(1 + Math.floor(classLevel / 16), 1)
 			},
-			"Ranger": { 
-				1: Math.min(2 + Math.floor(classLevel / 6), 4), 
-				2: Math.min(2 + Math.floor(classLevel / 8), 3), 
+			"Ranger": {
+				1: Math.min(2 + Math.floor(classLevel / 6), 4),
+				2: Math.min(2 + Math.floor(classLevel / 8), 3),
 				3: Math.min(1 + Math.floor(classLevel / 10), 2),
 				4: Math.min(1 + Math.floor(classLevel / 12), 1),
 				5: Math.min(1 + Math.floor(classLevel / 16), 1)
@@ -5060,7 +5003,7 @@ class CharacterEditorPage {
 			const response = await fetch('data/backgrounds.json');
 			const backgroundData = await response.json();
 			const backgrounds = backgroundData.background || [];
-			
+
 			// Find the full background data for this background
 			const fullBackground = backgrounds.find(bg => bg.name === background.name && bg.source === background.source);
 			if (!fullBackground || !fullBackground.entries) {
@@ -5070,7 +5013,7 @@ class CharacterEditorPage {
 			// Look for personality trait tables in the background entries
 			const findPersonalityTraits = (entries) => {
 				for (const entry of entries) {
-					if (entry.type === 'table' && entry.caption && 
+					if (entry.type === 'table' && entry.caption &&
 						entry.caption.toLowerCase().includes('personality trait')) {
 						// Extract traits from table rows (skip header row)
 						return entry.rows.map(row => row[1]).filter(trait => trait && typeof trait === 'string');
@@ -6170,7 +6113,7 @@ class CharacterEditorPage {
 
 			// Calculate derived stats
 			const totalLevel = randomClasses.reduce((sum, cls) => sum + cls.level, 0);
-			const profBonus = Math.floor((totalLevel - 1) / 4) + 2;
+			const profBonus = this.getProficiencyBonus(totalLevel);
 			const conMod = Math.floor((randomAbilityScores.con - 10) / 2);
 			const randomHp = this.calculateRandomHp(randomClasses, conMod);
 
@@ -6186,7 +6129,10 @@ class CharacterEditorPage {
 				source: finalSource,
 			race: randomRace,
 			class: randomClasses,
-			background: randomBackground,
+			background: {
+				name: randomBackground.name,
+				source: randomBackground.source
+			},
 			alignment: randomAlignment,
 			ac: await this.generateRandomAC(randomClasses, randomAbilityScores, randomRace),
 			hp: randomHp,
@@ -6195,7 +6141,7 @@ class CharacterEditorPage {
 			},
 			...randomAbilityScores,
 			passive: 10 + Math.floor((randomAbilityScores.wis - 10) / 2) + (this.hasSkillProficiency("perception", randomClasses) ? profBonus : 0),
-			save: this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
+			save: await this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
 			skill: await this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, randomBackground),
 			proficiencyBonus: `+${profBonus}`,
 			deathSaves: {
@@ -6205,8 +6151,6 @@ class CharacterEditorPage {
 			customTrackers: this.generateRandomTrackers(randomClasses),
 			action: randomActions,
 			...(randomSpells && { spells: randomSpells }),
-			languages: this.generateLanguageProficiencies(randomClasses, randomRace, null),
-			toolProficiencies: this.generateToolProficiencies(randomClasses, randomRace, null),
 			currency: this.generateRandomCurrency(totalLevel),
 			entries: [...await this.generateRandomEntries(randomRace, randomClasses, randomEquipment, randomAbilityScores, finalName, randomBackground, randomAlignment)],
 			// characterDepth intentionally not stored as a top-level field; include depth info in fluff
@@ -6301,6 +6245,11 @@ class CharacterEditorPage {
 			this.deleteCharacter();
 		});
 
+		// Level Up button
+		document.getElementById('levelUpCharacter').addEventListener('click', () => {
+			this.initiateLevelUp();
+		});
+
 		// Set up listener for character updates from WebSocket/P2P sync
 		if (typeof CharacterManager !== 'undefined' && CharacterManager.addListener) {
 			CharacterManager.addListener((characters) => {
@@ -6312,10 +6261,10 @@ class CharacterEditorPage {
 						const currentScrollPos = this.ace.session.getScrollTop();
 						this.ace.setValue(JSON.stringify(updatedCharacter, null, 2), 1);
 						this.ace.session.setScrollTop(currentScrollPos);
-						
+
 						// Update our local reference
 						currentCharacterData = updatedCharacter;
-						
+
 						// Re-render the character preview (with scroll preservation)
 						this.renderCharacter();
 					}
@@ -6334,10 +6283,10 @@ class CharacterEditorPage {
 						const currentScrollPos = this.ace.session.getScrollTop();
 						this.ace.setValue(JSON.stringify(updatedCharacter, null, 2), 1);
 						this.ace.session.setScrollTop(currentScrollPos);
-						
+
 						// Update our local reference
 						currentCharacterData = updatedCharacter;
-						
+
 						// Re-render the character preview (with scroll preservation)
 						this.renderCharacter();
 					}
@@ -6368,8 +6317,15 @@ class CharacterEditorPage {
 			this._processCharacterData(characterData);
 
 			// Use the existing 5etools character rendering system
-			const fn = Renderer.hover.getFnRenderCompact(UrlUtil.PG_CHARACTERS);
-			const renderedContent = fn(characterData);
+			let renderedContent;
+			try {
+				const fn = Renderer.hover.getFnRenderCompact(UrlUtil.PG_CHARACTERS);
+				renderedContent = fn(characterData);
+			} catch (renderError) {
+				console.error('Character rendering error:', renderError);
+				// Fallback to basic character display
+				renderedContent = this._createFallbackCharacterDisplay(characterData);
+			}
 
 			// Save scroll position before content replacement
 			const $output = $('#pagecontent');
@@ -6437,7 +6393,6 @@ class CharacterEditorPage {
 		// Convert from structured entries format to flat format for compatibility
 		if (!character.entries) return;
 
-		character.trait = character.trait || [];
 		character.action = character.action || [];
 
 		for (const entry of character.entries) {
@@ -6704,8 +6659,27 @@ class CharacterEditorPage {
 
 	updateButtonVisibility() {
 		const deleteButton = document.getElementById('deleteCharacter');
+		const levelUpButton = document.getElementById('levelUpCharacter');
+
 		if (deleteButton) {
 			deleteButton.style.display = isEditMode ? 'inline-block' : 'none';
+		}
+
+		if (levelUpButton) {
+			// Show level up button if we have character data with classes
+			let showLevelUp = false;
+			try {
+				const jsonText = this.ace.getValue();
+				const characterData = JSON.parse(jsonText);
+				if (characterData.class && Array.isArray(characterData.class) && characterData.class.length > 0) {
+					const currentLevel = CharacterEditorPage.getCharacterLevel(characterData);
+					showLevelUp = currentLevel < 20; // Can level up if under max level
+				}
+			} catch (e) {
+				// Invalid JSON, don't show level up button
+				showLevelUp = false;
+			}
+			levelUpButton.style.display = showLevelUp ? 'inline-block' : 'none';
 		}
 	}
 
@@ -6962,6 +6936,4185 @@ class CharacterEditorPage {
 		window.dispatchEvent(new CustomEvent('characterDataUpdated', {
 			detail: { timestamp: Date.now() }
 		}));
+	}
+
+	// === LEVEL UP SYSTEM ===
+
+	async initiateLevelUp() {
+		try {
+			const jsonText = this.ace.getValue();
+			const characterData = JSON.parse(jsonText);
+
+			// Validate character has required data
+			if (!characterData.class || !Array.isArray(characterData.class)) {
+				document.getElementById('message').textContent = 'Character must have class data to level up';
+				document.getElementById('message').style.color = 'red';
+				return;
+			}
+
+			// Calculate current total level
+			const currentLevel = CharacterEditorPage.getCharacterLevel(characterData);
+			const newLevel = currentLevel + 1;
+
+			if (newLevel > 20) {
+				document.getElementById('message').textContent = 'Character is already at maximum level (20)';
+				document.getElementById('message').style.color = 'orange';
+				return;
+			}
+
+			console.log(`Starting level up: ${currentLevel} -> ${newLevel}`);
+
+			// Initialize simple level up state
+			this.levelUpState = {
+				originalCharacter: JSON.parse(JSON.stringify(characterData)), // Original backup
+				characterData: JSON.parse(JSON.stringify(characterData)), // Working copy
+				currentLevel,
+				newLevel,
+				changes: {
+					classLevels: [],
+					features: [],
+					abilityScores: [],
+					hitPoints: 0,
+					spellSlots: []
+				}
+			};
+
+			// Show simple level up options
+			await this.showSimpleLevelUpModal();
+
+		} catch (e) {
+			console.error('Error initiating level up:', e);
+			document.getElementById('message').textContent = 'Error reading character data';
+			document.getElementById('message').style.color = 'red';
+		}
+	}
+
+	async showSimpleLevelUpModal() {
+		const character = this.levelUpState.characterData;
+		const currentClasses = character.class || [];
+
+		let modalContent = `
+			<p><strong>Current Level:</strong> ${this.levelUpState.currentLevel} → <strong>New Level:</strong> ${this.levelUpState.newLevel}</p>
+
+			<div class="mb-4">
+				<h6>Choose class to level up:</h6>
+
+				${currentClasses.length > 0 ? `
+					${currentClasses.map((cls, index) => `
+						<div class="mb-2">
+							<button type="button" class="ve-btn ve-btn-success btn-block level-existing-class" data-class-index="${index}">
+								Level up ${cls.name} (Level ${cls.level} → ${cls.level + 1})
+								${cls.subclass ? ` (${cls.subclass.name})` : ''}
+							</button>
+						</div>
+					`).join('')}
+
+					<hr class="my-3">
+					<h6 class="text-secondary mb-2">Or Multiclass:</h6>
+				` : `<h6 class="text-secondary mb-2">Add First Class:</h6>`}
+
+				<div class="mb-2">
+					<button type="button" class="ve-btn ve-btn-default btn-block" id="add-multiclass">
+						Add Level 1 of a New Class
+					</button>
+				</div>
+			</div>
+		`;
+
+		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+			title: "Level Up Character",
+			hasFooter: true
+		});
+
+		$modalInner.html(modalContent);
+
+		const $btnCancel = $(`<button class="ve-btn ve-btn-default mr-2 pb-2">Cancel</button>`)
+			.click(() => doClose(false));
+
+		$modalFooter.append($btnCancel);
+
+		// Handle existing class level up
+		$modalInner.find('.level-existing-class').click((e) => {
+			const classIndex = parseInt(e.target.getAttribute('data-class-index'));
+			doClose(true);
+			this.levelUpExistingClass(classIndex);
+		});
+
+		// Handle multiclass
+		$modalInner.find('#add-multiclass').click(() => {
+			doClose(true);
+			this.showMulticlassSelection();
+		});
+
+		this.levelUpModalClose = doClose;
+	}
+
+	async levelUpExistingClass(classIndex) {
+		console.log(`Leveling up existing class at index ${classIndex}`);
+
+		const character = this.levelUpState.characterData;
+		const classEntry = character.class[classIndex];
+
+		if (!classEntry) {
+			document.getElementById('message').textContent = 'Error: Invalid class selection';
+			document.getElementById('message').style.color = 'red';
+			return;
+		}
+
+		// Increase class level
+		const oldLevel = classEntry.level;
+		const newLevel = oldLevel + 1;
+		classEntry.level = newLevel;
+
+		console.log(`${classEntry.name}: Level ${oldLevel} → ${newLevel}`);
+
+		// Record the change
+		this.levelUpState.changes.classLevels.push({
+			className: classEntry.name,
+			oldLevel,
+			newLevel,
+			isNew: false
+		});
+
+		// Add hit points (simple: average + CON mod)
+		const hitDie = this.getClassHitDie(classEntry.name);
+		const conMod = this.getAbilityModifier(character, 'con');
+		const hpGain = Math.floor(hitDie / 2) + 1 + conMod;
+
+		this.addHitPoints(hpGain);
+
+		// Check for ASI at levels 4, 8, 12, 16, 19
+		if ([4, 8, 12, 16, 19].includes(newLevel)) {
+			this.showASIChoice();
+			return;
+		}
+
+		// Add any class features for this level
+		await this.addClassFeatures(classEntry, newLevel);
+
+		// Show completion
+		this.showLevelUpComplete();
+	}
+
+	async showMulticlassSelection() {
+		const character = this.levelUpState.characterData;
+		const allClasses = ['Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard'];
+		const currentClasses = character.class.map(c => c.name);
+		const notCurrentlyTaken = allClasses.filter(c => !currentClasses.includes(c));
+
+		// Categorize classes by eligibility
+		const eligibleClasses = [];
+		const ineligibleClasses = [];
+
+		notCurrentlyTaken.forEach(className => {
+			const multiclassCheck = this.canMulticlassInto(character, className);
+			if (multiclassCheck.canMulticlass) {
+				eligibleClasses.push(className);
+			} else {
+				ineligibleClasses.push({
+					name: className,
+					reason: multiclassCheck.reason
+				});
+			}
+		});
+
+		// Build modal content
+		let modalContent = `
+			<h5>Add New Class (Multiclass)</h5>
+			<p class="mb-3">Select a class to add at Level 1. Multiclassing requires specific ability score minimums.</p>
+		`;
+
+		// Show eligible classes
+		if (eligibleClasses.length > 0) {
+			modalContent += `
+				<div class="form-group">
+					<label for="newClassSelect"><strong>Eligible Classes:</strong></label>
+					<select class="form-control" id="newClassSelect">
+						<option value="">-- Select a Class --</option>
+						${eligibleClasses.map(className =>
+							`<option value="${className}">${className}</option>`
+						).join('')}
+					</select>
+				</div>
+
+				<div id="subclass-selection" class="form-group" style="display: none;">
+					<label for="subclassSelect"><strong>Subclass:</strong></label>
+					<select class="form-control" id="subclassSelect">
+						<option value="">-- Select a Subclass --</option>
+					</select>
+					<small class="form-text text-muted">Choose your starting subclass for this class.</small>
+				</div>
+			`;
+		}
+
+		// Show ineligible classes in a warning box
+		if (ineligibleClasses.length > 0) {
+			modalContent += `
+				<div class="alert alert-warning mt-3">
+					<h6><strong>Ineligible Classes:</strong></h6>
+					<ul class="mb-0">
+						${ineligibleClasses.map(classInfo =>
+							`<li><strong>${classInfo.name}:</strong> ${classInfo.reason}</li>`
+						).join('')}
+					</ul>
+				</div>
+			`;
+		}
+
+		if (eligibleClasses.length === 0) {
+			modalContent += `
+				<div class="alert alert-info">
+					<strong>No classes available for multiclassing.</strong><br>
+					You either have all classes or don't meet the ability score requirements for the remaining classes.
+				</div>
+			`;
+		}
+
+		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+			title: "Multiclass Selection",
+			hasFooter: true,
+			isWidth100: true
+		});
+
+		$modalInner.html(modalContent);
+
+		const $btnCancel = $(`<button class="ve-btn ve-btn-default mr-2">Cancel</button>`)
+			.click(() => doClose(false));
+
+		const $btnConfirm = $(`<button class="ve-btn ve-btn-primary" disabled>Add Class</button>`)
+			.click(() => {
+				const selectedClass = $modalInner.find('#newClassSelect').val();
+				const selectedSubclass = $modalInner.find('#subclassSelect').val();
+
+				if (selectedClass) {
+					doClose(true);
+					this.addNewClass(selectedClass, selectedSubclass);
+				}
+			});
+
+		$modalFooter.append($btnCancel, $btnConfirm);
+
+		// Handle class selection changes
+		$modalInner.find('#newClassSelect').change(function() {
+			const selectedClass = this.value;
+			const $btnConfirm = $modalFooter.find('.ve-btn-primary');
+			const $subclassDiv = $modalInner.find('#subclass-selection');
+			const $subclassSelect = $modalInner.find('#subclassSelect');
+
+			if (selectedClass) {
+				// Get subclasses for the selected class
+				const subclasses = this.getBasicSubclasses(selectedClass);
+
+				if (subclasses && subclasses.length > 0) {
+					// Show subclass selection
+					$subclassDiv.show();
+
+					// Populate subclass options
+					$subclassSelect.html(`
+						<option value="">-- Select a Subclass --</option>
+						${subclasses.map(subclass =>
+							`<option value="${subclass.name}" data-short-name="${subclass.shortName}" data-source="${subclass.source}">
+								${subclass.name} (${subclass.source})
+							</option>`
+						).join('')}
+					`);
+
+					// Require subclass selection
+					$btnConfirm.prop('disabled', true);
+				} else {
+					// No subclasses needed, enable confirm immediately
+					$subclassDiv.hide();
+					$btnConfirm.prop('disabled', false);
+				}
+			} else {
+				$subclassDiv.hide();
+				$btnConfirm.prop('disabled', true);
+			}
+		}.bind(this));
+
+		// Handle subclass selection changes
+		$modalInner.find('#subclassSelect').change(function() {
+			const selectedClass = $modalInner.find('#newClassSelect').val();
+			const selectedSubclass = this.value;
+			const $btnConfirm = $modalFooter.find('.ve-btn-primary');
+
+			// Enable confirm if both class and subclass are selected (when subclass is required)
+			const needsSubclass = $modalInner.find('#subclass-selection').is(':visible');
+			$btnConfirm.prop('disabled', !selectedClass || (needsSubclass && !selectedSubclass));
+		});
+	}
+
+	async addNewClass(className, subclassName = null) {
+		console.log(`Adding new class: ${className} at level 1${subclassName ? ` (${subclassName})` : ''}`);
+
+		const character = this.levelUpState.characterData;
+
+		// Add new class entry
+		const newClassEntry = {
+			name: className,
+			source: 'PHB',
+			level: 1,
+			hitDie: this.getClassHitDie(className)
+		};
+
+		// Add subclass information if provided
+		if (subclassName) {
+			const subclasses = this.getBasicSubclasses(className);
+			const subclassInfo = subclasses.find(sc => sc.name === subclassName);
+
+			if (subclassInfo) {
+				newClassEntry.subclass = {
+					name: subclassInfo.name,
+					shortName: subclassInfo.shortName,
+					source: subclassInfo.source
+				};
+				console.log(`Added subclass: ${subclassInfo.name} (${subclassInfo.shortName})`);
+			}
+		}
+
+		character.class.push(newClassEntry);
+
+		// Record the change
+		this.levelUpState.changes.classLevels.push({
+			className: className,
+			oldLevel: 0,
+			newLevel: 1,
+			isNew: true,
+			subclass: newClassEntry.subclass || null
+		});
+
+		// Add hit points for level 1 (max hit die + CON mod)
+		const hitDie = this.getClassHitDie(className);
+		const conMod = this.getAbilityModifier(character, 'con');
+		const hpGain = hitDie + conMod;
+
+		this.addHitPoints(hpGain);
+
+		// Add level 1 features for this class
+		await this.addClassFeatures(newClassEntry, 1, true);
+
+		// Show completion
+		this.showLevelUpComplete();
+	}
+
+	// Helper methods for simplified level up
+	getAbilityModifier(character, ability) {
+		const score = character.abilities?.[ability] || character[ability] || 10;
+		return Math.floor((score - 10) / 2);
+	}
+
+	// Consolidated function to ensure only one Features & Traits section exists
+	ensureSingleFeaturesSection(character) {
+		if (!character.entries) character.entries = [];
+
+		// Find all Features & Traits sections (there might be duplicates)
+		const featuresSections = character.entries.filter(entry =>
+			entry.name === "Features & Traits" || entry.name === "Class Features"
+		);
+
+		if (featuresSections.length === 0) {
+			// Create new section if none exists
+			const featuresSection = {
+				type: "section",
+				name: "Features & Traits",
+				entries: []
+			};
+			character.entries.push(featuresSection);
+			return featuresSection;
+		} else if (featuresSections.length === 1) {
+			// Only one section exists, return it
+			return featuresSections[0];
+		} else {
+			// Multiple sections exist - consolidate them
+			const primarySection = featuresSections[0];
+			primarySection.name = "Features & Traits"; // Normalize name
+
+			// Merge all entries from duplicate sections into the primary one
+			for (let i = 1; i < featuresSections.length; i++) {
+				const duplicateSection = featuresSections[i];
+				if (duplicateSection.entries && Array.isArray(duplicateSection.entries)) {
+					// Add entries that don't already exist in the primary section
+					duplicateSection.entries.forEach(entry => {
+						const existsInPrimary = primarySection.entries.some(existingEntry =>
+							existingEntry.name === entry.name ||
+							(existingEntry.name && entry.name && existingEntry.name.toLowerCase() === entry.name.toLowerCase())
+						);
+						if (!existsInPrimary) {
+							primarySection.entries.push(entry);
+						}
+					});
+				}
+
+				// Remove the duplicate section from character.entries
+				const indexToRemove = character.entries.indexOf(duplicateSection);
+				if (indexToRemove !== -1) {
+					character.entries.splice(indexToRemove, 1);
+				}
+			}
+
+			console.log(`Consolidated ${featuresSections.length} Features & Traits sections into one`);
+			return primarySection;
+		}
+	}
+
+	// D&D 5e Multiclassing Requirements
+	getMulticlassRequirements() {
+		return {
+			'Barbarian': { str: 13 },
+			'Bard': { cha: 13 },
+			'Cleric': { wis: 13 },
+			'Druid': { wis: 13 },
+			'Fighter': { str: 13, dex: 13, operation: 'OR' }, // STR 13 OR DEX 13
+			'Monk': { dex: 13, wis: 13 },
+			'Paladin': { str: 13, cha: 13 },
+			'Ranger': { dex: 13, wis: 13 },
+			'Rogue': { dex: 13 },
+			'Sorcerer': { cha: 13 },
+			'Warlock': { cha: 13 },
+			'Wizard': { int: 13 }
+		};
+	}
+
+	canMulticlassInto(character, className) {
+		const requirements = this.getMulticlassRequirements()[className];
+		if (!requirements) return { canMulticlass: false, reason: 'Unknown class' };
+
+		// Get character abilities
+		const getScore = (ability) => character.abilities?.[ability] || character[ability] || 10;
+
+		// Check if character meets requirements
+		if (requirements.operation === 'OR') {
+			// Special case for Fighter: STR 13 OR DEX 13
+			const meetsStr = getScore('str') >= requirements.str;
+			const meetsDex = getScore('dex') >= requirements.dex;
+			if (meetsStr || meetsDex) {
+				return { canMulticlass: true };
+			} else {
+				return {
+					canMulticlass: false,
+					reason: `Requires STR 13 OR DEX 13 (you have STR ${getScore('str')}, DEX ${getScore('dex')})`
+				};
+			}
+		} else {
+			// Normal case: all requirements must be met
+			const unmetRequirements = [];
+			for (const [ability, minScore] of Object.entries(requirements)) {
+				if (ability !== 'operation' && getScore(ability) < minScore) {
+					unmetRequirements.push(`${ability.toUpperCase()} ${minScore} (you have ${getScore(ability)})`);
+				}
+			}
+
+			if (unmetRequirements.length === 0) {
+				return { canMulticlass: true };
+			} else {
+				return {
+					canMulticlass: false,
+					reason: `Requires ${unmetRequirements.join(' and ')}`
+				};
+			}
+		}
+	}
+
+	getBasicSubclasses(className) {
+		// Basic subclasses from PHB for each class
+		const basicSubclasses = {
+			'Barbarian': [
+				{ name: 'Path of the Berserker', shortName: 'Berserker', source: 'PHB' },
+				{ name: 'Path of the Totem Warrior', shortName: 'Totem Warrior', source: 'PHB' }
+			],
+			'Bard': [
+				{ name: 'College of Lore', shortName: 'Lore', source: 'PHB' },
+				{ name: 'College of Valor', shortName: 'Valor', source: 'PHB' }
+			],
+			'Cleric': [
+				{ name: 'Knowledge Domain', shortName: 'Knowledge', source: 'PHB' },
+				{ name: 'Life Domain', shortName: 'Life', source: 'PHB' },
+				{ name: 'Light Domain', shortName: 'Light', source: 'PHB' },
+				{ name: 'Nature Domain', shortName: 'Nature', source: 'PHB' },
+				{ name: 'Tempest Domain', shortName: 'Tempest', source: 'PHB' },
+				{ name: 'Trickery Domain', shortName: 'Trickery', source: 'PHB' },
+				{ name: 'War Domain', shortName: 'War', source: 'PHB' }
+			],
+			'Druid': [
+				{ name: 'Circle of the Land', shortName: 'Land', source: 'PHB' },
+				{ name: 'Circle of the Moon', shortName: 'Moon', source: 'PHB' }
+			],
+			'Fighter': [
+				{ name: 'Champion', shortName: 'Champion', source: 'PHB' },
+				{ name: 'Battle Master', shortName: 'Battle Master', source: 'PHB' },
+				{ name: 'Eldritch Knight', shortName: 'Eldritch Knight', source: 'PHB' }
+			],
+			'Monk': [
+				{ name: 'Way of the Open Hand', shortName: 'Open Hand', source: 'PHB' },
+				{ name: 'Way of Shadow', shortName: 'Shadow', source: 'PHB' },
+				{ name: 'Way of the Four Elements', shortName: 'Four Elements', source: 'PHB' }
+			],
+			'Paladin': [
+				{ name: 'Oath of Devotion', shortName: 'Devotion', source: 'PHB' },
+				{ name: 'Oath of the Ancients', shortName: 'Ancients', source: 'PHB' },
+				{ name: 'Oath of Vengeance', shortName: 'Vengeance', source: 'PHB' }
+			],
+			'Ranger': [
+				{ name: 'Beast Master', shortName: 'Beast Master', source: 'PHB' },
+				{ name: 'Hunter', shortName: 'Hunter', source: 'PHB' }
+			],
+			'Rogue': [
+				{ name: 'Arcane Trickster', shortName: 'Arcane Trickster', source: 'PHB' },
+				{ name: 'Assassin', shortName: 'Assassin', source: 'PHB' },
+				{ name: 'Thief', shortName: 'Thief', source: 'PHB' }
+			],
+			'Sorcerer': [
+				{ name: 'Draconic Bloodline', shortName: 'Draconic', source: 'PHB' },
+				{ name: 'Wild Magic', shortName: 'Wild', source: 'PHB' }
+			],
+			'Warlock': [
+				{ name: 'The Archfey', shortName: 'Archfey', source: 'PHB' },
+				{ name: 'The Fiend', shortName: 'Fiend', source: 'PHB' },
+				{ name: 'The Great Old One', shortName: 'Great Old One', source: 'PHB' }
+			],
+			'Wizard': [
+				{ name: 'School of Abjuration', shortName: 'Abjuration', source: 'PHB' },
+				{ name: 'School of Conjuration', shortName: 'Conjuration', source: 'PHB' },
+				{ name: 'School of Divination', shortName: 'Divination', source: 'PHB' },
+				{ name: 'School of Enchantment', shortName: 'Enchantment', source: 'PHB' },
+				{ name: 'School of Evocation', shortName: 'Evocation', source: 'PHB' },
+				{ name: 'School of Illusion', shortName: 'Illusion', source: 'PHB' },
+				{ name: 'School of Necromancy', shortName: 'Necromancy', source: 'PHB' },
+				{ name: 'School of Transmutation', shortName: 'Transmutation', source: 'PHB' }
+			]
+		};
+
+		return basicSubclasses[className] || [];
+	}
+
+	addHitPoints(hpGain) {
+		const character = this.levelUpState.characterData;
+
+		// Find HP in various formats
+		if (character.hitPoints) {
+			character.hitPoints.max = (character.hitPoints.max || 0) + hpGain;
+			character.hitPoints.current = character.hitPoints.max;
+		} else if (character.hp) {
+			character.hp.max = (character.hp.max || 0) + hpGain;
+			character.hp.current = character.hp.max;
+		} else {
+			character.hp = { max: hpGain, current: hpGain };
+		}
+
+		this.levelUpState.changes.hitPoints += hpGain;
+		console.log(`Added ${hpGain} hit points`);
+	}
+
+	async addClassFeatures(classEntry, level, isNewClass = false) {
+		console.log(`Adding ${classEntry.name} features for level ${level}${isNewClass ? ' (new class)' : ''}`);
+
+		try {
+			// Load the actual class data using existing method
+			const classData = await this.loadClassData(classEntry.name);
+			if (!classData || !classData.class || !classData.class[0]) {
+				console.warn(`Could not load class data for ${classEntry.name}`);
+				// Fallback to placeholder behavior
+				this.levelUpState.changes.features.push({
+					name: `${classEntry.name} (Level ${level} Features)`,
+					description: `Could not load specific features for ${classEntry.name} level ${level}`,
+					level: level,
+					className: classEntry.name
+				});
+				return;
+			}
+
+			const classInfo = classData.class[0];
+
+			// Get features for this specific level using existing method
+			const newFeatures = await this.getNewFeaturesForLevel(classInfo, classData, classEntry, level);
+
+			const character = this.levelUpState.characterData;
+
+			// Ensure character has required arrays
+			if (!character.entries) character.entries = [];
+			if (!character.trait) character.trait = [];
+
+			// Ensure single Features & Traits section exists
+			const featuresSection = this.ensureSingleFeaturesSection(character);
+
+			let addedFeatureCount = 0;
+
+			// Process each feature found for this level
+			for (const featureData of newFeatures) {
+				if (featureData.feature) {
+					const featureName = featureData.feature.name || 'Unknown Feature';
+					const featureEntries = featureData.feature.entries || [`${featureName} - Gained at level ${level}.`];
+
+					// Create feature entry for the Features & Traits section
+					const featureEntry = {
+						type: "entries",
+						name: featureName,
+						entries: featureEntries
+					};
+
+					// Add to the Features & Traits section
+					featuresSection.entries.push(featureEntry);
+
+					// Add to changes tracking for level up summary
+					this.levelUpState.changes.features.push({
+						name: featureName,
+						description: this.getFeatureDescription(featureData.feature),
+						level: level,
+						className: classEntry.name,
+						type: featureData.type // 'class' or 'subclass'
+					});
+
+					addedFeatureCount++;
+					console.log(`Added ${featureData.type} feature "${featureName}" for ${classEntry.name} level ${level}`);
+				}
+			}
+
+			// If no specific features were found, add a general note
+			if (addedFeatureCount === 0) {
+				const featureName = isNewClass
+					? `${classEntry.name} (Level 1 Features)`
+					: `${classEntry.name} (Level ${level} Features)`;
+
+				this.levelUpState.changes.features.push({
+					name: featureName,
+					description: `No specific features gained for ${classEntry.name} at level ${level}`,
+					level: level,
+					className: classEntry.name
+				});
+				console.log(`No specific features found for ${classEntry.name} level ${level}`);
+			} else {
+				console.log(`Successfully added ${addedFeatureCount} features for ${classEntry.name} level ${level}`);
+			}
+
+		} catch (error) {
+			console.error(`Error adding class features for ${classEntry.name} level ${level}:`, error);
+
+			// Fallback to placeholder behavior on error
+			this.levelUpState.changes.features.push({
+				name: `${classEntry.name} (Level ${level} Features)`,
+				description: `Error loading specific features for ${classEntry.name} level ${level}`,
+				level: level,
+				className: classEntry.name
+			});
+		}
+	}
+
+	// Helper method to get a readable description from feature data
+	getFeatureDescription(feature) {
+		if (!feature) return 'Feature gained.';
+
+		// If feature has entries, try to extract first meaningful text
+		if (feature.entries && feature.entries.length > 0) {
+			const firstEntry = feature.entries[0];
+			if (typeof firstEntry === 'string') {
+				// Limit description length for summary display
+				return firstEntry.length > 100 ? firstEntry.substring(0, 97) + '...' : firstEntry;
+			}
+		}
+
+		return feature.name ? `${feature.name} feature gained.` : 'Class feature gained.';
+	}
+
+	showASIChoice() {
+		console.log('Showing ASI choice');
+
+		const character = this.levelUpState.characterData;
+		const abilities = character.abilities || {
+			str: character.str || 10,
+			dex: character.dex || 10,
+			con: character.con || 10,
+			int: character.int || 10,
+			wis: character.wis || 10,
+			cha: character.cha || 10
+		};
+
+		const modalContent = `
+			<h5>Ability Score Improvement</h5>
+			<p>Choose two ability scores to increase by +1 each (or the same ability twice for +2):</p>
+
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="firstAbility">First ability (+1):</label>
+						<select class="form-control" id="firstAbility">
+							<option value="">Select ability...</option>
+							${Object.entries(abilities).map(([ability, score]) =>
+								`<option value="${ability}" ${score >= 20 ? 'disabled' : ''}>${ability.toUpperCase()} (${score}${score >= 20 ? ' - Max' : ''})</option>`
+							).join('')}
+						</select>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="secondAbility">Second ability (+1):</label>
+						<select class="form-control" id="secondAbility">
+							<option value="">Select ability...</option>
+							${Object.entries(abilities).map(([ability, score]) =>
+								`<option value="${ability}" ${score >= 20 ? 'disabled' : ''}>${ability.toUpperCase()} (${score}${score >= 20 ? ' - Max' : ''})</option>`
+							).join('')}
+						</select>
+					</div>
+				</div>
+			</div>
+		`;
+
+		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+			title: "Ability Score Improvement",
+			hasFooter: true
+		});
+
+		$modalInner.html(modalContent);
+
+		const $btnCancel = $(`<button class="ve-btn ve-btn-default mr-2">Cancel</button>`)
+			.click(() => doClose(false));
+
+		const $btnConfirm = $(`<button class="ve-btn ve-btn-primary mb-2" disabled>Confirm</button>`)
+			.click(() => {
+				const first = $modalInner.find('#firstAbility').val();
+				const second = $modalInner.find('#secondAbility').val();
+
+				if (first && second) {
+					this.applyASI(first, second);
+					doClose(true);
+					this.showLevelUpComplete();
+				}
+			});
+
+		$modalFooter.append($btnCancel, $btnConfirm);
+
+		// Validation
+		const validate = () => {
+			const first = $modalInner.find('#firstAbility').val();
+			const second = $modalInner.find('#secondAbility').val();
+			$btnConfirm.prop('disabled', !first || !second);
+		};
+
+		$modalInner.find('#firstAbility, #secondAbility').change(validate);
+	}
+
+	applyASI(firstAbility, secondAbility) {
+		const character = this.levelUpState.characterData;
+
+		// Apply ability score increases
+		const changes = {};
+		if (firstAbility === secondAbility) {
+			changes[firstAbility] = 2;
+		} else {
+			changes[firstAbility] = 1;
+			changes[secondAbility] = 1;
+		}
+
+		// Apply to character
+		Object.entries(changes).forEach(([ability, increase]) => {
+			if (character.abilities) {
+				character.abilities[ability] = Math.min(20, (character.abilities[ability] || 10) + increase);
+			} else {
+				character[ability] = Math.min(20, (character[ability] || 10) + increase);
+			}
+		});
+
+		// Record changes
+		Object.entries(changes).forEach(([ability, increase]) => {
+			this.levelUpState.changes.abilityScores.push({
+				ability: ability.toUpperCase(),
+				increase: increase
+			});
+		});
+
+		console.log('Applied ASI:', changes);
+	}
+
+	showLevelUpComplete() {
+		const changes = this.levelUpState.changes;
+
+		let summaryHTML = `
+			<h5>Level Up Complete!</h5>
+			<p class="text-success">Successfully leveled up from ${this.levelUpState.currentLevel} to ${this.levelUpState.newLevel}!</p>
+
+			<div class="mb-4">
+				<h6>Changes Made:</h6>
+
+				${changes.classLevels.length > 0 ? `
+					<div class="mb-3">
+						<strong>Class Levels:</strong>
+						<ul>
+							${changes.classLevels.map(change =>
+								`<li>${change.className}: ${change.isNew ? 'Added at Level 1' : `Level ${change.oldLevel} → ${change.newLevel}`}</li>`
+							).join('')}
+						</ul>
+					</div>
+				` : ''}
+
+				${changes.hitPoints > 0 ? `
+					<div class="mb-3">
+						<strong>Hit Points:</strong> +${changes.hitPoints}
+					</div>
+				` : ''}
+
+				${changes.abilityScores.length > 0 ? `
+					<div class="mb-3">
+						<strong>Ability Score Increases:</strong>
+						<ul>
+							${changes.abilityScores.map(change =>
+								`<li>${change.ability}: +${change.increase}</li>`
+							).join('')}
+						</ul>
+					</div>
+				` : ''}
+
+				${changes.features.length > 0 ? `
+					<div class="mb-3">
+						<strong>Features Added:</strong>
+						<ul>
+							${changes.features.map(feature =>
+								`<li>${feature.name}</li>`
+							).join('')}
+						</ul>
+					</div>
+				` : ''}
+			</div>
+		`;
+
+		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+			title: "Level Up Complete!",
+			hasFooter: true
+		});
+
+		$modalInner.html(summaryHTML);
+
+		const $btnFinish = $(`<button class="ve-btn ve-btn-success mb-2">Apply Changes</button>`)
+			.click(() => {
+				doClose(true);
+				this.finalizeLevelUp();
+			});
+
+		$modalFooter.append($btnFinish);
+	}
+
+	async finalizeLevelUp() {
+		// Apply the changes to the editor
+		this.ace.setValue(JSON.stringify(this.levelUpState.characterData, null, 2), 1);
+
+		// Re-render the character
+		this.renderCharacter();
+
+		// Clear level up state
+		this.levelUpState = null;
+
+		// Show success message
+		document.getElementById('message').textContent = `Character successfully leveled up!`;
+		document.getElementById('message').style.color = 'green';
+
+		console.log('Level up completed and applied');
+	}
+
+	async showClassSelectionModal() {
+		try {
+			// Load all available classes
+			const allClasses = await this.loadAllClasses();
+			const currentClasses = this.levelUpState.characterData.class || [];
+
+			// Create modal content
+			const modalContent = `
+				<p class="mb-3"><strong>Current Level:</strong> ${this.levelUpState.currentLevel}</p>
+				<p class="mb-3"><strong>New Level:</strong> ${this.levelUpState.newLevel}</p>
+				<h6>Choose which class to add a level to:</h6>
+				<p class="text-muted mb-3"><small>You can level up existing classes or multiclass into new ones.</small></p>
+
+				${currentClasses.length > 0 ? `
+				<h6 class="text-primary">Current Classes:</h6>
+				<div class="list-group mb-3">
+					${currentClasses.map((cls, index) => {
+						const classData = allClasses.find(c => c.name === cls.name);
+						if (!classData) return '';
+
+						return `
+							<button type="button" class="list-group-item list-group-item-action list-group-item-success" data-action="level-existing" data-class-index="${index}">
+								<div class="d-flex justify-content-between align-items-start">
+									<div>
+										<strong>${cls.name}</strong>
+										${cls.subclass ? `<span class="text-muted">(${cls.subclass.name})</span>` : ''}
+										<span class="badge badge-success ml-2">Level ${cls.level || 1} → ${(cls.level || 1) + 1}</span>
+										<br>
+										<small class="text-muted">Hit Die: d${classData.hd.faces} | ${this.getNextLevelFeaturePreview(cls)}</small>
+									</div>
+								</div>
+							</button>
+						`;
+					}).join('')}
+				</div>
+				` : ''}
+
+				<h6 class="text-info">Available Classes for Multiclassing:</h6>
+				<div class="form-group">
+					<label for="multiclass-dropdown"><strong>Select Class & Subclass:</strong></label>
+					<select class="form-control" id="multiclass-dropdown">
+						<option value="">-- Select a Class --</option>
+						${allClasses.map(classData => {
+							const character = this.levelUpState.characterData;
+
+							// Handle both nested abilities object and direct properties
+							const abilities = character.abilities || {
+								str: character.str || 10,
+								dex: character.dex || 10,
+								con: character.con || 10,
+								int: character.int || 10,
+								wis: character.wis || 10,
+								cha: character.cha || 10
+							};
+
+							const eligibility = this.checkMulticlassingEligibility(classData.name, abilities);
+
+							// Create options for each subclass (or just the base class if no subclasses)
+							if (classData.availableSubclasses && classData.availableSubclasses.length > 0) {
+								return classData.availableSubclasses.map(subclass => {
+									const optionValue = `${classData.name}|${subclass.name}`;
+									const requirementText = eligibility.eligible ? '' : ` (${eligibility.reason})`;
+									return `<option value="${optionValue}" ${!eligibility.eligible ? 'disabled' : ''}>${classData.name}: ${subclass.name}${requirementText}</option>`;
+								}).join('');
+							} else {
+								const optionValue = `${classData.name}|`;
+								const requirementText = eligibility.eligible ? '' : ` (${eligibility.reason})`;
+								return `<option value="${optionValue}" ${!eligibility.eligible ? 'disabled' : ''}>${classData.name}${requirementText}</option>`;
+							}
+						}).join('')}
+					</select>
+					<small class="form-text text-muted">Disabled options don't meet multiclassing ability score requirements.</small>
+				</div>
+				<div class="form-group">
+					<button type="button" class="ve-btn ve-btn-primary" id="add-multiclass-btn" disabled>
+						Add Level 1 of Selected Class
+					</button>
+				</div>
+			`;
+
+			// Create 5etools native modal
+			const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+				title: "Level Up Character - Choose Class",
+				hasFooter: true,
+				isWidth100: true
+			});
+
+			// Store modal close function
+			this.levelUpModalClose = doClose;
+
+			// Add content to modal
+			$modalInner.html(modalContent);
+
+			// Create footer buttons
+			const $btnCancel = $(`<button class="ve-btn ve-btn-default mb-2">Cancel</button>`)
+				.click(() => doClose(false));
+
+			$modalFooter.append($btnCancel);
+
+			// Add click handlers
+			$modalInner.find('[data-action="level-existing"]').click((e) => {
+				const classIndex = parseInt(e.currentTarget.dataset.classIndex);
+				doClose(true);
+				this.processClassLevelUp(currentClasses[classIndex], classIndex);
+			});
+
+			// Handle dropdown selection and enable/disable button
+			$modalInner.find('#multiclass-dropdown').on('change', function() {
+				const $addBtn = $modalInner.find('#add-multiclass-btn');
+				$addBtn.prop('disabled', !this.value);
+			});
+
+			// Handle multiclass addition
+			$modalInner.find('#add-multiclass-btn').click(() => {
+				const selectedValue = $modalInner.find('#multiclass-dropdown').val();
+				if (!selectedValue) return;
+
+				const [className, subclassName] = selectedValue.split('|');
+				doClose(true);
+				this.selectNewClassForMulticlass(className, allClasses, subclassName);
+			});
+
+		} catch (e) {
+			console.error('Error showing class selection modal:', e);
+			document.getElementById('message').textContent = 'Error loading class data';
+			document.getElementById('message').style.color = 'red';
+		}
+	}
+
+	async loadAllClasses() {
+		// Load class data from JSON files
+		const classNames = ['artificer', 'barbarian', 'bard', 'cleric', 'druid', 'fighter', 'monk', 'paladin', 'ranger', 'rogue', 'sorcerer', 'warlock', 'wizard'];
+		const allClasses = [];
+
+		for (const className of classNames) {
+			try {
+				const response = await fetch(`data/class/class-${className}.json`);
+				if (response.ok) {
+					const classData = await response.json();
+					if (classData.class && classData.class[0]) {
+						// Include subclass data from the same file
+						const classInfo = classData.class[0];
+						classInfo.availableSubclasses = classData.subclass || [];
+						allClasses.push(classInfo);
+					}
+				}
+			} catch (e) {
+				console.warn(`Could not load class data for ${className}:`, e);
+			}
+		}
+
+		return allClasses;
+	}
+
+	// Multiclassing ability score requirements from PHB
+	getMulticlassingRequirements() {
+		return {
+			'Barbarian': [{ ability: 'str', minimum: 13 }],
+			'Bard': [{ ability: 'cha', minimum: 13 }],
+			'Cleric': [{ ability: 'wis', minimum: 13 }],
+			'Druid': [{ ability: 'wis', minimum: 13 }],
+			'Fighter': [{ ability: 'str', minimum: 13, alternative: { ability: 'dex', minimum: 13 } }],
+			'Monk': [{ ability: 'dex', minimum: 13 }, { ability: 'wis', minimum: 13 }],
+			'Paladin': [{ ability: 'str', minimum: 13 }, { ability: 'cha', minimum: 13 }],
+			'Ranger': [{ ability: 'dex', minimum: 13 }, { ability: 'wis', minimum: 13 }],
+			'Rogue': [{ ability: 'dex', minimum: 13 }],
+			'Sorcerer': [{ ability: 'cha', minimum: 13 }],
+			'Warlock': [{ ability: 'cha', minimum: 13 }],
+			'Wizard': [{ ability: 'int', minimum: 13 }]
+		};
+	}
+
+	checkMulticlassingEligibility(className, characterAbilities) {
+		const requirements = this.getMulticlassingRequirements()[className];
+		if (!requirements) return { eligible: true, reason: '' };
+
+		for (const req of requirements) {
+			if (req.alternative) {
+				// Either/or requirement (e.g., Fighter needs STR 13 OR DEX 13)
+				const mainReqMet = (characterAbilities[req.ability] || 10) >= req.minimum;
+				const altReqMet = (characterAbilities[req.alternative.ability] || 10) >= req.alternative.minimum;
+				if (!mainReqMet && !altReqMet) {
+					return {
+						eligible: false,
+						reason: `Requires ${req.ability.toUpperCase()} ${req.minimum} or ${req.alternative.ability.toUpperCase()} ${req.alternative.minimum}`
+					};
+				}
+			} else {
+				// Standard requirement
+				if ((characterAbilities[req.ability] || 10) < req.minimum) {
+					return {
+						eligible: false,
+						reason: `Requires ${req.ability.toUpperCase()} ${req.minimum} (you have ${characterAbilities[req.ability] || 10})`
+					};
+				}
+			}
+		}
+
+		return { eligible: true, reason: '' };
+	}
+
+	async selectNewClassForMulticlass(className, allClasses, subclassName = null) {
+		const classData = allClasses.find(c => c.name === className);
+		if (!classData) {
+			document.getElementById('message').textContent = 'Could not find class data';
+			document.getElementById('message').style.color = 'red';
+			return;
+		}
+
+		// Check multiclassing requirements
+		const character = JSON.parse(this.ace.getValue());
+
+		// Handle both nested abilities object and direct properties
+		const abilities = character.abilities || {
+			str: character.str || 10,
+			dex: character.dex || 10,
+			con: character.con || 10,
+			int: character.int || 10,
+			wis: character.wis || 10,
+			cha: character.cha || 10
+		};
+
+		const eligibility = this.checkMulticlassingEligibility(className, abilities);
+
+		if (!eligibility.eligible) {
+			document.getElementById('message').textContent = `Cannot multiclass into ${className}: ${eligibility.reason}`;
+			document.getElementById('message').style.color = 'red';
+			return;
+		}
+
+		// If subclass was already selected from dropdown, use it directly
+		if (subclassName) {
+			// Find the full subclass object from the class data
+			const subclassObj = classData.availableSubclasses?.find(sc => sc.name === subclassName);
+			await this.addNewClassToCharacter(className, subclassObj || { name: subclassName }, classData);
+			return;
+		}
+
+		// Check if this class has subclasses and requires selection at level 3 or lower
+		const hasSubclasses = classData.availableSubclasses && classData.availableSubclasses.length > 0;
+
+		if (hasSubclasses) {
+			// Show subclass selection modal
+			this.showSubclassSelectionModal(classData);
+		} else {
+			// Add the class directly
+			await this.addNewClassToCharacter(className, null, classData);
+		}
+	}
+
+	showSubclassSelectionModal(classData) {
+		const modalContent = `
+			<p class="mb-3"><strong>Current Level:</strong> ${this.levelUpState.currentLevel}</p>
+			<p class="mb-3"><strong>New Level:</strong> ${this.levelUpState.newLevel}</p>
+			<h6>Choose a ${classData.name} subclass:</h6>
+			<p class="text-muted mb-3"><small>This will add level 1 of ${classData.name} with the selected subclass.</small></p>
+
+			<div class="form-group">
+				<label for="subclass-select"><strong>Available ${classData.name} Subclasses:</strong></label>
+				<select class="form-control" id="subclass-select">
+					<option value="">-- Select a Subclass --</option>
+					${classData.availableSubclasses.map(subclass => `
+						<option value="${subclass.name}" data-short-name="${subclass.shortName || subclass.name}" data-source="${subclass.source}">
+							${subclass.name} (${subclass.source})
+						</option>
+					`).join('')}
+				</select>
+			</div>
+
+			<div id="subclass-description" class="text-muted mt-3" style="display: none;">
+				<small id="subclass-info"></small>
+			</div>
+		`;
+
+		// Create 5etools native modal
+		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+			title: `Choose ${classData.name} Subclass`,
+			hasFooter: true,
+			isWidth100: true
+		});
+
+		// Store modal close function
+		this.levelUpModalClose = doClose;
+
+		// Add content to modal
+		$modalInner.html(modalContent);
+
+		// Create footer buttons
+		const $btnCancel = $(`<button class="ve-btn ve-btn-default">Cancel</button>`)
+			.click(() => doClose(false));
+
+		const $btnConfirm = $(`<button class="ve-btn ve-btn-primary" disabled>Select Subclass</button>`)
+			.click(async () => {
+				const selectedValue = $modalInner.find('#subclass-select').val();
+				if (selectedValue) {
+					const selectedSubclass = classData.availableSubclasses.find(sc => sc.name === selectedValue);
+					doClose(true);
+					await this.addNewClassToCharacter(classData.name, selectedSubclass, classData);
+				}
+			});
+
+		$modalFooter.append($btnCancel).append($btnConfirm);
+
+		// Add change handler for subclass selection
+		$modalInner.find('#subclass-select').change((e) => {
+			const selectedValue = e.target.value;
+			const $btnConfirm = $modalFooter.find('.ve-btn-primary');
+
+			if (selectedValue) {
+				$btnConfirm.prop('disabled', false);
+				const selectedSubclass = classData.availableSubclasses.find(sc => sc.name === selectedValue);
+
+				// Show subclass info
+				$modalInner.find('#subclass-description').show();
+				$modalInner.find('#subclass-info').text(
+					`${selectedSubclass.shortName || selectedSubclass.name} from ${selectedSubclass.source}`
+				);
+			} else {
+				$btnConfirm.prop('disabled', true);
+				$modalInner.find('#subclass-description').hide();
+			}
+		});
+	}
+
+	async addNewClassToCharacter(className, subclass, classData) {
+		// Add the new class to the character's class array
+		if (!this.levelUpState.characterData.class) {
+			this.levelUpState.characterData.class = [];
+		}
+
+		const isMulticlassing = this.levelUpState.characterData.class.length > 0;
+
+		const newClassEntry = {
+			name: className,
+			source: classData.source || 'PHB',
+			level: 1,
+			hitDie: classData.hitDie || 'd8'
+		};
+
+		if (subclass) {
+			newClassEntry.subclass = {
+				name: subclass.name,
+				shortName: subclass.shortName || subclass.name,
+				source: subclass.source || 'PHB'
+			};
+		}
+
+		this.levelUpState.characterData.class.push(newClassEntry);
+		const newClassIndex = this.levelUpState.characterData.class.length - 1;
+
+		console.log(`Adding ${isMulticlassing ? 'multiclass' : 'first'} level 1 of ${className}`);
+
+		// Load the class data to get level 1 features
+		const fullClassData = await this.loadClassData(className);
+		if (!fullClassData || !fullClassData.class || !fullClassData.class[0]) {
+			console.error(`Could not load class data for ${className}`);
+			this.processClassLevelUp(newClassEntry, newClassIndex, classData);
+			return;
+		}
+
+		const classInfo = fullClassData.class[0];
+
+		// Get level 1 features for the new class
+		const level1Features = await this.getNewFeaturesForLevel(classInfo, fullClassData, newClassEntry, 1);
+
+		console.log(`Found ${level1Features.length} level 1 features for ${className}:`, level1Features.map(f => f.feature?.name));
+
+		// Add multiclass-specific adjustments (limited proficiencies, etc.)
+		if (isMulticlassing) {
+			// Apply multiclassing restrictions to features
+			this.applyMulticlassingRestrictions(level1Features, className);
+		}
+
+		// Store the selected class info for processing
+		this.levelUpState.selectedClassIndex = newClassIndex;
+
+		// Process level 1 features
+		if (level1Features.length > 0) {
+			// Add features to pending features for processing
+			this.levelUpState.pendingFeatures = level1Features;
+			this.levelUpState.currentFeatureIndex = 0;
+
+			// Add class name to features for better tracking
+			level1Features.forEach(feature => {
+				feature.className = className;
+				feature.isMulticlass = isMulticlassing;
+			});
+
+			// Show feature choices or continue to summary
+			await this.showNextFeatureChoice();
+		} else {
+			// No features to choose, go directly to summary
+			this.showLevelUpSummary();
+		}
+	}
+
+	applyMulticlassingRestrictions(features, className) {
+		// In D&D 5e, when multiclassing, you get limited proficiencies
+		console.log(`Applying multiclassing restrictions for ${className}`);
+
+		features.forEach(feature => {
+			if (feature.feature && feature.feature.name) {
+				const featureName = feature.feature.name.toLowerCase();
+
+				// Restrict proficiencies when multiclassing
+				if (featureName.includes('proficienc') || featureName.includes('starting equipment')) {
+					feature.multiclassRestricted = true;
+
+					// Add multiclass proficiency rules
+					if (featureName.includes('proficienc')) {
+						feature.feature.multiclassNote = this.getMulticlassProficiencies(className);
+					}
+				}
+			}
+		});
+	}
+
+	getMulticlassProficiencies(className) {
+		// D&D 5e multiclassing proficiency rules
+		const multiclassProficiencies = {
+			"Barbarian": "Shields, simple weapons, martial weapons",
+			"Bard": "Light armor, one skill of your choice, one musical instrument of your choice",
+			"Cleric": "Light armor, medium armor, shields",
+			"Druid": "Light armor, medium armor, shields (non-metal only)",
+			"Fighter": "Light armor, medium armor, heavy armor, shields, simple weapons, martial weapons",
+			"Monk": "Simple weapons, shortswords",
+			"Paladin": "Light armor, medium armor, heavy armor, shields, simple weapons, martial weapons",
+			"Ranger": "Light armor, medium armor, shields, simple weapons, martial weapons, one skill from the class's skill list",
+			"Rogue": "Light armor, one skill from the class's skill list, thieves' tools",
+			"Sorcerer": "No additional proficiencies",
+			"Warlock": "Light armor, simple weapons",
+			"Wizard": "No additional proficiencies"
+		};
+
+		return multiclassProficiencies[className] || "Limited proficiencies when multiclassing";
+	}
+
+	showMulticlassChoice(classes) {
+		// Find the suggested class (highest level, or most recently added if tied)
+		const suggestedIndex = this.findSuggestedClassIndex(classes);
+
+		// Create modal content with improved class information
+		const modalContent = `
+			<p class="mb-3"><strong>Current Level:</strong> ${this.levelUpState.currentLevel}</p>
+			<p class="mb-3"><strong>New Level:</strong> ${this.levelUpState.newLevel}</p>
+			<h6>Choose which class to level up:</h6>
+			<p class="text-muted mb-3"><small>The suggested class is highlighted. You can level up any class you have.</small></p>
+			<div class="list-group">
+				${classes.map((cls, index) => {
+					const isSuggested = index === suggestedIndex;
+					const hitDie = this.getClassHitDie(cls.name, this.levelUpState?.characterData);
+					const nextFeatures = this.getNextLevelFeaturePreview(cls);
+
+					return `
+						<button type="button" class="list-group-item list-group-item-action ${isSuggested ? 'list-group-item-primary' : ''}" data-class-index="${index}">
+							<div class="d-flex justify-content-between align-items-start">
+								<div>
+									<strong>${cls.name}</strong>
+									${cls.subclass ? `<span class="text-muted">(${cls.subclass.name})</span>` : ''}
+									${isSuggested ? '<span class="badge badge-primary ml-2">Suggested</span>' : ''}
+									<br>
+									<small class="text-muted">
+										Level ${cls.level || 1} → ${(cls.level || 1) + 1}
+										| Hit Die: d${hitDie}
+										${nextFeatures ? ` | ${nextFeatures}` : ''}
+									</small>
+								</div>
+							</div>
+						</button>
+					`;
+				}).join('')}
+			</div>
+		`;
+
+		// Create 5etools native modal
+		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+			title: "Level Up Character - Choose Class",
+			hasFooter: true
+		});
+
+		// Store modal close function
+		this.levelUpModalClose = doClose;
+
+		// Add content to modal
+		$modalInner.html(modalContent);
+
+		// Create footer buttons
+		const $btnCancel = $(`<button class="ve-btn ve-btn-default">Cancel</button>`)
+			.click(() => doClose(false));
+
+		$modalFooter.append($btnCancel);
+
+		// Add click handlers to class choices
+		$modalInner.find('.list-group-item').each((index, item) => {
+			$(item).click(() => {
+				const classIndex = parseInt(item.dataset.classIndex);
+				doClose(true); // Close the modal first
+				this.processClassLevelUp(classes[classIndex], classIndex);
+			});
+		});
+	}
+
+	findSuggestedClassIndex(classes) {
+		// Suggest the class with the highest level, or the last one added if tied
+		let suggestedIndex = 0;
+		let highestLevel = classes[0]?.level || 1;
+
+		for (let i = 1; i < classes.length; i++) {
+			const classLevel = classes[i]?.level || 1;
+			if (classLevel >= highestLevel) {
+				highestLevel = classLevel;
+				suggestedIndex = i; // This will favor the last one added if levels are tied
+			}
+		}
+
+		return suggestedIndex;
+	}
+
+	getNextLevelFeaturePreview(classEntry) {
+		// This would ideally load class data and check what features are gained at next level
+		// For now, return a generic preview based on common level milestones
+		const nextLevel = (classEntry.level || 1) + 1;
+		const className = classEntry.name;
+
+		// Common feature milestones across classes
+		const commonMilestones = {
+			2: "Class feature",
+			3: "Subclass choice/feature",
+			4: "Ability Score Improvement",
+			5: "Major class feature",
+			8: "Ability Score Improvement",
+			12: "Ability Score Improvement",
+			16: "Ability Score Improvement",
+			19: "Ability Score Improvement"
+		};
+
+		// Class-specific notable levels
+		const classMilestones = {
+			'Fighter': { 5: "Extra Attack", 11: "Extra Attack (2)", 20: "Extra Attack (3)" },
+			'Rogue': { 3: "Archetype", 5: "Uncanny Dodge", 7: "Evasion" },
+			'Wizard': { 2: "School feature", 6: "School feature", 10: "School feature" },
+			'Cleric': { 2: "Channel Divinity", 5: "Destroy Undead", 8: "Divine Strike" }
+		};
+
+		return classMilestones[className]?.[nextLevel] || commonMilestones[nextLevel] || "New abilities";
+	}
+
+	async processClassLevelUp(classEntry, classIndex, providedClassData = null) {
+		try {
+			// Use provided class data or load it
+			let classData;
+			if (providedClassData) {
+				classData = { class: [providedClassData] };
+			} else {
+				classData = await this.loadClassData(classEntry.name);
+				if (!classData || !classData.class || !classData.class[0]) {
+					throw new Error(`Could not load class data for ${classEntry.name}`);
+				}
+			}
+
+			const classInfo = classData.class[0];
+			const currentClassLevel = classEntry.level || 1;
+			const newClassLevel = currentClassLevel + 1;
+
+			// Update class level
+			this.levelUpState.characterData.class[classIndex].level = newClassLevel;
+			this.levelUpState.selectedClassIndex = classIndex;
+
+			// Get new features for this level
+			const newFeatures = await this.getNewFeaturesForLevel(classInfo, classData, classEntry, newClassLevel);
+
+
+			if (newFeatures.length > 0) {
+				await this.processLevelUpFeatures(newFeatures);
+			} else {
+				// No choices needed, just apply automatic benefits
+				this.showLevelUpSummary();
+			}
+
+		} catch (e) {
+			console.error('Error processing class level up:', e);
+			document.getElementById('message').textContent = 'Error processing level up';
+			document.getElementById('message').style.color = 'red';
+		}
+	}
+
+	async getNewFeaturesForLevel(classInfo, classData, classEntry, newLevel) {
+		const features = [];
+
+		// Check class features
+		if (classInfo.classFeatures) {
+			for (const featureRef of classInfo.classFeatures) {
+				const featureLevel = this.extractFeatureLevel(featureRef);
+				if (featureLevel === newLevel) {
+					const featureData = await this.loadFeatureData(featureRef, classData);
+					if (featureData) {
+						features.push({
+							type: 'class',
+							feature: featureData,
+							featureRef,
+							source: classInfo
+						});
+					}
+				}
+			}
+		}
+
+		// Check subclass features
+		if (classEntry.subclass && classData.subclass) {
+			const subclass = classData.subclass.find(sc =>
+				sc.name === classEntry.subclass.name ||
+				sc.shortName === classEntry.subclass.name
+			);
+
+			if (subclass && subclass.subclassFeatures) {
+				for (const featureRef of subclass.subclassFeatures) {
+					const featureLevel = this.extractFeatureLevel(featureRef);
+					if (featureLevel === newLevel) {
+						const featureData = await this.loadFeatureData(featureRef, classData);
+						if (featureData) {
+							features.push({
+								type: 'subclass',
+								feature: featureData,
+								featureRef,
+								source: subclass
+							});
+						}
+					}
+				}
+			}
+		}
+
+		// Check optional features
+		if (classInfo.optionalfeatureProgression) {
+			for (const optFeature of classInfo.optionalfeatureProgression) {
+				if (optFeature.progression && optFeature.progression[newLevel]) {
+					features.push({
+						type: 'optional',
+						feature: optFeature,
+						count: optFeature.progression[newLevel]
+					});
+				}
+			}
+		}
+
+		return features;
+	}
+
+	extractFeatureLevel(feature) {
+		if (typeof feature === 'string') {
+			// Format: "Feature Name|Class||Level" or "Feature Name|Class||Level|Source"
+			const parts = feature.split('|');
+			return parseInt(parts[3]) || 1;
+		} else if (feature.classFeature) {
+			// Format: { classFeature: "Feature Name|Class||Level", ... }
+			const parts = feature.classFeature.split('|');
+			return parseInt(parts[3]) || 1;
+		}
+		return 1;
+	}
+
+	enhanceFeatureWithChoices(feature) {
+		// Create a copy to avoid mutating the original
+		const enhancedFeature = { ...feature };
+
+		// Detect if this feature requires user choices
+		if (feature.name === 'Ability Score Improvement') {
+			enhancedFeature.requiresChoice = true;
+			enhancedFeature.choiceType = 'abilityScoreImprovement';
+		} else if (feature.name === 'Fighting Style' || feature.name.includes('Fighting Style')) {
+			enhancedFeature.requiresChoice = true;
+			enhancedFeature.choiceType = 'fightingStyle';
+		} else if (feature.name === 'Expertise' || feature.name.includes('Expertise')) {
+			enhancedFeature.requiresChoice = true;
+			enhancedFeature.choiceType = 'expertise';
+		} else if (feature.name === 'Maneuvers' || feature.name.includes('Maneuver')) {
+			enhancedFeature.requiresChoice = true;
+			enhancedFeature.choiceType = 'maneuvers';
+		} else if (feature.entries && Array.isArray(feature.entries)) {
+			// Check entries for choice indicators
+			const entriesText = feature.entries.join(' ').toLowerCase();
+
+			if (entriesText.includes('choose') || entriesText.includes('select') || entriesText.includes('pick')) {
+				enhancedFeature.requiresChoice = true;
+				enhancedFeature.choiceType = 'generic';
+
+				// More specific detection based on content
+				if (entriesText.includes('fighting style')) {
+					enhancedFeature.choiceType = 'fightingStyle';
+				} else if (entriesText.includes('spell') && (entriesText.includes('learn') || entriesText.includes('know'))) {
+					enhancedFeature.choiceType = 'spells';
+				} else if (entriesText.includes('expertise') || entriesText.includes('proficiency bonus')) {
+					enhancedFeature.choiceType = 'expertise';
+				}
+			}
+		}
+
+		return enhancedFeature;
+	}
+
+	async loadFeatureData(featureRef, classData) {
+		// Handle both string and object feature references
+		let featureString;
+		if (typeof featureRef === 'string') {
+			featureString = featureRef;
+		} else if (featureRef.classFeature) {
+			featureString = featureRef.classFeature;
+		} else {
+			console.warn('Unknown featureRef format:', featureRef);
+			return null;
+		}
+
+		// Parse the feature reference format: "FeatureName|Class|Subclass|Level|Source"
+		if (featureString) {
+			const parts = featureString.split('|');
+			const featureName = parts[0];
+			const className = parts[1];
+			const subclassName = parts[2] || '';
+			const level = parseInt(parts[3]) || 1;
+			const source = parts[4] || 'PHB';
+
+			console.log(`Loading feature data for: ${featureName}, Class: ${className}, Level: ${level}, Source: ${source}`);
+
+			// First try to find the feature in the provided class data
+			if (classData && classData.classFeature) {
+				console.log(`Searching in classFeature array with ${classData.classFeature.length} features`);
+				const feature = classData.classFeature.find(f => {
+					const nameMatch = f.name === featureName;
+					const classMatch = f.className === className;
+					const levelMatch = f.level === level;
+					// Be more flexible with source matching
+					const sourceMatch = !source || f.source === source || source === 'PHB';
+
+					console.log(`Checking feature: ${f.name}, nameMatch: ${nameMatch}, classMatch: ${classMatch}, levelMatch: ${levelMatch}, sourceMatch: ${sourceMatch}`);
+
+					return nameMatch && classMatch && levelMatch && sourceMatch;
+				});
+
+				if (feature) {
+					console.log(`Found feature in classFeature array: ${feature.name}`);
+					// Enhance the feature with choice detection
+					return this.enhanceFeatureWithChoices(feature);
+				} else {
+					console.log(`Feature not found in classFeature array`);
+				}
+			}
+
+			// If not found, try to load the specific class file
+			try {
+				const classFileName = className.toLowerCase();
+				const response = await fetch(`data/class/class-${classFileName}.json`);
+				if (response.ok) {
+					const classFileData = await response.json();
+
+					// Find the matching feature
+					if (classFileData.classFeature) {
+						const feature = classFileData.classFeature.find(f =>
+							f.name === featureName &&
+							f.className === className &&
+							(subclassName === '' || f.subclassShortName === subclassName) &&
+							f.level === level &&
+							f.source === source
+						);
+
+						if (feature) {
+							return this.enhanceFeatureWithChoices(feature);
+						}
+					}
+				}
+			} catch (e) {
+				console.warn('Could not load class file for feature data:', e);
+			}
+
+			// Special handling for common features
+			if (featureName === 'Ability Score Improvement') {
+				return {
+					name: featureName,
+					level,
+					className,
+					entries: [
+						"When you reach this level, you can increase one ability score of your choice by 2, or you can increase two ability scores of your choice by 1. As normal, you can't increase an ability score above 20 using this feature.",
+						"If your DM allows the use of feats, you may instead take a feat."
+					],
+					requiresChoice: true,
+					choiceType: 'abilityScoreImprovement'
+				};
+			}
+
+			// Fighting Style detection
+			if (featureName === 'Fighting Style' || featureName.includes('Fighting Style')) {
+				return {
+					name: featureName,
+					level,
+					className,
+					entries: [
+						"You adopt a particular style of fighting as your specialty. Choose one of the available fighting styles."
+					],
+					requiresChoice: true,
+					choiceType: 'fightingStyle'
+				};
+			}
+
+			// Expertise detection (for Rogues, Bards, etc.)
+			if (featureName === 'Expertise' || featureName.includes('Expertise')) {
+				return {
+					name: featureName,
+					level,
+					className,
+					entries: [
+						"Choose two of your skill proficiencies. Your proficiency bonus is doubled for any ability check you make that uses either of the chosen proficiencies."
+					],
+					requiresChoice: true,
+					choiceType: 'expertise'
+				};
+			}
+
+			// Spell learning detection
+			if (featureName.toLowerCase().includes('spells known') ||
+				featureName.toLowerCase().includes('learn spells') ||
+				featureName.toLowerCase().includes('additional magical secrets')) {
+				return {
+					name: featureName,
+					level,
+					className,
+					entries: [
+						"You learn additional spells. Choose from the appropriate spell list."
+					],
+					requiresChoice: true,
+					choiceType: 'spells'
+				};
+			}
+
+			// Battle Master maneuvers
+			if (featureName === 'Maneuvers' || featureName.includes('Maneuver')) {
+				return {
+					name: featureName,
+					level,
+					className,
+					entries: [
+						"You learn maneuvers that are fueled by special dice called superiority dice."
+					],
+					requiresChoice: true,
+					choiceType: 'maneuvers'
+				};
+			}
+
+			// Fallback - create basic feature data
+			return {
+				name: featureName,
+				entries: [`${featureName} feature gained at level ${level}.`],
+				level,
+				className,
+				subclassShortName: subclassName
+			};
+
+		} else if (typeof featureRef === 'object' && featureRef.classFeature) {
+			// Handle object format like { "classFeature": "...", "gainSubclassFeature": true }
+			return await this.loadFeatureData(featureRef.classFeature, classData);
+		}
+
+		return null;
+	}
+
+	async processLevelUpFeatures(features) {
+		this.levelUpState.pendingFeatures = features;
+		this.levelUpState.currentFeatureIndex = 0;
+
+		await this.showNextFeatureChoice();
+	}
+
+	async showNextFeatureChoice() {
+		const { pendingFeatures, currentFeatureIndex } = this.levelUpState;
+
+		if (currentFeatureIndex >= pendingFeatures.length) {
+			// All features processed, show summary
+			this.showLevelUpSummary();
+			return;
+		}
+
+		const feature = pendingFeatures[currentFeatureIndex];
+
+		if (feature.type === 'optional') {
+			await this.showOptionalFeatureChoice(feature);
+		} else if (feature.feature.requiresChoice) {
+			// Handle features that require choices (like ASI)
+			await this.showFeatureChoiceModal(feature);
+		} else {
+			// Automatic feature - just add it and continue
+			this.levelUpState.choices.push({
+				type: feature.type,
+				feature: feature.feature,
+				automatic: true
+			});
+			this.levelUpState.currentFeatureIndex++;
+			await this.showNextFeatureChoice();
+		}
+	}
+
+	async showFeatureChoiceModal(featureData) {
+		const feature = featureData.feature;
+
+		// Check if this is an ASI level that can take feats instead
+		if (feature.choiceType === 'abilityScoreImprovement') {
+			this.showFeatOrAsiChoiceModal(feature);
+		} else if (feature.choiceType === 'fightingStyle') {
+			this.showFightingStyleChoiceModal(feature, featureData);
+		} else if (feature.choiceType === 'expertise') {
+			this.showExpertiseChoiceModal(feature, featureData);
+		} else if (feature.choiceType === 'spells') {
+			this.showSpellChoiceModal(feature, featureData);
+		} else if (feature.choiceType === 'maneuvers') {
+			this.showManeuverChoiceModal(feature, featureData);
+		} else {
+			// Handle other types of feature choices
+			this.showGenericFeatureChoiceModal(featureData);
+		}
+	}
+
+	showFeatOrAsiChoiceModal(feature) {
+		// Get the CURRENT character data from the editor, not from levelUpState
+		const editorText = this.ace.getValue();
+		console.log('ASI Modal - Raw editor text length:', editorText.length);
+		console.log('ASI Modal - First 200 chars of editor:', editorText.substring(0, 200));
+
+		const currentCharacterData = JSON.parse(editorText);
+		console.log('ASI Modal - Full character data:', currentCharacterData);
+		console.log('ASI Modal - Abilities field exists?', 'abilities' in currentCharacterData);
+		console.log('ASI Modal - Raw abilities field:', currentCharacterData.abilities);
+
+		// Check if abilities are stored elsewhere in the character
+		console.log('ASI Modal - Character keys:', Object.keys(currentCharacterData));
+		console.log('ASI Modal - STR field exists?', 'str' in currentCharacterData);
+		console.log('ASI Modal - Direct str value:', currentCharacterData.str);
+
+		// Check if abilities are in nested object or as direct properties
+		const abilities = currentCharacterData.abilities || {
+			str: currentCharacterData.str || 10,
+			dex: currentCharacterData.dex || 10,
+			con: currentCharacterData.con || 10,
+			int: currentCharacterData.int || 10,
+			wis: currentCharacterData.wis || 10,
+			cha: currentCharacterData.cha || 10
+		};
+
+		console.log('ASI Modal - Final abilities used for modal:', abilities);
+
+		const modalContent = `
+			<p class="mb-3"><strong>Current Level:</strong> ${this.levelUpState.currentLevel}</p>
+			<p class="mb-3"><strong>New Level:</strong> ${this.levelUpState.newLevel}</p>
+			<h6>Ability Score Improvement or Feat</h6>
+			<p class="text-muted mb-3">You can increase your ability scores or choose a feat instead.</p>
+
+			<div class="form-group">
+				<label><strong>Choose one:</strong></label>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="asiOrFeat" id="chooseAsi" value="asi">
+					<label class="form-check-label" for="chooseAsi">
+						Ability Score Improvement
+					</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="asiOrFeat" id="chooseFeat" value="feat">
+					<label class="form-check-label" for="chooseFeat">
+						Feat (if your DM allows)
+					</label>
+				</div>
+			</div>
+
+			<div id="asi-options" style="display: none;">
+				<div class="row">
+					<div class="col-md-12">
+						<h6>Choose Two Ability Improvements (+1 each)</h6>
+						<p class="text-muted mb-3">You can choose the same ability twice to get +2 to one ability, or choose two different abilities to get +1 to each.</p>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label for="firstAbility">First ability:</label>
+							<select class="form-control" id="firstAbility">
+								<option value="">Select an ability...</option>
+								${Object.entries(abilities).map(([ability, score]) =>
+									`<option value="${ability}" ${score >= 20 ? 'disabled' : ''}>${ability.toUpperCase()} (${score}${score >= 20 ? ' - Max' : ''})</option>`
+								).join('')}
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="secondAbility">Second ability:</label>
+							<select class="form-control" id="secondAbility">
+								<option value="">Select an ability...</option>
+								${Object.entries(abilities).map(([ability, score]) =>
+									`<option value="${ability}" ${score >= 20 ? 'disabled' : ''}>${ability.toUpperCase()} (${score}${score >= 20 ? ' - Max' : ''})</option>`
+								).join('')}
+							</select>
+						</div>
+				</div>
+			</div>
+
+			<div id="feat-options" style="display: none;">
+				<div class="form-group">
+					<label for="featSearch">Search Feats:</label>
+					<input type="text" class="form-control" id="featSearch" placeholder="Type to search feats...">
+				</div>
+				<div class="form-group">
+					<label for="featSelect">Available Feats:</label>
+					<select class="form-control" id="featSelect" size="8">
+						<option value="">Loading feats...</option>
+					</select>
+				</div>
+				<div class="form-group" id="featDetails" style="display: none;">
+					<h6>Feat Details:</h6>
+					<div id="selectedFeatName" class="font-weight-bold mb-2"></div>
+					<div id="selectedFeatSource" class="text-muted mb-2"></div>
+					<div id="selectedFeatPrerequisites" class="mb-2"></div>
+					<div id="selectedFeatDescription" class="border p-3 bg-light"></div>
+				</div>
+			</div>
+		`;
+
+		// Create 5etools native modal
+		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+			title: "Level Up Character - Ability Score Improvement or Feat",
+			hasFooter: true
+		});
+
+		// Store modal close function
+		this.levelUpModalClose = doClose;
+
+		// Add content to modal
+		$modalInner.html(modalContent);
+
+		// Create footer buttons
+		const $btnCancel = $(`<button class="ve-btn ve-btn-default mr-2">Cancel</button>`)
+			.click(() => doClose(false));
+
+		const $btnConfirm = $(`<button class="ve-btn ve-btn-primary" disabled>Confirm Selection</button>`)
+			.click(async () => {
+				const choice = $modalInner.find('input[name="asiOrFeat"]:checked').val();
+
+				if (choice === 'asi') {
+					const firstAbility = $modalInner.find('#firstAbility').val();
+					const secondAbility = $modalInner.find('#secondAbility').val();
+
+					let abilityChanges = {};
+
+					if (firstAbility && secondAbility) {
+						// Handle both same ability (resulting in +2) or different abilities (resulting in +1 each)
+						if (firstAbility === secondAbility) {
+							abilityChanges[firstAbility] = 2;
+						} else {
+							abilityChanges[firstAbility] = 1;
+							abilityChanges[secondAbility] = 1;
+						}
+					}
+
+					// Store the ASI choice
+					this.levelUpState.choices.push({
+						type: 'abilityScoreImprovement',
+						feature: feature,
+						abilityChanges: abilityChanges
+					});
+
+					// Immediately apply ASI changes to the character in the editor
+					this.applyASIChangesToEditor(abilityChanges);
+				} else if (choice === 'feat') {
+					const selectedFeatName = $modalInner.find('#featSelect').val();
+					const featData = await this.loadFeatData();
+					const selectedFeat = featData.feat.find(feat => feat.name === selectedFeatName);
+
+					// Store the feat choice with full feat data
+					this.levelUpState.choices.push({
+						type: 'feat',
+						feature: feature,
+						featName: selectedFeatName,
+						featData: selectedFeat,
+						featDescription: this.formatFeatDescription(selectedFeat)
+					});
+				}
+
+				// Continue to next feature
+				this.levelUpState.currentFeatureIndex++;
+				doClose(true);
+				this.showNextFeatureChoice();
+			});
+
+		$modalFooter.append($btnCancel, $btnConfirm);
+
+		// Handle radio button changes
+		$modalInner.find('input[name="asiOrFeat"]').change(async () => {
+			const choice = $modalInner.find('input[name="asiOrFeat"]:checked').val();
+
+			if (choice === 'asi') {
+				$modalInner.find('#asi-options').show();
+				$modalInner.find('#feat-options').hide();
+			} else if (choice === 'feat') {
+				$modalInner.find('#feat-options').show();
+				$modalInner.find('#asi-options').hide();
+
+				// Load feat data when feat option is selected
+				await this.loadAndDisplayFeats($modalInner, currentCharacterData);
+			}
+
+			validateSelection();
+		});
+
+		// Validation logic
+		const validateSelection = () => {
+			const choice = $modalInner.find('input[name="asiOrFeat"]:checked').val();
+			let isValid = false;
+
+			if (choice === 'asi') {
+				const firstAbility = $modalInner.find('#firstAbility').val();
+				const secondAbility = $modalInner.find('#secondAbility').val();
+
+				// Both abilities must be selected and under 20
+				isValid = firstAbility && secondAbility &&
+						  abilities[firstAbility] < 20 && abilities[secondAbility] < 20;
+			} else if (choice === 'feat') {
+				const selectedFeat = $modalInner.find('#featSelect').val();
+				isValid = selectedFeat && selectedFeat !== '';
+			}
+
+			$btnConfirm.prop('disabled', !isValid);
+		};
+
+		// Add change listeners for validation
+		$modalInner.find('#singleAbility, #firstAbility, #secondAbility, #featSelect').change(validateSelection);
+
+		// Clear selections when switching between options
+		$modalInner.find('#chooseAsi').change(() => {
+			if ($modalInner.find('#chooseAsi').is(':checked')) {
+				$modalInner.find('#featSelect').val('');
+				$modalInner.find('#featDetails').hide();
+			}
+		});
+
+		$modalInner.find('#chooseFeat').change(() => {
+			if ($modalInner.find('#chooseFeat').is(':checked')) {
+				$modalInner.find('#singleAbility, #firstAbility, #secondAbility').val('');
+			}
+		});
+	}
+
+	async loadAndDisplayFeats($modalInner, character) {
+		const featData = await this.loadFeatData();
+		if (!featData || !featData.feat) {
+			$modalInner.find('#featSelect').html('<option value="">Error loading feats</option>');
+			return;
+		}
+
+		const feats = featData.feat;
+		let filteredFeats = [...feats];
+
+		// Populate the select with all feats initially
+		this.populateFeatSelect($modalInner, filteredFeats, character);
+
+		// Set up search functionality
+		$modalInner.find('#featSearch').on('input', (e) => {
+			const searchTerm = e.target.value.toLowerCase();
+			if (searchTerm) {
+				filteredFeats = feats.filter(feat =>
+					feat.name.toLowerCase().includes(searchTerm)
+				);
+			} else {
+				filteredFeats = [...feats];
+			}
+			this.populateFeatSelect($modalInner, filteredFeats, character);
+		});
+
+		// Set up feat selection change handler
+		$modalInner.find('#featSelect').change((e) => {
+			const selectedFeatName = e.target.value;
+			if (selectedFeatName) {
+				const selectedFeat = feats.find(feat => feat.name === selectedFeatName);
+				this.displayFeatDetails($modalInner, selectedFeat, character);
+			} else {
+				$modalInner.find('#featDetails').hide();
+			}
+		});
+	}
+
+	populateFeatSelect($modalInner, feats, character) {
+		const $featSelect = $modalInner.find('#featSelect');
+		$featSelect.empty();
+		$featSelect.append('<option value="">Select a feat...</option>');
+
+		feats.forEach(feat => {
+			const meetsPrereqs = this.checkFeatPrerequisites(feat, character);
+			const disabled = !meetsPrereqs ? 'disabled' : '';
+			const prereqText = !meetsPrereqs ? ' (Prerequisites not met)' : '';
+
+			$featSelect.append(
+				`<option value="${feat.name}" ${disabled}>${feat.name}${prereqText}</option>`
+			);
+		});
+	}
+
+	displayFeatDetails($modalInner, feat, character) {
+		if (!feat) return;
+
+		$modalInner.find('#selectedFeatName').text(feat.name);
+		$modalInner.find('#selectedFeatSource').text(`Source: ${feat.source}${feat.page ? `, p. ${feat.page}` : ''}`);
+
+		// Display prerequisites
+		let prereqText = '';
+		if (feat.prerequisite && feat.prerequisite.length > 0) {
+			const meetsPrereqs = this.checkFeatPrerequisites(feat, character);
+			const prereqColor = meetsPrereqs ? 'text-success' : 'text-danger';
+			const prereqStatus = meetsPrereqs ? '✓' : '✗';
+
+			prereqText = feat.prerequisite.map(prereq => {
+				return this.formatPrerequisite(prereq);
+			}).join(', ');
+
+			$modalInner.find('#selectedFeatPrerequisites').html(
+				`<span class="${prereqColor}"><strong>Prerequisites:</strong> ${prereqStatus} ${prereqText}</span>`
+			);
+		} else {
+			$modalInner.find('#selectedFeatPrerequisites').html('<span class="text-success"><strong>Prerequisites:</strong> ✓ None</span>');
+		}
+
+		// Display description
+		let description = '';
+		if (feat.entries) {
+			description = feat.entries.map(entry => {
+				if (typeof entry === 'string') {
+					return entry;
+				} else if (entry.type === 'list' && entry.items) {
+					return '<ul><li>' + entry.items.join('</li><li>') + '</li></ul>';
+				}
+				return JSON.stringify(entry);
+			}).join('<br><br>');
+		}
+
+		// Display ability improvements if any
+		if (feat.ability && feat.ability.length > 0) {
+			const abilityText = feat.ability.map(ab => {
+				const abilities = Object.keys(ab).map(key => `${key.toUpperCase()} +${ab[key]}`);
+				return abilities.join(', ');
+			}).join(', ');
+			description = `<strong>Ability Score Increase:</strong> ${abilityText}<br><br>` + description;
+		}
+
+		$modalInner.find('#selectedFeatDescription').html(description);
+		$modalInner.find('#featDetails').show();
+	}
+
+	checkFeatPrerequisites(feat, character) {
+		if (!feat.prerequisite || feat.prerequisite.length === 0) {
+			return true; // No prerequisites
+		}
+
+		// Get character abilities
+		const abilities = character.abilities || {
+			str: character.str || 10,
+			dex: character.dex || 10,
+			con: character.con || 10,
+			int: character.int || 10,
+			wis: character.wis || 10,
+			cha: character.cha || 10
+		};
+
+		return feat.prerequisite.every(prereq => {
+			// Check ability score requirements
+			for (const [ability, minScore] of Object.entries(prereq)) {
+				if (['str', 'dex', 'con', 'int', 'wis', 'cha'].includes(ability)) {
+					if (abilities[ability] < minScore) {
+						return false;
+					}
+				}
+			}
+
+			// Check other requirements (simplified for now)
+			if (prereq.other) {
+				// For now, assume other prerequisites are met
+				// You could expand this to check class, level, spell, etc.
+				return true;
+			}
+
+			return true;
+		});
+	}
+
+	formatPrerequisite(prereq) {
+		const parts = [];
+
+		// Format ability requirements
+		for (const [ability, minScore] of Object.entries(prereq)) {
+			if (['str', 'dex', 'con', 'int', 'wis', 'cha'].includes(ability)) {
+				parts.push(`${ability.toUpperCase()} ${minScore}+`);
+			}
+		}
+
+		// Format other requirements
+		if (prereq.other) {
+			parts.push(prereq.other);
+		}
+
+		return parts.join(', ') || 'None';
+	}
+
+	formatFeatDescription(feat) {
+		if (!feat || !feat.entries) return '';
+
+		return feat.entries.map(entry => {
+			if (typeof entry === 'string') {
+				return entry;
+			} else if (entry.type === 'list' && entry.items) {
+				return entry.items.join('; ');
+			}
+			return '';
+		}).join(' ');
+	}
+
+	showAbilityScoreImprovementModal(feature) {
+		// This method is kept for backward compatibility but now redirects to the enhanced version
+		this.showFeatOrAsiChoiceModal(feature);
+	}
+
+	showFightingStyleChoiceModal(feature, featureData) {
+		// Common fighting styles for Fighter, Paladin, Ranger
+		const fightingStyles = [
+			{ name: "Archery", description: "+2 bonus to ranged weapon attack rolls" },
+			{ name: "Defense", description: "+1 bonus to AC while wearing armor" },
+			{ name: "Dueling", description: "+2 damage when wielding a one-handed weapon with no other weapons" },
+			{ name: "Great Weapon Fighting", description: "Reroll 1s and 2s on damage dice with two-handed weapons" },
+			{ name: "Protection", description: "Use reaction and shield to impose disadvantage on attacks against nearby allies" },
+			{ name: "Two-Weapon Fighting", description: "Add ability modifier to damage of second attack when fighting with two weapons" },
+			{ name: "Blessed Warrior", description: "Learn two cantrips from the cleric spell list (Paladin only)" },
+			{ name: "Blind Fighting", description: "See in darkness within 10 feet" },
+			{ name: "Interception", description: "Reduce damage to nearby allies" },
+			{ name: "Superior Technique", description: "Learn one maneuver and gain a superiority die" },
+			{ name: "Thrown Weapon Fighting", description: "Draw and add +2 damage to thrown weapon attacks" },
+			{ name: "Unarmed Fighting", description: "Deal 1d4 + STR damage with unarmed strikes" }
+		];
+
+		const modalContent = `
+			<p class="mb-3"><strong>Current Level:</strong> ${this.levelUpState.currentLevel}</p>
+			<p class="mb-3"><strong>New Level:</strong> ${this.levelUpState.newLevel}</p>
+			<h6>Choose Fighting Style</h6>
+			<p class="text-muted mb-3">Select a fighting style that matches your combat preferences.</p>
+
+			<div class="form-group">
+				<label for="fighting-style-select"><strong>Available Fighting Styles:</strong></label>
+				<select class="form-control" id="fighting-style-select">
+					<option value="">-- Select a Fighting Style --</option>
+					${fightingStyles.map(style => `
+						<option value="${style.name}">${style.name}</option>
+					`).join('')}
+				</select>
+			</div>
+
+			<div id="fighting-style-description" class="alert alert-info" style="display: none;">
+				<strong id="style-name"></strong>
+				<p id="style-description" class="mb-0 mt-2"></p>
+			</div>
+		`;
+
+		// Create 5etools native modal
+		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+			title: "Level Up Character - Fighting Style",
+			hasFooter: true
+		});
+
+		// Store modal close function
+		this.levelUpModalClose = doClose;
+
+		// Add content to modal
+		$modalInner.html(modalContent);
+
+		// Create footer buttons
+		const $btnCancel = $(`<button class="ve-btn ve-btn-default mr-2">Cancel</button>`)
+			.click(() => doClose(false));
+
+		const $btnConfirm = $(`<button class="ve-btn ve-btn-primary" disabled>Select Fighting Style</button>`)
+			.click(() => {
+				const selectedStyle = $modalInner.find('#fighting-style-select').val();
+				const styleData = fightingStyles.find(s => s.name === selectedStyle);
+
+				// Store the fighting style choice
+				this.levelUpState.choices.push({
+					type: 'fightingStyle',
+					feature: feature,
+					styleName: selectedStyle,
+					styleDescription: styleData.description
+				});
+
+				// Continue to next feature
+				this.levelUpState.currentFeatureIndex++;
+				doClose(true);
+				this.showNextFeatureChoice();
+			});
+
+		$modalFooter.append($btnCancel, $btnConfirm);
+
+		// Add change handler for fighting style selection
+		$modalInner.find('#fighting-style-select').change((e) => {
+			const selectedValue = e.target.value;
+			const $btnConfirm = $modalFooter.find('.ve-btn-primary');
+
+			if (selectedValue) {
+				$btnConfirm.prop('disabled', false);
+				const styleData = fightingStyles.find(s => s.name === selectedValue);
+
+				// Show fighting style description
+				$modalInner.find('#fighting-style-description').show();
+				$modalInner.find('#style-name').text(styleData.name);
+				$modalInner.find('#style-description').text(styleData.description);
+			} else {
+				$btnConfirm.prop('disabled', true);
+				$modalInner.find('#fighting-style-description').hide();
+			}
+		});
+	}
+
+	showExpertiseChoiceModal(feature, featureData) {
+		// This would show skills available for expertise
+		// For now, just show a generic choice modal
+		this.showGenericFeatureChoiceModal(featureData);
+	}
+
+	showSpellChoiceModal(feature, featureData) {
+		// Show spell selection modal for spellcasting features
+		const character = this.levelUpState.characterData;
+		const classes = character.class || [];
+
+		// Determine what spells to offer based on class/subclass
+		let spellList = 'wizard'; // Default to wizard spells
+		let schoolRestrictions = [];
+		let cantripsToLearn = 0;
+		let spellsToLearn = 0;
+
+		// Check if this is an Eldritch Knight
+		const hasEldritchKnight = classes.some(cls =>
+			cls.subclass && cls.subclass.name === 'Eldritch Knight'
+		);
+
+		if (hasEldritchKnight) {
+			spellList = 'wizard';
+			schoolRestrictions = ['A', 'V']; // Abjuration and Evocation
+
+			// At level 3, Eldritch Knight learns 2 cantrips and 3 spells
+			if (this.levelUpState.newLevel === 3) {
+				cantripsToLearn = 2;
+				spellsToLearn = 3;
+			} else if (this.levelUpState.newLevel === 4) {
+				spellsToLearn = 1; // Learn 1 additional spell at level 4
+			} else if (this.levelUpState.newLevel === 7) {
+				spellsToLearn = 1; // Learn 1 additional spell at level 7
+			} else if (this.levelUpState.newLevel === 10) {
+				cantripsToLearn = 1; // Learn 1 additional cantrip at level 10
+				spellsToLearn = 1; // Learn 1 additional spell at level 10
+			}
+		}
+
+		const modalContent = `
+			<p class="mb-3"><strong>Current Level:</strong> ${this.levelUpState.currentLevel}</p>
+			<p class="mb-3"><strong>New Level:</strong> ${this.levelUpState.newLevel}</p>
+			<h6>Spell Selection</h6>
+			<p class="text-muted mb-3">Choose your spells for this level.</p>
+
+			${cantripsToLearn > 0 ? `
+				<div class="mb-4">
+					<h6>Cantrips (Choose ${cantripsToLearn})</h6>
+					<p class="text-muted">Choose ${cantripsToLearn} cantrip${cantripsToLearn > 1 ? 's' : ''} from the ${spellList} spell list.</p>
+					${Array.from({length: cantripsToLearn}, (_, i) => `
+						<div class="form-group">
+							<label for="cantrip${i}">Cantrip ${i + 1}:</label>
+							<input type="text" class="form-control" id="cantrip${i}" placeholder="Enter cantrip name (e.g., Mage Hand, Fire Bolt)">
+							<small class="form-text text-muted">Choose from ${spellList} cantrips${schoolRestrictions.length ? ' (any school)' : ''}.</small>
+						</div>
+					`).join('')}
+				</div>
+			` : ''}
+
+			${spellsToLearn > 0 ? `
+				<div class="mb-4">
+					<h6>Spells (Choose ${spellsToLearn})</h6>
+					<p class="text-muted">Choose ${spellsToLearn} spell${spellsToLearn > 1 ? 's' : ''} from the ${spellList} spell list${schoolRestrictions.length ? ' (Abjuration or Evocation only, except for certain levels)' : ''}.</p>
+					${Array.from({length: spellsToLearn}, (_, i) => `
+						<div class="form-group">
+							<label for="spell${i}">Spell ${i + 1}:</label>
+							<input type="text" class="form-control" id="spell${i}" placeholder="Enter spell name (e.g., Shield, Magic Missile)">
+							<small class="form-text text-muted">1st level ${spellList} spell${schoolRestrictions.length && spellsToLearn === 3 ? ' (2 must be Abjuration or Evocation)' : ''}.</small>
+						</div>
+					`).join('')}
+				</div>
+			` : ''}
+
+			<div class="alert alert-info">
+				<strong>Note:</strong> This is a simplified spell selection. In a full implementation, you would choose from a filtered list of available spells.
+			</div>
+		`;
+
+		// Create 5etools native modal
+		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+			title: "Level Up Character - Spell Selection",
+			hasFooter: true
+		});
+
+		// Store modal close function
+		this.levelUpModalClose = doClose;
+
+		// Add content to modal
+		$modalInner.html(modalContent);
+
+		// Create footer buttons
+		const $btnCancel = $(`<button class="ve-btn ve-btn-default mr-2">Cancel</button>`)
+			.click(() => doClose(false));
+
+		const $btnConfirm = $(`<button class="ve-btn ve-btn-primary">Confirm Spells</button>`)
+			.click(() => {
+				// Collect spell selections
+				const spellSelections = {
+					cantrips: [],
+					spells: []
+				};
+
+				// Collect cantrips
+				for (let i = 0; i < cantripsToLearn; i++) {
+					const cantrip = $modalInner.find(`#cantrip${i}`).val().trim();
+					if (cantrip) {
+						spellSelections.cantrips.push(cantrip);
+					}
+				}
+
+				// Collect spells
+				for (let i = 0; i < spellsToLearn; i++) {
+					const spell = $modalInner.find(`#spell${i}`).val().trim();
+					if (spell) {
+						spellSelections.spells.push(spell);
+					}
+				}
+
+				// Store the spell choices
+				this.levelUpState.choices.push({
+					type: 'spells',
+					feature: feature,
+					selections: spellSelections,
+					spellList: spellList,
+					schoolRestrictions: schoolRestrictions
+				});
+
+				// Continue to next feature
+				this.levelUpState.currentFeatureIndex++;
+				doClose(true);
+				this.showNextFeatureChoice();
+			});
+
+		$modalFooter.append($btnCancel, $btnConfirm);
+
+		// Add input validation
+		const validateInputs = () => {
+			let allValid = true;
+
+			// Check cantrips
+			for (let i = 0; i < cantripsToLearn; i++) {
+				const cantrip = $modalInner.find(`#cantrip${i}`).val().trim();
+				if (!cantrip) allValid = false;
+			}
+
+			// Check spells
+			for (let i = 0; i < spellsToLearn; i++) {
+				const spell = $modalInner.find(`#spell${i}`).val().trim();
+				if (!spell) allValid = false;
+			}
+
+			$btnConfirm.prop('disabled', !allValid);
+		};
+
+		// Add event listeners for validation
+		$modalInner.find('input').on('input', validateInputs);
+		validateInputs(); // Initial validation
+	}
+
+	showManeuverChoiceModal(feature, featureData) {
+		// This would show Battle Master maneuver choices
+		// For now, just show a generic choice modal
+		this.showGenericFeatureChoiceModal(featureData);
+	}
+
+	showGenericFeatureChoiceModal(featureData) {
+		const feature = featureData.feature;
+
+		// Create a generic modal for features that have choices but aren't specifically handled yet
+		const modalContent = `
+			<p class="mb-3"><strong>Current Level:</strong> ${this.levelUpState.currentLevel}</p>
+			<p class="mb-3"><strong>New Level:</strong> ${this.levelUpState.newLevel}</p>
+			<h6>${feature.name}</h6>
+			<div class="mb-3">
+				${feature.entries ? feature.entries.map(entry => `<p>${entry}</p>`).join('') : '<p>This feature requires a choice.</p>'}
+			</div>
+
+			<div class="alert alert-info">
+				<strong>Note:</strong> This feature contains choices that need to be implemented.
+				For now, the feature will be added automatically. Please consult your DM or the Player's Handbook for the specific choices available.
+			</div>
+
+			<div class="form-group">
+				<label for="feature-notes">Optional Notes:</label>
+				<textarea class="form-control" id="feature-notes" rows="3" placeholder="Add any notes about your choice (e.g., 'Selected Archery fighting style')"></textarea>
+			</div>
+		`;
+
+		// Create 5etools native modal
+		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+			title: `Level Up Character - ${feature.name}`,
+			hasFooter: true
+		});
+
+		// Store modal close function
+		this.levelUpModalClose = doClose;
+
+		// Add content to modal
+		$modalInner.html(modalContent);
+
+		// Create footer buttons
+		const $btnCancel = $(`<button class="ve-btn ve-btn-default mr-2">Cancel</button>`)
+			.click(() => doClose(false));
+
+		const $btnConfirm = $(`<button class="ve-btn ve-btn-primary">Add Feature</button>`)
+			.click(() => {
+				const notes = $modalInner.find('#feature-notes').val().trim();
+
+				// Store the choice (even if it's just a note)
+				this.levelUpState.choices.push({
+					type: 'generic',
+					feature: feature,
+					notes: notes || 'Feature added automatically'
+				});
+
+				// Continue to next feature
+				this.levelUpState.currentFeatureIndex++;
+				doClose(true);
+				this.showNextFeatureChoice();
+			});
+
+		$modalFooter.append($btnCancel, $btnConfirm);
+	}
+
+	// Keep the old method name for compatibility
+	showOldAbilityScoreImprovementModal(feature) {
+		const character = this.levelUpState.characterData;
+		const abilities = character.abilities || { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 };
+
+		const modalContent = `
+			<p class="mb-3"><strong>Current Level:</strong> ${this.levelUpState.currentLevel}</p>
+			<p class="mb-3"><strong>New Level:</strong> ${this.levelUpState.newLevel}</p>
+			<h6>Ability Score Improvement</h6>
+			<p class="text-muted mb-3">${feature.entries[0]}</p>
+
+			<div class="row">
+				<div class="col-md-6">
+					<h6>Option 1: Increase one ability by 2</h6>
+					<div class="form-group">
+						<label for="singleAbility">Choose ability:</label>
+						<select class="form-control" id="singleAbility">
+							<option value="">Select an ability...</option>
+							${Object.entries(abilities).map(([ability, score]) =>
+								`<option value="${ability}" ${score >= 20 ? 'disabled' : ''}>${ability.toUpperCase()} (${score}${score >= 20 ? ' - Max' : ''})</option>`
+							).join('')}
+						</select>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<h6>Option 2: Increase two abilities by 1 each</h6>
+					<div class="form-group">
+						<label for="firstAbility">First ability:</label>
+						<select class="form-control" id="firstAbility">
+							<option value="">Select an ability...</option>
+							${Object.entries(abilities).map(([ability, score]) =>
+								`<option value="${ability}" ${score >= 20 ? 'disabled' : ''}>${ability.toUpperCase()} (${score}${score >= 20 ? ' - Max' : ''})</option>`
+							).join('')}
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="secondAbility">Second ability:</label>
+						<select class="form-control" id="secondAbility">
+							<option value="">Select an ability...</option>
+							${Object.entries(abilities).map(([ability, score]) =>
+								`<option value="${ability}" ${score >= 20 ? 'disabled' : ''}>${ability.toUpperCase()} (${score}${score >= 20 ? ' - Max' : ''})</option>`
+							).join('')}
+						</select>
+					</div>
+				</div>
+			</div>
+		`;
+
+		// Create 5etools native modal
+		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+			title: "Level Up Character - Ability Score Improvement",
+			hasFooter: true
+		});
+
+		// Store modal close function
+		this.levelUpModalClose = doClose;
+
+		// Add content to modal
+		$modalInner.html(modalContent);
+
+		// Create footer buttons
+		const $btnCancel = $(`<button class="ve-btn ve-btn-default mr-2">Cancel</button>`)
+			.click(() => doClose(false));
+
+		const $btnConfirm = $(`<button class="ve-btn ve-btn-primary" disabled>Confirm Selection</button>`)
+			.click(() => {
+				const singleAbility = $modalInner.find('#singleAbility').val();
+				const firstAbility = $modalInner.find('#firstAbility').val();
+				const secondAbility = $modalInner.find('#secondAbility').val();
+
+				let abilityChanges = {};
+
+				if (singleAbility) {
+					abilityChanges[singleAbility] = 2;
+				} else if (firstAbility && secondAbility && firstAbility !== secondAbility) {
+					abilityChanges[firstAbility] = 1;
+					abilityChanges[secondAbility] = 1;
+				}
+
+				// Store the ASI choice
+				this.levelUpState.choices.push({
+					type: 'abilityScoreImprovement',
+					feature: feature,
+					abilityChanges: abilityChanges
+				});
+
+				// Immediately apply ASI changes to the character in the editor
+				this.applyASIChangesToEditor(abilityChanges);
+
+				// Continue to next feature
+				this.levelUpState.currentFeatureIndex++;
+				doClose(true);
+				this.showNextFeatureChoice();
+			});
+
+		$modalFooter.append($btnCancel, $btnConfirm);
+
+		// Validation logic
+		const validateSelection = () => {
+			const firstAbility = $modalInner.find('#firstAbility').val();
+			const secondAbility = $modalInner.find('#secondAbility').val();
+
+			// Both abilities must be selected and under 20
+			const isValid = firstAbility && secondAbility &&
+				abilities[firstAbility] < 20 &&
+				abilities[secondAbility] < 20;
+
+			$btnConfirm.prop('disabled', !isValid);
+		};
+
+		// Add event listeners
+		$modalInner.find('#firstAbility, #secondAbility').on('change', validateSelection);
+
+		// No need for clearing logic since we only have the two-ability selection now
+	}
+
+	async showOptionalFeatureChoice(featureData) {
+		try {
+			// Load optional features based on feature type
+			const optionalFeatures = await this.loadOptionalFeatures(featureData.feature.featureType);
+
+			// Create modal content
+			const modalContent = `
+				<p class="mb-3"><strong>Current Level:</strong> ${this.levelUpState.currentLevel}</p>
+				<p class="mb-3"><strong>New Level:</strong> ${this.levelUpState.newLevel}</p>
+				<h6>Choose ${featureData.feature.name} (${featureData.count} selection${featureData.count > 1 ? 's' : ''}):</h6>
+				<div class="row">
+					${optionalFeatures.map((opt, index) => `
+						<div class="col-md-6 mb-2">
+							<div class="card">
+								<div class="card-body">
+									<h6 class="card-title">${opt.name}</h6>
+									<p class="card-text small">${opt.entries ? opt.entries.slice(0, 2).join(' ') : 'No description available'}</p>
+									<button type="button" class="ve-btn ve-btn-xs ve-btn-outline-primary" data-feature-index="${index}">
+										Select
+									</button>
+								</div>
+							</div>
+						</div>
+					`).join('')}
+				</div>
+				<div class="mt-3">
+					<strong>Selected (<span id="selectedCount">0</span>/${featureData.count}):</strong>
+					<ul id="selectedFeaturesList"></ul>
+				</div>
+			`;
+
+			// Create 5etools native modal
+			const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+				title: "Level Up Character - Choose Features",
+				hasFooter: true
+			});
+
+			// Store modal close function
+			this.levelUpModalClose = doClose;
+
+			// Add content to modal
+			$modalInner.html(modalContent);
+
+			// Initialize selection state
+			this.selectedOptionalFeatures = [];
+			this.maxOptionalFeatures = featureData.count;
+			this.currentOptionalFeatures = optionalFeatures;
+
+			// Create footer buttons
+			const $btnCancel = $(`<button class="ve-btn ve-btn-default mr-2">Cancel</button>`)
+				.click(() => doClose(false));
+
+			const $btnConfirm = $(`<button class="ve-btn ve-btn-primary" disabled>Confirm Selection</button>`)
+				.click(() => {
+					// Save selections
+					this.levelUpState.choices.push({
+						type: 'optional',
+						selections: [...this.selectedOptionalFeatures]
+					});
+
+					// Continue to next feature
+					this.levelUpState.currentFeatureIndex++;
+					doClose(true);
+					this.showNextFeatureChoice();
+				});
+
+			$modalFooter.append($btnCancel, $btnConfirm);
+
+			// Add selection handlers using the modal context
+			$modalInner.find('button[data-feature-index]').each((index, btn) => {
+				$(btn).click(() => {
+					const featureIndex = parseInt(btn.dataset.featureIndex);
+					this.selectOptionalFeatureInModal(optionalFeatures[featureIndex], $(btn), $modalInner, $btnConfirm);
+				});
+			});
+
+		} catch (e) {
+			console.error('Error showing optional feature choice:', e);
+			// Skip this feature and continue
+			this.levelUpState.currentFeatureIndex++;
+			await this.showNextFeatureChoice();
+		}
+	}
+
+	applyASIChangesToEditor(abilityChanges) {
+		// Apply changes to levelUpState.characterData instead of reading from editor
+		// This preserves all other level up changes (like class level increases)
+		const currentCharacterData = this.levelUpState.characterData;
+
+		// Check if character uses nested abilities object or direct properties
+		const hasNestedAbilities = 'abilities' in currentCharacterData;
+
+		console.log('Applying ASI changes to levelUpState.characterData:');
+		console.log('Character format - has nested abilities:', hasNestedAbilities);
+
+		if (hasNestedAbilities) {
+			// Handle nested abilities format
+			if (!currentCharacterData.abilities) {
+				currentCharacterData.abilities = { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 };
+			}
+
+			console.log('Before (nested):', JSON.stringify(currentCharacterData.abilities));
+
+			Object.entries(abilityChanges).forEach(([ability, increase]) => {
+				const oldValue = currentCharacterData.abilities[ability] || 10;
+				const newValue = Math.min(20, oldValue + increase);
+				console.log(`ASI: ${ability} ${oldValue} -> ${newValue} (+${increase})`);
+				currentCharacterData.abilities[ability] = newValue;
+			});
+
+			console.log('After (nested):', JSON.stringify(currentCharacterData.abilities));
+		} else {
+			// Handle direct properties format
+			const beforeAbilities = {
+				str: currentCharacterData.str || 10,
+				dex: currentCharacterData.dex || 10,
+				con: currentCharacterData.con || 10,
+				int: currentCharacterData.int || 10,
+				wis: currentCharacterData.wis || 10,
+				cha: currentCharacterData.cha || 10
+			};
+
+			console.log('Before (direct):', JSON.stringify(beforeAbilities));
+
+			Object.entries(abilityChanges).forEach(([ability, increase]) => {
+				const oldValue = currentCharacterData[ability] || 10;
+				const newValue = Math.min(20, oldValue + increase);
+				console.log(`ASI: ${ability} ${oldValue} -> ${newValue} (+${increase})`);
+				currentCharacterData[ability] = newValue;
+			});
+
+			const afterAbilities = {
+				str: currentCharacterData.str || 10,
+				dex: currentCharacterData.dex || 10,
+				con: currentCharacterData.con || 10,
+				int: currentCharacterData.int || 10,
+				wis: currentCharacterData.wis || 10,
+				cha: currentCharacterData.cha || 10
+			};
+
+			console.log('After (direct):', JSON.stringify(afterAbilities));
+		}
+
+		// Update the editor with modified character data from levelUpState
+		this.ace.setValue(JSON.stringify(currentCharacterData, null, 2), 1);
+
+		// Re-render the character to show updated stats immediately
+		this.renderCharacter();
+	}
+
+	async loadOptionalFeatures(featureTypes) {
+		// This would load from 5etools optional feature data
+		// For now, return some basic Fighting Style examples
+		if (featureTypes && featureTypes.includes('FS:F')) {
+			return [
+				{
+					name: "Archery",
+					entries: ["You gain a +2 bonus to attack rolls you make with ranged weapons."]
+				},
+				{
+					name: "Defense",
+					entries: ["While you are wearing armor, you gain a +1 bonus to AC."]
+				},
+				{
+					name: "Dueling",
+					entries: ["When you are wielding a melee weapon in one hand and no other weapons, you gain a +2 bonus to damage rolls with that weapon."]
+				},
+				{
+					name: "Great Weapon Fighting",
+					entries: ["When you roll a 1 or 2 on a damage die for an attack you make with a melee weapon that you are wielding with two hands, you can reroll the die and must use the new roll."]
+				}
+			];
+		}
+		return [];
+	}
+
+	selectOptionalFeatureInModal(feature, $buttonElement, $modalInner, $btnConfirm) {
+		if (this.selectedOptionalFeatures.length >= this.maxOptionalFeatures) {
+			return;
+		}
+
+		this.selectedOptionalFeatures.push(feature);
+		$buttonElement.prop('disabled', true);
+		$buttonElement.text('Selected');
+		$buttonElement.removeClass('ve-btn-outline-primary');
+		$buttonElement.addClass('ve-btn-success');
+
+		// Update selected list within modal
+		const $selectedList = $modalInner.find('#selectedFeaturesList');
+		const $selectedCount = $modalInner.find('#selectedCount');
+
+		$selectedList.html(this.selectedOptionalFeatures.map(f => `<li>${f.name}</li>`).join(''));
+		$selectedCount.text(this.selectedOptionalFeatures.length);
+
+		// Enable confirm button if we have enough selections
+		if (this.selectedOptionalFeatures.length === this.maxOptionalFeatures) {
+			$btnConfirm.prop('disabled', false);
+		}
+	}
+
+	showLevelUpSummary() {
+		// Calculate what will change with this level up
+		const character = this.levelUpState.characterData;
+		const oldTotalLevel = this.levelUpState.currentLevel;
+		const newTotalLevel = this.levelUpState.newLevel;
+
+		// Calculate HP gain
+		let hpGain = 0;
+		const selectedClassIndex = this.levelUpState.selectedClassIndex;
+		if (selectedClassIndex !== undefined && character.class && character.class[selectedClassIndex]) {
+			const cls = character.class[selectedClassIndex];
+			const hitDie = this.getClassHitDie(cls.name, character);
+			const conMod = Math.floor(((character.abilities?.con || character.con || 10) - 10) / 2);
+
+			// Calculate expected HP gain (average)
+			const dieAverage = Math.floor(hitDie / 2) + 1;
+			hpGain = dieAverage + conMod;
+		}
+
+		// Get current character HP
+		let currentMaxHP = 0;
+		if (character.hitPoints?.max) {
+			currentMaxHP = character.hitPoints.max;
+		} else if (character.hp?.max) {
+			currentMaxHP = character.hp.max;
+		}
+
+		// Collect features being gained
+		const newFeatures = [];
+		if (this.levelUpState.pendingFeatures) {
+			this.levelUpState.pendingFeatures.forEach(featureData => {
+				newFeatures.push({
+					name: featureData.feature.name,
+					description: featureData.feature.entries?.[0] || 'New feature gained',
+					source: featureData.className
+				});
+			});
+		}
+
+		// Collect all changes made during level up
+		const changes = {
+			abilityScores: [],
+			spellSlots: [],
+			spellsKnown: [],
+			actionsAdded: [],
+			featuresAdded: [],
+			choicesMade: []
+		};
+
+		// Track ability score changes
+		if (this.levelUpState.choices) {
+			this.levelUpState.choices.forEach(choice => {
+				if (choice.type === 'abilityScoreImprovement' && choice.abilityChanges) {
+					Object.entries(choice.abilityChanges).forEach(([ability, increase]) => {
+						const oldValue = this.getOriginalAbilityScore(ability);
+						const newValue = oldValue + increase;
+						changes.abilityScores.push({
+							ability: ability.toUpperCase(),
+							oldValue,
+							newValue,
+							increase
+						});
+					});
+				} else if (choice.type === 'feat') {
+					changes.choicesMade.push({
+						type: 'Feat Selected',
+						description: `${choice.featName}${choice.featData?.entries?.[0] ? ' - ' + choice.featData.entries[0].substring(0, 80) + '...' : ''}`
+					});
+				} else if (choice.type === 'fightingStyle') {
+					changes.choicesMade.push({
+						type: 'Fighting Style',
+						description: `${choice.styleName} - ${choice.styleDescription}`
+					});
+				} else if (choice.type === 'spells' && choice.spells) {
+					if (choice.spells.cantrips?.length > 0) {
+						changes.spellsKnown.push({
+							type: 'Cantrips',
+							spells: choice.spells.cantrips.map(s => s.name)
+						});
+					}
+					if (choice.spells.spells?.length > 0) {
+						changes.spellsKnown.push({
+							type: 'Spells',
+							spells: choice.spells.spells.map(s => s.name)
+						});
+					}
+				}
+			});
+		}
+
+		// Track spell slot changes if character is a caster
+		const classEntry = character.class?.[selectedClassIndex];
+		if (classEntry && this.isSpellcastingClass(classEntry.name)) {
+			const oldSpellSlots = this.getSpellSlotsForClass(classEntry.name, classEntry.level - 1);
+			const newSpellSlots = this.getSpellSlotsForClass(classEntry.name, classEntry.level);
+
+			for (let level = 1; level <= 9; level++) {
+				const oldSlots = oldSpellSlots[level] || 0;
+				const newSlots = newSpellSlots[level] || 0;
+				if (newSlots > oldSlots) {
+					changes.spellSlots.push({
+						level,
+						oldSlots,
+						newSlots,
+						gain: newSlots - oldSlots
+					});
+				}
+			}
+		}
+
+		// Track new actions from class abilities
+		if (this.levelUpState.pendingFeatures) {
+			this.levelUpState.pendingFeatures.forEach(featureData => {
+				if (featureData.feature.entries) {
+					const hasActionKeywords = featureData.feature.entries.some(entry =>
+						typeof entry === 'string' &&
+						(entry.includes('as an action') || entry.includes('bonus action') || entry.includes('reaction'))
+					);
+
+					if (hasActionKeywords) {
+						changes.actionsAdded.push({
+							name: featureData.feature.name,
+							description: featureData.feature.entries[0]?.substring(0, 100) + '...'
+						});
+					}
+				}
+
+				changes.featuresAdded.push({
+					name: featureData.feature.name,
+					description: featureData.feature.entries?.[0]?.substring(0, 80) + '...' || 'New class feature',
+					source: featureData.className
+				});
+			});
+		}
+
+		// Build enhanced summary modal content
+		let summaryContent = `
+			<h5>Level Up Complete - All Changes</h5>
+			<div class="row">
+				<div class="col-md-6">
+					<h6>Character Progression</h6>
+					<ul class="list-group list-group-flush mb-3">
+						<li class="list-group-item d-flex justify-content-between">
+							<span>Level:</span>
+							<span><strong>${oldTotalLevel} → ${newTotalLevel}</strong></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between">
+							<span>Hit Points:</span>
+							<span><strong>${currentMaxHP} → ${currentMaxHP + hpGain}</strong> <small class="text-success">(+${hpGain})</small></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between">
+							<span>Proficiency Bonus:</span>
+							<span><strong>+${this.getProficiencyBonus(newTotalLevel)}</strong></span>
+						</li>
+					</ul>`;
+
+		// Add ability score changes
+		if (changes.abilityScores.length > 0) {
+			summaryContent += `
+					<h6>Ability Score Changes</h6>
+					<ul class="list-group list-group-flush mb-3">`;
+			changes.abilityScores.forEach(change => {
+				summaryContent += `
+						<li class="list-group-item d-flex justify-content-between">
+							<span>${change.ability}:</span>
+							<span><strong>${change.oldValue} → ${change.newValue}</strong> <small class="text-success">(+${change.increase})</small></span>
+						</li>`;
+			});
+			summaryContent += `</ul>`;
+		}
+
+		summaryContent += `</div><div class="col-md-6">`;
+
+		// Add spell slot changes
+		if (changes.spellSlots.length > 0) {
+			summaryContent += `
+					<h6>Spell Slot Changes</h6>
+					<ul class="list-group list-group-flush mb-3">`;
+			changes.spellSlots.forEach(change => {
+				const levelText = this.getOrdinalNumber(change.level);
+				summaryContent += `
+						<li class="list-group-item d-flex justify-content-between">
+							<span>${levelText} Level:</span>
+							<span><strong>${change.oldSlots} → ${change.newSlots}</strong> <small class="text-success">(+${change.gain})</small></span>
+						</li>`;
+			});
+			summaryContent += `</ul>`;
+		}
+
+		// Add spells known
+		if (changes.spellsKnown.length > 0) {
+			summaryContent += `
+					<h6>Spells Learned</h6>
+					<ul class="list-group list-group-flush mb-3">`;
+			changes.spellsKnown.forEach(spellGroup => {
+				summaryContent += `
+						<li class="list-group-item">
+							<strong>${spellGroup.type}:</strong>
+							<small class="d-block">${spellGroup.spells.join(', ')}</small>
+						</li>`;
+			});
+			summaryContent += `</ul>`;
+		}
+
+		// Add new actions
+		if (changes.actionsAdded.length > 0) {
+			summaryContent += `
+					<h6>New Actions Available</h6>
+					<ul class="list-group list-group-flush mb-3">`;
+			changes.actionsAdded.forEach(action => {
+				summaryContent += `
+						<li class="list-group-item">
+							<strong>${action.name}</strong>
+							<small class="text-muted d-block">${action.description}</small>
+						</li>`;
+			});
+			summaryContent += `</ul>`;
+		}
+
+		summaryContent += `</div></div><div class="row"><div class="col-12">`;
+
+		// Add new features
+		if (changes.featuresAdded.length > 0) {
+			summaryContent += `
+					<h6>New Features & Traits</h6>
+					<ul class="list-group list-group-flush mb-3">`;
+			changes.featuresAdded.forEach(feature => {
+				summaryContent += `
+						<li class="list-group-item">
+							<strong>${feature.name}</strong>
+							<small class="text-muted">(from ${feature.source})</small>
+							<small class="text-muted d-block">${feature.description}</small>
+						</li>`;
+			});
+			summaryContent += `</ul>`;
+		}
+
+		// Add choices made
+		if (changes.choicesMade.length > 0) {
+			summaryContent += `
+					<h6>Choices Made</h6>
+					<ul class="list-group list-group-flush mb-3">`;
+			changes.choicesMade.forEach(choice => {
+				summaryContent += `
+						<li class="list-group-item">
+							<strong>${choice.type}:</strong> ${choice.description}
+						</li>`;
+			});
+			summaryContent += `</ul>`;
+		}
+
+		summaryContent += `
+				</div>
+			</div>
+			<div class="text-center mt-4">
+				<p class="text-success mb-3"><strong>Level up successful!</strong> All changes above will be applied to your character sheet.</p>
+				<p class="text-muted mb-3">Click "Apply Level Up" to finalize these changes.</p>
+			</div>`;
+
+		const { doClose } = UiUtil.getShowModal({
+			title: "Level Up Complete!",
+			bodyElement: summaryContent,
+			cbClose: async (isDataEntered) => {
+				if (isDataEntered) {
+					await this.finalizeLevelUp();
+				}
+			},
+			isUncappedHeight: true
+		});
+
+		// Create custom footer with Apply and Cancel buttons
+		const modalFooter = document.querySelector('.modal-footer');
+		if (modalFooter) {
+			modalFooter.innerHTML = `
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel Level Up</button>
+				<button type="button" class="btn btn-primary" id="applyLevelUp">Apply Level Up</button>
+			`;
+
+			document.getElementById('applyLevelUp').addEventListener('click', () => {
+				doClose(true);
+			});
+		}
+
+		this.levelUpModalClose = doClose;
+	}
+
+	getOriginalAbilityScore(ability) {
+		// Get the original ability score before ASI was applied
+		const editorText = this.ace.getValue();
+		const characterData = JSON.parse(editorText);
+
+		if (characterData.abilities && characterData.abilities[ability]) {
+			return characterData.abilities[ability];
+		}
+		return characterData[ability] || 10;
+	}
+
+	isSpellcastingClass(className) {
+		const spellcastingClasses = ['Bard', 'Cleric', 'Druid', 'Sorcerer', 'Warlock', 'Wizard', 'Paladin', 'Ranger'];
+		return spellcastingClasses.includes(className);
+	}
+
+	getOrdinalNumber(num) {
+		const suffixes = ['th', 'st', 'nd', 'rd'];
+		const mod = num % 100;
+		return num + (suffixes[(mod - 20) % 10] || suffixes[mod] || suffixes[0]);
+	}
+
+	async finalizeLevelUp() {
+		// Apply all level up changes to character
+		const updatedCharacter = this.levelUpState.characterData;
+
+		// Update total character level in computed fields
+		const newTotalLevel = CharacterEditorPage.getCharacterLevel(updatedCharacter);
+
+		// Update proficiency bonus
+		const newProfBonus = this.getProficiencyBonus(newTotalLevel);
+		updatedCharacter.proficiencyBonus = `+${newProfBonus}`;
+
+		// Apply feature choices to character data
+		this.applyLevelUpFeaturesToCharacter(updatedCharacter);
+
+		// Update all character stats based on new level
+		await this.updateCharacterStatsForLevel(updatedCharacter);
+
+		// Final consolidation to ensure no duplicate Features & Traits sections
+		this.ensureSingleFeaturesSection(updatedCharacter);
+
+		// Update the editor with new character data
+		this.ace.setValue(JSON.stringify(updatedCharacter, null, 2), 1);
+
+		// Re-render character
+		this.renderCharacter();
+
+		// Close modal and show success message
+		if (this.levelUpModalClose) {
+			this.levelUpModalClose(true);
+			this.levelUpModalClose = null;
+		}
+
+		document.getElementById('message').textContent = `Character leveled up to level ${newTotalLevel}!`;
+		document.getElementById('message').style.color = 'green';
+
+		// Clear level up state
+		this.levelUpState = null;
+	}
+
+	async updateCharacterStatsForLevel(character) {
+		if (!character.class || !character.class.length) return;
+
+		const totalLevel = CharacterEditorPage.getCharacterLevel(character);
+		const profBonus = this.getProficiencyBonus(totalLevel);
+
+		// Update spell save DCs and attack bonuses for all caster classes
+		await this.updateSpellcastingStats(character, profBonus);
+
+		// Update spell slots and progression for caster classes
+		await this.updateSpellProgression(character);
+
+		// Update actions with new abilities
+		await this.updateCharacterActions(character, profBonus);
+
+		// Update speeds from class/racial features
+		await this.updateCharacterSpeeds(character);
+
+		// Update any other stats that scale with level
+		await this.updateScalingStats(character, profBonus);
+
+		// Ensure all new class features are reflected in Features & Traits
+		await this.syncActionsToFeatures(character);
+	}
+
+	async updateSpellcastingStats(character, profBonus) {
+		if (!character.spells) return;
+
+		// Update spell DC and attack bonus for spellcasting classes
+		for (const classEntry of character.class) {
+			try {
+				const classData = await this.loadClassData(classEntry.name);
+				if (classData && classData.class && classData.class[0]) {
+					const classInfo = classData.class[0];
+
+					// Check if this class has spellcasting
+					if (classInfo.spellcastingAbility) {
+						const spellAbility = classInfo.spellcastingAbility;
+						const abilityScore = character.abilities?.[spellAbility] || character[spellAbility] || 10;
+						const abilityMod = Math.floor((abilityScore - 10) / 2);
+
+						// Update spell DC and attack bonus
+						character.spells.dc = 8 + profBonus + abilityMod;
+						character.spells.attackBonus = `+${profBonus + abilityMod}`;
+						character.spells.ability = spellAbility.charAt(0).toUpperCase() + spellAbility.slice(1);
+
+						break; // Use the first spellcasting class found
+					}
+				}
+			} catch (e) {
+				console.warn(`Could not update spellcasting for class ${classEntry.name}:`, e);
+			}
+		}
+	}
+
+	async updateSpellProgression(character) {
+		if (!character.spells) return;
+
+		// Calculate spell slots for each caster class
+		for (const classEntry of character.class) {
+			try {
+				const classData = await this.loadClassData(classEntry.name);
+				if (classData && classData.class && classData.class[0]) {
+					const classInfo = classData.class[0];
+
+					// Check if this class has spellcasting
+					if (classInfo.spellcastingAbility) {
+						const classLevel = classEntry.level || 1;
+						await this.updateSpellSlotsForClass(character, classEntry, classInfo, classLevel);
+					}
+				}
+			} catch (e) {
+				console.warn(`Could not update spell progression for class ${classEntry.name}:`, e);
+			}
+		}
+	}
+
+	async updateSpellSlotsForClass(character, classEntry, classInfo, classLevel) {
+		const className = classEntry.name;
+
+		// Get spell slot progression table
+		const spellSlots = this.getSpellSlotsForClass(className, classLevel);
+
+		// Update spell slots for each level
+		for (let spellLevel = 1; spellLevel <= 9; spellLevel++) {
+			const slots = spellSlots[spellLevel] || 0;
+
+			if (slots > 0) {
+				// Initialize spell level if it doesn't exist
+				if (!character.spells.levels[spellLevel.toString()]) {
+					character.spells.levels[spellLevel.toString()] = {
+						maxSlots: 0,
+						slotsUsed: 0,
+						spells: []
+					};
+				}
+
+				// Update max slots (don't reduce existing slots)
+				const currentMax = character.spells.levels[spellLevel.toString()].maxSlots || 0;
+				character.spells.levels[spellLevel.toString()].maxSlots = Math.max(currentMax, slots);
+			}
+		}
+	}
+
+	getSpellSlotsForClass(className, level) {
+		// Standard D&D 5e spell slot progression tables
+		const fullCasters = {
+			"Bard": true, "Cleric": true, "Druid": true, "Sorcerer": true, "Wizard": true, "Warlock": false // Warlock is special
+		};
+
+		const halfCasters = {
+			"Paladin": true, "Ranger": true
+		};
+
+		const thirdCasters = {
+			"Eldritch Knight": true, "Arcane Trickster": true
+		};
+
+		if (fullCasters[className]) {
+			return this.getFullCasterSlots(level);
+		} else if (halfCasters[className]) {
+			return this.getHalfCasterSlots(level);
+		} else if (className === "Warlock") {
+			return this.getWarlockSlots(level);
+		} else if (thirdCasters[className] || (className === "Fighter" || className === "Rogue")) {
+			// Fighter/Rogue with Eldritch Knight/Arcane Trickster subclass
+			return this.getThirdCasterSlots(level);
+		}
+
+		return {}; // No spell slots
+	}
+
+	getFullCasterSlots(level) {
+		const slots = {
+			1: [0, 2, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+			2: [0, 0, 0, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+			3: [0, 0, 0, 0, 0, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+			4: [0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+			5: [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3],
+			6: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2],
+			7: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 2, 2],
+			8: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2],
+			9: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1]
+		};
+
+		const result = {};
+		for (let spellLevel = 1; spellLevel <= 9; spellLevel++) {
+			result[spellLevel] = slots[spellLevel][level] || 0;
+		}
+		return result;
+	}
+
+	getHalfCasterSlots(level) {
+		// Half casters start getting spells at level 2
+		if (level < 2) return {};
+
+		const effectiveLevel = Math.ceil(level / 2);
+		return this.getFullCasterSlots(effectiveLevel);
+	}
+
+	getThirdCasterSlots(level) {
+		// Third casters start getting spells at level 3
+		if (level < 3) return {};
+
+		const effectiveLevel = Math.ceil(level / 3);
+		return this.getFullCasterSlots(effectiveLevel);
+	}
+
+	getWarlockSlots(level) {
+		// Warlock spell slots are different - few slots but they're all max level
+		const slots = Math.min(4, Math.ceil(level / 2)); // 1 at 1st, 2 at 3rd, 3 at 5th, 4 at 7th+
+		const slotLevel = Math.min(5, Math.ceil((level + 1) / 2)); // 1st at 1st, 2nd at 3rd, 3rd at 5th, 4th at 7th, 5th at 9th
+
+		return { [slotLevel]: slots };
+	}
+
+	async updateCharacterActions(character, profBonus) {
+		if (!character.action) character.action = [];
+
+		// Check each class for new actions that should be available at this level
+		for (const classEntry of character.class) {
+			try {
+				const classData = await this.loadClassData(classEntry.name);
+				if (classData && classData.class && classData.class[0]) {
+					const classInfo = classData.class[0];
+
+					// Add spellcasting attacks if this is a caster class
+					if (classInfo.spellcastingAbility) {
+						await this.updateSpellcastingActions(character, classEntry, classInfo, profBonus);
+					}
+
+					// Add class-specific actions based on level
+					await this.updateClassActions(character, classEntry, classInfo, profBonus);
+				}
+			} catch (e) {
+				console.warn(`Could not update actions for class ${classEntry.name}:`, e);
+			}
+		}
+	}
+
+	async updateSpellcastingActions(character, classEntry, classInfo, profBonus) {
+		const spellAbility = classInfo.spellcastingAbility;
+		const abilityScore = character.abilities?.[spellAbility] || character[spellAbility] || 10;
+		const abilityMod = Math.floor((abilityScore - 10) / 2);
+		const attackBonus = profBonus + abilityMod;
+
+		// Add or update spell attack if character has offensive cantrips
+		if (character.spells && character.spells.levels && character.spells.levels['0']) {
+			const cantrips = character.spells.levels['0'].spells || [];
+
+			// Check for common offensive cantrips
+			const offensiveCantrips = ['eldritch blast', 'fire bolt', 'ray of frost', 'sacred flame', 'toll the dead'];
+			const hasOffensiveCantrip = cantrips.some(cantrip =>
+				typeof cantrip === 'string' ?
+					offensiveCantrips.includes(cantrip.toLowerCase()) :
+					offensiveCantrips.includes(cantrip.name?.toLowerCase())
+			);
+
+			if (hasOffensiveCantrip) {
+				// Update or add spell attack action
+				const spellAttackName = "Spell Attack";
+				const existingIndex = character.action.findIndex(action =>
+					action.name === spellAttackName || action.name.includes("Spell Attack")
+				);
+
+				const spellAttackAction = {
+					name: spellAttackName,
+					entries: [
+						`{@atk rs} {@hit ${attackBonus}} to hit, spell damage varies by cantrip. DC ${8 + profBonus + abilityMod} for saving throw spells.`
+					]
+				};
+
+				if (existingIndex >= 0) {
+					character.action[existingIndex] = spellAttackAction;
+				} else {
+					character.action.push(spellAttackAction);
+				}
+			}
+		}
+	}
+
+	async updateClassActions(character, classEntry, classInfo, profBonus) {
+		// Add class-specific actions based on current level
+		const classLevel = classEntry.level || 1;
+		const className = classEntry.name;
+
+		// Get ability modifiers for calculations
+		const getAbilityMod = (ability) => {
+			const score = character.abilities?.[ability] || character[ability] || 10;
+			return Math.floor((score - 10) / 2);
+		};
+
+		switch (className) {
+			case "Fighter":
+				if (classLevel >= 1) {
+					// Second Wind
+					this.addOrUpdateAction(character, "Second Wind", [
+						`Regain ${Math.floor(classLevel / 2) + 1}d10 + ${classLevel} hit points as a bonus action (1/short rest).`
+					]);
+				}
+				if (classLevel >= 2) {
+					// Action Surge
+					this.addOrUpdateAction(character, "Action Surge", [
+						"Take one additional action on your turn (1/short rest)."
+					]);
+				}
+				break;
+
+			case "Barbarian":
+				if (classLevel >= 1) {
+					// Rage
+					const rageCount = classLevel < 3 ? 2 : classLevel < 6 ? 3 : classLevel < 12 ? 4 : classLevel < 17 ? 5 : 6;
+					const rageDamage = classLevel < 9 ? 2 : classLevel < 16 ? 3 : 4;
+					this.addOrUpdateAction(character, "Rage", [
+						`Enter rage for ${rageDamage} bonus melee damage, advantage on STR checks/saves, resistance to bludgeoning/piercing/slashing. ${rageCount} uses per long rest.`
+					]);
+				}
+				if (classLevel >= 2) {
+					// Reckless Attack
+					this.addOrUpdateAction(character, "Reckless Attack", [
+						"Attack with advantage, but all attacks against you have advantage until your next turn."
+					]);
+				}
+				break;
+
+			case "Rogue":
+				if (classLevel >= 1) {
+					// Sneak Attack
+					const sneakDice = Math.ceil(classLevel / 2);
+					this.addOrUpdateAction(character, "Sneak Attack", [
+						`Deal an extra ${sneakDice}d6 damage when you have advantage or an ally is adjacent to target.`
+					]);
+				}
+				if (classLevel >= 2) {
+					// Cunning Action
+					this.addOrUpdateAction(character, "Cunning Action", [
+						"Dash, Disengage, or Hide as a bonus action."
+					]);
+				}
+				break;
+
+			case "Paladin":
+				if (classLevel >= 1) {
+					// Divine Sense
+					const uses = 1 + getAbilityMod("cha");
+					this.addOrUpdateAction(character, "Divine Sense", [
+						`Detect celestials, fiends, and undead within 60 feet. ${uses} uses per long rest.`
+					]);
+				}
+				if (classLevel >= 2) {
+					// Divine Smite
+					this.addOrUpdateAction(character, "Divine Smite", [
+						"Expend a spell slot to deal extra 1d8 radiant damage per spell level (2d8 vs undead/fiends)."
+					]);
+				}
+				if (classLevel >= 3) {
+					// Divine Health
+					this.addOrUpdateAction(character, "Divine Health", [
+						"Immune to disease."
+					]);
+				}
+				break;
+
+			case "Cleric":
+				if (classLevel >= 1) {
+					// Turn Undead
+					const dc = 8 + profBonus + getAbilityMod("wis");
+					this.addOrUpdateAction(character, "Turn Undead", [
+						`Force undead within 30 feet to make DC ${dc} Wisdom save or be turned. Channel Divinity use.`
+					]);
+				}
+				break;
+
+			case "Monk":
+				if (classLevel >= 1) {
+					// Martial Arts
+					const martialDie = classLevel < 5 ? 4 : classLevel < 11 ? 6 : classLevel < 17 ? 8 : 10;
+					this.addOrUpdateAction(character, "Martial Arts", [
+						`Unarmed strikes use 1d${martialDie} + DEX. Bonus action unarmed strike after Attack action.`
+					]);
+				}
+				if (classLevel >= 2) {
+					// Ki points
+					this.addOrUpdateAction(character, "Ki", [
+						`${classLevel} ki points per short rest. Spend for Flurry of Blows, Patient Defense, or Step of the Wind.`
+					]);
+				}
+				break;
+
+			case "Ranger":
+				if (classLevel >= 1) {
+					// Favored Enemy (simplified)
+					this.addOrUpdateAction(character, "Favored Enemy", [
+						"Advantage on Wisdom (Survival) checks to track favored enemies and Intelligence checks to recall information."
+					]);
+				}
+				if (classLevel >= 3 && character.spells) {
+					// Hunter's Mark (if they have spells)
+					this.addOrUpdateAction(character, "Hunter's Mark", [
+						"Mark a creature for 1d6 bonus damage and advantage on tracking checks."
+					]);
+				}
+				break;
+		}
+	}
+
+	addOrUpdateAction(character, actionName, entries) {
+		const existingIndex = character.action.findIndex(action =>
+			action.name === actionName || action.name.includes(actionName)
+		);
+
+		const action = {
+			name: actionName,
+			entries: entries
+		};
+
+		if (existingIndex >= 0) {
+			character.action[existingIndex] = action;
+		} else {
+			character.action.push(action);
+		}
+	}
+
+	async updateCharacterSpeeds(character) {
+		// Ensure basic speed structure exists
+		if (!character.speed) {
+			character.speed = {};
+		}
+
+		// Set base speed from race if not already set
+		if (!character.speed.walk) {
+			const baseSpeed = await this.getRacialBaseSpeed(character.race);
+			character.speed.walk = baseSpeed;
+		}
+
+		// Store base speed for calculations
+		const baseWalkSpeed = await this.getRacialBaseSpeed(character.race);
+		let currentWalkSpeed = baseWalkSpeed;
+
+		// Check for class features that modify speed
+		for (const classEntry of character.class) {
+			const className = classEntry.name;
+			const classLevel = classEntry.level || 1;
+
+			if (className === "Monk" && classLevel >= 2) {
+				// Monk Unarmored Movement - increases every 4 levels starting at 2
+				const monkLevels = [2, 6, 10, 14, 18];
+				let bonusSpeed = 0;
+				for (const level of monkLevels) {
+					if (classLevel >= level) bonusSpeed += 5;
+				}
+				currentWalkSpeed = baseWalkSpeed + bonusSpeed;
+			}
+
+			if (className === "Barbarian" && classLevel >= 5) {
+				// Barbarian Fast Movement - +10 speed at 5th level
+				currentWalkSpeed = Math.max(currentWalkSpeed, baseWalkSpeed + 10);
+			}
+
+			if (className === "Rogue" && classEntry.subclass?.name === "Scout" && classLevel >= 3) {
+				// Scout Skirmisher - +10 speed
+				currentWalkSpeed = Math.max(currentWalkSpeed, baseWalkSpeed + 10);
+			}
+		}
+
+		// Update the final speed
+		character.speed.walk = currentWalkSpeed;
+
+		// Add racial special speeds
+		await this.addRacialSpeeds(character);
+	}
+
+	async getRacialBaseSpeed(race) {
+		if (!race || !race.name) return 30;
+
+		try {
+			// Load race data from 5etools JSON files
+			const response = await fetch('data/races.json');
+			if (!response.ok) {
+				console.warn('Could not load race data for speed calculation');
+				return 30;
+			}
+
+			const raceData = await response.json();
+			const raceInfo = raceData.race?.find(r => 
+				r.name === race.name && r.source === race.source
+			);
+
+			if (!raceInfo || !raceInfo.speed) {
+				console.warn(`Speed data not found for race: ${race.name}`);
+				return 30; // Default speed
+			}
+
+			// Handle both numeric and object speed formats
+			if (typeof raceInfo.speed === 'number') {
+				return raceInfo.speed;
+			} else if (raceInfo.speed.walk) {
+				return raceInfo.speed.walk;
+			}
+
+			return 30; // Fallback
+		} catch (error) {
+			console.error('Error loading racial speed data:', error);
+			return 30; // Fallback to default
+		}
+	}
+
+	async addRacialSpeeds(character) {
+		if (!character.race || !character.race.name) return;
+
+		try {
+			// Load race data from 5etools JSON files
+			const response = await fetch('data/races.json');
+			if (!response.ok) {
+				console.warn('Could not load race data for speed calculation');
+				return;
+			}
+
+			const raceData = await response.json();
+			const raceInfo = raceData.race?.find(r => 
+				r.name === character.race.name && r.source === character.race.source
+			);
+
+			if (!raceInfo || !raceInfo.speed) {
+				return; // No special speeds to add
+			}
+
+			// Add special movement speeds from race data
+			if (typeof raceInfo.speed === 'object') {
+				if (raceInfo.speed.fly && typeof raceInfo.speed.fly === 'number') {
+					character.speed.fly = raceInfo.speed.fly;
+				}
+				if (raceInfo.speed.swim && typeof raceInfo.speed.swim === 'number') {
+					character.speed.swim = raceInfo.speed.swim;
+				}
+				if (raceInfo.speed.climb && typeof raceInfo.speed.climb === 'number') {
+					character.speed.climb = raceInfo.speed.climb;
+				}
+				if (raceInfo.speed.burrow && typeof raceInfo.speed.burrow === 'number') {
+					character.speed.burrow = raceInfo.speed.burrow;
+				}
+			}
+
+			// Remove speeds that are 0 or undefined
+			Object.keys(character.speed).forEach(speedType => {
+				if (!character.speed[speedType]) {
+					delete character.speed[speedType];
+				}
+			});
+
+		} catch (error) {
+			console.error('Error loading racial speed data:', error);
+		}
+	}
+
+	async updateScalingStats(character, profBonus) {
+		// Update any other stats that scale with level or proficiency bonus
+
+		// Update passive perception
+		const wisScore = character.abilities?.wis || character.wis || 10;
+		const wisMod = Math.floor((wisScore - 10) / 2);
+		const hasPerceptionProf = this.characterHasSkillProficiency(character, "perception");
+		character.passive = 10 + wisMod + (hasPerceptionProf ? profBonus : 0);
+
+		// Update other derived stats as needed
+	}
+
+	characterHasSkillProficiency(character, skillName) {
+		// Check if character has proficiency in a skill
+		if (character.skill && character.skill[skillName]) {
+			return true;
+		}
+		// You might need to check other places depending on how skills are stored
+		return false;
+	}
+
+	async syncActionsToFeatures(character) {
+		// Ensure single Features & Traits section exists
+		const featuresSection = this.ensureSingleFeaturesSection(character);
+
+		// Sync important actions to Features & Traits if they're not already there
+		if (character.action && character.action.length > 0) {
+			const importantActions = [
+				"Second Wind", "Action Surge", "Rage", "Reckless Attack",
+				"Sneak Attack", "Cunning Action", "Divine Sense", "Divine Smite",
+				"Turn Undead", "Martial Arts", "Ki", "Hunter's Mark"
+			];
+
+			character.action.forEach(action => {
+				if (importantActions.includes(action.name)) {
+					// Check if this feature already exists in Features & Traits
+					const featureExists = featuresSection.entries.some(entry =>
+						entry.name === action.name || (entry.entries && entry.entries.some(e =>
+							typeof e === 'string' && e.includes(action.name)
+						))
+					);
+
+					if (!featureExists) {
+						// Add to Features & Traits
+						featuresSection.entries.push({
+							type: "entries",
+							name: action.name,
+							entries: action.entries || [`${action.name} class feature.`]
+						});
+					}
+				}
+			});
+		}
+	}
+
+	_createFallbackCharacterDisplay(character) {
+		// Create a simple fallback display when the main renderer fails
+		const name = character.name || "Unnamed Character";
+		const level = character._fLevel || 1;
+		const race = character.race?.name || "Unknown Race";
+		const classes = character._fClass || "Unknown Class";
+		const background = character.background?.name || "Unknown Background";
+
+		return $(`
+			<div class="ve-flex-col w-100">
+				<h3>${name}</h3>
+				<p><strong>Level ${level} ${race} ${classes}</strong></p>
+				<p><strong>Background:</strong> ${background}</p>
+				<h4>Abilities</h4>
+				<ul>
+					<li>STR: ${character.abilities?.str || 10}</li>
+					<li>DEX: ${character.abilities?.dex || 10}</li>
+					<li>CON: ${character.abilities?.con || 10}</li>
+					<li>INT: ${character.abilities?.int || 10}</li>
+					<li>WIS: ${character.abilities?.wis || 10}</li>
+					<li>CHA: ${character.abilities?.cha || 10}</li>
+				</ul>
+				<p><em>Character rendering is using fallback display due to error.</em></p>
+			</div>
+		`);
+	}
+
+	applyLevelUpFeaturesToCharacter(character) {
+		// Initialize both entries and trait arrays if they don't exist
+		if (!character.entries) {
+			character.entries = [];
+		}
+		if (!character.trait) {
+			character.trait = [];
+		}
+
+		// Ensure single Features & Traits section exists
+		const featuresSection = this.ensureSingleFeaturesSection(character);
+		console.log('Features & Traits section has', featuresSection.entries.length, 'entries');
+
+		// Apply automatic features from levelUpState.pendingFeatures
+		if (this.levelUpState && this.levelUpState.pendingFeatures) {
+			this.levelUpState.pendingFeatures.forEach((featureData, index) => {
+				console.log(`Processing pending feature ${index + 1}:`, featureData);
+
+				if (featureData.type !== 'optional') {
+					// Add features to the existing Features & Traits section
+					const featureName = featureData.feature.name || 'Unknown Feature';
+					const featureEntries = featureData.feature.entries || [`${featureName} - Gained at level ${this.levelUpState.newLevel}.`];
+
+					// Create feature entry for the Features & Traits section
+					const featureEntry = {
+						type: "entries",
+						name: featureName,
+						entries: featureEntries
+					};
+
+					// Add to the existing Features & Traits section
+					featuresSection.entries.push(featureEntry);
+
+					console.log(`Added feature "${featureName}" to Features & Traits section`);
+				}
+			});
+		}
+
+		// Apply chosen features from levelUpState.choices
+		if (this.levelUpState && this.levelUpState.choices) {
+			this.levelUpState.choices.forEach(choice => {
+				if (choice.type === 'abilityScoreImprovement' && choice.abilityChanges) {
+					// Apply ability score improvements
+					// Check if character uses nested abilities object or direct properties
+					const hasNestedAbilities = 'abilities' in character;
+
+					if (hasNestedAbilities) {
+						// Handle nested abilities format
+						if (!character.abilities) {
+							character.abilities = { str: 10, dex: 10, con: 10, int: 10, wis: 10, cha: 10 };
+						}
+
+						console.log('Before ASI application (nested):', JSON.stringify(character.abilities));
+						Object.entries(choice.abilityChanges).forEach(([ability, increase]) => {
+							const oldValue = character.abilities[ability] || 10;
+							const newValue = Math.min(20, oldValue + increase);
+							console.log(`ASI: ${ability} ${oldValue} -> ${newValue} (+${increase})`);
+							character.abilities[ability] = newValue;
+						});
+						console.log('After ASI application (nested):', JSON.stringify(character.abilities));
+					} else {
+						// Handle direct properties format
+						const beforeAbilities = {
+							str: character.str || 10,
+							dex: character.dex || 10,
+							con: character.con || 10,
+							int: character.int || 10,
+							wis: character.wis || 10,
+							cha: character.cha || 10
+						};
+
+						console.log('Before ASI application (direct):', JSON.stringify(beforeAbilities));
+						Object.entries(choice.abilityChanges).forEach(([ability, increase]) => {
+							const oldValue = character[ability] || 10;
+							const newValue = Math.min(20, oldValue + increase);
+							console.log(`ASI: ${ability} ${oldValue} -> ${newValue} (+${increase})`);
+							character[ability] = newValue;
+						});
+
+						const afterAbilities = {
+							str: character.str || 10,
+							dex: character.dex || 10,
+							con: character.con || 10,
+							int: character.int || 10,
+							wis: character.wis || 10,
+							cha: character.cha || 10
+						};
+						console.log('After ASI application (direct):', JSON.stringify(afterAbilities));
+					}
+
+					// Add entry describing the improvement
+					const improvementText = Object.entries(choice.abilityChanges)
+						.map(([ability, increase]) => `${ability.toUpperCase()} +${increase}`)
+						.join(', ');
+
+					const improvementDescription = [`Increased ability scores: ${improvementText}`];
+
+					// Add to Features & Traits section
+					const featureEntry = {
+						type: "entries",
+						name: "Ability Score Improvement",
+						entries: improvementDescription
+					};
+					featuresSection.entries.push(featureEntry);
+
+					console.log(`Applied ASI: ${improvementText} at level ${this.levelUpState.newLevel}`);
+
+					// Recalculate derived stats after ability changes
+					this.recalculateDerivedStats(character);
+
+				} else if (choice.type === 'feat' && choice.featName) {
+					// Apply feat choice
+					const featDescription = [choice.featDescription || `${choice.featName} feat selected at level ${this.levelUpState.newLevel}.`];
+
+					// Add to Features & Traits section
+					const featureEntry = {
+						type: "entries",
+						name: `Feat: ${choice.featName}`,
+						entries: featDescription
+					};
+					featuresSection.entries.push(featureEntry);
+
+					console.log(`Applied feat: ${choice.featName} at level ${this.levelUpState.newLevel}`);
+
+				} else if (choice.type === 'fightingStyle' && choice.styleName) {
+					// Apply fighting style choice
+					const styleDescription = [choice.styleDescription || `${choice.styleName} fighting style selected.`];
+
+					// Add to Features & Traits section
+					const featureEntry = {
+						type: "entries",
+						name: `Fighting Style: ${choice.styleName}`,
+						entries: styleDescription
+					};
+					featuresSection.entries.push(featureEntry);
+
+					console.log(`Applied fighting style: ${choice.styleName} at level ${this.levelUpState.newLevel}`);
+
+				} else if (choice.type === 'optional' && choice.selections) {
+					// Apply optional feature selections
+					choice.selections.forEach(selection => {
+						const selectionDescription = selection.entries || [`${selection.name} - Selected at level ${this.levelUpState.newLevel}.`];
+
+						const featureEntry = {
+							type: "entries",
+							name: selection.name,
+							entries: selectionDescription
+						};
+						featuresSection.entries.push(featureEntry);
+					});
+				} else if (choice.type === 'generic' && choice.feature) {
+					// Apply generic feature choices
+					const featureName = choice.feature.name || 'Unknown Feature';
+					const featureDescription = choice.feature.entries || [`${featureName} - ${choice.notes || 'Selected at level ' + this.levelUpState.newLevel}.`];
+
+					const featureEntry = {
+						type: "entries",
+						name: featureName,
+						entries: featureDescription
+					};
+					featuresSection.entries.push(featureEntry);
+
+					console.log(`Applied generic feature: ${featureName} with notes: ${choice.notes}`);
+
+				} else if (choice.type === 'spells' && choice.selections) {
+					// Apply spell selections
+					const spells = choice.selections;
+					const spellEntries = [];
+
+					if (spells.cantrips && spells.cantrips.length > 0) {
+						spellEntries.push(`**Cantrips Known:** ${spells.cantrips.join(', ')}`);
+					}
+
+					if (spells.spells && spells.spells.length > 0) {
+						spellEntries.push(`**Spells Known:** ${spells.spells.join(', ')}`);
+					}
+
+					if (spellEntries.length > 0) {
+						const featureEntry = {
+							type: "entries",
+							name: "Spellcasting",
+							entries: spellEntries
+						};
+						featuresSection.entries.push(featureEntry);
+
+						console.log(`Applied spell selections: ${spells.cantrips?.length || 0} cantrips, ${spells.spells?.length || 0} spells`);
+					}
+
+				} else if (choice.selectedOption) {
+					// Apply other feature choices
+					const optionName = choice.selectedOption.name || 'Unknown Option';
+					const optionDescription = choice.selectedOption.entries || choice.selectedOption.description || [`${optionName} - Selected at level ${this.levelUpState.newLevel}.`];
+
+					const featureEntry = {
+						type: "entries",
+						name: optionName,
+						entries: optionDescription
+					};
+					featuresSection.entries.push(featureEntry);
+				}
+			});
+		}
+
+		// Apply optional feature choice if it exists
+		if (this.levelUpState && this.levelUpState.optionalFeatureChoice) {
+			const choice = this.levelUpState.optionalFeatureChoice;
+			const featureEntry = {
+				type: "entries",
+				name: choice.choice.name,
+				entries: choice.choice.entries || [`${choice.choice.name} - Selected at level ${this.levelUpState.newLevel}.`]
+			};
+			featuresSection.entries.push(featureEntry);
+		}
+
+		// Update hit points based on class level increase
+		this.updateHitPointsForLevelUp(character);
+
+		// Update spell slots if character is a spellcaster
+		this.updateSpellSlotsForLevelUp(character);
+	}
+
+	recalculateDerivedStats(character) {
+		// Recalculate all stats that depend on ability scores after ASI
+		console.log('Recalculating derived stats after ability score changes...');
+
+		const abilities = character.abilities || {};
+
+		// Calculate ability modifiers
+		const getModifier = (score) => Math.floor((score - 10) / 2);
+		const strMod = getModifier(abilities.str || 10);
+		const dexMod = getModifier(abilities.dex || 10);
+		const conMod = getModifier(abilities.con || 10);
+		const intMod = getModifier(abilities.int || 10);
+		const wisMod = getModifier(abilities.wis || 10);
+		const chaMod = getModifier(abilities.cha || 10);
+
+		// Update proficiency bonus based on total character level
+		const totalLevel = character.level || 1;
+		character.profBonus = this.getProficiencyBonus(totalLevel);
+
+		// Update hit points if CON changed
+		if (character.hitPoints && character.hitPoints.max) {
+			const classes = character.class || [];
+			let totalHitDice = 0;
+
+			classes.forEach(cls => {
+				totalHitDice += cls.level || 0;
+			});
+
+			// Simple HP recalculation - update based on CON modifier change
+			// This is a simplified version - real D&D HP calculation is more complex
+			const oldConMod = Math.floor(((character.hitPoints.max - 8) / totalHitDice - 1) / 1); // Estimate old CON mod
+			const hpIncrease = (conMod - oldConMod) * totalHitDice;
+
+			if (hpIncrease !== 0) {
+				character.hitPoints.max += hpIncrease;
+				character.hitPoints.current += hpIncrease;
+			}
+		}
+
+		console.log('Derived stats recalculated:', {
+			profBonus: character.profBonus,
+			hitPoints: character.hitPoints,
+			modifiers: { str: strMod, dex: dexMod, con: conMod, int: intMod, wis: wisMod, cha: chaMod }
+		});
+	}
+
+	updateHitPointsForLevelUp(character) {
+
+		// Calculate new hit points based on class hit die
+		const classes = character.class;
+		if (!classes || !Array.isArray(classes)) {
+			return;
+		}
+
+		const selectedClassIndex = this.levelUpState.selectedClassIndex;
+		console.log('Selected class index:', selectedClassIndex);
+		console.log('Available classes:', classes);
+
+		if (selectedClassIndex !== undefined && classes[selectedClassIndex]) {
+			const selectedClass = classes[selectedClassIndex];
+			const className = selectedClass.name;
+			console.log('Leveling up class:', className);
+
+			// Get hit die for the class (try to use character's data first)
+			const hitDie = this.getClassHitDie(className, character);
+			console.log('Hit die for', className, ':', hitDie);
+
+			// Handle both nested abilities object and direct properties for CON
+			const conScore = character.abilities ? character.abilities.con : character.con || 10;
+			const conMod = Math.floor((conScore - 10) / 2);
+
+			// Add average hit points (half hit die + 1 + CON modifier)
+			const hpGain = Math.floor(hitDie / 2) + 1 + conMod;
+
+			// Use hitPoints field (consistent with 5etools format) instead of hp
+
+			if (character.hitPoints && typeof character.hitPoints.max === 'number') {
+				const oldMaxHP = character.hitPoints.max;
+				character.hitPoints.max += hpGain;
+				character.hitPoints.current = Math.min(character.hitPoints.current + hpGain, character.hitPoints.max);
+			} else if (character.hp && typeof character.hp.max === 'number') {
+				// Handle alternate HP format
+				const oldMaxHP = character.hp.max;
+				character.hp.max += hpGain;
+				character.hp.current = Math.min(character.hp.current + hpGain, character.hp.max);
+			} else {
+				// Initialize hitPoints if not present
+				const baseHP = hitDie + conMod;
+				const totalLevel = CharacterEditorPage.getCharacterLevel(character);
+				const estimatedHP = baseHP + ((totalLevel - 1) * hpGain);
+				character.hitPoints = {
+					max: estimatedHP,
+					current: estimatedHP
+				};
+			}
+
+			// Also update proficiency bonus
+			const totalLevel = CharacterEditorPage.getCharacterLevel(character);
+			character.profBonus = this.getProficiencyBonus(totalLevel);
+		}
+	}
+
+	updateSpellSlotsForLevelUp(character) {
+		// Update spell slots based on class progression
+		const classes = character.class || [];
+
+		// Check for Eldritch Knight (1/3 caster)
+		const eldritchKnight = classes.find(cls =>
+			cls.subclass && cls.subclass.name === 'Eldritch Knight'
+		);
+
+		if (eldritchKnight && eldritchKnight.level >= 3) {
+			if (!character.spellcasting) {
+				character.spellcasting = {};
+			}
+
+			// Eldritch Knight spell slot progression (1/3 caster)
+			const fighterLevel = eldritchKnight.level;
+			const spellSlots = this.calculateEldritchKnightSpellSlots(fighterLevel);
+
+			if (spellSlots) {
+				character.spellcasting.spells = spellSlots;
+			}
+		}
+
+		// Add other spellcasting classes as needed
+		classes.forEach(cls => {
+			const fullCasters = ['Wizard', 'Sorcerer', 'Cleric', 'Druid', 'Bard'];
+			const halfCasters = ['Paladin', 'Ranger'];
+
+			if (fullCasters.includes(cls.name)) {
+				// Full caster progression - would need more complex implementation
+				console.log(`${cls.name} is a full spellcaster - spell slot calculation not fully implemented`);
+			} else if (halfCasters.includes(cls.name)) {
+				// Half caster progression - would need more complex implementation
+				console.log(`${cls.name} is a half spellcaster - spell slot calculation not fully implemented`);
+			}
+		});
+	}
+
+	calculateEldritchKnightSpellSlots(fighterLevel) {
+		// Eldritch Knight spell slot progression (1/3 caster)
+		const spellSlotsByLevel = {
+			3: { 1: 2 },
+			4: { 1: 3 },
+			7: { 1: 4, 2: 2 },
+			8: { 1: 4, 2: 3 },
+			10: { 1: 4, 2: 3, 3: 2 },
+			11: { 1: 4, 2: 3, 3: 3 },
+			13: { 1: 4, 2: 3, 3: 3, 4: 1 },
+			14: { 1: 4, 2: 3, 3: 3, 4: 1 },
+			16: { 1: 4, 2: 3, 3: 3, 4: 2 },
+			19: { 1: 4, 2: 3, 3: 3, 4: 3 },
+			20: { 1: 4, 2: 3, 3: 3, 4: 3 }
+		};
+
+		return spellSlotsByLevel[fighterLevel] || null;
+	}
+
+	getClassHitDie(className, characterData = null) {
+		// Try to get hit die from character's class data first
+		if (characterData && characterData.class) {
+			const classEntry = characterData.class.find(cls => cls.name === className);
+			if (classEntry && classEntry.hitDie) {
+				// Extract number from hitDie string (e.g., "d10" -> 10)
+				const match = classEntry.hitDie.match(/d?(\d+)/);
+				if (match) {
+					return parseInt(match[1]);
+				}
+			}
+		}
+
+		// Fallback to standard D&D hit dice if no data available
+		const standardHitDice = {
+			'Barbarian': 12,
+			'Fighter': 10,
+			'Paladin': 10,
+			'Ranger': 10,
+			'Bard': 8,
+			'Cleric': 8,
+			'Druid': 8,
+			'Monk': 8,
+			'Rogue': 8,
+			'Warlock': 8,
+			'Sorcerer': 6,
+			'Wizard': 6
+		};
+		return standardHitDice[className] || 8; // Default to d8 if unknown
 	}
 }
 
