@@ -223,7 +223,7 @@ class CharacterEditorPage {
 		const randomRace = this.generateRandomRace(randomClasses);
 		const randomAlignment = this.generateRandomAlignment();
 		const randomBackground = await this.generateRandomBackground(randomRace, randomAlignment);
-		const randomAbilityScores = this.generateRandomAbilityScores(randomClasses, randomRace);
+	const randomAbilityScores = await this.generateRandomAbilityScores(randomClasses, randomRace);
 		const randomEquipment = this.generateRandomEquipment(randomClasses, requestedLevel, randomAbilityScores, randomRace);
 		const randomActions = this.generateRandomActions(randomClasses, randomAbilityScores);
 		const randomSpells = this.generateRandomSpells(randomClasses, requestedLevel, randomAbilityScores);
@@ -1055,7 +1055,7 @@ class CharacterEditorPage {
 		return affinities;
 	}
 
-	generateRandomAbilityScores(classes, race) {
+	async generateRandomAbilityScores(classes, race) {
 		// Enhanced ability score generation using multiple methods
 		const method = Math.random();
 		let baseStats;
@@ -1071,8 +1071,8 @@ class CharacterEditorPage {
 			baseStats = this.roll4d6DropLowest();
 		}
 
-		// Apply racial bonuses
-		baseStats = this.applyRacialAbilityBonuses(baseStats, race);
+		// Apply racial bonuses (may involve async data loads)
+		baseStats = await this.applyRacialAbilityBonuses(baseStats, race);
 
 		// Intelligently allocate scores based on class priorities
 		baseStats = this.optimizeStatsForClasses(baseStats, classes);
@@ -6106,7 +6106,7 @@ class CharacterEditorPage {
 			const randomRace = race ? this.generateForcedRace(race) : this.generateRandomRace(randomClasses);
 			const randomAlignment = this.generateRandomAlignment();
 			const randomBackground = await this.generateRandomBackground(randomRace, randomAlignment);
-			const randomAbilityScores = this.generateRandomAbilityScores(randomClasses, randomRace);
+			const randomAbilityScores = await this.generateRandomAbilityScores(randomClasses, randomRace);
 			const randomEquipment = this.generateRandomEquipment(randomClasses, finalLevel, randomAbilityScores, randomRace);
 			const randomActions = this.generateRandomActions(randomClasses, randomAbilityScores);
 			const randomSpells = this.generateRandomSpells(randomClasses, finalLevel, randomAbilityScores);
@@ -7195,14 +7195,15 @@ class CharacterEditorPage {
 		$modalFooter.append($btnCancel, $btnConfirm);
 
 		// Handle class selection changes
-		$modalInner.find('#newClassSelect').change(function() {
-			const selectedClass = this.value;
+		// Use an arrow function so `this` refers to the CharacterEditorPage instance
+		$modalInner.find('#newClassSelect').change((evt) => {
+			const selectedClass = $(evt.target).val();
 			const $btnConfirm = $modalFooter.find('.ve-btn-primary');
 			const $subclassDiv = $modalInner.find('#subclass-selection');
 			const $subclassSelect = $modalInner.find('#subclassSelect');
 
 			if (selectedClass) {
-				// Get subclasses for the selected class
+				// Get subclasses for the selected class (uses CharacterEditorPage method)
 				const subclasses = this.getBasicSubclasses(selectedClass);
 
 				if (subclasses && subclasses.length > 0) {
@@ -7230,7 +7231,7 @@ class CharacterEditorPage {
 				$subclassDiv.hide();
 				$btnConfirm.prop('disabled', true);
 			}
-		}.bind(this));
+		});
 
 		// Handle subclass selection changes
 		$modalInner.find('#subclassSelect').change(function() {
