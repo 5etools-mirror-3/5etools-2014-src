@@ -29,7 +29,7 @@ Before you begin, you should know about:
 
 ### Step 1: Log in to character source
 
-To go [https://5e.bne.sh/sources.html] and login or create a source.
+To go [https://5e.bne.sh/login.html] and login or create a source.
 after you do this there should be a create character button
 <img width="250" height="178" alt="image" src="https://github.com/user-attachments/assets/647f787f-1be2-4461-955e-56f3c811d86e" />
 
