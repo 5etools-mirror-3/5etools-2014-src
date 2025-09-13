@@ -13,6 +13,12 @@ class DiceBoxManager {
 	static _rollCounter = 0; // Generate unique roll IDs
 	static _currentTheme = "default"; // Current theme
 	static _availableThemes = new Set(["default", "blueGreenMetal", "diceOfRolling", "diceOfRolling-fate", "gemstone", "rock", "rust", "wooden"]); // Available themes
+	// Map of rollId -> timeoutId for pending fade countdowns
+	static _fadeTimeouts = new Map();
+
+	// Throw force preference defaults
+	static _throwForceDefault = 8;
+	static _throwForceMax = 40;
 
 	static async getInstance() {
 		if (!this._instance) {
@@ -42,21 +48,22 @@ class DiceBoxManager {
 				"default";
 
 			// Initialize dice-box with full screen configuration using new v1.1.0 API
+			const throwForcePref = this.getThrowForcePreference();
 			this._diceBox = new window.DiceBox({
 				id: "dice-box",
 				assetPath: "/lib/dice-box-assets/",
 				origin: window.location.origin,
 				scale: 4,  // Smaller dice for better visibility and less clutter
 				gravity: 0.8,  // Slightly reduced gravity for more natural rolling
-				mass: 1.2,  // Slightly heavier dice for more stable rolling
-				friction: 0.9,  // Higher friction for less sliding around
-				restitution: 0.3,  // Lower bounce for more realistic settling
+				mass: 1.3,  // Slightly heavier dice for more stable rolling
+				friction: throwForcePref === 1000000 ? 0 : 0.9,  // Higher friction for less sliding around
+				restitution: throwForcePref === 1000000 ? 0 : 0.3,  // Lower bounce for more realistic settling
 				shadowIntensity: 0.4,  // Lighter shadows for cleaner look
 				lightIntensity: 0.8,  // Balanced lighting
-				spinForce: 0.6,  // Reduced spin for more predictable rolls
-				throwForce: 6,  // Gentler throw force for better control
+				spinForce: throwForcePref === 1000000 ? 40 : 0.6,  // Reduced spin for more predictable rolls
+				throwForce: throwForcePref,
 				enableShadows: true,
-				lightPosition: { x: -10, y: 30, z: 20 },
+				lightPosition: { x: 2-10, y: 30, z: 20 },
 				// Theme configuration - use user's preference from start
 				theme: preferredTheme,
 				themeColor: "#4a7c59", // Default theme color
@@ -189,6 +196,14 @@ class DiceBoxManager {
 		const rollId = `roll_${++this._rollCounter}_${Date.now()}`;
 		this._activeRolls.add(rollId);
 
+		// Reset any existing fade timeouts when a new roll starts so fading is postponed
+		if (this._fadeTimeouts && this._fadeTimeouts.size) {
+			for (const [oldRollId, timeoutId] of this._fadeTimeouts.entries()) {
+				clearTimeout(timeoutId);
+				this._fadeTimeouts.delete(oldRollId);
+			}
+		}
+
 		try {
 			// Ensure dice container exists and is properly sized
 			this._ensureContainerReady();
@@ -317,7 +332,7 @@ class DiceBoxManager {
 		// Process results immediately - don't wait for settling
 		const results = this._processRollResults(rollResult, originalNotation);
 		results.rollId = rollId; // Add roll ID to results
-		
+
 		// Add method to trigger fade after results are processed
 		results.startFadeCountdown = () => this._waitForSettlingThenFade(rollId);
 
@@ -441,12 +456,24 @@ class DiceBoxManager {
 	static _waitForSettlingThenFade(rollId) {
 		// Simplified approach: just wait a fixed time and then fade
 		// Most dice settle within 3-4 seconds with realistic physics
-		setTimeout(() => {
+
+		// If a timeout already exists for this roll, clear it first
+		if (this._fadeTimeouts.has(rollId)) {
+			clearTimeout(this._fadeTimeouts.get(rollId));
+			this._fadeTimeouts.delete(rollId);
+		}
+
+		const timeoutId = setTimeout(() => {
+			// Remove stored timeout id
+			this._fadeTimeouts.delete(rollId);
 			// Check if this roll ID is still active
 			if (this._activeRolls.has(rollId)) {
 				this._fadeOutSpecificRoll(rollId);
 			}
 		}, 4000); // Simple 4 second delay
+
+		// Store the timeout id so it can be cleared if another roll starts
+		this._fadeTimeouts.set(rollId, timeoutId);
 	}
 
 	/**
@@ -455,6 +482,12 @@ class DiceBoxManager {
 	static async _fadeOutSpecificRoll(rollId) {
 		// Remove from active rolls tracking
 		this._activeRolls.delete(rollId);
+
+		// Clear any pending timeout for this roll
+		if (this._fadeTimeouts.has(rollId)) {
+			clearTimeout(this._fadeTimeouts.get(rollId));
+			this._fadeTimeouts.delete(rollId);
+		}
 
 		// Always fade out dice after this roll completes, don't wait for other rolls
 		// This ensures dice fade even if other roll IDs get stuck
@@ -469,6 +502,12 @@ class DiceBoxManager {
 		if (container && this._diceBox) {
 			// Clear all active roll tracking
 			this._activeRolls.clear();
+
+			// Clear any pending fade timeouts
+			if (this._fadeTimeouts && this._fadeTimeouts.size) {
+				for (const timeoutId of this._fadeTimeouts.values()) clearTimeout(timeoutId);
+				this._fadeTimeouts.clear();
+			}
 
 			// Add fade out transition
 			container.style.transition = 'opacity 1s ease-out';
@@ -568,6 +607,8 @@ class DiceBoxManager {
 		this._activeRolls.clear();
 
 		// Reinitialize with new theme
+		const throwForcePref = this.getThrowForcePreference();
+
 		this._diceBox = new window.DiceBox({
 			id: "dice-box",
 			assetPath: "/lib/dice-box-assets/",
@@ -575,12 +616,12 @@ class DiceBoxManager {
 			scale: 4,
 			gravity: 0.8,
 			mass: 1.2,
-			friction: 0.9,
-			restitution: 0.3,
+			friction: throwForcePref === 1000000 ? 0.2 : 0.9,
+			restitution: throwForcePref === 1000000 ? 0.11 : 0.3,
 			shadowIntensity: 0.4,
 			lightIntensity: 0.8,
-			spinForce: 0.6,
-			throwForce: 6,
+			spinForce:  throwForcePref === 1000000 ? 4 :0.6,
+			throwForce: throwForcePref,
 			enableShadows: true,
 			lightPosition: { x: -10, y: 30, z: 20 },
 			// Set the theme during initialization
@@ -602,6 +643,36 @@ class DiceBoxManager {
 		// Ensure container is ready
 		this._ensureContainerReady();
 
+	}
+
+	// Get current throw force preference (clamped between 1 and _throwForceMax)
+	static getThrowForcePreference() {
+		let val = this._throwForceDefault;
+		try {
+			if (window.VetoolsConfig) {
+				val = parseInt(window.VetoolsConfig.get('dice', 'throwForce') || this._throwForceDefault, 10);
+			}
+		} catch (e) {
+			val = this._throwForceDefault;
+		}
+		if (!Number.isFinite(val) || isNaN(val)) val = this._throwForceDefault;
+		val = Math.max(1, Math.min(this._throwForceMax, val));
+		return val;
+	}
+
+	// Set throw force preference (clamped between 1 and _throwForceMax) and persist if possible
+	static setThrowForcePreference(val) {
+		let n = parseInt(val, 10);
+		if (!Number.isFinite(n) || isNaN(n)) n = this._throwForceDefault;
+		n = Math.max(1, Math.min(this._throwForceMax, n));
+		try {
+			if (window.VetoolsConfig) {
+				window.VetoolsConfig.set('dice', 'throwForce', n);
+			}
+		} catch (e) {
+			// ignore persistence errors
+		}
+		return n;
 	}
 
 

@@ -19,7 +19,7 @@ class DiceConfig {
 		if (comp) {
 			comp._addHookBase("dice_enable3dDice", async () => {
 				const enabled = window.VetoolsConfig.get("dice", "enable3dDice");
-				
+
 				if (window.Renderer && window.Renderer.dice) {
 					window.Renderer.dice.set3dDiceEnabled(enabled);
 				}
@@ -45,11 +45,32 @@ class DiceConfig {
 					window.DiceBoxManager.setTheme(theme).catch(console.error);
 				}
 			});
+
+			// Listen for throw force preference changes
+			comp._addHookBase("dice_throwForce", async () => {
+				const val = window.VetoolsConfig.get("dice", "throwForce");
+				// Persist via DiceBoxManager helper and reinitialize if necessary
+				if (window.DiceBoxManager) {
+					try {
+						window.DiceBoxManager.setThrowForcePreference(val);
+						// If dice is initialized and enabled, reinitialize to apply new force
+						if (window.DiceBoxManager.isInitialized && window.DiceBoxManager.isInitialized() && window.DiceBoxManager.isEnabled && window.DiceBoxManager.isEnabled()) {
+							try {
+								await window.DiceBoxManager._reinitializeWithTheme(window.DiceBoxManager.getCurrentTheme());
+							} catch (e) {
+								console.warn("Failed to reinitialize DiceBox after throwForce change:", e);
+							}
+						}
+					} catch (e) {
+						console.warn("Failed to apply throwForce preference:", e);
+					}
+				}
+			});
 		}
 	}
 
 	static async _initializeDice() {
-		
+
 		// Wait for other scripts to load
 		await this._waitForDependencies();
 
@@ -83,7 +104,7 @@ class DiceConfig {
 			const theme = window.VetoolsConfig.get("dice", "theme3d") || "default";
 
 			window.Renderer.dice.set3dDiceEnabled(enabled);
-			
+
 			// Apply theme if DiceBoxManager is available and enabled
 			if (enabled && window.DiceBoxManager && window.DiceBoxManager.isEnabled()) {
 				window.DiceBoxManager.setTheme(theme).catch(console.error);

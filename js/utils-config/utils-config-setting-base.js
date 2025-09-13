@@ -127,3 +127,35 @@ export class ConfigSettingEnum extends _ConfigSettingStandardBase {
 		group[this._configId] = this._default;
 	}
 }
+
+export class ConfigSettingNumber extends _ConfigSettingStandardBase {
+	_min;
+	_max;
+	_step;
+
+	constructor ({min = Number.NEGATIVE_INFINITY, max = Number.POSITIVE_INFINITY, step = 1, ...rest}) {
+		super(rest);
+		this._min = min;
+		this._max = max;
+		this._step = step;
+	}
+
+	_renderUi (rdState) {
+		const prop = UtilConfigHelpers.packSettingId(this._groupId, this._configId);
+
+		// Use the existing numeric input helper already present in ComponentUiUtil
+		// getIptNumber accepts (component, prop, fallbackEmpty, opts)
+		return ComponentUiUtil.getIptNumber(rdState.comp, prop, this._default, {min: this._min, max: this._max});
+	}
+
+	mutVerify (group) {
+		let v = group[this._configId];
+		if (v === undefined || v === null) { group[this._configId] = this._default; return; }
+		v = Number(v);
+		if (!Number.isFinite(v)) { group[this._configId] = this._default; return; }
+		v = Math.max(this._min, Math.min(this._max, v));
+		group[this._configId] = v;
+	}
+}
+
+// Export named classes for registry imports

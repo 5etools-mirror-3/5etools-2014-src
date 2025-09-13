@@ -1260,7 +1260,7 @@ class CharacterEditorPage {
 
 	async getRacialAbilityBonuses(race) {
 		const bonuses = {};
-		
+
 		if (!race || !race.name) {
 			return bonuses;
 		}
@@ -1274,7 +1274,7 @@ class CharacterEditorPage {
 			}
 
 			const raceData = await response.json();
-			const raceInfo = raceData.race?.find(r => 
+			const raceInfo = raceData.race?.find(r =>
 				r.name === race.name && r.source === race.source
 			);
 
@@ -1298,7 +1298,7 @@ class CharacterEditorPage {
 					const count = choose.count || 1;
 					const amount = choose.amount || 1;
 					const availableAbilities = choose.from || ['str', 'dex', 'con', 'int', 'wis', 'cha'];
-					
+
 					// Randomly select abilities for bonuses
 					const chosen = [];
 					while (chosen.length < count && chosen.length < availableAbilities.length) {
@@ -9228,7 +9228,7 @@ class CharacterEditorPage {
 		this.showGenericFeatureChoiceModal(featureData);
 	}
 
-	showSpellChoiceModal(feature, featureData) {
+	async showSpellChoiceModal(feature, featureData) {
 		// Show spell selection modal for spellcasting features
 		const character = this.levelUpState.characterData;
 		const classes = character.class || [];
@@ -9244,7 +9244,7 @@ class CharacterEditorPage {
 			cls.subclass && cls.subclass.name === 'Eldritch Knight'
 		);
 
-		if (hasEldritchKnight) {
+	if (hasEldritchKnight) {
 			spellList = 'wizard';
 			schoolRestrictions = ['A', 'V']; // Abjuration and Evocation
 
@@ -9262,6 +9262,23 @@ class CharacterEditorPage {
 			}
 		}
 
+		// Gather available spells based on current character classes/subclasses
+		const primaryClass = (classes[0] && classes[0].name) ? classes[0].name : null;
+		const primarySubclass = (classes[0] && classes[0].subclass && classes[0].subclass.name) ? classes[0].subclass.name : null;
+
+		// Fetch lists of available spells for the expected spell list (e.g. wizard)
+		const availableSpellsByLevel = {};
+		try {
+			const spellListClass = spellList; // e.g. 'wizard'
+			// For cantrips and several spell levels, pre-fetch lists
+			for (let lvl = 0; lvl <= 5; lvl++) {
+				availableSpellsByLevel[lvl] = await this.pGetAvailableSpellsForClass(spellListClass, primaryClass, primarySubclass, lvl, schoolRestrictions);
+			}
+		} catch (e) {
+			// If fetching fails, fall back to simplified behaviour
+			console.warn('Could not load spell lists for modal:', e);
+		}
+
 		const modalContent = `
 			<p class="mb-3"><strong>Current Level:</strong> ${this.levelUpState.currentLevel}</p>
 			<p class="mb-3"><strong>New Level:</strong> ${this.levelUpState.newLevel}</p>
@@ -9275,8 +9292,10 @@ class CharacterEditorPage {
 					${Array.from({length: cantripsToLearn}, (_, i) => `
 						<div class="form-group">
 							<label for="cantrip${i}">Cantrip ${i + 1}:</label>
-							<input type="text" class="form-control" id="cantrip${i}" placeholder="Enter cantrip name (e.g., Mage Hand, Fire Bolt)">
-							<small class="form-text text-muted">Choose from ${spellList} cantrips${schoolRestrictions.length ? ' (any school)' : ''}.</small>
+							<select class="form-control spell-select" id="cantrip${i}">
+								<option value="">-- choose a cantrip --</option>
+							</select>
+							<small class="form-text text-muted">Choose from ${spellList} cantrips${schoolRestrictions.length ? ' (filtered by school)' : ''}.</small>
 						</div>
 					`).join('')}
 				</div>
@@ -9285,11 +9304,13 @@ class CharacterEditorPage {
 			${spellsToLearn > 0 ? `
 				<div class="mb-4">
 					<h6>Spells (Choose ${spellsToLearn})</h6>
-					<p class="text-muted">Choose ${spellsToLearn} spell${spellsToLearn > 1 ? 's' : ''} from the ${spellList} spell list${schoolRestrictions.length ? ' (Abjuration or Evocation only, except for certain levels)' : ''}.</p>
+					<p class="text-muted">Choose ${spellsToLearn} spell${spellsToLearn > 1 ? 's' : ''} from the ${spellList} spell list${schoolRestrictions.length ? ' (filtered by school)' : ''}.</p>
 					${Array.from({length: spellsToLearn}, (_, i) => `
 						<div class="form-group">
 							<label for="spell${i}">Spell ${i + 1}:</label>
-							<input type="text" class="form-control" id="spell${i}" placeholder="Enter spell name (e.g., Shield, Magic Missile)">
+							<select class="form-control spell-select" id="spell${i}">
+								<option value="">-- choose a spell --</option>
+							</select>
 							<small class="form-text text-muted">1st level ${spellList} spell${schoolRestrictions.length && spellsToLearn === 3 ? ' (2 must be Abjuration or Evocation)' : ''}.</small>
 						</div>
 					`).join('')}
@@ -9358,28 +9379,75 @@ class CharacterEditorPage {
 
 		$modalFooter.append($btnCancel, $btnConfirm);
 
-		// Add input validation
+		// Populate select elements with available spells we fetched earlier
+		$modalInner.find('.spell-select').each((i, el) => {
+			const $el = $(el);
+			const id = $el.attr('id');
+			let lvl = 1;
+			if (id && id.startsWith('cantrip')) lvl = 0;
+			// try to use availableSpellsByLevel
+			const opts = (availableSpellsByLevel && availableSpellsByLevel[lvl]) || [];
+			opts.forEach(name => {
+				$el.append($(`<option></option>`).attr('value', name).text(name));
+			});
+		});
+
+		// Add input/selection validation
 		const validateInputs = () => {
 			let allValid = true;
 
-			// Check cantrips
+			// Check cantrip selects
 			for (let i = 0; i < cantripsToLearn; i++) {
-				const cantrip = $modalInner.find(`#cantrip${i}`).val().trim();
-				if (!cantrip) allValid = false;
+				const val = $modalInner.find(`#cantrip${i}`).val();
+				if (!val) allValid = false;
 			}
 
-			// Check spells
+			// Check spell selects
 			for (let i = 0; i < spellsToLearn; i++) {
-				const spell = $modalInner.find(`#spell${i}`).val().trim();
-				if (!spell) allValid = false;
+				const val = $modalInner.find(`#spell${i}`).val();
+				if (!val) allValid = false;
 			}
 
 			$btnConfirm.prop('disabled', !allValid);
 		};
 
 		// Add event listeners for validation
-		$modalInner.find('input').on('input', validateInputs);
+		$modalInner.find('.spell-select').on('change', validateInputs);
 		validateInputs(); // Initial validation
+	}
+
+	/**
+	 * Return a list of available spells (names) for a given class/subclass and spell level.
+	 * This uses the site's Renderer.spell lookup helpers to derive spells available to a class.
+	 */
+	async pGetAvailableSpellsForClass(classTag, className, subclassName, level, schoolRestrictions = []) {
+		// Attempt to load global spell list via DataLoader
+		try {
+			const allSpells = await DataLoader.pCacheAndGetAllSite(UrlUtil.PG_SPELLS);
+			// Filter spells by class (fromClassList) and subclass (fromSubclass)
+			return allSpells
+				.filter(sp => sp.level === level)
+				.filter(sp => {
+					// Check combined classes
+					const fromClasses = Renderer.spell.getCombinedClasses(sp, 'fromClassList') || [];
+					const fromSubclasses = Renderer.spell.getCombinedClasses(sp, 'fromSubclass') || [];
+					const matchesClass = fromClasses.some(c => c.name && c.name.toLowerCase() === (className || classTag).toLowerCase())
+						|| fromClasses.some(c => c.name && c.name.toLowerCase() === (classTag || className).toLowerCase());
+					const matchesSubclass = !subclassName || fromSubclasses.some(sc => sc.subclass && sc.subclass.name && sc.subclass.name.toLowerCase() === subclassName.toLowerCase());
+					if (!matchesClass || !matchesSubclass) return false;
+					// Apply simple school restrictions if provided (schoolRestrictions are school initials)
+					if (schoolRestrictions && schoolRestrictions.length) {
+						const sch = sp.school ? sp.school.charAt(0).toUpperCase() : '';
+						if (!schoolRestrictions.includes(sch)) return false;
+					}
+					return true;
+				})
+				.map(sp => sp.name)
+				.sort((a, b) => a.localeCompare(b));
+		} catch (e) {
+			console.warn('pGetAvailableSpellsForClass failed', e);
+			return [];
+		}
 	}
 
 	showManeuverChoiceModal(feature, featureData) {
@@ -10554,7 +10622,7 @@ class CharacterEditorPage {
 			}
 
 			const raceData = await response.json();
-			const raceInfo = raceData.race?.find(r => 
+			const raceInfo = raceData.race?.find(r =>
 				r.name === race.name && r.source === race.source
 			);
 
@@ -10589,7 +10657,7 @@ class CharacterEditorPage {
 			}
 
 			const raceData = await response.json();
-			const raceInfo = raceData.race?.find(r => 
+			const raceInfo = raceData.race?.find(r =>
 				r.name === character.race.name && r.source === character.race.source
 			);
 

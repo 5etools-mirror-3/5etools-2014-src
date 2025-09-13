@@ -362,7 +362,7 @@ class SourceManager {
 
 		// Update the cached sources display
 		if (sourceNames.length === 0) {
-			listDiv.innerHTML = '<p class="text-muted"><em>No cached sources found</em></p>';
+			listDiv.innerHTML = '<p class="text-muted"><em>No accounts found</em></p>';
 		} else {
 			let html = '<div class="list-group">';
 			sourceNames.forEach(sourceName => {
@@ -442,14 +442,14 @@ class SourceManager {
 
 			// Navigate to character editor with random generation parameters
 			const urlParams = [`source=${encodeURIComponent(sourceName)}`, 'random=true', `level=${level}`];
-			
+
 			// Add name parameter (encode empty string as well for consistency)
 			urlParams.push(`name=${encodeURIComponent(characterName)}`);
-			
+
 			// Add optional parameters
 			if (baseClass) urlParams.push(`baseClass=${encodeURIComponent(baseClass)}`);
 			if (race) urlParams.push(`race=${encodeURIComponent(race)}`);
-			
+
 			const url = `charactereditor.html?${urlParams.join('&')}`;
 			window.location.href = url;
 

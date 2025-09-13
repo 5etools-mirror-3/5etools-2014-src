@@ -1,5 +1,5 @@
 import {ConfigSettingsGroup} from "./util-config-settings-group.js";
-import {ConfigSettingBoolean, ConfigSettingEnum, ConfigSettingExternal} from "./utils-config-setting-base.js";
+import {ConfigSettingBoolean, ConfigSettingEnum, ConfigSettingExternal, ConfigSettingNumber} from "./utils-config-setting-base.js";
 import {SITE_STYLE__CLASSIC, SITE_STYLE_DISPLAY} from "../consts.js";
 import {StyleSwitcher} from "../styleswitch.js";
 import { M } from "../../lib/dice-box-assets/Dice.js";
@@ -117,12 +117,32 @@ const settingsGroupDice = new ConfigSettingsGroup({
 		}),
 		new ConfigSettingEnum({
 			configId: "theme3d",
-			name: "3D Dice Theme",
+			name: "Dice Theme",
 			help: "The visual theme to use for 3D dice. Only applies when 3D dice are enabled.",
 			isRowLabel: true,
 			default: DICE_THEME_OPTIONS[Math.floor(Math.random() * DICE_THEME_OPTIONS.length)],
 			values: DICE_THEME_OPTIONS,
 			fnDisplay: it => _DICE_THEME_OPTIONS[it] || it,
+		}),
+		new ConfigSettingEnum({
+			configId: "throwForce",
+			name: "3D Dice Throw Force",
+			help: "The force applied to dice when thrown.",
+			isRowLabel: true,
+			default: 8,
+			values: [1, 4, 8, 12, 20, 100, 1000000],
+			fnDisplay: it => {
+				const L = {
+					1: "Just Drop them",
+					4: "Soft",
+					8: "Normal",
+					12: "Hard",
+					40: "Strong",
+					100: "Sam's normal throw",
+					1000000: "Throw onto the floor",
+				};
+				return `${L[it] || it} (${it})`;
+			},
 		}),
 	],
 });
