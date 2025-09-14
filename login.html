@@ -133,7 +133,7 @@
 			<!-- Quick Character Generation -->
 			<div class="mt-4 pt-3" style="border-top: 1px solid #dee2e6;">
 				<h4 class="mb-3">Character Generation</h4>
-				<p class="text-muted mb-3">Generate random D&D characters at any level with realistic multiclassing, equipment, and abilities. Select a source from your cached sources above. Unless you're in a hurry, I recommend starting at level one And they're utilizing the character leveling up wizards. 🧙 </p>
+				<p class="text-muted mb-3">Generate random D&D characters at any level or use the wizard to level up from level 1 🧙</p>
 				<div class="ve-flex-h mb-3 align-items-end">
 					<div class="mr-3">
 						<label for="character-name-input" class="form-label"><strong>Character Name:</strong></label>
@@ -143,11 +143,12 @@
 					<div class="mr-3">
 						<label for="character-level-select" class="form-label"><strong>Character Level:</strong></label>
 						<select id="character-level-select" class="form-control" style="width: 150px;">
+							<option value="0" selected>Wizard</option>
 							<option value="1">Level 1</option>
 							<option value="2">Level 2</option>
 							<option value="3">Level 3</option>
 							<option value="4">Level 4</option>
-							<option value="5" selected>Level 5</option>
+							<option value="5">Level 5</option>
 							<option value="6">Level 6</option>
 							<option value="7">Level 7</option>
 							<option value="8">Level 8</option>
@@ -178,7 +179,7 @@
 						</select>
 					</div>
 					<div class="mr-3">
-						<label for="character-race-select" class="form-label"><strong>Race (optional):</strong></label>
+						<label for="character-race-select" class="form-label"><strong>Race:</strong></label>
 						<select id="character-race-select" class="form-control" style="width: 200px;">
 							<option value="">Random</option>
 								<option>Human</option>
