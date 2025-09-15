@@ -2325,26 +2325,38 @@ Parser.alignmentAbvToFull = function (alignment) {
 Parser.alignmentListToFull = function (alignList) {
 	if (!alignList) return "";
 
-	if (alignList.some(it => typeof it !== "string")) {
-		if (alignList.some(it => typeof it === "string")) throw new Error(`Mixed alignment types: ${JSON.stringify(alignList)}`);
-
-		// filter out any nonexistent alignments, as we don't care about "alignment does not exist" if there are other alignments
-		return alignList
-			.filter(it => it.alignment === undefined || it.alignment != null)
-			.map(it => it.special != null || it.chance != null || it.note != null ? Parser.alignmentAbvToFull(it) : Parser.alignmentListToFull(it.alignment)).join(" or ");
+	// If a string was passed (e.g. "NG" or "N G"), coerce to an array
+	if (typeof alignList === 'string') {
+		const s = alignList.trim();
+		if (s.indexOf(' ') > -1) alignList = s.split(/\s+/).map(it => it.toUpperCase());
+		else if (s.length === 2) alignList = [s.charAt(0).toUpperCase(), s.charAt(1).toUpperCase()];
+		else alignList = [s.toUpperCase()];
 	}
 
-	// assume all single-length arrays can be simply parsed
-	if (alignList.length === 1) return Parser.alignmentAbvToFull(alignList[0]);
-	// a pair of abv's, e.g. "L" "G"
-	if (alignList.length === 2) {
-		return alignList.map(a => Parser.alignmentAbvToFull(a)).join(" ");
+	// If we have an object describing alignment choices (e.g. [{alignment: [...]}])
+	if (Array.isArray(alignList) && alignList.length > 0 && typeof alignList[0] === 'object') {
+		// Allow mixed arrays by filtering out plain strings
+		const objs = alignList.filter(it => it && typeof it === 'object');
+		if (!objs.length) return "";
+		// Filter out null/undefined alignment entries then map to full text
+		try {
+			return objs
+				.filter(it => it && (it.alignment !== undefined || it.special !== undefined || it.chance !== undefined || it.note !== undefined))
+				.map(it => (it.special != null || it.chance != null || it.note != null) ? Parser.alignmentAbvToFull(it) : Parser.alignmentListToFull(it.alignment))
+				.join(" or ");
+		} catch (e) {
+			console.warn('Error parsing complex alignment list:', e, alignList);
+			return "";
+		}
 	}
-	if (alignList.length === 3) {
+
+	// At this point we expect an array of strings
+	if (Array.isArray(alignList) && alignList.length === 1) return Parser.alignmentAbvToFull(alignList[0]);
+	if (Array.isArray(alignList) && alignList.length === 2) return alignList.map(a => Parser.alignmentAbvToFull(a)).join(" ");
+	if (Array.isArray(alignList) && alignList.length === 3) {
 		if (alignList.includes("NX") && alignList.includes("NY") && alignList.includes("N")) return "any neutral alignment";
 	}
-	// longer arrays should have a custom mapping
-	if (alignList.length === 5) {
+	if (Array.isArray(alignList) && alignList.length === 5) {
 		if (!alignList.includes("G")) return "any non-good alignment";
 		if (!alignList.includes("E")) return "any non-evil alignment";
 		if (!alignList.includes("L")) return "any non-lawful alignment";
@@ -2356,7 +2368,9 @@ Parser.alignmentListToFull = function (alignList) {
 		if (!alignList.includes("C") && !alignList.includes("NX")) return "any lawful alignment";
 		if (!alignList.includes("E") && !alignList.includes("NY")) return "any good alignment";
 	}
-	throw new Error(`Unmapped alignment: ${JSON.stringify(alignList)}`);
+	// If we cannot map the provided alignment, return an empty string to avoid runtime errors
+	console.warn(`Unmapped or invalid alignment passed to Parser.alignmentListToFull: ${JSON.stringify(alignList)}`);
+	return "";
 };
 
 Parser.weightToFull = function (lbs, isSmallUnit) {

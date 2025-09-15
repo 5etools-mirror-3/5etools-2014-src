@@ -469,7 +469,9 @@ class UiUtil {
 			.addEventListener("mouseup", async evt => {
 				if (evt.target !== wrpOverlay) return;
 				if (evt.target !== UiUtil._MODAL_LAST_MOUSEDOWN) return;
+				// If modal is marked permanent, or backdrop is disabled/static, don't close on backdrop click
 				if (opts.isPermanent) return;
+				if (opts.backdrop === 'static' || opts.backdrop === false) return;
 				evt.stopPropagation();
 				evt.preventDefault();
 				return pHandleCloseClick(false);
@@ -479,6 +481,8 @@ class UiUtil {
 
 		const modalStackMeta = {
 			isPermanent: opts.isPermanent,
+			// keyboard: when false, Escape key should not close this modal
+			keyboard: opts.keyboard === undefined ? true : !!opts.keyboard,
 			pHandleCloseClick,
 			doTeardown,
 		};
@@ -535,8 +539,13 @@ class UiUtil {
 
 			const outerModalMeta = UiUtil._MODAL_STACK.last();
 			if (!outerModalMeta) return;
+
+			// If modal is permanent, or it explicitly disables keyboard dismissal, don't close
+			if (outerModalMeta.isPermanent) return;
+			if (outerModalMeta.keyboard === false) return;
+
 			evt.stopPropagation();
-			if (!outerModalMeta.isPermanent) return outerModalMeta.pHandleCloseClick(false);
+			return outerModalMeta.pHandleCloseClick(false);
 		});
 	}
 

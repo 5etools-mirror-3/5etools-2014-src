@@ -7149,6 +7149,20 @@ Renderer.spell = class {
 		}
 	}
 
+	/**
+	 * Bind interactive listeners for compact spell HTML (hover/popout)
+	 * @param spell
+	 * @param ele DOM element or jQuery element
+	 */
+	static bindListenersCompact (spell, ele) {
+		if (!ele) return;
+		const dom = ele.jquery ? ele[0] : ele;
+		if (!dom) return;
+
+		// Bind dice-roll onclick listeners present in rendered spell HTML
+		if (Renderer.dice && Renderer.dice.bindOnclickListener) Renderer.dice.bindOnclickListener(dom);
+	}
+
 	/* -------------------------------------------- */
 
 	static getHtmlPtLevelSchoolRitual (spell, {styleHint = null} = {}) {
@@ -17043,6 +17057,7 @@ Renderer.hover = class {
 			case UrlUtil.PG_BESTIARY: return Renderer.monster.bindListenersCompact.bind(Renderer.monster);
 			case UrlUtil.PG_RACES: return Renderer.race.bindListenersCompact.bind(Renderer.race);
 			case UrlUtil.PG_CHARACTERS: return Renderer.character.bindListenersCompact.bind(Renderer.character);
+			case UrlUtil.PG_SPELLS: return Renderer.spell.bindListenersCompact.bind(Renderer.spell);
 			default: return null;
 		}
 	}

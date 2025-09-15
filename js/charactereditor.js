@@ -351,7 +351,9 @@ class CharacterEditorPage {
 		const { $modalInner, $modalFooter, doClose } = UiUtil.getShowModal({
 			title: 'Level 0 - Initial Choices',
 			hasFooter: true,
-			isWidth100: false
+			isWidth100: false,
+			backdrop: 'static', // prevent backdrop click dismissal for this important wizard
+			keyboard: false     // prevent Escape key dismissal
 		});
 
 		// Populate dynamically from data files
@@ -8275,7 +8277,9 @@ class CharacterEditorPage {
 
 		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
 			title: "Level Up Character",
-			hasFooter: true
+			hasFooter: true,
+			backdrop: 'static', // prevent backdrop click dismissal during level up
+			keyboard: false     // prevent Escape key dismissal
 		});
 
 		$modalInner.html(modalContent);
@@ -9358,7 +9362,6 @@ class CharacterEditorPage {
 
 		const modalContent = `
 			<div class="text-center mb-3">
-				<h4>Assign Ability Scores</h4>
 				<p>${character.name} (${className})</p>
 			</div>
 
@@ -9398,14 +9401,6 @@ class CharacterEditorPage {
 											<button class="ve-btn ve-btn-primary btn-sm ability-plus" type="button" data-ability="${ability}">+</button>
 										</div>
 									</div>
-									<div class="col-sm-2 text-center">
-										<span class="h5 text-primary" id="${ability}-final">${suggested + bonus}</span>
-										<br><small class="text-muted">Final</small>
-									</div>
-									<div class="col-sm-2 text-center">
-										<span class="badge badge-info" id="${ability}-cost">0</span>
-										<br><small class="text-muted">Cost</small>
-									</div>
 								</div>
 							</div>
 						`;
@@ -9423,13 +9418,10 @@ class CharacterEditorPage {
 								</div>
 							</div>
 
-							<div id="validation-message" class="text-muted mb-3">Assign your ability scores</div>
+							<div id="validation-message" class="text-muted mb-2">Assign your ability scores</div>
 
+							<small class="text-muted d-block mb-3">How point-buy cost works: base scores start at 8; raising a score costs points (9=1,10=2,11=3,12=4,13=5,14=7,15=9). Total budget: 27 points. The editor will auto-optimize these for your chosen class.</small>
 
-
-							<button type="button" class="ve-btn ve-btn-success btn-sm btn-block" id="optimize-for-class">
-								Auto-Optimize for ${className}
-							</button>
 						</div>
 					</div>
 
@@ -9478,6 +9470,13 @@ class CharacterEditorPage {
 
 		// Initialize point buy calculation
 		this.updatePointBuyCalculation();
+
+		// Auto-run optimization on modal open so user doesn't need to click
+		try {
+			this.autoOptimizeAbilityScores($modalInner);
+		} catch (e) {
+			console.warn('Auto-optimize failed on modal open:', e);
+		}
 	}
 
 	getAbilityRecommendationsForClass(className) {
@@ -9548,9 +9547,7 @@ class CharacterEditorPage {
 		});
 
 		// Handle auto-optimize button
-		$modal.find('#optimize-for-class').click(function() {
-			self.autoOptimizeAbilityScores($modal);
-		});
+		// Note: Auto-optimize button removed. The modal now auto-runs optimization on open.
 	}
 
 	updatePointBuyCalculation() {
@@ -9656,7 +9653,7 @@ class CharacterEditorPage {
 		const className = this.levelUpState?.characterData?.class?.[0]?.name || 'Fighter';
 		const numericPriorities = this.getClassAbilityPriorities([{ name: className }]);
 
-		// Derive primary/secondary arrays from numeric priorities (highest -> primary, second -> secondary)
+		// Order abilities by priority: primary, secondary, others
 		const orderedAbilities = Object.entries(numericPriorities)
 			.sort(([, a], [, b]) => b - a)
 			.map(([ability]) => ability);
@@ -9664,53 +9661,98 @@ class CharacterEditorPage {
 		const primary = orderedAbilities.slice(0, 1);
 		const secondary = orderedAbilities.slice(1, 2);
 
-		// Create a priority order with point allocation
 		const allocationPlan = [
 			...primary.map(ability => ({ ability, priority: 1 })),
 			...secondary.map(ability => ({ ability, priority: 2 })),
 			...abilities.filter(ability => !primary.includes(ability) && !secondary.includes(ability)).map(ability => ({ ability, priority: 3 }))
 		];
 
-		// Allocate 27 points efficiently
-		let remainingPoints = 27;
+		const BUDGET = 27;
 
-		// First pass: Reserve points for primary/secondary using the real point-buy costs
-		const costTo15 = this.getPointBuyCost(8, 15);
-		const costTo13 = this.getPointBuyCost(8, 13);
+		// Try a small backtracking search to find an allocation that uses exactly the budget
+		const self = this;
+		let bestAllocation = null;
+		let bestScore = -Infinity;
 
-		allocationPlan.forEach(({ ability, priority }) => {
-			const $input = $modal.find(`#${ability}-score`);
-			let targetScore = 8;
+		// Weighting by priority to prefer primary/secondary increases
+		const priorityWeight = p => (p === 1 ? 100 : p === 2 ? 50 : 10);
 
-			if (priority === 1 && remainingPoints >= costTo15) {
-				targetScore = 15;
-				remainingPoints -= costTo15;
-			} else if (priority === 2 && remainingPoints >= costTo13) {
-				targetScore = 13;
-				remainingPoints -= costTo13;
-			}
-
-			$input.val(targetScore);
-		});
-
-		// Second pass: Spend remaining points efficiently
-		while (remainingPoints > 0) {
-			let pointsSpent = false;
-
-			for (let { ability, priority } of allocationPlan) {
-				const $input = $modal.find(`#${ability}-score`);
-				const currentScore = parseInt($input.val()) || 8;
-				const costToIncrease = this.getPointBuyCost(8, currentScore + 1) - this.getPointBuyCost(8, currentScore);
-
-				if (currentScore < 15 && remainingPoints >= costToIncrease) {
-					$input.val(currentScore + 1);
-					remainingPoints -= costToIncrease;
-					pointsSpent = true;
-					break;
+		function dfs(idx, accCost, currScores) {
+			if (accCost > BUDGET) return;
+			if (idx === allocationPlan.length) {
+				if (accCost === BUDGET) {
+					// Compute weighted score to pick the best allocation among exact-budget solutions
+					let weighted = 0;
+					allocationPlan.forEach(({ ability, priority }) => {
+						weighted += (currScores[ability] || 8) * priorityWeight(priority);
+					});
+					if (weighted > bestScore) {
+						bestScore = weighted;
+						bestAllocation = Object.assign({}, currScores);
+					}
 				}
+				return;
 			}
 
-			if (!pointsSpent) break; // Can't spend any more points efficiently
+			const { ability } = allocationPlan[idx];
+			// Try higher scores first (prefer stronger primary/secondary)
+			for (let score = 15; score >= 8; --score) {
+				const cost = self.getPointBuyCost(8, score);
+				const newCost = accCost + cost;
+				if (newCost > BUDGET) continue;
+				currScores[ability] = score;
+				dfs(idx + 1, newCost, currScores);
+			}
+			// cleanup not strictly necessary because currScores gets overwritten, but keep tidy
+			delete currScores[ability];
+		}
+
+		dfs(0, 0, {});
+
+		if (bestAllocation) {
+			// Apply the exact allocation found
+			abilities.forEach(ability => {
+				const val = bestAllocation[ability] || 8;
+				$modal.find(`#${ability}-score`).val(val);
+			});
+		} else {
+			// Fallback to greedy allocation if no exact-budget allocation found
+			let remainingPoints = BUDGET;
+			const costTo15 = this.getPointBuyCost(8, 15);
+			const costTo13 = this.getPointBuyCost(8, 13);
+
+			allocationPlan.forEach(({ ability, priority }) => {
+				const $input = $modal.find(`#${ability}-score`);
+				let targetScore = 8;
+
+				if (priority === 1 && remainingPoints >= costTo15) {
+					targetScore = 15;
+					remainingPoints -= costTo15;
+				} else if (priority === 2 && remainingPoints >= costTo13) {
+					targetScore = 13;
+					remainingPoints -= costTo13;
+				}
+
+				$input.val(targetScore);
+			});
+
+			// Second pass: spend remaining points greedily
+			while (remainingPoints > 0) {
+				let pointsSpent = false;
+				for (let { ability } of allocationPlan) {
+					const $input = $modal.find(`#${ability}-score`);
+					const currentScore = parseInt($input.val(), 10) || 8;
+					if (currentScore >= 15) continue;
+					const costToIncrease = this.getPointBuyCost(8, currentScore + 1) - this.getPointBuyCost(8, currentScore);
+					if (remainingPoints >= costToIncrease) {
+						$input.val(currentScore + 1);
+						remainingPoints -= costToIncrease;
+						pointsSpent = true;
+						break;
+					}
+				}
+				if (!pointsSpent) break;
+			}
 		}
 
 		// Update the calculation and trigger input events
@@ -11213,6 +11255,11 @@ class CharacterEditorPage {
 		const character = this.levelUpState.characterData;
 		const classes = character.class || [];
 
+		// Get current character data from editor to access known spells
+		const editorText = this.ace.getValue();
+		const currentCharacterData = JSON.parse(editorText);
+		const currentSpells = currentCharacterData.spells?.levels || {};
+
 		// Determine what spells to offer based on class/subclass
 		let spellList = 'wizard'; // Default to wizard spells
 		let schoolRestrictions = [];
@@ -11347,6 +11394,35 @@ class CharacterEditorPage {
 			return levelStr;
 		};
 
+		// Track pre-selected spells to enforce limits
+		const preSelectedCantrips = new Set();
+		const preSelectedSpells = new Set();
+		
+		// Helper function to determine if a spell should be pre-selected
+		const shouldPreSelectSpell = (spell, isCantrip, spellLevel = null) => {
+			const actualSpellLevel = isCantrip ? 0 : (spellLevel || spell.level || 1);
+			const isCurrentlyKnown = currentSpells[actualSpellLevel]?.spells?.includes(spell.name) || false;
+			
+			if (!isCurrentlyKnown) return false;
+			
+			// For spell swapping mode (no new spells to learn), pre-select existing spells
+			if (cantripsToLearn === 0 && spellsToLearn === 0) return true;
+			
+			// For normal level up, respect slot limits
+			if (isCantrip) {
+				if (preSelectedCantrips.size < cantripsToLearn) {
+					preSelectedCantrips.add(spell.name);
+					return true;
+				}
+			} else {
+				if (preSelectedSpells.size < spellsToLearn) {
+					preSelectedSpells.add(spell.name);
+					return true;
+				}
+			}
+			return false;
+		};
+
 		// Helper function to build spell list item like spells page
 		const buildSpellListItem = (spell, isCantrip, spellLevel = null) => {
 			const school = Parser.spSchoolAndSubschoolsAbvsShort ?
@@ -11361,6 +11437,9 @@ class CharacterEditorPage {
 			const checkboxClass = isCantrip ? 'cantrip-checkbox' : 'spell-checkbox';
 			const actualSpellLevel = isCantrip ? 0 : (spellLevel || spell.level || 1);
 
+			// Use smart pre-selection that respects slot limits
+			const checkedAttr = shouldPreSelectSpell(spell, isCantrip, spellLevel) ? 'checked' : '';
+
 			// Get school style safely
 			const schoolStyle = Parser.spSchoolAbvToStylePart ?
 				Parser.spSchoolAbvToStylePart(spell.school) : "";
@@ -11368,15 +11447,15 @@ class CharacterEditorPage {
 				Parser.spSchoolAndSubschoolsAbvsToFull(spell.school, spell.subschools) :
 				school;
 
-			// Create spell hash for hover functionality
-			const spellHash = UrlUtil.autoEncodeHash ? UrlUtil.autoEncodeHash(spell) : spell.name.toLowerCase().replace(/\s+/g, '');
+			// Use 5etools renderer to create proper spell link with hover
+			const spellLink = Renderer.get().render(`{@spell ${spell.name}|${spell.source}}`);
 
 			return `
 				<div class="lst__row lst__row--sublist lst__row-border lst__row-inner clickable" data-spell-name="${spell.name}">
 					<span class="ve-col-0-5 px-1 ve-text-center">
-						<input type="checkbox" class="${checkboxClass}" value="${spell.name}" data-spell-level="${actualSpellLevel}">
+						<input type="checkbox" class="${checkboxClass}" value="${spell.name}" data-spell-level="${actualSpellLevel}" ${checkedAttr}>
 					</span>
-					<span class="bold ve-col-2-4 pl-0 pr-1 spell-name-hover" data-spell-hash="${spellHash}" data-spell-source="${spell.source}">${spell.name}</span>
+					<span class="bold ve-col-2-4 pl-0 pr-1">${spellLink}</span>
 					<span class="ve-col-1-5 px-1 ve-text-center">${levelText}</span>
 					<span class="ve-col-1-7 px-1 ve-text-center">${time}</span>
 					<span class="ve-col-1-2 px-1 sp__school-${spell.school} ve-text-center"
@@ -11390,14 +11469,10 @@ class CharacterEditorPage {
 
 		// Build spell lists dynamically using 5etools styling
 		let modalContent = `
-			<div class="mb-4 p-3" style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); border-radius: 8px; border-left: 4px solid #007bff;">
-				<div class="ve-flex-v-center">
-					<div class="mr-auto">
-						<h5 class="mb-2 text-primary">${primaryClass} Spell Selection</h5>
-						<p class="mb-1"><strong>Level:</strong> ${this.levelUpState.currentLevel} → <strong>${this.levelUpState.newLevel}</strong></p>
-						<p class="mb-0 text-muted"><strong>Spell List:</strong> ${spellList} • <strong>Max Spell Level:</strong> ${this.getMaxSpellLevelForCharacterLevel(this.levelUpState.newLevel, primaryClass)}</p>
-					</div>
-				</div>
+			<div class="mb-4 p-3 ve-flex-col">
+				<h5 class="mb-2">${primaryClass} Spell Selection</h5>
+				<p class="mb-1"><strong>Level:</strong> ${this.levelUpState.currentLevel} → <strong>${this.levelUpState.newLevel}</strong></p>
+				<p class="mb-0"><strong>Spell List:</strong> ${spellList} • <strong>Max Spell Level:</strong> ${this.getMaxSpellLevelForCharacterLevel(this.levelUpState.newLevel, primaryClass)}</p>
 			</div>
 		`;
 
@@ -11405,7 +11480,7 @@ class CharacterEditorPage {
 		if (cantripsToLearn > 0) {
 			const cantrips = availableSpellsByLevel[0] || [];
 			modalContent += `
-				<div class="mb-4 p-3 border rounded" style="background-color: #f8f9fa;">
+				<div class="mb-4 p-3 border rounded" >
 					<div class="ve-flex-v-center mb-3">
 						<h5 class="mr-auto mb-0 text-success"><i class="fa fa-magic" aria-hidden="true"></i> Cantrips - Choose ${cantripsToLearn}</h5>
 						<div class="badge badge-success badge-pill px-3 py-2">
@@ -11440,7 +11515,7 @@ class CharacterEditorPage {
 				if (spellsAtLevel.length > 0) {
 					const levelName = spellLevel === 1 ? '1st' : spellLevel === 2 ? '2nd' : spellLevel === 3 ? '3rd' : `${spellLevel}th`;
 					modalContent += `
-						<div class="mb-4 p-3 border rounded" style="background-color: #fafbfc;">
+						<div class="mb-4 p-3 border rounded" >
 							<div class="ve-flex-v-center mb-3">
 								<h5 class="mr-auto mb-0 text-primary"><i class="fa fa-star" aria-hidden="true"></i> ${levelName} Level Spells</h5>
 								<div class="badge badge-primary badge-pill px-3 py-2">
@@ -11469,13 +11544,13 @@ class CharacterEditorPage {
 
 			// Add selection counter info
 			modalContent += `
-				<div class="alert alert-info border-info" style="background: linear-gradient(135deg, #d4edda, #c3e6cb); border-left: 4px solid #28a745;">
+				<div class="alert alert-info">
 					<div class="ve-flex-v-center">
 						<div class="mr-auto">
 							<h6 class="mb-1"><i class="fa fa-info-circle" aria-hidden="true"></i> Spell Selection Instructions</h6>
 							<p class="mb-0">Select <strong>${spellsToLearn} spell${spellsToLearn > 1 ? 's' : ''}</strong> from any available level above.</p>
 						</div>
-						<div class="badge badge-info badge-pill px-3 py-2" style="font-size: 1rem;">
+						<div class="badge badge-info badge-pill px-3 py-2">
 							<span class="spell-count">0</span>/${spellsToLearn} Selected
 						</div>
 					</div>
@@ -11485,7 +11560,7 @@ class CharacterEditorPage {
 
 		if (cantripsToLearn === 0 && spellsToLearn === 0) {
 			modalContent += `
-				<div class="alert alert-warning border-warning" style="background: linear-gradient(135deg, #fff3cd, #ffeaa7); border-left: 4px solid #ffc107;">
+				<div class="alert alert-warning">
 					<div class="ve-flex-v-center">
 						<div class="mr-auto">
 							<h6 class="mb-1"><i class="fa fa-exchange-alt" aria-hidden="true"></i> Spell Management</h6>
@@ -11500,7 +11575,7 @@ class CharacterEditorPage {
 			const cantrips = availableSpellsByLevel[0] || [];
 			if (cantrips.length > 0) {
 				modalContent += `
-					<div class="mb-4 p-3 border rounded" style="background-color: #f8f9fa;">
+					<div class="mb-4 p-3 border rounded" >
 						<div class="ve-flex-v-center mb-3">
 							<h5 class="mr-auto mb-0 text-secondary"><i class="fa fa-magic" aria-hidden="true"></i> Cantrips</h5>
 							<div class="badge badge-secondary badge-pill px-3 py-2">
@@ -11532,7 +11607,7 @@ class CharacterEditorPage {
 				if (spellsAtLevel.length > 0) {
 					const levelName = spellLevel === 1 ? '1st' : spellLevel === 2 ? '2nd' : spellLevel === 3 ? '3rd' : `${spellLevel}th`;
 					modalContent += `
-						<div class="mb-4 p-3 border rounded" style="background-color: #fafbfc;">
+						<div class="mb-4 p-3 border rounded" >
 							<div class="ve-flex-v-center mb-3">
 								<h5 class="mr-auto mb-0 text-secondary"><i class="fa fa-star" aria-hidden="true"></i> ${levelName} Level Spells</h5>
 								<div class="badge badge-secondary badge-pill px-3 py-2">
@@ -11560,14 +11635,15 @@ class CharacterEditorPage {
 			}
 		}
 
-		// Create 5etools native modal
+		// Create 5etools native modal with lower z-index to allow tooltips to appear above
 		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
 			title: "Level Up Character - Spell Selection",
 			hasFooter: true,
 			isWidth100: true,
 			isUncappedHeight: true,
 			isHeaderBorder: true,
-			isMinHeight0: true
+			isMinHeight0: true,
+			zIndex: 1050
 		});
 
 		// Store modal close function
@@ -11575,6 +11651,8 @@ class CharacterEditorPage {
 
 		// Add content to modal
 		$modalInner.html(modalContent);
+
+		// Note: Spell hover functionality is now handled automatically by the 5etools renderer
 
 		// Create footer buttons with enhanced styling
 		const $btnCancel = $(`<button class="ve-btn ve-btn-default ve-btn-lg mr-3" style="min-width: 120px;">
@@ -11649,21 +11727,37 @@ class CharacterEditorPage {
 			$modalInner.find('.cantrip-count').text(cantripCount);
 			$modalInner.find('.spell-count').text(spellCount);
 
-			// Disable unchecked cantrip checkboxes if limit reached
-			if (cantripCount >= cantripsToLearn) {
-				$modalInner.find('.cantrip-checkbox:not(:checked)').prop('disabled', true);
-				$modalInner.find('.cantrip-checkbox:not(:checked)').closest('.lst__row').addClass('lst__row--disabled');
-			} else {
-				$modalInner.find('.cantrip-checkbox').prop('disabled', false);
-				$modalInner.find('.lst__row').removeClass('lst__row--disabled');
+			// Handle cantrip limits - allow deselection and reselection up to the limit
+			if (cantripsToLearn > 0) {
+				if (cantripCount >= cantripsToLearn) {
+					// At limit: disable only unchecked checkboxes, allow deselecting checked ones
+					$modalInner.find('.cantrip-checkbox:not(:checked)').prop('disabled', true);
+					$modalInner.find('.cantrip-checkbox:not(:checked)').closest('.lst__row').addClass('lst__row--disabled');
+					$modalInner.find('.cantrip-checkbox:checked').prop('disabled', false);
+				} else {
+					// Under limit: enable all cantrip checkboxes
+					$modalInner.find('.cantrip-checkbox').prop('disabled', false);
+					$modalInner.find('.cantrip-checkbox').closest('.lst__row').removeClass('lst__row--disabled');
+				}
 			}
 
-			// Disable unchecked spell checkboxes if limit reached
-			if (spellCount >= spellsToLearn) {
-				$modalInner.find('.spell-checkbox:not(:checked)').prop('disabled', true);
-				$modalInner.find('.spell-checkbox:not(:checked)').closest('.lst__row').addClass('lst__row--disabled');
-			} else {
-				$modalInner.find('.spell-checkbox').prop('disabled', false);
+			// Handle spell limits - allow deselection and reselection up to the limit  
+			if (spellsToLearn > 0) {
+				if (spellCount >= spellsToLearn) {
+					// At limit: disable only unchecked checkboxes, allow deselecting checked ones
+					$modalInner.find('.spell-checkbox:not(:checked)').prop('disabled', true);
+					$modalInner.find('.spell-checkbox:not(:checked)').closest('.lst__row').addClass('lst__row--disabled');
+					$modalInner.find('.spell-checkbox:checked').prop('disabled', false);
+				} else {
+					// Under limit: enable all spell checkboxes
+					$modalInner.find('.spell-checkbox').prop('disabled', false);
+					$modalInner.find('.spell-checkbox').closest('.lst__row').removeClass('lst__row--disabled');
+				}
+			}
+			
+			// For spell swapping mode (no new spells), always enable all checkboxes
+			if (cantripsToLearn === 0 && spellsToLearn === 0) {
+				$modalInner.find('.cantrip-checkbox, .spell-checkbox').prop('disabled', false);
 				$modalInner.find('.lst__row').removeClass('lst__row--disabled');
 			}
 
