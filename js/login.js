@@ -117,40 +117,6 @@ class SourceManager {
 			this.loginToSource();
 		});
 
-		// Generate Random Character button
-		const generateBtn = document.getElementById("generate-random-character");
-		if (generateBtn) {
-			// Ensure the element behaves as a button (prevents unexpected form-submit behavior)
-			try { generateBtn.type = "button"; } catch (e) { /* some environments expose as HTMLElement */ }
-		}
-		const sourceInput = document.getElementById("character-source-input");
-		const sourceList = document.getElementById("character-source-list");
-		const messageDiv = document.getElementById("generation-message");
-
-		if (generateBtn && sourceInput && sourceList && messageDiv) {
-			// Populate datalist when cached sources update (updateCachedSourcesList will do this)
-			// Enable/disable generate button based on source input value
-			sourceInput.addEventListener("input", () => {
-				generateBtn.disabled = !sourceInput.value.trim();//
-			});
-
-			// Handle character generation
-			generateBtn.addEventListener("click", () => {
-				const selectedSource = sourceInput.value.trim();
-
-				console.debug("generate button clicked, selectedSource=", selectedSource);
-
-				if (!selectedSource) {
-					messageDiv.innerHTML = "<span style=\"color: #dc3545;\">Please select a source first.</span>";
-					return;
-				}
-
-				messageDiv.innerHTML = "<span style=\"color: #0066cc;\">Opening curator...</span>";
-
-				// Navigate to the character editor for this source at level 0
-				this.generateRandomCharacter(selectedSource);
-			});
-		}
 
 		// Test access button (optional)
 		const testAccessBtn = document.getElementById("test-access-btn");
@@ -424,22 +390,7 @@ class SourceManager {
 		}
 	}
 
-	async generateRandomCharacter (sourceName) {
-		const messageDiv = document.getElementById("generation-message");
-
-		try {
-			// Show generating message
-			this.showMessage("generation-message", "Generating character...", "blue");
-
-			// Navigate to character editor with random generation parameters
-				const url = `charactereditor.html?level=0&source=${encodeURIComponent(sourceName)}`;
-				console.debug("navigating to", url);
-				window.location.assign(url);
-		} catch (error) {
-			console.error("Error generating character:", error);
-			this.showMessage("generation-message", `Error generating character: ${error.message}`, "red");
-		}
-	}
+			// Character generation UI removed; per-source Create Character links are used instead.
 
 	escapeHtml (unsafe) {
 		return unsafe
