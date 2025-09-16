@@ -13557,6 +13557,16 @@ class CharacterEditorPage {
 						selectedSkills: choice.selectedSkills
 					});
 					break;
+				case 'skills':
+					// Handle legacy skill format
+					choices.skills = choices.skills || [];
+					if (choice.selections && Array.isArray(choice.selections)) {
+						choices.skills.push({
+							className: choice.className || 'Class',
+							selectedSkills: choice.selections
+						});
+					}
+					break;
 			}
 		});
 
@@ -14115,15 +14125,27 @@ class CharacterEditorPage {
 	}
 
 	addSingleSkillProficiency(character, skillName, source) {
+		// Initialize tracking objects if missing
+		if (!character._skillProficiencies) character._skillProficiencies = new Set();
+		if (!character._proficiencySources) character._proficiencySources = {};
+
+		// Normalize skill name for consistency
+		const normalizedSkill = this.normalizeSkillName(skillName);
+
 		// Validate against D&D 5e rules - no duplicate proficiencies
-		if (character._skillProficiencies.has(skillName)) {
-			console.log(`⚠️ Character already has ${skillName} proficiency from ${character._proficiencySources[skillName]}, skipping ${source}`);
+		if (character._skillProficiencies.has(normalizedSkill)) {
+			console.log(`⚠️ Character already has ${normalizedSkill} proficiency from ${character._proficiencySources[normalizedSkill]}, skipping ${source}`);
 			return false;
 		}
 
-		character._skillProficiencies.add(skillName);
-		character._proficiencySources[skillName] = source;
-		console.log(`✅ Added ${skillName} proficiency from ${source}`);
+		// Add the proficiency
+		character._skillProficiencies.add(normalizedSkill);
+		character._proficiencySources[normalizedSkill] = source;
+
+		// Calculate and set the skill modifier
+		this.updateSingleSkillModifier(character, normalizedSkill);
+
+		console.log(`✅ Added ${normalizedSkill} proficiency from ${source}`);
 		return true;
 	}
 
@@ -15298,26 +15320,67 @@ class CharacterEditorPage {
 	}
 
 	calculateExpectedSkillProficiencies(character) {
-		let min = 0, max = 0;
+		// Calculate expected skill proficiencies based on D&D 5e rules
+		let min = 0;
+		let max = 0;
 
-		// Add class skill allowances
+		// Base class skills
 		for (const classEntry of character.class || []) {
 			const classSkills = this.getClassSkillAllowance(classEntry.name);
 			min += classSkills.min;
 			max += classSkills.max;
 		}
 
-		// Add background skills (usually 2)
-		max += 2;
-		min += 2;
+		// Background skills (typically 2)
+		if (character.background) {
+			min += 2;
+			max += 2;
+		}
 
-		// Add racial skills
-		const raceSkills = this.getRacialSkillCount(character.race?.name);
-		max += raceSkills;
-		min += raceSkills;
+		// Racial skills (varies by race)
+		if (character.race) {
+			const raceName = typeof character.race === 'string' ? character.race : character.race.name;
+			const racialSkills = this.getRacialSkillCount(raceName);
+			min += racialSkills;
+			max += racialSkills;
+		}
 
-		return {min, max};
+		return { min: Math.max(min, 2), max: Math.min(max, 18) }; // Reasonable bounds
 	}
+
+	getClassSkillCount(className) {
+		// Standard skill proficiencies granted by each class
+		const classSkills = {
+			'Barbarian': { min: 2, max: 2 },
+			'Bard': { min: 3, max: 3 },
+			'Cleric': { min: 2, max: 2 },
+			'Druid': { min: 2, max: 2 },
+			'Fighter': { min: 2, max: 2 },
+			'Monk': { min: 2, max: 2 },
+			'Paladin': { min: 2, max: 2 },
+			'Ranger': { min: 3, max: 3 },
+			'Rogue': { min: 4, max: 4 },
+			'Sorcerer': { min: 2, max: 2 },
+			'Warlock': { min: 2, max: 2 },
+			'Wizard': { min: 2, max: 2 }
+		};
+
+		return classSkills[className] || { min: 2, max: 2 };
+	}
+
+	getRaceSkillCount(raceName) {
+		// Races that grant skill proficiencies
+		const raceSkills = {
+			'Half-Elf': { min: 2, max: 2 },
+			'Human': { min: 1, max: 1 }, // Variant Human
+			'Elf': { min: 1, max: 1 }, // Keen Senses (Perception)
+			'Half-Orc': { min: 1, max: 1 }, // Menacing (Intimidation)
+			default: { min: 0, max: 1 } // Most races don't grant skills
+		};
+
+		return raceSkills[raceName] || raceSkills.default;
+	}
+
 
 	getClassSkillAllowance(className) {
 		const skillAllowances = {
@@ -16310,6 +16373,11 @@ class CharacterEditorPage {
 		return false;
 	}
 
+	normalizeSkillName(skillName) {
+		// Normalize skill names to lowercase with no spaces for consistency
+		return skillName.toLowerCase().replace(/\s+/g, '').replace(/[^\w]/g, '');
+	}
+
 	getAbilityScoreForSkill(character, skillName) {
 		const skillToAbility = {
 			'acrobatics': 'dex',
@@ -16332,7 +16400,8 @@ class CharacterEditorPage {
 			'survival': 'wis'
 		};
 
-		const ability = skillToAbility[skillName];
+		const normalizedSkillName = this.normalizeSkillName(skillName);
+		const ability = skillToAbility[normalizedSkillName];
 		if (!ability) return 10;
 
 		return character.abilities?.[ability] || character[ability] || 10;

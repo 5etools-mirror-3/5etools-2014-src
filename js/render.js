@@ -8506,21 +8506,7 @@ Renderer.character = class {
 	 * @returns {Object} { isProficient: boolean, bonus: string|number|undefined }
 	 */
 	static _getSkillProficiency (character, skill) {
-		// First check for the old system (pre-calculated bonuses in character.skill)
-		if (character.skill) {
-			const skillBonus = character.skill[skill.key]
-				|| character.skill[skill.name.toLowerCase().replace(/\s+/g, "")]
-				|| character.skill[skill.name.toLowerCase()];
-			
-			if (skillBonus !== undefined) {
-				return {
-					isProficient: true,
-					bonus: skillBonus,
-				};
-			}
-		}
-
-		// New system: check skillProficiencies array and calculate dynamically
+		// Prioritize new system: check skillProficiencies array first
 		if (character.skillProficiencies && Array.isArray(character.skillProficiencies)) {
 			const skillKey = skill.key || skill.name.toLowerCase().replace(/\s+/g, "_");
 			const isProficient = character.skillProficiencies.includes(skillKey) || 
@@ -8544,10 +8530,40 @@ Renderer.character = class {
 					isProficient: true,
 					bonus: totalBonus >= 0 ? `+${totalBonus}` : `${totalBonus}`,
 				};
+			} else {
+				// Not proficient in new system - return just ability modifier
+				const abilityScore = character[skill.ability] || 10;
+				const abilityMod = Parser.getAbilityModifier(abilityScore);
+				const abilityModValue = typeof abilityMod === "number" ? abilityMod : parseInt(abilityMod) || 0;
+				return {
+					isProficient: false,
+					bonus: abilityModValue >= 0 ? `+${abilityModValue}` : `${abilityModValue}`,
+				};
 			}
 		}
 
-		return { isProficient: false, bonus: undefined };
+		// Fallback to old system (pre-calculated bonuses in character.skill)
+		if (character.skill) {
+			const skillBonus = character.skill[skill.key]
+				|| character.skill[skill.name.toLowerCase().replace(/\s+/g, "")]
+				|| character.skill[skill.name.toLowerCase()];
+			
+			if (skillBonus !== undefined) {
+				return {
+					isProficient: true,
+					bonus: skillBonus,
+				};
+			}
+		}
+
+		// No proficiency found - calculate base ability modifier
+		const abilityScore = character[skill.ability] || 10;
+		const abilityMod = Parser.getAbilityModifier(abilityScore);
+		const abilityModValue = typeof abilityMod === "number" ? abilityMod : parseInt(abilityMod) || 0;
+		return { 
+			isProficient: false, 
+			bonus: abilityModValue >= 0 ? `+${abilityModValue}` : `${abilityModValue}`
+		};
 	}
 
 	/**
@@ -8925,14 +8941,8 @@ Renderer.character = class {
 						let finalModifier = baseModValue;
 						let isProficient = false;
 
-						// Check old system first (pre-calculated bonuses in character.save)
-						const oldSaveBonus = character.save?.[ab];
-						if (oldSaveBonus !== undefined) {
-							finalModifier = typeof oldSaveBonus === "string" ? parseInt(oldSaveBonus) || baseModValue : oldSaveBonus;
-							isProficient = true;
-						}
-						// Check new system (saveProficiencies array)
-						else if (character.saveProficiencies && Array.isArray(character.saveProficiencies)) {
+						// Prioritize new system (saveProficiencies array)
+						if (character.saveProficiencies && Array.isArray(character.saveProficiencies)) {
 							isProficient = character.saveProficiencies.includes(ab);
 							if (isProficient) {
 								// Get proficiency bonus from character
@@ -8942,7 +8952,21 @@ Renderer.character = class {
 									profBonus = parseInt(profBonusStr) || 0;
 								}
 								finalModifier = baseModValue + profBonus;
+							} else {
+								// Not proficient - just use ability modifier
+								finalModifier = baseModValue;
 							}
+						}
+						// Fallback to old system (pre-calculated bonuses in character.save)
+						else if (character.save?.[ab] !== undefined) {
+							const oldSaveBonus = character.save[ab];
+							finalModifier = typeof oldSaveBonus === "string" ? parseInt(oldSaveBonus) || baseModValue : oldSaveBonus;
+							isProficient = true;
+						}
+						// No save system - just use ability modifier
+						else {
+							finalModifier = baseModValue;
+							isProficient = false;
 						}
 
 						const finalStr = finalModifier >= 0 ? `+${finalModifier}` : `${finalModifier}`;
