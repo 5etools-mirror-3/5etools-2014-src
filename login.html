@@ -133,16 +133,14 @@
 			<!-- Quick Character Generation -->
 			<div class="mt-4 pt-3" style="border-top: 1px solid #dee2e6;">
 				<h4 class="mb-3">Character Generation</h4>
-				<p class="text-muted mb-3">Generate random D&D characters at any level or use the wizard to level up from level 1 🧙</p>
 				<div class="ve-flex-h mb-3 align-items-end">
 					<div class="mr-3 mb-4">
-						<label for="character-source-select" class="form-label"><strong>Open Character Curator (Save target):</strong></label>
-						<select id="character-source-select" class="form-control" style="width: 280px;">
-							<option value="">Select a source...</option>
-						</select>
+						<label for="character-source-input" class="form-label"><strong>Save target (type or select):</strong></label>
+						<input list="character-source-list" id="character-source-input" class="form-control" style="width: 280px;" placeholder="Type or select a source...">
+						<datalist id="character-source-list"></datalist>
 					</div>
 					<div>
-						<button class="ve-btn ve-btn-success" id="generate-random-character" disabled>Open Curator for Selected Source</button>
+						<button type="button" class="ve-btn ve-btn-success" id="generate-random-character" disabled>Open Curator</button>
 					</div>
 				</div>
 				<div id="generation-message" class="mt-2" style="font-weight: bold;"></div>

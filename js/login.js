@@ -119,36 +119,35 @@ class SourceManager {
 
 		// Generate Random Character button
 		const generateBtn = document.getElementById("generate-random-character");
-		const sourceSelect = document.getElementById("character-source-select");
-		const levelSelect = document.getElementById("character-level-select");
-		const baseClassSelect = document.getElementById("character-base-class-select");
-		const raceSelect = document.getElementById("character-race-select");
-		const nameInput = document.getElementById("character-name-input");
+		if (generateBtn) {
+			// Ensure the element behaves as a button (prevents unexpected form-submit behavior)
+			try { generateBtn.type = "button"; } catch (e) { /* some environments expose as HTMLElement */ }
+		}
+		const sourceInput = document.getElementById("character-source-input");
+		const sourceList = document.getElementById("character-source-list");
 		const messageDiv = document.getElementById("generation-message");
 
-		if (generateBtn && sourceSelect && levelSelect && nameInput && messageDiv) {
-			// Enable/disable generate button based on source selection
-			sourceSelect.addEventListener("change", () => {
-				generateBtn.disabled = !sourceSelect.value;
+		if (generateBtn && sourceInput && sourceList && messageDiv) {
+			// Populate datalist when cached sources update (updateCachedSourcesList will do this)
+			// Enable/disable generate button based on source input value
+			sourceInput.addEventListener("input", () => {
+				generateBtn.disabled = !sourceInput.value.trim();//
 			});
 
 			// Handle character generation
 			generateBtn.addEventListener("click", () => {
-				const selectedSource = sourceSelect.value;
-				const selectedLevel = parseInt(levelSelect.value);
-				const selectedBaseClass = baseClassSelect ? baseClassSelect.value : "";
-				const selectedRace = raceSelect ? raceSelect.value : "";
-				const characterName = nameInput.value.trim();
+				const selectedSource = sourceInput.value.trim();
+
+				console.debug("generate button clicked, selectedSource=", selectedSource);
 
 				if (!selectedSource) {
 					messageDiv.innerHTML = "<span style=\"color: #dc3545;\">Please select a source first.</span>";
 					return;
 				}
 
-				messageDiv.innerHTML = "<span style=\"color: #0066cc;\">Generating character...</span>";
+				messageDiv.innerHTML = "<span style=\"color: #0066cc;\">Opening curator...</span>";
 
-				// Generate character with the selected source
-				// Navigate to the character editor for this source; the editor will handle creation and form selections.
+				// Navigate to the character editor for this source at level 0
 				this.generateRandomCharacter(selectedSource);
 			});
 		}
@@ -345,7 +344,8 @@ class SourceManager {
 
 	updateCachedSourcesList () {
 		const listDiv = document.getElementById("cached-sources-list");
-		const sourceSelect = document.getElementById("character-source-select");
+		const sourceInput = document.getElementById("character-source-input");
+		const sourceList = document.getElementById("character-source-list");
 		const generateBtn = document.getElementById("generate-random-character");
 		const cachedPasswords = SourcePasswordManager.getCachedPasswords();
 		const sourceNames = Object.keys(cachedPasswords);
@@ -373,21 +373,23 @@ class SourceManager {
 			listDiv.innerHTML = html;
 		}
 
-		// Update character source selector
-		if (sourceSelect) {
+		// Update character source input/datalist
+		if (sourceInput && sourceList) {
+			// Clear existing datalist
+			sourceList.innerHTML = "";
 			if (sourceNames.length === 0) {
-				sourceSelect.innerHTML = "<option value=\"\">No cached sources available</option>";
+				sourceInput.value = "";
 				if (generateBtn) generateBtn.disabled = true;
 			} else {
-				sourceSelect.innerHTML = "";
+				// Populate datalist and set the input to the first cached source
 				sourceNames.forEach(sourceName => {
 					const option = document.createElement("option");
 					option.value = sourceName;
-					option.textContent = sourceName;
-					sourceSelect.appendChild(option);
+					sourceList.appendChild(option);
 				});
-				// Enable generate button if a source is already selected
-				if (generateBtn) generateBtn.disabled = !sourceSelect.value;
+				// Default to first source
+				sourceInput.value = sourceNames[0];
+				if (generateBtn) generateBtn.disabled = false;
 			}
 		}
 	}
@@ -429,8 +431,9 @@ class SourceManager {
 			this.showMessage("generation-message", "Generating character...", "blue");
 
 			// Navigate to character editor with random generation parameters
-			const url = `charactereditor.html?level=0&source=${encodeURIComponent(sourceName)}`;
-			window.location.href = url;
+				const url = `charactereditor.html?level=0&source=${encodeURIComponent(sourceName)}`;
+				console.debug("navigating to", url);
+				window.location.assign(url);
 		} catch (error) {
 			console.error("Error generating character:", error);
 			this.showMessage("generation-message", `Error generating character: ${error.message}`, "red");
