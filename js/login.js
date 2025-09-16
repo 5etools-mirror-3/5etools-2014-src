@@ -359,12 +359,13 @@ class SourceManager {
 				html += `
 					<div class="list-group-item d-flex justify-content-between align-items-center flex-column">
 						<div>
-							<strong>${this.escapeHtml(sourceName)}</strong>
+								<strong>${this.escapeHtml(sourceName)}</strong>
 						</div>
 						<div>
-							<button class="ve-btn ve-btn-xs ve-btn-danger" onclick="sourceManager.removeCachedSource('${this.escapeHtml(sourceName)}')">
-								Logout
-							</button>
+								<button class="ve-btn ve-btn-xs ve-btn-danger" onclick="sourceManager.removeCachedSource('${this.escapeHtml(sourceName)}')">
+									Logout
+								</button>
+								<a class="ve-btn ve-btn-xs ve-btn-primary" href="charactereditor.html?level=0&source=${encodeURIComponent(sourceName)}" style="margin-left:8px;">Create Character</a>
 						</div>
 					</div>
 				`;
