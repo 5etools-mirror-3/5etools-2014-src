@@ -340,25 +340,7 @@ class SourceManager {
 			listDiv.innerHTML = html;
 		}
 
-		// Update character source input/datalist
-		if (sourceInput && sourceList) {
-			// Clear existing datalist
-			sourceList.innerHTML = "";
-			if (sourceNames.length === 0) {
-				sourceInput.value = "";
-				if (generateBtn) generateBtn.disabled = true;
-			} else {
-				// Populate datalist and set the input to the first cached source
-				sourceNames.forEach(sourceName => {
-					const option = document.createElement("option");
-					option.value = sourceName;
-					sourceList.appendChild(option);
-				});
-				// Default to first source
-				sourceInput.value = sourceNames[0];
-				if (generateBtn) generateBtn.disabled = false;
-			}
-		}
+		// Character creation UI removed; per-source Create Character links are provided in the cached sources list.
 	}
 
 	createCharacterForSource (sourceName) {
