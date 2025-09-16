@@ -7,7 +7,6 @@ let isEditMode = false;
 let currentSource = null;
 let hasSourceAccess = false;
 
-// API configuration is declared elsewhere (e.g., sources.js)
 
 // Source Password Management
 class CharacterSourcePasswordManager {
@@ -287,8 +286,8 @@ class CharacterEditorPage {
 			},
 			...randomAbilityScores,
 			passive: 10 + Math.floor((randomAbilityScores.wis - 10) / 2) + (this.hasSkillProficiency("perception", randomClasses) ? profBonus : 0),
-			save: await this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
-			skill: await this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, randomBackground),
+			saveProficiencies: await this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
+			skillProficiencies: await this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, randomBackground),
 			proficiencyBonus: `+${profBonus}`,
 			deathSaves: {
 				successes: 0,
@@ -2333,15 +2332,15 @@ class CharacterEditorPage {
 
 			// Apply skill proficiencies from background
 			if (backgroundInfo.skillProficiencies) {
-				if (!characterTemplate.skill) characterTemplate.skill = {};
+				if (!characterTemplate.skillProficiencies) characterTemplate.skillProficiencies = [];
 
 				backgroundInfo.skillProficiencies.forEach(profSet => {
 					Object.entries(profSet).forEach(([skill, isProficient]) => {
 						if (isProficient === true) {
-							// Add proficiency to skill
-							const currentMod = Math.floor((characterTemplate[this.getAbilityForSkill(skill)] - 10) / 2);
-							const profBonus = parseInt(characterTemplate.proficiencyBonus.replace('+', ''));
-							characterTemplate.skill[skill] = currentMod + profBonus;
+							// Add proficiency to skill list if not already present
+							if (!characterTemplate.skillProficiencies.includes(skill)) {
+								characterTemplate.skillProficiencies.push(skill);
+							}
 						}
 					});
 				});
@@ -3793,11 +3792,10 @@ class CharacterEditorPage {
 	}
 
 	async generateRandomSaves(abilityScores, classes, profBonus) {
-		const saves = {};
-		const allSaves = ["str", "dex", "con", "int", "wis", "cha"];
+		// Instead of calculating final bonuses, just store which saves are proficient
+		const proficientSaves = [];
 
 		// In D&D 5e, you only get saving throw proficiencies from your FIRST class when multiclassing
-		const proficientSaves = new Set();
 		if (classes.length > 0) {
 			const primaryClass = classes[0];
 			try {
@@ -3805,7 +3803,9 @@ class CharacterEditorPage {
 				if (classData && classData.class && classData.class[0] && classData.class[0].proficiency) {
 					// Add saving throw proficiencies from class data
 					classData.class[0].proficiency.forEach(save => {
-						proficientSaves.add(save);
+						if (!proficientSaves.includes(save)) {
+							proficientSaves.push(save);
+						}
 					});
 				}
 			} catch (e) {
@@ -3813,14 +3813,7 @@ class CharacterEditorPage {
 			}
 		}
 
-		// Calculate ONLY proficient saving throws (per 5etools architecture)
-		proficientSaves.forEach(save => {
-			const abilityModifier = Math.floor((abilityScores[save] - 10) / 2);
-			const total = abilityModifier + profBonus;
-			saves[save] = total;
-		});
-
-		return saves;
+		return proficientSaves;
 	}
 
 	// Standard D&D 5e proficiency bonus by total character level
@@ -3863,17 +3856,8 @@ class CharacterEditorPage {
 	}
 
 	async generateRandomSkills(abilityScores, classes, profBonus, race, background) {
-		const skills = {};
-		const skillAbilityMap = {
-			"acrobatics": "dex", "animal_handling": "wis", "arcana": "int",
-			"athletics": "str", "deception": "cha", "history": "int",
-			"insight": "wis", "intimidation": "cha", "investigation": "int",
-			"medicine": "wis", "nature": "int", "perception": "wis",
-			"performance": "cha", "persuasion": "cha", "religion": "int",
-			"sleight_of_hand": "dex", "stealth": "dex", "survival": "wis"
-		};
-
-		const proficientSkills = new Set();
+		// Instead of calculating final bonuses, just store which skills are proficient
+		const proficientSkills = [];
 
 		// In D&D 5e, you only get skill proficiencies from your FIRST class when multiclassing
 		if (classes.length > 0) {
@@ -3884,18 +3868,30 @@ class CharacterEditorPage {
 			const numChoices = classSkills.numChoices || 2;
 
 			// Add automatic proficiencies from first class only
-			automaticSkills.forEach(skill => proficientSkills.add(skill));
+			automaticSkills.forEach(skill => {
+				if (!proficientSkills.includes(skill)) {
+					proficientSkills.push(skill);
+				}
+			});
 
 			// Add random choices from first class only
 			if (availableSkills.length > 0) {
 				const selectedFromClass = this.selectWeightedSkills(availableSkills, numChoices, [primaryClass], race);
-				selectedFromClass.forEach(skill => proficientSkills.add(skill));
+				selectedFromClass.forEach(skill => {
+					if (!proficientSkills.includes(skill)) {
+						proficientSkills.push(skill);
+					}
+				});
 			}
 		}
 
 		// Add racial skill proficiencies (limited)
 		const racialSkills = this.getRacialSkillProficiencies(race);
-		racialSkills.forEach(skill => proficientSkills.add(skill));
+		racialSkills.forEach(skill => {
+			if (!proficientSkills.includes(skill)) {
+				proficientSkills.push(skill);
+			}
+		});
 
 		// Add background skill proficiencies (should be exactly 2 for most backgrounds)
 		if (background && typeof DataLoader !== 'undefined') {
@@ -3907,31 +3903,37 @@ class CharacterEditorPage {
 				if (found && found.skill) {
 					// `found.skill` may be an array of skill names or objects
 					const skillsFromData = Array.isArray(found.skill) ? found.skill.map(s => typeof s === 'string' ? s : s.name).filter(Boolean) : [];
-					skillsFromData.forEach(s => proficientSkills.add(s));
+					skillsFromData.forEach(s => {
+						if (!proficientSkills.includes(s)) {
+							proficientSkills.push(s);
+						}
+					});
 				} else {
 					const backgroundSkills = this.generateBackgroundSkills(background);
-					backgroundSkills.forEach(skill => proficientSkills.add(skill));
+					backgroundSkills.forEach(skill => {
+						if (!proficientSkills.includes(skill)) {
+							proficientSkills.push(skill);
+						}
+					});
 				}
 			} catch (e) {
 				const backgroundSkills = this.generateBackgroundSkills(background);
-				backgroundSkills.forEach(skill => proficientSkills.add(skill));
+				backgroundSkills.forEach(skill => {
+					if (!proficientSkills.includes(skill)) {
+						proficientSkills.push(skill);
+					}
+				});
 			}
 		} else if (background) {
 			const backgroundSkills = this.generateBackgroundSkills(background);
-			backgroundSkills.forEach(skill => proficientSkills.add(skill));
+			backgroundSkills.forEach(skill => {
+				if (!proficientSkills.includes(skill)) {
+					proficientSkills.push(skill);
+				}
+			});
 		}
 
-		// Only include skills where the character has proficiency
-	proficientSkills.forEach(skill => {
-			if (skillAbilityMap[skill]) {
-				const ability = skillAbilityMap[skill];
-				const abilityMod = Math.floor((abilityScores[ability] - 10) / 2);
-				const total = abilityMod + profBonus;
-				skills[skill] = total >= 0 ? `+${total}` : `${total}`;
-			}
-		});
-
-		return skills;
+		return proficientSkills;
 	}
 
 	async getClassSkillProficiencies(className) {
@@ -7662,8 +7664,8 @@ class CharacterEditorPage {
 			},
 			...randomAbilityScores,
 			passive: 10 + Math.floor((randomAbilityScores.wis - 10) / 2) + (this.hasSkillProficiency("perception", randomClasses) ? profBonus : 0),
-			save: await this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
-			skill: await this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, randomBackground),
+			saveProficiencies: await this.generateRandomSaves(randomAbilityScores, randomClasses, profBonus),
+			skillProficiencies: await this.generateRandomSkills(randomAbilityScores, randomClasses, profBonus, randomRace, randomBackground),
 			proficiencyBonus: `+${profBonus}`,
 			deathSaves: {
 				successes: 0,
@@ -8275,7 +8277,7 @@ class CharacterEditorPage {
 		try {
 			// Generate a unique ID for new character using name + source
 			const characterId = CharacterManager._generateCompositeId(characterData.name, characterData.source);
-			const apiUrl = '/api/characters';
+			const apiUrl = `${API_BASE_URL}/characters`;
 
 			// Prepare character data for database
 			const characterPayload = {
@@ -15559,7 +15561,7 @@ class CharacterEditorPage {
 			// Check if it's a known spellcasting class
 			if (this.isSpellcastingClass(className)) {
 				reasons.push(`${className} is a spellcasting class`);
-				
+
 				// Check level requirements for spellcasting
 				const classLevel = classEntry.level || 1;
 				if (className === 'Paladin' && classLevel >= 2) {
@@ -15661,7 +15663,7 @@ class CharacterEditorPage {
 			};
 			return patronSpells[subclassName] || null;
 		}
-		
+
 		// Add other subclass expanded spells as needed
 		return null;
 	}
@@ -15685,6 +15687,128 @@ class CharacterEditorPage {
 			'Fighter': 'int', 'Rogue': 'int'
 		};
 		return abilities[className] || 'int';
+	}
+
+	isWeaponAttack(action) {
+		if (!action || !action.entries) return false;
+		
+		// Check if the action contains attack roll indicators
+		const actionText = action.entries.join(' ').toLowerCase();
+		const attackIndicators = [
+			'@atk', // 5etools attack notation
+			'to hit',
+			'attack roll',
+			'melee weapon attack',
+			'ranged weapon attack',
+			'weapon attack'
+		];
+		
+		return attackIndicators.some(indicator => actionText.includes(indicator));
+	}
+
+	determineWeaponType(weaponName) {
+		// Remove 5etools notation and get clean weapon name
+		const cleanName = weaponName.replace(/\{@[^}]+\}/g, '').trim().toLowerCase();
+		
+		const weaponTypes = {
+			// Simple Melee Weapons
+			'club': 'simple',
+			'dagger': 'simple',
+			'dart': 'simple',
+			'javelin': 'simple',
+			'mace': 'simple',
+			'quarterstaff': 'simple',
+			'sickle': 'simple',
+			'spear': 'simple',
+			'crossbow, light': 'simple',
+			'light crossbow': 'simple',
+			'shortbow': 'simple',
+			'sling': 'simple',
+			
+			// Martial Melee Weapons
+			'battleaxe': 'martial',
+			'flail': 'martial',
+			'glaive': 'martial',
+			'greataxe': 'martial',
+			'greatsword': 'martial',
+			'halberd': 'martial',
+			'lance': 'martial',
+			'longsword': 'martial',
+			'maul': 'martial',
+			'morningstar': 'martial',
+			'pike': 'martial',
+			'rapier': 'martial',
+			'scimitar': 'martial',
+			'shortsword': 'martial',
+			'trident': 'martial',
+			'war pick': 'martial',
+			'warhammer': 'martial',
+			'whip': 'martial',
+			'crossbow, hand': 'martial',
+			'hand crossbow': 'martial',
+			'crossbow, heavy': 'martial',
+			'heavy crossbow': 'martial',
+			'longbow': 'martial',
+			'net': 'martial'
+		};
+		
+		return weaponTypes[cleanName] || null;
+	}
+
+	hasWeaponProficiency(character, weaponType) {
+		if (!character.class || !weaponType) return false;
+		
+		// Check class weapon proficiencies
+		for (const classEntry of character.class) {
+			const classProficiencies = this.getClassWeaponProficiencies(classEntry.name);
+			if (classProficiencies.includes(weaponType) || classProficiencies.includes('all')) {
+				return true;
+			}
+		}
+		
+		// Check racial weapon proficiencies
+		if (character.race) {
+			const raceName = character.race.name || character.race;
+			const racialProficiencies = this.getRacialWeaponProficiencies(raceName);
+			if (racialProficiencies.includes(weaponType) || racialProficiencies.includes('all')) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	getClassWeaponProficiencies(className) {
+		const classProficiencies = {
+			'Barbarian': ['simple', 'martial'],
+			'Bard': ['simple', 'hand crossbow', 'longsword', 'rapier', 'shortsword'],
+			'Cleric': ['simple'],
+			'Druid': ['club', 'dagger', 'dart', 'javelin', 'mace', 'quarterstaff', 'scimitar', 'shield', 'sickle', 'sling', 'spear'],
+			'Fighter': ['simple', 'martial'],
+			'Monk': ['simple', 'shortsword'],
+			'Paladin': ['simple', 'martial'],
+			'Ranger': ['simple', 'martial'],
+			'Rogue': ['simple', 'hand crossbow', 'longsword', 'rapier', 'shortsword'],
+			'Sorcerer': ['dagger', 'dart', 'sling', 'quarterstaff', 'light crossbow'],
+			'Warlock': ['simple'],
+			'Wizard': ['dagger', 'dart', 'sling', 'quarterstaff', 'light crossbow']
+		};
+		
+		return classProficiencies[className] || [];
+	}
+
+	getRacialWeaponProficiencies(raceName) {
+		const racialProficiencies = {
+			'Dwarf': ['battleaxe', 'handaxe', 'light hammer', 'warhammer'],
+			'Elf': ['longsword', 'shortsword', 'shortbow', 'longbow'],
+			'High Elf': ['longsword', 'shortsword', 'shortbow', 'longbow'],
+			'Wood Elf': ['longsword', 'shortsword', 'shortbow', 'longbow'],
+			'Dark Elf': ['rapier', 'shortsword', 'hand crossbow'],
+			'Drow': ['rapier', 'shortsword', 'hand crossbow'],
+			'Hobgoblin': ['simple', 'martial'] // Some races get broad proficiencies
+		};
+		
+		return racialProficiencies[raceName] || [];
 	}
 
 	characterHasFeature(character, featureName) {

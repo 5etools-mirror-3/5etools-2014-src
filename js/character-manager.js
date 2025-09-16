@@ -14,6 +14,9 @@
  *  CharacterP2P.init(); // Automatically connects to Cloudflare session
  *  // Character updates are automatically broadcast to all users
  */
+let API_BASE_URL = window.location.origin.includes("localhost")
+	? "https://5e.bne.sh/api"
+	: "/api";
 
 class CharacterP2P {
 	static _ws = null;
@@ -1167,7 +1170,9 @@ class CharacterManager {
 			const fetchPromises = blobs.map(async (blob) => {
 				try {
 					const cacheBusterUrl = `${blob.url}${blob.url.includes("?") ? "&" : "?"}_t=${Date.now()}`;
-					const response = await fetch(`/api/characters/get?url=${encodeURIComponent(cacheBusterUrl)}&id=${encodeURIComponent(blob.id)}`, {
+
+
+					const response = await fetch(`${API_BASE_URL}/characters/get?url=${encodeURIComponent(cacheBusterUrl)}&id=${encodeURIComponent(blob.id)}`, {
 						cache: "no-cache",
 						headers: {
 							"Cache-Control": "no-cache, no-store, must-revalidate",
@@ -1327,7 +1332,7 @@ class CharacterManager {
 						}
 
 						// Use the /api/characters/get endpoint for individual character fetching
-						const response = await fetch(`/api/characters/get?url=${encodeURIComponent(blob.url)}&id=${encodeURIComponent(blob.id)}`);
+						const response = await fetch(`${API_BASE_URL}/characters/get?url=${encodeURIComponent(blob.url)}&id=${encodeURIComponent(blob.id)}`);
 
 						if (!response.ok) {
 							console.warn(`CharacterManager: Failed to fetch character ${blob.id}: ${response.statusText}`);
@@ -1410,7 +1415,7 @@ class CharacterManager {
 				}
 			}
 
-			let url = `/api/characters/list`;
+			let url = `${API_BASE_URL}/characters/list`;
 			if (sources && sources.length > 0) {
 				const sourcesParam = sources.map(s => `sources=${encodeURIComponent(s)}`).join("&");
 				url += `?${sourcesParam}`;
@@ -1995,10 +2000,6 @@ class CharacterManager {
 			// Generate character ID if needed
 			const characterId = characterData.id || this._generateCompositeId(characterData.name, characterData.source);
 
-			const API_BASE_URL = window.location.origin.includes("localhost")
-				? "http://localhost:3000/api"
-				: "/api";
-
 			const response = await fetch(`${API_BASE_URL}/characters/save`, {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
@@ -2081,10 +2082,6 @@ class CharacterManager {
 			const cachedPasswords = localStorage.getItem("sourcePasswords");
 			const passwords = JSON.parse(cachedPasswords);
 			const password = passwords[character.source];
-
-			const API_BASE_URL = window.location.origin.includes("localhost")
-				? "http://localhost:3000/api"
-				: "/api";
 
 			// Call delete API
 			const response = await fetch(`${API_BASE_URL}/characters/delete`, {

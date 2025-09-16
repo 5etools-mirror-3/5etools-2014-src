@@ -8506,19 +8506,48 @@ Renderer.character = class {
 	 * @returns {Object} { isProficient: boolean, bonus: string|number|undefined }
 	 */
 	static _getSkillProficiency (character, skill) {
-		if (!character.skill) {
-			return { isProficient: false, bonus: undefined };
+		// First check for the old system (pre-calculated bonuses in character.skill)
+		if (character.skill) {
+			const skillBonus = character.skill[skill.key]
+				|| character.skill[skill.name.toLowerCase().replace(/\s+/g, "")]
+				|| character.skill[skill.name.toLowerCase()];
+			
+			if (skillBonus !== undefined) {
+				return {
+					isProficient: true,
+					bonus: skillBonus,
+				};
+			}
 		}
 
-		// Try multiple key formats to find skill bonus
-		const skillBonus = character.skill[skill.key]
-			|| character.skill[skill.name.toLowerCase().replace(/\s+/g, "")]
-			|| character.skill[skill.name.toLowerCase()];
+		// New system: check skillProficiencies array and calculate dynamically
+		if (character.skillProficiencies && Array.isArray(character.skillProficiencies)) {
+			const skillKey = skill.key || skill.name.toLowerCase().replace(/\s+/g, "_");
+			const isProficient = character.skillProficiencies.includes(skillKey) || 
+			                    character.skillProficiencies.includes(skill.name.toLowerCase().replace(/\s+/g, "_"));
+			
+			if (isProficient) {
+				// Calculate bonus dynamically
+				const abilityScore = character[skill.ability] || 10;
+				const abilityMod = Parser.getAbilityModifier(abilityScore);
+				const abilityModValue = typeof abilityMod === "number" ? abilityMod : parseInt(abilityMod) || 0;
+				
+				// Get proficiency bonus from character
+				let profBonus = 0;
+				if (character.proficiencyBonus) {
+					const profBonusStr = character.proficiencyBonus.toString().replace('+', '');
+					profBonus = parseInt(profBonusStr) || 0;
+				}
+				
+				const totalBonus = abilityModValue + profBonus;
+				return {
+					isProficient: true,
+					bonus: totalBonus >= 0 ? `+${totalBonus}` : `${totalBonus}`,
+				};
+			}
+		}
 
-		return {
-			isProficient: skillBonus !== undefined,
-			bonus: skillBonus,
-		};
+		return { isProficient: false, bonus: undefined };
 	}
 
 	/**
@@ -8626,8 +8655,16 @@ Renderer.character = class {
 		const wisScore = character.wis || 10;
 		const wisMod = Parser.getAbilityModifier(wisScore);
 		const wisModValue = typeof wisMod === "number" ? wisMod : parseInt(wisMod) || 0;
-		const perceptionSkill = character.skill?.perception || character.skill?.Perception || wisModValue;
-		const perceptionMod = typeof perceptionSkill === "string" ? parseInt(perceptionSkill) || wisModValue : perceptionSkill;
+		
+		// Use the skill proficiency system to calculate perception modifier
+		const perceptionSkillDef = { key: "perception", name: "Perception", ability: "wis" };
+		const { isProficient, bonus } = Renderer.character._getSkillProficiency(character, perceptionSkillDef);
+		
+		let perceptionMod = wisModValue;
+		if (isProficient && bonus !== undefined) {
+			perceptionMod = typeof bonus === "string" ? parseInt(bonus) || wisModValue : bonus;
+		}
+		
 		const passivePerception = 10 + perceptionMod;
 		combatStats.push(`<strong>Passive Perception</strong>: ${passivePerception}`);
 
@@ -8884,14 +8921,28 @@ Renderer.character = class {
 						const score = character[ab] || 10;
 						const baseModifier = Parser.getAbilityModifier(score);
 						const baseModValue = typeof baseModifier === "number" ? baseModifier : parseInt(baseModifier) || 0;
-						const saveBonus = character.save?.[ab];
-
+						
 						let finalModifier = baseModValue;
 						let isProficient = false;
 
-						if (saveBonus) {
-							finalModifier = typeof saveBonus === "string" ? parseInt(saveBonus) || baseModValue : saveBonus;
+						// Check old system first (pre-calculated bonuses in character.save)
+						const oldSaveBonus = character.save?.[ab];
+						if (oldSaveBonus !== undefined) {
+							finalModifier = typeof oldSaveBonus === "string" ? parseInt(oldSaveBonus) || baseModValue : oldSaveBonus;
 							isProficient = true;
+						}
+						// Check new system (saveProficiencies array)
+						else if (character.saveProficiencies && Array.isArray(character.saveProficiencies)) {
+							isProficient = character.saveProficiencies.includes(ab);
+							if (isProficient) {
+								// Get proficiency bonus from character
+								let profBonus = 0;
+								if (character.proficiencyBonus) {
+									const profBonusStr = character.proficiencyBonus.toString().replace('+', '');
+									profBonus = parseInt(profBonusStr) || 0;
+								}
+								finalModifier = baseModValue + profBonus;
+							}
 						}
 
 						const finalStr = finalModifier >= 0 ? `+${finalModifier}` : `${finalModifier}`;

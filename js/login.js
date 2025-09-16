@@ -1,12 +1,13 @@
 // Source Management Page - Dedicated source creation and management
 "use strict";
 
-// API configuration
-const API_BASE_URL = window.location.origin.includes("localhost")
-	? "http://localhost:3000/api"
-	: "/api";
 
 // Source Password Management (moved from charactereditor.js)
+// API configuration
+let API_BASE_URL = window.location.origin.includes("localhost")
+	? "https://5e.bne.sh/api"
+	: "/api";
+
 class SourcePasswordManager {
 	static STORAGE_KEY = "sourcePasswords";
 
