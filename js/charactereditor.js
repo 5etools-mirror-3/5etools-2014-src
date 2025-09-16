@@ -2061,12 +2061,33 @@ class CharacterEditorPage {
 			// Racial features are already handled in the existing "Features & Traits" section
 			// So we don't need to duplicate them here
 
-			// Apply ability score bonuses from race
+			// Apply ability score bonuses from race (handles both fixed and flexible bonuses)
 			if (raceInfo.ability && raceInfo.ability.length > 0) {
 				raceInfo.ability.forEach(abilitySet => {
+					// Handle fixed ability score bonuses (e.g., Elf +2 Dex)
 					Object.entries(abilitySet).forEach(([ability, bonus]) => {
 						if (typeof bonus === 'number' && characterTemplate[ability] !== undefined) {
 							characterTemplate[ability] += bonus;
+							console.log(`Applied racial bonus: ${ability} +${bonus} (${race.name})`);
+						} else if (ability === 'choose' && bonus && bonus.from) {
+							// Handle flexible racial bonuses (e.g., Half-Elf: choose +1 to two different abilities)
+							const availableAbilities = bonus.from || [];
+							const choiceCount = bonus.count || 1;
+							const bonusAmount = bonus.amount || 1;
+							
+							console.log(`Flexible racial bonus available: choose ${choiceCount} from [${availableAbilities.join(', ')}], +${bonusAmount} each (${race.name})`);
+							
+							// For automated character generation, select the highest priority abilities
+							const abilityPriority = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+							const selectedAbilities = availableAbilities
+								.filter(ab => characterTemplate[ab] !== undefined)
+								.sort((a, b) => abilityPriority.indexOf(a) - abilityPriority.indexOf(b))
+								.slice(0, choiceCount);
+								
+							selectedAbilities.forEach(selectedAbility => {
+								characterTemplate[selectedAbility] += bonusAmount;
+								console.log(`Applied flexible racial bonus: ${selectedAbility} +${bonusAmount} (${race.name})`);
+							});
 						}
 					});
 				});
@@ -2395,18 +2416,6 @@ class CharacterEditorPage {
 				});
 			}
 
-			// Apply background features to entries
-			if (backgroundInfo.entries && backgroundInfo.entries.length > 0) {
-				if (!characterTemplate.entries) characterTemplate.entries = [];
-
-				// Add background feature section
-				characterTemplate.entries.push({
-					type: "section",
-					name: `${backgroundInfo.name} Background`,
-					entries: backgroundInfo.entries
-				});
-			}
-
 			return characterTemplate;
 		} catch (error) {
 			console.error(`Error applying background data:`, error);
@@ -2552,13 +2561,14 @@ class CharacterEditorPage {
 
 			spellObjects.forEach(spellData => {
 				// Check if spell already exists by name to avoid duplicates
+				const spellName = typeof spellData === 'string' ? spellData : spellData.name;
 				const existingSpell = characterTemplate.spells.levels[spellLevel].spells.find(s =>
-					(typeof s === 'string' ? s : s.name) === spellData.name
+					(typeof s === 'string' ? s : s.name) === spellName
 				);
 
 				if (!existingSpell) {
-					console.log(`✨ Adding structured spell: ${spellData.name} (Level ${spellLevel})`);
-					characterTemplate.spells.levels[spellLevel].spells.push(spellData);
+					console.log(`✨ Adding spell: ${spellName} (Level ${spellLevel})`);
+					characterTemplate.spells.levels[spellLevel].spells.push(spellName);
 				}
 			});
 		}
@@ -2575,30 +2585,30 @@ class CharacterEditorPage {
 			spellsByLevel[level].push(spell); // Store full spell object, not just name
 		});
 
-		// Add cantrips for all spellcasters
+		// Add cantrips for all spellcasters (simplified string format)
 		if (spellsByLevel['0'] && spellsByLevel['0'].length > 0) {
 			selectedSpells['0'] = [];
 			const cantripCount = Math.min(3, spellsByLevel['0'].length);
 			for (let i = 0; i < cantripCount; i++) {
-				selectedSpells['0'].push(await this.createStructuredSpellData(spellsByLevel['0'][i]));
+				selectedSpells['0'].push(spellsByLevel['0'][i].name);
 			}
 		}
 
-		// Add 1st level spells for level 1+ casters
+		// Add 1st level spells for level 1+ casters (simplified string format)
 		if (classLevel >= 1 && spellsByLevel['1'] && spellsByLevel['1'].length > 0) {
 			selectedSpells['1'] = [];
 			const spellCount = Math.min(4, spellsByLevel['1'].length);
 			for (let i = 0; i < spellCount; i++) {
-				selectedSpells['1'].push(await this.createStructuredSpellData(spellsByLevel['1'][i]));
+				selectedSpells['1'].push(spellsByLevel['1'][i].name);
 			}
 		}
 
-		// Add 2nd level spells for level 3+ casters
+		// Add 2nd level spells for level 3+ casters (simplified string format)
 		if (classLevel >= 3 && spellsByLevel['2'] && spellsByLevel['2'].length > 0) {
 			selectedSpells['2'] = [];
 			const spellCount = Math.min(2, spellsByLevel['2'].length);
 			for (let i = 0; i < spellCount; i++) {
-				selectedSpells['2'].push(await this.createStructuredSpellData(spellsByLevel['2'][i]));
+				selectedSpells['2'].push(spellsByLevel['2'][i].name);
 			}
 		}
 
@@ -8795,9 +8805,9 @@ class CharacterEditorPage {
 		// Check for spell selection using data-driven detection
 		console.log(`🔍 LEVEL UP FLOW - Checking spell capability for ${classEntry.name} at level ${newLevel}`);
 
-		// Create character object for spell detection
+		// Create character object for spell detection (include ALL classes for multiclassing)
 		const characterForSpellCheck = {
-			class: [classEntry],
+			class: character.class || [classEntry], // Use full class array for multiclass detection
 			race: character.race,
 			// Include any existing spells to help with detection
 			spells: character.spells,
@@ -8814,6 +8824,20 @@ class CharacterEditorPage {
 		if (isSpellcaster) {
 			// For spellcasters, show spell selection before other features
 			console.log(`✅ Adding spell selection for ${classEntry.name} level ${newLevel}`);
+			
+			// Initialize spells structure if it doesn't exist (for first-time spellcasters/multiclass)
+			if (!character.spells) {
+				console.log(`🔧 Initializing spells structure for new spellcaster`);
+				character.spells = {
+					levels: {},
+					spellcastingAbility: null,
+					dc: 8,
+					attackBonus: "+0"
+				};
+				// Update the editor with the new spell structure
+				this.ace.setValue(JSON.stringify(character, null, 2));
+			}
+			
 			this.levelUpState.pendingFeatures = [{
 				type: 'spells',
 				feature: {
@@ -11987,7 +12011,7 @@ class CharacterEditorPage {
 
 			// For cantrips and all available spell levels, pre-fetch lists
 			for (let lvl = 0; lvl <= maxSpellLevel; lvl++) {
-				availableSpellsByLevel[lvl] = await this.pGetAvailableSpellsForClass(spellListClass, primaryClass, primarySubclass, lvl, schoolRestrictions);
+				availableSpellsByLevel[lvl] = await this.pGetAvailableSpellsForClass(spellListClass, primaryClass, primarySubclass, lvl, schoolRestrictions, character);
 			}
 		} catch (e) {
 			// If fetching fails, fall back to simplified behaviour
@@ -12441,30 +12465,57 @@ class CharacterEditorPage {
 	 * Return a list of available spells (names) for a given class/subclass and spell level.
 	 * This uses the site's Renderer.spell lookup helpers to derive spells available to a class.
 	 */
-	async pGetAvailableSpellsForClass(classTag, className, subclassName, level, schoolRestrictions = []) {
-		// Attempt to load global spell list via DataLoader
+	async pGetAvailableSpellsForClass(classTag, className, subclassName, level, schoolRestrictions = [], character = null) {
+		// COMPREHENSIVE spell loading - includes ALL sources: class, subclass, race, background
 		try {
 			const allSpells = await DataLoader.pCacheAndGetAllSite(UrlUtil.PG_SPELLS);
 			console.log(`Loading spells for ${className || classTag}, level ${level}, found ${allSpells.length} total spells`);
 
-			// Filter spells by class and return full spell objects
+			// Filter spells by ALL sources and return full spell objects
 			const filteredSpells = allSpells
 				.filter(sp => sp.level === level)
 				.filter(sp => {
-					// Check combined classes
+					// Check ALL combined spell sources 
 					const fromClasses = Renderer.spell.getCombinedClasses(sp, 'fromClassList') || [];
 					const fromSubclasses = Renderer.spell.getCombinedClasses(sp, 'fromSubclass') || [];
 					const fromVariantClasses = Renderer.spell.getCombinedClasses(sp, 'fromClassListVariant') || [];
+					const fromRaces = Renderer.spell.getCombinedClasses(sp, 'fromRaces') || [];
+					const fromBackgrounds = Renderer.spell.getCombinedClasses(sp, 'fromBackgrounds') || [];
 
 					// Check if spell is available to this class
 					const targetClass = (className || classTag).toLowerCase();
-					const matchesClass = fromClasses.some(c => c.name && c.name.toLowerCase() === targetClass) ||
-					                   fromVariantClasses.some(c => c.name && c.name.toLowerCase() === targetClass);
+					let matchesClass = fromClasses.some(c => c.name && c.name.toLowerCase() === targetClass) ||
+					                  fromVariantClasses.some(c => c.name && c.name.toLowerCase() === targetClass);
 
-					// If no class match, check if this spell is generally available to this class type
+					// Check subclass expanded spells if subclass is specified
+					if (!matchesClass && subclassName) {
+						const targetSubclass = subclassName.toLowerCase();
+						matchesClass = fromSubclasses.some(sc => 
+							sc.subclass && sc.subclass.name && sc.subclass.name.toLowerCase() === targetSubclass &&
+							sc.class && sc.class.name && sc.class.name.toLowerCase() === targetClass
+						);
+					}
+
+					// Check racial spells if character data provided
+					if (!matchesClass && character && character.race) {
+						const raceName = typeof character.race === 'string' ? character.race : character.race.name;
+						if (raceName) {
+							matchesClass = fromRaces.some(r => r.name && r.name.toLowerCase().includes(raceName.toLowerCase()));
+						}
+					}
+
+					// Check background spells if character data provided  
+					if (!matchesClass && character && character.background) {
+						const backgroundName = typeof character.background === 'string' ? character.background : character.background.name;
+						if (backgroundName) {
+							matchesClass = fromBackgrounds.some(b => b.name && b.name.toLowerCase().includes(backgroundName.toLowerCase()));
+						}
+					}
+
+					// If no match from any source, exclude this spell
 					if (!matchesClass) return false;
 
-					// Apply simple school restrictions if provided (schoolRestrictions are school initials)
+					// Apply school restrictions if provided (schoolRestrictions are school initials)
 					if (schoolRestrictions && schoolRestrictions.length) {
 						const sch = sp.school ? sp.school.charAt(0).toUpperCase() : '';
 						if (!schoolRestrictions.includes(sch)) return false;
@@ -12474,7 +12525,7 @@ class CharacterEditorPage {
 				})
 				.sort((a, b) => a.name.localeCompare(b.name));
 
-			console.log(`Found ${filteredSpells.length} spells for ${className || classTag} at level ${level}:`, filteredSpells.slice(0, 5).map(sp => sp.name));
+			console.log(`Found ${filteredSpells.length} spells for ${className || classTag} at level ${level} (including ALL sources):`, filteredSpells.slice(0, 5).map(sp => sp.name));
 			return filteredSpells; // Return full spell objects, not just names
 		} catch (e) {
 			console.warn('pGetAvailableSpellsForClass failed', e);
@@ -15340,9 +15391,9 @@ class CharacterEditorPage {
 		// Racial skills (varies by race)
 		if (character.race) {
 			const raceName = typeof character.race === 'string' ? character.race : character.race.name;
-			const racialSkills = this.getRacialSkillCount(raceName);
-			min += racialSkills;
-			max += racialSkills;
+			const racialSkills = this.getRaceSkillCount(raceName);
+			min += racialSkills.min;
+			max += racialSkills.max;
 		}
 
 		return { min: Math.max(min, 2), max: Math.min(max, 18) }; // Reasonable bounds
@@ -16758,22 +16809,9 @@ class CharacterEditorPage {
 								);
 
 								if (!existingSpell) {
-									// Try to load full spell data for enhanced integration
-									try {
-										const spellData = await this.loadSpellByName(spellName);
-										if (spellData) {
-											const structuredSpell = await this.createStructuredSpellData(spellData);
-											character.spells.levels[spellLevel].spells.push(structuredSpell);
-											console.log(`✨ Added structured spell to character: ${spellName} (Level ${spellLevel})`);
-										} else {
-											// Fallback to string format if spell data can't be loaded
-											character.spells.levels[spellLevel].spells.push(spellName);
-											console.log(`⚠️ Added spell as string (data not found): ${spellName}`);
-										}
-									} catch (error) {
-										console.warn(`Failed to load spell data for ${spellName}:`, error);
-										character.spells.levels[spellLevel].spells.push(spellName);
-									}
+									// Use simplified string format for consistency
+									character.spells.levels[spellLevel].spells.push(spellName);
+									console.log(`✨ Added spell to character: ${spellName} (Level ${spellLevel})`);
 								}
 							}
 						}
