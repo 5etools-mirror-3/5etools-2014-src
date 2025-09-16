@@ -3,8 +3,25 @@ import { getCachedBlobs, setCachedBlobs, isFresh } from "./cache.js";
 
 export default async function handler (req, res) {
 	// Enable CORS
+	// When allowing credentials, browsers require a specific Origin value
+	// (Access-Control-Allow-Origin must NOT be '*'). Use the request Origin
+	// if present, or fall back to an allow-list supplied via CORS_ALLOWED_ORIGINS.
 	res.setHeader("Access-Control-Allow-Credentials", true);
-	res.setHeader("Access-Control-Allow-Origin", "*");
+	const requestOrigin = req.headers.origin;
+	if (process.env.CORS_ALLOWED_ORIGINS) {
+		const allowed = process.env.CORS_ALLOWED_ORIGINS.split(',').map(s => s.trim()).filter(Boolean);
+		if (requestOrigin && allowed.includes(requestOrigin)) {
+			res.setHeader("Access-Control-Allow-Origin", requestOrigin);
+		} else if (allowed.length) {
+			res.setHeader("Access-Control-Allow-Origin", allowed[0]);
+		} else {
+			res.setHeader("Access-Control-Allow-Origin", requestOrigin || "*");
+		}
+	} else {
+		// No allow-list configured: echo back the Origin when present (safe for browser requests),
+		// otherwise fall back to wildcard for non-browser clients.
+		res.setHeader("Access-Control-Allow-Origin", requestOrigin || "*");
+	}
 	res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
 	res.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version");
 
