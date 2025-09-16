@@ -7149,20 +7149,6 @@ Renderer.spell = class {
 		}
 	}
 
-	/**
-	 * Bind interactive listeners for compact spell HTML (hover/popout)
-	 * @param spell
-	 * @param ele DOM element or jQuery element
-	 */
-	static bindListenersCompact (spell, ele) {
-		if (!ele) return;
-		const dom = ele.jquery ? ele[0] : ele;
-		if (!dom) return;
-
-		// Bind dice-roll onclick listeners present in rendered spell HTML
-		if (Renderer.dice && Renderer.dice.bindOnclickListener) Renderer.dice.bindOnclickListener(dom);
-	}
-
 	/* -------------------------------------------- */
 
 	static getHtmlPtLevelSchoolRitual (spell, {styleHint = null} = {}) {
@@ -8504,7 +8490,7 @@ Renderer.character = class {
 	 * @param {Object} character - The character data object
 	 * @returns {number} Total level
 	 */
-	static _getCharacterLevel(character) {
+	static _getCharacterLevel (character) {
 		if (!character || !character.class || !Array.isArray(character.class)) {
 			return 0;
 		}
@@ -8519,19 +8505,19 @@ Renderer.character = class {
 	 * @param {Object} skill - The skill definition with key and name properties
 	 * @returns {Object} { isProficient: boolean, bonus: string|number|undefined }
 	 */
-	static _getSkillProficiency(character, skill) {
+	static _getSkillProficiency (character, skill) {
 		if (!character.skill) {
 			return { isProficient: false, bonus: undefined };
 		}
 
 		// Try multiple key formats to find skill bonus
-		const skillBonus = character.skill[skill.key] ||
-			character.skill[skill.name.toLowerCase().replace(/\s+/g, '')] ||
-			character.skill[skill.name.toLowerCase()];
+		const skillBonus = character.skill[skill.key]
+			|| character.skill[skill.name.toLowerCase().replace(/\s+/g, "")]
+			|| character.skill[skill.name.toLowerCase()];
 
 		return {
 			isProficient: skillBonus !== undefined,
-			bonus: skillBonus
+			bonus: skillBonus,
 		};
 	}
 
@@ -8541,7 +8527,7 @@ Renderer.character = class {
 	 * @param {boolean} isProficient - Whether the skill is proficient
 	 * @returns {string} Formatted skill name
 	 */
-	static _formatSkillName(skillName, isProficient) {
+	static _formatSkillName (skillName, isProficient) {
 		return isProficient ? `<strong>${skillName}</strong> ◉` : skillName;
 	}
 
@@ -8552,21 +8538,21 @@ Renderer.character = class {
 		// Header with basic character info
 		const ptLevel = Renderer.character._getCharacterLevel(character) || "?";
 		const ptRace = character.race?.name || "Unknown Race";
-		const ptClass = character.class?.map(c => `${c.name}${c.subclass ? ` (${c.subclass.name})` : ''} ${c.level || ''}`).join(", ") || "Unknown Class";
+		const ptClass = character.class?.map(c => `${c.name}${c.subclass ? ` (${c.subclass.name})` : ""} ${c.level || ""}`).join(", ") || "Unknown Class";
 		const ptBackground = character.background?.name || "Unknown Background";
 		const ptAlignment = character.alignment ? Parser.alignmentListToFull(character.alignment) : "Unknown";
 
 		renderStack.push(`
 			${Renderer.utils.getExcludedTr({entity: character, dataProp: "character", page: UrlUtil.PG_CHARACTERS})}
 			${Renderer.utils.getNameTr(character, {page: UrlUtil.PG_CHARACTERS})}
-			<tr><td colspan="6" class="pb-2 pt-0" data-character-name="${(character.name || 'Unknown').replace(/[^a-zA-Z0-9]/g, '-')}">
+			<tr><td colspan="6" class="pb-2 pt-0" data-character-name="${(character.name || "Unknown").replace(/[^a-zA-Z0-9]/g, "-")}">
 		`);
 
 		// Character header info - more compact inline format
 		const raceLink = character.race ? `{@race ${character.race.name}|${character.race.source || "PHB"}}` : ptRace;
 		const classLinks = character.class ? character.class.map(c => {
 			const classLink = `{@class ${c.name}|${c.source || "PHB"}}`;
-			let subclassText = '';
+			let subclassText = "";
 			if (c.subclass) {
 				// Use the proper subclass shortName if available, otherwise fall back to name
 				const subclassShortName = c.subclass.shortName || c.subclass.name;
@@ -8574,10 +8560,9 @@ Renderer.character = class {
 				// Correct format: {@class ClassName||SubclassName|SubclassShortName|SubclassSource}
 				subclassText = ` ({@class ${c.name}||${c.subclass.name}|${subclassShortName}|${c.subclass.source || "PHB"}})`;
 			}
-			return `${classLink}${subclassText} ${c.level || ''}`;
+			return `${classLink}${subclassText} ${c.level || ""}`;
 		}).join(", ") : ptClass;
 		const backgroundLink = character.background ? `{@background ${character.background.name}|${character.background.source || "PHB"}}` : ptBackground;
-
 
 		// Inline character summary
 		const inlineSummary = `<p><em>Level ${ptLevel} ${raceLink} ${classLinks}, ${backgroundLink}, ${ptAlignment}</em></p>`;
@@ -8590,7 +8575,7 @@ Renderer.character = class {
 
 		if (character.ac) {
 			const acValue = Array.isArray(character.ac) ? character.ac[0].ac : character.ac;
-			const acSource = Array.isArray(character.ac) && character.ac[0].from ? ` (${character.ac[0].from.join(', ')})` : '';
+			const acSource = Array.isArray(character.ac) && character.ac[0].from ? ` (${character.ac[0].from.join(", ")})` : "";
 			combatStats.push(`<strong>AC</strong>: ${acValue}${acSource}`);
 		}
 
@@ -8605,33 +8590,33 @@ Renderer.character = class {
 				// Store character data in a global registry instead of embedding in HTML
 				const characterId = globalThis.CharacterManager
 					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
-					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, "");
 				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
 				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
 
 				// Create click-to-edit HP display
 				const hpDisplay = `<span class="character-stat-display" data-stat-path="hp.current" data-character-id="${characterId}" data-current-value="${currentHp}" data-max-value="${maxHp}" title="Click to edit" style="cursor: pointer; border-bottom: 1px dashed #666;">${currentHp}</span>/<span>${maxHp}</span>`;
 
-				const tempHpDisplay = (typeof hp.temp === 'number') ? ` (+<span class="character-stat-display" data-stat-path="hp.temp" data-character-id="${characterId}" data-current-value="${hp.temp}" title="Click to edit Temporary HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${hp.temp}</span> temp)` : '';
+				const tempHpDisplay = (typeof hp.temp === "number") ? ` (+<span class="character-stat-display" data-stat-path="hp.temp" data-character-id="${characterId}" data-current-value="${hp.temp}" title="Click to edit Temporary HP" style="cursor: pointer; border-bottom: 1px dashed #666;">${hp.temp}</span> temp)` : "";
 				combatStats.push(`<strong>HP</strong>: ${hpDisplay}${tempHpDisplay}`);
 			} else {
 				// Render static HP display
-				combatStats.push(`<strong>HP</strong>: ${currentHp}/${maxHp}${(typeof hp.temp === 'number') ? ` (+${hp.temp} temp)` : ''}`);
+				combatStats.push(`<strong>HP</strong>: ${currentHp}/${maxHp}${(typeof hp.temp === "number") ? ` (+${hp.temp} temp)` : ""}`);
 			}
 		}
 
 		if (character.speed) {
 			const speeds = [];
 			Object.entries(character.speed).forEach(([type, value]) => {
-				speeds.push(`${type === 'walk' ? '' : type + ' '}${value} ft.`);
+				speeds.push(`${type === "walk" ? "" : `${type} `}${value} ft.`);
 			});
-			combatStats.push(`<strong>Speed</strong>: ${speeds.join(', ')}`);
+			combatStats.push(`<strong>Speed</strong>: ${speeds.join(", ")}`);
 		}
 
 		// Add Initiative with dice rolling
 		const dexScore = character.dex || 10;
 		const dexMod = Parser.getAbilityModifier(dexScore);
-		const dexModValue = typeof dexMod === 'number' ? dexMod : parseInt(dexMod) || 0;
+		const dexModValue = typeof dexMod === "number" ? dexMod : parseInt(dexMod) || 0;
 		const initMod = character.initiative || dexModValue;
 		const initStr = initMod >= 0 ? `+${initMod}` : `${initMod}`;
 		combatStats.push(`<strong>Initiative</strong>: {@dice 1d20${initStr}|${initStr}|Initiative}`);
@@ -8640,12 +8625,11 @@ Renderer.character = class {
 		const additionalCombat = [];
 		const wisScore = character.wis || 10;
 		const wisMod = Parser.getAbilityModifier(wisScore);
-		const wisModValue = typeof wisMod === 'number' ? wisMod : parseInt(wisMod) || 0;
+		const wisModValue = typeof wisMod === "number" ? wisMod : parseInt(wisMod) || 0;
 		const perceptionSkill = character.skill?.perception || character.skill?.Perception || wisModValue;
-		const perceptionMod = typeof perceptionSkill === 'string' ? parseInt(perceptionSkill) || wisModValue : perceptionSkill;
+		const perceptionMod = typeof perceptionSkill === "string" ? parseInt(perceptionSkill) || wisModValue : perceptionSkill;
 		const passivePerception = 10 + perceptionMod;
 		combatStats.push(`<strong>Passive Perception</strong>: ${passivePerception}`);
-
 
 		// Calculate and display proficiency bonus
 		let profBonus = character.proficiencyBonus;
@@ -8661,7 +8645,7 @@ Renderer.character = class {
 			const sizeFull = Parser.sizeAbvToFull(character.size) || character.size;
 			combatStats.push(`<strong>Size</strong>: ${sizeFull}`);
 		}
-		
+
 		if (character.age) {
 			combatStats.push(`<strong>Age</strong>: ${character.age}`);
 		}
@@ -8669,22 +8653,21 @@ Renderer.character = class {
 		if (character.senses) {
 			const sensesFull = Object.entries(character.senses)
 				.map(([type, value]) => `${value}`).filter(Boolean)
-				.join(', ');
+				.join(", ");
 			combatStats.push(`<strong>Senses</strong>: ${sensesFull}`);
 		}
 
 		if (character.resist) {
 			const sensesFull = Object.entries(character.resist)
 				.map(([type, value]) => `${value}`).filter(Boolean)
-				.join(', ');
+				.join(", ");
 			combatStats.push(`<strong>Resistant</strong>: ${sensesFull}`);
 		}
-
 
 		if (character.immune) {
 			const sensesFull = Object.entries(character.immune)
 				.map(([type, value]) => `${value}`).filter(Boolean)
-				.join(', ');
+				.join(", ");
 			combatStats.push(`<strong>Immune</strong>: ${sensesFull}`);
 		}
 
@@ -8692,18 +8675,18 @@ Renderer.character = class {
 		if (character.class?.length) {
 			// Map class names to their hit die types
 			const classHitDice = {
-				'barbarian': 'd12',
-				'fighter': 'd10',
-				'paladin': 'd10',
-				'ranger': 'd10',
-				'bard': 'd8',
-				'cleric': 'd8',
-				'druid': 'd8',
-				'monk': 'd8',
-				'rogue': 'd8',
-				'warlock': 'd8',
-				'sorcerer': 'd6',
-				'wizard': 'd6'
+				"barbarian": "d12",
+				"fighter": "d10",
+				"paladin": "d10",
+				"ranger": "d10",
+				"bard": "d8",
+				"cleric": "d8",
+				"druid": "d8",
+				"monk": "d8",
+				"rogue": "d8",
+				"warlock": "d8",
+				"sorcerer": "d6",
+				"wizard": "d6",
 			};
 
 			// Group classes by hit die type for display
@@ -8712,7 +8695,7 @@ Renderer.character = class {
 			character.class.forEach((cls, classIndex) => {
 				const className = cls.name.toLowerCase();
 				const level = cls.level || 1;
-				const hitDie = classHitDice[className] || 'd8'; // Default to d8 if unknown class
+				const hitDie = classHitDice[className] || "d8"; // Default to d8 if unknown class
 
 				// Initialize hit dice usage if not present - use simple currentHitDice property
 				if (cls.currentHitDice === undefined) {
@@ -8737,7 +8720,7 @@ Renderer.character = class {
 				if (hasEditAccess && !isStatic) {
 					characterId = globalThis.CharacterManager
 						? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
-						: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+						: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, "");
 					if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
 					globalThis._CHARACTER_EDIT_DATA[characterId] = character;
 				}
@@ -8745,7 +8728,7 @@ Renderer.character = class {
 				if (hasEditAccess && !isStatic && characterId) {
 					// For hit dice, we edit the available dice directly
 					// Store class information for proper updating
-					const classesData = classes.map(c => `${c.index}:${c.level}:${c.currentAvailable}`).join(',');
+					const classesData = classes.map(c => `${c.index}:${c.level}:${c.currentAvailable}`).join(",");
 					const clickableCount = `<span class="character-stat-display" data-stat-path="class.currentHitDice.${dieType}" data-character-id="${characterId}" data-current-value="${current}" data-max-value="${max}" data-classes-data="${classesData}" title="Click to edit ${dieType} hit dice available" style="cursor: pointer; border-bottom: 1px dashed #666;">${current}</span>`;
 					combatStats.push(`Hit Dice: ${clickableCount}/${max} {@dice 1${dieType}||${dieType} Hit Die}`);
 				} else {
@@ -8764,7 +8747,7 @@ Renderer.character = class {
 			if (hasEditAccess && !isStatic) {
 				characterId = globalThis.CharacterManager
 					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
-					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, "");
 				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
 				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
 			}
@@ -8779,18 +8762,15 @@ Renderer.character = class {
 				// Static display
 				combatStats.push(`<strong>Successes</strong>: ${successes}/3, <strong>Failures</strong>: ${failures}/3`);
 			}
-
 		}
-
-
 
 		// Combat Statistics Section
 		if (combatStats.length > 0) {
 			// Convert combat stats array to a 2-column table format
 			const tableRows = [];
 			for (let i = 0; i < combatStats.length; i += 2) {
-				const leftCell = combatStats[i] || '';
-				const rightCell = combatStats[i + 1] || '';
+				const leftCell = combatStats[i] || "";
+				const rightCell = combatStats[i + 1] || "";
 				tableRows.push([leftCell, rightCell]);
 			}
 
@@ -8801,15 +8781,15 @@ Renderer.character = class {
 					{
 						type: "table",
 						colLabels: ["", ""],
-						rows: tableRows
-					}
-				]
+						rows: tableRows,
+					},
+				],
 			};
 			renderer.recursiveRender(combatInfo, renderStack, {depth: 1});
 		}
 
 		// Ability Scores Section
-		const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+		const abilities = ["str", "dex", "con", "int", "wis", "cha"];
 		const abilitySection = {
 			type: "entries",
 			name: "Ability Scores",
@@ -8823,34 +8803,33 @@ Renderer.character = class {
 							const modifier = Parser.getAbilityModifier(score);
 							// Create clickable dice roll for ability checks
 							return `{@ability ${ab} ${score}}`;
-						})
-					]
-				}
-			]
+						}),
+					],
+				},
+			],
 		};
 		renderer.recursiveRender(abilitySection, renderStack, {depth: 1});
 
-
 		// Skills Section (show all skills, highlight proficient ones)
 		const allSkills = [
-			{key: 'acrobatics', name: 'Acrobatics', ability: 'dex'},
-			{key: 'animal_handling', name: 'Animal Handling', ability: 'wis'},
-			{key: 'arcana', name: 'Arcana', ability: 'int'},
-			{key: 'athletics', name: 'Athletics', ability: 'str'},
-			{key: 'deception', name: 'Deception', ability: 'cha'},
-			{key: 'history', name: 'History', ability: 'int'},
-			{key: 'insight', name: 'Insight', ability: 'wis'},
-			{key: 'intimidation', name: 'Intimidation', ability: 'cha'},
-			{key: 'investigation', name: 'Investigation', ability: 'int'},
-			{key: 'medicine', name: 'Medicine', ability: 'wis'},
-			{key: 'nature', name: 'Nature', ability: 'int'},
-			{key: 'perception', name: 'Perception', ability: 'wis'},
-			{key: 'performance', name: 'Performance', ability: 'cha'},
-			{key: 'persuasion', name: 'Persuasion', ability: 'cha'},
-			{key: 'religion', name: 'Religion', ability: 'int'},
-			{key: 'sleight_of_hand', name: 'Sleight of Hand', ability: 'dex'},
-			{key: 'stealth', name: 'Stealth', ability: 'dex'},
-			{key: 'survival', name: 'Survival', ability: 'wis'}
+			{key: "acrobatics", name: "Acrobatics", ability: "dex"},
+			{key: "animal_handling", name: "Animal Handling", ability: "wis"},
+			{key: "arcana", name: "Arcana", ability: "int"},
+			{key: "athletics", name: "Athletics", ability: "str"},
+			{key: "deception", name: "Deception", ability: "cha"},
+			{key: "history", name: "History", ability: "int"},
+			{key: "insight", name: "Insight", ability: "wis"},
+			{key: "intimidation", name: "Intimidation", ability: "cha"},
+			{key: "investigation", name: "Investigation", ability: "int"},
+			{key: "medicine", name: "Medicine", ability: "wis"},
+			{key: "nature", name: "Nature", ability: "int"},
+			{key: "perception", name: "Perception", ability: "wis"},
+			{key: "performance", name: "Performance", ability: "cha"},
+			{key: "persuasion", name: "Persuasion", ability: "cha"},
+			{key: "religion", name: "Religion", ability: "int"},
+			{key: "sleight_of_hand", name: "Sleight of Hand", ability: "dex"},
+			{key: "stealth", name: "Stealth", ability: "dex"},
+			{key: "survival", name: "Survival", ability: "wis"},
 		];
 
 		const skillsSection = {
@@ -8863,14 +8842,14 @@ Renderer.character = class {
 					rows: allSkills.map(skill => {
 						const abilityScore = character[skill.ability] || 10;
 						const baseModifier = Parser.getAbilityModifier(abilityScore);
-						const baseModValue = typeof baseModifier === 'number' ? baseModifier : parseInt(baseModifier) || 0;
+						const baseModValue = typeof baseModifier === "number" ? baseModifier : parseInt(baseModifier) || 0;
 
 						// Get skill proficiency information
 						const { isProficient, bonus } = Renderer.character._getSkillProficiency(character, skill);
 
 						// Calculate final modifier
 						const finalModifier = isProficient
-							? (typeof bonus === 'string' ? parseInt(bonus) || baseModValue : bonus)
+							? (typeof bonus === "string" ? parseInt(bonus) || baseModValue : bonus)
 							: baseModValue;
 
 						const finalStr = finalModifier >= 0 ? `+${finalModifier}` : `${finalModifier}`;
@@ -8885,15 +8864,15 @@ Renderer.character = class {
 						return [
 							displayName,
 							skill.ability.toUpperCase(),
-							rollableModifier
+							rollableModifier,
 						];
-					})
-				}
-			]
+					}),
+				},
+			],
 		};
 		renderer.recursiveRender(skillsSection, renderStack, {depth: 1});
 
-				// Saving Throws Section (show all abilities, highlight proficient ones)
+		// Saving Throws Section (show all abilities, highlight proficient ones)
 		const savingThrowsSection = {
 			type: "entries",
 			name: "Saving Throws",
@@ -8904,14 +8883,14 @@ Renderer.character = class {
 					rows: abilities.map(ab => {
 						const score = character[ab] || 10;
 						const baseModifier = Parser.getAbilityModifier(score);
-						const baseModValue = typeof baseModifier === 'number' ? baseModifier : parseInt(baseModifier) || 0;
+						const baseModValue = typeof baseModifier === "number" ? baseModifier : parseInt(baseModifier) || 0;
 						const saveBonus = character.save?.[ab];
 
 						let finalModifier = baseModValue;
 						let isProficient = false;
 
 						if (saveBonus) {
-							finalModifier = typeof saveBonus === 'string' ? parseInt(saveBonus) || baseModValue : saveBonus;
+							finalModifier = typeof saveBonus === "string" ? parseInt(saveBonus) || baseModValue : saveBonus;
 							isProficient = true;
 						}
 
@@ -8925,28 +8904,27 @@ Renderer.character = class {
 
 						return [
 							displayName,
-							rollableModifier
+							rollableModifier,
 						];
-					})
-				}
-			]
+					}),
+				},
+			],
 		};
 		renderer.recursiveRender(savingThrowsSection, renderStack, {depth: 1});
-
 
 		// Actions - collapsible section
 		if (character.action?.length) {
 			const actionInfo = {
 				type: "entries",
 				name: "Actions",
-				entries: []
+				entries: [],
 			};
 
 			character.action.forEach(action => {
 				actionInfo.entries.push({
 					type: "entries",
 					name: action.name,
-					entries: action.entries
+					entries: action.entries,
 				});
 			});
 
@@ -8958,14 +8936,14 @@ Renderer.character = class {
 			const spellInfo = {
 				type: "entries",
 				name: "Spells",
-				entries: []
+				entries: [],
 			};
 
 			// Add spell save DC and attack bonus if provided
 			if (character.spells.dc || character.spells.attackBonus) {
-				const dcText = character.spells.dc ? `Spell Save DC: ${character.spells.dc}` : '';
-				const attackText = character.spells.attackBonus ? `Spell Attack Bonus: ${character.spells.attackBonus}` : '';
-				const separator = dcText && attackText ? ' | ' : '';
+				const dcText = character.spells.dc ? `Spell Save DC: ${character.spells.dc}` : "";
+				const attackText = character.spells.attackBonus ? `Spell Attack Bonus: ${character.spells.attackBonus}` : "";
+				const separator = dcText && attackText ? " | " : "";
 				spellInfo.entries.push(`${dcText}${separator}${attackText}`);
 			}
 
@@ -8984,11 +8962,11 @@ Renderer.character = class {
 
 					if (!levelData.spells || levelData.spells.length === 0) return; // Skip empty levels
 
-					let slotsHtml = '';
+					let slotsHtml = "";
 
 					// Only show slots if maxSlots > 0 and not cantrips
 					if (levelNum > 0 && levelData.maxSlots && levelData.maxSlots > 0) {
-						const characterId = character.id || `${character.name}_${character.source}`.toLowerCase().replace(/[^a-z0-9]/g, '');
+						const characterId = character.id || `${character.name}_${character.source}`.toLowerCase().replace(/[^a-z0-9]/g, "");
 						const slotsUsed = levelData.slotsUsed != null ? levelData.slotsUsed : 0;
 
 						if (this._hasSourceAccess(character.source)) {
@@ -9002,16 +8980,16 @@ Renderer.character = class {
 
 					// Process spells for this level
 					const spellLinks = levelData.spells.map(spell => {
-						if (typeof spell === 'string') {
+						if (typeof spell === "string") {
 							return `{@spell ${spell}}`;
 						} else if (spell.name) {
-							const source = spell.source ? `|${spell.source}` : '';
+							const source = spell.source ? `|${spell.source}` : "";
 							return `{@spell ${spell.name}${source}}`;
 						}
 						return spell;
 					});
 
-					spellLevels.push(`{@color ${levelName}${slotsHtml}:|--rgb-name}: ${spellLinks.join(', ')}`);
+					spellLevels.push(`{@color ${levelName}${slotsHtml}:|--rgb-name}: ${spellLinks.join(", ")}`);
 				});
 
 				spellInfo.entries.push(...spellLevels);
@@ -9027,16 +9005,16 @@ Renderer.character = class {
 			if (hasEditAccess && !isStatic) {
 				characterId = globalThis.CharacterManager
 					? globalThis.CharacterManager._generateCompositeId(character.name, character.source)
-					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, '');
+					: `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, "");
 				if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
 				globalThis._CHARACTER_EDIT_DATA[characterId] = character;
 			}
 
 			character.customTrackers.forEach((tracker, index) => {
 				const trackerName = tracker.name || `Tracker ${index + 1}`;
-				const description = tracker.description ? ` - ${tracker.description}` : '';
+				const description = tracker.description ? ` - ${tracker.description}` : "";
 
-				if (tracker.type === 'counter') {
+				if (tracker.type === "counter") {
 					// Counter type tracker (current/max)
 					const current = tracker.current || 0;
 					const max = tracker.max || 1;
@@ -9049,11 +9027,11 @@ Renderer.character = class {
 						// Static display
 						trackerEntries.push(`<strong>${trackerName}:</strong>: ${current}/${max}${description}`);
 					}
-				} else if (tracker.type === 'condition') {
+				} else if (tracker.type === "condition") {
 					// Condition type tracker (active/inactive)
 					const active = tracker.active || false;
-					const duration = tracker.duration ? ` (${tracker.duration})` : '';
-					const status = active ? '✓ Active' : '✗ Inactive';
+					const duration = tracker.duration ? ` (${tracker.duration})` : "";
+					const status = active ? "✓ Active" : "✗ Inactive";
 
 					if (hasEditAccess && !isStatic && characterId) {
 						// Editable condition with click handlers
@@ -9070,7 +9048,7 @@ Renderer.character = class {
 				const trackerInfo = {
 					type: "entries",
 					name: "Custom Trackers",
-					entries: trackerEntries
+					entries: trackerEntries,
 				};
 				renderer.recursiveRender(trackerInfo, renderStack, {depth: 1});
 			}
@@ -9082,14 +9060,14 @@ Renderer.character = class {
 				type: "entries",
 				name: "Features & Traits",
 				collapsed: false,
-				entries: []
+				entries: [],
 			};
 
 			character.trait.forEach(trait => {
 				traitInfo.entries.push({
 					type: "entries",
 					name: trait.name,
-					entries: trait.entries
+					entries: trait.entries,
 				});
 			});
 
@@ -9102,10 +9080,10 @@ Renderer.character = class {
 				type: "entries",
 				name: "Equipment",
 				entries: character.equipment.map(item => {
-					const qty = item.quantity ? ` (${item.quantity})` : '';
-					const desc = item.description ? ` - ${item.description}` : '';
+					const qty = item.quantity ? ` (${item.quantity})` : "";
+					const desc = item.description ? ` - ${item.description}` : "";
 					return `**${item.name}${qty}**${desc}`;
-				})
+				}),
 			};
 			renderer.recursiveRender(equipInfo, renderStack, {depth: 1});
 		}
@@ -9114,12 +9092,11 @@ Renderer.character = class {
 			const langInfo = {
 				type: "entries",
 				name: "Languages",
-				entries: [character.languages.join(", ")]
+				entries: [character.languages.join(", ")],
 			};
 			renderer.recursiveRender(langInfo, renderStack, {depth: 1});
 		}
 		// Player notes from custom content instead of hardcoded forms
-
 
 		// Calculate carrying capacity for display
 		const strScore = character.str || 10;
@@ -9130,7 +9107,7 @@ Renderer.character = class {
 			const resourceInfo = {
 				type: "entries",
 				name: "Resources",
-				entries: character.resources.map(resource => `**${resource.name}:** ${resource.current}/${resource.max}`)
+				entries: character.resources.map(resource => `**${resource.name}:** ${resource.current}/${resource.max}`),
 			};
 			renderer.recursiveRender(resourceInfo, renderStack, {depth: 1});
 		}
@@ -9141,9 +9118,9 @@ Renderer.character = class {
 				type: "entries",
 				name: "Current Conditions",
 				entries: character.conditions.map(condition => {
-					const duration = condition.duration ? ` (${condition.duration})` : '';
+					const duration = condition.duration ? ` (${condition.duration})` : "";
 					return `**${condition.name}${duration}**`;
-				})
+				}),
 			};
 			renderer.recursiveRender(conditionInfo, renderStack, {depth: 1});
 		}
@@ -9156,7 +9133,6 @@ Renderer.character = class {
 		// 	};
 		// 	renderer.recursiveRender(customInfo, renderStack, {depth: 1});
 		// }
-
 
 		// // Fluff entries - inline background
 		// if (character.fluff?.entries?.length) {
@@ -9183,20 +9159,20 @@ Renderer.character = class {
 		// Setup enhanced persistence for new content
 		setTimeout(() => {
 			// Load notes and goals
-			const savedNotes = localStorage.getItem('character-notes');
+			const savedNotes = localStorage.getItem("character-notes");
 			if (savedNotes) {
-				const notesInput = document.querySelector('.character-notes');
+				const notesInput = document.querySelector(".character-notes");
 				if (notesInput) notesInput.value = savedNotes;
 			}
 
-			const savedGoals = localStorage.getItem('character-goals');
+			const savedGoals = localStorage.getItem("character-goals");
 			if (savedGoals) {
-				const goalsInput = document.querySelector('.character-goals');
+				const goalsInput = document.querySelector(".character-goals");
 				if (goalsInput) goalsInput.value = savedGoals;
 			}
 
 			// Load currency values
-			['pp', 'gp', 'ep', 'sp', 'cp'].forEach(coin => {
+			["pp", "gp", "ep", "sp", "cp"].forEach(coin => {
 				const saved = localStorage.getItem(`character-currency-${coin}`);
 				if (saved !== null) {
 					const input = document.querySelector(`.character-currency-${coin}`);
@@ -9205,12 +9181,12 @@ Renderer.character = class {
 			});
 
 			// Setup auto-save for notes, goals, and currency
-			document.addEventListener('input', (e) => {
-				if (e.target.matches('.character-notes')) {
-					localStorage.setItem('character-notes', e.target.value);
-				} else if (e.target.matches('.character-goals')) {
-					localStorage.setItem('character-goals', e.target.value);
-				} else if (e.target.matches('[class*="character-currency-"]')) {
+			document.addEventListener("input", (e) => {
+				if (e.target.matches(".character-notes")) {
+					localStorage.setItem("character-notes", e.target.value);
+				} else if (e.target.matches(".character-goals")) {
+					localStorage.setItem("character-goals", e.target.value);
+				} else if (e.target.matches("[class*=\"character-currency-\"]")) {
 					// Save currency values
 					const coinType = e.target.className.match(/character-currency-(\w+)/)?.[1];
 					if (coinType) {
@@ -9240,15 +9216,15 @@ Renderer.character = class {
 	static _bindCharacterSheetListeners (ele) {
 		const $ele = $(ele);
 
-		const statDisplays = $ele.find('.character-stat-display');
+		const statDisplays = $ele.find(".character-stat-display");
 
 		// Click-to-edit functionality for character stats
-		$ele.on('click', '.character-stat-display', function(e) {
+		$ele.on("click", ".character-stat-display", function (e) {
 			const $display = $(this);
-			const statPath = $display.attr('data-stat-path');
-			const characterId = $display.attr('data-character-id');
-			const currentValue = $display.attr('data-current-value');
-			const classesData = $display.attr('data-classes-data'); // For hit dice
+			const statPath = $display.attr("data-stat-path");
+			const characterId = $display.attr("data-character-id");
+			const currentValue = $display.attr("data-current-value");
+			const classesData = $display.attr("data-classes-data"); // For hit dice
 
 			// Get character data from global registry
 			if (!globalThis._CHARACTER_EDIT_DATA || !globalThis._CHARACTER_EDIT_DATA[characterId]) {
@@ -9262,41 +9238,41 @@ Renderer.character = class {
 			}
 
 			// Create input element
-			let inputType = 'number';
+			let inputType = "number";
 			let minValue = 0;
 			let maxValue = null;
 
-			if (statPath === 'hp.current') {
-				maxValue = $display.attr('data-max-value');
-			} else if (statPath.startsWith('class.currentHitDice.')) {
-				maxValue = $display.attr('data-max-value');
+			if (statPath === "hp.current") {
+				maxValue = $display.attr("data-max-value");
+			} else if (statPath.startsWith("class.currentHitDice.")) {
+				maxValue = $display.attr("data-max-value");
 			}
 
-			const $input = $(`<input type="${inputType}" class="character-stat-input-edit" value="${currentValue}" min="${minValue}" ${maxValue ? `max="${maxValue}"` : ''} style="width: ${Math.max(40, currentValue.toString().length * 8 + 10)}px;" data-stat-path="${statPath}" data-character-id="${characterId}" ${classesData ? `data-classes-data="${classesData}"` : ''} />`);
+			const $input = $(`<input type="${inputType}" class="character-stat-input-edit" value="${currentValue}" min="${minValue}" ${maxValue ? `max="${maxValue}"` : ""} style="width: ${Math.max(40, currentValue.toString().length * 8 + 10)}px;" data-stat-path="${statPath}" data-character-id="${characterId}" ${classesData ? `data-classes-data="${classesData}"` : ""} />`);
 
 			// Replace display with input
 			$display.replaceWith($input);
 			$input.focus().select();
 
 			// Handle save/cancel
-			$input.on('blur keydown', async function(e) {
-				if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== 'Escape') {
+			$input.on("blur keydown", async function (e) {
+				if (e.type === "keydown" && e.key !== "Enter" && e.key !== "Escape") {
 					return;
 				}
 
-				const newValue = e.key === 'Escape' ? currentValue : $input.val();
+				const newValue = e.key === "Escape" ? currentValue : $input.val();
 
 				// Create new display span
-				const $newDisplay = $(`<span class="character-stat-display" data-stat-path="${statPath}" data-character-id="${characterId}" data-current-value="${newValue}" ${maxValue ? `data-max-value="${maxValue}"` : ''} ${classesData ? `data-classes-data="${classesData}"` : ''} title="Click to edit" style="cursor: pointer; border-bottom: 1px dashed #666;">${newValue}</span>`);
+				const $newDisplay = $(`<span class="character-stat-display" data-stat-path="${statPath}" data-character-id="${characterId}" data-current-value="${newValue}" ${maxValue ? `data-max-value="${maxValue}"` : ""} ${classesData ? `data-classes-data="${classesData}"` : ""} title="Click to edit" style="cursor: pointer; border-bottom: 1px dashed #666;">${newValue}</span>`);
 
 				// Replace input with display
 				$input.replaceWith($newDisplay);
 
 				// Update server if value changed and not escaped
-				if (e.key !== 'Escape' && newValue !== currentValue) {
+				if (e.key !== "Escape" && newValue !== currentValue) {
 					try {
 						// Handle hit dice updates specially
-						if (statPath.startsWith('class.currentHitDice.') && classesData) {
+						if (statPath.startsWith("class.currentHitDice.") && classesData) {
 							const success = await Renderer.character._updateHitDiceFromClasses(character, character.source, statPath, newValue, classesData);
 							if (!success) {
 								console.warn(`Failed to update character hit dice ${statPath} on server`);
@@ -9308,7 +9284,7 @@ Renderer.character = class {
 							}
 						}
 					} catch (error) {
-						console.error('Error updating character stat:', error);
+						console.error("Error updating character stat:", error);
 					}
 				}
 			});
@@ -9331,40 +9307,40 @@ Renderer.character = class {
 			const level = cls.level || 1;
 
 			switch (className) {
-				case 'barbarian':
+				case "barbarian":
 					features.push(...Renderer.character._getBarbarianFeatures(character, cls, level));
 					break;
-				case 'bard':
+				case "bard":
 					features.push(...Renderer.character._getBardFeatures(character, cls, level));
 					break;
-				case 'cleric':
+				case "cleric":
 					features.push(...Renderer.character._getClericFeatures(character, cls, level));
 					break;
-				case 'druid':
+				case "druid":
 					features.push(...Renderer.character._getDruidFeatures(character, cls, level));
 					break;
-				case 'fighter':
+				case "fighter":
 					features.push(...Renderer.character._getFighterFeatures(character, cls, level));
 					break;
-				case 'monk':
+				case "monk":
 					features.push(...Renderer.character._getMonkFeatures(character, cls, level));
 					break;
-				case 'paladin':
+				case "paladin":
 					features.push(...Renderer.character._getPaladinFeatures(character, cls, level));
 					break;
-				case 'ranger':
+				case "ranger":
 					features.push(...Renderer.character._getRangerFeatures(character, cls, level));
 					break;
-				case 'rogue':
+				case "rogue":
 					features.push(...Renderer.character._getRogueFeatures(character, cls, level));
 					break;
-				case 'sorcerer':
+				case "sorcerer":
 					features.push(...Renderer.character._getSorcererFeatures(character, cls, level));
 					break;
-				case 'warlock':
+				case "warlock":
 					features.push(...Renderer.character._getWarlockFeatures(character, cls, level));
 					break;
-				case 'wizard':
+				case "wizard":
 					features.push(...Renderer.character._getWizardFeatures(character, cls, level));
 					break;
 			}
@@ -9385,7 +9361,7 @@ Renderer.character = class {
 		else if (level >= 6) rageUses = 4;
 		else if (level >= 3) rageUses = 3;
 
-		const rageUsesText = rageUses === Infinity ? 'Unlimited' : rageUses;
+		const rageUsesText = rageUses === Infinity ? "Unlimited" : rageUses;
 		features.push(`**Rage** (<input type="number" class="character-input character-rage-uses" value="0" min="0" max="${rageUses === Infinity ? 999 : rageUses}" style="width: 40px;" title="Rage uses expended" />/${rageUsesText} per long rest)`);
 
 		// Rage damage bonus
@@ -9566,7 +9542,7 @@ Renderer.character = class {
 		// Wild Shape
 		if (level >= 2) {
 			let wildShapeUses = level >= 20 ? 999 : 2; // Unlimited at 20th level
-			const wildShapeUsesText = wildShapeUses === 999 ? 'Unlimited' : wildShapeUses;
+			const wildShapeUsesText = wildShapeUses === 999 ? "Unlimited" : wildShapeUses;
 			features.push(`**Wild Shape** (<input type="number" class="character-input character-wild-shape" value="0" min="0" max="${wildShapeUses}" style="width: 40px;" title="Wild Shape uses expended" />/${wildShapeUsesText} per short rest)`);
 		}
 
@@ -9622,21 +9598,21 @@ Renderer.character = class {
 	// Helper function to get condition effects
 	static _getConditionEffects (condition) {
 		const effects = {
-			'Blinded': ['Disadvantage on attack rolls', 'Attacks against have advantage'],
-			'Charmed': ['Cannot attack charmer', 'Charmer has advantage on social interactions'],
-			'Deafened': ['Automatic failure on hearing-based Perception checks'],
-			'Exhaustion': ['Various penalties based on level'],
-			'Frightened': ['Disadvantage on ability checks and attacks while source visible', 'Cannot move closer to source'],
-			'Grappled': ['Speed becomes 0', 'Cannot benefit from bonuses to speed'],
-			'Incapacitated': ['Cannot take actions or reactions'],
-			'Invisible': ['Advantage on attack rolls', 'Attacks against have disadvantage'],
-			'Paralyzed': ['Incapacitated', 'Auto-fail Strength and Dexterity saves', 'Attacks within 5ft are critical hits'],
-			'Petrified': ['Incapacitated', 'Auto-fail Strength and Dexterity saves', 'Resistance to all damage'],
-			'Poisoned': ['Disadvantage on attack rolls and ability checks'],
-			'Prone': ['Disadvantage on attack rolls', 'Attacks within 5ft have advantage', 'Ranged attacks have disadvantage'],
-			'Restrained': ['Speed becomes 0', 'Disadvantage on attack rolls and Dexterity saves', 'Attacks against have advantage'],
-			'Stunned': ['Incapacitated', 'Auto-fail Strength and Dexterity saves', 'Attacks against have advantage'],
-			'Unconscious': ['Incapacitated', 'Prone', 'Auto-fail Strength and Dexterity saves', 'Attacks within 5ft are critical hits']
+			"Blinded": ["Disadvantage on attack rolls", "Attacks against have advantage"],
+			"Charmed": ["Cannot attack charmer", "Charmer has advantage on social interactions"],
+			"Deafened": ["Automatic failure on hearing-based Perception checks"],
+			"Exhaustion": ["Various penalties based on level"],
+			"Frightened": ["Disadvantage on ability checks and attacks while source visible", "Cannot move closer to source"],
+			"Grappled": ["Speed becomes 0", "Cannot benefit from bonuses to speed"],
+			"Incapacitated": ["Cannot take actions or reactions"],
+			"Invisible": ["Advantage on attack rolls", "Attacks against have disadvantage"],
+			"Paralyzed": ["Incapacitated", "Auto-fail Strength and Dexterity saves", "Attacks within 5ft are critical hits"],
+			"Petrified": ["Incapacitated", "Auto-fail Strength and Dexterity saves", "Resistance to all damage"],
+			"Poisoned": ["Disadvantage on attack rolls and ability checks"],
+			"Prone": ["Disadvantage on attack rolls", "Attacks within 5ft have advantage", "Ranged attacks have disadvantage"],
+			"Restrained": ["Speed becomes 0", "Disadvantage on attack rolls and Dexterity saves", "Attacks against have advantage"],
+			"Stunned": ["Incapacitated", "Auto-fail Strength and Dexterity saves", "Attacks against have advantage"],
+			"Unconscious": ["Incapacitated", "Prone", "Auto-fail Strength and Dexterity saves", "Attacks within 5ft are critical hits"],
 		};
 
 		return effects[condition] || [];
@@ -9645,62 +9621,62 @@ Renderer.character = class {
 	// Helper function to apply/remove condition effects (visual indicators)
 	static _applyConditionEffects ($ele, condition, apply) {
 		// Add/remove visual indicators for condition effects
-		const $characterSheet = $ele.closest('[data-character-name]');
+		const $characterSheet = $ele.closest("[data-character-name]");
 
 		if (apply) {
 			// Add condition effect indicators
 			switch (condition) {
-				case 'Blinded':
-				case 'Poisoned':
+				case "Blinded":
+				case "Poisoned":
 					// Add disadvantage indicator to attack rolls and ability checks
-					$characterSheet.find('.rollable').addClass('condition-disadvantage');
+					$characterSheet.find(".rollable").addClass("condition-disadvantage");
 					break;
-				case 'Grappled':
-				case 'Restrained':
+				case "Grappled":
+				case "Restrained":
 					// Add speed reduction indicator
-					$characterSheet.find('.speed-indicator').addClass('condition-speed-zero');
+					$characterSheet.find(".speed-indicator").addClass("condition-speed-zero");
 					break;
-				case 'Incapacitated':
-				case 'Paralyzed':
-				case 'Petrified':
-				case 'Stunned':
-				case 'Unconscious':
+				case "Incapacitated":
+				case "Paralyzed":
+				case "Petrified":
+				case "Stunned":
+				case "Unconscious":
 					// Add action restriction indicator
-					$characterSheet.addClass('condition-no-actions');
+					$characterSheet.addClass("condition-no-actions");
 					break;
 			}
 		} else {
 			// Remove condition effect indicators (simplified - removes all)
-			$characterSheet.find('.rollable').removeClass('condition-disadvantage');
-			$characterSheet.find('.speed-indicator').removeClass('condition-speed-zero');
-			$characterSheet.removeClass('condition-no-actions');
+			$characterSheet.find(".rollable").removeClass("condition-disadvantage");
+			$characterSheet.find(".speed-indicator").removeClass("condition-speed-zero");
+			$characterSheet.removeClass("condition-no-actions");
 		}
 	}
 
 	// Handle class-specific short rest recovery
 	static _handleShortRestRecovery ($ele) {
 		// Reset short rest resources to 0 (unused)
-		$ele.find('.character-ki-points').val(0);
-		$ele.find('.character-bardic-inspiration').val(0);
-		$ele.find('.character-action-surge').val(0);
-		$ele.find('.character-second-wind').prop('checked', false);
-		$ele.find('.character-channel-divinity').val(0);
-		$ele.find('.character-wild-shape').val(0);
+		$ele.find(".character-ki-points").val(0);
+		$ele.find(".character-bardic-inspiration").val(0);
+		$ele.find(".character-action-surge").val(0);
+		$ele.find(".character-second-wind").prop("checked", false);
+		$ele.find(".character-channel-divinity").val(0);
+		$ele.find(".character-wild-shape").val(0);
 
 		// Warlock spell slots recharge on short rest
 		// Check if character has warlock levels by looking for warlock-specific features
-		const hasWarlockFeatures = $ele.find('.character-class-features:contains("Pact Magic")').length > 0;
+		const hasWarlockFeatures = $ele.find(".character-class-features:contains(\"Pact Magic\")").length > 0;
 		if (hasWarlockFeatures) {
-			$ele.find('.character-spell-slots-used').val(0);
+			$ele.find(".character-spell-slots-used").val(0);
 		}
 	}
 
 	// Handle class-specific long rest recovery
 	static _handleLongRestRecovery ($ele) {
 		// Reset long rest resources to 0 (unused)
-		$ele.find('.character-rage-uses').val(0);
-		$ele.find('.character-sorcery-points').val(0);
-		$ele.find('.character-lay-on-hands').val(0);
+		$ele.find(".character-rage-uses").val(0);
+		$ele.find(".character-sorcery-points").val(0);
+		$ele.find(".character-lay-on-hands").val(0);
 
 		// Also reset short rest resources since long rest includes short rest benefits
 		Renderer.character._handleShortRestRecovery($ele);
@@ -9711,7 +9687,7 @@ Renderer.character = class {
 		const result = {
 			bonus: currentBonus,
 			expertise: false,
-			jackOfAllTrades: false
+			jackOfAllTrades: false,
 		};
 
 		const classes = character.class || [];
@@ -9722,7 +9698,7 @@ Renderer.character = class {
 			const level = cls.level || 1;
 
 			// Bard: Jack of All Trades
-			if (className === 'bard' && level >= 2 && !isProficient) {
+			if (className === "bard" && level >= 2 && !isProficient) {
 				const halfProf = Math.floor(profBonus / 2);
 				const abilityMod = currentBonus; // This should be just the ability modifier for non-proficient skills
 				result.bonus = abilityMod + halfProf;
@@ -9730,10 +9706,10 @@ Renderer.character = class {
 			}
 
 			// Rogue: Expertise (double proficiency on certain skills)
-			if (className === 'rogue' && level >= 1 && isProficient) {
+			if (className === "rogue" && level >= 1 && isProficient) {
 				// In a real implementation, you'd check if this specific skill has expertise
 				// For now, we'll assume some skills have expertise based on common choices
-				const expertiseSkills = ['Stealth', 'Sleight of Hand', 'Thieves\' Tools', 'Investigation'];
+				const expertiseSkills = ["Stealth", "Sleight of Hand", "Thieves' Tools", "Investigation"];
 				if (expertiseSkills.includes(skillName)) {
 					const abilityMod = currentBonus - profBonus; // Remove normal proficiency
 					result.bonus = abilityMod + (profBonus * 2); // Add double proficiency
@@ -9742,8 +9718,8 @@ Renderer.character = class {
 			}
 
 			// Bard: Expertise at higher levels
-			if (className === 'bard' && level >= 3 && isProficient) {
-				const expertiseSkills = ['Persuasion', 'Deception', 'Performance']; // Common bard choices
+			if (className === "bard" && level >= 3 && isProficient) {
+				const expertiseSkills = ["Persuasion", "Deception", "Performance"]; // Common bard choices
 				if (expertiseSkills.includes(skillName)) {
 					const abilityMod = currentBonus - profBonus;
 					result.bonus = abilityMod + (profBonus * 2);
@@ -9752,8 +9728,8 @@ Renderer.character = class {
 			}
 
 			// Ranger: Favored Enemy/Natural Explorer bonuses
-			if (className === 'ranger') {
-				if (skillName === 'Survival') {
+			if (className === "ranger") {
+				if (skillName === "Survival") {
 					// Double proficiency in favored terrain (simplified)
 					result.bonus = currentBonus + profBonus;
 				}
@@ -9765,19 +9741,19 @@ Renderer.character = class {
 
 	// Get tooltip text for skill proficiency icons
 	static _getSkillProficiencyTooltip (isProficient, classBonus) {
-		if (classBonus.expertise) return 'Expertise (Double Proficiency)';
-		if (classBonus.jackOfAllTrades) return 'Jack of All Trades (Half Proficiency)';
-		if (isProficient) return 'Proficient';
-		return 'Not Proficient';
+		if (classBonus.expertise) return "Expertise (Double Proficiency)";
+		if (classBonus.jackOfAllTrades) return "Jack of All Trades (Half Proficiency)";
+		if (isProficient) return "Proficient";
+		return "Not Proficient";
 	}
 
 	// Save conditions to localStorage
 	static _saveConditionsToStorage ($ele) {
-		const characterName = $ele.closest('[data-character-name]').attr('data-character-name') || 'default';
+		const characterName = $ele.closest("[data-character-name]").attr("data-character-name") || "default";
 		const conditions = [];
 
-		$ele.find('.character-condition-item').each(function() {
-			const condition = $(this).attr('data-condition');
+		$ele.find(".character-condition-item").each(function () {
+			const condition = $(this).attr("data-condition");
 			if (condition) {
 				conditions.push(condition);
 			}
@@ -9789,21 +9765,21 @@ Renderer.character = class {
 
 	// Load conditions from localStorage
 	static _loadConditionsFromStorage ($ele) {
-		const characterName = $ele.closest('[data-character-name]').attr('data-character-name') || 'default';
+		const characterName = $ele.closest("[data-character-name]").attr("data-character-name") || "default";
 		const key = `character-${characterName}-conditions`;
 		const savedConditions = localStorage.getItem(key);
 
 		if (savedConditions) {
 			try {
 				const conditions = JSON.parse(savedConditions);
-				const $conditionsList = $ele.find('.character-conditions-list');
+				const $conditionsList = $ele.find(".character-conditions-list");
 
 				conditions.forEach(condition => {
 					// Get condition effects
 					const effects = Renderer.character._getConditionEffects(condition);
-					const effectsText = effects.length ? ` (${effects.join(', ')})` : '';
+					const effectsText = effects.length ? ` (${effects.join(", ")})` : "";
 
-					const conditionHtml = `<span class="character-condition-item" title="Click to remove. Effects: ${effects.join(', ')}" data-condition="${condition}">
+					const conditionHtml = `<span class="character-condition-item" title="Click to remove. Effects: ${effects.join(", ")}" data-condition="${condition}">
 						${condition}${effectsText} <span class="character-condition-remove">×</span>
 					</span>`;
 					$conditionsList.append(conditionHtml);
@@ -9812,19 +9788,19 @@ Renderer.character = class {
 					Renderer.character._applyConditionEffects($ele, condition, true);
 				});
 			} catch (e) {
-				console.warn('Failed to load saved conditions:', e);
+				console.warn("Failed to load saved conditions:", e);
 			}
 		}
 	}
 
 	// Equipment Management Methods
-	static async _searchItems() {
-		const searchTerm = document.getElementById('item-search').value.toLowerCase().trim();
+	static async _searchItems () {
+		const searchTerm = document.getElementById("item-search").value.toLowerCase().trim();
 		if (!searchTerm) return;
 
-		const resultsDiv = document.getElementById('item-search-results');
-		resultsDiv.style.display = 'block';
-		resultsDiv.innerHTML = '<div style="padding: 10px;">Searching items...</div>';
+		const resultsDiv = document.getElementById("item-search-results");
+		resultsDiv.style.display = "block";
+		resultsDiv.innerHTML = "<div style=\"padding: 10px;\">Searching items...</div>";
 
 		try {
 			// Load items data if not already loaded
@@ -9837,80 +9813,80 @@ Renderer.character = class {
 
 			// Filter items based on search term
 			const filteredItems = allItems.filter(item => {
-				const name = (item.name || '').toLowerCase();
-				const type = (item.type || '').toLowerCase();
-				const typeHtml = (item._typeHtml || '').toLowerCase();
+				const name = (item.name || "").toLowerCase();
+				const type = (item.type || "").toLowerCase();
+				const typeHtml = (item._typeHtml || "").toLowerCase();
 
-				return name.includes(searchTerm) ||
-					   type.includes(searchTerm) ||
-					   typeHtml.includes(searchTerm);
+				return name.includes(searchTerm)
+					   || type.includes(searchTerm)
+					   || typeHtml.includes(searchTerm);
 			}).slice(0, 20); // Limit to 20 results
 
 			if (filteredItems.length === 0) {
-				resultsDiv.innerHTML = '<div style="padding: 10px;">No items found matching your search.</div>';
+				resultsDiv.innerHTML = "<div style=\"padding: 10px;\">No items found matching your search.</div>";
 				return;
 			}
 
 			const resultsHtml = filteredItems.map(item => {
-				const name = item.name || 'Unknown Item';
-				const type = item.type || 'misc';
-				const rarity = item.rarity || '';
-				const weight = item.weight ? `${item.weight} lb.` : '';
-				const value = item.value ? Parser.itemValueToFull(item) : '';
-				const source = item.source || '';
+				const name = item.name || "Unknown Item";
+				const type = item.type || "misc";
+				const rarity = item.rarity || "";
+				const weight = item.weight ? `${item.weight} lb.` : "";
+				const value = item.value ? Parser.itemValueToFull(item) : "";
+				const source = item.source || "";
 
 				// Get basic item properties for display
 				let itemDesc = [];
-				if (item.ac) itemDesc.push(`AC ${typeof item.ac === 'object' ? item.ac.ac : item.ac}`);
+				if (item.ac) itemDesc.push(`AC ${typeof item.ac === "object" ? item.ac.ac : item.ac}`);
 				if (item.dmg1) itemDesc.push(`${item.dmg1} damage`);
 				if (item.range) itemDesc.push(`Range: ${item.range}`);
-				if (rarity && rarity !== 'none' && rarity !== 'unknown') itemDesc.push(rarity);
+				if (rarity && rarity !== "none" && rarity !== "unknown") itemDesc.push(rarity);
 				if (weight) itemDesc.push(weight);
 				if (value) itemDesc.push(value);
 
-				const descText = itemDesc.length ? itemDesc.join(' • ') : '';
+				const descText = itemDesc.length ? itemDesc.join(" • ") : "";
 
 				return `
 					<div style="padding: 8px; border-bottom: 1px solid #eee; cursor: pointer;"
-						 onclick="Renderer.character._addItemToInventory('${name.replace(/'/g, "\\'")}', '${type}', 1, false, ${JSON.stringify(item).replace(/"/g, '&quot;')})"
+						 onclick="Renderer.character._addItemToInventory('${name.replace(/'/g, "\\'")}', '${type}', 1, false, ${JSON.stringify(item).replace(/"/g, "&quot;")})"
 						 onmouseover="this.style.backgroundColor='#f0f0f0'"
 						 onmouseout="this.style.backgroundColor='white'">
 						<div style="display: flex; justify-content: space-between; align-items: flex-start;">
 							<div style="flex: 1;">
 								<strong>${name}</strong>: <small>(${type})</small>
-								${source ? `<small class="text-muted"> [${source}]</small>` : ''}
-								${descText ? `<br><small class="text-muted">${descText}</small>` : ''}
+								${source ? `<small class="text-muted"> [${source}]</small>` : ""}
+								${descText ? `<br><small class="text-muted">${descText}</small>` : ""}
 							</div>
 						</div>
 					</div>
 				`;
-			}).join('');
+			}).join("");
 
 			resultsDiv.innerHTML = resultsHtml;
 		} catch (error) {
-			console.error('Error loading items data:', error);
-			resultsDiv.innerHTML = '<div style="padding: 10px; color: red;">Error loading items data. Please try again.</div>';
+			console.error("Error loading items data:", error);
+			resultsDiv.innerHTML = "<div style=\"padding: 10px; color: red;\">Error loading items data. Please try again.</div>";
 		}
 	}
 
-	static _addCustomItem() {
-		const itemName = prompt('Enter item name:');
+	static _addCustomItem () {
+		const itemName = prompt("Enter item name:");
 		if (!itemName) return;
 
-		const itemType = prompt('Enter item type (weapon/armor/gear/consumable):') || 'gear';
-		const quantity = parseInt(prompt('Enter quantity:') || '1');
+		const itemType = prompt("Enter item type (weapon/armor/gear/consumable):") || "gear";
+		const quantity = parseInt(prompt("Enter quantity:") || "1");
 
 		Renderer.character._addItemToInventory(itemName, itemType, quantity, true, null);
 	}
 
-	static _addItemToInventory(itemName, itemType, quantity = 1, isCustom = false, fullItemData = null) {
+	static _addItemToInventory (itemName, itemType, quantity = 1, isCustom = false, fullItemData = null) {
 		// Create new item object
 		const newItem = {
 			name: itemName,
 			type: itemType,
 			quantity: quantity,
 			equipped: false,
-			isCustom: isCustom
+			isCustom: isCustom,
 		};
 
 		// If we have full item data, add additional properties
@@ -9932,7 +9908,7 @@ Renderer.character = class {
 		}
 
 		// Get current character data (this would need to be adapted based on your data structure)
-		let currentEquipment = JSON.parse(localStorage.getItem('character-equipment')) || [];
+		let currentEquipment = JSON.parse(localStorage.getItem("character-equipment")) || [];
 
 		// Check if item already exists
 		const existingIndex = currentEquipment.findIndex(item => item.name === itemName);
@@ -9943,11 +9919,11 @@ Renderer.character = class {
 		}
 
 		// Save updated equipment
-		localStorage.setItem('character-equipment', JSON.stringify(currentEquipment));
+		localStorage.setItem("character-equipment", JSON.stringify(currentEquipment));
 
 		// Hide search results
-		document.getElementById('item-search-results').style.display = 'none';
-		document.getElementById('item-search').value = '';
+		document.getElementById("item-search-results").style.display = "none";
+		document.getElementById("item-search").value = "";
 
 		// Refresh the equipment display
 		Renderer.character._refreshEquipmentDisplay();
@@ -9955,43 +9931,43 @@ Renderer.character = class {
 		alert(`Added ${quantity} ${itemName}(s) to inventory!`);
 	}
 
-	static _removeItem(itemIndex) {
-		if (!confirm('Remove this item from inventory?')) return;
+	static _removeItem (itemIndex) {
+		if (!confirm("Remove this item from inventory?")) return;
 
-		let currentEquipment = JSON.parse(localStorage.getItem('character-equipment')) || [];
+		let currentEquipment = JSON.parse(localStorage.getItem("character-equipment")) || [];
 		currentEquipment.splice(itemIndex, 1);
-		localStorage.setItem('character-equipment', JSON.stringify(currentEquipment));
+		localStorage.setItem("character-equipment", JSON.stringify(currentEquipment));
 
 		Renderer.character._refreshEquipmentDisplay();
 	}
 
-	static _refreshEquipmentDisplay() {
+	static _refreshEquipmentDisplay () {
 		// This would need to be adapted to properly refresh the character sheet
 		// For now, just suggest a page reload
-		if (confirm('Equipment updated! Reload the page to see changes?')) {
+		if (confirm("Equipment updated! Reload the page to see changes?")) {
 			location.reload();
 		}
 	}
 
 	// Check if user has edit access to character's source based on cached passwords
-	static _hasSourceAccess(source) {
+	static _hasSourceAccess (source) {
 		if (!source) return false;
 
 		// Check if we have a cached password for this source
 		try {
-			const cachedPasswords = localStorage.getItem('sourcePasswords');
+			const cachedPasswords = localStorage.getItem("sourcePasswords");
 			if (!cachedPasswords) return false;
 
 			const passwords = JSON.parse(cachedPasswords);
 			return passwords.hasOwnProperty(source);
 		} catch (e) {
-			console.error('Error checking source access:', e);
+			console.error("Error checking source access:", e);
 			return false;
 		}
 	}
 
 	// Update character stat using centralized CharacterManager
-	static async _updateCharacterStat(characterData, characterSource, statPath, newValue) {
+	static async _updateCharacterStat (characterData, characterSource, statPath, newValue) {
 		if (!characterData || !characterSource || !statPath) return false;
 
 		// All character updates now go through CharacterManager
@@ -10000,20 +9976,20 @@ Renderer.character = class {
 			return await globalThis.CharacterManager.updateCharacterStat(characterId, statPath, newValue);
 		}
 
-		console.warn('CharacterManager not available for stat update');
+		console.warn("CharacterManager not available for stat update");
 		return false;
 	}
 
 	// Special handler for hit dice updates that need to be distributed across classes
-	static async _updateHitDiceFromClasses(characterData, characterSource, statPath, newValue, classesData) {
+	static async _updateHitDiceFromClasses (characterData, characterSource, statPath, newValue, classesData) {
 		if (!characterData || !characterSource || !statPath || !classesData) return false;
 
 		// Parse the die type from the stat path (e.g., "class.currentHitDice.d8" -> "d8")
-		const dieType = statPath.replace('class.currentHitDice.', '');
+		const dieType = statPath.replace("class.currentHitDice.", "");
 
 		// Parse classes data: "0:6:4,1:2:1" means [classIndex:level:currentAvailable]
-		const classes = classesData.split(',').map(classStr => {
-			const [index, level, currentAvailable] = classStr.split(':').map(Number);
+		const classes = classesData.split(",").map(classStr => {
+			const [index, level, currentAvailable] = classStr.split(":").map(Number);
 			return { index, level, currentAvailable };
 		});
 
@@ -10068,18 +10044,18 @@ Renderer.character = class {
 			if (success) {
 				return true;
 			} else {
-				console.warn('CharacterManager: Server update failed for hit dice');
+				console.warn("CharacterManager: Server update failed for hit dice");
 				return false;
 			}
 		}
 
-		console.warn('CharacterManager not available for hit dice update');
+		console.warn("CharacterManager not available for hit dice update");
 		return false;
 	}
 
 	// Helper method to generate character ID (kept for backward compatibility)
-	static _generateCharacterId(name) {
-		return name.toLowerCase().replace(/[^a-z0-9]/g, '').substring(0, 20) + '_' + Date.now();
+	static _generateCharacterId (name) {
+		return `${name.toLowerCase().replace(/[^a-z0-9]/g, "").substring(0, 20)}_${Date.now()}`;
 	}
 
 	static pGetFluff (character) {
@@ -17057,7 +17033,6 @@ Renderer.hover = class {
 			case UrlUtil.PG_BESTIARY: return Renderer.monster.bindListenersCompact.bind(Renderer.monster);
 			case UrlUtil.PG_RACES: return Renderer.race.bindListenersCompact.bind(Renderer.race);
 			case UrlUtil.PG_CHARACTERS: return Renderer.character.bindListenersCompact.bind(Renderer.character);
-			case UrlUtil.PG_SPELLS: return Renderer.spell.bindListenersCompact.bind(Renderer.spell);
 			default: return null;
 		}
 	}

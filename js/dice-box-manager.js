@@ -20,14 +20,14 @@ class DiceBoxManager {
 	static _throwForceDefault = 8;
 	static _throwForceMax = 40;
 
-	static async getInstance() {
+	static async getInstance () {
 		if (!this._instance) {
 			this._instance = new DiceBoxManager();
 		}
 		return this._instance;
 	}
 
-	static async init() {
+	static async init () {
 		if (this._isInitialized) return;
 
 		try {
@@ -43,9 +43,9 @@ class DiceBoxManager {
 			}
 
 			// Get user's preferred theme before initialization
-			const preferredTheme = window.VetoolsConfig ?
-				(window.VetoolsConfig.get("dice", "theme3d") || "default") :
-				"default";
+			const preferredTheme = window.VetoolsConfig
+				? (window.VetoolsConfig.get("dice", "theme3d") || "default")
+				: "default";
 
 			// Initialize dice-box with full screen configuration using new v1.1.0 API
 			const throwForcePref = this.getThrowForcePreference();
@@ -53,17 +53,17 @@ class DiceBoxManager {
 				id: "dice-box",
 				assetPath: "/lib/dice-box-assets/",
 				origin: window.location.origin,
-				scale: 4,  // Smaller dice for better visibility and less clutter
-				gravity: 0.8,  // Slightly reduced gravity for more natural rolling
-				mass: 1.3,  // Slightly heavier dice for more stable rolling
-				friction: throwForcePref === 1000000 ? 0 : 0.9,  // Higher friction for less sliding around
-				restitution: throwForcePref === 1000000 ? 0 : 0.3,  // Lower bounce for more realistic settling
-				shadowIntensity: 0.4,  // Lighter shadows for cleaner look
-				lightIntensity: 0.8,  // Balanced lighting
-				spinForce: throwForcePref === 1000000 ? 40 : 0.6,  // Reduced spin for more predictable rolls
+				scale: 4, // Smaller dice for better visibility and less clutter
+				gravity: 0.8, // Slightly reduced gravity for more natural rolling
+				mass: 1.3, // Slightly heavier dice for more stable rolling
+				friction: throwForcePref === 1000000 ? 0 : 0.9, // Higher friction for less sliding around
+				restitution: throwForcePref === 1000000 ? 0 : 0.3, // Lower bounce for more realistic settling
+				shadowIntensity: 0.4, // Lighter shadows for cleaner look
+				lightIntensity: 0.8, // Balanced lighting
+				spinForce: throwForcePref === 1000000 ? 40 : 0.6, // Reduced spin for more predictable rolls
 				throwForce: throwForcePref,
 				enableShadows: true,
-				lightPosition: { x: 2-10, y: 30, z: 20 },
+				lightPosition: { x: 2 - 10, y: 30, z: 20 },
 				// Theme configuration - use user's preference from start
 				theme: preferredTheme,
 				themeColor: "#4a7c59", // Default theme color
@@ -74,8 +74,8 @@ class DiceBoxManager {
 				// Force canvas to fill container
 				canvas: {
 					width: window.innerWidth,
-					height: window.innerHeight
-				}
+					height: window.innerHeight,
+				},
 			});
 
 			await this._diceBox.init();
@@ -88,18 +88,17 @@ class DiceBoxManager {
 			this._ensureContainerReady();
 
 			// Add window resize handler to keep dice-box full screen
-			window.addEventListener('resize', () => {
+			window.addEventListener("resize", () => {
 				// Re-ensure container is properly configured on resize
 				this._ensureContainerReady();
 			});
-
 		} catch (error) {
 			console.error("Failed to initialize dice-box:", error);
 			this._isInitialized = false;
 		}
 	}
 
-	static async _loadDiceBoxLibrary() {
+	static async _loadDiceBoxLibrary () {
 		return new Promise(async (resolve, reject) => {
 			// Check if already loaded
 			if (window.DiceBox) {
@@ -115,17 +114,17 @@ class DiceBoxManager {
 				window.DiceBox = DiceBox;
 
 				// Add the dice-box container if it doesn't exist
-				if (!document.getElementById('dice-box')) {
-					const diceContainer = document.createElement('div');
-					diceContainer.id = 'dice-box';
+				if (!document.getElementById("dice-box")) {
+					const diceContainer = document.createElement("div");
+					diceContainer.id = "dice-box";
 					// Style the container to be full screen
-					diceContainer.style.position = 'fixed';
-					diceContainer.style.top = '0';
-					diceContainer.style.left = '0';
-					diceContainer.style.width = '100vw';
-					diceContainer.style.height = '100vh';
-					diceContainer.style.pointerEvents = 'none'; // Don't block clicks
-					diceContainer.style.zIndex = '10000'; // Above other content
+					diceContainer.style.position = "fixed";
+					diceContainer.style.top = "0";
+					diceContainer.style.left = "0";
+					diceContainer.style.width = "100vw";
+					diceContainer.style.height = "100vh";
+					diceContainer.style.pointerEvents = "none"; // Don't block clicks
+					diceContainer.style.zIndex = "10000"; // Above other content
 					document.body.appendChild(diceContainer);
 				}
 
@@ -138,30 +137,30 @@ class DiceBoxManager {
 					const { default: DiceBox } = await import("https://unpkg.com/@3d-dice/dice-box@1.1.3/dist/dice-box.es.min.js");
 					window.DiceBox = DiceBox;
 
-					if (!document.getElementById('dice-box')) {
-						const diceContainer = document.createElement('div');
-						diceContainer.id = 'dice-box';
+					if (!document.getElementById("dice-box")) {
+						const diceContainer = document.createElement("div");
+						diceContainer.id = "dice-box";
 						// Style the container to be full screen
-						diceContainer.style.position = 'fixed';
-						diceContainer.style.top = '0';
-						diceContainer.style.left = '0';
-						diceContainer.style.width = '100vw';
-						diceContainer.style.height = '100vh';
-						diceContainer.style.pointerEvents = 'none'; // Don't block clicks
-						diceContainer.style.zIndex = '10000'; // Above other content
+						diceContainer.style.position = "fixed";
+						diceContainer.style.top = "0";
+						diceContainer.style.left = "0";
+						diceContainer.style.width = "100vw";
+						diceContainer.style.height = "100vh";
+						diceContainer.style.pointerEvents = "none"; // Don't block clicks
+						diceContainer.style.zIndex = "10000"; // Above other content
 						document.body.appendChild(diceContainer);
 					}
 
 					resolve();
 				} catch (cdnError) {
 					console.error("Failed to load DiceBox from CDN:", cdnError);
-					reject(new Error('Failed to load dice-box library from local assets or CDN'));
+					reject(new Error("Failed to load dice-box library from local assets or CDN"));
 				}
 			}
 		});
 	}
 
-	static async enable() {
+	static async enable () {
 		if (!this._isInitialized) {
 			await this.init();
 		}
@@ -169,15 +168,15 @@ class DiceBoxManager {
 		return this._isEnabled;
 	}
 
-	static disable() {
+	static disable () {
 		this._isEnabled = false;
 	}
 
-	static isEnabled() {
+	static isEnabled () {
 		return this._isEnabled && this._isInitialized;
 	}
 
-	static isInitialized() {
+	static isInitialized () {
 		return this._isInitialized;
 	}
 
@@ -187,7 +186,7 @@ class DiceBoxManager {
 	 * @param {string} label - Label for the roll
 	 * @returns {Promise<Object>} Roll result with unique roll ID
 	 */
-	static async rollDice(diceNotation, label = "Roll") {
+	static async rollDice (diceNotation, label = "Roll") {
 		if (!this.isEnabled()) {
 			throw new Error("Dice-box not initialized or enabled");
 		}
@@ -209,7 +208,7 @@ class DiceBoxManager {
 			this._ensureContainerReady();
 
 			// Clean the dice notation for dice-box (remove spaces, ensure proper format)
-			const cleanNotation = diceNotation.replace(/\s+/g, '');
+			const cleanNotation = diceNotation.replace(/\s+/g, "");
 
 			// Validate that it's a proper dice notation - support pools, complex expressions, and modifiers
 			// Examples: "1d20", "2d8+1d6", "1d20+5", "3d6+2d4+1"
@@ -239,28 +238,28 @@ class DiceBoxManager {
 	 * @param {string} notation - Like "2d8+1d6+3" or "1d20+5"
 	 * @returns {Array} Array of {type: 'dice'|'modifier', notation: string, value?: number}
 	 */
-	static _splitDiceNotation(notation) {
+	static _splitDiceNotation (notation) {
 		const components = [];
 		const parts = notation.split(/([+-])/);
 
-		let currentSign = '+';
+		let currentSign = "+";
 		for (let i = 0; i < parts.length; i++) {
 			const part = parts[i].trim();
-			if (part === '+' || part === '-') {
+			if (part === "+" || part === "-") {
 				currentSign = part;
 			} else if (part) {
 				if (part.match(/\d*d\d+/)) {
 					// This is a dice component
 					components.push({
-						type: 'dice',
-						notation: (currentSign === '-' ? '-' : '') + part
+						type: "dice",
+						notation: (currentSign === "-" ? "-" : "") + part,
 					});
 				} else if (part.match(/^\d+$/)) {
 					// This is a numeric modifier
 					components.push({
-						type: 'modifier',
+						type: "modifier",
 						notation: currentSign + part,
-						value: parseInt(currentSign + part)
+						value: parseInt(currentSign + part),
 					});
 				}
 			}
@@ -276,26 +275,26 @@ class DiceBoxManager {
 	 * @param {string} originalNotation - Original notation
 	 * @returns {Promise<Object>} Combined results
 	 */
-	static async _rollPoolDice(diceComponents, rollId, originalNotation) {
+	static async _rollPoolDice (diceComponents, rollId, originalNotation) {
 		const allResults = [];
 		const diceResults = [];
 		let modifierTotal = 0;
 
 		// Roll each dice component separately
 		for (const component of diceComponents) {
-			if (component.type === 'dice') {
+			if (component.type === "dice") {
 				// Roll this dice notation using dice-box
-				const rollResult = await this._diceBox.roll(component.notation.replace(/^-/, ''));
+				const rollResult = await this._diceBox.roll(component.notation.replace(/^-/, ""));
 				const results = rollResult.map(die => die.value);
 
 				// If negative dice (shouldn't happen in normal usage), negate results
-				if (component.notation.startsWith('-')) {
+				if (component.notation.startsWith("-")) {
 					results.forEach((val, idx) => results[idx] = -val);
 				}
 
 				allResults.push(...results);
 				diceResults.push(...results);
-			} else if (component.type === 'modifier') {
+			} else if (component.type === "modifier") {
 				modifierTotal += component.value;
 			}
 		}
@@ -310,7 +309,7 @@ class DiceBoxManager {
 			individual: diceResults,
 			rollId,
 			// Add method to trigger fade after results are processed
-			startFadeCountdown: () => this._waitForSettlingThenFade(rollId)
+			startFadeCountdown: () => this._waitForSettlingThenFade(rollId),
 		};
 
 		// DON'T start fade countdown here - let the caller do it after processing results
@@ -325,7 +324,7 @@ class DiceBoxManager {
 	 * @param {string} originalNotation - Original notation
 	 * @returns {Promise<Object>} Results
 	 */
-	static async _rollSingleNotation(cleanNotation, rollId, originalNotation) {
+	static async _rollSingleNotation (cleanNotation, rollId, originalNotation) {
 		// Roll the dice using dice-box with the notation string directly
 		const rollResult = await this._diceBox.roll(cleanNotation);
 
@@ -346,13 +345,13 @@ class DiceBoxManager {
 	 * @param {string} notation
 	 * @returns {Array}
 	 */
-	static _parseDiceNotation(notation) {
+	static _parseDiceNotation (notation) {
 		const diceArray = [];
-		const clean = (notation || "").replace(/\s+/g, '').toLowerCase();
+		const clean = (notation || "").replace(/\s+/g, "").toLowerCase();
 		const diceRegex = /(\d+)?d(\d+)/g;
 		let match;
 		while ((match = diceRegex.exec(clean)) !== null) {
-			const count = parseInt(match[1] || '1');
+			const count = parseInt(match[1] || "1");
 			const sides = parseInt(match[2]);
 			for (let i = 0; i < count; i++) {
 				diceArray.push({sides});
@@ -364,11 +363,11 @@ class DiceBoxManager {
 	/**
 	 * Ensure the dice container exists and is properly configured
 	 */
-	static _ensureContainerReady() {
-		let container = document.getElementById('dice-box');
+	static _ensureContainerReady () {
+		let container = document.getElementById("dice-box");
 		if (!container) {
-			container = document.createElement('div');
-			container.id = 'dice-box';
+			container = document.createElement("div");
+			container.id = "dice-box";
 			document.body.appendChild(container);
 		}
 
@@ -390,7 +389,7 @@ class DiceBoxManager {
 		`;
 
 		// Also ensure any canvas inside is properly sized
-		const canvas = container.querySelector('canvas');
+		const canvas = container.querySelector("canvas");
 		if (canvas) {
 			canvas.style.cssText = `
 				width: 100% !important;
@@ -405,14 +404,13 @@ class DiceBoxManager {
 		}
 	}
 
-
 	/**
 	 * Process roll results from dice-box
 	 * @param {Array} rollResult - Results from dice-box
 	 * @param {string} originalNotation - Original dice notation
 	 * @returns {Object} Processed results
 	 */
-	static _processRollResults(rollResult, originalNotation) {
+	static _processRollResults (rollResult, originalNotation) {
 		const diceResults = rollResult.map(die => die.value);
 		const total = diceResults.reduce((sum, val) => sum + val, 0);
 
@@ -431,7 +429,7 @@ class DiceBoxManager {
 			total: total + modifierTotal,
 			notation: originalNotation,
 			individual: diceResults,
-			rolls: rollResult
+			rolls: rollResult,
 		};
 	}
 
@@ -440,7 +438,7 @@ class DiceBoxManager {
 	 * @param {number} faces - Number of sides on the die
 	 * @returns {Promise<number>} The rolled value
 	 */
-	static async rollSingleDie(faces) {
+	static async rollSingleDie (faces) {
 		// DISABLED: This method can cause infinite loops when used as fallback
 		// Always use mathematical randomization for single die fallbacks
 		console.warn("rollSingleDie called but disabled to prevent loops, using mathematical roll");
@@ -453,7 +451,7 @@ class DiceBoxManager {
 	 * ensuring users see the final result before the dice fade away.
 	 * @param {string} rollId - The roll ID to fade after settling
 	 */
-	static _waitForSettlingThenFade(rollId) {
+	static _waitForSettlingThenFade (rollId) {
 		// Simplified approach: just wait a fixed time and then fade
 		// Most dice settle within 3-4 seconds with realistic physics
 
@@ -479,7 +477,7 @@ class DiceBoxManager {
 	/**
 	 * Fade out a specific roll by ID (for concurrent roll support)
 	 */
-	static async _fadeOutSpecificRoll(rollId) {
+	static async _fadeOutSpecificRoll (rollId) {
 		// Remove from active rolls tracking
 		this._activeRolls.delete(rollId);
 
@@ -497,8 +495,8 @@ class DiceBoxManager {
 	/**
 	 * Clear all dice from the scene with smooth fade out
 	 */
-	static async fadeOutDice() {
-		const container = document.getElementById('dice-box');
+	static async fadeOutDice () {
+		const container = document.getElementById("dice-box");
 		if (container && this._diceBox) {
 			// Clear all active roll tracking
 			this._activeRolls.clear();
@@ -510,15 +508,15 @@ class DiceBoxManager {
 			}
 
 			// Add fade out transition
-			container.style.transition = 'opacity 1s ease-out';
-			container.style.opacity = '0';
+			container.style.transition = "opacity 1s ease-out";
+			container.style.opacity = "0";
 
 			// Wait for fade to complete, then actually clear dice
 			setTimeout(async () => {
 				await this._diceBox.clear();
 				// Reset opacity for next roll
-				container.style.opacity = '1';
-				container.style.transition = '';
+				container.style.opacity = "1";
+				container.style.transition = "";
 			}, 1000);
 		}
 	}
@@ -526,31 +524,29 @@ class DiceBoxManager {
 	/**
 	 * Immediately clear all dice from the scene (for emergency/manual clearing)
 	 */
-	static async clearDice() {
+	static async clearDice () {
 		if (this._diceBox) {
 			await this._diceBox.clear();
-			const container = document.getElementById('dice-box');
+			const container = document.getElementById("dice-box");
 			if (container) {
-				container.style.opacity = '1';
-				container.style.transition = '';
+				container.style.opacity = "1";
+				container.style.transition = "";
 			}
 		}
 		// Clear all active roll tracking
 		this._activeRolls.clear();
 	}
 
-
 	/**
 	 * Set the current theme for 3D dice
 	 * @param {string} theme - Theme name (default, rust, gemstone, rock, smooth, wooden)
 	 * @returns {Promise<void>}
 	 */
-	static async setTheme(theme) {
+	static async setTheme (theme) {
 		if (!this.isEnabled()) {
 			console.warn("DiceBoxManager: Cannot set theme - not initialized or enabled");
 			return;
 		}
-
 
 		try {
 			// First clear any existing dice - themes only apply before/after rolls
@@ -588,8 +584,7 @@ class DiceBoxManager {
 	 * @param {string} theme - Theme name
 	 * @returns {Promise<void>}
 	 */
-	static async _reinitializeWithTheme(theme) {
-
+	static async _reinitializeWithTheme (theme) {
 		// Store current state
 		const wasEnabled = this._isEnabled;
 
@@ -620,7 +615,7 @@ class DiceBoxManager {
 			restitution: throwForcePref === 1000000 ? 0.11 : 0.3,
 			shadowIntensity: 0.4,
 			lightIntensity: 0.8,
-			spinForce:  throwForcePref === 1000000 ? 4 :0.6,
+			spinForce: throwForcePref === 1000000 ? 4 : 0.6,
 			throwForce: throwForcePref,
 			enableShadows: true,
 			lightPosition: { x: -10, y: 30, z: 20 },
@@ -632,8 +627,8 @@ class DiceBoxManager {
 			container: "#dice-box",
 			canvas: {
 				width: window.innerWidth,
-				height: window.innerHeight
-			}
+				height: window.innerHeight,
+			},
 		});
 
 		await this._diceBox.init();
@@ -642,15 +637,14 @@ class DiceBoxManager {
 
 		// Ensure container is ready
 		this._ensureContainerReady();
-
 	}
 
 	// Get current throw force preference (clamped between 1 and _throwForceMax)
-	static getThrowForcePreference() {
+	static getThrowForcePreference () {
 		let val = this._throwForceDefault;
 		try {
 			if (window.VetoolsConfig) {
-				val = parseInt(window.VetoolsConfig.get('dice', 'throwForce') || this._throwForceDefault, 10);
+				val = parseInt(window.VetoolsConfig.get("dice", "throwForce") || this._throwForceDefault, 10);
 			}
 		} catch (e) {
 			val = this._throwForceDefault;
@@ -661,13 +655,13 @@ class DiceBoxManager {
 	}
 
 	// Set throw force preference (clamped between 1 and _throwForceMax) and persist if possible
-	static setThrowForcePreference(val) {
+	static setThrowForcePreference (val) {
 		let n = parseInt(val, 10);
 		if (!Number.isFinite(n) || isNaN(n)) n = this._throwForceDefault;
 		n = Math.max(1, Math.min(this._throwForceMax, n));
 		try {
 			if (window.VetoolsConfig) {
-				window.VetoolsConfig.set('dice', 'throwForce', n);
+				window.VetoolsConfig.set("dice", "throwForce", n);
 			}
 		} catch (e) {
 			// ignore persistence errors
@@ -675,12 +669,11 @@ class DiceBoxManager {
 		return n;
 	}
 
-
 	/**
 	 * Get the current theme
 	 * @returns {string} Current theme name
 	 */
-	static getCurrentTheme() {
+	static getCurrentTheme () {
 		return this._currentTheme;
 	}
 
@@ -688,10 +681,9 @@ class DiceBoxManager {
 	 * Get list of available themes
 	 * @returns {Array<string>} Available theme names
 	 */
-	static getAvailableThemes() {
+	static getAvailableThemes () {
 		return Array.from(this._availableThemes).sort();
 	}
-
 }
 
 // Export for global use

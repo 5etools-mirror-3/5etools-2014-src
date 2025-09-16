@@ -1055,24 +1055,24 @@ class _DataTypeLoaderCharacter extends _DataTypeLoader {
 				const characters = await CharacterManager.loadCharacters();
 				return {character: characters};
 			} catch (error) {
-				console.warn('Failed to load characters from CharacterManager for DataLoader:', error);
+				console.warn("Failed to load characters from CharacterManager for DataLoader:", error);
 			}
 		}
-		
+
 		// Fallback to direct API load if CharacterManager is not available
 		try {
-			const response = await fetch('/api/characters/load');
+			const response = await fetch("/api/characters/load");
 			if (!response.ok) {
-				console.warn('Failed to load characters from API for DataLoader');
+				console.warn("Failed to load characters from API for DataLoader");
 				return {character: []};
 			}
 			const characters = await response.json();
 			// Ensure each character has the __prop set
 			characters.forEach(it => it.__prop = "character");
-			
+
 			return {character: characters};
 		} catch (error) {
-			console.error('Error loading characters from API for DataLoader:', error);
+			console.error("Error loading characters from API for DataLoader:", error);
 			return {character: []};
 		}
 	}

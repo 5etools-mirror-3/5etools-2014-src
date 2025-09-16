@@ -105,7 +105,6 @@ class CharactersPage extends ListPageMultiSource {
 		// Characters don't use traditional source loading
 		// All characters are loaded from API regardless of source
 		console.log(`Character source loading skipped for ${src} - using API data`);
-		return;
 	}
 
 	getListItem (character, chI, isExcluded) {
@@ -162,10 +161,10 @@ class CharactersPage extends ListPageMultiSource {
 				this._addData(formattedData);
 				console.log(`Loaded ${characters.length} characters via CharacterManager`);
 			} else {
-				console.log('No characters found - this is normal for a fresh installation');
+				console.log("No characters found - this is normal for a fresh installation");
 			}
 		} catch (e) {
-			console.warn('Failed to load characters via CharacterManager:', e);
+			console.warn("Failed to load characters via CharacterManager:", e);
 		}
 
 		// Set up listener for character updates
@@ -212,8 +211,7 @@ class CharactersPage extends ListPageMultiSource {
 		}
 	}
 
-
-	_processCharacterForDisplay(character) {
+	_processCharacterForDisplay (character) {
 		// Add computed fields that the filters and display expect
 		if (character.race) {
 			character._fRace = character.race.variant ? `Variant ${character.race.name}` : character.race.name;
@@ -243,7 +241,7 @@ class CharactersPage extends ListPageMultiSource {
 		}
 	}
 
-	async loadCharacterById(characterId) {
+	async loadCharacterById (characterId) {
 		try {
 			// Try CharacterManager first for cached character
 			const character = CharacterManager.getCharacterById(characterId);
@@ -278,7 +276,7 @@ class CharactersPage extends ListPageMultiSource {
 		if (data.character && data.character.length) {
 			DataLoader._pCache_addToCache({
 				allDataMerged: data,
-				propAllowlist: new Set(["character"])
+				propAllowlist: new Set(["character"]),
 			});
 		}
 	}
@@ -308,11 +306,11 @@ class CharactersPage extends ListPageMultiSource {
 		}
 	}
 
-	async _updateEditButtonVisibility(character) {
+	async _updateEditButtonVisibility (character) {
 		const $editBtn = $("#btn-edit-character");
 		const characterSource = character.source.toLowerCase();
 
-		if (!characterSource || characterSource === 'Unknown' || characterSource === '') {
+		if (!characterSource || characterSource === "Unknown" || characterSource === "") {
 			// No source specified, hide edit button
 			$editBtn.hide();
 			return;
@@ -324,20 +322,20 @@ class CharactersPage extends ListPageMultiSource {
 		if (cachedPassword) {
 			// User has access, show edit button
 			$editBtn.show();
-			$editBtn.attr('title', `Edit character from source: ${characterSource}`);
+			$editBtn.attr("title", `Edit character from source: ${characterSource}`);
 		} else {
 			// No access, hide edit button
 			$editBtn.hide();
 		}
 	}
 
-	_getCachedPassword(sourceName) {
+	_getCachedPassword (sourceName) {
 		try {
-			const stored = localStorage.getItem('sourcePasswords');
+			const stored = localStorage.getItem("sourcePasswords");
 			const passwords = stored ? JSON.parse(stored) : {};
 			return passwords[sourceName] || null;
 		} catch (e) {
-			console.error('Error loading cached passwords:', e);
+			console.error("Error loading cached passwords:", e);
 			return null;
 		}
 	}
@@ -389,8 +387,8 @@ window.addEventListener("load", () => {
 			const characterSource = character.source.toLowerCase();
 
 			// Double-check access before allowing edit
-			if (!characterSource || characterSource === 'Unknown' || characterSource === '') {
-				alert('This character has no source specified and cannot be edited.');
+			if (!characterSource || characterSource === "Unknown" || characterSource === "") {
+				alert("This character has no source specified and cannot be edited.");
 				return;
 			}
 
@@ -401,10 +399,10 @@ window.addEventListener("load", () => {
 			}
 
 			// Store character data for editor
-			localStorage.setItem('editingCharacter', JSON.stringify(charactersPage._currentCharacter));
+			localStorage.setItem("editingCharacter", JSON.stringify(charactersPage._currentCharacter));
 
 			// Navigate to character editor (data already stored in localStorage above)
-			window.location.href = 'charactereditor.html?edit=true';
+			window.location.href = "charactereditor.html?edit=true";
 		}
 	});
 });

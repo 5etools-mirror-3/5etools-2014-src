@@ -91,10 +91,10 @@ const _DICE_THEME_OPTIONS = {
 	"gemstone": "Gemstone",
 	"rock": "Rock",
 	"rust": "Rust",
-	"wooden": "Wooden"
+	"wooden": "Wooden",
 };
 
-const DICE_THEME_OPTIONS =  [
+const DICE_THEME_OPTIONS = [
 	"default",
 	"blueGreenMetal",
 	"diceOfRolling",
@@ -102,8 +102,8 @@ const DICE_THEME_OPTIONS =  [
 	"gemstone",
 	"rock",
 	"rust",
-	"wooden"
-]
+	"wooden",
+];
 const settingsGroupDice = new ConfigSettingsGroup({
 	groupId: "dice",
 	name: "Dice Rolling (reload page to apply changes)",

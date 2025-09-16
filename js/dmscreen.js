@@ -371,7 +371,7 @@ class Board {
 			const characters = await CharacterManager.loadCharacters();
 
 			if (!characters.length) {
-				console.log('No characters found for DM screen search indexing');
+				console.log("No characters found for DM screen search indexing");
 				return;
 			}
 
@@ -397,7 +397,7 @@ class Board {
 					c: Parser.CAT_ID_CHARACTER,
 					cf: "Character",
 					u: UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CHARACTERS](character),
-					p: UrlUtil.PG_CHARACTERS
+					p: UrlUtil.PG_CHARACTERS,
 				};
 
 				// Add to both ALL and Character category indices
@@ -406,9 +406,8 @@ class Board {
 			});
 
 			console.log(`Added ${characters.length} characters to DM screen search index`);
-
 		} catch (error) {
-			console.warn('Failed to add characters to search index:', error);
+			console.warn("Failed to add characters to search index:", error);
 		}
 	}
 
@@ -1300,7 +1299,7 @@ class Panel {
 				.then(characters => {
 					// Find the specific character by hash
 					const character = characters.find(char =>
-						UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CHARACTERS](char) === hash
+						UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CHARACTERS](char) === hash,
 					);
 
 					if (!character) {
@@ -1330,7 +1329,7 @@ class Panel {
 					return $contentInner;
 				})
 				.catch(error => {
-					console.error('Error loading character for DM screen:', error);
+					console.error("Error loading character for DM screen:", error);
 					return this.doPopulate_Error({message: `Failed to load character from API: ${error.message}`}, title);
 				});
 		}
@@ -1687,7 +1686,6 @@ class Panel {
 			);
 		});
 	}
-
 
 	set$ContentTab (type, contentMeta, $content, title, tabCanRename, tabRenamed) {
 		const ix = this.isTabs ? this.getNextTabIndex() : 0;

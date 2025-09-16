@@ -14,7 +14,7 @@ class PageFilterCharacters extends PageFilterBase {
 
 	static mutateForFilters (character) {
 		character._fRace = character.race?.name || "Unknown";
-		
+
 		// Create detailed class display with subclasses
 		if (character.class && Array.isArray(character.class)) {
 			character._fClass = character.class.map(cls => {
@@ -24,10 +24,10 @@ class PageFilterCharacters extends PageFilterBase {
 				}
 				return classStr;
 			}).join("/");
-			
+
 			// Also create a simple class list for filtering/search
 			character._fClassSimple = character.class.map(cls => cls.name).join("/");
-			
+
 			// Calculate total level from class levels
 			character._fLevel = character.class.reduce((total, cls) => {
 				return total + (cls.level || 0);
@@ -37,7 +37,7 @@ class PageFilterCharacters extends PageFilterBase {
 			character._fClassSimple = "Unknown";
 			character._fLevel = 1;
 		}
-		
+
 		character._fBackground = character.background?.name || "Unknown";
 		character._fSource = character.source;
 	}

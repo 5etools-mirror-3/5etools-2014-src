@@ -176,7 +176,7 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 
 	_$getPanelElement ({state}) {
 		const $container = $(`<div class="ve-flex-col h-100 min-h-0"></div>`);
-		
+
 		// Add character selection controls
 		const $controls = $(`
 			<div class="p-2 ve-flex-v-center">
@@ -189,14 +189,14 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 				</button>
 			</div>
 		`);
-		
+
 		const $content = $(`<div class="ve-flex-col min-h-0 h-100 overflow-y-auto"></div>`);
-		
+
 		$container.append($controls).append($content);
-		
+
 		const $selCharacter = $controls.find("select");
 		const $btnRefresh = $controls.find("button");
-		
+
 		// Load available characters using centralized manager
 		const loadCharacters = async () => {
 			try {
@@ -206,28 +206,28 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 					$selCharacter.append(`<option value="${char.name}">${char.name}</option>`);
 				});
 			} catch (error) {
-				console.warn('Failed to load characters via CharacterManager:', error);
+				console.warn("Failed to load characters via CharacterManager:", error);
 			}
 		};
-		
+
 		// Add CharacterManager listener to re-render character when updated
 		let currentCharacterId = null;
 		const characterUpdateListener = (characters) => {
 			console.log(`DM Screen Character Panel: Received character update, currentCharacterId: ${currentCharacterId}`);
 			console.log(`DM Screen Character Panel: Received ${characters.length} characters:`, characters.map(c => ({name: c.name, source: c.source, id: CharacterManager._generateCompositeId(c.name, c.source)})));
-			
+
 			if (currentCharacterId) {
 				const updatedCharacter = characters.find(c => {
 					const id = CharacterManager._generateCompositeId(c.name, c.source);
 					console.log(`DM Screen Character Panel: Checking character ${c.name} with ID ${id} against current ${currentCharacterId}`);
 					return id === currentCharacterId;
 				});
-				
+
 				if (updatedCharacter) {
 					console.log(`DM Screen Character Panel: Re-rendering character ${updatedCharacter.name}`);
 					// Re-register the updated character
 					globalThis._CHARACTER_EDIT_DATA[currentCharacterId] = updatedCharacter;
-					
+
 					// Re-render the character
 					const renderedHtml = Renderer.character.getCompactRenderedString(updatedCharacter, {isStatic: false});
 					const $rendered = $(renderedHtml);
@@ -241,7 +241,7 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 				console.log(`DM Screen Character Panel: No current character ID set, skipping update`);
 			}
 		};
-		
+
 		CharacterManager.addListener(characterUpdateListener);
 
 		// Handle character selection
@@ -252,7 +252,7 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 				currentCharacterId = null;
 				return;
 			}
-			
+
 			try {
 				// Use centralized character manager
 				const characters = await CharacterManager.loadCharacters();
@@ -265,28 +265,28 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 					console.log(`DM Screen Character Panel: Selected character ${character.name}, ID: ${characterId}`);
 					if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
 					globalThis._CHARACTER_EDIT_DATA[characterId] = character;
-					
+
 					// Use RenderCharacters to render the character in non-static mode
 					const renderedHtml = Renderer.character.getCompactRenderedString(character, {isStatic: false});
 					const $rendered = $(renderedHtml);
 					$content.empty().append($rendered);
-					
+
 					// Bind character sheet listeners for quick edit functionality
 					Renderer.character._bindCharacterSheetListeners($content[0]);
 				}
 			} catch (error) {
-				console.warn('Failed to load character:', error);
+				console.warn("Failed to load character:", error);
 				$content.html(`<div class="p-2 text-danger">Failed to load character</div>`);
 				currentCharacterId = null;
 			}
 		});
-		
+
 		$btnRefresh.on("click", loadCharacters);
-		
+
 		// Clean up listener when panel is destroyed (if possible)
 		if ($container.data) {
 			const originalData = $container.data.bind($container);
-			$container.data = function(key, value) {
+			$container.data = function (key, value) {
 				if (key === "cleanup" && typeof value === "function") {
 					const originalCleanup = value;
 					return originalData(key, () => {
@@ -297,22 +297,22 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 				return originalData(key, value);
 			};
 		}
-		
+
 		// Initial load
 		loadCharacters();
-		
+
 		// State management
 		$container.data("getState", () => ({
-			selectedCharacter: $selCharacter.val()
+			selectedCharacter: $selCharacter.val(),
 		}));
-		
+
 		// Restore state if provided
 		if (state.selectedCharacter) {
 			setTimeout(() => {
 				$selCharacter.val(state.selectedCharacter).trigger("change");
 			}, 100);
 		}
-		
+
 		return $container;
 	}
 }

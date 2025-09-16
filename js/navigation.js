@@ -936,7 +936,7 @@ NavBar.InteractionManager = class {
 					<p>Continue?</p>
 				`,
 				textYes: "Yes, Preload",
-				textNo: "Cancel"
+				textNo: "Cancel",
 			});
 
 			if (!confirmation) return;

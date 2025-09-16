@@ -2,64 +2,64 @@
 "use strict";
 
 // API configuration
-const API_BASE_URL = window.location.origin.includes('localhost')
-  ? 'http://localhost:3000/api'
-  : '/api';
+const API_BASE_URL = window.location.origin.includes("localhost")
+	? "http://localhost:3000/api"
+	: "/api";
 
 // Source Password Management (moved from charactereditor.js)
 class SourcePasswordManager {
-	static STORAGE_KEY = 'sourcePasswords';
+	static STORAGE_KEY = "sourcePasswords";
 
 	// Get all cached passwords from localStorage
-	static getCachedPasswords() {
+	static getCachedPasswords () {
 		try {
 			const stored = localStorage.getItem(this.STORAGE_KEY);
 			return stored ? JSON.parse(stored) : {};
 		} catch (e) {
-			console.error('Error loading cached passwords:', e);
+			console.error("Error loading cached passwords:", e);
 			return {};
 		}
 	}
 
 	// Cache a password for a source
-	static cachePassword(sourceName, password) {
+	static cachePassword (sourceName, password) {
 		try {
 			const passwords = this.getCachedPasswords();
 			passwords[sourceName] = password;
 			localStorage.setItem(this.STORAGE_KEY, JSON.stringify(passwords));
 			return true;
 		} catch (e) {
-			console.error('Error caching password:', e);
+			console.error("Error caching password:", e);
 			return false;
 		}
 	}
 
 	// Get cached password for a source
-	static getCachedPassword(sourceName) {
+	static getCachedPassword (sourceName) {
 		const passwords = this.getCachedPasswords();
 		return passwords[sourceName] || null;
 	}
 
 	// Remove cached password for a source
-	static removeCachedPassword(sourceName) {
+	static removeCachedPassword (sourceName) {
 		try {
 			const passwords = this.getCachedPasswords();
 			delete passwords[sourceName];
 			localStorage.setItem(this.STORAGE_KEY, JSON.stringify(passwords));
 			return true;
 		} catch (e) {
-			console.error('Error removing cached password:', e);
+			console.error("Error removing cached password:", e);
 			return false;
 		}
 	}
 
 	// Check if password is valid for a source
-	static async validatePassword(sourceName, password) {
+	static async validatePassword (sourceName, password) {
 		try {
 			const response = await fetch(`${API_BASE_URL}/sources/validate`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ source: sourceName, password })
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ source: sourceName, password }),
 			});
 
 			if (response.ok) {
@@ -68,18 +68,18 @@ class SourcePasswordManager {
 			}
 			return false;
 		} catch (e) {
-			console.error('Error validating password:', e);
+			console.error("Error validating password:", e);
 			return false;
 		}
 	}
 
 	// Create a new source with password
-	static async createSource(sourceName, password) {
+	static async createSource (sourceName, password) {
 		try {
 			const response = await fetch(`${API_BASE_URL}/sources/create`, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ source: sourceName, password })
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ source: sourceName, password }),
 			});
 
 			if (response.ok) {
@@ -88,7 +88,7 @@ class SourcePasswordManager {
 			}
 			return false;
 		} catch (e) {
-			console.error('Error creating source:', e);
+			console.error("Error creating source:", e);
 			return false;
 		}
 	}
@@ -96,149 +96,139 @@ class SourcePasswordManager {
 
 // Source Management Page Controller
 class SourceManager {
-	constructor() {
+	constructor () {
 		this.init();
 	}
 
-	init() {
+	init () {
 		this.setupEventListeners();
 		// Delay updateCachedSourcesList until after sourceManager is globally available
 		setTimeout(() => this.updateCachedSourcesList(), 0);
 	}
 
-	setupEventListeners() {
+	setupEventListeners () {
 		// Create source button
-		document.getElementById('create-source-btn').addEventListener('click', () => {
+		document.getElementById("create-source-btn").addEventListener("click", () => {
 			this.createNewSource();
 		});
 
 		// Login button
-		document.getElementById('login-source-btn').addEventListener('click', () => {
+		document.getElementById("login-source-btn").addEventListener("click", () => {
 			this.loginToSource();
 		});
 
 		// Generate Random Character button
-		const generateBtn = document.getElementById('generate-random-character');
-		const sourceSelect = document.getElementById('character-source-select');
-		const levelSelect = document.getElementById('character-level-select');
-		const baseClassSelect = document.getElementById('character-base-class-select');
-		const raceSelect = document.getElementById('character-race-select');
-		const nameInput = document.getElementById('character-name-input');
-		const messageDiv = document.getElementById('generation-message');
+		const generateBtn = document.getElementById("generate-random-character");
+		const sourceSelect = document.getElementById("character-source-select");
+		const levelSelect = document.getElementById("character-level-select");
+		const baseClassSelect = document.getElementById("character-base-class-select");
+		const raceSelect = document.getElementById("character-race-select");
+		const nameInput = document.getElementById("character-name-input");
+		const messageDiv = document.getElementById("generation-message");
 
 		if (generateBtn && sourceSelect && levelSelect && nameInput && messageDiv) {
 			// Enable/disable generate button based on source selection
-			sourceSelect.addEventListener('change', () => {
+			sourceSelect.addEventListener("change", () => {
 				generateBtn.disabled = !sourceSelect.value;
 			});
 
 			// Handle character generation
-			generateBtn.addEventListener('click', () => {
+			generateBtn.addEventListener("click", () => {
 				const selectedSource = sourceSelect.value;
 				const selectedLevel = parseInt(levelSelect.value);
-				const selectedBaseClass = baseClassSelect ? baseClassSelect.value : '';
-				const selectedRace = raceSelect ? raceSelect.value : '';
+				const selectedBaseClass = baseClassSelect ? baseClassSelect.value : "";
+				const selectedRace = raceSelect ? raceSelect.value : "";
 				const characterName = nameInput.value.trim();
 
 				if (!selectedSource) {
-					messageDiv.innerHTML = '<span style="color: #dc3545;">Please select a source first.</span>';
+					messageDiv.innerHTML = "<span style=\"color: #dc3545;\">Please select a source first.</span>";
 					return;
 				}
 
-				messageDiv.innerHTML = '<span style="color: #0066cc;">Generating character...</span>';
+				messageDiv.innerHTML = "<span style=\"color: #0066cc;\">Generating character...</span>";
 
 				// Generate character with the selected source
-				// Store optional base class and race in localStorage and pass via URL
-				if (selectedBaseClass) {
-					localStorage.setItem('randomCharacterBaseClass', selectedBaseClass);
-				} else {
-					localStorage.removeItem('randomCharacterBaseClass');
-				}
-				if (selectedRace) {
-					localStorage.setItem('randomCharacterRace', selectedRace);
-				} else {
-					localStorage.removeItem('randomCharacterRace');
-				}
-				this.generateRandomCharacter(selectedSource, selectedLevel, characterName, selectedBaseClass, selectedRace);
+				// Navigate to the character editor for this source; the editor will handle creation and form selections.
+				this.generateRandomCharacter(selectedSource);
 			});
 		}
 
 		// Test access button (optional)
-		const testAccessBtn = document.getElementById('test-access-btn');
+		const testAccessBtn = document.getElementById("test-access-btn");
 		if (testAccessBtn) {
-			testAccessBtn.addEventListener('click', () => {
+			testAccessBtn.addEventListener("click", () => {
 				this.testSourceAccess();
 			});
 		}
 
 		// Enter key support for inputs
-		document.getElementById('new-source-name').addEventListener('keypress', (e) => {
-			if (e.key === 'Enter') this.createNewSource();
+		document.getElementById("new-source-name").addEventListener("keypress", (e) => {
+			if (e.key === "Enter") this.createNewSource();
 		});
 
-		document.getElementById('confirm-source-password').addEventListener('keypress', (e) => {
-			if (e.key === 'Enter') this.createNewSource();
+		document.getElementById("confirm-source-password").addEventListener("keypress", (e) => {
+			if (e.key === "Enter") this.createNewSource();
 		});
 
 		// Test source password element is not present in HTML, skip event listener
 
-		document.getElementById('login-source-password').addEventListener('keypress', (e) => {
-			if (e.key === 'Enter') this.loginToSource();
+		document.getElementById("login-source-password").addEventListener("keypress", (e) => {
+			if (e.key === "Enter") this.loginToSource();
 		});
 	}
 
-	async createNewSource() {
-		const sourceNameInput = document.getElementById('new-source-name');
-		const passwordInput = document.getElementById('new-source-password');
-		const confirmPasswordInput = document.getElementById('confirm-source-password');
-		const messageDiv = document.getElementById('create-message');
+	async createNewSource () {
+		const sourceNameInput = document.getElementById("new-source-name");
+		const passwordInput = document.getElementById("new-source-password");
+		const confirmPasswordInput = document.getElementById("confirm-source-password");
+		const messageDiv = document.getElementById("create-message");
 
 		const sourceName = sourceNameInput.value.trim().toLocaleString();
 		const password = passwordInput.value;
 		const confirmPassword = confirmPasswordInput.value;
 
 		// Clear previous messages
-		messageDiv.textContent = '';
-		messageDiv.style.color = '';
+		messageDiv.textContent = "";
+		messageDiv.style.color = "";
 
 		// Validation
 		if (!sourceName) {
-			this.showMessage('create-message', 'Please enter a source name', 'red');
+			this.showMessage("create-message", "Please enter a source name", "red");
 			sourceNameInput.focus();
 			return;
 		}
 
-		const cleanSourceName = sourceName.replace(/[^a-zA-Z0-9_-]/g, '');
+		const cleanSourceName = sourceName.replace(/[^a-zA-Z0-9_-]/g, "");
 		if (cleanSourceName !== sourceName) {
-			this.showMessage('create-message', `Source name contains invalid characters. Using: ${cleanSourceName}`, 'orange');
+			this.showMessage("create-message", `Source name contains invalid characters. Using: ${cleanSourceName}`, "orange");
 			sourceNameInput.value = cleanSourceName;
 		}
 
-		if (cleanSourceName === '') {
-			this.showMessage('create-message', 'Invalid source name after cleaning', 'red');
+		if (cleanSourceName === "") {
+			this.showMessage("create-message", "Invalid source name after cleaning", "red");
 			return;
 		}
 
 		if (!password) {
-			this.showMessage('create-message', 'Please enter a password', 'red');
+			this.showMessage("create-message", "Please enter a password", "red");
 			passwordInput.focus();
 			return;
 		}
 
 		if (password !== confirmPassword) {
-			this.showMessage('create-message', 'Passwords do not match', 'red');
+			this.showMessage("create-message", "Passwords do not match", "red");
 			confirmPasswordInput.focus();
 			return;
 		}
 
 		if (password.length < 4) {
-			this.showMessage('create-message', 'Password must be at least 4 characters long', 'red');
+			this.showMessage("create-message", "Password must be at least 4 characters long", "red");
 			passwordInput.focus();
 			return;
 		}
 
 		try {
-			this.showMessage('create-message', 'Creating source...', 'blue');
+			this.showMessage("create-message", "Creating source...", "blue");
 
 			const success = await SourcePasswordManager.createSource(cleanSourceName, password);
 
@@ -247,49 +237,49 @@ class SourceManager {
 				SourcePasswordManager.cachePassword(cleanSourceName, password);
 
 				// Clear form
-				sourceNameInput.value = '';
-				passwordInput.value = '';
-				confirmPasswordInput.value = '';
+				sourceNameInput.value = "";
+				passwordInput.value = "";
+				confirmPasswordInput.value = "";
 
 				// Update cached sources list
 				this.updateCachedSourcesList();
 
-				this.showMessage('create-message', `Source "${cleanSourceName}" created successfully!`, 'green');
+				this.showMessage("create-message", `Source "${cleanSourceName}" created successfully!`, "green");
 			} else {
-				this.showMessage('create-message', 'Failed to create source. It may already exist.', 'red');
+				this.showMessage("create-message", "Failed to create source. It may already exist.", "red");
 			}
 		} catch (e) {
-			console.error('Error creating source:', e);
-			this.showMessage('create-message', `Error creating source: ${e.message}`, 'red');
+			console.error("Error creating source:", e);
+			this.showMessage("create-message", `Error creating source: ${e.message}`, "red");
 		}
 	}
 
-	async loginToSource() {
-		const sourceNameInput = document.getElementById('login-source-name');
-		const passwordInput = document.getElementById('login-source-password');
-		const messageDiv = document.getElementById('login-message');
+	async loginToSource () {
+		const sourceNameInput = document.getElementById("login-source-name");
+		const passwordInput = document.getElementById("login-source-password");
+		const messageDiv = document.getElementById("login-message");
 
 		const sourceName = sourceNameInput.value.trim().toLowerCase();
 		const password = passwordInput.value;
 
 		// Clear previous messages
-		messageDiv.textContent = '';
-		messageDiv.style.color = '';
+		messageDiv.textContent = "";
+		messageDiv.style.color = "";
 
 		if (!sourceName) {
-			this.showMessage('login-message', 'Please enter a source name', 'red');
+			this.showMessage("login-message", "Please enter a source name", "red");
 			sourceNameInput.focus();
 			return;
 		}
 
 		if (!password) {
-			this.showMessage('login-message', 'Please enter a password', 'red');
+			this.showMessage("login-message", "Please enter a password", "red");
 			passwordInput.focus();
 			return;
 		}
 
 		try {
-			this.showMessage('login-message', 'Logging in...', 'blue');
+			this.showMessage("login-message", "Logging in...", "blue");
 
 			const isValid = await SourcePasswordManager.validatePassword(sourceName, password);
 
@@ -299,72 +289,72 @@ class SourceManager {
 				this.updateCachedSourcesList();
 
 				// Clear form
-				sourceNameInput.value = '';
-				passwordInput.value = '';
+				sourceNameInput.value = "";
+				passwordInput.value = "";
 
-				this.showMessage('login-message', `Successfully logged in to source "${sourceName}"!`, 'green');
+				this.showMessage("login-message", `Successfully logged in to source "${sourceName}"!`, "green");
 			} else {
-				this.showMessage('login-message', 'Login failed. Invalid source name or password.', 'red');
+				this.showMessage("login-message", "Login failed. Invalid source name or password.", "red");
 			}
 		} catch (e) {
-			console.error('Error logging in to source:', e);
-			this.showMessage('login-message', `Login error: ${e.message}`, 'red');
+			console.error("Error logging in to source:", e);
+			this.showMessage("login-message", `Login error: ${e.message}`, "red");
 		}
 	}
 
-	async testSourceAccess() {
-		const sourceNameInput = document.getElementById('test-source-name');
-		const passwordInput = document.getElementById('test-source-password');
-		const messageDiv = document.getElementById('test-message');
+	async testSourceAccess () {
+		const sourceNameInput = document.getElementById("test-source-name");
+		const passwordInput = document.getElementById("test-source-password");
+		const messageDiv = document.getElementById("test-message");
 
 		const sourceName = sourceNameInput.value.trim().toLocaleString();
 		const password = passwordInput.value;
 
 		// Clear previous messages
-		messageDiv.textContent = '';
-		messageDiv.style.color = '';
+		messageDiv.textContent = "";
+		messageDiv.style.color = "";
 
 		if (!sourceName) {
-			this.showMessage('test-message', 'Please enter a source name', 'red');
+			this.showMessage("test-message", "Please enter a source name", "red");
 			sourceNameInput.focus();
 			return;
 		}
 
 		if (!password) {
-			this.showMessage('test-message', 'Please enter a password', 'red');
+			this.showMessage("test-message", "Please enter a password", "red");
 			passwordInput.focus();
 			return;
 		}
 
 		try {
-			this.showMessage('test-message', 'Testing access...', 'blue');
+			this.showMessage("test-message", "Testing access...", "blue");
 
 			const isValid = await SourcePasswordManager.validatePassword(sourceName, password);
 
 			if (isValid) {
 				// Do NOT cache the password for testing - this is just verification
-				this.showMessage('test-message', `Access test successful for source "${sourceName}" (credentials not cached)`, 'green');
+				this.showMessage("test-message", `Access test successful for source "${sourceName}" (credentials not cached)`, "green");
 			} else {
-				this.showMessage('test-message', 'Access denied. Invalid source name or password.', 'red');
+				this.showMessage("test-message", "Access denied. Invalid source name or password.", "red");
 			}
 		} catch (e) {
-			console.error('Error testing source access:', e);
-			this.showMessage('test-message', `Error testing access: ${e.message}`, 'red');
+			console.error("Error testing source access:", e);
+			this.showMessage("test-message", `Error testing access: ${e.message}`, "red");
 		}
 	}
 
-	updateCachedSourcesList() {
-		const listDiv = document.getElementById('cached-sources-list');
-		const sourceSelect = document.getElementById('character-source-select');
-		const generateBtn = document.getElementById('generate-random-character');
+	updateCachedSourcesList () {
+		const listDiv = document.getElementById("cached-sources-list");
+		const sourceSelect = document.getElementById("character-source-select");
+		const generateBtn = document.getElementById("generate-random-character");
 		const cachedPasswords = SourcePasswordManager.getCachedPasswords();
 		const sourceNames = Object.keys(cachedPasswords);
 
 		// Update the cached sources display
 		if (sourceNames.length === 0) {
-			listDiv.innerHTML = '<p class="text-muted"><em>No accounts found</em></p>';
+			listDiv.innerHTML = "<p class=\"text-muted\"><em>No accounts found</em></p>";
 		} else {
-			let html = '<div class="list-group">';
+			let html = "<div class=\"list-group\">";
 			sourceNames.forEach(sourceName => {
 				html += `
 					<div class="list-group-item d-flex justify-content-between align-items-center flex-column">
@@ -379,19 +369,19 @@ class SourceManager {
 					</div>
 				`;
 			});
-			html += '</div>';
+			html += "</div>";
 			listDiv.innerHTML = html;
 		}
 
 		// Update character source selector
 		if (sourceSelect) {
 			if (sourceNames.length === 0) {
-				sourceSelect.innerHTML = '<option value="">No cached sources available</option>';
+				sourceSelect.innerHTML = "<option value=\"\">No cached sources available</option>";
 				if (generateBtn) generateBtn.disabled = true;
 			} else {
-				sourceSelect.innerHTML = '';
+				sourceSelect.innerHTML = "";
 				sourceNames.forEach(sourceName => {
-					const option = document.createElement('option');
+					const option = document.createElement("option");
 					option.value = sourceName;
 					option.textContent = sourceName;
 					sourceSelect.appendChild(option);
@@ -402,64 +392,52 @@ class SourceManager {
 		}
 	}
 
-	createCharacterForSource(sourceName) {
-		// Set up the character creation for the specified source
-		localStorage.setItem('newCharacterSource', sourceName);
-
-		// Navigate to character editor in create mode with source pre-set
-		window.location.href = `charactereditor.html?source=${encodeURIComponent(sourceName)}`;
+	createCharacterForSource (sourceName) {
+		// Navigate to the character editor for creating a new character.
+		// Use level=0 and pass only the source; the editor will manage all form defaults.
+		window.location.href = `charactereditor.html?level=0&source=${encodeURIComponent(sourceName)}`;
 	}
 
-	removeCachedSource(sourceName) {
+	removeCachedSource (sourceName) {
 		if (confirm(`Remove cached password for source "${sourceName}"?`)) {
 			SourcePasswordManager.removeCachedPassword(sourceName);
 			this.updateCachedSourcesList();
 		}
 	}
 
-	showMessage(elementId, message, color) {
+	showMessage (elementId, message, color) {
 		const element = document.getElementById(elementId);
 		element.textContent = message;
 		element.style.color = color;
 
 		// Auto-clear success messages after 5 seconds
-		if (color === 'green') {
+		if (color === "green") {
 			setTimeout(() => {
 				if (element.textContent === message) {
-					element.textContent = '';
-					element.style.color = '';
+					element.textContent = "";
+					element.style.color = "";
 				}
 			}, 5000);
 		}
 	}
 
-	async generateRandomCharacter(sourceName, level = 5, characterName = '', baseClass = '', race = '') {
-		const messageDiv = document.getElementById('generation-message');
+	async generateRandomCharacter (sourceName) {
+		const messageDiv = document.getElementById("generation-message");
 
 		try {
 			// Show generating message
-			this.showMessage('generation-message', 'Generating character...', 'blue');
+			this.showMessage("generation-message", "Generating character...", "blue");
 
 			// Navigate to character editor with random generation parameters
-			const urlParams = [`source=${encodeURIComponent(sourceName)}`, 'random=true', `level=${level}`];
-
-			// Add name parameter (encode empty string as well for consistency)
-			urlParams.push(`name=${encodeURIComponent(characterName)}`);
-
-			// Add optional parameters
-			if (baseClass) urlParams.push(`baseClass=${encodeURIComponent(baseClass)}`);
-			if (race) urlParams.push(`race=${encodeURIComponent(race)}`);
-
-			const url = `charactereditor.html?${urlParams.join('&')}`;
+			const url = `charactereditor.html?level=0&source=${encodeURIComponent(sourceName)}`;
 			window.location.href = url;
-
 		} catch (error) {
-			console.error('Error generating character:', error);
-			this.showMessage('generation-message', 'Error generating character: ' + error.message, 'red');
+			console.error("Error generating character:", error);
+			this.showMessage("generation-message", `Error generating character: ${error.message}`, "red");
 		}
 	}
 
-	escapeHtml(unsafe) {
+	escapeHtml (unsafe) {
 		return unsafe
 			.replace(/&/g, "&amp;")
 			.replace(/</g, "&lt;")
@@ -472,7 +450,7 @@ class SourceManager {
 // Initialize the source manager when the page loads
 let sourceManager;
 
-window.addEventListener('load', () => {
+window.addEventListener("load", () => {
 	sourceManager = new SourceManager();
 	// Make sourceManager available globally immediately
 	window.sourceManager = sourceManager;

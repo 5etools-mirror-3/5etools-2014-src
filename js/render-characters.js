@@ -19,7 +19,7 @@ export class RenderCharacters {
 	 * @param {Object} character - The character data object
 	 * @returns {number} Total level
 	 */
-	static _getCharacterLevel(character) {
+	static _getCharacterLevel (character) {
 		if (!character || !character.class || !Array.isArray(character.class)) {
 			return 0;
 		}
@@ -28,23 +28,23 @@ export class RenderCharacters {
 		}, 0);
 	}
 
-	static _getModifierText(score) {
+	static _getModifierText (score) {
 		const mod = Math.floor((score - 10) / 2);
 		return mod >= 0 ? `+${mod}` : `${mod}`;
 	}
 
-	static _getOrdinalSuffix(num) {
+	static _getOrdinalSuffix (num) {
 		const suffixes = ["th", "st", "nd", "rd"];
 		const v = num % 100;
 		return num + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
 	}
 
-	static _renderSimpleText(entries) {
+	static _renderSimpleText (entries) {
 		if (!entries) return "";
 		if (typeof entries === "string") return entries;
 		if (Array.isArray(entries)) {
 			return entries.map(entry =>
-				typeof entry === "string" ? entry : entry.text || JSON.stringify(entry)
+				typeof entry === "string" ? entry : entry.text || JSON.stringify(entry),
 			).join(" ");
 		}
 		return entries.text || JSON.stringify(entries);
@@ -55,14 +55,14 @@ export class RenderCharacters {
 	}
 
 	static _getRenderedSection_header (character) {
-		const raceText = character.race ?
-			(character.race.variant ?
-				`Variant {@race ${character.race.name}|${character.race.source || "PHB"}}` :
-				`{@race ${character.race.name}|${character.race.source || "PHB"}}`) :
-			"Unknown Race";
+		const raceText = character.race
+			? (character.race.variant
+				? `Variant {@race ${character.race.name}|${character.race.source || "PHB"}}`
+				: `{@race ${character.race.name}|${character.race.source || "PHB"}}`)
+			: "Unknown Race";
 
-		const classText = character.class ?
-			character.class.map(cls => {
+		const classText = character.class
+			? character.class.map(cls => {
 				if (cls.subclass) {
 					// Use the proper subclass shortName if available, otherwise fall back to name
 					const subclassName = cls.subclass.name || "Unknown";
@@ -77,10 +77,10 @@ export class RenderCharacters {
 					const classLink = `{@class ${cls.name}|${cls.source || "PHB"}}`;
 					return `${classLink} ${cls.level}`;
 				}
-			}).join("/") :
-			"Unknown Class";		const alignmentText = character.alignment ?
-			(Array.isArray(character.alignment) ? character.alignment.join(" ") : character.alignment) :
-			"Unknown";
+			}).join("/")
+			: "Unknown Class";		const alignmentText = character.alignment
+			? (Array.isArray(character.alignment) ? character.alignment.join(" ") : character.alignment)
+			: "Unknown";
 
 		const renderer = Renderer.get();
 
@@ -103,38 +103,38 @@ export class RenderCharacters {
 	}
 
 	static _getRenderedSection_stats (character) {
-		const acText = character.ac ?
-			character.ac.map(it => `${it.ac}${it.from ? ` (${it.from.join(", ")})` : ""}`).join(", ") :
-			"Unknown";
+		const acText = character.ac
+			? character.ac.map(it => `${it.ac}${it.from ? ` (${it.from.join(", ")})` : ""}`).join(", ")
+			: "Unknown";
 
-		const hpText = character.hp ?
-			`${character.hp.average}${character.hp.formula ? ` (${character.hp.formula})` : ""}` :
-			"Unknown";
+		const hpText = character.hp
+			? `${character.hp.average}${character.hp.formula ? ` (${character.hp.formula})` : ""}`
+			: "Unknown";
 
-		const speedText = character.speed ?
-			Object.entries(character.speed)
+		const speedText = character.speed
+			? Object.entries(character.speed)
 				.map(([k, v]) => `${k === "walk" ? "" : `${k} `}${v} ft.`)
-				.join(", ") :
-			"30 ft.";
+				.join(", ")
+			: "30 ft.";
 
-		const saveText = character.save ?
-			Object.entries(character.save)
+		const saveText = character.save
+			? Object.entries(character.save)
 				.map(([k, v]) => `${StrUtil.uppercaseFirst(k)} ${v}`)
-				.join(", ") :
-			"—";
+				.join(", ")
+			: "—";
 
-		const skillText = character.skill ?
-			Object.entries(character.skill)
+		const skillText = character.skill
+			? Object.entries(character.skill)
 				.map(([skillKey, skillValue]) => {
 					const skillName = StrUtil.toTitleCase(skillKey);
 					return `<strong>${skillName}</strong> ◉ ${skillValue}`;
 				})
-				.join(", ") :
-			"—";
+				.join(", ")
+			: "—";
 
-		const languageText = character.languages?.length ?
-			character.languages.join(", ") :
-			"—";
+		const languageText = character.languages?.length
+			? character.languages.join(", ")
+			: "—";
 
 		return $$`<tr>
 			<td colspan="6">
@@ -299,7 +299,7 @@ export class RenderCharacters {
 				}
 
 				const spellList = spellData.spells?.map(spell =>
-					typeof spell === "string" ? spell : spell.name || spell
+					typeof spell === "string" ? spell : spell.name || spell,
 				).join(", ") || "";
 
 				$out.append($$`<tr>

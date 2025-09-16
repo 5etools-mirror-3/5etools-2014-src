@@ -135,102 +135,14 @@
 				<h4 class="mb-3">Character Generation</h4>
 				<p class="text-muted mb-3">Generate random D&D characters at any level or use the wizard to level up from level 1 🧙</p>
 				<div class="ve-flex-h mb-3 align-items-end">
-					<div class="mr-3">
-						<label for="character-name-input" class="form-label"><strong>Character Name:</strong></label>
-						<input type="text" id="character-name-input" class="form-control" placeholder="Enter character name (optional)" style="width: 200px;">
-						<small class="form-text text-muted">Leave blank for random name</small>
-					</div>
-					<div class="mr-3">
-						<label for="character-level-select" class="form-label"><strong>Character Level:</strong></label>
-						<select id="character-level-select" class="form-control" style="width: 150px;">
-							<option value="0" selected>Wizard</option>
-							<option value="1">Level 1</option>
-							<option value="2">Level 2</option>
-							<option value="3">Level 3</option>
-							<option value="4">Level 4</option>
-							<option value="5">Level 5</option>
-							<option value="6">Level 6</option>
-							<option value="7">Level 7</option>
-							<option value="8">Level 8</option>
-							<option value="9">Level 9</option>
-							<option value="10">Level 10</option>
-							<option value="12">Level 12</option>
-							<option value="15">Level 15</option>
-							<option value="20">Level 20</option>
-						</select>
-					</div>
-					<div class="mr-3">
-						<label for="character-base-class-select" class="form-label"><strong>Base Class (optional):</strong></label>
-						<select id="character-base-class-select" class="form-control" style="width: 200px;">
-							<option value="">Random</option>
-							<option>Artificer</option>
-							<option>Barbarian</option>
-							<option>Bard</option>
-							<option>Cleric</option>
-							<option>Druid</option>
-							<option>Fighter</option>
-							<option>Monk</option>
-							<option>Paladin</option>
-							<option>Ranger</option>
-							<option>Rogue</option>
-							<option>Sorcerer</option>
-							<option>Warlock</option>
-							<option>Wizard</option>
-						</select>
-					</div>
-					<div class="mr-3">
-						<label for="character-race-select" class="form-label"><strong>Race:</strong></label>
-						<select id="character-race-select" class="form-control" style="width: 200px;">
-							<option value="">Random</option>
-								<option>Human</option>
-								<option>Elf</option>
-								<option>Dwarf</option>
-								<option>Halfling</option>
-								<option>Dragonborn</option>
-								<option>Gnome</option>
-								<option>Half-Elf</option>
-								<option>Half-Orc</option>
-								<option>Tiefling</option>
-								<option>Aarakocra</option>
-								<option>Aasimar</option>
-								<option>Bugbear</option>
-								<option>Centaur</option>
-								<option>Changeling</option>
-								<option>Deep Gnome</option>
-								<option>Duergar</option>
-								<option>Eladrin</option>
-								<option>Fairy</option>
-								<option>Firbolg</option>
-								<option>Genasi</option>
-								<option>Githyanki</option>
-								<option>Githzerai</option>
-								<option>Goblin</option>
-								<option>Goliath</option>
-								<option>Harengon</option>
-								<option>Hobgoblin</option>
-								<option>Kenku</option>
-								<option>Kobold</option>
-								<option>Lizardfolk</option>
-								<option>Minotaur</option>
-								<option>Orc</option>
-								<option>Satyr</option>
-								<option>Sea Elf</option>
-								<option>Shadar-Kai</option>
-								<option>Shifter</option>
-								<option>Tabaxi</option>
-								<option>Tortle</option>
-								<option>Triton</option>
-								<option>Yuan-Ti</option>
-						</select>
-					</div>
 					<div class="mr-3 mb-4">
-						<label for="character-source-select" class="form-label"><strong>Save to Source:</strong></label>
-						<select id="character-source-select" class="form-control" style="width: 200px;">
+						<label for="character-source-select" class="form-label"><strong>Open Character Curator (Save target):</strong></label>
+						<select id="character-source-select" class="form-control" style="width: 280px;">
 							<option value="">Select a source...</option>
 						</select>
 					</div>
 					<div>
-						<button class="ve-btn ve-btn-success" id="generate-random-character" disabled>Generate & Open Character</button>
+						<button class="ve-btn ve-btn-success" id="generate-random-character" disabled>Open Curator for Selected Source</button>
 					</div>
 				</div>
 				<div id="generation-message" class="mt-2" style="font-weight: bold;"></div>

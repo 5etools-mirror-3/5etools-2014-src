@@ -6955,7 +6955,7 @@ globalThis.DataUtil = class {
 		static _psLoadJson = {};
 
 		static async loadJSON () {
-			console.trace('DataUtil.character.loadJSON called from:');
+			console.trace("DataUtil.character.loadJSON called from:");
 			const cacheKey = "site";
 			this._psLoadJson[cacheKey] ||= (async () => {
 				// Use CharacterManager for centralized character loading
@@ -6965,9 +6965,9 @@ globalThis.DataUtil = class {
 						return {character: characters};
 					} else {
 						// Fallback to direct API call if CharacterManager not available
-						const response = await fetch('/api/characters/load');
+						const response = await fetch("/api/characters/load");
 						if (!response.ok) {
-							console.warn('Failed to load characters from API, returning empty array');
+							console.warn("Failed to load characters from API, returning empty array");
 							return {character: []};
 						}
 						const characters = await response.json();
@@ -6976,7 +6976,7 @@ globalThis.DataUtil = class {
 						return {character: characters};
 					}
 				} catch (error) {
-					console.error('Error loading characters:', error);
+					console.error("Error loading characters:", error);
 					return {character: []};
 				}
 			})();
@@ -6985,7 +6985,7 @@ globalThis.DataUtil = class {
 
 		// Override methods that would try to load from files
 		static async pLoadIndex () {
-			console.warn('Character index loading disabled - characters are loaded from API');
+			console.warn("Character index loading disabled - characters are loaded from API");
 			return {};
 		}
 
@@ -6995,7 +6995,7 @@ globalThis.DataUtil = class {
 		}
 
 		static async pLoadSingleSource (source) {
-			console.warn('Single source loading not supported for characters');
+			console.warn("Single source loading not supported for characters");
 			return {character: []};
 		}
 

@@ -3,7 +3,7 @@
  * Handles the connection between preferences and dice system
  */
 class DiceConfig {
-	static init() {
+	static init () {
 		// Set up listeners for configuration changes
 		if (window.VetoolsConfig) {
 			this._setupConfigListeners();
@@ -13,7 +13,7 @@ class DiceConfig {
 		this._initializeDice();
 	}
 
-	static _setupConfigListeners() {
+	static _setupConfigListeners () {
 		// Listen for dice configuration changes
 		const comp = window.VetoolsConfig.getConfigComp();
 		if (comp) {
@@ -69,8 +69,7 @@ class DiceConfig {
 		}
 	}
 
-	static async _initializeDice() {
-
+	static async _initializeDice () {
 		// Wait for other scripts to load
 		await this._waitForDependencies();
 
@@ -98,7 +97,7 @@ class DiceConfig {
 		}
 	}
 
-	static _applyCurrentConfig() {
+	static _applyCurrentConfig () {
 		if (window.VetoolsConfig && window.Renderer && window.Renderer.dice) {
 			const enabled = window.VetoolsConfig.get("dice", "enable3dDice");
 			const theme = window.VetoolsConfig.get("dice", "theme3d") || "default";
@@ -112,13 +111,13 @@ class DiceConfig {
 		}
 	}
 
-	static async _waitForDependencies() {
+	static async _waitForDependencies () {
 		return new Promise((resolve) => {
 			const checkDependencies = () => {
-				if (window.Renderer &&
-					window.Renderer.dice &&
-					window.DiceBoxManager &&
-					window.VetoolsConfig) {
+				if (window.Renderer
+					&& window.Renderer.dice
+					&& window.DiceBoxManager
+					&& window.VetoolsConfig) {
 					resolve();
 				} else {
 					setTimeout(checkDependencies, 100);
@@ -130,9 +129,9 @@ class DiceConfig {
 }
 
 // Initialize when the page loads
-if (typeof window !== 'undefined') {
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', () => {
+if (typeof window !== "undefined") {
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", () => {
 			DiceConfig.init();
 		});
 	} else {

@@ -21,7 +21,7 @@ Renderer.dice = {
 	_is3dDiceEnabled: false,
 
 	// 3D Dice configuration methods
-	set3dDiceEnabled(enabled) {
+	set3dDiceEnabled (enabled) {
 		this._is3dDiceEnabled = enabled;
 		if (enabled && window.DiceBoxManager) {
 			window.DiceBoxManager.enable().catch(console.error);
@@ -31,12 +31,12 @@ Renderer.dice = {
 		}
 	},
 
-	is3dDiceEnabled() {
+	is3dDiceEnabled () {
 		return this._is3dDiceEnabled && window.DiceBoxManager && window.DiceBoxManager.isEnabled();
 	},
 
 	// Check if 3D dice should be used for this expression
-	_shouldUse3dDice() {
+	_shouldUse3dDice () {
 		const should = this.is3dDiceEnabled();
 
 		// Add stack trace to see where this is being called from
@@ -49,11 +49,11 @@ Renderer.dice = {
 	// Lightweight confetti helper for crit effects (nat20 / nat1)
 	_confetti: {
 		_stylesInjected: false,
-		_ensureStyles() {
+		_ensureStyles () {
 			if (this._stylesInjected) return;
 			this._stylesInjected = true;
-			const s = document.createElement('style');
-			s.type = 'text/css';
+			const s = document.createElement("style");
+			s.type = "text/css";
 			s.textContent = `
 			.dice-fumble-shake { animation: dice-fumble-shake 650ms ease-in-out; }
 			@keyframes dice-fumble-shake { 0% { transform: translateY(0) } 20% { transform: translateY(-6px) rotate(-1deg) } 40% { transform: translateY(4px) rotate(1deg) } 60% { transform: translateY(-2px) rotate(-0.5deg) } 100% { transform: translateY(0) } }
@@ -65,22 +65,22 @@ Renderer.dice = {
 			document.head.appendChild(s);
 		},
 		// Create a dedicated overlay for each spawn so multiple effects can overlap
-		_spawnCanvas(palette = ['#FFD700'], origin = null, amount = 80, txt = null, txtColor = '#fff') {
-			const container = document.getElementById('dice-box') || document.body;
+		_spawnCanvas (palette = ["#FFD700"], origin = null, amount = 80, txt = null, txtColor = "#fff") {
+			const container = document.getElementById("dice-box") || document.body;
 			const rect = container.getBoundingClientRect();
-			const canvas = document.createElement('canvas');
+			const canvas = document.createElement("canvas");
 			canvas.width = Math.max(1, Math.floor(rect.width));
 			canvas.height = Math.max(1, Math.floor(rect.height));
-			canvas.style.position = 'absolute';
+			canvas.style.position = "absolute";
 			canvas.style.left = `${rect.left}px`;
 			canvas.style.top = `${rect.top}px`;
 			canvas.style.width = `${rect.width}px`;
 			canvas.style.height = `${rect.height}px`;
-			canvas.style.pointerEvents = 'none';
-			canvas.style.zIndex = '10002';
+			canvas.style.pointerEvents = "none";
+			canvas.style.zIndex = "10002";
 			container.appendChild(canvas);
 
-			const ctx = canvas.getContext('2d');
+			const ctx = canvas.getContext("2d");
 			const cx = origin && origin.x != null ? origin.x : canvas.width / 2;
 			const cy = origin && origin.y != null ? origin.y : canvas.height / 3;
 			const particles = [];
@@ -93,30 +93,30 @@ Renderer.dice = {
 					life: 60 + Math.random() * 60,
 					color: palette[Math.floor(Math.random() * palette.length)],
 					size: 3 + Math.random() * 10,
-					shape: Math.random() > 0.5 ? 'rect' : 'circle',
+					shape: Math.random() > 0.5 ? "rect" : "circle",
 				});
 			}
 
 			// optional text overlay
 			if (txt) {
-				const el = document.createElement('div');
-				el.className = 'dice-crit-text-overlay';
-				el.style.position = 'absolute';
-				el.style.left = '50%';
-				el.style.top = '18%';
-				el.style.transform = 'translateX(-50%)';
-				el.style.pointerEvents = 'none';
-				el.style.zIndex = '10003';
-				el.style.fontSize = '48px';
-				el.style.fontWeight = '700';
+				const el = document.createElement("div");
+				el.className = "dice-crit-text-overlay";
+				el.style.position = "absolute";
+				el.style.left = "50%";
+				el.style.top = "18%";
+				el.style.transform = "translateX(-50%)";
+				el.style.pointerEvents = "none";
+				el.style.zIndex = "10003";
+				el.style.fontSize = "48px";
+				el.style.fontWeight = "700";
 				el.style.color = txtColor;
-				el.style.textShadow = '0 6px 18px rgba(0,0,0,0.6)';
-				el.style.opacity = '0';
-				el.style.transition = 'opacity 250ms ease-out, transform 450ms cubic-bezier(.2,1,.22,1)';
+				el.style.textShadow = "0 6px 18px rgba(0,0,0,0.6)";
+				el.style.opacity = "0";
+				el.style.transition = "opacity 250ms ease-out, transform 450ms cubic-bezier(.2,1,.22,1)";
 				el.textContent = txt;
 				container.appendChild(el);
-				setTimeout(() => { el.style.opacity = '1'; el.style.transform = 'translateX(-50%) translateY(-10px) scale(1.05)'; }, 20);
-				setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateX(-50%) translateY(-30px) scale(0.95)'; setTimeout(()=>el.remove(), 400); }, 1200);
+				setTimeout(() => { el.style.opacity = "1"; el.style.transform = "translateX(-50%) translateY(-10px) scale(1.05)"; }, 20);
+				setTimeout(() => { el.style.opacity = "0"; el.style.transform = "translateX(-50%) translateY(-30px) scale(0.95)"; setTimeout(() => el.remove(), 400); }, 1200);
 			}
 
 			let raf = null;
@@ -134,41 +134,40 @@ Renderer.dice = {
 					ctx.save();
 					ctx.globalAlpha = Math.max(0, Math.min(1, p.life / 100));
 					ctx.fillStyle = p.color;
-					if (p.shape === 'rect') ctx.fillRect(p.x - p.size/2, p.y - p.size/2, p.size, p.size);
-					else { ctx.beginPath(); ctx.arc(p.x, p.y, p.size/2, 0, Math.PI*2); ctx.fill(); }
+					if (p.shape === "rect") ctx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
+					else { ctx.beginPath(); ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2); ctx.fill(); }
 					ctx.restore();
 				}
 				if (anyAlive) raf = requestAnimationFrame(tick);
-				else { ctx.clearRect(0,0,canvas.width,canvas.height); canvas.remove(); if (raf) cancelAnimationFrame(raf); }
+				else { ctx.clearRect(0, 0, canvas.width, canvas.height); canvas.remove(); if (raf) cancelAnimationFrame(raf); }
 			};
 			tick();
 		},
-		spawnConfetti({type = 'success', amount = 120, origin = null} = {}) {
+		spawnConfetti ({type = "success", amount = 120, origin = null} = {}) {
 			this._ensureStyles();
-			const container = document.getElementById('dice-box') || document.body;
-			if (type === 'success') {
+			const container = document.getElementById("dice-box") || document.body;
+			if (type === "success") {
 				// glow the container briefly
-				container.classList.add('dice-crit-glow');
-				this._spawnCanvas(['#FFD700','#FFE58A','#FFF2CC','#FFFFFF','#FFB84D'], origin, amount, 'CRITICAL!', '#FFD700');
-				setTimeout(()=>container.classList.remove('dice-crit-glow'), 900);
+				container.classList.add("dice-crit-glow");
+				this._spawnCanvas(["#FFD700", "#FFE58A", "#FFF2CC", "#FFFFFF", "#FFB84D"], origin, amount, "CRITICAL!", "#FFD700");
+				setTimeout(() => container.classList.remove("dice-crit-glow"), 900);
 			} else {
-				this._spawnCanvas(['#444444','#777777','#bc0000','#000000'], origin, Math.max(20, Math.floor(amount/2)), 'FAILURE', '#FFFFFF');
+				this._spawnCanvas(["#444444", "#777777", "#bc0000", "#000000"], origin, Math.max(20, Math.floor(amount / 2)), "FAILURE", "#FFFFFF");
 				// subtle shake for fail
-				container.classList.add('dice-fumble-shake');
-				setTimeout(()=>container.classList.remove('dice-fumble-shake'), 650);
+				container.classList.add("dice-fumble-shake");
+				setTimeout(() => container.classList.remove("dice-fumble-shake"), 650);
 			}
 		},
 	},
 
-
 	// Count how many dice rolls this expression will need
-	_countDiceInExpression(node) {
+	_countDiceInExpression (node) {
 		if (!node) return 0;
 
 		let count = 0;
 
 		// Handle Dice node
-		if (node.constructor && node.constructor.name === 'Dice') {
+		if (node.constructor && node.constructor.name === "Dice") {
 			// For a dice expression, extract the number of dice from the first child node
 			if (node._nodes && node._nodes.length > 0) {
 				const countNode = node._nodes[0];
@@ -195,11 +194,11 @@ Renderer.dice = {
 	},
 
 	// Recursively find all dice in an expression and extract their properties
-	_findAllDiceInExpression(node, diceList = []) {
+	_findAllDiceInExpression (node, diceList = []) {
 		if (!node) return diceList;
 
 		// Handle Pool nodes (dice pools like {2d8, 1d6})
-		if (node.constructor && node.constructor.name === 'Pool') {
+		if (node.constructor && node.constructor.name === "Pool") {
 			// Process each node in the pool
 			if (node._nodesPool && Array.isArray(node._nodesPool)) {
 				for (const poolNode of node._nodesPool) {
@@ -210,7 +209,7 @@ Renderer.dice = {
 		}
 
 		// If this is a Dice node, extract its properties
-		if (node.constructor && node.constructor.name === 'Dice') {
+		if (node.constructor && node.constructor.name === "Dice") {
 			if (node._nodes && node._nodes.length >= 2) {
 				// First node is count, second is faces
 				const countNode = node._nodes[0];
@@ -223,9 +222,9 @@ Renderer.dice = {
 				if (countNode) {
 					if (countNode._value !== undefined) {
 						count = countNode._value;
-					} else if (countNode.constructor && countNode.constructor.name === 'NumberSymbol') {
+					} else if (countNode.constructor && countNode.constructor.name === "NumberSymbol") {
 						count = countNode._value || 1;
-					} else if (typeof countNode.avg === 'function') {
+					} else if (typeof countNode.avg === "function") {
 						try {
 							count = countNode.avg();
 						} catch (e) {
@@ -238,9 +237,9 @@ Renderer.dice = {
 				if (facesNode) {
 					if (facesNode._value !== undefined) {
 						faces = facesNode._value;
-					} else if (facesNode.constructor && facesNode.constructor.name === 'NumberSymbol') {
+					} else if (facesNode.constructor && facesNode.constructor.name === "NumberSymbol") {
 						faces = facesNode._value; // Don't default to 20
-					} else if (typeof facesNode.avg === 'function') {
+					} else if (typeof facesNode.avg === "function") {
 						try {
 							faces = facesNode.avg();
 						} catch (e) {
@@ -268,13 +267,13 @@ Renderer.dice = {
 
 		// Skip pure numbers/constants - these are NOT dice
 		if (node.constructor && (
-			node.constructor.name === 'NumberSymbol' ||
-			node.constructor.name === 'Number' ||
-			node.constructor.name === 'Constant'
+			node.constructor.name === "NumberSymbol"
+			|| node.constructor.name === "Number"
+			|| node.constructor.name === "Constant"
 		)) {
 			console.log("_findAllDiceInExpression skipping pure number", {
 				value: node._value,
-				nodeType: node.constructor.name
+				nodeType: node.constructor.name,
 			});
 			return diceList; // Don't recurse into pure numbers
 		}
@@ -290,18 +289,18 @@ Renderer.dice = {
 	},
 
 	// Like _findAllDiceInExpression but return the actual Dice AST nodes (with modifier groups) in-order
-	_findAllDiceNodesInExpression(node, out = []) {
+	_findAllDiceNodesInExpression (node, out = []) {
 		if (!node) return out;
 
 		// Handle Pool nodes (dice pools like {2d8, 1d6})
-		if (node.constructor && node.constructor.name === 'Pool') {
+		if (node.constructor && node.constructor.name === "Pool") {
 			if (node._nodesPool && Array.isArray(node._nodesPool)) {
 				for (const poolNode of node._nodesPool) this._findAllDiceNodesInExpression(poolNode, out);
 			}
 			return out;
 		}
 
-		if (node.constructor && node.constructor.name === 'Dice') {
+		if (node.constructor && node.constructor.name === "Dice") {
 			// Extract count and faces similarly to _findAllDiceInExpression
 			let count = 1;
 			let faces = null;
@@ -313,16 +312,16 @@ Renderer.dice = {
 				try {
 					if (countNode) {
 						if (countNode._value !== undefined) count = countNode._value;
-						else if (countNode.constructor && countNode.constructor.name === 'NumberSymbol') count = countNode._value || 1;
-						else if (typeof countNode.avg === 'function') count = countNode.avg();
+						else if (countNode.constructor && countNode.constructor.name === "NumberSymbol") count = countNode._value || 1;
+						else if (typeof countNode.avg === "function") count = countNode.avg();
 					}
 				} catch (e) { /* ignore */ }
 
 				try {
 					if (facesNode) {
 						if (facesNode._value !== undefined) faces = facesNode._value;
-						else if (facesNode.constructor && facesNode.constructor.name === 'NumberSymbol') faces = facesNode._value;
-						else if (typeof facesNode.avg === 'function') faces = facesNode.avg();
+						else if (facesNode.constructor && facesNode.constructor.name === "NumberSymbol") faces = facesNode._value;
+						else if (typeof facesNode.avg === "function") faces = facesNode.avg();
 					}
 				} catch (e) { /* ignore */ }
 			} else {
@@ -343,9 +342,9 @@ Renderer.dice = {
 
 		// Skip pure numbers/constants
 		if (node.constructor && (
-			node.constructor.name === 'NumberSymbol' ||
-			node.constructor.name === 'Number' ||
-			node.constructor.name === 'Constant'
+			node.constructor.name === "NumberSymbol"
+			|| node.constructor.name === "Number"
+			|| node.constructor.name === "Constant"
 		)) return out;
 
 		if (node._nodes && Array.isArray(node._nodes)) for (const child of node._nodes) this._findAllDiceNodesInExpression(child, out);
@@ -354,7 +353,7 @@ Renderer.dice = {
 	},
 
 	// Extract dice notation from expression for 3D dice
-	_extractDiceNotation(tree) {
+	_extractDiceNotation (tree) {
 		if (!tree) return null;
 
 		// Find all dice in the expression
@@ -392,12 +391,12 @@ Renderer.dice = {
 		for (const [faces, count] of diceByFaces.entries()) {
 			diceNotations.push(`${count}d${faces}`);
 		}
-		const notation = diceNotations.join('+');
+		const notation = diceNotations.join("+");
 		return notation;
 	},
 
 	// Pre-roll 3D dice by counting how many dice the expression will need
-	async _preRoll3dDice(tree) {
+	async _preRoll3dDice (tree) {
 		if (!this._shouldUse3dDice() || !tree) return null;
 
 		// Generate unique roll ID for concurrent roll support
@@ -422,7 +421,7 @@ Renderer.dice = {
 	},
 
 	// Internal method to handle the actual dice rolling
-	async _rollDiceInternal(tree, diceNotation, rollId = null) {
+	async _rollDiceInternal (tree, diceNotation, rollId = null) {
 		// Count how many individual dice the evaluator expects (for ordering/consumption)
 		const expectedCount = this._countDiceInExpression(tree);
 		// Also build an ordered faces array for any fallback single-die rolls
@@ -454,7 +453,7 @@ Renderer.dice = {
 
 			if (foundIndex >= 0) {
 				const found = rawRolls.splice(foundIndex, 1)[0];
-				preRolled.push({val: typeof found.value === 'number' ? found.value : (found.result || found.roll || 0), faces: wantedFaces});
+				preRolled.push({val: typeof found.value === "number" ? found.value : (found.result || found.roll || 0), faces: wantedFaces});
 				continue;
 			}
 
@@ -471,7 +470,7 @@ Renderer.dice = {
 		}
 
 		// Now that we've processed the dice results, trigger the fade countdown
-		if (rollResult && typeof rollResult.startFadeCountdown === 'function') {
+		if (rollResult && typeof rollResult.startFadeCountdown === "function") {
 			// Add a small delay to ensure the results are fully processed and displayed
 			setTimeout(() => {
 				rollResult.startFadeCountdown();
@@ -520,8 +519,8 @@ Renderer.dice = {
 				}
 			}
 
-			if (hasNat20) Renderer.dice._confetti.spawnConfetti({type: 'success', amount: 220});
-			else if (hasNat1) Renderer.dice._confetti.spawnConfetti({type: 'fail', amount: 0});
+			if (hasNat20) Renderer.dice._confetti.spawnConfetti({type: "success", amount: 220});
+			else if (hasNat1) Renderer.dice._confetti.spawnConfetti({type: "fail", amount: 0});
 		} catch (e) {
 			// Don't let visual effects break roll resolution
 		}
@@ -584,7 +583,7 @@ Renderer.dice = {
 		if (!ele.__diceDelegated) {
 			const delegatedHandler = (evt) => {
 				// Use closest to tolerate inner elements inside the roll button
-				const tgt = evt.target.closest && evt.target.closest('[data-packed-dice]');
+				const tgt = evt.target.closest && evt.target.closest("[data-packed-dice]");
 				if (!tgt) return;
 				evt.preventDefault();
 				evt.stopImmediatePropagation();
@@ -2541,31 +2540,31 @@ Renderer.dice.parsed = {
 		static _facesToValue (faces, fnName, meta) {
 			switch (fnName) {
 				case "evl": {
-						// Use pre-rolled 3D dice values if available, otherwise standard rolling
-						if (meta && meta._3dDiceValues && meta._3dDiceValues.length > 0) {
-							// Entries may be plain numbers (legacy) or objects {val, faces} (newer mapping).
-							// Prefer to consume an entry matching the requested faces when possible, to avoid
-							// mismatches caused by different ordering between the 3D renderer and evaluator.
-							let idx = -1;
-							for (let i = 0; i < meta._3dDiceValues.length; ++i) {
-								const e = meta._3dDiceValues[i];
-								if (typeof e === 'number') { idx = 0; break; } // legacy numeric array: just take the first
-								if (e && typeof e === 'object' && e.faces === faces) { idx = i; break; }
-							}
-							if (idx === -1) {
-								// No face-matching entry found; fall back to shift() (sequential consumption)
-								const e = meta._3dDiceValues.shift();
-								if (typeof e === 'number') return e;
-								if (e && typeof e.val === 'number') return e.val;
-								return RollerUtil.randomise(faces);
-							} else {
-								const e = meta._3dDiceValues.splice(idx, 1)[0];
-								if (typeof e === 'number') return e;
-								if (e && typeof e.val === 'number') return e.val;
-								return RollerUtil.randomise(faces);
-							}
+					// Use pre-rolled 3D dice values if available, otherwise standard rolling
+					if (meta && meta._3dDiceValues && meta._3dDiceValues.length > 0) {
+						// Entries may be plain numbers (legacy) or objects {val, faces} (newer mapping).
+						// Prefer to consume an entry matching the requested faces when possible, to avoid
+						// mismatches caused by different ordering between the 3D renderer and evaluator.
+						let idx = -1;
+						for (let i = 0; i < meta._3dDiceValues.length; ++i) {
+							const e = meta._3dDiceValues[i];
+							if (typeof e === "number") { idx = 0; break; } // legacy numeric array: just take the first
+							if (e && typeof e === "object" && e.faces === faces) { idx = i; break; }
 						}
-						return RollerUtil.randomise(faces);
+						if (idx === -1) {
+							// No face-matching entry found; fall back to shift() (sequential consumption)
+							const e = meta._3dDiceValues.shift();
+							if (typeof e === "number") return e;
+							if (e && typeof e.val === "number") return e.val;
+							return RollerUtil.randomise(faces);
+						} else {
+							const e = meta._3dDiceValues.splice(idx, 1)[0];
+							if (typeof e === "number") return e;
+							if (e && typeof e.val === "number") return e.val;
+							return RollerUtil.randomise(faces);
+						}
+					}
+					return RollerUtil.randomise(faces);
 				}
 				case "avg": return (faces + 1) / 2;
 				case "min": return 1;

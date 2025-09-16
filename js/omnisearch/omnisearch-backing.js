@@ -102,12 +102,12 @@ export class OmnisearchBacking {
 		try {
 			// Use centralized character manager to avoid duplication
 			const characters = await CharacterManager.loadCharacters();
-			
+
 			if (characters.length === 0) {
-				console.log('No characters found for search indexing');
+				console.log("No characters found for search indexing");
 				return;
 			}
-			
+
 			// Characters are already processed and cached by CharacterManager
 			console.log(`Loaded ${characters.length} characters for search indexing via CharacterManager`);
 
@@ -125,7 +125,7 @@ export class OmnisearchBacking {
 			characterIndex.forEach(it => this._addToIndex(it));
 			console.log(`Added ${characterIndex.length} characters to search index`);
 		} catch (error) {
-			console.warn('Error loading characters for search:', error);
+			console.warn("Error loading characters for search:", error);
 		}
 	}
 
@@ -156,17 +156,17 @@ export class OmnisearchBacking {
 			this._initializationFailed = true;
 			return;
 		}
-		
+
 		// Additional safety check for required constants
 		const requiredConstants = [
-			'CAT_ID_CREATURE', 'CAT_ID_CHARACTER', 'CAT_ID_QUICKREF', 'CAT_ID_RACE', 
-			'CAT_ID_OTHER_REWARD', 'CAT_ID_CLASS_FEATURE', 'CAT_ID_SUBCLASS_FEATURE',
-			'CAT_ID_LEGENDARY_GROUP', 'CAT_ID_CHAR_CREATION_OPTIONS', 'CAT_ID_ITEM_MASTERY',
-			'CAT_ID_SPELL', 'CAT_ID_BACKGROUND', 'CAT_ID_ITEM', 'CAT_ID_TABLE', 'CAT_ID_BOOK',
-			'CAT_ID_ADVENTURE', 'CAT_ID_FEAT', 'CAT_ID_CONDITION', 'CAT_ID_VEHICLE', 
-			'CAT_ID_OBJECT', 'CAT_ID_DEITY', 'CAT_ID_RECIPES'
+			"CAT_ID_CREATURE", "CAT_ID_CHARACTER", "CAT_ID_QUICKREF", "CAT_ID_RACE",
+			"CAT_ID_OTHER_REWARD", "CAT_ID_CLASS_FEATURE", "CAT_ID_SUBCLASS_FEATURE",
+			"CAT_ID_LEGENDARY_GROUP", "CAT_ID_CHAR_CREATION_OPTIONS", "CAT_ID_ITEM_MASTERY",
+			"CAT_ID_SPELL", "CAT_ID_BACKGROUND", "CAT_ID_ITEM", "CAT_ID_TABLE", "CAT_ID_BOOK",
+			"CAT_ID_ADVENTURE", "CAT_ID_FEAT", "CAT_ID_CONDITION", "CAT_ID_VEHICLE",
+			"CAT_ID_OBJECT", "CAT_ID_DEITY", "CAT_ID_RECIPES",
 		];
-		
+
 		for (const constant of requiredConstants) {
 			if (Parser[constant] === undefined || Parser[constant] === null) {
 				console.warn(`Parser constant ${constant} not available, deferring omnisearch initialization`);
@@ -174,12 +174,12 @@ export class OmnisearchBacking {
 				return;
 			}
 		}
-		
+
 		// Reset the failure flag since we got this far
 		this._initializationFailed = false;
 
 		const inCategoryAlias = {};
-		
+
 		// Safely add basic entries with null checks
 		if (Parser.CAT_ID_CREATURE) {
 			inCategoryAlias["creature"] = [Parser.pageCategoryToFull(Parser.CAT_ID_CREATURE)];
@@ -215,7 +215,7 @@ export class OmnisearchBacking {
 		inCategoryAlias["mastery"] = inCategoryAlias["itemMastery"];
 
 		const inCategoryAliasShort = {};
-		
+
 		// Safely add short aliases with null checks
 		if (Parser.CAT_ID_SPELL) inCategoryAliasShort["sp"] = [Parser.pageCategoryToFull(Parser.CAT_ID_SPELL)];
 		if (Parser.CAT_ID_BACKGROUND) inCategoryAliasShort["bg"] = [Parser.pageCategoryToFull(Parser.CAT_ID_BACKGROUND)];
@@ -455,7 +455,7 @@ export class OmnisearchBacking {
 	static getCategoryAliasesShort () {
 		// Try to initialize if not already done
 		this._initReInCategory();
-		
+
 		// If initialization failed but Parser is now available, try again
 		if (!this._IN_CATEGORY_ALIAS_SHORT && this._initializationFailed) {
 			this._initializationFailed = false; // Reset the flag

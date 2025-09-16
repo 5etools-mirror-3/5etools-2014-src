@@ -252,12 +252,12 @@ class RevisionCacheFirst extends Strategy {
 		const routesToCache = validCacheKeys.filter((key) => (isTooManyKeys || !currentCacheKeys.has(key)) && routeRegex.test(key))
 			.map(key => {
 				// Convert local image paths to external 5e.tools URLs
-				if (key.includes('/img/') && !key.includes('5e.tools')) {
+				if (key.includes("/img/") && !key.includes("5e.tools")) {
 					const cleanUrl = key.replace(/\?__WB_REVISION__=\w+$/m, "");
 					if (cleanUrl.includes(self.location.origin)) {
 						// Replace local origin with 5e.tools for images
-						const relativePath = cleanUrl.replace(self.location.origin + '/', '');
-						if (relativePath.startsWith('img/')) {
+						const relativePath = cleanUrl.replace(`${self.location.origin}/`, "");
+						if (relativePath.startsWith("img/")) {
 							return `https://5e.tools/${relativePath}`;
 						}
 					}
@@ -299,13 +299,13 @@ class RevisionCacheFirst extends Strategy {
 
 				// this regex is a very bad idea, but it trims the cache version off the url
 				let cleanUrl = url.replace(/\?__WB_REVISION__=\w+$/m, "");
-				
+
 				// For external URLs (like 5e.tools images), use them directly
 				// For local URLs, keep the original behavior
 				let fetchUrl = cleanUrl;
 				let cacheKey = url;
-				
-				if (cleanUrl.startsWith('https://5e.tools/')) {
+
+				if (cleanUrl.startsWith("https://5e.tools/")) {
 					// External URL - use as-is for fetching
 					fetchUrl = cleanUrl;
 					// But cache with a local-style key for consistency

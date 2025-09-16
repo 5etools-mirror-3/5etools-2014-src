@@ -2326,17 +2326,17 @@ Parser.alignmentListToFull = function (alignList) {
 	if (!alignList) return "";
 
 	// If a string was passed (e.g. "NG" or "N G"), coerce to an array
-	if (typeof alignList === 'string') {
+	if (typeof alignList === "string") {
 		const s = alignList.trim();
-		if (s.indexOf(' ') > -1) alignList = s.split(/\s+/).map(it => it.toUpperCase());
+		if (s.indexOf(" ") > -1) alignList = s.split(/\s+/).map(it => it.toUpperCase());
 		else if (s.length === 2) alignList = [s.charAt(0).toUpperCase(), s.charAt(1).toUpperCase()];
 		else alignList = [s.toUpperCase()];
 	}
 
 	// If we have an object describing alignment choices (e.g. [{alignment: [...]}])
-	if (Array.isArray(alignList) && alignList.length > 0 && typeof alignList[0] === 'object') {
+	if (Array.isArray(alignList) && alignList.length > 0 && typeof alignList[0] === "object") {
 		// Allow mixed arrays by filtering out plain strings
-		const objs = alignList.filter(it => it && typeof it === 'object');
+		const objs = alignList.filter(it => it && typeof it === "object");
 		if (!objs.length) return "";
 		// Filter out null/undefined alignment entries then map to full text
 		try {
@@ -2345,7 +2345,7 @@ Parser.alignmentListToFull = function (alignList) {
 				.map(it => (it.special != null || it.chance != null || it.note != null) ? Parser.alignmentAbvToFull(it) : Parser.alignmentListToFull(it.alignment))
 				.join(" or ");
 		} catch (e) {
-			console.warn('Error parsing complex alignment list:', e, alignList);
+			console.warn("Error parsing complex alignment list:", e, alignList);
 			return "";
 		}
 	}

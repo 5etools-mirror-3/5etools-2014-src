@@ -3,8 +3,8 @@
  * Sets the base media URL to point to the external 5e.tools domain for images
  */
 
-(function() {
-	'use strict';
+(function () {
+	"use strict";
 
 	// Configuration for image hosting
 	const IMAGE_CONFIG = {
@@ -15,16 +15,16 @@
 		USE_EXTERNAL_IMAGES: true,
 
 		// Force external images even if DEPLOYED_IMG_ROOT is set
-		FORCE_EXTERNAL_IMAGES: true
+		FORCE_EXTERNAL_IMAGES: true,
 	};
 
 	/**
 	 * Initialize image configuration
 	 * This should be called before any pages that use images are loaded
 	 */
-	function initImageConfig() {
+	function initImageConfig () {
 		// Wait for Renderer to be available and properly initialized
-		if (typeof Renderer === 'undefined' || !Renderer.get || !Renderer.get().setBaseMediaUrl) {
+		if (typeof Renderer === "undefined" || !Renderer.get || !Renderer.get().setBaseMediaUrl) {
 			// If Renderer isn't ready, try again in a short delay
 			setTimeout(initImageConfig, 100);
 			return;
@@ -35,11 +35,11 @@
 				// Always set external image URL, even if DEPLOYED_IMG_ROOT exists
 				if (IMAGE_CONFIG.FORCE_EXTERNAL_IMAGES) {
 					// Override any existing DEPLOYED_IMG_ROOT setting
-					globalThis.DEPLOYED_IMG_ROOT = IMAGE_CONFIG.EXTERNAL_IMG_BASE + "img/";
+					globalThis.DEPLOYED_IMG_ROOT = `${IMAGE_CONFIG.EXTERNAL_IMG_BASE}img/`;
 				}
 
 				// Set the base media URL for images to point to 5e.tools
-				Renderer.get().setBaseMediaUrl("img", IMAGE_CONFIG.EXTERNAL_IMG_BASE + "img/");
+				Renderer.get().setBaseMediaUrl("img", `${IMAGE_CONFIG.EXTERNAL_IMG_BASE}img/`);
 
 				// console.log("✓ Image configuration: Using external images from", IMAGE_CONFIG.EXTERNAL_IMG_BASE + "img/");
 
@@ -49,7 +49,6 @@
 
 				// Mark as successfully configured
 				globalThis.IMAGE_CONFIG_LOADED = true;
-
 			} catch (error) {
 				console.error("Failed to configure external images:", error);
 			}
@@ -62,7 +61,7 @@
 	let initAttempts = 0;
 	const maxAttempts = 100; // Try for up to 10 seconds
 
-	function initWithRetry() {
+	function initWithRetry () {
 		initAttempts++;
 
 		if (globalThis.IMAGE_CONFIG_LOADED) {
@@ -71,14 +70,14 @@
 
 		if (initAttempts > maxAttempts) {
 			console.warn("⚠️ Failed to initialize image config after", maxAttempts, "attempts");
-			console.log("Renderer available:", typeof Renderer !== 'undefined');
-			console.log("Renderer.get available:", typeof Renderer !== 'undefined' && !!Renderer.get);
-			console.log("setBaseMediaUrl available:", typeof Renderer !== 'undefined' && !!Renderer.get && !!Renderer.get().setBaseMediaUrl);
+			console.log("Renderer available:", typeof Renderer !== "undefined");
+			console.log("Renderer.get available:", typeof Renderer !== "undefined" && !!Renderer.get);
+			console.log("setBaseMediaUrl available:", typeof Renderer !== "undefined" && !!Renderer.get && !!Renderer.get().setBaseMediaUrl);
 			return;
 		}
 
 		// Wait for Renderer to be available and properly initialized
-		if (typeof Renderer === 'undefined' || !Renderer.get || !Renderer.get().setBaseMediaUrl) {
+		if (typeof Renderer === "undefined" || !Renderer.get || !Renderer.get().setBaseMediaUrl) {
 			setTimeout(initWithRetry, 100);
 			return;
 		}
@@ -90,15 +89,15 @@
 	initWithRetry();
 
 	// Initialize when DOM is ready
-	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initWithRetry);
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", initWithRetry);
 	} else {
 		// DOM is already ready, try again
 		setTimeout(initWithRetry, 10);
 	}
 
 	// Also try when window loads (later event)
-	window.addEventListener('load', initWithRetry);
+	window.addEventListener("load", initWithRetry);
 
 	// Try multiple times with different intervals
 	setTimeout(initWithRetry, 50);
@@ -107,7 +106,7 @@
 	setTimeout(initWithRetry, 1000);
 
 	// Listen for any custom events that might indicate Renderer is ready
-	document.addEventListener('toolsLoaded', initWithRetry);
+	document.addEventListener("toolsLoaded", initWithRetry);
 
 	// Make config available globally for debugging and manual initialization
 	globalThis.IMAGE_CONFIG = IMAGE_CONFIG;

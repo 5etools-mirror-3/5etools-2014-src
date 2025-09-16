@@ -2749,7 +2749,7 @@ RendererMarkdown.character = class {
 		const name = character.name || "Unknown Character";
 		const level = character.level || "?";
 		const raceText = character.race?.name || "Unknown Race";
-		const classText = character.class?.map(c => `${c.name}${c.subclass ? ` (${c.subclass.name})` : ''} ${c.level || ''}`).join(", ") || "Unknown Class";
+		const classText = character.class?.map(c => `${c.name}${c.subclass ? ` (${c.subclass.name})` : ""} ${c.level || ""}`).join(", ") || "Unknown Class";
 		const background = character.background?.name || "Unknown Background";
 		const alignment = character.alignment ? Parser.alignmentListToFull(character.alignment) : "Unknown";
 
@@ -2758,7 +2758,7 @@ RendererMarkdown.character = class {
 		output += `**Background:** ${background}\n\n`;
 
 		// Core abilities
-		const abilities = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+		const abilities = ["str", "dex", "con", "int", "wis", "cha"];
 		output += `## Ability Scores\n\n`;
 		output += `| STR | DEX | CON | INT | WIS | CHA |\n`;
 		output += `|-----|-----|-----|-----|-----|-----|\n`;
@@ -2767,7 +2767,7 @@ RendererMarkdown.character = class {
 			const mod = Math.floor((score - 10) / 2);
 			const modStr = mod >= 0 ? `+${mod}` : `${mod}`;
 			return `${score} (${modStr})`;
-		}).join(' | ')} |\n\n`;
+		}).join(" | ")} |\n\n`;
 
 		// Saving throws
 		const saves = character.save || {};
@@ -2794,7 +2794,7 @@ RendererMarkdown.character = class {
 		const ac = character.ac ? character.ac.map(it => `${it.ac}${it.from ? ` (${it.from.join(", ")})` : ""}`).join(", ") : "10";
 		const hp = character.hp ? (character.hp.average || character.hp.formula || "Unknown") : "Unknown";
 		const speed = character.speed ? Object.entries(character.speed).map(([type, spd]) =>
-			type === "walk" ? `${spd} ft.` : `${type} ${spd} ft.`
+			type === "walk" ? `${spd} ft.` : `${type} ${spd} ft.`,
 		).join(", ") : "30 ft.";
 
 		output += `**Armor Class:** ${ac}\n\n`;
