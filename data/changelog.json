@@ -3004,5 +3004,10 @@
 		"ver": "1.210.50",
 		"date": "2025-09-09",
 		"txt": "- Fixed DM Screen crash when pinning Dice Roller\n- (Brew) Relaxed `summonedBySpell` requirement for creature summon spell level scaling"
+	},
+	{
+		"ver": "1.210.51",
+		"date": "2025-09-17",
+		"txt": "- Fixed creature Markdown rendering of non-\"trait\" spellcasting\n- (Brew) Added list of updated homebrews to Homebrew Manager \"Update All\" notification (and made the notification persistent)\n- (Brew) Added support for scaling hit dice when scaling creature by Spell Level\n- (Fixed typos/added tags)"
 	}
 ]
