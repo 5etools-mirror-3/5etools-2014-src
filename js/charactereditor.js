@@ -2249,10 +2249,10 @@ class CharacterEditorPage {
 				}
 
 				// Apply starting equipment for level 1 characters
-				if (classLevel === 1 && classInfo.startingEquipment) {
-					if (!characterTemplate.items) characterTemplate.items = [];
-					this.applyClassStartingEquipment(classInfo.startingEquipment, characterTemplate);
-				}
+				// if (classLevel === 1 && classInfo.startingEquipment) {
+				// 	if (!characterTemplate.items) characterTemplate.items = [];
+				// 	this.applyClassStartingEquipment(classInfo.startingEquipment, characterTemplate);
+				// }
 
 				// Class features are already handled by the existing feature generation system
 			}
@@ -2301,21 +2301,47 @@ class CharacterEditorPage {
 		const [itemName, source] = itemString.split('|');
 
 		if (itemName) {
-			if (!characterTemplate.items) characterTemplate.items = [];
+			// Ensure entries exist
+			if (!characterTemplate.entries) characterTemplate.entries = [];
 
-			// Check if item already exists
-			const existingItem = characterTemplate.items.find(item =>
-				item.name && item.name.toLowerCase() === itemName.toLowerCase()
+			// Find or create the Items section
+			let itemsSection = characterTemplate.entries.find(entry => 
+				entry.type === "section" && entry.name === "Items"
 			);
 
-			if (!existingItem) {
-				characterTemplate.items.push({
-					name: itemName,
-					source: source || 'PHB',
-					quantity: 1
-				});
+			if (!itemsSection) {
+				itemsSection = {
+					type: "section",
+					name: "Items",
+					entries: []
+				};
+				characterTemplate.entries.push(itemsSection);
+			}
+
+			// Format item as 5etools item reference
+			const formattedItem = `{@item ${itemName}|${source || 'PHB'}}`;
+
+			// Check if item already exists in the Items section
+			if (!itemsSection.entries.includes(formattedItem)) {
+				itemsSection.entries.push(formattedItem);
 			}
 		}
+	}
+
+	// Helper method to migrate items from top-level items array to Items section
+	migrateItemsToEntriesSection(characterTemplate) {
+		if (!characterTemplate.items || !Array.isArray(characterTemplate.items)) return;
+
+		// Convert each item in the top-level items array to the Items section
+		characterTemplate.items.forEach(item => {
+			if (item && item.name) {
+				const itemString = `${item.name}|${item.source || 'PHB'}`;
+				this.addItemToCharacter(itemString, characterTemplate);
+			}
+		});
+
+		// Remove the top-level items array after migration
+		delete characterTemplate.items;
 	}
 
 	addBasicStartingItems(characterTemplate) {
@@ -2393,8 +2419,6 @@ class CharacterEditorPage {
 
 			// Apply starting equipment from background
 			if (backgroundInfo.startingEquipment) {
-				if (!characterTemplate.items) characterTemplate.items = [];
-
 				backgroundInfo.startingEquipment.forEach(equipmentGroup => {
 					if (equipmentGroup._) {
 						// Handle the main equipment list
@@ -2405,11 +2429,8 @@ class CharacterEditorPage {
 								this.addItemToCharacter(item.item, characterTemplate);
 							} else if (item.special) {
 								// Handle special items like "vestments" or "sticks of incense"
-								characterTemplate.items.push({
-									name: item.special,
-									source: 'PHB',
-									quantity: item.quantity || 1
-								});
+								// Create a formatted item string for special items
+								this.addItemToCharacter(`${item.special}|PHB`, characterTemplate);
 							}
 						});
 					}
@@ -7682,6 +7703,7 @@ class CharacterEditorPage {
 			alignment: randomAlignment,
 			ac: await this.generateRandomAC(randomClasses, randomAbilityScores, randomRace),
 			hp: randomHp,
+			size: randomRace.size || "M",
 			speed: {
 				walk: 30 // Default speed, will be overridden by race data
 			},
@@ -7939,6 +7961,18 @@ class CharacterEditorPage {
 		try {
 			const jsonText = this.ace.getValue();
 			const characterData = JSON.parse(jsonText);
+
+			// Migrate items from top-level items array to Items section if needed
+			let migrationPerformed = false;
+			if (characterData.items && Array.isArray(characterData.items) && characterData.items.length > 0) {
+				this.migrateItemsToEntriesSection(characterData);
+				migrationPerformed = true;
+			}
+
+			// Update the editor content if migration was performed
+			if (migrationPerformed) {
+				this.ace.setValue(JSON.stringify(characterData, null, 2), 1);
+			}
 
 			// Process the character data first to add computed fields
 			this._processCharacterData(characterData);
@@ -8692,7 +8726,7 @@ class CharacterEditorPage {
 
 			console.log(`Starting level up: ${currentLevel} -> ${newLevel}`);
 
-			// Initialize simple level up state
+			// Initialize simple level uitemsp state
 			this.levelUpState = {
 				originalCharacter: JSON.parse(JSON.stringify(characterData)), // Original backup
 				characterData: JSON.parse(JSON.stringify(characterData)), // Working copy
