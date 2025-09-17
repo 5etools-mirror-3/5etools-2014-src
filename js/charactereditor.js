@@ -2305,7 +2305,7 @@ class CharacterEditorPage {
 			if (!characterTemplate.entries) characterTemplate.entries = [];
 
 			// Find or create the Items section
-			let itemsSection = characterTemplate.entries.find(entry => 
+			let itemsSection = characterTemplate.entries.find(entry =>
 				entry.type === "section" && entry.name === "Items"
 			);
 
@@ -8602,6 +8602,31 @@ class CharacterEditorPage {
 		return 'MyCharacters';
 	}
 
+	getWizardSourceName() {
+		// Get the source from URL params for wizard flows
+		const urlParams = new URLSearchParams(window.location.search);
+		const sourceFromUrl = urlParams.get('source');
+		if (sourceFromUrl) {
+			return sourceFromUrl;
+		}
+
+		// Check localStorage for cached source
+		const newCharacterSource = localStorage.getItem('newCharacterSource');
+		if (newCharacterSource) {
+			return newCharacterSource;
+		}
+
+		// Check for any cached sources - use the first one
+		const cachedPasswords = CharacterSourcePasswordManager.getCachedPasswords();
+		const availableSources = Object.keys(cachedPasswords);
+		if (availableSources.length > 0) {
+			return availableSources[0];
+		}
+
+		// Fallback to 'MyCharacters'
+		return 'MyCharacters';
+	}
+
 	generateCharacterAnchor(characterName, characterSource) {
 		// Use the canonical composite id generator so anchors match IDs used by CharacterManager
 		const id = CharacterManager._generateCompositeId(characterName, characterSource);
@@ -10329,7 +10354,7 @@ class CharacterEditorPage {
 			let completeCharacter = await this.generateRandomCharacterAtLevel(
 				1, // Level 1
 				userChoices.characterName || 'Adventurer',
-				'USER_CREATED',
+				this.getWizardSourceName(),
 				userChoices.selectedClass || 'Fighter',
 				userChoices.characterRace || this.generateRandomNonHumanRace(),
 				this.level0WizardData?.background || null,
@@ -13448,7 +13473,7 @@ class CharacterEditorPage {
 			console.log('Calling generateRandomCharacterAtLevel with:', {
 				level: 1,
 				name: userChoices.characterName || updatedCharacter.name || 'Adventurer',
-				source: 'USER_CREATED',
+				source: this.getWizardSourceName(),
 				baseClass: userChoices.selectedClass || 'Fighter',
 				race: userChoices.characterRace || this.generateRandomNonHumanRace(),
 			});
@@ -13456,7 +13481,7 @@ class CharacterEditorPage {
 			let completeCharacter = await this.generateRandomCharacterAtLevel(
 				1, // Level 1
 				userChoices.characterName || updatedCharacter.name || 'Adventurer',
-				'USER_CREATED',
+				this.getWizardSourceName(),
 				userChoices.selectedClass || 'Fighter',
 				userChoices.characterRace || this.generateRandomNonHumanRace(),
 				userChoices.characterBackground || this.level0WizardData?.background || null,
@@ -13565,7 +13590,7 @@ class CharacterEditorPage {
 			const completeCharacter = await this.generateRandomCharacterAtLevel(
 				1,
 				characterName,
-				'USER_CREATED',
+				this.getWizardSourceName(),
 				characterClass,
 				characterRace,
 				userChoices.characterBackground || this.level0WizardData?.background || null,
