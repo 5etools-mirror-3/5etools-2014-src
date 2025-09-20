@@ -15,7 +15,7 @@
  *  // Character updates are automatically broadcast to all users
  */
 let API_BASE_URL = window.location.origin.includes("localhost")
-	? "https://5e.bne.sh/api"
+	? "https://5e-git-big-update-samueljimcoms-projects.vercel.app/api"
 	: "/api";
 
 class CharacterP2P {
@@ -1169,10 +1169,7 @@ class CharacterManager {
 			// Fetch all characters fresh from API (ignore cache)
 			const fetchPromises = blobs.map(async (blob) => {
 				try {
-					const cacheBusterUrl = `${blob.url}${blob.url.includes("?") ? "&" : "?"}_t=${Date.now()}`;
-
-
-					const response = await fetch(`${API_BASE_URL}/characters/get?url=${encodeURIComponent(cacheBusterUrl)}&id=${encodeURIComponent(blob.id)}`, {
+					const response = await fetch(blob.url, {
 						cache: "no-cache",
 						headers: {
 							"Cache-Control": "no-cache, no-store, must-revalidate",
@@ -1186,13 +1183,12 @@ class CharacterManager {
 						return null;
 					}
 
-					const apiResponse = await response.json();
-					if (!apiResponse.success) {
+					const characterData = await response.json();
+					if (!characterData) {
 						console.warn(`CharacterManager: Invalid response for character ${blob.id}`);
 						return null;
 					}
 
-					const characterData = apiResponse.character;
 					const character = (characterData.character && Array.isArray(characterData.character))
 						? characterData.character[0]
 						: characterData;
@@ -1331,21 +1327,20 @@ class CharacterManager {
 							return character;
 						}
 
-						// Use the /api/characters/get endpoint for individual character fetching
-						const response = await fetch(`${API_BASE_URL}/characters/get?url=${encodeURIComponent(blob.url)}&id=${encodeURIComponent(blob.id)}`);
+						// Fetch character directly from blob URL
+						const response = await fetch(blob.url);
 
 						if (!response.ok) {
 							console.warn(`CharacterManager: Failed to fetch character ${blob.id}: ${response.statusText}`);
 							return null;
 						}
 
-						const apiResponse = await response.json();
-						if (!apiResponse.success || !apiResponse.character) {
+						const characterData = await response.json();
+						if (!characterData) {
 							console.warn(`CharacterManager: Invalid response for character ${blob.id}`);
 							return null;
 						}
 
-						const characterData = apiResponse.character;
 						const character = (characterData.character && Array.isArray(characterData.character))
 							? characterData.character[0]
 							: characterData;
