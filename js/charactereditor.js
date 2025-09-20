@@ -289,7 +289,7 @@ class CharacterEditorPage {
 			
 			// Convert race name to full race object
 			if (selectedRace) {
-				this.level0WizardData.race = this.generateForcedRace(selectedRace);
+				this.level0WizardData.race = await this.generateForcedRace(selectedRace);
 			} else {
 				// User selected random - clear any previously set race
 				this.level0WizardData.race = null;
@@ -319,7 +319,8 @@ class CharacterEditorPage {
 	async initiateLevelUpForLevel0() {
 		try {
 			// Create minimal character data for level up state using stored wizard data
-			const characterRace = this.generateForcedRace(this.level0WizardData.race);
+			// Note: race is already converted to proper object format in the modal handler
+			const characterRace = this.level0WizardData.race || await this.generateForcedRace(null);
 			// Respect user-selected alignment/background if provided
 			const chosenAlignment = this.level0WizardData.alignment || this.generateRandomAlignment();
 			let chosenBackground = null;
@@ -481,25 +482,7 @@ class CharacterEditorPage {
 		};
 	}
 
-	generateForcedRace(forcedRaceName) {
-		// Simplified race options - equal weight to all races
-		const raceOptions = [
-			{ name: "Elf", source: "PHB" },
-			{ name: "Dwarf", source: "PHB" },
-			{ name: "Halfling", source: "PHB" },
-			{ name: "Dragonborn", source: "PHB" },
-			{ name: "Gnome", source: "PHB" },
-			{ name: "Half-Elf", source: "PHB" },
-			{ name: "Half-Orc", source: "PHB" },
-			{ name: "Tiefling", source: "PHB" },
-			{ name: "Human", source: "PHB" },
-			{ name: "Aarakocra", source: "MPMM" },
-			{ name: "Aasimar", source: "MPMM" },
-			{ name: "Tabaxi", source: "MPMM" },
-			{ name: "Genasi", source: "MPMM" },
-			{ name: "Goliath", source: "MPMM" }
-		];
-
+	async generateForcedRace(forcedRaceName) {
 		// Handle case where forcedRaceName is already an object
 		if (forcedRaceName && typeof forcedRaceName === 'object' && forcedRaceName.name) {
 			return {
@@ -508,32 +491,55 @@ class CharacterEditorPage {
 			};
 		}
 
-		// If no forced race provided, pick any random race
+		// If no forced race provided, pick any random race from data
 		if (!forcedRaceName) {
-			const randomIndex = Math.floor(Math.random() * raceOptions.length);
-			return {
-				name: raceOptions[randomIndex].name,
-				source: raceOptions[randomIndex].source
-			};
+			try {
+				const response = await fetch('data/races.json');
+				const data = await response.json();
+				const races = data.race || [];
+				
+				if (races.length > 0) {
+					const randomIndex = Math.floor(Math.random() * races.length);
+					return {
+						name: races[randomIndex].name,
+						source: races[randomIndex].source || "PHB"
+					};
+				}
+			} catch (error) {
+				console.warn('Could not load race data, using fallback');
+			}
+			
+			// Fallback to Human if data loading fails
+			return { name: "Human", source: "PHB" };
 		}
 
-		// Find the forced race option by name (string)
-		const raceOption = raceOptions.find(option => 
-			option.name.toLowerCase() === forcedRaceName.toLowerCase()
-		);
+		// Try to find the race in the loaded race data
+		try {
+			const response = await fetch('data/races.json');
+			const data = await response.json();
+			const races = data.race || [];
+			
+			// Find the forced race option by name (case-insensitive)
+			const raceOption = races.find(race => 
+				race.name.toLowerCase() === forcedRaceName.toLowerCase()
+			);
 
-		if (!raceOption) {
-			console.warn(`Unknown race: ${forcedRaceName}, picking random race`);
-			const randomIndex = Math.floor(Math.random() * raceOptions.length);
-			return {
-				name: raceOptions[randomIndex].name,
-				source: raceOptions[randomIndex].source
-			};
+			if (raceOption) {
+				console.log(`Found selected race: ${raceOption.name} from ${raceOption.source}`);
+				return {
+					name: raceOption.name,
+					source: raceOption.source || "PHB"
+				};
+			}
+		} catch (error) {
+			console.warn('Could not load race data:', error);
 		}
 
+		// If we get here, the race wasn't found in the data
+		console.warn(`Race '${forcedRaceName}' not found in race data, using as-is with PHB source`);
 		return {
-			name: raceOption.name,
-			source: raceOption.source
+			name: forcedRaceName,
+			source: "PHB"
 		};
 	}
 
@@ -3246,7 +3252,7 @@ class CharacterEditorPage {
 
 			// Check if character has spellcasting classes
 			if (!character.class || character.class.length === 0) {
-				alert('No classes found. Please add a spellcasting class first.');
+				console.log('No classes found for spell selection.');
 				return;
 			}
 
@@ -3276,7 +3282,7 @@ class CharacterEditorPage {
 			}
 
 			if (!spellcastingClass) {
-				alert('No spellcasting classes found. Only spellcasting classes can select spells.');
+				console.log('No spellcasting classes found. Only spellcasting classes can select spells.');
 				return;
 			}
 
@@ -3285,7 +3291,7 @@ class CharacterEditorPage {
 
 		} catch (error) {
 			console.error('Error opening spell selection modal:', error);
-			alert('Error opening spell selection. Please check that your character data is valid.');
+			throw error; // Let calling code handle this gracefully
 		}
 	}
 
@@ -4513,14 +4519,14 @@ class CharacterEditorPage {
 		return toolSets[Math.floor(Math.random() * toolSets.length)];
 	}
 
-	generateLanguageProficiencies(classes, race, background) {
+	async generateLanguageProficiencies(classes, race, background) {
 		const languages = new Set();
 
 		// Common is always known
 		languages.add("Common");
 
 		// Racial languages
-		const racialLanguages = this.getRacialLanguages(race);
+		const racialLanguages = await this.getRacialLanguages(race);
 		racialLanguages.forEach(lang => languages.add(lang));
 
 		// Class languages
@@ -4528,29 +4534,58 @@ class CharacterEditorPage {
 		classLanguages.forEach(lang => languages.add(lang));
 
 		// Background languages (1-2 additional)
-		const backgroundLanguages = this.generateBackgroundLanguages(background);
+		const backgroundLanguages = await this.generateBackgroundLanguages(background);
 		backgroundLanguages.forEach(lang => languages.add(lang));
 
 		return Array.from(languages);
 	}
 
-	getRacialLanguages(race) {
+	async getRacialLanguages(race) {
 		if (!race) return [];
+
+		// Load language data for data-driven language selection
+		const languageData = await this.loadLanguageData();
+		const availableLanguages = languageData.filter(lang => 
+			lang.type === 'standard' && lang.name !== 'Common'
+		).map(lang => lang.name);
 
 		const racialLanguages = {
 			"Dwarf": ["Dwarvish"],
 			"Elf": ["Elvish"],
 			"Halfling": ["Halfling"],
-			"Human": Math.random() < 0.8 ? [this.getRandomLanguage()] : [],
-			"Variant Human": [this.getRandomLanguage()],
+			"Human": Math.random() < 0.8 ? [this.selectRandomLanguage(availableLanguages)] : [],
+			"Variant Human": [this.selectRandomLanguage(availableLanguages)],
 			"Dragonborn": ["Draconic"],
 			"Gnome": ["Gnomish"],
 			"Half-Elf": ["Elvish"],
 			"Half-Orc": ["Orc"],
-			"Tiefling": ["Infernal"]
+			"Tiefling": ["Infernal"],
+			"Aarakocra": ["Aarakocra"],
+			"Aasimar": ["Celestial"],
+			"Tabaxi": ["Tabaxi"],
+			"Goliath": ["Giant"],
+			"Genasi": ["Primordial"]
 		};
 
 		return racialLanguages[race.name] || [];
+	}
+
+	// Helper method to load language data from file
+	async loadLanguageData() {
+		try {
+			const response = await fetch('data/languages.json');
+			const data = await response.json();
+			return data.language || [];
+		} catch (error) {
+			console.warn('Could not load language data:', error);
+			return [];
+		}
+	}
+
+	// Helper method to select a random language from available options
+	selectRandomLanguage(availableLanguages) {
+		if (availableLanguages.length === 0) return 'Elvish'; // Fallback
+		return availableLanguages[Math.floor(Math.random() * availableLanguages.length)];
 	}
 
 	getClassLanguages(classes) {
@@ -4574,8 +4609,17 @@ class CharacterEditorPage {
 		return languages;
 	}
 
-	generateBackgroundLanguages(background) {
-		const languageOptions = ["Elvish", "Dwarvish", "Giant", "Gnomish", "Goblin", "Halfling", "Orc"];
+	async generateBackgroundLanguages(background) {
+		// Load language data for data-driven selection
+		const languageData = await this.loadLanguageData();
+		const standardLanguages = languageData.filter(lang => 
+			lang.type === 'standard' && lang.name !== 'Common'
+		).map(lang => lang.name);
+		
+		// Use data-driven language options or fallback to hardcoded list
+		const languageOptions = standardLanguages.length > 0 ? standardLanguages : 
+			["Elvish", "Dwarvish", "Giant", "Gnomish", "Goblin", "Halfling", "Orc"];
+		
 		const numLanguages = Math.random() < 0.6 ? 1 : 2;
 		const selected = [];
 
@@ -4589,11 +4633,18 @@ class CharacterEditorPage {
 		return selected;
 	}
 
-	getRandomLanguage() {
-		const languages = [
-			"Elvish", "Dwarvish", "Giant", "Gnomish", "Goblin", "Halfling", "Orc",
-			"Abyssal", "Celestial", "Draconic", "Deep Speech", "Infernal", "Primordial", "Sylvan"
-		];
+	async getRandomLanguage() {
+		// Load language data for data-driven selection
+		const languageData = await this.loadLanguageData();
+		const allLanguages = languageData
+			.filter(lang => lang.name !== 'Common')
+			.map(lang => lang.name);
+		
+		// Use data-driven language options or fallback to hardcoded list
+		const languages = allLanguages.length > 0 ? allLanguages : 
+			["Elvish", "Dwarvish", "Giant", "Gnomish", "Goblin", "Halfling", "Orc",
+			 "Abyssal", "Celestial", "Draconic", "Deep Speech", "Infernal", "Primordial", "Sylvan"];
+		
 		return languages[Math.floor(Math.random() * languages.length)];
 	}
 
@@ -6693,11 +6744,17 @@ class CharacterEditorPage {
 		const turning = pick('TurningPoint', 1)[0] || '';
 		const hook = pick('Hook', 1)[0] || '';
 		const relation = pick('Relationship', 1)[0] || '';
-		const place = pick('Place', 1)[0] || '';
+		const backstoryParts = [];
+		let place = '';
+		if (tempBackground.name && /baldur'?s gate/i.test(tempBackground.name)) {
+			place = "Baldur's Gate";
+			backstoryParts.push(`${finalName} is from the big city and has always known life as a ${tempBackground.name.toLowerCase()}.`);
+		} else {
+			place = pick('Place', 1)[0] || '';
+			backstoryParts.push(`${finalName} was shaped life as a ${tempBackground.name.toLowerCase()} ${place ? ' in ' + place : ''}.`);
+		}
 		const contact = pick('Contact', 1)[0] || '';
 		const bgVignette = this.getBackgroundStory(tempBackground.name);
-		const backstoryParts = [];
-		backstoryParts.push(`${finalName} was shaped life as a ${tempBackground.name.toLowerCase()} ${place ? ' in ' + place : ''}.`);
 		if (origin) backstoryParts.push(origin);
 		if (turning) backstoryParts.push(turning);
 		if (bgVignette) backstoryParts.push(bgVignette);
@@ -7967,7 +8024,7 @@ class CharacterEditorPage {
 
 			// Use existing generation logic but with provided parameters
 			const randomClasses = this.generateRandomClasses(finalLevel, baseClass);
-			const randomRace = race ? this.generateForcedRace(race) : this.generateRandomRace(randomClasses);
+			const randomRace = race ? await this.generateForcedRace(race) : this.generateRandomRace(randomClasses);
 			const randomAlignment = forcedAlignment || this.generateRandomAlignment();
 
 			// If forcedBackground is a string, coerce to an object so downstream code can use .name/.source
@@ -9130,6 +9187,14 @@ class CharacterEditorPage {
 		const oldLevel = classEntry.level;
 		const newLevel = oldLevel + 1;
 		classEntry.level = newLevel;
+
+		// Increase current hit dice (gain 1 unused hit die)
+		if (classEntry.currentHitDice !== undefined) {
+			classEntry.currentHitDice += 1;
+		} else {
+			// If currentHitDice wasn't set, set it to the new level (all available)
+			classEntry.currentHitDice = newLevel;
+		}
 
 		console.log(`${classEntry.name}: Level ${oldLevel} → ${newLevel}`);
 
@@ -10601,164 +10666,303 @@ class CharacterEditorPage {
 			const forcedRace = this.level0WizardData?.race || null;
 			const forcedAlignment = this.level0WizardData?.alignment || null;
 			const forcedBackground = this.level0WizardData?.background || null;
-			const forcedClass = this.levelUpState.characterData.class?.[0]?.name || null;
+			const selectedClass = this.levelUpState.characterData.class?.[0] || null;
+			
+			console.log('=== USER SELECTION DEBUGGING ===');
+			console.log('Race from level0WizardData:', forcedRace);
+			console.log('Race type:', typeof forcedRace);
+			if (forcedRace) {
+				console.log('Race keys:', Object.keys(forcedRace));
+				console.log('Race name:', forcedRace.name);
+				console.log('Race source:', forcedRace.source);
+			}
+			console.log('Class from levelUpState:', selectedClass);
+			if (selectedClass && selectedClass.subclass) {
+				console.log('User selected subclass:', selectedClass.subclass);
+			} else {
+				console.log('WARNING: No subclass found in user selection!');
+			}
+			console.log('=================================')
 			
 			console.log('Generating level 1 character with user choices:', {
 				name: finalName,
 				race: forcedRace,
 				alignment: forcedAlignment, 
 				background: forcedBackground,
-				class: forcedClass,
+				class: selectedClass,
 				scores: scores
 			});
 			
-			// Generate complete character using the same system as random generation
-			const completeCharacter = await this.generateRandomCharacterAtLevel(
-				1, // level
-				finalName, // character name
-				this.getWizardSourceName(), // source name
-				forcedClass, // base class
-				forcedRace?.name, // race
-				forcedBackground, // background
-				forcedAlignment // alignment
-			);
+			// Build complete character using user's exact selections but with full generation system
+			const completeCharacter = await this.generateComprehensiveCharacterFromSelections({
+				name: finalName,
+				level: 1,
+				race: forcedRace,
+				classes: selectedClass ? [selectedClass] : [],
+				background: forcedBackground,
+				alignment: forcedAlignment,
+				abilities: scores
+			});
 			
-			// Apply the user's chosen ability scores
-			if (completeCharacter && scores) {
-				Object.keys(scores).forEach(ability => {
-					if (completeCharacter[ability] !== undefined) {
-						completeCharacter[ability] = scores[ability];
-					}
-				});
-				
-				// Recalculate derived stats with new ability scores
-				const dexMod = Math.floor((scores.dex - 10) / 2);
-				const wisMod = Math.floor((scores.wis - 10) / 2);
-				const conMod = Math.floor((scores.con - 10) / 2);
-				const profBonus = this.getProficiencyBonus(1);
-				
-				// Update AC 
-				if (completeCharacter.ac && completeCharacter.ac[0]) {
-					completeCharacter.ac[0].ac = 10 + dexMod + (completeCharacter.ac[0].ac - 10 - dexMod); // Preserve any non-dex bonuses
-				}
-				
-				// Update passive perception
-				const perceptionBonus = this.hasSkillProficiency("perception", completeCharacter.class) ? profBonus : 0;
-				completeCharacter.passive = 10 + wisMod + perceptionBonus;
-				
-				// Update HP with new CON modifier
-				if (completeCharacter.hp && completeCharacter.class?.[0]) {
-					const hitDie = this.getClassHitDie(completeCharacter.class[0].name) || 8;
-					const hpVal = Math.max(1, hitDie + conMod);
-					completeCharacter.hp.average = hpVal;
-					completeCharacter.hp.current = hpVal;
-					completeCharacter.hp.max = hpVal;
-					completeCharacter.hp.formula = `${hitDie}+${conMod}`;
-				}
+			if (!completeCharacter) {
+				console.error('Failed to build character from user selections');
+				return;
 			}
 
 			// Check if this is a spellcasting class and we need spell selection
 			console.log('=== LEVEL 0→1 CHARACTER CREATION SPELL CHECK ===');
-			console.log('Complete character:', completeCharacter);
-			const className = completeCharacter.class?.[0]?.name;
-			console.log('Character class name:', className);
-			console.log('Character class object:', completeCharacter.class?.[0]);
-			let isSpellcaster = this.isSpellcastingClass(className);
-			console.log('Is spellcaster:', isSpellcaster);
-			console.log('Spellcasting classes list:', ['Bard', 'Cleric', 'Druid', 'Sorcerer', 'Warlock', 'Wizard', 'Paladin', 'Ranger']);
-
-			// AGGRESSIVE FALLBACK: If not detected as spellcaster, try more checks
-			if (!isSpellcaster) {
-				console.log('=== AGGRESSIVE FALLBACK DETECTION FOR LEVEL 0→1 ===');
-				const classNameLower = (className || '').toLowerCase();
-				const spellTerms = ['bard', 'cleric', 'druid', 'sorcerer', 'warlock', 'wizard', 'paladin', 'ranger', 'artificer'];
-				const isLikelySpellcaster = spellTerms.some(term => classNameLower.includes(term));
-
-				console.log('Aggressive check - class name lower:', classNameLower);
-				console.log('Aggressive check - is likely spellcaster:', isLikelySpellcaster);
-
-				if (isLikelySpellcaster) {
-					console.log('🚨 FORCING spell selection via aggressive fallback for level 0→1');
-					isSpellcaster = true;
-				}
-			}
-
-			if (isSpellcaster) {
-				// For spellcasting classes, let the user choose their level 1 spells
-				console.log('Level 1 spellcasting character detected, showing spell selection');
-
-				// Update the ACE editor with the character first
+			if (selectedClass && this.isSpellcastingClass(selectedClass.name)) {
+				console.log(`${selectedClass.name} is a spellcasting class, checking if spell selection is needed`);
+				
+				// Store the completed character first
 				this.ace.setValue(JSON.stringify(completeCharacter, null, 2), 1);
 				this.renderCharacter();
-
-				// Set up level up state for spell selection only
-				this.levelUpState = {
-					characterData: completeCharacter,
-					targetLevel: 1,
-					currentLevel: 0,
-					newLevel: 1,
-					pendingFeatures: [{
-						type: 'spells',
-						feature: {
-							name: 'Level 1 Spell Selection',
-							entries: [`Choose your starting spells for your ${completeCharacter.class[0].name} spell list.`],
-							requiresChoice: true,
-							choiceType: 'spells'
-						},
-						className: completeCharacter.class[0].name,
-						classLevel: 1
-					}],
-					currentFeatureIndex: 0,
-					choices: []
-				};
-
-				// Show spell selection modal
-				this.showNextFeatureChoice();
-				return;
+				
+				// Try to open spell selection, but don't show alerts if it fails
+				try {
+					await this.openSpellSelectionModal(selectedClass);
+				} catch (error) {
+					console.log('Spell selection not available or not needed, completing character creation');
+					// Complete character creation without spell selection
+					this.level0WizardData = null;
+					this.wizardState = null;
+					if (this.$modal) {
+						this.$modal.modal('hide');
+					}
+				}
+			} else {
+				console.log('Non-spellcasting class or no class selected, finalizing character');
+				
+				// Complete the character creation
+				this.ace.setValue(JSON.stringify(completeCharacter, null, 2), 1);
+				this.renderCharacter();
+				
+				// Clear wizard state
+				this.level0WizardData = null;
+				this.wizardState = null;
+				
+				// Close the modal
+				if (this.$modal) {
+					this.$modal.modal('hide');
+				}
 			}
-
-			// For non-spellcasting classes, spells are already included from generateRandomCharacterAtLevel
-
-			// Update the ACE editor with the complete character
-			console.log('Setting complete character in editor');
-			this.ace.setValue(JSON.stringify(completeCharacter, null, 2), 1);
-
-			// Re-render character
-			this.renderCharacter();
-
-			// Update button visibility now that editor content changed
-			this.updateButtonVisibility();
-
-			// Show success message
-			document.getElementById('message').textContent = 'Level 1 character created successfully!';
-			document.getElementById('message').style.color = 'green';
-
-			// Clear level up state since we're done
-			this.levelUpState = null;
-
-			// Recalculate button visibility after clearing level up state
-			this.updateButtonVisibility();
-
-			console.log('=== LEVEL 0 CHARACTER CREATION COMPLETE ===');
-			return;
+		} else {
+			// For existing characters leveling up, use the dedicated method
+			await this.handleExistingCharacterAbilityScores(scores);
 		}
+	}
 
-		// For regular level ups (non-level 0), continue with the normal flow
-	Object.assign(this.levelUpState.characterData, scores);
-	// Normalize AC into array shape
-	const computedAc = 10 + Math.floor((scores.dex - 10) / 2);
-	this.levelUpState.characterData.ac = [{ ac: computedAc, from: ['Calculated'] }];
-	this.levelUpState.characterData.passive = 10 + Math.floor((scores.wis - 10) / 2);
+	// Load race data from JSON file
+	async loadRaceData(raceName, source = "PHB") {
+		try {
+			const response = await fetch('data/races.json');
+			const data = await response.json();
+			const races = data.race || [];
+			
+			// Find the race by name and source
+			const raceData = races.find(race => 
+				race.name === raceName && 
+				(race.source === source || (!race.source && source === "PHB"))
+			);
+			
+			if (raceData) {
+				console.log(`Loaded race data for ${raceName}:`, raceData);
+				return raceData;
+			} else {
+				console.warn(`Race ${raceName} from source ${source} not found in race data`);
+				return null;
+			}
+		} catch (error) {
+			console.error('Error loading race data:', error);
+			return null;
+		}
+	}
 
-		this.levelUpState.choices.push({
-			type: 'abilityScores',
-			scores: scores,
-			feature: {
-				name: 'Ability Score Assignment',
-				entries: ['Assigned ability scores for character creation.']
+	// Generate a comprehensive character from user selections using existing generation system
+	async generateComprehensiveCharacterFromSelections(selections) {
+		console.log('Generating comprehensive character from user selections:', selections);
+		
+		try {
+			const finalLevel = selections.level || 1;
+			
+			// Prepare user's selections for the generation system
+			const forcedRace = selections.race;
+			const forcedClass = selections.classes?.[0]?.name;
+			const forcedAlignment = selections.alignment;
+			const forcedBackground = selections.background;
+			
+			console.log('=== RACE DEBUGGING ===');
+			console.log('Original race selection:', forcedRace);
+			
+			// Ensure we have proper race data structure
+			let raceForGeneration = null;
+			if (forcedRace) {
+				if (typeof forcedRace === 'string') {
+					// If it's just a string, find the full race data
+					const raceData = await this.loadRaceData(forcedRace);
+					if (raceData) {
+						raceForGeneration = {
+							name: raceData.name,
+							source: raceData.source
+						};
+					}
+				} else if (forcedRace.name) {
+					// If it's already an object with name
+					raceForGeneration = {
+						name: forcedRace.name,
+						source: forcedRace.source || "PHB"
+					};
+				}
+			}
+			
+			console.log('Race prepared for generation:', raceForGeneration);
+			
+			// Use the existing comprehensive generation but with forced user choices
+			console.log('Calling generateRandomCharacterAtLevel with user choices preserved...');
+			const baseCharacter = await this.generateRandomCharacterAtLevel(
+				finalLevel,
+				selections.name,
+				this.getWizardSourceName(),
+				forcedClass,
+				raceForGeneration, // Pass the full race object, not just name
+				forcedBackground,
+				forcedAlignment
+			);
+			
+			if (!baseCharacter) {
+				console.error('Failed to generate base character');
+				return null;
+			}
+			
+			console.log('=== BASE CHARACTER RACE CHECK ===');
+			console.log('Generated character race:', baseCharacter.race);
+			
+			// If race is still empty, manually set it from our selection
+			if ((!baseCharacter.race || !baseCharacter.race[0] || !baseCharacter.race[0].name) && raceForGeneration) {
+				console.log('Race missing from generated character, manually setting it...');
+				const raceData = await this.loadRaceData(raceForGeneration.name, raceForGeneration.source);
+				if (raceData) {
+					baseCharacter.race = [{
+						name: raceData.name,
+						source: raceData.source,
+						displayText: raceData.name
+					}];
+					
+					// Apply race stats
+					baseCharacter.size = raceData.size || "M";
+					if (raceData.speed) {
+						baseCharacter.speed = raceData.speed;
+					}
+					
+					console.log('Manually set race in character:', baseCharacter.race);
+				}
+			}
+			
+			// Override the random ability scores with user's chosen scores
+			if (selections.abilities) {
+				console.log('Applying user ability scores:', selections.abilities);
+				Object.keys(selections.abilities).forEach(ability => {
+					if (baseCharacter[ability] !== undefined) {
+						baseCharacter[ability] = selections.abilities[ability];
+					}
+				});
+				
+				// Apply racial ability score bonuses to user's base scores
+				if (baseCharacter.race?.[0] && raceForGeneration) {
+					const raceData = await this.loadRaceData(raceForGeneration.name, raceForGeneration.source);
+					if (raceData?.ability) {
+						raceData.ability.forEach(abilityData => {
+							Object.keys(abilityData).forEach(ability => {
+								if (baseCharacter[ability] && typeof abilityData[ability] === 'number') {
+									baseCharacter[ability] += abilityData[ability];
+									console.log(`Applied racial bonus: +${abilityData[ability]} ${ability} = ${baseCharacter[ability]}`);
+								}
+							});
+						});
+					}
+				}
+				
+				// Recalculate derived stats with new ability scores
+				const dexMod = Math.floor((baseCharacter.dex - 10) / 2);
+				const wisMod = Math.floor((baseCharacter.wis - 10) / 2);
+				const conMod = Math.floor((baseCharacter.con - 10) / 2);
+				const profBonus = this.getProficiencyBonus(finalLevel);
+				
+				// Update AC if it exists
+				if (baseCharacter.ac && Array.isArray(baseCharacter.ac)) {
+					baseCharacter.ac[0].ac = 10 + dexMod;
+				}
+				
+				// Update passive perception
+				const perceptionBonus = this.hasSkillProficiency("perception", baseCharacter.class) ? profBonus : 0;
+				baseCharacter.passive = 10 + wisMod + perceptionBonus;
+				
+				// Update HP with new CON modifier
+				if (baseCharacter.hp && baseCharacter.class?.[0]) {
+					const hitDie = this.getClassHitDie(baseCharacter.class[0].name) || 8;
+					const hpVal = Math.max(1, hitDie + conMod);
+					baseCharacter.hp.average = hpVal;
+					baseCharacter.hp.current = hpVal;
+					baseCharacter.hp.max = hpVal;
+				}
+			}
+			
+			// Ensure user's subclass selection is preserved
+			if (selections.classes?.[0]?.subclass && baseCharacter.class?.[0]) {
+				console.log('Preserving user subclass selection:', selections.classes[0].subclass);
+				baseCharacter.class[0].subclass = selections.classes[0].subclass;
+			}
+			
+			console.log('Generated comprehensive character with user choices preserved:', baseCharacter);
+			return baseCharacter;
+			
+		} catch (error) {
+			console.error('Error generating comprehensive character from selections:', error);
+			return null;
+		}
+	}
+
+	// Additional helper methods for character creation
+	hasSkillProficiency(skillName, classes) {
+		// Basic skill proficiency check - this would need to be expanded based on class data
+		const skillProficiencies = {
+			"Cleric": ["history", "medicine"],
+			"Wizard": ["arcana", "history"], 
+			"Rogue": ["stealth", "sleight of hand", "perception"],
+			// Add more as needed
+		};
+		
+		if (!classes || !Array.isArray(classes) || classes.length === 0) return false;
+		
+		const className = classes[0].name;
+		const classSkills = skillProficiencies[className] || [];
+		return classSkills.includes(skillName.toLowerCase());
+	}
+
+	// Existing method continues...
+
+	// Method to handle existing character level up ability score increases
+	async handleExistingCharacterAbilityScores(scores) {
+		console.log('Applying ability score improvements to existing character');
+		
+		// Apply the ability score increases
+		Object.keys(scores).forEach(ability => {
+			const increase = scores[ability];
+			if (increase > 0 && this.levelUpState.characterData[ability]) {
+				this.levelUpState.characterData[ability] += increase;
+				console.log(`Increased ${ability} by ${increase} to ${this.levelUpState.characterData[ability]}`);
 			}
 		});
+		
+		// Update derived stats
+		this.recalculateDerivedStats();
+		
+		// Complete the level up
+		await this.finalizeLevelUp();
+	}
 
+	// Continue level up to next feature
+	proceedToNextFeature() {
 		this.levelUpState.currentFeatureIndex++;
 		setTimeout(() => {
 			this.showNextFeatureChoice();
@@ -10851,7 +11055,8 @@ class CharacterEditorPage {
 			name: className,
 			source: classData.source || 'PHB',
 			level: 1,
-			hitDie: classData.hitDie || 'd8'
+			hitDie: classData.hitDie || 'd8',
+			currentHitDice: 1 // New class starts with 1 unused hit die
 		};
 
 		if (subclass) {
@@ -14223,181 +14428,188 @@ class CharacterEditorPage {
 		// Apply feature choices to character data
 		await this.applyLevelUpFeaturesToCharacter(updatedCharacter);
 
-		// For level 0->1 characters, generate a complete character using existing generation code
+		// For level 0->1 characters, build a complete character with all required data
 		if (isFirstLevelCreation) {
-			console.log('=== GENERATING COMPLETE LEVEL 1 CHARACTER WITH USER CHOICES ===');
+			console.log('=== BUILDING COMPLETE LEVEL 1 CHARACTER WITH USER CHOICES ===');
 
 			// Extract user choices from the level up process
 			const userChoices = this.extractUserChoicesFromLevelUpState();
 			console.log('User choices extracted:', userChoices);
 
-			// Build character directly from levelUpState to preserve subclass selection
-			console.log('Building character from levelUpState data to preserve subclass selection');
-
-			// Normalize race to proper format { name: <VALUE>, source: <VALUE> }
-			let normalizedRace;
-			if (userChoices.characterRace) {
-				if (typeof userChoices.characterRace === 'string') {
-					// If it's just a string, create proper race object
-					normalizedRace = { name: userChoices.characterRace, source: 'PHB' };
-				} else if (userChoices.characterRace.name) {
-					// If it's already an object with name/source, use it
-					normalizedRace = {
-						name: userChoices.characterRace.name,
-						source: userChoices.characterRace.source || 'PHB'
-					};
-				} else {
-					// Fallback to random race (including human)
-					normalizedRace = this.generateForcedRace(null);
-				}
+			// Start with the character data from levelUpState to preserve all user choices
+			const completeCharacter = JSON.parse(JSON.stringify(updatedCharacter));
+			
+			// Debug: Check class data preservation
+			console.log('Initial class data from levelUpState:', completeCharacter.class);
+			
+			// Ensure we have the proper race - prefer from levelUpState.characterData, then level0WizardData
+			if (!completeCharacter.race && userChoices.characterRace) {
+				completeCharacter.race = userChoices.characterRace;
+			}
+			console.log('Using race for character building:', completeCharacter.race);
+			
+			// Ensure we have proper ability scores
+			if (userChoices.abilityScores) {
+				Object.assign(completeCharacter, userChoices.abilityScores);
 			} else {
-				normalizedRace = this.generateForcedRace(null);
+				// Fallback to default scores if none chosen
+				completeCharacter.str = 13;
+				completeCharacter.dex = 12;
+				completeCharacter.con = 14;
+				completeCharacter.int = 10;
+				completeCharacter.wis = 15;
+				completeCharacter.cha = 8;
 			}
 
-			// Normalize background to proper format { name: <VALUE>, source: <VALUE> }
-			let normalizedBackground;
-			const backgroundChoice = userChoices.characterBackground || this.level0WizardData?.background;
-			if (backgroundChoice) {
-				if (typeof backgroundChoice === 'string') {
-					// If it's just a string, create proper background object
-					normalizedBackground = { name: backgroundChoice, source: 'PHB' };
-				} else if (backgroundChoice.name) {
-					// If it's already an object with name/source, use it
-					normalizedBackground = {
-						name: backgroundChoice.name,
-						source: backgroundChoice.source || 'PHB'
-					};
-				} else {
-					// Fallback to random background
-					normalizedBackground = await this.generateRandomBackground();
-				}
-			} else {
-				normalizedBackground = await this.generateRandomBackground();
+			// Apply racial ability score bonuses
+			if (completeCharacter.race) {
+				const racialBonuses = await this.getRacialAbilityBonuses(completeCharacter.race);
+				Object.keys(racialBonuses).forEach(ability => {
+					if (racialBonuses[ability]) {
+						completeCharacter[ability] = (completeCharacter[ability] || 10) + racialBonuses[ability];
+					}
+				});
 			}
-
-			// Normalize alignment to proper format (array like ["L", "G"] or ["N"])
-			let normalizedAlignment;
-			const alignmentChoice = userChoices.characterAlignment || this.level0WizardData?.alignment;
-			if (alignmentChoice) {
-				if (Array.isArray(alignmentChoice)) {
-					// If it's already an array, use it directly
-					normalizedAlignment = alignmentChoice;
-				} else if (typeof alignmentChoice === 'string') {
-					// If it's a string like "Lawful Good", convert to array format
-					const alignmentMap = {
-						'Lawful Good': ['L', 'G'],
-						'Neutral Good': ['N', 'G'],
-						'Chaotic Good': ['C', 'G'],
-						'Lawful Neutral': ['L', 'N'],
-						'True Neutral': ['N'],
-						'Neutral': ['N'],
-						'Chaotic Neutral': ['C', 'N'],
-						'Lawful Evil': ['L', 'E'],
-						'Neutral Evil': ['N', 'E'],
-						'Chaotic Evil': ['C', 'E']
-					};
-					normalizedAlignment = alignmentMap[alignmentChoice] || this.generateRandomAlignment();
-				} else {
-					// Fallback to random alignment
-					normalizedAlignment = this.generateRandomAlignment();
-				}
-			} else {
-				normalizedAlignment = this.generateRandomAlignment();
-			}
-
-			let completeCharacter = {
-				name: userChoices.characterName || updatedCharacter.name || 'Adventurer',
-				source: this.getWizardSourceName(),
-				race: normalizedRace,
-				class: JSON.parse(JSON.stringify(updatedCharacter.class || [])), // Deep copy with subclass preserved
-				background: {
-					name: normalizedBackground.name,
-					source: normalizedBackground.source || 'PHB'
-				},
-				alignment: normalizedAlignment,
-				...userChoices.abilityScores,
-				hp: 1, // Will be calculated properly
-				ac: [{ ac: 10, from: ['Base'] }], // Will be calculated properly
-				passive: 10,
-				proficiencyBonus: '+2',
-				deathSaves: { successes: 0, failures: 0 },
-				currency: { cp: 0, sp: 0, ep: 0, gp: 0, pp: 0 },
-				fluff: { entries: ['write notes here'] }
-			};
 
 			// Calculate derived stats
-			if (userChoices.abilityScores) {
-				const dexMod = Math.floor((userChoices.abilityScores.dex - 10) / 2);
-				const wisMod = Math.floor((userChoices.abilityScores.wis - 10) / 2);
-				const conMod = Math.floor((userChoices.abilityScores.con - 10) / 2);
+			const dexMod = Math.floor((completeCharacter.dex - 10) / 2);
+			const wisMod = Math.floor((completeCharacter.wis - 10) / 2);
+			const conMod = Math.floor((completeCharacter.con - 10) / 2);
 
-				completeCharacter.ac = [{ ac: 10 + dexMod, from: ['Base', 'Dex'] }];
-				completeCharacter.passive = 10 + wisMod;
-
-				if (completeCharacter.class?.[0]) {
-					const hitDie = this.getClassHitDie(completeCharacter.class[0].name) || 8;
-					const hpVal = Math.max(1, hitDie + conMod);
-					completeCharacter.hp = { average: hpVal, formula: `${hitDie}+${conMod}`, current: hpVal, max: hpVal, temp: 0 };
-				}
+			// Set size from race data  
+			if (!completeCharacter.size) {
+				completeCharacter.size = 'M'; // Default to Medium
 			}
 
-			console.log('Generated complete character:', completeCharacter);
-			if (completeCharacter) {
-				console.log('Character keys:', Object.keys(completeCharacter));
+			// Set speed from race
+			const raceSpeed = await this.getRacialStats(completeCharacter.race);
+			if (raceSpeed?.speed) {
+				completeCharacter.speed = raceSpeed.speed;
 			} else {
-				console.error('generateRandomCharacterAtLevel returned null/undefined. Creating fallback completeCharacter object.');
-				const fallbackHpVal = Math.max(1, (this.getClassHitDie(userChoices.selectedClass) || 8) + Math.floor(((userChoices.abilityScores?.con || 10) - 10) / 2));
-				// Generate random race for fallback instead of defaulting to Human
-				const fallbackRace = userChoices.characterRace || this.generateForcedRace(null);
-				completeCharacter = {
-					name: userChoices.characterName || updatedCharacter.name || 'Adventurer',
-					class: [{ name: userChoices.selectedClass || 'Fighter', level: 1 }],
-					race: fallbackRace,
-					ac: [{ ac: 10, from: ['Default'] }],
-					passive: 10,
-					hp: { average: fallbackHpVal, formula: `${fallbackHpVal}`, current: fallbackHpVal, max: fallbackHpVal, temp: 0 }
-				};
+				completeCharacter.speed = { walk: 30 }; // Default human speed
 			}
 
-			// Override the randomly generated ability scores with user's choices
-			if (userChoices.abilityScores) {
-				console.log('Applying user ability scores:', userChoices.abilityScores);
-				if (completeCharacter) Object.assign(completeCharacter, userChoices.abilityScores);
+			// Calculate HP
+			if (completeCharacter.class?.[0]) {
+				const classData = await this.loadClassData(completeCharacter.class[0].name);
+				const hitDie = classData?.class?.[0]?.hd?.faces || 8;
+				const hpVal = Math.max(1, hitDie + conMod);
+				completeCharacter.hp = { 
+					average: hpVal, 
+					formula: `${hitDie}+${conMod}`, 
+					current: hpVal, 
+					max: hpVal, 
+					temp: 0 
+				};
+			} else {
+				completeCharacter.hp = { average: 8, formula: '8+0', current: 8, max: 8, temp: 0 };
+			}
 
-				// Recalculate derived stats with user's ability scores
-				const dexMod = Math.floor((userChoices.abilityScores.dex - 10) / 2);
-				const wisMod = Math.floor((userChoices.abilityScores.wis - 10) / 2);
-				const conMod = Math.floor((userChoices.abilityScores.con - 10) / 2);
+			// Calculate AC
+			completeCharacter.ac = await this.generateRandomAC(completeCharacter.class, {
+				str: completeCharacter.str, dex: completeCharacter.dex, con: completeCharacter.con,
+				int: completeCharacter.int, wis: completeCharacter.wis, cha: completeCharacter.cha
+			}, completeCharacter.race);
 
-				// Update AC, passive perception, and HP
-				completeCharacter.ac = Math.max(completeCharacter.ac || 0, 10 + dexMod);
-				const profBonus = this.getProficiencyBonus(1);
-				const perceptionBonus = this.hasSkillProficiency("perception", completeCharacter?.class) ? profBonus : 0;
-				completeCharacter.passive = 10 + wisMod + perceptionBonus;
+			// Set passive Perception
+			const profBonus = this.getProficiencyBonus(1);
+			const perceptionProf = userChoices.skills?.some(s => s.selectedSkills?.includes('Perception')) ? profBonus : 0;
+			completeCharacter.passive = 10 + wisMod + perceptionProf;
 
-				// Update HP with new CON modifier
-				if (completeCharacter.class?.[0]) {
-					const hitDie = this.getClassHitDie(completeCharacter.class[0].name) || 8;
-					completeCharacter.hp = Math.max(1, hitDie + conMod);
+			// Add save proficiencies from class
+			if (completeCharacter.class?.[0]) {
+				const saves = await this.generateRandomSaves({
+					str: completeCharacter.str, dex: completeCharacter.dex, con: completeCharacter.con,
+					int: completeCharacter.int, wis: completeCharacter.wis, cha: completeCharacter.cha
+				}, completeCharacter.class, profBonus);
+				completeCharacter.saveProficiencies = saves;
+			}
+
+			// Add skill proficiencies
+			if (userChoices.skills?.length > 0) {
+				const allSkills = [];
+				userChoices.skills.forEach(skillSet => {
+					if (skillSet.selectedSkills) {
+						allSkills.push(...skillSet.selectedSkills.map(s => s.toLowerCase().replace(' ', '_')));
+					}
+				});
+				completeCharacter.skillProficiencies = [...new Set(allSkills)]; // Remove duplicates
+			}
+
+			// Add starting equipment
+			if (completeCharacter.class?.[0]) {
+				console.log('Class before equipment application:', completeCharacter.class[0]);
+				
+				const equipment = this.getClassEquipment(completeCharacter.class[0].name, 1, {
+					str: completeCharacter.str, dex: completeCharacter.dex, con: completeCharacter.con,
+					int: completeCharacter.int, wis: completeCharacter.wis, cha: completeCharacter.cha
+				});
+				
+				// Apply class starting equipment to character
+				await this.applyClassDataToCharacter(completeCharacter.class, completeCharacter, 1);
+				
+				console.log('Class after applyClassDataToCharacter:', completeCharacter.class[0]);
+				
+				// Apply background equipment
+				await this.applyBackgroundDataToCharacter(completeCharacter.background, completeCharacter);
+				
+				console.log('Class after applyBackgroundDataToCharacter:', completeCharacter.class[0]);
+			}
+
+			// Add basic actions
+			completeCharacter.action = this.generateRandomActions(completeCharacter.class, {
+				str: completeCharacter.str, dex: completeCharacter.dex, con: completeCharacter.con,
+				int: completeCharacter.int, wis: completeCharacter.wis, cha: completeCharacter.cha
+			}) || [];
+
+			// Add spellcasting if class is a caster
+			if (this.hasSpellcastingClass(completeCharacter)) {
+				const spells = this.generateRandomSpells(completeCharacter.class, 1, {
+					str: completeCharacter.str, dex: completeCharacter.dex, con: completeCharacter.con,
+					int: completeCharacter.int, wis: completeCharacter.wis, cha: completeCharacter.cha
+				});
+				if (spells) {
+					completeCharacter.spells = spells;
 				}
 			}
 
-			// Add any additional user choices (fighting styles, feats, spells) to the complete character
+			// Add starting currency
+			completeCharacter.currency = this.generateRandomCurrency(1);
+
+			// Add language proficiencies
+			const languages = await this.generateLanguageProficiencies(completeCharacter.class, completeCharacter.race, completeCharacter.background);
+			if (languages && languages.length > 0) {
+				completeCharacter.languages = languages;
+			}
+
+			// Generate Features & Traits section
+			console.log('Class before generateAllFeatureEntries:', completeCharacter.class[0]);
+			const featureEntries = await this.generateAllFeatureEntries(completeCharacter.class, completeCharacter.race);
+			console.log('Class after generateAllFeatureEntries:', completeCharacter.class[0]);
+			
+			// Build entries array
+			completeCharacter.entries = [
+				{
+					type: "section",
+					name: "Features & Traits",
+					entries: featureEntries
+				}
+			];
+
+			// Add user choices to the complete character
 			this.addUserChoicesToCompleteCharacter(completeCharacter, userChoices);
 
-			// Replace the character data with the complete generated character
+			// Replace the character data with the complete character
 			console.log('About to replace character data...');
-			console.log('updatedCharacter before replacement:', updatedCharacter);
-			console.log('completeCharacter to assign:', completeCharacter);
+			console.log('Final completeCharacter class data:', completeCharacter.class);
+			console.log('Final completeCharacter race data:', completeCharacter.race);
 
 			Object.keys(updatedCharacter).forEach(key => delete updatedCharacter[key]);
-			if (completeCharacter) Object.assign(updatedCharacter, completeCharacter);
+			Object.assign(updatedCharacter, completeCharacter);
 
-			// Recalculate button visibility after replacing character data
-			this.updateButtonVisibility();
-
-			console.log('updatedCharacter after replacement:', updatedCharacter);
-			console.log('=== COMPLETE CHARACTER GENERATED WITH USER CHOICES ===');
+			console.log('=== COMPLETE CHARACTER BUILT WITH USER CHOICES ===');
+			console.log('Final character class data:', updatedCharacter.class);
+			console.log('Final character race data:', updatedCharacter.race);
 		}
 
 		// Update all character stats based on new level
@@ -14437,7 +14649,8 @@ class CharacterEditorPage {
 
 			// Get character details from basic character
 			const characterName = basicCharacter.name || 'Adventurer';
-			const characterRace = basicCharacter.race?.name || this.generateForcedRace(null).name;
+			const raceData = basicCharacter.race?.name ? { name: basicCharacter.race.name } : await this.generateForcedRace(null);
+			const characterRace = raceData.name;
 			const characterClass = userChoices.selectedClass || 'Fighter';
 
 			// Generate a complete random level 1 character with specified class and race
@@ -14486,13 +14699,13 @@ class CharacterEditorPage {
 		// Extract basic character info
 		if (this.levelUpState?.characterData) {
 			choices.characterName = this.levelUpState.characterData.name;
-			choices.characterRace = this.levelUpState.characterData.race?.name || this.levelUpState.characterData.race;
+			choices.characterRace = this.levelUpState.characterData.race; // Keep full race object
 		}
 
 		// For level 0 characters, prioritize the race from URL parameters stored in level0WizardData
 		if (this.level0WizardData?.race) {
 			console.log('Using race from level0WizardData:', this.level0WizardData.race);
-			choices.characterRace = this.level0WizardData.race;
+			choices.characterRace = this.level0WizardData.race; // This should already be a full race object
 		}
 
 		// Also pull background/alignment choices from level0WizardData if present

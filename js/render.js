@@ -9377,7 +9377,7 @@ Renderer.character = class {
 			case "expertise":
 				return `<strong>${skillName}</strong> <span style="color: #d4af37;" title="Expertise (Double Proficiency)">★</span>`;
 			case "jack":
-				return `<span style="color: #4a90e2;" title="Jack of All Trades (Half Proficiency)">${skillName} ◐</span>`;
+				return `<span title="Jack of All Trades (Half Proficiency)">${skillName} ◐</span>`;
 			case "proficient":
 				return `<strong>${skillName}</strong> ◉`;
 			case "none":

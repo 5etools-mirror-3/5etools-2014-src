@@ -1335,12 +1335,6 @@ class CharacterManager {
 			}
 			
 			console.log(`CharacterManager: Found ${localStorageCharacters.length} characters in localStorage`);
-			console.log("CharacterManager: localStorage characters:", localStorageCharacters.map(c => ({ 
-				name: c.name, 
-				id: c.id, 
-				_isLocallyModified: c._isLocallyModified,
-				_localVersion: c._localVersion 
-			})));
 
 			// Try to get the blob list, but don't fail if server is unavailable
 			let blobs = [];
@@ -1362,7 +1356,7 @@ class CharacterManager {
 				}
 			}
 			
-			console.log(`CharacterManager: Found ${blobs.length} blobs from server`);
+
 
 			// Determine which characters we need to fetch based on localStorage staleness
 			const charactersToFetch = [];
@@ -1381,14 +1375,13 @@ class CharacterManager {
 					
 					// ALWAYS use localStorage if it's locally modified (user has made edits)
 					if (localStorageCharacter._isLocallyModified) {
-						console.log(`CharacterManager: Using locally modified character: ${localStorageCharacter.name} (age: ${Math.round(localAge / (60 * 1000))} minutes)`);
+						console.log(`CharacterManager: Using locally modified character: ${localStorageCharacter.name}`);
 						cachedCharacters.push(localStorageCharacter);
 						continue;
 					}
 					
 					// Use localStorage if not stale (less than 10 minutes old)
 					if (localAge < STALENESS_THRESHOLD) {
-						console.log(`CharacterManager: Using fresh localStorage data: ${localStorageCharacter.name} (age: ${Math.round(localAge / (60 * 1000))} minutes)`);
 						cachedCharacters.push(localStorageCharacter);
 						continue;
 					}
@@ -1399,28 +1392,22 @@ class CharacterManager {
 					
 					// If server timestamp isn't significantly newer (>1 hour), stick with localStorage
 					if (!serverTimestamp || (localTimestamp > 0 && (serverTimestamp - localTimestamp) < 60 * 60 * 1000)) {
-						console.log(`CharacterManager: Using localStorage over server (server not significantly newer): ${localStorageCharacter.name}`);
 						cachedCharacters.push(localStorageCharacter);
 						continue;
 					}
-					
-					console.log(`CharacterManager: localStorage data is stale (${Math.round(localAge / (60 * 1000))} minutes), will check server: ${localStorageCharacter.name}`);
 				}
 				
 				// SECONDARY SOURCE: In-memory character with local modifications (shouldn't happen but safety net)
 				if (existingCharacter && existingCharacter._isLocallyModified) {
-					console.log(`CharacterManager: Using locally modified in-memory character: ${existingCharacter.name}`);
 					cachedCharacters.push(existingCharacter);
 					continue;
 				}
 				
 				// TERTIARY SOURCE: Blob cache if still fresh (avoid unnecessary network requests)
 				if (cached && cached.character && (now - (cached.lastFetched || 0)) < STALENESS_THRESHOLD) {
-					console.log(`CharacterManager: Using fresh blob cache: ${cached.character.name}`);
 					cachedCharacters.push(cached.character);
 				} else {
 					// LAST RESORT: Need to fetch from server (no localStorage or very stale)
-					console.log(`CharacterManager: Will fetch from server (no localStorage or stale): ${blob.id}`);
 					charactersToFetch.push(blob);
 				}
 			}
@@ -1498,7 +1485,6 @@ class CharacterManager {
 					// Check if this character is already included
 					const alreadyIncluded = allCharacters.some(c => c && c.id === localChar.id);
 					if (!alreadyIncluded) {
-						console.log(`CharacterManager: Adding localStorage-only character: ${localChar.name}`);
 						allCharacters.push(localChar);
 					}
 				}
@@ -1531,7 +1517,7 @@ class CharacterManager {
 			// Process localStorage characters LAST (preserves _isLocallyModified flags and takes final precedence)
 			const localProcessed = localChars.length > 0 ? this._processAndStoreCharacters(localChars, false) : [];
 			
-			console.log(`CharacterManager: Processed ${remoteProcessed.length} remote and ${localProcessed.length} local characters`);
+
 			
 			// Return combined results
 			return [...remoteProcessed, ...localProcessed];
@@ -1566,7 +1552,6 @@ class CharacterManager {
 								return sourceList.includes(source);
 							});
 						}
-						console.log(`CharacterManager: Using cached blob list (${blobs.length} blobs)`);
 						return blobs;
 					}
 				} catch (e) {
@@ -1578,7 +1563,6 @@ class CharacterManager {
 			// This allows the system to work fully offline with localStorage data
 			const localStorageCharacters = this._loadFromLocalStorage();
 			if (localStorageCharacters.length > 0 && !force) {
-				console.log(`CharacterManager: No blob cache but have ${localStorageCharacters.length} localStorage characters, creating synthetic blobs`);
 				const syntheticBlobs = this._getLocalStorageBlobList(sources);
 				if (syntheticBlobs.length > 0) {
 					return syntheticBlobs;
@@ -1759,16 +1743,9 @@ class CharacterManager {
 			// Upsert into the map (replace/update existing or add new)
 			this._characters.set(character.id, processedCharacter);
 			
-			// Debug logging for specific character issues
-			if (character.name && character.name.toLowerCase().includes('garurt')) {
-				console.log(`CharacterManager: Processing ${character.name}:`, {
-					id: character.id,
-					isFromRemote: isFromRemote,
-					_isLocallyModified: processedCharacter._isLocallyModified,
-					_localVersion: processedCharacter._localVersion,
-					_remoteVersion: processedCharacter._remoteVersion,
-					hp: character.hp || 'no HP field'
-				});
+			// Debug logging for specific character issues (simplified)
+			if (character.name && character.name.toLowerCase().includes('garurt') && character._isLocallyModified) {
+				console.log(`CharacterManager: Processing locally modified ${character.name}`);
 			}
 
 			// Track which characters were part of this update (returned to caller)
@@ -2270,7 +2247,7 @@ class CharacterManager {
 				}
 			}
 
-			console.log("CharacterManager: Invalidated all caches for fresh display");
+
 		} catch (e) {
 			console.warn("CharacterManager: Error during cache invalidation:", e);
 		}
@@ -2339,7 +2316,7 @@ class CharacterManager {
 			// Force cache invalidation to ensure UI shows updated data
 			this._invalidateAllCaches();
 			
-			console.log(`CharacterManager: Updated localStorage cache and blob cache for character ${character.name} (${character.id})`);
+
 		} catch (e) {
 			console.warn("CharacterManager: Error merging character into localStorage cache:", e);
 		}

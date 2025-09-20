@@ -111,7 +111,6 @@ class CharactersPage extends ListPageMultiSource {
 	async _pLoadSource (src, nextFilterVal) {
 		// Characters don't use traditional source loading
 		// All characters are loaded from API regardless of source
-		console.log(`Character source loading skipped for ${src} - using API data`);
 	}
 
 	getListItem (character, chI, isExcluded) {
