@@ -15,7 +15,7 @@
  *  // Character updates are automatically broadcast to all users
  */
 let API_BASE_URL = window.location.origin.includes("localhost")
-	? "https://5e-git-big-update-samueljimcoms-projects.vercel.app/api"
+	? "https://5e.bne.sh/api"
 	: "/api";
 
 class CharacterP2P {
@@ -1025,11 +1025,16 @@ class CharacterManager {
 	static _listeners = new Set();
 	static _refreshInterval = null;
 	static _blobCache = new Map(); // Map<id, {blob, character, lastFetched}> for caching with timestamps
-	static _freshnessThreshold = 5 * 60 * 1000; // 5 minutes in milliseconds
+	static _freshnessThreshold = 10 * 60 * 1000; // 10 minutes in milliseconds (localStorage staleness threshold)
 	static _STORAGE_KEY = "VeTool_CharacterManager_Cache";
 	// Client-side cache for the blob list (metadata returned by /api/characters/load)
 	static _LIST_CACHE_KEY = "VeTool_CharacterManager_ListCache";
 	static _LIST_CACHE_TTL = 30 * 60 * 1000; // 30 minutes
+	// Version tracking and offline sync
+	static _offlineQueue = []; // Queue for changes made while offline
+	static _OFFLINE_QUEUE_KEY = "VeTool_CharacterManager_OfflineQueue";
+	static _conflictResolver = null; // Function to handle conflicts
+	static _onlineListenerSet = false; // Flag to prevent duplicate listeners
 
 	static getInstance () {
 		if (!this._instance) {
@@ -1250,8 +1255,50 @@ class CharacterManager {
 	 * @returns {Promise<Array>} Array of characters
 	 */
 	static async loadCharacters (sources = null) {
+		// Initialize offline queue on first load
+		if (this._offlineQueue.length === 0) {
+			this._loadOfflineQueue();
+		}
+		
+		// Process offline queue if we're online
+		if (navigator.onLine && this._offlineQueue.length > 0) {
+			setTimeout(() => this._processOfflineQueue(), 1000); // Process after initial load
+		}
+		
+		// Set up online/offline event listeners (only once)
+		if (!this._onlineListenerSet) {
+			window.addEventListener('online', () => {
+				console.log('CharacterManager: Back online, processing queued operations');
+				this._processOfflineQueue();
+			});
+			
+			window.addEventListener('offline', () => {
+				console.log('CharacterManager: Gone offline, will queue operations');
+			});
+			
+			this._onlineListenerSet = true;
+		}
+
 		// If already loaded and no specific sources requested, return cached data
 		if (this._isLoaded && !sources) return [...this._charactersArray];
+
+		// If we have localStorage data and are not forcing a refresh, use that first
+		// This allows the page to load immediately without waiting for server
+		if (!this._isLoaded && !sources) {
+			const localStorageCharacters = this._loadFromLocalStorage();
+			if (localStorageCharacters.length > 0) {
+				// Load immediately from localStorage, then check for updates in background
+				const processed = this._processAndStoreCharacters(localStorageCharacters, false);
+				this._isLoaded = true;
+				
+				// Check for stale data in background (non-blocking)
+				setTimeout(() => {
+					this._checkForStaleCharactersInBackground(sources);
+				}, 100);
+				
+				return processed;
+			}
+		}
 
 		// If currently loading, wait for that to finish
 		if (this._isLoading) return this._loadPromise;
@@ -1276,25 +1323,104 @@ class CharacterManager {
 	 */
 	static async _performLoad (sources = null) {
 		try {
-			// First, get the blob list (this uses the cached list endpoint data)
-			const blobs = await this._getBlobList(sources);
+			// First, load from localStorage to get any locally modified characters
+			const localStorageCharacters = this._loadFromLocalStorage();
+			const localCharMap = new Map();
+			
+			// Create a map of localStorage characters by ID for fast lookup
+			for (const character of localStorageCharacters) {
+				if (character && character.id) {
+					localCharMap.set(character.id, character);
+				}
+			}
+			
+			console.log(`CharacterManager: Found ${localStorageCharacters.length} characters in localStorage`);
+			console.log("CharacterManager: localStorage characters:", localStorageCharacters.map(c => ({ 
+				name: c.name, 
+				id: c.id, 
+				_isLocallyModified: c._isLocallyModified,
+				_localVersion: c._localVersion 
+			})));
 
-			if (!blobs || blobs.length === 0) {
-				return this._loadFromLocalStorage();
+			// Try to get the blob list, but don't fail if server is unavailable
+			let blobs = [];
+			try {
+				blobs = await this._getBlobList(sources);
+			} catch (e) {
+				console.warn("CharacterManager: Server unavailable, using localStorage only:", e.message);
+				return this._processAndStoreCharacters(localStorageCharacters, false);
 			}
 
-			// Check which characters we already have fresh in cache
+			if (!blobs || blobs.length === 0) {
+				// No blobs available - use localStorage data if we have it
+				if (localStorageCharacters.length > 0) {
+					console.log("CharacterManager: No blobs available, using localStorage data only");
+					return this._processAndStoreCharacters(localStorageCharacters, false);
+				} else {
+					console.log("CharacterManager: No characters available (no blobs, no localStorage)");
+					return [];
+				}
+			}
+			
+			console.log(`CharacterManager: Found ${blobs.length} blobs from server`);
+
+			// Determine which characters we need to fetch based on localStorage staleness
 			const charactersToFetch = [];
 			const cachedCharacters = [];
 			const now = Date.now();
+			const STALENESS_THRESHOLD = 10 * 60 * 1000; // 10 minutes as requested by user
 
 			for (const blob of blobs) {
 				const cached = this._blobCache.get(blob.id);
-				if (cached && cached.character && (now - (cached.lastFetched || 0)) < this._freshnessThreshold) {
-					// Use cached character if it's still fresh
+				const existingCharacter = this._characters.get(blob.id);
+				const localStorageCharacter = localCharMap.get(blob.id);
+				
+				// PRIMARY SOURCE: localStorage data (always prefer if exists and not extremely stale)
+				if (localStorageCharacter) {
+					const localAge = now - (localStorageCharacter._lastModified || localStorageCharacter._localVersion || 0);
+					
+					// ALWAYS use localStorage if it's locally modified (user has made edits)
+					if (localStorageCharacter._isLocallyModified) {
+						console.log(`CharacterManager: Using locally modified character: ${localStorageCharacter.name} (age: ${Math.round(localAge / (60 * 1000))} minutes)`);
+						cachedCharacters.push(localStorageCharacter);
+						continue;
+					}
+					
+					// Use localStorage if not stale (less than 10 minutes old)
+					if (localAge < STALENESS_THRESHOLD) {
+						console.log(`CharacterManager: Using fresh localStorage data: ${localStorageCharacter.name} (age: ${Math.round(localAge / (60 * 1000))} minutes)`);
+						cachedCharacters.push(localStorageCharacter);
+						continue;
+					}
+					
+					// Even if localStorage is stale, prefer it over server if server data isn't significantly newer
+					const serverTimestamp = blob.uploadedAt ? new Date(blob.uploadedAt).getTime() : 0;
+					const localTimestamp = localStorageCharacter._lastModified || localStorageCharacter._localVersion || 0;
+					
+					// If server timestamp isn't significantly newer (>1 hour), stick with localStorage
+					if (!serverTimestamp || (localTimestamp > 0 && (serverTimestamp - localTimestamp) < 60 * 60 * 1000)) {
+						console.log(`CharacterManager: Using localStorage over server (server not significantly newer): ${localStorageCharacter.name}`);
+						cachedCharacters.push(localStorageCharacter);
+						continue;
+					}
+					
+					console.log(`CharacterManager: localStorage data is stale (${Math.round(localAge / (60 * 1000))} minutes), will check server: ${localStorageCharacter.name}`);
+				}
+				
+				// SECONDARY SOURCE: In-memory character with local modifications (shouldn't happen but safety net)
+				if (existingCharacter && existingCharacter._isLocallyModified) {
+					console.log(`CharacterManager: Using locally modified in-memory character: ${existingCharacter.name}`);
+					cachedCharacters.push(existingCharacter);
+					continue;
+				}
+				
+				// TERTIARY SOURCE: Blob cache if still fresh (avoid unnecessary network requests)
+				if (cached && cached.character && (now - (cached.lastFetched || 0)) < STALENESS_THRESHOLD) {
+					console.log(`CharacterManager: Using fresh blob cache: ${cached.character.name}`);
 					cachedCharacters.push(cached.character);
 				} else {
-					// Need to fetch this character
+					// LAST RESORT: Need to fetch from server (no localStorage or very stale)
+					console.log(`CharacterManager: Will fetch from server (no localStorage or stale): ${blob.id}`);
 					charactersToFetch.push(blob);
 				}
 			}
@@ -1366,13 +1492,49 @@ class CharacterManager {
 			// Combine cached and newly fetched characters
 			const allCharacters = [...cachedCharacters, ...fetchedCharacters];
 
-			// If no characters found, try localStorage as fallback
-			if (allCharacters.length === 0) {
-				return this._loadFromLocalStorage();
+			// Add any localStorage-only characters that don't have blobs (local-only characters)
+			for (const localChar of localStorageCharacters) {
+				if (localChar && localChar.id) {
+					// Check if this character is already included
+					const alreadyIncluded = allCharacters.some(c => c && c.id === localChar.id);
+					if (!alreadyIncluded) {
+						console.log(`CharacterManager: Adding localStorage-only character: ${localChar.name}`);
+						allCharacters.push(localChar);
+					}
+				}
 			}
 
-			// Process and store all characters
-			return this._processAndStoreCharacters(allCharacters);
+			// If no characters found, try localStorage as fallback
+			if (allCharacters.length === 0) {
+				return this._processAndStoreCharacters(localStorageCharacters, false); // false = not from remote
+			}
+
+			// Process and store all characters, but we need to differentiate between localStorage and remote
+			// Split the characters into localStorage vs remote-fetched
+			const localChars = [];
+			const remoteChars = [];
+			
+			for (const char of cachedCharacters) {
+				if (localStorageCharacters.some(ls => ls.id === char.id)) {
+					localChars.push(char);
+				} else {
+					remoteChars.push(char);
+				}
+			}
+			
+			// Add fetched characters (all remote)
+			remoteChars.push(...fetchedCharacters);
+			
+			// Process remote characters FIRST (so localStorage can override)
+			const remoteProcessed = remoteChars.length > 0 ? this._processAndStoreCharacters(remoteChars, true) : [];
+			
+			// Process localStorage characters LAST (preserves _isLocallyModified flags and takes final precedence)
+			const localProcessed = localChars.length > 0 ? this._processAndStoreCharacters(localChars, false) : [];
+			
+			console.log(`CharacterManager: Processed ${remoteProcessed.length} remote and ${localProcessed.length} local characters`);
+			
+			// Return combined results
+			return [...remoteProcessed, ...localProcessed];
 		} catch (error) {
 			console.error("CharacterManager: Error in _performLoad:", error);
 			// Fallback to localStorage
@@ -1389,6 +1551,7 @@ class CharacterManager {
 	 */
 	static async _getBlobList (sources = null, force = false) {
 		try {
+			// First, always try to use cached blob list if available and not forced
 			const raw = localStorage.getItem(this._LIST_CACHE_KEY);
 			if (raw && !force) {
 				try {
@@ -1403,10 +1566,22 @@ class CharacterManager {
 								return sourceList.includes(source);
 							});
 						}
+						console.log(`CharacterManager: Using cached blob list (${blobs.length} blobs)`);
 						return blobs;
 					}
 				} catch (e) {
 					// Malformed cache, fall through to fetch
+				}
+			}
+			
+			// If we have localStorage characters but no blob list cache, create synthetic blobs
+			// This allows the system to work fully offline with localStorage data
+			const localStorageCharacters = this._loadFromLocalStorage();
+			if (localStorageCharacters.length > 0 && !force) {
+				console.log(`CharacterManager: No blob cache but have ${localStorageCharacters.length} localStorage characters, creating synthetic blobs`);
+				const syntheticBlobs = this._getLocalStorageBlobList(sources);
+				if (syntheticBlobs.length > 0) {
+					return syntheticBlobs;
 				}
 			}
 
@@ -1503,9 +1678,10 @@ class CharacterManager {
 	/**
 	 * Process and store characters, ensuring no duplicates
 	 * @param {Array} characters - Raw character data from API
+	 * @param {boolean} isFromRemote - Whether this data is from remote source
 	 * @returns {Array} Processed characters
 	 */
-	static _processAndStoreCharacters (characters) {
+	static _processAndStoreCharacters (characters, isFromRemote = true) {
 		// Merge incoming characters into the existing cache instead of replacing everything.
 		// This preserves characters that weren't part of this payload (e.g., because we only
 		// fetched a subset of blobs that were stale) so they don't disappear from the UI.
@@ -1521,12 +1697,79 @@ class CharacterManager {
 			if (!character.id) {
 				character.id = this._generateCompositeId(character.name, character.source);
 			}
+			
+			// Check for existing local modifications
+			const existingCharacter = this._characters.get(character.id);
+			if (existingCharacter && existingCharacter._isLocallyModified && isFromRemote) {
+				// We have local changes and this is remote data - handle conflict
+				console.log(`CharacterManager: Conflict detected for ${character.id}: keeping local changes`);
+				this._handleVersionConflict(existingCharacter, character);
+				processedCharacters.push(existingCharacter); // Keep local version
+				continue;
+			}
+
+			// If this is localStorage data and we already have the character in memory, be careful
+			if (!isFromRemote && existingCharacter) {
+				// This is localStorage data - it should take precedence if it's locally modified or newer
+				const shouldUseLocalStorage = character._isLocallyModified || 
+					(character._localVersion && character._localVersion > (existingCharacter._localVersion || 0)) ||
+					(character._lastModified && character._lastModified > (existingCharacter._lastModified || 0));
+					
+				if (!shouldUseLocalStorage) {
+					// Skip this localStorage character if the in-memory one is newer/better
+					console.log(`CharacterManager: Skipping older localStorage data for ${character.name}`);
+					processedCharacters.push(existingCharacter);
+					continue;
+				} else {
+					console.log(`CharacterManager: Using localStorage data over in-memory for ${character.name}`);
+				}
+			}
 
 			// Process character for display
 			const processedCharacter = this._processCharacterForDisplay(character);
+			
+			// Handle version tracking and local modification flags
+			if (isFromRemote) {
+				// This is from remote - update remote version but preserve local changes
+				processedCharacter._remoteVersion = Date.now();
+				// Only mark as not locally modified if it wasn't already marked as such
+				if (!existingCharacter || !existingCharacter._isLocallyModified) {
+					processedCharacter._isLocallyModified = false;
+				} else {
+					// Preserve existing local modification flag
+					processedCharacter._isLocallyModified = existingCharacter._isLocallyModified;
+				}
+			} else {
+				// This is from localStorage - preserve all version tracking flags as-is
+				// This ensures locally modified characters stay marked as such
+				if (character._isLocallyModified !== undefined) {
+					processedCharacter._isLocallyModified = character._isLocallyModified;
+				}
+				if (character._localVersion) {
+					processedCharacter._localVersion = character._localVersion;
+				}
+				if (character._remoteVersion) {
+					processedCharacter._remoteVersion = character._remoteVersion;
+				}
+				if (character._lastModified) {
+					processedCharacter._lastModified = character._lastModified;
+				}
+			}
 
 			// Upsert into the map (replace/update existing or add new)
 			this._characters.set(character.id, processedCharacter);
+			
+			// Debug logging for specific character issues
+			if (character.name && character.name.toLowerCase().includes('garurt')) {
+				console.log(`CharacterManager: Processing ${character.name}:`, {
+					id: character.id,
+					isFromRemote: isFromRemote,
+					_isLocallyModified: processedCharacter._isLocallyModified,
+					_localVersion: processedCharacter._localVersion,
+					_remoteVersion: processedCharacter._remoteVersion,
+					hp: character.hp || 'no HP field'
+				});
+			}
 
 			// Track which characters were part of this update (returned to caller)
 			processedCharacters.push(processedCharacter);
@@ -1561,6 +1804,12 @@ class CharacterManager {
 	static _processCharacterForDisplay (character) {
 		// Clone to avoid modifying original
 		const processed = { ...character };
+
+		// Add version tracking fields if not present
+		if (!processed._localVersion) processed._localVersion = Date.now();
+		if (!processed._remoteVersion) processed._remoteVersion = processed._localVersion;
+		if (!processed._lastModified) processed._lastModified = processed._localVersion;
+		if (processed._isLocallyModified === undefined) processed._isLocallyModified = false;
 
 		// Add computed fields that the filters and display expect
 		if (processed.race) {
@@ -1618,8 +1867,9 @@ class CharacterManager {
 	/**
 	 * Add or update a single character (for editor functionality)
 	 * @param {Object} character - Character data
+	 * @param {boolean} isFromRemote - Whether this update is from remote source
 	 */
-	static addOrUpdateCharacter (character) {
+	static addOrUpdateCharacter (character, isFromRemote = false) {
 		if (!character || !character.name) {
 			console.warn("CharacterManager: Cannot add character without name");
 			return;
@@ -1633,6 +1883,50 @@ class CharacterManager {
 		// Generate composite ID if no ID exists
 		if (!character.id) {
 			character.id = this._generateCompositeId(character.name, character.source);
+		}
+
+		// Handle version tracking for local vs remote changes
+		const now = Date.now();
+		const existingCharacter = this._characters.get(character.id);
+		
+		if (isFromRemote) {
+			// This is from remote - update remote version but preserve local changes
+			if (existingCharacter && existingCharacter._isLocallyModified) {
+				// We have local changes - this needs conflict resolution
+				this._handleVersionConflict(existingCharacter, character);
+				return;
+			} else {
+				// No local changes - safe to update from remote
+				character._remoteVersion = now;
+				character._isLocallyModified = false;
+			}
+		} else {
+			// This is a local change or a synchronized save
+			if (existingCharacter) {
+				// Preserve remote version unless explicitly set
+				if (!character._remoteVersion) {
+					character._remoteVersion = existingCharacter._remoteVersion || now;
+				}
+				// Preserve other version fields unless explicitly set
+				if (!character._localVersion) character._localVersion = now;
+				if (!character._lastModified) character._lastModified = now;
+				if (character._isLocallyModified === undefined) {
+					character._isLocallyModified = true;
+				}
+			} else {
+				// New character
+				if (!character._localVersion) character._localVersion = now;
+				if (!character._remoteVersion) character._remoteVersion = now;
+				if (!character._lastModified) character._lastModified = now;
+				if (character._isLocallyModified === undefined) {
+					character._isLocallyModified = true;
+				}
+			}
+			
+			// Only add to offline queue if we're offline AND it's actually a local modification
+			if (!navigator.onLine && character._isLocallyModified) {
+				this._addToOfflineQueue('update', character);
+			}
 		}
 
 		const processed = this._processCharacterForDisplay(character);
@@ -1654,6 +1948,146 @@ class CharacterManager {
 
 		// Notify listeners
 		this._notifyListeners();
+	}
+
+	/**
+	 * Handle version conflicts between local and remote character data
+	 * @param {Object} localCharacter - Local version with changes
+	 * @param {Object} remoteCharacter - Remote version from server
+	 */
+	static _handleVersionConflict (localCharacter, remoteCharacter) {
+		console.warn(`CharacterManager: Version conflict detected for character ${localCharacter.id}`);
+		
+		// For now, prefer local changes but store conflict info
+		// TODO: Implement proper UI for conflict resolution
+		localCharacter._hasConflict = true;
+		localCharacter._conflictData = {
+			remoteVersion: remoteCharacter,
+			conflictTime: Date.now()
+		};
+		
+		// If a conflict resolver is set, use it
+		if (this._conflictResolver) {
+			try {
+				const resolved = this._conflictResolver(localCharacter, remoteCharacter);
+				if (resolved) {
+					this.addOrUpdateCharacter(resolved, false);
+					return;
+				}
+			} catch (e) {
+				console.warn("CharacterManager: Error in conflict resolver:", e);
+			}
+		}
+		
+		// Default: keep local changes, notify user
+		this._notifyConflict(localCharacter, remoteCharacter);
+	}
+
+	/**
+	 * Add an operation to the offline queue
+	 * @param {string} operation - 'create', 'update', 'delete'
+	 * @param {Object} data - Character data or operation details
+	 */
+	static _addToOfflineQueue (operation, data) {
+		const queueItem = {
+			id: Date.now() + Math.random(), // Simple unique ID
+			operation,
+			data: { ...data },
+			timestamp: Date.now()
+		};
+		
+		this._offlineQueue.push(queueItem);
+		
+		// Persist to localStorage
+		try {
+			localStorage.setItem(this._OFFLINE_QUEUE_KEY, JSON.stringify(this._offlineQueue));
+		} catch (e) {
+			console.warn("CharacterManager: Failed to persist offline queue:", e);
+		}
+	}
+
+	/**
+	 * Process offline queue when coming back online
+	 */
+	static async _processOfflineQueue () {
+		if (this._offlineQueue.length === 0) return;
+		
+		console.log(`CharacterManager: Processing ${this._offlineQueue.length} offline operations`);
+		
+		const failures = [];
+		
+		for (const item of this._offlineQueue) {
+			try {
+				switch (item.operation) {
+					case 'create':
+					case 'update':
+						await this.saveCharacter(item.data, item.operation === 'update');
+						break;
+					case 'delete':
+						// TODO: Implement delete API call
+						console.log('Delete operation queued but not implemented:', item.data.id);
+						break;
+					default:
+						console.warn('Unknown offline operation:', item.operation);
+				}
+			} catch (e) {
+				console.warn(`CharacterManager: Failed to process offline operation ${item.id}:`, e);
+				failures.push(item);
+			}
+		}
+		
+		// Keep failed operations for retry
+		this._offlineQueue = failures;
+		try {
+			localStorage.setItem(this._OFFLINE_QUEUE_KEY, JSON.stringify(this._offlineQueue));
+		} catch (e) {
+			console.warn("CharacterManager: Failed to update offline queue:", e);
+		}
+		
+		if (failures.length === 0) {
+			console.log("CharacterManager: All offline operations processed successfully");
+		} else {
+			console.warn(`CharacterManager: ${failures.length} operations failed, will retry later`);
+		}
+	}
+
+	/**
+	 * Notify about conflicts (placeholder for UI integration)
+	 * @param {Object} localCharacter - Local version
+	 * @param {Object} remoteCharacter - Remote version
+	 */
+	static _notifyConflict (localCharacter, remoteCharacter) {
+		// TODO: Show conflict resolution UI
+		console.warn(`Conflict for character ${localCharacter.name}: Local changes preserved, remote changes available`);
+		
+		// For now, just log the conflict
+		if (typeof JqueryUtil !== "undefined" && JqueryUtil.showCopiedEffect) {
+			// Show a temporary notification if the utility is available
+			JqueryUtil.showCopiedEffect($("body"), `Conflict detected for ${localCharacter.name}`, "warning");
+		}
+	}
+
+	/**
+	 * Load offline queue from localStorage on startup
+	 */
+	static _loadOfflineQueue () {
+		try {
+			const stored = localStorage.getItem(this._OFFLINE_QUEUE_KEY);
+			if (stored) {
+				this._offlineQueue = JSON.parse(stored) || [];
+			}
+		} catch (e) {
+			console.warn("CharacterManager: Failed to load offline queue:", e);
+			this._offlineQueue = [];
+		}
+	}
+
+	/**
+	 * Set a custom conflict resolver function
+	 * @param {Function} resolver - Function(localChar, remoteChar) -> resolvedChar | null
+	 */
+	static setConflictResolver (resolver) {
+		this._conflictResolver = resolver;
 	}
 
 	/**
@@ -1709,13 +2143,44 @@ class CharacterManager {
 			return false;
 		}
 
+		console.log(`CharacterManager: Quick edit for ${character.name}:`, {
+			characterId: characterId,
+			updates: updates,
+			before: {
+				hp: character.hp,
+				_isLocallyModified: character._isLocallyModified,
+				_localVersion: character._localVersion
+			}
+		});
+
+		// Mark as locally modified with version tracking
+		const now = Date.now();
+		character._localVersion = now;
+		character._lastModified = now;
+		character._isLocallyModified = true;
+
 		// Apply updates
 		Object.assign(character, updates);
+		
+		console.log(`CharacterManager: After quick edit for ${character.name}:`, {
+			hp: character.hp,
+			_isLocallyModified: character._isLocallyModified,
+			_localVersion: character._localVersion
+		});
 
 		// Update in array as well
 		const arrayIndex = this._charactersArray.findIndex(c => c.id === characterId);
 		if (arrayIndex >= 0) {
 			Object.assign(this._charactersArray[arrayIndex], updates);
+			// Also update version tracking on array item
+			this._charactersArray[arrayIndex]._localVersion = now;
+			this._charactersArray[arrayIndex]._lastModified = now;
+			this._charactersArray[arrayIndex]._isLocallyModified = true;
+		}
+		
+		// Add to offline queue if we're offline
+		if (!navigator.onLine) {
+			this._addToOfflineQueue('update', character);
 		}
 
 		// Update DataLoader cache
@@ -1723,6 +2188,9 @@ class CharacterManager {
 
 		// Update localStorage cache if this character is currently being edited
 		this._updateLocalStorageCache(character);
+
+		// FORCE complete cache invalidation to ensure UI shows updated data
+		this._invalidateAllCaches();
 
 		// Notify listeners of the update
 		this._notifyListeners();
@@ -1768,6 +2236,47 @@ class CharacterManager {
 	}
 
 	/**
+	 * Force invalidation of all caches to ensure UI shows fresh data
+	 */
+	static _invalidateAllCaches () {
+		try {
+			// Clear DataLoader cache
+			if (typeof DataLoader !== "undefined") {
+				// Force DataLoader to refresh character data
+				const formattedData = { character: [...this._charactersArray] };
+				DataLoader._pCache_addToCache({
+					allDataMerged: formattedData,
+					propAllowlist: new Set(["character"]),
+				});
+			}
+
+			// Clear blob list cache to force fresh metadata fetch
+			try {
+				localStorage.removeItem(this._LIST_CACHE_KEY);
+			} catch (e) {
+				console.warn("CharacterManager: Error clearing blob list cache:", e);
+			}
+
+			// Force refresh of blob cache timestamps
+			for (const [id, cached] of this._blobCache.entries()) {
+				const character = this._characters.get(id);
+				if (character) {
+					// Update with current character data and fresh timestamp
+					this._blobCache.set(id, {
+						...cached,
+						character: character,
+						lastFetched: Date.now(),
+					});
+				}
+			}
+
+			console.log("CharacterManager: Invalidated all caches for fresh display");
+		} catch (e) {
+			console.warn("CharacterManager: Error during cache invalidation:", e);
+		}
+	}
+
+	/**
 	 * Update localStorage cache if this character is currently being edited
 	 * @param {Object} character - Updated character data
 	 */
@@ -1786,9 +2295,10 @@ class CharacterManager {
 			console.warn("CharacterManager: Error updating editingCharacter in localStorage:", e);
 		}
 
-		// Merge the updated character into the full character cache in localStorage instead of overwriting it
+		// ALWAYS update the main character cache in localStorage
+		// This ensures saved characters persist through page refreshes
 		try {
-			// Load existing stored characters (may be empty)
+			// Load existing stored characters
 			const stored = this._loadFromLocalStorage();
 			const mergedMap = new Map();
 
@@ -1803,10 +2313,33 @@ class CharacterManager {
 			}
 
 			// Ensure the recently updated character is included (upsert)
-			if (character && character.id) mergedMap.set(character.id, character);
+			if (character && character.id) {
+				mergedMap.set(character.id, character);
+			}
 
 			const mergedArray = Array.from(mergedMap.values());
+			
+			// Save with proper error handling
 			this._saveToLocalStorage(mergedArray);
+			
+			// Update blob cache with fresh timestamp so loading logic knows this is current
+			if (character && character.id) {
+				const existingBlobCache = this._blobCache.get(character.id);
+				this._blobCache.set(character.id, {
+					blob: existingBlobCache?.blob || { 
+						id: character.id, 
+						url: `localStorage://${character.id}`,
+						lastModified: Date.now(),
+					},
+					character: character,
+					lastFetched: Date.now(), // Mark as fresh
+				});
+			}
+			
+			// Force cache invalidation to ensure UI shows updated data
+			this._invalidateAllCaches();
+			
+			console.log(`CharacterManager: Updated localStorage cache and blob cache for character ${character.name} (${character.id})`);
 		} catch (e) {
 			console.warn("CharacterManager: Error merging character into localStorage cache:", e);
 		}
@@ -2010,9 +2543,16 @@ class CharacterManager {
 			if (response.ok) {
 				const saveResult = await response.json();
 
-				// Update local cache - the local copy is already correct after save
+				// Mark the character as synchronized (saved to server)
+				const now = Date.now();
 				characterData.id = characterId;
-				this.addOrUpdateCharacter(characterData);
+				characterData._localVersion = now;
+				characterData._remoteVersion = now;
+				characterData._lastModified = now;
+				characterData._isLocallyModified = false; // Now synchronized
+				
+				// Update local cache - this is NOT from remote, it's our own save
+				this.addOrUpdateCharacter(characterData, false);
 
 				// Update blob cache with the fresh blob info from save result
 				if (saveResult.blob) {
@@ -2329,8 +2869,8 @@ class CharacterManager {
 				return;
 			}
 
-			// Use provided signalingUrl (prefer ws://) or manual flow with optional in-browser TURN key.
-			CharacterP2P.init(opts);
+			// CharacterP2P.init() doesn't take parameters - it uses Cloudflare workers
+			CharacterP2P.init();
 		} catch (e) {
 			console.warn("CharacterManager: p2pInit failed", e);
 		}

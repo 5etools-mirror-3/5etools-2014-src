@@ -100,6 +100,13 @@ class CharactersPage extends ListPageMultiSource {
 		return [];
 	}
 
+	// Override the entire data loading process to use CharacterManager
+	async _pOnLoad_pGetData () {
+		// Skip the traditional source-based loading entirely for characters
+		// We handle character loading in _pOnLoad_pPreDataLoad via CharacterManager
+		return {};
+	}
+
 	// Override source loading since all characters come from API
 	async _pLoadSource (src, nextFilterVal) {
 		// Characters don't use traditional source loading
@@ -308,11 +315,13 @@ class CharactersPage extends ListPageMultiSource {
 
 	async _updateEditButtonVisibility (character) {
 		const $editBtn = $("#btn-edit-character");
+		const $loginBtn = $("#btn-login-to-edit");
 		const characterSource = character.source.toLowerCase();
 
 		if (!characterSource || characterSource === "Unknown" || characterSource === "") {
-			// No source specified, hide edit button
+			// No source specified, hide edit button and show login button
 			$editBtn.hide();
+			$loginBtn.show();
 			return;
 		}
 
@@ -320,12 +329,14 @@ class CharactersPage extends ListPageMultiSource {
 		const cachedPassword = this._getCachedPassword(characterSource);
 
 		if (cachedPassword) {
-			// User has access, show edit button
+			// User has access, show edit button and hide login button
 			$editBtn.show();
 			$editBtn.attr("title", `Edit character from source: ${characterSource}`);
+			$loginBtn.hide();
 		} else {
-			// No access, hide edit button
+			// No access, hide edit button and show login button
 			$editBtn.hide();
+			$loginBtn.show();
 		}
 	}
 

@@ -6963,17 +6963,6 @@ globalThis.DataUtil = class {
 					if (globalThis.CharacterManager) {
 						const characters = await globalThis.CharacterManager.loadCharacters();
 						return {character: characters};
-					} else {
-						// Fallback to direct API call if CharacterManager not available
-						const response = await fetch("/api/characters/load");
-						if (!response.ok) {
-							console.warn("Failed to load characters from API, returning empty array");
-							return {character: []};
-						}
-						const characters = await response.json();
-						// Ensure each character has the __prop set
-						characters.forEach(it => it.__prop = "character");
-						return {character: characters};
 					}
 				} catch (error) {
 					console.error("Error loading characters:", error);
@@ -6985,7 +6974,8 @@ globalThis.DataUtil = class {
 
 		// Override methods that would try to load from files
 		static async pLoadIndex () {
-			console.warn("Character index loading disabled - characters are loaded from API");
+			// Characters don't use traditional file-based loading
+			// They're loaded via CharacterManager from API/localStorage
 			return {};
 		}
 

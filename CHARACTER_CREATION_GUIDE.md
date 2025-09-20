@@ -447,9 +447,138 @@ Common source abbreviations:
 
 ---
 
+## Enhanced Race and Background Integration
+
+The character sheet system now automatically applies race and background features:
+
+### **Race Features (Auto-Applied)**
+
+**Skill Bonuses:**
+- **Half-Elf**: Choose any 2 skills
+- **Variant Human/Custom Lineage**: Choose any 1 skill
+- **All Elves**: Proficiency in Perception (Keen Senses)
+
+**Natural Armor AC:**
+- **Dragonborn**: 13 + Dex modifier
+- **Lizardfolk**: 13 + Dex modifier  
+- **Tortle**: Base AC 17 (no Dex bonus)
+- **Warforged**: 11 + Dex modifier
+- **Loxodon**: 12 + Con modifier
+
+**Damage Resistances:**
+- **Tiefling**: Fire resistance
+- **Dragonborn**: Resistance based on draconic ancestry
+- **Dwarf**: Poison resistance
+
+**Speed Modifications:**
+- **Wood Elf**: 35 feet (Fleet of Foot)
+- **Aarakocra**: 25 feet walk, 50 feet fly
+
+### **Background Features (Auto-Applied)**
+
+The system automatically grants skill proficiencies from backgrounds:
+
+```json
+{
+  "background": {
+    "name": "Acolyte",
+    "source": "PHB"
+  }
+}
+```
+
+**Common Backgrounds:**
+- **Acolyte**: Insight, Religion + 2 languages
+- **Criminal**: Deception, Stealth + Thieves' Tools
+- **Folk Hero**: Animal Handling, Survival + Smith's Tools
+- **Noble**: History, Persuasion + Gaming Set + 1 language
+- **Sage**: Arcana, History + 2 languages
+- **Soldier**: Athletics, Intimidation + Gaming Set, Vehicles (Land)
+
+### **Enhanced Spellcasting Calculations**
+
+Spell Save DC and Attack Bonuses are now calculated automatically:
+
+```json
+{
+  "class": [{"name": "Wizard", "level": 3}],
+  "int": 16,
+  "proficiencyBonus": "+2"
+}
+```
+
+**Results in:**
+- **Spell Save DC**: 8 + 2 (prof) + 3 (Int mod) = **13**
+- **Spell Attack**: +2 (prof) + 3 (Int mod) = **+5**
+
+**Spellcasting Abilities by Class:**
+- **Intelligence**: Artificer, Wizard
+- **Wisdom**: Cleric, Druid, Ranger  
+- **Charisma**: Bard, Paladin, Sorcerer, Warlock
+
+**Half/Third Casters:**
+- **Paladin/Ranger**: Use half their class level
+- **Artificer**: Uses half class level (rounded up)
+
+### ### **Class-Specific Features**
+
+**Ranger Natural Explorer:**
+- Double proficiency bonus on Survival checks in favored terrain
+
+**Rogue Reliable Talent (Level 11+):**
+- Treat d20 rolls of 9 or lower as 10 for ability checks with proficiency
+
+### **Automatic Calculation Features**
+
+The character sheet now performs comprehensive calculations automatically:
+
+**Initiative Bonuses:**
+- Dexterity modifier (standard)
+- Alert feat: +5 bonus
+- Jack of All Trades (Bard): +half proficiency to initiative
+- Remarkable Athlete (Fighter): +half proficiency to Dexterity checks
+
+**Armor Class Calculations:**
+- Base AC: 10 + Dex modifier
+- Natural Armor: Dragonborn/Lizardfolk (13 + Dex), Tortle (17), etc.
+- Unarmored Defense: Barbarian (10 + Dex + Con), Monk (10 + Dex + Wis)
+- Draconic Resilience: Sorcerer Draconic Bloodline (13 + Dex)
+- Shield bonuses automatically added
+
+**Complete Proficiency System:**
+- Base skill proficiencies from class/background/race
+- Expertise doubling (Rogue, Bard, Ranger)  
+- Jack of All Trades half-proficiency (Bard level 2+)
+- Visual indicators: ◉ (proficient), ★ (expertise), ◐ (Jack of All Trades)
+- Enhanced tooltips showing calculation breakdown
+
+**Spell Save DC & Attack Bonuses:**
+- Automatically calculated: 8 + proficiency + spellcasting ability modifier
+- Class-specific spellcasting abilities determined automatically
+- Half/third caster progression handled correctly
+
 ## 7. Skills and Proficiencies
 
-### Skill Proficiencies
+### New Recommended System: Skill Proficiencies Array
+
+Use the `skillProficiencies` array for better automation:
+
+```json
+"skillProficiencies": [
+  "athletics", "stealth", "perception", "insight"
+],
+"expertise": [
+  "stealth", "perception"
+]
+```
+
+**Benefits:**
+- Automatically calculates skill bonuses based on ability scores and proficiency
+- Supports Jack of All Trades for bards (half proficiency on non-proficient skills)
+- Handles expertise (double proficiency) properly
+- Visual indicators: ◉ (proficient), ★ (expertise), ◐ (Jack of All Trades)
+
+### Legacy System: Pre-calculated Skill Bonuses
 
 ```json
 "skill": {
@@ -479,6 +608,8 @@ Common source abbreviations:
 **Base Formula:** Ability Modifier + Proficiency Bonus (if proficient)
 
 **Expertise:** Double proficiency bonus
+
+**Jack of All Trades (Bard Level 2+):** Half proficiency bonus on non-proficient ability checks
 
 **Examples:**
 - **Athletics** (STR-based): STR mod (+3) + Prof (+3) = +6

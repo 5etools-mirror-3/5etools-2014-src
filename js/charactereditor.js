@@ -601,6 +601,7 @@ class CharacterEditorPage {
 
 			// Initialize arrays if not present
 			if (!characterData.skillProficiencies) characterData.skillProficiencies = [];
+			if (!characterData.expertise) characterData.expertise = [];
 			if (!characterData.toolProficiencies) characterData.toolProficiencies = [];
 
 			// Apply skill proficiencies from background data
@@ -2423,6 +2424,7 @@ class CharacterEditorPage {
 			// Apply skill proficiencies from background
 			if (backgroundInfo.skillProficiencies) {
 				if (!characterTemplate.skillProficiencies) characterTemplate.skillProficiencies = [];
+				if (!characterTemplate.expertise) characterTemplate.expertise = [];
 
 				backgroundInfo.skillProficiencies.forEach(profSet => {
 					Object.entries(profSet).forEach(([skill, isProficient]) => {
@@ -12418,9 +12420,167 @@ class CharacterEditorPage {
 	}
 
 	showExpertiseChoiceModal(feature, featureData) {
-		// This would show skills available for expertise
-		// For now, just show a generic choice modal
-		this.showGenericFeatureChoiceModal(featureData);
+		// Show skills available for expertise selection
+		let character;
+		try {
+			character = JSON.parse(this.ace.getValue());
+		} catch (e) {
+			console.error('Could not parse character data', e);
+			return;
+		}
+
+		// Get skills the character is proficient in (expertise requires proficiency first)
+		const availableSkills = character.skillProficiencies || [];
+		
+		// Remove skills already with expertise
+		const skillsForExpertise = availableSkills.filter(skill => 
+			!character.expertise.includes(skill)
+		);
+
+		if (skillsForExpertise.length === 0) {
+			// No skills available for expertise
+			const {$modalInner, doClose} = UiUtil.getShowModal({
+				title: "Expertise Selection",
+				isMinHeight0: true,
+			});
+
+			$modalInner.html(`
+				<div class="text-warning">
+					<p>No skills are available for expertise. You must be proficient in a skill before gaining expertise in it.</p>
+				</div>
+			`);
+			return;
+		}
+
+		// Determine how many skills to choose
+		let choiceCount = 2; // Default for Rogue/Bard expertise
+		if (feature.entries) {
+			const entriesText = JSON.stringify(feature.entries);
+			if (entriesText.includes('two of your skill proficiencies')) {
+				choiceCount = 2;
+			} else if (entriesText.includes('one of your skill proficiencies')) {
+				choiceCount = 1;
+			}
+		}
+
+		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+			title: "Choose Skills for Expertise",
+			isMinHeight0: true,
+		});
+
+		$modalInner.html(`
+			<div>
+				<p class="mb-3">Choose <strong>${choiceCount}</strong> skill${choiceCount > 1 ? 's' : ''} to gain expertise in (double proficiency bonus):</p>
+				<div class="row" id="expertiseSkillsContainer">
+					${skillsForExpertise.map(skill => `
+						<div class="col-md-6 mb-2">
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="expertise_${skill}" value="${skill}">
+								<label class="form-check-label" for="expertise_${skill}">
+									${skill}
+								</label>
+							</div>
+						</div>
+					`).join('')}
+				</div>
+				<div id="expertiseSelectionError" class="text-danger mt-2 d-none">
+					Please select exactly ${choiceCount} skill${choiceCount > 1 ? 's' : ''}.
+				</div>
+			</div>
+		`);
+
+		// Add footer buttons
+		const $btnCancel = $('<button class="btn btn-default mr-2">Cancel</button>').click(() => doClose());
+		const $btnConfirm = $('<button class="btn btn-primary">Confirm Selection</button>').click(() => {
+			const selectedSkills = [];
+			$modalInner.find('#expertiseSkillsContainer input[type="checkbox"]:checked').each((i, cb) => {
+				selectedSkills.push($(cb).val());
+			});
+
+			const errorDiv = $modalInner.find('#expertiseSelectionError')[0];
+			if (selectedSkills.length !== choiceCount) {
+				$(errorDiv).removeClass('d-none');
+				return;
+			}
+
+			// Add selected skills to expertise array
+			if (!character.expertise) character.expertise = [];
+			selectedSkills.forEach(skill => {
+				if (!character.expertise.includes(skill)) {
+					character.expertise.push(skill);
+				}
+			});
+
+			// Update the character data in the editor
+			this.ace.setValue(JSON.stringify(character, null, 2));
+
+			console.log(`Added expertise in: ${selectedSkills.join(', ')}`);
+			doClose();
+		});
+
+		$modalFooter.append($btnCancel).append($btnConfirm);
+	}
+
+	showSkillChoiceModal(choiceData, title, onConfirm) {
+		// Show a modal for choosing skills from a list
+		const count = choiceData.count || 1;
+		const availableSkills = choiceData.from || [];
+
+		if (availableSkills.length === 0) {
+			console.warn('No skills available for choice');
+			return;
+		}
+
+		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+			title: `${title} Choice`,
+			isMinHeight0: true,
+		});
+
+		$modalInner.html(`
+			<div>
+				<p class="mb-3">Choose <strong>${count}</strong> skill${count > 1 ? 's' : ''}:</p>
+				<div class="row" id="skillChoiceContainer">
+					${availableSkills.map(skill => `
+						<div class="col-md-6 mb-2">
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" id="choice_${skill}" value="${skill}">
+								<label class="form-check-label" for="choice_${skill}">
+									${skill}
+								</label>
+							</div>
+						</div>
+					`).join('')}
+				</div>
+				<div id="skillChoiceError" class="text-danger mt-2 d-none">
+					Please select exactly ${count} skill${count > 1 ? 's' : ''}.
+				</div>
+			</div>
+		`);
+
+		// Add footer buttons
+		const $btnCancel = $('<button class="btn btn-default mr-2">Cancel</button>').click(() => doClose());
+		const $btnConfirm = $('<button class="btn btn-primary">Confirm Selection</button>').click(() => {
+			const selectedSkills = [];
+			$modalInner.find('#skillChoiceContainer input[type="checkbox"]:checked').each((i, cb) => {
+				selectedSkills.push($(cb).val());
+			});
+
+			const errorDiv = $modalInner.find('#skillChoiceError')[0];
+			if (selectedSkills.length !== count) {
+				$(errorDiv).removeClass('d-none');
+				return;
+			}
+
+			// Call the callback with selected skills
+			if (onConfirm) {
+				onConfirm(selectedSkills);
+			}
+
+			console.log(`Selected ${title}: ${selectedSkills.join(', ')}`);
+			doClose();
+		});
+
+		$modalFooter.append($btnCancel).append($btnConfirm);
 	}
 
 	showManeuverChoiceModal(feature, featureData) {
@@ -14817,18 +14977,22 @@ class CharacterEditorPage {
 				if (typeof skillEntry === 'string') {
 					// Direct skill name - just add to proficiencies array, no calculated values
 					if (!character.skillProficiencies) character.skillProficiencies = [];
+					if (!character.expertise) character.expertise = [];
 					if (!character.skillProficiencies.includes(skillEntry)) {
 						character.skillProficiencies.push(skillEntry);
 					}
 				} else if (skillEntry.choose && skillEntry.choose.from) {
-					// Choose X from Y format - for simplicity, take the first ones
-					const count = skillEntry.choose.count || 1;
-					const available = skillEntry.choose.from.slice(0, count);
-					available.forEach(skill => {
-						if (!character.skillProficiencies) character.skillProficiencies = [];
-						if (!character.skillProficiencies.includes(skill)) {
-							character.skillProficiencies.push(skill);
-						}
+					// Show user choice modal for skill proficiency selection
+					this.showSkillChoiceModal(skillEntry.choose, 'Skill Proficiency', (selectedSkills) => {
+						selectedSkills.forEach(skill => {
+							if (!character.skillProficiencies) character.skillProficiencies = [];
+							if (!character.expertise) character.expertise = [];
+							if (!character.skillProficiencies.includes(skill)) {
+								character.skillProficiencies.push(skill);
+							}
+						});
+						// Update character data in editor
+						this.ace.setValue(JSON.stringify(character, null, 2));
 					});
 				}
 			});
@@ -17178,17 +17342,10 @@ class CharacterEditorPage {
 
 	characterHasSkillExpertise(character, skillName) {
 		// Check if character has expertise in a skill (doubles proficiency bonus)
-		// This would need to be implemented based on how expertise is stored
-		// For now, check for rogue's "Expertise" feature or similar
-		if (character.feature) {
-			return character.feature.some(feature =>
-				feature.name === 'Expertise' &&
-				feature.entries.some(entry =>
-					typeof entry === 'string' && entry.toLowerCase().includes(skillName.toLowerCase())
-				)
-			);
-		}
-		return false;
+		if (!character.expertise) return false;
+		
+		// Check if skill is in the expertise array
+		return character.expertise.includes(skillName);
 	}
 
 	async characterHasSavingThrowProficiency(character, ability) {
@@ -18428,6 +18585,7 @@ class CharacterEditorPage {
 
 			// Initialize character proficiencies if not present
 			if (!characterData.skillProficiencies) characterData.skillProficiencies = [];
+			if (!characterData.expertise) characterData.expertise = [];
 			if (!characterData.toolProficiencies) characterData.toolProficiencies = [];
 			if (!characterData.languageProficiencies) characterData.languageProficiencies = [];
 			if (!characterData.startingEquipment) characterData.startingEquipment = [];
