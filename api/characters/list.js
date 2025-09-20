@@ -2,28 +2,25 @@ import { list } from "@vercel/blob";
 import { getCachedBlobs, setCachedBlobs, isFresh } from "./cache.js";
 
 export default async function handler (req, res) {
-	// Enable CORS - Set headers for all requests including preflight
-	res.setHeader("Access-Control-Allow-Origin", "*");
-	res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-	res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With, Accept, Origin, X-CSRF-Token, X-Api-Version");
-	res.setHeader("Access-Control-Max-Age", "86400"); // Cache preflight for 24 hours
+	try {
+		// Set CORS headers first - exactly like save.js but without credentials
+		res.setHeader("Access-Control-Allow-Origin", "*");
+		res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
+		res.setHeader("Access-Control-Allow-Headers", "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version");
 
-	// Handle preflight OPTIONS request
-	if (req.method === "OPTIONS") {
-		res.status(200).end();
-		return;
-	}
+		// Handle preflight
+		if (req.method === "OPTIONS") {
+			return res.status(200).end();
+		}
 
-	// Cache at edge for 1 hour (3600 seconds) - only for non-OPTIONS requests
-	res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=3600");
-	// Optional: Add ETag for better cache validation
-	res.setHeader("ETag", `"characters-${Date.now()}"`);
-	// Optional: Add Vary header if response varies by headers
-	res.setHeader("Vary", "Accept-Encoding");
+		// Cache headers
+		res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=3600");
+		res.setHeader("ETag", `"characters-${Date.now()}"`);
+		res.setHeader("Vary", "Accept-Encoding");
 
-	if (req.method !== "GET") {
-		return res.status(405).json({ error: "Method not allowed" });
-	}
+		if (req.method !== "GET") {
+			return res.status(405).json({ error: "Method not allowed" });
+		}
 
 	try {
 		let characters = [];
