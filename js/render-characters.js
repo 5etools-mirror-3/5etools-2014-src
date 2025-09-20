@@ -105,7 +105,11 @@ export class RenderCharacters {
 	static _getRenderedSection_stats (character) {
 		const acText = character.ac
 			? character.ac.map(it => `${it.ac}${it.from ? ` (${it.from.join(", ")})` : ""}`).join(", ")
-			: "Unknown";
+			: (() => {
+				// Calculate AC using D&D 5e rules when missing
+				const acData = Renderer.character._getCharacterAC(character);
+				return acData ? `${acData.ac}${acData.source ? ` (${acData.source})` : ""}` : "Unknown";
+			})();
 
 		const hpText = character.hp
 			? `${character.hp.average}${character.hp.formula ? ` (${character.hp.formula})` : ""}`

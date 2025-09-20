@@ -3200,7 +3200,7 @@ Renderer.utils = class {
 	static getNameTr (ent, opts) {
 		opts = opts || {};
 
-		const name = ent._displayName || ent.name;
+		const name = ent._displayName || ent.name || "Unknown";
 		const pageLinkPart = SourceUtil.getAdventureBookSourceHref(ent.source, ent.page);
 
 		let dataPart = `data-name="${name.qq()}"`;
@@ -8500,6 +8500,155 @@ Renderer.character = class {
 	}
 
 	/**
+	 * Calculate AC for character using D&D 5e rules when AC is missing from sheet
+	 * @param {Object} character - The character data object
+	 * @returns {Object|null} AC data with ac value and source, or null if can't calculate
+	 */
+	static _getCharacterAC (character) {
+		if (!character) return null;
+
+		// If character already has AC, use it
+		if (character.ac) {
+			const acValue = Array.isArray(character.ac) ? character.ac[0].ac : character.ac;
+			const acSource = Array.isArray(character.ac) && character.ac[0].from ? character.ac[0].from.join(", ") : "";
+			return { ac: acValue, source: acSource };
+		}
+
+		// Calculate AC using D&D 5e rules
+		const dexMod = Math.floor(((character.dex || 10) - 10) / 2);
+		const conMod = Math.floor(((character.con || 10) - 10) / 2);
+		const wisMod = Math.floor(((character.wis || 10) - 10) / 2);
+
+		// Check for class-specific unarmored defense
+		if (character.class && Array.isArray(character.class)) {
+			for (const cls of character.class) {
+				if (cls.name === "Barbarian") {
+					// Barbarian Unarmored Defense: 10 + Dex + Con
+					return { ac: 10 + dexMod + conMod, source: "Unarmored Defense (Barbarian)" };
+				}
+				if (cls.name === "Monk") {
+					// Monk Unarmored Defense: 10 + Dex + Wis
+					return { ac: 10 + dexMod + wisMod, source: "Unarmored Defense (Monk)" };
+				}
+			}
+		}
+
+		// Check for natural armor from race
+		if (character.race && character.race.name) {
+			const naturalArmorRaces = {
+				"Dragonborn": 13 + dexMod,
+				"Lizardfolk": 13 + dexMod,
+				"Tortle": 17,
+				"Warforged": 11 + dexMod,
+				"Loxodon": 12 + conMod,
+				"Centaur": 10 + dexMod // Same as unarmored but explicitly natural
+			};
+			
+			if (naturalArmorRaces[character.race.name]) {
+				const naturalAC = naturalArmorRaces[character.race.name];
+				const baseAC = 10 + dexMod;
+				if (naturalAC > baseAC) {
+					return { ac: naturalAC, source: "Natural Armor" };
+				}
+			}
+		}
+
+		// Check for common armor if items/equipment are listed
+		let bestArmorAC = { ac: 10 + dexMod, source: "Unarmored" };
+		let hasShield = false;
+		
+		// Look for armor in various possible locations
+		const armorSources = [
+			character.item || [],
+			character.items || [],
+			...(character.entries || []).filter(e => e.name === "Items" || e.name === "Equipment").flatMap(e => e.entries || [])
+		];
+
+		for (const items of armorSources) {
+			if (Array.isArray(items)) {
+				for (const item of items) {
+					const itemName = typeof item === 'string' ? item : item.name || '';
+					const armorAC = this._getArmorAC(itemName, dexMod);
+					if (armorAC) {
+						if (armorAC.isShield) {
+							hasShield = true;
+						} else if (armorAC.ac > bestArmorAC.ac) {
+							bestArmorAC = armorAC;
+						}
+					}
+				}
+			}
+		}
+
+		// Add shield bonus if present
+		if (hasShield) {
+			bestArmorAC.ac += 2;
+			bestArmorAC.source = bestArmorAC.source + ", Shield";
+		}
+
+		return bestArmorAC;
+	}
+
+	/**
+	 * Get AC calculation for common armor types
+	 * @param {string} itemName - Name of the armor item
+	 * @param {number} dexMod - Dexterity modifier
+	 * @returns {Object|null} AC data or null if not armor
+	 */
+	static _getArmorAC (itemName, dexMod) {
+		if (!itemName || typeof itemName !== 'string') return null;
+		
+		const item = itemName.toLowerCase().replace(/[{}@|]/g, ''); // Clean 5etools tags
+		
+		// Light Armor (AC = base + Dex mod)
+		if (item.includes('leather armor') || item.includes('padded armor')) {
+			return { ac: 11 + dexMod, source: "Leather Armor" };
+		}
+		if (item.includes('studded leather')) {
+			return { ac: 12 + dexMod, source: "Studded Leather" };
+		}
+		
+		// Medium Armor (AC = base + Dex mod, max 2)
+		const mediumDexMod = Math.min(dexMod, 2);
+		if (item.includes('hide armor')) {
+			return { ac: 12 + mediumDexMod, source: "Hide Armor" };
+		}
+		if (item.includes('chain shirt')) {
+			return { ac: 13 + mediumDexMod, source: "Chain Shirt" };
+		}
+		if (item.includes('scale mail')) {
+			return { ac: 14 + mediumDexMod, source: "Scale Mail" };
+		}
+		if (item.includes('breastplate')) {
+			return { ac: 14 + mediumDexMod, source: "Breastplate" };
+		}
+		if (item.includes('half plate')) {
+			return { ac: 15 + mediumDexMod, source: "Half Plate" };
+		}
+		
+		// Heavy Armor (AC = base, no Dex)
+		if (item.includes('ring mail')) {
+			return { ac: 14, source: "Ring Mail" };
+		}
+		if (item.includes('chain mail')) {
+			return { ac: 16, source: "Chain Mail" };
+		}
+		if (item.includes('splint armor') || item.includes('splint')) {
+			return { ac: 17, source: "Splint Armor" };
+		}
+		if (item.includes('plate armor') || item.includes('plate')) {
+			return { ac: 18, source: "Plate Armor" };
+		}
+		
+		// Shields (+2 AC)
+		if (item.includes('shield')) {
+			return { ac: 2, source: "Shield", isShield: true };
+		}
+		
+		return null;
+	}
+
+	/**
 	 * Check if character has proficiency in a given skill
 	 * @param {Object} character - The character data object
 	 * @param {Object} skill - The skill definition with key and name properties
@@ -8618,10 +8767,10 @@ Renderer.character = class {
 		// Combat Stats - Compact inline format
 		const combatStats = [];
 
-		if (character.ac) {
-			const acValue = Array.isArray(character.ac) ? character.ac[0].ac : character.ac;
-			const acSource = Array.isArray(character.ac) && character.ac[0].from ? ` (${character.ac[0].from.join(", ")})` : "";
-			combatStats.push(`<strong>AC</strong>: ${acValue}${acSource}`);
+		// Always show AC - calculate it if missing from character sheet
+		const acData = Renderer.character._getCharacterAC(character);
+		if (acData) {
+			combatStats.push(`<strong>AC</strong>: ${acData.ac}${acData.source ? ` (${acData.source})` : ""}`);
 		}
 
 		if (character.hp) {
