@@ -258,11 +258,15 @@ class CharacterEditorPage {
 				const $bg = $modalInner.find('#lvl0-background');
 				// Add races
 				races.forEach(r => {
-					$race.append(`<option value="${r.name}">${r.name} (${r.source || ''})</option>`);
+					// Include both name and source in the value, separated by a delimiter
+					const raceValue = `${r.name}|${r.source || 'PHB'}`;
+					$race.append(`<option value="${raceValue}">${r.name} (${r.source || 'PHB'})</option>`);
 				});
 				// If URL forced race exists, select it; otherwise ensure Random is selected
 				if (this.level0WizardData?.race) {
-					$race.val(this.level0WizardData.race);
+					// Convert race object back to "name|source" format for dropdown
+					const raceValue = `${this.level0WizardData.race.name}|${this.level0WizardData.race.source}`;
+					$race.val(raceValue);
 				} else {
 					$race.val(''); // Explicitly select the "-- Random --" option
 				}
@@ -288,8 +292,15 @@ class CharacterEditorPage {
 			const selectedAl = $modalInner.find('#lvl0-alignment').val();
 			
 			// Convert race name to full race object
-			if (selectedRace) {
-				this.level0WizardData.race = await this.generateForcedRace(selectedRace);
+			if (selectedRace && selectedRace !== '') {
+				// Parse the race value which now contains "name|source"
+				const [raceName, raceSource] = selectedRace.split('|');
+				console.log(`Selected race: ${raceName} from ${raceSource}`);
+				
+				this.level0WizardData.race = {
+					name: raceName,
+					source: raceSource
+				};
 			} else {
 				// User selected random - clear any previously set race
 				this.level0WizardData.race = null;
@@ -10838,15 +10849,16 @@ class CharacterEditorPage {
 			console.log('Generated character race:', baseCharacter.race);
 			
 			// If race is still empty, manually set it from our selection
-			if ((!baseCharacter.race || !baseCharacter.race[0] || !baseCharacter.race[0].name) && raceForGeneration) {
+			if ((!baseCharacter.race || !baseCharacter.race.name) && raceForGeneration) {
 				console.log('Race missing from generated character, manually setting it...');
 				const raceData = await this.loadRaceData(raceForGeneration.name, raceForGeneration.source);
 				if (raceData) {
-					baseCharacter.race = [{
+					// Set race as object (not array) to match expected structure
+					baseCharacter.race = {
 						name: raceData.name,
 						source: raceData.source,
 						displayText: raceData.name
-					}];
+					};
 					
 					// Apply race stats
 					baseCharacter.size = raceData.size || "M";
@@ -10868,7 +10880,7 @@ class CharacterEditorPage {
 				});
 				
 				// Apply racial ability score bonuses to user's base scores
-				if (baseCharacter.race?.[0] && raceForGeneration) {
+				if (baseCharacter.race && raceForGeneration) {
 					const raceData = await this.loadRaceData(raceForGeneration.name, raceForGeneration.source);
 					if (raceData?.ability) {
 						raceData.ability.forEach(abilityData => {
