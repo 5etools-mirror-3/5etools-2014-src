@@ -205,12 +205,13 @@ class CharacterEditorPage {
 		// Don't render character yet - wait for wizard completion
 		console.log('Level 0 placeholder created, waiting for wizard completion...');
 
-		// Prompt the user to pick background and alignment before starting the wizard
-		const { $modalInner, $modalFooter, doClose } = UiUtil.getShowModal({
-			title: 'Level 0 - Initial Choices',
-			hasFooter: true,
-			isWidth100: false
-		});
+	// Prompt the user to pick background and alignment before starting the wizard
+	const { $modalInner, $modalFooter, doClose } = UiUtil.getShowModal({
+		title: 'Level 0 - Initial Choices',
+		hasFooter: true,
+		isWidth100: false,
+		isPermanent: true
+	});
 
 		// Populate dynamically from data files
 		$modalInner.html(`
@@ -2565,7 +2566,7 @@ class CharacterEditorPage {
 	}
 
 	async getSpellsForClass(className, subclass = null) {
-		// Load all spells for now - this will be enhanced with proper class spell lists later
+		// Load all spells
 		const spellData = await this.loadSpellData();
 		const allSpells = Object.values(spellData);
 
@@ -2581,6 +2582,22 @@ class CharacterEditorPage {
 		// Apply subclass restrictions for arcane subclasses
 		if (subclass && this.isSubclassCaster(className, subclass)) {
 			filteredSpells = this.filterSpellsForSubclass(filteredSpells, className, subclass);
+		} else {
+			// Filter by class spell list
+			filteredSpells = filteredSpells.filter(spell => {
+				if (!spell.classes || !spell.classes.fromClassList) return false;
+				return spell.classes.fromClassList.some(cls => 
+					cls.name === className ||
+					(className === 'Bard' && cls.name === 'Bard') ||
+					(className === 'Cleric' && cls.name === 'Cleric') ||
+					(className === 'Druid' && cls.name === 'Druid') ||
+					(className === 'Paladin' && cls.name === 'Paladin') ||
+					(className === 'Ranger' && cls.name === 'Ranger') ||
+					(className === 'Sorcerer' && cls.name === 'Sorcerer') ||
+					(className === 'Warlock' && cls.name === 'Warlock') ||
+					(className === 'Wizard' && cls.name === 'Wizard')
+				);
+			});
 		}
 
 		return filteredSpells;
@@ -2861,7 +2878,20 @@ class CharacterEditorPage {
 
 			<div class="row">
 				${Object.entries(spellsByLevel).map(([level, spells]) => {
-					if (parseInt(level) > Math.ceil(classLevel / 2)) return ''; // Don't show spells too high level
+					const spellLevelInt = parseInt(level);
+					
+					// More flexible spell level access based on class type
+					let maxSpellLevel;
+					if (['Wizard', 'Sorcerer', 'Bard', 'Cleric', 'Druid', 'Warlock'].includes(className)) {
+						// Full casters get spell levels based on character level
+						maxSpellLevel = Math.ceil(classLevel / 2);
+					} else {
+						// Half and third casters have different progressions
+						maxSpellLevel = Math.floor((classLevel - 1) / 4) + 1;
+					}
+					
+					// Always show cantrips, but limit other spell levels appropriately
+					if (spellLevelInt > 0 && spellLevelInt > maxSpellLevel) return '';
 
 					const levelName = level === '0' ? 'Cantrips' : `Level ${level}`;
 					const maxForLevel = maxSpells[level] || 0;
@@ -2879,8 +2909,10 @@ class CharacterEditorPage {
 										<div class="form-check">
 											<input class="form-check-input spell-checkbox"
 												type="checkbox"
+												value="${spell.name}"
 												data-spell-level="${level}"
 												data-spell-name="${spell.name}"
+												data-spell-source="${spell.source || 'PHB'}"
 												data-max-for-level="${maxForLevel}"
 												id="spell-${spell.name.replace(/\s+/g, '-')}">
 											<label class="form-check-label" for="spell-${spell.name.replace(/\s+/g, '-')}">
@@ -2928,6 +2960,9 @@ class CharacterEditorPage {
 
 		// Set up event handlers for spell selection
 		this.setupSpellSelectionHandlers($modalInner);
+
+		// Pre-select existing spells if this is a level up scenario
+		this.preselectExistingSpells($modalInner, characterTemplate);
 	}
 
 	async getMaxSpellsForClassLevel(className, level, subclass = null) {
@@ -3217,14 +3252,39 @@ class CharacterEditorPage {
 		});
 	}
 
+	preselectExistingSpells($modal, character) {
+		// If character already has spells, pre-select them in the modal
+		if (!character.spells || !character.spells.levels) return;
+
+		Object.entries(character.spells.levels).forEach(([level, levelData]) => {
+			if (levelData.spells && Array.isArray(levelData.spells)) {
+				levelData.spells.forEach(spell => {
+					// Handle both string and object spell formats
+					const spellName = typeof spell === 'string' ? spell : spell.name;
+					if (spellName) {
+						// Find and check the corresponding checkbox
+						$modal.find(`.spell-checkbox[value="${spellName}"]`).prop('checked', true);
+					}
+				});
+			}
+		});
+	}
+
 	collectSelectedSpells() {
 		const selectedSpells = {};
 		$('.spell-checkbox:checked').each(function() {
 			const $checkbox = $(this);
 			const spellLevel = $checkbox.data('spell-level');
 			const spellName = $checkbox.val(); // Get spell name from value attribute
+			
+			// Ensure we have a spell name
+			if (!spellName) {
+				console.warn('Spell checkbox missing name:', $checkbox);
+				return;
+			}
 
 			if (!selectedSpells[spellLevel]) selectedSpells[spellLevel] = [];
+			// Store as consistent string format only
 			selectedSpells[spellLevel].push(spellName);
 		});
 		return selectedSpells;
@@ -8053,7 +8113,8 @@ class CharacterEditorPage {
 			const randomAbilityScores = await this.generateRandomAbilityScores(randomClasses, randomRace);
 			const randomEquipment = this.generateRandomEquipment(randomClasses, finalLevel, randomAbilityScores, randomRace);
 			const randomActions = this.generateRandomActions(randomClasses, randomAbilityScores);
-			const randomSpells = this.generateRandomSpells(randomClasses, finalLevel, randomAbilityScores);
+			// Skip random spell generation - we'll add user-selected spells later
+			const randomSpells = null;
 
 			// Calculate derived stats
 			const totalLevel = randomClasses.reduce((sum, cls) => sum + cls.level, 0);
@@ -9154,10 +9215,11 @@ class CharacterEditorPage {
 			</div>
 		`;
 
-		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
-			title: "Level Up Character",
-			hasFooter: true
-		});
+	const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+		title: "Level Up Character",
+		hasFooter: true,
+		isPermanent: true
+	});
 
 		$modalInner.html(modalContent);
 
@@ -9374,11 +9436,12 @@ class CharacterEditorPage {
 			`;
 		}
 
-		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
-			title: "Multiclass Selection",
-			hasFooter: true,
-			isWidth100: true
-		});
+	const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+		title: "Multiclass Selection",
+		hasFooter: true,
+		isWidth100: true,
+		isPermanent: true
+	});
 
 		$modalInner.html(modalContent);
 
@@ -9905,10 +9968,11 @@ class CharacterEditorPage {
 			</div>
 		`;
 
-		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
-			title: "Ability Score Improvement",
-			hasFooter: true
-		});
+	const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+		title: "Ability Score Improvement",
+		hasFooter: true,
+		isPermanent: true
+	});
 
 		$modalInner.html(modalContent);
 
@@ -10031,10 +10095,11 @@ class CharacterEditorPage {
 			</div>
 		`;
 
-		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
-			title: "Level Up Complete!",
-			hasFooter: true
-		});
+	const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+		title: "Level Up Complete!",
+		hasFooter: true,
+		isPermanent: true
+	});
 
 		$modalInner.html(summaryHTML);
 
@@ -10133,17 +10198,14 @@ class CharacterEditorPage {
 				</div>
 			`;
 
-			// Create 5etools native modal
-			const isLevel0 = this.levelUpState.currentLevel === 0;
-			const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
-				title: isLevel0 ? "Choose Your First Class" : "Level Up Character - Choose Class",
-				hasFooter: true,
-				isWidth100: true,
-				...(isLevel0 && {
-					backdrop: 'static', // Prevent dismissal for level 0
-					keyboard: false     // Prevent escape key dismissal for level 0
-				})
-			});
+		// Create 5etools native modal
+		const isLevel0 = this.levelUpState.currentLevel === 0;
+		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+			title: isLevel0 ? "Choose Your First Class" : "Level Up Character - Choose Class",
+			hasFooter: true,
+			isWidth100: true,
+			isPermanent: true
+		});
 
 			// Store modal close function
 			this.levelUpModalClose = doClose;
@@ -10422,15 +10484,14 @@ class CharacterEditorPage {
 			</div>
 		`;
 
-		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
-			title: "Assign Ability Scores",
-			hasFooter: true,
-			isWidth100: true,
-			isUncappedHeight: true,
-			isHeaderBorder: true,
-			backdrop: 'static', // Prevent dismissal by clicking outside
-			keyboard: false     // Prevent dismissal by escape key
-		});
+	const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+		title: "Assign Ability Scores",
+		hasFooter: true,
+		isWidth100: true,
+		isUncappedHeight: true,
+		isHeaderBorder: true,
+		isPermanent: true
+	});
 
 		$modalInner.html(modalContent);
 
@@ -10925,6 +10986,21 @@ class CharacterEditorPage {
 				baseCharacter.class[0].subclass = selections.classes[0].subclass;
 			}
 			
+			// Add user-selected spells if the character is a spellcaster
+			if (selections.spells && baseCharacter.class?.length > 0) {
+				console.log('Adding user-selected spells:', selections.spells);
+				
+				// Check if character is a spellcaster
+				const casterClasses = baseCharacter.class.filter(cls =>
+					["Wizard", "Sorcerer", "Warlock", "Bard", "Cleric", "Druid", "Paladin", "Ranger"].includes(cls.name)
+				);
+				
+				if (casterClasses.length > 0) {
+					// Build spell structure from user selections only
+					baseCharacter.spells = this.buildSpellStructureFromSelections(selections.spells, casterClasses, baseCharacter);
+				}
+			}
+			
 			console.log('Generated comprehensive character with user choices preserved:', baseCharacter);
 			return baseCharacter;
 			
@@ -10932,6 +11008,75 @@ class CharacterEditorPage {
 			console.error('Error generating comprehensive character from selections:', error);
 			return null;
 		}
+	}
+
+	/**
+	 * Build spell structure from user selections only (no random spells)
+	 */
+	buildSpellStructureFromSelections(userSpells, casterClasses, character) {
+		console.log('Building spell structure from user selections:', userSpells);
+		
+		const primaryCaster = casterClasses[0];
+		const spellcastingInfo = this.getSpellcastingInfo(primaryCaster.name);
+		
+		if (!spellcastingInfo) {
+			console.warn('No spellcasting info found for class:', primaryCaster.name);
+			return null;
+		}
+		
+		// Calculate spell DC and attack bonus
+		const abilityScore = character[spellcastingInfo.abilityKey] || 10;
+		const spellMod = Math.floor((abilityScore - 10) / 2);
+		const totalLevel = casterClasses.reduce((sum, cls) => sum + cls.level, 0);
+		const profBonus = this.getProficiencyBonus(totalLevel);
+		const spellDC = 8 + profBonus + spellMod;
+		const spellAttack = profBonus + spellMod;
+		
+		// Initialize spell structure
+		const spellStructure = {
+			dc: spellDC,
+			attackBonus: spellAttack >= 0 ? `+${spellAttack}` : `${spellAttack}`,
+			ability: spellcastingInfo.ability,
+			levels: {},
+			spellcastingAbility: spellcastingInfo.abilityKey,
+			casterProgression: this.getCasterType(primaryCaster.name)
+		};
+		
+		// Add cantrips (level 0)
+		if (userSpells.cantrips && userSpells.cantrips.length > 0) {
+			spellStructure.levels["0"] = {
+				spells: userSpells.cantrips.map(spell => 
+					typeof spell === 'string' ? spell : spell.name || spell
+				) // Ensure consistent string format
+			};
+			spellStructure.cantripsKnown = userSpells.cantrips.length;
+		}
+		
+		// Add leveled spells
+		let totalSpellsKnown = 0;
+		for (let level = 1; level <= 9; level++) {
+			const levelKey = `level${level}`;
+			if (userSpells[levelKey] && userSpells[levelKey].length > 0) {
+				// Calculate max spell slots for this level
+				const maxSlots = this.getSpellSlotsForLevel(primaryCaster, level);
+				
+				spellStructure.levels[level] = {
+					maxSlots: maxSlots,
+					slotsUsed: 0, // Start with fresh spell slots
+					spells: userSpells[levelKey].map(spell => 
+						typeof spell === 'string' ? spell : spell.name || spell
+					) // Ensure consistent string format
+				};
+				
+				totalSpellsKnown += userSpells[levelKey].length;
+			}
+		}
+		
+		// Set spells known count
+		spellStructure.spellsKnown = totalSpellsKnown;
+		
+		console.log('Built spell structure from user selections:', spellStructure);
+		return spellStructure;
 	}
 
 	// Additional helper methods for character creation
@@ -12386,11 +12531,12 @@ class CharacterEditorPage {
 			</div>
 		`;
 
-		// Create 5etools native modal
-		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
-			title: "Level Up Character - Fighting Style",
-			hasFooter: true
-		});
+	// Create 5etools native modal
+	const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+		title: "Level Up Character - Fighting Style",
+		hasFooter: true,
+		isPermanent: true
+	});
 
 		// Store modal close function
 		this.levelUpModalClose = doClose;
@@ -12502,11 +12648,12 @@ class CharacterEditorPage {
 			</div>
 		`;
 
-		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
-			title: "Metamagic Selection",
-			hasFooter: true,
-			isWidth100: true
-		});
+	const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+		title: "Metamagic Selection",
+		hasFooter: true,
+		isWidth100: true,
+		isPermanent: true
+	});
 
 		this.levelUpModalClose = doClose;
 		$modalInner.html(modalContent);
@@ -12599,11 +12746,12 @@ class CharacterEditorPage {
 			</div>
 		`;
 
-		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
-			title: "Dragonborn Ancestry",
-			hasFooter: true,
-			isWidth100: true
-		});
+	const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+		title: "Dragonborn Ancestry",
+		hasFooter: true,
+		isWidth100: true,
+		isPermanent: true
+	});
 
 		this.levelUpModalClose = doClose;
 		$modalInner.html(modalContent);
@@ -12680,10 +12828,11 @@ class CharacterEditorPage {
 			}
 		}
 
-		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
-			title: "Choose Skills for Expertise",
-			isMinHeight0: true,
-		});
+	const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+		title: "Choose Skills for Expertise",
+		isMinHeight0: true,
+		isPermanent: true
+	});
 
 		$modalInner.html(`
 			<div>
@@ -12748,10 +12897,11 @@ class CharacterEditorPage {
 			return;
 		}
 
-		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
-			title: `${title} Choice`,
-			isMinHeight0: true,
-		});
+	const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+		title: `${title} Choice`,
+		isMinHeight0: true,
+		isPermanent: true
+	});
 
 		$modalInner.html(`
 			<div>
@@ -12837,10 +12987,11 @@ class CharacterEditorPage {
 			</div>
 		`;
 
-		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
-			title: "Feature Choice - Manual Selection Required",
-			hasFooter: true
-		});
+	const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+		title: "Feature Choice - Manual Selection Required",
+		hasFooter: true,
+		isPermanent: true
+	});
 
 		this.levelUpModalClose = doClose;
 		$modalInner.html(modalContent);
@@ -13360,16 +13511,17 @@ class CharacterEditorPage {
 			}
 		}
 
-		// Create 5etools native modal with lower z-index to allow tooltips to appear above
-		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
-			title: "Level Up Character - Spell Selection",
-			hasFooter: true,
-			isWidth100: true,
-			isUncappedHeight: true,
-			isHeaderBorder: true,
-			isMinHeight0: true,
-			zIndex: 999
-		});
+	// Create 5etools native modal with lower z-index to allow tooltips to appear above
+	const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+		title: "Level Up Character - Spell Selection",
+		hasFooter: true,
+		isWidth100: true,
+		isUncappedHeight: true,
+		isHeaderBorder: true,
+		isMinHeight0: true,
+		zIndex: 999,
+		isPermanent: true
+	});
 
 		// Store modal close function
 		this.levelUpModalClose = doClose;
@@ -15437,12 +15589,11 @@ class CharacterEditorPage {
 			`;
 
 			return new Promise((resolve) => {
-				const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
-					title: `${className} - Skill Selection`,
-					hasFooter: true,
-					backdrop: 'static',
-					keyboard: false
-				});
+			const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+				title: `${className} - Skill Selection`,
+				hasFooter: true,
+				isPermanent: true
+			});
 
 				$modalInner.html(modalContent);
 
@@ -15629,12 +15780,11 @@ class CharacterEditorPage {
 			</div>
 		`;
 
-		const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
-			title: `${className} - Multiclass Proficiencies`,
-			hasFooter: true,
-			backdrop: 'static',
-			keyboard: false
-		});
+	const {$modalInner, $modalFooter, doClose} = UiUtil.getShowModal({
+		title: `${className} - Multiclass Proficiencies`,
+		hasFooter: true,
+		isPermanent: true
+	});
 
 		$modalInner.html(modalContent);
 
