@@ -1551,6 +1551,7 @@ Parser.spRangeToFull._getAreaStyleString = function (range) {
 };
 
 Parser.getSingletonUnit = function (unit, isShort) {
+	if (!unit) return unit;
 	switch (unit) {
 		case Parser.UNT_INCHES:
 			return isShort ? "in." : "inch";

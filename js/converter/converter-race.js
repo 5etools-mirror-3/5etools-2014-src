@@ -239,15 +239,13 @@ export class ConverterRace extends ConverterFeatureBase {
 		this._doRacePostProcess_creatureType(race, options);
 		this._doRacePostProcess_darkvision(race, options);
 
+		if (race.entries) race.entries = race.entries.filter(ent => ent.type !== "list" || ent.items?.length);
+
 		SkillTag.tryRunPropsStrictCapsWords(race, ["entries"], {styleHint: options.styleHint});
 
 		RaceLanguageTag.tryRun(race, options);
 		RaceImmResVulnTag.tryRun(race, options);
 		RaceTraitTag.tryRun(race, options);
-
-		delete race._hasCreatureTypeEntry;
-		delete race._hasSizeEntry;
-		delete race._hasSpeedEntry;
 		// endregion
 	}
 
@@ -261,11 +259,11 @@ export class ConverterRace extends ConverterFeatureBase {
 		const entList = lst.items.find(it => reName.test(it.name || ""));
 		if (!entList) return null;
 
-		return {entry: entList, isInRoot: false};
+		return {entry: entList, isInRoot: false, entryParentList: lst};
 	}
 
 	static _doRacePostProcess_size (race, options) {
-		const {entry, isInRoot} = this._getNamedEntry({race, reName: /^Size:?$/i}) || {};
+		const {entry, isInRoot, entryParentList} = this._getNamedEntry({race, reName: /^Size:?$/i}) || {};
 		if (entry?.entries?.length !== 1) return options.cbWarning(`Could not convert size\u2014no valid "Size" entry found!`);
 
 		const text = entry.entries[0];
@@ -278,7 +276,7 @@ export class ConverterRace extends ConverterFeatureBase {
 
 			// Filter out "redundant" size info, as it will be displayed in subtitle
 			if (isInRoot) race.entries = race.entries.filter(it => it !== entry);
-			else race._hasSizeEntry = true;
+			else entryParentList.items = entryParentList.items.filter(it => it !== entry);
 
 			return;
 		}
@@ -292,7 +290,7 @@ export class ConverterRace extends ConverterFeatureBase {
 
 			// Filter out "redundant" size info, as it will be displayed in subtitle
 			if (isInRoot) race.entries = race.entries.filter(it => it !== entry);
-			else race._hasSizeEntry = true;
+			else entryParentList.items = entryParentList.items.filter(it => it !== entry);
 
 			return;
 		}
@@ -306,7 +304,7 @@ export class ConverterRace extends ConverterFeatureBase {
 
 			// Filter out "redundant" size info, as it will be displayed in subtitle
 			if (isInRoot) race.entries = race.entries.filter(it => it !== entry);
-			else race._hasSizeEntry = true;
+			else entryParentList.items = entryParentList.items.filter(it => it !== entry);
 
 			return;
 		}
@@ -319,6 +317,13 @@ export class ConverterRace extends ConverterFeatureBase {
 				mChooseTwo.groups.size1.toUpperCase()[0],
 				mChooseTwo.groups.size2.toUpperCase()[0],
 			];
+
+			if (!isInRoot) {
+				entryParentList.items = entryParentList.items.filter(it => it !== entry);
+				entry.type = "item";
+				race.sizeEntry = entry;
+			}
+
 			return;
 		}
 
@@ -329,7 +334,13 @@ export class ConverterRace extends ConverterFeatureBase {
 				mChooseTwoSpecies.groups.size1.toUpperCase()[0],
 				mChooseTwoSpecies.groups.size2.toUpperCase()[0],
 			];
-			if (!isInRoot) race._hasSizeEntry = true;
+
+			if (!isInRoot) {
+				entryParentList.items = entryParentList.items.filter(it => it !== entry);
+				entry.type = "item";
+				race.sizeEntry = entry;
+			}
+
 			return;
 		}
 
@@ -337,7 +348,7 @@ export class ConverterRace extends ConverterFeatureBase {
 	}
 
 	static _doRacePostProcess_speed (race, options) {
-		const {entry, isInRoot} = this._getNamedEntry({race, reName: /^Speed:?$/i}) || {};
+		const {entry, isInRoot, entryParentList} = this._getNamedEntry({race, reName: /^Speed:?$/i}) || {};
 		if (entry?.entries?.length !== 1) return options.cbWarning(`Could not convert speed\u2014no valid "Speed" entry found!`);
 
 		const text = entry.entries[0];
@@ -348,7 +359,7 @@ export class ConverterRace extends ConverterFeatureBase {
 
 			// Filter out "redundant" size info, as it will be displayed in subtitle
 			if (isInRoot) race.entries = race.entries.filter(it => it !== entry);
-			else race._hasSpeedEntry = true;
+			else entryParentList.items = entryParentList.items.filter(it => it !== entry);
 
 			return;
 		}
@@ -359,7 +370,7 @@ export class ConverterRace extends ConverterFeatureBase {
 
 			// Filter out "redundant" size info, as it will be displayed in subtitle
 			if (isInRoot) race.entries = race.entries.filter(it => it !== entry);
-			else race._hasSpeedEntry = true;
+			else entryParentList.items = entryParentList.items.filter(it => it !== entry);
 
 			return;
 		}
@@ -371,6 +382,13 @@ export class ConverterRace extends ConverterFeatureBase {
 				walk: Number(mAltEqual.groups.speed),
 				[propAlt]: true,
 			};
+
+			if (!isInRoot) {
+				entryParentList.items = entryParentList.items.filter(it => it !== entry);
+				entry.type = "item";
+				race.speedEntry = entry;
+			}
+
 			return;
 		}
 
@@ -381,6 +399,13 @@ export class ConverterRace extends ConverterFeatureBase {
 				walk: Number(mAltSingle.groups.speed),
 				[propAlt]: Number(mAltSingle.groups.speedAlt),
 			};
+
+			if (!isInRoot) {
+				entryParentList.items = entryParentList.items.filter(it => it !== entry);
+				entry.type = "item";
+				race.speedEntry = entry;
+			}
+
 			return;
 		}
 
@@ -436,7 +461,7 @@ export class ConverterRace extends ConverterFeatureBase {
 	static _RE_CREATURE_TYPES = new RegExp(`^You are(?: an?)? (?<type>${Parser.MON_TYPES.map(it => it.uppercaseFirst()).join("|")})(?:\\.|$)`);
 	static _RE_CREATURE_TYPES_SHORT = new RegExp(`^(?<type>${Parser.MON_TYPES.map(it => it.uppercaseFirst()).join("|")})\\.?$`);
 	static _doRacePostProcess_creatureType (race, options) {
-		const {entry, isInRoot} = this._getNamedEntry({race, reName: /^Creature Type:?$/i}) || {};
+		const {entry, isInRoot, entryParentList} = this._getNamedEntry({race, reName: /^Creature Type:?$/i}) || {};
 		if (!entry) return; // If unspecified, defaults to humanoid
 
 		if (entry?.entries?.length !== 1) return options.cbWarning(`Could not convert creature type\u2014no valid "Creature Type" entry found!`);
@@ -450,14 +475,16 @@ export class ConverterRace extends ConverterFeatureBase {
 			// Filter out "redundant" creature type info, as we assume "undefined" = "humanoid"
 			if (isInRoot && type === Parser.TP_HUMANOID) {
 				race.entries = race.entries.filter(it => it !== entry);
-			} else {
-				race.creatureTypes = [type];
-				race._hasCreatureTypeEntry = true;
+				return;
 			}
+
+			race.creatureTypes = [type];
+			entryParentList.items = entryParentList.items.filter(it => it !== entry);
 
 			return;
 		}
 
+		let isSimple = true;
 		const types = [];
 		text = text
 			.replace(/^You are a Humanoid(?:\.|$)/i, () => {
@@ -472,15 +499,23 @@ export class ConverterRace extends ConverterFeatureBase {
 			.trim()
 			.replace(/You are also considered an? (?<tag>[-a-z]+) for any prerequisite or effect that requires you to be an? \k<tag>\./, (...m) => {
 				race.creatureTypeTags = [m.last().tag.toLowerCase()];
+				isSimple = false;
 				return "";
 			})
 		;
 
 		// Filter out "redundant" creature type info, as we assume "undefined" = "humanoid"
-		if (types.length === 1 && types[0] === Parser.TP_HUMANOID && !race.creatureTypeTags?.length) {
-			race.entries = race.entries.filter(it => it !== entry);
+		if (isInRoot) {
+			if (types.length === 1 && types[0] === Parser.TP_HUMANOID && !race.creatureTypeTags?.length) {
+				race.entries = race.entries.filter(it => it !== entry);
+			}
 		} else {
 			race.creatureTypes = types;
+			entryParentList.items = entryParentList.items.filter(it => it !== entry);
+			if (!isSimple) {
+				entry.type = "item";
+				race.creatureTypesEntry = entry;
+			}
 		}
 
 		if (text) {

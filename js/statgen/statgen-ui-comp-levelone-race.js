@@ -16,20 +16,11 @@ export class StatGenUiRenderLevelOneRace extends StatGenUiRenderLevelOneEntityBa
 	render () {
 		const out = super.render();
 
-		const {$btnToggleTashasPin, $dispTashas} = this._$getPtsTashas();
+		const {stgTashasControls, dispTashas} = this._getPtsTashas();
 
-		out.$stgSel.append($$`<label class="ve-flex-v-center mb-1">
-			<div class="mr-2">Allow Origin Customization</div>
-			${ComponentUiUtil.$getCbBool(this._parent, "common_isTashas")}
-		</label>`);
+		out.stgSel.appends(stgTashasControls);
 
-		out.$stgSel.append($$`<div class="ve-flex">
-			<div class="ve-small ve-muted italic mr-1">${Renderer.get().render(`An {@variantrule Customizing Your Origin|TCE|optional rule}`)}</div>
-			${$btnToggleTashasPin}
-			<div class="ve-small ve-muted italic ml-1">${Renderer.get().render(`from Tasha's Cauldron of Everything, page 8.`)}</div>
-		</div>`);
-
-		out.$dispTashas = $dispTashas;
+		out.dispTashas = dispTashas;
 
 		return out;
 	}
@@ -57,12 +48,12 @@ export class StatGenUiRenderLevelOneRace extends StatGenUiRenderLevelOneEntityBa
 		return out;
 	}
 
-	_getHkPreview ({$hrPreview}) {
-		return () => $hrPreview.toggleVe(this._parent._state[this._propIsPreview] && this._parent._state.common_isShowTashasRules);
+	_getHkPreview ({hrPreview}) {
+		return () => hrPreview.toggleVe(this._parent._state[this._propIsPreview] && this._parent._state.common_isShowTashasRules && this._parent._state.common_isAllowTashasRules);
 	}
 
-	_$getPtsTashas () {
-		const $btnToggleTashasPin = ComponentUiUtil.$getBtnBool(
+	_getPtsTashas () {
+		const btnToggleTashasPin = ComponentUiUtil.getBtnBool(
 			this._parent,
 			"common_isShowTashasRules",
 			{
@@ -70,20 +61,37 @@ export class StatGenUiRenderLevelOneRace extends StatGenUiRenderLevelOneEntityBa
 			},
 		);
 
-		const $dispTashas = $(`<div class="ve-flex-col"><div class="italic ve-muted">Loading...</div></div>`);
+		const stgTashasControls = ee`<div class="ve-flex-col w-100">
+			<label class="ve-flex-v-center mb-1">
+				<div class="mr-2">Allow Origin Customization</div>
+				${ComponentUiUtil.getCbBool(this._parent, "common_isTashas")}
+			</label>
+
+			<div class="ve-flex">
+				<div class="ve-small ve-muted italic mr-1">${Renderer.get().render(`An {@variantrule Customizing Your Origin|TCE|optional rule}`)}</div>
+				${btnToggleTashasPin}
+				<div class="ve-small ve-muted italic ml-1">${Renderer.get().render(`from Tasha's Cauldron of Everything, page 8.`)}</div>
+			</div>
+		</div>`;
+		this._parent._addHookBase("common_isAllowTashasRules", () => {
+			stgTashasControls.toggleVe(this._parent._state.common_isAllowTashasRules);
+		})();
+
+		const dispTashas = ee`<div class="ve-flex-col"><div class="italic ve-muted">Loading...</div></div>`;
 		DataLoader.pCacheAndGet(UrlUtil.PG_VARIANTRULES, Parser.SRC_TCE, UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_VARIANTRULES]({name: "Customizing Your Origin", source: Parser.SRC_TCE}))
 			.then(rule => {
-				$$($dispTashas.empty())`${Renderer.hover.$getHoverContent_stats(UrlUtil.PG_VARIANTRULES, rule)}<hr class="hr-3">`;
+				// eslint-disable-next-line vet-jquery/jquery
+				ee(dispTashas.empty())`${Renderer.hover.$getHoverContent_stats(UrlUtil.PG_VARIANTRULES, rule)[0]}<hr class="hr-3">`;
 			});
 		const hkIsShowTashas = () => {
-			$dispTashas.toggleVe(this._parent._state.common_isShowTashasRules);
+			dispTashas.toggleVe(this._parent._state.common_isShowTashasRules && this._parent._state.common_isAllowTashasRules);
 		};
 		this._parent._addHookBase("common_isShowTashasRules", hkIsShowTashas);
 		hkIsShowTashas();
 
 		return {
-			$btnToggleTashasPin,
-			$dispTashas,
+			stgTashasControls,
+			dispTashas,
 		};
 	}
 }

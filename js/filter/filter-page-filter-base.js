@@ -112,6 +112,9 @@ export class PageFilterBase {
 		if (!ent?.reprintedAs?.length) return false;
 		return ent.reprintedAs
 			.some(it => {
+				// Ignore '24+ reprints
+				if (it.edition && it.edition !== "classic") return false;
+
 				if (!UrlUtil.URL_TO_HASH_BUILDER[ent.__prop]) {
 					if (fnMissingBuilder) fnMissingBuilder(ent);
 					return true;

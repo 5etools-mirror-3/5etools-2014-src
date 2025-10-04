@@ -1486,7 +1486,7 @@ class TabUiUtil extends TabUiUtilBase {
 		obj.__renderTypedTabMeta_buttons = function ({tabMeta, ixTab, isStacked = false}) {
 			const $btns = tabMeta.buttons.map((meta, j) => {
 				const $btn = $(`<button class="ve-btn ui-tab__btn-tab-head ${isStacked ? `ui-tab__btn-tab-head--stacked` : ""} pt-2p px-4p pb-0 bbr-0 bbl-0 ${meta.type ? `ve-btn-${meta.type}` : "ve-btn-primary"}" ${meta.title ? `title="${meta.title.qq()}"` : ""}>${meta.html}</button>`)
-					.click(evt => meta.pFnClick(evt, $btn));
+					.on("click", evt => meta.pFnClick({evt, $btn, btn: $btn[0]}));
 				return $btn;
 			});
 
@@ -1552,7 +1552,7 @@ class TabUiUtilSide extends TabUiUtilBase {
 		obj.__renderTypedTabMeta_buttons = function ({tabMeta, ixTab}) {
 			const $btns = tabMeta.buttons.map((meta, j) => {
 				const $btn = $(`<button class="ve-btn ${meta.type ? `ve-btn-${meta.type}` : "ve-btn-primary"} ve-btn-sm" ${meta.title ? `title="${meta.title.qq()}"` : ""}>${meta.html}</button>`)
-					.click(evt => meta.pFnClick(evt, $btn));
+					.on("click", evt => meta.pFnClick({evt, $btn, btn: $btn[0]}));
 
 				if (j === tabMeta.buttons.length - 1) $btn.addClass(`br-0 btr-0 bbr-0`);
 
@@ -4034,7 +4034,7 @@ function MixinBaseComponent (Cls) {
 					if (meta == null) continue;
 
 					meta.data = it; // update any existing pointers
-					if (!meta.$wrpRow && !meta.fnRemoveEles) throw new Error(`A "$wrpRow" or a "fnRemoveEles" property is required for deletes!`);
+					if (!meta.wrpRow && !meta.$wrpRow && !meta.fnRemoveEles) throw new Error(`A "wrpRow", "$wrpRow", or a "fnRemoveEles" property is required for deletes!`);
 
 					if (opts.isDiffMode) meta.__hash = this._getCollectionEntityHash(it);
 
@@ -4043,6 +4043,7 @@ function MixinBaseComponent (Cls) {
 			}
 
 			const doRemoveElements = meta => {
+				if (meta.wrpRow) meta.wrpRow.remove();
 				if (meta.$wrpRow) meta.$wrpRow.remove();
 				if (meta.fnRemoveEles) meta.fnRemoveEles();
 			};
@@ -4115,8 +4116,8 @@ function MixinBaseComponent (Cls) {
 					// If the "get new" function returns null, skip rendering this entity
 					if (meta == null) continue;
 
-					if (!opts.isMultiRender && !meta.$wrpRow && !meta.fnRemoveEles) throw new Error(`A "$wrpRow" or a "fnRemoveEles" property is required for deletes!`);
-					if (opts.isMultiRender && meta.some(it => !it.$wrpRow && !it.fnRemoveEles)) throw new Error(`A "$wrpRow" or a "fnRemoveEles" property is required for deletes!`);
+					if (!opts.isMultiRender && !meta.wrpRow && !meta.$wrpRow && !meta.fnRemoveEles) throw new Error(`A "wrpRow", "$wrpRow", or a "fnRemoveEles" property is required for deletes!`);
+					if (opts.isMultiRender && meta.some(it => !it.wrpRow && !it.$wrpRow && !it.fnRemoveEles)) throw new Error(`A "wrpRow", "$wrpRow", or a "fnRemoveEles" property is required for deletes!`);
 
 					if (opts.isDiffMode) meta.__hash = this._getCollectionEntityHash(it);
 
@@ -4125,6 +4126,7 @@ function MixinBaseComponent (Cls) {
 			}
 
 			const doRemoveElements = meta => {
+				if (meta.wrpRow) meta.wrpRow.remove();
 				if (meta.$wrpRow) meta.$wrpRow.remove();
 				if (meta.fnRemoveEles) meta.fnRemoveEles();
 			};
@@ -4155,7 +4157,7 @@ function MixinBaseComponent (Cls) {
 		_detachCollection (prop, namespace = null) {
 			const renderedLookupProp = namespace ? `${namespace}.${prop}` : prop;
 			const rendered = (this.__rendered[renderedLookupProp] = this.__rendered[renderedLookupProp] || {});
-			Object.values(rendered).forEach(it => it.$wrpRow.detach());
+			Object.values(rendered).forEach(it => (it.wrpRow || it.$wrpRow).detach());
 		}
 
 		/**
@@ -4167,7 +4169,7 @@ function MixinBaseComponent (Cls) {
 		_resetCollectionRenders (prop, namespace = null) {
 			const renderedLookupProp = namespace ? `${namespace}.${prop}` : prop;
 			const rendered = (this.__rendered[renderedLookupProp] = this.__rendered[renderedLookupProp] || {});
-			Object.values(rendered).forEach(it => it.$wrpRow.remove());
+			Object.values(rendered).forEach(it => (it.wrpRow || it.$wrpRow).remove());
 			delete this.__rendered[renderedLookupProp];
 		}
 
@@ -4306,10 +4308,12 @@ class RenderableCollectionBase {
 globalThis.RenderableCollectionBase = RenderableCollectionBase;
 
 class _RenderableCollectionGenericRowsSyncAsyncUtils {
-	constructor ({comp, prop, $wrpRows, namespace}) {
+	constructor ({comp, prop, wrpRows, $wrpRows, namespace}) {
 		this._comp = comp;
 		this._prop = prop;
-		this._$wrpRows = $wrpRows;
+		// TODO(jquery) migrate
+		if (wrpRows && $wrpRows) throw new Error(`Only one of "wrpRows" and "$wrpRows" may be specified!`);
+		this._$wrpRows = $wrpRows || $(wrpRows);
 		this._namespace = namespace;
 	}
 
@@ -4411,12 +4415,12 @@ class RenderableCollectionGenericRows extends RenderableCollectionBase {
 	 */
 	constructor (comp, prop, $wrpRows, opts) {
 		super(comp, prop, opts);
-		this._$wrpRows = $wrpRows;
+		this._$wrpRows = $wrpRows instanceof $ ? $wrpRows : $($wrpRows);
 
 		this._utils = new _RenderableCollectionGenericRowsSyncAsyncUtils({
 			comp,
 			prop,
-			$wrpRows,
+			$wrpRows: this._$wrpRows,
 			namespace: opts?.namespace,
 		});
 	}
@@ -4434,13 +4438,15 @@ class RenderableCollectionGenericRows extends RenderableCollectionBase {
 
 		const $wrpRow = this._$getWrpRow()
 			.appendTo(this._$wrpRows);
+		const wrpRow = $wrpRow[0];
 
-		const renderAdditional = this._populateRow({comp, $wrpRow, entity});
+		const renderAdditional = this._populateRow({comp, $wrpRow, wrpRow, entity});
 
 		return {
 			...(renderAdditional || {}),
 			id: entity.id,
 			comp,
+			wrpRow,
 			$wrpRow,
 		};
 	}
@@ -4536,12 +4542,12 @@ class RenderableCollectionAsyncGenericRows extends RenderableCollectionAsyncBase
 	 */
 	constructor (comp, prop, $wrpRows, opts) {
 		super(comp, prop, opts);
-		this._$wrpRows = $wrpRows;
+		this._$wrpRows = $wrpRows instanceof $ ? $wrpRows : $($wrpRows);
 
 		this._utils = new _RenderableCollectionGenericRowsSyncAsyncUtils({
 			comp,
 			prop,
-			$wrpRows,
+			$wrpRows: this._$wrpRows,
 			namespace: opts?.namespace,
 		});
 	}
@@ -6640,6 +6646,7 @@ class ComponentUiUtil {
 				const displayValue = opts.fnDisplay ? opts.fnDisplay(v, ixValueFrozen) : v;
 
 				rowMetas.push({
+					cb: $cb[0],
 					$cb,
 					displayValue,
 					value: v,
@@ -6688,17 +6695,24 @@ class ComponentUiUtil {
 			hkSearch();
 		}
 
+		const $ele = $$`<div class="ve-flex-col w-100 ve-overflow-y-auto min-h-40p">${$eles}</div>`;
+
 		// Always return this as a "meta" object
 		const unhook = () => rowMetas.forEach(it => it.unhook());
 		return {
-			$ele: $$`<div class="ve-flex-col w-100 ve-overflow-y-auto min-h-40p">${$eles}</div>`,
+			ele: $ele[0],
+			$ele: $ele,
+			iptSearch: $iptSearch?.[0],
 			$iptSearch,
 			rowMetas, // Return this to allow for creating custom UI
 			propIsAcceptable,
 			propPulse,
 			unhook,
-			cleanup: () => {
+			cleanup: ({isRetainState = false} = {}) => {
 				unhook();
+
+				if (isRetainState) return;
+
 				// This will trigger a final "pulse"
 				Object.keys(comp._state)
 					.filter(it => it.startsWith(`${prop}__`))

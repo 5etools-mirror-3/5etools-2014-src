@@ -2450,6 +2450,9 @@
 				},
 				{
 					"source": "JttRC"
+				},
+				{
+					"source": "WDH"
 				}
 			],
 			"size": [
@@ -3087,6 +3090,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -4566,6 +4572,9 @@
 				},
 				{
 					"source": "TCE"
+				},
+				{
+					"source": "SKT"
 				}
 			],
 			"size": [
@@ -7870,6 +7879,9 @@
 				},
 				{
 					"source": "CRCotN"
+				},
+				{
+					"source": "SKT"
 				}
 			],
 			"size": [
@@ -8416,6 +8428,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -9383,6 +9398,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -9478,6 +9496,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -10681,6 +10702,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -11093,6 +11117,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -11267,6 +11294,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -13076,6 +13106,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "HotDQ"
 				}
 			],
 			"size": [
@@ -13415,6 +13448,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "ToA"
 				}
 			],
 			"size": [
@@ -13555,6 +13591,11 @@
 			"source": "MM",
 			"page": 106,
 			"srd": true,
+			"otherSources": [
+				{
+					"source": "OoW"
+				}
+			],
 			"size": [
 				"M"
 			],
@@ -14301,6 +14342,9 @@
 				},
 				{
 					"source": "CRCotN"
+				},
+				{
+					"source": "NRH-AT"
 				}
 			],
 			"size": [
@@ -15112,6 +15156,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -15341,6 +15388,9 @@
 				},
 				{
 					"source": "WDMM"
+				},
+				{
+					"source": "SKT"
 				}
 			],
 			"size": [
@@ -15592,6 +15642,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "WDH"
 				}
 			],
 			"size": [
@@ -15764,6 +15817,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -16791,6 +16847,9 @@
 				},
 				{
 					"source": "WBtW"
+				},
+				{
+					"source": "OoW"
 				}
 			],
 			"size": [
@@ -17989,6 +18048,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "HotDQ"
 				}
 			],
 			"size": [
@@ -18878,6 +18940,9 @@
 				},
 				{
 					"source": "AATM"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -19008,6 +19073,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "WDMM"
 				}
 			],
 			"size": [
@@ -19247,6 +19315,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -19478,6 +19549,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -21377,6 +21451,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -21508,6 +21585,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -21785,6 +21865,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -22014,6 +22097,9 @@
 				},
 				{
 					"source": "PaBTSO"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -22498,6 +22584,9 @@
 				},
 				{
 					"source": "GoS"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -23348,6 +23437,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -25645,6 +25737,11 @@
 			"name": "Faerie Dragon (Orange)",
 			"source": "MM",
 			"page": 133,
+			"otherSources": [
+				{
+					"source": "CM"
+				}
+			],
 			"size": [
 				"T"
 			],
@@ -27230,6 +27327,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -27364,6 +27464,9 @@
 				},
 				{
 					"source": "KftGV"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -27633,6 +27736,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -28320,6 +28426,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -28448,6 +28557,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -29140,6 +29252,9 @@
 			"otherSources": [
 				{
 					"source": "GoS"
+				},
+				{
+					"source": "ToA"
 				}
 			],
 			"size": [
@@ -30210,6 +30325,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -32243,6 +32361,9 @@
 				},
 				{
 					"source": "PSX"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -32388,6 +32509,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -33599,6 +33723,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -34189,6 +34316,9 @@
 				},
 				{
 					"source": "PaBTSO"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -35501,6 +35631,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -35820,6 +35953,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -36330,6 +36466,9 @@
 				},
 				{
 					"source": "PaBTSO"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -36591,6 +36730,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -37091,6 +37233,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "LLK"
 				}
 			],
 			"size": [
@@ -37443,6 +37588,9 @@
 				},
 				{
 					"source": "IMR"
+				},
+				{
+					"source": "HotDQ"
 				}
 			],
 			"size": [
@@ -39856,6 +40004,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "WDMM"
 				}
 			],
 			"size": [
@@ -40475,6 +40626,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -40646,6 +40800,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -41149,6 +41306,9 @@
 			"otherSources": [
 				{
 					"source": "GoS"
+				},
+				{
+					"source": "ToA"
 				}
 			],
 			"size": [
@@ -42000,6 +42160,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "SKT"
 				}
 			],
 			"size": [
@@ -43229,6 +43392,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "PotA"
 				}
 			],
 			"size": [
@@ -45063,6 +45229,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -45951,6 +46120,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -46091,6 +46263,9 @@
 				},
 				{
 					"source": "JttRC"
+				},
+				{
+					"source": "SKT"
 				}
 			],
 			"size": [
@@ -46601,6 +46776,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -46775,6 +46953,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -46942,6 +47123,9 @@
 				},
 				{
 					"source": "SatO"
+				},
+				{
+					"source": "LLK"
 				}
 			],
 			"size": [
@@ -47358,6 +47542,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -47492,6 +47679,9 @@
 				},
 				{
 					"source": "ToFW"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -48338,6 +48528,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -48499,6 +48692,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -48673,6 +48869,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -48786,6 +48985,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -53140,6 +53342,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "WDMM"
 				}
 			],
 			"size": [
@@ -54379,6 +54584,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -54662,6 +54870,9 @@
 				},
 				{
 					"source": "PaBTSO"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -54774,6 +54985,9 @@
 				},
 				{
 					"source": "IDRotF"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -55044,6 +55258,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -55328,6 +55545,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "WDH"
 				}
 			],
 			"size": [
@@ -55513,6 +55733,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "SKT"
 				}
 			],
 			"size": [
@@ -55696,6 +55919,9 @@
 				},
 				{
 					"source": "DSotDQ"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -56498,6 +56724,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "PotA"
 				}
 			],
 			"size": [
@@ -58340,6 +58569,9 @@
 				},
 				{
 					"source": "PSX"
+				},
+				{
+					"source": "TTP"
 				}
 			],
 			"size": [
@@ -59702,6 +59934,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -60198,6 +60433,9 @@
 				},
 				{
 					"source": "SatO"
+				},
+				{
+					"source": "WDMM"
 				}
 			],
 			"size": [
@@ -61411,6 +61649,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -62845,6 +63086,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "HotDQ"
 				}
 			],
 			"size": [
@@ -63373,6 +63617,9 @@
 				},
 				{
 					"source": "PSA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -65429,6 +65676,9 @@
 				},
 				{
 					"source": "CoA"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -68722,6 +68972,9 @@
 				},
 				{
 					"source": "DSotDQ"
+				},
+				{
+					"source": "HotDQ"
 				}
 			],
 			"size": [
@@ -69645,6 +69898,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "PotA"
 				}
 			],
 			"size": [
@@ -69845,6 +70101,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -70654,6 +70913,9 @@
 				},
 				{
 					"source": "QftIS"
+				},
+				{
+					"source": "HotDQ"
 				}
 			],
 			"size": [
@@ -72203,6 +72465,9 @@
 				},
 				{
 					"source": "VEoR"
+				},
+				{
+					"source": "OotA"
 				}
 			],
 			"size": [
@@ -73904,6 +74169,9 @@
 				},
 				{
 					"source": "BMT"
+				},
+				{
+					"source": "LMoP"
 				}
 			],
 			"size": [
