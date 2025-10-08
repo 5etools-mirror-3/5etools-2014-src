@@ -255,16 +255,14 @@ export class ConverterItem extends ConverterBase {
 					stats.type = Parser.ITM_TYP__ROD;
 				}
 
-				if (mBaseWeapon.groups.ptParens === "spear or javelin") {
-					(stats.requires ||= []).push(...this._setCleanTaglineInfo_getGenericRequires({stats, str: "spear", options}));
-					stats.__genericType = true;
-					continue;
-				}
-
 				const ptsParens = ConverterUtils.splitConjunct(mBaseWeapon.groups.ptParens);
+				const ptsParensNoAny = ptsParens.map(pt => pt.replace(/^any /i, ""));
 
-				if (ptsParens.length > 1 && ptsParens.every(pt => this._GENERIC_REQUIRES_LOOKUP_WEAPON[pt.toLowerCase()])) {
-					ptsParens.forEach(pt => {
+				if (
+					ptsParensNoAny.every(pt => this._GENERIC_REQUIRES_LOOKUP_WEAPON_CATEGORY[pt.toLowerCase()])
+					|| (ptsParensNoAny.length > 1 && ptsParensNoAny.every(pt => this._GENERIC_REQUIRES_LOOKUP_WEAPON[pt.toLowerCase()]))
+				) {
+					ptsParensNoAny.forEach(pt => {
 						(stats.requires ||= []).push(
 							...this._setCleanTaglineInfo_getGenericRequires({stats, str: pt, options}),
 						);
@@ -453,7 +451,7 @@ export class ConverterItem extends ConverterBase {
 		stats.baseItem = `${baseItem.name.toLowerCase()}${baseItem.source === Parser.SRC_DMG ? "" : `|${baseItem.source}`}`;
 	}
 
-	static _GENERIC_REQUIRES_LOOKUP_WEAPON = {
+	static _GENERIC_REQUIRES_LOOKUP_WEAPON_NAMED = {
 		"weapon": [{"weapon": true}],
 		"sword": [{"sword": true}],
 		"axe": [{"axe": true}],
@@ -470,13 +468,17 @@ export class ConverterItem extends ConverterBase {
 		"mace": [{"mace": true}],
 		"staff": [{"staff": true}],
 
-		"ammunition": [{"type": Parser.ITM_TYP__AMMUNITION}, {"type": Parser.ITM_TYP__AMMUNITION_FUTURISTIC}],
 		"arrow": [{"arrow": true}],
 		"bolt": [{"bolt": true}],
-		"arrow or bolt": [{"arrow": true}, {"bolt": true}],
+	};
+
+	static _GENERIC_REQUIRES_LOOKUP_WEAPON_CATEGORY = {
+		"ammunition": [{"type": Parser.ITM_TYP__AMMUNITION}, {"type": Parser.ITM_TYP__AMMUNITION_FUTURISTIC}],
 
 		"melee": [{"type": Parser.ITM_TYP__MELEE_WEAPON}],
 		"martial weapon": [{"weaponCategory": "martial"}],
+
+		"simple melee weapon": [{"weaponCategory": "simple", "type": Parser.ITM_TYP__MELEE_WEAPON}],
 
 		"bludgeoning": [{"dmgType": "B"}],
 		"weapon that deals bludgeoning damage": [{"dmgType": "B"}],
@@ -484,6 +486,11 @@ export class ConverterItem extends ConverterBase {
 		"slashing": [{"dmgType": "S"}],
 
 		"melee bludgeoning weapon": [{"type": Parser.ITM_TYP__MELEE_WEAPON, "dmgType": "B"}],
+	};
+
+	static _GENERIC_REQUIRES_LOOKUP_WEAPON = {
+		...this._GENERIC_REQUIRES_LOOKUP_WEAPON_NAMED,
+		...this._GENERIC_REQUIRES_LOOKUP_WEAPON_CATEGORY,
 	};
 
 	static _GENERIC_REQUIRES_LOOKUP_ARMOR = {
