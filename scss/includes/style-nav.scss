@@ -187,6 +187,19 @@
 		}
 	}
 
+		.ve-night-mode {
+			.page__ {
+				&nav-inner {
+	
+					>li.active>a,
+					>li.active>a:focus,
+					>li.active>a:hover {
+						background-color: #470000;
+					}
+				}
+			}
+		}
+
 	#navigation .page__nav-hidden-mobile {
 		@media screen and (width <= #{vars.$width-screen-md}) {
 			display: none;

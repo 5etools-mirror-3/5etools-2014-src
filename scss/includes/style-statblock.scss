@@ -219,6 +219,9 @@
 		}
 	}
 
+	.ve-night-mode--oled .stats {
+		background-color: #000;
+	}
 	/* -------------------------------------------- */
 
 	.mon__ {
@@ -263,7 +266,7 @@
 		background: #fff;
 
 		::selection {
-			background: #242527;
+			background: #e4c28e;
 			color: #fff;
 			text-shadow: none;
 		}
