@@ -14,6 +14,11 @@
 			}
 		}
 
+		a,
+		.roller {
+			color: vars-oled.$rgb-link-blue--muted-oled;
+		}
+
 		// Buttons with vibrant OLED colors
 		.btn-primary {
 			background-color: vars-oled.$rgb-btn-primary-blue--oled;
@@ -116,3 +121,4 @@
 		}
 	}
 }
+	
