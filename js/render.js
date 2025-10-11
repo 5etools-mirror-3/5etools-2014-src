@@ -9748,68 +9748,63 @@ Renderer.character = class {
 							rollableModifier,
 						];
 					}),
+					style: "table--skills-compact"
 				},
 			],
 		};
 		renderer.recursiveRender(skillsSection, renderStack, {depth: 1});
 
-		// Saving Throws Section (show all abilities, highlight proficient ones)
+		// Saving Throws Section
 		const savingThrowsSection = {
 			type: "entries",
 			name: "Saving Throws",
 			entries: [
 				{
 					type: "table",
-					colLabels: ["Ability", "Modifier"],
-					rows: abilities.map(ab => {
-						const score = character[ab] || 10;
-						const baseModifier = Parser.getAbilityModifier(score);
-						const baseModValue = typeof baseModifier === "number" ? baseModifier : parseInt(baseModifier) || 0;
-						
-						let finalModifier = baseModValue;
-						let isProficient = false;
+					colLabels: abilities.map(ab => ab.toUpperCase()),
+					rows: [
+						abilities.map(ab => {
+							const score = character[ab] || 10;
+							const baseModifier = Parser.getAbilityModifier(score);
+							const baseModValue = typeof baseModifier === "number" ? baseModifier : parseInt(baseModifier) || 0;
+							
+							let finalModifier = baseModValue;
+							let isProficient = false;
 
-						// Prioritize new system (saveProficiencies array)
-						if (character.saveProficiencies && Array.isArray(character.saveProficiencies)) {
-							isProficient = character.saveProficiencies.includes(ab);
-							if (isProficient) {
-								// Get proficiency bonus from character
-								let profBonus = 0;
-								if (character.proficiencyBonus) {
-									const profBonusStr = character.proficiencyBonus.toString().replace('+', '');
-									profBonus = parseInt(profBonusStr) || 0;
+							// Prioritize new system (saveProficiencies array)
+							if (character.saveProficiencies && Array.isArray(character.saveProficiencies)) {
+								isProficient = character.saveProficiencies.includes(ab);
+								if (isProficient) {
+									// Get proficiency bonus from character
+									let profBonus = 0;
+									if (character.proficiencyBonus) {
+										const profBonusStr = character.proficiencyBonus.toString().replace('+', '');
+										profBonus = parseInt(profBonusStr) || 0;
+									}
+									finalModifier = baseModValue + profBonus;
+								} else {
+									// Not proficient - just use ability modifier
+									finalModifier = baseModValue;
 								}
-								finalModifier = baseModValue + profBonus;
-							} else {
-								// Not proficient - just use ability modifier
-								finalModifier = baseModValue;
 							}
-						}
-						// Fallback to old system (pre-calculated bonuses in character.save)
-						else if (character.save?.[ab] !== undefined) {
-							const oldSaveBonus = character.save[ab];
-							finalModifier = typeof oldSaveBonus === "string" ? parseInt(oldSaveBonus) || baseModValue : oldSaveBonus;
-							isProficient = true;
-						}
-						// No save system - just use ability modifier
-						else {
-							finalModifier = baseModValue;
-							isProficient = false;
-						}
+							// Fallback to old system (pre-calculated bonuses in character.save)
+							else if (character.save?.[ab] !== undefined) {
+								const oldSaveBonus = character.save[ab];
+								finalModifier = typeof oldSaveBonus === "string" ? parseInt(oldSaveBonus) || baseModValue : oldSaveBonus;
+								isProficient = true;
+							}
+							// No save system - just use ability modifier
+							else {
+								finalModifier = baseModValue;
+								isProficient = false;
+							}
 
-						const finalStr = finalModifier >= 0 ? `+${finalModifier}` : `${finalModifier}`;
-						// Create clickable dice roll for saving throws, with proficiency indicator in the roll name
-						const saveName = isProficient ? `${Parser.attAbvToFull(ab)} Save (Proficient)` : `${Parser.attAbvToFull(ab)} Save`;
-						const rollableModifier = `{@savingThrow ${ab} ${finalStr}}`;
-
-						// Display ability name with proficiency indicator
-						const displayName = isProficient ? `<strong>${Parser.attAbvToFull(ab)}</strong> ◉` : Parser.attAbvToFull(ab);
-
-						return [
-							displayName,
-							rollableModifier,
-						];
-					}),
+							const finalStr = finalModifier >= 0 ? `+${finalModifier}` : `${finalModifier}`;
+							const proficiencyIndicator = isProficient ? " ◉" : "";
+							// Create clickable dice roll for saving throws
+							return `{@savingThrow ${ab} ${finalStr}}${proficiencyIndicator}`;
+						}),
+					],
 				},
 			],
 		};
