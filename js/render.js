@@ -9840,7 +9840,7 @@ Renderer.character = class {
 			// Add spell save DC and attack bonus if provided
 			if (character.spells.dc || character.spells.attackBonus) {
 				const dcText = character.spells.dc ? `Spell Save DC: ${character.spells.dc}` : "";
-				const attackText = character.spells.attackBonus ? `Spell Attack Bonus: {@d20 ${character.spells.attackBonus}|Spell Attack}` : "";
+				const attackText = character.spells.attackBonus ? `Spell Attack Bonus: {@d20 ${character.spells.attackBonus}}` : "";
 				const separator = dcText && attackText ? " | " : "";
 				spellInfo.entries.push(`${dcText}${separator}${attackText}`);
 			}
