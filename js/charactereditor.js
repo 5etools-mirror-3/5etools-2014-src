@@ -85,7 +85,7 @@ class CharacterEditorPage {
 		isEditMode = urlParams.get('edit') === 'true';
 
 		// Initialize ACE editor using 5etools utility
-		this.ace = EditorUtil.initEditor("jsoninput", {mode: "ace/mode/json"});
+		this.ace = await EditorUtil.pInitEditor("jsoninput", {mode: "ace/mode/json"});
 
 		if (isEditMode) {
 			// Load character data if in edit mode
