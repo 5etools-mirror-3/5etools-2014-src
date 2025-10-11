@@ -22,7 +22,6 @@
 		.rd__h--2,
 		.rd__h--3 {
 			color: vars-oled.$rgb-font--oled;
-			text-shadow: 0 0 5px rgba(51, 255, 85, 0.6);
 		}
 
 		// Stat blocks
@@ -34,7 +33,6 @@
 
 		.rd__stat-name {
 			color: vars-oled.$rgb-name-red--oled;
-			text-shadow: 0 0 4px rgba(255, 133, 51, 0.5);
 		}
 
 		// Tables
@@ -86,7 +84,6 @@
 		.rd__creature,
 		.rd__item {
 			color: vars-oled.$rgb-link-blue--oled;
-			text-shadow: 0 0 3px rgba(51, 221, 255, 0.5);
 		}
 
 		// Homebrew content

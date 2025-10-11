@@ -35,12 +35,13 @@
 
 		// Add bright glow effect for the pitch black OLED theme
 		.rd__h {
-			text-shadow: 0 0 6px rgba(51, 255, 85, 0.7);
+			color: white;
+			// text-shadow: 0 0 6px rgba(51, 255, 85, 0.7);
 		}
 
 		// Enhance link visibility with bright glow
-		a {
-			text-shadow: 0 0 3px rgba(51, 221, 255, 0.6);
-		}
+		// a {
+			// text-shadow: 0 0 3px rgba(51, 221, 255, 0.6);
+		// }
 	}
 }
