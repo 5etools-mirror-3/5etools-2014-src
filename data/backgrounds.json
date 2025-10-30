@@ -19158,8 +19158,8 @@
 							"quantity": 5
 						},
 						{
-							"item": "gaming set|phb",
-							"displayName": "gaming set (matching your chosen proficiency)"
+							"equipmentType": "setGaming",
+							"displayName": "gaming set matching your chosen proficiency"
 						},
 						"signet ring|phb",
 						"fine clothes|phb",
@@ -19599,8 +19599,8 @@
 						},
 						"hunting trap|phb",
 						{
-							"item": "gaming set|phb",
-							"displayName": "gaming set (matching your chosen proficiency)"
+							"equipmentType": "setGaming",
+							"displayName": "gaming set matching your chosen proficiency"
 						},
 						"traveler's clothes|phb",
 						{

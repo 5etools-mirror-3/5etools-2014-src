@@ -873,7 +873,8 @@ NavBar.InteractionManager = class {
 		evt.preventDefault();
 		const sync = StorageUtil.syncGetDump();
 		const async = await StorageUtil.pGetDump();
-		const dump = {sync, async};
+		const syncStyle = globalThis.styleSwitcher.constructor.syncGetStorageDump();
+		const dump = {sync, async, syncStyle};
 		DataUtil.userDownload("5etools", dump, {fileType: "5etools"});
 	}
 
@@ -889,6 +890,7 @@ NavBar.InteractionManager = class {
 		try {
 			StorageUtil.syncSetFromDump(dump.sync);
 			await StorageUtil.pSetFromDump(dump.async);
+			globalThis.styleSwitcher.constructor.syncSetFromStorageDump(dump.syncStyle);
 			location.reload();
 		} catch (e) {
 			JqueryUtil.doToast({type: "danger", content: `Failed to load state! ${VeCt.STR_SEE_CONSOLE}`});

@@ -1009,6 +1009,7 @@ const PROPORDER_LANGUAGE = [
 
 	"type",
 	"typicalSpeakers",
+	"origin",
 	"script",
 
 	"fonts",

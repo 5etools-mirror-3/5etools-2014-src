@@ -4,6 +4,7 @@ import "../js/parser.js";
 import "../js/utils.js";
 import "../js/render.js";
 import "../js/render-dice.js";
+import {pInitConsoleOut} from "../node/util-commander.js";
 
 const pLoadData = async (originalFilename, originalPath) => {
 	switch (originalFilename) {
@@ -180,19 +181,13 @@ class TestFoundry {
 		},
 
 		ignoresNeverUsed: {
+			[Parser.SRC_PHB]: new Set([
+				// Used in '24 version only
+				"@scale.battle-master.superiority",
+			]),
 			[Parser.SRC_TCE]: new Set([
 				"@scale.artificer.infusions",
 				"@scale.alchemist.elixir",
-			]),
-			[Parser.SRC_XPHB]: new Set([
-				// TODO(Future) utilize these
-				"@scale.druid.wild-shape",
-				"@scale.druid.known-forms",
-				"@scale.ranger.mark",
-
-				"@scale.arcane-trickster.max-prepared",
-				"@scale.eldritch-knight.cantrips",
-				"@scale.eldritch-knight.prepared",
 			]),
 		},
 	};
@@ -298,8 +293,7 @@ const SPECIAL_PROPS = {
 };
 
 async function main () {
-	// Arbitrary initial delay to allow IntelliJ console to properly init(?!)
-	await MiscUtil.pDelay(200);
+	await pInitConsoleOut();
 
 	const errors = [];
 	const scaleValues = {};

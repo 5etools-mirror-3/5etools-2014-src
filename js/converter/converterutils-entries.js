@@ -221,11 +221,6 @@ export class SpellTag extends ConverterTaggerInitializable {
 }
 
 export class ItemTag extends ConverterTaggerInitializable {
-	static _ITEM_NAMES = {};
-	static _ITEM_NAMES_REGEX_TOOLS = null;
-	static _ITEM_NAMES_REGEX_OTHER = null;
-	static _ITEM_NAMES_REGEX_EQUIPMENT = null;
-
 	static _WALKER = MiscUtil.getWalker({
 		keyBlocklist: new Set([
 			...TagJsons.WALKER_KEY_BLOCKLIST,
@@ -236,30 +231,82 @@ export class ItemTag extends ConverterTaggerInitializable {
 
 	static async _pInit () {
 		const itemArr = await Renderer.item.pBuildList();
-
 		const standardItems = itemArr.filter(it => !SourceUtil.isNonstandardSource(it.source));
 
+		const itemProperties = await DataLoader.pCacheAndGetAllSite("itemProperty");
+		const standardItemProperties = itemProperties.filter(it => !SourceUtil.isNonstandardSource(it.source));
+
+		await this._pInit_classic({standardItems, standardProperties: standardItemProperties});
+	}
+
+	static _ITEM_NAMES__CLASSIC = {};
+	static _ITEM_PROPERTY_NAMES__CLASSIC = {};
+	static _ITEM_NAMES_REGEX_TOOLS__CLASSIC = null;
+	static ITEM_NAMES_REGEX_OTHER__CLASSIC = null;
+	static _ITEM_NAMES_REGEX_EQUIPMENT__CLASSIC = null;
+	static _ITEM_PROPERTY_REGEX__CLASSIC = null;
+
+	static async _pInit_classic ({standardItems, standardProperties}) {
+		await this._pInit_generic({
+			standardItems,
+			standardProperties,
+			lookupItemNames: this._ITEM_NAMES__CLASSIC,
+			lookupItemPropertyNames: this._ITEM_PROPERTY_NAMES__CLASSIC,
+			propItemNamesRegexTools: "_ITEM_NAMES_REGEX_TOOLS__CLASSIC",
+			propItemNamesRegexOther: "ITEM_NAMES_REGEX_OTHER__CLASSIC",
+			propItemNamesRegexEquipment: "_ITEM_NAMES_REGEX_EQUIPMENT__CLASSIC",
+			propItemPropertyNamesRegex: "_ITEM_PROPERTY_REGEX__CLASSIC",
+			srcPhb: Parser.SRC_PHB,
+		});
+	}
+
+	static _TOOL_TYPES = new Set([
+		Parser.ITM_TYP_ABV__ARTISAN_TOOL,
+		Parser.ITM_TYP_ABV__GAMING_SET,
+		Parser.ITM_TYP_ABV__INSTRUMENT,
+		Parser.ITM_TYP_ABV__TOOL,
+	]);
+
+	static _NON_EQUIPMENT_TYPES = new Set([
+		Parser.ITM_TYP_ABV__MELEE_WEAPON,
+		Parser.ITM_TYP_ABV__RANGED_WEAPON,
+		Parser.ITM_TYP_ABV__LIGHT_ARMOR,
+		Parser.ITM_TYP_ABV__MEDIUM_ARMOR,
+		Parser.ITM_TYP_ABV__HEAVY_ARMOR,
+		Parser.ITM_TYP_ABV__SHIELD,
+	]);
+
+	static _pInit_generic (
+		{
+			standardItems,
+			standardProperties,
+			lookupItemNames,
+			lookupItemPropertyNames,
+			propItemNamesRegexTools,
+			propItemNamesRegexOther,
+			propItemNamesRegexEquipment,
+			propItemNamesRegexStrict,
+			propItemPropertyNamesRegex,
+			srcPhb,
+		},
+	) {
+		if (!standardItems.length) return;
+
 		// region Tools
-		const toolTypes = new Set([
-			Parser.ITM_TYP_ABV__ARTISAN_TOOL,
-			Parser.ITM_TYP_ABV__GAMING_SET,
-			Parser.ITM_TYP_ABV__INSTRUMENT,
-			Parser.ITM_TYP_ABV__TOOL,
-		]);
-		const tools = standardItems.filter(it => it.type && toolTypes.has(DataUtil.itemType.unpackUid(it.type).abbreviation) && it.name !== "Horn");
+		const tools = standardItems.filter(it => it.type && this._TOOL_TYPES.has(DataUtil.itemType.unpackUid(it.type).abbreviation) && it.name !== "Horn");
 		tools.forEach(tool => {
-			this._ITEM_NAMES[tool.name.toLowerCase()] = {name: tool.name, source: tool.source};
+			lookupItemNames[tool.name.toLowerCase()] = {name: tool.name, source: tool.source};
 		});
 
-		this._ITEM_NAMES_REGEX_TOOLS = new RegExp(`\\b(${tools.map(it => it.name.escapeRegexp()).join("|")})\\b`, "gi");
+		if (tools.length) this[propItemNamesRegexTools] = new RegExp(`\\b(${tools.map(it => it.name.escapeRegexp()).join("|")})\\b`, "gi");
 		// endregion
 
 		// region Other items
 		const otherItems = standardItems
 			.filter(it => {
-				if (it.type && toolTypes.has(DataUtil.itemType.unpackUid(it.type).abbreviation)) return false;
+				if (it.type && this._TOOL_TYPES.has(DataUtil.itemType.unpackUid(it.type).abbreviation)) return false;
 				// Disallow specific items
-				if (it.name === "Wave" && it.source === Parser.SRC_DMG) return false;
+				if (it.name === "Wave" && [Parser.SRC_DMG].includes(it.source)) return false;
 				// Allow all non-specific-variant DMG items
 				if (it.source === Parser.SRC_DMG && !Renderer.item.isMundane(it) && it._category !== "Specific Variant") return true;
 				// Allow "sufficiently complex name" items
@@ -269,37 +316,50 @@ export class ItemTag extends ConverterTaggerInitializable {
 			.sort((itemA, itemB) => Number(itemB._category === "Specific Variant") - Number(itemA._category === "Specific Variant") || SortUtil.ascSortLower(itemA.name, itemB.name))
 		;
 		otherItems.forEach(it => {
-			this._ITEM_NAMES[it.name.toLowerCase()] = {name: it.name, source: it.source};
+			lookupItemNames[it.name.toLowerCase()] = {name: it.name, source: it.source};
 		});
 
-		this._ITEM_NAMES_REGEX_OTHER = new RegExp(`\\b(${otherItems.map(it => it.name.escapeRegexp()).join("|")})\\b`, "gi");
+		if (otherItems.length) this[propItemNamesRegexOther] = new RegExp(`\\b(${otherItems.map(it => it.name.escapeRegexp()).join("|")})\\b`, "gi");
 		// endregion
 
 		// region Basic equipment
 		// (Has some overlap with others)
-		const nonEquipmentTypes = new Set([
-			Parser.ITM_TYP_ABV__MELEE_WEAPON,
-			Parser.ITM_TYP_ABV__RANGED_WEAPON,
-			Parser.ITM_TYP_ABV__LIGHT_ARMOR,
-			Parser.ITM_TYP_ABV__MEDIUM_ARMOR,
-			Parser.ITM_TYP_ABV__HEAVY_ARMOR,
-			Parser.ITM_TYP_ABV__SHIELD,
-		]);
-		const itemsEquipment = itemArr
-			.filter(itm => itm.source === "PHB" && (!itm.type || !nonEquipmentTypes.has(DataUtil.itemType.unpackUid(itm.type).abbreviation)));
-		this._ITEM_NAMES_REGEX_EQUIPMENT = new RegExp(`\\b(${itemsEquipment.map(it => it.name.escapeRegexp()).join("|")})\\b`, "gi");
-		itemsEquipment.forEach(itm => this._ITEM_NAMES[itm.name.toLowerCase()] = {name: itm.name, source: itm.source});
+		const itemsEquipment = standardItems
+			.filter(itm => itm.source === srcPhb && (!itm.type || !this._NON_EQUIPMENT_TYPES.has(DataUtil.itemType.unpackUid(itm.type).abbreviation)));
+		if (itemsEquipment.length) this[propItemNamesRegexEquipment] = new RegExp(`\\b(${itemsEquipment.map(it => it.name.escapeRegexp()).join("|")})\\b`, "gi");
+		itemsEquipment.forEach(itm => lookupItemNames[itm.name.toLowerCase()] = {name: itm.name, source: itm.source});
+		// endregion
+
+		// region Strict naming
+		if (propItemNamesRegexStrict) {
+			this[propItemNamesRegexStrict] = new RegExp(`^(${standardItems.map(it => it.name.escapeRegexp()).join("|")})$`, "gi");
+			standardItems.forEach(itm => lookupItemNames[itm.name.toLowerCase()] = {name: itm.name, source: itm.source});
+		}
+		// endregion
+
+		// region Item properties
+		standardProperties.forEach(ent => {
+			const name = Renderer.item.getPropertyName(ent);
+			lookupItemPropertyNames[name.toLowerCase()] = {abbreviation: ent.abbreviation, source: ent.source};
+		});
+
+		if (standardProperties.length) this[propItemPropertyNamesRegex] = new RegExp(`(?<=the )(?<propertyName>${standardProperties.map(ent => Renderer.item.getPropertyName(ent).escapeRegexp()).join("|")})(?= property)`, "gi");
 		// endregion
 	}
 
 	/* -------------------------------------------- */
 
-	static _tryRun (it) {
+	/**
+	 * @param ent
+	 * @param {"classic" | "one" | null} styleHint
+	 */
+	static _tryRun (ent, {styleHint = null} = {}) {
 		return this._WALKER.walk(
-			it,
+			ent,
 			{
 				string: (str) => {
 					const ptrStack = {_: ""};
+
 					TaggerUtils.walkerStringHandler(
 						["@item"],
 						ptrStack,
@@ -307,7 +367,81 @@ export class ItemTag extends ConverterTaggerInitializable {
 						0,
 						str,
 						{
-							fnTag: this._fnTag.bind(this),
+							fnTag: this._fnTag_classic.bind(this),
+						},
+					);
+
+					str = ptrStack._;
+					ptrStack._ = "";
+
+					TaggerUtils.walkerStringHandler(
+						["@itemProperty"],
+						ptrStack,
+						0,
+						0,
+						str,
+						{
+							fnTag: this._fnTag_classic_properties.bind(this),
+						},
+					);
+
+					return ptrStack._;
+				},
+			},
+		);
+	}
+
+	static _fnTag_classic (strMod) {
+		if (this._ITEM_NAMES_REGEX_TOOLS__CLASSIC != null) {
+			strMod = strMod
+				.replace(this._ITEM_NAMES_REGEX_TOOLS__CLASSIC, (...m) => {
+					const itemMeta = this._ITEM_NAMES__CLASSIC[m[1].toLowerCase()];
+					return `{@item ${m[1]}${itemMeta.source !== Parser.SRC_DMG ? `|${itemMeta.source}` : ""}}`;
+				});
+		}
+
+		if (this.ITEM_NAMES_REGEX_OTHER__CLASSIC != null) {
+			strMod = strMod
+				.replace(this.ITEM_NAMES_REGEX_OTHER__CLASSIC, (...m) => {
+					const itemMeta = this._ITEM_NAMES__CLASSIC[m[1].toLowerCase()];
+					return `{@item ${m[1]}${itemMeta.source !== Parser.SRC_DMG ? `|${itemMeta.source}` : ""}}`;
+				});
+		}
+
+		return strMod;
+	}
+
+	static _fnTag_classic_properties (strMod) {
+		if (this._ITEM_PROPERTY_REGEX__CLASSIC != null) {
+			strMod = strMod
+				.replace(this._ITEM_PROPERTY_REGEX__CLASSIC, (...m) => {
+					const meta = this._ITEM_PROPERTY_NAMES__CLASSIC[m[1].toLowerCase()];
+					return `{@itemProperty ${meta.abbreviation}|${meta.source !== Parser.SRC_PHB ? `${meta.source}` : ""}|${m[1]}}`;
+				});
+		}
+
+		return strMod;
+	}
+
+	/* -------------------------------------------- */
+
+	static tryRunBasicEquipment (ent, {styleHint = null} = {}) {
+		if (!this._IS_INIT) throw new Error("Not initialized!");
+
+		return this._WALKER.walk(
+			ent,
+			{
+				string: (str) => {
+					const ptrStack = {_: ""};
+
+					TaggerUtils.walkerStringHandler(
+						["@item"],
+						ptrStack,
+						0,
+						0,
+						str,
+						{
+							fnTag: this._fnTagBasicEquipment_classic.bind(this),
 						},
 					);
 					return ptrStack._;
@@ -316,14 +450,12 @@ export class ItemTag extends ConverterTaggerInitializable {
 		);
 	}
 
-	static _fnTag (strMod) {
+	static _fnTagBasicEquipment_classic (strMod) {
+		if (this._ITEM_NAMES_REGEX_EQUIPMENT__CLASSIC == null) return strMod;
+
 		return strMod
-			.replace(this._ITEM_NAMES_REGEX_TOOLS, (...m) => {
-				const itemMeta = this._ITEM_NAMES[m[1].toLowerCase()];
-				return `{@item ${m[1]}${itemMeta.source !== Parser.SRC_DMG ? `|${itemMeta.source}` : ""}}`;
-			})
-			.replace(this._ITEM_NAMES_REGEX_OTHER, (...m) => {
-				const itemMeta = this._ITEM_NAMES[m[1].toLowerCase()];
+			.replace(this._ITEM_NAMES_REGEX_EQUIPMENT__CLASSIC, (...m) => {
+				const itemMeta = this._ITEM_NAMES__CLASSIC[m[1].toLowerCase()];
 				return `{@item ${m[1]}${itemMeta.source !== Parser.SRC_DMG ? `|${itemMeta.source}` : ""}}`;
 			})
 		;
@@ -331,35 +463,24 @@ export class ItemTag extends ConverterTaggerInitializable {
 
 	/* -------------------------------------------- */
 
-	static tryRunBasicEquipment (it) {
-		return this._WALKER.walk(
-			it,
+	static _tryRunStrictCapsWords (ent) {
+		return TagJsons.WALKER.walk(
+			ent,
 			{
 				string: (str) => {
 					const ptrStack = {_: ""};
-					TaggerUtils.walkerStringHandler(
+					TaggerUtils.walkerStringHandlerStrictCapsWords(
 						["@item"],
 						ptrStack,
-						0,
-						0,
 						str,
 						{
-							fnTag: this._fnTagBasicEquipment.bind(this),
+							fnTag: (strMod) => this._fnTagStrict({strMod}),
 						},
 					);
 					return ptrStack._;
 				},
 			},
 		);
-	}
-
-	static _fnTagBasicEquipment (strMod) {
-		return strMod
-			.replace(ItemTag._ITEM_NAMES_REGEX_EQUIPMENT, (...m) => {
-				const itemMeta = ItemTag._ITEM_NAMES[m[1].toLowerCase()];
-				return `{@item ${m[1]}${itemMeta.source !== Parser.SRC_DMG ? `|${itemMeta.source}` : ""}}`;
-			})
-		;
 	}
 }
 

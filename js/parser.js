@@ -707,8 +707,17 @@ Parser.itemValueToFull = function (item, opts = {isShortForm: false, isSmallUnit
  * @param {?boolean} [opts.isShortForm]
  * @param {?boolean} [opts.isSmallUnits]
  * @param {?number} [opts.multiplier]
+ * @param {?string} [opts.styleHint]
  */
-Parser.itemValueToFullMultiCurrency = function (item, opts = {isShortForm: false, isSmallUnits: false, multiplier: null}) {
+Parser.itemValueToFullMultiCurrency = function (
+	item,
+	opts = {
+		isShortForm: false,
+		isSmallUnits: false,
+		multiplier: null,
+		styleHint: null,
+	},
+) {
 	return Parser._moneyToFullMultiCurrency(item, "value", "valueMult", opts);
 };
 
@@ -736,7 +745,9 @@ Parser._moneyToFull = function (it, prop, propMult, opts = {isShortForm: false, 
 	return "";
 };
 
-Parser._moneyToFullMultiCurrency = function (it, prop, propMult, {isShortForm, multiplier} = {}) {
+Parser._moneyToFullMultiCurrency = function (it, prop, propMult, {isShortForm, multiplier, styleHint} = {}) {
+	styleHint ||= VetoolsConfig.get("styleSwitcher", "style");
+
 	if (it[prop]) {
 		const conversionTable = Parser.getCurrencyConversionTable(it.currencyConversion);
 
@@ -757,8 +768,12 @@ Parser._moneyToFullMultiCurrency = function (it, prop, propMult, {isShortForm, m
 		return [...conversionTable]
 			.reverse()
 			.filter(meta => simplified[meta.coin])
-			.map(meta => `${simplified[meta.coin].toLocaleString(undefined, {maximumFractionDigits: 5})} ${meta.coin}`)
+			.map(meta => `${simplified[meta.coin].toLocaleString(undefined, {maximumFractionDigits: 5})} ${styleHint === "classic" ? meta.coin : meta.coin.toUpperCase()}`)
 			.join(", ");
+	}
+
+	if (it[prop] === 0) {
+		return `0 ${styleHint === "classic" ? "gp" : "GP"}`;
 	}
 
 	if (it[propMult]) return isShortForm ? `×${it[propMult]}` : `base value ×${it[propMult]}`;

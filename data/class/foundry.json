@@ -134,6 +134,46 @@
 	],
 	"subclass": [
 		{
+			"name": "Battle Master",
+			"shortName": "Battle Master",
+			"source": "PHB",
+			"className": "Fighter",
+			"classSource": "PHB",
+			"advancement": [
+				{
+					"type": "ScaleValue",
+					"configuration": {
+						"identifier": "superiority",
+						"type": "dice",
+						"scale": {
+							"3": {
+								"number": 4,
+								"faces": 8
+							},
+							"7": {
+								"number": 5,
+								"faces": 8
+							},
+							"10": {
+								"number": 5,
+								"faces": 10
+							},
+							"15": {
+								"number": 6,
+								"faces": 10
+							},
+							"18": {
+								"number": 6,
+								"faces": 12
+							}
+						}
+					},
+					"title": "Superiority Dice"
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
 			"name": "Nature Domain",
 			"shortName": "Nature",
 			"source": "PHB",
@@ -585,7 +625,9 @@
 			"className": "Fighter",
 			"classSource": "PHB",
 			"level": 1,
-			"isIgnored": true,
+			"entries": [
+				"You adopt a particular style of fighting as your specialty. You can't take the same Fighting Style option more than once, even if you get to choose again."
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -815,7 +857,9 @@
 			"className": "Paladin",
 			"classSource": "PHB",
 			"level": 2,
-			"isIgnored": true,
+			"entries": [
+				"You adopt a particular style of fighting as your specialty. You can't take the same Fighting Style option more than once, even if you get to choose again."
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -880,7 +924,9 @@
 			"className": "Ranger",
 			"classSource": "PHB",
 			"level": 2,
-			"isIgnored": true,
+			"entries": [
+				"You adopt a particular style of fighting as your specialty. You can't take the same Fighting Style option more than once, even if you get to choose again."
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1648,6 +1694,9 @@
 			"subclassShortName": "Swords",
 			"subclassSource": "XGE",
 			"level": 3,
+			"entries": [
+				"At 3rd level, you adopt a style of fighting as your specialty. You can't take a Fighting Style option more than once, even if something in the game lets you choose again."
+			],
 			"isIgnored": true,
 			"migrationVersion": 3
 		},
@@ -3098,17 +3147,6 @@
 					]
 				}
 			],
-			"migrationVersion": 3
-		},
-		{
-			"name": "Additional Fighting Style",
-			"source": "PHB",
-			"className": "Fighter",
-			"classSource": "PHB",
-			"subclassShortName": "Champion",
-			"subclassSource": "PHB",
-			"level": 10,
-			"isIgnored": true,
 			"migrationVersion": 3
 		},
 		{
