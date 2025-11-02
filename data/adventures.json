@@ -15068,6 +15068,7 @@
 			"name": "Krenko's Way",
 			"id": "KKW",
 			"source": "KKW",
+			"parentSource": "GGR",
 			"group": "supplement-alt",
 			"cover": {
 				"type": "internal",
@@ -16354,6 +16355,7 @@
 			"name": "The Orrery of the Wanderer",
 			"id": "OoW",
 			"source": "OoW",
+			"parentSource": "AI",
 			"group": "supplement",
 			"cover": {
 				"type": "internal",
@@ -20787,6 +20789,7 @@
 			"name": "Eberron: Forgotten Relics",
 			"id": "EFR",
 			"source": "EFR",
+			"parentSource": "ERLW",
 			"group": "supplement",
 			"cover": {
 				"type": "internal",
@@ -20882,6 +20885,7 @@
 			"name": "The Lost Dungeon of Rickedness: Big Rick Energy",
 			"id": "RMBRE",
 			"source": "RMBRE",
+			"parentSource": "RMR",
 			"group": "supplement-alt",
 			"cover": {
 				"type": "internal",
@@ -21580,6 +21584,7 @@
 			"name": "Theros: No Silent Secret",
 			"id": "MOT-NSS",
 			"source": "MOT",
+			"parentSource": "MOT",
 			"group": "supplement",
 			"cover": {
 				"type": "internal",
@@ -24438,6 +24443,7 @@
 			"name": "Ravenloft: The House of Lament",
 			"id": "HoL",
 			"source": "HoL",
+			"parentSource": "VRGR",
 			"group": "supplement",
 			"cover": {
 				"type": "internal",
@@ -28334,6 +28340,7 @@
 			],
 			"id": "LoX",
 			"source": "LoX",
+			"parentSource": "SAiS",
 			"group": "supplement",
 			"cover": {
 				"type": "internal",
@@ -31594,14 +31601,18 @@
 		},
 		{
 			"name": "Turn of Fortune's Wheel",
+			"alias": [
+				"Planescape: Adventures in the Multiverse"
+			],
 			"id": "ToFW",
 			"source": "ToFW",
+			"parentSource": "PAitM",
 			"group": "supplement",
 			"cover": {
 				"type": "internal",
 				"path": "covers/ToFW.webp"
 			},
-			"published": "2023-10-17",
+			"published": "2023-10-07",
 			"author": "Wizards RPG Team",
 			"storyline": "Planescape",
 			"level": {

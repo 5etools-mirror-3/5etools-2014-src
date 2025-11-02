@@ -7026,6 +7026,398 @@
 			]
 		},
 		{
+			"name": "Planar Encounters",
+			"source": "MPP",
+			"page": 63,
+			"tables": [
+				{
+					"captionPrefix": "Chaotic",
+					"diceExpression": "d100",
+					"table": [
+						{
+							"min": 1,
+							"max": 8,
+							"result": "{@dice 1d6} {@creature Bariaur Wanderer|MPP|bariaur wanderers}*"
+						},
+						{
+							"min": 9,
+							"max": 16,
+							"result": "1 {@creature monodrone} that has gone rogue and seeks the meaning of the multiverse"
+						},
+						{
+							"min": 17,
+							"max": 24,
+							"result": "{@dice 1d6} {@creature Swarm of Sunflies|MPP|swarms of sunflies}*"
+						},
+						{
+							"min": 25,
+							"max": 31,
+							"result": "{@dice 1d4} {@creature Red Slaad||red slaadi}"
+						},
+						{
+							"min": 32,
+							"max": 38,
+							"result": "1 {@creature Cranium Rat Squeaker Swarm|MPP|swarm of cranium rat squeakers}.* Roll a die. If the number is even, these cranium rats have set up a tiny shop. If the number is odd, these cranium rats have also set up a tiny shop but are con artists."
+						},
+						{
+							"min": 39,
+							"max": 46,
+							"result": "{@dice 1d6} {@creature Pteranodon||pteranodons}"
+						},
+						{
+							"min": 47,
+							"max": 55,
+							"result": "{@dice 1d4} {@creature Mercykiller Bloodhound|MPP|Mercykiller bloodhounds}* tracking a planar criminal"
+						},
+						{
+							"min": 56,
+							"max": 62,
+							"result": "{@dice 1d8} {@creature berserker} {@book petitioners|MPP|0|Petitioners}"
+						},
+						{
+							"min": 63,
+							"max": 72,
+							"result": "A rift-like portal connecting to a random plane"
+						},
+						{
+							"min": 73,
+							"max": 79,
+							"result": "1 {@creature ettin} with two different animal heads"
+						},
+						{
+							"min": 80,
+							"max": 85,
+							"result": "1 {@creature green slaad} disguised as a lost explorer from the Material Plane"
+						},
+						{
+							"min": 86,
+							"max": 90,
+							"result": "{@dice 1d6} {@creature Vrock||vrocks} seeking to dragoon captives into the Blood War"
+						},
+						{
+							"min": 91,
+							"max": 97,
+							"result": "A location the characters passed hours ago"
+						},
+						{
+							"min": 98,
+							"max": 100,
+							"result": "1 chaotic {@creature empyrean} seeking companions to undertake a mighty quest"
+						}
+					]
+				},
+				{
+					"captionPrefix": "Evil",
+					"diceExpression": "d100",
+					"table": [
+						{
+							"min": 1,
+							"max": 7,
+							"result": "{@dice 1d6} {@creature Vargouille Reflection|MPP|vargouille reflections}*"
+						},
+						{
+							"min": 8,
+							"max": 16,
+							"result": "1 {@creature night hag} selling {@dice 2d6} {@creature Larva|DMG|larvae} (see the {@book Dungeon Master's Guide|DMG})"
+						},
+						{
+							"min": 17,
+							"max": 23,
+							"result": "{@dice 1d4} {@creature Razorvine Blight|MPP|razorvine blights}*"
+						},
+						{
+							"min": 24,
+							"max": 31,
+							"result": "A force of {@dice 3d10} {@creature Hobgoblin||hobgoblins} and 1 {@creature hobgoblin} {@creature warlord|MPMM}"
+						},
+						{
+							"min": 32,
+							"max": 38,
+							"result": "1 {@creature gnoll fang of Yeenoghu} and {@dice 2d6} {@creature Gnoll||gnolls}"
+						},
+						{
+							"min": 39,
+							"max": 47,
+							"result": "1 {@creature ultroloth} and {@dice 1d4} {@creature Mezzoloth||mezzoloths}"
+						},
+						{
+							"min": 48,
+							"max": 53,
+							"result": "1 {@creature darkweaver|MPP}* that calls from its shadowy lair"
+						},
+						{
+							"min": 54,
+							"max": 63,
+							"result": "A portal to a Lower Plane that whispers sinister promises"
+						},
+						{
+							"min": 64,
+							"max": 69,
+							"result": "1 {@creature shator demodand|MPP}* seeking its lost prisoners"
+						},
+						{
+							"min": 70,
+							"max": 77,
+							"result": "{@dice 2d6} {@creature Nightmare||nightmares}"
+						},
+						{
+							"min": 78,
+							"max": 84,
+							"result": "1 {@creature githyanki knight} mounted on 1 {@creature young red dragon}"
+						},
+						{
+							"min": 85,
+							"max": 91,
+							"result": "1 {@creature lich} in a sinister walking citadel"
+						},
+						{
+							"min": 92,
+							"max": 98,
+							"result": "A Blood War battlefield where 1 {@creature marilith} general leads demons against 1 {@creature ice devil} general and its devils"
+						},
+						{
+							"min": 99,
+							"max": 100,
+							"result": "1 {@creature baernaloth|MPP}* with a sinister magic item"
+						}
+					]
+				},
+				{
+					"captionPrefix": "Good",
+					"diceExpression": "d100",
+					"table": [
+						{
+							"min": 1,
+							"max": 9,
+							"result": "1 {@creature sunfly|MPP}* carrying a tiny dessert"
+						},
+						{
+							"min": 10,
+							"max": 16,
+							"result": "1 {@creature lantern archon|MPP}* leading a group of {@dice 2d4} {@creature commoner} {@book petitioners|MPP|0|Petitioners} who are prone to getting lost"
+						},
+						{
+							"min": 17,
+							"max": 22,
+							"result": "{@dice 1d6} {@creature Musteval Guardinal|MPP|musteval guardinals}* on a secret mission"
+						},
+						{
+							"min": 23,
+							"max": 28,
+							"result": "1 {@creature time dragon wyrmling|MPP}*"
+						},
+						{
+							"min": 29,
+							"max": 35,
+							"result": "{@dice 1d4} {@creature Hound Archon|MPP|hound archons},* each with a {@creature mastiff} tracking dog"
+						},
+						{
+							"min": 36,
+							"max": 41,
+							"result": "A friendly, awakened {@creature swarm of bats}"
+						},
+						{
+							"min": 42,
+							"max": 48,
+							"result": "{@dice 1d4} {@creature Cloud Giant||cloud giants} on a floating island"
+						},
+						{
+							"min": 49,
+							"max": 56,
+							"result": "1 {@creature druid} studying an inert, magical animal sculpture made of thousands of tanzanite crystals"
+						},
+						{
+							"min": 57,
+							"max": 63,
+							"result": "1 {@creature treant} comprised of cacti, coral, or mushrooms"
+						},
+						{
+							"min": 64,
+							"max": 70,
+							"result": "1 {@creature avoral guardinal|MPP}* seeking a lost animal {@book petitioner|MPP|0|Petitioners}"
+						},
+						{
+							"min": 71,
+							"max": 80,
+							"result": "A portal to an Upper Plane that beckons with promises of eternal peace and comfort"
+						},
+						{
+							"min": 81,
+							"max": 87,
+							"result": "1 gold dragon (your choice of {@creature Young Gold Dragon||young}, {@creature Adult Gold Dragon||adult}, or {@creature Ancient Gold Dragon||ancient})"
+						},
+						{
+							"min": 88,
+							"max": 95,
+							"result": "1 {@creature planar incarnate|MPP|planar incarnate (Celestial form)}"
+						},
+						{
+							"min": 96,
+							"max": 100,
+							"result": "1 {@creature solar} angel sent to bestow a {@book blessing|DMG|7|Blessings} (see the {@book Dungeon Master's Guide|DMG}) on a character"
+						}
+					]
+				},
+				{
+					"captionPrefix": "Lawful",
+					"diceExpression": "d100",
+					"table": [
+						{
+							"min": 1,
+							"max": 6,
+							"result": "A {@creature warden archon|MPP}* guarding a portal to a dangerous plane"
+						},
+						{
+							"min": 7,
+							"max": 13,
+							"result": "1 {@creature imp} who claims to speak for an archdevil"
+						},
+						{
+							"min": 14,
+							"max": 21,
+							"result": "{@dice 1d6} {@creature Hands of Havoc Fire Starter|MPP|Hands of Havoc fire starters}*"
+						},
+						{
+							"min": 22,
+							"max": 29,
+							"result": "1 {@creature maelephant|MPP}*"
+						},
+						{
+							"min": 30,
+							"max": 36,
+							"result": "1 {@creature flumph} {@book petitioner|MPP|0|Petitioners} that's excited to learn about the planes"
+						},
+						{
+							"min": 37,
+							"max": 42,
+							"result": "1 {@creature decaton modron|MPP}* and {@dice 2d6} {@creature Quadrone||quadrones} on their way back to Mechanus"
+						},
+						{
+							"min": 43,
+							"max": 48,
+							"result": "1 {@creature guardian naga} storyteller"
+						},
+						{
+							"min": 49,
+							"max": 54,
+							"result": "1 {@creature gynosphinx} who guards secret wisdom"
+						},
+						{
+							"min": 55,
+							"max": 61,
+							"result": "{@dice 1d6} {@creature Knight||knights} on a quest across the planes"
+						},
+						{
+							"min": 62,
+							"max": 69,
+							"result": "1 {@creature nonaton modron|MPP}* in a walking citadel that looks like a giant modron"
+						},
+						{
+							"min": 70,
+							"max": 76,
+							"result": "{@dice 1d4} {@creature Couatl||couatls}"
+						},
+						{
+							"min": 77,
+							"max": 84,
+							"result": "1 {@creature Mind's Eye matter smith|MPP}* testing a new invention"
+						},
+						{
+							"min": 85,
+							"max": 90,
+							"result": "1 {@creature beholder} {@book petitioner|MPP|0|Petitioners} scheming against a rival who's still alive"
+						},
+						{
+							"min": 91,
+							"max": 97,
+							"result": "1 {@creature pit fiend} who claims to speak for an archdevil"
+						},
+						{
+							"min": 98,
+							"max": 100,
+							"result": "1 {@creature hexton modron|MPP}* leading a march of hundreds of lesser modrons"
+						}
+					]
+				},
+				{
+					"captionPrefix": "Neutral",
+					"diceExpression": "d100",
+					"table": [
+						{
+							"min": 1,
+							"max": 7,
+							"result": "{@dice 1d6} {@creature thri-kreen} looking for a way back to their Material Plane home"
+						},
+						{
+							"min": 8,
+							"max": 15,
+							"result": "A mysterious being who communicates via 1 {@creature cranium rat squeaker|MPP}*"
+						},
+						{
+							"min": 16,
+							"max": 22,
+							"result": "{@dice 1d4} {@creature Society of Sensation Muse|MPP|Society of Sensation muses}* undertaking increasingly daring feats"
+						},
+						{
+							"min": 23,
+							"max": 31,
+							"result": "1 {@creature smoke mephit} carrying challenges between archmage rivals"
+						},
+						{
+							"min": 32,
+							"max": 38,
+							"result": "1 {@creature eater of knowledge|MPP}*"
+						},
+						{
+							"min": 39,
+							"max": 46,
+							"result": "{@dice 2d12} {@creature commoner} {@book petitioners|MPP|0|Petitioners} fleeing {@dice 1d4} {@creature Farastu Demodand|MPP|farastu demodands}* and 1 {@creature kelubar demodand|MPP}*"
+						},
+						{
+							"min": 47,
+							"max": 55,
+							"result": "1 {@creature cuprilach rilmani|MPP}* on an assassination mission"
+						},
+						{
+							"min": 56,
+							"max": 64,
+							"result": "1 {@creature equinal guardinal|MPP}* messenger"
+						},
+						{
+							"min": 65,
+							"max": 71,
+							"result": "{@dice 1d4} {@creature Githzerai Traveler|MPP|githzerai travelers}*"
+						},
+						{
+							"min": 72,
+							"max": 79,
+							"result": "1 {@creature kolyarut|MPP}* seeking a contract breaker"
+						},
+						{
+							"min": 80,
+							"max": 86,
+							"result": "1 {@creature aurumach rilmani|MPP}*"
+						},
+						{
+							"min": 87,
+							"max": 92,
+							"result": "1 {@creature githzerai futurist|MPP}* with a warning about a character's future"
+						},
+						{
+							"min": 93,
+							"max": 98,
+							"result": "1 {@creature flameskull} claiming to be the famed planar explorer Morte"
+						},
+						{
+							"min": 99,
+							"max": 100,
+							"result": "1 {@creature ancient time dragon|MPP}* (50 percent chance the time dragon is from the past, 50 percent chance it's from the future)"
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "Ship",
 			"source": "BAM",
 			"page": 7,
@@ -7148,7 +7540,7 @@
 			"page": 59,
 			"tables": [
 				{
-					"caption": "Clerks' Ward",
+					"captionSuffix": "Clerks' Ward",
 					"diceExpression": "d8",
 					"table": [
 						{
@@ -7194,7 +7586,7 @@
 					]
 				},
 				{
-					"caption": "General",
+					"captionSuffix": "General",
 					"diceExpression": "d100",
 					"table": [
 						{
@@ -7378,7 +7770,7 @@
 					]
 				},
 				{
-					"caption": "Hive Ward",
+					"captionSuffix": "Hive Ward",
 					"diceExpression": "d8",
 					"table": [
 						{
@@ -7424,7 +7816,7 @@
 					]
 				},
 				{
-					"caption": "Lady's Ward",
+					"captionSuffix": "Lady's Ward",
 					"diceExpression": "d8",
 					"table": [
 						{
@@ -7470,7 +7862,7 @@
 					]
 				},
 				{
-					"caption": "Lower Ward",
+					"captionSuffix": "Lower Ward",
 					"diceExpression": "d8",
 					"table": [
 						{
@@ -7516,7 +7908,7 @@
 					]
 				},
 				{
-					"caption": "Market Ward",
+					"captionSuffix": "Market Ward",
 					"diceExpression": "d8",
 					"table": [
 						{
@@ -7562,7 +7954,7 @@
 					]
 				},
 				{
-					"caption": "Undersigil",
+					"captionSuffix": "Undersigil",
 					"diceExpression": "d6",
 					"table": [
 						{

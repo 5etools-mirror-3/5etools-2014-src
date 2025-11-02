@@ -4244,12 +4244,30 @@
 			]
 		},
 		{
+			"name": "Dungeon Master's Screen: Spelljammer",
+			"id": "ScreenSpelljammer",
+			"source": "ScreenSpelljammer",
+			"group": "screen",
+			"cover": {
+				"type": "internal",
+				"path": "covers/ScreenSpelljammer.webp"
+			},
+			"published": "2022-08-16",
+			"author": "Wizards RPG Team",
+			"contents": [
+				{
+					"name": "Screen"
+				}
+			]
+		},
+		{
 			"name": "Astral Adventurer's Guide",
 			"alias": [
 				"Spelljammer: Astral Adventurer's Guide"
 			],
 			"id": "AAG",
 			"source": "AAG",
+			"parentSource": "SAiS",
 			"group": "supplement",
 			"cover": {
 				"type": "internal",
@@ -4329,6 +4347,7 @@
 			],
 			"id": "BAM",
 			"source": "BAM",
+			"parentSource": "SAiS",
 			"group": "supplement",
 			"cover": {
 				"type": "internal",
@@ -4348,23 +4367,6 @@
 				},
 				{
 					"name": "Credits"
-				}
-			]
-		},
-		{
-			"name": "Dungeon Master's Screen: Spelljammer",
-			"id": "ScreenSpelljammer",
-			"source": "ScreenSpelljammer",
-			"group": "screen",
-			"cover": {
-				"type": "internal",
-				"path": "covers/ScreenSpelljammer.webp"
-			},
-			"published": "2022-08-16",
-			"author": "Wizards RPG Team",
-			"contents": [
-				{
-					"name": "Screen"
 				}
 			]
 		},
@@ -4546,6 +4548,7 @@
 			],
 			"id": "MPP",
 			"source": "MPP",
+			"parentSource": "PAitM",
 			"group": "supplement",
 			"cover": {
 				"type": "internal",
@@ -4602,6 +4605,7 @@
 			],
 			"id": "SatO",
 			"source": "SatO",
+			"parentSource": "PAitM",
 			"group": "supplement",
 			"cover": {
 				"type": "internal",

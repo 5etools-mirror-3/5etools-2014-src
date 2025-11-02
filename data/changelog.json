@@ -3029,5 +3029,10 @@
 		"ver": "1.210.55",
 		"date": "2025-10-31",
 		"txt": "- Added Optional/Variant Classes to compact spell view\n- Fixed Initiative Tracker Player View \"fullscreen\" hotkey\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.210.56",
+		"date": "2025-11-02",
+		"txt": "- Added Morte's Planar Parade encounters to Encounter Generator page\n- Added parent sources to various adventures/books in the Navbar, to make it more obvious which are from larger books/sets\n- Fixed Navbar incorrectly merging sources across adventure/book types\n- (Brew) Improved Text Converter tagging of various rules terms\n- (Fixed typos/added tags)"
 	}
 ]
