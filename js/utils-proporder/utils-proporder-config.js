@@ -209,6 +209,7 @@ const PROPORDER_MONSTER = [
 	"token",
 	"tokenHref",
 	"tokenCredit",
+	"tokenCustom",
 	"soundClip",
 
 	...PROPS_FOUNDRY_DATA_INLINE,
@@ -1357,6 +1358,7 @@ const PROPORDER_VEHICLE = [
 	"token",
 	"tokenHref",
 	"tokenCredit",
+	"tokenCustom",
 
 	"hasToken",
 	"hasFluff",
@@ -1785,6 +1787,7 @@ const PROPORDER_OBJECT = [
 	"token",
 	"tokenHref",
 	"tokenCredit",
+	"tokenCustom",
 
 	"altArt",
 

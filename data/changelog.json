@@ -3034,5 +3034,11 @@
 		"ver": "1.210.56",
 		"date": "2025-11-02",
 		"txt": "- Added Morte's Planar Parade encounters to Encounter Generator page\n- Added parent sources to various adventures/books in the Navbar, to make it more obvious which are from larger books/sets\n- Fixed Navbar incorrectly merging sources across adventure/book types\n- (Brew) Improved Text Converter tagging of various rules terms\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.211.0",
+		"date": "2025-11-09",
+		"title": "Mukkabout",
+		"txt": "- Added _Adventure with Muk_ and _Muk's Guide to Everything He Learned From Tasha_ book content (thanks @ Lyra)\n- Added \"Has Custom/Unofficial Token\" and \"Has Token Credit\" Miscellaneous filters to Bestiary\n- Fixed Classes page \"Feeling Lucky?\" button\n- Fixed Adventure/Book pages failing to apply same search filtering to cover images as to list items\n- Fixed creature Markdown rendering of hit points; passive perception\n- (Added workaround for failing Docker builds)\n- (Fixed typos/added tags)"
 	}
 ]

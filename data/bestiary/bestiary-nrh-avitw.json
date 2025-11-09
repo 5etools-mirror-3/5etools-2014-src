@@ -67,6 +67,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Keen Senses"
 			],
@@ -149,6 +150,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Immutable Form",
 				"Magic Resistance",

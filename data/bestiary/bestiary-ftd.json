@@ -2660,6 +2660,7 @@
 				}
 			],
 			"dragonAge": "greatwyrm",
+			"tokenCustom": true,
 			"traitTags": [
 				"Legendary Resistances",
 				"Unusual Nature"
@@ -6141,6 +6142,7 @@
 			],
 			"dragonCastingColor": "black",
 			"dragonAge": "greatwyrm",
+			"tokenCustom": true,
 			"traitTags": [
 				"Legendary Resistances",
 				"Unusual Nature"
@@ -6745,6 +6747,7 @@
 			],
 			"dragonCastingColor": "brass",
 			"dragonAge": "greatwyrm",
+			"tokenCustom": true,
 			"traitTags": [
 				"Legendary Resistances",
 				"Unusual Nature"
@@ -7066,6 +7069,7 @@
 			],
 			"dragonCastingColor": "bronze",
 			"dragonAge": "greatwyrm",
+			"tokenCustom": true,
 			"traitTags": [
 				"Legendary Resistances",
 				"Unusual Nature"
@@ -7387,6 +7391,7 @@
 			],
 			"dragonCastingColor": "copper",
 			"dragonAge": "greatwyrm",
+			"tokenCustom": true,
 			"traitTags": [
 				"Legendary Resistances",
 				"Unusual Nature"
@@ -7916,6 +7921,7 @@
 				}
 			],
 			"dragonAge": "greatwyrm",
+			"tokenCustom": true,
 			"traitTags": [
 				"Legendary Resistances",
 				"Unusual Nature"
@@ -9260,6 +9266,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"senseTags": [
 				"B",
 				"D"
@@ -11794,6 +11801,7 @@
 				}
 			],
 			"dragonAge": "greatwyrm",
+			"tokenCustom": true,
 			"traitTags": [
 				"Legendary Resistances",
 				"Unusual Nature"
@@ -12375,6 +12383,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"damageTags": [
 				"P"
 			],
@@ -12668,6 +12677,7 @@
 			],
 			"dragonCastingColor": "gold",
 			"dragonAge": "greatwyrm",
+			"tokenCustom": true,
 			"traitTags": [
 				"Legendary Resistances",
 				"Unusual Nature"
@@ -12959,6 +12969,7 @@
 			],
 			"dragonCastingColor": "green",
 			"dragonAge": "greatwyrm",
+			"tokenCustom": true,
 			"traitTags": [
 				"Legendary Resistances",
 				"Unusual Nature"
@@ -15698,6 +15709,7 @@
 				}
 			],
 			"dragonAge": "greatwyrm",
+			"tokenCustom": true,
 			"traitTags": [
 				"Legendary Resistances",
 				"Unusual Nature"
@@ -15992,6 +16004,7 @@
 			],
 			"dragonCastingColor": "white",
 			"dragonAge": "greatwyrm",
+			"tokenCustom": true,
 			"traitTags": [
 				"Legendary Resistances",
 				"Unusual Nature"

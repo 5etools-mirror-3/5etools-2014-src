@@ -515,6 +515,8 @@ export class TableTag {
 }
 
 export class TrapTag {
+	static _RE_TRAP_SEE = /\b(?<name>Fire-Breathing Statue|Sphere of Annihilation|Collapsing Roof|Falling Net|Pits|Poison Darts|Poison Needle|Rolling Sphere)(?<suffix> \(see)/gi;
+
 	static tryRun (it) {
 		return TagJsons.WALKER.walk(
 			it,
@@ -539,11 +541,13 @@ export class TrapTag {
 
 	static _fnTag (strMod) {
 		return strMod
-			.replace(TrapTag._RE_TRAP_SEE, (...m) => `{@trap ${m[1]}}${m[2]}`)
+			.replace(this._RE_TRAP_SEE, (...m) => {
+				const {name, suffix} = m.at(-1);
+				return `{@trap ${name}}${suffix}`;
+			})
 		;
 	}
 }
-TrapTag._RE_TRAP_SEE = /\b(Fire-Breathing Statue|Sphere of Annihilation|Collapsing Roof|Falling Net|Pits|Poison Darts|Poison Needle|Rolling Sphere)( \(see)/gi;
 
 export class HazardTag {
 	static _RE_HAZARD_SEE = /\b(?<name>High Altitude|Brown Mold|Green Slime|Webs|Yellow Mold|Extreme Cold|Extreme Heat|Heavy Precipitation|Strong Wind|Desecrated Ground|Frigid Water|Quicksand|Razorvine|Slippery Ice|Thin Ice)(?<suffix> \(see)/gi;
@@ -572,7 +576,7 @@ export class HazardTag {
 
 	static _fnTag (strMod) {
 		return strMod
-			.replace(HazardTag._RE_HAZARD_SEE, (...m) => {
+			.replace(this._RE_HAZARD_SEE, (...m) => {
 				const {name, suffix} = m.at(-1);
 				return `{@hazard ${name}}${suffix}`;
 			})

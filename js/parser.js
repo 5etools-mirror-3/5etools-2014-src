@@ -3931,6 +3931,8 @@ Parser.SOURCES_AVAILABLE_DOCS_BOOK = {};
 	Parser.SRC_AI,
 	Parser.SRC_ERLW,
 	Parser.SRC_RMR,
+	Parser.SRC_AWM,
+	Parser.SRC_MGELFT,
 	Parser.SRC_EGW,
 	Parser.SRC_MOT,
 	Parser.SRC_TCE,
@@ -4077,7 +4079,9 @@ Parser.PROP_TO_TAG = {
 	"itemGroup": "item",
 	"magicvariant": "item",
 };
+Parser._RE_PROP_RAW_PREFIX = /^raw_/;
 Parser.getPropTag = function (prop) {
+	prop = prop.replace(Parser._RE_PROP_RAW_PREFIX, "");
 	if (Parser.PROP_TO_TAG[prop]) return Parser.PROP_TO_TAG[prop];
 	if (prop?.endsWith("Fluff")) return null;
 	return prop;

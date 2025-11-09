@@ -2103,6 +2103,7 @@
 				"Dwarvish"
 			],
 			"tokenCredit": "Obsidian Entertainment",
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true
 		},
@@ -2521,6 +2522,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Damage Absorption",
 				"Immutable Form",
@@ -3315,6 +3317,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"senseTags": [
 				"D"
 			],
@@ -4226,6 +4229,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"greatsword|phb"
 			],
@@ -4700,6 +4704,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Fey Ancestry"
 			],
@@ -4742,6 +4747,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"traitTags": [
 				"Fey Ancestry"
 			],
