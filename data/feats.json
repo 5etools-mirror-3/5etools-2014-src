@@ -2908,6 +2908,11 @@
 					"any": 1
 				}
 			],
+			"expertise": [
+				{
+					"anyProficientSkill": 1
+				}
+			],
 			"entries": [
 				"You have a knack for learning new things. You gain the following benefits:",
 				{
