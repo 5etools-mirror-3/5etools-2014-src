@@ -601,7 +601,7 @@
 			"name": "Plane Shift: Zendikar",
 			"id": "PS-Z",
 			"source": "PSZ",
-			"group": "supplement-alt",
+			"group": "setting-alt",
 			"cover": {
 				"type": "internal",
 				"path": "covers/PSZ.webp"
@@ -630,7 +630,7 @@
 			"name": "Plane Shift: Innistrad",
 			"id": "PS-I",
 			"source": "PSI",
-			"group": "supplement-alt",
+			"group": "setting-alt",
 			"cover": {
 				"type": "internal",
 				"path": "covers/PSI.webp"
@@ -785,7 +785,7 @@
 			"name": "Plane Shift: Kaladesh",
 			"id": "PS-K",
 			"source": "PSK",
-			"group": "supplement-alt",
+			"group": "setting-alt",
 			"cover": {
 				"type": "internal",
 				"path": "covers/PSK.webp"
@@ -820,7 +820,7 @@
 			"name": "Plane Shift: Amonkhet",
 			"id": "PS-A",
 			"source": "PSA",
-			"group": "supplement-alt",
+			"group": "setting-alt",
 			"cover": {
 				"type": "internal",
 				"path": "covers/PSA.webp"
@@ -964,7 +964,7 @@
 			"name": "Plane Shift: Ixalan",
 			"id": "PS-X",
 			"source": "PSX",
-			"group": "supplement-alt",
+			"group": "setting-alt",
 			"cover": {
 				"type": "internal",
 				"path": "covers/PSX.webp"
@@ -1120,7 +1120,7 @@
 			"name": "Plane Shift: Dominaria",
 			"id": "PS-D",
 			"source": "PSD",
-			"group": "supplement-alt",
+			"group": "setting-alt",
 			"cover": {
 				"type": "internal",
 				"path": "covers/PSD.webp"

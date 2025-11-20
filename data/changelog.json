@@ -3045,5 +3045,10 @@
 		"ver": "1.211.1",
 		"date": "2025-11-13",
 		"txt": "- (Brew) Added `\"raceFluff\"` `\"statblock\"` support\n- (Brew) Fixed crash when setting blocklist from homebrew/prerelease file\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.211.2",
+		"date": "2025-11-20",
+		"txt": "- (Fixed typos/added tags)"
 	}
 ]

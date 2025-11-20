@@ -1676,7 +1676,7 @@
 					"type": "list",
 					"items": [
 						"You gain proficiency with firearms (see \"{@variantrule Firearms|DMG}\" in the Dungeon Master's Guide).",
-						"You ignore the loading property of firearms.",
+						"You ignore the {@itemProperty LD|PHB|loading} property of firearms.",
 						"Being within 5 feet of a hostile creature doesn't impose disadvantage on your ranged attack rolls."
 					]
 				}
@@ -3082,7 +3082,7 @@
 					"type": "list",
 					"items": [
 						"While you are holding a double-bladed scimitar with two hands, you gain a +1 bonus to Armor Class.",
-						"A double-bladed scimitar has the finesse property when you wield it."
+						"A double-bladed scimitar has the {@itemProperty F|PHB|finesse} property when you wield it."
 					]
 				}
 			]
@@ -4847,8 +4847,8 @@
 				{
 					"type": "list",
 					"items": [
-						"Simple and martial melee weapons without the thrown property have the thrown property for you. One-handed weapons have a normal range of 20 feet and a long range of 60 feet, while two-handed weapons have a normal range of 15 feet and a long range of 30 feet.",
-						"Weapons that already have the thrown property increase their short range by 20 feet and their long range by 40 feet for you.",
+						"Simple and martial melee weapons without the thrown property have the {@itemProperty T|PHB|thrown} property for you. One-handed weapons have a normal range of 20 feet and a long range of 60 feet, while two-handed weapons have a normal range of 15 feet and a long range of 30 feet.",
+						"Weapons that already have the {@itemProperty T|PHB|thrown} property increase their short range by 20 feet and their long range by 40 feet for you.",
 						"When you miss with a thrown weapon attack using a light weapon, the weapon returns to your grasp like a boomerang at the end of your turn, unless something prevents it from returning. You can catch and stow as many weapons as you threw in this way."
 					]
 				}
