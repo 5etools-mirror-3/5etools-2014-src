@@ -867,6 +867,7 @@
 				}
 			],
 			"tokenCredit": "Castro Lorenzo",
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -1107,6 +1108,7 @@
 				}
 			],
 			"tokenCredit": "Harvey W. Johnson",
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -1364,6 +1366,7 @@
 				}
 			],
 			"tokenCredit": "OlgaRodinaARTS",
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -1942,6 +1945,7 @@
 				}
 			],
 			"tokenCredit": "Alan Sanders",
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -3070,6 +3074,7 @@
 				}
 			],
 			"tokenCredit": "Gordon Frickers",
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -3521,7 +3526,7 @@
 				"IWM:W"
 			],
 			"entries": [
-				"This flexible hose is connected to a tank that holds 30 gallons of water from the {@area River Styx|1a3|x}. Each use of the weapon depletes 10 gallons of the water. Refilling the tank requires access to the Styx.",
+				"This flexible hose is connected to a tank that holds 30 gallons of water from the {@adventure River Styx|BGDIA|3|River Styx}. Each use of the weapon depletes 10 gallons of the water. Refilling the tank requires access to the Styx.",
 				{
 					"type": "entries",
 					"name": "Styx Sprayer (Requires 1 Crew and Grants Half Cover; 3 Uses)",

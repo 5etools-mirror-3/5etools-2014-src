@@ -1365,6 +1365,7 @@
 			"miscTags": [
 				"AOE",
 				"CUR",
+				"HPR",
 				"MW"
 			],
 			"conditionInflict": [
@@ -4588,6 +4589,7 @@
 			"miscTags": [
 				"AOE",
 				"CUR",
+				"HPR",
 				"MW"
 			],
 			"conditionInflict": [

@@ -6461,7 +6461,7 @@
 			"grantsProficiency": true,
 			"bonusWeaponDamage": "+2",
 			"entries": [
-				"While wearing these bracers, you have proficiency with the longbow and shortbow, and you gain a +2 bonus to damage rolls on ranged attacks made with such weapons."
+				"While wearing these bracers, you have proficiency with the {@item longbow|PHB} and {@item shortbow|PHB}, and you gain a +2 bonus to damage rolls on ranged attacks made with such weapons."
 			],
 			"optionalfeatures": [
 				"replicate magic item|tce"
@@ -6521,7 +6521,7 @@
 			"wondrous": true,
 			"bonusAc": "+2",
 			"entries": [
-				"While wearing these bracers, you gain a +2 bonus to AC if you are wearing no armor and using no shield."
+				"While wearing these bracers, you gain a +2 bonus to AC if you are wearing no armor and using no {@item shield|PHB}."
 			],
 			"optionalfeatures": [
 				"replicate magic item|tce"
@@ -40987,7 +40987,7 @@
 						],
 						[
 							"45\u201346",
-							"Pocket-sized instrument that clicks rapidly within 10 feet of radiation (see the \"{@area Spaceship Features|4ae|x}\" section later in this adventure)"
+							"Pocket-sized instrument that clicks rapidly within 10 feet of radiation (see the \"{@adventure Spaceship Features|QftIS|7|Spaceship Features}\" section later in this adventure)"
 						],
 						[
 							"47\u201348",

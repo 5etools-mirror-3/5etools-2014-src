@@ -486,6 +486,9 @@ export class ConverterItem extends ConverterBase {
 		"slashing": [{"dmgType": "S"}],
 
 		"melee bludgeoning weapon": [{"type": Parser.ITM_TYP__MELEE_WEAPON, "dmgType": "B"}],
+
+		"martial with the ammunition property": [{"weaponCategory": "martial", "property": Parser.ITM_PROP__AMMUNITION}],
+		"martial with the thrown property": [{"weaponCategory": "martial", "property": Parser.ITM_PROP__THROWN}],
 	};
 
 	static _GENERIC_REQUIRES_LOOKUP_WEAPON = {

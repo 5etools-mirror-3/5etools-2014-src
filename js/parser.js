@@ -2302,6 +2302,7 @@ Parser.OPT_FEATURE_TYPE_TO_FULL = {
 	"RN": "Rune Knight Rune",
 	"AF": "Alchemical Formula",
 	"TT": "Traveler's Trick",
+	"RP": "Renown Perk",
 };
 
 Parser.optFeatureTypeToFull = function (type) {
@@ -2815,10 +2816,12 @@ Parser.imageTypeToFull = function (imageType) {
 	return Parser._parse_aToB(Parser.IMAGE_TYPE_TO_FULL, imageType, "Other");
 };
 
-Parser.nameToTokenName = function (name) {
-	return name
+Parser.nameToTokenName = function (name, {isUrlEncode = false} = {}) {
+	const out = name
 		.toAscii()
 		.replace(/"/g, "");
+	if (!isUrlEncode) return out;
+	return encodeURIComponent(out);
 };
 
 Parser.bytesToHumanReadable = function (bytes, {fixedDigits = 2} = {}) {
@@ -3030,6 +3033,7 @@ Parser.ruleTypeToFull = function (ruleType) {
 Parser.VEHICLE_TYPE_TO_FULL = {
 	"SHIP": "Ship",
 	"SPELLJAMMER": "Spelljammer Ship",
+	"ELEMENTAL_AIRSHIP": "Elemental Airship",
 	"INFWAR": "Infernal War Machine",
 	"CREATURE": "Creature",
 	"OBJECT": "Object",

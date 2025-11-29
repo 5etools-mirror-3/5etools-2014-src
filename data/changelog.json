@@ -3050,5 +3050,10 @@
 		"ver": "1.211.2",
 		"date": "2025-11-20",
 		"txt": "- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.211.3",
+		"date": "2025-11-29",
+		"txt": "- Added \"Elemental Airship\" support to Vehicles page\n- Fixed Vehicles page failing to display Spelljammer vehicle travel pace\n- (Brew) Improved accuracy of Text Converter Tagging; fixed various cases where tags could be added to non-taggable data; expanded tagging of `@item`s\n- (Brew) Added Dragonmark parsing, and expanded prerequisite parsing, to Feat Text Converter\n- (Brew) Improved Background Text Converter handling of proficiencies; feats\n- (Brew) Fixed Spell Text Converter crash\n- (Brew) Fixed lazy-load of multiple homebrews failing to de-duplicate loaded dependencies/references\n- (Fixed typos/added tags)"
 	}
 ]

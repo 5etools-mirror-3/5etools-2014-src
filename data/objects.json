@@ -36,6 +36,7 @@
 				}
 			],
 			"tokenCredit": "warmtail",
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -111,6 +112,7 @@
 				}
 			],
 			"tokenCredit": "Hitokiri",
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -492,7 +494,7 @@
 				"psychic"
 			],
 			"entries": [
-				"The gnomeflinger is a catapult designed to hurl creatures, instead of projectiles, in a high arc. The gnomeflinger was designed in conjunction with the {@item narycrash|DSotDQ} (see the {@area \"Adventuring Gear\"|498|x} section) to hasten transportation. The device can hold one Medium or smaller creature. Before it can be used, the gnomeflinger must be loaded and aimed. It takes 1 action to load the gnomeflinger, 1 action to aim it, and 1 action to fire it.",
+				"The gnomeflinger is a catapult designed to hurl creatures, instead of projectiles, in a high arc. The gnomeflinger was designed in conjunction with the {@item narycrash|DSotDQ} (see the {@adventure \"Adventuring Gear\"|DSotDQ|8|Adventuring Gear} section) to hasten transportation. The device can hold one Medium or smaller creature. Before it can be used, the gnomeflinger must be loaded and aimed. It takes 1 action to load the gnomeflinger, 1 action to aim it, and 1 action to fire it.",
 				"While taking an action to aim the gnomeflinger, you set the maximum horizontal distance of the Fling Personnel action to 60 feet, 150 feet, or 300 feet."
 			],
 			"actionEntries": [
@@ -606,6 +608,7 @@
 				}
 			],
 			"tokenCredit": "Unfor art",
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -684,6 +687,7 @@
 				}
 			],
 			"tokenCredit": "WTactics",
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -704,6 +708,7 @@
 				"A siege tower is a mobile wooden structure with a beam frame and slats in its walls. Large wooden wheels or rollers allow the tower to be pushed or pulled by soldiers or beasts of burden. Medium or smaller creatures can use the siege tower to reach the top of walls up to 40 feet high. A creature in the tower has {@quickref Cover||3||total cover} from attacks outside the tower."
 			],
 			"tokenCredit": "Roman Topchiy",
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -759,6 +764,7 @@
 				}
 			],
 			"tokenCredit": "Funcom",
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -822,6 +828,7 @@
 				}
 			],
 			"tokenCredit": "Roman Topchiy",
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{

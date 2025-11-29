@@ -3076,7 +3076,7 @@
 				{
 					"name": "Tool Proficiency",
 					"entries": [
-						"You gain proficiency with the artisan's tools of your choice: {@item Smith's tools|phb}, {@item brewer's supplies|phb}, or {@item mason's tools|phb}."
+						"You gain proficiency with the {@item artisan's tools|PHB} of your choice: {@item Smith's tools|phb}, {@item brewer's supplies|phb}, or {@item mason's tools|phb}."
 					],
 					"type": "entries"
 				},
@@ -4102,7 +4102,7 @@
 					"type": "entries",
 					"name": "Firearms Mastery",
 					"entries": [
-						"You have a mystical connection to firearms that traces back to the gods of the giff, who delighted in such weapons. You have proficiency with all firearms and ignore the loading property of any firearm. In addition, attacking at long range with a firearm doesn't impose disadvantage on your attack roll."
+						"You have a mystical connection to firearms that traces back to the gods of the giff, who delighted in such weapons. You have proficiency with all firearms and ignore the {@itemProperty LD||loading} property of any firearm. In addition, attacking at long range with a firearm doesn't impose disadvantage on your attack roll."
 					]
 				},
 				{
@@ -10370,7 +10370,7 @@
 					"type": "entries",
 					"name": "Secondary Arms",
 					"entries": [
-						"You have two slightly smaller secondary arms below your primary pair of arms. The secondary arms can manipulate an object, open or close a door or container, pick up or set down a Tiny object, or wield a weapon that has the light property."
+						"You have two slightly smaller secondary arms below your primary pair of arms. The secondary arms can manipulate an object, open or close a door or container, pick up or set down a Tiny object, or wield a weapon that has the {@itemProperty L||light} property."
 					]
 				},
 				{
@@ -14784,7 +14784,7 @@
 				{
 					"name": "Tinker",
 					"entries": [
-						"You have proficiency with artisan's tools ({@item tinker's tools|phb}). Using those tools, you can spend 1 hour and 10 gp worth of materials to construct a Tiny clockwork device (AC 5, 1 hp). The device ceases to function after 24 hours (unless you spend 1 hour repairing it to keep the device functioning), or when you use your action to dismantle it; at that time, you can reclaim the materials used to create it. You can have up to three such devices active at a time.",
+						"You have proficiency with {@item artisan's tools|PHB} ({@item tinker's tools|phb}). Using those tools, you can spend 1 hour and 10 gp worth of materials to construct a Tiny clockwork device (AC 5, 1 hp). The device ceases to function after 24 hours (unless you spend 1 hour repairing it to keep the device functioning), or when you use your action to dismantle it; at that time, you can reclaim the materials used to create it. You can have up to three such devices active at a time.",
 						"When you create a device, choose one of the following options:",
 						{
 							"type": "entries",
@@ -16497,7 +16497,7 @@
 					"type": "entries",
 					"name": "Maker's Gift",
 					"entries": [
-						"You gain proficiency with one type of artisan's tools of your choice."
+						"You gain proficiency with one type of {@item artisan's tools|PHB} of your choice."
 					]
 				},
 				{

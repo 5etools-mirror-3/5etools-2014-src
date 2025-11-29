@@ -1,5 +1,6 @@
 import {VetoolsConfig} from "../utils-config/utils-config-config.js";
 import {ConverterTaggerInitializable} from "./converterutils-taggerbase.js";
+import {WALKER_CONVERTER, WALKER_CONVERTER_KEY_BLOCKLIST} from "./converterutils-walker.js";
 
 export class TagUtil {
 	static _NONE_EMPTY_REGEX = /^(([-\u2014\u2013\u2221])+|none)$/i;
@@ -207,11 +208,6 @@ export class TaggerUtils {
 }
 
 export class TagCondition extends ConverterTaggerInitializable {
-	static _KEY_BLOCKLIST = new Set([
-		...MiscUtil.GENERIC_WALKER_ENTRIES_KEY_BLOCKLIST,
-		"conditionImmune",
-	]);
-
 	static _STATUS_MATCHER = new RegExp(`\\b(concentration|surprised)\\b`, "gi");
 	static _STATUS_MATCHER_ALT = new RegExp(`\\b(concentrating)\\b`, "gi");
 
@@ -312,7 +308,6 @@ export class TagCondition extends ConverterTaggerInitializable {
 
 		ent[prop] = ent[prop]
 			.map(entry => {
-				const walker = MiscUtil.getWalker({keyBlocklist: this._KEY_BLOCKLIST});
 				const nameStack = [];
 				const walkerHandlers = {
 					preObject: (obj) => nameStack.push(obj.name),
@@ -326,7 +321,7 @@ export class TagCondition extends ConverterTaggerInitializable {
 					],
 				};
 				entry = MiscUtil.copy(entry);
-				return walker.walk(entry, walkerHandlers);
+				return WALKER_CONVERTER.walk(entry, walkerHandlers);
 			});
 	}
 
@@ -423,9 +418,7 @@ export class TagCondition extends ConverterTaggerInitializable {
 	static _tryRun (ent, {styleHint = null, blocklistNames = null} = {}) {
 		if (blocklistNames) blocklistNames = blocklistNames.getWithBlocklistIgnore([ent.name]);
 
-		const walker = MiscUtil.getWalker({keyBlocklist: this._KEY_BLOCKLIST});
-
-		return walker.walk(
+		return WALKER_CONVERTER.walk(
 			ent,
 			{
 				string: (str) => {
@@ -504,7 +497,7 @@ export class DiceConvert {
 	static _getConvertedEntry ({entry, isTagHits = false}) {
 		DiceConvert._walker ||= MiscUtil.getWalker({
 			keyBlocklist: new Set([
-				...MiscUtil.GENERIC_WALKER_ENTRIES_KEY_BLOCKLIST,
+				...WALKER_CONVERTER_KEY_BLOCKLIST,
 				"dmg1",
 				"dmg2",
 				"area",
@@ -610,8 +603,7 @@ export class DiceConvert {
 
 export class ArtifactPropertiesTag {
 	static tryRun (it, opts) {
-		const walker = MiscUtil.getWalker({keyBlocklist: MiscUtil.GENERIC_WALKER_ENTRIES_KEY_BLOCKLIST});
-		walker.walk(it, {
+		WALKER_CONVERTER.walk(it, {
 			string: (str) => str.replace(/major beneficial|minor beneficial|major detrimental|minor detrimental/gi, (...m) => {
 				const mode = m[0].trim().toLowerCase();
 
@@ -640,8 +632,7 @@ export class SkillTag extends ConverterTaggerInitializable {
 	static _tryRunStrictCapsWords (ent, {styleHint = null} = {}) {
 		styleHint ||= VetoolsConfig.get("styleSwitcher", "style");
 
-		const walker = MiscUtil.getWalker({keyBlocklist: MiscUtil.GENERIC_WALKER_ENTRIES_KEY_BLOCKLIST});
-		return walker.walk(
+		return WALKER_CONVERTER.walk(
 			ent,
 			{
 				string: (str) => {
@@ -692,8 +683,7 @@ export class ActionTag extends ConverterTaggerInitializable {
 	}
 
 	static _tryRunStrictCapsWords (it) {
-		const walker = MiscUtil.getWalker({keyBlocklist: MiscUtil.GENERIC_WALKER_ENTRIES_KEY_BLOCKLIST});
-		return walker.walk(
+		return WALKER_CONVERTER.walk(
 			it,
 			{
 				string: (str) => {
@@ -747,8 +737,7 @@ export class SenseTag extends ConverterTaggerInitializable {
 	}
 
 	static _tryRun (it) {
-		const walker = MiscUtil.getWalker({keyBlocklist: MiscUtil.GENERIC_WALKER_ENTRIES_KEY_BLOCKLIST});
-		return walker.walk(
+		return WALKER_CONVERTER.walk(
 			it,
 			{
 				string: (str) => {

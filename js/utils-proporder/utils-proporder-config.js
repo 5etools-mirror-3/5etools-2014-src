@@ -1345,6 +1345,7 @@ const PROPORDER_VEHICLE = [
 	"control",
 	"movement",
 	"weapon",
+	"station",
 	"other",
 
 	"entries",

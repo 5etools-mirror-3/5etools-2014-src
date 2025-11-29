@@ -117,6 +117,7 @@
 				"Y"
 			],
 			"miscTags": [
+				"AOE",
 				"MW"
 			],
 			"hasToken": true,
@@ -1673,6 +1674,7 @@
 				"S"
 			],
 			"miscTags": [
+				"AOE",
 				"MW"
 			],
 			"hasToken": true,
@@ -2301,6 +2303,7 @@
 				"C"
 			],
 			"miscTags": [
+				"AOE",
 				"MW"
 			],
 			"conditionInflict": [

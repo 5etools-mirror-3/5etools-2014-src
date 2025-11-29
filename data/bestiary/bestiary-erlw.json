@@ -220,6 +220,7 @@
 				"Y"
 			],
 			"miscTags": [
+				"AOE",
 				"MW"
 			],
 			"conditionInflict": [
@@ -506,6 +507,7 @@
 				"P"
 			],
 			"miscTags": [
+				"AOE",
 				"MLW",
 				"MW",
 				"RW",
@@ -1028,6 +1030,7 @@
 			],
 			"miscTags": [
 				"CUR",
+				"HPR",
 				"MW"
 			],
 			"conditionInflictSpell": [
@@ -3694,6 +3697,7 @@
 				"I"
 			],
 			"miscTags": [
+				"AOE",
 				"MW",
 				"RCH",
 				"RW"
@@ -4197,6 +4201,7 @@
 				"I"
 			],
 			"miscTags": [
+				"AOE",
 				"MLW",
 				"MW"
 			],
@@ -5623,6 +5628,7 @@
 				"S"
 			],
 			"miscTags": [
+				"AOE",
 				"MW",
 				"RCH"
 			],

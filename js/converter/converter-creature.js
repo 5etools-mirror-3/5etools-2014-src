@@ -736,7 +736,7 @@ export class ConverterCreature extends ConverterBase {
 	}
 
 	static _handleAbilityScores_modSaveTable ({stats, meta, options}) {
-		if (!/^Mod\s+Save$/.test(meta.curLine)) return false;
+		if (!/^(?:Ability\s+Score\s+)?Mod\s+Save(?:\s+(?:Ability\s+Score\s+)?Mod\s+Save\s+Mod\s+Save)?$/i.test(meta.curLine)) return false;
 		++meta.ixToConvert;
 		meta.initCurLine();
 
@@ -744,7 +744,7 @@ export class ConverterCreature extends ConverterBase {
 
 		while (true) {
 			if (
-				/^Mod\s+Save$/.test(meta.curLine)
+				/^(?:Ability\s+Score\s+)?Mod\s+Save/i.test(meta.curLine)
 				|| meta.isSkippableCurLine()
 			) {
 				++meta.ixToConvert;
