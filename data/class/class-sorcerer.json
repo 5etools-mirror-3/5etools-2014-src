@@ -936,7 +936,8 @@
 				"Otherworldly Wings|Sorcerer||Divine Soul|XGE|14",
 				"Unearthly Recovery|Sorcerer||Divine Soul|XGE|18"
 			],
-			"hasFluff": true
+			"hasFluff": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Shadow Magic",
@@ -960,7 +961,8 @@
 				"Shadow Walk|Sorcerer||Shadow|XGE|14",
 				"Umbral Form|Sorcerer||Shadow|XGE|18"
 			],
-			"hasFluff": true
+			"hasFluff": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Storm Sorcery",
@@ -982,7 +984,8 @@
 				"Storm's Fury|Sorcerer||Storm|XGE|14",
 				"Wind Soul|Sorcerer||Storm|XGE|18"
 			],
-			"hasFluff": true
+			"hasFluff": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Aberrant Mind",

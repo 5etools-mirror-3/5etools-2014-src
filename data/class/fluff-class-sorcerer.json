@@ -1,4 +1,9 @@
 {
+	"_meta": {
+		"internalCopies": [
+			"subclassFluff"
+		]
+	},
 	"classFluff": [
 		{
 			"name": "Sorcerer",
@@ -416,6 +421,13 @@
 			"source": "XGE",
 			"className": "Sorcerer",
 			"classSource": "PHB",
+			"_copy": {
+				"name": "Sorcerer",
+				"shortName": "Sorcerer",
+				"source": "XGE",
+				"className": "Sorcerer",
+				"classSource": "PHB"
+			},
 			"entries": [
 				{
 					"type": "quote",
@@ -432,6 +444,13 @@
 			"source": "XGE",
 			"className": "Sorcerer",
 			"classSource": "PHB",
+			"_copy": {
+				"name": "Sorcerer",
+				"shortName": "Sorcerer",
+				"source": "XGE",
+				"className": "Sorcerer",
+				"classSource": "PHB"
+			},
 			"entries": [
 				{
 					"type": "quote",
@@ -443,11 +462,36 @@
 			]
 		},
 		{
+			"name": "Sorcerer",
+			"shortName": "Sorcerer",
+			"source": "XGE",
+			"className": "Sorcerer",
+			"classSource": "PHB",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "classes/XGE/Sorcerer.webp"
+					},
+					"width": 2517,
+					"height": 938
+				}
+			]
+		},
+		{
 			"name": "Storm Sorcery",
 			"shortName": "Storm",
 			"source": "XGE",
 			"className": "Sorcerer",
 			"classSource": "PHB",
+			"_copy": {
+				"name": "Sorcerer",
+				"shortName": "Sorcerer",
+				"source": "XGE",
+				"className": "Sorcerer",
+				"classSource": "PHB"
+			},
 			"entries": [
 				{
 					"type": "quote",

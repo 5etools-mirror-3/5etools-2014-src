@@ -1561,6 +1561,7 @@ const PROPORDER_ITEM = [
 
 	"light",
 
+	"classFeatures",
 	"optionalfeatures",
 	new ObjectOrArrayKey({
 		objectKey: new ObjectKey("attachedSpells", {

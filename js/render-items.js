@@ -59,7 +59,7 @@ class _RenderItemsImplBase extends RenderPageImplBase {
 		const [typeRarityText, subTypeText, tierText] = Renderer.item.getTypeRarityAndAttunementText(ent, {styleHint: this._style});
 
 		return `<tr>
-			<td class="rd-item__type-rarity-attunement" colSpan="6">${Renderer.item.getTypeRarityAndAttunementHtml(typeRarityText, subTypeText, tierText)}</td>
+			<td class="rd-item__type-rarity-attunement" colSpan="6">${Renderer.item.getTypeRarityAndAttunementHtml(typeRarityText, subTypeText, tierText, {styleHint: this._style})}</td>
 		</tr>`;
 	}
 
@@ -112,12 +112,12 @@ class _RenderItemsImplClassic extends _RenderItemsImplBase {
 
 			${htmlPtIsExcluded}
 			${htmlPtName}
-			
+
 			${htmlPtTypeRarityAttunement}
 			${htmlPtTextLeftRight}
-		
+
 			${htmlPtEntries}
-			
+
 			${htmlPtPage}
 			${Renderer.utils.getBorderTr()}
 		`;
@@ -133,9 +133,5 @@ export class RenderItems {
 			case SITE_STYLE__CLASSIC: return this._RENDER_CLASSIC.getRendered(ent);
 			default: throw new Error(`Unhandled style "${styleHint}"!`);
 		}
-	}
-
-	static $getRenderedItem (ent) {
-		return $(this.getRenderedItem(ent));
 	}
 }

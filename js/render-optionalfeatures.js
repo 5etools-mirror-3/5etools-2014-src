@@ -83,13 +83,13 @@ class _RenderOptionalfeaturesImplClassic extends _RenderOptionalfeaturesImplBase
 
 			${htmlPtIsExcluded}
 			${htmlPtName}
-			
+
 			${htmlPtPrerequisites}
-			
+
 			${htmlPtCost}
-		
+
 			<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider"></div></td></tr>
-			
+
 			<tr><td colspan="6">
 				${htmlPtEntries}
 			</td></tr>
@@ -104,10 +104,10 @@ class _RenderOptionalfeaturesImplClassic extends _RenderOptionalfeaturesImplBase
 export class RenderOptionalFeatures {
 	static _RENDER_CLASSIC = new _RenderOptionalfeaturesImplClassic();
 
-	static $getRenderedOptionalFeature (ent) {
+	static getRenderedOptionalFeature (ent) {
 		const styleHint = VetoolsConfig.get("styleSwitcher", "style");
 		switch (styleHint) {
-			case SITE_STYLE__CLASSIC: return this._RENDER_CLASSIC.$getRendered(ent);
+			case SITE_STYLE__CLASSIC: return this._RENDER_CLASSIC.getRendered(ent);
 			default: throw new Error(`Unhandled style "${styleHint}"!`);
 		}
 	}

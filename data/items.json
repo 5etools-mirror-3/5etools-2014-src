@@ -9,6 +9,7 @@
 			"name": "+1 All-Purpose Tool",
 			"source": "TCE",
 			"page": 119,
+			"type": "SCF",
 			"rarity": "uncommon",
 			"reqAttune": "by an artificer",
 			"reqAttuneTags": [
@@ -55,6 +56,7 @@
 			"name": "+1 Arcane Grimoire",
 			"source": "TCE",
 			"page": 120,
+			"type": "SCF",
 			"rarity": "uncommon",
 			"reqAttune": "by a wizard",
 			"reqAttuneTags": [
@@ -78,6 +80,7 @@
 			"name": "+1 Bloodwell Vial",
 			"source": "TCE",
 			"page": 122,
+			"type": "SCF",
 			"rarity": "uncommon",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -253,6 +256,7 @@
 			"name": "+2 All-Purpose Tool",
 			"source": "TCE",
 			"page": 119,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by an artificer",
 			"reqAttuneTags": [
@@ -299,6 +303,7 @@
 			"name": "+2 Arcane Grimoire",
 			"source": "TCE",
 			"page": 120,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a wizard",
 			"reqAttuneTags": [
@@ -322,6 +327,7 @@
 			"name": "+2 Bloodwell Vial",
 			"source": "TCE",
 			"page": 122,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -561,6 +567,7 @@
 			"name": "+3 All-Purpose Tool",
 			"source": "TCE",
 			"page": 119,
+			"type": "SCF",
 			"rarity": "very rare",
 			"reqAttune": "by an artificer",
 			"reqAttuneTags": [
@@ -607,6 +614,7 @@
 			"name": "+3 Arcane Grimoire",
 			"source": "TCE",
 			"page": 120,
+			"type": "SCF",
 			"rarity": "very rare",
 			"reqAttune": "by a wizard",
 			"reqAttuneTags": [
@@ -630,6 +638,7 @@
 			"name": "+3 Bloodwell Vial",
 			"source": "TCE",
 			"page": 122,
+			"type": "SCF",
 			"rarity": "very rare",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -1299,6 +1308,7 @@
 			"name": "Alchemical Compendium",
 			"source": "TCE",
 			"page": 119,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a wizard",
 			"reqAttuneTags": [
@@ -2713,6 +2723,7 @@
 					"page": true
 				}
 			},
+			"type": "SCF",
 			"rarity": "legendary",
 			"entries": [
 				"This wondrous item can be a scepter, an orb, an amulet, a crystal, or another finely crafted object. It typically incorporates imagery of dragons' wings, claws, teeth, or scales.",
@@ -2822,6 +2833,7 @@
 			"name": "Astral Shard",
 			"source": "TCE",
 			"page": 120,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -2843,6 +2855,7 @@
 			"name": "Astromancy Archive",
 			"source": "TCE",
 			"page": 120,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a wizard",
 			"reqAttuneTags": [
@@ -2883,6 +2896,7 @@
 			"name": "Atlas of Endless Horizons",
 			"source": "TCE",
 			"page": 120,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a wizard",
 			"reqAttuneTags": [
@@ -4403,6 +4417,7 @@
 			"name": "Bell Branch",
 			"source": "TCE",
 			"page": 122,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a druid or warlock",
 			"reqAttuneTags": [
@@ -10128,6 +10143,7 @@
 			"name": "Crystalline Chronicle",
 			"source": "TCE",
 			"page": 124,
+			"type": "SCF",
 			"rarity": "very rare",
 			"reqAttune": "by a wizard",
 			"reqAttuneTags": [
@@ -15087,6 +15103,7 @@
 			"name": "Duplicitous Manuscript",
 			"source": "TCE",
 			"page": 126,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a wizard",
 			"reqAttuneTags": [
@@ -15744,6 +15761,7 @@
 			"name": "Elemental Essence Shard (Air)",
 			"source": "TCE",
 			"page": 127,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -15772,6 +15790,7 @@
 			"name": "Elemental Essence Shard (Earth)",
 			"source": "TCE",
 			"page": 127,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -15800,6 +15819,7 @@
 			"name": "Elemental Essence Shard (Fire)",
 			"source": "TCE",
 			"page": 127,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -15828,6 +15848,7 @@
 			"name": "Elemental Essence Shard (Water)",
 			"source": "TCE",
 			"page": 127,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -16907,6 +16928,7 @@
 			"name": "Far Realm Shard",
 			"source": "TCE",
 			"page": 127,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -17153,6 +17175,7 @@
 			"name": "Feywild Shard",
 			"source": "TCE",
 			"page": 127,
+			"type": "SCF",
 			"rarity": "uncommon",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -18513,6 +18536,7 @@
 			"name": "Fulminating Treatise",
 			"source": "TCE",
 			"page": 128,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a wizard",
 			"reqAttuneTags": [
@@ -20754,6 +20778,7 @@
 			"name": "Heart Weaver's Primer",
 			"source": "TCE",
 			"page": 128,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a wizard",
 			"reqAttuneTags": [
@@ -26199,6 +26224,7 @@
 			"name": "Libram of Souls and Flesh",
 			"source": "TCE",
 			"page": 129,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a wizard",
 			"reqAttuneTags": [
@@ -28554,6 +28580,7 @@
 			"name": "Mizzium Apparatus",
 			"source": "GGR",
 			"page": 179,
+			"type": "SCF",
 			"rarity": "uncommon",
 			"reqAttune": "by a sorcerer, warlock, or wizard",
 			"reqAttuneTags": [
@@ -30849,6 +30876,7 @@
 			"name": "Outer Essence Shard",
 			"source": "TCE",
 			"page": 133,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -30906,6 +30934,7 @@
 			"name": "Outer Essence Shard (Chaotic)",
 			"source": "TCE",
 			"page": 133,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -30934,6 +30963,7 @@
 			"name": "Outer Essence Shard (Evil)",
 			"source": "TCE",
 			"page": 133,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -30962,6 +30992,7 @@
 			"name": "Outer Essence Shard (Good)",
 			"source": "TCE",
 			"page": 133,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -30990,6 +31021,7 @@
 			"name": "Outer Essence Shard (Lawful)",
 			"source": "TCE",
 			"page": 133,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -31838,6 +31870,7 @@
 			"name": "Planecaller's Codex",
 			"source": "TCE",
 			"page": 134,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a wizard",
 			"reqAttuneTags": [
@@ -33986,6 +34019,7 @@
 			"name": "Protective Verses",
 			"source": "TCE",
 			"page": 134,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a wizard",
 			"reqAttuneTags": [
@@ -37288,6 +37322,7 @@
 			"name": "Ruby Weave Gem",
 			"source": "FTD",
 			"page": 24,
+			"type": "SCF",
 			"rarity": "legendary",
 			"reqAttune": "by a spellcaster",
 			"reqAttuneTags": [
@@ -38846,6 +38881,7 @@
 			"name": "Shadowfell Shard",
 			"source": "TCE",
 			"page": 135,
+			"type": "SCF",
 			"rarity": "rare",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -40446,6 +40482,7 @@
 			"name": "Slumbering Dragon-Touched Focus",
 			"source": "FTD",
 			"page": 26,
+			"type": "SCF",
 			"rarity": "uncommon",
 			"reqAttune": "by a spellcaster",
 			"reqAttuneTags": [
@@ -43853,6 +43890,7 @@
 					"page": true
 				}
 			},
+			"type": "SCF",
 			"rarity": "rare",
 			"entries": [
 				"This wondrous item can be a scepter, an orb, an amulet, a crystal, or another finely crafted object. It typically incorporates imagery of dragons' wings, claws, teeth, or scales.",
@@ -49940,6 +49978,7 @@
 					"page": true
 				}
 			},
+			"type": "SCF",
 			"rarity": "very rare",
 			"entries": [
 				"This wondrous item can be a scepter, an orb, an amulet, a crystal, or another finely crafted object. It typically incorporates imagery of dragons' wings, claws, teeth, or scales.",
@@ -53721,6 +53760,7 @@
 			"name": "Dragon-Touched Focus",
 			"source": "FTD",
 			"page": 26,
+			"type": "SCF",
 			"rarity": "varies",
 			"reqAttune": "by a spellcaster",
 			"reqAttuneTags": [

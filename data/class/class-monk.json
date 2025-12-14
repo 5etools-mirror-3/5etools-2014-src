@@ -627,7 +627,8 @@
 				"Tipsy Sway|Monk||Drunken Master|XGE|6",
 				"Drunkard's Luck|Monk||Drunken Master|XGE|11",
 				"Intoxicated Frenzy|Monk||Drunken Master|XGE|17"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Way of the Kensei",
@@ -642,7 +643,8 @@
 				"Sharpen the Blade|Monk||Kensei|XGE|11",
 				"Unerring Accuracy|Monk||Kensei|XGE|17"
 			],
-			"hasFluff": true
+			"hasFluff": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Way of the Sun Soul",
@@ -678,7 +680,8 @@
 				"Searing Sunburst|Monk||Sun Soul|XGE|11",
 				"Sun Shield|Monk||Sun Soul|XGE|17"
 			],
-			"hasFluff": true
+			"hasFluff": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Way of Mercy",

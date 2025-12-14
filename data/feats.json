@@ -4177,6 +4177,170 @@
 						"You can use this feat a number of times equal to your proficiency bonus, and you regain all expended uses when you finish a long rest."
 					]
 				}
+			],
+			"_versions": [
+				{
+					"name": "Strike of the Giants; Cloud",
+					"source": "BGG",
+					"_mod": {
+						"entries": [
+							{
+								"mode": "replaceArr",
+								"replace": {
+									"index": 0
+								},
+								"items": [
+									"You have absorbed primeval magic that gives you an echo of the might of giants. Once per turn, when you hit a target with a melee weapon attack or a ranged weapon attack using a thrown weapon, you can imbue the attack with an additional effect:"
+								]
+							},
+							{
+								"mode": "removeArr",
+								"names": [
+									"Fire Strike",
+									"Frost Strike",
+									"Hill Strike",
+									"Stone Strike",
+									"Storm Strike"
+								]
+							}
+						]
+					}
+				},
+				{
+					"name": "Strike of the Giants; Fire",
+					"source": "BGG",
+					"_mod": {
+						"entries": [
+							{
+								"mode": "replaceArr",
+								"replace": {
+									"index": 0
+								},
+								"items": [
+									"You have absorbed primeval magic that gives you an echo of the might of giants. Once per turn, when you hit a target with a melee weapon attack or a ranged weapon attack using a thrown weapon, you can imbue the attack with an additional effect:"
+								]
+							},
+							{
+								"mode": "removeArr",
+								"names": [
+									"Cloud Strike",
+									"Frost Strike",
+									"Hill Strike",
+									"Stone Strike",
+									"Storm Strike"
+								]
+							}
+						]
+					}
+				},
+				{
+					"name": "Strike of the Giants; Frost",
+					"source": "BGG",
+					"_mod": {
+						"entries": [
+							{
+								"mode": "replaceArr",
+								"replace": {
+									"index": 0
+								},
+								"items": [
+									"You have absorbed primeval magic that gives you an echo of the might of giants. Once per turn, when you hit a target with a melee weapon attack or a ranged weapon attack using a thrown weapon, you can imbue the attack with an additional effect:"
+								]
+							},
+							{
+								"mode": "removeArr",
+								"names": [
+									"Cloud Strike",
+									"Fire Strike",
+									"Hill Strike",
+									"Stone Strike",
+									"Storm Strike"
+								]
+							}
+						]
+					}
+				},
+				{
+					"name": "Strike of the Giants; Hill",
+					"source": "BGG",
+					"_mod": {
+						"entries": [
+							{
+								"mode": "replaceArr",
+								"replace": {
+									"index": 0
+								},
+								"items": [
+									"You have absorbed primeval magic that gives you an echo of the might of giants. Once per turn, when you hit a target with a melee weapon attack or a ranged weapon attack using a thrown weapon, you can imbue the attack with an additional effect:"
+								]
+							},
+							{
+								"mode": "removeArr",
+								"names": [
+									"Cloud Strike",
+									"Fire Strike",
+									"Frost Strike",
+									"Stone Strike",
+									"Storm Strike"
+								]
+							}
+						]
+					}
+				},
+				{
+					"name": "Strike of the Giants; Stone",
+					"source": "BGG",
+					"_mod": {
+						"entries": [
+							{
+								"mode": "replaceArr",
+								"replace": {
+									"index": 0
+								},
+								"items": [
+									"You have absorbed primeval magic that gives you an echo of the might of giants. Once per turn, when you hit a target with a melee weapon attack or a ranged weapon attack using a thrown weapon, you can imbue the attack with an additional effect:"
+								]
+							},
+							{
+								"mode": "removeArr",
+								"names": [
+									"Cloud Strike",
+									"Fire Strike",
+									"Frost Strike",
+									"Hill Strike",
+									"Storm Strike"
+								]
+							}
+						]
+					}
+				},
+				{
+					"name": "Strike of the Giants; Storm",
+					"source": "BGG",
+					"_mod": {
+						"entries": [
+							{
+								"mode": "replaceArr",
+								"replace": {
+									"index": 0
+								},
+								"items": [
+									"You have absorbed primeval magic that gives you an echo of the might of giants. Once per turn, when you hit a target with a melee weapon attack or a ranged weapon attack using a thrown weapon, you can imbue the attack with an additional effect:"
+								]
+							},
+							{
+								"mode": "removeArr",
+								"names": [
+									"Cloud Strike",
+									"Fire Strike",
+									"Frost Strike",
+									"Hill Strike",
+									"Stone Strike"
+								]
+							}
+						]
+					}
+				}
 			]
 		},
 		{

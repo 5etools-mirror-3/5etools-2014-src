@@ -3055,5 +3055,10 @@
 		"ver": "1.211.3",
 		"date": "2025-11-29",
 		"txt": "- Added \"Elemental Airship\" support to Vehicles page\n- Fixed Vehicles page failing to display Spelljammer vehicle travel pace\n- (Brew) Improved accuracy of Text Converter Tagging; fixed various cases where tags could be added to non-taggable data; expanded tagging of `@item`s\n- (Brew) Added Dragonmark parsing, and expanded prerequisite parsing, to Feat Text Converter\n- (Brew) Improved Background Text Converter handling of proficiencies; feats\n- (Brew) Fixed Spell Text Converter crash\n- (Brew) Fixed lazy-load of multiple homebrews failing to de-duplicate loaded dependencies/references\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.211.4",
+		"date": "2025-12-14",
+		"txt": "- Added more Xanathar's Guide to Everything subclass images\n- Added support for multiple instances of the same `in:...`, `page:...`, ...-type syntax to Omnisearch\n- Added \"Class Features\" filter to Items page\n- Tweaked Omnisearch result priority to slightly de-prioritize \"Reprinted\" entities\n- Fixed Adventure/Book page failing to scroll to top on changing chapter via link\n- (Brew) Improved accuracy of Creature Text Converter \"condition inflicted\" tagging\n- (Brew) Fixed Spell Homebrew Builder handling of \"up-to\" durations\n- (Brew) Fixed crash when creating a subrace from a base race with no entries\n- (Fixed typos/added tags)"
 	}
 ]

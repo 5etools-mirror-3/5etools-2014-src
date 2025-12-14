@@ -369,14 +369,19 @@ class PageFilterItems extends PageFilterEquipment {
 		});
 		this._baseSourceFilter = new SourceFilter({header: "Base Source", selFn: null});
 		this._baseItemFilter = new SearchableFilter({header: "Base Item", displayFn: this.constructor._getBaseItemDisplay.bind(this.constructor), itemSortFn: SortUtil.ascSortLower});
+		this._classFeaturesFilter = new Filter({
+			header: "Class Features",
+			displayFn: (uid) => {
+				const {name, source} = DataUtil.class.unpackUidClassFeature(uid);
+				return `${name.toTitleCase()} (${Parser.sourceJsonToAbv(source)})`;
+			},
+			itemSortFn: SortUtil.ascSortLower,
+		});
 		this._optionalfeaturesFilter = new Filter({
-			header: "Feature",
-			displayFn: (it) => {
-				const [name, source] = it.split("|");
-				if (!source) return name.toTitleCase();
-				const sourceJson = Parser.sourceJsonToJson(source);
-				if (!SourceUtil.isNonstandardSourceWotc(sourceJson)) return name.toTitleCase();
-				return `${name.toTitleCase()} (${Parser.sourceJsonToAbv(sourceJson)})`;
+			header: "Other Options and Features",
+			displayFn: (uid) => {
+				const {name, source} = DataUtil.generic.unpackUid(uid, "optfeature");
+				return `${name.toTitleCase()} (${Parser.sourceJsonToAbv(source)})`;
 			},
 			itemSortFn: SortUtil.ascSortLower,
 		});
@@ -424,6 +429,8 @@ class PageFilterItems extends PageFilterEquipment {
 
 		item._fAttunement = this._getAttunementFilterItems(item);
 
+		this._mutateForFilters_classFeatures(item);
+
 		FilterCommon.mutateForFilters_damageVulnResImmune(item);
 		FilterCommon.mutateForFilters_conditionImmune(item);
 	}
@@ -436,6 +443,10 @@ class PageFilterItems extends PageFilterEquipment {
 			case "+2":
 			case "+3": item._fBonus.push(`${text} (${item[prop]})`); break;
 		}
+	}
+
+	static _mutateForFilters_classFeatures (item) {
+		item._fClassFeatures = [...item.classFeatures || []];
 	}
 
 	addToFilters (item, isExcluded) {
@@ -451,6 +462,7 @@ class PageFilterItems extends PageFilterEquipment {
 		this._baseSourceFilter.addItem(item._baseSource);
 		this._attunementFilter.addItem(item._fAttunement);
 		this._rechargeTypeFilter.addItem(item.recharge);
+		this._classFeaturesFilter.addItem(item._fClassFeatures);
 		this._optionalfeaturesFilter.addItem(item.optionalfeatures);
 		this._vulnerableFilter.addItem(item._fVuln);
 		this._resistFilter.addItem(item._fRes);
@@ -486,6 +498,7 @@ class PageFilterItems extends PageFilterEquipment {
 			this._lootTableFilter,
 			this._baseItemFilter,
 			this._baseSourceFilter,
+			this._classFeaturesFilter,
 			this._optionalfeaturesFilter,
 			this._attachedSpellsFilter,
 		];
@@ -525,6 +538,7 @@ class PageFilterItems extends PageFilterEquipment {
 			it.lootTables,
 			it._fBaseItemAll,
 			it._baseSource,
+			it._fClassFeatures,
 			it.optionalfeatures,
 			it._fAttachedSpells,
 		);
