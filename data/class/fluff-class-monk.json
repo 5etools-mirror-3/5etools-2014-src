@@ -452,24 +452,6 @@
 					"height": 1121
 				}
 			]
-		},
-		{
-			"name": "Way of the Cobalt Soul",
-			"shortName": "Cobalt Soul",
-			"source": "TDCSR",
-			"className": "Monk",
-			"classSource": "PHB",
-			"images": [
-				{
-					"type": "image",
-					"href": {
-						"type": "internal",
-						"path": "classes/TDCSR/Cobalt Soul Monk.webp"
-					},
-					"width": 850,
-					"height": 1557
-				}
-			]
 		}
 	]
 }

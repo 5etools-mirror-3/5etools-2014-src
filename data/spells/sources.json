@@ -6498,46 +6498,6 @@
 			]
 		}
 	},
-	"TDCSR": {
-		"Freedom of the Waves": {
-			"classVariant": [
-				{
-					"name": "Druid",
-					"source": "PHB",
-					"definedInSource": "TDCSR"
-				},
-				{
-					"name": "Ranger",
-					"source": "PHB",
-					"definedInSource": "TDCSR"
-				},
-				{
-					"name": "Sorcerer",
-					"source": "PHB",
-					"definedInSource": "TDCSR"
-				}
-			]
-		},
-		"Freedom of the Winds": {
-			"classVariant": [
-				{
-					"name": "Druid",
-					"source": "PHB",
-					"definedInSource": "TDCSR"
-				},
-				{
-					"name": "Sorcerer",
-					"source": "PHB",
-					"definedInSource": "TDCSR"
-				},
-				{
-					"name": "Ranger",
-					"source": "PHB",
-					"definedInSource": "TDCSR"
-				}
-			]
-		}
-	},
 	"XGE": {
 		"Abi-Dalzim's Horrid Wilting": {
 			"classVariant": [

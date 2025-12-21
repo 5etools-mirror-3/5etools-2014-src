@@ -96,28 +96,6 @@
 			"migrationVersion": 3
 		},
 		{
-			"name": "Blighted Sapling",
-			"source": "TDCSR",
-			"effects": [
-				{
-					"name": "Druid's Leadership",
-					"changes": [
-						{
-							"key": "system.attributes.hp.max",
-							"mode": "ADD",
-							"value": "+(2 * @srd5e.userchar.classes.druid.levels)"
-						},
-						{
-							"key": "system.attributes.ac.formula",
-							"mode": "ADD",
-							"value": "+ @srd5e.userchar.pb"
-						}
-					]
-				}
-			],
-			"migrationVersion": 3
-		},
-		{
 			"name": "Drake Companion",
 			"source": "FTD",
 			"prototypeToken": {

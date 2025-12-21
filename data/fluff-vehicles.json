@@ -121,6 +121,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Bombard Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Bombard Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -129,6 +131,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Bombard Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"
@@ -158,6 +164,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Damselfly Ship Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Damselfly Ship Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -166,6 +174,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Damselfly Ship Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"
@@ -247,6 +259,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Flying Fish Ship Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Flying Fish Ship Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -255,6 +269,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Flying Fish Ship Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"
@@ -424,6 +442,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Hammerhead Ship Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Hammerhead Ship Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -432,6 +452,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Hammerhead Ship Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"
@@ -563,6 +587,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Lamprey Ship Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Lamprey Ship Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -571,6 +597,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Lamprey Ship Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"
@@ -601,6 +631,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Living Ship Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Living Ship Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -609,6 +641,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Living Ship Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"
@@ -759,6 +795,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Nautiloid Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Nautiloid Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -767,6 +805,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Nautiloid Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"
@@ -796,6 +838,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Nightspider Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Nightspider Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -804,6 +848,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Nightspider Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"
@@ -1104,6 +1152,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Scorpion Ship Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Scorpion Ship Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -1112,6 +1162,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Scorpion Ship Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"
@@ -1140,6 +1194,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Shrike Ship Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Shrike Ship Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -1148,6 +1204,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Shrike Ship Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"
@@ -1175,6 +1235,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Space Galleon Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Space Galleon Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -1183,6 +1245,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Space Galleon Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"
@@ -1211,6 +1277,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Squid Ship Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Squid Ship Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -1219,6 +1287,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Squid Ship Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"
@@ -1247,6 +1319,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Star Moth Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Star Moth Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -1255,6 +1329,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Star Moth Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"
@@ -1309,6 +1387,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Turtle Ship Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Turtle Ship Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -1317,6 +1397,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Turtle Ship Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"
@@ -1346,6 +1430,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Tyrant Ship Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Tyrant Ship Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -1354,6 +1440,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Tyrant Ship Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"
@@ -1624,6 +1714,8 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Wasp Ship Map.webp"
 					},
+					"imageType": "map",
+					"id": "000",
 					"title": "Wasp Ship Deck Plans",
 					"credit": "Dyson Logos"
 				},
@@ -1632,6 +1724,10 @@
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Wasp Ship Map Player Version.webp"
+					},
+					"imageType": "mapPlayer",
+					"mapParent": {
+						"id": "000"
 					},
 					"title": "Unlabeled Version",
 					"credit": "Dyson Logos"

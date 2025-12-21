@@ -4833,6 +4833,13 @@
 						"You can speak, read, and write Common and Goblin."
 					],
 					"type": "entries"
+				},
+				{
+					"name": "Grit",
+					"entries": [
+						"You have resistance to fire damage and psychic damage. In addition, when you are wearing no armor, your AC is equal to 11 + your Dexterity modifier."
+					],
+					"type": "entries"
 				}
 			],
 			"hasFluff": true,
@@ -14826,6 +14833,7 @@
 					"dex": 2
 				}
 			],
+			"resist": null,
 			"entries": [
 				{
 					"name": "Alignment",
@@ -14877,13 +14885,6 @@
 			],
 			"entries": [
 				{
-					"name": "Grit",
-					"entries": [
-						"You have resistance to fire damage and psychic damage. In addition, when you are wearing no armor, your AC is equal to 11 + your Dexterity modifier."
-					],
-					"type": "entries"
-				},
-				{
 					"name": "Grotag Tamer",
 					"entries": [
 						"You have proficiency in the {@skill Animal Handling} skill."
@@ -14907,13 +14908,6 @@
 				}
 			],
 			"entries": [
-				{
-					"name": "Grit",
-					"entries": [
-						"You have resistance to fire damage and psychic damage. In addition, when you are wearing no armor, your AC is equal to 11 + your Dexterity modifier."
-					],
-					"type": "entries"
-				},
 				{
 					"name": "Lavastep Grit",
 					"entries": [
@@ -14943,13 +14937,6 @@
 				}
 			],
 			"entries": [
-				{
-					"name": "Grit",
-					"entries": [
-						"You have resistance to fire damage and psychic damage. In addition, when you are wearing no armor, your AC is equal to 11 + your Dexterity modifier."
-					],
-					"type": "entries"
-				},
 				{
 					"name": "Tuktuk Cunning",
 					"entries": [
