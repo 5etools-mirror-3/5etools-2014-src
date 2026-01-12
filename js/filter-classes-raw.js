@@ -1,8 +1,4 @@
-// TODO refactor the "feature" parts of this to a `PageFilterFeatures`
 export class PageFilterClassesRaw extends PageFilterClassesBase {
-	static _WALKER = null;
-	static _IMPLS_SIDE_DATA = {};
-
 	async _pPopulateBoxOptions (opts) {
 		await super._pPopulateBoxOptions(opts);
 		opts.isCompact = false;
@@ -23,652 +19,13 @@ export class PageFilterClassesRaw extends PageFilterClassesBase {
 		this._miscFilter.addItem(cls._fMisc);
 
 		cls.subclasses.forEach(sc => {
-			const isScExcluded = (subclassExclusions[sc.source] || {})[sc.name] || false;
-			if (!isScExcluded) {
-				this._sourceFilter.addItem(sc.source);
-				this._miscFilter.addItem(sc._fMisc);
-				sc.subclassFeatures.forEach(feature => feature.loadeds.forEach(ent => this._addEntrySourcesToFilter(ent.entity)));
-			}
+			const isScExcluded = subclassExclusions[sc.source]?.[sc.name] || false;
+			if (isScExcluded) return;
+
+			this._sourceFilter.addItem(sc.source);
+			this._miscFilter.addItem(sc._fMisc);
 		});
 	}
-
-	// region Data loading
-	static async _pGetParentClass (sc) {
-		// Search in base classes
-		let baseClass = (await DataUtil.class.loadRawJSON()).class.find(bc => bc.name.toLowerCase() === sc.className.toLowerCase() && (bc.source.toLowerCase() || Parser.SRC_PHB) === sc.classSource.toLowerCase());
-
-		// Search in brew classes
-		baseClass = baseClass || await this._pGetParentClass_pPrerelease({sc});
-		baseClass = baseClass || await this._pGetParentClass_pBrew({sc});
-
-		return baseClass;
-	}
-
-	static async _pGetParentClass_pPrerelease ({sc}) {
-		return this._pGetParentClass_pPrereleaseBrew({sc, brewUtil: PrereleaseUtil});
-	}
-
-	static async _pGetParentClass_pBrew ({sc}) {
-		return this._pGetParentClass_pPrereleaseBrew({sc, brewUtil: BrewUtil2});
-	}
-
-	static async _pGetParentClass_pPrereleaseBrew ({sc, brewUtil}) {
-		const brew = await brewUtil.pGetBrewProcessed();
-		return (brew.class || [])
-			.find(bc => bc.name.toLowerCase() === sc.className.toLowerCase() && (bc.source.toLowerCase() || Parser.SRC_PHB) === sc.classSource.toLowerCase());
-	}
-
-	static async pPostLoad (data, {...opts} = {}) {
-		// region Copy data
-		data = {...data};
-
-		const {propsCopied} = opts;
-
-		if (!data.class) data.class = [];
-		else data.class = MiscUtil.copyFast(data.class);
-
-		if (data.subclass) data.subclass = MiscUtil.copyFast(data.subclass);
-
-		if (propsCopied) {
-			propsCopied.add("class");
-			propsCopied.add("subclass");
-		}
-		// endregion
-
-		// Ensure prerelease/homebrew is initialised
-		await PrereleaseUtil.pGetBrewProcessed();
-		await BrewUtil2.pGetBrewProcessed();
-
-		// Attach subclasses to parent classes
-		if (data.subclass) {
-			// Do this sequentially, to avoid double-adding the same base classes
-			for (const sc of data.subclass) {
-				if (!sc.className) continue; // Subclass class name is required
-				sc.classSource = sc.classSource || Parser.SRC_PHB;
-
-				let cls = data.class.find(it => (it.name || "").toLowerCase() === sc.className.toLowerCase() && (it.source || Parser.SRC_PHB).toLowerCase() === sc.classSource.toLowerCase());
-
-				if (!cls) {
-					cls = await this._pGetParentClass(sc);
-					if (cls) {
-						// If a base class exists, make a stripped-down copy and override its subclasses with our own
-						cls = MiscUtil.copyFast(cls);
-						cls.subclasses = [];
-						data.class.push(cls);
-					} else {
-						// Fall back on pushing a dummy class to the array, and we can handle its lack of content elsewhere
-						cls = {name: sc.className, source: sc.classSource};
-						data.class.push(cls);
-					}
-				}
-
-				(cls.subclasses = cls.subclasses || []).push(sc);
-			}
-
-			delete data.subclass;
-		}
-
-		// Clean and initialise fields; sort arrays
-		data.class.forEach(cls => {
-			cls.source = cls.source || Parser.SRC_PHB;
-
-			cls.subclasses = cls.subclasses || [];
-
-			cls.subclasses.forEach(sc => {
-				sc.name = sc.name || "(Unnamed subclass)";
-				sc.source = sc.source || cls.source;
-				sc.className = sc.className || cls.name;
-				sc.classSource = sc.classSource || cls.source || Parser.SRC_PHB;
-			});
-
-			cls.subclasses.sort((a, b) => SortUtil.ascSortLower(a.name, b.name) || SortUtil.ascSortLower(a.source || cls.source, b.source || cls.source));
-
-			cls._cntStartingSkillChoices = (MiscUtil.get(cls, "startingProficiencies", "skills") || [])
-				.map(it => it.choose ? (it.choose.count || 1) : 0)
-				.reduce((a, b) => a + b, 0);
-
-			cls._cntStartingSkillChoicesMutliclass = (MiscUtil.get(cls, "multiclassing", "proficienciesGained", "skills") || [])
-				.map(it => it.choose ? (it.choose.count || 1) : 0)
-				.reduce((a, b) => a + b, 0);
-		});
-		data.class.sort((a, b) => SortUtil.ascSortLower(a.name, b.name) || SortUtil.ascSortLower(a.source, b.source));
-
-		// Expand class/subclass feature references to "object" form
-		data.class.forEach(cls => {
-			cls.classFeatures = (cls.classFeatures || []).map(cf => typeof cf === "string" ? {classFeature: cf} : cf);
-
-			(cls.subclasses || []).forEach(sc => {
-				sc.subclassFeatures = (sc.subclassFeatures || []).map(cf => typeof cf === "string" ? {subclassFeature: cf} : cf);
-			});
-		});
-
-		// Load linked features
-		// Load the data once before diving into nested promises, to avoid needless context switching
-		await this._pPreloadSideData();
-
-		for (const cls of data.class) {
-			await (cls.classFeatures || []).pSerialAwaitMap(cf => this.pInitClassFeatureLoadeds({...opts, classFeature: cf, className: cls.name}));
-
-			if (cls.classFeatures) cls.classFeatures = cls.classFeatures.filter(it => !it.isIgnored);
-
-			for (const sc of cls.subclasses || []) {
-				await (sc.subclassFeatures || []).pSerialAwaitMap(scf => this.pInitSubclassFeatureLoadeds({...opts, subclassFeature: scf, className: cls.name, subclassName: sc.name}));
-
-				if (sc.subclassFeatures) sc.subclassFeatures = sc.subclassFeatures.filter(it => !it.isIgnored);
-			}
-		}
-
-		return data;
-	}
-
-	static async pInitClassFeatureLoadeds ({classFeature, className, ...opts}) {
-		if (typeof classFeature !== "object") throw new Error(`Expected an object of the form {classFeature: "<UID>"}`);
-
-		const unpacked = DataUtil.class.unpackUidClassFeature(classFeature.classFeature);
-
-		classFeature.hash = UrlUtil.URL_TO_HASH_BUILDER["classFeature"](unpacked);
-
-		const {name, level, source} = unpacked;
-		classFeature.name = name;
-		classFeature.level = level;
-		classFeature.source = source;
-
-		const entityRoot = await DataLoader.pCacheAndGet("raw_classFeature", classFeature.source, classFeature.hash, {isCopy: true, isRequired: true});
-		if (entityRoot) entityRoot.type ||= "entries";
-		const loadedRoot = {
-			type: "classFeature",
-			entity: entityRoot,
-			page: "classFeature",
-			source: classFeature.source,
-			hash: classFeature.hash,
-			className,
-		};
-
-		const isIgnored = await this._pGetIgnoredAndApplySideData(entityRoot, "classFeature");
-		if (isIgnored) {
-			classFeature.isIgnored = true;
-			return;
-		}
-
-		const {entityRoot: entityRootNxt, subLoadeds} = await this._pLoadSubEntries(
-			this._getPostLoadWalker(),
-			entityRoot,
-			{
-				...opts,
-				ancestorType: "classFeature",
-				ancestorMeta: {
-					_ancestorClassName: className,
-				},
-			},
-		);
-		loadedRoot.entity = entityRootNxt;
-
-		classFeature.loadeds = [loadedRoot, ...subLoadeds];
-	}
-
-	static async pInitSubclassFeatureLoadeds ({subclassFeature, className, subclassName, ...opts}) {
-		if (typeof subclassFeature !== "object") throw new Error(`Expected an object of the form {subclassFeature: "<UID>"}`);
-
-		const unpacked = DataUtil.class.unpackUidSubclassFeature(subclassFeature.subclassFeature);
-
-		subclassFeature.hash = UrlUtil.URL_TO_HASH_BUILDER["subclassFeature"](unpacked);
-
-		const {name, level, source} = unpacked;
-		subclassFeature.name = name;
-		subclassFeature.level = level;
-		subclassFeature.source = source;
-
-		const entityRoot = await DataLoader.pCacheAndGet("raw_subclassFeature", subclassFeature.source, subclassFeature.hash, {isCopy: true, isRequired: true});
-		if (entityRoot) entityRoot.type ||= "entries";
-		const loadedRoot = {
-			type: "subclassFeature",
-			entity: entityRoot,
-			page: "subclassFeature",
-			source: subclassFeature.source,
-			hash: subclassFeature.hash,
-			className,
-			subclassName,
-		};
-
-		const isIgnored = await this._pGetIgnoredAndApplySideData(entityRoot, "subclassFeature");
-		if (isIgnored) {
-			subclassFeature.isIgnored = true;
-			return;
-		}
-
-		if (entityRoot.isGainAtNextFeatureLevel) {
-			subclassFeature.isGainAtNextFeatureLevel = true;
-		}
-
-		const {entityRoot: entityRootNxt, subLoadeds} = await this._pLoadSubEntries(
-			this._getPostLoadWalker(),
-			entityRoot,
-			{
-				...opts,
-				ancestorType: "subclassFeature",
-				ancestorMeta: {
-					_ancestorClassName: className,
-					_ancestorSubclassName: subclassName,
-				},
-			},
-		);
-		loadedRoot.entity = entityRootNxt;
-
-		subclassFeature.loadeds = [loadedRoot, ...subLoadeds];
-	}
-
-	static async pInitFeatLoadeds ({feat, raw, ...opts}) {
-		return this._pInitGenericLoadeds({
-			...opts,
-			ent: feat,
-			prop: "feat",
-			page: UrlUtil.PG_FEATS,
-			propAncestorName: "_ancestorFeatName",
-			raw,
-		});
-	}
-
-	static async pInitOptionalFeatureLoadeds ({optionalfeature, raw, ...opts}) {
-		return this._pInitGenericLoadeds({
-			...opts,
-			ent: optionalfeature,
-			prop: "optionalfeature",
-			page: UrlUtil.PG_OPT_FEATURES,
-			propAncestorName: "_ancestorOptionalfeatureName",
-			raw,
-		});
-	}
-
-	static async pInitRewardLoadeds ({reward, raw, ...opts}) {
-		return this._pInitGenericLoadeds({
-			...opts,
-			ent: reward,
-			prop: "reward",
-			page: UrlUtil.PG_REWARDS,
-			propAncestorName: "_ancestorRewardName",
-			raw,
-		});
-	}
-
-	static async pInitCharCreationOptionLoadeds ({charoption, raw, ...opts}) {
-		return this._pInitGenericLoadeds({
-			...opts,
-			ent: charoption,
-			prop: "charoption",
-			page: UrlUtil.PG_CHAR_CREATION_OPTIONS,
-			propAncestorName: "_ancestorCharoptionName",
-			raw,
-		});
-	}
-
-	static async pInitVehicleUpgradeLoadeds ({vehicleUpgrade, raw, ...opts}) {
-		return this._pInitGenericLoadeds({
-			...opts,
-			ent: vehicleUpgrade,
-			prop: "vehicleUpgrade",
-			page: UrlUtil.PG_VEHICLES,
-			propAncestorName: "_ancestorVehicleUpgradeName",
-			raw,
-		});
-	}
-
-	static async _pInitGenericLoadeds ({ent, prop, page, propAncestorName, raw, ...opts}) {
-		if (typeof ent !== "object") throw new Error(`Expected an object of the form {${prop}: "<UID>"}`);
-
-		const unpacked = DataUtil.generic.unpackUid(ent[prop]);
-
-		ent.hash = UrlUtil.URL_TO_HASH_BUILDER[page](unpacked);
-
-		const {name, source} = unpacked;
-		ent.name = name;
-		ent.source = source;
-
-		const entityRoot = raw != null ? MiscUtil.copyFast(raw) : await DataLoader.pCacheAndGet(`raw_${prop}`, ent.source, ent.hash, {isCopy: true, isRequired: true});
-		if (entityRoot) entityRoot.type ||= "entries";
-		const loadedRoot = {
-			type: prop,
-			entity: entityRoot,
-			page,
-			source: ent.source,
-			hash: ent.hash,
-		};
-
-		const isIgnored = await this._pGetIgnoredAndApplySideData(entityRoot, prop);
-		if (isIgnored) {
-			ent.isIgnored = true;
-			return;
-		}
-
-		const {entityRoot: entityRootNxt, subLoadeds} = await this._pLoadSubEntries(
-			this._getPostLoadWalker(),
-			entityRoot,
-			{
-				...opts,
-				ancestorType: prop,
-				ancestorMeta: {
-					[propAncestorName]: entityRoot.name,
-				},
-			},
-		);
-		loadedRoot.entity = entityRootNxt;
-
-		ent.loadeds = [loadedRoot, ...subLoadeds];
-	}
-
-	/**
-	 * Pre-load any side data which is to be merged into the main data.
-	 */
-	static async _pPreloadSideData () {
-		await Promise.all(Object.values(PageFilterClassesRaw._IMPLS_SIDE_DATA).map(Impl => Impl.pPreloadSideData()));
-	}
-
-	/**
-	 *  Apply side data, and check for ignored features.
-	 */
-	static async _pGetIgnoredAndApplySideData (entity, type) {
-		if (!PageFilterClassesRaw._IMPLS_SIDE_DATA[type]) throw new Error(`Unhandled type "${type}"`);
-
-		const sideData = await PageFilterClassesRaw._IMPLS_SIDE_DATA[type].pGetSideLoaded(entity, {isSilent: true});
-
-		if (!sideData) return false;
-		if (sideData.isIgnored) return true;
-
-		if (sideData.entries) entity.entries = MiscUtil.copyFast(sideData.entries);
-		if (sideData.entryData) entity.entryData = MiscUtil.copyFast(sideData.entryData);
-
-		return false;
-	}
-
-	/**
-	 * Walk the data, loading references.
-	 */
-	static async _pLoadSubEntries (walker, entityRoot, {ancestorType, ancestorMeta, ...opts}) {
-		const out = [];
-
-		const pRecurse = async (parent, toWalk) => {
-			const references = [];
-			const path = [];
-
-			toWalk = walker.walk(
-				toWalk,
-				{
-					array: (arr) => {
-						arr = arr
-							.map(it => this._pLoadSubEntries_getMappedWalkerArrayEntry({...opts, it, path, references}))
-							.filter(Boolean);
-						return arr;
-					},
-					preObject: (obj) => {
-						if (obj.type === "options") {
-							const parentName = (path.last() || {}).name ?? parent.name;
-
-							// Add metadata to options--only if they have a "count" specified, otherwise we assume
-							//   that the entire option set is to be imported as per regular features.
-							if (obj.count != null) {
-								const optionSetId = CryptUtil.uid();
-								obj.entries.forEach(ent => {
-									ent._optionsMeta = {
-										setId: optionSetId,
-										count: obj.count,
-										name: parentName,
-									};
-								});
-							}
-
-							if (parentName) {
-								obj.entries.forEach(ent => {
-									if (typeof ent !== "object") return;
-									ent._displayNamePrefix = `${parentName}: `;
-								});
-							}
-						}
-
-						if (obj.name) path.push(obj);
-					},
-					postObject: (obj) => {
-						if (obj.name) path.pop();
-					},
-				},
-			);
-
-			for (const ent of references) {
-				const isRequiredOption = !!MiscUtil.get(ent, "data", "isRequiredOption");
-				switch (ent.type) {
-					case "refClassFeature": {
-						const unpacked = DataUtil.class.unpackUidClassFeature(ent.classFeature);
-						const {source} = unpacked;
-						const hash = UrlUtil.URL_TO_HASH_BUILDER["classFeature"](unpacked);
-
-						let entity = await DataLoader.pCacheAndGet("raw_classFeature", source, hash, {isCopy: true});
-
-						if (!entity) {
-							this._handleReferenceError(`Failed to load "classFeature" reference "${ent.classFeature}" (not found)`);
-							continue;
-						}
-
-						entity.type ||= "entries";
-
-						if (toWalk.__prop === entity.__prop && UrlUtil.URL_TO_HASH_BUILDER["classFeature"](toWalk) === hash) {
-							this._handleReferenceError(`Failed to load "classFeature" reference "${ent.classFeature}" (circular reference)`);
-							continue;
-						}
-
-						const isIgnored = await this._pGetIgnoredAndApplySideData(entity, "classFeature");
-						if (isIgnored) continue;
-
-						this.populateEntityTempData({
-							entity,
-							displayName: ent._displayNamePrefix ? `${ent._displayNamePrefix}${entity.name}` : null,
-							...ancestorMeta,
-						});
-
-						out.push({
-							type: "classFeature",
-							entry: `{@classFeature ${ent.classFeature}}`,
-							entity,
-							optionsMeta: ent._optionsMeta,
-							page: "classFeature",
-							source,
-							hash,
-							isRequiredOption,
-						});
-
-						entity = await pRecurse(entity, entity.entries);
-
-						break;
-					}
-
-					case "refSubclassFeature": {
-						const unpacked = DataUtil.class.unpackUidSubclassFeature(ent.subclassFeature);
-						const {source} = unpacked;
-						const hash = UrlUtil.URL_TO_HASH_BUILDER["subclassFeature"](unpacked);
-
-						let entity = await DataLoader.pCacheAndGet("raw_subclassFeature", source, hash, {isCopy: true});
-
-						if (!entity) {
-							this._handleReferenceError(`Failed to load "subclassFeature" reference "${ent.subclassFeature}" (not found)`);
-							continue;
-						}
-
-						entity.type ||= "entries";
-
-						if (toWalk.__prop === entity.__prop && UrlUtil.URL_TO_HASH_BUILDER["subclassFeature"](toWalk) === hash) {
-							this._handleReferenceError(`Failed to load "subclassFeature" reference "${ent.subclassFeature}" (circular reference)`);
-							continue;
-						}
-
-						const isIgnored = await this._pGetIgnoredAndApplySideData(entity, "subclassFeature");
-						if (isIgnored) continue;
-
-						this.populateEntityTempData({
-							entity,
-							displayName: ent._displayNamePrefix ? `${ent._displayNamePrefix}${entity.name}` : null,
-							...ancestorMeta,
-						});
-
-						out.push({
-							type: "subclassFeature",
-							entry: `{@subclassFeature ${ent.subclassFeature}}`,
-							entity,
-							optionsMeta: ent._optionsMeta,
-							page: "subclassFeature",
-							source,
-							hash,
-							isRequiredOption,
-						});
-
-						entity = await pRecurse(entity, entity.entries);
-
-						break;
-					}
-
-					case "refOptionalfeature": {
-						const meta = await this._pLoadSubEntries_pGetGenericFeatureSubEntries({
-							ancestorType,
-							ancestorMeta,
-							entityRoot,
-							isRequiredOption,
-							toWalk,
-							ent,
-							page: UrlUtil.PG_OPT_FEATURES,
-							tag: "optfeature",
-							prop: "optionalfeature",
-						});
-						if (!meta) continue;
-						out.push(meta);
-						break;
-					}
-
-					case "refFeat": {
-						const meta = await this._pLoadSubEntries_pGetGenericFeatureSubEntries({
-							ancestorType,
-							ancestorMeta,
-							entityRoot,
-							isRequiredOption,
-							toWalk,
-							ent,
-							page: UrlUtil.PG_FEATS,
-							tag: "feat",
-							prop: "feat",
-						});
-						if (!meta) continue;
-						out.push(meta);
-						break;
-					}
-					default: throw new Error(`Unhandled type "${ent.type}"`);
-				}
-			}
-
-			return toWalk;
-		};
-
-		if (entityRoot.entries) entityRoot.entries = await pRecurse(entityRoot, entityRoot.entries);
-
-		return {entityRoot, subLoadeds: out};
-	}
-
-	static _REF_TYPES = new Set([
-		"refClassFeature",
-		"refSubclassFeature",
-		"refOptionalfeature",
-		"refFeat",
-	]);
-
-	static _pLoadSubEntries_getMappedWalkerArrayEntry ({it, path, references, ...opts}) {
-		if (!this._REF_TYPES.has(it.type)) return it;
-
-		it.parentName = (path.last() || {}).name;
-		references.push(it);
-
-		return null;
-	}
-
-	static async _pLoadSubEntries_pGetGenericFeatureSubEntries (
-		{
-			ancestorType,
-			ancestorMeta,
-			entityRoot,
-			isRequiredOption,
-			toWalk,
-			ent,
-			page,
-			tag,
-			prop,
-		},
-	) {
-		const unpacked = DataUtil.generic.unpackUid(ent[prop], tag);
-		const {source} = unpacked;
-		const hash = UrlUtil.URL_TO_HASH_BUILDER[page](unpacked);
-
-		const entity = await DataLoader.pCacheAndGet(page, source, hash, {isCopy: true});
-
-		if (!entity) {
-			this._handleReferenceError(`Failed to load "${prop}" reference "${ent[prop]}" (not found)`);
-			return null;
-		}
-
-		entity.type ||= "entries";
-
-		if (toWalk.__prop === entity.__prop && UrlUtil.URL_TO_HASH_BUILDER[page](toWalk) === hash) {
-			this._handleReferenceError(`Failed to load "${prop}" reference "${ent[prop]}" (circular reference)`);
-			return null;
-		}
-
-		const isIgnored = await this._pGetIgnoredAndApplySideData(entity, prop);
-		if (isIgnored) return null;
-
-		this.populateEntityTempData({
-			entity,
-			// Cache this so we can determine if this feat is from a "classFeature" or a "subclassFeature"
-			ancestorType,
-			displayName: ent._displayNamePrefix ? `${ent._displayNamePrefix}${entity.name}` : null,
-			...ancestorMeta,
-			foundrySystem: {
-				requirements: entityRoot.className ? `${entityRoot.className} ${entityRoot.level}${entityRoot.subclassShortName ? ` (${entityRoot.subclassShortName})` : ""}` : null,
-			},
-		});
-
-		return {
-			type: prop,
-			entry: `{@${tag} ${ent[prop]}}`,
-			entity,
-			optionsMeta: ent._optionsMeta,
-			page,
-			source,
-			hash,
-			isRequiredOption,
-		};
-	}
-
-	static populateEntityTempData (
-		{
-			entity,
-			ancestorType,
-			displayName,
-			foundrySystem,
-			...others
-		},
-	) {
-		if (ancestorType) entity._ancestorType = ancestorType;
-		if (displayName) entity._displayName = displayName;
-		if (foundrySystem) entity._foundrySystem = foundrySystem;
-		Object.assign(entity, {...others});
-	}
-
-	static _handleReferenceError (msg) {
-		JqueryUtil.doToast({type: "danger", content: msg});
-	}
-
-	static _getPostLoadWalker () {
-		PageFilterClassesRaw._WALKER = PageFilterClassesRaw._WALKER || MiscUtil.getWalker({
-			keyBlocklist: MiscUtil.GENERIC_WALKER_ENTRIES_KEY_BLOCKLIST,
-			isDepthFirst: true,
-		});
-		return PageFilterClassesRaw._WALKER;
-	}
-
-	static setImplSideData (prop, Impl) { PageFilterClassesRaw._IMPLS_SIDE_DATA[prop] = Impl; }
-	// endregion
 }
 
 export class ModalFilterClasses extends ModalFilterBase {
@@ -732,13 +89,13 @@ export class ModalFilterClasses extends ModalFilterBase {
 	async pGetUserSelection ({filterExpression = null, selectedClass = null, selectedSubclass = null, isClassDisabled = false, isSubclassDisabled = false} = {}) {
 		// eslint-disable-next-line no-async-promise-executor
 		return new Promise(async resolve => {
-			const {$modalInner, doClose} = await this._pGetShowModal(resolve);
+			const {eleModalInner, doClose} = await this._pGetShowModal(resolve);
 
-			await this.pPreloadHidden($modalInner);
+			await this.pPreloadHidden(eleModalInner);
 
 			this.doApplyFilterExpression(filterExpression);
 
-			this._filterCache.$btnConfirm.off("click").click(async () => {
+			this._filterCache.btnConfirm.off("click").click(async () => {
 				// Note: use invisible items, as this might be the parent class of a selected subclass
 				const checked = this._filterCache.list.items.filter(it => it.data.tglSel.classList.contains("active"));
 				const out = {};
@@ -802,105 +159,102 @@ export class ModalFilterClasses extends ModalFilterBase {
 			// Handle changes to `fnSearch`
 			this._filterCache.list.update();
 
-			await UiUtil.pDoForceFocus(this._filterCache.$iptSearch[0]);
+			await UiUtil.pDoForceFocus(this._filterCache.iptSearch);
 		});
 	}
 
-	async pPreloadHidden ($modalInner) {
+	async pPreloadHidden (eleModalInner) {
 		// If we're rendering in "hidden" mode, create a dummy element to attach the UI to.
-		$modalInner = $modalInner || $(`<div></div>`);
+		eleModalInner = eleModalInner || ee`<div></div>`;
 
 		if (this._filterCache) {
-			this._filterCache.$wrpModalInner.appendTo($modalInner);
-		} else {
-			await this._pInit();
+			this._filterCache.wrpModalInner.appendTo(eleModalInner);
+			return;
+		}
 
-			const $ovlLoading = $(`<div class="w-100 h-100 ve-flex-vh-center"><i class="dnd-font ve-muted">Loading...</i></div>`).appendTo($modalInner);
+		await this._pInit();
 
-			const $iptSearch = $(`<input class="form-control h-100" type="search" placeholder="Search...">`);
-			const $btnReset = $(`<button class="ve-btn ve-btn-default">Reset</button>`);
-			const $wrpFormTop = $$`<div class="ve-flex input-group ve-btn-group w-100 lst__form-top">${$iptSearch}${$btnReset}</div>`;
+		const ovlLoading = ee`<div class="w-100 h-100 ve-flex-vh-center"><i class="dnd-font ve-muted">Loading...</i></div>`.appendTo(eleModalInner);
 
-			const $wrpFormBottom = $(`<div class="w-100"></div>`);
+		const iptSearch = ee`<input class="form-control h-100" type="search" placeholder="Search...">`;
+		const btnReset = ee`<button class="ve-btn ve-btn-default">Reset</button>`;
+		const wrpFormTop = ee`<div class="ve-flex input-group ve-btn-group w-100 lst__form-top">${iptSearch}${btnReset}</div>`;
 
-			const $wrpFormHeaders = $(`<div class="input-group input-group--bottom ve-flex no-shrink">
-				<div class="ve-btn ve-btn-default disabled ve-col-1 pl-0"></div>
-				<button class="ve-col-9 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
-				<button class="ve-col-2 pr-0 sort ve-btn ve-btn-default ve-btn-xs ve-grow" data-sort="source">Source</button>
-			</div>`);
+		const wrpFormBottom = ee`<div class="w-100"></div>`;
 
-			const $wrpForm = $$`<div class="ve-flex-col w-100 mb-2">${$wrpFormTop}${$wrpFormBottom}${$wrpFormHeaders}</div>`;
-			const $wrpList = this._$getWrpList();
+		const wrpFormHeaders = ee`<div class="input-group input-group--bottom ve-flex no-shrink">
+			<div class="ve-btn ve-btn-default disabled ve-col-1 pl-0"></div>
+			<button class="ve-col-9 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
+			<button class="ve-col-2 pr-0 sort ve-btn ve-btn-default ve-btn-xs ve-grow" data-sort="source">Source</button>
+		</div>`;
 
-			const $btnConfirm = $(`<button class="ve-btn ve-btn-default">Confirm</button>`);
+		const wrpForm = ee`<div class="ve-flex-col w-100 mb-2">${wrpFormTop}${wrpFormBottom}${wrpFormHeaders}</div>`;
+		const wrpList = this._getWrpList();
 
-			const list = new List({
-				$iptSearch,
-				$wrpList,
-				fnSort: this._fnSort,
-			});
+		const btnConfirm = ee`<button class="ve-btn ve-btn-default">Confirm</button>`;
 
-			SortUtil.initBtnSortHandlers($wrpFormHeaders, list);
+		this._list = new List({
+			iptSearch,
+			wrpList,
+			fnSort: this._fnSort,
+		});
 
-			const allData = this._allData || await this._pGetBlocklistedAllData();
-			const pageFilter = this._pageFilter;
+		SortUtil.initBtnSortHandlers(wrpFormHeaders, this._list);
 
-			await pageFilter.pInitFilterBox({
-				$wrpFormTop,
-				$btnReset,
-				$wrpMiniPills: $wrpFormBottom,
-				namespace: this._namespace,
-			});
+		this._allData ||= await this._pGetBlocklistedAllData();
 
-			allData.forEach((it, i) => {
-				pageFilter.mutateAndAddToFilters(it);
-				const filterListItems = this._getListItems(pageFilter, it, i);
-				filterListItems.forEach(li => {
-					list.addItem(li);
-					li.ele.addEventListener("click", evt => {
-						const isScLi = li.data.ixSubclass != null;
+		await this._pageFilter.pInitFilterBox({
+			wrpFormTop,
+			btnReset,
+			wrpMiniPills: wrpFormBottom,
+			namespace: this._namespace,
+		});
 
-						if (isScLi) {
-							if (this._isSubclassDisabled) return;
-							if (this._isClassDisabled && li.data.ixClass !== this._ixPrevSelectedClass) return;
-						} else {
-							if (this._isClassDisabled) return;
-						}
+		this._allData.forEach((it, i) => {
+			this._pageFilter.mutateAndAddToFilters(it);
+			const filterListItems = this._getListItems(this._pageFilter, it, i);
+			filterListItems.forEach(li => {
+				this._list.addItem(li);
+				li.ele.addEventListener("click", evt => {
+					const isScLi = li.data.ixSubclass != null;
 
-						this._handleSelectClick({list,
-							filterListItems,
-							filterListItem: li,
-							evt,
-						});
+					if (isScLi) {
+						if (this._isSubclassDisabled) return;
+						if (this._isClassDisabled && li.data.ixClass !== this._ixPrevSelectedClass) return;
+					} else {
+						if (this._isClassDisabled) return;
+					}
+
+					this._handleSelectClick({
+						filterListItems,
+						filterListItem: li,
+						evt,
 					});
 				});
 			});
+		});
 
-			list.init();
-			list.update();
+		this._list.init();
+		this._list.update();
 
-			const handleFilterChange = () => {
-				return this.constructor.handleFilterChange({pageFilter, list, allData});
-			};
+		this._pageFilter.trimState();
 
-			pageFilter.trimState();
+		this._pageFilter.filterBox.on(FILTER_BOX_EVNT_VALCHANGE, this._handleFilterChange.bind(this));
+		this._pageFilter.filterBox.render();
+		this._handleFilterChange();
 
-			pageFilter.filterBox.on(FILTER_BOX_EVNT_VALCHANGE, handleFilterChange);
-			pageFilter.filterBox.render();
-			handleFilterChange();
+		ovlLoading.remove();
 
-			$ovlLoading.remove();
+		const wrpModalInner = ee`<div class="ve-flex-col h-100">
+			${wrpForm}
+			${wrpList}
+			<div class="ve-flex-vh-center">${btnConfirm}</div>
+		</div>`.appendTo(eleModalInner);
 
-			const $wrpModalInner = $$`<div class="ve-flex-col h-100">
-				${$wrpForm}
-				${$wrpList}
-				<div class="ve-flex-vh-center">${$btnConfirm}</div>
-			</div>`.appendTo($modalInner);
-
-			this._filterCache = {$wrpModalInner, $btnConfirm, pageFilter, list, allData, $iptSearch};
-		}
+		this._filterCache = {wrpModalInner, btnConfirm, pageFilter: this._pageFilter, list: this._list, allData: this._allData, iptSearch};
 	}
 
+	// (Exposed for Plutonium use)
 	static handleFilterChange ({pageFilter, list, allData}) {
 		const f = pageFilter.filterBox.getValues();
 
@@ -911,24 +265,28 @@ export class ModalFilterClasses extends ModalFilterBase {
 				const sc = cls.subclasses[li.data.ixSubclass];
 				// Both the subclass and the class must be displayed
 				if (
-					!pageFilter.toDisplay(
-						f,
-						cls,
-						[],
-						null,
-					)
+					!pageFilter.toDisplay(f, cls)
 				) return false;
 
-				return pageFilter.filterBox.toDisplay(
+				return pageFilter.filterBox.toDisplayByFilters(
 					f,
-					sc.source,
-					sc._fMisc,
-					null,
+					{
+						filter: pageFilter._sourceFilter,
+						value: sc.source,
+					},
+					{
+						filter: pageFilter._miscFilter,
+						value: sc._fMisc,
+					},
 				);
 			}
 
-			return pageFilter.toDisplay(f, cls, [], null);
+			return pageFilter.toDisplay(f, cls);
 		});
+	}
+
+	_handleFilterChange () {
+		return this.constructor.handleFilterChange({pageFilter: this._pageFilter, list: this._list, allData: this._allData});
 	}
 
 	static _doListDeselectAll (list, {isSubclassItemsOnly = false} = {}) {
@@ -940,7 +298,7 @@ export class ModalFilterClasses extends ModalFilterBase {
 		});
 	}
 
-	_handleSelectClick ({list, filterListItems, filterListItem, evt}) {
+	_handleSelectClick ({filterListItems, filterListItem, evt}) {
 		evt.preventDefault();
 		evt.stopPropagation();
 
@@ -948,7 +306,7 @@ export class ModalFilterClasses extends ModalFilterBase {
 
 		// When only allowing subclass to be changed, avoid de-selecting the entire list
 		if (this._isClassDisabled && this._ixPrevSelectedClass != null && isScLi) {
-			if (!filterListItem.data.tglSel.classList.contains("active")) this.constructor._doListDeselectAll(list, {isSubclassItemsOnly: true});
+			if (!filterListItem.data.tglSel.classList.contains("active")) this.constructor._doListDeselectAll(this._list, {isSubclassItemsOnly: true});
 			filterListItem.data.tglSel.classList.toggle("active");
 			filterListItem.ele.classList.toggle("list-multi-selected");
 			return;
@@ -956,13 +314,13 @@ export class ModalFilterClasses extends ModalFilterBase {
 
 		// region De-selecting the currently-selected item
 		if (filterListItem.data.tglSel.classList.contains("active")) {
-			this.constructor._doListDeselectAll(list);
+			this.constructor._doListDeselectAll(this._list);
 			return;
 		}
 		// endregion
 
 		// region Selecting an item
-		this.constructor._doListDeselectAll(list);
+		this.constructor._doListDeselectAll(this._list);
 
 		if (isScLi) {
 			const classItem = filterListItems[0];
@@ -978,8 +336,10 @@ export class ModalFilterClasses extends ModalFilterBase {
 	/** Caches the result for fast re-querying. */
 	async _pLoadAllData () {
 		this._pLoadingAllData = this._pLoadingAllData || (async () => {
-			const [data, prerelease, brew] = await Promise.all([
-				MiscUtil.copyFast(await DataUtil.class.loadRawJSON()),
+			const data = MiscUtil.copyFast(await DataUtil.class.loadRawJSON());
+			const propsCopied = new Set(Object.keys(data));
+
+			const [prerelease, brew] = await Promise.all([
 				PrereleaseUtil.pGetBrewProcessed(),
 				BrewUtil2.pGetBrewProcessed(),
 			]);
@@ -988,7 +348,7 @@ export class ModalFilterClasses extends ModalFilterBase {
 			this._pLoadAllData_mutAddPrereleaseBrew({data, brew: prerelease, brewUtil: PrereleaseUtil});
 			this._pLoadAllData_mutAddPrereleaseBrew({data, brew: brew, brewUtil: BrewUtil2});
 
-			this._allData = (await PageFilterClassesRaw.pPostLoad(data)).class;
+			this._allData = (await this.constructor.pPostLoad(data, {propsCopied})).class;
 		})();
 
 		await this._pLoadingAllData;
@@ -1007,6 +367,133 @@ export class ModalFilterClasses extends ModalFilterBase {
 			.filter(([, brewVal]) => brewVal instanceof Array)
 			.forEach(([prop, brewArr]) => data[prop] = [...(data[prop] || []), ...MiscUtil.copyFast(brewArr)]);
 	}
+
+	/* -------------------------------------------- */
+
+	static async _pGetParentClass (sc) {
+		// Search in base classes
+		let baseClass = (await DataUtil.class.loadRawJSON()).class.find(bc => bc.name.toLowerCase() === sc.className.toLowerCase() && (bc.source.toLowerCase() || Parser.SRC_PHB) === sc.classSource.toLowerCase());
+
+		// Search in brew classes
+		baseClass = baseClass || await this._pGetParentClass_pPrerelease({sc});
+		baseClass = baseClass || await this._pGetParentClass_pBrew({sc});
+
+		return baseClass;
+	}
+
+	static async _pGetParentClass_pPrerelease ({sc}) {
+		return this._pGetParentClass_pPrereleaseBrew({sc, brewUtil: PrereleaseUtil});
+	}
+
+	static async _pGetParentClass_pBrew ({sc}) {
+		return this._pGetParentClass_pPrereleaseBrew({sc, brewUtil: BrewUtil2});
+	}
+
+	static async _pGetParentClass_pPrereleaseBrew ({sc, brewUtil}) {
+		const brew = await brewUtil.pGetBrewProcessed();
+		return (brew.class || [])
+			.find(bc => bc.name.toLowerCase() === sc.className.toLowerCase() && (bc.source.toLowerCase() || Parser.SRC_PHB) === sc.classSource.toLowerCase());
+	}
+
+	static async pPostLoad (data, {...opts} = {}) {
+		// region Copy data
+		data = {...data};
+
+		const {propsCopied} = opts;
+
+		data.class ||= [];
+		if (!propsCopied || !propsCopied.has("class")) data.class = MiscUtil.copyFast(data.class);
+		if (propsCopied) propsCopied.add("class");
+
+		data.subclass ||= [];
+		if (!propsCopied || !propsCopied.has("subclass")) data.subclass = MiscUtil.copyFast(data.subclass);
+		if (propsCopied) propsCopied.add("subclass");
+		// endregion
+
+		// Ensure prerelease/homebrew is initialised
+		await PrereleaseUtil.pGetBrewProcessed();
+		await BrewUtil2.pGetBrewProcessed();
+
+		// Attach subclasses to parent classes
+		if (data.subclass) {
+			// Do this sequentially, to avoid double-adding the same base classes
+			for (const sc of data.subclass) {
+				if (!sc.className) continue; // Subclass class name is required
+				sc.classSource = sc.classSource || Parser.SRC_PHB;
+
+				const entFaux = {
+					name: sc.className.toLowerCase(),
+					source: sc.classSource.toLowerCase(),
+				};
+
+				// Avoid finding/creating parent class if it would be excluded
+				if (
+					ExcludeUtil.isExcluded(
+						UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CLASSES](entFaux),
+						"class",
+						SourceUtil.getEntitySource(entFaux),
+						{isNoCount: true},
+					)
+				) continue;
+
+				let cls = data.class.find(it => (it.name || "").toLowerCase() === entFaux.name && (it.source || Parser.SRC_PHB).toLowerCase() === entFaux.source);
+
+				if (!cls) {
+					cls = await this._pGetParentClass(sc);
+					if (cls) {
+						// If a base class exists, make a stripped-down copy and override its subclasses with our own
+						cls = MiscUtil.copyFast(cls);
+						cls.subclasses = [];
+						data.class.push(cls);
+					} else {
+						// Fall back on pushing a dummy class to the array, and we can handle its lack of content elsewhere
+						cls = {name: sc.className, source: sc.classSource};
+						data.class.push(cls);
+					}
+				}
+
+				(cls.subclasses = cls.subclasses || []).push(sc);
+			}
+		}
+
+		// Clean and initialise fields; sort arrays
+		data.class.forEach(cls => {
+			cls.source = cls.source || Parser.SRC_PHB;
+
+			cls.subclasses = cls.subclasses || [];
+
+			cls.subclasses.forEach(sc => {
+				sc.name = sc.name || "(Unnamed subclass)";
+				sc.source = sc.source || cls.source;
+				sc.className = sc.className || cls.name;
+				sc.classSource = sc.classSource || cls.source || Parser.SRC_PHB;
+			});
+
+			cls.subclasses.sort((a, b) => SortUtil.ascSortLower(a.name, b.name) || SortUtil.ascSortLower(a.source || cls.source, b.source || cls.source));
+
+			cls._cntStartingSkillChoices = (MiscUtil.get(cls, "startingProficiencies", "skills") || [])
+				.map(it => it.choose ? (it.choose.count || 1) : 0)
+				.reduce((a, b) => a + b, 0);
+
+			cls._cntStartingSkillChoicesMulticlass = (MiscUtil.get(cls, "multiclassing", "proficienciesGained", "skills") || [])
+				.map(it => it.choose ? (it.choose.count || 1) : 0)
+				.reduce((a, b) => a + b, 0);
+		});
+		data.class.sort((a, b) => SortUtil.ascSortLower(a.name, b.name) || SortUtil.ascSortLower(a.source, b.source));
+
+		// Expand class/subclass feature references to "object" form
+		data.class.forEach(cls => {
+			cls.classFeatures = (cls.classFeatures || []).map(cf => typeof cf === "string" ? {classFeature: cf} : cf);
+
+			(cls.subclasses || []).forEach(sc => {
+				sc.subclassFeatures = (sc.subclassFeatures || []).map(cf => typeof cf === "string" ? {subclassFeature: cf} : cf);
+			});
+		});
+
+		return data;
+	}
+
+	/* -------------------------------------------- */
 
 	_getListItems (pageFilter, cls, clsI) {
 		return [

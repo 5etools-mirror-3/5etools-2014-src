@@ -631,7 +631,7 @@ globalThis.Renderer = function () {
 		const isMinimizeLayoutShift = this._isMinimizeLayoutShift && hasWidthHeight;
 
 		const svg = isLazy || isMinimizeLayoutShift
-			? `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${entry.width}" height="${entry.height}"><rect width="100%" height="100%" fill="${Renderer.utils.lazy.COLOR_PLACEHOLDER}"></rect></svg>`)}`
+			? Renderer.utils.lazy.getPlaceholderImgHtml({width: entry.width, height: entry.height})
 			: null;
 
 		const ptAttributesShared = [
@@ -5146,8 +5146,19 @@ Renderer.utils = class {
 
 		/* -------------------------------------------- */
 
-		ATTR_IMG_FINAL_SRC: "data-src",
 		COLOR_PLACEHOLDER: "#ccc3",
+
+		getPlaceholderImgHtml ({width, height, shapeType = "rect"}) {
+			const ptShape = shapeType === "circle"
+				? `<circle cx="50%" cy="50%" r="50%" fill="${Renderer.utils.lazy.COLOR_PLACEHOLDER}"></circle>`
+				: `<rect width="100%" height="100%" fill="${Renderer.utils.lazy.COLOR_PLACEHOLDER}"></rect>`;
+
+			return `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">${ptShape}</svg>`)}`;
+		},
+
+		/* -------------------------------------------- */
+
+		ATTR_IMG_FINAL_SRC: "data-src",
 
 		mutFinalizeEle (ele) {
 			const srcFinal = ele.getAttribute(Renderer.utils.lazy.ATTR_IMG_FINAL_SRC);
@@ -9994,34 +10005,48 @@ Renderer.monster = class {
 		}
 	};
 
+	static _GET_CR_SCALE_TARGET__ELES_CLICK_CLEAN_SLIDERS = new Map();
+
 	static getCrScaleTarget (
 		{
 			win,
 			btnScale,
+			// eslint-disable-next-line vet-jquery/jquery
 			$btnScale,
 			initialCr,
 			cbRender,
 			isCompact,
 		},
 	) {
+		// eslint-disable-next-line vet-jquery/jquery
 		if (btnScale && $btnScale) throw new Error(`Only one of "$btnScale" and "btnScale" may be provided!`);
 
-		$btnScale ||= $(btnScale);
-
-		const evtName = "click.cr-scaler";
+		// eslint-disable-next-line vet-jquery/jquery
+		btnScale ||= e_($btnScale[0]);
 
 		let slider;
 
-		const $body = $(win.document.body);
-		function cleanSliders () {
-			$body.find(`.mon__cr-slider-wrp`).remove();
-			$btnScale.off(evtName);
+		const eleBody = e_(win.document.body);
+		const cleanSliders = () => {
+			eleBody.findAll(`.mon__cr-slider-wrp`).forEach(ele => ele.remove());
+			btnScale.off("click");
 			if (slider) slider.destroy();
-		}
-
+		};
 		cleanSliders();
 
-		const $wrp = $(`<div class="mon__cr-slider-wrp ${isCompact ? "mon__cr-slider-wrp--compact" : ""}"></div>`);
+		const bodyOnn = () => {
+			this._GET_CR_SCALE_TARGET__ELES_CLICK_CLEAN_SLIDERS.set(eleBody, cleanSliders);
+			eleBody.onn("click", cleanSliders);
+			return eleBody;
+		};
+
+		const bodyOff = () => {
+			const fnBodyPrev = this._GET_CR_SCALE_TARGET__ELES_CLICK_CLEAN_SLIDERS.get(eleBody);
+			if (fnBodyPrev) eleBody.off("click", fnBodyPrev);
+			return eleBody;
+		};
+
+		const wrp = ee`<div class="mon__cr-slider-wrp ${isCompact ? "mon__cr-slider-wrp--compact" : ""}"></div>`;
 
 		const cur = Parser.CRS.indexOf(initialCr);
 		if (cur === -1) throw new Error(`Initial CR ${initialCr} was not valid!`);
@@ -10038,19 +10063,20 @@ Renderer.monster = class {
 			propCurMin: "cur",
 			fnDisplay: ix => Parser.CRS[ix],
 		});
-		slider.$get().appendTo($wrp);
+		slider.get().appendTo(wrp);
 
-		$btnScale.off(evtName).on(evtName, (evt) => evt.stopPropagation());
-		$wrp.on(evtName, (evt) => evt.stopPropagation());
-		$body.off(evtName).on(evtName, cleanSliders);
+		btnScale.off("click").onn("click", (evt) => evt.stopPropagation());
+		wrp.onn("click", (evt) => evt.stopPropagation());
+		bodyOff();
+		bodyOnn();
 
 		comp._addHookBase("cur", () => {
 			cbRender(Parser.crToNumber(Parser.CRS[comp._state.cur]));
-			$body.off(evtName);
+			bodyOff();
 			cleanSliders();
 		});
 
-		$btnScale.after($wrp);
+		btnScale.after(wrp);
 	}
 
 	static getSelSummonSpellLevel (mon) {
@@ -15788,20 +15814,24 @@ Renderer.hover = class {
 	 * @param [opts.fnRender]
 	 * @param [renderFnOpts]
 	 */
-	static $getHoverContent_stats (page, toRender, opts, renderFnOpts) {
+	static getHoverContent_stats (page, toRender, opts, renderFnOpts) {
 		opts = opts || {};
 		if (page === UrlUtil.PG_RECIPES) opts = {...MiscUtil.copyFast(opts), isBookContent: true};
 
 		const name = toRender._displayName || toRender.name;
 		const fnRender = opts.fnRender || Renderer.hover.getFnRenderCompact(page, {isStatic: opts.isStatic});
-		const $out = $$`<table class="w-100 stats ${opts.isBookContent ? `stats--book` : ""}" ${name ? `data-roll-name-ancestor-roller="${Renderer.stripTags(name).qq()}"` : ""}>${fnRender(toRender, renderFnOpts)}</table>`;
+		const out = ee`<table class="w-100 stats ${opts.isBookContent ? `stats--book` : ""}" ${name ? `data-roll-name-ancestor-roller="${Renderer.stripTags(name).qq()}"` : ""}>${fnRender(toRender, renderFnOpts)}</table>`;
 
 		if (!opts.isStatic) {
 			const fnBind = Renderer.hover.getFnBindListenersCompact(page);
-			if (fnBind) fnBind(toRender, $out[0]);
+			if (fnBind) fnBind(toRender, out);
 		}
 
-		return $out;
+		return out;
+	}
+
+	static $getHoverContent_stats (page, toRender, opts, renderFnOpts) {
+		return $(Renderer.hover.getHoverContent_stats(page, toRender, opts, renderFnOpts));
 	}
 
 	/**

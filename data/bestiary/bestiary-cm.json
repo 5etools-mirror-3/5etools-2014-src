@@ -470,7 +470,7 @@
 				{
 					"name": "Nimble Escape",
 					"entries": [
-						"Bak Mei takes the Disengage or Hide action."
+						"Bak Mei takes the {@action Disengage} or {@action Hide} action."
 					]
 				}
 			],
@@ -1882,7 +1882,7 @@
 				{
 					"name": "Nimble Escape",
 					"entries": [
-						"Jade Tigress takes the Disengage or Hide action."
+						"Jade Tigress takes the {@action Disengage} or {@action Hide} action."
 					]
 				}
 			],

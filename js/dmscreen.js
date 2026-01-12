@@ -2,38 +2,31 @@ import {
 	PANEL_TYP_EMPTY,
 	PANEL_TYP_STATS,
 	PANEL_TYP_ROLLBOX,
-	PANEL_TYP_TEXTBOX,
 	PANEL_TYP_RULES,
-	PANEL_TYP_UNIT_CONVERTER,
 	PANEL_TYP_CREATURE_SCALED_CR,
 	PANEL_TYP_CREATURE_SCALED_SPELL_SUMMON,
 	PANEL_TYP_CREATURE_SCALED_CLASS_SUMMON,
-	PANEL_TYP_TIME_TRACKER,
-	PANEL_TYP_MONEY_CONVERTER,
 	PANEL_TYP_TUBE,
 	PANEL_TYP_TWITCH,
 	PANEL_TYP_TWITCH_CHAT,
 	PANEL_TYP_ADVENTURES,
 	PANEL_TYP_BOOKS,
-	PANEL_TYP_COUNTER,
 	PANEL_TYP_IMAGE,
-	PANEL_TYP_ADVENTURE_DYNAMIC_MAP,
 	PANEL_TYP_GENERIC_EMBED,
 	PANEL_TYP_ERROR,
 	PANEL_TYP_BLANK,
 } from "./dmscreen/dmscreen-consts.js";
 import {DmMapper} from "./dmscreen/dmscreen-mapper.js";
-import {MoneyConverter} from "./dmscreen/dmscreen-moneyconverter.js";
+import {TimerTrackerMoonSpriteLoader} from "./dmscreen/dmscreen-timetracker.js";
 import {
-	TimerTrackerMoonSpriteLoader,
-	TimeTracker,
-} from "./dmscreen/dmscreen-timetracker.js";
-import {Counter} from "./dmscreen/dmscreen-counter.js";
-import {
+	PanelContentManager_Counter,
 	PanelContentManager_InitiativeTracker,
 	PanelContentManager_InitiativeTrackerCreatureViewer,
 	PanelContentManager_InitiativeTrackerPlayerViewV0,
 	PanelContentManager_InitiativeTrackerPlayerViewV1,
+	PanelContentManager_MoneyConverter,
+	PanelContentManager_NoteBox, PanelContentManager_TimeTracker,
+	PanelContentManager_UnitConverter,
 	PanelContentManagerFactory,
 } from "./dmscreen/dmscreen-panels.js";
 
@@ -1056,26 +1049,6 @@ class Panel {
 					Renderer.dice.bindDmScreenPanel(panel, saved.r);
 					handleTabRenamed(panel);
 					return panel;
-				case PANEL_TYP_TEXTBOX:
-					panel.doPopulate_TextBox(saved.s.x, saved.r);
-					handleTabRenamed(panel);
-					return panel;
-				case PANEL_TYP_COUNTER:
-					panel.doPopulate_Counter(saved.s, saved.r);
-					handleTabRenamed(panel);
-					return panel;
-				case PANEL_TYP_UNIT_CONVERTER:
-					panel.doPopulate_UnitConverter(saved.s, saved.r);
-					handleTabRenamed(panel);
-					return panel;
-				case PANEL_TYP_MONEY_CONVERTER:
-					panel.doPopulate_MoneyConverter(saved.s, saved.r);
-					handleTabRenamed(panel);
-					return panel;
-				case PANEL_TYP_TIME_TRACKER:
-					panel.doPopulate_TimeTracker(saved.s, saved.r);
-					handleTabRenamed(panel);
-					return panel;
 				case PANEL_TYP_TUBE:
 					panel.doPopulate_YouTube(saved.c.u, saved.r);
 					handleTabRenamed(panel);
@@ -1094,10 +1067,6 @@ class Panel {
 					return panel;
 				case PANEL_TYP_IMAGE:
 					panel.doPopulate_Image(saved.c.u, saved.r);
-					handleTabRenamed(panel);
-					return panel;
-				case PANEL_TYP_ADVENTURE_DYNAMIC_MAP:
-					panel.doPopulate_AdventureBookDynamicMap(saved.s, saved.r);
 					handleTabRenamed(panel);
 					return panel;
 				case PANEL_TYP_ERROR:
@@ -1568,56 +1537,6 @@ class Panel {
 		);
 	}
 
-	doPopulate_Counter (state = {}, title) {
-		this.set$ContentTab(
-			PANEL_TYP_COUNTER,
-			state,
-			$(`<div class="panel-content-wrapper-inner"></div>`).append(Counter.$getCounter(this.board, state)),
-			title || "Counter",
-			true,
-		);
-	}
-
-	doPopulate_UnitConverter (state = {}, title) {
-		this.set$ContentTab(
-			PANEL_TYP_UNIT_CONVERTER,
-			state,
-			$(`<div class="panel-content-wrapper-inner"></div>`).append(UnitConverter.make$Converter(this.board, state)),
-			title || "Unit Converter",
-			true,
-		);
-	}
-
-	doPopulate_MoneyConverter (state = {}, title) {
-		this.set$ContentTab(
-			PANEL_TYP_MONEY_CONVERTER,
-			state,
-			$(`<div class="panel-content-wrapper-inner"></div>`).append(MoneyConverter.make$Converter(this.board, state)),
-			title || "Money Converter",
-			true,
-		);
-	}
-
-	doPopulate_TimeTracker (state = {}, title) {
-		this.set$ContentTab(
-			PANEL_TYP_TIME_TRACKER,
-			state,
-			$(`<div class="panel-content-wrapper-inner"></div>`).append(TimeTracker.$getTracker(this.board, state)),
-			title || "Time Tracker",
-			true,
-		);
-	}
-
-	doPopulate_TextBox (content, title = "Notes") {
-		this.set$ContentTab(
-			PANEL_TYP_TEXTBOX,
-			null,
-			$(`<div class="panel-content-wrapper-inner ve-overflow-y-hidden"></div>`).append(NoteBox.make$Notebox(this.board, content)),
-			title,
-			true,
-		);
-	}
-
 	doPopulate_YouTube (url, title = "YouTube") {
 		const meta = {u: url};
 		this.set$ContentTab(
@@ -1684,16 +1603,6 @@ class Panel {
 			maxScale: 8,
 			duration: 100,
 		});
-	}
-
-	doPopulate_AdventureBookDynamicMap (state, title = "Map Viewer") {
-		this.set$ContentTab(
-			PANEL_TYP_ADVENTURE_DYNAMIC_MAP,
-			state,
-			$(`<div class="panel-content-wrapper-inner"></div>`).append(DmMapper.$getMapper(this.board, state)),
-			title || "Map Viewer",
-			true,
-		);
 	}
 
 	doPopulate_Error (state, title = "") {
@@ -2433,7 +2342,9 @@ class Panel {
 		// do cleanup
 		if (this.type === PANEL_TYP_ROLLBOX) Renderer.dice.unbindDmScreenPanel();
 
-		const fnOnDestroy = this.$content ? $(this.$content.children()[0]).data("onDestroy") : null;
+		const fnsOnDestroy = this.tabDatas
+			.filter(tabData => tabData?.panelApp?.onDestroy)
+			.map(tabData => tabData.panelApp.onDestroy.bind(tabData.panelApp));
 
 		if (this.$pnl) this.$pnl.remove();
 		this.board.destroyPanel(this.id);
@@ -2460,14 +2371,14 @@ class Panel {
 			t: this.type,
 		};
 
-		const getSaveableContent = (type, contentMeta, $content, tabRenamed, tabTitle) => {
+		const getSaveableContent = (type, contentMeta, panelApp, $content, tabRenamed, tabTitle) => {
 			const toSaveTitle = tabRenamed ? tabTitle : undefined;
 
 			// TODO(Future) refactor other panels to use this
 			const fromPcm = PanelContentManagerFactory.getSaveableContent({
 				type,
 				toSaveTitle,
-				$content,
+				panelApp,
 			});
 			if (fromPcm !== undefined) return fromPcm;
 
@@ -2551,49 +2462,6 @@ class Panel {
 							c: contentMeta.c,
 						},
 					};
-				case PANEL_TYP_TEXTBOX:
-					return {
-						t: type,
-						r: toSaveTitle,
-						s: {
-							x: $content ? $content.find(`textarea`).val() : "",
-						},
-					};
-				case PANEL_TYP_COUNTER: {
-					return {
-						t: type,
-						r: toSaveTitle,
-						s: $content.find(`.dm-cnt__root`).data("getState")(),
-					};
-				}
-				case PANEL_TYP_UNIT_CONVERTER: {
-					return {
-						t: type,
-						r: toSaveTitle,
-						s: $content.find(`.dm-unitconv`).data("getState")(),
-					};
-				}
-				case PANEL_TYP_MONEY_CONVERTER: {
-					return {
-						t: type,
-						r: toSaveTitle,
-						s: $content.find(`.dm_money`).data("getState")(),
-					};
-				}
-				case PANEL_TYP_TIME_TRACKER: {
-					return {
-						t: type,
-						r: toSaveTitle,
-						s: $content.find(`.dm-time__root`).data("getState")(),
-					};
-				}
-				case PANEL_TYP_ADVENTURE_DYNAMIC_MAP: {
-					return {
-						t: type,
-						r: toSaveTitle,
-						s: $content.find(`.dm-map__root`).data("getState")(),
-					};
-				}
 				case PANEL_TYP_TUBE:
 				case PANEL_TYP_TWITCH:
 				case PANEL_TYP_TWITCH_CHAT:
@@ -2615,11 +2483,11 @@ class Panel {
 			}
 		};
 
-		const toSave = getSaveableContent(this.type, this.contentMeta, this.$content);
+		const toSave = getSaveableContent(this.type, this.contentMeta, this.tabDatas[0]?.panelApp, this.$content);
 		if (toSave) Object.assign(out, toSave);
 
 		if (this.isTabs) {
-			out.a = this.tabDatas.filter(it => !it.isDeleted).map(td => getSaveableContent(td.type, td.contentMeta, td.$content, td.tabRenamed, td.title));
+			out.a = this.tabDatas.filter(it => !it.isDeleted).map(td => getSaveableContent(td.type, td.contentMeta, td.panelApp, td.$content, td.tabRenamed, td.title));
 			// offset saved tabindex by number of deleted tabs that come before
 			let delCount = 0;
 			for (let i = 0; i < this.tabIndex; ++i) {
@@ -2632,12 +2500,10 @@ class Panel {
 	}
 
 	fireBoardEvent (boardEvt) {
-		if (!this.$content) return;
-
-		const fnHandleBoardEvent = $(this.$content.children()[0]).data("onBoardEvent");
-		if (!fnHandleBoardEvent) return;
-
-		fnHandleBoardEvent(boardEvt);
+		this.tabDatas
+			.filter(tabData => tabData?.panelApp?.onBoardEvent)
+			.map(tabData => tabData.panelApp.onBoardEvent.bind(tabData.panelApp))
+			.forEach(fnOnBoardEvent => fnOnBoardEvent(boardEvt));
 	}
 }
 
@@ -3361,40 +3227,45 @@ class AddMenuSpecialTab extends AddMenuTab {
 
 			const $wrpText = $$`<div class="ui-modal__row"><span>Basic Text Box <i class="ve-muted">(for a feature-rich editor, ${$btnSwitchToEmbedTag} a Google Doc or similar)</i></span></div>`.appendTo($tab);
 			const $btnText = $(`<button class="ve-btn ve-btn-primary ve-btn-sm">Add</button>`).appendTo($wrpText);
-			$btnText.on("click", () => {
-				this.menu.pnl.doPopulate_TextBox();
+			$btnText.on("click", async () => {
+				const pcm = new PanelContentManager_NoteBox({board: this._board, panel: this.menu.pnl});
 				this.menu.doClose();
+				await pcm.pDoPopulate();
 			});
 			$(`<hr class="hr-2">`).appendTo($tab);
 
 			const $wrpUnitConverter = $(`<div class="ui-modal__row"><span>Unit Converter</span></div>`).appendTo($tab);
 			const $btnUnitConverter = $(`<button class="ve-btn ve-btn-primary ve-btn-sm">Add</button>`).appendTo($wrpUnitConverter);
-			$btnUnitConverter.on("click", () => {
-				this.menu.pnl.doPopulate_UnitConverter();
+			$btnUnitConverter.on("click", async () => {
+				const pcm = new PanelContentManager_UnitConverter({board: this._board, panel: this.menu.pnl});
 				this.menu.doClose();
+				await pcm.pDoPopulate();
 			});
 
 			const $wrpMoneyConverter = $(`<div class="ui-modal__row"><span>Coin Converter</span></div>`).appendTo($tab);
 			const $btnMoneyConverter = $(`<button class="ve-btn ve-btn-primary ve-btn-sm">Add</button>`).appendTo($wrpMoneyConverter);
-			$btnMoneyConverter.on("click", () => {
-				this.menu.pnl.doPopulate_MoneyConverter();
+			$btnMoneyConverter.on("click", async () => {
+				const pcm = new PanelContentManager_MoneyConverter({board: this._board, panel: this.menu.pnl});
 				this.menu.doClose();
+				await pcm.pDoPopulate();
 			});
 
 			const $wrpCounter = $(`<div class="ui-modal__row"><span>Counter</span></div>`).appendTo($tab);
 			const $btnCounter = $(`<button class="ve-btn ve-btn-primary ve-btn-sm">Add</button>`).appendTo($wrpCounter);
-			$btnCounter.on("click", () => {
-				this.menu.pnl.doPopulate_Counter();
+			$btnCounter.on("click", async () => {
+				const pcm = new PanelContentManager_Counter({board: this._board, panel: this.menu.pnl});
 				this.menu.doClose();
+				await pcm.pDoPopulate();
 			});
 
 			$(`<hr class="hr-2">`).appendTo($tab);
 
 			const $wrpTimeTracker = $(`<div class="ui-modal__row"><span>In-Game Clock/Calendar</span></div>`).appendTo($tab);
 			const $btnTimeTracker = $(`<button class="ve-btn ve-btn-primary ve-btn-sm">Add</button>`).appendTo($wrpTimeTracker);
-			$btnTimeTracker.on("click", () => {
-				this.menu.pnl.doPopulate_TimeTracker();
+			$btnTimeTracker.on("click", async () => {
+				const pcm = new PanelContentManager_TimeTracker({board: this._board, panel: this.menu.pnl});
 				this.menu.doClose();
+				await pcm.pDoPopulate();
 			});
 
 			$(`<hr class="hr-2">`).appendTo($tab);
@@ -3776,213 +3647,6 @@ class BookLoader extends AdventureOrBookLoader { constructor () { super("book");
 
 const adventureLoader = new AdventureLoader();
 const bookLoader = new BookLoader();
-
-class NoteBox {
-	static make$Notebox (board, content) {
-		const $iptText = $(`<textarea class="panel-content-textarea" placeholder="Supports inline rolls and content tags (CTRL-q with the caret in the text to activate the embed):\n • Inline rolls,  [[1d20+2]]\n • Content tags (as per the Demo page), {@creature goblin}, {@spell fireball}\n • Link tags, {@link https://5e.tools}">${content || ""}</textarea>`)
-			.on("keydown", async evt => {
-				const key = EventUtil.getKeyIgnoreCapsLock(evt);
-
-				const isCtrlQ = (EventUtil.isCtrlMetaKey(evt)) && key === "q";
-
-				if (!isCtrlQ) {
-					board.doSaveStateDebounced();
-					return;
-				}
-
-				const txt = $iptText[0];
-				if (txt.selectionStart === txt.selectionEnd) {
-					const pos = txt.selectionStart - 1;
-					const text = txt.value;
-					const l = text.length;
-					let beltStack = [];
-					let braceStack = [];
-					let belts = 0;
-					let braces = 0;
-					let beltsAtPos = null;
-					let bracesAtPos = null;
-					let lastBeltPos = null;
-					let lastBracePos = null;
-					outer: for (let i = 0; i < l; ++i) {
-						const c = text[i];
-						switch (c) {
-							case "[":
-								belts = Math.min(belts + 1, 2);
-								if (belts === 2) beltStack = [];
-								lastBeltPos = i;
-								break;
-							case "]":
-								belts = Math.max(belts - 1, 0);
-								if (belts === 0 && i > pos) break outer;
-								break;
-							case "{":
-								if (text[i + 1] === "@") {
-									braces = 1;
-									braceStack = [];
-									lastBracePos = i;
-								}
-								break;
-							case "}":
-								braces = 0;
-								if (i >= pos) break outer;
-								break;
-							default:
-								if (belts === 2) {
-									beltStack.push(c);
-								}
-								if (braces) {
-									braceStack.push(c);
-								}
-						}
-						if (i === pos) {
-							beltsAtPos = belts;
-							bracesAtPos = braces;
-						}
-					}
-
-					if (beltsAtPos === 2 && belts === 0) {
-						const str = beltStack.join("");
-						await Renderer.dice.pRoll2(str.replace(`[[`, "").replace(`]]`, ""), {
-							isUser: false,
-							name: "DM Screen",
-						});
-					} else if (bracesAtPos === 1 && braces === 0) {
-						const str = braceStack.join("");
-						const tag = str.split(" ")[0].replace(/^@/, "");
-						const text = str.split(" ").slice(1).join(" ");
-						if (Renderer.tag.getPage(tag)) {
-							const r = Renderer.get().render(`{${str}}`);
-							evt.type = "mouseover";
-							evt.shiftKey = true;
-							evt.ctrlKey = false;
-							evt.metaKey = false;
-							$(r).trigger(evt);
-						} else if (tag === "link") {
-							const [txt, link] = Renderer.splitTagByPipe(text);
-							window.open(link && link.trim() ? link : txt);
-						}
-					}
-				}
-			});
-
-		return $iptText;
-	}
-}
-
-class UnitConverter {
-	static make$Converter (board, state) {
-		const units = [
-			new UnitConverterUnit("Inches", "2.54", "Centimetres", "0.394"),
-			new UnitConverterUnit("Feet", "0.305", "Metres", "3.28"),
-			new UnitConverterUnit("Miles", "1.61", "Kilometres", "0.620"),
-			new UnitConverterUnit("Pounds", "0.454", "Kilograms", "2.20"),
-			new UnitConverterUnit("Gallons", "3.79", "Litres", "0.264"),
-			new UnitConverterUnit("Gallons", "8", "Pints", "0.125"),
-		];
-
-		let ixConv = state.c || 0;
-		let dirConv = state.d || 0;
-
-		const $wrpConverter = $(`<div class="dm-unitconv dm__panel-bg split-column"></div>`);
-
-		const $tblConvert = $(`<table class="w-100 table-striped"></table>`).appendTo($wrpConverter);
-		const $tbodyConvert = $(`<tbody></tbody>`).appendTo($tblConvert);
-		units.forEach((u, i) => {
-			const $tr = $(`<tr class="row clickable"></tr>`).appendTo($tbodyConvert);
-			const clickL = () => {
-				ixConv = i;
-				dirConv = 0;
-				updateDisplay();
-			};
-			const clickR = () => {
-				ixConv = i;
-				dirConv = 1;
-				updateDisplay();
-			};
-			$(`<td class="ve-col-3">${u.n1}</td>`).click(clickL).appendTo($tr);
-			$(`<td class="ve-col-3 code">×${u.x1.padStart(5)}</td>`).click(clickL).appendTo($tr);
-			$(`<td class="ve-col-3">${u.n2}</td>`).click(clickR).appendTo($tr);
-			$(`<td class="ve-col-3 code">×${u.x2.padStart(5)}</td>`).click(clickR).appendTo($tr);
-		});
-
-		const $wrpIpt = $(`<div class="split dm-unitconv__wrp-ipt"></div>`).appendTo($wrpConverter);
-
-		const $wrpLeft = $(`<div class="split-column dm-unitconv__wrp-ipt-inner"></div>`).appendTo($wrpIpt);
-		const $lblLeft = $(`<span class="bold"></span>`).appendTo($wrpLeft);
-		const $iptLeft = $(`<textarea class="dm-unitconv__ipt form-control">${state.i || ""}</textarea>`).appendTo($wrpLeft);
-
-		const $btnSwitch = $(`<button class="ve-btn ve-btn-primary dm-unitconv__btn-switch">⇆</button>`).click(() => {
-			dirConv = Number(!dirConv);
-			updateDisplay();
-		}).appendTo($wrpIpt);
-
-		const $wrpRight = $(`<div class="split-column dm-unitconv__wrp-ipt-inner"></div>`).appendTo($wrpIpt);
-		const $lblRight = $(`<span class="bold"></span>`).appendTo($wrpRight);
-		const $iptRight = $(`<textarea class="dm-unitconv__ipt form-control" disabled style="background: #0000"></textarea>`).appendTo($wrpRight);
-
-		const updateDisplay = () => {
-			const it = units[ixConv];
-			const [lblL, lblR] = dirConv === 0 ? [it.n1, it.n2] : [it.n2, it.n1];
-			$lblLeft.text(lblL);
-			$lblRight.text(lblR);
-			handleInput();
-		};
-
-		const mMaths = /^([0-9.+\-*/ ()e])*$/;
-		const handleInput = () => {
-			const showInvalid = () => {
-				$iptLeft.addClass(`ipt-invalid`);
-				$iptRight.val("");
-			};
-			const showValid = () => {
-				$iptLeft.removeClass(`ipt-invalid`);
-			};
-
-			const val = ($iptLeft.val() || "").trim();
-			if (!val) {
-				showValid();
-				$iptRight.val("");
-			} else if (mMaths.exec(val)) {
-				showValid();
-				const it = units[ixConv];
-				const mL = [Number(it.x1), Number(it.x2)][dirConv];
-				try {
-					/* eslint-disable */
-					const total = eval(val);
-					/* eslint-enable */
-					$iptRight.val(Number((total * mL).toFixed(5)));
-				} catch (e) {
-					$iptLeft.addClass(`ipt-invalid`);
-					$iptRight.val("");
-				}
-			} else showInvalid();
-			board.doSaveStateDebounced();
-		};
-
-		UiUtil.bindTypingEnd({$ipt: $iptLeft, fnKeyup: handleInput});
-
-		updateDisplay();
-
-		$wrpConverter.data("getState", () => {
-			return {
-				c: ixConv,
-				d: dirConv,
-				i: $iptLeft.val(),
-			};
-		});
-
-		return $wrpConverter;
-	}
-}
-
-class UnitConverterUnit {
-	constructor (n1, x1, n2, x2) {
-		this.n1 = n1;
-		this.x1 = x1;
-		this.n2 = n2;
-		this.x2 = x2;
-	}
-}
 
 class AdventureOrBookView {
 	constructor (prop, panel, loader, tabIx, contentMeta) {

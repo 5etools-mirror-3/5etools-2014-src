@@ -1070,7 +1070,7 @@ export class BrewUtil2Base {
 
 	// region Rendering/etc.
 	_PAGE_TO_PROPS__SPELLS = [...UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_SPELLS], "spellFluff"];
-	_PAGE_TO_PROPS__BESTIARY = ["monster", "legendaryGroup", "monsterFluff"];
+	_PAGE_TO_PROPS__BESTIARY = ["monster", "legendaryGroup", "monsterFluff", "encounterShape"];
 
 	_PAGE_TO_PROPS = {
 		[UrlUtil.PG_SPELLS]: this._PAGE_TO_PROPS__SPELLS,

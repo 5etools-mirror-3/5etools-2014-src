@@ -1323,6 +1323,28 @@
 			]
 		},
 		{
+			"name": "Charm of the Heroes' Feast",
+			"source": "CM",
+			"page": 128,
+			"type": "Charm",
+			"additionalSpells": [
+				{
+					"innate": {
+						"_": {
+							"limited": {
+								"1": [
+									"heroes' feast"
+								]
+							}
+						}
+					}
+				}
+			],
+			"entries": [
+				"This charm allows you to cast the {@spell heroes' feast} spell as an action, no components required. Once used, this charm goes away."
+			]
+		},
+		{
 			"name": "Charm of the Ice Troll",
 			"source": "IDRotF",
 			"page": 283,
@@ -1741,6 +1763,28 @@
 			"type": "Charm",
 			"entries": [
 				"This charm allows you to give yourself the benefit of a {@item potion of vitality} as an action. Once you do so, the charm vanishes from you."
+			]
+		},
+		{
+			"name": "Charm of Water Breathing",
+			"source": "ToR",
+			"page": 213,
+			"type": "Charm",
+			"additionalSpells": [
+				{
+					"innate": {
+						"_": {
+							"limited": {
+								"1": [
+									"water breathing"
+								]
+							}
+						}
+					}
+				}
+			],
+			"entries": [
+				"The charm allows the character to cast the {@spell water breathing} spell, after which its magic fades."
 			]
 		},
 		{
