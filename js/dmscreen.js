@@ -1155,12 +1155,11 @@ class Panel {
 	}
 
 	doPopulate_Loading (message) {
-		return this.set$ContentTab(
-			PANEL_TYP_EMPTY,
-			null,
-			Panel._get$eleLoading(message),
-			TITLE_LOADING,
-		);
+		return this.set$ContentTab({
+			panelType: PANEL_TYP_EMPTY,
+			$content: Panel._get$eleLoading(message),
+			title: TITLE_LOADING,
+		});
 	}
 
 	doPopulate_Stats (page, source, hash, skipSetTab, title) { // FIXME skipSetTab is never used
@@ -1191,15 +1190,15 @@ class Panel {
 			this._stats_bindCrScaleClickHandler(it, meta, $contentInner, $contentStats);
 			this._stats_bindSummonScaleClickHandler(it, meta, $contentInner, $contentStats);
 
-			this.set$Tab(
+			this.set$Tab({
 				ix,
-				PANEL_TYP_STATS,
-				meta,
-				$contentInner,
-				title || it.name,
-				true,
-				!!title,
-			);
+				type: PANEL_TYP_STATS,
+				contentMeta: meta,
+				$content: $contentInner,
+				title: title || it.name,
+				tabCanRename: true,
+				tabRenamed: !!title,
+			});
 		});
 	}
 
@@ -1229,14 +1228,14 @@ class Panel {
 						};
 						if (originalCr) delete nxtMeta.cr;
 
-						self.set$Tab(
-							self.tabIndex,
-							originalCr ? PANEL_TYP_STATS : PANEL_TYP_CREATURE_SCALED_CR,
-							nxtMeta,
-							$contentInner,
-							toRender._displayName || toRender.name,
-							true,
-						);
+						self.set$Tab({
+							ix: self.tabIndex,
+							type: originalCr ? PANEL_TYP_STATS : PANEL_TYP_CREATURE_SCALED_CR,
+							contentMeta: nxtMeta,
+							$content: $contentInner,
+							title: toRender._displayName || toRender.name,
+							tabCanRename: true,
+						});
 					};
 
 					if (originalCr) {
@@ -1250,14 +1249,14 @@ class Panel {
 
 		$contentStats.off("click", ".mon__btn-reset-cr").on("click", ".mon__btn-reset-cr", function () {
 			$contentStats.empty().append(Renderer.monster.getCompactRenderedString(mon, {isShowScalers: true, isScaledCr: false}));
-			self.set$Tab(
-				self.tabIndex,
-				PANEL_TYP_STATS,
-				meta,
-				$contentInner,
-				mon.name,
-				true,
-			);
+			self.set$Tab({
+				ix: self.tabIndex,
+				type: PANEL_TYP_STATS,
+				contentMeta: meta,
+				$content: $contentInner,
+				title: mon.name,
+				tabCanRename: true,
+			});
 		});
 	}
 
@@ -1282,28 +1281,28 @@ class Panel {
 
 							self._stats_doUpdateSummonScaleDropdowns(toRender, $contentStats);
 
-							self.set$Tab(
-								self.tabIndex,
-								PANEL_TYP_CREATURE_SCALED_SPELL_SUMMON,
-								nxtMeta,
-								$contentInner,
-								mon._displayName || mon.name,
-								true,
-							);
+							self.set$Tab({
+								ix: self.tabIndex,
+								type: PANEL_TYP_CREATURE_SCALED_SPELL_SUMMON,
+								contentMeta: nxtMeta,
+								$content: $contentInner,
+								title: mon._displayName || mon.name,
+								tabCanRename: true,
+							});
 						});
 				} else {
 					$contentStats.empty().append(Renderer.monster.getCompactRenderedString(mon, {isShowScalers: true, isScaledCr: false, isScaledSpellSummon: false}));
 
 					self._stats_doUpdateSummonScaleDropdowns(mon, $contentStats);
 
-					self.set$Tab(
-						self.tabIndex,
-						PANEL_TYP_STATS,
-						meta,
-						$contentInner,
-						mon.name,
-						true,
-					);
+					self.set$Tab({
+						ix: self.tabIndex,
+						type: PANEL_TYP_STATS,
+						contentMeta: meta,
+						$content: $contentInner,
+						title: mon.name,
+						tabCanRename: true,
+					});
 				}
 			});
 
@@ -1325,28 +1324,28 @@ class Panel {
 
 							self._stats_doUpdateSummonScaleDropdowns(toRender, $contentStats);
 
-							self.set$Tab(
-								self.tabIndex,
-								PANEL_TYP_CREATURE_SCALED_CLASS_SUMMON,
-								nxtMeta,
-								$contentInner,
-								mon._displayName || mon.name,
-								true,
-							);
+							self.set$Tab({
+								ix: self.tabIndex,
+								type: PANEL_TYP_CREATURE_SCALED_CLASS_SUMMON,
+								contentMeta: nxtMeta,
+								$content: $contentInner,
+								title: mon._displayName || mon.name,
+								tabCanRename: true,
+							});
 						});
 				} else {
 					$contentStats.empty().append(Renderer.monster.getCompactRenderedString(mon, {isShowScalers: true, isScaledCr: false, isScaledClassSummon: false}));
 
 					self._stats_doUpdateSummonScaleDropdowns(mon, $contentStats);
 
-					self.set$Tab(
-						self.tabIndex,
-						PANEL_TYP_STATS,
-						meta,
-						$contentInner,
-						mon.name,
-						true,
-					);
+					self.set$Tab({
+						ix: self.tabIndex,
+						type: PANEL_TYP_STATS,
+						contentMeta: meta,
+						$content: $contentInner,
+						title: mon.name,
+						tabCanRename: true,
+					});
 				}
 			});
 	}
@@ -1379,15 +1378,15 @@ class Panel {
 
 				this._stats_bindCrScaleClickHandler(it, meta, $contentInner, $contentStats);
 
-				this.set$Tab(
-					ix,
-					PANEL_TYP_CREATURE_SCALED_CR,
-					meta,
-					$contentInner,
-					title || initialRender._displayName || initialRender.name,
-					true,
-					!!title,
-				);
+				this.set$Tab({
+					ix: ix,
+					type: PANEL_TYP_CREATURE_SCALED_CR,
+					contentMeta: meta,
+					$content: $contentInner,
+					title: title || initialRender._displayName || initialRender.name,
+					tabCanRename: true,
+					tabRenamed: !!title,
+				});
 			});
 		});
 	}
@@ -1412,15 +1411,15 @@ class Panel {
 
 				this._stats_bindSummonScaleClickHandler(it, meta, $contentInner, $contentStats);
 
-				this.set$Tab(
-					ix,
-					PANEL_TYP_CREATURE_SCALED_SPELL_SUMMON,
-					meta,
-					$contentInner,
-					title || scaledMon._displayName || scaledMon.name,
-					true,
-					!!title,
-				);
+				this.set$Tab({
+					ix: ix,
+					type: PANEL_TYP_CREATURE_SCALED_SPELL_SUMMON,
+					contentMeta: meta,
+					$content: $contentInner,
+					title: title || scaledMon._displayName || scaledMon.name,
+					tabCanRename: true,
+					tabRenamed: !!title,
+				});
 			});
 		});
 	}
@@ -1445,15 +1444,15 @@ class Panel {
 
 				this._stats_bindSummonScaleClickHandler(it, meta, $contentInner, $contentStats);
 
-				this.set$Tab(
-					ix,
-					PANEL_TYP_CREATURE_SCALED_CLASS_SUMMON,
-					meta,
-					$contentInner,
-					title || scaledMon._displayName || scaledMon.name,
-					true,
-					!!title,
-				);
+				this.set$Tab({
+					ix: ix,
+					type: PANEL_TYP_CREATURE_SCALED_CLASS_SUMMON,
+					contentMeta: meta,
+					$content: $contentInner,
+					title: title || scaledMon._displayName || scaledMon.name,
+					tabCanRename: true,
+					tabRenamed: !!title,
+				});
 			});
 		});
 	}
@@ -1467,15 +1466,15 @@ class Panel {
 		return RuleLoader.pFill(book).then(() => {
 			const rule = RuleLoader.getFromCache(book, chapter, header);
 			const it = Renderer.rule.getCompactRenderedString(rule);
-			this.set$Tab(
-				ix,
-				PANEL_TYP_RULES,
-				meta,
-				$(`<div class="panel-content-wrapper-inner"><table class="w-100 stats">${it}</table></div>`),
-				title || rule.name || "",
-				true,
-				!!title,
-			);
+			this.set$Tab({
+				ix: ix,
+				type: PANEL_TYP_RULES,
+				contentMeta: meta,
+				$content: $(`<div class="panel-content-wrapper-inner"><table class="w-100 stats">${it}</table></div>`),
+				title: title || rule.name || "",
+				tabCanRename: true,
+				tabRenamed: !!title,
+			});
 		});
 	}
 
@@ -1488,15 +1487,15 @@ class Panel {
 		return adventureLoader.pFill(adventure).then(() => {
 			const data = adventureLoader.getFromCache(adventure, chapter);
 			const view = new AdventureOrBookView("a", this, adventureLoader, ix, meta);
-			this.set$Tab(
-				ix,
-				PANEL_TYP_ADVENTURES,
-				meta,
-				$(`<div class="panel-content-wrapper-inner"></div>`).append(view.$getEle()),
-				title || data?.chapter?.name || "",
-				true,
-				!!title,
-			);
+			this.set$Tab({
+				ix: ix,
+				type: PANEL_TYP_ADVENTURES,
+				contentMeta: meta,
+				$content: $(`<div class="panel-content-wrapper-inner"></div>`).append(view.$getEle()),
+				title: title || data?.chapter?.name || "",
+				tabCanRename: true,
+				tabRenamed: !!title,
+			});
 		});
 	}
 
@@ -1509,77 +1508,96 @@ class Panel {
 		return bookLoader.pFill(book).then(() => {
 			const data = bookLoader.getFromCache(book, chapter);
 			const view = new AdventureOrBookView("b", this, bookLoader, ix, meta);
-			this.set$Tab(
-				ix,
-				PANEL_TYP_BOOKS,
-				meta,
-				$(`<div class="panel-content-wrapper-inner"></div>`).append(view.$getEle()),
-				title || data?.chapter?.name || "",
-				true,
-				!!title,
-			);
+			this.set$Tab({
+				ix: ix,
+				type: PANEL_TYP_BOOKS,
+				contentMeta: meta,
+				$content: $(`<div class="panel-content-wrapper-inner"></div>`).append(view.$getEle()),
+				title: title || data?.chapter?.name || "",
+				tabCanRename: true,
+				tabRenamed: !!title,
+			});
 		});
 	}
 
-	set$ContentTab (type, contentMeta, $content, title, tabCanRename, tabRenamed) {
+	set$ContentTab (
+		{
+			panelType,
+			contentMeta = null,
+			panelApp = null,
+			$content,
+			title,
+			tabCanRename,
+			tabRenamed,
+		},
+	) {
 		const ix = this.isTabs ? this.getNextTabIndex() : 0;
-		return this.set$Tab(ix, type, contentMeta, $content, title, tabCanRename, tabRenamed);
+		return this.set$Tab({
+			ix: ix,
+			type: panelType,
+			contentMeta: contentMeta,
+			panelApp,
+			$content: $content,
+			title: title,
+			tabCanRename: tabCanRename,
+			tabRenamed: tabRenamed,
+		});
 	}
 
 	doPopulate_Rollbox (title) {
-		this.set$ContentTab(
-			PANEL_TYP_ROLLBOX,
-			null,
-			$(ee`<div class="panel-content-wrapper-inner"></div>`.appends(Renderer.dice.getRoller().addClass("rollbox-panel"))),
-			title || "Dice Roller",
-			true,
-			!!title,
-		);
+		this.set$ContentTab({
+			panelType: PANEL_TYP_ROLLBOX,
+			contentMeta: null,
+			$content: $(ee`<div class="panel-content-wrapper-inner"></div>`.appends(Renderer.dice.getRoller().addClass("rollbox-panel"))),
+			title: title || "Dice Roller",
+			tabCanRename: true,
+			tabRenamed: !!title,
+		});
 	}
 
 	doPopulate_YouTube (url, title = "YouTube") {
 		const meta = {u: url};
-		this.set$ContentTab(
-			PANEL_TYP_TUBE,
-			meta,
-			$(`<div class="panel-content-wrapper-inner"><iframe src="${url}?autoplay=1&enablejsapi=1&modestbranding=1&iv_load_policy=3" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ${ElementUtil.getIframeSandboxAttribute()}></iframe></div>`),
-			title,
-			true,
-		);
+		this.set$ContentTab({
+			panelType: PANEL_TYP_TUBE,
+			contentMeta: meta,
+			$content: $(`<div class="panel-content-wrapper-inner"><iframe src="${url}?autoplay=1&enablejsapi=1&modestbranding=1&iv_load_policy=3" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen ${ElementUtil.getIframeSandboxAttribute()}></iframe></div>`),
+			title: title,
+			tabCanRename: true,
+		});
 	}
 
 	doPopulate_Twitch (url, title = "Twitch") {
 		const meta = {u: url};
-		this.set$ContentTab(
-			PANEL_TYP_TWITCH,
-			meta,
-			$(`<div class="panel-content-wrapper-inner"><iframe src="${url}&parent=${location.hostname}" frameborder="0" allowfullscreen scrolling="no" ${ElementUtil.getIframeSandboxAttribute()}></iframe></div>`),
-			title,
-			true,
-		);
+		this.set$ContentTab({
+			panelType: PANEL_TYP_TWITCH,
+			contentMeta: meta,
+			$content: $(`<div class="panel-content-wrapper-inner"><iframe src="${url}&parent=${location.hostname}" frameborder="0" allowfullscreen scrolling="no" ${ElementUtil.getIframeSandboxAttribute()}></iframe></div>`),
+			title: title,
+			tabCanRename: true,
+		});
 	}
 
 	doPopulate_TwitchChat (url, title = "Twitch Chat") {
 		const meta = {u: url};
 		const channelId = url.split("/").map(it => it.trim()).filter(Boolean).slice(-2)[0];
-		this.set$ContentTab(
-			PANEL_TYP_TWITCH_CHAT,
-			meta,
-			$(`<div class="panel-content-wrapper-inner"><iframe src="${url}?parent=${location.hostname}" frameborder="0" scrolling="no" id="${channelId}" ${ElementUtil.getIframeSandboxAttribute()}></iframe></div>`),
-			title,
-			true,
-		);
+		this.set$ContentTab({
+			panelType: PANEL_TYP_TWITCH_CHAT,
+			contentMeta: meta,
+			$content: $(`<div class="panel-content-wrapper-inner"><iframe src="${url}?parent=${location.hostname}" frameborder="0" scrolling="no" id="${channelId}" ${ElementUtil.getIframeSandboxAttribute()}></iframe></div>`),
+			title: title,
+			tabCanRename: true,
+		});
 	}
 
 	doPopulate_GenericEmbed (url, title = "Embed") {
 		const meta = {u: url};
-		this.set$ContentTab(
-			PANEL_TYP_GENERIC_EMBED,
-			meta,
-			$(`<div class="panel-content-wrapper-inner"><iframe src="${url}" ${ElementUtil.getIframeSandboxAttribute({url, isAllowPdf: true})}></iframe></div>`),
-			title,
-			true,
-		);
+		this.set$ContentTab({
+			panelType: PANEL_TYP_GENERIC_EMBED,
+			contentMeta: meta,
+			$content: $(`<div class="panel-content-wrapper-inner"><iframe src="${url}" ${ElementUtil.getIframeSandboxAttribute({url, isAllowPdf: true})}></iframe></div>`),
+			title: title,
+			tabCanRename: true,
+		});
 	}
 
 	doPopulate_Image (url, title = "Image") {
@@ -1589,13 +1607,13 @@ class Panel {
 		const $img = $(`<img src="${url}" alt="${title}" loading="lazy">`).appendTo($wrpImage);
 		const $iptReset = $(`<button class="panel-zoom-reset ve-btn ve-btn-xs ve-btn-default"><span class="glyphicon glyphicon-refresh"></span></button>`).appendTo($wrpPanel);
 		const $iptRange = $(`<input type="range" class="panel-zoom-slider">`).appendTo($wrpPanel);
-		this.set$ContentTab(
-			PANEL_TYP_IMAGE,
-			meta,
-			$wrpPanel,
-			title,
-			true,
-		);
+		this.set$ContentTab({
+			panelType: PANEL_TYP_IMAGE,
+			contentMeta: meta,
+			$content: $wrpPanel,
+			title: title,
+			tabCanRename: true,
+		});
 		$img.panzoom({
 			$reset: $iptReset,
 			$zoomRange: $iptRange,
@@ -1606,24 +1624,24 @@ class Panel {
 	}
 
 	doPopulate_Error (state, title = "") {
-		this.set$ContentTab(
-			PANEL_TYP_ERROR,
-			state,
-			$(`<div class="panel-content-wrapper-inner"></div>`).append(`<div class="w-100 h-100 ve-flex-vh-center text-danger"><div>${state.message}</div></div>`),
-			title,
-			true,
-		);
+		this.set$ContentTab({
+			panelType: PANEL_TYP_ERROR,
+			contentMeta: state,
+			$content: $(`<div class="panel-content-wrapper-inner"></div>`).append(`<div class="w-100 h-100 ve-flex-vh-center text-danger"><div>${state.message}</div></div>`),
+			title: title,
+			tabCanRename: true,
+		});
 	}
 
 	doPopulate_Blank (title = "") {
 		const meta = {};
-		this.set$ContentTab(
-			PANEL_TYP_BLANK,
-			meta,
-			$(`<div class="dm-blank__panel"></div>`),
-			title,
-			true,
-		);
+		this.set$ContentTab({
+			panelType: PANEL_TYP_BLANK,
+			contentMeta: meta,
+			$content: $(`<div class="dm-blank__panel"></div>`),
+			title: title,
+			tabCanRename: true,
+		});
 	}
 
 	// endregion
@@ -2135,7 +2153,15 @@ class Panel {
 	}
 
 	close$TabContent (ixOpt = 0) {
-		return this.set$Tab(-1 * (ixOpt + 1), PANEL_TYP_EMPTY, null, null, null, false);
+		return this.set$Tab({
+			ix: -1 * (ixOpt + 1),
+			type: PANEL_TYP_EMPTY,
+			contentMeta: null,
+			panelApp: null,
+			$content: null,
+			title: null,
+			tabCanRename: false,
+		});
 	}
 
 	set$Content (type, contentMeta, $content, title, tabCanRename, tabRenamed) {
@@ -2169,7 +2195,16 @@ class Panel {
 		this.tabCanRename = hisMeta.tabCanRename;
 		this.tabRenamed = hisMeta.tabRenamed;
 
-		this.set$Tab(hisMeta.tabIndex, hisMeta.type, hisMeta.contentMeta, $hisContent, hisMeta.title, hisMeta.tabCanRename, hisMeta.tabRenamed);
+		this.set$Tab({
+			ix: hisMeta.tabIndex,
+			type: hisMeta.type,
+			contentMeta: hisMeta.contentMeta,
+			panelApp: hisMeta.panelApp,
+			$content: $hisContent,
+			title: hisMeta.title,
+			tabCanRename: hisMeta.tabCanRename,
+			tabRenamed: hisMeta.tabRenamed,
+		});
 		hisMeta.tabDatas
 			.forEach((it, ix) => {
 				if (!it.isDeleted && it.$tabButton) {
@@ -2188,12 +2223,12 @@ class Panel {
 	}
 
 	set$TabLoading (type, contentMeta) {
-		return this.set$ContentTab(
-			type,
-			contentMeta,
-			Panel._get$eleLoading(),
-			TITLE_LOADING,
-		);
+		return this.set$ContentTab({
+			panelType: type,
+			contentMeta: contentMeta,
+			$content: Panel._get$eleLoading(),
+			title: TITLE_LOADING,
+		});
 	}
 
 	_get$BtnSelTab (ix, title) {
@@ -2263,7 +2298,18 @@ class Panel {
 		this.$pnl.attr("data-roll-name-ancestor-roller", nuTitle);
 	}
 
-	set$Tab (ix, type, contentMeta, $content, title, tabCanRename, tabRenamed) {
+	set$Tab (
+		{
+			ix,
+			type,
+			contentMeta,
+			panelApp,
+			$content,
+			title,
+			tabCanRename,
+			tabRenamed,
+		},
+	) {
 		if (ix === null) ix = 0;
 		if (ix < 0) {
 			const ixPos = Math.abs(ix + 1);
@@ -2277,6 +2323,7 @@ class Panel {
 			this.tabDatas[ix] = {
 				type: type,
 				contentMeta: contentMeta,
+				panelApp,
 				$content: $content,
 				title: title,
 				tabCanRename: !!tabCanRename,
@@ -2349,7 +2396,8 @@ class Panel {
 		if (this.$pnl) this.$pnl.remove();
 		this.board.destroyPanel(this.id);
 
-		if (fnOnDestroy) fnOnDestroy();
+		fnsOnDestroy
+			.forEach(fnOnDestroy => fnOnDestroy());
 
 		this.board.fireBoardEvent({type: "panelDestroy"});
 	}

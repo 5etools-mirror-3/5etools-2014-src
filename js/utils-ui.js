@@ -4370,7 +4370,7 @@ class _RenderableCollectionGenericRowsSyncAsyncUtils {
 				getElesChildren: () => {
 					const rendered = this._comp._getRenderedCollection({prop: this._prop, namespace: this._namespace});
 					return this._comp._state[this._prop]
-						.map(it => rendered[it.id].$wrpRow);
+						.map(it => rendered[it.id].$wrpRow[0]);
 				},
 				eleParent: this._wrpRows,
 			},
