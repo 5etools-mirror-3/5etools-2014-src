@@ -231,6 +231,7 @@ export class BrewUtil2Base {
 			await this._pGetBrewProcessed_({lockToken});
 		} catch (e) {
 			setTimeout(() => { throw e; });
+			this._cache_brewsProc ||= {};
 		} finally {
 			this._LOCK.unlock();
 		}

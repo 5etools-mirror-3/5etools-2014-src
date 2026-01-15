@@ -2,7 +2,7 @@
 
 // in deployment, `IS_DEPLOYED = "<version number>";` should be set below.
 globalThis.IS_DEPLOYED = undefined;
-globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.213.2"/* 5ETOOLS_VERSION__CLOSE */;
+globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.213.3"/* 5ETOOLS_VERSION__CLOSE */;
 globalThis.DEPLOYED_IMG_ROOT = undefined;
 // for the roll20 script to set
 globalThis.IS_VTT = false;
@@ -3050,7 +3050,7 @@ globalThis.ContextUtil = class {
 		}
 
 		width () { return this._ele ? this._ele.outerWidthe() : undefined; }
-		height () { return this._ele ? this._ele.outerWidthe() : undefined; }
+		height () { return this._ele ? this._ele.outerHeighte() : undefined; }
 
 		pOpen (evt, {userData = null, offsetY = null, boundsX = null} = {}) {
 			evt.stopPropagation();
@@ -3122,13 +3122,13 @@ globalThis.ContextUtil = class {
 		}
 
 		_getMenuPosition (evt, axis, {bounds = null, offset = null} = {}) {
-			const {fnMenuSize, fnGetEventPos, fnWindowSize, fnScrollDir} = axis === "x"
-				? {fnMenuSize: "width", fnGetEventPos: "getClientX", fnWindowSize: "width", fnScrollDir: "scrollLeft"}
-				: {fnMenuSize: "height", fnGetEventPos: "getClientY", fnWindowSize: "height", fnScrollDir: "scrollTop"};
+			const {fnMenuSize, fnGetEventPos, propWindowSize, propScrollPos} = axis === "x"
+				? {fnMenuSize: "width", fnGetEventPos: "getClientX", propWindowSize: "innerWidth", propScrollPos: "scrollX"}
+				: {fnMenuSize: "height", fnGetEventPos: "getClientY", propWindowSize: "innerHeight", propScrollPos: "scrollY"};
 
 			const posMouse = EventUtil[fnGetEventPos](evt);
-			const szWin = $(window)[fnWindowSize]();
-			const posScroll = $(window)[fnScrollDir]();
+			const szWin = window[propWindowSize];
+			const posScroll = window[propScrollPos];
 			const posMouseOffset = offset ? posMouse + offset : posMouse;
 			const szMenu = this[fnMenuSize]();
 

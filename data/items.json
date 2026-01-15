@@ -177,6 +177,7 @@
 			"name": "+1 Rhythm-Maker's Drum",
 			"source": "TCE",
 			"page": 134,
+			"baseItem": "drum|phb",
 			"type": "INS",
 			"rarity": "uncommon",
 			"reqAttune": "by a bard",
@@ -424,6 +425,7 @@
 			"name": "+2 Rhythm-Maker's Drum",
 			"source": "TCE",
 			"page": 134,
+			"baseItem": "drum|phb",
 			"type": "INS",
 			"rarity": "rare",
 			"reqAttune": "by a bard",
@@ -671,6 +673,7 @@
 			"name": "+3 Rhythm-Maker's Drum",
 			"source": "TCE",
 			"page": 134,
+			"baseItem": "drum|phb",
 			"type": "INS",
 			"rarity": "very rare",
 			"reqAttune": "by a bard",
@@ -4165,6 +4168,7 @@
 			"ability": {
 				"con": 2
 			},
+			"grantsLanguage": true,
 			"entries": [
 				"While wearing this belt, you gain the following benefits:",
 				{
@@ -4948,6 +4952,7 @@
 			"range": "20/60",
 			"dmg1": "1d4",
 			"dmgType": "P",
+			"grantsLanguage": true,
 			"bonusWeapon": "+1",
 			"entries": [
 				"A weapon of Tharizdun, this dagger is a piece of jagged stone whose blade is scribed with a maze-like pattern with no beginning or end.",
@@ -14423,6 +14428,7 @@
 			"rarity": "uncommon",
 			"reqAttune": true,
 			"wondrous": true,
+			"grantsLanguage": true,
 			"recharge": "dawn",
 			"rechargeAmount": "{@dice 1d4}",
 			"charges": 4,
@@ -18717,6 +18723,7 @@
 			"dmg1": "1d8",
 			"dmgType": "B",
 			"dmg2": "1d10",
+			"grantsLanguage": true,
 			"bonusWeapon": "+1",
 			"entries": [
 				"Crafted from a single piece of obsidian, this warhammer of Torog hums with magical energy and is carved with the images of faces screaming in pain.",
@@ -19245,6 +19252,7 @@
 			"name": "Harp of Gilded Plenty",
 			"source": "BGG",
 			"page": 112,
+			"type": "INS",
 			"rarity": "legendary",
 			"reqAttune": true,
 			"wondrous": true,
@@ -20574,6 +20582,8 @@
 		{
 			"name": "Horn of Beckoning Death",
 			"source": "HAT-LMI",
+			"baseItem": "horn|phb",
+			"type": "INS",
 			"rarity": "legendary",
 			"reqAttune": "by a sorcerer",
 			"reqAttuneTags": [
@@ -20632,6 +20642,8 @@
 				"name": "Horn of Valhalla, Brass",
 				"source": "DMG"
 			},
+			"baseItem": "horn|phb",
+			"type": "INS",
 			"entries": [
 				"You can use an action to blow this horn. In response, warrior spirits from the Abyss appear within 60 feet of you. These spirits look like minotaurs, and use the {@creature berserker} statistics. They return to Abyss after 1 hour or when they drop to 0 hit points. Once you use the horn, it can't be used again until 7 days have passed.",
 				"The horn summons {@dice 3d4 + 3} {@creature berserker||berserkers}. To use the horn, you must be proficient with all simple weapons.",
@@ -21537,6 +21549,8 @@
 			"name": "Iggwilv's Horn",
 			"source": "DitLCoT",
 			"page": 14,
+			"baseItem": "horn|phb",
+			"type": "INS",
 			"rarity": "rare",
 			"reqAttune": true,
 			"wondrous": true,
@@ -24397,6 +24411,7 @@
 			],
 			"dmg1": "1d4",
 			"dmgType": "S",
+			"grantsLanguage": true,
 			"bonusWeapon": "+1",
 			"entries": [
 				"This snakeskin whip is touched by the power of Zehir and ends in five animated serpent heads.",
@@ -25474,6 +25489,7 @@
 			"name": "Lute crafted of exotic wood with mother-of-pearl inlay and zircon gems (Brazen Coalition)",
 			"source": "PSX",
 			"page": 24,
+			"baseItem": "lute|phb",
 			"type": "$A|DMG",
 			"rarity": "none",
 			"value": 75000
@@ -25509,6 +25525,7 @@
 			"name": "Lyre of Building",
 			"source": "TCE",
 			"page": 131,
+			"baseItem": "lyre|phb",
 			"type": "INS",
 			"rarity": "rare",
 			"reqAttune": "by a bard",
@@ -25671,6 +25688,7 @@
 			],
 			"dmg1": "1d6",
 			"dmgType": "B",
+			"grantsLanguage": true,
 			"bonusWeapon": "+1",
 			"entries": [
 				"This mace has a haft of black iron and a ruby head with a fiendish countenance. Carrying the boon of Asmodeus, it is fit for the most powerful servants of the Nine Hells.",
@@ -35333,6 +35351,7 @@
 			"dmg1": "1d6",
 			"dmgType": "P",
 			"dmg2": "1d8",
+			"grantsLanguage": true,
 			"bonusWeapon": "+1",
 			"entries": [
 				"This spear is made from the ivory bone of an ancient gold dragon and carved with an Orc hymn to Gruumsh.",
@@ -37647,6 +37666,7 @@
 			],
 			"dmg1": "1d8",
 			"dmgType": "P",
+			"grantsLanguage": true,
 			"bonusWeapon": "+1",
 			"modifySpeed": {
 				"equal": {
@@ -38020,6 +38040,7 @@
 			"name": "Siren Song Lyre",
 			"source": "MOT",
 			"page": 198,
+			"baseItem": "lyre|phb",
 			"type": "INS",
 			"rarity": "rare",
 			"reqAttune": true,
@@ -42523,6 +42544,7 @@
 					"cha": 20
 				}
 			},
+			"grantsLanguage": true,
 			"entries": [
 				"This longsword belonged to the angel Zariel before her fall from grace. Fashioned from celestial steel, it gives off a faint glow and hum. The weapon chooses who can attune to it and who can't. It desires a wielder who embodies bravery and heroism.",
 				{
@@ -43433,6 +43455,7 @@
 			],
 			"dmg1": "1d8",
 			"dmgType": "P",
+			"grantsLanguage": true,
 			"bonusWeapon": "+1",
 			"entries": [
 				"Carrying the power of Bane, this adamantine morningstar sports foot-long spikes and has a jagged blade on its pommel.",
@@ -48038,6 +48061,8 @@
 			"name": "War Horn of Valor",
 			"source": "BGG",
 			"page": 117,
+			"baseItem": "horn|phb",
+			"type": "INS",
 			"rarity": "rare",
 			"wondrous": true,
 			"bonusAc": "+1",
@@ -48852,6 +48877,7 @@
 			],
 			"dmg1": "1d8",
 			"dmgType": "P",
+			"grantsLanguage": true,
 			"bonusWeapon": "+1",
 			"entries": [
 				"Black, blue, green, red, and white gems carved in the form of dragon heads cover this ostentatious gold war pick, marking it as a weapon channeling the power of Tiamat.",
