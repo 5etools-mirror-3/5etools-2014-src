@@ -7,6 +7,9 @@
 				"MOT"
 			]
 		},
+		"internalCopies": [
+			"monster"
+		],
 		"otherSources": {
 			"monster": {
 				"MM": "CM",
@@ -1006,6 +1009,11 @@
 				"name": "Dragon Turtle",
 				"source": "MM",
 				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "turtle",
+						"with": "tortoise"
+					},
 					"trait": {
 						"mode": "removeArr",
 						"names": "Amphibious"
@@ -1033,8 +1041,7 @@
 				"DR",
 				"T"
 			],
-			"hasToken": true,
-			"hasFluff": true
+			"hasToken": true
 		},
 		{
 			"name": "Faerl",
@@ -3234,6 +3241,27 @@
 			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
+		},
+		{
+			"name": "Ogruhl",
+			"isNpc": true,
+			"isNamedCreature": true,
+			"source": "CM",
+			"page": 205,
+			"_copy": {
+				"name": "Dragon Tortoise",
+				"source": "CM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the dragon tortoise",
+						"with": "Ogruhl",
+						"flags": "i"
+					}
+				}
+			},
+			"hasToken": true,
+			"hasFluff": true
 		},
 		{
 			"name": "Parasite-infested Behir",

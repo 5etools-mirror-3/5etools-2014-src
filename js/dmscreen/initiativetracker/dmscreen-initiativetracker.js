@@ -460,9 +460,10 @@ export class InitiativeTracker extends BaseComponent {
 			isRollInit: this._state.isRollInit,
 			isRollHp: this._state.isRollHp,
 			isRollGroups: this._state.isRollGroups,
-		}).pGetConverted({entityInfos, encounterInfo});
+		})
+			.pGetConverted({entityInfos, encounterInfo});
 
-		const rowsFromDefaultParty = await this._compDefaultParty.pGetConvertedDefaultPartyActiveRows();
+		const rowsFromDefaultParty = await this._compDefaultParty.pGetConvertedDefaultPartyActiveRows({rowsPrev});
 		const idsDefaultParty = new Set(rowsFromDefaultParty.map(({id}) => id));
 		const rowsPrevNonDefaultParty = rowsPrev
 			.filter(({id}) => !idsDefaultParty.has(id));

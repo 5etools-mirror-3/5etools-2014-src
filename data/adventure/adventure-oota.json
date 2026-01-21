@@ -1475,314 +1475,316 @@
 							]
 						},
 						{
-							"type": "entries",
+							"type": "section",
 							"name": "Areas of Velkynvelve",
 							"page": 11,
 							"id": "02a",
-							"entries": []
-						},
-						{
-							"type": "entries",
-							"name": "1. Southern Watch Post",
-							"page": 11,
-							"id": "02b",
 							"entries": [
-								"Near the southern passage from the cavern is an alcove used as a watch post.",
-								"Two {@creature drow} are stationed here at all times, keeping watch over the passage and noting the approach of any creatures. The duty is long and dull, so the watchers are sometimes distracted. A successful Dexterity ({@skill Stealth}) check made against the guards' passive Wisdom ({@skill Perception}) score of 12 allows characters to pass unnoticed. Any light from the passage or the cavern below automatically draws the guards' attention, however.",
-								"The drow guards are under orders to report intruders immediately, and to keep them under observation. They take no other action unless ordered or unless they see signs of a significant threat. In that case, they blow a high, shrill note on a warning trumpet to alert the whole outpost."
-							]
-						},
-						{
-							"type": "entries",
-							"name": "2. Barracks",
-							"page": 11,
-							"id": "02c",
-							"entries": [
-								"Stone steps lead from the watch post to a 1-foot-thick platform of zurkhwood (see \"{@adventure Fungi of the Underdark|OotA|0|Fungi of the Underdark}\" earlier in chapter 2) extending between two of the hanging towers and into three adjoining caverns.",
-								"The two southernmost caves serve as barracks for the rank-and-file drow warriors of the outpost. Six warriors dwell in each barracks, each set up with a pallet, a small zurkhwood chest for holding personal possessions and equipment, and a side table. Spider silk rope webbing on the cavern walls is set with hooks for hanging lanterns and other items, but the barracks are rarely lit.",
-								"One {@creature drow} is present in each of the barracks caves at any time, resting in a meditative trance. A resting drow rises at any significant light or noise, ready to attack.",
+
 								{
 									"type": "entries",
-									"name": "Treasure",
+									"name": "1. Southern Watch Post",
 									"page": 11,
-									"id": "02d",
+									"id": "02b",
 									"entries": [
-										"The equipment of the resting drow is stored under his pallet: a shortsword, a hand crossbow with a case of 20 hand crossbow bolts, a chain shirt, and a 100-foot coil of silk rope with a small grappling hook at the end.",
-										"Each of the six chests in each barracks contains a flask of {@item drow poison} used to treat crossbow bolts (see \"{@book Poisons|DMG|8|Poisons}\" in chapter 8 of the {@i Dungeon Master's Guide}). One flask has enough poison to treat 20 bolts. Each chest also contains two sets of clothing and {@dice 1d4} items from the {@book Trinkets|PHB|5|Trinkets} table in chapter 5 of the {@i Player's Handbook}."
+										"Near the southern passage from the cavern is an alcove used as a watch post.",
+										"Two {@creature drow} are stationed here at all times, keeping watch over the passage and noting the approach of any creatures. The duty is long and dull, so the watchers are sometimes distracted. A successful Dexterity ({@skill Stealth}) check made against the guards' passive Wisdom ({@skill Perception}) score of 12 allows characters to pass unnoticed. Any light from the passage or the cavern below automatically draws the guards' attention, however.",
+										"The drow guards are under orders to report intruders immediately, and to keep them under observation. They take no other action unless ordered or unless they see signs of a significant threat. In that case, they blow a high, shrill note on a warning trumpet to alert the whole outpost."
 									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "3. Main Hall",
-							"page": 11,
-							"id": "02e",
-							"entries": [
-								"This cave serves as a gathering and eating place for the drow warriors of the outpost. It has four circular tables carved from zurkhwood, each surrounded by five chairs. Part of the hall is used as a food preparation and storage area, containing stocks of dried and fresh fungi, dried fruits, cheeses, preserved meat, and a few clay jars of spices. A heavy iron brazier provides heat for cooking along with dim light, but much of the food is served cold.",
-								"At any time, there is a 25 percent chance that {@dice 1d4} {@creature drow} are in the main hall eating or entertaining themselves with dice or card games. If any drow are present, {@dice 1d4} {@creature Quaggoth||quaggoths} are also on hand, serving and cleaning. If there are no drow in the main hall, there is a 25 percent chance that a lone {@creature quaggoth} is here performing its duties.",
+								},
 								{
 									"type": "entries",
-									"name": "Treasure",
-									"page": 12,
-									"id": "02f",
+									"name": "2. Barracks",
+									"page": 11,
+									"id": "02c",
 									"entries": [
-										"There is nothing of value in the main hall apart from what the drow have on them, but characters can loot the larder for the equivalent of up to 30 days of rations, limited by what they can carry. Each day of rations for one character weighs 2 pounds."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "4. Elite Barracks",
-							"page": 12,
-							"id": "030",
-							"entries": [
-								"The two hanging towers flanking the platform are the quarters of the elite warriors of the outpost, except for the commander's lieutenant (currently Shoor Vandree) who has his own quarters in the priestess's tower. Each hanging tower has two chambers, with a rope ladder running between the upper and lower chamber through a zurkhwood trapdoor. The elite warriors have finer furniture, including zurkhwood chairs and small tables around which they sit.",
-								"One off-duty {@creature drow elite warrior} rests in one of the chambers here at any given time. There is a 50 percent chance that one {@creature quaggoth} is also present, carrying out chores such as cleaning up or delivering water. Either reacts hostilely to intruders, but they might choose to flee and warn the outpost rather than attack, depending on the odds.",
-								{
-									"type": "entries",
-									"name": "Treasure",
-									"page": 12,
-									"id": "031",
-									"entries": [
-										"The equipment of the resting drow warrior is stowed beneath his pallet: a shortsword, a hand crossbow with a case of 20 bolts, a chain shirt, and a 100-foot coil of silk rope with a small grappling hook at the end.",
-										"Each of the chests in the four chambers contains a flask of {@item drow poison} used to treat crossbow bolts. One flask has enough poison to treat 20 bolts. Each chest also contains two changes of clothing, {@dice 2d6} sp, {@dice 1d8} gp, and {@dice 1d4} items from the Trinkets table in chapter 5, \"{@book Equipment|PHB|5|Trinkets},\" of the {@i Player's Handbook}."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "5. Lift",
-							"page": 12,
-							"id": "032",
-							"entries": [
-								"Attached to the edge of the barracks platform is a winch-and-basket device consisting of a large swinging arm that carries a thin cord of strong spider silk. The cord runs through a series of pulleys from a hand-cranked horizontal spool to a heavy woven basket suspended at the end. The basket is kept up on the platform except when it is in use.",
-								"Two {@creature quaggoth} attendants remain by the lift to watch for a signal from below for the basket to be lowered. They are on guard in case anyone other than a drow or one of their own kind approaches.",
-								{
-									"type": "entries",
-									"name": "Using the Lift",
-									"page": 12,
-									"id": "033",
-									"entries": [
-										"Up to four Medium creatures can fit somewhat snugly in the basket, which is swung out over the edge of the platform and lowered to the cavern floor below by turning the spool using attached handles. This requires a successful {@dc 18} Strength check, normally provided by two quaggoth servants (one of which makes the check while the other assists with the {@action Help} action). Once on the cave floor, the basket can be loaded with other passengers or up to 800 pounds of cargo, then lifted back up to the platform in the same way. It takes 4 rounds for the basket to move between the platform and the floor under normal operation."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "6. Shrine to Lolth",
-							"page": 12,
-							"id": "034",
-							"entries": [
-								"A steep rope bridge leads from the walkway ledge to the uppermost level of the largest hanging tower, called the priestess's tower. The floor of this circular chamber is covered by dark silken mats with a pale web-strand pattern woven through them in silvery thread. In the middle of the chamber (at the center of the web) stands a broad pedestal carved from zurkhwood, with a 10-foot-high sculpted spider at its head. The carving is so lifelike that anyone initially entering the chamber and seeing it in dim light must succeed on a {@dc 12} Wisdom ({@skill Perception}) check to recognize it. On a failure, a character mistakes it for a real giant spider.",
-								"This place is a shrine to Lolth, the drow's spider goddess, and also serves as quarters for {@creature Asha Vandree|OotA|Asha}, the junior priestess. She tends the shrine, overseeing routine rituals and offerings to Lolth.",
-								"Roll a {@dice d6} when the characters enter the shrine to determine who they might meet.",
-								{
-									"type": "entries",
-									"name": "Shrine Activity",
-									"page": 12,
-									"id": "035",
-									"entries": [
+										"Stone steps lead from the watch post to a 1-foot-thick platform of zurkhwood (see \"{@adventure Fungi of the Underdark|OotA|0|Fungi of the Underdark}\" earlier in chapter 2) extending between two of the hanging towers and into three adjoining caverns.",
+										"The two southernmost caves serve as barracks for the rank-and-file drow warriors of the outpost. Six warriors dwell in each barracks, each set up with a pallet, a small zurkhwood chest for holding personal possessions and equipment, and a side table. Spider silk rope webbing on the cavern walls is set with hooks for hanging lanterns and other items, but the barracks are rarely lit.",
+										"One {@creature drow} is present in each of the barracks caves at any time, resting in a meditative trance. A resting drow rises at any significant light or noise, ready to attack.",
 										{
-											"type": "table",
-											"colLabels": [
-												"d6",
-												"Activity"
-											],
-											"colStyles": [
-												"col-2 text-center",
-												"col-10"
-											],
-											"rows": [
-												[
-													"1\u20132",
-													"Asha is in the room alone, resting"
-												],
-												[
-													"3\u20134",
-													"Asha and {@dice 1d4} {@creature drow} are engaged in worship"
-												],
-												[
-													"5\u20136",
-													"The shrine is empty"
-												]
-											]
-										},
-										"The back half of the chamber, behind the altar, is piled with a semicircle of pillows and cushions. Resting among these is a {@creature giant spider} trained and kept by the priestesses. The cushions give the spider sufficient concealment to hide from anyone entering the tower from the front. A character must succeed on a Wisdom ({@skill Perception}) check contested by the spider's Dexterity ({@skill Stealth}) check to spot it before it moves."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "Treasure",
-									"page": 12,
-									"id": "036",
-									"entries": [
-										"The altar is flanked by a pair of heavy silver candlesticks worth 25 gp each. They hold thick black candles, lit only when a ritual is being performed in the shrine.",
-										"The eight \"eyes\" of the spider statue are eight pieces of polished jet\u2014four small ones worth 5 gp each and four larger ones worth 10 gp each. Any non-drow who possesses these gems falls under a curse from Lolth. All spiders and spiderlike creatures attack the bearer of the stones on sight, and such creatures have advantage on checks to detect the possessor of the stones. The curse lasts until all the stones are given into the safekeeping of a drow worshiper of Lolth or the gems are subject to a {@spell remove curse} spell."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "7. Ilvara's Quarters",
-							"page": 12,
-							"id": "037",
-							"entries": [
-								"A rope ladder leads down from the shrine into this chamber, which serves as private quarters to Mistress Ilvara, priestess of Lolth and commander of Velkynvelve.",
-								"Inside, the walls are hung with black mesh resembling a spider's web, extending from a central spot on the ceiling out to the walls, then draped down like curtains. Thick, woven mats cover the floor, while a low platform is covered with cushions and pillows to make a broad, divan-like bed. One side of the chamber contains a small table and two chairs, while the other holds a small shrine to Lolth, draped in white silk. A heavy chest of black-stained zurkhwood sits at the foot of the bed.",
-								"{@creature Drow Priestess of Lolth||Ilvara} retreats to her quarters for privacy, rest, and meditation. Roll a {@dice d6}. On 1\u20132, the priestess is here. On a roll of 1, {@creature Drow Elite Warrior||Shoor Vandree} is also here with her. Ilvara is furious if anyone dares to enter her quarters unbidden. If the characters catch her here, she casts {@spell web}, {@spell conjure animals}, or {@spell insect plague} to bedevil them while she flees and calls for help. If Shoor is with Ilvara, he attacks to cover her escape.",
-								{
-									"type": "entries",
-									"name": "Trap",
-									"page": 14,
-									"id": "038",
-									"entries": [
-										"The chest is locked, and Ilvara keeps the key in a hidden pocket on the inside of her belt. The lock is trapped with a poison needle tipped with {@item drow poison} (see \"{@book Poisons|DMG|8|Poisons}\" in chapter 8 of the {@i Dungeon Master's Guide}), which is activated if any attempt is made to open the lock without the proper key. The victim takes 1 piercing damage and must succeed on a {@dc 13} Constitution saving throw or be {@condition poisoned} for 1 hour. If the saving throw fails by 5 or more, the target is also {@condition unconscious} while {@condition poisoned} in this way. A successful {@dc 20} Intelligence ({@skill Investigation}) check reveals the trap. A character using thieves' tools can make a successful {@dc 15} Dexterity check to disarm it. Picking the lock requires thieves' tools and another successful {@dc 15} Dexterity check."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "Treasure",
-									"page": 14,
-									"id": "039",
-									"entries": [
-										"The side table holds a small silver-framed mirror worth 10 gp. The small shrine to Lolth is carved of zurkhwood and bone, and inlaid with semiprecious stones. It is worth 50 gp if the characters can find a buyer for it.",
-										"The chest contains a variety of silken garments and personal items. There is a silver chain headdress set with small onyx stones, worth 50 gp, and a drawstring bag containing two {@item Potion of Healing||potions of healing}. A small leather purse contains 24 gp, 30 sp, and a small moonstone worth 20 gp, while another purse is Ilvara's spare spell component pouch.",
-										"Additionally, the chest contains any valuables once held by the characters and NPCs, including any spellbooks, components, focuses, and magic items lost to the adventurers."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "8. Shoor's Quarters",
-							"page": 14,
-							"id": "03a",
-							"entries": [
-								"The lowermost and smallest chamber of the priestess's tower belongs to the commander's lieutenant, the leader of the elite warriors of the outpost. Shoor Vandree, Ilvara's current favorite, is the present occupant. The area's former occupant, Jorlan Duskryn, has been displaced to the elite barracks after his recent injuries.",
-								"The chamber contains cushions laid out across floor mats, a small carved table with two chairs, and a sturdy zurkhwood chest.",
-								"Shoor spends most of his off-duty time in Ilvara's quarters, attending to his mistress or awaiting her. Unless you wish him to be found here, his quarters are unoccupied.",
-								{
-									"type": "entries",
-									"name": "Trap",
-									"page": 14,
-									"id": "03b",
-									"entries": [
-										"The chest is locked, and Shoor keeps the key in his belt pouch. The lock is trapped with a poison needle trap identical to the one in Ilvara's quarters."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "Treasure",
-									"page": 14,
-									"id": "03c",
-									"entries": [
-										"The table holds a pewter pitcher and a pair of matched goblets, worth a total of 1 gp.",
-										"The chest contains Shoor's personal items and clothing, as well as a small purse containing 20 gp, a black velvet mask stitched with silver thread in a spiderweb pattern (worth 25 gp), a set of bone dice engraved with Elvish characters (worth 10 gp), a small black velvet bag containing a spider-shaped onyx brooch (worth 50 gp), and a flask of strong, syrupy blue liquor (worth 10 gp). The liquor leaves anyone who drinks it pleasantly {@condition poisoned} for {@dice 1d4} hours."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "9. Waterfall",
-							"page": 14,
-							"id": "03d",
-							"entries": [
-								"Water vents through a crack in the ceiling near the eastern wall between the stalactites of the priestess's tower and the guard tower, creating a small waterfall that pours down to the cavern floor and forms a natural pool (see area 14). Quaggoths gather small barrels of water from the head of the waterfall to serve the outpost's needs.",
-								"The water makes the stone wall within 10 feet of it difficult to scale. Any creature attempting to do so has disadvantage on checks made to climb. Any character who falls lands in the pool below, taking no damage."
-							]
-						},
-						{
-							"type": "entries",
-							"name": "10. Guard Tower",
-							"page": 14,
-							"id": "03e",
-							"entries": [
-								"The fourth hanging tower, connected by rope bridges to the slave pen and the walkway alongside the priestess's tower, serves as a guard tower for observing the cavern, the western passage, and the slave pen.",
-								"The lower chamber of the tower is occupied by two {@creature drow} and one {@creature drow elite warrior} on guard duty. It contains a zurkhwood table and three chairs, a smaller side table, and spider silk webbing set with hooks for hanging equipment.",
-								"As at the watch posts, guard duty here is a dull affair, and the guards are usually distracted enough (talking or passing the time with dice games) that prisoners can move or act unnoticed with a successful Dexterity ({@skill Stealth}) check contested by the guards' passive Wisdom ({@skill Perception}) score.",
-								"The tower's upper chamber stores extra arms and armor for the outpost. Characters who gain entrance to the armory can easily loot it (see \"Treasure\").",
-								{
-									"type": "entries",
-									"name": "Treasure",
-									"page": 14,
-									"id": "03f",
-									"entries": [
-										"The contents of the armory include the following:",
-										{
-											"type": "list",
-											"items": [
-												"6 chain shirts",
-												"6 suits of studded leather armor",
-												"6 shields",
-												"6 hand crossbows",
-												"20 cases of hand crossbow bolts, each case containing 20 bolts",
-												"6 shortswords and 10 daggers",
-												"6 bags of caltrops (20 caltrops per bag)",
-												"4 100-foot-long coils of silk rope",
-												"2 building hammers (not usable as weapons)",
-												"2 bags of iron spikes (10 spikes per bag)"
+											"type": "entries",
+											"name": "Treasure",
+											"page": 11,
+											"id": "02d",
+											"entries": [
+												"The equipment of the resting drow is stored under his pallet: a shortsword, a hand crossbow with a case of 20 hand crossbow bolts, a chain shirt, and a 100-foot coil of silk rope with a small grappling hook at the end.",
+												"Each of the six chests in each barracks contains a flask of {@item drow poison} used to treat crossbow bolts (see \"{@book Poisons|DMG|8|Poisons}\" in chapter 8 of the {@i Dungeon Master's Guide}). One flask has enough poison to treat 20 bolts. Each chest also contains two sets of clothing and {@dice 1d4} items from the {@book Trinkets|PHB|5|Trinkets} table in chapter 5 of the {@i Player's Handbook}."
 											]
 										}
 									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "11. Slave Pen",
-							"page": 15,
-							"id": "040",
-							"entries": [
-								"This cave is built to hold captives until they are sent to Menzoberranzan to be sold as slaves.",
-								"The gate to the slave pen is kept locked. A character using thieves' tools can pick the lock with a successful {@dc 20} Dexterity check. A character using makeshift tools can attempt the same check but has disadvantage. A lock-picking attempt might draw the attention of the guards, requiring a Dexterity ({@skill Stealth}) check contested by the guards' passive Wisdom ({@skill Perception}) score to carry it off without notice. Each of the guards on duty in the other areas of the outpost has a key to the gate hanging from a belt ring. Breaking the gate's lock and forcing it open requires a successful {@dc 20} Strength check.",
+								},
 								{
 									"type": "entries",
-									"name": "Magical Wards",
-									"page": 15,
-									"id": "041",
+									"name": "3. Main Hall",
+									"page": 11,
+									"id": "02e",
 									"entries": [
-										"The drow have placed powerful wards on the slave pen to inhibit spellcasters and shield the area against scrying attempts.",
-										"Spells cast within the slave pen have no effect, and any slot or magic item charge expended to cast such a spell is consumed. The wards don't suppress or negate spell effects that originate outside the slave pen. For example, a creature under the effect of an {@spell invisibility} spell remains {@condition invisible} when it enters the slave pen.",
-										"Creatures inside the slave pen can't be targeted by any divination magic or perceived through magical scrying sensors."
+										"This cave serves as a gathering and eating place for the drow warriors of the outpost. It has four circular tables carved from zurkhwood, each surrounded by five chairs. Part of the hall is used as a food preparation and storage area, containing stocks of dried and fresh fungi, dried fruits, cheeses, preserved meat, and a few clay jars of spices. A heavy iron brazier provides heat for cooking along with dim light, but much of the food is served cold.",
+										"At any time, there is a 25 percent chance that {@dice 1d4} {@creature drow} are in the main hall eating or entertaining themselves with dice or card games. If any drow are present, {@dice 1d4} {@creature Quaggoth||quaggoths} are also on hand, serving and cleaning. If there are no drow in the main hall, there is a 25 percent chance that a lone {@creature quaggoth} is here performing its duties.",
+										{
+											"type": "entries",
+											"name": "Treasure",
+											"page": 12,
+											"id": "02f",
+											"entries": [
+												"There is nothing of value in the main hall apart from what the drow have on them, but characters can loot the larder for the equivalent of up to 30 days of rations, limited by what they can carry. Each day of rations for one character weighs 2 pounds."
+											]
+										}
+									]
+								},
+								{
+									"type": "entries",
+									"name": "4. Elite Barracks",
+									"page": 12,
+									"id": "030",
+									"entries": [
+										"The two hanging towers flanking the platform are the quarters of the elite warriors of the outpost, except for the commander's lieutenant (currently Shoor Vandree) who has his own quarters in the priestess's tower. Each hanging tower has two chambers, with a rope ladder running between the upper and lower chamber through a zurkhwood trapdoor. The elite warriors have finer furniture, including zurkhwood chairs and small tables around which they sit.",
+										"One off-duty {@creature drow elite warrior} rests in one of the chambers here at any given time. There is a 50 percent chance that one {@creature quaggoth} is also present, carrying out chores such as cleaning up or delivering water. Either reacts hostilely to intruders, but they might choose to flee and warn the outpost rather than attack, depending on the odds.",
+										{
+											"type": "entries",
+											"name": "Treasure",
+											"page": 12,
+											"id": "031",
+											"entries": [
+												"The equipment of the resting drow warrior is stowed beneath his pallet: a shortsword, a hand crossbow with a case of 20 bolts, a chain shirt, and a 100-foot coil of silk rope with a small grappling hook at the end.",
+												"Each of the chests in the four chambers contains a flask of {@item drow poison} used to treat crossbow bolts. One flask has enough poison to treat 20 bolts. Each chest also contains two changes of clothing, {@dice 2d6} sp, {@dice 1d8} gp, and {@dice 1d4} items from the Trinkets table in chapter 5, \"{@book Equipment|PHB|5|Trinkets},\" of the {@i Player's Handbook}."
+											]
+										}
+									]
+								},
+								{
+									"type": "entries",
+									"name": "5. Lift",
+									"page": 12,
+									"id": "032",
+									"entries": [
+										"Attached to the edge of the barracks platform is a winch-and-basket device consisting of a large swinging arm that carries a thin cord of strong spider silk. The cord runs through a series of pulleys from a hand-cranked horizontal spool to a heavy woven basket suspended at the end. The basket is kept up on the platform except when it is in use.",
+										"Two {@creature quaggoth} attendants remain by the lift to watch for a signal from below for the basket to be lowered. They are on guard in case anyone other than a drow or one of their own kind approaches.",
+										{
+											"type": "entries",
+											"name": "Using the Lift",
+											"page": 12,
+											"id": "033",
+											"entries": [
+												"Up to four Medium creatures can fit somewhat snugly in the basket, which is swung out over the edge of the platform and lowered to the cavern floor below by turning the spool using attached handles. This requires a successful {@dc 18} Strength check, normally provided by two quaggoth servants (one of which makes the check while the other assists with the {@action Help} action). Once on the cave floor, the basket can be loaded with other passengers or up to 800 pounds of cargo, then lifted back up to the platform in the same way. It takes 4 rounds for the basket to move between the platform and the floor under normal operation."
+											]
+										}
+									]
+								},
+								{
+									"type": "entries",
+									"name": "6. Shrine to Lolth",
+									"page": 12,
+									"id": "034",
+									"entries": [
+										"A steep rope bridge leads from the walkway ledge to the uppermost level of the largest hanging tower, called the priestess's tower. The floor of this circular chamber is covered by dark silken mats with a pale web-strand pattern woven through them in silvery thread. In the middle of the chamber (at the center of the web) stands a broad pedestal carved from zurkhwood, with a 10-foot-high sculpted spider at its head. The carving is so lifelike that anyone initially entering the chamber and seeing it in dim light must succeed on a {@dc 12} Wisdom ({@skill Perception}) check to recognize it. On a failure, a character mistakes it for a real giant spider.",
+										"This place is a shrine to Lolth, the drow's spider goddess, and also serves as quarters for {@creature Asha Vandree|OotA|Asha}, the junior priestess. She tends the shrine, overseeing routine rituals and offerings to Lolth.",
+										"Roll a {@dice d6} when the characters enter the shrine to determine who they might meet.",
+										{
+											"type": "entries",
+											"name": "Shrine Activity",
+											"page": 12,
+											"id": "035",
+											"entries": [
+												{
+													"type": "table",
+													"colLabels": [
+														"d6",
+														"Activity"
+													],
+													"colStyles": [
+														"col-2 text-center",
+														"col-10"
+													],
+													"rows": [
+														[
+															"1\u20132",
+															"Asha is in the room alone, resting"
+														],
+														[
+															"3\u20134",
+															"Asha and {@dice 1d4} {@creature drow} are engaged in worship"
+														],
+														[
+															"5\u20136",
+															"The shrine is empty"
+														]
+													]
+												},
+												"The back half of the chamber, behind the altar, is piled with a semicircle of pillows and cushions. Resting among these is a {@creature giant spider} trained and kept by the priestesses. The cushions give the spider sufficient concealment to hide from anyone entering the tower from the front. A character must succeed on a Wisdom ({@skill Perception}) check contested by the spider's Dexterity ({@skill Stealth}) check to spot it before it moves."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "Treasure",
+											"page": 12,
+											"id": "036",
+											"entries": [
+												"The altar is flanked by a pair of heavy silver candlesticks worth 25 gp each. They hold thick black candles, lit only when a ritual is being performed in the shrine.",
+												"The eight \"eyes\" of the spider statue are eight pieces of polished jet\u2014four small ones worth 5 gp each and four larger ones worth 10 gp each. Any non-drow who possesses these gems falls under a curse from Lolth. All spiders and spiderlike creatures attack the bearer of the stones on sight, and such creatures have advantage on checks to detect the possessor of the stones. The curse lasts until all the stones are given into the safekeeping of a drow worshiper of Lolth or the gems are subject to a {@spell remove curse} spell."
+											]
+										}
+									]
+								},
+								{
+									"type": "entries",
+									"name": "7. Ilvara's Quarters",
+									"page": 12,
+									"id": "037",
+									"entries": [
+										"A rope ladder leads down from the shrine into this chamber, which serves as private quarters to Mistress Ilvara, priestess of Lolth and commander of Velkynvelve.",
+										"Inside, the walls are hung with black mesh resembling a spider's web, extending from a central spot on the ceiling out to the walls, then draped down like curtains. Thick, woven mats cover the floor, while a low platform is covered with cushions and pillows to make a broad, divan-like bed. One side of the chamber contains a small table and two chairs, while the other holds a small shrine to Lolth, draped in white silk. A heavy chest of black-stained zurkhwood sits at the foot of the bed.",
+										"{@creature Drow Priestess of Lolth||Ilvara} retreats to her quarters for privacy, rest, and meditation. Roll a {@dice d6}. On 1\u20132, the priestess is here. On a roll of 1, {@creature Drow Elite Warrior||Shoor Vandree} is also here with her. Ilvara is furious if anyone dares to enter her quarters unbidden. If the characters catch her here, she casts {@spell web}, {@spell conjure animals}, or {@spell insect plague} to bedevil them while she flees and calls for help. If Shoor is with Ilvara, he attacks to cover her escape.",
+										{
+											"type": "entries",
+											"name": "Trap",
+											"page": 14,
+											"id": "038",
+											"entries": [
+												"The chest is locked, and Ilvara keeps the key in a hidden pocket on the inside of her belt. The lock is trapped with a poison needle tipped with {@item drow poison} (see \"{@book Poisons|DMG|8|Poisons}\" in chapter 8 of the {@i Dungeon Master's Guide}), which is activated if any attempt is made to open the lock without the proper key. The victim takes 1 piercing damage and must succeed on a {@dc 13} Constitution saving throw or be {@condition poisoned} for 1 hour. If the saving throw fails by 5 or more, the target is also {@condition unconscious} while {@condition poisoned} in this way. A successful {@dc 20} Intelligence ({@skill Investigation}) check reveals the trap. A character using thieves' tools can make a successful {@dc 15} Dexterity check to disarm it. Picking the lock requires thieves' tools and another successful {@dc 15} Dexterity check."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "Treasure",
+											"page": 14,
+											"id": "039",
+											"entries": [
+												"The side table holds a small silver-framed mirror worth 10 gp. The small shrine to Lolth is carved of zurkhwood and bone, and inlaid with semiprecious stones. It is worth 50 gp if the characters can find a buyer for it.",
+												"The chest contains a variety of silken garments and personal items. There is a silver chain headdress set with small onyx stones, worth 50 gp, and a drawstring bag containing two {@item Potion of Healing||potions of healing}. A small leather purse contains 24 gp, 30 sp, and a small moonstone worth 20 gp, while another purse is Ilvara's spare spell component pouch.",
+												"Additionally, the chest contains any valuables once held by the characters and NPCs, including any spellbooks, components, focuses, and magic items lost to the adventurers."
+											]
+										}
+									]
+								},
+								{
+									"type": "entries",
+									"name": "8. Shoor's Quarters",
+									"page": 14,
+									"id": "03a",
+									"entries": [
+										"The lowermost and smallest chamber of the priestess's tower belongs to the commander's lieutenant, the leader of the elite warriors of the outpost. Shoor Vandree, Ilvara's current favorite, is the present occupant. The area's former occupant, Jorlan Duskryn, has been displaced to the elite barracks after his recent injuries.",
+										"The chamber contains cushions laid out across floor mats, a small carved table with two chairs, and a sturdy zurkhwood chest.",
+										"Shoor spends most of his off-duty time in Ilvara's quarters, attending to his mistress or awaiting her. Unless you wish him to be found here, his quarters are unoccupied.",
+										{
+											"type": "entries",
+											"name": "Trap",
+											"page": 14,
+											"id": "03b",
+											"entries": [
+												"The chest is locked, and Shoor keeps the key in his belt pouch. The lock is trapped with a poison needle trap identical to the one in Ilvara's quarters."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "Treasure",
+											"page": 14,
+											"id": "03c",
+											"entries": [
+												"The table holds a pewter pitcher and a pair of matched goblets, worth a total of 1 gp.",
+												"The chest contains Shoor's personal items and clothing, as well as a small purse containing 20 gp, a black velvet mask stitched with silver thread in a spiderweb pattern (worth 25 gp), a set of bone dice engraved with Elvish characters (worth 10 gp), a small black velvet bag containing a spider-shaped onyx brooch (worth 50 gp), and a flask of strong, syrupy blue liquor (worth 10 gp). The liquor leaves anyone who drinks it pleasantly {@condition poisoned} for {@dice 1d4} hours."
+											]
+										}
+									]
+								},
+								{
+									"type": "entries",
+									"name": "9. Waterfall",
+									"page": 14,
+									"id": "03d",
+									"entries": [
+										"Water vents through a crack in the ceiling near the eastern wall between the stalactites of the priestess's tower and the guard tower, creating a small waterfall that pours down to the cavern floor and forms a natural pool (see area 14). Quaggoths gather small barrels of water from the head of the waterfall to serve the outpost's needs.",
+										"The water makes the stone wall within 10 feet of it difficult to scale. Any creature attempting to do so has disadvantage on checks made to climb. Any character who falls lands in the pool below, taking no damage."
+									]
+								},
+								{
+									"type": "entries",
+									"name": "10. Guard Tower",
+									"page": 14,
+									"id": "03e",
+									"entries": [
+										"The fourth hanging tower, connected by rope bridges to the slave pen and the walkway alongside the priestess's tower, serves as a guard tower for observing the cavern, the western passage, and the slave pen.",
+										"The lower chamber of the tower is occupied by two {@creature drow} and one {@creature drow elite warrior} on guard duty. It contains a zurkhwood table and three chairs, a smaller side table, and spider silk webbing set with hooks for hanging equipment.",
+										"As at the watch posts, guard duty here is a dull affair, and the guards are usually distracted enough (talking or passing the time with dice games) that prisoners can move or act unnoticed with a successful Dexterity ({@skill Stealth}) check contested by the guards' passive Wisdom ({@skill Perception}) score.",
+										"The tower's upper chamber stores extra arms and armor for the outpost. Characters who gain entrance to the armory can easily loot it (see \"Treasure\").",
+										{
+											"type": "entries",
+											"name": "Treasure",
+											"page": 14,
+											"id": "03f",
+											"entries": [
+												"The contents of the armory include the following:",
+												{
+													"type": "list",
+													"items": [
+														"6 chain shirts",
+														"6 suits of studded leather armor",
+														"6 shields",
+														"6 hand crossbows",
+														"20 cases of hand crossbow bolts, each case containing 20 bolts",
+														"6 shortswords and 10 daggers",
+														"6 bags of caltrops (20 caltrops per bag)",
+														"4 100-foot-long coils of silk rope",
+														"2 building hammers (not usable as weapons)",
+														"2 bags of iron spikes (10 spikes per bag)"
+													]
+												}
+											]
+										}
+									]
+								},
+								{
+									"type": "entries",
+									"name": "11. Slave Pen",
+									"page": 15,
+									"id": "040",
+									"entries": [
+										"This cave is built to hold captives until they are sent to Menzoberranzan to be sold as slaves.",
+										"The gate to the slave pen is kept locked. A character using thieves' tools can pick the lock with a successful {@dc 20} Dexterity check. A character using makeshift tools can attempt the same check but has disadvantage. A lock-picking attempt might draw the attention of the guards, requiring a Dexterity ({@skill Stealth}) check contested by the guards' passive Wisdom ({@skill Perception}) score to carry it off without notice. Each of the guards on duty in the other areas of the outpost has a key to the gate hanging from a belt ring. Breaking the gate's lock and forcing it open requires a successful {@dc 20} Strength check.",
+										{
+											"type": "entries",
+											"name": "Magical Wards",
+											"page": 15,
+											"id": "041",
+											"entries": [
+												"The drow have placed powerful wards on the slave pen to inhibit spellcasters and shield the area against scrying attempts.",
+												"Spells cast within the slave pen have no effect, and any slot or magic item charge expended to cast such a spell is consumed. The wards don't suppress or negate spell effects that originate outside the slave pen. For example, a creature under the effect of an {@spell invisibility} spell remains {@condition invisible} when it enters the slave pen.",
+												"Creatures inside the slave pen can't be targeted by any divination magic or perceived through magical scrying sensors."
+											]
+										}
+									]
+								},
+								{
+									"type": "entries",
+									"name": "12. Quaggoth Den",
+									"page": 15,
+									"id": "042",
+									"entries": [
+										"Beyond the slave pen and down a set of stone steps, this cave is used as a den by the dozen quaggoths that serve the drow of Velkynvelve. The interior is littered with nest-like mounds of debris and the scattered bones of the quaggoths' past meals.",
+										"These servants of the drow use the den only to sleep and eat, with {@dice 1d4} {@creature Quaggoth||quaggoths} resting here at any given time. The quaggoths attack any creature that comes into their den that isn't a drow, a spider, or one of their kind. They don't initially attack unknown quaggoths or drow on sight, but they know all those assigned to the outpost and will question strangers. Derendil and Sarith's status as prisoners is known to them."
+									]
+								},
+								{
+									"type": "entries",
+									"name": "13. Northern Watch Post",
+									"page": 15,
+									"id": "043",
+									"entries": [
+										"This small alcove just past and below the quaggoth den has the same features as the watch post at area 1.",
+										"Two {@creature drow} are stationed here on watch, typically hating that duty for its proximity to the quaggoth den, the slave pen, and the pool."
+									]
+								},
+								{
+									"type": "entries",
+									"name": "14. Pool",
+									"page": 15,
+									"id": "044",
+									"entries": [
+										"Water pouring down from the waterfall at area 9 forms a 20-foot-deep pool before flowing out into an underground river that travels several miles before spilling into the Darklake. Since the drow take the water they need from the top of the waterfall, they use the pool to dump waste and garbage. Although this fouls the surface of the pool, the constant flow keeps the water beneath the surface clear.",
+										"A {@creature gray ooze} lurks in the pool's shallows, blending perfectly with the dark, wet stone. It feeds on the waste dumped into the pool, along with the occasional creature that finds its way into the cavern or falls into the pool.",
+										"The inhabitants of Velkynvelve remain unaware that the recent arrival of the demon lord Juiblex in the Underdark has made this ooze particularly aggressive and malevolent. In addition to attacking any creature in the pool, the ooze surges up to 10 feet out of the pool to attack creatures at its edge. When it does so, creatures within 30 feet of the ooze telepathically sense a voice cry out, \"Flesh for the Faceless Lord!\""
 									]
 								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "12. Quaggoth Den",
-							"page": 15,
-							"id": "042",
-							"entries": [
-								"Beyond the slave pen and down a set of stone steps, this cave is used as a den by the dozen quaggoths that serve the drow of Velkynvelve. The interior is littered with nest-like mounds of debris and the scattered bones of the quaggoths' past meals.",
-								"These servants of the drow use the den only to sleep and eat, with {@dice 1d4} {@creature Quaggoth||quaggoths} resting here at any given time. The quaggoths attack any creature that comes into their den that isn't a drow, a spider, or one of their kind. They don't initially attack unknown quaggoths or drow on sight, but they know all those assigned to the outpost and will question strangers. Derendil and Sarith's status as prisoners is known to them."
-							]
-						},
-						{
-							"type": "entries",
-							"name": "13. Northern Watch Post",
-							"page": 15,
-							"id": "043",
-							"entries": [
-								"This small alcove just past and below the quaggoth den has the same features as the watch post at area 1.",
-								"Two {@creature drow} are stationed here on watch, typically hating that duty for its proximity to the quaggoth den, the slave pen, and the pool."
-							]
-						},
-						{
-							"type": "entries",
-							"name": "14. Pool",
-							"page": 15,
-							"id": "044",
-							"entries": [
-								"Water pouring down from the waterfall at area 9 forms a 20-foot-deep pool before flowing out into an underground river that travels several miles before spilling into the Darklake. Since the drow take the water they need from the top of the waterfall, they use the pool to dump waste and garbage. Although this fouls the surface of the pool, the constant flow keeps the water beneath the surface clear.",
-								"A {@creature gray ooze} lurks in the pool's shallows, blending perfectly with the dark, wet stone. It feeds on the waste dumped into the pool, along with the occasional creature that finds its way into the cavern or falls into the pool.",
-								"The inhabitants of Velkynvelve remain unaware that the recent arrival of the demon lord Juiblex in the Underdark has made this ooze particularly aggressive and malevolent. In addition to attacking any creature in the pool, the ooze surges up to 10 feet out of the pool to attack creatures at its edge. When it does so, creatures within 30 feet of the ooze telepathically sense a voice cry out, \"Flesh for the Faceless Lord!\""
 							]
 						}
 					]
@@ -11848,1006 +11850,1009 @@
 							]
 						},
 						{
-							"type": "entries",
+							"type": "section",
 							"name": "Areas of the Tunnels",
 							"page": 69,
 							"id": "1c1",
-							"entries": []
-						},
-						{
-							"type": "entries",
-							"name": "1. Entrance",
-							"page": 69,
-							"id": "1c2",
 							"entries": [
-								"The narrow corridor from the West Cleft opens into a long cavern lined with stalactites and stalagmites. Water drips from the stalactites, forming small pools on the floor.",
-								{
-									"type": "insetReadaloud",
-									"id": "1c3",
-									"entries": [
-										"The glow of {@i faerzress} casts an eerie soft light across this cavern, swirling into spiral patterns and casting dancing shadows from the jagged pillars lining the walls. The air smells and tastes slightly metallic, and the sound around you is strangely muted. The dripping of water makes no echo, as if you stood in open air."
-									]
-								},
-								"This place offers many hiding places for characters to lay in ambush. {@i Faerzress} prevents sounds of combat from being heard outside in the West Cleft or farther into the tunnels.",
-								"If the characters wait here for {@creature Droki|OotA}, he appears after {@dice 2d12} hours. In the middle of that wait, each character must make a {@dc 14} Wisdom saving throw. On a success, the character feels only a mild discomfort. A character who rolls a natural 20 on the save receives flashes of the future, gaining the benefit of the Lucky feat (see chapter 6, \"{@feat lucky||Customization Options},\" in the {@book Player's Handbook|PHB}) until the start of his or her next long rest. If the character already has the Lucky feat, he or she gains an extra 3 luck points to spend. On a failed save, a character sees disturbing images within the shimmering {@i faerzress} light and has disadvantage on ability checks and saving throws until he or she finishes a short rest outside this area.",
-								"If the characters caught {@creature Droki|OotA} in Gracklstugh and brought him here, they must make the saving throw at some point during their interrogation. Knowing the power of the cavern, {@creature Droki|OotA} bides his time, giving nonsensical answers and hissing at the characters. He makes his move to escape after the characters make their saving throws, fleeing by the route described in the \"Finding {@creature Droki|OotA}\" section.",
+
 								{
 									"type": "entries",
-									"name": "Development",
+									"name": "1. Entrance",
+									"page": 69,
+									"id": "1c2",
+									"entries": [
+										"The narrow corridor from the West Cleft opens into a long cavern lined with stalactites and stalagmites. Water drips from the stalactites, forming small pools on the floor.",
+										{
+											"type": "insetReadaloud",
+											"id": "1c3",
+											"entries": [
+												"The glow of {@i faerzress} casts an eerie soft light across this cavern, swirling into spiral patterns and casting dancing shadows from the jagged pillars lining the walls. The air smells and tastes slightly metallic, and the sound around you is strangely muted. The dripping of water makes no echo, as if you stood in open air."
+											]
+										},
+										"This place offers many hiding places for characters to lay in ambush. {@i Faerzress} prevents sounds of combat from being heard outside in the West Cleft or farther into the tunnels.",
+										"If the characters wait here for {@creature Droki|OotA}, he appears after {@dice 2d12} hours. In the middle of that wait, each character must make a {@dc 14} Wisdom saving throw. On a success, the character feels only a mild discomfort. A character who rolls a natural 20 on the save receives flashes of the future, gaining the benefit of the Lucky feat (see chapter 6, \"{@feat lucky||Customization Options},\" in the {@book Player's Handbook|PHB}) until the start of his or her next long rest. If the character already has the Lucky feat, he or she gains an extra 3 luck points to spend. On a failed save, a character sees disturbing images within the shimmering {@i faerzress} light and has disadvantage on ability checks and saving throws until he or she finishes a short rest outside this area.",
+										"If the characters caught {@creature Droki|OotA} in Gracklstugh and brought him here, they must make the saving throw at some point during their interrogation. Knowing the power of the cavern, {@creature Droki|OotA} bides his time, giving nonsensical answers and hissing at the characters. He makes his move to escape after the characters make their saving throws, fleeing by the route described in the \"Finding {@creature Droki|OotA}\" section.",
+										{
+											"type": "entries",
+											"name": "Development",
+											"page": 70,
+											"id": "1c4",
+											"entries": [
+												"If {@creature Buppido|OotA} is with the party, he takes advantage of any distraction to slip away, taking refuge in area 1b."
+											]
+										}
+									]
+								},
+								{
+									"type": "entries",
+									"name": "1a. Pool Bypass",
 									"page": 70,
-									"id": "1c4",
+									"id": "1c5",
 									"entries": [
-										"If {@creature Buppido|OotA} is with the party, he takes advantage of any distraction to slip away, taking refuge in area 1b."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "1a. Pool Bypass",
-							"page": 70,
-							"id": "1c5",
-							"entries": [
-								"A relatively small cave branches off the main tunnel. If the characters are shadowing {@creature Droki|OotA}, read the following boxed text aloud to the players.",
-								{
-									"type": "insetReadaloud",
-									"id": "1c6",
-									"entries": [
-										"{@creature Droki|OotA} stands before a tall yet narrow crack in the wall. He stares at the crack for a moment, then leans down and rummages among the fungi, cackling with glee as he plucks a short mushroom and eats it whole. As he finishes the last bite, you see him shrink down to a doll's size, then run into the crack."
+										"A relatively small cave branches off the main tunnel. If the characters are shadowing {@creature Droki|OotA}, read the following boxed text aloud to the players.",
+										{
+											"type": "insetReadaloud",
+											"id": "1c6",
+											"entries": [
+												"{@creature Droki|OotA} stands before a tall yet narrow crack in the wall. He stares at the crack for a moment, then leans down and rummages among the fungi, cackling with glee as he plucks a short mushroom and eats it whole. As he finishes the last bite, you see him shrink down to a doll's size, then run into the crack."
+											]
+										},
+										"The far side of the small cavern has a narrow crack in the wall surrounded by patches of pygmywort and bigwig mushrooms ({@dice 1d10 + 10} of each). The crack forms the entrance of a narrow, naturally-formed tunnel."
 									]
 								},
-								"The far side of the small cavern has a narrow crack in the wall surrounded by patches of pygmywort and bigwig mushrooms ({@dice 1d10 + 10} of each). The crack forms the entrance of a narrow, naturally-formed tunnel."
-							]
-						},
-						{
-							"type": "entries",
-							"name": "1b. Buppido's Lair",
-							"page": 70,
-							"id": "1c7",
-							"entries": [
-								"The derro {@creature Buppido|OotA} discovered the Whorlstone Tunnels months ago but never dared to explore beyond the first couple of chambers. He settled in this area and erected a grisly altar to himself, to support the delusion that he is a god.",
-								"If {@creature Buppido|OotA} returns to Gracklstugh, he abandons the characters at the first opportunity and makes his way to this place. If he is here when the characters arrive, read the following boxed text aloud to the players. Modify the text as appropriate if {@creature Buppido|OotA} isn't present.",
-								{
-									"type": "insetReadaloud",
-									"id": "1c8",
-									"entries": [
-										"As you venture into the cavern, a stench of rotting meat rises. The floor is carpeted with humanoid remains in varying stages of decomposition, arranged in a spiral pattern around the cave's center. An off-key humming comes from a hunched figure working busily at something on the floor.",
-										"\"Oh, there you are!\" The figure is {@creature Buppido|OotA}. He wipes his hands on his vest and smiles viciously. \"I didn't expect you to find me here, with my shrine nearly finished! And power! My faithful are finally honoring me! Are you...? Yes. Yes, I sense that you are ready to receive my truth into your hearts!\""
-									]
-								},
-								"The humanoid remains on the floor make the entire cavern {@quickref difficult terrain||3}. Characters can identify the remains as belonging to several derro, deep gnomes, and goblins, as well as a couple grimlocks.",
-								"{@creature Buppido|OotA} is a typical {@creature derro|OotA} and attacks the characters regardless of their intentions. On his first turn, he uses a bonus action to channel the power of this \"shrine,\" raising six {@creature Skeleton||skeletons} to aid him. The undead assemble from the remains on the floor to form shambling, mismatched bodies. Each skeleton has two skulls, although this has no effect on its abilities.",
-								"{@creature Buppido|OotA} fights with insane confidence and seems surprised if the party defeats him, screaming incoherent last words about the end of the world. The skeletons fight until destroyed even if {@creature Buppido|OotA} is defeated first.",
-								"If {@creature Buppido|OotA} was killed in Velkynvelve or at some point in the characters' travels through the Underdark, replace him with a {@creature carrion crawler} feeding on the dead remains.",
 								{
 									"type": "entries",
-									"name": "Development",
+									"name": "1b. Buppido's Lair",
 									"page": 70,
-									"id": "1c9",
+									"id": "1c7",
 									"entries": [
-										"When the monsters are defeated, the {@creature ghost} of a deep gnome named Pelek pokes its head up out of the ground, blinks, and then emerges fully. The ghost is friendly and tells the adventurers that {@creature Buppido|OotA} killed him not too long ago, then chopped him into pieces to join the other body parts in the shrine. Pelek explains how he was traveling from Blingdenstone when he fell in with {@creature Buppido|OotA}. He knows little about the Whorlstone Tunnels, but he has observed a shrunken derro with a funny hat ({@creature Droki|OotA}) entering and leaving the narrow tunnels. Pelek doesn't know about the pygmywort mushrooms.",
-										"Pelek asks the characters to take one or more parts of him to Blingdenstone and bury his remains there, so that his spirit can rest. It's impossible to tell which body parts are his, and looking around is a gruesome task that speaks loudly to {@creature Buppido|OotA}'s madness. Pelek recalls that the strange magic that pervades the tunnels animated one of his severed hands, and it scuttled away through one of the narrow tunnels. (Characters might encounter it in area 13.) Pelek points out that characters can recognize the hand because it was wearing an obsidian ring. If the characters need more reasons to go to Blingdenstone, Pelek adds that the svirfneblin who live there know many ways to the surface."
+										"The derro {@creature Buppido|OotA} discovered the Whorlstone Tunnels months ago but never dared to explore beyond the first couple of chambers. He settled in this area and erected a grisly altar to himself, to support the delusion that he is a god.",
+										"If {@creature Buppido|OotA} returns to Gracklstugh, he abandons the characters at the first opportunity and makes his way to this place. If he is here when the characters arrive, read the following boxed text aloud to the players. Modify the text as appropriate if {@creature Buppido|OotA} isn't present.",
+										{
+											"type": "insetReadaloud",
+											"id": "1c8",
+											"entries": [
+												"As you venture into the cavern, a stench of rotting meat rises. The floor is carpeted with humanoid remains in varying stages of decomposition, arranged in a spiral pattern around the cave's center. An off-key humming comes from a hunched figure working busily at something on the floor.",
+												"\"Oh, there you are!\" The figure is {@creature Buppido|OotA}. He wipes his hands on his vest and smiles viciously. \"I didn't expect you to find me here, with my shrine nearly finished! And power! My faithful are finally honoring me! Are you...? Yes. Yes, I sense that you are ready to receive my truth into your hearts!\""
+											]
+										},
+										"The humanoid remains on the floor make the entire cavern {@quickref difficult terrain||3}. Characters can identify the remains as belonging to several derro, deep gnomes, and goblins, as well as a couple grimlocks.",
+										"{@creature Buppido|OotA} is a typical {@creature derro|OotA} and attacks the characters regardless of their intentions. On his first turn, he uses a bonus action to channel the power of this \"shrine,\" raising six {@creature Skeleton||skeletons} to aid him. The undead assemble from the remains on the floor to form shambling, mismatched bodies. Each skeleton has two skulls, although this has no effect on its abilities.",
+										"{@creature Buppido|OotA} fights with insane confidence and seems surprised if the party defeats him, screaming incoherent last words about the end of the world. The skeletons fight until destroyed even if {@creature Buppido|OotA} is defeated first.",
+										"If {@creature Buppido|OotA} was killed in Velkynvelve or at some point in the characters' travels through the Underdark, replace him with a {@creature carrion crawler} feeding on the dead remains.",
+										{
+											"type": "entries",
+											"name": "Development",
+											"page": 70,
+											"id": "1c9",
+											"entries": [
+												"When the monsters are defeated, the {@creature ghost} of a deep gnome named Pelek pokes its head up out of the ground, blinks, and then emerges fully. The ghost is friendly and tells the adventurers that {@creature Buppido|OotA} killed him not too long ago, then chopped him into pieces to join the other body parts in the shrine. Pelek explains how he was traveling from Blingdenstone when he fell in with {@creature Buppido|OotA}. He knows little about the Whorlstone Tunnels, but he has observed a shrunken derro with a funny hat ({@creature Droki|OotA}) entering and leaving the narrow tunnels. Pelek doesn't know about the pygmywort mushrooms.",
+												"Pelek asks the characters to take one or more parts of him to Blingdenstone and bury his remains there, so that his spirit can rest. It's impossible to tell which body parts are his, and looking around is a gruesome task that speaks loudly to {@creature Buppido|OotA}'s madness. Pelek recalls that the strange magic that pervades the tunnels animated one of his severed hands, and it scuttled away through one of the narrow tunnels. (Characters might encounter it in area 13.) Pelek points out that characters can recognize the hand because it was wearing an obsidian ring. If the characters need more reasons to go to Blingdenstone, Pelek adds that the svirfneblin who live there know many ways to the surface."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "Treasure",
+											"page": 72,
+											"id": "1ca",
+											"entries": [
+												"Scattered around the floor are 10 gp, 11 sp, and a damp piece of lizard-skin parchment with the words \"Worship {@creature Buppido|OotA}\" written in shaky Dwarvish."
+											]
+										}
 									]
 								},
 								{
 									"type": "entries",
-									"name": "Treasure",
+									"name": "2. Diseased Pool",
 									"page": 72,
-									"id": "1ca",
+									"id": "1cb",
 									"entries": [
-										"Scattered around the floor are 10 gp, 11 sp, and a damp piece of lizard-skin parchment with the words \"Worship {@creature Buppido|OotA}\" written in shaky Dwarvish."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "2. Diseased Pool",
-							"page": 72,
-							"id": "1cb",
-							"entries": [
-								"This pool is fed by a river that flows from the Darklake. The river carries many things from the subterranean lake, including the carcasses of countless creatures, fouling the pool (see the \"Whorlstone Tunnels: General Features\" sidebar).",
-								{
-									"type": "insetReadaloud",
-									"id": "1cc",
-									"entries": [
-										"The tunnel slopes down to the edge of a large pool that fills the cavern ahead. The opposite shore is nearly one hundred feet away, but nothing can be seen beneath the surface of the black water."
+										"This pool is fed by a river that flows from the Darklake. The river carries many things from the subterranean lake, including the carcasses of countless creatures, fouling the pool (see the \"Whorlstone Tunnels: General Features\" sidebar).",
+										{
+											"type": "insetReadaloud",
+											"id": "1cc",
+											"entries": [
+												"The tunnel slopes down to the edge of a large pool that fills the cavern ahead. The opposite shore is nearly one hundred feet away, but nothing can be seen beneath the surface of the black water."
+											]
+										},
+										"The water is heated by a thermal spring and pleasantly warm. However, the pool is disease-ridden. Any creature that starts its turn in the water must make a {@dc 13} Constitution saving throw. On a failed save, the creature is infected with cackle fever (see \"{@book Diseases|DMG|8|Diseases}\" in chapter 8 of the {@book Dungeon Master's Guide|DMG}). Gnomes are immune.",
+										"The characters can try to get around the pool without swimming it, by using magic or climbing along the walls. Climbing the slippery walls of the cavern requires a successful {@dc 13} {@skill Athletics} check. On a failed check, a character falls into the water."
 									]
 								},
-								"The water is heated by a thermal spring and pleasantly warm. However, the pool is disease-ridden. Any creature that starts its turn in the water must make a {@dc 13} Constitution saving throw. On a failed save, the creature is infected with cackle fever (see \"{@book Diseases|DMG|8|Diseases}\" in chapter 8 of the {@book Dungeon Master's Guide|DMG}). Gnomes are immune.",
-								"The characters can try to get around the pool without swimming it, by using magic or climbing along the walls. Climbing the slippery walls of the cavern requires a successful {@dc 13} {@skill Athletics} check. On a failed check, a character falls into the water."
-							]
-						},
-						{
-							"type": "entries",
-							"name": "3. Parade of Fools",
-							"page": 72,
-							"id": "1cd",
-							"entries": [
-								"Myconids journeying through the Underdark were attracted to the enriched fungal life in the Whorlstone Tunnels and made a stop here. They are friendly, but there is something seriously wrong with them.",
-								{
-									"type": "insetReadaloud",
-									"id": "1ce",
-									"entries": [
-										"The tunnel opens into a natural cave, wherein you see several fungal creatures dancing to a silent tune. Three of them stand five feet tall, while the others are half as tall. One of the small ones stands apart from the rest, its movements not nearly as frantic. Hunched nearby are two larger creatures that resemble apes covered with mushroom growths and yellow mold."
-									]
-								},
-								"Characters who know anything about myconids know that myconids don't dance. If {@creature Stool|OotA} is with the party, it points this out. This group is composed of three {@creature Myconid Adult||myconid adults} and five {@creature Myconid Sprout||myconid sprouts}. {@creature Stool|OotA} recognizes one of the sprouts\u2014the one not dancing\u2014as his buddy, {@creature Rumpadump|OotA} (see \"Development\"). The ape-like creatures are two {@creature Quaggoth Spore Servant||quaggoth spore servants}, and each one is covered with a patch of yellow mold (see \"{@book Dungeon Hazards|DMG|5|Dungeon Hazards}\" in chapter 5 of the {@book Dungeon Master's Guide|DMG}). Whenever a quaggoth spore servant is touched or takes damage, it releases a cloud of yellow mold spores until its mold patch is destroyed.",
-								"The myconids are too swept up in their silent revelry to notice the characters. If the adventurers attack, the myconid adults fight fiercely while the sprouts run and hide. The spore servants join the fray if either they or the myconids are threatened. Otherwise, they remain motionless.",
-								{
-									"type": "image",
-									"href": {
-										"type": "internal",
-										"path": "adventure/OotA/037-ooa04-08.webp"
-									},
-									"width": 669,
-									"height": 982
-								},
-								"If the characters try to communicate with the myconids, they release rapport spores so that everyone can speak telepathically. The leader of the myconids is an adult named Voosbur, who speaks on behalf of the others. Sharing thoughts with these sentient mushrooms is an odd and strangely intoxicating experience (and feels quite different than the rapport the characters might have shared with {@creature Stool|OotA}). Voosbur happily tells the party how its \"troupe\" was attracted by the special mushrooms in these tunnels, and it tells the characters about the magical properties of the pygmywort and bigwig mushrooms. Voosbur further explains that the myconids didn't wander into this area, but arrived here by traveling \"through the Lady's dream.\" Voosbur describes \"the Lady\" as a powerful being that loves and guides all myconids. He offers to share \"the Lady's gift\" with the characters, allowing them to travel \"through the Lady's dream\" as the myconids do. Characters who accept the offer gain Zuggtmoy's gift (see the sidebar).",
-								"If present, {@creature Stool|OotA} tells the characters it has no idea what Voosbur is talking about. Additionally, {@creature Sarith Kzekarit|OotA} starts to act erratically, trying to warn the characters away from the myconids, but unable to shake off the influence of Zuggtmoy's spores.",
-								"The myconid sprout standing by itself is named {@creature Rumpadump|OotA}. It sends a subtle warning as a feeling of distress through its own rapport spores in response to Voosbur's offer, saying that the other myconids aren't behaving right.",
 								{
 									"type": "entries",
-									"name": "Roleplaying Rumpadump",
+									"name": "3. Parade of Fools",
 									"page": 72,
-									"id": "1cf",
+									"id": "1cd",
 									"entries": [
-										"{@creature Rumpadump|OotA} is as introverted as {@creature Stool|OotA} is outgoing, preferring to hang back and not use its rapport spores unless absolutely necessary. Whether {@creature Stool|OotA} is present or not, {@creature Rumpadump|OotA} can guide the characters to Neverlight Grove (see {@adventure chapter 5|OotA|4}), where the sovereigns might know of a way out of the Underdark. However, the myconid sprout is worried that Voosbur's \"strange spores\" might have infected the rest of the myconids back home."
+										"Myconids journeying through the Underdark were attracted to the enriched fungal life in the Whorlstone Tunnels and made a stop here. They are friendly, but there is something seriously wrong with them.",
+										{
+											"type": "insetReadaloud",
+											"id": "1ce",
+											"entries": [
+												"The tunnel opens into a natural cave, wherein you see several fungal creatures dancing to a silent tune. Three of them stand five feet tall, while the others are half as tall. One of the small ones stands apart from the rest, its movements not nearly as frantic. Hunched nearby are two larger creatures that resemble apes covered with mushroom growths and yellow mold."
+											]
+										},
+										"Characters who know anything about myconids know that myconids don't dance. If {@creature Stool|OotA} is with the party, it points this out. This group is composed of three {@creature Myconid Adult||myconid adults} and five {@creature Myconid Sprout||myconid sprouts}. {@creature Stool|OotA} recognizes one of the sprouts\u2014the one not dancing\u2014as his buddy, {@creature Rumpadump|OotA} (see \"Development\"). The ape-like creatures are two {@creature Quaggoth Spore Servant||quaggoth spore servants}, and each one is covered with a patch of yellow mold (see \"{@book Dungeon Hazards|DMG|5|Dungeon Hazards}\" in chapter 5 of the {@book Dungeon Master's Guide|DMG}). Whenever a quaggoth spore servant is touched or takes damage, it releases a cloud of yellow mold spores until its mold patch is destroyed.",
+										"The myconids are too swept up in their silent revelry to notice the characters. If the adventurers attack, the myconid adults fight fiercely while the sprouts run and hide. The spore servants join the fray if either they or the myconids are threatened. Otherwise, they remain motionless.",
+										{
+											"type": "image",
+											"href": {
+												"type": "internal",
+												"path": "adventure/OotA/037-ooa04-08.webp"
+											},
+											"width": 669,
+											"height": 982
+										},
+										"If the characters try to communicate with the myconids, they release rapport spores so that everyone can speak telepathically. The leader of the myconids is an adult named Voosbur, who speaks on behalf of the others. Sharing thoughts with these sentient mushrooms is an odd and strangely intoxicating experience (and feels quite different than the rapport the characters might have shared with {@creature Stool|OotA}). Voosbur happily tells the party how its \"troupe\" was attracted by the special mushrooms in these tunnels, and it tells the characters about the magical properties of the pygmywort and bigwig mushrooms. Voosbur further explains that the myconids didn't wander into this area, but arrived here by traveling \"through the Lady's dream.\" Voosbur describes \"the Lady\" as a powerful being that loves and guides all myconids. He offers to share \"the Lady's gift\" with the characters, allowing them to travel \"through the Lady's dream\" as the myconids do. Characters who accept the offer gain Zuggtmoy's gift (see the sidebar).",
+										"If present, {@creature Stool|OotA} tells the characters it has no idea what Voosbur is talking about. Additionally, {@creature Sarith Kzekarit|OotA} starts to act erratically, trying to warn the characters away from the myconids, but unable to shake off the influence of Zuggtmoy's spores.",
+										"The myconid sprout standing by itself is named {@creature Rumpadump|OotA}. It sends a subtle warning as a feeling of distress through its own rapport spores in response to Voosbur's offer, saying that the other myconids aren't behaving right.",
+										{
+											"type": "entries",
+											"name": "Roleplaying Rumpadump",
+											"page": 72,
+											"id": "1cf",
+											"entries": [
+												"{@creature Rumpadump|OotA} is as introverted as {@creature Stool|OotA} is outgoing, preferring to hang back and not use its rapport spores unless absolutely necessary. Whether {@creature Stool|OotA} is present or not, {@creature Rumpadump|OotA} can guide the characters to Neverlight Grove (see {@adventure chapter 5|OotA|4}), where the sovereigns might know of a way out of the Underdark. However, the myconid sprout is worried that Voosbur's \"strange spores\" might have infected the rest of the myconids back home."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "Development",
+											"page": 72,
+											"id": "1d0",
+											"entries": [
+												"Voosbur takes no offense if the characters refuse his offer to teach them how to travel \"the Lady's dream,\" simply bidding them farewell as the myconids resume their dancing. If the characters have shown {@creature Rumpadump|OotA} any kindness, it asks their permission to join the party, especially if {@creature Stool|OotA} is present. At the same time, Sarith breaks away from the party to join the myconids. The drow turns one last time to give the characters a look of terror and despair before his face loses all expression. He and the dancing myconids then enter a mushroom patch and use the {@spell tree stride} ability granted by Zuggtmoy's blessing to vanish from sight."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "XP Awards",
+											"page": 72,
+											"id": "1d1",
+											"entries": [
+												"Award 50 XP to each character if the party parlayed with the myconids."
+											]
+										}
 									]
 								},
 								{
 									"type": "entries",
-									"name": "Development",
-									"page": 72,
-									"id": "1d0",
-									"entries": [
-										"Voosbur takes no offense if the characters refuse his offer to teach them how to travel \"the Lady's dream,\" simply bidding them farewell as the myconids resume their dancing. If the characters have shown {@creature Rumpadump|OotA} any kindness, it asks their permission to join the party, especially if {@creature Stool|OotA} is present. At the same time, Sarith breaks away from the party to join the myconids. The drow turns one last time to give the characters a look of terror and despair before his face loses all expression. He and the dancing myconids then enter a mushroom patch and use the {@spell tree stride} ability granted by Zuggtmoy's blessing to vanish from sight."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "XP Awards",
-									"page": 72,
-									"id": "1d1",
-									"entries": [
-										"Award 50 XP to each character if the party parlayed with the myconids."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "4. Fungi Thicket",
-							"page": 73,
-							"id": "1d2",
-							"entries": [
-								"This tunnel juncture is blocked by a thicket of fungi. The thicket is an ecosystem unto itself, with its own challenges for those who wish to cross it.",
-								{
-									"type": "insetReadaloud",
-									"id": "1d3",
-									"entries": [
-										"A dense fungi forest blocks your way, its tallest specimens growing some five feet high. Even as you assess the best way to pass through it, a hissing sound starts to rise\u2014like uncounted tiny voices whispering in tongues you don't understand."
-									]
-								},
-								"Although creepy, the hissing sound is harmless, caused by air whistling through perforated mushrooms in the thicket of fungi. The characters can cross this area by forcing their way through it, or by eating pygmywort mushrooms first to move through without disturbing the other fungi present. If the characters are chasing {@creature Droki|OotA}, he uses the thicket to his advantage, eating a pygmywort to sneak his way across. At reduced size, he leaves no trail that normal-sized pursuers can follow.",
-								{
-									"type": "image",
-									"href": {
-										"type": "internal",
-										"path": "adventure/OotA/038-ooa04-09.webp"
-									},
-									"width": 843,
-									"height": 1000
-								},
-								"Tiny creatures can move through the thicket at no penalty. For Small and Medium creatures, the thicket is {@quickref difficult terrain||3}. While in the thicket, Tiny and Small creatures have {@quickref Cover||3||half cover} against Medium creatures and can hide.",
-								"Creatures can negate the movement penalty by destroying the fungi before crossing the thicket. Each 5-foot-square area of fungi has AC 10 and 10 hit points. Any attack that deals fire damage has a 50 percent chance of igniting a torchstalk mushroom (see \"{@area Fungi of the Underdark|067|x}\" in chapter 2).",
-								"The first time a Small or larger character reaches the tunnel intersection, two {@creature Swarm of Insects||swarms of insects} (centipedes) emerge from nests under the thicket and attack. Two more {@creature Swarm of Insects||swarms of insects} (spiders) arrive on the second round of combat, plus another {@creature swarm of insects} (centipedes) on the third round.",
-								{
-									"type": "entries",
-									"name": "Treasure",
+									"name": "4. Fungi Thicket",
 									"page": 73,
-									"id": "1d4",
+									"id": "1d2",
 									"entries": [
-										"The abundance of fungi in the thicket makes it easy to forage here. Among the common, inedible fungi are the following edible and exotic fungi, most of which are described in {@area chapter 2|067|x}:",
+										"This tunnel juncture is blocked by a thicket of fungi. The thicket is an ecosystem unto itself, with its own challenges for those who wish to cross it.",
 										{
-											"type": "list",
-											"items": [
-												"{@dice 1d6} barrelstalks",
-												"{@dice 3d6} bluecaps",
-												"{@dice 1d6} patches of fire lichen",
-												"{@dice 1d6} nightlights",
-												"{@dice 1d6} Nilhogg's noses",
-												"{@dice 1d6} sheets of ripplebark",
-												"{@dice 1d6} timmasks",
-												"{@dice 1d6} torchstalks",
-												"{@dice 1d6} tongues of madness",
-												"{@dice 1d6} trillimacs",
-												"{@dice 2d6} bigwigs (see \"{@i Faerzress}-Suffused Fungi\")",
-												"{@dice 2d6} pygmyworts (see \"{@i Faerzress}-Suffused Fungi\")"
+											"type": "insetReadaloud",
+											"id": "1d3",
+											"entries": [
+												"A dense fungi forest blocks your way, its tallest specimens growing some five feet high. Even as you assess the best way to pass through it, a hissing sound starts to rise\u2014like uncounted tiny voices whispering in tongues you don't understand."
 											]
 										},
+										"Although creepy, the hissing sound is harmless, caused by air whistling through perforated mushrooms in the thicket of fungi. The characters can cross this area by forcing their way through it, or by eating pygmywort mushrooms first to move through without disturbing the other fungi present. If the characters are chasing {@creature Droki|OotA}, he uses the thicket to his advantage, eating a pygmywort to sneak his way across. At reduced size, he leaves no trail that normal-sized pursuers can follow.",
 										{
-											"type": "inset",
-											"name": "Zuggtmoy's Gift",
+											"type": "image",
+											"href": {
+												"type": "internal",
+												"path": "adventure/OotA/038-ooa04-09.webp"
+											},
+											"width": 843,
+											"height": 1000
+										},
+										"Tiny creatures can move through the thicket at no penalty. For Small and Medium creatures, the thicket is {@quickref difficult terrain||3}. While in the thicket, Tiny and Small creatures have {@quickref Cover||3||half cover} against Medium creatures and can hide.",
+										"Creatures can negate the movement penalty by destroying the fungi before crossing the thicket. Each 5-foot-square area of fungi has AC 10 and 10 hit points. Any attack that deals fire damage has a 50 percent chance of igniting a torchstalk mushroom (see \"{@area Fungi of the Underdark|067|x}\" in chapter 2).",
+										"The first time a Small or larger character reaches the tunnel intersection, two {@creature Swarm of Insects||swarms of insects} (centipedes) emerge from nests under the thicket and attack. Two more {@creature Swarm of Insects||swarms of insects} (spiders) arrive on the second round of combat, plus another {@creature swarm of insects} (centipedes) on the third round.",
+										{
+											"type": "entries",
+											"name": "Treasure",
 											"page": 73,
-											"id": "1d5",
+											"id": "1d4",
 											"entries": [
-												"A myconid with Zuggtmoy's gift can, as an action once per day, release a 20-foot-radius cloud of demon-tainted spores. Any other creature within the area that isn't already \"blessed\" with Zuggtmoy's gift must make a Constitution saving throw, with a save DC of 8 + the myconid's Constitution modifier + the myconid's proficiency bonus. A creature that forgoes or fails the saving throw becomes infected. While infected with Zuggtmoy's gift, the creature gains the ability to cast a special version of the {@spell tree stride} spell that has no components. This spell allows the infected creature to move through patches of mold and fungi instead of trees. Once it casts this spell, the infected creature can't cast the spell again until it finishes a long rest.",
-												"Any creature infected with Zuggtmoy's gift has disadvantage on attack rolls against plant creatures. In addition, whenever an infected creature finishes a short or long rest, it must make a {@dc 15} Wisdom saving throw. On a failed save, the creature lapses into a state of euphoric bliss. While in this state, the creature can't take actions, bonus actions, or reactions, and must use all of its movement to dance and twirl about. At the end of its turn, the creature can repeat the saving throw, ending the euphoric bliss effect on a success.",
-												"A {@spell remove curse} or {@spell greater restoration} spell rids a creature of Zuggtmoy's gift."
+												"The abundance of fungi in the thicket makes it easy to forage here. Among the common, inedible fungi are the following edible and exotic fungi, most of which are described in {@area chapter 2|067|x}:",
+												{
+													"type": "list",
+													"items": [
+														"{@dice 1d6} barrelstalks",
+														"{@dice 3d6} bluecaps",
+														"{@dice 1d6} patches of fire lichen",
+														"{@dice 1d6} nightlights",
+														"{@dice 1d6} Nilhogg's noses",
+														"{@dice 1d6} sheets of ripplebark",
+														"{@dice 1d6} timmasks",
+														"{@dice 1d6} torchstalks",
+														"{@dice 1d6} tongues of madness",
+														"{@dice 1d6} trillimacs",
+														"{@dice 2d6} bigwigs (see \"{@i Faerzress}-Suffused Fungi\")",
+														"{@dice 2d6} pygmyworts (see \"{@i Faerzress}-Suffused Fungi\")"
+													]
+												},
+												{
+													"type": "inset",
+													"name": "Zuggtmoy's Gift",
+													"page": 73,
+													"id": "1d5",
+													"entries": [
+														"A myconid with Zuggtmoy's gift can, as an action once per day, release a 20-foot-radius cloud of demon-tainted spores. Any other creature within the area that isn't already \"blessed\" with Zuggtmoy's gift must make a Constitution saving throw, with a save DC of 8 + the myconid's Constitution modifier + the myconid's proficiency bonus. A creature that forgoes or fails the saving throw becomes infected. While infected with Zuggtmoy's gift, the creature gains the ability to cast a special version of the {@spell tree stride} spell that has no components. This spell allows the infected creature to move through patches of mold and fungi instead of trees. Once it casts this spell, the infected creature can't cast the spell again until it finishes a long rest.",
+														"Any creature infected with Zuggtmoy's gift has disadvantage on attack rolls against plant creatures. In addition, whenever an infected creature finishes a short or long rest, it must make a {@dc 15} Wisdom saving throw. On a failed save, the creature lapses into a state of euphoric bliss. While in this state, the creature can't take actions, bonus actions, or reactions, and must use all of its movement to dance and twirl about. At the end of its turn, the creature can repeat the saving throw, ending the euphoric bliss effect on a success.",
+														"A {@spell remove curse} or {@spell greater restoration} spell rids a creature of Zuggtmoy's gift."
+													]
+												}
 											]
 										}
 									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "5. Raucous Mesa",
-							"page": 74,
-							"id": "1d6",
-							"entries": [
-								"This chamber was sculpted by {@i faerzress} with the side effect of trapping sound.",
-								{
-									"type": "insetReadaloud",
-									"id": "1d7",
-									"entries": [
-										"The glow of {@i faerzress} shifts across this chamber as if pushed by an unseen wind. It flows toward and around a large mesa and continues to spiral upward, but the ceiling of the cavern is too dark and high to see. You hear murmurs and whispers coming from atop the mesa, which grow louder as you approach. Its stacked levels resemble steps in a staircase, but a ramp running from top to bottom provides an easy way up."
-									]
 								},
-								"Climbing the mesa reveals that its steps aren't concentric circles but the bands of a spiral, rising from the cavern floor to the mesa's top.",
-								"The west wall has a noticeable crack leading to a narrow tunnel, which can be used as a shortcut to area 7 if the characters are small enough to fit through it (see the \"Whorlstone Tunnels: General Features\" sidebar). {@creature Droki|OotA} uses this narrow tunnel on his travels.",
-								"Characters at the top of the mesa hear the murmur of the chamber more clearly, and can recognize it as disparate sounds. They hear the rhythmic clank and roar of Gracklstugh's forges, the low rumble of {@creature Themberchaud|OotA}'s displeasure, the mad screaming of derro, and even hints and snatches of conversations. The {@i faerzress} in this place echoes the sounds produced in Gracklstugh above, creating a storm of noise.",
-								"A character can use an action to focus on specific sounds but must make a {@dc 12} Wisdom saving throw, taking 7 ({@dice 2d6}) psychic damage on a failed save, or half as much damage on a successful one. A character who fails the saving throw by 5 or more gains one level of madness (see \"{@area Madness|063|x}\" in chapter 2) as his or her mind is overwhelmed by what is heard.",
-								"A character who exceeds the saving throw DC by 5 or more can ask one question about Gracklstugh that can be answered by overhearing any sound or conversation occurring within the previous tenday in the city above or in the Whorlstone Tunnels. This can include discovering {@creature Droki|OotA}'s current location by following his insane mutterings.",
-								"A character can focus on the sound in the chamber a number of times equal to his or her Wisdom modifier (minimum 1). After that, the character no longer has the ability to tell sounds apart."
-							]
-						},
-						{
-							"type": "entries",
-							"name": "6. Dire Den",
-							"page": 74,
-							"id": "1d8",
-							"entries": [
-								"This small network of tiny grottos leads into one of the dens of the Gray Ghosts, but it is the current residence of a warped creature called the {@creature Spider King|OotA}. The characters must travel through narrow tunnels to reach this area (see the \"Whorlstone Tunnels: General Features\" sidebar).",
-								{
-									"type": "insetReadaloud",
-									"id": "1d9",
-									"entries": [
-										"The glow of {@i faerzress} in these tunnels reveals sticky white strands clinging to the walls. The strands become more dense as you move farther in."
-									]
-								},
-								{
-									"type": "image",
-									"href": {
-										"type": "internal",
-										"path": "adventure/OotA/039-ooa04-11.webp"
-									},
-									"title": "Map 4.3: Lair of the Spider King",
-									"width": 944,
-									"height": 1000,
-									"imageType": "map",
-									"grid": {
-										"type": "square",
-										"size": 68,
-										"offsetX": 34,
-										"offsetY": -21,
-										"scale": 3
-									},
-									"mapRegions": [
-										{
-											"area": "1d8",
-											"points": [
-												[
-													770,
-													488
-												],
-												[
-													770,
-													582
-												],
-												[
-													715,
-													582
-												],
-												[
-													715,
-													488
-												]
-											]
-										}
-									],
-									"hrefThumbnail": {
-										"type": "internal",
-										"path": "adventure/OotA/thumbnail/039-ooa04-11.webp"
-									},
-									"id": "245"
-								},
-								"The northeastern cave is the lair of the {@creature Spider King|OotA}\u2014a two-headed giant spider warped by demonic influences into a vaguely humanoid shape. This horrific creature uses the {@creature giant spider} stat block with the following modifications:",
-								{
-									"type": "list",
-									"items": [
-										"The {@creature Spider King|OotA} has 44 hit points, a passive Wisdom ({@skill Perception}) score of 14, a Wisdom ({@skill Perception}) modifier of +4, and the following saving throw bonuses: Constitution +3, Wisdom +2.",
-										"Because of its two heads, the {@creature Spider King|OotA} has advantage on Wisdom ({@skill Perception}) checks and on saving throws against being {@condition blinded}, {@condition charmed}, {@condition deafened}, {@condition frightened}, {@condition stunned}, and knocked {@condition unconscious}."
-									]
-								},
-								"The {@creature Spider King|OotA} senses when intruders enter its domain and can't be {@status surprised} by them. Along with two normal {@creature Giant Spider||giant spiders} (its attendants), the {@creature Spider King|OotA} waits in ambush. It moves to the entrance of its chamber in an attempt to keep the characters bottled up, while the two giant spiders approach along the walls and ceiling, getting into position above creatures on the floor. The {@creature Spider King|OotA} and the giant spiders fight to the death, but they don't follow prey that flees.",
 								{
 									"type": "entries",
-									"name": "Development",
+									"name": "5. Raucous Mesa",
 									"page": 74,
-									"id": "1da",
+									"id": "1d6",
 									"entries": [
-										"Sounds of combat here alert the duergar in area 7."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "7. Gray Ghost Garden",
-							"page": 75,
-							"id": "1db",
-							"entries": [
-								"The Gray Ghosts use this chamber to grow a variety of fungi for use in alchemical experiments.",
-								"Double doors blocks the western tunnel. The doors are made of thick zurkhwood and reinforced with crudely forged steel. The sturdy lock can be opened with a successful {@dc 15} Dexterity check using thieves' tools. A successful {@dc 20} Strength check will break the doors down.",
-								{
-									"type": "insetReadaloud",
-									"id": "1dc",
-									"entries": [
-										"The smell of rot is strong in this room, coming from a large depression at the center, where dozens of fungi of many species grow. A barrel-shaped copper tank sits at the edge of the pit. Attached to the tank is a tall copper pipe that arcs over the pit. Crates line one wall."
+										"This chamber was sculpted by {@i faerzress} with the side effect of trapping sound.",
+										{
+											"type": "insetReadaloud",
+											"id": "1d7",
+											"entries": [
+												"The glow of {@i faerzress} shifts across this chamber as if pushed by an unseen wind. It flows toward and around a large mesa and continues to spiral upward, but the ceiling of the cavern is too dark and high to see. You hear murmurs and whispers coming from atop the mesa, which grow louder as you approach. Its stacked levels resemble steps in a staircase, but a ramp running from top to bottom provides an easy way up."
+											]
+										},
+										"Climbing the mesa reveals that its steps aren't concentric circles but the bands of a spiral, rising from the cavern floor to the mesa's top.",
+										"The west wall has a noticeable crack leading to a narrow tunnel, which can be used as a shortcut to area 7 if the characters are small enough to fit through it (see the \"Whorlstone Tunnels: General Features\" sidebar). {@creature Droki|OotA} uses this narrow tunnel on his travels.",
+										"Characters at the top of the mesa hear the murmur of the chamber more clearly, and can recognize it as disparate sounds. They hear the rhythmic clank and roar of Gracklstugh's forges, the low rumble of {@creature Themberchaud|OotA}'s displeasure, the mad screaming of derro, and even hints and snatches of conversations. The {@i faerzress} in this place echoes the sounds produced in Gracklstugh above, creating a storm of noise.",
+										"A character can use an action to focus on specific sounds but must make a {@dc 12} Wisdom saving throw, taking 7 ({@dice 2d6}) psychic damage on a failed save, or half as much damage on a successful one. A character who fails the saving throw by 5 or more gains one level of madness (see \"{@area Madness|063|x}\" in chapter 2) as his or her mind is overwhelmed by what is heard.",
+										"A character who exceeds the saving throw DC by 5 or more can ask one question about Gracklstugh that can be answered by overhearing any sound or conversation occurring within the previous tenday in the city above or in the Whorlstone Tunnels. This can include discovering {@creature Droki|OotA}'s current location by following his insane mutterings.",
+										"A character can focus on the sound in the chamber a number of times equal to his or her Wisdom modifier (minimum 1). After that, the character no longer has the ability to tell sounds apart."
 									]
 								},
 								{
-									"type": "image",
-									"href": {
-										"type": "internal",
-										"path": "adventure/OotA/040-ooa04-10.webp"
-									},
-									"title": "Map 4.4: Gray Ghost Garden",
-									"width": 1000,
-									"height": 875,
-									"imageType": "map",
-									"grid": {
-										"type": "square",
-										"size": 50,
-										"offsetX": -12,
-										"offsetY": -32,
-										"scale": 3
-									},
-									"mapRegions": [
+									"type": "entries",
+									"name": "6. Dire Den",
+									"page": 74,
+									"id": "1d8",
+									"entries": [
+										"This small network of tiny grottos leads into one of the dens of the Gray Ghosts, but it is the current residence of a warped creature called the {@creature Spider King|OotA}. The characters must travel through narrow tunnels to reach this area (see the \"Whorlstone Tunnels: General Features\" sidebar).",
 										{
-											"area": "1db",
-											"points": [
-												[
-													839,
-													274
-												],
-												[
-													839,
-													341
-												],
-												[
-													872,
-													341
-												],
-												[
-													872,
-													274
-												]
+											"type": "insetReadaloud",
+											"id": "1d9",
+											"entries": [
+												"The glow of {@i faerzress} in these tunnels reveals sticky white strands clinging to the walls. The strands become more dense as you move farther in."
 											]
 										},
 										{
-											"area": "1e1",
-											"points": [
-												[
-													476,
-													95
-												],
-												[
-													476,
-													151
-												],
-												[
-													517,
-													151
-												],
-												[
-													517,
-													95
-												]
-											]
-										}
-									],
-									"hrefThumbnail": {
-										"type": "internal",
-										"path": "adventure/OotA/thumbnail/040-ooa04-10.webp"
-									},
-									"id": "25a"
-								},
-								"Three {@creature duergar} work here. They are members of the Gray Ghosts who have been assigned gardening duty. They attack as soon as they see intruders. If the characters arrive through the crack in the east wall (see \"Fungi Pit\"), they can hide among the fungi and try to catch the duergar by surprise. If the characters make a lot of noise in area 6 or force their way through the doors to the west, the duergar turn {@condition invisible} and attack as soon as the characters arrive.",
-								"At the start of combat, two duergar use their Enlarge action while the third opens the valve on the copper tank and aims its nozzle at the characters. During the second round of combat on the same initiative count as the duergar, the {@creature duergar alchemist|OotA} from area 8 joins the fight. If the other duergar fall, the alchemist turns {@condition invisible} and tries to escape.",
-								{
-									"type": "entries",
-									"name": "Fungi Pit",
-									"page": 75,
-									"id": "1dd",
-									"entries": [
-										"The pit is 5 feet deep and filled with various kinds of fungi. It is {@quickref difficult terrain||3} for Small and Medium creatures, and Tiny creatures have {@quickref Cover||3||half cover} while amid the fungi.",
-										"A crack in the east wall forms the mouth of a narrow tunnel that leads from the floor of the pit to area 6; see the \"Whorlstone Tunnels: General Features\" sidebar for more information on narrow tunnels.",
-										"The abundance of fungi in the thicket makes it easy to forage here. Among the common, inedible fungi are the following edible and exotic fungi, most of which are described in {@area chapter 2|067|x}:",
+											"type": "image",
+											"href": {
+												"type": "internal",
+												"path": "adventure/OotA/039-ooa04-11.webp"
+											},
+											"title": "Map 4.3: Lair of the Spider King",
+											"width": 944,
+											"height": 1000,
+											"imageType": "map",
+											"grid": {
+												"type": "square",
+												"size": 68,
+												"offsetX": 34,
+												"offsetY": -21,
+												"scale": 3
+											},
+											"mapRegions": [
+												{
+													"area": "1d8",
+													"points": [
+														[
+															770,
+															488
+														],
+														[
+															770,
+															582
+														],
+														[
+															715,
+															582
+														],
+														[
+															715,
+															488
+														]
+													]
+												}
+											],
+											"hrefThumbnail": {
+												"type": "internal",
+												"path": "adventure/OotA/thumbnail/039-ooa04-11.webp"
+											},
+											"id": "245"
+										},
+										"The northeastern cave is the lair of the {@creature Spider King|OotA}\u2014a two-headed giant spider warped by demonic influences into a vaguely humanoid shape. This horrific creature uses the {@creature giant spider} stat block with the following modifications:",
 										{
 											"type": "list",
 											"items": [
-												"{@dice 1d6} barrelstalks",
-												"{@dice 3d6} bluecaps",
-												"{@dice 1d6} Nilhogg's noses",
-												"{@dice 2d6} sheets of ripplebark",
-												"{@dice 1d6} timmasks",
-												"{@dice 1d6} torchstalks",
-												"{@dice 2d6} trillimacs",
-												"{@dice 2d6} bigwigs (see \"{@i Faerzress}-Suffused Fungi\")",
-												"{@dice 2d6} pygmyworts (see \"{@i Faerzress}-Suffused Fungi\")"
+												"The {@creature Spider King|OotA} has 44 hit points, a passive Wisdom ({@skill Perception}) score of 14, a Wisdom ({@skill Perception}) modifier of +4, and the following saving throw bonuses: Constitution +3, Wisdom +2.",
+												"Because of its two heads, the {@creature Spider King|OotA} has advantage on Wisdom ({@skill Perception}) checks and on saving throws against being {@condition blinded}, {@condition charmed}, {@condition deafened}, {@condition frightened}, {@condition stunned}, and knocked {@condition unconscious}."
 											]
 										},
-										"A character proficient and equipped with a poisoner's kit can also collect {@dice 1d6} doses of assassin's blood poison from the fungi pit (see \"{@book Poisons|DMG|8|Poisons}\" in chapter 8 of the {@book Dungeon Master's Guide|DMG})."
+										"The {@creature Spider King|OotA} senses when intruders enter its domain and can't be {@status surprised} by them. Along with two normal {@creature Giant Spider||giant spiders} (its attendants), the {@creature Spider King|OotA} waits in ambush. It moves to the entrance of its chamber in an attempt to keep the characters bottled up, while the two giant spiders approach along the walls and ceiling, getting into position above creatures on the floor. The {@creature Spider King|OotA} and the giant spiders fight to the death, but they don't follow prey that flees.",
+										{
+											"type": "entries",
+											"name": "Development",
+											"page": 74,
+											"id": "1da",
+											"entries": [
+												"Sounds of combat here alert the duergar in area 7."
+											]
+										}
 									]
 								},
 								{
 									"type": "entries",
-									"name": "Sprinkler Tank",
+									"name": "7. Gray Ghost Garden",
 									"page": 75,
-									"id": "1de",
+									"id": "1db",
 									"entries": [
-										"The copper tank is a sprinkler used by the duergar to fertilize the fungi in the pit. The copper pipe that extends from the tank is 10 feet long and can be turned so that its nozzle points in any direction. The nozzle is pointed toward the pit by default.",
-										"Any creature can use an action to open or close a valve on the tank, releasing a cloud of pungent fertilizer that fills a 30-foot cube. The cloud grows 10 feet per side each round the valve remains open. The cloud has the same effect as a {@spell stinking cloud} spell (save {@dc 12}), but the effect ends {@dice 1d4 + 1} rounds after the valve is closed or the tank runs out of fertilizer. The tank contains enough fertilizer to spray for 10 rounds.",
-										"As an action or a bonus action, a creature can turn the pipe 90 degrees in any direction."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "Crates",
-									"page": 76,
-									"id": "1df",
-									"entries": [
-										"The crates along the north wall are made of zurkhwood and stacked 5 feet high, and climbing on top of them costs 5 feet of movement. Most of the crates are empty, but four of them contain harvested, edible fungi. Each crate of fungi weighs 50 pounds, contains the equivalent of 20 days of rations, and can be sold in Gracklstugh or another Underdark settlement for 25 gp."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "Development",
-									"page": 76,
-									"id": "1e0",
-									"entries": [
-										"If the characters keep any duergar alive for questioning, it takes a successful {@dc 16} Charisma ({@skill Intimidation}) check to gain an answer to a single question. The characters can ask only three questions total before the surviving duergar become incoherent and start frothing at the mouth\u2014a form of madness brought on by demon-tainted {@i faerzress}. Any spell or effect that cures indefinite madness also restores a duergar's sanity (see \"{@book Madness|DMG|8|Madness}\" in chapter 8 of the {@book Dungeon Master's Guide|DMG}).",
-										"The duergar stationed here are tasked with protecting the fungi garden and helping the alchemist in his work. They use a trapdoor in area 8 to move between the Whorlstone Tunnels and the Darklake Docks in Gracklstugh. They have been ordered not to explore the rest of the Whorlstone Tunnels, though their leaders sometimes go farther into the tunnels on unknown business."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "8. Gray Alchemist",
-							"page": 76,
-							"id": "1e1",
-							"entries": [
-								"The Gray Ghosts have claimed this cave as both a safe house and a laboratory, where their alchemists can work in relative peace and isolation.",
-								{
-									"type": "insetReadaloud",
-									"id": "1e2",
-									"entries": [
-										"This area is surprisingly clean and orderly, split into two levels connected by a ramp made from zurkhwood planks. The upper level contains a fully furnished laboratory, while the lower level has two bunk beds. The wall of the lower level is set with a closed door."
-									]
-								},
-								"Unless he is drawn to sounds of combat in area 7, a {@creature duergar alchemist|OotA} (see the sidebar) named Lorthio Bukbukken works on the upper level of this area. Lorthio's laboratory contains a work table, a desk, a case of shelves lined with vials, and a dome-shaped oven. All furnishings are made of zurkhwood except the oven, which is made of stone.",
-								"The lower level is 10 feet below the laboratory and contains two bunk beds and two small chests, all made of zurkhwood (See \"Treasure\" below for information on the contents of the chests). The door is barred on this side and has closed peepholes at dwarf's-eye height. Opening the peepholes allows one to see into the room beyond. The bar is easily lifted from this side, but breaking down the door requires a successful {@dc 20} Strength check.",
-								"The room east of the door is empty except for an iron ladder that climbs 60 feet to a stone trapdoor embedded in the ceiling. The trapdoor is unlocked, and above it a narrow, spiraling tunnel leads to the Darklake Docks.",
-								{
-									"type": "inset",
-									"name": "Duergar Alchemist",
-									"page": 76,
-									"id": "1e3",
-									"entries": [
-										"A {@creature duergar alchemist|OotA} carries two vials of acid and two flasks of alchemist's fire. It uses the normal {@creature duergar} stat block but replaces the Javelin attack option with the following attack options:",
+										"The Gray Ghosts use this chamber to grow a variety of fungi for use in alchemical experiments.",
+										"Double doors blocks the western tunnel. The doors are made of thick zurkhwood and reinforced with crudely forged steel. The sturdy lock can be opened with a successful {@dc 15} Dexterity check using thieves' tools. A successful {@dc 20} Strength check will break the doors down.",
+										{
+											"type": "insetReadaloud",
+											"id": "1dc",
+											"entries": [
+												"The smell of rot is strong in this room, coming from a large depression at the center, where dozens of fungi of many species grow. A barrel-shaped copper tank sits at the edge of the pit. Attached to the tank is a tall copper pipe that arcs over the pit. Crates line one wall."
+											]
+										},
+										{
+											"type": "image",
+											"href": {
+												"type": "internal",
+												"path": "adventure/OotA/040-ooa04-10.webp"
+											},
+											"title": "Map 4.4: Gray Ghost Garden",
+											"width": 1000,
+											"height": 875,
+											"imageType": "map",
+											"grid": {
+												"type": "square",
+												"size": 50,
+												"offsetX": -12,
+												"offsetY": -32,
+												"scale": 3
+											},
+											"mapRegions": [
+												{
+													"area": "1db",
+													"points": [
+														[
+															839,
+															274
+														],
+														[
+															839,
+															341
+														],
+														[
+															872,
+															341
+														],
+														[
+															872,
+															274
+														]
+													]
+												},
+												{
+													"area": "1e1",
+													"points": [
+														[
+															476,
+															95
+														],
+														[
+															476,
+															151
+														],
+														[
+															517,
+															151
+														],
+														[
+															517,
+															95
+														]
+													]
+												}
+											],
+											"hrefThumbnail": {
+												"type": "internal",
+												"path": "adventure/OotA/thumbnail/040-ooa04-10.webp"
+											},
+											"id": "25a"
+										},
+										"Three {@creature duergar} work here. They are members of the Gray Ghosts who have been assigned gardening duty. They attack as soon as they see intruders. If the characters arrive through the crack in the east wall (see \"Fungi Pit\"), they can hide among the fungi and try to catch the duergar by surprise. If the characters make a lot of noise in area 6 or force their way through the doors to the west, the duergar turn {@condition invisible} and attack as soon as the characters arrive.",
+										"At the start of combat, two duergar use their Enlarge action while the third opens the valve on the copper tank and aims its nozzle at the characters. During the second round of combat on the same initiative count as the duergar, the {@creature duergar alchemist|OotA} from area 8 joins the fight. If the other duergar fall, the alchemist turns {@condition invisible} and tries to escape.",
 										{
 											"type": "entries",
-											"name": "Acid Vial",
-											"page": 76,
-											"id": "1e4",
+											"name": "Fungi Pit",
+											"page": 75,
+											"id": "1dd",
 											"entries": [
-												"{@i Ranged Weapon Attack}: +4 to hit, range 20 ft., one target. {@i Hit}: 7 ({@dice 2d6}) acid damage."
+												"The pit is 5 feet deep and filled with various kinds of fungi. It is {@quickref difficult terrain||3} for Small and Medium creatures, and Tiny creatures have {@quickref Cover||3||half cover} while amid the fungi.",
+												"A crack in the east wall forms the mouth of a narrow tunnel that leads from the floor of the pit to area 6; see the \"Whorlstone Tunnels: General Features\" sidebar for more information on narrow tunnels.",
+												"The abundance of fungi in the thicket makes it easy to forage here. Among the common, inedible fungi are the following edible and exotic fungi, most of which are described in {@area chapter 2|067|x}:",
+												{
+													"type": "list",
+													"items": [
+														"{@dice 1d6} barrelstalks",
+														"{@dice 3d6} bluecaps",
+														"{@dice 1d6} Nilhogg's noses",
+														"{@dice 2d6} sheets of ripplebark",
+														"{@dice 1d6} timmasks",
+														"{@dice 1d6} torchstalks",
+														"{@dice 2d6} trillimacs",
+														"{@dice 2d6} bigwigs (see \"{@i Faerzress}-Suffused Fungi\")",
+														"{@dice 2d6} pygmyworts (see \"{@i Faerzress}-Suffused Fungi\")"
+													]
+												},
+												"A character proficient and equipped with a poisoner's kit can also collect {@dice 1d6} doses of assassin's blood poison from the fungi pit (see \"{@book Poisons|DMG|8|Poisons}\" in chapter 8 of the {@book Dungeon Master's Guide|DMG})."
 											]
 										},
 										{
 											"type": "entries",
-											"name": "Alchemist's Fire",
-											"page": 76,
-											"id": "1e5",
+											"name": "Sprinkler Tank",
+											"page": 75,
+											"id": "1de",
 											"entries": [
-												"{@i Ranged Weapon Attack}: +4 to hit, range 20 ft., one target. {@i Hit}: 2 ({@dice 1d4}) fire damage at the start of each of the target's turns. A creature can end this damage by using its action to make a successful {@dc 10} Dexterity check to extinguish the flames."
-											]
-										}
-									]
-								},
-								{
-									"type": "entries",
-									"name": "Development",
-									"page": 76,
-									"id": "1e6",
-									"entries": [
-										"Sounds of combat here alert the duergar in area 7. They use their Enlarge actions before heading this way."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "Treasure",
-									"page": 76,
-									"id": "1e7",
-									"entries": [
-										"If the characters spend 1 hour ransacking the lab, they can assemble two herbalism kits, one poisoner's kit, and ten healer's kits. In the (unlocked) zurkhwood chests, they find {@dice 1d6} vials of acid, {@dice 1d6} flasks of alchemist's fire, two {@item Potion of Healing||potions of healing}, one {@item potion of greater healing}, one {@item potion of fire breath}, and one {@item potion of psychic resistance}.",
-										"Depending on whether or not {@creature Droki|OotA} delivered his parcel and took his payment, the desk contains either a lump of black metal or a holy symbol of Laduguer made of mithral (see \"Finding {@creature Droki|OotA}\"). The desk also holds alchemical recipes scrawled in Dwarvish on torn strips of parchment. A character who studies these scraps for an hour and succeeds on a {@dc 15} Intelligence ({@skill Arcana}) check can piece together the formulas for crafting vials of acid and flasks of alchemist's fire. The character can gather enough ingredients in the laboratory to craft {@dice 1d4} of each. The character who knows the recipe and has the proper ingredients can craft a vial of acid or flask of alchemist's fire in 1 hour.",
-										"A character who searches the desk and succeeds on a {@dc 12} Intelligence ({@skill Investigation}) check also finds a letter hidden in a secret compartment. The letter is written in Dwarvish on a patch of lizard hide:",
-										{
-											"type": "inset",
-											"id": "1e8",
-											"entries": [
-												"I don't need your poison anymore. I'll deal with Werz Saltbaron myself. Bring me an elf blade, one with the swirlies carved on the steel, and I'll forget you failed me. And I don't want to see any of your goons near my post. The captain is poking around, and I could use a scapegoat.",
-												"\u2013Gorglak"
+												"The copper tank is a sprinkler used by the duergar to fertilize the fungi in the pit. The copper pipe that extends from the tank is 10 feet long and can be turned so that its nozzle points in any direction. The nozzle is pointed toward the pit by default.",
+												"Any creature can use an action to open or close a valve on the tank, releasing a cloud of pungent fertilizer that fills a 30-foot cube. The cloud grows 10 feet per side each round the valve remains open. The cloud has the same effect as a {@spell stinking cloud} spell (save {@dc 12}), but the effect ends {@dice 1d4 + 1} rounds after the valve is closed or the tank runs out of fertilizer. The tank contains enough fertilizer to spray for 10 rounds.",
+												"As an action or a bonus action, a creature can turn the pipe 90 degrees in any direction."
 											]
 										},
-										"If the characters capture Lorthio and question him about the letter, he reveals one of the following bits of information each time a character succeeds on a {@dc 13} Charisma ({@skill Intimidation}) check:",
 										{
-											"type": "list",
-											"items": [
-												"Gorglak is a warrior of the Stone Guard stationed at one of the outer gates near the Darklake District.",
-												"Gorglak is an avid collector of weird weapons.",
-												"Gorglak is easily bribed."
+											"type": "entries",
+											"name": "Crates",
+											"page": 76,
+											"id": "1df",
+											"entries": [
+												"The crates along the north wall are made of zurkhwood and stacked 5 feet high, and climbing on top of them costs 5 feet of movement. Most of the crates are empty, but four of them contain harvested, edible fungi. Each crate of fungi weighs 50 pounds, contains the equivalent of 20 days of rations, and can be sold in Gracklstugh or another Underdark settlement for 25 gp."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "Development",
+											"page": 76,
+											"id": "1e0",
+											"entries": [
+												"If the characters keep any duergar alive for questioning, it takes a successful {@dc 16} Charisma ({@skill Intimidation}) check to gain an answer to a single question. The characters can ask only three questions total before the surviving duergar become incoherent and start frothing at the mouth\u2014a form of madness brought on by demon-tainted {@i faerzress}. Any spell or effect that cures indefinite madness also restores a duergar's sanity (see \"{@book Madness|DMG|8|Madness}\" in chapter 8 of the {@book Dungeon Master's Guide|DMG}).",
+												"The duergar stationed here are tasked with protecting the fungi garden and helping the alchemist in his work. They use a trapdoor in area 8 to move between the Whorlstone Tunnels and the Darklake Docks in Gracklstugh. They have been ordered not to explore the rest of the Whorlstone Tunnels, though their leaders sometimes go farther into the tunnels on unknown business."
 											]
 										}
 									]
 								},
 								{
 									"type": "entries",
-									"name": "XP Awards",
-									"page": 77,
-									"id": "1e9",
+									"name": "8. Gray Alchemist",
+									"page": 76,
+									"id": "1e1",
 									"entries": [
-										"Presenting Gorglak's letter to Captain Errde Blackskull earns each character 50 XP for retrieving evidence of corruption within the ranks of the Stone Guard."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "9. Fountain of Evil",
-							"page": 77,
-							"id": "1ea",
-							"entries": [
-								"Foul water from the Darklake spills into this cave, forming a pool. See the \"Whorlstone Tunnels: General Features\" sidebar for the effects of drinking foul water. The ceiling in this cave is 80 feet high.",
-								{
-									"type": "insetReadaloud",
-									"id": "1eb",
-									"entries": [
-										"The chamber splits into two paths surrounding a large pool, filled by water trickling from stalactites along the ceiling. The western path forms a ramp above the pool's surface, while the eastern path runs level with the water and continues into a tunnel opening. The water turns darker toward the center of the pool, where it transforms from a gentle swirl into a churning vortex."
-									]
-								},
-								"A {@creature water weird} bound to the pool years has been corrupted by the demonic influence infecting these tunnels, turning it evil and giving it a dark hunger.",
-								"The western path slopes upward to a maximum height of 60 feet above the pool's surface. If the characters take this upper path, the water weird attacks them when they are 30 feet above the surface of the pool, as it was bound here to protect the path leading to area 16. The water weird can command the pool's water to erupt like a geyser, effectively lifting the water weird up to the characters' level and putting them within its reach. Any character the water weird successfully grapples is dropped in the pool, taking no damage from the fall. The pool is 30 feet deep in the middle and 5 feet deep near the shore.",
-								"If the characters follow {@creature Droki|OotA} into this chamber, they see him sneaking carefully along the eastern path. They can attempt to follow him with a group Dexterity ({@skill Stealth}) check contested by the water weird's passive Wisdom ({@skill Perception}) score. If more than half the characters fail the check, the water weird notices them and attacks. If the characters are attacked by the water weird while following {@creature Droki|OotA}, the wily derro realizes he's being shadowed and makes a run for it."
-							]
-						},
-						{
-							"type": "entries",
-							"name": "10. Cultist Pens",
-							"page": 77,
-							"id": "1ec",
-							"entries": [
-								"The insane derro cultists have been buying cave bears from Underdark hunters and smuggling them through Gracklstugh. For what purpose is anyone's guess.",
-								"A large gate made of iron bars blocks the northwest entrance and is usually locked. One of the derro cultists carries the key. The lock can be opened with a successful {@dc 15} Dexterity check using thieves' tools. A creature with a Strength of 20 or higher can force the gate open with a successful {@dc 25} Strength check.",
-								{
-									"type": "insetReadaloud",
-									"id": "1ed",
-									"entries": [
-										"The first thing you notice as you enter the room is a heavy, unpleasant musk in the air, coming from cages assembled from scrap iron on both sides of the chamber. A spiral path circles into the center of the room, marked off by small stone pylons.",
-										"Two derro stand by a large cauldron in front of a tent near the cave's center. Both are talking while apparently ignoring each other. In the cages, three hulking brown bears appear to be resting."
-									]
-								},
-								"The two {@creature derro|OotA} (see {@adventure appendix C|OotA|19}) are cultists. One of them is complaining about \"the master\" while the other talks about something he once fished out of the Darklake.",
-								{
-									"type": "image",
-									"href": {
-										"type": "internal",
-										"path": "adventure/OotA/041-ooa04-12.webp"
-									},
-									"title": "Map 4.5: Cultist Pens",
-									"width": 1000,
-									"height": 724,
-									"imageType": "map",
-									"grid": {
-										"type": "square",
-										"size": 64,
-										"offsetX": 4,
-										"offsetY": -6,
-										"scale": 3
-									},
-									"mapRegions": [
+										"The Gray Ghosts have claimed this cave as both a safe house and a laboratory, where their alchemists can work in relative peace and isolation.",
 										{
-											"area": "1ec",
-											"points": [
-												[
-													408,
-													439
-												],
-												[
-													408,
-													512
-												],
-												[
-													483,
-													512
-												],
-												[
-													483,
-													439
-												]
+											"type": "insetReadaloud",
+											"id": "1e2",
+											"entries": [
+												"This area is surprisingly clean and orderly, split into two levels connected by a ramp made from zurkhwood planks. The upper level contains a fully furnished laboratory, while the lower level has two bunk beds. The wall of the lower level is set with a closed door."
 											]
-										}
-									],
-									"hrefThumbnail": {
-										"type": "internal",
-										"path": "adventure/OotA/thumbnail/041-ooa04-12.webp"
-									},
-									"id": "25b"
-								},
-								"The three cave bears (use the {@creature polar bear} statistics) are alert, despite appearances to the contrary. Characters hoping to sneak past them must succeed on Dexterity ({@skill Stealth}) checks contested by the bears' passive Wisdom ({@skill Perception}) score of 13. On their first turn, the cultists move to free the bears. Each cage is closed with a simple bolt that can be unlatched with an action. Once the first two bears are set free, the third bear breaks out of its cage on its own.",
-								"A crack in the south wall leads to a narrow tunnel that wends toward area 12. Medium and larger creatures are too big to fit through this narrow tunnel (see the \"Whorlstone Tunnels: General Features\" sidebar).",
-								{
-									"type": "entries",
-									"name": "Spiral Path",
-									"page": 77,
-									"id": "1ee",
-									"entries": [
-										"This path helps to channel the ritual magic the cultists use to tame the cave bears. Though the ritual is currently inactive, the area radiates a faint aura of enchantment under the scrutiny of a {@spell detect magic} spell."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "Treasure",
-									"page": 77,
-									"id": "1ef",
-									"entries": [
-										"Inside the tent are two flea-ridden bedrolls, a zurkhwood bucket containing edible fungi (the equivalent of two days of rations), and a wineskin full of Darklake Stout."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "11. Quasit Playground",
-							"page": 77,
-							"id": "1f0",
-							"entries": [
-								"Some of the cult's more powerful derro savants keep quasits as familiars, and the wee demons discovered this tunnel network. They use the tunnels as shortcuts to deliver messages across the areas of the Whorlstone Tunnels controlled by the cultists, or simply to hide from their duties. Shrinking down allows the characters to more easily navigate this area.",
-								{
-									"type": "insetReadaloud",
-									"id": "1f1",
-									"entries": [
-										"The narrow tunnel is lit by the same dim, ambient light found throughout this complex. Ahead, you hear the high-pitched cackling of several creatures."
-									]
-								},
-								"Four {@creature Quasit||quasits} are wrestling each other farther along in the tunnel. If they notice the characters, they attack.",
-								"When two quasits are reduced to 0 hit points, the two remaining ones turn {@condition invisible} and flee. However, they make enough noise in doing so for the characters to follow them by sound. If any quasit escapes, the cultists in area 12 can't be {@status surprised} and prepare an ambush.",
-								{
-									"type": "entries",
-									"name": "Development",
-									"page": 78,
-									"id": "1f2",
-									"entries": [
-										"If the characters manage to capture and interrogate a quasit, the creature readily surrenders the name of {@creature Narrak|OotA}\u2014the {@creature derro savant|OotA} leading the cultists in the Whorlstone Tunnels (see area 12). In exchange for its life, the quasit reveals that the cult plans to curse Gracklstugh's stone giants with madness as a means to sowing chaos in the city."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "XP Awards",
-									"page": 78,
-									"id": "1f3",
-									"entries": [
-										"Each character earns a special award of 50 XP if the party learns of {@creature Narrak|OotA}'s plans from a quasit."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "12. Cultist Hideout",
-							"page": 78,
-							"id": "1f4",
-							"entries": [
-								"{@creature Droki|OotA} enters this cavern from the east, via a narrow tunnel that comes up through a crack in the cavern floor (see the \"Narrow Tunnels\" section of the \"Whorlstone Tunnels: General Features\" sidebar).",
-								"West of the cavern is a shrieker that serves as an alarm system (see \"Fungi Patches\") and a pit trap (see \"Trap\").",
-								{
-									"type": "insetReadaloud",
-									"id": "1f5",
-									"entries": [
-										"The smell of brimstone and foul chemicals emanates from this large chamber. The light of campfires shows a natural platform where five derro are droning a cacophonous chant. A two-headed dog stirs inside a cage, while another derro nearby plays with a crossbow and watches the dog nervously.",
-										"A green glow rises suddenly from a magic circle at the center of the platform, where a small humanoid statue is the focus of the chanting ritual. As you watch, a lump sprouts from the statue's neck, enlarging and reshaping itself with each unholy verse to take the form of a second head."
-									]
-								},
-								{
-									"type": "image",
-									"href": {
-										"type": "internal",
-										"path": "adventure/OotA/042-ooa04-13.webp"
-									},
-									"title": "Map 4.6: Cultist Hideout",
-									"width": 1000,
-									"height": 618,
-									"imageType": "map",
-									"grid": {
-										"type": "square",
-										"size": 57,
-										"offsetX": 21,
-										"offsetY": 19,
-										"scale": 4
-									},
-									"mapRegions": [
-										{
-											"area": "1f4",
-											"points": [
-												[
-													763,
-													231
-												],
-												[
-													763,
-													277
-												],
-												[
-													808,
-													277
-												],
-												[
-													808,
-													231
-												]
-											]
-										}
-									],
-									"hrefThumbnail": {
-										"type": "internal",
-										"path": "adventure/OotA/thumbnail/042-ooa04-13.webp"
-									},
-									"id": "5d6"
-								},
-								"{@creature Narrak|OotA}, a {@creature derro savant|OotA}, belongs to a fringe group within the Council of Savants using demonology as a path to power. Since the arrival of the demon lords, he has gathered and bullied several apprentices to participate in rituals aimed to sow chaos in Gracklstugh. {@creature Narrak|OotA} knows the stone giants are a pillar of the Deepking's power, and that cursing them with Demogorgon's madness will be an appropriate first step toward delivering the entire city to the demon lord.",
-								"The cage by the tunnel holds a {@creature death dog}, watched over by a nervous {@creature derro|OotA} cultist. Atop the platform, {@creature Narrak|OotA} and four more {@creature derro|OotA} cultists are performing a ritual around the statue at its center. (Statistics for {@creature Narrak|OotA} and the derro can be found in {@adventure appendix C|OotA|19}.) The cultists' chanting is punctuated with {@creature Narrak|OotA} calling out the name \"Demogorgon!\" Also atop the platform, resting comfortably in an fungi-filled alcove (and initially out of the party's view), is {@creature Narrak|OotA}'s bodyguard\u2014a female {@creature ettin} named Grula-Munga.",
-								"When intruders appear, the cultists cease their chanting and take up positions along the edge of the platform as Grula-Munga rises to her feet and picks up her weapons. At the same time, the cultist standing next to the cage releases the death dog. {@creature Narrak|OotA} continues his part in the ritual until the characters kill the death dog or one of the cultists, at which point he joins the battle. The door to the death dog's cage is held shut with a simple clasp and requires an action to open.",
-								"If any of the quasits escaped from area 11, they warn the cultists that intruders are near. Otherwise, the characters might catch the cultists by surprise. The quasits remain {@condition invisible} and stay close to {@creature Narrak|OotA}.",
-								{
-									"type": "entries",
-									"name": "Fungi Patches",
-									"page": 79,
-									"id": "1f6",
-									"entries": [
-										"Fungi is rampant throughout this area, growing in large patches on the floors and walls.",
-										"Two thick fungi patches grow by each wall in the western tunnel. Clinging to the north wall is a {@creature shrieker} that party members can recognize with a successful {@dc 12} Intelligence ({@skill Nature}) check. The shrieker starts screaming as soon as anyone comes within 30 feet of it.",
-										"The crack in the floor by the east wall is surrounded by a thick fungus patch that is {@quickref difficult terrain||3} for Small and Medium characters, and provides {@quickref Cover||3||half cover} for Tiny creatures. Growing among the common fungi are {@dice 2d6} bigwigs and {@dice 2d6} pygmyworts."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "Platform",
-									"page": 79,
-									"id": "1f7",
-									"entries": [
-										"The cavern floor rises to form a natural 5-foot-high platform. A glowing ritual circle dominates the top of the platform. Any non-derro that enters or touches the circle must succeed on a {@dc 13} Wisdom saving throw or gain one level of madness (see \"{@area Madness|063|x}\" in chapter 2). Whether the save succeeds or fails, the creature can't be affected by the circle in this way again. In addition, non-evil creatures within the circle have disadvantage on attack rolls and saving throws.",
-										"The statue within the ritual circle is 2 feet tall, weighs 100 pounds, and looks vaguely like a crouching stone giant with a lump on its neck where a second head is beginning to form. The statue is engraved with profane symbols, with the name \"Dorhun\" scribed in Dwarvish into its back. A successful {@dc 16} Intelligence ({@skill Arcana} or {@skill Religion}) check allows a character to recognize the profane symbols as being related to Demogorgon.",
-										"A search of the platform uncovers a similar but broken statue near a locked iron chest and a pile of books (see \"Treasure\" for more information on the chest and books). The broken statue is similar to the statue in the circle, except it has the name \"Rihuud\" carved into its back and its second head is fully formed. If Rihuud is dead, the broken statue turns to dust when the characters touch it. If the characters spared Rihuud's life, a successful {@dc 12} Intelligence ({@skill Arcana} or {@skill Religion}) check reveals that the second head is a conduit for the curse's magic, and that removing it and returning it to Stonespeaker Hgraam in Cairngorm Cavern will allow the elder giant to end Rihuud's curse."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "Trap",
-									"page": 79,
-									"id": "1f8",
-									"entries": [
-										"The tunnel west of this cavern contains a hidden pit (see \"{@book Sample Traps|DMG|5|Sample Traps}\" in chapter 5 of the {@book Dungeon Master's Guide|DMG}). Debris conceals the lid, which is made of thin zurkhwood that breaks when a creature weighing 50 pounds or more steps on it. (A character of reduced size might not weigh enough to break the lid.) The pit is 10 feet deep, and its floor is covered by a patch of green slime (see \"{@book Dungeon Hazards|DMG|5|Dungeon Hazards}\" in chapter 5 of the {@book Dungeon Master's Guide|DMG}). Any creature that falls into the pit takes {@dice 1d6} bludgeoning damage and automatically fails its Dexterity saving throw to avoid the slime."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "Treasure",
-									"page": 79,
-									"id": "1f9",
-									"entries": [
-										"If the characters return the broken statue (or, at the very least, its second head) to Stonespeaker Hgraam, he gives them an emerald worth 500 gp as a reward, as well as his promise to vouch for them in anything they seek to accomplish in Gracklstugh.",
-										"{@creature Narrak|OotA} has a key around his neck that opens the lock on the iron chest, which can also be picked with thieves' tools and a successful {@dc 17} Dexterity check. The chest contains a jar of {@item Keoghtom's ointment} and a small leather bag containing 45 gp and 15 sp.",
-										"The books have pages made from trillimac caps (see \"{@area Fungi of the Underdark|067|x}\" in chapter 2). They contain the mad scribblings of {@creature Narrak|OotA} and his fellow derro savants. A character proficient in {@skill Arcana}, {@skill Investigation}, or {@skill Religion} can spend 8 hours poring through them; subtract {@dice 1d4} hours if the character reads Dwarvish. At the end of this time, the character knows that the books outline two rituals: one that causes a one-headed creature to sprout a second head, and another that allows the grafting of a severed head onto a living creature. The notes fail to mention that the ritual's caster must be suffering from some form of madness to perform either ritual successfully.",
-										"Tucked in one book are two scrolls: one that bears a list of six stone giant names (including Rihuud's and Dorhun's) and another that is actually a letter written in broken Dwarvish:",
+										},
+										"Unless he is drawn to sounds of combat in area 7, a {@creature duergar alchemist|OotA} (see the sidebar) named Lorthio Bukbukken works on the upper level of this area. Lorthio's laboratory contains a work table, a desk, a case of shelves lined with vials, and a dome-shaped oven. All furnishings are made of zurkhwood except the oven, which is made of stone.",
+										"The lower level is 10 feet below the laboratory and contains two bunk beds and two small chests, all made of zurkhwood (See \"Treasure\" below for information on the contents of the chests). The door is barred on this side and has closed peepholes at dwarf's-eye height. Opening the peepholes allows one to see into the room beyond. The bar is easily lifted from this side, but breaking down the door requires a successful {@dc 20} Strength check.",
+										"The room east of the door is empty except for an iron ladder that climbs 60 feet to a stone trapdoor embedded in the ceiling. The trapdoor is unlocked, and above it a narrow, spiraling tunnel leads to the Darklake Docks.",
 										{
 											"type": "inset",
-											"id": "1fa",
+											"name": "Duergar Alchemist",
+											"page": 76,
+											"id": "1e3",
 											"entries": [
-												"{@creature Narrak|OotA}\u2014Need more scrolls! Stonespeaker Hgraam has traps traps traps. But {@creature Droki|OotA} is wily too and very small! I can hear talk, and in talk they say names, and I hear names and write names and give you names so you give me time. But you have to give me more scrolls. Magicky spelly scrolls!",
-												"\u2014{@creature Droki|OotA}"
+												"A {@creature duergar alchemist|OotA} carries two vials of acid and two flasks of alchemist's fire. It uses the normal {@creature duergar} stat block but replaces the Javelin attack option with the following attack options:",
+												{
+													"type": "entries",
+													"name": "Acid Vial",
+													"page": 76,
+													"id": "1e4",
+													"entries": [
+														"{@i Ranged Weapon Attack}: +4 to hit, range 20 ft., one target. {@i Hit}: 7 ({@dice 2d6}) acid damage."
+													]
+												},
+												{
+													"type": "entries",
+													"name": "Alchemist's Fire",
+													"page": 76,
+													"id": "1e5",
+													"entries": [
+														"{@i Ranged Weapon Attack}: +4 to hit, range 20 ft., one target. {@i Hit}: 2 ({@dice 1d4}) fire damage at the start of each of the target's turns. A creature can end this damage by using its action to make a successful {@dc 10} Dexterity check to extinguish the flames."
+													]
+												}
 											]
-										}
-									]
-								},
-								{
-									"type": "entries",
-									"name": "XP Awards",
-									"page": 79,
-									"id": "1fb",
-									"entries": [
-										"Award 100 XP to each character for discovering Demogorgon's influence on the cultists.",
-										"The characters can complete a quest by turning over the books, scrolls, and letter to Errde Blackskull. Award 150 XP to each character when they deliver the items. If the characters ask Errde about {@creature Narrak|OotA}, she tells them that he was a junior member of the Council of Savants."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "13. Dumping Pit",
-							"page": 80,
-							"id": "1fc",
-							"entries": [
-								"Victims of {@creature Narrak|OotA}'s experiments are dumped here. Exposure to the {@i faerzress} has begun to animate the corpses.",
-								{
-									"type": "insetReadaloud",
-									"id": "1fd",
-									"entries": [
-										"This cavern is one enormous pit that reeks of death and decomposed flesh. The glow of {@i faerzress} is everywhere, seeming to flow like fog around dark shapes shambling across the pit floor. A single derro watches from atop a 15-foot-high ledge. A crack in the southeast wall of the pit leads to a narrow tunnel and is flanked by mounds of fungi and offal."
-									]
-								},
-								"The pit is 15 feet deep, and the ledge that overlooks it is lined with pointy bits of scrap metal to make any climbing attempt perilous. A creature trying to reach the top of the ledge must succeed on a {@dc 12} Strength ({@skill Athletics}) check. On a failed check, a creature takes 3 ({@dice 1d6}) slashing damage and remains in the pit. The pit's floor is {@quickref difficult terrain||3} due to the many corpses and body parts strewn around.",
-								"A single {@creature derro|OotA} stands on the ledge overlooking the pit, which contains seven shambling {@creature Zombie||zombies}\u2014three duergar and four grimlocks. The grimlock zombies are drawn to noise, while the duergar zombies attack any living creatures they see in the pit. Meanwhile, the derro uses its crossbow to take shots at any living creatures it sees.",
-								"A {@creature crawling claw} wearing an obsidian ring on one stubby finger (see \"Treasure\") lurks amid the offal mounds. These mounds are {@quickref difficult terrain||3} to Small and Medium creatures, and the fungi growing atop them provide cover to Tiny creatures. The shriveled gray hand once belonged to Pelek the svirfneblin (see \"Development\").",
-								"The crack in the southeast wall between the mounds leads to a narrow, meandering tunnel, the floor of which is sunk below a foot of foul water. See the \"Whorlstone Tunnels: General Features\" sidebar for rules on narrow tunnels and foul water.",
-								{
-									"type": "entries",
-									"name": "Treasure",
-									"page": 80,
-									"id": "1fe",
-									"entries": [
-										"{@i Faerzress} has transformed Pelek's obsidian ring into a single-use magic item. When a living creature puts it on, the ring disappears, and the creature's skin becomes as hard as obsidian for the next hour. For as long as the effect lasts, the creature gains the benefit of a {@spell stoneskin} spell."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "Development",
-									"page": 80,
-									"id": "1ff",
-									"entries": [
-										"If the characters capture and interrogate the derro, he talks willingly if they agree to spare him. He knows as much as the quasits in area 11.",
-										"Killing the crawling claw and burying its remains in Blingdenstone lays Pelek's spirit to rest (see area 1b)."
-									]
-								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "14. Obelisk",
-							"page": 80,
-							"id": "200",
-							"entries": [
-								"The Gray Ghosts believe that the mysterious obelisk in this cavern is an important source of magical power, and they are intent on rebuilding it. The obelisk was broken long ago. However, shards of the obelisk that appear throughout the Underdark are magically absorbed into it as soon as they touch its metal surface. The leaders of the Gray Ghosts are obsessed with finding missing shards and completing this monolith, but not even they know what will happen when the obelisk is made whole again.",
-								{
-									"type": "insetReadaloud",
-									"id": "201",
-									"entries": [
-										"After a steady upward climb, the tunnel opens into a huge, well-lit chamber. The glow of {@i faerzress} and bioluminescent fungi compete with shafts of white light that fall upon naturally formed shelves along the walls as well as a rocky mesa at the center of the cavern. Crudely formed ramps connect the different levels of the mesa up to the height of its two topmost tiers, which are linked by a sturdy bridge. Atop one of those tiers sits a large red egg. Atop the other stands a 50-foot-tall obelisk made of smooth black metal with a few noticeable imperfections, as though small parts of it were somehow chipped away.",
-										"A female derro stands close to the obelisk, gently patting and stroking its surface. The obelisk flashes once, the glow of {@i faerzress} around the cavern flaring in response. The derro squeals with glee as she snatches an object up from the ground, then writes something down in a small notebook."
-									]
-								},
-								"The chamber is brightly lit, as if by sunlight. The sunlight is just a natural trick caused by crystal growths reflecting and amplifying the light of the bioluminescent fungi growing on the walls. The characters realize this if they climb near the ceiling of the cavern, where the optical trick is easy to discern.",
-								{
-									"type": "image",
-									"href": {
-										"type": "internal",
-										"path": "adventure/OotA/043-ooa04-14.webp"
-									},
-									"title": "Map 4.7: Obelisk Chamber",
-									"width": 1000,
-									"height": 945,
-									"imageType": "map",
-									"grid": {
-										"type": "square",
-										"size": 65,
-										"offsetX": -18,
-										"offsetY": 22,
-										"scale": 3
-									},
-									"mapRegions": [
+										},
 										{
-											"area": "200",
-											"points": [
-												[
-													706,
-													432
-												],
-												[
-													706,
-													486
-												],
-												[
-													778,
-													486
-												],
-												[
-													778,
-													432
-												]
+											"type": "entries",
+											"name": "Development",
+											"page": 76,
+											"id": "1e6",
+											"entries": [
+												"Sounds of combat here alert the duergar in area 7. They use their Enlarge actions before heading this way."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "Treasure",
+											"page": 76,
+											"id": "1e7",
+											"entries": [
+												"If the characters spend 1 hour ransacking the lab, they can assemble two herbalism kits, one poisoner's kit, and ten healer's kits. In the (unlocked) zurkhwood chests, they find {@dice 1d6} vials of acid, {@dice 1d6} flasks of alchemist's fire, two {@item Potion of Healing||potions of healing}, one {@item potion of greater healing}, one {@item potion of fire breath}, and one {@item potion of psychic resistance}.",
+												"Depending on whether or not {@creature Droki|OotA} delivered his parcel and took his payment, the desk contains either a lump of black metal or a holy symbol of Laduguer made of mithral (see \"Finding {@creature Droki|OotA}\"). The desk also holds alchemical recipes scrawled in Dwarvish on torn strips of parchment. A character who studies these scraps for an hour and succeeds on a {@dc 15} Intelligence ({@skill Arcana}) check can piece together the formulas for crafting vials of acid and flasks of alchemist's fire. The character can gather enough ingredients in the laboratory to craft {@dice 1d4} of each. The character who knows the recipe and has the proper ingredients can craft a vial of acid or flask of alchemist's fire in 1 hour.",
+												"A character who searches the desk and succeeds on a {@dc 12} Intelligence ({@skill Investigation}) check also finds a letter hidden in a secret compartment. The letter is written in Dwarvish on a patch of lizard hide:",
+												{
+													"type": "inset",
+													"id": "1e8",
+													"entries": [
+														"I don't need your poison anymore. I'll deal with Werz Saltbaron myself. Bring me an elf blade, one with the swirlies carved on the steel, and I'll forget you failed me. And I don't want to see any of your goons near my post. The captain is poking around, and I could use a scapegoat.",
+														"\u2013Gorglak"
+													]
+												},
+												"If the characters capture Lorthio and question him about the letter, he reveals one of the following bits of information each time a character succeeds on a {@dc 13} Charisma ({@skill Intimidation}) check:",
+												{
+													"type": "list",
+													"items": [
+														"Gorglak is a warrior of the Stone Guard stationed at one of the outer gates near the Darklake District.",
+														"Gorglak is an avid collector of weird weapons.",
+														"Gorglak is easily bribed."
+													]
+												}
+											]
+										},
+										{
+											"type": "entries",
+											"name": "XP Awards",
+											"page": 77,
+											"id": "1e9",
+											"entries": [
+												"Presenting Gorglak's letter to Captain Errde Blackskull earns each character 50 XP for retrieving evidence of corruption within the ranks of the Stone Guard."
 											]
 										}
-									],
-									"hrefThumbnail": {
-										"type": "internal",
-										"path": "adventure/OotA/thumbnail/043-ooa04-14.webp"
-									},
-									"id": "5d7"
+									]
 								},
-								"The different levels of the mesa are separated by 10-foot-high cliffs. Climbing a cliff requires a successful {@dc 12} Strength ({@skill Athletics}) check. Pliinki, a mad {@creature derro savant|OotA} (see {@adventure appendix C|OotA|19}), stands atop of the mesa. Hidden on a shelf above the cavern's entrance, a {@creature spectator} tasked with guarding this area sees the characters as soon as they walk 15 feet into the cavern. The spectator screeches an alarm and attacks, killing non-derro with glee. As it fights, it projects telepathic ramblings into the characters' minds, mostly dealing with how exciting it is to have intruders to kill and how even more exciting things will be when the obelisk is complete.",
-								"Pliinki shouts crass obscenities at the characters in a raspy voice while commanding the spectator to dispose of them. Both she and the spectator fight to the death.",
 								{
 									"type": "entries",
-									"name": "Obelisk",
+									"name": "9. Fountain of Evil",
+									"page": 77,
+									"id": "1ea",
+									"entries": [
+										"Foul water from the Darklake spills into this cave, forming a pool. See the \"Whorlstone Tunnels: General Features\" sidebar for the effects of drinking foul water. The ceiling in this cave is 80 feet high.",
+										{
+											"type": "insetReadaloud",
+											"id": "1eb",
+											"entries": [
+												"The chamber splits into two paths surrounding a large pool, filled by water trickling from stalactites along the ceiling. The western path forms a ramp above the pool's surface, while the eastern path runs level with the water and continues into a tunnel opening. The water turns darker toward the center of the pool, where it transforms from a gentle swirl into a churning vortex."
+											]
+										},
+										"A {@creature water weird} bound to the pool years has been corrupted by the demonic influence infecting these tunnels, turning it evil and giving it a dark hunger.",
+										"The western path slopes upward to a maximum height of 60 feet above the pool's surface. If the characters take this upper path, the water weird attacks them when they are 30 feet above the surface of the pool, as it was bound here to protect the path leading to area 16. The water weird can command the pool's water to erupt like a geyser, effectively lifting the water weird up to the characters' level and putting them within its reach. Any character the water weird successfully grapples is dropped in the pool, taking no damage from the fall. The pool is 30 feet deep in the middle and 5 feet deep near the shore.",
+										"If the characters follow {@creature Droki|OotA} into this chamber, they see him sneaking carefully along the eastern path. They can attempt to follow him with a group Dexterity ({@skill Stealth}) check contested by the water weird's passive Wisdom ({@skill Perception}) score. If more than half the characters fail the check, the water weird notices them and attacks. If the characters are attacked by the water weird while following {@creature Droki|OotA}, the wily derro realizes he's being shadowed and makes a run for it."
+									]
+								},
+								{
+									"type": "entries",
+									"name": "10. Cultist Pens",
+									"page": 77,
+									"id": "1ec",
+									"entries": [
+										"The insane derro cultists have been buying cave bears from Underdark hunters and smuggling them through Gracklstugh. For what purpose is anyone's guess.",
+										"A large gate made of iron bars blocks the northwest entrance and is usually locked. One of the derro cultists carries the key. The lock can be opened with a successful {@dc 15} Dexterity check using thieves' tools. A creature with a Strength of 20 or higher can force the gate open with a successful {@dc 25} Strength check.",
+										{
+											"type": "insetReadaloud",
+											"id": "1ed",
+											"entries": [
+												"The first thing you notice as you enter the room is a heavy, unpleasant musk in the air, coming from cages assembled from scrap iron on both sides of the chamber. A spiral path circles into the center of the room, marked off by small stone pylons.",
+												"Two derro stand by a large cauldron in front of a tent near the cave's center. Both are talking while apparently ignoring each other. In the cages, three hulking brown bears appear to be resting."
+											]
+										},
+										"The two {@creature derro|OotA} (see {@adventure appendix C|OotA|19}) are cultists. One of them is complaining about \"the master\" while the other talks about something he once fished out of the Darklake.",
+										{
+											"type": "image",
+											"href": {
+												"type": "internal",
+												"path": "adventure/OotA/041-ooa04-12.webp"
+											},
+											"title": "Map 4.5: Cultist Pens",
+											"width": 1000,
+											"height": 724,
+											"imageType": "map",
+											"grid": {
+												"type": "square",
+												"size": 64,
+												"offsetX": 4,
+												"offsetY": -6,
+												"scale": 3
+											},
+											"mapRegions": [
+												{
+													"area": "1ec",
+													"points": [
+														[
+															408,
+															439
+														],
+														[
+															408,
+															512
+														],
+														[
+															483,
+															512
+														],
+														[
+															483,
+															439
+														]
+													]
+												}
+											],
+											"hrefThumbnail": {
+												"type": "internal",
+												"path": "adventure/OotA/thumbnail/041-ooa04-12.webp"
+											},
+											"id": "25b"
+										},
+										"The three cave bears (use the {@creature polar bear} statistics) are alert, despite appearances to the contrary. Characters hoping to sneak past them must succeed on Dexterity ({@skill Stealth}) checks contested by the bears' passive Wisdom ({@skill Perception}) score of 13. On their first turn, the cultists move to free the bears. Each cage is closed with a simple bolt that can be unlatched with an action. Once the first two bears are set free, the third bear breaks out of its cage on its own.",
+										"A crack in the south wall leads to a narrow tunnel that wends toward area 12. Medium and larger creatures are too big to fit through this narrow tunnel (see the \"Whorlstone Tunnels: General Features\" sidebar).",
+										{
+											"type": "entries",
+											"name": "Spiral Path",
+											"page": 77,
+											"id": "1ee",
+											"entries": [
+												"This path helps to channel the ritual magic the cultists use to tame the cave bears. Though the ritual is currently inactive, the area radiates a faint aura of enchantment under the scrutiny of a {@spell detect magic} spell."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "Treasure",
+											"page": 77,
+											"id": "1ef",
+											"entries": [
+												"Inside the tent are two flea-ridden bedrolls, a zurkhwood bucket containing edible fungi (the equivalent of two days of rations), and a wineskin full of Darklake Stout."
+											]
+										}
+									]
+								},
+								{
+									"type": "entries",
+									"name": "11. Quasit Playground",
+									"page": 77,
+									"id": "1f0",
+									"entries": [
+										"Some of the cult's more powerful derro savants keep quasits as familiars, and the wee demons discovered this tunnel network. They use the tunnels as shortcuts to deliver messages across the areas of the Whorlstone Tunnels controlled by the cultists, or simply to hide from their duties. Shrinking down allows the characters to more easily navigate this area.",
+										{
+											"type": "insetReadaloud",
+											"id": "1f1",
+											"entries": [
+												"The narrow tunnel is lit by the same dim, ambient light found throughout this complex. Ahead, you hear the high-pitched cackling of several creatures."
+											]
+										},
+										"Four {@creature Quasit||quasits} are wrestling each other farther along in the tunnel. If they notice the characters, they attack.",
+										"When two quasits are reduced to 0 hit points, the two remaining ones turn {@condition invisible} and flee. However, they make enough noise in doing so for the characters to follow them by sound. If any quasit escapes, the cultists in area 12 can't be {@status surprised} and prepare an ambush.",
+										{
+											"type": "entries",
+											"name": "Development",
+											"page": 78,
+											"id": "1f2",
+											"entries": [
+												"If the characters manage to capture and interrogate a quasit, the creature readily surrenders the name of {@creature Narrak|OotA}\u2014the {@creature derro savant|OotA} leading the cultists in the Whorlstone Tunnels (see area 12). In exchange for its life, the quasit reveals that the cult plans to curse Gracklstugh's stone giants with madness as a means to sowing chaos in the city."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "XP Awards",
+											"page": 78,
+											"id": "1f3",
+											"entries": [
+												"Each character earns a special award of 50 XP if the party learns of {@creature Narrak|OotA}'s plans from a quasit."
+											]
+										}
+									]
+								},
+								{
+									"type": "entries",
+									"name": "12. Cultist Hideout",
+									"page": 78,
+									"id": "1f4",
+									"entries": [
+										"{@creature Droki|OotA} enters this cavern from the east, via a narrow tunnel that comes up through a crack in the cavern floor (see the \"Narrow Tunnels\" section of the \"Whorlstone Tunnels: General Features\" sidebar).",
+										"West of the cavern is a shrieker that serves as an alarm system (see \"Fungi Patches\") and a pit trap (see \"Trap\").",
+										{
+											"type": "insetReadaloud",
+											"id": "1f5",
+											"entries": [
+												"The smell of brimstone and foul chemicals emanates from this large chamber. The light of campfires shows a natural platform where five derro are droning a cacophonous chant. A two-headed dog stirs inside a cage, while another derro nearby plays with a crossbow and watches the dog nervously.",
+												"A green glow rises suddenly from a magic circle at the center of the platform, where a small humanoid statue is the focus of the chanting ritual. As you watch, a lump sprouts from the statue's neck, enlarging and reshaping itself with each unholy verse to take the form of a second head."
+											]
+										},
+										{
+											"type": "image",
+											"href": {
+												"type": "internal",
+												"path": "adventure/OotA/042-ooa04-13.webp"
+											},
+											"title": "Map 4.6: Cultist Hideout",
+											"width": 1000,
+											"height": 618,
+											"imageType": "map",
+											"grid": {
+												"type": "square",
+												"size": 57,
+												"offsetX": 21,
+												"offsetY": 19,
+												"scale": 4
+											},
+											"mapRegions": [
+												{
+													"area": "1f4",
+													"points": [
+														[
+															763,
+															231
+														],
+														[
+															763,
+															277
+														],
+														[
+															808,
+															277
+														],
+														[
+															808,
+															231
+														]
+													]
+												}
+											],
+											"hrefThumbnail": {
+												"type": "internal",
+												"path": "adventure/OotA/thumbnail/042-ooa04-13.webp"
+											},
+											"id": "5d6"
+										},
+										"{@creature Narrak|OotA}, a {@creature derro savant|OotA}, belongs to a fringe group within the Council of Savants using demonology as a path to power. Since the arrival of the demon lords, he has gathered and bullied several apprentices to participate in rituals aimed to sow chaos in Gracklstugh. {@creature Narrak|OotA} knows the stone giants are a pillar of the Deepking's power, and that cursing them with Demogorgon's madness will be an appropriate first step toward delivering the entire city to the demon lord.",
+										"The cage by the tunnel holds a {@creature death dog}, watched over by a nervous {@creature derro|OotA} cultist. Atop the platform, {@creature Narrak|OotA} and four more {@creature derro|OotA} cultists are performing a ritual around the statue at its center. (Statistics for {@creature Narrak|OotA} and the derro can be found in {@adventure appendix C|OotA|19}.) The cultists' chanting is punctuated with {@creature Narrak|OotA} calling out the name \"Demogorgon!\" Also atop the platform, resting comfortably in an fungi-filled alcove (and initially out of the party's view), is {@creature Narrak|OotA}'s bodyguard\u2014a female {@creature ettin} named Grula-Munga.",
+										"When intruders appear, the cultists cease their chanting and take up positions along the edge of the platform as Grula-Munga rises to her feet and picks up her weapons. At the same time, the cultist standing next to the cage releases the death dog. {@creature Narrak|OotA} continues his part in the ritual until the characters kill the death dog or one of the cultists, at which point he joins the battle. The door to the death dog's cage is held shut with a simple clasp and requires an action to open.",
+										"If any of the quasits escaped from area 11, they warn the cultists that intruders are near. Otherwise, the characters might catch the cultists by surprise. The quasits remain {@condition invisible} and stay close to {@creature Narrak|OotA}.",
+										{
+											"type": "entries",
+											"name": "Fungi Patches",
+											"page": 79,
+											"id": "1f6",
+											"entries": [
+												"Fungi is rampant throughout this area, growing in large patches on the floors and walls.",
+												"Two thick fungi patches grow by each wall in the western tunnel. Clinging to the north wall is a {@creature shrieker} that party members can recognize with a successful {@dc 12} Intelligence ({@skill Nature}) check. The shrieker starts screaming as soon as anyone comes within 30 feet of it.",
+												"The crack in the floor by the east wall is surrounded by a thick fungus patch that is {@quickref difficult terrain||3} for Small and Medium characters, and provides {@quickref Cover||3||half cover} for Tiny creatures. Growing among the common fungi are {@dice 2d6} bigwigs and {@dice 2d6} pygmyworts."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "Platform",
+											"page": 79,
+											"id": "1f7",
+											"entries": [
+												"The cavern floor rises to form a natural 5-foot-high platform. A glowing ritual circle dominates the top of the platform. Any non-derro that enters or touches the circle must succeed on a {@dc 13} Wisdom saving throw or gain one level of madness (see \"{@area Madness|063|x}\" in chapter 2). Whether the save succeeds or fails, the creature can't be affected by the circle in this way again. In addition, non-evil creatures within the circle have disadvantage on attack rolls and saving throws.",
+												"The statue within the ritual circle is 2 feet tall, weighs 100 pounds, and looks vaguely like a crouching stone giant with a lump on its neck where a second head is beginning to form. The statue is engraved with profane symbols, with the name \"Dorhun\" scribed in Dwarvish into its back. A successful {@dc 16} Intelligence ({@skill Arcana} or {@skill Religion}) check allows a character to recognize the profane symbols as being related to Demogorgon.",
+												"A search of the platform uncovers a similar but broken statue near a locked iron chest and a pile of books (see \"Treasure\" for more information on the chest and books). The broken statue is similar to the statue in the circle, except it has the name \"Rihuud\" carved into its back and its second head is fully formed. If Rihuud is dead, the broken statue turns to dust when the characters touch it. If the characters spared Rihuud's life, a successful {@dc 12} Intelligence ({@skill Arcana} or {@skill Religion}) check reveals that the second head is a conduit for the curse's magic, and that removing it and returning it to Stonespeaker Hgraam in Cairngorm Cavern will allow the elder giant to end Rihuud's curse."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "Trap",
+											"page": 79,
+											"id": "1f8",
+											"entries": [
+												"The tunnel west of this cavern contains a hidden pit (see \"{@book Sample Traps|DMG|5|Sample Traps}\" in chapter 5 of the {@book Dungeon Master's Guide|DMG}). Debris conceals the lid, which is made of thin zurkhwood that breaks when a creature weighing 50 pounds or more steps on it. (A character of reduced size might not weigh enough to break the lid.) The pit is 10 feet deep, and its floor is covered by a patch of green slime (see \"{@book Dungeon Hazards|DMG|5|Dungeon Hazards}\" in chapter 5 of the {@book Dungeon Master's Guide|DMG}). Any creature that falls into the pit takes {@dice 1d6} bludgeoning damage and automatically fails its Dexterity saving throw to avoid the slime."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "Treasure",
+											"page": 79,
+											"id": "1f9",
+											"entries": [
+												"If the characters return the broken statue (or, at the very least, its second head) to Stonespeaker Hgraam, he gives them an emerald worth 500 gp as a reward, as well as his promise to vouch for them in anything they seek to accomplish in Gracklstugh.",
+												"{@creature Narrak|OotA} has a key around his neck that opens the lock on the iron chest, which can also be picked with thieves' tools and a successful {@dc 17} Dexterity check. The chest contains a jar of {@item Keoghtom's ointment} and a small leather bag containing 45 gp and 15 sp.",
+												"The books have pages made from trillimac caps (see \"{@area Fungi of the Underdark|067|x}\" in chapter 2). They contain the mad scribblings of {@creature Narrak|OotA} and his fellow derro savants. A character proficient in {@skill Arcana}, {@skill Investigation}, or {@skill Religion} can spend 8 hours poring through them; subtract {@dice 1d4} hours if the character reads Dwarvish. At the end of this time, the character knows that the books outline two rituals: one that causes a one-headed creature to sprout a second head, and another that allows the grafting of a severed head onto a living creature. The notes fail to mention that the ritual's caster must be suffering from some form of madness to perform either ritual successfully.",
+												"Tucked in one book are two scrolls: one that bears a list of six stone giant names (including Rihuud's and Dorhun's) and another that is actually a letter written in broken Dwarvish:",
+												{
+													"type": "inset",
+													"id": "1fa",
+													"entries": [
+														"{@creature Narrak|OotA}\u2014Need more scrolls! Stonespeaker Hgraam has traps traps traps. But {@creature Droki|OotA} is wily too and very small! I can hear talk, and in talk they say names, and I hear names and write names and give you names so you give me time. But you have to give me more scrolls. Magicky spelly scrolls!",
+														"\u2014{@creature Droki|OotA}"
+													]
+												}
+											]
+										},
+										{
+											"type": "entries",
+											"name": "XP Awards",
+											"page": 79,
+											"id": "1fb",
+											"entries": [
+												"Award 100 XP to each character for discovering Demogorgon's influence on the cultists.",
+												"The characters can complete a quest by turning over the books, scrolls, and letter to Errde Blackskull. Award 150 XP to each character when they deliver the items. If the characters ask Errde about {@creature Narrak|OotA}, she tells them that he was a junior member of the Council of Savants."
+											]
+										}
+									]
+								},
+								{
+									"type": "entries",
+									"name": "13. Dumping Pit",
 									"page": 80,
-									"id": "202",
+									"id": "1fc",
 									"entries": [
-										"Made from a black metal of alien origin, this monolith is perfectly smooth except for the cracks and chipped-off edges where it was splintered by some unknown force. The obelisk is 15 feet per side at its base, stands 50 feet tall, and tapers slowly to a pyramidal cap.",
-										"Any character proficient in {@skill Arcana} can tell that the obelisk's fractures are leaking quasi-magical energy. The character further understands that feeding magical energy into the obelisk might activate its latent magic. Spending a spell slot of any level while touching the obelisk activates it and teleports everyone on the mesa to a location in the Underdark just outside the northwest gate of Gracklstugh.",
-										"The character who expended the spell slot knows the teleport effect can be repeated, but that this power is only temporary\u2014a fluke due to the recent disruption of {@i faerzress} throughout the Underdark. Both the potency and the nature of the effect could change within a week or two, and this teleport effect likely bears no relation to the obelisk's actual purpose.",
-										"If the characters took the lump of metal from {@creature Droki|OotA} or the Gray Ghosts, they notice the obelisk is made from the same material. If the lump is touched to the obelisk, it is instantly absorbed, repairing a crack on its surface."
+										"Victims of {@creature Narrak|OotA}'s experiments are dumped here. Exposure to the {@i faerzress} has begun to animate the corpses.",
+										{
+											"type": "insetReadaloud",
+											"id": "1fd",
+											"entries": [
+												"This cavern is one enormous pit that reeks of death and decomposed flesh. The glow of {@i faerzress} is everywhere, seeming to flow like fog around dark shapes shambling across the pit floor. A single derro watches from atop a 15-foot-high ledge. A crack in the southeast wall of the pit leads to a narrow tunnel and is flanked by mounds of fungi and offal."
+											]
+										},
+										"The pit is 15 feet deep, and the ledge that overlooks it is lined with pointy bits of scrap metal to make any climbing attempt perilous. A creature trying to reach the top of the ledge must succeed on a {@dc 12} Strength ({@skill Athletics}) check. On a failed check, a creature takes 3 ({@dice 1d6}) slashing damage and remains in the pit. The pit's floor is {@quickref difficult terrain||3} due to the many corpses and body parts strewn around.",
+										"A single {@creature derro|OotA} stands on the ledge overlooking the pit, which contains seven shambling {@creature Zombie||zombies}\u2014three duergar and four grimlocks. The grimlock zombies are drawn to noise, while the duergar zombies attack any living creatures they see in the pit. Meanwhile, the derro uses its crossbow to take shots at any living creatures it sees.",
+										"A {@creature crawling claw} wearing an obsidian ring on one stubby finger (see \"Treasure\") lurks amid the offal mounds. These mounds are {@quickref difficult terrain||3} to Small and Medium creatures, and the fungi growing atop them provide cover to Tiny creatures. The shriveled gray hand once belonged to Pelek the svirfneblin (see \"Development\").",
+										"The crack in the southeast wall between the mounds leads to a narrow, meandering tunnel, the floor of which is sunk below a foot of foul water. See the \"Whorlstone Tunnels: General Features\" sidebar for rules on narrow tunnels and foul water.",
+										{
+											"type": "entries",
+											"name": "Treasure",
+											"page": 80,
+											"id": "1fe",
+											"entries": [
+												"{@i Faerzress} has transformed Pelek's obsidian ring into a single-use magic item. When a living creature puts it on, the ring disappears, and the creature's skin becomes as hard as obsidian for the next hour. For as long as the effect lasts, the creature gains the benefit of a {@spell stoneskin} spell."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "Development",
+											"page": 80,
+											"id": "1ff",
+											"entries": [
+												"If the characters capture and interrogate the derro, he talks willingly if they agree to spare him. He knows as much as the quasits in area 11.",
+												"Killing the crawling claw and burying its remains in Blingdenstone lays Pelek's spirit to rest (see area 1b)."
+											]
+										}
 									]
 								},
 								{
 									"type": "entries",
-									"name": "Red Dragon Egg",
-									"page": 81,
-									"id": "203",
+									"name": "14. Obelisk",
+									"page": 80,
+									"id": "200",
 									"entries": [
-										"The egg atop the northeast mesa is an unhatched dragon egg that the Gray Ghosts stole from the Keepers of the Flame. The 4-foot-tall, 3-foot-diameter egg weighs 180 pounds, and without fire to keep it warm, the egg can't hatch. If and when the egg does hatch, a {@creature red dragon wyrmling} emerges and bonds with the first creature it sees."
+										"The Gray Ghosts believe that the mysterious obelisk in this cavern is an important source of magical power, and they are intent on rebuilding it. The obelisk was broken long ago. However, shards of the obelisk that appear throughout the Underdark are magically absorbed into it as soon as they touch its metal surface. The leaders of the Gray Ghosts are obsessed with finding missing shards and completing this monolith, but not even they know what will happen when the obelisk is made whole again.",
+										{
+											"type": "insetReadaloud",
+											"id": "201",
+											"entries": [
+												"After a steady upward climb, the tunnel opens into a huge, well-lit chamber. The glow of {@i faerzress} and bioluminescent fungi compete with shafts of white light that fall upon naturally formed shelves along the walls as well as a rocky mesa at the center of the cavern. Crudely formed ramps connect the different levels of the mesa up to the height of its two topmost tiers, which are linked by a sturdy bridge. Atop one of those tiers sits a large red egg. Atop the other stands a 50-foot-tall obelisk made of smooth black metal with a few noticeable imperfections, as though small parts of it were somehow chipped away.",
+												"A female derro stands close to the obelisk, gently patting and stroking its surface. The obelisk flashes once, the glow of {@i faerzress} around the cavern flaring in response. The derro squeals with glee as she snatches an object up from the ground, then writes something down in a small notebook."
+											]
+										},
+										"The chamber is brightly lit, as if by sunlight. The sunlight is just a natural trick caused by crystal growths reflecting and amplifying the light of the bioluminescent fungi growing on the walls. The characters realize this if they climb near the ceiling of the cavern, where the optical trick is easy to discern.",
+										{
+											"type": "image",
+											"href": {
+												"type": "internal",
+												"path": "adventure/OotA/043-ooa04-14.webp"
+											},
+											"title": "Map 4.7: Obelisk Chamber",
+											"width": 1000,
+											"height": 945,
+											"imageType": "map",
+											"grid": {
+												"type": "square",
+												"size": 65,
+												"offsetX": -18,
+												"offsetY": 22,
+												"scale": 3
+											},
+											"mapRegions": [
+												{
+													"area": "200",
+													"points": [
+														[
+															706,
+															432
+														],
+														[
+															706,
+															486
+														],
+														[
+															778,
+															486
+														],
+														[
+															778,
+															432
+														]
+													]
+												}
+											],
+											"hrefThumbnail": {
+												"type": "internal",
+												"path": "adventure/OotA/thumbnail/043-ooa04-14.webp"
+											},
+											"id": "5d7"
+										},
+										"The different levels of the mesa are separated by 10-foot-high cliffs. Climbing a cliff requires a successful {@dc 12} Strength ({@skill Athletics}) check. Pliinki, a mad {@creature derro savant|OotA} (see {@adventure appendix C|OotA|19}), stands atop of the mesa. Hidden on a shelf above the cavern's entrance, a {@creature spectator} tasked with guarding this area sees the characters as soon as they walk 15 feet into the cavern. The spectator screeches an alarm and attacks, killing non-derro with glee. As it fights, it projects telepathic ramblings into the characters' minds, mostly dealing with how exciting it is to have intruders to kill and how even more exciting things will be when the obelisk is complete.",
+										"Pliinki shouts crass obscenities at the characters in a raspy voice while commanding the spectator to dispose of them. Both she and the spectator fight to the death.",
+										{
+											"type": "entries",
+											"name": "Obelisk",
+											"page": 80,
+											"id": "202",
+											"entries": [
+												"Made from a black metal of alien origin, this monolith is perfectly smooth except for the cracks and chipped-off edges where it was splintered by some unknown force. The obelisk is 15 feet per side at its base, stands 50 feet tall, and tapers slowly to a pyramidal cap.",
+												"Any character proficient in {@skill Arcana} can tell that the obelisk's fractures are leaking quasi-magical energy. The character further understands that feeding magical energy into the obelisk might activate its latent magic. Spending a spell slot of any level while touching the obelisk activates it and teleports everyone on the mesa to a location in the Underdark just outside the northwest gate of Gracklstugh.",
+												"The character who expended the spell slot knows the teleport effect can be repeated, but that this power is only temporary\u2014a fluke due to the recent disruption of {@i faerzress} throughout the Underdark. Both the potency and the nature of the effect could change within a week or two, and this teleport effect likely bears no relation to the obelisk's actual purpose.",
+												"If the characters took the lump of metal from {@creature Droki|OotA} or the Gray Ghosts, they notice the obelisk is made from the same material. If the lump is touched to the obelisk, it is instantly absorbed, repairing a crack on its surface."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "Red Dragon Egg",
+											"page": 81,
+											"id": "203",
+											"entries": [
+												"The egg atop the northeast mesa is an unhatched dragon egg that the Gray Ghosts stole from the Keepers of the Flame. The 4-foot-tall, 3-foot-diameter egg weighs 180 pounds, and without fire to keep it warm, the egg can't hatch. If and when the egg does hatch, a {@creature red dragon wyrmling} emerges and bonds with the first creature it sees."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "Treasure",
+											"page": 81,
+											"id": "204",
+											"entries": [
+												"The {@creature derro savant|OotA} carries a single gold coin, a stick of charcoal, and a battered notebook with pages made from trillimac (see \"{@area Fungi of the Underdark|067|x}\" in chapter 2). The coin is a shilmaer, an ancient gold coin traded among surface elves. The notebook contains Dwarvish writing, specifically a long list of random items, mostly coins and jewelry. There are no dates, but some entries appear in different handwriting. The last entry describes the \"miraculous\" appearance of the gold coin."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "Development",
+											"page": 81,
+											"id": "205",
+											"entries": [
+												"If the characters capture and interrogate Pliinki, she laughs at their folly as she tells them that the Whorlstone Tunnels are nowhere near the surface. She believes the obelisk was hidden here by Diirinka, the derro god, and that it contains \"unimaginable power.\" Pliinki and her fellow savants hope to harness the obelisk's power and use it to conquer Gracklstugh.",
+												"If the characters take the dragon egg to {@creature Themberchaud|OotA}, he destroys it and rewards the party with a magical potion or oil plucked from his hoard. If the characters return the egg to the Keepers of the Flame, Gartokkar Xundorn promises them safe passage through Gracklstugh if they mention nothing about the egg to {@creature Themberchaud|OotA}."
+											]
+										},
+										{
+											"type": "entries",
+											"name": "XP Awards",
+											"page": 81,
+											"id": "206",
+											"entries": [
+												"Taking the coin and the notebook to Ylsa Henstak in the Blade Bazaar fulfills her quest and earns the characters 100 XP each.",
+												"If the characters describe the obelisk to Gartokkar Xundorn, he assumes that is what the Gray Ghosts are using to wreak havoc in Gauntlgrym and dispatches a force to study it. Each character earns 100 XP for completing the task set for them by the Keepers. Award each character an additional 150 XP if the party delivers the red dragon egg to either the Keepers or to {@creature Themberchaud|OotA}."
+											]
+										}
 									]
 								},
 								{
 									"type": "entries",
-									"name": "Treasure",
+									"name": "14a. Fungi-Covered Doors",
 									"page": 81,
-									"id": "204",
+									"id": "207",
 									"entries": [
-										"The {@creature derro savant|OotA} carries a single gold coin, a stick of charcoal, and a battered notebook with pages made from trillimac (see \"{@area Fungi of the Underdark|067|x}\" in chapter 2). The coin is a shilmaer, an ancient gold coin traded among surface elves. The notebook contains Dwarvish writing, specifically a long list of random items, mostly coins and jewelry. There are no dates, but some entries appear in different handwriting. The last entry describes the \"miraculous\" appearance of the gold coin."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "Development",
-									"page": 81,
-									"id": "205",
-									"entries": [
-										"If the characters capture and interrogate Pliinki, she laughs at their folly as she tells them that the Whorlstone Tunnels are nowhere near the surface. She believes the obelisk was hidden here by Diirinka, the derro god, and that it contains \"unimaginable power.\" Pliinki and her fellow savants hope to harness the obelisk's power and use it to conquer Gracklstugh.",
-										"If the characters take the dragon egg to {@creature Themberchaud|OotA}, he destroys it and rewards the party with a magical potion or oil plucked from his hoard. If the characters return the egg to the Keepers of the Flame, Gartokkar Xundorn promises them safe passage through Gracklstugh if they mention nothing about the egg to {@creature Themberchaud|OotA}."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "XP Awards",
-									"page": 81,
-									"id": "206",
-									"entries": [
-										"Taking the coin and the notebook to Ylsa Henstak in the Blade Bazaar fulfills her quest and earns the characters 100 XP each.",
-										"If the characters describe the obelisk to Gartokkar Xundorn, he assumes that is what the Gray Ghosts are using to wreak havoc in Gauntlgrym and dispatches a force to study it. Each character earns 100 XP for completing the task set for them by the Keepers. Award each character an additional 150 XP if the party delivers the red dragon egg to either the Keepers or to {@creature Themberchaud|OotA}."
+										"A set of double doors are hidden by a patch of fungi that includes {@dice 2d6} bigwigs and {@dice 2d6} pygmyworts. Characters west of the doors must succeed on a {@dc 15} Wisdom ({@skill Perception}) check to notice the doors behind the fungi. The doors are fashioned from planks of zurkhwood and barred from the east side. A successful {@dc 20} Strength check allows a character to break through the doors, but this alerts the {@creature derro savant|OotA} and the spectator in area 14."
 									]
 								}
-							]
-						},
-						{
-							"type": "entries",
-							"name": "14a. Fungi-Covered Doors",
-							"page": 81,
-							"id": "207",
-							"entries": [
-								"A set of double doors are hidden by a patch of fungi that includes {@dice 2d6} bigwigs and {@dice 2d6} pygmyworts. Characters west of the doors must succeed on a {@dc 15} Wisdom ({@skill Perception}) check to notice the doors behind the fungi. The doors are fashioned from planks of zurkhwood and barred from the east side. A successful {@dc 20} Strength check allows a character to break through the doors, but this alerts the {@creature derro savant|OotA} and the spectator in area 14."
+
 							]
 						}
 					]

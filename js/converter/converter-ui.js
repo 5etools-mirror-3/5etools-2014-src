@@ -108,10 +108,10 @@ export class ConverterUi extends BaseComponent {
 
 				let content;
 				try {
-					content = Renderer.hover.$getHoverContent_generic({
+					content = Renderer.hover.getHoverContent_generic({
 						type: "entries",
 						entries,
-					})[0];
+					});
 				} catch (e) {
 					JqueryUtil.doToast({type: "danger", content: `Could not render preview! ${VeCt.STR_SEE_CONSOLE}`});
 					throw e;

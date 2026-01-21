@@ -1269,7 +1269,7 @@ class TimeTrackerRoot_Clock_Weather extends TimeTrackerComponent {
 						const meta = TimeTrackerRoot_Clock_Weather._TEMPERATURE_META[i];
 						return {
 							name: it.uppercaseFirst(),
-							buttonClassActive: meta.class ? `${meta.class} active` : null,
+							buttonClassesActive: meta.class ? [meta.class, "active"] : null,
 							iconClass: `fal ${meta.icon}`,
 						};
 					}),
@@ -2432,7 +2432,7 @@ class TimeTrackerRoot_Calendar extends TimeTrackerComponent {
 		return new Promise(resolve => {
 			class EventTimeModal extends BaseComponent {
 				render ($parent) {
-					const $selMode = ComponentUiUtil.$getSelEnum(this, "mode", {values: ["Exact Time", "Time from Now"]}).addClass("mb-2");
+					const selMode = ComponentUiUtil.getSelEnum(this, "mode", {values: ["Exact Time", "Time from Now"]}).addClass("mb-2");
 
 					const $iptExHour = ComponentUiUtil.$getIptInt(
 						this,
@@ -2528,7 +2528,7 @@ class TimeTrackerRoot_Calendar extends TimeTrackerComponent {
 
 					$$`<div class="ve-flex-col h-100">
 						<div class="ve-flex-vh-center ve-flex-col w-100 h-100">
-							${$selMode}
+							${selMode}
 							${$wrpExact}
 							${$wrpOffset}
 						</div>
@@ -3252,14 +3252,14 @@ class TimeTrackerRoot_Settings_Event extends TimeTrackerComponent {
 		});
 
 		const $iptName = ComponentUiUtil.$getIptStr(fauxComponent, "name", {$ele: $(`<input class="form-control input-xs form-control--minimal mb-2 no-shrink">`)});
-		const $iptEntries = ComponentUiUtil.$getIptEntries(fauxComponent, "entries", {$ele: $(`<textarea class="form-control input-xs form-control--minimal resize-none mb-2 h-100"></textarea>`)});
+		const iptEntries = ComponentUiUtil.getIptEntries(fauxComponent, "entries", {ele: ee`<textarea class="form-control input-xs form-control--minimal resize-none mb-2 h-100"></textarea>`});
 
 		const $btnOk = $(`<button class="ve-btn ve-btn-default">Save</button>`)
 			.click(() => doClose(true));
 
 		$$`<div class="ve-flex-col h-100">
 			${$iptName}
-			${$iptEntries}
+			${iptEntries}
 			<div class="ve-flex-h-right no-shrink">${$btnOk}</div>
 		</div>`.appendTo($modalInner);
 	}

@@ -275,10 +275,10 @@ export class BuilderBase extends ProxyBase {
 							),
 						];
 
-						const $content = Renderer.hover.$getHoverContent_statsCode(this._state);
+						const content = Renderer.hover.getHoverContent_statsCode(this._state);
 
 						Renderer.hover.getShowWindow(
-							$content,
+							content,
 							Renderer.hover.getWindowPositionFromEvent(evt),
 							{
 								title: `${this._state.name} \u2014 Source Data`,
@@ -311,10 +311,10 @@ export class BuilderBase extends ProxyBase {
 								},
 							],
 						});
-						const $content = Renderer.hover.$getHoverContent_miscCode(name, mdText);
+						const content = Renderer.hover.getHoverContent_miscCode(name, mdText);
 
 						Renderer.hover.getShowWindow(
-							$content,
+							content,
 							Renderer.hover.getWindowPositionFromEvent(evt),
 							{
 								title: name,
@@ -370,7 +370,7 @@ export class BuilderBase extends ProxyBase {
 	async pHandleSidebarEditUniqueId (uniqueId) {
 		const entEditable = await BrewUtil2.pGetEditableBrewEntity(this._prop, uniqueId);
 		if (entEditable._copy) {
-			JqueryUtil.doToast({type: "warning", content: $(`<span>You are attempting to edit a <code>_copy</code>! Saving your changes will overwrite the <code>_copy</code> with a resolved version of the entity.</span>`)});
+			JqueryUtil.doToast({type: "warning", content: ee`<span>You are attempting to edit a <code>_copy</code>! Saving your changes will overwrite the <code>_copy</code> with a resolved version of the entity.</span>`});
 			await DataUtil[this._prop]?.pMergeCopy([], entEditable, {isSkipMetaMergeCache: true});
 		}
 		this.setStateFromLoaded({
@@ -589,9 +589,9 @@ export class BuilderBase extends ProxyBase {
 				const toRender = getState();
 				if (!toRender) return JqueryUtil.doToast({content: "Please enter an image URL", type: "warning"});
 
-				const $content = Renderer.hover.$getHoverContent_generic(toRender, {isBookContent: true});
+				const content = Renderer.hover.getHoverContent_generic(toRender, {isBookContent: true});
 				Renderer.hover.getShowWindow(
-					$content,
+					content,
 					Renderer.hover.getWindowPositionFromEvent(evt),
 					{
 						isPermanent: true,

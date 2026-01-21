@@ -12624,7 +12624,7 @@ Renderer.table = class {
 			name: nameCaption,
 			type: "table",
 			source: group?.source,
-			page: group?.page,
+			page: tableRaw.page ?? group?.page,
 			caption: nameCaption,
 			colLabels: [
 				`{@dice ${tableRaw.diceExpression}}`,
@@ -14511,9 +14511,6 @@ Renderer.hover = class {
 	}
 
 	static _handleGenericMouseOverStart ({evt, ele, opts}) {
-		// Don't open on small screens unless forced
-		if (Renderer.hover.isSmallScreen(evt) && !evt.shiftKey && !opts?.isForceOpenPermanent) return;
-
 		Renderer.hover.cleanTempWindows();
 
 		const meta = Renderer.hover._getSetMeta(ele);
@@ -15887,7 +15884,7 @@ Renderer.hover = class {
 		return $(this.getHoverContent_fluff(page, toRender, opts, renderFnOpts));
 	}
 
-	static $getHoverContent_statsCode (toRender, {isSkipClean = false, title = null} = {}) {
+	static getHoverContent_statsCode (toRender, {isSkipClean = false, title = null} = {}) {
 		const cleanCopy = isSkipClean ? toRender : DataUtil.cleanJson(MiscUtil.copyFast(toRender));
 		return Renderer.hover.$getHoverContent_miscCode(
 			title || [cleanCopy.name, "Source Data"].filter(Boolean).join(" \u2014 "),
@@ -15895,13 +15892,21 @@ Renderer.hover = class {
 		);
 	}
 
-	static $getHoverContent_miscCode (name, code) {
+	static $getHoverContent_statsCode (toRender) {
+		return $(Renderer.hover.getHoverContent_statsCode(toRender, {isSkipClean = false, title = null} = {}));
+	}
+
+	static getHoverContent_miscCode (name, code) {
 		const toRenderCode = {
 			type: "code",
 			name,
 			preformatted: code,
 		};
-		return $$`<table class="w-100 stats stats--book">${Renderer.get().render(toRenderCode)}</table>`;
+		return ee`<table class="w-100 stats stats--book">${Renderer.get().render(toRenderCode)}</table>`;
+	}
+
+	static $getHoverContent_miscCode (name, code) {
+		return $(Renderer.hover.getHoverContent_miscCode(name, code));
 	}
 
 	/**
@@ -15912,10 +15917,21 @@ Renderer.hover = class {
 	 * @param [opts.depth]
 	 */
 	static $getHoverContent_generic (toRender, opts) {
+		return $(Renderer.hover.getHoverContent_generic(toRender, opts));
+	}
+
+	/**
+	 * @param toRender
+	 * @param [opts]
+	 * @param [opts.isBookContent]
+	 * @param [opts.isLargeBookContent]
+	 * @param [opts.depth]
+	 */
+	static getHoverContent_generic (toRender, opts) {
 		opts = opts || {};
 
 		const name = toRender._displayName || toRender.name;
-		return $$`<table class="w-100 stats ${opts.isBookContent || opts.isLargeBookContent ? "stats--book" : ""} ${opts.isLargeBookContent ? "stats--book-large" : ""}" ${name ? `data-roll-name-ancestor-roller="${Renderer.stripTags(name).qq()}"` : ""}>${Renderer.hover.getGenericCompactRenderedString(toRender, {depth: opts.depth || 0})}</table>`;
+		return ee`<table class="w-100 stats ${opts.isBookContent || opts.isLargeBookContent ? "stats--book" : ""} ${opts.isLargeBookContent ? "stats--book-large" : ""}" ${name ? `data-roll-name-ancestor-roller="${Renderer.stripTags(name).qq()}"` : ""}>${Renderer.hover.getGenericCompactRenderedString(toRender, {depth: opts.depth || 0})}</table>`;
 	}
 
 	/**

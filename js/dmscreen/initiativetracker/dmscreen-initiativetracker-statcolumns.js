@@ -144,21 +144,21 @@ class _InitiativeTrackerStatColumnBase {
 		return $(`<div class="dm-init__stat_head" ${this.constructor.NAME ? `title="${this.constructor.NAME}"` : ""}>${this._abbreviation}</div>`);
 	}
 
-	$getRendered ({comp, mon, networking = null}) {
-		const $ipt = ComponentUiUtil.$getIptStr(comp, "value")
+	getRendered ({comp, mon, networking = null}) {
+		const ipt = ComponentUiUtil.getIptStr(comp, "value")
 			.removeClass("input-xs")
 			.addClass("input-sm")
 			.addClass("dm-init__stat_ipt")
 			.addClass("ve-text-center")
-			.on("click", () => $ipt.select());
+			.onn("click", () => ipt.selecte());
 
 		if (mon) {
 			comp._addHookBase("isEditable", () => {
-				$ipt.prop("disabled", !comp._state.isEditable);
+				ipt.prop("disabled", !comp._state.isEditable);
 			})();
 		}
 
-		return $$`<div class="ve-flex-vh-center">${$ipt}</div>`;
+		return ee`<div class="ve-flex-vh-center">${ipt}</div>`;
 	}
 
 	/* -------------------------------------------- */
@@ -363,8 +363,8 @@ class InitiativeTrackerStatColumn_LegendaryActions extends _InitiativeTrackerSta
 			.addClass("w-48p");
 	}
 
-	$getRendered ({comp, mon}) {
-		const $iptCurrent = ComponentUiUtil.$getIptNumber(
+	getRendered ({comp, mon}) {
+		const iptCurrent = ComponentUiUtil.getIptNumber(
 			comp,
 			"current",
 			null,
@@ -374,9 +374,9 @@ class InitiativeTrackerStatColumn_LegendaryActions extends _InitiativeTrackerSta
 				html: `<input class="form-control input-sm hp dm-init__row-input ve-text-right w-24p mr-0 br-0">`,
 			},
 		)
-			.on("click", () => $iptCurrent.select());
+			.onn("click", () => iptCurrent.selecte());
 
-		const $iptMax = ComponentUiUtil.$getIptNumber(
+		const iptMax = ComponentUiUtil.getIptNumber(
 			comp,
 			"max",
 			null,
@@ -386,19 +386,19 @@ class InitiativeTrackerStatColumn_LegendaryActions extends _InitiativeTrackerSta
 				html: `<input class="form-control input-sm hp-max dm-init__row-input w-24p mr-0 bl-0">`,
 			},
 		)
-			.on("click", () => $iptMax.select());
+			.onn("click", () => iptMax.selecte());
 
 		if (mon) {
 			comp._addHookBase("isEditable", () => {
-				$iptCurrent.prop("disabled", !comp._state.isEditable);
-				$iptMax.prop("disabled", !comp._state.isEditable);
+				iptCurrent.prop("disabled", !comp._state.isEditable);
+				iptMax.prop("disabled", !comp._state.isEditable);
 			})();
 		}
 
-		return $$`<div class="ve-flex relative mr-3p">
-			<div class="ve-text-right">${$iptCurrent}</div>
+		return ee`<div class="ve-flex relative mr-3p">
+			<div class="ve-text-right">${iptCurrent}</div>
 			<div class="dm-init__sep-fields-slash ve-flex-vh-center">/</div>
-			<div class="ve-text-left">${$iptMax}</div>
+			<div class="ve-text-left">${iptMax}</div>
 		</div>`;
 	}
 }
@@ -443,26 +443,26 @@ class InitiativeTrackerStatColumn_Image extends _InitiativeTrackerStatColumnBase
 		};
 	}
 
-	$getRendered ({comp, mon, networking = null}) {
-		const $ele = $$`<div class="mr-3p ve-flex-vh-center w-40p">
+	getRendered ({comp, mon, networking = null}) {
+		const ele = ee`<div class="mr-3p ve-flex-vh-center w-40p">
 			<img src="${comp._state.tokenUrl}" class="w-30p h-30p" alt="Token Image">
 		</div>`;
 
 		if (networking != null) {
-			$ele.title("Click to Show to Connected Players");
+			ele.tooltip("Click to Show to Connected Players");
 
-			$ele
-				.on("click", () => {
+			ele
+				.onn("click", () => {
 					networking.sendShowImageMessageToClients({
 						imageHref: InitiativeTrackerUtil.getImageOrTokenHref({imageHref: comp._state.imageHref, tokenUrl: comp._state.tokenUrl}),
 					});
 				});
 
 			// If no networking, assume this is an "edit" modal, and avoid binding events
-			Renderer.monster.hover.bindFluffImageMouseover({mon, $ele});
+			Renderer.monster.hover.bindFluffImageMouseover({mon, ele});
 		}
 
-		return $ele;
+		return ele;
 	}
 }
 
@@ -559,17 +559,17 @@ class _InitiativeTrackerStatColumnCheckboxBase extends _InitiativeTrackerStatCol
 
 	_getInitialCellObj ({mon, fluff}) { return {value: false}; }
 
-	$getRendered ({comp, mon}) {
-		const $cb = ComponentUiUtil.$getCbBool(comp, "value")
+	getRendered ({comp, mon}) {
+		const cb = ComponentUiUtil.getCbBool(comp, "value")
 			.addClass("dm-init__stat_ipt");
 
 		if (mon) {
 			comp._addHookBase("isEditable", () => {
-				$cb.prop("disabled", !comp._state.isEditable);
+				cb.prop("disabled", !comp._state.isEditable);
 			})();
 		}
 
-		return $$`<label class="dm-init__wrp-stat-cb h-100 ve-flex-vh-center">${$cb}</label>`;
+		return ee`<label class="dm-init__wrp-stat-cb h-100 ve-flex-vh-center">${cb}</label>`;
 	}
 }
 

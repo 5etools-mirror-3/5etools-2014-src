@@ -354,6 +354,14 @@
 			]
 		},
 		{
+			"name": "Female Steeder",
+			"source": "OotA",
+			"_copy": {
+				"name": "Steeder",
+				"source": "OotA"
+			}
+		},
+		{
 			"name": "Gash",
 			"source": "OotA",
 			"images": [
@@ -569,6 +577,14 @@
 			]
 		},
 		{
+			"name": "Male Steeder",
+			"source": "OotA",
+			"_copy": {
+				"name": "Steeder",
+				"source": "OotA"
+			}
+		},
+		{
 			"name": "Ougalop",
 			"source": "OotA",
 			"images": [
@@ -748,6 +764,14 @@
 						"path": "bestiary/OotA/Spiderbait.webp"
 					}
 				}
+			]
+		},
+		{
+			"name": "Steeder",
+			"source": "OotA",
+			"entries": [
+				"Duergar breed and train these giant Underdark-dwelling tarantulas. Male steeders are as big as ponies and used by the duergar as beasts of burden. The larger females are trained and used as mounts.",
+				"Steeders don't spin webs, but they exude a sticky substance from their legs that lets them walk on walls and ceilings without trouble, as well as snare prey."
 			]
 		},
 		{

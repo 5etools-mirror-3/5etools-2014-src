@@ -233,13 +233,13 @@ export class InitiativeTrackerMonsterAdd extends BaseComponent {
 			isWait: false,
 		};
 
-		const {$modalInner, doClose, pGetResolved} = UiUtil.getShowModal();
+		const {eleModalInner, doClose, pGetResolved} = UiUtil.getShowModal();
 		rdState.cbDoClose = doClose;
 
-		const $iptSearch = $(`<input class="ui-search__ipt-search search form-control" autocomplete="off" placeholder="Search...">`);
+		const iptSearch = ee`<input class="ui-search__ipt-search search form-control" autocomplete="off" placeholder="Search...">`;
 
 		$$`<div class="split no-shrink">
-			${$iptSearch}
+			${iptSearch}
 
 			<div class="ui-search__ipt-search-sub-wrp ve-flex-v-center pr-0">
 				<div class="mr-1">Add</div>
@@ -252,26 +252,26 @@ export class InitiativeTrackerMonsterAdd extends BaseComponent {
 			</div>
 
 			<label class="ui-search__ipt-search-sub-wrp ve-flex-vh-center">${ComponentUiUtil.$getCbBool(this, "isRollHp").addClass("mr-1")} <span>Roll HP</span></label>
-		</div>`.appendTo($modalInner);
+		</div>`.appendTo(eleModalInner);
 
-		const $results = $(`<div class="ui-search__wrp-results"></div>`).appendTo($modalInner);
+		const wrpResults = ee`<div class="ui-search__wrp-results"></div>`.appendTo(eleModalInner);
 
 		const showMsgIpt = () => {
 			flags.isWait = true;
-			$results.empty().append(SearchWidget.getSearchEnter());
+			wrpResults.empty().appends(SearchWidget.getSearchEnter());
 		};
 
-		const showMsgDots = () => $results.empty().append(SearchWidget.getSearchLoading());
+		const showMsgDots = () => wrpResults.empty().appends(SearchWidget.getSearchLoading());
 
 		const showNoResults = () => {
 			flags.isWait = true;
-			$results.empty().append(SearchWidget.getSearchNoResults());
+			wrpResults.empty().appends(SearchWidget.getSearchNoResults());
 		};
 
-		const $ptrRows = {_: []};
+		const ptrRows = {_: []};
 
 		const pDoSearch = async () => {
-			const searchTerm = $iptSearch.val().trim();
+			const searchTerm = iptSearch.val().trim();
 
 			const index = this._board.availContent["Creature"];
 			const results = await OmnisearchBacking.pGetFilteredResults(
@@ -287,8 +287,8 @@ export class InitiativeTrackerMonsterAdd extends BaseComponent {
 			const resultCount = results.length ? results.length : index.documentStore.length;
 			const toProcess = results.length ? results : Object.values(index.documentStore.docs).slice(0, 75).map(it => ({doc: it}));
 
-			$results.empty();
-			$ptrRows._ = [];
+			wrpResults.empty();
+			ptrRows._ = [];
 			if (toProcess.length) {
 				if (flags.doClickFirst) {
 					await this._render_pHandleClickRow({rdState}, toProcess[0]);
@@ -299,14 +299,14 @@ export class InitiativeTrackerMonsterAdd extends BaseComponent {
 				const results = toProcess.slice(0, this.constructor._RESULTS_MAX_DISPLAY);
 
 				results.forEach(res => {
-					const $row = this._render_$getSearchRow({rdState, res}).appendTo($results);
-					SearchWidget.bindRowHandlers({result: res, $row, $ptrRows, fnHandleClick: this._render_pHandleClickRow.bind(this, {rdState}), $iptSearch});
-					$ptrRows._.push($row);
+					const row = this._render_getSearchRow({rdState, res}).appendTo(wrpResults);
+					SearchWidget.bindRowHandlers({result: res, row, ptrRows, fnHandleClick: this._render_pHandleClickRow.bind(this, {rdState}), iptSearch});
+					ptrRows._.push(row);
 				});
 
 				if (resultCount > this.constructor._RESULTS_MAX_DISPLAY) {
 					const diff = resultCount - this.constructor._RESULTS_MAX_DISPLAY;
-					$results.append(`<div class="ui-search__row ui-search__row--readonly">...${diff} more result${diff === 1 ? " was" : "s were"} hidden. Refine your search!</div>`);
+					wrpResults.appends(`<div class="ui-search__row ui-search__row--readonly">...${diff} more result${diff === 1 ? " was" : "s were"} hidden. Refine your search!</div>`);
 				}
 			} else {
 				if (!searchTerm.trim()) showMsgIpt();
@@ -314,14 +314,14 @@ export class InitiativeTrackerMonsterAdd extends BaseComponent {
 			}
 		};
 
-		SearchWidget.bindAutoSearch($iptSearch, {
+		SearchWidget.bindAutoSearch(iptSearch, {
 			flags,
 			pFnSearch: pDoSearch,
 			fnShowWait: showMsgDots,
-			$ptrRows,
+			ptrRows,
 		});
 
-		$iptSearch.focus();
+		iptSearch.focuse();
 		await pDoSearch();
 
 		return pGetResolved();
@@ -339,19 +339,19 @@ export class InitiativeTrackerMonsterAdd extends BaseComponent {
 		);
 	}
 
-	_render_$getSearchRow ({rdState, res}) {
-		const $btnCustomize = $(`<button class="ve-btn ve-btn-default ve-btn-xxs" title="Customize"><span class="glyphicon glyphicon-stats"></span></button>`)
-			.on("click", async evt => {
+	_render_getSearchRow ({rdState, res}) {
+		const btnCustomize = ee`<button class="ve-btn ve-btn-default ve-btn-xxs" title="Customize"><span class="glyphicon glyphicon-stats"></span></button>`
+			.onn("click", async evt => {
 				evt.stopPropagation();
 				await this._render_pHandleClickCustomize({rdState, res});
 			});
 
-		return $$`
+		return ee`
 			<div class="ui-search__row ve-flex-v-center" tabindex="0">
 				<span>${res.doc.n}</span>
 				<div class="ve-flex-vh-center">
 					<span class="mr-2">${res.doc.s ? `<i title="${Parser.sourceJsonToFull(res.doc.s)}">${Parser.sourceJsonToAbv(res.doc.s)}${res.doc.p ? ` p${res.doc.p}` : ""}</i>` : ""}</span>
-					${$btnCustomize}
+					${btnCustomize}
 				</div>
 			</div>
 		`;

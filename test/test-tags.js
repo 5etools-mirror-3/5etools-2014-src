@@ -431,6 +431,42 @@ class AreaCheck extends DataTesterBase {
 	}
 }
 
+class EntriesCheck extends DataTesterBase {
+	registerParsedFileCheckers (parsedJsonChecker) {
+		parsedJsonChecker.registerFileHandler(this);
+	}
+
+	handleFile (file, contents) {
+		const errors = [];
+
+		ObjectWalker.walk({
+			obj: contents,
+			filePath: file,
+			primitiveHandlers: {
+				object: (obj) => {
+					if (["entries", "section"].includes(obj.type) || obj.entries) {
+						if (obj.entries?.mode) return obj;
+						if (!obj.entries) return obj;
+						if (!(obj.entries instanceof Array)) return obj;
+
+						if (!obj.entries.length) errors.push(`Empty entries in "${JSON.stringify(obj)}"`);
+						return obj;
+					}
+
+					if (["list"].includes(obj.type)) {
+						if (!obj.items?.length) errors.push(`No items in list "${JSON.stringify(obj)}"`);
+						return obj;
+					}
+
+					return obj;
+				},
+			},
+		});
+
+		if (errors.length) this._addMessage(`Errors in ${file}! See below:\n${errors.map(error => `\t${error}`).join("\n")}`);
+	}
+}
+
 class DuplicateEntityCheck extends DataTesterBase {
 	registerParsedFileCheckers (parsedJsonChecker) {
 		parsedJsonChecker.registerFileHandler(this);
@@ -846,6 +882,7 @@ async function main () {
 		new TableDiceTest(),
 		new AdventureBookTagCheck({fileAdditional: params.fileAdditional}),
 		new AreaCheck(),
+		new EntriesCheck(),
 		new EscapeCharacterCheck(),
 		new DuplicateEntityCheck(),
 		new RefTagCheck(),

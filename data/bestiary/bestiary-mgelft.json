@@ -430,7 +430,7 @@
 				{
 					"name": "Sludge Slap",
 					"entries": [
-						"{@atk mw} {@hit 6} to hit, reach 5 ft., one target. {@h}12 ({@damage 1d8 + 8}) bludgeoning damage, plus 4 ({@damage 1d8}) acid damage. Sludge Slap does both bludgeoning and acid damage"
+						"{@atk mw} {@hit 6} to hit, reach 5 ft., one target. {@h}12 ({@damage 1d8 + 8}) bludgeoning damage, plus 4 ({@damage 1d8}) acid damage. Sludge Slap does both bludgeoning and acid damage."
 					]
 				}
 			],

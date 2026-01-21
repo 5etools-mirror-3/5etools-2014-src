@@ -92,7 +92,7 @@
 				{
 					"name": "Magic Bolt",
 					"entries": [
-						"{@atk rw} {@hit 6} to hit, range 120 ft., one target. {@h}16 ({@damage 3d10}) fire damage"
+						"{@atk rw} {@hit 6} to hit, range 120 ft., one target. {@h}16 ({@damage 3d10}) fire damage."
 					]
 				}
 			],

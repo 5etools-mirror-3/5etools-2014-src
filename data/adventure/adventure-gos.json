@@ -14740,7 +14740,7 @@
 												"A ten-foot-square entrance expands to the east to form a room of considerable size."
 											]
 										},
-										"The short corridor that leads into area 26 is the site of a pit trap. The trap is well concealed by a false floor and requires a successful {@dc 16} Wisdom ({@skill Perception}) check to be noticed. Creatures that step on the false floor fall through into a bog pit (see the \"{@area Hazards in the Marsh|19d|x} sidebar), taking normal falling damage",
+										"The short corridor that leads into area 26 is the site of a pit trap. The trap is well concealed by a false floor and requires a successful {@dc 16} Wisdom ({@skill Perception}) check to be noticed. Creatures that step on the false floor fall through into a bog pit (see the \"{@area Hazards in the Marsh|19d|x} sidebar), taking normal falling damage.",
 										"Inside the pit are five {@creature Giant Poisonous Snake||giant poisonous snakes}, which attack anything that falls in.",
 										"As soon as a character occupies the space to the east of the bog pit and can see farther into the room, read:",
 										{

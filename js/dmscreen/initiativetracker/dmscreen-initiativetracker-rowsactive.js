@@ -17,13 +17,13 @@ class _RenderableCollectionRowDataActive extends RenderableCollectionRowDataBase
 	constructor (
 		{
 			comp,
-			$wrpRows,
+			wrpRows,
 			roller,
 			networking,
 			rowStateBuilder,
 		},
 	) {
-		super({comp, prop: "rows", $wrpRows, roller, networking, rowStateBuilder});
+		super({comp, prop: "rows", wrpRows, roller, networking, rowStateBuilder});
 	}
 
 	async _pPopulateRow_pGetMonsterMeta ({comp}) {
@@ -43,21 +43,21 @@ class _RenderableCollectionRowDataActive extends RenderableCollectionRowDataBase
 
 	/* ----- */
 
-	_pPopulateRow_monster ({comp, $wrpLhs, isMon, mon, fluff}) {
+	_pPopulateRow_monster ({comp, wrpLhs, isMon, mon, fluff}) {
 		if (!isMon) return;
 
-		const $dispOrdinal = $(`<span class="dm-init__number"></span>`);
-		comp._addHookBase("ordinal", () => $dispOrdinal.text(`(${comp._state.ordinal})`))();
-		comp._addHookBase("isShowOrdinal", () => $dispOrdinal.toggleVe(comp._state.isShowOrdinal))();
+		const dispOrdinal = ee`<span class="dm-init__number"></span>`;
+		comp._addHookBase("ordinal", () => dispOrdinal.txt(`(${comp._state.ordinal})`))();
+		comp._addHookBase("isShowOrdinal", () => dispOrdinal.toggleVe(comp._state.isShowOrdinal))();
 
-		const $lnk = $(this._pPopulateRow_monster_getRenderedLink({comp}))
+		const lnk = e_({outer: this._pPopulateRow_monster_getRenderedLink({comp})})
 			.attr("tabindex", "-1");
 		comp._addHookBase("customName", () => {
-			$lnk.text(comp._state.customName ? comp._state.customName : comp._state.displayName || comp._state.name);
+			lnk.txt(comp._state.customName ? comp._state.customName : comp._state.displayName || comp._state.name);
 		})();
 
-		const $btnRename = $(`<button class="ve-btn ve-btn-default ve-btn-xs dm-init-lockable dm-init__btn-creature" title="Rename (SHIFT to Reset)" tabindex="-1"><span class="glyphicon glyphicon-pencil"></span></button>`)
-			.click(async evt => {
+		const btnRename = ee`<button class="ve-btn ve-btn-default ve-btn-xs dm-init-lockable dm-init__btn-creature" title="Rename (SHIFT to Reset)" tabindex="-1"><span class="glyphicon glyphicon-pencil"></span></button>`
+			.onn("click", async evt => {
 				if (this._comp._state.isLocked) return;
 
 				if (evt.shiftKey) return comp._state.customName = null;
@@ -67,8 +67,8 @@ class _RenderableCollectionRowDataActive extends RenderableCollectionRowDataBase
 				comp._state.customName = customName;
 			});
 
-		const $btnDuplicate = $(`<button class="ve-btn ve-btn-success ve-btn-xs dm-init-lockable dm-init__btn-creature" title="Add Another (SHIFT for Roll New)" tabindex="-1"><span class="glyphicon glyphicon-plus"></span></button>`)
-			.click(async (evt) => {
+		const btnDuplicate = ee`<button class="ve-btn ve-btn-success ve-btn-xs dm-init-lockable dm-init__btn-creature" title="Add Another (SHIFT for Roll New)" tabindex="-1"><span class="glyphicon glyphicon-plus"></span></button>`
+			.onn("click", async (evt) => {
 				if (this._comp._state.isLocked) return;
 
 				const isRollNew = !!evt.shiftKey;
@@ -110,16 +110,17 @@ class _RenderableCollectionRowDataActive extends RenderableCollectionRowDataBase
 				});
 			});
 
-		$$`<div class="dm-init__wrp-creature split">
+		ee`<div class="dm-init__wrp-creature split">
 			<span class="dm-init__wrp-creature-link">
-				${$lnk}
-				${$dispOrdinal}
+				${lnk}
+				${dispOrdinal}
 			</span>
 			<div class="ve-flex-v-center ve-btn-group mr-3p">
-				${$btnRename}
-				${$btnDuplicate}
+				${btnRename}
+				${btnDuplicate}
 			</div>
-		</div>`.appendTo($wrpLhs);
+		</div>`
+			.appendTo(wrpLhs);
 	}
 
 	_pPopulateRow_monster_getRenderedLink ({comp}) {
@@ -146,9 +147,9 @@ class _RenderableCollectionRowDataActive extends RenderableCollectionRowDataBase
 
 	/* ----- */
 
-	_pPopulateRow_conditions ({comp, $wrpLhs}) {
-		const $btnAddCond = $(`<button class="ve-btn ve-btn-warning ve-btn-xs dm-init__row-btn dm-init__row-btn-flag" title="Add Condition" tabindex="-1"><span class="glyphicon glyphicon-flag"></span></button>`)
-			.on("click", async () => {
+	_pPopulateRow_conditions ({comp, wrpLhs}) {
+		const btnAddCond = ee`<button class="ve-btn ve-btn-warning ve-btn-xs dm-init__row-btn dm-init__row-btn-flag" title="Add Condition" tabindex="-1"><span class="glyphicon glyphicon-flag"></span></button>`
+			.onn("click", async () => {
 				const compAdd = new InitiativeTrackerConditionAdd({conditionsCustom: MiscUtil.copyFast(this._comp._state.conditionsCustom)});
 				const [isDataEntered, conditionToAdd] = await compAdd.pGetShowModalResults();
 
@@ -163,24 +164,25 @@ class _RenderableCollectionRowDataActive extends RenderableCollectionRowDataBase
 				];
 			});
 
-		const $wrpConds = $(`<div class="init__wrp_conds h-100"></div>`);
+		const wrpConds = ee`<div class="init__wrp_conds h-100"></div>`;
 
-		$$`<div class="split">
-			${$wrpConds}
-			${$btnAddCond}
-		</div>`.appendTo($wrpLhs);
+		ee`<div class="split">
+			${wrpConds}
+			${btnAddCond}
+		</div>`
+			.appendTo(wrpLhs);
 
 		const collectionConditions = new RenderableCollectionConditions({
 			comp: comp,
-			wrpRows: e_($wrpConds[0]),
+			wrpRows: wrpConds,
 		});
 		comp._addHookBase("conditions", () => collectionConditions.render())();
 	}
 
 	/* ----- */
 
-	_pPopulateRow_initiative ({comp, $wrpRhs}) {
-		const $iptInitiative = ComponentUiUtil.$getIptNumber(
+	_pPopulateRow_initiative ({comp, wrpRhs}) {
+		const iptInitiative = ComponentUiUtil.getIptNumber(
 			comp,
 			"initiative",
 			null,
@@ -190,28 +192,28 @@ class _RenderableCollectionRowDataActive extends RenderableCollectionRowDataBase
 				html: `<input class="form-control input-sm score dm-init-lockable dm-init__row-input ve-text-center dm-init__ipt--rhs">`,
 			},
 		)
-			.on("click", () => $iptInitiative.select())
-			.appendTo($wrpRhs);
+			.onn("click", () => iptInitiative.selecte())
+			.appendTo(wrpRhs);
 	}
 
 	/* ----- */
 
-	_pPopulateRow_btns ({comp, entity, $wrpRhs}) {
-		const $btnVisible = InitiativeTrackerUi.$getBtnPlayerVisible(
+	_pPopulateRow_btns ({comp, entity, wrpRhs}) {
+		const btnVisible = InitiativeTrackerUi.getBtnPlayerVisible(
 			comp._state.isPlayerVisible,
-			() => comp._state.isPlayerVisible = $btnVisible.hasClass("ve-btn-primary")
+			() => comp._state.isPlayerVisible = btnVisible.hasClass("ve-btn-primary")
 				? IS_PLAYER_VISIBLE_ALL
 				: IS_PLAYER_VISIBLE_NONE,
 			false,
 		)
-			.title("Shown in player view")
+			.tooltip("Shown in player view")
 			.addClass("dm-init__row-btn")
 			.addClass("dm-init__btn_eye")
-			.appendTo($wrpRhs);
+			.appendTo(wrpRhs);
 
-		$(`<button class="ve-btn ve-btn-danger ve-btn-xs dm-init__row-btn dm-init-lockable" title="Delete (SHIFT to Also Delete Similar)" tabindex="-1"><span class="glyphicon glyphicon-trash"></span></button>`)
-			.appendTo($wrpRhs)
-			.on("click", evt => {
+		ee`<button class="ve-btn ve-btn-danger ve-btn-xs dm-init__row-btn dm-init-lockable" title="Delete (SHIFT to Also Delete Similar)" tabindex="-1"><span class="glyphicon glyphicon-trash"></span></button>`
+			.appendTo(wrpRhs)
+			.onn("click", evt => {
 				if (this._comp._state.isLocked) return;
 
 				if (evt.shiftKey) {

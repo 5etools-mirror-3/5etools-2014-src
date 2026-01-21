@@ -7379,7 +7379,7 @@
 									"id": "3a3",
 									"entries": [
 										"This gallery is decorated with seven framed paintings of creatures. A few chairs and benches have been placed in front of the art for viewing.",
-										" A plaque mounted on one of the walls bears the following dedication: \"In order to gain all knowledge, one must know where to start. Count on your enemies to reveal the source of the secret. This room is dedicated to the defeat of all monsters within.\" "
+										"A plaque mounted on one of the walls bears the following dedication: \"In order to gain all knowledge, one must know where to start. Count on your enemies to reveal the source of the secret. This room is dedicated to the defeat of all monsters within.\""
 									]
 								},
 								"Characters should be free to explore the gallery and inspect the paintings and dedication to discover the parts of the puzzle.",
@@ -7788,7 +7788,7 @@
 									"type": "insetReadaloud",
 									"id": "3bd",
 									"entries": [
-										"Dozens of gems lie strewn upon the floor. Amid the treasure stands a marble statue with its hands clasped in front of it. A placard at the statue's base reads, \"Only one treasure may leave this room. Cross with another and find your tomb.\" "
+										"Dozens of gems lie strewn upon the floor. Amid the treasure stands a marble statue with its hands clasped in front of it. A placard at the statue's base reads, \"Only one treasure may leave this room. Cross with another and find your tomb.\""
 									]
 								},
 								{
@@ -8044,8 +8044,8 @@
 									"id": "3cc",
 									"entries": [
 										"A disorienting wave sweeps over you. Suddenly, your surroundings are unfamiliar and shrouded in shadows.",
-										" Out of the gloom appears a hooded goblin carrying a lantern.",
-										" \"Hello, friends!\" the goblin says. \"I can help you through these parts\u2014if you can figure out my riddles. You don't want to make a wrong turn in here, as there are eyes everywhere. Solve the riddles and follow my directions to the letter.\" "
+										"Out of the gloom appears a hooded goblin carrying a lantern.",
+										"\"Hello, friends!\" the goblin says. \"I can help you through these parts\u2014if you can figure out my riddles. You don't want to make a wrong turn in here, as there are eyes everywhere. Solve the riddles and follow my directions to the letter.\""
 									]
 								},
 								"The {@creature goblin} is friendly, and its offer is genuine. It's name is Igor (pronounced {@i eye}-gor), which it reveals only if asked. The characters find themselves in a maze that emits magical darkness that can't be dispelled. No vision can penetrate this darkness, and only the goblin's lantern can illuminate it. Igor's lantern emits light in a 5-foot radius, but only so long as the goblin holds it. The lantern goes dark if any other creature takes custody of it.",

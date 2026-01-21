@@ -490,7 +490,7 @@
 				{
 					"name": "Shred",
 					"entries": [
-						"{@atk mw} {@hitYourSpellAttack} to hit, reach 5 ft., one target. {@h}{@damage 1d4 + 3 + PB} slashing damage"
+						"{@atk mw} {@hitYourSpellAttack} to hit, reach 5 ft., one target. {@h}{@damage 1d4 + 3 + PB} slashing damage."
 					]
 				}
 			],

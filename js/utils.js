@@ -2,7 +2,7 @@
 
 // in deployment, `IS_DEPLOYED = "<version number>";` should be set below.
 globalThis.IS_DEPLOYED = undefined;
-globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.213.3"/* 5ETOOLS_VERSION__CLOSE */;
+globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.213.4"/* 5ETOOLS_VERSION__CLOSE */;
 globalThis.DEPLOYED_IMG_ROOT = undefined;
 // for the roll20 script to set
 globalThis.IS_VTT = false;
@@ -1023,8 +1023,8 @@ globalThis.JqueryUtil = class {
 	static _WRP_TOAST = null;
 	static _ACTIVE_TOAST = [];
 	/**
-	 * @param {{content: jQuery|string, type?: string, autoHideTime?: boolean} | string} options The options for the toast.
-	 * @param {(jQuery|string)} options.content Toast contents. Supports jQuery objects.
+	 * @param {{content: jQuery|string|HTMLElementExtended, type?: string, autoHideTime?: boolean} | string} options The options for the toast.
+	 * @param {(jQuery|string|HTMLElementExtended)} options.content Toast contents. Supports jQuery objects.
 	 * @param {string} options.type Toast type. Can be any Bootstrap alert type ("success", "info", "warning", or "danger").
 	 * @param {number} options.autoHideTime The time in ms before the toast will be automatically hidden.
 	 * Defaults to 5000 ms.
@@ -1163,7 +1163,7 @@ class ElementUtil {
 	 * @property {function(HTMLElement|string): HTMLElementExtended} aftere
 	 * @property {function(HTMLElement): HTMLElementExtended} insertAfter
 	 * @property {function(HTMLElement|string): HTMLElementExtended} beforee
-	 * @property {function(HTMLElement|string): HTMLElementExtended} insertBefore
+	 * @property {function(HTMLElement|string): HTMLElementExtended} insertBeforee
 	 *
 	 * @property {function(string): HTMLElementExtended} addClass
 	 * @property {function(string): HTMLElementExtended} removeClass
@@ -1184,8 +1184,10 @@ class ElementUtil {
 	 * @property {function(string=): (HTMLElementExtended|string)} html
 	 * @property {function(string=): (HTMLElementExtended|string)} txt
 	 *
-	 * @property {function(string): HTMLElementExtended} tooltip
+	 * @property {function(?string): HTMLElementExtended} tooltip
+	 * @property {function(?string): HTMLElementExtended} placeholdere
 	 * @property {function(): HTMLElementExtended} disableSpellcheck
+	 * @property {function(Array<string>): HTMLElementExtended} typeahead
 	 *
 	 * @property {function(object): HTMLElementExtended} css
 	 *
@@ -1319,7 +1321,7 @@ class ElementUtil {
 		ele.aftere = ele.aftere || ElementUtil._aftere.bind(ele);
 		ele.insertAfter = ele.insertAfter || ElementUtil._insertAfter.bind(ele);
 		ele.beforee = ele.beforee || ElementUtil._beforee.bind(ele);
-		ele.insertBefore = ele.insertBefore || ElementUtil._insertBefore.bind(ele);
+		ele.insertBeforee = ele.insertBeforee || ElementUtil._insertBeforee.bind(ele);
 		ele.addClass = ele.addClass || ElementUtil._addClass.bind(ele);
 		ele.removeClass = ele.removeClass || ElementUtil._removeClass.bind(ele);
 		ele.toggleClass = ele.toggleClass || ElementUtil._toggleClass.bind(ele);
@@ -1335,7 +1337,9 @@ class ElementUtil {
 		ele.html = ele.html || ElementUtil._html.bind(ele);
 		ele.txt = ele.txt || ElementUtil._txt.bind(ele);
 		ele.tooltip = ele.tooltip || ElementUtil._tooltip.bind(ele);
+		ele.placeholdere = ele.placeholdere || ElementUtil._placeholdere.bind(ele);
 		ele.disableSpellcheck = ele.disableSpellcheck || ElementUtil._disableSpellcheck.bind(ele);
+		ele.typeahead = ele.typeahead || ElementUtil._typeahead.bind(ele);
 		ele.css = ele.css || ElementUtil._css.bind(ele);
 		ele.onn = ele.onn || ElementUtil._onX.bind(ele);
 		ele.off = ele.off || ElementUtil._offX.bind(ele);
@@ -1499,7 +1503,7 @@ class ElementUtil {
 	}
 
 	/** @this {HTMLElementExtended} */
-	static _insertBefore (parent) {
+	static _insertBeforee (parent) {
 		// eslint-disable-next-line vet-jquery/jquery
 		if (parent instanceof $) throw new Error(`Unhandled jQuery instance!`); // TODO(jquery) migrate
 
@@ -1598,12 +1602,31 @@ class ElementUtil {
 	}
 
 	/** @this {HTMLElementExtended} */
+	static _placeholdere (placeholder) {
+		if (placeholder === undefined) return this.getAttribute("placeholder");
+		return this.attr("placeholder", placeholder);
+	}
+
+	/** @this {HTMLElementExtended} */
 	static _disableSpellcheck () {
 		// avoid setting input type to "search" as it visually offsets the contents of the input
 		return this
 			.attr("autocomplete", "new-password")
 			.attr("autocapitalize", "off")
 			.attr("spellcheck", "false");
+	}
+
+	/** @this {HTMLElementExtended} */
+	static _typeahead (values) {
+		const id = CryptUtil.md5(JSON.stringify(values));
+
+		if (!document.getElementById(id)) {
+			ee`<datalist id="${id}">${values.map(val => `<option value="${val.qq()}"></option>`).join("")}</datalist>`
+				.appendTo(document.body);
+		}
+
+		return this
+			.attr("list", id);
 	}
 
 	/** @this {HTMLElementExtended} */

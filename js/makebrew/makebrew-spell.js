@@ -441,7 +441,7 @@ export class SpellBuilder extends BuilderBase {
 		const getTime = () => {
 			const out = {number: UiUtil.strToInt(iptNum.val()), unit: keys[selUnit.val()]};
 			const condition = iptCond.val().trim();
-			if (condition && keys[selUnit.val()] === Parser.SP_TM_REACTION) out.condition = condition;
+			if (condition) out.condition = condition;
 
 			iptNum.val(out.number);
 
@@ -458,8 +458,6 @@ export class SpellBuilder extends BuilderBase {
 		</select>`
 			.val(~ixInitial ? `${ixInitial}` : "0")
 			.onn("change", () => {
-				const isReaction = keys[selUnit.val()] === Parser.SP_TM_REACTION;
-				stageCond.toggleVe(isReaction);
 				doUpdateState();
 			});
 
@@ -469,14 +467,12 @@ export class SpellBuilder extends BuilderBase {
 
 		const out = {getTime};
 
-		const stageCond = ee`<div class="ve-flex-v-center mb-2">
-			<span class="mr-2 mkbru__sub-name--33">Condition</span>${iptCond}
-		</div>`.toggleVe(ixInitial === 2);
-
 		const wrpBtnRemove = ee`<div class="ve-text-right mb-2"></div>`;
 		const wrp = ee`<div class="ve-flex-col mkbru__wrp-rows mkbru__wrp-rows--removable">
 			<div class="ve-flex-v-center mb-2">${iptNum}${selUnit}</div>
-			${stageCond}
+			<div class="ve-flex-v-center mb-2">
+				<span class="mr-2 mkbru__sub-name--33">Condition</span>${iptCond}
+			</div>
 			${wrpBtnRemove}
 		</div>`;
 		this.getBtnRemoveRow(doUpdateState, timeRows, out, wrp, "Time", {isProtectLast: true}).appendTo(wrpBtnRemove);

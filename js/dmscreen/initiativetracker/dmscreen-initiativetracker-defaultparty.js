@@ -78,8 +78,20 @@ export class InitiativeTrackerDefaultParty extends BaseComponent {
 
 	/* -------------------------------------------- */
 
-	async pGetConvertedDefaultPartyActiveRows () {
-		const rows = MiscUtil.copyFast(this._comp._state.rowsDefaultParty);
+	/**
+	 * @param {?Array<object>} rowsPrev
+	 */
+	async pGetConvertedDefaultPartyActiveRows ({rowsPrev = null} = {}) {
+		const rowsPrevLookup = Object.fromEntries((rowsPrev || []).map(row => [row.id, row]));
+
+		const rows = this._comp._state.rowsDefaultParty
+			.map(row => {
+				const rowOut = rowsPrevLookup[row.id]
+					? MiscUtil.copyFast(rowsPrevLookup[row.id])
+					: MiscUtil.copyFast(row);
+				delete rowOut.entity?.initiative;
+				return rowOut;
+			});
 
 		if (!this._comp._state.isRollInit) return rows;
 

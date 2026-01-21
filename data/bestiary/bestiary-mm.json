@@ -43306,7 +43306,7 @@
 				{
 					"name": "Fist",
 					"entries": [
-						"{@atk mw} {@hit 3} to hit, reach 5 ft., one target. {@h}2 ({@damage 1d4}) bludgeoning damage"
+						"{@atk mw} {@hit 3} to hit, reach 5 ft., one target. {@h}2 ({@damage 1d4}) bludgeoning damage."
 					]
 				}
 			],
@@ -54504,7 +54504,7 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 3} to hit, reach 5 ft., one target. {@h}6 ({@damage 2d4 + 1}) piercing damage"
+						"{@atk mw} {@hit 3} to hit, reach 5 ft., one target. {@h}6 ({@damage 2d4 + 1}) piercing damage."
 					]
 				}
 			],
@@ -65604,7 +65604,7 @@
 				{
 					"name": "Stomp",
 					"entries": [
-						"{@atk mw} {@hit 9} to hit, reach 5 ft., one {@condition prone} creature. {@h}22 ({@damage 3d10 + 6}) bludgeoning damage"
+						"{@atk mw} {@hit 9} to hit, reach 5 ft., one {@condition prone} creature. {@h}22 ({@damage 3d10 + 6}) bludgeoning damage."
 					]
 				}
 			],

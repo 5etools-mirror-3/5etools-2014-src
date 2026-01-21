@@ -448,11 +448,8 @@
 					]
 				}
 			],
+			"reactionNote": "Charmayne can take up to three reactions per round but only one per turn.",
 			"reaction": [
-				{
-					"name": "Charmayne can take up to three reactions per round but only one per turn.",
-					"entries": []
-				},
 				{
 					"name": "Elemental Rebuke",
 					"entries": [

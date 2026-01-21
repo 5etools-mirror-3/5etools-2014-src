@@ -2870,6 +2870,7 @@
 		{
 			"name": "Venatrix",
 			"source": "VEoR",
+			"page": 151,
 			"vehicleType": "INFWAR",
 			"size": "G",
 			"weight": 12000,

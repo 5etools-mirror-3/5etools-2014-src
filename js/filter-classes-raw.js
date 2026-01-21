@@ -95,7 +95,7 @@ export class ModalFilterClasses extends ModalFilterBase {
 
 			this.doApplyFilterExpression(filterExpression);
 
-			this._filterCache.btnConfirm.off("click").click(async () => {
+			this._filterCache.btnConfirm.off("click").onn("click", async () => {
 				// Note: use invisible items, as this might be the parent class of a selected subclass
 				const checked = this._filterCache.list.items.filter(it => it.data.tglSel.classList.contains("active"));
 				const out = {};

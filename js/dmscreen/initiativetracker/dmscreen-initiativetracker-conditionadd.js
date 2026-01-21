@@ -3,9 +3,9 @@ import {InitiativeTrackerConditionCustomEdit} from "./dmscreen-initiativetracker
 import {InitiativeTrackerConditionUtil} from "./dmscreen-initiativetracker-condition.js";
 
 class _UtilConditionsCustomView {
-	static $getBtnCondition ({comp, cbSubmit, cbClick}) {
-		const $btn = $(`<button class="ve-btn ve-btn-default ve-btn-xs dm-init-cond__btn-cond" title="SHIFT to add with &quot;Unlimited&quot; duration; CTRL to add with 1-turn duration; SHIFT+CTRL to add with 10-turn duration."></button>`)
-			.on("click", evt => {
+	static getBtnCondition ({comp, cbSubmit, cbClick}) {
+		const btn = ee`<button class="ve-btn ve-btn-default ve-btn-xs dm-init-cond__btn-cond" title="SHIFT to add with &quot;Unlimited&quot; duration; CTRL to add with 1-turn duration; SHIFT+CTRL to add with 10-turn duration."></button>`
+			.onn("click", evt => {
 				cbClick({
 					name: comp._state.name,
 					color: comp._state.color,
@@ -19,10 +19,10 @@ class _UtilConditionsCustomView {
 				if (evt.shiftKey) return cbSubmit({turns: null});
 			});
 
-		comp._addHookBase("color", () => $btn.css({"background-color": `${comp._state.color}`}))();
-		comp._addHookBase("name", () => $btn.text(comp._state.name || "\u00A0"))();
+		comp._addHookBase("color", () => btn.css({"background-color": `${comp._state.color}`}))();
+		comp._addHookBase("name", () => btn.text(comp._state.name || "\u00A0"))();
 
-		return $btn;
+		return btn;
 	}
 }
 
@@ -30,24 +30,24 @@ class _RenderableCollectionConditionsCustomView extends RenderableCollectionGene
 	constructor (
 		{
 			comp,
-			$wrpRows,
+			wrpRows,
 			rdState,
 			cbDoSubmit,
 		},
 	) {
-		super(comp, "conditionsCustom", $wrpRows);
+		super(comp, "conditionsCustom", wrpRows);
 		this._rdState = rdState;
 		this._cbDoSubmit = cbDoSubmit;
 	}
 
-	_$getWrpRow () {
-		return $(`<div class="ve-flex-vh-center w-33 my-1"></div>`);
+	_getWrpRow () {
+		return ee`<div class="ve-flex-vh-center w-33 my-1"></div>`;
 	}
 
 	/* -------------------------------------------- */
 
-	_populateRow ({comp, $wrpRow, entity}) {
-		_UtilConditionsCustomView.$getBtnCondition({
+	_populateRow ({comp, wrpRow, entity}) {
+		_UtilConditionsCustomView.getBtnCondition({
 			comp,
 			cbClick: ({name, color, turns}) => {
 				this._comp._state.name = name;
@@ -58,7 +58,7 @@ class _RenderableCollectionConditionsCustomView extends RenderableCollectionGene
 				this._comp._state.turns = turns;
 				this._cbDoSubmit({rdState: this._rdState});
 			},
-		}).appendTo($wrpRow);
+		}).appendTo(wrpRow);
 	}
 }
 
@@ -90,7 +90,7 @@ export class InitiativeTrackerConditionAdd extends BaseComponent {
 		rdState.cbDoClose = doClose;
 
 		$$($modalInner)`
-			${this._render_$getStgConditionsStandard({rdState})}
+			${this._render_getStgConditionsStandard({rdState})}
 
 			<hr class="hr-3">
 
@@ -112,10 +112,10 @@ export class InitiativeTrackerConditionAdd extends BaseComponent {
 			});
 	}
 
-	_render_$getStgConditionsStandard ({rdState}) {
-		const $wrps = InitiativeTrackerUtil.CONDITIONS
+	_render_getStgConditionsStandard ({rdState}) {
+		const wrps = InitiativeTrackerUtil.CONDITIONS
 			.map(cond => {
-				const $btn = _UtilConditionsCustomView.$getBtnCondition({
+				const btn = _UtilConditionsCustomView.getBtnCondition({
 					comp: BaseComponent.fromObject({
 						name: cond.name,
 						color: cond.color,
@@ -131,13 +131,13 @@ export class InitiativeTrackerConditionAdd extends BaseComponent {
 					},
 				});
 
-				return $$`<div class="ve-flex-vh-center w-33 my-1">${$btn}</div>`;
+				return ee`<div class="ve-flex-vh-center w-33 my-1">${btn}</div>`;
 			});
 
-		return $$`
+		return ee`
 			<div class="ve-flex-col w-100 h-100 min-h-0 ve-flex-v-center">
 				<div class="ve-flex-wrap w-100 h-100 min-h-0 dm-init-cond__wrp-btns">
-					${$wrps}
+					${wrps}
 				</div>
 			</div>
 		`;

@@ -2059,6 +2059,100 @@
 			"hasToken": true
 		},
 		{
+			"name": "Female Steeder",
+			"source": "OotA",
+			"page": 238,
+			"reprintedAs": [
+				"Female Steeder|MTF"
+			],
+			"size": [
+				"L"
+			],
+			"type": "beast",
+			"alignment": [
+				"U"
+			],
+			"ac": [
+				{
+					"ac": 14,
+					"from": [
+						"natural armor"
+					]
+				}
+			],
+			"hp": {
+				"average": 30,
+				"formula": "4d10 + 8"
+			},
+			"speed": {
+				"walk": 30,
+				"climb": 30
+			},
+			"str": 15,
+			"dex": 16,
+			"con": 14,
+			"int": 2,
+			"wis": 10,
+			"cha": 3,
+			"skill": {
+				"stealth": "+7"
+			},
+			"senses": [
+				"darkvision 120 ft."
+			],
+			"passive": 10,
+			"cr": "1",
+			"trait": [
+				{
+					"name": "Spider Climb",
+					"entries": [
+						"The steeder can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+					]
+				},
+				{
+					"name": "Leap",
+					"entries": [
+						"The steeder can expend all its movement on its turn to jump up to 90 feet vertically or horizontally, provided that its speed is at least 30 feet."
+					]
+				}
+			],
+			"action": [
+				{
+					"name": "Bite",
+					"entries": [
+						"{@atk mw} {@hit 5} to hit, reach 5 ft., one creature. {@h}7 ({@damage 1d8 + 3}) piercing damage, and the target must make a {@dc 12} Constitution saving throw, taking 9 ({@damage 2d8}) acid damage on a failed save, or half as much damage on a successful one."
+					]
+				},
+				{
+					"name": "Sticky Leg (Recharges when the Steeder Has No Creatures Grappled)",
+					"entries": [
+						"{@atk mw} {@hit 5} to hit, reach 5 ft., one Medium or smaller creature. {@h}The target is stuck to the steeder's leg and {@condition grappled} until it escapes (escape {@dc 12})."
+					]
+				}
+			],
+			"traitTags": [
+				"Spider Climb"
+			],
+			"senseTags": [
+				"SD"
+			],
+			"damageTags": [
+				"A",
+				"P"
+			],
+			"miscTags": [
+				"MW"
+			],
+			"conditionInflict": [
+				"grappled"
+			],
+			"savingThrowForced": [
+				"constitution"
+			],
+			"hasToken": true,
+			"hasFluff": true
+		},
+		{
 			"name": "Fiendish Giant Spider",
 			"source": "OotA",
 			"page": 97,
@@ -2525,7 +2619,7 @@
 				{
 					"name": "+1 Flail",
 					"entries": [
-						"{@atk mw} {@hit 5} to hit, reach 5 ft., one target. {@h}7 ({@damage 1d8 + 3}) bludgeoning damage"
+						"{@atk mw} {@hit 5} to hit, reach 5 ft., one target. {@h}7 ({@damage 1d8 + 3}) bludgeoning damage."
 					]
 				}
 			],
@@ -3144,7 +3238,7 @@
 						"items": {
 							"name": "Special Equipment",
 							"entries": [
-								"Khalessa owns a {@item hat of disguise}, which she uses to appear as a female drow while in the company of drow."
+								"Khalessa owns a {@item hat of disguise}, which she uses to appear as a female drow while in the company of drow, and she wears a {@item Piwafwi (Cloak of Elvenkind)|OotA|piwafwi}."
 							]
 						}
 					}
@@ -3152,6 +3246,11 @@
 			},
 			"alignment": [
 				"N"
+			],
+			"languages": [
+				"Common",
+				"Elvish",
+				"Undercommon"
 			],
 			"spellcasting": [
 				{
@@ -3183,14 +3282,8 @@
 			"source": "OotA",
 			"page": 134,
 			"_copy": {
-				"name": "Assassin",
-				"source": "MM",
-				"_templates": [
-					{
-						"name": "Drow (Levitate)",
-						"source": "PHB"
-					}
-				],
+				"name": "Drow Assassin",
+				"source": "OotA",
 				"_mod": {
 					"*": {
 						"mode": "replaceTxt",
@@ -3497,6 +3590,100 @@
 			"hasToken": true
 		},
 		{
+			"name": "Male Steeder",
+			"source": "OotA",
+			"page": 231,
+			"reprintedAs": [
+				"Male Steeder|MTF"
+			],
+			"size": [
+				"M"
+			],
+			"type": "beast",
+			"alignment": [
+				"U"
+			],
+			"ac": [
+				{
+					"ac": 12,
+					"from": [
+						"natural armor"
+					]
+				}
+			],
+			"hp": {
+				"average": 13,
+				"formula": "2d8 + 4"
+			},
+			"speed": {
+				"walk": 30,
+				"climb": 30
+			},
+			"str": 15,
+			"dex": 12,
+			"con": 14,
+			"int": 2,
+			"wis": 10,
+			"cha": 3,
+			"skill": {
+				"stealth": "+5"
+			},
+			"senses": [
+				"darkvision 120 ft."
+			],
+			"passive": 10,
+			"cr": "1/4",
+			"trait": [
+				{
+					"name": "Spider Climb",
+					"entries": [
+						"The steeder can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+					]
+				},
+				{
+					"name": "Leap",
+					"entries": [
+						"The steeder can expend all its movement on its turn to jump up to 60 feet vertically or horizontally, provided that its speed is at least 30 feet."
+					]
+				}
+			],
+			"action": [
+				{
+					"name": "Bite",
+					"entries": [
+						"{@atk mw} {@hit 4} to hit, reach 5 ft., one creature. {@h}7 ({@damage 1d8 + 2}) piercing damage, and the target must make a {@dc 12} Constitution saving throw, taking 4 ({@damage 1d8}) acid damage on a failed save, or half as much damage on a successful one."
+					]
+				},
+				{
+					"name": "Sticky Leg (Recharges when the Steeder Has No Creatures Grappled)",
+					"entries": [
+						"{@atk mw} {@hit 4} to hit, reach 5 ft., one Small or Tiny creature. {@h}The target is stuck to the steeder's leg and {@condition grappled} until it escapes (escape {@dc 12})."
+					]
+				}
+			],
+			"traitTags": [
+				"Spider Climb"
+			],
+			"senseTags": [
+				"SD"
+			],
+			"damageTags": [
+				"A",
+				"P"
+			],
+			"miscTags": [
+				"MW"
+			],
+			"conditionInflict": [
+				"grappled"
+			],
+			"savingThrowForced": [
+				"constitution"
+			],
+			"hasToken": true,
+			"hasFluff": true
+		},
+		{
 			"name": "Mev Flintknapper",
 			"isNpc": true,
 			"isNamedCreature": true,
@@ -3736,6 +3923,10 @@
 					}
 				}
 			},
+			"alignment": [
+				"N",
+				"E"
+			],
 			"spellcastingTags": [
 				"I"
 			],

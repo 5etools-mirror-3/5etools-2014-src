@@ -304,6 +304,7 @@
 									"prop": "subclass",
 									"source": "PSK",
 									"name": "Pyromancer (PSK)",
+									"shortName": "Pyromancer (PSK)",
 									"displayName": "Sorcerous Origin: Pyromancer",
 									"className": "Sorcerer",
 									"classSource": "PHB",

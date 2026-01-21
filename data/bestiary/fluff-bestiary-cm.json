@@ -211,18 +211,6 @@
 			]
 		},
 		{
-			"name": "Dragon Tortoise",
-			"source": "CM",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						"Ogruhl has been trapped here for millennia, restrained by magic chains. Ogruhl was the prisoner of a cruel Netherese wizard. When the city around the tortoise was abandoned, Ogruhl was left to die. A band of chwingas found the tortoise and brought it food and water little by little to keep it alive. Over time, the chwingas and Ogruhl developed a symbiotic relationship\u2014it defended them and provided a home for them, and they helped it to survive."
-					]
-				}
-			]
-		},
-		{
 			"name": "Faerl",
 			"source": "CM",
 			"entries": [
@@ -523,6 +511,13 @@
 					},
 					"credit": "Ernanda Souza"
 				}
+			]
+		},
+		{
+			"name": "Ogruhl",
+			"source": "CM",
+			"entries": [
+				"Ogruhl has been trapped here for millennia, restrained by magic chains. Ogruhl was the prisoner of a cruel Netherese wizard. When the city around the tortoise was abandoned, Ogruhl was left to die. A band of chwingas found the tortoise and brought it food and water little by little to keep it alive. Over time, the chwingas and Ogruhl developed a symbiotic relationship\u2014it defended them and provided a home for them, and they helped it to survive."
 			]
 		},
 		{

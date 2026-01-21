@@ -20,36 +20,36 @@ class _RenderableCollectionStatsCols extends RenderableCollectionGenericRows {
 		this._doClose = doClose;
 	}
 
-	_populateRow ({comp, $wrpRow, entity}) {
-		$wrpRow.addClass("py-1p");
+	_populateRow ({comp, wrpRow, entity}) {
+		wrpRow.addClass("py-1p");
 
 		const meta = InitiativeTrackerStatColumnFactory.fromPopulateWith({populateWith: comp._state.populateWith});
 
-		const $iptAbv = ComponentUiUtil.$getIptStr(comp, "abbreviation");
+		const iptAbv = ComponentUiUtil.getIptStr(comp, "abbreviation");
 
-		const $cbIsEditable = ComponentUiUtil.$getCbBool(comp, "isEditable");
+		const cbIsEditable = ComponentUiUtil.getCbBool(comp, "isEditable");
 
-		const $btnVisible = InitiativeTrackerUi.$getBtnPlayerVisible(
+		const btnVisible = InitiativeTrackerUi.getBtnPlayerVisible(
 			comp._state.isPlayerVisible,
-			() => comp._state.isPlayerVisible = $btnVisible.hasClass("ve-btn-primary--half")
+			() => comp._state.isPlayerVisible = btnVisible.hasClass("ve-btn-primary--half")
 				? IS_PLAYER_VISIBLE_PLAYER_UNITS_ONLY
-				: $btnVisible.hasClass("ve-btn-primary")
+				: btnVisible.hasClass("ve-btn-primary")
 					? IS_PLAYER_VISIBLE_ALL
 					: IS_PLAYER_VISIBLE_NONE,
 			true,
 		);
 
-		const $btnDelete = this._utils.$getBtnDelete({entity});
+		const btnDelete = this._utils.getBtnDelete({entity});
 
-		const padDrag = this._utils.getPadDrag({wrpRow: $wrpRow[0]});
+		const padDrag = this._utils.getPadDrag({wrpRow: wrpRow[0]});
 
-		$$($wrpRow)`
+		ee(wrpRow)`
 			<div class="ve-col-5 pr-1">${meta.constructor.NAME}</div>
-			<div class="ve-col-3 pr-1">${$iptAbv}</div>
-			<div class="ve-col-1-5 ve-text-center">${$cbIsEditable}</div>
-			<div class="ve-col-1-5 ve-text-center">${$btnVisible}</div>
+			<div class="ve-col-3 pr-1">${iptAbv}</div>
+			<div class="ve-col-1-5 ve-text-center">${cbIsEditable}</div>
+			<div class="ve-col-1-5 ve-text-center">${btnVisible}</div>
 
-			<div class="ve-col-0-5 ve-flex-vh-center">${$btnDelete}</div>
+			<div class="ve-col-0-5 ve-flex-vh-center">${btnDelete}</div>
 			<div class="ve-col-0-5 ve-flex-vh-center">${padDrag}</div>
 		`;
 	}

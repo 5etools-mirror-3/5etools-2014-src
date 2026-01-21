@@ -4792,7 +4792,7 @@
 											"id": "0e7",
 											"entries": [
 												"The only feature of this damp, cold, circular room is a four-foot-diameter well in the middle of the floor. Next to this shaft sits a wooden bucket fastened to a coiled length of rope.",
-												"The bottom of the shaft is veiled in darkness. From its depths, a whispering voice says, \"Brorn! Where are you, boy?\" "
+												"The bottom of the shaft is veiled in darkness. From its depths, a whispering voice says, \"Brorn! Where are you, boy?\""
 											]
 										},
 										"After the death of Brorn, his beloved mastiff, Baron Brantifax was beset by spells of sleepwalking, during which he would wander about the chalet looking for his lost hound. The servants mistook his sleepwalking for temporary madness brought on by insomnia, and they assumed he was awake at the time. He was sleepwalking when he fell down the well, and he drowned before the servants could get him out. The haunting whispers of his restless spirit terrified the staff, who fled the chalet shortly thereafter. The baron's spirit is too weak to manifest physically or cause any harm.",
@@ -27808,7 +27808,7 @@
 												"Its breath weapon is a 60-foot cone of abrasive sand instead of steam that deals slashing damage instead of fire damage."
 											]
 										},
-										"{@creature Dragon Tortoise|CM|Ogruhl} has been trapped here for millennia, {@condition restrained} by magic chains. Ogruhl was the prisoner of a cruel Netherese wizard. When the city around the tortoise was abandoned, Ogruhl was left to die. A band of chwingas found the tortoise and brought it food and water little by little to keep it alive. Over time, the chwingas and Ogruhl developed a symbiotic relationship\u2014it defended them and provided a home for them, and they helped it to survive.",
+										"{@creature Ogruhl|CM} has been trapped here for millennia, {@condition restrained} by magic chains. Ogruhl was the prisoner of a cruel Netherese wizard. When the city around the tortoise was abandoned, Ogruhl was left to die. A band of chwingas found the tortoise and brought it food and water little by little to keep it alive. Over time, the chwingas and Ogruhl developed a symbiotic relationship\u2014it defended them and provided a home for them, and they helped it to survive.",
 										"{@b Helping Ogruhl}. A successful {@dc 20} Intelligence ({@skill Arcana}) check determines that the chains that bind Ogruhl can be broken with a successful {@spell dispel magic} spell ({@dc 19}).",
 										"If commanded to do so, the {@creature Sapphire Sentinel|CM|golem} uses its sapphire heart to cast {@spell dispel magic} with a flash of blue light. If the players don't realize that the golem can dispel magic, you can have the golem do this automatically and the players learn about it that way.",
 										"If freed, Ogruhl expresses its immense gratitude and eagerly wants to reclaim its ancestral territory. The bravest chwingas come out to bestow a charm on each of the characters."

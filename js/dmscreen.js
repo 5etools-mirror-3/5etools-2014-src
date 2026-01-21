@@ -442,21 +442,23 @@ class Board {
 
 	doCheckFillSpaces ({isSkipSave = false} = {}) {
 		const panelsToRender = [];
+		let isAnyFilled = false;
 
 		for (let x = 0; x < this.width; x++) {
 			for (let y = 0; y < this.height; ++y) {
 				const pnl = this.getPanel(x, y);
-				if (!pnl) {
-					const nuPnl = new Panel(this, x, y);
-					this.panels[nuPnl.id] = nuPnl;
-					this.fireBoardEvent({type: "panelIdSetActive", payload: {type: nuPnl.type}});
-					panelsToRender.push(nuPnl);
-				}
+				if (pnl) continue;
+
+				isAnyFilled = true;
+				const nuPnl = new Panel(this, x, y);
+				this.panels[nuPnl.id] = nuPnl;
+				this.fireBoardEvent({type: "panelIdSetActive", payload: {type: nuPnl.type}});
+				panelsToRender.push(nuPnl);
 			}
 		}
 
 		panelsToRender.forEach(p => p.render());
-		if (!isSkipSave) this.doSaveStateDebounced();
+		if (!isSkipSave && isAnyFilled) this.doSaveStateDebounced();
 	}
 
 	hasSavedStateUrl () {
@@ -2199,7 +2201,7 @@ class Panel {
 			ix: hisMeta.tabIndex,
 			type: hisMeta.type,
 			contentMeta: hisMeta.contentMeta,
-			panelApp: hisMeta.panelApp,
+			panelApp: hisMeta.tabDatas[hisMeta.tabIndex]?.panelApp,
 			$content: $hisContent,
 			title: hisMeta.title,
 			tabCanRename: hisMeta.tabCanRename,
@@ -2419,123 +2421,23 @@ class Panel {
 			t: this.type,
 		};
 
-		const getSaveableContent = (type, contentMeta, panelApp, $content, tabRenamed, tabTitle) => {
-			const toSaveTitle = tabRenamed ? tabTitle : undefined;
-
-			// TODO(Future) refactor other panels to use this
-			const fromPcm = PanelContentManagerFactory.getSaveableContent({
-				type,
-				toSaveTitle,
-				panelApp,
-			});
-			if (fromPcm !== undefined) return fromPcm;
-
-			switch (type) {
-				case PANEL_TYP_EMPTY:
-					return null;
-
-				case PANEL_TYP_ROLLBOX:
-					return {
-						t: type,
-						r: toSaveTitle,
-					};
-				case PANEL_TYP_STATS:
-					return {
-						t: type,
-						r: toSaveTitle,
-						c: {
-							p: contentMeta.p,
-							s: contentMeta.s,
-							u: contentMeta.u,
-						},
-					};
-				case PANEL_TYP_CREATURE_SCALED_CR:
-					return {
-						t: type,
-						r: toSaveTitle,
-						c: {
-							p: contentMeta.p,
-							s: contentMeta.s,
-							u: contentMeta.u,
-							cr: contentMeta.cr,
-						},
-					};
-				case PANEL_TYP_CREATURE_SCALED_SPELL_SUMMON:
-					return {
-						t: type,
-						r: toSaveTitle,
-						c: {
-							p: contentMeta.p,
-							s: contentMeta.s,
-							u: contentMeta.u,
-							ssl: contentMeta.ssl,
-						},
-					};
-				case PANEL_TYP_CREATURE_SCALED_CLASS_SUMMON:
-					return {
-						t: type,
-						r: toSaveTitle,
-						c: {
-							p: contentMeta.p,
-							s: contentMeta.s,
-							u: contentMeta.u,
-							csl: contentMeta.csl,
-						},
-					};
-				case PANEL_TYP_RULES:
-					return {
-						t: type,
-						r: toSaveTitle,
-						c: {
-							b: contentMeta.b,
-							c: contentMeta.c,
-							h: contentMeta.h,
-						},
-					};
-				case PANEL_TYP_ADVENTURES:
-					return {
-						t: type,
-						r: toSaveTitle,
-						c: {
-							a: contentMeta.a,
-							c: contentMeta.c,
-						},
-					};
-				case PANEL_TYP_BOOKS:
-					return {
-						t: type,
-						r: toSaveTitle,
-						c: {
-							b: contentMeta.b,
-							c: contentMeta.c,
-						},
-					};
-				case PANEL_TYP_TUBE:
-				case PANEL_TYP_TWITCH:
-				case PANEL_TYP_TWITCH_CHAT:
-				case PANEL_TYP_GENERIC_EMBED:
-				case PANEL_TYP_IMAGE:
-					return {
-						t: type,
-						r: toSaveTitle,
-						c: {
-							u: contentMeta.u,
-						},
-					};
-				case PANEL_TYP_ERROR:
-					return {r: toSaveTitle, s: contentMeta};
-				case PANEL_TYP_BLANK:
-					return {r: toSaveTitle};
-				default:
-					throw new Error(`Unhandled panel type ${this.type}`);
-			}
-		};
-
-		const toSave = getSaveableContent(this.type, this.contentMeta, this.tabDatas[0]?.panelApp, this.$content);
+		const toSave = this._getSaveableState_getSaveableContent({
+			type: this.type,
+			contentMeta: this.contentMeta,
+			panelApp: this.tabDatas[this.tabIndex]?.panelApp,
+		});
 		if (toSave) Object.assign(out, toSave);
 
 		if (this.isTabs) {
-			out.a = this.tabDatas.filter(it => !it.isDeleted).map(td => getSaveableContent(td.type, td.contentMeta, td.panelApp, td.$content, td.tabRenamed, td.title));
+			out.a = this.tabDatas.filter(it => !it.isDeleted)
+				.map(td => this._getSaveableState_getSaveableContent({
+					type: td.type,
+					contentMeta: td.contentMeta,
+					panelApp: td.panelApp,
+					tabRenamed: td.tabRenamed,
+					tabTitle: td.title,
+				}));
+
 			// offset saved tabindex by number of deleted tabs that come before
 			let delCount = 0;
 			for (let i = 0; i < this.tabIndex; ++i) {
@@ -2545,6 +2447,126 @@ class Panel {
 		}
 
 		return out;
+	}
+
+	_getSaveableState_getSaveableContent (
+		{
+			type,
+			contentMeta,
+			panelApp,
+			tabRenamed,
+			tabTitle,
+		},
+	) {
+		const toSaveTitle = tabRenamed ? tabTitle : undefined;
+
+		// TODO(Future) refactor other panels to use this
+		const fromPcm = PanelContentManagerFactory.getSaveableContent({
+			type,
+			toSaveTitle,
+			panelApp,
+		});
+		if (fromPcm !== undefined) return fromPcm;
+
+		switch (type) {
+			case PANEL_TYP_EMPTY:
+				return null;
+
+			case PANEL_TYP_ROLLBOX:
+				return {
+					t: type,
+					r: toSaveTitle,
+				};
+			case PANEL_TYP_STATS:
+				return {
+					t: type,
+					r: toSaveTitle,
+					c: {
+						p: contentMeta.p,
+						s: contentMeta.s,
+						u: contentMeta.u,
+					},
+				};
+			case PANEL_TYP_CREATURE_SCALED_CR:
+				return {
+					t: type,
+					r: toSaveTitle,
+					c: {
+						p: contentMeta.p,
+						s: contentMeta.s,
+						u: contentMeta.u,
+						cr: contentMeta.cr,
+					},
+				};
+			case PANEL_TYP_CREATURE_SCALED_SPELL_SUMMON:
+				return {
+					t: type,
+					r: toSaveTitle,
+					c: {
+						p: contentMeta.p,
+						s: contentMeta.s,
+						u: contentMeta.u,
+						ssl: contentMeta.ssl,
+					},
+				};
+			case PANEL_TYP_CREATURE_SCALED_CLASS_SUMMON:
+				return {
+					t: type,
+					r: toSaveTitle,
+					c: {
+						p: contentMeta.p,
+						s: contentMeta.s,
+						u: contentMeta.u,
+						csl: contentMeta.csl,
+					},
+				};
+			case PANEL_TYP_RULES:
+				return {
+					t: type,
+					r: toSaveTitle,
+					c: {
+						b: contentMeta.b,
+						c: contentMeta.c,
+						h: contentMeta.h,
+					},
+				};
+			case PANEL_TYP_ADVENTURES:
+				return {
+					t: type,
+					r: toSaveTitle,
+					c: {
+						a: contentMeta.a,
+						c: contentMeta.c,
+					},
+				};
+			case PANEL_TYP_BOOKS:
+				return {
+					t: type,
+					r: toSaveTitle,
+					c: {
+						b: contentMeta.b,
+						c: contentMeta.c,
+					},
+				};
+			case PANEL_TYP_TUBE:
+			case PANEL_TYP_TWITCH:
+			case PANEL_TYP_TWITCH_CHAT:
+			case PANEL_TYP_GENERIC_EMBED:
+			case PANEL_TYP_IMAGE:
+				return {
+					t: type,
+					r: toSaveTitle,
+					c: {
+						u: contentMeta.u,
+					},
+				};
+			case PANEL_TYP_ERROR:
+				return {r: toSaveTitle, s: contentMeta};
+			case PANEL_TYP_BLANK:
+				return {r: toSaveTitle};
+			default:
+				throw new Error(`Unhandled panel type ${this.type}`);
+		}
 	}
 
 	fireBoardEvent (boardEvt) {
@@ -3357,11 +3379,11 @@ class AddMenuSearchTab extends AddMenuTab {
 		this._adventureOrBookIdToSource = adventureOrBookIdToSource;
 
 		this.$selCat = null;
-		this.$srch = null;
-		this.$results = null;
+		this.iptSearch = null;
+		this.wrpResults = null;
 		this.showMsgIpt = null;
 		this._pDoSearch = null;
-		this._$ptrRows = null;
+		this._ptrRows = null;
 	}
 
 	_getSearchOptions () {
@@ -3395,27 +3417,27 @@ class AddMenuSearchTab extends AddMenuTab {
 		}
 	}
 
-	_$getRow (r) {
+	_getRow (r) {
 		switch (this.subType) {
-			case "content": return $(`
+			case "content": return ee`
 				<div class="ui-search__row" tabindex="0">
 					<span><span class="ve-muted">${r.doc.cf}</span> ${r.doc.n}</span>
 					<span>${r.doc.s ? `<i title="${Parser.sourceJsonToFull(r.doc.s)}">${Parser.sourceJsonToAbv(r.doc.s)}${r.doc.p ? ` p${r.doc.p}` : ""}</i>` : ""}</span>
 				</div>
-			`);
-			case "rule": return $(`
+			`;
+			case "rule": return ee`
 				<div class="ui-search__row" tabindex="0">
 					<span>${r.doc.h}</span>
 					<span><i>${r.doc.n}, ${r.doc.s}</i></span>
 				</div>
-			`);
+			`;
 			case "adventure":
-			case "book": return $(`
+			case "book": return ee`
 				<div class="ui-search__row" tabindex="0">
 					<span>${r.doc.c}</span>
 					<span><i>${r.doc.n}${r.doc.o ? `, ${r.doc.o}` : ""}</i></span>
 				</div>
-			`);
+			`;
 			default: throw new Error(`Unhandled search tab subtype: "${this.subType}"`);
 		}
 	}
@@ -3451,22 +3473,22 @@ class AddMenuSearchTab extends AddMenuTab {
 
 		this.showMsgIpt = () => {
 			flags.isWait = true;
-			this.$results.empty().append(SearchWidget.getSearchEnter());
+			this.wrpResults.empty().appends(SearchWidget.getSearchEnter());
 		};
 
 		const showMsgDots = () => {
-			this.$results.empty().append(SearchWidget.getSearchLoading());
+			this.wrpResults.empty().appends(SearchWidget.getSearchLoading());
 		};
 
 		const showNoResults = () => {
 			flags.isWait = true;
-			this.$results.empty().append(SearchWidget.getSearchEnter());
+			this.wrpResults.empty().appends(SearchWidget.getSearchEnter());
 		};
 
-		this._$ptrRows = {_: []};
+		this._ptrRows = {_: []};
 
 		this._pDoSearch = async () => {
-			const srch = this.$srch.val().trim();
+			const srch = this.iptSearch.val().trim();
 
 			const searchOptions = this._getSearchOptions();
 			const index = this.indexes[this.cat];
@@ -3479,8 +3501,8 @@ class AddMenuSearchTab extends AddMenuTab {
 			const resultCount = results.length ? results.length : index.documentStore.length;
 			const toProcess = results.length ? results : Object.values(index.documentStore.docs).slice(0, UiUtil.SEARCH_RESULTS_CAP).map(it => ({doc: it}));
 
-			this.$results.empty();
-			this._$ptrRows._ = [];
+			this.wrpResults.empty();
+			this._ptrRows._ = [];
 
 			if (toProcess.length) {
 				const handleClick = (r) => {
@@ -3519,14 +3541,14 @@ class AddMenuSearchTab extends AddMenuTab {
 				const res = toProcess.slice(0, UiUtil.SEARCH_RESULTS_CAP);
 
 				res.forEach(r => {
-					const $row = this._$getRow(r).appendTo(this.$results);
-					SearchWidget.bindRowHandlers({result: r, $row, $ptrRows: this._$ptrRows, fnHandleClick: handleClick, $iptSearch: this.$srch});
-					this._$ptrRows._.push($row);
+					const row = this._getRow(r).appendTo(this.wrpResults);
+					SearchWidget.bindRowHandlers({result: r, row, ptrRows: this._ptrRows, fnHandleClick: handleClick, iptSearch: this.iptSearch});
+					this._ptrRows._.push(row);
 				});
 
 				if (resultCount > UiUtil.SEARCH_RESULTS_CAP) {
 					const diff = resultCount - UiUtil.SEARCH_RESULTS_CAP;
-					this.$results.append(`<div class="ui-search__row ui-search__row--readonly">...${diff} more result${diff === 1 ? " was" : "s were"} hidden. Refine your search!</div>`);
+					this.wrpResults.appends(`<div class="ui-search__row ui-search__row--readonly">...${diff} more result${diff === 1 ? " was" : "s were"} hidden. Refine your search!</div>`);
 				}
 			} else {
 				if (!srch.trim()) this.showMsgIpt();
@@ -3551,27 +3573,27 @@ class AddMenuSearchTab extends AddMenuTab {
 				await this._pDoSearch();
 			});
 
-			const $srch = $(`<input class="ui-search__ipt-search search form-control" autocomplete="off" placeholder="Search...">`).appendTo($wrpCtrls);
-			const $results = $(`<div class="ui-search__wrp-results"></div>`).appendTo($tab);
+			const iptSearch = ee`<input class="ui-search__ipt-search search form-control" autocomplete="off" placeholder="Search...">`.appendTo($wrpCtrls[0]);
+			const wrpResults = ee`<div class="ui-search__wrp-results"></div>`.appendTo($tab[0]);
 
-			SearchWidget.bindAutoSearch($srch, {
+			SearchWidget.bindAutoSearch(iptSearch, {
 				flags,
 				pFnSearch: this._pDoSearch,
 				fnShowWait: showMsgDots,
-				$ptrRows: this._$ptrRows,
+				ptrRows: this._ptrRows,
 			});
 
 			this.$tab = $tab;
 			this.$selCat = $selCat;
-			this.$srch = $srch;
-			this.$results = $results;
+			this.iptSearch = iptSearch;
+			this.wrpResults = wrpResults;
 
 			await this._pDoSearch();
 		}
 	}
 
 	async pDoTransitionActive () {
-		this.$srch.val("").focus();
+		this.iptSearch.val("").focuse();
 		if (this._pDoSearch) await this._pDoSearch();
 	}
 }

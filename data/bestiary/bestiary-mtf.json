@@ -9160,12 +9160,6 @@
 			"name": "Female Steeder",
 			"source": "MTF",
 			"page": 238,
-			"otherSources": [
-				{
-					"source": "OotA",
-					"page": 231
-				}
-			],
 			"reprintedAs": [
 				"Female Steeder|MPMM"
 			],
@@ -13292,12 +13286,6 @@
 			"name": "Male Steeder",
 			"source": "MTF",
 			"page": 238,
-			"otherSources": [
-				{
-					"source": "OotA",
-					"page": 231
-				}
-			],
 			"reprintedAs": [
 				"Male Steeder|MPMM"
 			],

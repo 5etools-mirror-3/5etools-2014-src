@@ -15,7 +15,7 @@ export class UnitConverter extends DmScreenPanelAppBase {
 
 		this._ixConv = null;
 		this._dirConv = null;
-		this._$iptLeft = null;
+		this._iptLeft = null;
 	}
 
 	_$getPanelElement (board, state) {
@@ -57,7 +57,7 @@ export class UnitConverter extends DmScreenPanelAppBase {
 
 		const $wrpLeft = $(`<div class="split-column dm-unitconv__wrp-ipt-inner w-100"></div>`).appendTo($wrpIpt);
 		const $lblLeft = $(`<span class="bold"></span>`).appendTo($wrpLeft);
-		this._$iptLeft = $(`<textarea class="dm-unitconv__ipt form-control h-100">${state.i || ""}</textarea>`).appendTo($wrpLeft);
+		this._iptLeft = ee`<textarea class="dm-unitconv__ipt form-control h-100">${state.i || ""}</textarea>`.appendTo($wrpLeft[0]);
 
 		const $btnSwitch = $(`<button class="ve-btn ve-btn-primary dm-unitconv__btn-switch">⇆</button>`).click(() => {
 			this._dirConv = Number(!this._dirConv);
@@ -79,14 +79,14 @@ export class UnitConverter extends DmScreenPanelAppBase {
 		const mMaths = /^([0-9.+\-*/ ()e])*$/;
 		const handleInput = () => {
 			const showInvalid = () => {
-				this._$iptLeft.addClass(`ipt-invalid`);
+				this._iptLeft.addClass(`ipt-invalid`);
 				$iptRight.val("");
 			};
 			const showValid = () => {
-				this._$iptLeft.removeClass(`ipt-invalid`);
+				this._iptLeft.removeClass(`ipt-invalid`);
 			};
 
-			const val = (this._$iptLeft.val() || "").trim();
+			const val = (this._iptLeft.val() || "").trim();
 			if (!val) {
 				showValid();
 				$iptRight.val("");
@@ -100,14 +100,14 @@ export class UnitConverter extends DmScreenPanelAppBase {
 					/* eslint-enable */
 					$iptRight.val(Number((total * mL).toFixed(5)));
 				} catch (e) {
-					this._$iptLeft.addClass(`ipt-invalid`);
+					this._iptLeft.addClass(`ipt-invalid`);
 					$iptRight.val("");
 				}
 			} else showInvalid();
 			board.doSaveStateDebounced();
 		};
 
-		UiUtil.bindTypingEnd({$ipt: this._$iptLeft, fnKeyup: handleInput});
+		UiUtil.bindTypingEnd({ipt: this._iptLeft, fnKeyup: handleInput});
 
 		updateDisplay();
 
@@ -118,7 +118,7 @@ export class UnitConverter extends DmScreenPanelAppBase {
 		return {
 			c: this._ixConv,
 			d: this._dirConv,
-			i: this._$iptLeft.val(),
+			i: this._iptLeft.val(),
 		};
 	}
 }

@@ -102,7 +102,7 @@ class RenderDecks {
 			${rowsCards}
 		</div>`;
 
-		const $ptCards = ee`<div class="ve-flex-col">
+		const ptCards = ee`<div class="ve-flex-col">
 			<h3 class="dnd-font my-0 mb-1 decks__h-cards">Cards</h3>
 			${wrpCardRows}
 		</div>`;
@@ -124,7 +124,7 @@ class RenderDecks {
 		<tr><td colspan="6">
 			${Renderer.get().setFirstSection(true).render({entries: ent.entries}, 1)}
 			<hr class="hr-3">
-			${$ptCards}
+			${ptCards}
 		</td></tr>
 
 		${Renderer.utils.getPageTr(ent)}

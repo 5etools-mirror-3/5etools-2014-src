@@ -1238,7 +1238,7 @@
 				{
 					"name": "Greatsword",
 					"entries": [
-						"{@atk mw} {@hit 5} to hit, reach 5 ft., one target. {@h}10 ({@damage 2d6 + 3}) slashing damage"
+						"{@atk mw} {@hit 5} to hit, reach 5 ft., one target. {@h}10 ({@damage 2d6 + 3}) slashing damage."
 					]
 				},
 				{
@@ -3761,7 +3761,7 @@
 				{
 					"name": "Slam",
 					"entries": [
-						"{@atk mw} {@hit 12} to hit, reach 15 ft., one target. {@h}15 ({@damage 3d6 + 5}) bludgeoning damage plus 35 ({@damage 10d6}) fire damage"
+						"{@atk mw} {@hit 12} to hit, reach 15 ft., one target. {@h}15 ({@damage 3d6 + 5}) bludgeoning damage plus 35 ({@damage 10d6}) fire damage,"
 					]
 				}
 			],
@@ -3992,7 +3992,7 @@
 				{
 					"name": "Club",
 					"entries": [
-						"{@atk mw} {@hit 5} to hit, reach 5 ft., one target. {@h}5 ({@damage 1d4 + 1}) bludgeoning damage"
+						"{@atk mw} {@hit 5} to hit, reach 5 ft., one target. {@h}5 ({@damage 1d4 + 1}) bludgeoning damage."
 					]
 				},
 				{

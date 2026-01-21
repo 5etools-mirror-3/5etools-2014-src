@@ -920,7 +920,6 @@ SaveManager._RenderableCollectionSaves_Load = class extends RenderableCollection
 		return {
 			comp,
 			wrpRow,
-			$wrpRow: $(wrpRow),
 		};
 	}
 };
@@ -1015,7 +1014,6 @@ SaveManager._RenderableCollectionSaves_Summary = class extends RenderableCollect
 		return {
 			comp,
 			wrpRow,
-			$wrpRow: $(wrpRow),
 			dispCount,
 			iptName,
 			hkDisplay,

@@ -107,8 +107,10 @@ class VariantRulesPage extends ListPage {
 		sub = await super._pDoLoadSubHash({sub, lockToken});
 
 		if (!sub.length) return;
-		const $title = $(`.rd__h[data-title-index="${sub[0]}"]`);
-		if ($title.length) $title[0].scrollIntoView();
+
+		const ixHeader = UrlUtil.unpackSubHash(sub[0], true)?.header;
+		const eleTitle = es(`.rd__h[data-title-index="${ixHeader}"]`);
+		if (eleTitle) eleTitle.scrollIntoView();
 	}
 }
 

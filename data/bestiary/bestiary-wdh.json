@@ -115,7 +115,7 @@
 				{
 					"name": "Greataxe",
 					"entries": [
-						"{@atk mw} {@hit 9} to hit, reach 5 ft., one target. {@h}11 ({@damage 1d12 + 5}) slashing damage"
+						"{@atk mw} {@hit 9} to hit, reach 5 ft., one target. {@h}11 ({@damage 1d12 + 5}) slashing damage."
 					]
 				},
 				{

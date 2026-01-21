@@ -3087,5 +3087,10 @@
 		"ver": "1.213.3",
 		"date": "2026-01-15",
 		"txt": "- Fixed position of context menus when opened near bottom of window\n- Fixed crash when saving DM Screen state for non-primary panel tabs\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.213.4",
+		"date": "2026-01-21",
+		"txt": "- Added page numbers to various sources (thanks @ Lyra)\n  - Vecna: Eve of Ruin\n- Updated Sage Advice Compendium (thanks @ Lyra)\n- Removed screen size restriction for opening hover windows\n- Fixed DM Screen Initiative Tracker resetting default party state when importing a new encounter\n- Fixed DM Screen crash on save after moving a panel\n- (Brew) Added cast time \"Condition\" field to all cast times in Spell Homebrew Builder\n- (Fixed typos/added tags)/added tags)"
 	}
 ]
