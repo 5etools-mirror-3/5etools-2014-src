@@ -55,6 +55,21 @@ Within this ordering, the following prioritisation should be made:
 - text that directly refers to or describes a language, in order of first appearance in the product (i.e. if a language is mentioned on page 2 and 10 of a book, the entry on page 2 should be taken as the primary source)
 - text that is given for player use (e.g. the "Druidic" feature of the Druid class) (the text of which may have to be adapted to fit a reference format; i.e. changing "You can understand..." to "A speaker or X language can understand...).
 
+*Bestiary.* "Subrace"-style creature-type tags should generally be hidden. For example, an NPC which is a "drow **assassin**" should be type "Humanoid (Elf)", and not type "Humanoid (Drow Elf)". This is consistent with how statblocks are most commonly presented across all sources.
+
+Examples include:
+
+- Drow Elite Warrior (MM, p128; '14 rules)
+- Drow Elite Warrior of Lolth (FRAiF, p260; '24 rules)
+
+Exceptions include:
+
+- NPCs from old adventures;
+  - Dralmorrer Borngray (HotDQ, p90; '14 rules) -- typed as "Humanoid (High-Elf)" (not the additional inclusion of a non-standard "-")
+  - Drannin Splithelm (PotA, p209; '14 rules) -- typed as "Humanoid (Shield Dwarf)"
+  - For-player-usage NPCs from SKT's "Special NPCs" appendix (SKT, p247-256; '14 rules)
+  - "Adventuring Rivals" from CRCotN (CRCotN, p188-p194; '14 rules)
+
 ### Target JavaScript Version
 
 Any language feature which is available in both main-line Chrome and main-line Firefox, and has been available for at least six months, may be used.

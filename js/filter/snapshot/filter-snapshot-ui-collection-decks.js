@@ -8,7 +8,7 @@ class CollectionBoxSnapshotDecks extends RenderableCollectionGenericRows {
 			wrpRows,
 		},
 	) {
-		super(comp, "boxSnapshotIds", es(wrpRows));
+		super(comp, "boxSnapshotIds", wrpRows);
 		this._compManager = compManager;
 	}
 

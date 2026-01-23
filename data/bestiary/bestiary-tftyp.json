@@ -4944,6 +4944,11 @@
 			"name": "Scrag",
 			"source": "TftYP",
 			"page": 147,
+			"otherSources": [
+				{
+					"source": "RoT"
+				}
+			],
 			"_copy": {
 				"name": "Troll",
 				"source": "MM"

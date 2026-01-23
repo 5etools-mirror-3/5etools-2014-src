@@ -3208,7 +3208,7 @@
 					"source": "LoX"
 				},
 				{
-					"source": "SJA"
+					"source": "SjA"
 				}
 			],
 			"size": [
@@ -4276,6 +4276,11 @@
 			"name": "Hadozee Warrior",
 			"source": "BAM",
 			"page": 29,
+			"otherSources": [
+				{
+					"source": "LoX"
+				}
+			],
 			"size": [
 				"M"
 			],
@@ -5839,6 +5844,11 @@
 			"name": "Plasmoid Explorer",
 			"source": "BAM",
 			"page": 43,
+			"otherSources": [
+				{
+					"source": "LoX"
+				}
+			],
 			"size": [
 				"M"
 			],

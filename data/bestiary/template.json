@@ -125,7 +125,8 @@
 						"tags": [
 							{
 								"tag": "gnome",
-								"prefix": "Deep"
+								"prefix": "Deep",
+								"prefixHidden": true
 							}
 						]
 					},
@@ -317,8 +318,11 @@
 					"type": {
 						"type": "humanoid",
 						"tags": [
-							"drow",
-							"elf"
+							{
+								"tag": "elf",
+								"prefix": "Drow",
+								"prefixHidden": true
+							}
 						]
 					}
 				},
@@ -399,8 +403,11 @@
 					"type": {
 						"type": "humanoid",
 						"tags": [
-							"drow",
-							"elf"
+							{
+								"tag": "elf",
+								"prefix": "Drow",
+								"prefixHidden": true
+							}
 						]
 					}
 				},
@@ -484,7 +491,8 @@
 						"tags": [
 							{
 								"tag": "dwarf",
-								"prefix": "Duergar"
+								"prefix": "Duergar",
+								"prefixHidden": true
 							}
 						]
 					},
@@ -1272,7 +1280,8 @@
 						"tags": [
 							{
 								"tag": "elf",
-								"prefix": "High"
+								"prefix": "High",
+								"prefixHidden": true
 							}
 						]
 					}
@@ -1326,7 +1335,8 @@
 							"tags": [
 								{
 									"tag": "dwarf",
-									"prefix": "Hill"
+									"prefix": "Hill",
+									"prefixHidden": true
 								}
 							]
 						}
@@ -2439,6 +2449,55 @@
 			}
 		},
 		{
+			"name": "Lightfoot Halfling",
+			"source": "PHB",
+			"page": 35,
+			"ref": "{@race Halfling (Lightfoot)||Lightfoot Halfling}",
+			"apply": {
+				"_root": {
+					"size": [
+						"S"
+					],
+					"type": {
+						"type": "humanoid",
+						"tags": [
+							{
+								"tag": "halfling",
+								"prefix": "Lightfoot",
+								"prefixHidden": true
+							}
+						]
+					},
+					"speed": {
+						"walk": 25
+					}
+				},
+				"_mod": {
+					"languages": {
+						"mode": "appendIfNotExistsArr",
+						"items": "Halfling"
+					},
+					"trait": {
+						"mode": "appendArr",
+						"items": [
+							{
+								"name": "Halfling Nimbleness",
+								"entries": [
+									"<$title_short_name$> can move through a space of a Medium or larger creature."
+								]
+							},
+							{
+								"name": "Brave",
+								"entries": [
+									"<$title_short_name$> has advantage on saving throws against being {@condition frightened}."
+								]
+							}
+						]
+					}
+				}
+			}
+		},
+		{
 			"name": "Lizardfolk",
 			"source": "DMG",
 			"page": 282,
@@ -2521,6 +2580,9 @@
 		},
 		{
 			"name": "Mountain Dwarf",
+			"alias": [
+				"Shield Dwarf"
+			],
 			"source": "PHB",
 			"page": 18,
 			"ref": "{@race Dwarf (Mountain)||Mountain Dwarf}",
@@ -2534,7 +2596,8 @@
 						"tags": [
 							{
 								"tag": "dwarf",
-								"prefix": "Mountain"
+								"prefix": "Mountain",
+								"prefixHidden": true
 							}
 						]
 					},
@@ -2745,7 +2808,8 @@
 						"tags": [
 							{
 								"tag": "gnome",
-								"prefix": "Rock"
+								"prefix": "Rock",
+								"prefixHidden": true
 							}
 						]
 					},
@@ -2794,7 +2858,8 @@
 							"tags": [
 								{
 									"tag": "dwarf",
-									"prefix": "Shield"
+									"prefix": "Shield",
+									"prefixHidden": true
 								}
 							]
 						}
@@ -2852,6 +2917,9 @@
 		},
 		{
 			"name": "Stout Halfling",
+			"alias": [
+				"Strongheart Halfling"
+			],
 			"source": "PHB",
 			"page": 35,
 			"ref": "{@race Halfling (Stout)||Stout Halfling}",
@@ -2865,7 +2933,8 @@
 						"tags": [
 							{
 								"tag": "halfling",
-								"prefix": "Stout"
+								"prefix": "Stout",
+								"prefixHidden": true
 							}
 						]
 					},
@@ -2895,6 +2964,33 @@
 							}
 						]
 					}
+				}
+			}
+		},
+		{
+			"name": "Strongheart Halfling",
+			"source": "PHB",
+			"_copy": {
+				"name": "Stout Halfling",
+				"source": "PHB",
+				"_mod": {
+					"_": {
+						"mode": "setProp",
+						"prop": "apply._root.type",
+						"value": {
+							"type": "humanoid",
+							"tags": [
+								{
+									"tag": "halfling",
+									"prefix": "Strongheart",
+									"prefixHidden": true
+								}
+							]
+						}
+					}
+				},
+				"_preserve": {
+					"page": true
 				}
 			}
 		},
@@ -3090,7 +3186,8 @@
 						"tags": [
 							{
 								"tag": "elf",
-								"prefix": "Wood"
+								"prefix": "Wood",
+								"prefixHidden": true
 							}
 						]
 					},

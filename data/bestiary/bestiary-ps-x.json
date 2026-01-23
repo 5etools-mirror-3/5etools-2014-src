@@ -180,6 +180,11 @@
 			],
 			"source": "PSX",
 			"page": 9,
+			"otherSources": [
+				{
+					"source": "XMtS"
+				}
+			],
 			"size": [
 				"M"
 			],
@@ -1011,6 +1016,11 @@
 			],
 			"source": "PSX",
 			"page": 30,
+			"otherSources": [
+				{
+					"source": "XMtS"
+				}
+			],
 			"size": [
 				"S"
 			],

@@ -1860,7 +1860,7 @@ export class ConverterCreature extends ConverterBase {
 	static _tryParseType_getTags ({str}) {
 		str = str.replace(/^\((.*)\)$/, "$1").trim();
 		if (/^your choice$/i.test(str)) return null;
-		return str.split(",").map(s => s.replace(/\(/g, "").replace(/\)/g, "").trim());
+		return str.split(",").map(s => s.replace(/\(/g, "").replace(/\)/g, "").trim().toLowerCase());
 	}
 
 	static _getSequentialAbilityScoreSectionLineCount (stats, meta) {

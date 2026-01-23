@@ -11,6 +11,11 @@
 			"name": "Anarch",
 			"source": "GGR",
 			"page": 239,
+			"otherSources": [
+				{
+					"source": "AZfyT"
+				}
+			],
 			"size": [
 				"M"
 			],
@@ -3760,6 +3765,11 @@
 			"name": "Flying Horror",
 			"source": "GGR",
 			"page": 203,
+			"otherSources": [
+				{
+					"source": "AZfyT"
+				}
+			],
 			"size": [
 				"M"
 			],
@@ -4628,6 +4638,11 @@
 			"name": "Horncaller",
 			"source": "GGR",
 			"page": 253,
+			"otherSources": [
+				{
+					"source": "AZfyT"
+				}
+			],
 			"size": [
 				"M"
 			],
@@ -4747,7 +4762,7 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"Simic hybrid"
+					"simic hybrid"
 				]
 			},
 			"alignment": [
@@ -4831,7 +4846,7 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"Simic hybrid"
+					"simic hybrid"
 				]
 			},
 			"alignment": [
@@ -4917,7 +4932,7 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"Simic hybrid"
+					"simic hybrid"
 				]
 			},
 			"alignment": [
@@ -5018,7 +5033,7 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"Simic hybrid"
+					"simic hybrid"
 				]
 			},
 			"alignment": [
@@ -5119,7 +5134,7 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"Simic hybrid"
+					"simic hybrid"
 				]
 			},
 			"alignment": [
@@ -6039,6 +6054,11 @@
 			"name": "Kraul Warrior",
 			"source": "GGR",
 			"page": 213,
+			"otherSources": [
+				{
+					"source": "AZfyT"
+				}
+			],
 			"size": [
 				"M"
 			],
@@ -8752,6 +8772,11 @@
 			"name": "Rubblebelt Stalker",
 			"source": "GGR",
 			"page": 239,
+			"otherSources": [
+				{
+					"source": "AZfyT"
+				}
+			],
 			"size": [
 				"M"
 			],
@@ -9936,6 +9961,11 @@
 			"name": "Thought Spy",
 			"source": "GGR",
 			"page": 233,
+			"otherSources": [
+				{
+					"source": "AZfyT"
+				}
+			],
 			"size": [
 				"M"
 			],

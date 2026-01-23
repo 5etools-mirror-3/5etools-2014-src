@@ -1830,7 +1830,8 @@
 				"tags": [
 					{
 						"tag": "elf",
-						"prefix": "Dusk"
+						"prefix": "Dusk",
+						"prefixHidden": true
 					}
 				]
 			},
@@ -2777,7 +2778,8 @@
 				"tags": [
 					{
 						"tag": "elf",
-						"prefix": "Dusk"
+						"prefix": "Dusk",
+						"prefixHidden": true
 					}
 				]
 			},
@@ -3509,10 +3511,7 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					{
-						"tag": "elf",
-						"prefix": "Dusk"
-					}
+					"elf"
 				]
 			},
 			"alignment": [

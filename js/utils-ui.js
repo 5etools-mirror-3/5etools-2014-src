@@ -1015,7 +1015,7 @@ class ListUiUtil {
 		const isForce = (elePreviewWrp.dataset.dataType === "stats" && isFluff) || (elePreviewWrp.dataset.dataType === "fluff" && !isFluff);
 		if (!isForce && elePreviewWrpInner.innerHTML) return;
 
-		elePreviewWrpInner.empty().off("click").on("click", evt => { evt.stopPropagation(); });
+		elePreviewWrpInner.empty().off("click").onn("click", evt => { evt.stopPropagation(); });
 
 		if (isHidden) return;
 

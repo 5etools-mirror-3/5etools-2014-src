@@ -3050,6 +3050,7 @@ class RenderableCollectionTimeTracker extends RenderableCollectionBase {
 	constructor (comp, prop, $wrpRows, dragMeta) {
 		super(comp, prop);
 		this._$wrpRows = $wrpRows;
+		this._wrpRows = e_({ele: $wrpRows[0]});
 		this._dragMeta = dragMeta;
 	}
 }

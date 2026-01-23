@@ -629,58 +629,38 @@
 			"isNamedCreature": true,
 			"source": "WDH",
 			"page": 112,
+			"_copy": {
+				"name": "Commoner",
+				"source": "MM",
+				"_templates": [
+					{
+						"name": "Strongheart Halfling",
+						"source": "PHB"
+					}
+				],
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the commoner",
+						"with": "Bepis",
+						"flags": "i"
+					}
+				}
+			},
 			"size": [
 				"S"
 			],
-			"type": {
-				"type": "humanoid",
-				"tags": [
-					{
-						"tag": "halfling",
-						"prefix": "Strongheart"
-					}
-				]
-			},
 			"alignment": [
 				"L",
 				"G"
 			],
-			"ac": [
-				10
-			],
 			"hp": {
-				"average": 4,
-				"formula": "1d8"
+				"average": 3,
+				"formula": "1d6"
 			},
 			"speed": {
 				"walk": 25
 			},
-			"str": 10,
-			"dex": 10,
-			"con": 10,
-			"int": 10,
-			"wis": 10,
-			"cha": 10,
-			"passive": 10,
-			"languages": [
-				"Common",
-				"Halfling"
-			],
-			"cr": "0",
-			"trait": [
-				{
-					"name": "Halfling Nimbleness",
-					"entries": [
-						"Bepis can move through a space occupied by a creature of a size larger than him"
-					]
-				},
-				{
-					"name": "Brave",
-					"entries": [
-						"Bepis has advantage on saving throws against being {@condition frightened}."
-					]
-				}
-			],
 			"languageTags": [
 				"C",
 				"H"
@@ -1212,7 +1192,11 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"elf"
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					}
 				]
 			},
 			"alignment": [
@@ -1579,96 +1563,34 @@
 			"name": "Engineer",
 			"source": "WDH",
 			"page": 141,
-			"size": [
-				"S"
-			],
-			"type": {
-				"type": "humanoid",
-				"tags": [
+			"_copy": {
+				"name": "Apprentice Wizard",
+				"source": "VGM",
+				"_templates": [
 					{
-						"tag": "gnome",
-						"prefix": "Rock"
+						"name": "Rock Gnome",
+						"source": "PHB"
 					}
-				]
+				],
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "apprentice",
+						"with": "engineer"
+					}
+				}
 			},
 			"alignment": [
 				"N",
 				"G"
 			],
-			"ac": [
-				10
-			],
 			"hp": {
 				"average": 7,
 				"formula": "2d6"
 			},
-			"speed": {
-				"walk": 25
-			},
-			"str": 10,
-			"dex": 10,
-			"con": 10,
-			"int": 14,
-			"wis": 10,
-			"cha": 11,
-			"skill": {
-				"arcana": "+4",
-				"history": "+4"
-			},
-			"senses": [
-				"darkvision 60 ft."
-			],
-			"passive": 10,
 			"languages": [
 				"Common",
 				"Gnomish"
-			],
-			"cr": "1/4",
-			"spellcasting": [
-				{
-					"name": "Spellcasting",
-					"type": "spellcasting",
-					"headerEntries": [
-						"The gnome is a 1st-level spellcaster. Its spellcasting ability is Intelligence. It has the following wizard spells prepared:"
-					],
-					"spells": {
-						"0": {
-							"spells": [
-								"{@spell fire bolt}",
-								"{@spell mending}",
-								"{@spell prestidigitation}"
-							]
-						},
-						"1": {
-							"slots": 2,
-							"spells": [
-								"{@spell burning hands}",
-								"{@spell disguise self}",
-								"{@spell shield}"
-							]
-						}
-					},
-					"ability": "int"
-				}
-			],
-			"trait": [
-				{
-					"name": "Gnome Cunning",
-					"entries": [
-						"The gnome has advantage on all Intelligence, Wisdom and Charisma saving throws against magic."
-					]
-				}
-			],
-			"action": [
-				{
-					"name": "Dagger",
-					"entries": [
-						"{@atk mw} {@hit 2} to hit, reach 5 ft., one target. {@h}2 ({@damage 1d4}) piercing damage. Or Ranged Weapon Attack: {@hit 2} to hit, range 20/60 ft., one target. {@h}2 ({@damage 1d4}) piercing damage."
-					]
-				}
-			],
-			"attachedItems": [
-				"dagger|phb"
 			],
 			"senseTags": [
 				"D"
@@ -1676,22 +1598,6 @@
 			"languageTags": [
 				"C",
 				"G"
-			],
-			"damageTags": [
-				"P"
-			],
-			"damageTagsSpell": [
-				"F"
-			],
-			"spellcastingTags": [
-				"CW"
-			],
-			"miscTags": [
-				"MLW",
-				"MW"
-			],
-			"savingThrowForcedSpell": [
-				"dexterity"
 			],
 			"hasToken": true,
 			"hasFluff": true
@@ -1702,111 +1608,35 @@
 			"isNamedCreature": true,
 			"source": "WDH",
 			"page": 32,
+			"_copy": {
+				"name": "Druid",
+				"source": "MM",
+				"_templates": [
+					{
+						"name": "Wood Elf",
+						"source": "PHB"
+					}
+				],
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the druid",
+						"with": "Fala",
+						"flags": "i"
+					}
+				}
+			},
 			"size": [
 				"M"
 			],
-			"type": {
-				"type": "humanoid",
-				"tags": [
-					{
-						"tag": "elf",
-						"prefix": "Wood"
-					}
-				]
-			},
 			"alignment": [
 				"C",
 				"G"
 			],
-			"ac": [
-				11,
-				{
-					"ac": 16,
-					"condition": "with {@spell barkskin}",
-					"braces": true
-				}
-			],
-			"hp": {
-				"average": 27,
-				"formula": "5d8 + 5"
-			},
-			"speed": {
-				"walk": 35
-			},
-			"str": 10,
-			"dex": 12,
-			"con": 13,
-			"int": 12,
-			"wis": 15,
-			"cha": 11,
-			"skill": {
-				"medicine": "+4",
-				"nature": "+3",
-				"perception": "+4"
-			},
-			"senses": [
-				"darkvision 60 ft."
-			],
-			"passive": 14,
 			"languages": [
 				"Druidic",
 				"Common",
 				"Elvish"
-			],
-			"cr": "2",
-			"spellcasting": [
-				{
-					"name": "Spellcasting",
-					"type": "spellcasting",
-					"headerEntries": [
-						"Fala is a 4th-level spellcaster. Their spellcasting ability is Wisdom. They have the following druid spells prepared:"
-					],
-					"spells": {
-						"0": {
-							"spells": [
-								"{@spell druidcraft}",
-								"{@spell produce flame}",
-								"{@spell shillelagh}"
-							]
-						},
-						"1": {
-							"slots": 4,
-							"spells": [
-								"{@spell entangle}",
-								"{@spell longstrider}",
-								"{@spell speak with animals}",
-								"{@spell thunderwave}"
-							]
-						},
-						"2": {
-							"slots": 3,
-							"spells": [
-								"{@spell animal messenger}",
-								"{@spell barkskin}"
-							]
-						}
-					},
-					"ability": "wis"
-				}
-			],
-			"trait": [
-				{
-					"name": "Fey Ancestry",
-					"entries": [
-						"Fala has advantage on saving throws against being {@condition charmed}, and magic can't put them to sleep."
-					]
-				}
-			],
-			"action": [
-				{
-					"name": "Quarterstaff",
-					"entries": [
-						"{@atk mw} {@hit 2} to hit or Melee Weapon Attack {@hit 4} to hit with shillelagh, reach 5 ft., one target. {@h}3 ({@damage 1d6}) bludgeoning damage, or 6 ({@damage 1d8 + 2}) bludgeoning damage with shillelagh or if wielded with two hands."
-					]
-				}
-			],
-			"attachedItems": [
-				"quarterstaff|phb"
 			],
 			"traitTags": [
 				"Fey Ancestry"
@@ -1818,27 +1648,6 @@
 				"C",
 				"DU",
 				"E"
-			],
-			"damageTags": [
-				"B"
-			],
-			"damageTagsSpell": [
-				"F",
-				"T"
-			],
-			"spellcastingTags": [
-				"CD"
-			],
-			"miscTags": [
-				"MLW",
-				"MW"
-			],
-			"conditionInflictSpell": [
-				"restrained"
-			],
-			"savingThrowForcedSpell": [
-				"constitution",
-				"strength"
 			],
 			"hasToken": true,
 			"hasFluff": true
@@ -3365,15 +3174,45 @@
 			"isNamedCreature": true,
 			"source": "WDH",
 			"page": 158,
-			"size": [
-				"M"
-			],
+			"_copy": {
+				"name": "Mage",
+				"source": "MM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the mage",
+						"with": "Kaevja",
+						"flags": "i"
+					},
+					"_": {
+						"mode": "replaceSpells",
+						"spells": {
+							"3": [
+								{
+									"replace": "{@spell fly}",
+									"with": "{@spell sending}"
+								}
+							]
+						}
+					},
+					"trait": {
+						"mode": "appendArr",
+						"items": {
+							"name": "Special Equipment",
+							"entries": [
+								"Kaevja carries a yellow {@item elemental gem}. As an action she can break the gem releasing an earth elemental under her command."
+							]
+						}
+					}
+				}
+			},
 			"type": {
 				"type": "humanoid",
 				"tags": [
 					{
 						"tag": "human",
-						"prefix": "Mulan"
+						"prefix": "Mulan",
+						"prefixHidden": true
 					}
 				]
 			},
@@ -3381,145 +3220,11 @@
 				"L",
 				"E"
 			],
-			"ac": [
-				12,
-				{
-					"ac": 15,
-					"condition": "with {@spell mage armor}",
-					"braces": true
-				}
-			],
-			"hp": {
-				"average": 40,
-				"formula": "9d8"
-			},
-			"speed": {
-				"walk": 30
-			},
-			"str": 9,
-			"dex": 14,
-			"con": 11,
-			"int": 17,
-			"wis": 12,
-			"cha": 11,
-			"save": {
-				"int": "+6",
-				"wis": "+4"
-			},
-			"skill": {
-				"arcana": "+6",
-				"history": "+6"
-			},
-			"passive": 11,
 			"languages": [
 				"Common",
 				"Draconic",
 				"Dwarvish",
 				"Elvish"
-			],
-			"cr": "6",
-			"spellcasting": [
-				{
-					"name": "Spellcasting",
-					"type": "spellcasting",
-					"headerEntries": [
-						"Kaevja is a 9th-level spellcaster. Her spellcasting ability is Intelligence. Kaevja has the following wizard spells prepared:"
-					],
-					"spells": {
-						"0": {
-							"spells": [
-								"{@spell fire bolt}",
-								"{@spell light}",
-								"{@spell mage hand}",
-								"{@spell prestidigitation}"
-							]
-						},
-						"1": {
-							"slots": 4,
-							"spells": [
-								"{@spell detect magic}",
-								"{@spell mage armor}",
-								"{@spell magic missile}",
-								"{@spell shield}"
-							]
-						},
-						"2": {
-							"slots": 3,
-							"spells": [
-								"{@spell misty step}",
-								"{@spell suggestion}"
-							]
-						},
-						"3": {
-							"slots": 3,
-							"spells": [
-								"{@spell counterspell}",
-								"{@spell fireball}",
-								"{@spell sending}"
-							]
-						},
-						"4": {
-							"slots": 3,
-							"spells": [
-								"{@spell greater invisibility}",
-								"{@spell ice storm}"
-							]
-						},
-						"5": {
-							"slots": 1,
-							"spells": [
-								"{@spell cone of cold}"
-							]
-						}
-					},
-					"ability": "int"
-				}
-			],
-			"trait": [
-				{
-					"name": "Special Equipment",
-					"entries": [
-						"Kaevja carries a yellow {@item elemental gem}. As an action she can break the gem releasing an earth elemental under her command."
-					]
-				}
-			],
-			"action": [
-				{
-					"name": "Dagger",
-					"entries": [
-						"{@atk mw} {@hit 5} to hit, reach 5 ft., one target. {@h}4 ({@damage 1d4 + 2}) piercing damage. Or Ranged Weapon Attack: {@hit 5} to hit, range 20/60 ft., one target. {@h}4 ({@damage 1d4 + 2}) piercing damage."
-					]
-				}
-			],
-			"attachedItems": [
-				"dagger|phb"
-			],
-			"languageTags": [
-				"C",
-				"D",
-				"DR",
-				"E"
-			],
-			"damageTags": [
-				"P"
-			],
-			"damageTagsSpell": [
-				"B",
-				"C",
-				"F",
-				"O"
-			],
-			"spellcastingTags": [
-				"CW"
-			],
-			"miscTags": [
-				"MLW",
-				"MW"
-			],
-			"savingThrowForcedSpell": [
-				"constitution",
-				"dexterity",
-				"wisdom"
 			],
 			"hasToken": true,
 			"hasFluff": true
@@ -4288,164 +3993,52 @@
 			"isNamedCreature": true,
 			"source": "WDH",
 			"page": 85,
-			"size": [
-				"S"
-			],
-			"type": {
-				"type": "humanoid",
-				"tags": [
+			"_copy": {
+				"name": "Mage",
+				"source": "MM",
+				"_templates": [
 					{
-						"tag": "halfling",
-						"prefix": "Lightfoot"
+						"name": "Lightfoot Halfling",
+						"source": "PHB"
 					}
-				]
+				],
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the mage",
+						"with": "Losser",
+						"flags": "i"
+					},
+					"_": {
+						"mode": "replaceSpells",
+						"spells": {
+							"3": [
+								{
+									"replace": "{@spell counterspell}",
+									"with": "{@spell animate dead}"
+								}
+							],
+							"4": [
+								{
+									"replace": "{@spell greater invisibility}",
+									"with": "{@spell blight}"
+								}
+							]
+						}
+					}
+				}
 			},
 			"alignment": [
 				"C",
 				"E"
 			],
-			"ac": [
-				12,
-				{
-					"ac": 15,
-					"condition": "with {@spell mage armor}",
-					"braces": true
-				}
-			],
 			"hp": {
 				"average": 31,
 				"formula": "9d6"
 			},
-			"speed": {
-				"walk": 25
-			},
-			"str": 9,
-			"dex": 14,
-			"con": 11,
-			"int": 17,
-			"wis": 12,
-			"cha": 11,
-			"save": {
-				"int": "+6",
-				"wis": "+4"
-			},
-			"skill": {
-				"arcana": "+6",
-				"history": "+6"
-			},
-			"passive": 11,
-			"languages": [
-				"Common",
-				"Halfling"
-			],
-			"cr": "6",
-			"spellcasting": [
-				{
-					"name": "Spellcasting",
-					"type": "spellcasting",
-					"headerEntries": [
-						"The mage is a 9th-level spellcaster. Its spellcasting ability is Intelligence. The mage has the following wizard spells prepared:"
-					],
-					"spells": {
-						"0": {
-							"spells": [
-								"{@spell fire bolt}",
-								"{@spell light}",
-								"{@spell mage hand}",
-								"{@spell prestidigitation}"
-							]
-						},
-						"1": {
-							"slots": 4,
-							"spells": [
-								"{@spell detect magic}",
-								"{@spell mage armor}",
-								"{@spell magic missile}",
-								"{@spell shield}"
-							]
-						},
-						"2": {
-							"slots": 3,
-							"spells": [
-								"{@spell misty step}",
-								"{@spell suggestion}"
-							]
-						},
-						"3": {
-							"slots": 3,
-							"spells": [
-								"{@spell animate dead}",
-								"{@spell fireball}",
-								"{@spell fly}"
-							]
-						},
-						"4": {
-							"slots": 3,
-							"spells": [
-								"{@spell blight}",
-								"{@spell ice storm}"
-							]
-						},
-						"5": {
-							"slots": 1,
-							"spells": [
-								"{@spell cone of cold}"
-							]
-						}
-					},
-					"ability": "int"
-				}
-			],
-			"trait": [
-				{
-					"name": "Halfling Nimbleness",
-					"entries": [
-						"Losser can move through the space of a creature that is a size bigger than him."
-					]
-				},
-				{
-					"name": "Brave",
-					"entries": [
-						"Losser has advantage on saving throws against being {@condition frightened}."
-					]
-				}
-			],
-			"action": [
-				{
-					"name": "Dagger",
-					"entries": [
-						"{@atk mw} {@hit 5} to hit, reach 5 ft., one target. {@h}4 ({@damage 1d4 + 2}) piercing damage. Or Ranged Weapon Attack: {@hit 5} to hit, range 20/60 ft., one target. {@h}4 ({@damage 1d4 + 2}) piercing damage."
-					]
-				}
-			],
-			"attachedItems": [
-				"dagger|phb"
-			],
 			"languageTags": [
 				"C",
 				"H"
-			],
-			"damageTags": [
-				"P"
-			],
-			"damageTagsSpell": [
-				"B",
-				"C",
-				"F",
-				"N",
-				"O"
-			],
-			"spellcastingTags": [
-				"CW"
-			],
-			"miscTags": [
-				"MLW",
-				"MW"
-			],
-			"savingThrowForcedSpell": [
-				"constitution",
-				"dexterity",
-				"wisdom"
 			],
 			"hasToken": true,
 			"hasFluff": true
@@ -4555,166 +4148,48 @@
 			"isNamedCreature": true,
 			"source": "WDH",
 			"page": 149,
-			"size": [
-				"S"
-			],
-			"type": {
-				"type": "humanoid",
-				"tags": [
+			"_copy": {
+				"name": "Mage",
+				"source": "MM",
+				"_templates": [
 					{
-						"tag": "halfling",
-						"prefix": "Lightfoot"
+						"name": "Lightfoot Halfling",
+						"source": "PHB"
 					}
-				]
+				],
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the mage",
+						"with": "Manafret",
+						"flags": "i"
+					},
+					"trait": {
+						"mode": "appendArr",
+						"items": {
+							"name": "Special Equipment",
+							"entries": [
+								"Manafret wears a {@item teleporter ring|WDH}."
+							]
+						}
+					}
+				}
 			},
 			"alignment": [
 				"L",
 				"E"
 			],
-			"ac": [
-				12,
-				{
-					"ac": 15,
-					"condition": "with {@spell mage armor}",
-					"braces": true
-				}
-			],
 			"hp": {
 				"average": 31,
 				"formula": "9d6"
 			},
-			"speed": {
-				"walk": 25
-			},
-			"str": 9,
-			"dex": 14,
-			"con": 11,
-			"int": 17,
-			"wis": 12,
-			"cha": 11,
-			"save": {
-				"int": "+6",
-				"wis": "+4"
-			},
-			"skill": {
-				"arcana": "+6",
-				"history": "+6"
-			},
-			"passive": 11,
 			"languages": [
 				"Common",
 				"Halfling"
 			],
-			"cr": "6",
-			"spellcasting": [
-				{
-					"name": "Spellcasting",
-					"type": "spellcasting",
-					"headerEntries": [
-						"The mage is a 9th-level spellcaster. Its spellcasting ability is Intelligence. The mage has the following wizard spells prepared:"
-					],
-					"spells": {
-						"0": {
-							"spells": [
-								"{@spell fire bolt}",
-								"{@spell light}",
-								"{@spell mage hand}",
-								"{@spell prestidigitation}"
-							]
-						},
-						"1": {
-							"slots": 4,
-							"spells": [
-								"{@spell detect magic}",
-								"{@spell mage armor}",
-								"{@spell magic missile}",
-								"{@spell shield}"
-							]
-						},
-						"2": {
-							"slots": 3,
-							"spells": [
-								"{@spell misty step}",
-								"{@spell suggestion}"
-							]
-						},
-						"3": {
-							"slots": 3,
-							"spells": [
-								"{@spell counterspell}",
-								"{@spell fireball}",
-								"{@spell fly}"
-							]
-						},
-						"4": {
-							"slots": 3,
-							"spells": [
-								"{@spell greater invisibility}",
-								"{@spell ice storm}"
-							]
-						},
-						"5": {
-							"slots": 1,
-							"spells": [
-								"{@spell cone of cold}"
-							]
-						}
-					},
-					"ability": "int"
-				}
-			],
-			"trait": [
-				{
-					"name": "Halfling Nimbleness",
-					"entries": [
-						"Manafret can move through a space of a Medium or larger creature."
-					]
-				},
-				{
-					"name": "Brave",
-					"entries": [
-						"Manafret has advantage on saving throws against being {@condition frightened}."
-					]
-				}
-			],
-			"action": [
-				{
-					"name": "Dagger",
-					"entries": [
-						"{@atk mw} {@hit 5} to hit, reach 5 ft., one target. {@h}4 ({@damage 1d4 + 2}) piercing damage. Or Ranged Weapon Attack: {@hit 5} to hit, range 20/60 ft., one target. {@h}4 ({@damage 1d4 + 2}) piercing damage."
-					]
-				}
-			],
-			"attachedItems": [
-				"dagger|phb"
-			],
 			"languageTags": [
 				"C",
 				"H"
-			],
-			"damageTags": [
-				"P"
-			],
-			"damageTagsSpell": [
-				"B",
-				"C",
-				"F",
-				"O"
-			],
-			"spellcastingTags": [
-				"CW"
-			],
-			"miscTags": [
-				"MLW",
-				"MW"
-			],
-			"conditionInflictSpell": [
-				"invisible"
-			],
-			"savingThrowForcedSpell": [
-				"constitution",
-				"dexterity",
-				"wisdom"
 			],
 			"hasToken": true,
 			"hasFluff": true
@@ -6104,84 +5579,38 @@
 			"isNamedCreature": true,
 			"source": "WDH",
 			"page": 213,
-			"size": [
-				"M"
-			],
+			"_copy": {
+				"name": "Noble",
+				"source": "MM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the noble",
+						"with": "Orond",
+						"flags": "i"
+					}
+				}
+			},
 			"type": {
 				"type": "humanoid",
 				"tags": [
 					{
 						"tag": "human",
-						"prefix": "Tethyrian"
+						"prefix": "Tethyrian",
+						"prefixHidden": true
 					}
 				]
 			},
 			"alignment": [
-				"L",
+				"N",
 				"E"
 			],
-			"ac": [
-				{
-					"ac": 15,
-					"from": [
-						"{@item breastplate|phb}"
-					]
-				}
-			],
-			"hp": {
-				"average": 9,
-				"formula": "2d8"
-			},
-			"speed": {
-				"walk": 30
-			},
-			"str": 11,
-			"dex": 12,
-			"con": 11,
 			"int": 9,
-			"wis": 14,
-			"cha": 16,
-			"skill": {
-				"deception": "+5",
-				"insight": "+4",
-				"persuasion": "+5"
-			},
-			"passive": 12,
 			"languages": [
 				"Common"
 			],
-			"cr": "1/8",
-			"action": [
-				{
-					"name": "Rapier",
-					"entries": [
-						"{@atk mw} {@hit 3} to hit, reach 5 ft., one target. {@h}5 ({@damage 1d8 + 1}) piercing damage."
-					]
-				}
-			],
-			"reaction": [
-				{
-					"name": "Parry",
-					"entries": [
-						"Orond adds 2 to its AC against one melee attack that would hit it. To do so, Orond must see the attacker and be wielding a melee weapon."
-					]
-				}
-			],
-			"attachedItems": [
-				"rapier|phb"
-			],
-			"actionTags": [
-				"Parry"
-			],
 			"languageTags": [
 				"C"
-			],
-			"damageTags": [
-				"P"
-			],
-			"miscTags": [
-				"MLW",
-				"MW"
 			],
 			"hasToken": true,
 			"hasFluff": true,
@@ -6641,15 +6070,25 @@
 			"isNamedCreature": true,
 			"source": "WDH",
 			"page": 215,
-			"size": [
-				"M"
-			],
+			"_copy": {
+				"name": "Swashbuckler",
+				"source": "VGM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the swashbuckler",
+						"with": "Renaer",
+						"flags": "i"
+					}
+				}
+			},
 			"type": {
 				"type": "humanoid",
 				"tags": [
 					{
 						"tag": "human",
-						"prefix": "Illuskan"
+						"prefix": "Illuskan",
+						"prefixHidden": true
 					}
 				]
 			},
@@ -6657,87 +6096,11 @@
 				"C",
 				"G"
 			],
-			"ac": [
-				{
-					"ac": 17,
-					"from": [
-						"{@item leather armor|phb}"
-					]
-				}
-			],
-			"hp": {
-				"average": 66,
-				"formula": "12d8 + 12"
-			},
-			"speed": {
-				"walk": 30
-			},
-			"str": 12,
-			"dex": 18,
-			"con": 12,
-			"int": 14,
-			"wis": 11,
-			"cha": 15,
-			"skill": {
-				"acrobatics": "+8",
-				"athletics": "+5",
-				"persuasion": "+6"
-			},
-			"passive": 10,
 			"languages": [
 				"Common"
 			],
-			"cr": "3",
-			"trait": [
-				{
-					"name": "Lightfooted",
-					"entries": [
-						"The swashbuckler can take the {@action Dash} or {@action Disengage} action as a bonus action on each of its turns."
-					]
-				},
-				{
-					"name": "Suave Defense",
-					"entries": [
-						"While the swashbuckler is wearing light or no armor and wielding no shield, its AC includes its Charisma modifier."
-					]
-				}
-			],
-			"action": [
-				{
-					"name": "Multiattack",
-					"entries": [
-						"The swashbuckler makes three attacks: one with a dagger and two with its rapier."
-					]
-				},
-				{
-					"name": "Dagger",
-					"entries": [
-						"{@atk mw} {@hit 6} to hit, reach 5 ft., one target. {@h}6 ({@damage 1d4 + 4}) piercing damage. Or Ranged Weapon Attack: {@hit 6} to hit, range 20/60 ft., one target. {@h}6 ({@damage 1d4 + 4}) piercing damage."
-					]
-				},
-				{
-					"name": "Rapier",
-					"entries": [
-						"{@atk mw} {@hit 6} to hit, reach 5 ft., one target. {@h}8 ({@damage 1d8 + 4}) piercing damage."
-					]
-				}
-			],
-			"attachedItems": [
-				"dagger|phb",
-				"rapier|phb"
-			],
-			"actionTags": [
-				"Multiattack"
-			],
 			"languageTags": [
 				"C"
-			],
-			"damageTags": [
-				"P"
-			],
-			"miscTags": [
-				"MLW",
-				"MW"
 			],
 			"hasToken": true,
 			"hasFluff": true,
@@ -6918,99 +6281,42 @@
 			"isNamedCreature": true,
 			"source": "WDH",
 			"page": 216,
-			"size": [
-				"M"
-			],
+			"_copy": {
+				"name": "Veteran",
+				"source": "MM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the veteran",
+						"with": "Saeth",
+						"flags": "i"
+					},
+					"_": [
+						{
+							"mode": "addSkills",
+							"skills": {
+								"intimidation": 1
+							}
+						}
+					]
+				}
+			},
 			"type": {
 				"type": "humanoid",
 				"tags": [
 					{
 						"tag": "human",
-						"prefix": "Illuskan"
+						"prefix": "Illuskan",
+						"prefixHidden": true
 					}
 				]
 			},
-			"alignment": [
-				"L",
-				"G"
-			],
-			"ac": [
-				{
-					"ac": 17,
-					"from": [
-						"{@item splint armor|phb}"
-					]
-				}
-			],
-			"hp": {
-				"average": 58,
-				"formula": "9d8 + 18"
-			},
-			"speed": {
-				"walk": 30
-			},
-			"str": 16,
-			"dex": 13,
-			"con": 14,
-			"int": 10,
-			"wis": 11,
 			"cha": 14,
-			"skill": {
-				"athletics": "+5",
-				"perception": "+2",
-				"intimidation": "+4"
-			},
-			"passive": 12,
 			"languages": [
 				"Common"
 			],
-			"cr": "3",
-			"action": [
-				{
-					"name": "Multiattack",
-					"entries": [
-						"Saeth makes two longsword attacks. If he has a shortsword drawn, he can also make a shortsword attack."
-					]
-				},
-				{
-					"name": "Longsword",
-					"entries": [
-						"{@atk mw} {@hit 5} to hit, reach 5 ft., one target. {@h}7 ({@damage 1d8 + 3}) slashing damage, or 8 ({@damage 1d10 + 3}) slashing damage if used with two hands."
-					]
-				},
-				{
-					"name": "Shortsword",
-					"entries": [
-						"{@atk mw} {@hit 5} to hit, reach 5 ft., one target. {@h}6 ({@damage 1d6 + 3}) piercing damage."
-					]
-				},
-				{
-					"name": "Heavy Crossbow",
-					"entries": [
-						"{@atk rw} {@hit 3} to hit, range 100/400 ft., one target. {@h}6 ({@damage 1d10 + 1}) piercing damage."
-					]
-				}
-			],
-			"attachedItems": [
-				"heavy crossbow|phb",
-				"longsword|phb",
-				"shortsword|phb"
-			],
-			"actionTags": [
-				"Multiattack"
-			],
 			"languageTags": [
 				"C"
-			],
-			"damageTags": [
-				"P",
-				"S"
-			],
-			"miscTags": [
-				"MLW",
-				"MW",
-				"RNG",
-				"RW"
 			],
 			"hasToken": true,
 			"hasFluff": true,
@@ -8396,15 +7702,25 @@
 			"isNamedCreature": true,
 			"source": "WDH",
 			"page": 216,
-			"size": [
-				"M"
-			],
+			"_copy": {
+				"name": "Assassin",
+				"source": "MM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the assassin",
+						"with": "Urstul",
+						"flags": "i"
+					}
+				}
+			},
 			"type": {
 				"type": "humanoid",
 				"tags": [
 					{
 						"tag": "human",
-						"prefix": "Illuskan"
+						"prefix": "Illuskan",
+						"prefixHidden": true
 					}
 				]
 			},
@@ -8412,114 +7728,15 @@
 				"L",
 				"E"
 			],
-			"ac": [
-				{
-					"ac": 15,
-					"from": [
-						"{@item studded leather armor|phb|studded leather}"
-					]
-				}
-			],
-			"hp": {
-				"average": 78,
-				"formula": "12d8 + 24"
-			},
-			"speed": {
-				"walk": 30
-			},
-			"str": 11,
-			"dex": 16,
-			"con": 14,
-			"int": 13,
-			"wis": 11,
-			"cha": 10,
-			"save": {
-				"dex": "+6",
-				"int": "+4"
-			},
-			"skill": {
-				"acrobatics": "+6",
-				"deception": "+3",
-				"perception": "+3",
-				"stealth": "+9"
-			},
-			"passive": 13,
-			"resist": [
-				"poison"
-			],
 			"languages": [
 				"Common",
 				"Orc",
 				"Thieves' cant"
 			],
-			"cr": "8",
-			"trait": [
-				{
-					"name": "Assassinate",
-					"entries": [
-						"During its first turn, Urstul has advantage on attack rolls against any creature that hasn't taken a turn. Any hit Urstul scores against a {@status surprised} creature is a critical hit."
-					]
-				},
-				{
-					"name": "Evasion",
-					"entries": [
-						"If Urstul is subjected to an effect that allows him to make a Dexterity saving throw to take only half damage, Urstul instead takes no damage if he succeeds on the saving throw, and only half damage if it fails."
-					]
-				},
-				{
-					"name": "Sneak Attack (1/Turn)",
-					"entries": [
-						"Urstul deals an extra 14 ({@damage 4d6}) damage when he hits a target with a weapon attack and has advantage on the attack roll, or when the target is within 5 feet of an ally of Urstul that isn't {@condition incapacitated} and Urstul doesn't have disadvantage on the attack roll."
-					]
-				}
-			],
-			"action": [
-				{
-					"name": "Multiattack",
-					"entries": [
-						"Urstul makes two shortsword attacks."
-					]
-				},
-				{
-					"name": "Shortsword",
-					"entries": [
-						"{@atk mw} {@hit 6} to hit, reach 5 ft., one target. {@h}6 ({@damage 1d6 + 3}) piercing damage, and the target must make a {@dc 15} Constitution saving throw, taking 24 ({@damage 7d6}) poison damage on a failed save, or half as much damage on a successful one."
-					]
-				},
-				{
-					"name": "Light Crossbow",
-					"entries": [
-						"{@atk rw} {@hit 6} to hit, range 80/320 ft., one target. {@h}7 ({@damage 1d8 + 3}) piercing damage, and the target must make a {@dc 15} Constitution saving throw, taking 24 ({@damage 7d6}) poison damage on a failed save, or half as much damage on a successful one."
-					]
-				}
-			],
-			"attachedItems": [
-				"light crossbow|phb",
-				"shortsword|phb"
-			],
-			"traitTags": [
-				"Sneak Attack"
-			],
-			"actionTags": [
-				"Multiattack"
-			],
 			"languageTags": [
 				"C",
 				"O",
 				"TC"
-			],
-			"damageTags": [
-				"I",
-				"P"
-			],
-			"miscTags": [
-				"MLW",
-				"MW",
-				"RNG",
-				"RW"
-			],
-			"savingThrowForced": [
-				"constitution"
 			],
 			"hasToken": true,
 			"hasFluff": true,
@@ -9495,86 +8712,36 @@
 			"isNamedCreature": true,
 			"source": "WDH",
 			"page": 220,
-			"size": [
-				"M"
-			],
+			"_copy": {
+				"name": "Noble",
+				"source": "MM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the noble",
+						"with": "Yalah",
+						"flags": "i"
+					}
+				}
+			},
 			"type": {
 				"type": "humanoid",
 				"tags": [
 					{
 						"tag": "human",
-						"prefix": "Tethyrian"
+						"prefix": "Tethyrian",
+						"prefixHidden": true
 					}
 				]
 			},
-			"alignment": [
-				"L",
-				"E"
-			],
-			"ac": [
-				{
-					"ac": 15,
-					"from": [
-						"{@item breastplate|phb}"
-					]
-				}
-			],
-			"hp": {
-				"average": 9,
-				"formula": "2d8"
-			},
-			"speed": {
-				"walk": 30
-			},
-			"str": 11,
-			"dex": 12,
-			"con": 11,
-			"int": 12,
-			"wis": 16,
-			"cha": 16,
-			"skill": {
-				"deception": "+5",
-				"insight": "+5",
-				"persuasion": "+5"
-			},
-			"passive": 13,
+			"int": 16,
 			"languages": [
 				"Common",
 				"Infernal"
 			],
-			"cr": "1/8",
-			"action": [
-				{
-					"name": "Rapier",
-					"entries": [
-						"{@atk mw} {@hit 3} to hit, reach 5 ft., one target. {@h}5 ({@damage 1d8 + 1}) piercing damage."
-					]
-				}
-			],
-			"reaction": [
-				{
-					"name": "Parry",
-					"entries": [
-						"Yalah adds 2 to its AC against one melee attack that would hit it. To do so, Yalah must see the attacker and be wielding a melee weapon."
-					]
-				}
-			],
-			"attachedItems": [
-				"rapier|phb"
-			],
-			"actionTags": [
-				"Parry"
-			],
 			"languageTags": [
 				"C",
 				"I"
-			],
-			"damageTags": [
-				"P"
-			],
-			"miscTags": [
-				"MLW",
-				"MW"
 			],
 			"hasToken": true,
 			"hasFluff": true,
@@ -9698,134 +8865,49 @@
 		},
 		{
 			"name": "Zhent Martial Arts Adept",
+			"shortName": "Adept",
+			"alias": [
+				"Havia Quickknife",
+				"Mookie Plush"
+			],
 			"source": "WDH",
 			"page": 160,
-			"size": [
-				"S"
-			],
-			"type": {
-				"type": "humanoid",
-				"tags": [
+			"_copy": {
+				"name": "Martial Arts Adept",
+				"source": "VGM",
+				"_templates": [
 					{
-						"tag": "halfling",
-						"prefix": "Lightfoot"
+						"name": "Lightfoot Halfling",
+						"source": "PHB"
 					}
-				]
+				],
+				"_mod": {
+					"trait": {
+						"mode": "appendArr",
+						"items": {
+							"name": "Special Equipment",
+							"entries": [
+								"The adept wears a {@item teleporter ring|WDH}."
+							]
+						}
+					}
+				}
 			},
 			"alignment": [
 				"L",
 				"E"
 			],
-			"ac": [
-				16
-			],
 			"hp": {
 				"average": 49,
 				"formula": "11d6 + 11"
 			},
-			"speed": {
-				"walk": 25
-			},
-			"str": 11,
-			"dex": 17,
-			"con": 13,
-			"int": 11,
-			"wis": 16,
-			"cha": 10,
-			"skill": {
-				"acrobatics": "+5",
-				"insight": "+5",
-				"stealth": "+5"
-			},
-			"passive": 13,
 			"languages": [
 				"Common",
 				"Halfling"
 			],
-			"cr": "3",
-			"trait": [
-				{
-					"name": "Halfling Nimbleness",
-					"entries": [
-						"The adept can move through the space of a medium of larger creature."
-					]
-				},
-				{
-					"name": "Brave",
-					"entries": [
-						"The adept has advantage on any saving throws against being {@condition frightened}."
-					]
-				},
-				{
-					"name": "Unarmored Defense",
-					"entries": [
-						"While the adept is wearing no armor and wielding no shield, their AC includes their Wisdom modifier."
-					]
-				}
-			],
-			"action": [
-				{
-					"name": "Multiattack",
-					"entries": [
-						"The adept makes three unarmed strikes or three dart attacks."
-					]
-				},
-				{
-					"name": "Unarmed Strike",
-					"entries": [
-						"{@atk mw} {@hit 5} to hit, reach 5 ft., one target. {@h}7 ({@damage 1d8 + 3}) bludgeoning damage. If the target is a creature, the adept can choose one of the following additional effects:",
-						{
-							"type": "list",
-							"items": [
-								"The target must succeed on a {@dc 13} Strength saving throw or drop one item it is holding (adept's choice).",
-								"The target must succeed on a {@dc 13} Dexterity saving throw or be knocked {@condition prone}.",
-								"The target must succeed on a {@dc 13} Constitution saving throw or be {@condition stunned} until the end of the adept's next turn."
-							]
-						}
-					]
-				},
-				{
-					"name": "Dart",
-					"entries": [
-						"{@atk rw} {@hit 5} to hit, range 20/60 ft., one target. {@h}5 ({@damage 1d4 + 3}) piercing damage."
-					]
-				}
-			],
-			"reaction": [
-				{
-					"name": "Deflect Missile",
-					"entries": [
-						"In response to being hit by a ranged weapon attack, the adept deflects the missile. The damage it takes from the attack is reduced by {@dice 1d10 + 3}. If the damage is reduced to 0, the adept catches the missile if it's small enough to hold in one hand and the adept has a hand free."
-					]
-				}
-			],
-			"attachedItems": [
-				"dart|phb"
-			],
-			"actionTags": [
-				"Multiattack"
-			],
 			"languageTags": [
 				"C",
 				"H"
-			],
-			"damageTags": [
-				"B",
-				"P"
-			],
-			"miscTags": [
-				"MW",
-				"RW",
-				"THW"
-			],
-			"conditionInflict": [
-				"prone",
-				"stunned"
-			],
-			"savingThrowForced": [
-				"constitution",
-				"dexterity",
-				"strength"
 			],
 			"hasToken": true,
 			"hasFluff": true

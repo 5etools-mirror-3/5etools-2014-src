@@ -671,6 +671,9 @@
 				},
 				{
 					"source": "SDW"
+				},
+				{
+					"source": "OoW"
 				}
 			],
 			"_copy": {
@@ -5499,7 +5502,8 @@
 				"tags": [
 					{
 						"tag": "human",
-						"prefix": "Illuskan"
+						"prefix": "Illuskan",
+						"prefixHidden": true
 					}
 				]
 			},
@@ -6230,7 +6234,8 @@
 				"tags": [
 					{
 						"tag": "human",
-						"prefix": "Shou"
+						"prefix": "Shou",
+						"prefixHidden": true
 					}
 				]
 			},

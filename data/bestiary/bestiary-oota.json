@@ -2518,7 +2518,8 @@
 				"tags": [
 					{
 						"tag": "human",
-						"prefix": "Damaran"
+						"prefix": "Damaran",
+						"prefixHidden": true
 					}
 				]
 			},

@@ -20,7 +20,7 @@ class _UtilConditionsCustomView {
 			});
 
 		comp._addHookBase("color", () => btn.css({"background-color": `${comp._state.color}`}))();
-		comp._addHookBase("name", () => btn.text(comp._state.name || "\u00A0"))();
+		comp._addHookBase("name", () => btn.txt(comp._state.name || "\u00A0"))();
 
 		return btn;
 	}
@@ -144,18 +144,18 @@ export class InitiativeTrackerConditionAdd extends BaseComponent {
 	}
 
 	_render_$getStgConditionsCustom ({rdState}) {
-		const $wrpRows = $(`<div class="ve-flex-wrap w-100 min-h-0 dm-init-cond__wrp-btns"></div>`);
+		const wrpRows = ee`<div class="ve-flex-wrap w-100 min-h-0 dm-init-cond__wrp-btns"></div>`;
 
 		const compRows = new _RenderableCollectionConditionsCustomView({
 			comp: this,
-			$wrpRows,
+			wrpRows,
 			rdState,
 			cbDoSubmit: this._doSubmit.bind(this),
 		});
 		this._addHookBase("conditionsCustom", () => compRows.render())();
 
 		const $stg = $$`<div class="ve-flex-col w-100 h-100 min-h-0 ve-flex-v-center">
-			${$wrpRows}
+			${wrpRows}
 			<hr class="hr-3">
 		</div>`;
 

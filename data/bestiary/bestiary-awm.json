@@ -467,7 +467,7 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"Dwarf"
+					"dwarf"
 				]
 			},
 			"alignment": [

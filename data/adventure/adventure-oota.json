@@ -148,39 +148,39 @@
 											],
 											"rows": [
 												[
-													"{@b Buppido}",
+													"{@creature Buppido|OotA}",
 													"Talkative and cunning derro"
 												],
 												[
-													"{@b Prince Derendil}",
+													"{@creature Prince Derendil|OotA}",
 													"Quaggoth who claims to be a cursed elf prince"
 												],
 												[
-													"{@b Eldeth Feldrun}",
+													"{@creature Eldeth Feldrun|OotA}",
 													"Shield dwarf scout from Gauntlgrym"
 												],
 												[
-													"{@b Jimjar}",
+													"{@creature Jimjar|OotA}",
 													"Deep gnome with a gambling problem"
 												],
 												[
-													"{@b Ront}",
+													"{@creature Ront|OotA}",
 													"Orc bully"
 												],
 												[
-													"{@b Sarith Kzekarit}",
+													"{@creature Sarith Kzekarit|OotA}",
 													"Drow accused of murder"
 												],
 												[
-													"{@b Shuushar the Awakened}",
+													"{@creature Shuushar the Awakened|OotA}",
 													"Kuo-toa hermit and mystic"
 												],
 												[
-													"{@b Stool}",
+													"{@creature Stool|OotA}",
 													"Myconid sprout"
 												],
 												[
-													"{@b Topsy and Turvy}",
+													"{@creature Topsy|OotA} and {@creature Turvy|OotA}",
 													"Deep gnome wererat twins"
 												]
 											]
@@ -417,11 +417,11 @@
 											],
 											"rows": [
 												[
-													"{@b Ilvara Mizzrym}",
+													"{@creature Ilvara Mizzrym|OotA}",
 													"Drow priestess and commander of the outpost"
 												],
 												[
-													"{@b Asha Vandree}",
+													"{@creature Asha Vandree|OotA}",
 													"Junior priestess"
 												],
 												[
@@ -7440,7 +7440,7 @@
 													"Female duergar captain of the Stone Guard with a side quest for the party"
 												],
 												[
-													"{@b Themberchaud}",
+													"{@creature Themberchaud|OotA}",
 													"The city's Wyrmsmith, an adult red dragon with a possible mission for the party"
 												],
 												[
@@ -13221,7 +13221,7 @@
 													"One of the two rulers of Neverlight Grove, in thrall to Zuggtmoy"
 												],
 												[
-													"{@b Sovereign Basidia}",
+													"{@creature Sovereign Basidia|OotA}",
 													"The other ruler of Neverlight Grove, free of Zuggtmoy's influence and suspicious of Phylo"
 												],
 												[
@@ -15205,7 +15205,7 @@
 													"Undead leader of the burrow wardens"
 												],
 												[
-													"The {@creature The Pudding King|OotA|Pudding King}",
+													"{@creature The Pudding King|OotA}",
 													"Insane deep gnome enthralled by the demon lord Juiblex"
 												]
 											]
@@ -25296,23 +25296,23 @@
 									],
 									"rows": [
 										[
-											"{@b Sladis Vadir}",
+											"{@creature Sladis Vadir|OotA}",
 											"High elf druid of the Emerald Enclave"
 										],
 										[
-											"{@b Rystia Zav}",
+											"{@creature Rystia Zav|OotA}",
 											"Human spy for the Harpers"
 										],
 										[
-											"{@b Peebles}",
+											"{@creature Peebles|OotA}",
 											"Svirfneblin spy working for {@creature Xazax the Eyemonger|OotA}"
 										],
 										[
-											"{@b Zilchyn Q'Leptin}",
+											"{@creature Zilchyn Q'Leptin|OotA}",
 											"Drow mage and kleptomaniac"
 										],
 										[
-											"{@b Yantha Coaxrock}",
+											"{@creature Yantha Coaxrock|OotA}",
 											"Svirfneblin mage and leader of the Stoneheart Enclave"
 										],
 										[
@@ -25332,15 +25332,15 @@
 											"Drow and chief negotiator from Menzoberranzan"
 										],
 										[
-											"{@b Kinyel Druu'giir}",
+											"{@creature Kinyel Druu'giir|OotA}",
 											"Drow assassin"
 										],
 										[
-											"{@b Ghazrim DuLoc}",
+											"{@creature Ghazrim DuLoc|OotA}",
 											"The characters' contact and chief negotiator of the Zhentarim"
 										],
 										[
-											"{@b Lorthuun}",
+											"{@creature Lorthuun|OotA}",
 											"Maimed beholder"
 										]
 									]

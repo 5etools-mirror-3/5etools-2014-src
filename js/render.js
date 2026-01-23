@@ -15892,8 +15892,8 @@ Renderer.hover = class {
 		);
 	}
 
-	static $getHoverContent_statsCode (toRender) {
-		return $(Renderer.hover.getHoverContent_statsCode(toRender, {isSkipClean = false, title = null} = {}));
+	static $getHoverContent_statsCode (toRender, {isSkipClean = false, title = null} = {}) {
+		return $(Renderer.hover.getHoverContent_statsCode(toRender, {isSkipClean, title}));
 	}
 
 	static getHoverContent_miscCode (name, code) {

@@ -198,6 +198,11 @@
 			"name": "Alhoon",
 			"source": "VGM",
 			"page": 172,
+			"otherSources": [
+				{
+					"source": "TLK"
+				}
+			],
 			"reprintedAs": [
 				"Alhoon|MPMM"
 			],
@@ -1154,6 +1159,12 @@
 				},
 				{
 					"source": "ERLW"
+				},
+				{
+					"source": "TLK"
+				},
+				{
+					"source": "AZfyT"
 				}
 			],
 			"reprintedAs": [
@@ -4240,6 +4251,9 @@
 				},
 				{
 					"source": "ToA"
+				},
+				{
+					"source": "GoS"
 				}
 			],
 			"reprintedAs": [
@@ -5849,6 +5863,9 @@
 				{
 					"source": "PSX",
 					"page": 30
+				},
+				{
+					"source": "XMtS"
 				}
 			],
 			"reprintedAs": [
@@ -6070,6 +6087,9 @@
 			"otherSources": [
 				{
 					"source": "ToA"
+				},
+				{
+					"source": "TTP"
 				}
 			],
 			"reprintedAs": [
@@ -6329,6 +6349,9 @@
 			"otherSources": [
 				{
 					"source": "GoS"
+				},
+				{
+					"source": "TTP"
 				}
 			],
 			"reprintedAs": [
@@ -6975,6 +6998,9 @@
 				},
 				{
 					"source": "ERLW"
+				},
+				{
+					"source": "LLK"
 				}
 			],
 			"reprintedAs": [
@@ -7574,6 +7600,9 @@
 				},
 				{
 					"source": "SLW"
+				},
+				{
+					"source": "TTP"
 				}
 			],
 			"reprintedAs": [
@@ -7867,6 +7896,9 @@
 			"otherSources": [
 				{
 					"source": "ToA"
+				},
+				{
+					"source": "LLK"
 				}
 			],
 			"reprintedAs": [
@@ -11437,6 +11469,9 @@
 			"otherSources": [
 				{
 					"source": "ToA"
+				},
+				{
+					"source": "LLK"
 				}
 			],
 			"reprintedAs": [
@@ -12293,6 +12328,9 @@
 				},
 				{
 					"source": "ToA"
+				},
+				{
+					"source": "LLK"
 				}
 			],
 			"reprintedAs": [
@@ -12438,6 +12476,9 @@
 				},
 				{
 					"source": "MOT"
+				},
+				{
+					"source": "TLK"
 				}
 			],
 			"reprintedAs": [
@@ -15251,6 +15292,9 @@
 			"otherSources": [
 				{
 					"source": "ToA"
+				},
+				{
+					"source": "XMtS"
 				}
 			],
 			"reprintedAs": [
@@ -15341,6 +15385,9 @@
 			"otherSources": [
 				{
 					"source": "WBtW"
+				},
+				{
+					"source": "LLK"
 				}
 			],
 			"reprintedAs": [
@@ -18596,6 +18643,9 @@
 				{
 					"source": "PSX",
 					"page": 30
+				},
+				{
+					"source": "XMtS"
 				}
 			],
 			"reprintedAs": [

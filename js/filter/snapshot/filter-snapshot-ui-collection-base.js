@@ -37,8 +37,7 @@ export class RenderableCollectionFilterSnapshotBase extends RenderableCollection
 	getNewRender (entity, i) {
 		const rendered = super.getNewRender(entity, i);
 
-		const [wrpRow] = rendered.wrpRow;
-		e_({ele: wrpRow})
+		rendered.wrpRow
 			.onn("click", evt => this._selectClickHandler.handleSelectClick(rendered, evt, {isPassThroughEvents: true}));
 
 		rendered.wrpCbSel

@@ -10598,7 +10598,11 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"elf"
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					}
 				]
 			},
 			"alignment": [
@@ -10814,7 +10818,11 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"elf",
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					},
 					"wizard"
 				]
 			},
@@ -10995,7 +11003,11 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"elf"
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					}
 				]
 			},
 			"alignment": [
@@ -11191,7 +11203,11 @@
 				"type": "humanoid",
 				"tags": [
 					"cleric",
-					"elf"
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					}
 				]
 			},
 			"alignment": [
@@ -11393,7 +11409,11 @@
 				"type": "humanoid",
 				"tags": [
 					"cleric",
-					"elf"
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					}
 				]
 			},
 			"alignment": [
@@ -11653,7 +11673,11 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"elf"
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					}
 				]
 			},
 			"alignment": [
@@ -18358,6 +18382,9 @@
 				{
 					"source": "MTF",
 					"page": 149
+				},
+				{
+					"source": "KftGV"
 				}
 			],
 			"size": [
@@ -34450,6 +34477,9 @@
 				{
 					"source": "MTF",
 					"page": 241
+				},
+				{
+					"source": "CRCotN"
 				}
 			],
 			"size": [
@@ -34610,6 +34640,9 @@
 				{
 					"source": "MTF",
 					"page": 241
+				},
+				{
+					"source": "CRCotN"
 				}
 			],
 			"size": [

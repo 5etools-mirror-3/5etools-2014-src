@@ -260,6 +260,11 @@
 			"name": "Animated Object (Tiny)",
 			"source": "PHB",
 			"page": 213,
+			"otherSources": [
+				{
+					"source": "WDMM"
+				}
+			],
 			"size": [
 				"T"
 			],

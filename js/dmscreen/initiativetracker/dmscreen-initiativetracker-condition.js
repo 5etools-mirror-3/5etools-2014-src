@@ -1,5 +1,5 @@
 export class InitiativeTrackerConditionUtil {
-	static getNewRowState ({name, color, turns}) {
+	static getNewRowState ({name = null, color = null, turns = null} = {}) {
 		return {
 			id: CryptUtil.uid(),
 			entity: {

@@ -1887,6 +1887,11 @@
 			"name": "Balhannoth",
 			"source": "MTF",
 			"page": 119,
+			"otherSources": [
+				{
+					"source": "RtG"
+				}
+			],
 			"reprintedAs": [
 				"Balhannoth|MPMM"
 			],
@@ -3019,6 +3024,11 @@
 			"name": "Bronze Scout",
 			"source": "MTF",
 			"page": 125,
+			"otherSources": [
+				{
+					"source": "RtG"
+				}
+			],
 			"reprintedAs": [
 				"Clockwork Bronze Scout|MPMM"
 			],
@@ -5522,7 +5532,11 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"elf"
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					}
 				]
 			},
 			"alignment": [
@@ -5780,7 +5794,11 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"elf"
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					}
 				]
 			},
 			"alignment": [
@@ -6023,6 +6041,11 @@
 			"name": "Drow House Captain",
 			"source": "MTF",
 			"page": 184,
+			"otherSources": [
+				{
+					"source": "WDMM"
+				}
+			],
 			"reprintedAs": [
 				"Drow House Captain|MPMM"
 			],
@@ -6032,7 +6055,11 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"elf"
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					}
 				]
 			},
 			"alignment": [
@@ -6221,7 +6248,11 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"elf"
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					}
 				]
 			},
 			"alignment": [
@@ -6494,7 +6525,11 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"elf"
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					}
 				]
 			},
 			"alignment": [
@@ -6814,7 +6849,11 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"elf"
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					}
 				]
 			},
 			"alignment": [
@@ -9160,6 +9199,11 @@
 			"name": "Female Steeder",
 			"source": "MTF",
 			"page": 238,
+			"otherSources": [
+				{
+					"source": "OotA"
+				}
+			],
 			"reprintedAs": [
 				"Female Steeder|MPMM"
 			],
@@ -13286,6 +13330,11 @@
 			"name": "Male Steeder",
 			"source": "MTF",
 			"page": 238,
+			"otherSources": [
+				{
+					"source": "OotA"
+				}
+			],
 			"reprintedAs": [
 				"Male Steeder|MPMM"
 			],
@@ -14002,6 +14051,11 @@
 			"name": "Merrenoloth",
 			"source": "MTF",
 			"page": 250,
+			"otherSources": [
+				{
+					"source": "LLK"
+				}
+			],
 			"reprintedAs": [
 				"Merrenoloth|MPMM"
 			],
@@ -15556,6 +15610,14 @@
 			"name": "Oaken Bolter",
 			"source": "MTF",
 			"page": 126,
+			"otherSources": [
+				{
+					"source": "LLK"
+				},
+				{
+					"source": "RtG"
+				}
+			],
 			"reprintedAs": [
 				"Clockwork Oaken Bolter|MPMM"
 			],
@@ -20154,6 +20216,11 @@
 			"name": "Stone Defender",
 			"source": "MTF",
 			"page": 126,
+			"otherSources": [
+				{
+					"source": "RtG"
+				}
+			],
 			"reprintedAs": [
 				"Clockwork Stone Defender|MPMM"
 			],
@@ -21217,6 +21284,11 @@
 			"name": "The Wretched",
 			"source": "MTF",
 			"page": 233,
+			"otherSources": [
+				{
+					"source": "LLK"
+				}
+			],
 			"reprintedAs": [
 				"Wretched Sorrowsworn|MPMM"
 			],

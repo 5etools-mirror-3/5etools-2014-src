@@ -8669,7 +8669,11 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"drow"
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					}
 				]
 			},
 			"alignment": [

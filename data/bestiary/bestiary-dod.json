@@ -5,6 +5,11 @@
 			"isNamedCreature": true,
 			"source": "DoD",
 			"page": 22,
+			"otherSources": [
+				{
+					"source": "WBtW"
+				}
+			],
 			"size": [
 				"H"
 			],
