@@ -2171,9 +2171,9 @@ class MarkdownConverter {
 
 		// Scrub HTML
 		try {
-			const $jq = $(`<div>${mdStr}</div>`);
-			$jq.find("*").remove();
-			mdStr = $jq.text();
+			const ele = ee`<div>${mdStr}</div>`;
+			ele.findAll("*").forEach(ele => ele.remove());
+			mdStr = ele.txt();
 		} catch (e) {
 			setTimeout(() => { throw e; });
 		}
