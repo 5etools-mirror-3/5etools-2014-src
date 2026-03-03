@@ -1124,7 +1124,7 @@ globalThis.Renderer = function () {
 
 		const ptText = `${pluginDataNamePrefix.join("")}${this.render({type: "inline", entries: [displayName]})}${isAddPeriod ? "." : ""}`;
 
-		return `<${headerTag} class="rd__h ${headerClass}" data-title-index="${this._headerIndex++}" ${this._getEnumeratedTitleRel(entry.name)}> <span class="entry-title-inner${!pagePart && entry.source ? ` help-subtle` : ""}"${!pagePart && entry.source ? ` title="Source: ${Parser.sourceJsonToFull(entry.source)}${entry.page ? `, p${entry.page}` : ""}"` : ""}>${ptText}</span>${partPageExpandCollapse}</${headerTag}> `;
+		return `<${headerTag} class="rd__h ${headerClass}" data-title-index="${this._headerIndex++}" ${this._getEnumeratedTitleRel(entry.name)}> <span class="entry-title-inner ${!pagePart && entry.source ? `help-subtle` : ""}"${!pagePart && entry.source ? ` title="Source: ${Parser.sourceJsonToFull(entry.source)}${entry.page ? `, p${entry.page}` : ""}"` : ""}>${ptText}</span>${partPageExpandCollapse}</${headerTag}> `;
 	};
 
 	this._renderEntriesSubtypes_renderPreReqText = function (entry, textStack, meta) {
@@ -11213,7 +11213,7 @@ Renderer.item = class {
 			.filter(Boolean)
 			.join(", ");
 
-		const ptAttunement = item.reqAttune ? (item._attunement || "")[fnTransform]() : "";
+		const ptAttunement = item.reqAttune ? (item._attunement || "") : "";
 
 		return {
 			entryType,
@@ -11241,25 +11241,42 @@ Renderer.item = class {
 		};
 	}
 
-	static getAttunementAndAttunementCatText (item, prop = "reqAttune") {
-		let attunement = null;
-		let attunementCat = VeCt.STR_NO_ATTUNEMENT;
-		if (item[prop] != null && item[prop] !== false) {
-			if (item[prop] === true) {
-				attunementCat = "Requires Attunement";
-				attunement = "(requires attunement)";
-			} else if (item[prop] === "optional") {
-				attunementCat = "Attunement Optional";
-				attunement = "(attunement optional)";
-			} else if (item[prop].toLowerCase().startsWith("by")) {
-				attunementCat = "Requires Attunement By...";
-				attunement = `(requires attunement ${Renderer.get().render(item[prop])})`;
-			} else {
-				attunementCat = "Requires Attunement"; // throw any weird ones in the "Yes" category (e.g. "outdoors at night")
-				attunement = `(requires attunement ${Renderer.get().render(item[prop])})`;
-			}
+	static getAttunementHtmlMeta (item, {prop = "reqAttune", styleHint = null}) {
+		styleHint ||= VetoolsConfig.get("styleSwitcher", "style");
+
+		if (item[prop] == null || item[prop] === false) {
+			return {attunement: null, attunementCategory: VeCt.STR_NO_ATTUNEMENT};
 		}
-		return [attunement, attunementCat];
+
+		if (item[prop] === true) {
+			return {
+				attunementCategory: "Requires Attunement",
+				attunement: "(requires attunement)"[styleHint === "classic" ? "toString" : "toTitleCase"](),
+			};
+		}
+
+		if (item[prop] === "optional") {
+			return {
+				attunementCategory: "Attunement Optional",
+				attunement: "(attunement optional)"[styleHint === "classic" ? "toString" : "toTitleCase"](),
+			};
+		}
+
+		if (item[prop].toLowerCase().startsWith("by")) {
+			return {
+				attunementCategory: "Requires Attunement By...",
+				attunement: styleHint === "classic"
+					? `(requires attunement ${Renderer.get().render(item[prop])})`
+					: `(Requires Attunement ${Renderer.get().render(item[prop].toTitleCase())})`,
+			};
+		}
+
+		return {
+			attunementCategory: "Requires Attunement", // throw any weird ones in the "Yes" category (e.g. "outdoors at night")
+			attunement: styleHint === "classic"
+				? `(requires attunement ${Renderer.get().render(item[prop])})`
+				: `(Requires Attunement ${Renderer.get().render(item[prop].toTitleCase())})`,
+		};
 	}
 
 	static getRenderableTypeEntriesMeta (item, {styleHint = null} = {}) {
@@ -12206,13 +12223,13 @@ Renderer.item = class {
 		({textTypes: item._textTypes, entryType: item._entryType, entrySubType: item._entrySubType} = Renderer.item.getRenderableTypeEntriesMeta(item, {styleHint}));
 
 		// bake in attunement
-		const [attune, attuneCat] = Renderer.item.getAttunementAndAttunementCatText(item);
-		item._attunement = attune;
-		item._attunementCategory = attuneCat;
+		const {attunementCategory, attunement} = Renderer.item.getAttunementHtmlMeta(item, {styleHint});
+		item._attunement = attunement;
+		item._attunementCategory = attunementCategory;
 
 		if (item.reqAttuneAlt) {
-			const [attuneAlt, attuneCatAlt] = Renderer.item.getAttunementAndAttunementCatText(item, "reqAttuneAlt");
-			item._attunementCategory = [attuneCat, attuneCatAlt];
+			const {attunementCategory: attunementCategoryAlt} = Renderer.item.getAttunementHtmlMeta(item, {prop: "reqAttuneAlt", styleHint});
+			item._attunementCategory = [attunementCategory, attunementCategoryAlt];
 		}
 
 		// handle item groups
@@ -14726,7 +14743,7 @@ Renderer.hover = class {
 		}
 
 		meta.windowMeta = Renderer.hover.getShowWindow(
-			Renderer.hover.getEleHoverContent_generic(entry, opts),
+			Renderer.hover.getHoverContent_generic(entry, opts),
 			Renderer.hover.getWindowPositionFromEvent(tmpEvt || evt, {isPreventFlicker: !meta.isPermanent}),
 			{
 				title: entry?.name || "",
@@ -14804,7 +14821,7 @@ Renderer.hover = class {
 		if (!meta.isHovered && !meta.isPermanent) return;
 
 		meta.windowMeta = Renderer.hover.getShowWindow(
-			Renderer.hover.getEleHoverContent_generic(toRender, opts),
+			Renderer.hover.getHoverContent_generic(toRender, opts),
 			Renderer.hover.getWindowPositionFromEvent(evt, {isPreventFlicker: !meta.isPermanent}),
 			{
 				title: toRender.data && toRender.data.hoverTitle != null ? toRender.data.hoverTitle : toRender.name,
@@ -14871,7 +14888,7 @@ Renderer.hover = class {
 		const toRender = Renderer.hover._entryCache[entryId];
 
 		meta.windowMeta = Renderer.hover.getShowWindow(
-			Renderer.hover.getEleHoverContent_generic(toRender, opts),
+			Renderer.hover.getHoverContent_generic(toRender, opts),
 			Renderer.hover.getWindowPositionExact((window.innerWidth / 2) - (Renderer.hover._DEFAULT_WIDTH_PX / 2), 100),
 			{
 				title: toRender.data && toRender.data.hoverTitle != null ? toRender.data.hoverTitle : toRender.name,

@@ -2879,6 +2879,29 @@ Parser.SP_SCHOOL_ABV_TO_SHORT[Parser.SKL_ABV_TRA] = "Trans.";
 Parser.SP_SCHOOL_ABV_TO_SHORT[Parser.SKL_ABV_CON] = "Conj.";
 Parser.SP_SCHOOL_ABV_TO_SHORT[Parser.SKL_ABV_PSI] = "Psi.";
 
+Parser.SP_SCHOOL_ABV_TO_CSS_CLASS = {};
+Parser.SP_SCHOOL_ABV_TO_CSS_CLASS[Parser.SKL_ABV_ABJ] = "sp__school--a";
+Parser.SP_SCHOOL_ABV_TO_CSS_CLASS[Parser.SKL_ABV_CON] = "sp__school--c";
+Parser.SP_SCHOOL_ABV_TO_CSS_CLASS[Parser.SKL_ABV_DIV] = "sp__school--d";
+Parser.SP_SCHOOL_ABV_TO_CSS_CLASS[Parser.SKL_ABV_ENC] = "sp__school--e";
+Parser.SP_SCHOOL_ABV_TO_CSS_CLASS[Parser.SKL_ABV_EVO] = "sp__school--v";
+Parser.SP_SCHOOL_ABV_TO_CSS_CLASS[Parser.SKL_ABV_ILL] = "sp__school--i";
+Parser.SP_SCHOOL_ABV_TO_CSS_CLASS[Parser.SKL_ABV_NEC] = "sp__school--n";
+Parser.SP_SCHOOL_ABV_TO_CSS_CLASS[Parser.SKL_ABV_PSI] = "sp__school--p";
+Parser.SP_SCHOOL_ABV_TO_CSS_CLASS[Parser.SKL_ABV_TRA] = "sp__school--t";
+
+Parser.spSchoolAbvToStyleClass = function (school) {
+	return Parser.SP_SCHOOL_ABV_TO_CSS_CLASS[school] || "";
+};
+
+Parser.PSI_ABV_TYPE_TO_CSS_CLASS = {};
+Parser.PSI_ABV_TYPE_TO_CSS_CLASS[Parser.PSI_ABV_TYPE_TALENT] = "psi__type--t";
+Parser.PSI_ABV_TYPE_TO_CSS_CLASS[Parser.PSI_ABV_TYPE_DISCIPLINE] = "psi__type--d";
+
+Parser.psiTypeAbvToStyleClass = function (type) {
+	return Parser.PSI_ABV_TYPE_TO_CSS_CLASS[type] || "";
+};
+
 Parser.ATB_ABV_TO_FULL = {
 	"str": "Strength",
 	"dex": "Dexterity",

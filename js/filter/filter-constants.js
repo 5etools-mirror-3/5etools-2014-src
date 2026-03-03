@@ -8,6 +8,13 @@ export const PILL_STATE__IGNORE = 0;
 export const PILL_STATE__YES = 1;
 export const PILL_STATE__NO = 2;
 export const PILL_STATES = ["ignore", "yes", "no"];
+export const PILL_STATE_TO_DISPLAY_CLASS = {
+	[PILL_STATE__IGNORE]: "fltr__disp-state--ignore",
+	[PILL_STATE__YES]: "fltr__disp-state--yes",
+	[PILL_STATE__NO]: "fltr__disp-state--no",
+};
+
+export const getPillStateDisplayClass = pillState => PILL_STATE_TO_DISPLAY_CLASS[pillState] ?? PILL_STATE_TO_DISPLAY_CLASS[PILL_STATE__IGNORE];
 
 export const MISC_FILTER_VALUE__BASIC_RULES_2014 = "Basic Rules (2014)";
 export const MISC_FILTER_VALUE__BASIC_RULES_2024 = "Basic Rules (2024)";
