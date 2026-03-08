@@ -74,7 +74,8 @@
 				}
 			],
 			"referenceSources": [
-				"TftYP-DiT"
+				"TftYP-DiT",
+				"PotA"
 			],
 			"level": 2,
 			"school": "A",
@@ -145,7 +146,8 @@
 				"DSotDQ",
 				"KftGV",
 				"CoA",
-				"QftIS"
+				"QftIS",
+				"JttRC"
 			],
 			"level": 1,
 			"school": "A",
@@ -344,7 +346,9 @@
 				"SKT",
 				"WDH",
 				"ToR",
-				"WBtW"
+				"WBtW",
+				"GoS",
+				"IDRotF"
 			],
 			"level": 2,
 			"school": "E",
@@ -462,7 +466,8 @@
 				"US",
 				"IDRotF",
 				"ToFW",
-				"LRDT"
+				"LRDT",
+				"CM"
 			],
 			"level": 3,
 			"school": "N",
@@ -523,7 +528,9 @@
 				"ToA",
 				"WDH",
 				"WDMM",
-				"WBtW"
+				"WBtW",
+				"IDRotF",
+				"CM"
 			],
 			"level": 5,
 			"school": "T",
@@ -724,7 +731,8 @@
 				"DC",
 				"BGDIA",
 				"IDRotF",
-				"ToFW"
+				"ToFW",
+				"VEoR"
 			],
 			"level": 8,
 			"school": "A",
@@ -1188,7 +1196,9 @@
 			"referenceSources": [
 				"OotA",
 				"ToA",
-				"VEoR"
+				"VEoR",
+				"CoS",
+				"WDMM"
 			],
 			"level": 9,
 			"school": "N",
@@ -1258,7 +1268,10 @@
 				"WDMM",
 				"US",
 				"SCC-HfMT",
-				"JttRC"
+				"JttRC",
+				"LMoP",
+				"KftGV",
+				"PaBTSO"
 			],
 			"level": 2,
 			"school": "D",
@@ -1504,7 +1517,9 @@
 			"srd": true,
 			"referenceSources": [
 				"TftYP-TSC",
-				"WDMM"
+				"WDMM",
+				"JttRC",
+				"KftGV"
 			],
 			"level": 1,
 			"school": "E",
@@ -1621,7 +1636,10 @@
 				"RtG",
 				"AitFR-THP",
 				"DitLCoT",
-				"QftIS"
+				"QftIS",
+				"WDMM",
+				"KftGV",
+				"VEoR"
 			],
 			"level": 4,
 			"school": "A",
@@ -1689,7 +1707,8 @@
 			"referenceSources": [
 				"SKT",
 				"TftYP-TSC",
-				"JttRC"
+				"JttRC",
+				"GoS"
 			],
 			"level": 2,
 			"school": "T",
@@ -1834,7 +1853,10 @@
 				"TftYP-ToH",
 				"WBtW",
 				"CRCotN",
-				"CoA"
+				"CoA",
+				"OotA",
+				"TftYP-THSoT",
+				"WDMM"
 			],
 			"level": 3,
 			"school": "N",
@@ -1910,7 +1932,8 @@
 				"SKT",
 				"WDH",
 				"WDMM",
-				"BGDIA"
+				"BGDIA",
+				"WBtW"
 			],
 			"level": 5,
 			"school": "V",
@@ -2119,7 +2142,13 @@
 				"JttRC",
 				"KftGV",
 				"CoA",
-				"VEoR"
+				"VEoR",
+				"RoT",
+				"TftYP-TFoF",
+				"TftYP-DiT",
+				"GoS",
+				"ToR",
+				"CM"
 			],
 			"level": 1,
 			"school": "E",
@@ -2180,7 +2209,10 @@
 				"SKT",
 				"ToA",
 				"WDMM",
-				"CM"
+				"CM",
+				"CoS",
+				"WDH",
+				"PaBTSO"
 			],
 			"level": 4,
 			"school": "N",
@@ -2309,7 +2341,9 @@
 				"WDMM",
 				"US",
 				"CRCotN",
-				"KftGV"
+				"KftGV",
+				"WDH",
+				"OoW"
 			],
 			"level": 2,
 			"school": "N",
@@ -2425,7 +2459,9 @@
 				"WDMM",
 				"DIP",
 				"CM",
-				"PaBTSO"
+				"PaBTSO",
+				"IDRotF",
+				"KftGV"
 			],
 			"level": 2,
 			"school": "I",
@@ -2533,7 +2569,10 @@
 				"WDH",
 				"DIP",
 				"BGDIA",
-				"KftGV"
+				"KftGV",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"WDMM"
 			],
 			"level": 1,
 			"school": "V",
@@ -2595,7 +2634,8 @@
 				"SKT",
 				"ToA",
 				"SLW",
-				"DC"
+				"DC",
+				"RoT"
 			],
 			"level": 3,
 			"school": "C",
@@ -2668,7 +2708,8 @@
 				"IDRotF",
 				"CM",
 				"ToFW",
-				"VEoR"
+				"VEoR",
+				"WBtW"
 			],
 			"level": 2,
 			"school": "E",
@@ -2727,7 +2768,9 @@
 				"DC",
 				"CM",
 				"AitFR-ISF",
-				"PaBTSO"
+				"PaBTSO",
+				"RoT",
+				"SDW"
 			],
 			"level": 6,
 			"school": "V",
@@ -2810,7 +2853,9 @@
 				"CM",
 				"WBtW",
 				"KftGV",
-				"PaBTSO"
+				"PaBTSO",
+				"WDMM",
+				"DIP"
 			],
 			"level": 1,
 			"school": "E",
@@ -3207,7 +3252,10 @@
 			"referenceSources": [
 				"RoT",
 				"WDMM",
-				"BGDIA"
+				"BGDIA",
+				"CoS",
+				"ToA",
+				"IDRotF"
 			],
 			"level": 2,
 			"school": "C",
@@ -3271,7 +3319,14 @@
 				"SCC-CK",
 				"PaBTSO",
 				"CoA",
-				"QftIS"
+				"QftIS",
+				"PotA",
+				"OotA",
+				"CoS",
+				"SKT",
+				"TftYP-AtG",
+				"GoS",
+				"IDRotF"
 			],
 			"level": 5,
 			"school": "C",
@@ -3338,7 +3393,9 @@
 			"referenceSources": [
 				"TftYP-TFoF",
 				"WDMM",
-				"QftIS"
+				"QftIS",
+				"OotA",
+				"ToA"
 			],
 			"level": 1,
 			"school": "I",
@@ -3412,7 +3469,9 @@
 				"CM",
 				"WBtW",
 				"DoSI",
-				"QftIS"
+				"QftIS",
+				"WDMM",
+				"OoW"
 			],
 			"level": 1,
 			"school": "E",
@@ -3532,7 +3591,12 @@
 				"BGDIA",
 				"US",
 				"CM",
-				"WBtW"
+				"WBtW",
+				"HotDQ",
+				"RoT",
+				"OotA",
+				"GoS",
+				"CRCotN"
 			],
 			"level": 5,
 			"school": "D",
@@ -3694,7 +3758,11 @@
 				"WBtW",
 				"KftGV",
 				"PaBTSO",
-				"QftIS"
+				"QftIS",
+				"CoS",
+				"TftYP-DiT",
+				"GoS",
+				"DIP"
 			],
 			"level": 1,
 			"school": "D",
@@ -3798,7 +3866,14 @@
 				"CM",
 				"WBtW",
 				"KftGV",
-				"PaBTSO"
+				"PaBTSO",
+				"PotA",
+				"TftYP-WPM",
+				"OoW",
+				"SLW",
+				"SDW",
+				"DC",
+				"RtG"
 			],
 			"level": 5,
 			"school": "V",
@@ -3863,7 +3938,8 @@
 				"BGDIA",
 				"PaBTSO",
 				"ToFW",
-				"CoA"
+				"CoA",
+				"IDRotF"
 			],
 			"level": 4,
 			"school": "E",
@@ -3980,7 +4056,11 @@
 			"referenceSources": [
 				"OotA",
 				"LR",
-				"JttRC"
+				"JttRC",
+				"SKT",
+				"WDMM",
+				"US",
+				"IDRotF"
 			],
 			"level": 3,
 			"school": "C",
@@ -4143,7 +4223,9 @@
 			"referenceSources": [
 				"PotA",
 				"SKT",
-				"CM"
+				"CM",
+				"WDMM",
+				"IDRotF"
 			],
 			"level": 5,
 			"school": "C",
@@ -4200,7 +4282,8 @@
 			"page": 226,
 			"srd": true,
 			"referenceSources": [
-				"CM"
+				"CM",
+				"WBtW"
 			],
 			"level": 6,
 			"school": "C",
@@ -4259,7 +4342,8 @@
 			"referenceSources": [
 				"OotA",
 				"SKT",
-				"TftYP-WPM"
+				"TftYP-WPM",
+				"SjA"
 			],
 			"level": 4,
 			"school": "C",
@@ -4364,7 +4448,8 @@
 			"page": 226,
 			"srd": true,
 			"referenceSources": [
-				"WBtW"
+				"WBtW",
+				"SKT"
 			],
 			"level": 4,
 			"school": "C",
@@ -4435,7 +4520,10 @@
 				"SKT",
 				"BGDIA",
 				"CM",
-				"CoA"
+				"CoA",
+				"WDMM",
+				"IMR",
+				"KftGV"
 			],
 			"level": 5,
 			"school": "D",
@@ -4485,7 +4573,8 @@
 			"referenceSources": [
 				"OotA",
 				"CoS",
-				"ToA"
+				"ToA",
+				"CoA"
 			],
 			"level": 5,
 			"school": "N",
@@ -4705,7 +4794,9 @@
 				"WBtW",
 				"JttRC",
 				"DitLCoT",
-				"QftIS"
+				"QftIS",
+				"WDH",
+				"GoS"
 			],
 			"level": 4,
 			"school": "T",
@@ -5010,7 +5101,11 @@
 				"WDMM",
 				"LR",
 				"CM",
-				"CoA"
+				"CoA",
+				"WDH",
+				"RtG",
+				"WBtW",
+				"KftGV"
 			],
 			"level": 3,
 			"school": "A",
@@ -5060,7 +5155,8 @@
 			"referenceSources": [
 				"OotA",
 				"SKT",
-				"SDW"
+				"SDW",
+				"CoS"
 			],
 			"level": 3,
 			"school": "C",
@@ -5306,7 +5402,8 @@
 			"page": 229,
 			"referenceSources": [
 				"WDMM",
-				"KftGV"
+				"KftGV",
+				"OotA"
 			],
 			"level": 2,
 			"school": "E",
@@ -5434,7 +5531,9 @@
 				"IDRotF",
 				"CRCotN",
 				"DSotDQ",
-				"ToFW"
+				"ToFW",
+				"US",
+				"KftGV"
 			],
 			"level": 1,
 			"school": "V",
@@ -5579,7 +5678,10 @@
 				"WBtW",
 				"PaBTSO",
 				"ToFW",
-				"CoA"
+				"CoA",
+				"OotA",
+				"CoS",
+				"CM"
 			],
 			"level": 2,
 			"school": "V",
@@ -5635,7 +5737,9 @@
 				"WDH",
 				"WDMM",
 				"IDRotF",
-				"QftIS"
+				"QftIS",
+				"BGDIA",
+				"WBtW"
 			],
 			"level": 2,
 			"school": "T",
@@ -5679,7 +5783,9 @@
 			"srd": true,
 			"referenceSources": [
 				"HotDQ",
-				"CM"
+				"CM",
+				"TftYP-DiT",
+				"QftIS"
 			],
 			"level": 3,
 			"school": "V",
@@ -5729,7 +5835,9 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"CoA"
+				"CoA",
+				"WDMM",
+				"IDRotF"
 			],
 			"level": 4,
 			"school": "A",
@@ -5841,7 +5949,8 @@
 			"page": 231,
 			"srd": true,
 			"referenceSources": [
-				"CM"
+				"CM",
+				"KftGV"
 			],
 			"level": 8,
 			"school": "C",
@@ -5884,6 +5993,9 @@
 			"name": "Destructive Wave",
 			"source": "PHB",
 			"page": 231,
+			"referenceSources": [
+				"WDMM"
+			],
 			"level": 5,
 			"school": "V",
 			"time": [
@@ -5941,7 +6053,8 @@
 				"CM",
 				"JttRC",
 				"CoA",
-				"VEoR"
+				"VEoR",
+				"WDMM"
 			],
 			"level": 1,
 			"school": "D",
@@ -6042,7 +6155,8 @@
 				"HFStCM",
 				"VNotEE",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"TftYP-WPM"
 			],
 			"level": 1,
 			"school": "D",
@@ -6139,7 +6253,9 @@
 				"CRCotN",
 				"SjA",
 				"KftGV",
-				"PaBTSO"
+				"PaBTSO",
+				"SDW",
+				"RtG"
 			],
 			"level": 2,
 			"school": "D",
@@ -6263,7 +6379,12 @@
 				"WBtW",
 				"DSotDQ",
 				"KftGV",
-				"VEoR"
+				"VEoR",
+				"OotA",
+				"SKT",
+				"TftYP-TFoF",
+				"IDRotF",
+				"QftIS"
 			],
 			"level": 1,
 			"school": "I",
@@ -6321,7 +6442,14 @@
 				"SjA",
 				"LoX",
 				"PaBTSO",
-				"QftIS"
+				"QftIS",
+				"RoT",
+				"SKT",
+				"TftYP-WPM",
+				"TftYP-AtG",
+				"WDH",
+				"KftGV",
+				"VEoR"
 			],
 			"level": 6,
 			"school": "T",
@@ -6389,7 +6517,8 @@
 				"CM",
 				"KftGV",
 				"CoA",
-				"QftIS"
+				"QftIS",
+				"OotA"
 			],
 			"level": 5,
 			"school": "A",
@@ -6500,7 +6629,12 @@
 				"DitLCoT",
 				"LRDT",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"RoT",
+				"OotA",
+				"TTP",
+				"DC",
+				"SjA"
 			],
 			"level": 3,
 			"school": "A",
@@ -6613,7 +6747,11 @@
 				"LoX",
 				"KftGV",
 				"CoA",
-				"QftIS"
+				"QftIS",
+				"US",
+				"CM",
+				"CRCotN",
+				"DSotDQ"
 			],
 			"level": 4,
 			"school": "D",
@@ -6657,6 +6795,9 @@
 			"source": "PHB",
 			"page": 234,
 			"srd": true,
+			"referenceSources": [
+				"CoS"
+			],
 			"level": 1,
 			"school": "V",
 			"time": [
@@ -6700,6 +6841,10 @@
 			"source": "PHB",
 			"page": 234,
 			"srd": true,
+			"referenceSources": [
+				"TftYP-AtG",
+				"CoA"
+			],
 			"level": 7,
 			"school": "V",
 			"time": [
@@ -6965,7 +7110,8 @@
 			"page": 235,
 			"srd": "Instant Summons",
 			"referenceSources": [
-				"VEoR"
+				"VEoR",
+				"OotA"
 			],
 			"level": 6,
 			"school": "C",
@@ -7019,7 +7165,8 @@
 			"referenceSources": [
 				"RoT",
 				"PotA",
-				"WDMM"
+				"WDMM",
+				"WDH"
 			],
 			"level": 5,
 			"school": "I",
@@ -7413,7 +7560,9 @@
 				"OotA",
 				"WDMM",
 				"WBtW",
-				"LK"
+				"LK",
+				"CoS",
+				"TftYP-TFoF"
 			],
 			"level": 2,
 			"school": "T",
@@ -7541,7 +7690,8 @@
 				"TftYP-TSC",
 				"AZfyT",
 				"LR",
-				"US"
+				"US",
+				"SKT"
 			],
 			"level": 1,
 			"school": "C",
@@ -7644,7 +7794,13 @@
 			"basicRules": true,
 			"referenceSources": [
 				"ToA",
-				"DC"
+				"DC",
+				"CoS",
+				"SKT",
+				"WDH",
+				"WDMM",
+				"GoS",
+				"VEoR"
 			],
 			"level": 7,
 			"school": "T",
@@ -7709,7 +7865,10 @@
 				"SKT",
 				"WDMM",
 				"LR",
-				"QftIS"
+				"QftIS",
+				"RoT",
+				"WDH",
+				"IDRotF"
 			],
 			"level": 4,
 			"school": "C",
@@ -7771,6 +7930,12 @@
 			"source": "PHB",
 			"page": 238,
 			"srd": true,
+			"referenceSources": [
+				"TftYP-TSC",
+				"ToA",
+				"SDW",
+				"IDRotF"
+			],
 			"level": 1,
 			"school": "T",
 			"time": [
@@ -7813,7 +7978,8 @@
 			"srd": true,
 			"referenceSources": [
 				"WDMM",
-				"CoA"
+				"CoA",
+				"OotA"
 			],
 			"level": 6,
 			"school": "N",
@@ -7887,7 +8053,13 @@
 			"page": 239,
 			"srd": true,
 			"referenceSources": [
-				"SKT"
+				"SKT",
+				"OotA",
+				"ToA",
+				"WDH",
+				"WDMM",
+				"IDRotF",
+				"CM"
 			],
 			"level": 4,
 			"school": "T",
@@ -7936,7 +8108,9 @@
 				"WDMM",
 				"IDRotF",
 				"CM",
-				"WBtW"
+				"WBtW",
+				"ToA",
+				"DSotDQ"
 			],
 			"level": 1,
 			"school": "V",
@@ -7986,6 +8160,13 @@
 			"source": "PHB",
 			"page": 239,
 			"srd": true,
+			"referenceSources": [
+				"WDH",
+				"WDMM",
+				"AZfyT",
+				"SCC-ARiR",
+				"KftGV"
+			],
 			"level": 1,
 			"school": "N",
 			"time": [
@@ -8041,7 +8222,12 @@
 				"TftYP-AtG",
 				"US",
 				"AitFR-AVT",
-				"SCC-ARiR"
+				"SCC-ARiR",
+				"OotA",
+				"ToA",
+				"WDMM",
+				"GoS",
+				"CM"
 			],
 			"level": 3,
 			"school": "I",
@@ -8105,7 +8291,11 @@
 				"CM",
 				"WBtW",
 				"SjA",
-				"DSotDQ"
+				"DSotDQ",
+				"HotDQ",
+				"ToA",
+				"WDH",
+				"BGDIA"
 			],
 			"level": 1,
 			"school": "T",
@@ -8153,7 +8343,8 @@
 				"WDMM",
 				"BGDIA",
 				"PaBTSO",
-				"CoA"
+				"CoA",
+				"SKT"
 			],
 			"level": 8,
 			"school": "E",
@@ -8205,7 +8396,9 @@
 			"page": 240,
 			"referenceSources": [
 				"WBtW",
-				"JttRC"
+				"JttRC",
+				"OotA",
+				"WDMM"
 			],
 			"level": 3,
 			"school": "N",
@@ -8274,7 +8467,12 @@
 				"WDH",
 				"GoS",
 				"BGDIA",
-				"IDRotF"
+				"IDRotF",
+				"OotA",
+				"DC",
+				"CM",
+				"JttRC",
+				"QftIS"
 			],
 			"level": 1,
 			"school": "C",
@@ -8376,7 +8574,9 @@
 			"referenceSources": [
 				"CoS",
 				"ToA",
-				"BGDIA"
+				"BGDIA",
+				"SKT",
+				"VEoR"
 			],
 			"level": 6,
 			"school": "D",
@@ -8422,7 +8622,8 @@
 			"srd": true,
 			"referenceSources": [
 				"TftYP-ToH",
-				"ToA"
+				"ToA",
+				"QftIS"
 			],
 			"level": 2,
 			"school": "D",
@@ -8465,7 +8666,9 @@
 			"referenceSources": [
 				"CoS",
 				"WDMM",
-				"CoA"
+				"CoA",
+				"TftYP-AtG",
+				"WBtW"
 			],
 			"level": 7,
 			"school": "N",
@@ -8525,7 +8728,8 @@
 				"TftYP-WPM",
 				"WDMM",
 				"BGDIA",
-				"RMBRE"
+				"RMBRE",
+				"OotA"
 			],
 			"level": 0,
 			"school": "V",
@@ -8585,7 +8789,12 @@
 			"srd": true,
 			"referenceSources": [
 				"RoT",
-				"QftIS"
+				"QftIS",
+				"OotA",
+				"SKT",
+				"WDMM",
+				"RtG",
+				"KftGV"
 			],
 			"level": 4,
 			"school": "V",
@@ -8708,7 +8917,14 @@
 				"IDRotF",
 				"WBtW",
 				"SCC-CK",
-				"CoA"
+				"CoA",
+				"HotDQ",
+				"CoS",
+				"TftYP-ToH",
+				"CM",
+				"KftGV",
+				"PaBTSO",
+				"QftIS"
 			],
 			"level": 3,
 			"school": "V",
@@ -8895,7 +9111,9 @@
 			],
 			"referenceSources": [
 				"GoS",
-				"DoSI"
+				"DoSI",
+				"TftYP-TSC",
+				"ToA"
 			],
 			"level": 2,
 			"school": "C",
@@ -8963,7 +9181,10 @@
 			"srd": true,
 			"referenceSources": [
 				"WDMM",
-				"IDRotF"
+				"IDRotF",
+				"OotA",
+				"SKT",
+				"CM"
 			],
 			"level": 6,
 			"school": "T",
@@ -9042,7 +9263,16 @@
 				"LoX",
 				"KftGV",
 				"ToFW",
-				"QftIS"
+				"QftIS",
+				"OotA",
+				"CoS",
+				"WDH",
+				"DIP",
+				"CM",
+				"RtG",
+				"WBtW",
+				"DSotDQ",
+				"CoA"
 			],
 			"level": 3,
 			"school": "T",
@@ -9102,7 +9332,13 @@
 				"OoW",
 				"BGDIA",
 				"DD",
-				"IDRotF"
+				"IDRotF",
+				"WDMM",
+				"SDW",
+				"US",
+				"SCC-ARiR",
+				"KftGV",
+				"QftIS"
 			],
 			"level": 1,
 			"school": "C",
@@ -9380,7 +9616,8 @@
 			"referenceSources": [
 				"CoS",
 				"US",
-				"IDRotF"
+				"IDRotF",
+				"OotA"
 			],
 			"level": 0,
 			"school": "E",
@@ -9431,7 +9668,11 @@
 				"WDMM",
 				"GoS",
 				"WBtW",
-				"JttRC"
+				"JttRC",
+				"PotA",
+				"OotA",
+				"WDH",
+				"BGDIA"
 			],
 			"level": 3,
 			"school": "T",
@@ -9486,7 +9727,9 @@
 				"LLK",
 				"CM",
 				"ToFW",
-				"CoA"
+				"CoA",
+				"TftYP-AtG",
+				"WDMM"
 			],
 			"level": 9,
 			"school": "C",
@@ -9544,7 +9787,11 @@
 				"WDMM",
 				"BGDIA",
 				"CM",
-				"CoA"
+				"CoA",
+				"SKT",
+				"WDH",
+				"WBtW",
+				"JttRC"
 			],
 			"level": 5,
 			"school": "E",
@@ -9704,7 +9951,8 @@
 			"page": 245,
 			"srd": true,
 			"referenceSources": [
-				"ToFW"
+				"ToFW",
+				"WBtW"
 			],
 			"level": 8,
 			"school": "T",
@@ -9744,7 +9992,12 @@
 			"basicRules": true,
 			"referenceSources": [
 				"OotA",
-				"SKT"
+				"SKT",
+				"WDMM",
+				"OoW",
+				"CM",
+				"RtG",
+				"KftGV"
 			],
 			"level": 6,
 			"school": "A",
@@ -9827,7 +10080,8 @@
 				"SjA",
 				"KftGV",
 				"PaBTSO",
-				"VEoR"
+				"VEoR",
+				"IMR"
 			],
 			"level": 3,
 			"school": "A",
@@ -9916,7 +10170,9 @@
 			"referenceSources": [
 				"BGDIA",
 				"CM",
-				"VEoR"
+				"VEoR",
+				"OotA",
+				"SKT"
 			],
 			"level": 1,
 			"school": "T",
@@ -9954,6 +10210,9 @@
 			"name": "Grasping Vine",
 			"source": "PHB",
 			"page": 246,
+			"referenceSources": [
+				"SKT"
+			],
 			"level": 4,
 			"school": "C",
 			"time": [
@@ -10005,7 +10264,12 @@
 			"page": 246,
 			"srd": true,
 			"referenceSources": [
-				"SCC-HfMT"
+				"SCC-HfMT",
+				"OotA",
+				"WDMM",
+				"CM",
+				"LoX",
+				"QftIS"
 			],
 			"level": 1,
 			"school": "C",
@@ -10065,7 +10329,13 @@
 				"WDMM",
 				"DC",
 				"KftGV",
-				"VEoR"
+				"VEoR",
+				"RoT",
+				"SKT",
+				"WDH",
+				"IDRotF",
+				"CM",
+				"WBtW"
 			],
 			"level": 4,
 			"school": "I",
@@ -10131,7 +10401,15 @@
 				"ToFW",
 				"CoA",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"PotA",
+				"SKT",
+				"TftYP-AtG",
+				"TftYP-ToH",
+				"LLK",
+				"WBtW",
+				"JttRC",
+				"LoX"
 			],
 			"level": 5,
 			"school": "A",
@@ -10183,6 +10461,9 @@
 			"page": 246,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CM"
+			],
 			"level": 4,
 			"school": "C",
 			"time": [
@@ -10233,7 +10514,8 @@
 			"referenceSources": [
 				"OotA",
 				"IMR",
-				"CM"
+				"CM",
+				"SKT"
 			],
 			"level": 6,
 			"school": "A",
@@ -10335,7 +10617,10 @@
 			"referenceSources": [
 				"ToA",
 				"TTP",
-				"WDMM"
+				"WDMM",
+				"SKT",
+				"US",
+				"CM"
 			],
 			"level": 0,
 			"school": "D",
@@ -10385,7 +10670,10 @@
 				}
 			],
 			"referenceSources": [
-				"TTP"
+				"TTP",
+				"TftYP-TSC",
+				"ToR",
+				"US"
 			],
 			"level": 1,
 			"school": "V",
@@ -10458,7 +10746,10 @@
 				"SCC-ARiR",
 				"KftGV",
 				"ToFW",
-				"CoA"
+				"CoA",
+				"TftYP-THSoT",
+				"TftYP-DiT",
+				"BGDIA"
 			],
 			"level": 2,
 			"school": "V",
@@ -10572,7 +10863,8 @@
 				"GoS",
 				"HoL",
 				"DSotDQ",
-				"QftIS"
+				"QftIS",
+				"WDMM"
 			],
 			"level": 5,
 			"school": "V",
@@ -10721,7 +11013,9 @@
 				"SKT",
 				"WDMM",
 				"BGDIA",
-				"CM"
+				"CM",
+				"OotA",
+				"IDRotF"
 			],
 			"level": 4,
 			"school": "I",
@@ -10769,6 +11063,9 @@
 			"page": 249,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"level": 6,
 			"school": "N",
 			"time": [
@@ -10817,7 +11114,12 @@
 			"referenceSources": [
 				"PotA",
 				"CoA",
-				"VEoR"
+				"VEoR",
+				"RoT",
+				"SKT",
+				"TftYP-WPM",
+				"WDMM",
+				"LoX"
 			],
 			"level": 3,
 			"school": "T",
@@ -10872,7 +11174,11 @@
 				"SDW",
 				"BGDIA",
 				"LR",
-				"DSotDQ"
+				"DSotDQ",
+				"TftYP-AtG",
+				"TftYP-ToH",
+				"CoA",
+				"QftIS"
 			],
 			"level": 6,
 			"school": "V",
@@ -11008,7 +11314,8 @@
 			"srd": true,
 			"referenceSources": [
 				"TftYP-THSoT",
-				"CM"
+				"CM",
+				"TftYP-ToH"
 			],
 			"level": 2,
 			"school": "T",
@@ -11309,7 +11616,12 @@
 			"srd": true,
 			"referenceSources": [
 				"CoA",
-				"LRDT"
+				"LRDT",
+				"RoT",
+				"OotA",
+				"WDH",
+				"WDMM",
+				"SDW"
 			],
 			"level": 5,
 			"school": "E",
@@ -11405,7 +11717,14 @@
 				"DoSI",
 				"KftGV",
 				"PaBTSO",
-				"CoA"
+				"CoA",
+				"RoT",
+				"OotA",
+				"CoS",
+				"ToA",
+				"OoW",
+				"DIP",
+				"CM"
 			],
 			"level": 2,
 			"school": "E",
@@ -11472,6 +11791,9 @@
 			"page": 251,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"DC"
+			],
 			"level": 8,
 			"school": "A",
 			"time": [
@@ -11641,7 +11963,9 @@
 			"page": 252,
 			"srd": true,
 			"referenceSources": [
-				"SCC-ARiR"
+				"SCC-ARiR",
+				"SKT",
+				"WDMM"
 			],
 			"level": 3,
 			"school": "I",
@@ -11698,7 +12022,12 @@
 				"TftYP-WPM",
 				"WDMM",
 				"IDRotF",
-				"LRDT"
+				"LRDT",
+				"PotA",
+				"WDH",
+				"CM",
+				"WBtW",
+				"KftGV"
 			],
 			"level": 4,
 			"school": "V",
@@ -11778,7 +12107,15 @@
 				"PaBTSO",
 				"CoA",
 				"DitLCoT",
-				"QftIS"
+				"QftIS",
+				"CoS",
+				"TTP",
+				"GoS",
+				"DIP",
+				"CM",
+				"RtG",
+				"KftGV",
+				"VNotEE"
 			],
 			"level": 1,
 			"school": "D",
@@ -11827,7 +12164,10 @@
 			"page": 252,
 			"srd": true,
 			"referenceSources": [
-				"IDRotF"
+				"IDRotF",
+				"ToA",
+				"JttRC",
+				"QftIS"
 			],
 			"level": 1,
 			"school": "I",
@@ -11880,7 +12220,8 @@
 				"OotA",
 				"WDH",
 				"BGDIA",
-				"ToFW"
+				"ToFW",
+				"WDMM"
 			],
 			"level": 9,
 			"school": "A",
@@ -11986,7 +12327,8 @@
 			"page": 253,
 			"srd": true,
 			"referenceSources": [
-				"WDMM"
+				"WDMM",
+				"OotA"
 			],
 			"level": 8,
 			"school": "C",
@@ -12048,7 +12390,9 @@
 				}
 			],
 			"referenceSources": [
-				"WDH"
+				"WDH",
+				"TftYP-TSC",
+				"WDMM"
 			],
 			"level": 1,
 			"school": "N",
@@ -12100,6 +12444,11 @@
 			"source": "PHB",
 			"page": 254,
 			"srd": true,
+			"referenceSources": [
+				"OotA",
+				"TftYP-AtG",
+				"CM"
+			],
 			"level": 5,
 			"school": "C",
 			"time": [
@@ -12189,7 +12538,11 @@
 				"KftGV",
 				"PaBTSO",
 				"ToFW",
-				"LRDT"
+				"LRDT",
+				"SKT",
+				"TftYP-DiT",
+				"SDW",
+				"CM"
 			],
 			"level": 2,
 			"school": "I",
@@ -12251,7 +12604,9 @@
 				"SKT",
 				"WDMM",
 				"CM",
-				"LRDT"
+				"LRDT",
+				"OotA",
+				"TftYP-WPM"
 			],
 			"level": 1,
 			"school": "T",
@@ -12322,7 +12677,8 @@
 				"LRDT",
 				"VNotEE",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"SDW"
 			],
 			"level": 2,
 			"school": "T",
@@ -12374,7 +12730,10 @@
 				"SDW",
 				"DC",
 				"CM",
-				"WBtW"
+				"WBtW",
+				"OotA",
+				"IMR",
+				"KftGV"
 			],
 			"level": 5,
 			"school": "D",
@@ -12420,7 +12779,10 @@
 			"referenceSources": [
 				"SKT",
 				"IDRotF",
-				"WBtW"
+				"WBtW",
+				"OotA",
+				"WDMM",
+				"VEoR"
 			],
 			"level": 4,
 			"school": "C",
@@ -12466,7 +12828,10 @@
 			"srd": "Tiny Hut",
 			"referenceSources": [
 				"IMR",
-				"IDRotF"
+				"IDRotF",
+				"ToA",
+				"TTP",
+				"WDMM"
 			],
 			"level": 3,
 			"school": "V",
@@ -12535,7 +12900,15 @@
 				"AitFR-AVT",
 				"JttRC",
 				"DoSI",
-				"DSotDQ"
+				"DSotDQ",
+				"TftYP-DiT",
+				"TftYP-AtG",
+				"SLW",
+				"SDW",
+				"DC",
+				"CRCotN",
+				"KftGV",
+				"QftIS"
 			],
 			"level": 2,
 			"school": "A",
@@ -12585,7 +12958,10 @@
 				"DSotDQ",
 				"DitLCoT",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"CoS",
+				"TftYP-WPM",
+				"CM"
 			],
 			"level": 2,
 			"school": "T",
@@ -12659,7 +13035,8 @@
 				"RtG",
 				"CRCotN",
 				"KftGV",
-				"PaBTSO"
+				"PaBTSO",
+				"TftYP-WPM"
 			],
 			"level": 0,
 			"school": "V",
@@ -12779,7 +13156,17 @@
 				"LR",
 				"IMR",
 				"IDRotF",
-				"CoA"
+				"CoA",
+				"LMoP",
+				"SKT",
+				"TftYP-WPM",
+				"TftYP-ToH",
+				"WDH",
+				"OoW",
+				"RMBRE",
+				"RtG",
+				"KftGV",
+				"PaBTSO"
 			],
 			"level": 3,
 			"school": "V",
@@ -12837,6 +13224,9 @@
 			"source": "PHB",
 			"page": 256,
 			"srd": true,
+			"referenceSources": [
+				"SKT"
+			],
 			"level": 2,
 			"school": "D",
 			"time": [
@@ -12879,7 +13269,12 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"WDMM"
+				"WDMM",
+				"OotA",
+				"SKT",
+				"WDH",
+				"CM",
+				"WBtW"
 			],
 			"level": 4,
 			"school": "D",
@@ -12925,7 +13320,12 @@
 				"CM",
 				"JttRC",
 				"KftGV",
-				"CoA"
+				"CoA",
+				"CoS",
+				"SKT",
+				"XMtS",
+				"IMR",
+				"QftIS"
 			],
 			"level": 2,
 			"school": "D",
@@ -13042,7 +13442,14 @@
 				"LR",
 				"CM",
 				"CoA",
-				"LRDT"
+				"LRDT",
+				"WDH",
+				"DIP",
+				"BGDIA",
+				"IDRotF",
+				"RtG",
+				"WBtW",
+				"KftGV"
 			],
 			"level": 1,
 			"school": "A",
@@ -13110,7 +13517,10 @@
 				"KftGV",
 				"LK",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"TftYP-TFoF",
+				"TftYP-WPM",
+				"SDW"
 			],
 			"level": 0,
 			"school": "C",
@@ -13312,7 +13722,15 @@
 				"KftGV",
 				"PaBTSO",
 				"LRDT",
-				"VEoR"
+				"VEoR",
+				"SKT",
+				"WDH",
+				"DIP",
+				"IDRotF",
+				"CM",
+				"RtG",
+				"WBtW",
+				"QftIS"
 			],
 			"level": 1,
 			"school": "V",
@@ -13380,7 +13798,8 @@
 				"WDMM",
 				"GoS",
 				"KftGV",
-				"QftIS"
+				"QftIS",
+				"TftYP-AtG"
 			],
 			"level": 2,
 			"school": "I",
@@ -13436,7 +13855,13 @@
 			"referenceSources": [
 				"CoS",
 				"TftYP-DiT",
-				"WDMM"
+				"WDMM",
+				"OotA",
+				"SKT",
+				"TftYP-ToH",
+				"WDH",
+				"BGDIA",
+				"KftGV"
 			],
 			"level": 2,
 			"school": "T",
@@ -13490,7 +13915,12 @@
 				"CoS",
 				"TftYP-THSoT",
 				"GoS",
-				"PaBTSO"
+				"PaBTSO",
+				"OotA",
+				"ToA",
+				"WDH",
+				"IDRotF",
+				"VEoR"
 			],
 			"level": 3,
 			"school": "I",
@@ -13554,7 +13984,8 @@
 				"CoS",
 				"WDMM",
 				"SLW",
-				"IDRotF"
+				"IDRotF",
+				"SDW"
 			],
 			"level": 5,
 			"school": "V",
@@ -13620,6 +14051,9 @@
 			"page": 258,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CoA"
+			],
 			"level": 9,
 			"school": "V",
 			"time": [
@@ -13749,7 +14183,9 @@
 			"basicRules": true,
 			"referenceSources": [
 				"SKT",
-				"IMR"
+				"IMR",
+				"WDH",
+				"WBtW"
 			],
 			"level": 6,
 			"school": "E",
@@ -13812,7 +14248,9 @@
 			"basicRules": true,
 			"referenceSources": [
 				"CoS",
-				"WDMM"
+				"WDMM",
+				"OotA",
+				"WDH"
 			],
 			"level": 8,
 			"school": "C",
@@ -13918,7 +14356,8 @@
 			"referenceSources": [
 				"HotDQ",
 				"TftYP-DiT",
-				"WDMM"
+				"WDMM",
+				"TftYP-TSC"
 			],
 			"level": 2,
 			"school": "V",
@@ -13985,7 +14424,9 @@
 				"IMR",
 				"IDRotF",
 				"CM",
-				"SCC-ARiR"
+				"SCC-ARiR",
+				"OotA",
+				"SDW"
 			],
 			"level": 0,
 			"school": "T",
@@ -14031,7 +14472,8 @@
 				"IDRotF",
 				"CM",
 				"LoX",
-				"CoA"
+				"CoA",
+				"DC"
 			],
 			"level": 0,
 			"school": "T",
@@ -14133,7 +14575,11 @@
 				"WDMM",
 				"BGDIA",
 				"CM",
-				"PaBTSO"
+				"PaBTSO",
+				"SKT",
+				"ToA",
+				"RtG",
+				"KftGV"
 			],
 			"level": 8,
 			"school": "A",
@@ -14189,7 +14635,11 @@
 				"IDRotF",
 				"WBtW",
 				"KftGV",
-				"PaBTSO"
+				"PaBTSO",
+				"SKT",
+				"TftYP-TFoF",
+				"ToA",
+				"LoX"
 			],
 			"level": 0,
 			"school": "I",
@@ -14234,6 +14684,10 @@
 			"source": "PHB",
 			"page": 260,
 			"srd": true,
+			"referenceSources": [
+				"OotA",
+				"SKT"
+			],
 			"level": 7,
 			"school": "I",
 			"time": [
@@ -14277,7 +14731,13 @@
 				"CoS",
 				"TftYP-WPM",
 				"ToA",
-				"WDH"
+				"WDH",
+				"SKT",
+				"WDMM",
+				"IDRotF",
+				"CM",
+				"RtG",
+				"KftGV"
 			],
 			"level": 2,
 			"school": "I",
@@ -14320,7 +14780,9 @@
 			"page": 260,
 			"srd": true,
 			"referenceSources": [
-				"LoX"
+				"LoX",
+				"WDMM",
+				"IDRotF"
 			],
 			"level": 5,
 			"school": "I",
@@ -14387,7 +14849,13 @@
 				"DoSI",
 				"SjA",
 				"LoX",
-				"PaBTSO"
+				"PaBTSO",
+				"WDH",
+				"IDRotF",
+				"CM",
+				"RtG",
+				"KftGV",
+				"LK"
 			],
 			"level": 2,
 			"school": "C",
@@ -14428,7 +14896,9 @@
 				"WDMM",
 				"RtG",
 				"AitFR-AVT",
-				"VEoR"
+				"VEoR",
+				"SKT",
+				"WDH"
 			],
 			"level": 5,
 			"school": "E",
@@ -14567,7 +15037,9 @@
 			"referenceSources": [
 				"CoS",
 				"AitFR-THP",
-				"VEoR"
+				"VEoR",
+				"SKT",
+				"WDMM"
 			],
 			"level": 4,
 			"school": "C",
@@ -14618,7 +15090,9 @@
 			"referenceSources": [
 				"CoS",
 				"WDMM",
-				"CM"
+				"CM",
+				"OotA",
+				"VEoR"
 			],
 			"level": 7,
 			"school": "C",
@@ -14667,7 +15141,8 @@
 			"page": 262,
 			"srd": "Private Sanctum",
 			"referenceSources": [
-				"QftIS"
+				"QftIS",
+				"WDMM"
 			],
 			"level": 4,
 			"school": "A",
@@ -14739,7 +15214,8 @@
 			"basicRules": true,
 			"referenceSources": [
 				"SKT",
-				"WDMM"
+				"WDMM",
+				"PotA"
 			],
 			"level": 7,
 			"school": "V",
@@ -14799,7 +15275,8 @@
 			"page": 263,
 			"srd": true,
 			"referenceSources": [
-				"RoT"
+				"RoT",
+				"OotA"
 			],
 			"level": 6,
 			"school": "T",
@@ -14852,7 +15329,11 @@
 				"WDMM",
 				"LR",
 				"ToFW",
-				"VEoR"
+				"VEoR",
+				"CoS",
+				"SKT",
+				"WDH",
+				"KftGV"
 			],
 			"level": 3,
 			"school": "A",
@@ -14903,7 +15384,9 @@
 			"srd": "Arcanist's Magic Aura",
 			"referenceSources": [
 				"ToA",
-				"WDMM"
+				"WDMM",
+				"IDRotF",
+				"QftIS"
 			],
 			"level": 2,
 			"school": "I",
@@ -14965,6 +15448,9 @@
 			"source": "PHB",
 			"page": 263,
 			"srd": "Freezing Sphere",
+			"referenceSources": [
+				"AitFR-ISF"
+			],
 			"level": 6,
 			"school": "V",
 			"time": [
@@ -15024,7 +15510,8 @@
 			"srd": "Resilient Sphere",
 			"referenceSources": [
 				"WDMM",
-				"CRCotN"
+				"CRCotN",
+				"SKT"
 			],
 			"level": 4,
 			"school": "V",
@@ -15096,7 +15583,10 @@
 			"referenceSources": [
 				"TftYP-THSoT",
 				"CM",
-				"SCC-TMM"
+				"SCC-TMM",
+				"OotA",
+				"ToA",
+				"WDMM"
 			],
 			"level": 6,
 			"school": "E",
@@ -15147,7 +15637,9 @@
 			"srd": true,
 			"referenceSources": [
 				"WBtW",
-				"CRCotN"
+				"CRCotN",
+				"SKT",
+				"XMtS"
 			],
 			"level": 2,
 			"school": "A",
@@ -15198,7 +15690,12 @@
 				"KftGV",
 				"PaBTSO",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"OotA",
+				"TftYP-WPM",
+				"TftYP-DiT",
+				"WDMM",
+				"JttRC"
 			],
 			"level": 5,
 			"school": "T",
@@ -15246,7 +15743,11 @@
 				"TftYP-THSoT",
 				"GoS",
 				"KftGV",
-				"LRDT"
+				"LRDT",
+				"OotA",
+				"WDH",
+				"IDRotF",
+				"CM"
 			],
 			"level": 2,
 			"school": "I",
@@ -15323,7 +15824,9 @@
 				"CM",
 				"AitFR-AVT",
 				"PaBTSO",
-				"CoA"
+				"CoA",
+				"OotA",
+				"SKT"
 			],
 			"level": 4,
 			"school": "I",
@@ -15389,7 +15892,9 @@
 			"srd": true,
 			"referenceSources": [
 				"CoS",
-				"CoA"
+				"CoA",
+				"WDH",
+				"DSotDQ"
 			],
 			"level": 3,
 			"school": "I",
@@ -15479,6 +15984,10 @@
 			"source": "PHB",
 			"page": 265,
 			"srd": true,
+			"referenceSources": [
+				"WDMM",
+				"CM"
+			],
 			"level": 5,
 			"school": "A",
 			"time": [
@@ -15564,7 +16073,8 @@
 				"ToFW",
 				"CoA",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"CoS"
 			],
 			"level": 7,
 			"school": "C",
@@ -15667,7 +16177,9 @@
 			"basicRules": true,
 			"referenceSources": [
 				"TftYP-TSC",
-				"ToA"
+				"ToA",
+				"OotA",
+				"TftYP-TFoF"
 			],
 			"level": 0,
 			"school": "C",
@@ -15737,7 +16249,13 @@
 				"JttRC",
 				"DSotDQ",
 				"ToFW",
-				"CoA"
+				"CoA",
+				"CoS",
+				"WDH",
+				"SLW",
+				"IDRotF",
+				"CM",
+				"KftGV"
 			],
 			"level": 4,
 			"school": "T",
@@ -15844,7 +16362,9 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"WDMM"
+				"WDMM",
+				"PotA",
+				"SKT"
 			],
 			"level": 9,
 			"school": "E",
@@ -15885,6 +16405,10 @@
 			"page": 267,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"OotA",
+				"WDMM"
+			],
 			"level": 8,
 			"school": "E",
 			"time": [
@@ -15936,6 +16460,9 @@
 					"source": "RMR",
 					"page": 57
 				}
+			],
+			"referenceSources": [
+				"OoW"
 			],
 			"level": 2,
 			"school": "V",
@@ -16014,7 +16541,11 @@
 				"IDRotF",
 				"NRH-TLT",
 				"WBtW",
-				"VEoR"
+				"VEoR",
+				"SKT",
+				"TftYP-TFoF",
+				"ToA",
+				"KftGV"
 			],
 			"level": 0,
 			"school": "T",
@@ -16071,7 +16602,9 @@
 			"srd": true,
 			"referenceSources": [
 				"SKT",
-				"WDMM"
+				"WDMM",
+				"OotA",
+				"ToA"
 			],
 			"level": 7,
 			"school": "V",
@@ -16186,6 +16719,9 @@
 			"source": "PHB",
 			"page": 267,
 			"srd": true,
+			"referenceSources": [
+				"WDMM"
+			],
 			"level": 9,
 			"school": "A",
 			"time": [
@@ -16305,7 +16841,11 @@
 			"referenceSources": [
 				"WDH",
 				"US",
-				"IDRotF"
+				"IDRotF",
+				"SKT",
+				"ToA",
+				"GoS",
+				"JttRC"
 			],
 			"level": 0,
 			"school": "C",
@@ -16489,7 +17029,10 @@
 			],
 			"referenceSources": [
 				"RoT",
-				"LRDT"
+				"LRDT",
+				"OotA",
+				"SKT",
+				"SDW"
 			],
 			"level": 3,
 			"school": "A",
@@ -16543,7 +17086,9 @@
 				"CM",
 				"WBtW",
 				"CoA",
-				"VNotEE"
+				"VNotEE",
+				"CoS",
+				"WDH"
 			],
 			"level": 1,
 			"school": "A",
@@ -16603,7 +17148,11 @@
 			"srd": true,
 			"referenceSources": [
 				"TftYP-AtG",
-				"JttRC"
+				"JttRC",
+				"CoS",
+				"TftYP-TSC",
+				"GoS",
+				"VEoR"
 			],
 			"level": 2,
 			"school": "A",
@@ -16658,7 +17207,8 @@
 				"WDMM",
 				"GoS",
 				"CM",
-				"QftIS"
+				"QftIS",
+				"ToA"
 			],
 			"level": 1,
 			"school": "T",
@@ -16716,7 +17266,9 @@
 				"JttRC",
 				"KftGV",
 				"ToFW",
-				"QftIS"
+				"QftIS",
+				"BGDIA",
+				"WBtW"
 			],
 			"level": 5,
 			"school": "N",
@@ -16780,7 +17332,10 @@
 				"CoS",
 				"WDMM",
 				"BGDIA",
-				"IDRotF"
+				"IDRotF",
+				"OotA",
+				"WDH",
+				"LoX"
 			],
 			"level": 5,
 			"school": "D",
@@ -16827,6 +17382,9 @@
 			"source": "PHB",
 			"page": 271,
 			"srd": true,
+			"referenceSources": [
+				"WDMM"
+			],
 			"level": 2,
 			"school": "N",
 			"time": [
@@ -16884,7 +17442,11 @@
 			],
 			"referenceSources": [
 				"WDMM",
-				"NRH-TLT"
+				"NRH-TLT",
+				"RoT",
+				"OotA",
+				"SKT",
+				"TftYP-TFoF"
 			],
 			"level": 0,
 			"school": "V",
@@ -16942,7 +17504,12 @@
 			"page": 271,
 			"referenceSources": [
 				"OotA",
-				"CoA"
+				"CoA",
+				"CoS",
+				"WDMM",
+				"BGDIA",
+				"CM",
+				"CRCotN"
 			],
 			"level": 1,
 			"school": "N",
@@ -17048,7 +17615,8 @@
 			"srd": true,
 			"referenceSources": [
 				"CoS",
-				"IDRotF"
+				"IDRotF",
+				"ToFW"
 			],
 			"level": 5,
 			"school": "T",
@@ -17277,7 +17845,13 @@
 				"DSotDQ",
 				"CoA",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"TftYP-THSoT",
+				"TftYP-AtG",
+				"TftYP-ToH",
+				"KftGV",
+				"PaBTSO",
+				"ToFW"
 			],
 			"level": 3,
 			"school": "A",
@@ -17323,6 +17897,13 @@
 					"source": "RMR",
 					"page": 58
 				}
+			],
+			"referenceSources": [
+				"SKT",
+				"ToA",
+				"TTP",
+				"WDMM",
+				"US"
 			],
 			"level": 0,
 			"school": "A",
@@ -17372,7 +17953,10 @@
 				"SKT",
 				"BGDIA",
 				"CM",
-				"JttRC"
+				"JttRC",
+				"TftYP-ToH",
+				"ToA",
+				"ToFW"
 			],
 			"level": 7,
 			"school": "N",
@@ -17438,7 +18022,8 @@
 				"ToA",
 				"WDMM",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"OotA"
 			],
 			"level": 7,
 			"school": "T",
@@ -17507,7 +18092,10 @@
 				"WBtW",
 				"JttRC",
 				"DSotDQ",
-				"CoA"
+				"CoA",
+				"LMoP",
+				"BGDIA",
+				"PaBTSO"
 			],
 			"level": 3,
 			"school": "N",
@@ -17556,7 +18144,9 @@
 				"ToA",
 				"WDMM",
 				"SjA",
-				"VEoR"
+				"VEoR",
+				"WDH",
+				"IMR"
 			],
 			"level": 2,
 			"school": "T",
@@ -17607,7 +18197,8 @@
 			],
 			"referenceSources": [
 				"BGDIA",
-				"DoSI"
+				"DoSI",
+				"US"
 			],
 			"level": 0,
 			"school": "V",
@@ -17675,7 +18266,10 @@
 			],
 			"referenceSources": [
 				"TTP",
-				"GoS"
+				"GoS",
+				"HotDQ",
+				"CoS",
+				"BGDIA"
 			],
 			"level": 1,
 			"school": "A",
@@ -17724,7 +18318,10 @@
 			"srd": true,
 			"referenceSources": [
 				"HotDQ",
-				"TftYP-TSC"
+				"TftYP-TSC",
+				"TftYP-TFoF",
+				"IDRotF",
+				"KftGV"
 			],
 			"level": 2,
 			"school": "V",
@@ -17790,7 +18387,10 @@
 				"JttRC",
 				"DSotDQ",
 				"KftGV",
-				"CoA"
+				"CoA",
+				"PotA",
+				"WDH",
+				"CM"
 			],
 			"level": 5,
 			"school": "D",
@@ -17953,7 +18553,10 @@
 				"CRCotN",
 				"KftGV",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"RoT",
+				"CM",
+				"DSotDQ"
 			],
 			"level": 2,
 			"school": "D",
@@ -17995,7 +18598,10 @@
 			"referenceSources": [
 				"CM",
 				"DSotDQ",
-				"VEoR"
+				"VEoR",
+				"SKT",
+				"WDMM",
+				"IDRotF"
 			],
 			"level": 5,
 			"school": "I",
@@ -18065,7 +18671,12 @@
 				"JttRC",
 				"LoX",
 				"DSotDQ",
-				"VEoR"
+				"VEoR",
+				"ToA",
+				"DC",
+				"BGDIA",
+				"KftGV",
+				"CoA"
 			],
 			"level": 3,
 			"school": "V",
@@ -18164,7 +18775,8 @@
 			"page": 274,
 			"srd": true,
 			"referenceSources": [
-				"WDMM"
+				"WDMM",
+				"BGDIA"
 			],
 			"level": 9,
 			"school": "T",
@@ -18216,7 +18828,10 @@
 			"referenceSources": [
 				"WDMM",
 				"GoS",
-				"CM"
+				"CM",
+				"SKT",
+				"TftYP-TFoF",
+				"KftGV"
 			],
 			"level": 2,
 			"school": "V",
@@ -18283,7 +18898,20 @@
 			],
 			"referenceSources": [
 				"OotA",
-				"LoX"
+				"LoX",
+				"RoT",
+				"CoS",
+				"SKT",
+				"TftYP-TFoF",
+				"TftYP-WPM",
+				"WDH",
+				"WDMM",
+				"DIP",
+				"ToR",
+				"IDRotF",
+				"CM",
+				"WBtW",
+				"KftGV"
 			],
 			"level": 1,
 			"school": "A",
@@ -18378,7 +19006,8 @@
 			"page": 275,
 			"srd": true,
 			"referenceSources": [
-				"GoS"
+				"GoS",
+				"TftYP-TSC"
 			],
 			"level": 0,
 			"school": "T",
@@ -18429,7 +19058,12 @@
 			],
 			"referenceSources": [
 				"TftYP-TFoF",
-				"WDMM"
+				"WDMM",
+				"CoS",
+				"TftYP-WPM",
+				"SDW",
+				"BGDIA",
+				"KftGV"
 			],
 			"level": 0,
 			"school": "V",
@@ -18505,7 +19139,8 @@
 				"KftGV",
 				"PaBTSO",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"OoW"
 			],
 			"level": 2,
 			"school": "I",
@@ -18565,7 +19200,9 @@
 				"GoS",
 				"IDRotF",
 				"WBtW",
-				"KftGV"
+				"KftGV",
+				"TftYP-TFoF",
+				"BGDIA"
 			],
 			"level": 1,
 			"school": "I",
@@ -18681,7 +19318,15 @@
 				"RMBRE",
 				"MOT",
 				"SCC-CK",
-				"KftGV"
+				"KftGV",
+				"TftYP-TFoF",
+				"ToA",
+				"KKW",
+				"DIP",
+				"SDW",
+				"BGDIA",
+				"WBtW",
+				"QftIS"
 			],
 			"level": 1,
 			"school": "E",
@@ -18754,6 +19399,10 @@
 			"source": "PHB",
 			"page": 276,
 			"srd": true,
+			"referenceSources": [
+				"TftYP-THSoT",
+				"WDMM"
+			],
 			"level": 3,
 			"school": "C",
 			"time": [
@@ -18811,7 +19460,12 @@
 			"srd": true,
 			"referenceSources": [
 				"RoT",
-				"QftIS"
+				"QftIS",
+				"OotA",
+				"SKT",
+				"WDMM",
+				"IDRotF",
+				"CM"
 			],
 			"level": 3,
 			"school": "T",
@@ -18868,7 +19522,8 @@
 			"basicRules": true,
 			"referenceSources": [
 				"SDW",
-				"CRCotN"
+				"CRCotN",
+				"US"
 			],
 			"level": 0,
 			"school": "N",
@@ -18927,7 +19582,10 @@
 				"IMR",
 				"WBtW",
 				"LK",
-				"QftIS"
+				"QftIS",
+				"SKT",
+				"GoS",
+				"SDW"
 			],
 			"level": 1,
 			"school": "D",
@@ -18996,7 +19654,8 @@
 				"HFStCM",
 				"LRDT",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"TftYP-DiT"
 			],
 			"level": 3,
 			"school": "N",
@@ -19054,7 +19713,11 @@
 			"srd": true,
 			"referenceSources": [
 				"RoT",
-				"WBtW"
+				"WBtW",
+				"OotA",
+				"SKT",
+				"GoS",
+				"JttRC"
 			],
 			"level": 3,
 			"school": "T",
@@ -19110,7 +19773,11 @@
 				"DIP",
 				"SLW",
 				"WBtW",
-				"LK"
+				"LK",
+				"OotA",
+				"TftYP-TSC",
+				"TftYP-TFoF",
+				"WDMM"
 			],
 			"level": 2,
 			"school": "T",
@@ -19150,6 +19817,9 @@
 			"source": "PHB",
 			"page": 277,
 			"srd": true,
+			"referenceSources": [
+				"US"
+			],
 			"level": 2,
 			"school": "T",
 			"time": [
@@ -19210,7 +19880,11 @@
 				}
 			],
 			"referenceSources": [
-				"CoS"
+				"CoS",
+				"OotA",
+				"SKT",
+				"WDMM",
+				"GoS"
 			],
 			"level": 3,
 			"school": "C",
@@ -19283,7 +19957,14 @@
 			],
 			"referenceSources": [
 				"OoW",
-				"BGDIA"
+				"BGDIA",
+				"CoS",
+				"TftYP-TFoF",
+				"TTP",
+				"WDMM",
+				"GoS",
+				"US",
+				"VEoR"
 			],
 			"level": 2,
 			"school": "V",
@@ -19398,7 +20079,10 @@
 				"OotA",
 				"TftYP-WPM",
 				"TftYP-AtG",
-				"KftGV"
+				"KftGV",
+				"WDMM",
+				"AZfyT",
+				"CM"
 			],
 			"level": 3,
 			"school": "C",
@@ -19463,7 +20147,10 @@
 				"JttRC",
 				"KftGV",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"RoT",
+				"OoW",
+				"AitFR-FCD"
 			],
 			"level": 4,
 			"school": "T",
@@ -19506,7 +20193,15 @@
 				"OotA",
 				"SKT",
 				"IDRotF",
-				"VEoR"
+				"VEoR",
+				"CoS",
+				"WDMM",
+				"SDW",
+				"CM",
+				"RtG",
+				"AitFR-FCD",
+				"KftGV",
+				"CoA"
 			],
 			"level": 4,
 			"school": "A",
@@ -19665,7 +20360,12 @@
 				"IDRotF",
 				"CM",
 				"WBtW",
-				"KftGV"
+				"KftGV",
+				"SKT",
+				"WDH",
+				"WDMM",
+				"SDW",
+				"US"
 			],
 			"level": 2,
 			"school": "E",
@@ -19774,6 +20474,9 @@
 			"page": 279,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"VEoR"
+			],
 			"level": 8,
 			"school": "V",
 			"time": [
@@ -19872,7 +20575,10 @@
 				"TftYP-AtG",
 				"WDMM",
 				"SCC-HfMT",
-				"PaBTSO"
+				"PaBTSO",
+				"WDH",
+				"IDRotF",
+				"JttRC"
 			],
 			"level": 7,
 			"school": "A",
@@ -20005,7 +20711,13 @@
 				"WBtW",
 				"SCC-TMM",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"OotA",
+				"CoS",
+				"WDH",
+				"WDMM",
+				"BGDIA",
+				"KftGV"
 			],
 			"level": 1,
 			"school": "E",
@@ -20067,7 +20779,11 @@
 				"IDRotF",
 				"AitFR-FCD",
 				"CRCotN",
-				"CoA"
+				"CoA",
+				"OotA",
+				"SKT",
+				"WDH",
+				"CM"
 			],
 			"level": 5,
 			"school": "T",
@@ -20137,6 +20853,11 @@
 			"name": "Telepathy",
 			"source": "PHB",
 			"page": 281,
+			"referenceSources": [
+				"OotA",
+				"WDMM",
+				"NRH-TLT"
+			],
 			"level": 8,
 			"school": "V",
 			"time": [
@@ -20194,7 +20915,12 @@
 				"CRCotN",
 				"ToFW",
 				"CoA",
-				"VEoR"
+				"VEoR",
+				"CoS",
+				"BGDIA",
+				"RtG",
+				"SCC-ARiR",
+				"KftGV"
 			],
 			"level": 7,
 			"school": "C",
@@ -20358,7 +21084,11 @@
 				"CM",
 				"AitFR-FCD",
 				"CRCotN",
-				"DSotDQ"
+				"DSotDQ",
+				"IMR",
+				"WBtW",
+				"ToFW",
+				"CoA"
 			],
 			"level": 5,
 			"school": "C",
@@ -20412,7 +21142,12 @@
 				"OotA",
 				"LLK",
 				"EFR",
-				"SCC-ARiR"
+				"SCC-ARiR",
+				"ToA",
+				"WDH",
+				"WDMM",
+				"GoS",
+				"IDRotF"
 			],
 			"level": 1,
 			"school": "C",
@@ -20469,7 +21204,12 @@
 			],
 			"referenceSources": [
 				"OoW",
-				"IMR"
+				"IMR",
+				"CoS",
+				"TftYP-TSC",
+				"WDMM",
+				"GoS",
+				"DC"
 			],
 			"level": 0,
 			"school": "T",
@@ -20519,6 +21259,9 @@
 			"name": "Thorn Whip",
 			"source": "PHB",
 			"page": 282,
+			"referenceSources": [
+				"US"
+			],
 			"level": 0,
 			"school": "T",
 			"time": [
@@ -20575,6 +21318,10 @@
 			"name": "Thunderous Smite",
 			"source": "PHB",
 			"page": 282,
+			"referenceSources": [
+				"CoS",
+				"GoS"
+			],
 			"level": 1,
 			"school": "V",
 			"time": [
@@ -20641,7 +21388,14 @@
 				"OoW",
 				"DIP",
 				"IDRotF",
-				"CRCotN"
+				"CRCotN",
+				"SKT",
+				"TftYP-TSC",
+				"TftYP-WPM",
+				"TftYP-DiT",
+				"WDMM",
+				"ToR",
+				"JttRC"
 			],
 			"level": 1,
 			"school": "V",
@@ -20707,7 +21461,10 @@
 				"SKT",
 				"WDMM",
 				"OoW",
-				"BGDIA"
+				"BGDIA",
+				"IMR",
+				"RtG",
+				"KftGV"
 			],
 			"level": 9,
 			"school": "T",
@@ -20750,7 +21507,11 @@
 				"RtG",
 				"LoX",
 				"DitLCoT",
-				"QftIS"
+				"QftIS",
+				"SKT",
+				"WDH",
+				"GoS",
+				"PaBTSO"
 			],
 			"level": 3,
 			"school": "D",
@@ -20883,7 +21644,8 @@
 			"referenceSources": [
 				"WDMM",
 				"IDRotF",
-				"CoA"
+				"CoA",
+				"TftYP-DiT"
 			],
 			"level": 9,
 			"school": "T",
@@ -20964,7 +21726,11 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"BGDIA"
+				"BGDIA",
+				"ToA",
+				"JttRC",
+				"DSotDQ",
+				"CoA"
 			],
 			"level": 9,
 			"school": "N",
@@ -21018,7 +21784,14 @@
 				"TftYP-ToH",
 				"WDMM",
 				"BGDIA",
-				"WBtW"
+				"WBtW",
+				"OotA",
+				"SKT",
+				"TftYP-AtG",
+				"ToA",
+				"WDH",
+				"CM",
+				"KftGV"
 			],
 			"level": 6,
 			"school": "D",
@@ -21165,7 +21938,14 @@
 				"WDMM",
 				"WBtW",
 				"SCC-TMM",
-				"QftIS"
+				"QftIS",
+				"ToA",
+				"WDH",
+				"IMR",
+				"IDRotF",
+				"CM",
+				"LoX",
+				"KftGV"
 			],
 			"level": 1,
 			"school": "C",
@@ -21215,7 +21995,9 @@
 			"page": 285,
 			"srd": true,
 			"referenceSources": [
-				"IDRotF"
+				"IDRotF",
+				"CoS",
+				"WDH"
 			],
 			"level": 3,
 			"school": "N",
@@ -21341,7 +22123,9 @@
 				"ToA",
 				"WDMM",
 				"AitFR-ISF",
-				"JttRC"
+				"JttRC",
+				"RoT",
+				"WDH"
 			],
 			"level": 4,
 			"school": "V",
@@ -21413,7 +22197,11 @@
 				"AitFR-FCD",
 				"LoX",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"SKT",
+				"TftYP-THSoT",
+				"RtG",
+				"KftGV"
 			],
 			"level": 5,
 			"school": "V",
@@ -21460,7 +22248,8 @@
 			"srd": true,
 			"referenceSources": [
 				"WDMM",
-				"CoA"
+				"CoA",
+				"IDRotF"
 			],
 			"level": 6,
 			"school": "V",
@@ -21529,7 +22318,10 @@
 				"CoS",
 				"SKT",
 				"ToA",
-				"CM"
+				"CM",
+				"WDMM",
+				"AitFR-ISF",
+				"AitFR-FCD"
 			],
 			"level": 5,
 			"school": "V",
@@ -21707,7 +22499,13 @@
 				"GoS",
 				"LR",
 				"ToR",
-				"CRCotN"
+				"CRCotN",
+				"OotA",
+				"ToA",
+				"WDH",
+				"PaBTSO",
+				"DitLCoT",
+				"QftIS"
 			],
 			"level": 3,
 			"school": "T",
@@ -21758,7 +22556,11 @@
 			"srd": true,
 			"referenceSources": [
 				"TftYP-DiT",
-				"CRCotN"
+				"CRCotN",
+				"SKT",
+				"ToFW",
+				"DitLCoT",
+				"QftIS"
 			],
 			"level": 3,
 			"school": "T",
@@ -21819,7 +22621,14 @@
 				"OotA",
 				"TftYP-TFoF",
 				"TftYP-ToH",
-				"IMR"
+				"IMR",
+				"CoS",
+				"SKT",
+				"TftYP-WPM",
+				"WDH",
+				"WDMM",
+				"IDRotF",
+				"QftIS"
 			],
 			"level": 2,
 			"school": "C",
@@ -21883,6 +22692,9 @@
 			"source": "PHB",
 			"page": 288,
 			"srd": true,
+			"referenceSources": [
+				"WDMM"
+			],
 			"level": 9,
 			"school": "I",
 			"time": [
@@ -21985,6 +22797,9 @@
 			"source": "PHB",
 			"page": 288,
 			"srd": true,
+			"referenceSources": [
+				"ToA"
+			],
 			"level": 3,
 			"school": "V",
 			"time": [
@@ -22054,7 +22869,10 @@
 				"LoX",
 				"CoA",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"OotA",
+				"WDH",
+				"DSotDQ"
 			],
 			"level": 9,
 			"school": "C",
@@ -22122,6 +22940,13 @@
 			"name": "Witch Bolt",
 			"source": "PHB",
 			"page": 289,
+			"referenceSources": [
+				"CoS",
+				"WDH",
+				"WDMM",
+				"IDRotF",
+				"CM"
+			],
 			"level": 1,
 			"school": "V",
 			"time": [
@@ -22183,7 +23008,8 @@
 				"TftYP-AtG",
 				"ToA",
 				"BGDIA",
-				"CoA"
+				"CoA",
+				"WDMM"
 			],
 			"level": 6,
 			"school": "C",

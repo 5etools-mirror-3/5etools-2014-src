@@ -35,7 +35,9 @@
 		{
 			"name": "+1 Armor",
 			"referenceSources": [
-				"LMoP"
+				"LMoP",
+				"GotSF",
+				"PaBTSO"
 			],
 			"type": "GV|DMG",
 			"requires": [
@@ -1057,7 +1059,8 @@
 				"IDRotF",
 				"HoL",
 				"DSotDQ",
-				"QftIS"
+				"QftIS",
+				"TftYP-ToH"
 			],
 			"type": "GV|DMG",
 			"requires": [
@@ -2493,7 +2496,8 @@
 				"WDMM",
 				"IDRotF",
 				"KftGV",
-				"CoA"
+				"CoA",
+				"GoS"
 			],
 			"type": "GV|DMG",
 			"requires": [
@@ -3376,7 +3380,8 @@
 		{
 			"name": "Sword of Sharpness",
 			"referenceSources": [
-				"WDMM"
+				"WDMM",
+				"LRDT"
 			],
 			"type": "GV|DMG",
 			"requires": [
@@ -3437,6 +3442,11 @@
 		},
 		{
 			"name": "Sword of Vengeance",
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-ToH",
+				"HoL"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -3727,7 +3737,8 @@
 		{
 			"name": "Weapon of Warning",
 			"referenceSources": [
-				"JttRC"
+				"JttRC",
+				"CRCotN"
 			],
 			"type": "GV|DMG",
 			"requires": [

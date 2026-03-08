@@ -200,7 +200,9 @@
 			"source": "DMG",
 			"page": 197,
 			"referenceSources": [
-				"SjA"
+				"SjA",
+				"CoS",
+				"TftYP-THSoT"
 			],
 			"type": "RD|DMG",
 			"tier": "major",
@@ -232,7 +234,12 @@
 				"WDMM",
 				"DSotDQ",
 				"ToFW",
-				"CoA"
+				"CoA",
+				"SKT",
+				"GoS",
+				"BGDIA",
+				"IDRotF",
+				"CM"
 			],
 			"type": "WD|DMG",
 			"tier": "major",
@@ -872,7 +879,8 @@
 				"SLW",
 				"SCC-ARiR",
 				"KftGV",
-				"QftIS"
+				"QftIS",
+				"DSotDQ"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -1043,6 +1051,9 @@
 			"name": "Airship",
 			"source": "DMG",
 			"page": 119,
+			"referenceSources": [
+				"IDRotF"
+			],
 			"type": "AIR|DMG",
 			"rarity": "none",
 			"value": 2000000,
@@ -1223,7 +1234,11 @@
 				"IDRotF",
 				"DSotDQ",
 				"KftGV",
-				"QftIS"
+				"QftIS",
+				"CoS",
+				"TTP",
+				"BGDIA",
+				"SCC-ARiR"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -1247,7 +1262,8 @@
 				"IDRotF",
 				"CM",
 				"PaBTSO",
-				"ToFW"
+				"ToFW",
+				"PotA"
 			],
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -1871,7 +1887,8 @@
 			"referenceSources": [
 				"KftGV",
 				"ToFW",
-				"CoA"
+				"CoA",
+				"WBtW"
 			],
 			"tier": "major",
 			"rarity": "very rare",
@@ -1949,7 +1966,12 @@
 				"ToA",
 				"GoS",
 				"IDRotF",
-				"QftIS"
+				"QftIS",
+				"CoS",
+				"TftYP-TSC",
+				"OoW",
+				"SCC-HfMT",
+				"KftGV"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -2352,6 +2374,9 @@
 			"source": "DMG",
 			"page": 152,
 			"srd": true,
+			"referenceSources": [
+				"TftYP-WPM"
+			],
 			"baseItem": "plate armor|phb",
 			"type": "HA",
 			"resist": [
@@ -2523,7 +2548,9 @@
 			"srd": true,
 			"referenceSources": [
 				"CM",
-				"HoL"
+				"HoL",
+				"SDW",
+				"KftGV"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -2998,7 +3025,8 @@
 			"basicRules": true,
 			"referenceSources": [
 				"CRCotN",
-				"PaBTSO"
+				"PaBTSO",
+				"TftYP-TSC"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -3180,7 +3208,8 @@
 				"ToFW",
 				"LRDT",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"SCC-CK"
 			],
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -3214,7 +3243,8 @@
 			"referenceSources": [
 				"SKT",
 				"SCC-CK",
-				"QftIS"
+				"QftIS",
+				"CoS"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -4035,7 +4065,8 @@
 			"referenceSources": [
 				"WDMM",
 				"PaBTSO",
-				"CoA"
+				"CoA",
+				"ToA"
 			],
 			"tier": "minor",
 			"rarity": "rare",
@@ -4088,6 +4119,9 @@
 			"page": 150,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"TftYP-TSC"
+			],
 			"type": "G",
 			"rarity": "none",
 			"weight": 7,
@@ -4702,7 +4736,9 @@
 			"source": "DMG",
 			"page": 216,
 			"referenceSources": [
-				"TftYP-WPM"
+				"TftYP-WPM",
+				"IMR",
+				"ToFW"
 			],
 			"baseItem": "greatsword|phb",
 			"type": "M",
@@ -5414,7 +5450,8 @@
 			"page": 134,
 			"referenceSources": [
 				"IDRotF",
-				"KftGV"
+				"KftGV",
+				"DoSI"
 			],
 			"type": "$G|DMG",
 			"rarity": "none",
@@ -5600,7 +5637,8 @@
 			"source": "DMG",
 			"page": 268,
 			"referenceSources": [
-				"SCC-ARiR"
+				"SCC-ARiR",
+				"LoX"
 			],
 			"type": "EXP|DMG",
 			"rarity": "none",
@@ -5656,6 +5694,9 @@
 			"page": 151,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"PaBTSO"
+			],
 			"type": "G",
 			"rarity": "none",
 			"weight": 5,
@@ -5964,7 +6005,9 @@
 				"WDMM",
 				"DIP",
 				"WBtW",
-				"DoSI"
+				"DoSI",
+				"TftYP-AtG",
+				"QftIS"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -6063,7 +6106,8 @@
 				"LLK",
 				"GoS",
 				"KftGV",
-				"PaBTSO"
+				"PaBTSO",
+				"IMR"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -6205,7 +6249,8 @@
 			"page": 156,
 			"srd": true,
 			"referenceSources": [
-				"LR"
+				"LR",
+				"ToA"
 			],
 			"tier": "major",
 			"rarity": "rare",
@@ -6284,7 +6329,8 @@
 			"referenceSources": [
 				"ToA",
 				"WBtW",
-				"PaBTSO"
+				"PaBTSO",
+				"WDH"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -6354,7 +6400,10 @@
 				"TftYP-ToH",
 				"BGDIA",
 				"CoA",
-				"QftIS"
+				"QftIS",
+				"HotDQ",
+				"WBtW",
+				"DitLCoT"
 			],
 			"tier": "major",
 			"rarity": "rare",
@@ -6575,7 +6624,8 @@
 			"referenceSources": [
 				"GoS",
 				"AitFR-DN",
-				"ToFW"
+				"ToFW",
+				"CRCotN"
 			],
 			"resist": [
 				"force"
@@ -6644,7 +6694,8 @@
 			"basicRules": true,
 			"referenceSources": [
 				"GoS",
-				"DSotDQ"
+				"DSotDQ",
+				"CoS"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -6667,6 +6718,9 @@
 			"page": 151,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"US"
+			],
 			"type": "G",
 			"rarity": "none",
 			"weight": 44.5,
@@ -6826,7 +6880,9 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TTP"
+				"TTP",
+				"WDH",
+				"KftGV"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -6873,7 +6929,8 @@
 			"srd": true,
 			"referenceSources": [
 				"WDMM",
-				"ToFW"
+				"ToFW",
+				"DSotDQ"
 			],
 			"tier": "major",
 			"rarity": "very rare",
@@ -7091,7 +7148,8 @@
 			"referenceSources": [
 				"ToA",
 				"DSotDQ",
-				"CoA"
+				"CoA",
+				"WDH"
 			],
 			"tier": "major",
 			"rarity": "rare",
@@ -7184,6 +7242,9 @@
 			"source": "DMG",
 			"page": 157,
 			"srd": true,
+			"referenceSources": [
+				"JttRC"
+			],
 			"tier": "major",
 			"rarity": "very rare",
 			"wondrous": true,
@@ -7224,6 +7285,9 @@
 			"page": 157,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"WDH"
+			],
 			"type": "VEH",
 			"rarity": "none",
 			"weight": 600,
@@ -7235,7 +7299,8 @@
 			"page": 258,
 			"srd": "Crawler Mucus (Contact)",
 			"referenceSources": [
-				"QftIS"
+				"QftIS",
+				"BGDIA"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -7654,7 +7719,8 @@
 				"WDMM",
 				"IDRotF",
 				"CM",
-				"WBtW"
+				"WBtW",
+				"AitFR-AVT"
 			],
 			"tier": "minor",
 			"rarity": "rare",
@@ -7801,7 +7867,9 @@
 			"srd": true,
 			"referenceSources": [
 				"ToA",
-				"WDMM"
+				"WDMM",
+				"DC",
+				"BGDIA"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -7929,7 +7997,8 @@
 			"referenceSources": [
 				"CoS",
 				"ToA",
-				"SjA"
+				"SjA",
+				"TTP"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -8029,7 +8098,9 @@
 				"TftYP-AtG",
 				"SCC-HfMT",
 				"SCC-ARiR",
-				"QftIS"
+				"QftIS",
+				"WDMM",
+				"IDRotF"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -8098,7 +8169,8 @@
 				"PaBTSO",
 				"ToFW",
 				"CoA",
-				"QftIS"
+				"QftIS",
+				"GoS"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -8155,7 +8227,10 @@
 			"referenceSources": [
 				"WDMM",
 				"GoS",
-				"JttRC"
+				"JttRC",
+				"SKT",
+				"OoW",
+				"SDW"
 			],
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -8416,7 +8491,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"VNotEE"
+				"VNotEE",
+				"WDH"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -8673,6 +8749,9 @@
 			"name": "Cracked Driftglobe",
 			"source": "CM",
 			"page": 110,
+			"referenceSources": [
+				"CRCotN"
+			],
 			"rarity": "uncommon",
 			"wondrous": true,
 			"weight": 1,
@@ -8834,7 +8913,8 @@
 			"basicRules": true,
 			"referenceSources": [
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"CM"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -8859,7 +8939,8 @@
 			"basicRules": true,
 			"referenceSources": [
 				"CoS",
-				"DoSI"
+				"DoSI",
+				"PaBTSO"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -9061,7 +9142,8 @@
 				"SDW",
 				"IDRotF",
 				"CoA",
-				"VEoR"
+				"VEoR",
+				"ToFW"
 			],
 			"tier": "major",
 			"rarity": "very rare",
@@ -9082,6 +9164,9 @@
 			"name": "Crystal Ball of Mind Reading",
 			"source": "DMG",
 			"page": 159,
+			"referenceSources": [
+				"SDW"
+			],
 			"tier": "major",
 			"rarity": "legendary",
 			"reqAttune": true,
@@ -9104,7 +9189,8 @@
 			"source": "DMG",
 			"page": 159,
 			"referenceSources": [
-				"JttRC"
+				"JttRC",
+				"SDW"
 			],
 			"tier": "major",
 			"rarity": "legendary",
@@ -9135,7 +9221,9 @@
 			"page": 159,
 			"referenceSources": [
 				"CM",
-				"ToFW"
+				"ToFW",
+				"OotA",
+				"SDW"
 			],
 			"tier": "major",
 			"rarity": "legendary",
@@ -9206,7 +9294,8 @@
 			"srd": true,
 			"referenceSources": [
 				"LR",
-				"VEoR"
+				"VEoR",
+				"TftYP-WPM"
 			],
 			"tier": "major",
 			"rarity": "rare",
@@ -9445,7 +9534,8 @@
 				"PaBTSO",
 				"ToFW",
 				"CoA",
-				"LRDT"
+				"LRDT",
+				"OoW"
 			],
 			"baseItem": "dagger|phb",
 			"type": "M",
@@ -9915,7 +10005,9 @@
 			"srd": true,
 			"referenceSources": [
 				"CoS",
-				"CoA"
+				"CoA",
+				"HoL",
+				"QftIS"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -10911,6 +11003,9 @@
 			"name": "Deck of Many Things",
 			"source": "BMT",
 			"page": 13,
+			"referenceSources": [
+				"QftIS"
+			],
 			"tier": "major",
 			"rarity": "legendary",
 			"wondrous": true,
@@ -10981,7 +11076,8 @@
 			"page": 162,
 			"srd": true,
 			"referenceSources": [
-				"LLK"
+				"LLK",
+				"ToFW"
 			],
 			"tier": "major",
 			"rarity": "legendary",
@@ -12797,7 +12893,8 @@
 			"page": 165,
 			"srd": true,
 			"referenceSources": [
-				"CoA"
+				"CoA",
+				"ToFW"
 			],
 			"type": "HA",
 			"tier": "major",
@@ -13253,7 +13350,8 @@
 				}
 			],
 			"referenceSources": [
-				"KftGV"
+				"KftGV",
+				"CoS"
 			],
 			"type": "T",
 			"rarity": "none",
@@ -13701,7 +13799,8 @@
 			"page": 154,
 			"basicRules": true,
 			"referenceSources": [
-				"KftGV"
+				"KftGV",
+				"DIP"
 			],
 			"type": "GS",
 			"rarity": "none",
@@ -13893,7 +13992,9 @@
 				"DSotDQ",
 				"KftGV",
 				"ToFW",
-				"VEoR"
+				"VEoR",
+				"RoT",
+				"TTP"
 			],
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -14013,6 +14114,11 @@
 			"page": 151,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"TTP",
+				"US",
+				"SCC-ARiR"
+			],
 			"type": "G",
 			"rarity": "none",
 			"weight": 61.5,
@@ -14168,7 +14274,10 @@
 				"WDMM",
 				"DIP",
 				"CM",
-				"KftGV"
+				"KftGV",
+				"PotA",
+				"CRCotN",
+				"JttRC"
 			],
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -14191,7 +14300,8 @@
 			"srd": true,
 			"referenceSources": [
 				"PotA",
-				"CRCotN"
+				"CRCotN",
+				"OoW"
 			],
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -14213,7 +14323,9 @@
 			"referenceSources": [
 				"OoW",
 				"WBtW",
-				"CoA"
+				"CoA",
+				"SCC-TMM",
+				"QftIS"
 			],
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -14813,7 +14925,8 @@
 			"page": 167,
 			"srd": true,
 			"referenceSources": [
-				"WBtW"
+				"WBtW",
+				"RoT"
 			],
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -14838,7 +14951,8 @@
 				"SCC-HfMT",
 				"JttRC",
 				"ToFW",
-				"VEoR"
+				"VEoR",
+				"PaBTSO"
 			],
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -14884,7 +14998,8 @@
 			"referenceSources": [
 				"OoW",
 				"IMR",
-				"IDRotF"
+				"IDRotF",
+				"BGDIA"
 			],
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -14921,7 +15036,10 @@
 				"CoS",
 				"TftYP-THSoT",
 				"DoSI",
-				"VEoR"
+				"VEoR",
+				"TftYP-TSC",
+				"LLK",
+				"JttRC"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -15319,6 +15437,11 @@
 			"source": "DMG",
 			"page": 258,
 			"srd": true,
+			"referenceSources": [
+				"ToA",
+				"WDH",
+				"BGDIA"
+			],
 			"type": "G",
 			"rarity": "none",
 			"value": 30000,
@@ -15468,7 +15591,9 @@
 				"ToA",
 				"GoS",
 				"IDRotF",
-				"QftIS"
+				"QftIS",
+				"BGDIA",
+				"SCC-ARiR"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -15687,7 +15812,8 @@
 				"CM",
 				"CoA",
 				"DitLCoT",
-				"QftIS"
+				"QftIS",
+				"PaBTSO"
 			],
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -16707,7 +16833,8 @@
 			"srd": true,
 			"referenceSources": [
 				"KftGV",
-				"ToFW"
+				"ToFW",
+				"BGDIA"
 			],
 			"tier": "major",
 			"rarity": "rare",
@@ -16910,7 +17037,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TTP"
+				"TTP",
+				"IDRotF"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -17178,7 +17306,8 @@
 				"LLK",
 				"IMR",
 				"DitLCoT",
-				"QftIS"
+				"QftIS",
+				"GoS"
 			],
 			"tier": "minor",
 			"rarity": "rare",
@@ -17236,6 +17365,9 @@
 					"source": "XGE",
 					"page": 81
 				}
+			],
+			"referenceSources": [
+				"IMR"
 			],
 			"type": "T",
 			"rarity": "none",
@@ -17577,7 +17709,9 @@
 				"IMR",
 				"KftGV",
 				"PaBTSO",
-				"CoA"
+				"CoA",
+				"TftYP-AtG",
+				"DIP"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -17728,7 +17862,9 @@
 				"NRH-TCMC",
 				"DSotDQ",
 				"CoA",
-				"QftIS"
+				"QftIS",
+				"LR",
+				"VEoR"
 			],
 			"tier": "major",
 			"rarity": "rare",
@@ -17914,7 +18050,8 @@
 			"page": 172,
 			"srd": true,
 			"referenceSources": [
-				"WDMM"
+				"WDMM",
+				"TftYP-THSoT"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -18079,7 +18216,9 @@
 				"WBtW",
 				"CRCotN",
 				"SjA",
-				"CoA"
+				"CoA",
+				"OotA",
+				"TftYP-WPM"
 			],
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -18462,6 +18601,9 @@
 			"page": 150,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"GoS"
+			],
 			"type": "G",
 			"rarity": "none",
 			"weight": 4,
@@ -19030,6 +19172,9 @@
 			"name": "Gunpowder Keg",
 			"source": "DMG",
 			"page": 268,
+			"referenceSources": [
+				"LoX"
+			],
 			"type": "EXP|DMG",
 			"rarity": "none",
 			"weight": 20,
@@ -19085,7 +19230,8 @@
 			"source": "MM",
 			"page": 177,
 			"referenceSources": [
-				"CoS"
+				"CoS",
+				"KftGV"
 			],
 			"type": "OTH",
 			"rarity": "unknown (magic)",
@@ -19215,7 +19361,8 @@
 			"source": "DMG",
 			"page": 224,
 			"referenceSources": [
-				"BGDIA"
+				"BGDIA",
+				"VEoR"
 			],
 			"rarity": "artifact",
 			"reqAttune": true,
@@ -19597,7 +19744,13 @@
 				"KftGV",
 				"PaBTSO",
 				"ToFW",
-				"QftIS"
+				"QftIS",
+				"ToA",
+				"TTP",
+				"WDMM",
+				"GoS",
+				"SLW",
+				"IDRotF"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -19690,7 +19843,8 @@
 			"page": 173,
 			"srd": true,
 			"referenceSources": [
-				"CoA"
+				"CoA",
+				"CoS"
 			],
 			"resist": [
 				"fire"
@@ -19918,7 +20072,9 @@
 				"IDRotF",
 				"WBtW",
 				"JttRC",
-				"QftIS"
+				"QftIS",
+				"BGDIA",
+				"CoA"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -20162,7 +20318,10 @@
 			"basicRules": true,
 			"referenceSources": [
 				"TTP",
-				"CRCotN"
+				"CRCotN",
+				"CoS",
+				"GoS",
+				"DSotDQ"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -20187,7 +20346,12 @@
 			"referenceSources": [
 				"IDRotF",
 				"RtG",
-				"SCC-HfMT"
+				"SCC-HfMT",
+				"TftYP-TSC",
+				"ToA",
+				"OoW",
+				"BGDIA",
+				"IMR"
 			],
 			"type": "T",
 			"rarity": "none",
@@ -20392,7 +20556,9 @@
 				"SKT",
 				"SCC-CK",
 				"JttRC",
-				"KftGV"
+				"KftGV",
+				"IMR",
+				"PaBTSO"
 			],
 			"tier": "minor",
 			"rarity": "rare",
@@ -20665,7 +20831,8 @@
 				"SCC-CK",
 				"DSotDQ",
 				"ToFW",
-				"QftIS"
+				"QftIS",
+				"IDRotF"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -21462,7 +21629,8 @@
 			"basicRules": true,
 			"referenceSources": [
 				"CoS",
-				"CRCotN"
+				"CRCotN",
+				"IDRotF"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -21838,7 +22006,11 @@
 				"PotA",
 				"ToA",
 				"CoA",
-				"VEoR"
+				"VEoR",
+				"GoS",
+				"OoW",
+				"DIP",
+				"PaBTSO"
 			],
 			"type": "RD|DMG",
 			"tier": "minor",
@@ -22240,6 +22412,9 @@
 			"name": "Instrument of the Bards, Anstruth Harp",
 			"source": "DMG",
 			"page": 176,
+			"referenceSources": [
+				"ToFW"
+			],
 			"type": "INS",
 			"tier": "major",
 			"rarity": "very rare",
@@ -22369,7 +22544,8 @@
 			"source": "DMG",
 			"page": 176,
 			"referenceSources": [
-				"NRH-CoI"
+				"NRH-CoI",
+				"CoS"
 			],
 			"type": "INS",
 			"tier": "major",
@@ -22674,7 +22850,8 @@
 			"srd": true,
 			"referenceSources": [
 				"WDMM",
-				"WBtW"
+				"WBtW",
+				"DSotDQ"
 			],
 			"tier": "major",
 			"rarity": "very rare",
@@ -22734,6 +22911,9 @@
 			"source": "DMG",
 			"page": 176,
 			"srd": true,
+			"referenceSources": [
+				"JttRC"
+			],
 			"tier": "major",
 			"rarity": "very rare",
 			"reqAttune": true,
@@ -22977,7 +23157,8 @@
 			"srd": "Iron Bands of Binding",
 			"referenceSources": [
 				"WDH",
-				"CoA"
+				"CoA",
+				"CM"
 			],
 			"tier": "major",
 			"rarity": "rare",
@@ -23005,7 +23186,8 @@
 				"IMR",
 				"JttRC",
 				"ToFW",
-				"QftIS"
+				"QftIS",
+				"LLK"
 			],
 			"tier": "major",
 			"rarity": "legendary",
@@ -23445,6 +23627,9 @@
 			"name": "Jasper",
 			"source": "DMG",
 			"page": 134,
+			"referenceSources": [
+				"DoSI"
+			],
 			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 5000,
@@ -23491,7 +23676,9 @@
 				"TftYP-AtG",
 				"PaBTSO",
 				"CoA",
-				"QftIS"
+				"QftIS",
+				"DC",
+				"DSotDQ"
 			],
 			"baseItem": "javelin|phb",
 			"type": "M",
@@ -23862,7 +24049,9 @@
 				"ToA",
 				"IMR",
 				"PaBTSO",
-				"QftIS"
+				"QftIS",
+				"OoW",
+				"JttRC"
 			],
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -24422,7 +24611,9 @@
 				"KftGV",
 				"ToFW",
 				"LRDT",
-				"VEoR"
+				"VEoR",
+				"CM",
+				"PaBTSO"
 			],
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -25802,7 +25993,9 @@
 			"srd": true,
 			"referenceSources": [
 				"ToA",
-				"CoA"
+				"CoA",
+				"CoS",
+				"KftGV"
 			],
 			"baseItem": "mace|phb",
 			"type": "M",
@@ -26034,6 +26227,10 @@
 			"source": "DMG",
 			"page": 258,
 			"srd": true,
+			"referenceSources": [
+				"SDW",
+				"BGDIA"
+			],
 			"type": "G",
 			"rarity": "none",
 			"value": 25000,
@@ -26058,7 +26255,9 @@
 				"CoS",
 				"GoS",
 				"DSotDQ",
-				"QftIS"
+				"QftIS",
+				"BGDIA",
+				"IDRotF"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -26135,6 +26334,9 @@
 			"source": "DMG",
 			"page": 180,
 			"srd": true,
+			"referenceSources": [
+				"LLK"
+			],
 			"tier": "major",
 			"rarity": "very rare",
 			"wondrous": true,
@@ -26237,6 +26439,9 @@
 			"page": 151,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"KftGV"
+			],
 			"type": "G",
 			"rarity": "none",
 			"weight": 1,
@@ -26598,7 +26803,8 @@
 			"referenceSources": [
 				"CoA",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"TTP"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -26661,7 +26867,9 @@
 			"basicRules": true,
 			"referenceSources": [
 				"TTP",
-				"SjA"
+				"SjA",
+				"CoS",
+				"ToA"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -27009,6 +27217,10 @@
 			"page": 150,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"IDRotF",
+				"PaBTSO"
+			],
 			"type": "G",
 			"rarity": "none",
 			"weight": 10,
@@ -27951,7 +28163,9 @@
 			"referenceSources": [
 				"NRH-AVitW",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"OotA",
+				"JttRC"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -27992,7 +28206,9 @@
 				"NRH-TLT",
 				"KftGV",
 				"ToFW",
-				"VEoR"
+				"VEoR",
+				"DIP",
+				"BGDIA"
 			],
 			"tier": "minor",
 			"rarity": "rare",
@@ -28425,7 +28641,8 @@
 				"GoS",
 				"IMR",
 				"CRCotN",
-				"JttRC"
+				"JttRC",
+				"TftYP-AtG"
 			],
 			"tier": "minor",
 			"rarity": "very rare",
@@ -28637,7 +28854,12 @@
 			"basicRules": true,
 			"referenceSources": [
 				"TftYP-THSoT",
-				"CRCotN"
+				"CRCotN",
+				"ToA",
+				"IDRotF",
+				"DSotDQ",
+				"PaBTSO",
+				"QftIS"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -28656,7 +28878,8 @@
 			"page": 183,
 			"srd": true,
 			"referenceSources": [
-				"TftYP-DiT"
+				"TftYP-DiT",
+				"HotDQ"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -28684,7 +28907,8 @@
 				"CoS",
 				"LoX",
 				"CoA",
-				"VEoR"
+				"VEoR",
+				"KftGV"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -28709,7 +28933,11 @@
 				"WDMM",
 				"GoS",
 				"SCC-HfMT",
-				"CoA"
+				"CoA",
+				"OotA",
+				"TftYP-AtG",
+				"CM",
+				"KftGV"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -28735,7 +28963,8 @@
 			"srd": true,
 			"referenceSources": [
 				"TftYP-AtG",
-				"EFR"
+				"EFR",
+				"BGDIA"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -29100,6 +29329,10 @@
 			"name": "Orb of Time",
 			"source": "XGE",
 			"page": 138,
+			"referenceSources": [
+				"LLK",
+				"RtG"
+			],
 			"tier": "minor",
 			"rarity": "common",
 			"wondrous": true,
@@ -29680,7 +29913,8 @@
 			"basicRules": true,
 			"referenceSources": [
 				"TftYP-ToH",
-				"CRCotN"
+				"CRCotN",
+				"KftGV"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -29728,7 +29962,8 @@
 			"source": "DMG",
 			"page": 134,
 			"referenceSources": [
-				"KftGV"
+				"KftGV",
+				"DoSI"
 			],
 			"type": "$G|DMG",
 			"rarity": "none",
@@ -29749,7 +29984,8 @@
 				"IDRotF",
 				"JttRC",
 				"DSotDQ",
-				"QftIS"
+				"QftIS",
+				"ToA"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -29939,7 +30175,8 @@
 			"srd": true,
 			"referenceSources": [
 				"DitLCoT",
-				"QftIS"
+				"QftIS",
+				"DSotDQ"
 			],
 			"immune": [
 				"poison"
@@ -29965,7 +30202,8 @@
 			"srd": true,
 			"referenceSources": [
 				"LR",
-				"ToFW"
+				"ToFW",
+				"TftYP-THSoT"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -29987,6 +30225,9 @@
 			"name": "Peridot",
 			"source": "DMG",
 			"page": 134,
+			"referenceSources": [
+				"PaBTSO"
+			],
 			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 50000,
@@ -30028,6 +30269,10 @@
 			"source": "DMG",
 			"page": 184,
 			"srd": true,
+			"referenceSources": [
+				"OotA",
+				"TftYP-AtG"
+			],
 			"type": "P",
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -30135,7 +30380,8 @@
 			"page": 185,
 			"srd": true,
 			"referenceSources": [
-				"TftYP-AtG"
+				"TftYP-AtG",
+				"BGDIA"
 			],
 			"type": "INS",
 			"tier": "major",
@@ -30350,6 +30596,9 @@
 			"source": "DMG",
 			"page": 185,
 			"srd": true,
+			"referenceSources": [
+				"CoA"
+			],
 			"baseItem": "plate armor|phb",
 			"type": "HA",
 			"tier": "major",
@@ -30511,6 +30760,9 @@
 			"page": 154,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CoS"
+			],
 			"type": "GS",
 			"rarity": "none",
 			"value": 50
@@ -30545,7 +30797,13 @@
 				}
 			],
 			"referenceSources": [
-				"KftGV"
+				"KftGV",
+				"CoS",
+				"TftYP-TSC",
+				"WDMM",
+				"OoW",
+				"BGDIA",
+				"SCC-HfMT"
 			],
 			"type": "T",
 			"rarity": "none",
@@ -30656,7 +30914,8 @@
 			"source": "XGE",
 			"page": 138,
 			"referenceSources": [
-				"WBtW"
+				"WBtW",
+				"DIP"
 			],
 			"tier": "minor",
 			"rarity": "common",
@@ -30687,7 +30946,9 @@
 				"WDMM",
 				"RMBRE",
 				"LoX",
-				"DSotDQ"
+				"DSotDQ",
+				"LLK",
+				"KftGV"
 			],
 			"tier": "minor",
 			"rarity": "rare",
@@ -30790,7 +31051,8 @@
 			"srd": true,
 			"referenceSources": [
 				"WDMM",
-				"OoW"
+				"OoW",
+				"LRDT"
 			],
 			"type": "P",
 			"resist": [
@@ -30832,7 +31094,9 @@
 				"IDRotF",
 				"KftGV",
 				"CoA",
-				"QftIS"
+				"QftIS",
+				"OoW",
+				"ToR"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -30934,7 +31198,9 @@
 				"OoW",
 				"SDW",
 				"DC",
-				"MOT"
+				"MOT",
+				"SCC-HfMT",
+				"PaBTSO"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -30960,7 +31226,8 @@
 			"page": 187,
 			"srd": true,
 			"referenceSources": [
-				"CoA"
+				"CoA",
+				"TftYP-AtG"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31031,7 +31298,11 @@
 				"WBtW",
 				"CoA",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"PotA",
+				"SKT",
+				"TftYP-AtG",
+				"RtG"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31072,7 +31343,9 @@
 				"TftYP-TSC",
 				"BGDIA",
 				"DSotDQ",
-				"CoA"
+				"CoA",
+				"OotA",
+				"WDMM"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31128,7 +31401,8 @@
 				"WDMM",
 				"JttRC",
 				"KftGV",
-				"VEoR"
+				"VEoR",
+				"SKT"
 			],
 			"type": "P",
 			"resist": [
@@ -31161,7 +31435,12 @@
 				"PaBTSO",
 				"ToFW",
 				"CoA",
-				"VEoR"
+				"VEoR",
+				"OotA",
+				"TftYP-TFoF",
+				"WDH",
+				"IMR",
+				"JttRC"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31209,7 +31488,8 @@
 				"PotA",
 				"OoW",
 				"BGDIA",
-				"CoA"
+				"CoA",
+				"RoT"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31247,7 +31527,9 @@
 				"CRCotN",
 				"DSotDQ",
 				"CoA",
-				"VEoR"
+				"VEoR",
+				"GoS",
+				"KftGV"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31310,7 +31592,14 @@
 				"LRDT",
 				"VNotEE",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"CoS",
+				"TftYP-WPM",
+				"TftYP-DiT",
+				"OoW",
+				"AitFR-AVT",
+				"SCC-ARiR",
+				"DitLCoT"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31338,7 +31627,10 @@
 				"PaBTSO",
 				"CoA",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"RoT",
+				"TftYP-AtG",
+				"OoW"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31419,7 +31711,12 @@
 				"PaBTSO",
 				"ToFW",
 				"LRDT",
-				"QftIS"
+				"QftIS",
+				"HftT",
+				"RtG",
+				"WBtW",
+				"SCC-HfMT",
+				"LoX"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31451,7 +31748,13 @@
 				"RtG",
 				"CRCotN",
 				"CoA",
-				"VEoR"
+				"VEoR",
+				"TftYP-DiT",
+				"TftYP-AtG",
+				"OoW",
+				"CM",
+				"LRDT",
+				"QftIS"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31480,7 +31783,9 @@
 				"TftYP-THSoT",
 				"CM",
 				"CRCotN",
-				"CoA"
+				"CoA",
+				"WBtW",
+				"KftGV"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31523,7 +31828,11 @@
 				"SCC-HfMT",
 				"PaBTSO",
 				"CoA",
-				"VEoR"
+				"VEoR",
+				"TftYP-TFoF",
+				"TftYP-AtG",
+				"BGDIA",
+				"QftIS"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31547,7 +31856,11 @@
 				"CoS",
 				"SKT",
 				"DIP",
-				"WBtW"
+				"WBtW",
+				"TftYP-AtG",
+				"DC",
+				"JttRC",
+				"PaBTSO"
 			],
 			"type": "P",
 			"resist": [
@@ -31584,7 +31897,8 @@
 			"srd": true,
 			"referenceSources": [
 				"DoSI",
-				"KftGV"
+				"KftGV",
+				"SKT"
 			],
 			"type": "P",
 			"resist": [
@@ -31610,7 +31924,9 @@
 				"WDMM",
 				"CM",
 				"JttRC",
-				"CoA"
+				"CoA",
+				"OotA",
+				"IDRotF"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31704,7 +32020,9 @@
 				"CM",
 				"SCC-CK",
 				"CoA",
-				"VEoR"
+				"VEoR",
+				"TftYP-WPM",
+				"TftYP-AtG"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31764,7 +32082,11 @@
 				"KftGV",
 				"CoA",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"TftYP-DiT",
+				"OoW",
+				"SCC-ARiR",
+				"PaBTSO"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31786,7 +32108,9 @@
 			"page": 188,
 			"srd": true,
 			"referenceSources": [
-				"ToFW"
+				"ToFW",
+				"SKT",
+				"KftGV"
 			],
 			"type": "P",
 			"resist": [
@@ -31852,6 +32176,9 @@
 			"source": "DMG",
 			"page": 188,
 			"srd": true,
+			"referenceSources": [
+				"OotA"
+			],
 			"type": "P",
 			"resist": [
 				"psychic"
@@ -31921,6 +32248,10 @@
 			"source": "DMG",
 			"page": 187,
 			"srd": true,
+			"referenceSources": [
+				"CoA",
+				"VEoR"
+			],
 			"type": "P",
 			"tier": "minor",
 			"rarity": "rare",
@@ -31947,7 +32278,9 @@
 			"srd": true,
 			"referenceSources": [
 				"TftYP-AtG",
-				"CoA"
+				"CoA",
+				"SKT",
+				"DC"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -31987,7 +32320,8 @@
 				"JttRC",
 				"DSotDQ",
 				"KftGV",
-				"VEoR"
+				"VEoR",
+				"TftYP-DiT"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -32014,7 +32348,10 @@
 				"PaBTSO",
 				"ToFW",
 				"CoA",
-				"VEoR"
+				"VEoR",
+				"OotA",
+				"SKT",
+				"ToA"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -32064,7 +32401,10 @@
 				"WDMM",
 				"KftGV",
 				"CoA",
-				"QftIS"
+				"QftIS",
+				"SLW",
+				"IDRotF",
+				"VEoR"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -32115,7 +32455,9 @@
 				"IDRotF",
 				"CRCotN",
 				"ToFW",
-				"CoA"
+				"CoA",
+				"OotA",
+				"KftGV"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -32140,7 +32482,8 @@
 			"referenceSources": [
 				"DoSI",
 				"KftGV",
-				"PaBTSO"
+				"PaBTSO",
+				"DSotDQ"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -32429,7 +32772,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"QftIS"
+				"QftIS",
+				"ToA"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -32919,7 +33263,8 @@
 			"page": 188,
 			"srd": "Feather Token, Anchor",
 			"referenceSources": [
-				"TTP"
+				"TTP",
+				"OoW"
 			],
 			"tier": "minor",
 			"rarity": "rare",
@@ -32942,7 +33287,8 @@
 			"srd": "Feather Token, Bird",
 			"referenceSources": [
 				"DSotDQ",
-				"ToFW"
+				"ToFW",
+				"CM"
 			],
 			"tier": "minor",
 			"rarity": "rare",
@@ -33130,7 +33476,10 @@
 			"referenceSources": [
 				"ToA",
 				"CRCotN",
-				"DitLCoT"
+				"DitLCoT",
+				"TftYP-TSC",
+				"IDRotF",
+				"PaBTSO"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -33154,7 +33503,8 @@
 			"srd": "Efficient Quiver",
 			"referenceSources": [
 				"WBtW",
-				"KftGV"
+				"KftGV",
+				"IDRotF"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -33416,7 +33766,10 @@
 				"XMtS",
 				"DIP",
 				"CRCotN",
-				"ToFW"
+				"ToFW",
+				"TftYP-TSC",
+				"SjA",
+				"KftGV"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -33810,7 +34163,8 @@
 			"referenceSources": [
 				"ToA",
 				"KftGV",
-				"ToFW"
+				"ToFW",
+				"TftYP-THSoT"
 			],
 			"type": "RG|DMG",
 			"tier": "major",
@@ -33851,7 +34205,8 @@
 			"basicRules": true,
 			"referenceSources": [
 				"RoT",
-				"PotA"
+				"PotA",
+				"SKT"
 			],
 			"type": "RG|DMG",
 			"resist": [
@@ -33911,6 +34266,9 @@
 			"source": "DMG",
 			"page": 190,
 			"srd": true,
+			"referenceSources": [
+				"OotA"
+			],
 			"type": "RG|DMG",
 			"resist": [
 				"acid"
@@ -33958,7 +34316,9 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"KftGV"
+				"KftGV",
+				"CoS",
+				"VEoR"
 			],
 			"type": "RG|DMG",
 			"tier": "major",
@@ -33984,7 +34344,9 @@
 				"TftYP-ToH",
 				"DSotDQ",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"OoW",
+				"WBtW"
 			],
 			"type": "RG|DMG",
 			"tier": "major",
@@ -34059,7 +34421,8 @@
 				"TftYP-AtG",
 				"TftYP-ToH",
 				"ToA",
-				"QftIS"
+				"QftIS",
+				"DSotDQ"
 			],
 			"type": "RG|DMG",
 			"resist": [
@@ -34080,6 +34443,9 @@
 			"page": 192,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"WDH"
+			],
 			"type": "RG|DMG",
 			"resist": [
 				"force"
@@ -34125,7 +34491,9 @@
 			"page": 191,
 			"srd": true,
 			"referenceSources": [
-				"WDH"
+				"WDH",
+				"TftYP-AtG",
+				"LRDT"
 			],
 			"type": "RG|DMG",
 			"tier": "major",
@@ -34147,7 +34515,8 @@
 			"referenceSources": [
 				"CM",
 				"JttRC",
-				"KftGV"
+				"KftGV",
+				"ToA"
 			],
 			"type": "RG|DMG",
 			"tier": "major",
@@ -34205,7 +34574,10 @@
 				"PaBTSO",
 				"ToFW",
 				"CoA",
-				"QftIS"
+				"QftIS",
+				"CoS",
+				"WDH",
+				"BGDIA"
 			],
 			"type": "RG|DMG",
 			"tier": "major",
@@ -34307,7 +34679,9 @@
 				"NRH-ASS",
 				"ToFW",
 				"CoA",
-				"QftIS"
+				"QftIS",
+				"TftYP-DiT",
+				"HftT"
 			],
 			"type": "RG|DMG",
 			"tier": "major",
@@ -34438,7 +34812,8 @@
 			"page": 191,
 			"srd": true,
 			"referenceSources": [
-				"CoS"
+				"CoS",
+				"ToFW"
 			],
 			"type": "RG|DMG",
 			"tier": "major",
@@ -34463,7 +34838,8 @@
 				"WBtW",
 				"LoX",
 				"CoA",
-				"VEoR"
+				"VEoR",
+				"CRCotN"
 			],
 			"type": "RG|DMG",
 			"tier": "major",
@@ -34528,7 +34904,9 @@
 			"referenceSources": [
 				"TftYP-TFoF",
 				"CM",
-				"CoA"
+				"CoA",
+				"TftYP-WPM",
+				"DSotDQ"
 			],
 			"type": "RG|DMG",
 			"tier": "major",
@@ -34661,7 +35039,8 @@
 			"srd": true,
 			"referenceSources": [
 				"CM",
-				"CRCotN"
+				"CRCotN",
+				"IDRotF"
 			],
 			"type": "RG|DMG",
 			"tier": "major",
@@ -34687,6 +35066,9 @@
 			"source": "DMG",
 			"page": 193,
 			"srd": true,
+			"referenceSources": [
+				"ToFW"
+			],
 			"type": "RG|DMG",
 			"tier": "major",
 			"rarity": "legendary",
@@ -34758,7 +35140,8 @@
 				"CoS",
 				"WDH",
 				"SLW",
-				"IDRotF"
+				"IDRotF",
+				"JttRC"
 			],
 			"type": "RG|DMG",
 			"resist": [
@@ -34826,7 +35209,8 @@
 			"srd": true,
 			"referenceSources": [
 				"OotA",
-				"IMR"
+				"IMR",
+				"SLW"
 			],
 			"type": "RG|DMG",
 			"tier": "major",
@@ -34971,7 +35355,10 @@
 			"srd": true,
 			"referenceSources": [
 				"RtG",
-				"CoA"
+				"CoA",
+				"OotA",
+				"WDMM",
+				"CM"
 			],
 			"tier": "major",
 			"rarity": "rare",
@@ -35776,7 +36163,8 @@
 			"page": 197,
 			"srd": true,
 			"referenceSources": [
-				"WDMM"
+				"WDMM",
+				"VEoR"
 			],
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -35800,7 +36188,9 @@
 			"page": 197,
 			"srd": true,
 			"referenceSources": [
-				"KftGV"
+				"KftGV",
+				"OoW",
+				"ToFW"
 			],
 			"tier": "major",
 			"rarity": "rare",
@@ -36363,7 +36753,9 @@
 			"referenceSources": [
 				"CRCotN",
 				"DoSI",
-				"PaBTSO"
+				"PaBTSO",
+				"GoS",
+				"KftGV"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -36838,6 +37230,10 @@
 			"page": 151,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"SCC-ARiR",
+				"QftIS"
+			],
 			"type": "G",
 			"rarity": "none",
 			"weight": 10,
@@ -36879,7 +37275,8 @@
 			"referenceSources": [
 				"OotA",
 				"SDW",
-				"LRDT"
+				"LRDT",
+				"QftIS"
 			],
 			"baseItem": "scimitar|phb",
 			"type": "M",
@@ -37215,6 +37612,9 @@
 			"page": 150,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"KftGV"
+			],
 			"type": "G",
 			"rarity": "none",
 			"value": 50
@@ -37501,7 +37901,8 @@
 			"referenceSources": [
 				"WDMM",
 				"OoW",
-				"CRCotN"
+				"CRCotN",
+				"LRDT"
 			],
 			"type": "S",
 			"tier": "major",
@@ -38466,6 +38867,9 @@
 			"page": 153,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"PaBTSO"
+			],
 			"type": "G",
 			"rarity": "none",
 			"weight": 5,
@@ -39141,7 +39545,8 @@
 				"OoW",
 				"MOT",
 				"KftGV",
-				"CoA"
+				"CoA",
+				"JttRC"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -39530,7 +39935,8 @@
 				"GoS",
 				"BGDIA",
 				"IDRotF",
-				"WBtW"
+				"WBtW",
+				"JttRC"
 			],
 			"tier": "minor",
 			"rarity": "legendary",
@@ -39957,6 +40363,9 @@
 					"page": 95
 				}
 			],
+			"referenceSources": [
+				"IMR"
+			],
 			"rarity": "uncommon",
 			"reqAttune": "optional",
 			"wondrous": true,
@@ -40000,6 +40409,9 @@
 					"source": "IMR",
 					"page": 95
 				}
+			],
+			"referenceSources": [
+				"IMR"
 			],
 			"rarity": "rare",
 			"reqAttune": "optional",
@@ -40116,7 +40528,9 @@
 			"basicRules": true,
 			"referenceSources": [
 				"LMoP",
-				"PaBTSO"
+				"PaBTSO",
+				"DoSI",
+				"CoA"
 			],
 			"type": "SC|DMG",
 			"tier": "minor",
@@ -40143,6 +40557,11 @@
 			"page": 202,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"LMoP",
+				"PaBTSO",
+				"CoA"
+			],
 			"type": "SC|DMG",
 			"tier": "minor",
 			"rarity": "uncommon",
@@ -40169,7 +40588,8 @@
 			"basicRules": true,
 			"referenceSources": [
 				"PaBTSO",
-				"ToFW"
+				"ToFW",
+				"CoA"
 			],
 			"type": "SC|DMG",
 			"tier": "minor",
@@ -40196,7 +40616,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PaBTSO"
+				"PaBTSO",
+				"CoA"
 			],
 			"type": "SC|DMG",
 			"tier": "minor",
@@ -40348,7 +40769,10 @@
 			"referenceSources": [
 				"DSotDQ",
 				"KftGV",
-				"QftIS"
+				"QftIS",
+				"CoS",
+				"IDRotF",
+				"AitFR-FCD"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -40761,7 +41185,8 @@
 				"ToA",
 				"TTP",
 				"XMtS",
-				"KftGV"
+				"KftGV",
+				"CoS"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -40868,7 +41293,8 @@
 			"page": 201,
 			"srd": true,
 			"referenceSources": [
-				"TftYP-DiT"
+				"TftYP-DiT",
+				"IDRotF"
 			],
 			"tier": "major",
 			"rarity": "rare",
@@ -41102,7 +41528,9 @@
 			"page": 201,
 			"srd": true,
 			"referenceSources": [
-				"CoA"
+				"CoA",
+				"HotDQ",
+				"SKT"
 			],
 			"resist": [
 				"fire"
@@ -41192,7 +41620,8 @@
 				"WDMM",
 				"IDRotF",
 				"CoA",
-				"LRDT"
+				"LRDT",
+				"JttRC"
 			],
 			"resist": [
 				"cold"
@@ -41508,6 +41937,9 @@
 			"source": "DMG",
 			"page": 203,
 			"srd": true,
+			"referenceSources": [
+				"TftYP-AtG"
+			],
 			"tier": "major",
 			"rarity": "rare",
 			"reqAttune": "by a bard, cleric, druid, sorcerer, warlock, or wizard",
@@ -41847,7 +42279,8 @@
 			"page": 204,
 			"srd": true,
 			"referenceSources": [
-				"ToA"
+				"ToA",
+				"JttRC"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -42258,6 +42691,9 @@
 			"page": 150,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CoS"
+			],
 			"type": "G",
 			"rarity": "none",
 			"weight": 0.5,
@@ -42533,7 +42969,8 @@
 				"JttRC",
 				"KftGV",
 				"ToFW",
-				"VEoR"
+				"VEoR",
+				"TftYP-WPM"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -43835,7 +44272,9 @@
 			"page": 207,
 			"srd": true,
 			"referenceSources": [
-				"ToFW"
+				"ToFW",
+				"ToA",
+				"IMR"
 			],
 			"tier": "major",
 			"rarity": "legendary",
@@ -45282,7 +45721,10 @@
 				"DSotDQ",
 				"KftGV",
 				"PaBTSO",
-				"QftIS"
+				"QftIS",
+				"CoS",
+				"WDH",
+				"WDMM"
 			],
 			"type": "T",
 			"rarity": "none",
@@ -45524,6 +45966,11 @@
 			"page": 153,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CoS",
+				"TftYP-TSC",
+				"BGDIA"
+			],
 			"type": "G",
 			"rarity": "none",
 			"weight": 1,
@@ -45614,7 +46061,8 @@
 				"TftYP-AtG",
 				"CoA",
 				"LRDT",
-				"QftIS"
+				"QftIS",
+				"WDMM"
 			],
 			"tier": "major",
 			"rarity": "very rare",
@@ -45768,7 +46216,11 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PaBTSO"
+				"PaBTSO",
+				"TftYP-TSC",
+				"GoS",
+				"IDRotF",
+				"KftGV"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -45854,7 +46306,10 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"KftGV"
+				"KftGV",
+				"CoS",
+				"TTP",
+				"PaBTSO"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -47633,6 +48088,9 @@
 			"name": "Turquoise",
 			"source": "DMG",
 			"page": 134,
+			"referenceSources": [
+				"DoSI"
+			],
 			"type": "$G|DMG",
 			"rarity": "none",
 			"value": 1000,
@@ -47749,6 +48207,10 @@
 			"source": "DMG",
 			"page": 209,
 			"srd": true,
+			"referenceSources": [
+				"ToA",
+				"WDMM"
+			],
 			"tier": "minor",
 			"rarity": "legendary",
 			"wondrous": true,
@@ -48399,7 +48861,9 @@
 			"page": 210,
 			"srd": true,
 			"referenceSources": [
-				"ToA"
+				"ToA",
+				"RoT",
+				"PotA"
 			],
 			"type": "WD|DMG",
 			"tier": "major",
@@ -48446,7 +48910,8 @@
 			"referenceSources": [
 				"SKT",
 				"WDMM",
-				"CoA"
+				"CoA",
+				"OoW"
 			],
 			"type": "WD|DMG",
 			"tier": "major",
@@ -48484,7 +48949,10 @@
 			"srd": true,
 			"referenceSources": [
 				"TftYP-THSoT",
-				"RtG"
+				"RtG",
+				"SKT",
+				"WDH",
+				"OoW"
 			],
 			"type": "WD|DMG",
 			"tier": "major",
@@ -48525,7 +48993,10 @@
 				"OoW",
 				"US",
 				"CoA",
-				"QftIS"
+				"QftIS",
+				"WDMM",
+				"SDW",
+				"PaBTSO"
 			],
 			"type": "WD|DMG",
 			"tier": "minor",
@@ -48569,7 +49040,10 @@
 				"HoL",
 				"KftGV",
 				"PaBTSO",
-				"QftIS"
+				"QftIS",
+				"HftT",
+				"SLW",
+				"BGDIA"
 			],
 			"type": "WD|DMG",
 			"tier": "major",
@@ -48599,7 +49073,8 @@
 			"source": "DMG",
 			"page": 227,
 			"referenceSources": [
-				"OotA"
+				"OotA",
+				"IDRotF"
 			],
 			"baseItem": "mace|phb",
 			"type": "WD|DMG",
@@ -48711,7 +49186,8 @@
 			"page": 211,
 			"srd": true,
 			"referenceSources": [
-				"QftIS"
+				"QftIS",
+				"TftYP-AtG"
 			],
 			"type": "WD|DMG",
 			"tier": "major",
@@ -48742,7 +49218,8 @@
 			"srd": true,
 			"referenceSources": [
 				"CoS",
-				"WBtW"
+				"WBtW",
+				"CM"
 			],
 			"type": "WD|DMG",
 			"tier": "major",
@@ -48777,6 +49254,9 @@
 			"name": "Wand of Pyrotechnics",
 			"source": "XGE",
 			"page": 140,
+			"referenceSources": [
+				"DIP"
+			],
 			"type": "WD|DMG",
 			"tier": "minor",
 			"rarity": "common",
@@ -48821,7 +49301,11 @@
 				"BGDIA",
 				"WBtW",
 				"SCC-TMM",
-				"CoA"
+				"CoA",
+				"WDH",
+				"IMR",
+				"CRCotN",
+				"QftIS"
 			],
 			"type": "WD|DMG",
 			"tier": "minor",
@@ -48885,7 +49369,8 @@
 			"srd": true,
 			"referenceSources": [
 				"IDRotF",
-				"WBtW"
+				"WBtW",
+				"IMR"
 			],
 			"type": "WD|DMG",
 			"tier": "major",
@@ -48964,7 +49449,8 @@
 				"ToA",
 				"WDMM",
 				"ToFW",
-				"CoA"
+				"CoA",
+				"CRCotN"
 			],
 			"type": "WD|DMG",
 			"tier": "major",
@@ -49266,6 +49752,11 @@
 			"page": 153,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"TftYP-TSC",
+				"WDH",
+				"DIP"
+			],
 			"type": "G",
 			"rarity": "none",
 			"weight": 5,
@@ -49413,7 +49904,8 @@
 			"page": 213,
 			"srd": true,
 			"referenceSources": [
-				"VEoR"
+				"VEoR",
+				"JttRC"
 			],
 			"tier": "major",
 			"rarity": "legendary",
@@ -49499,7 +49991,8 @@
 			"source": "DMG",
 			"page": 218,
 			"referenceSources": [
-				"TftYP-WPM"
+				"TftYP-WPM",
+				"IMR"
 			],
 			"baseItem": "warhammer|phb",
 			"type": "M",
@@ -50156,7 +50649,8 @@
 			"srd": true,
 			"referenceSources": [
 				"JttRC",
-				"CoA"
+				"CoA",
+				"LLK"
 			],
 			"tier": "major",
 			"rarity": "rare",
@@ -50687,7 +51181,8 @@
 			"page": 258,
 			"srd": true,
 			"referenceSources": [
-				"ToA"
+				"ToA",
+				"HotDQ"
 			],
 			"type": "G",
 			"rarity": "none",
@@ -51032,7 +51527,8 @@
 			"source": "DMG",
 			"page": 162,
 			"referenceSources": [
-				"WDMM"
+				"WDMM",
+				"RoT"
 			],
 			"type": "GV|DMG",
 			"tier": "major",
@@ -51113,7 +51609,8 @@
 			"source": "DMG",
 			"page": 152,
 			"referenceSources": [
-				"TftYP-AtG"
+				"TftYP-AtG",
+				"TftYP-DiT"
 			],
 			"baseItem": "plate armor|phb",
 			"type": "HA",
@@ -51141,7 +51638,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PaBTSO"
+				"PaBTSO",
+				"ToA"
 			],
 			"type": "AT",
 			"rarity": "none",
@@ -51170,7 +51668,9 @@
 			"source": "DMG",
 			"page": 154,
 			"referenceSources": [
-				"IDRotF"
+				"IDRotF",
+				"LLK",
+				"GoS"
 			],
 			"tier": "major",
 			"rarity": "uncommon",
@@ -51384,6 +51884,9 @@
 			"source": "DMG",
 			"page": 165,
 			"srd": true,
+			"referenceSources": [
+				"KftGV"
+			],
 			"type": "MA",
 			"tier": "major",
 			"rarity": "very rare",
@@ -51481,6 +51984,9 @@
 			"name": "Druidic Focus",
 			"source": "PHB",
 			"page": 151,
+			"referenceSources": [
+				"ToA"
+			],
 			"type": "SCF",
 			"scfType": "druid",
 			"rarity": "none",
@@ -51658,7 +52164,8 @@
 				"PotA",
 				"SKT",
 				"IMR",
-				"RtG"
+				"RtG",
+				"WDMM"
 			],
 			"rarity": "varies",
 			"wondrous": true,
@@ -51858,7 +52365,8 @@
 				"TTP",
 				"CM",
 				"KftGV",
-				"PaBTSO"
+				"PaBTSO",
+				"DSotDQ"
 			],
 			"type": "SCF",
 			"scfType": "holy",
@@ -51878,7 +52386,8 @@
 			"source": "DMG",
 			"page": 175,
 			"referenceSources": [
-				"TftYP-AtG"
+				"TftYP-AtG",
+				"WDMM"
 			],
 			"rarity": "varies",
 			"wondrous": true,
@@ -52379,7 +52888,8 @@
 				"WDMM",
 				"IDRotF",
 				"DoSI",
-				"CoA"
+				"CoA",
+				"KftGV"
 			],
 			"type": "P",
 			"tier": "minor",
@@ -52445,7 +52955,9 @@
 			"page": 188,
 			"referenceSources": [
 				"GoS",
-				"ToFW"
+				"ToFW",
+				"WDMM",
+				"IMR"
 			],
 			"rarity": "rare",
 			"wondrous": true,
@@ -52769,7 +53281,10 @@
 				"RoT",
 				"OotA",
 				"TftYP-AtG",
-				"ToA"
+				"ToA",
+				"CoS",
+				"TftYP-THSoT",
+				"TftYP-WPM"
 			],
 			"type": "SC|DMG",
 			"tier": "minor",
@@ -53000,7 +53515,9 @@
 				"DitLCoT",
 				"LRDT",
 				"VEoR",
-				"QftIS"
+				"QftIS",
+				"PotA",
+				"VNotEE"
 			],
 			"type": "SC|DMG",
 			"rarity": "varies",

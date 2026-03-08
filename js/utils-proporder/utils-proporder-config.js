@@ -285,7 +285,7 @@ const PROPORDER_MONSTER = [
 			"_implementations",
 			...PROPORDER_MONSTER,
 		],
-		fnSort: getFnRootPropListSort("monster"),
+		fnSort: getFnRootPropListSort("monster", {isRequired: true}),
 	}),
 ];
 const PROPORDER_MONSTER__COPY_MOD = [
@@ -1356,7 +1356,7 @@ const PROPORDER_FEAT = [
 			"_implementations",
 			...PROPORDER_FEAT,
 		],
-		fnSort: getFnRootPropListSort("feat"),
+		fnSort: getFnRootPropListSort("feat", {isRequired: true}),
 	}),
 ];
 const PROPORDER_FEAT__COPY_MOD = [
@@ -2093,7 +2093,7 @@ const PROPORDER_RACE_SUBRACE = [
 			"_implementations",
 			...PROPORDER_RACE,
 		],
-		fnSort: getFnRootPropListSort("subrace"),
+		fnSort: getFnRootPropListSort("subrace", {isRequired: true}),
 	}),
 ];
 const PROPORDER_RACE = [
