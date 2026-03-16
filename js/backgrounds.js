@@ -5,12 +5,12 @@ class BackgroundSublistManager extends SublistManager {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-4 pl-0 pr-1",
+				css: "ve-bold ve-col-4 ve-pl-0 ve-pr-1",
 				colStyle: "",
 			}),
 			new SublistCellTemplate({
 				name: "Skills",
-				css: "ve-col-8 pl-1 pr-0",
+				css: "ve-col-8 ve-pl-1 ve-pr-0",
 				colStyle: "",
 			}),
 		];
@@ -21,8 +21,8 @@ class BackgroundSublistManager extends SublistManager {
 		const {summary: skills} = Renderer.generic.getSkillSummary({skillProfs: it.skillProficiencies || [], isShort: true});
 		const cellsText = [name, skills];
 
-		const ele = ee`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst__row-border lst__row-inner">
+		const ele = ee`<div class="ve-lst__row ve-lst__row--sublist ve-flex-col">
+			<a href="#${hash}" class="ve-lst__row-border ve-lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
 		</div>`
@@ -72,16 +72,16 @@ class BackgroundPage extends ListPage {
 		this._pageFilter.mutateAndAddToFilters(bg, isExcluded);
 
 		const eleLi = document.createElement("div");
-		eleLi.className = `lst__row ve-flex-col ${isExcluded ? "lst__row--blocklisted" : ""}`;
+		eleLi.className = `ve-lst__row ve-flex-col ${isExcluded ? "ve-lst__row--blocklisted" : ""}`;
 
 		const name = bg.name.replace("Variant ", "");
 		const hash = UrlUtil.autoEncodeHash(bg);
 		const source = Parser.sourceJsonToAbv(bg.source);
 
-		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
-			<span class="bold ve-col-4 pl-0 pr-1">${name}</span>
-			<span class="ve-col-6 px-1">${bg._skillDisplay}</span>
-			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(bg.source)}  pl-1 pr-0" title="${Parser.sourceJsonToFull(bg.source)}">${source}</span>
+		eleLi.innerHTML = `<a href="#${hash}" class="ve-lst__row-border ve-lst__row-inner">
+			<span class="ve-bold ve-col-4 ve-pl-0 ve-pr-1">${name}</span>
+			<span class="ve-col-6 ve-px-1">${bg._skillDisplay}</span>
+			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(bg.source)} ve-pl-1 ve-pr-0" title="${Parser.sourceJsonToFull(bg.source)}">${source}</span>
 		</a>`;
 
 		const listItem = new ListItem(

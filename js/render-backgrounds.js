@@ -62,7 +62,7 @@ class _RenderBackgroundsImplClassic extends _RenderBackgroundsImplBase {
 
 			${htmlPtPrerequisites}
 
-			<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider"></div></td></tr>
+			<tr><td colspan="6" class="ve-py-0"><div class="ve-tbl-divider"></div></td></tr>
 
 			<tr><td colspan="6">
 				${htmlPtEntries}

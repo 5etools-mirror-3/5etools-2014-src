@@ -5334,7 +5334,8 @@
 						"You can speak, read, and write Grung."
 					]
 				}
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Hadozee",

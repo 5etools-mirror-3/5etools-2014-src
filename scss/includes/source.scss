@@ -9,7 +9,7 @@
 		text-decoration-color: $rgb !important;
 	}
 
-	.source {
+	.ve-source {
 		$rgb-source-category-site: #e50711;
 		$rgb-source-category-extras: #9d4c4f;
 		$rgb-source-category-prerelease: vars.$rgb-subclass-ua;
@@ -485,7 +485,7 @@
 		// endregion
 	}
 
-	.sp__ {
+	.ve-sp__ {
 		&school-- {
 			&a {
 				color: #00b921;
@@ -521,7 +521,7 @@
 		}
 	}
 
-	.psi__ {
+	.ve-psi__ {
 		&type-- {
 			&d {
 				// (Unused)
@@ -534,7 +534,7 @@
 	}
 
 	// (Unused)
-	.itm__ {
+	.ve-itm__ {
 		&rarity-alt- {
 			&common {
 				color: color.adjust(vars.$rgb-font, $lightness: 15%);
@@ -563,7 +563,7 @@
 		}
 	}
 
-	.itm__ {
+	.ve-itm__ {
 		&rarity- {
 			&common {
 				color: color.adjust(vars.$rgb-font, $lightness: 15%);
