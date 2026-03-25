@@ -5,14 +5,14 @@
 			"source": "MM",
 			"page": 12,
 			"referenceSources": [
-				"PotA",
-				"SKT",
-				"ToA",
+				"CRCotN",
 				"EGW",
 				"IDRotF",
-				"CRCotN",
 				"LoX",
-				"QftIS"
+				"PotA",
+				"QftIS",
+				"SKT",
+				"ToA"
 			],
 			"size": [
 				"M"
@@ -115,17 +115,17 @@
 			"page": 13,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"ToA",
-				"WDH",
-				"WDMM",
+				"BMT",
+				"CoA",
+				"GoS",
 				"JttRC",
 				"PaBTSO",
-				"SatO",
-				"BMT",
+				"PotA",
 				"QftIS",
-				"CoA",
-				"GoS"
+				"SatO",
+				"ToA",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -304,11 +304,11 @@
 			"source": "MM",
 			"page": 306,
 			"referenceSources": [
-				"SKT",
-				"WDMM",
+				"CM",
 				"EGW",
 				"IDRotF",
-				"CM"
+				"SKT",
+				"WDMM"
 			],
 			"size": [
 				"H"
@@ -447,30 +447,30 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"CoS",
-				"HotDQ",
-				"PotA",
-				"SKT",
-				"ToA",
-				"WDH",
-				"GoS",
 				"BGDIA",
-				"ERLW",
-				"EGW",
-				"MOT",
-				"IDRotF",
 				"CM",
+				"CoS",
 				"CRCotN",
-				"JttRC",
-				"SjA",
 				"DSotDQ",
-				"PSI",
-				"PaBTSO",
-				"QftIS",
+				"EGW",
+				"ERLW",
+				"GoS",
+				"HotDQ",
+				"IDRotF",
+				"JttRC",
+				"MOT",
 				"OotA",
-				"TftYP-TSC",
+				"OoW",
+				"PaBTSO",
+				"PotA",
+				"PSI",
+				"QftIS",
+				"SjA",
+				"SKT",
 				"TftYP-TFoF",
-				"OoW"
+				"TftYP-TSC",
+				"ToA",
+				"WDH"
 			],
 			"size": [
 				"M"
@@ -587,15 +587,15 @@
 			"page": 88,
 			"srd": true,
 			"referenceSources": [
-				"HotDQ",
-				"PotA",
-				"RoT",
-				"GoS",
 				"CM",
+				"CoA",
 				"DSotDQ",
+				"GoS",
+				"HotDQ",
 				"KftGV",
+				"PotA",
 				"QftIS",
-				"CoA"
+				"RoT"
 			],
 			"size": [
 				"H"
@@ -870,10 +870,10 @@
 			"source": "MM",
 			"page": 84,
 			"referenceSources": [
-				"WDMM",
 				"CM",
 				"JttRC",
-				"SatO"
+				"SatO",
+				"WDMM"
 			],
 			"size": [
 				"H"
@@ -1085,12 +1085,12 @@
 			"page": 91,
 			"srd": true,
 			"referenceSources": [
-				"HotDQ",
-				"RoT",
-				"SKT",
 				"GoS",
+				"HotDQ",
+				"JttRC",
 				"MOT",
-				"JttRC"
+				"RoT",
+				"SKT"
 			],
 			"size": [
 				"H"
@@ -1676,14 +1676,14 @@
 			"page": 108,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"SKT",
-				"GoS",
-				"SDW",
-				"EGW",
-				"JttRC",
 				"DoSI",
 				"DSotDQ",
+				"EGW",
+				"GoS",
+				"JttRC",
+				"PotA",
+				"SDW",
+				"SKT",
 				"WDMM"
 			],
 			"size": [
@@ -1998,8 +1998,8 @@
 			"page": 112,
 			"srd": true,
 			"referenceSources": [
-				"GoS",
 				"CM",
+				"GoS",
 				"SatO",
 				"ToFW"
 			],
@@ -2298,8 +2298,8 @@
 			"page": 114,
 			"srd": true,
 			"referenceSources": [
-				"GoS",
 				"EGW",
+				"GoS",
 				"JttRC",
 				"WDH"
 			],
@@ -2619,9 +2619,9 @@
 			"page": 94,
 			"srd": true,
 			"referenceSources": [
-				"RoT",
+				"CM",
 				"GoS",
-				"CM"
+				"RoT"
 			],
 			"size": [
 				"H"
@@ -2909,17 +2909,17 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"RoT",
-				"TftYP",
-				"GoS",
-				"EGW",
-				"MOT",
-				"GotSF",
 				"BMT",
 				"CoA",
+				"EGW",
+				"GoS",
+				"GotSF",
+				"LRDT",
+				"MOT",
 				"OotA",
-				"WDMM",
-				"LRDT"
+				"RoT",
+				"TftYP",
+				"WDMM"
 			],
 			"size": [
 				"H"
@@ -3199,8 +3199,8 @@
 			"page": 117,
 			"srd": true,
 			"referenceSources": [
-				"SKT",
 				"GoS",
+				"SKT",
 				"WDMM"
 			],
 			"size": [
@@ -3506,13 +3506,13 @@
 			"page": 101,
 			"srd": true,
 			"referenceSources": [
+				"BGDIA",
+				"EGW",
+				"GoS",
 				"HotDQ",
 				"RoT",
 				"SKT",
-				"WDMM",
-				"GoS",
-				"BGDIA",
-				"EGW"
+				"WDMM"
 			],
 			"size": [
 				"H"
@@ -3794,32 +3794,32 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"AitFR-FCD",
+				"BMT",
+				"CM",
+				"DIP",
+				"DSotDQ",
+				"ERLW",
+				"GoS",
+				"GotSF",
 				"HotDQ",
+				"IMR",
+				"JttRC",
+				"KftGV",
+				"MOT",
 				"PotA",
+				"QftIS",
 				"RoT",
+				"SCC-ARiR",
+				"SCC-TMM",
 				"SKT",
+				"SLW",
+				"TCE",
 				"TftYP",
 				"ToA",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"SLW",
-				"ERLW",
-				"IMR",
-				"MOT",
-				"TCE",
-				"CM",
-				"WBtW",
-				"JttRC",
-				"DSotDQ",
-				"KftGV",
-				"GotSF",
-				"BMT",
 				"VEoR",
-				"QftIS",
-				"AitFR-FCD",
-				"SCC-TMM",
-				"SCC-ARiR"
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -3953,10 +3953,10 @@
 			"page": 79,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
-				"WDH",
 				"JttRC",
 				"KftGV",
+				"ToA",
+				"WDH",
 				"XMtS"
 			],
 			"size": [
@@ -4327,8 +4327,8 @@
 			"srd": true,
 			"referenceSources": [
 				"MOT",
-				"TCE",
-				"SKT"
+				"SKT",
+				"TCE"
 			],
 			"size": [
 				"G"
@@ -5860,8 +5860,8 @@
 			"page": 93,
 			"srd": true,
 			"referenceSources": [
-				"SKT",
-				"DIP"
+				"DIP",
+				"SKT"
 			],
 			"size": [
 				"G"
@@ -6148,10 +6148,10 @@
 			"page": 97,
 			"srd": true,
 			"referenceSources": [
-				"SKT",
 				"MOT",
-				"TCE",
 				"SatO",
+				"SKT",
+				"TCE",
 				"VEoR"
 			],
 			"size": [
@@ -6737,9 +6737,9 @@
 			"page": 100,
 			"srd": true,
 			"referenceSources": [
-				"SKT",
 				"EGW",
-				"IDRotF"
+				"IDRotF",
+				"SKT"
 			],
 			"size": [
 				"G"
@@ -7023,9 +7023,9 @@
 			"page": 281,
 			"srd": true,
 			"referenceSources": [
+				"CM",
 				"EGW",
 				"MOT",
-				"CM",
 				"SatO"
 			],
 			"size": [
@@ -7308,28 +7308,28 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"CoS",
-				"RoT",
-				"SKT",
-				"TftYP",
-				"WDH",
-				"WDMM",
-				"GoS",
 				"BGDIA",
-				"EGW",
-				"IDRotF",
-				"TCE",
 				"CM",
-				"WBtW",
+				"CoS",
+				"EGW",
+				"GoS",
+				"IDRotF",
 				"KftGV",
-				"PaBTSO",
-				"SatO",
-				"VEoR",
-				"QftIS",
 				"OotA",
-				"ToA",
+				"PaBTSO",
+				"QftIS",
+				"RoT",
 				"RtG",
-				"SCC-CK"
+				"SatO",
+				"SCC-CK",
+				"SKT",
+				"TCE",
+				"TftYP",
+				"ToA",
+				"VEoR",
+				"WBtW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -7436,16 +7436,16 @@
 			"page": 21,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"WDH",
-				"GoS",
-				"DIP",
 				"BGDIA",
+				"BMT",
+				"DIP",
+				"GoS",
 				"JttRC",
 				"KftGV",
-				"BMT",
+				"PotA",
 				"QftIS",
-				"SCC-HfMT"
+				"SCC-HfMT",
+				"WDH"
 			],
 			"size": [
 				"L"
@@ -7538,9 +7538,9 @@
 			"page": 79,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
 				"CRCotN",
 				"SKT",
+				"ToA",
 				"TTP"
 			],
 			"size": [
@@ -7612,11 +7612,11 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"CM",
+				"GoS",
 				"TftYP",
 				"ToA",
-				"WDH",
-				"GoS",
-				"CM"
+				"WDH"
 			],
 			"size": [
 				"M"
@@ -7692,17 +7692,17 @@
 			"source": "MM",
 			"page": 313,
 			"referenceSources": [
-				"CoS",
-				"ToA",
-				"WDMM",
-				"BGDIA",
-				"IDRotF",
-				"TCE",
-				"KftGV",
-				"PSI",
-				"PaBTSO",
 				"AATM",
-				"SatO"
+				"BGDIA",
+				"CoS",
+				"IDRotF",
+				"KftGV",
+				"PaBTSO",
+				"PSI",
+				"SatO",
+				"TCE",
+				"ToA",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -7990,32 +7990,32 @@
 			"page": 342,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"SKT",
-				"WDH",
-				"WDMM",
-				"GoS",
 				"BGDIA",
-				"ERLW",
-				"IMR",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"CM",
-				"JttRC",
-				"LoX",
-				"DSotDQ",
-				"KftGV",
-				"SatO",
-				"ToFW",
 				"BMT",
-				"VEoR",
-				"QftIS",
+				"CM",
 				"CoA",
+				"CoS",
+				"DSotDQ",
+				"EGW",
+				"ERLW",
+				"GoS",
+				"IDRotF",
+				"IMR",
+				"JttRC",
+				"KftGV",
+				"LoX",
+				"MOT",
+				"NRH-TLT",
 				"OotA",
-				"ToA",
 				"OoW",
-				"NRH-TLT"
+				"QftIS",
+				"SatO",
+				"SKT",
+				"ToA",
+				"ToFW",
+				"VEoR",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -8268,32 +8268,32 @@
 			"page": 343,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"HotDQ",
-				"PotA",
-				"RoT",
-				"SKT",
-				"TftYP",
-				"ToA",
-				"WDMM",
-				"GoS",
 				"BGDIA",
-				"IMR",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"TCE",
 				"CM",
+				"CoA",
+				"CoS",
 				"CRCotN",
+				"EGW",
+				"GoS",
+				"HotDQ",
+				"IDRotF",
+				"IMR",
 				"JttRC",
 				"KftGV",
+				"MOT",
+				"OotA",
+				"OoW",
+				"PotA",
+				"RoT",
 				"SatO",
+				"SKT",
+				"TCE",
+				"TftYP",
+				"ToA",
 				"ToFW",
 				"VEoR",
-				"CoA",
-				"OotA",
 				"WDH",
-				"OoW"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -8435,18 +8435,18 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"SKT",
-				"WDMM",
+				"AZfyT",
+				"IDRotF",
 				"IMR",
 				"MOT",
-				"IDRotF",
-				"WBtW",
+				"NRH-AVitW",
 				"PSI",
 				"QftIS",
-				"XMtS",
-				"AZfyT",
-				"NRH-AVitW",
-				"SCC-CK"
+				"SCC-CK",
+				"SKT",
+				"WBtW",
+				"WDMM",
+				"XMtS"
 			],
 			"size": [
 				"S"
@@ -8524,21 +8524,21 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"RoT",
-				"SKT",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"MOT",
-				"IDRotF",
+				"AZfyT",
 				"CM",
-				"WBtW",
+				"GoS",
+				"IDRotF",
+				"LRDT",
+				"MOT",
+				"PotA",
 				"PSI",
 				"QftIS",
-				"AZfyT",
+				"RoT",
 				"SCC-HfMT",
-				"LRDT"
+				"SKT",
+				"WBtW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"H"
@@ -8623,12 +8623,12 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"SKT",
-				"ToA",
-				"WDH",
 				"GoS",
 				"IDRotF",
-				"TTP"
+				"SKT",
+				"ToA",
+				"TTP",
+				"WDH"
 			],
 			"size": [
 				"L"
@@ -8686,10 +8686,10 @@
 			"page": 22,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"WDMM",
+				"CoA",
 				"KftGV",
-				"CoA"
+				"PotA",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -8797,13 +8797,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP",
-				"ToA",
 				"CM",
 				"CoS",
-				"WBtW",
 				"KftGV",
-				"TTP"
+				"TftYP",
+				"ToA",
+				"TTP",
+				"WBtW"
 			],
 			"size": [
 				"S"
@@ -8873,8 +8873,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"WBtW",
-				"QftIS"
+				"QftIS",
+				"WBtW"
 			],
 			"size": [
 				"T"
@@ -8950,13 +8950,13 @@
 			"srd": true,
 			"referenceSources": [
 				"BGDIA",
-				"IMR",
-				"EGW",
-				"TCE",
-				"CRCotN",
-				"ToFW",
 				"CoA",
-				"OotA"
+				"CRCotN",
+				"EGW",
+				"IMR",
+				"OotA",
+				"TCE",
+				"ToFW"
 			],
 			"size": [
 				"H"
@@ -9145,37 +9145,37 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"HotDQ",
-				"PotA",
-				"SKT",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"DC",
-				"DIP",
-				"SLW",
 				"BGDIA",
-				"ERLW",
-				"EGW",
-				"IDRotF",
+				"BMT",
 				"CM",
+				"CoA",
 				"CoS",
 				"CRCotN",
-				"JttRC",
-				"SjA",
-				"LoX",
+				"DC",
+				"DIP",
 				"DSotDQ",
+				"EGW",
+				"ERLW",
+				"GoS",
+				"HotDQ",
+				"IDRotF",
+				"JttRC",
 				"KftGV",
-				"PaBTSO",
-				"SatO",
-				"BMT",
-				"QftIS",
-				"CoA",
+				"LoX",
 				"OotA",
-				"TLK",
 				"OoW",
-				"RtG"
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"RtG",
+				"SatO",
+				"SjA",
+				"SKT",
+				"SLW",
+				"TLK",
+				"ToA",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -9283,35 +9283,35 @@
 			"page": 344,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"SKT",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"DC",
-				"DIP",
-				"SLW",
+				"AitFR-ISF",
 				"BGDIA",
-				"IMR",
-				"EGW",
-				"MOT",
-				"IDRotF",
+				"BMT",
 				"CM",
 				"CoS",
 				"CRCotN",
-				"LoX",
+				"DC",
+				"DIP",
 				"DSotDQ",
+				"EGW",
+				"GoS",
+				"IDRotF",
+				"IMR",
 				"KftGV",
-				"SatO",
-				"ToFW",
-				"BMT",
-				"QftIS",
-				"OotA",
-				"TLK",
 				"LLK",
+				"LoX",
+				"MOT",
+				"OotA",
 				"OoW",
-				"AitFR-ISF"
+				"PotA",
+				"QftIS",
+				"SatO",
+				"SKT",
+				"SLW",
+				"TLK",
+				"ToA",
+				"ToFW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -9442,20 +9442,20 @@
 			"page": 23,
 			"basicRules": true,
 			"referenceSources": [
-				"CoS",
-				"WDMM",
-				"GoS",
-				"DIP",
 				"BGDIA",
+				"BMT",
+				"CoS",
+				"DIP",
 				"EGW",
-				"TCE",
-				"WBtW",
+				"GoS",
+				"HoL",
 				"JttRC",
 				"PaBTSO",
-				"BMT",
 				"QftIS",
-				"HoL",
-				"RtG"
+				"RtG",
+				"TCE",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -9604,16 +9604,16 @@
 			"page": 70,
 			"srd": true,
 			"referenceSources": [
-				"RoT",
-				"ToA",
-				"WDH",
-				"WDMM",
 				"BGDIA",
+				"CoA",
 				"EGW",
 				"IDRotF",
+				"RoT",
 				"TCE",
+				"ToA",
 				"VEoR",
-				"CoA"
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -9783,20 +9783,20 @@
 			"source": "MM",
 			"page": 56,
 			"referenceSources": [
-				"PotA",
-				"WDH",
-				"WDMM",
 				"BGDIA",
-				"IMR",
-				"CRCotN",
-				"KftGV",
-				"PaBTSO",
-				"SatO",
 				"BMT",
-				"VEoR",
-				"QftIS",
 				"CoA",
-				"OotA"
+				"CRCotN",
+				"IMR",
+				"KftGV",
+				"OotA",
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"SatO",
+				"VEoR",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -9977,18 +9977,18 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
-				"WDMM",
 				"BGDIA",
-				"MOT",
+				"DitLCoT",
 				"IDRotF",
-				"PSZ",
-				"PaBTSO",
-				"QftIS",
+				"MOT",
 				"OotA",
+				"PaBTSO",
+				"PSZ",
+				"QftIS",
 				"SCC-CK",
 				"SCC-HfMT",
-				"DitLCoT"
+				"ToA",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -10077,13 +10077,13 @@
 			"basicRules": true,
 			"referenceSources": [
 				"CoS",
-				"ToA",
-				"WDMM",
 				"IDRotF",
-				"WBtW",
 				"PSX",
 				"SKT",
-				"TTP"
+				"ToA",
+				"TTP",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"T"
@@ -10162,17 +10162,17 @@
 			"page": 70,
 			"srd": true,
 			"referenceSources": [
-				"RoT",
-				"ToA",
-				"WDH",
 				"BGDIA",
+				"BMT",
+				"CoA",
 				"EGW",
 				"IDRotF",
-				"BMT",
-				"VEoR",
+				"OoW",
 				"QftIS",
-				"CoA",
-				"OoW"
+				"RoT",
+				"ToA",
+				"VEoR",
+				"WDH"
 			],
 			"size": [
 				"M"
@@ -10342,20 +10342,20 @@
 			"page": 25,
 			"srd": true,
 			"referenceSources": [
-				"TftYP",
-				"EGW",
+				"BMT",
 				"CM",
+				"DitLCoT",
+				"EGW",
 				"JttRC",
 				"KftGV",
-				"PaBTSO",
-				"ToFW",
-				"BMT",
-				"VEoR",
-				"QftIS",
 				"OotA",
-				"WDMM",
 				"OoW",
-				"DitLCoT"
+				"PaBTSO",
+				"QftIS",
+				"TftYP",
+				"ToFW",
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"H"
@@ -10485,25 +10485,25 @@
 			"source": "MM",
 			"page": 28,
 			"referenceSources": [
-				"ToA",
-				"WDMM",
-				"GoS",
-				"ERLW",
-				"EGW",
-				"TCE",
+				"BMT",
 				"CM",
+				"CoA",
+				"EGW",
+				"ERLW",
+				"GoS",
 				"JttRC",
-				"LoX",
 				"KftGV",
+				"LoX",
+				"NRH-AT",
+				"OotA",
 				"PaBTSO",
 				"SatO",
-				"ToFW",
-				"BMT",
-				"CoA",
-				"OotA",
+				"TCE",
 				"TftYP-DiT",
+				"ToA",
+				"ToFW",
 				"WDH",
-				"NRH-AT"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -10791,11 +10791,11 @@
 			"source": "MM",
 			"page": 316,
 			"referenceSources": [
-				"WDH",
-				"WDMM",
+				"RtG",
 				"ToFW",
 				"VEoR",
-				"RtG"
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -10947,28 +10947,28 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BMT",
+				"CM",
 				"CoS",
-				"HotDQ",
-				"PotA",
-				"SKT",
-				"ToA",
-				"WDMM",
-				"GoS",
+				"CRCotN",
 				"DC",
 				"DIP",
-				"SLW",
 				"EGW",
-				"MOT",
+				"GoS",
+				"HotDQ",
 				"IDRotF",
-				"CM",
-				"CRCotN",
-				"PaBTSO",
-				"ToFW",
-				"BMT",
-				"OotA",
-				"WDH",
 				"LLK",
-				"OoW"
+				"MOT",
+				"OotA",
+				"OoW",
+				"PaBTSO",
+				"PotA",
+				"SKT",
+				"SLW",
+				"ToA",
+				"ToFW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -11073,14 +11073,14 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"SKT",
-				"WDMM",
 				"GoS",
 				"IMR",
+				"PotA",
+				"QftIS",
 				"SatO",
+				"SKT",
 				"ToFW",
-				"QftIS"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -11368,27 +11368,27 @@
 			"page": 241,
 			"srd": true,
 			"referenceSources": [
+				"CM",
+				"CoA",
 				"CoS",
-				"PotA",
-				"SKT",
-				"TftYP",
-				"WDH",
-				"WDMM",
+				"DSotDQ",
 				"GoS",
 				"IDRotF",
-				"CM",
 				"JttRC",
-				"DSotDQ",
 				"KftGV",
-				"SatO",
-				"ToFW",
-				"QftIS",
-				"CoA",
+				"LRDT",
 				"OotA",
+				"PotA",
+				"QftIS",
 				"RtG",
-				"SCC-HfMT",
+				"SatO",
 				"SCC-ARiR",
-				"LRDT"
+				"SCC-HfMT",
+				"SKT",
+				"TftYP",
+				"ToFW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -11501,15 +11501,15 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"WDMM",
-				"GoS",
-				"ERLW",
-				"MOT",
-				"TCE",
-				"WBtW",
-				"SatO",
 				"BMT",
-				"VEoR"
+				"ERLW",
+				"GoS",
+				"MOT",
+				"SatO",
+				"TCE",
+				"VEoR",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -11602,11 +11602,11 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"CM",
+				"EGW",
+				"GoS",
 				"PotA",
 				"SKT",
-				"GoS",
-				"EGW",
-				"CM",
 				"TTP"
 			],
 			"size": [
@@ -11694,8 +11694,8 @@
 			"page": 91,
 			"srd": true,
 			"referenceSources": [
-				"MOT",
-				"DoSI"
+				"DoSI",
+				"MOT"
 			],
 			"size": [
 				"M"
@@ -11888,14 +11888,14 @@
 			"source": "MM",
 			"page": 276,
 			"referenceSources": [
-				"WDMM",
 				"IDRotF",
 				"PaBTSO",
-				"SatO",
 				"QftIS",
+				"SatO",
 				"SCC-CK",
 				"SCC-HfMT",
-				"SCC-TMM"
+				"SCC-TMM",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -12036,17 +12036,17 @@
 			"page": 319,
 			"srd": true,
 			"referenceSources": [
-				"SKT",
-				"ToA",
-				"WDMM",
+				"AZfyT",
+				"CM",
 				"DIP",
 				"MOT",
-				"CM",
-				"WBtW",
+				"OoW",
 				"QftIS",
+				"SKT",
+				"ToA",
 				"TTP",
-				"AZfyT",
-				"OoW"
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -12132,18 +12132,18 @@
 			"page": 71,
 			"srd": true,
 			"referenceSources": [
-				"RoT",
-				"ToA",
-				"WDMM",
+				"BGDIA",
+				"CoA",
 				"DC",
 				"DIP",
-				"BGDIA",
-				"EGW",
 				"DSotDQ",
-				"SatO",
-				"CoA",
+				"EGW",
 				"HotDQ",
-				"LLK"
+				"LLK",
+				"RoT",
+				"SatO",
+				"ToA",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -12473,8 +12473,8 @@
 			"source": "MM",
 			"page": 233,
 			"referenceSources": [
-				"DSotDQ",
 				"BMT",
+				"DSotDQ",
 				"ToA",
 				"WDMM"
 			],
@@ -13062,18 +13062,18 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"SKT",
-				"TftYP",
+				"BMT",
 				"GoS",
+				"IDRotF",
 				"IMR",
 				"MOT",
-				"IDRotF",
-				"WBtW",
-				"BMT",
+				"PotA",
 				"QftIS",
-				"WDMM",
-				"RtG"
+				"RtG",
+				"SKT",
+				"TftYP",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -13168,26 +13168,26 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"LMoP",
-				"PotA",
-				"SKT",
-				"TftYP",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"ERLW",
-				"RMBRE",
-				"EGW",
-				"IDRotF",
-				"TCE",
-				"WBtW",
 				"CRCotN",
-				"KftGV",
+				"EGW",
+				"ERLW",
+				"GoS",
 				"HftT",
-				"PaBTSO",
-				"QftIS",
+				"IDRotF",
+				"KftGV",
+				"LMoP",
 				"OotA",
-				"OoW"
+				"OoW",
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"RMBRE",
+				"SKT",
+				"TCE",
+				"TftYP",
+				"WBtW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -13306,9 +13306,9 @@
 			"source": "MM",
 			"page": 33,
 			"referenceSources": [
-				"TftYP",
 				"CRCotN",
-				"NRH-AT"
+				"NRH-AT",
+				"TftYP"
 			],
 			"size": [
 				"M"
@@ -13444,15 +13444,15 @@
 			"page": 34,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"SKT",
+				"DSotDQ",
 				"IDRotF",
 				"JttRC",
 				"LoX",
-				"DSotDQ",
+				"PotA",
 				"QftIS",
-				"WDMM",
-				"SCC-ARiR"
+				"SCC-ARiR",
+				"SKT",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -13547,13 +13547,13 @@
 			"source": "MM",
 			"page": 35,
 			"referenceSources": [
-				"HotDQ",
-				"WDMM",
-				"GoS",
 				"EGW",
-				"WBtW",
+				"GoS",
+				"HotDQ",
 				"OoW",
-				"SCC-ARiR"
+				"SCC-ARiR",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -13684,12 +13684,12 @@
 			"source": "MM",
 			"page": 36,
 			"referenceSources": [
-				"SKT",
 				"BGDIA",
 				"CM",
+				"CoA",
 				"KftGV",
-				"ToFW",
-				"CoA"
+				"SKT",
+				"ToFW"
 			],
 			"size": [
 				"M"
@@ -13992,8 +13992,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"GoS",
 				"CM",
+				"GoS",
 				"QftIS"
 			],
 			"size": [
@@ -14049,18 +14049,18 @@
 			"source": "MM",
 			"page": 37,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"DIP",
+				"IDRotF",
+				"OotA",
+				"OoW",
+				"QftIS",
 				"TftYP",
 				"ToA",
-				"WDH",
-				"WDMM",
-				"DIP",
-				"BGDIA",
-				"IDRotF",
-				"BMT",
-				"QftIS",
-				"OotA",
 				"TTP",
-				"OoW"
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -14177,18 +14177,18 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"CM",
 				"CoS",
 				"HotDQ",
-				"SKT",
-				"ToA",
-				"WDH",
-				"IMR",
 				"IDRotF",
-				"TCE",
-				"CM",
-				"WBtW",
+				"IMR",
 				"JttRC",
-				"OoW"
+				"OoW",
+				"SKT",
+				"TCE",
+				"ToA",
+				"WBtW",
+				"WDH"
 			],
 			"size": [
 				"T"
@@ -14263,9 +14263,9 @@
 			"source": "MM",
 			"page": 334,
 			"referenceSources": [
+				"SKT",
 				"TftYP",
-				"WDMM",
-				"SKT"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -14365,14 +14365,14 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"CoA",
+				"DIP",
+				"GoS",
+				"MOT",
+				"QftIS",
 				"SKT",
 				"TftYP",
-				"GoS",
-				"DIP",
-				"MOT",
-				"WBtW",
-				"QftIS",
-				"CoA"
+				"WBtW"
 			],
 			"size": [
 				"L"
@@ -14486,11 +14486,10 @@
 			"page": 72,
 			"srd": true,
 			"referenceSources": [
-				"ToA",
 				"BGDIA",
-				"PaBTSO",
 				"BMT",
 				"CoA",
+				"PaBTSO",
 				"WDH"
 			],
 			"size": [
@@ -14646,13 +14645,13 @@
 			"source": "MM",
 			"page": 57,
 			"referenceSources": [
-				"WDMM",
 				"BGDIA",
+				"CoA",
 				"CRCotN",
 				"KftGV",
+				"OotA",
 				"QftIS",
-				"CoA",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -14801,16 +14800,16 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"OoW",
 				"PotA",
+				"QftIS",
 				"RoT",
+				"SCC-HfMT",
+				"SDW",
 				"SKT",
 				"TftYP",
-				"WDMM",
-				"SDW",
-				"BGDIA",
-				"QftIS",
-				"OoW",
-				"SCC-HfMT"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -14929,17 +14928,17 @@
 			"page": 40,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"RoT",
-				"WDMM",
-				"GoS",
-				"CRCotN",
-				"PaBTSO",
-				"QftIS",
 				"CoA",
+				"CRCotN",
+				"DitLCoT",
+				"GoS",
 				"OotA",
 				"OoW",
-				"DitLCoT"
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"RoT",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -15068,18 +15067,18 @@
 			"page": 168,
 			"srd": true,
 			"referenceSources": [
+				"BMT",
 				"CoS",
-				"RoT",
-				"TftYP",
-				"ToA",
-				"WDMM",
+				"DitLCoT",
 				"DSotDQ",
 				"KftGV",
 				"PaBTSO",
-				"BMT",
 				"QftIS",
+				"RoT",
 				"SCC-ARiR",
-				"DitLCoT"
+				"TftYP",
+				"ToA",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -15229,21 +15228,21 @@
 			"page": 41,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"WDMM",
-				"EGW",
+				"CoA",
 				"CRCotN",
+				"DitLCoT",
+				"EGW",
 				"JttRC",
 				"KftGV",
-				"PaBTSO",
-				"VEoR",
-				"QftIS",
-				"CoA",
 				"OotA",
+				"PaBTSO",
+				"PotA",
+				"QftIS",
 				"RtG",
-				"SCC-TMM",
 				"SCC-ARiR",
-				"DitLCoT"
+				"SCC-TMM",
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -15388,13 +15387,13 @@
 			"page": 154,
 			"srd": true,
 			"referenceSources": [
+				"GoS",
+				"JttRC",
+				"MOT",
 				"PotA",
+				"SatO",
 				"SKT",
 				"TftYP",
-				"GoS",
-				"MOT",
-				"JttRC",
-				"SatO",
 				"WDMM"
 			],
 			"size": [
@@ -15593,13 +15592,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP",
 				"BGDIA",
 				"ERLW",
 				"MOT",
-				"WBtW",
 				"OoW",
-				"SCC-CK"
+				"SCC-CK",
+				"TftYP",
+				"WBtW"
 			],
 			"size": [
 				"S"
@@ -15672,50 +15671,50 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"AATM",
+				"BGDIA",
+				"BMT",
+				"CM",
+				"CoA",
 				"CoS",
-				"HotDQ",
-				"LMoP",
-				"PotA",
-				"RoT",
-				"SKT",
-				"TftYP",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
+				"CRCotN",
 				"DC",
 				"DIP",
-				"SLW",
-				"BGDIA",
-				"ERLW",
-				"RMBRE",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"TCE",
-				"CM",
-				"WBtW",
-				"CRCotN",
-				"JttRC",
-				"LoX",
 				"DSotDQ",
-				"KftGV",
+				"EGW",
+				"ERLW",
+				"GoS",
 				"GotSF",
-				"PaBTSO",
-				"AATM",
-				"SatO",
-				"ToFW",
-				"BMT",
 				"HFStCM",
-				"VEoR",
-				"QftIS",
-				"CoA",
-				"OotA",
+				"HotDQ",
+				"IDRotF",
+				"JttRC",
+				"KftGV",
 				"LLK",
-				"OoW",
+				"LMoP",
+				"LoX",
+				"MOT",
 				"NRH-CoI",
+				"OotA",
+				"OoW",
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"RMBRE",
+				"RoT",
+				"SatO",
 				"SCC-CK",
-				"SCC-TMM"
+				"SCC-TMM",
+				"SKT",
+				"SLW",
+				"TCE",
+				"TftYP",
+				"ToA",
+				"ToFW",
+				"VEoR",
+				"WBtW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -16087,16 +16086,16 @@
 			"page": 43,
 			"srd": true,
 			"referenceSources": [
-				"SKT",
-				"TftYP",
-				"ToA",
-				"WDMM",
+				"BMT",
+				"CoA",
 				"EGW",
 				"IDRotF",
 				"PSX",
-				"BMT",
+				"SKT",
+				"TftYP",
+				"ToA",
 				"VEoR",
-				"CoA"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -16283,11 +16282,11 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
-				"GoS",
 				"BGDIA",
-				"VEoR",
-				"TTP"
+				"GoS",
+				"ToA",
+				"TTP",
+				"VEoR"
 			],
 			"size": [
 				"T"
@@ -16369,21 +16368,21 @@
 			"source": "MM",
 			"page": 44,
 			"referenceSources": [
-				"CoS",
-				"PotA",
-				"ToA",
-				"WDH",
 				"BGDIA",
-				"IDRotF",
-				"CM",
-				"JttRC",
-				"LoX",
-				"KftGV",
 				"BMT",
+				"CM",
+				"CoS",
+				"IDRotF",
+				"JttRC",
+				"KftGV",
+				"LoX",
 				"OotA",
 				"OoW",
+				"PotA",
 				"RtG",
-				"SCC-ARiR"
+				"SCC-ARiR",
+				"ToA",
+				"WDH"
 			],
 			"size": [
 				"T"
@@ -16474,18 +16473,18 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"HotDQ",
-				"PotA",
-				"ToA",
-				"GoS",
 				"DIP",
-				"SLW",
-				"IMR",
 				"EGW",
-				"WBtW",
-				"PSX",
+				"GoS",
+				"HotDQ",
+				"IMR",
+				"PotA",
 				"PSA",
-				"SCC-TMM"
+				"PSX",
+				"SCC-TMM",
+				"SLW",
+				"ToA",
+				"WBtW"
 			],
 			"size": [
 				"L"
@@ -16566,41 +16565,41 @@
 			"page": 345,
 			"srd": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"CM",
+				"CoA",
 				"CoS",
-				"PotA",
-				"RoT",
-				"SKT",
-				"TftYP",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
+				"CRCotN",
 				"DC",
 				"DIP",
-				"SLW",
-				"BGDIA",
-				"IMR",
 				"EGW",
-				"MOT",
-				"IDRotF",
-				"TCE",
-				"CM",
-				"CRCotN",
-				"JttRC",
-				"LoX",
-				"KftGV",
-				"PSI",
-				"PaBTSO",
-				"ToFW",
-				"BMT",
-				"VEoR",
-				"QftIS",
-				"CoA",
+				"GoS",
 				"HotDQ",
-				"XMtS",
+				"IDRotF",
+				"IMR",
+				"JttRC",
+				"KftGV",
 				"LLK",
+				"LoX",
+				"MOT",
 				"OoW",
-				"VNotEE"
+				"PaBTSO",
+				"PotA",
+				"PSI",
+				"QftIS",
+				"RoT",
+				"SKT",
+				"SLW",
+				"TCE",
+				"TftYP",
+				"ToA",
+				"ToFW",
+				"VEoR",
+				"VNotEE",
+				"WDH",
+				"WDMM",
+				"XMtS"
 			],
 			"size": [
 				"M"
@@ -16765,37 +16764,37 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"AATM",
+				"BGDIA",
+				"BMT",
+				"CM",
 				"CoS",
-				"HotDQ",
-				"LMoP",
-				"PotA",
-				"RoT",
-				"SKT",
-				"WDH",
-				"WDMM",
-				"GoS",
 				"DC",
 				"DIP",
-				"SLW",
-				"BGDIA",
-				"RMBRE",
-				"IMR",
 				"EGW",
-				"MOT",
+				"GoS",
+				"HftT",
+				"HotDQ",
 				"IDRotF",
-				"CM",
+				"IMR",
 				"JttRC",
 				"KftGV",
-				"HftT",
-				"PaBTSO",
-				"AATM",
-				"BMT",
-				"VEoR",
-				"QftIS",
-				"OotA",
-				"LLK",
 				"KKW",
-				"VNotEE"
+				"LLK",
+				"LMoP",
+				"MOT",
+				"OotA",
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"RMBRE",
+				"RoT",
+				"SKT",
+				"SLW",
+				"VEoR",
+				"VNotEE",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -16901,16 +16900,16 @@
 			"page": 45,
 			"basicRules": true,
 			"referenceSources": [
-				"RoT",
-				"ToA",
-				"GoS",
-				"EGW",
-				"MOT",
 				"CM",
-				"WBtW",
 				"DSotDQ",
+				"EGW",
+				"GoS",
+				"MOT",
+				"RoT",
 				"SatO",
-				"VEoR"
+				"ToA",
+				"VEoR",
+				"WBtW"
 			],
 			"size": [
 				"H"
@@ -17016,16 +17015,16 @@
 			"source": "MM",
 			"page": 143,
 			"referenceSources": [
-				"PotA",
-				"RoT",
-				"ToA",
-				"WDMM",
 				"BGDIA",
-				"TCE",
 				"CM",
-				"SatO",
+				"DitLCoT",
+				"PotA",
 				"QftIS",
-				"DitLCoT"
+				"RoT",
+				"SatO",
+				"TCE",
+				"ToA",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -17178,6 +17177,9 @@
 			"attachedItems": [
 				"maul|phb"
 			],
+			"traitTags": [
+				"Sure-Footed"
+			],
 			"senseTags": [
 				"SD"
 			],
@@ -17276,12 +17278,12 @@
 			"page": 46,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"WDMM",
-				"WBtW",
 				"KftGV",
 				"OotA",
-				"OoW"
+				"OoW",
+				"PotA",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"S"
@@ -17379,14 +17381,14 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"AATM",
+				"LoX",
+				"MOT",
+				"OotA",
+				"OoW",
 				"SKT",
 				"WDH",
-				"WDMM",
-				"MOT",
-				"LoX",
-				"AATM",
-				"OotA",
-				"OoW"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -17478,19 +17480,19 @@
 			"source": "MM",
 			"page": 47,
 			"referenceSources": [
-				"GoS",
+				"AATM",
+				"BGDIA",
+				"BMT",
+				"CM",
+				"CoA",
 				"DC",
 				"DIP",
-				"BGDIA",
-				"EGW",
-				"TCE",
-				"CM",
 				"DSotDQ",
-				"AATM",
+				"EGW",
+				"GoS",
 				"SatO",
-				"BMT",
+				"TCE",
 				"VEoR",
-				"CoA",
 				"WDMM"
 			],
 			"size": [
@@ -17701,18 +17703,18 @@
 			"source": "MM",
 			"page": 278,
 			"referenceSources": [
-				"CoS",
-				"WDMM",
-				"GoS",
 				"BGDIA",
-				"EGW",
-				"TCE",
 				"CM",
+				"CoS",
 				"DSotDQ",
-				"PSI",
-				"VEoR",
+				"EGW",
+				"GoS",
 				"OotA",
-				"SCC-CK"
+				"PSI",
+				"SCC-CK",
+				"TCE",
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -17929,12 +17931,12 @@
 			"source": "MM",
 			"page": 29,
 			"referenceSources": [
-				"WDMM",
-				"CM",
 				"AATM",
-				"SatO",
 				"BMT",
-				"OotA"
+				"CM",
+				"OotA",
+				"SatO",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -18150,13 +18152,13 @@
 			"page": 164,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"WDH",
-				"WDMM",
 				"KftGV",
+				"OotA",
 				"PaBTSO",
+				"PotA",
 				"QftIS",
-				"OotA"
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"S"
@@ -18318,8 +18320,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"HotDQ",
-				"DIP"
+				"DIP",
+				"HotDQ"
 			],
 			"size": [
 				"M"
@@ -18375,13 +18377,13 @@
 			"source": "MM",
 			"page": 48,
 			"referenceSources": [
-				"TftYP",
-				"WDMM",
-				"GoS",
 				"EGW",
+				"GoS",
 				"IDRotF",
 				"JttRC",
-				"ToFW"
+				"TftYP",
+				"ToFW",
+				"WDMM"
 			],
 			"size": [
 				"T"
@@ -18629,18 +18631,18 @@
 			"page": 16,
 			"srd": true,
 			"referenceSources": [
-				"WDMM",
+				"BMT",
+				"CoA",
 				"CoS",
 				"CRCotN",
 				"JttRC",
 				"KftGV",
-				"SatO",
-				"ToFW",
-				"BMT",
-				"VEoR",
 				"QftIS",
-				"CoA",
-				"TftYP-DiT"
+				"SatO",
+				"TftYP-DiT",
+				"ToFW",
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -18810,15 +18812,15 @@
 			"basicRules": true,
 			"referenceSources": [
 				"CoS",
-				"SKT",
-				"TftYP",
 				"GoS",
 				"IDRotF",
 				"JttRC",
+				"OoW",
 				"PaBTSO",
-				"ToFW",
 				"QftIS",
-				"OoW"
+				"SKT",
+				"TftYP",
+				"ToFW"
 			],
 			"size": [
 				"L"
@@ -18908,17 +18910,17 @@
 			"source": "MM",
 			"page": 81,
 			"referenceSources": [
-				"TftYP",
-				"WDH",
-				"WDMM",
+				"BMT",
 				"ERLW",
-				"WBtW",
 				"JttRC",
 				"KftGV",
-				"SatO",
-				"BMT",
+				"LRDT",
 				"QftIS",
-				"LRDT"
+				"SatO",
+				"TftYP",
+				"WBtW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -19017,15 +19019,15 @@
 			"page": 144,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"GoS",
-				"TCE",
 				"CM",
-				"JttRC",
-				"SatO",
-				"QftIS",
 				"CoA",
-				"SCC-TMM"
+				"GoS",
+				"JttRC",
+				"PotA",
+				"QftIS",
+				"SatO",
+				"SCC-TMM",
+				"TCE"
 			],
 			"size": [
 				"L"
@@ -19271,29 +19273,29 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"CoA",
+				"EGW",
+				"HftT",
 				"HotDQ",
+				"IDRotF",
+				"IMR",
+				"JttRC",
+				"KftGV",
 				"LMoP",
+				"OotA",
+				"OoW",
+				"PaBTSO",
 				"PotA",
+				"QftIS",
+				"SatO",
 				"SKT",
 				"TftYP",
 				"ToA",
-				"WDH",
-				"WDMM",
-				"BGDIA",
-				"IMR",
-				"EGW",
-				"IDRotF",
-				"JttRC",
-				"KftGV",
-				"HftT",
-				"PaBTSO",
-				"SatO",
 				"ToFW",
-				"BMT",
-				"QftIS",
-				"CoA",
-				"OotA",
-				"OoW"
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -19416,14 +19418,14 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"CoS",
-				"SKT",
-				"WDH",
-				"GoS",
 				"BGDIA",
+				"CoS",
+				"GoS",
+				"OoW",
 				"PaBTSO",
 				"QftIS",
-				"OoW"
+				"SKT",
+				"WDH"
 			],
 			"size": [
 				"L"
@@ -19479,14 +19481,14 @@
 			"page": 119,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"ToA",
-				"GoS",
-				"EGW",
-				"MOT",
 				"CM",
+				"CoA",
+				"EGW",
+				"GoS",
 				"JttRC",
-				"CoA"
+				"MOT",
+				"PotA",
+				"ToA"
 			],
 			"size": [
 				"G"
@@ -19625,17 +19627,17 @@
 			"page": 57,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"GoS",
 				"BGDIA",
-				"IMR",
-				"EGW",
-				"WBtW",
-				"PSI",
-				"SatO",
 				"BMT",
 				"CoA",
-				"OotA"
+				"CoS",
+				"EGW",
+				"GoS",
+				"IMR",
+				"OotA",
+				"PSI",
+				"SatO",
+				"WBtW"
 			],
 			"size": [
 				"S"
@@ -19755,11 +19757,11 @@
 			"page": 120,
 			"srd": true,
 			"referenceSources": [
-				"WDMM",
 				"CRCotN",
+				"OotA",
 				"SatO",
 				"VEoR",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -20004,18 +20006,18 @@
 			"page": 128,
 			"srd": true,
 			"referenceSources": [
-				"TftYP",
-				"WDH",
-				"WDMM",
-				"DC",
-				"DIP",
 				"BGDIA",
-				"EGW",
+				"BMT",
 				"CM",
 				"CRCotN",
+				"DC",
+				"DIP",
+				"EGW",
+				"OotA",
 				"PaBTSO",
-				"BMT",
-				"OotA"
+				"TftYP",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -20219,17 +20221,17 @@
 			"source": "MM",
 			"page": 128,
 			"referenceSources": [
-				"SKT",
-				"TftYP",
-				"WDH",
-				"WDMM",
+				"CRCotN",
 				"DC",
 				"DIP",
-				"SLW",
 				"IDRotF",
-				"CRCotN",
+				"OotA",
 				"PaBTSO",
-				"OotA"
+				"SKT",
+				"SLW",
+				"TftYP",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -20461,20 +20463,20 @@
 			"source": "MM",
 			"page": 129,
 			"referenceSources": [
+				"CM",
+				"CoA",
+				"DC",
+				"DIP",
+				"IDRotF",
+				"OotA",
 				"PotA",
 				"SKT",
 				"TftYP",
 				"ToA",
-				"WDH",
-				"WDMM",
-				"DC",
-				"DIP",
-				"IDRotF",
-				"CM",
-				"WBtW",
 				"VEoR",
-				"CoA",
-				"OotA"
+				"WBtW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -20688,10 +20690,10 @@
 			"source": "MM",
 			"page": 129,
 			"referenceSources": [
-				"TftYP",
-				"WDMM",
 				"GoS",
-				"OotA"
+				"OotA",
+				"TftYP",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -20961,34 +20963,34 @@
 			"page": 346,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"PotA",
-				"RoT",
-				"SKT",
-				"ToA",
-				"GoS",
-				"DIP",
-				"SDW",
 				"BGDIA",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"CM",
-				"WBtW",
-				"CRCotN",
-				"JttRC",
-				"PSI",
-				"SatO",
 				"BMT",
-				"VEoR",
-				"QftIS",
+				"CM",
 				"CoA",
+				"CoS",
+				"CRCotN",
+				"DIP",
+				"EGW",
+				"GoS",
+				"IDRotF",
+				"JttRC",
+				"LoX",
+				"MOT",
 				"OotA",
-				"TftYP-TSC",
-				"TftYP-DiT",
-				"WDH",
 				"OoW",
-				"LoX"
+				"PotA",
+				"PSI",
+				"QftIS",
+				"RoT",
+				"SatO",
+				"SDW",
+				"SKT",
+				"TftYP-DiT",
+				"TftYP-TSC",
+				"ToA",
+				"VEoR",
+				"WBtW",
+				"WDH"
 			],
 			"size": [
 				"M"
@@ -21133,25 +21135,25 @@
 			"page": 121,
 			"srd": true,
 			"referenceSources": [
-				"SKT",
-				"GoS",
 				"BGDIA",
-				"EGW",
-				"MOT",
-				"IDRotF",
+				"BMT",
 				"CM",
-				"WBtW",
 				"CRCotN",
+				"EGW",
+				"GoS",
+				"IDRotF",
 				"JttRC",
 				"KftGV",
+				"MOT",
 				"PSI",
-				"ToFW",
-				"BMT",
-				"VEoR",
 				"QftIS",
-				"XMtS",
+				"SCC-ARiR",
 				"SCC-CK",
-				"SCC-ARiR"
+				"SKT",
+				"ToFW",
+				"VEoR",
+				"WBtW",
+				"XMtS"
 			],
 			"size": [
 				"M"
@@ -21307,19 +21309,19 @@
 			"page": 122,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"TftYP",
-				"WDH",
-				"WDMM",
 				"BGDIA",
+				"CoA",
 				"EGW",
 				"IDRotF",
 				"KftGV",
-				"QftIS",
-				"CoA",
 				"OotA",
 				"OoW",
-				"RtG"
+				"PotA",
+				"QftIS",
+				"RtG",
+				"TftYP",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -21454,11 +21456,11 @@
 			"page": 225,
 			"referenceSources": [
 				"KftGV",
-				"ToFW",
-				"QftIS",
 				"OotA",
 				"OoW",
-				"SCC-CK"
+				"QftIS",
+				"SCC-CK",
+				"ToFW"
 			],
 			"size": [
 				"M"
@@ -21593,12 +21595,12 @@
 			"page": 215,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"ToA",
+				"OotA",
 				"PaBTSO",
-				"SatO",
+				"PotA",
 				"QftIS",
-				"OotA"
+				"SatO",
+				"ToA"
 			],
 			"size": [
 				"S"
@@ -21750,8 +21752,8 @@
 			"basicRules": true,
 			"referenceSources": [
 				"CM",
-				"ToFW",
-				"DSotDQ"
+				"DSotDQ",
+				"ToFW"
 			],
 			"size": [
 				"S"
@@ -21827,22 +21829,22 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"RoT",
-				"SKT",
-				"ToA",
-				"WDH",
-				"MOT",
-				"TCE",
-				"CRCotN",
-				"PaBTSO",
-				"VEoR",
-				"QftIS",
-				"OotA",
-				"XMtS",
-				"RtG",
 				"AitFR-FCD",
-				"DitLCoT"
+				"CRCotN",
+				"DitLCoT",
+				"MOT",
+				"OotA",
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"RoT",
+				"RtG",
+				"SKT",
+				"TCE",
+				"ToA",
+				"VEoR",
+				"WDH",
+				"XMtS"
 			],
 			"size": [
 				"L"
@@ -21974,17 +21976,17 @@
 			"page": 145,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"RoT",
-				"TftYP",
-				"WDMM",
+				"CoA",
 				"EGW",
-				"TCE",
 				"JttRC",
 				"KftGV",
-				"SatO",
+				"PotA",
 				"QftIS",
-				"CoA"
+				"RoT",
+				"SatO",
+				"TCE",
+				"TftYP",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -22214,7 +22216,6 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
 				"SatO",
 				"ToFW"
 			],
@@ -22299,12 +22300,12 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"HotDQ",
-				"PotA",
-				"SKT",
 				"EGW",
+				"HotDQ",
 				"IDRotF",
+				"PotA",
 				"QftIS",
+				"SKT",
 				"WDMM"
 			],
 			"size": [
@@ -22385,15 +22386,15 @@
 			"source": "MM",
 			"page": 130,
 			"referenceSources": [
-				"TftYP",
-				"WDMM",
 				"BGDIA",
-				"MOT",
-				"SatO",
-				"ToFW",
 				"BMT",
+				"CoA",
+				"MOT",
 				"QftIS",
-				"CoA"
+				"SatO",
+				"TftYP",
+				"ToFW",
+				"WDMM"
 			],
 			"size": [
 				"H"
@@ -22610,13 +22611,13 @@
 			"page": 73,
 			"srd": true,
 			"referenceSources": [
-				"ToA",
 				"BGDIA",
+				"CoA",
 				"EGW",
 				"KftGV",
 				"SatO",
-				"VEoR",
-				"CoA"
+				"ToA",
+				"VEoR"
 			],
 			"size": [
 				"M"
@@ -22828,19 +22829,19 @@
 			"page": 131,
 			"srd": true,
 			"referenceSources": [
-				"HotDQ",
-				"RoT",
-				"SKT",
-				"WDH",
-				"WDMM",
-				"GoS",
 				"BGDIA",
-				"EGW",
-				"CM",
-				"WBtW",
-				"SatO",
 				"BMT",
-				"QftIS"
+				"CM",
+				"EGW",
+				"GoS",
+				"HotDQ",
+				"QftIS",
+				"RoT",
+				"SatO",
+				"SKT",
+				"WBtW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -22987,16 +22988,16 @@
 			"page": 132,
 			"srd": true,
 			"referenceSources": [
+				"JttRC",
+				"OotA",
 				"PotA",
 				"RoT",
+				"SCC-HfMT",
 				"SKT",
 				"TftYP",
-				"WDMM",
-				"JttRC",
 				"ToFW",
 				"VEoR",
-				"OotA",
-				"SCC-HfMT"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -23923,11 +23924,11 @@
 			"source": "MM",
 			"page": 133,
 			"referenceSources": [
-				"WDH",
-				"WDMM",
+				"BMT",
 				"EGW",
 				"WBtW",
-				"BMT"
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"T"
@@ -24254,21 +24255,21 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BMT",
+				"CM",
+				"EGW",
+				"IMR",
+				"MOT",
+				"OotA",
 				"PotA",
+				"PSI",
 				"RoT",
 				"SKT",
+				"TCE",
 				"TftYP",
 				"ToA",
-				"WDMM",
-				"IMR",
-				"EGW",
-				"MOT",
-				"TCE",
-				"CM",
 				"WBtW",
-				"PSI",
-				"BMT",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -24398,20 +24399,20 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"CoA",
+				"EGW",
+				"GotSF",
+				"HFStCM",
+				"JttRC",
+				"MOT",
 				"PotA",
+				"QftIS",
+				"SatO",
 				"SKT",
 				"TftYP",
-				"WDMM",
-				"BGDIA",
-				"EGW",
-				"MOT",
-				"JttRC",
-				"GotSF",
-				"SatO",
-				"BMT",
-				"HFStCM",
-				"QftIS",
-				"CoA"
+				"WDMM"
 			],
 			"size": [
 				"H"
@@ -24550,14 +24551,14 @@
 			"source": "MM",
 			"page": 265,
 			"referenceSources": [
-				"PotA",
-				"TftYP",
-				"ToA",
-				"JttRC",
-				"DoSI",
 				"CoA",
+				"DoSI",
+				"JttRC",
 				"OotA",
-				"SCC-CK"
+				"PotA",
+				"SCC-CK",
+				"TftYP",
+				"ToA"
 			],
 			"size": [
 				"M"
@@ -24676,31 +24677,31 @@
 			"page": 134,
 			"basicRules": true,
 			"referenceSources": [
-				"CoS",
-				"LMoP",
-				"PotA",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"SDW",
 				"BGDIA",
-				"RMBRE",
-				"IDRotF",
-				"TCE",
 				"CM",
-				"WBtW",
-				"CRCotN",
-				"JttRC",
-				"DSotDQ",
-				"HftT",
-				"PaBTSO",
-				"SatO",
-				"VEoR",
-				"QftIS",
 				"CoA",
-				"ToA",
+				"CoS",
+				"CRCotN",
+				"DSotDQ",
+				"GoS",
+				"HftT",
+				"IDRotF",
+				"JttRC",
+				"LMoP",
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"RMBRE",
 				"RtG",
-				"SCC-ARiR"
+				"SatO",
+				"SCC-ARiR",
+				"SDW",
+				"TCE",
+				"ToA",
+				"VEoR",
+				"WBtW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"T"
@@ -24885,22 +24886,22 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"CM",
+				"CoA",
 				"CoS",
+				"DIP",
+				"EGW",
+				"GoS",
+				"IDRotF",
+				"MOT",
 				"RoT",
+				"RtG",
+				"SDW",
 				"TftYP",
 				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"SDW",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"CM",
 				"ToFW",
-				"CoA",
-				"RtG"
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -25041,13 +25042,13 @@
 			"source": "MM",
 			"page": 135,
 			"referenceSources": [
-				"WDMM",
-				"LoX",
-				"PaBTSO",
 				"BMT",
+				"LoX",
+				"NRH-AT",
 				"OotA",
 				"OoW",
-				"NRH-AT"
+				"PaBTSO",
+				"WDMM"
 			],
 			"size": [
 				"S"
@@ -25167,13 +25168,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"SKT",
-				"ToA",
-				"WDH",
 				"IDRotF",
 				"KftGV",
 				"OotA",
-				"TTP"
+				"SKT",
+				"ToA",
+				"TTP",
+				"WDH"
 			],
 			"size": [
 				"T"
@@ -25258,24 +25259,24 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"CM",
 				"CoS",
+				"EGW",
+				"GoS",
+				"IDRotF",
+				"KftGV",
 				"PotA",
+				"RtG",
+				"SCC-CK",
 				"SKT",
+				"TCE",
 				"TftYP",
 				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"BGDIA",
-				"EGW",
-				"IDRotF",
-				"TCE",
-				"CM",
-				"KftGV",
-				"BMT",
 				"VEoR",
-				"RtG",
-				"SCC-CK"
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"S"
@@ -25383,19 +25384,19 @@
 			"source": "MM",
 			"page": 136,
 			"referenceSources": [
-				"WDMM",
 				"CM",
-				"WBtW",
+				"CoA",
+				"DitLCoT",
 				"JttRC",
+				"OotA",
 				"PaBTSO",
+				"QftIS",
 				"SatO",
+				"TLK",
 				"ToFW",
 				"VEoR",
-				"QftIS",
-				"CoA",
-				"OotA",
-				"TLK",
-				"DitLCoT"
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"H"
@@ -25510,13 +25511,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
-				"WBtW",
-				"PSX",
+				"CoS",
 				"KftGV",
+				"PSX",
 				"QftIS",
 				"SCC-CK",
-				"CoS"
+				"ToA",
+				"WBtW"
 			],
 			"size": [
 				"T"
@@ -25590,14 +25591,14 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"RoT",
-				"SKT",
-				"TftYP",
-				"ToA",
+				"CoA",
 				"EGW",
 				"IDRotF",
+				"RoT",
 				"SatO",
-				"CoA"
+				"SKT",
+				"TftYP",
+				"ToA"
 			],
 			"size": [
 				"H"
@@ -25726,17 +25727,17 @@
 			"source": "MM",
 			"page": 139,
 			"referenceSources": [
+				"KftGV",
+				"LLK",
+				"OotA",
+				"PaBTSO",
 				"PotA",
-				"WDMM",
+				"QftIS",
+				"RtG",
+				"SCC-HfMT",
 				"TCE",
 				"WBtW",
-				"KftGV",
-				"PaBTSO",
-				"QftIS",
-				"OotA",
-				"LLK",
-				"RtG",
-				"SCC-HfMT"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -25867,24 +25868,24 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"CM",
 				"CoS",
+				"ERLW",
 				"HotDQ",
+				"IDRotF",
+				"JttRC",
+				"OotA",
+				"OoW",
 				"PotA",
+				"QftIS",
+				"SCC-HfMT",
 				"SKT",
 				"TftYP",
 				"ToA",
 				"WDH",
-				"WDMM",
-				"BGDIA",
-				"ERLW",
-				"IDRotF",
-				"CM",
-				"JttRC",
-				"BMT",
-				"QftIS",
-				"OotA",
-				"OoW",
-				"SCC-HfMT"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -26007,11 +26008,11 @@
 			"source": "MM",
 			"page": 138,
 			"referenceSources": [
+				"OotA",
+				"QftIS",
 				"TftYP",
 				"WDH",
-				"WDMM",
-				"QftIS",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -26117,18 +26118,18 @@
 			"page": 242,
 			"srd": true,
 			"referenceSources": [
-				"TftYP",
-				"WDMM",
-				"GoS",
-				"ERLW",
-				"IDRotF",
-				"WBtW",
 				"BMT",
-				"QftIS",
-				"OotA",
+				"ERLW",
+				"GoS",
+				"IDRotF",
 				"LLK",
+				"LRDT",
 				"NRH-ASS",
-				"LRDT"
+				"OotA",
+				"QftIS",
+				"TftYP",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -26232,22 +26233,22 @@
 			"page": 148,
 			"srd": true,
 			"referenceSources": [
+				"BGDIA",
 				"CoS",
-				"PotA",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
 				"DC",
 				"DIP",
-				"SDW",
-				"BGDIA",
+				"DitLCoT",
 				"DSotDQ",
+				"GoS",
+				"OoW",
+				"PotA",
 				"PSI",
 				"QftIS",
-				"OoW",
 				"SCC-ARiR",
-				"DitLCoT"
+				"SDW",
+				"ToA",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -26369,41 +26370,41 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"AATM",
+				"BGDIA",
+				"BMT",
+				"CM",
 				"CoS",
-				"PotA",
-				"RoT",
-				"SKT",
-				"TftYP",
-				"WDH",
-				"WDMM",
-				"GoS",
+				"CRCotN",
 				"DC",
 				"DIP",
-				"SLW",
-				"SDW",
-				"BGDIA",
-				"ERLW",
-				"EGW",
-				"IDRotF",
-				"TCE",
-				"CM",
-				"CRCotN",
-				"JttRC",
-				"LoX",
 				"DSotDQ",
+				"EGW",
+				"ERLW",
+				"GoS",
+				"IDRotF",
+				"JttRC",
 				"KftGV",
-				"PaBTSO",
-				"AATM",
-				"SatO",
-				"ToFW",
-				"BMT",
-				"VEoR",
-				"QftIS",
+				"LoX",
 				"OotA",
-				"TTP",
 				"OoW",
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"RoT",
 				"RtG",
-				"VNotEE"
+				"SatO",
+				"SDW",
+				"SKT",
+				"SLW",
+				"TCE",
+				"TftYP",
+				"ToFW",
+				"TTP",
+				"VEoR",
+				"VNotEE",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -26556,38 +26557,38 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"CoS",
-				"LMoP",
-				"PotA",
-				"TftYP",
-				"ToA",
-				"WDMM",
-				"GoS",
-				"DC",
-				"SLW",
-				"SDW",
-				"BGDIA",
-				"RMBRE",
-				"IDRotF",
-				"TCE",
-				"CM",
-				"WBtW",
-				"JttRC",
-				"DoSI",
-				"KftGV",
-				"PSI",
-				"HftT",
-				"PaBTSO",
-				"DIP",
 				"AATM",
-				"SatO",
+				"BGDIA",
 				"BMT",
-				"VEoR",
-				"QftIS",
+				"CM",
+				"CoS",
+				"DC",
+				"DIP",
+				"DoSI",
+				"GoS",
+				"HftT",
+				"HoL",
+				"IDRotF",
+				"JttRC",
+				"KftGV",
+				"LMoP",
+				"NRH-AT",
 				"OotA",
 				"OoW",
-				"HoL",
-				"NRH-AT"
+				"PaBTSO",
+				"PotA",
+				"PSI",
+				"QftIS",
+				"RMBRE",
+				"SatO",
+				"SDW",
+				"SLW",
+				"TCE",
+				"TftYP",
+				"ToA",
+				"VEoR",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -26768,10 +26769,10 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"WDMM",
 				"JttRC",
 				"PaBTSO",
-				"QftIS"
+				"QftIS",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -26863,15 +26864,15 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"WDMM",
 				"MOT",
-				"TCE",
+				"PotA",
 				"PSX",
 				"QftIS",
+				"RtG",
+				"TCE",
 				"TftYP-THSoT",
-				"XMtS",
-				"RtG"
+				"WDMM",
+				"XMtS"
 			],
 			"size": [
 				"L"
@@ -26953,13 +26954,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"SKT",
-				"ToA",
+				"BMT",
 				"GoS",
 				"MOT",
 				"PSI",
-				"BMT",
-				"SCC-HfMT"
+				"SCC-HfMT",
+				"SKT",
+				"ToA"
 			],
 			"size": [
 				"L"
@@ -27046,15 +27047,15 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"GoS",
 				"HotDQ",
+				"PSA",
+				"PSX",
+				"QftIS",
+				"TCE",
 				"TftYP",
 				"WDMM",
-				"GoS",
-				"BGDIA",
-				"TCE",
-				"PSX",
-				"PSA",
-				"QftIS",
 				"XMtS"
 			],
 			"size": [
@@ -27133,16 +27134,16 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
-				"GoS",
 				"DIP",
-				"SLW",
 				"EGW",
-				"WBtW",
+				"GoS",
+				"OoW",
 				"PaBTSO",
 				"QftIS",
+				"SLW",
 				"TftYP-THSoT",
-				"OoW"
+				"ToA",
+				"WBtW"
 			],
 			"size": [
 				"H"
@@ -27225,18 +27226,18 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"CM",
+				"DIP",
+				"EGW",
+				"GoS",
+				"MOT",
 				"PotA",
 				"SKT",
 				"TftYP",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"BGDIA",
-				"EGW",
-				"MOT",
-				"CM",
-				"VEoR",
 				"TTP",
+				"VEoR",
+				"WDMM",
 				"XMtS"
 			],
 			"size": [
@@ -27323,15 +27324,15 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"ToA",
 				"DIP",
-				"SLW",
 				"JttRC",
-				"ToFW",
+				"PotA",
+				"SCC-TMM",
+				"SLW",
 				"TftYP-AtG",
-				"XMtS",
-				"SCC-TMM"
+				"ToA",
+				"ToFW",
+				"XMtS"
 			],
 			"size": [
 				"H"
@@ -27434,10 +27435,10 @@
 			"basicRules": true,
 			"referenceSources": [
 				"GoS",
-				"WBtW",
+				"QftIS",
 				"SatO",
 				"ToFW",
-				"QftIS"
+				"WBtW"
 			],
 			"size": [
 				"L"
@@ -27541,8 +27542,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"SKT",
-				"SCC-HfMT"
+				"SCC-HfMT",
+				"SKT"
 			],
 			"size": [
 				"H"
@@ -27646,12 +27647,12 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP",
-				"WDH",
-				"WDMM",
+				"OotA",
 				"PSX",
 				"QftIS",
-				"OotA"
+				"TftYP",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"S"
@@ -27733,18 +27734,18 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"HotDQ",
-				"TftYP",
-				"ToA",
-				"WDMM",
-				"GoS",
+				"DitLCoT",
 				"EGW",
-				"WBtW",
+				"GoS",
+				"HftT",
+				"HotDQ",
 				"PSA",
 				"QftIS",
-				"HftT",
 				"SCC-CK",
-				"DitLCoT"
+				"TftYP",
+				"ToA",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -27846,12 +27847,12 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"CoS",
+				"IDRotF",
+				"QftIS",
 				"SKT",
 				"SLW",
-				"IDRotF",
-				"CoS",
-				"WBtW",
-				"QftIS"
+				"WBtW"
 			],
 			"size": [
 				"L"
@@ -27915,7 +27916,8 @@
 				"path": "bestiary/giant-goat.mp3"
 			},
 			"traitTags": [
-				"Charge"
+				"Charge",
+				"Sure-Footed"
 			],
 			"damageTags": [
 				"B"
@@ -27938,9 +27940,9 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP",
+				"BGDIA",
 				"GoS",
-				"BGDIA"
+				"TftYP"
 			],
 			"size": [
 				"L"
@@ -28014,19 +28016,19 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"HotDQ",
-				"TftYP",
-				"ToA",
-				"WDMM",
 				"GoS",
+				"HotDQ",
 				"IDRotF",
 				"JttRC",
 				"KftGV",
-				"PSA",
-				"VEoR",
-				"QftIS",
 				"OotA",
-				"TTP"
+				"PSA",
+				"QftIS",
+				"TftYP",
+				"ToA",
+				"TTP",
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -28154,17 +28156,17 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"RoT",
-				"GoS",
-				"EGW",
-				"MOT",
-				"TCE",
 				"CRCotN",
 				"DSotDQ",
-				"PaBTSO",
+				"EGW",
+				"GoS",
+				"MOT",
 				"OotA",
-				"OoW"
+				"OoW",
+				"PaBTSO",
+				"PotA",
+				"RoT",
+				"TCE"
 			],
 			"size": [
 				"L"
@@ -28273,11 +28275,11 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"SKT",
+				"BMT",
+				"EGW",
 				"ERLW",
 				"IMR",
-				"EGW",
-				"BMT"
+				"SKT"
 			],
 			"size": [
 				"L"
@@ -28379,17 +28381,17 @@
 			"basicRules": true,
 			"referenceSources": [
 				"CoS",
-				"SKT",
-				"ToA",
+				"DitLCoT",
 				"GoS",
 				"MOT",
-				"TCE",
-				"WBtW",
+				"OoW",
 				"PaBTSO",
 				"QftIS",
-				"WDMM",
-				"OoW",
-				"DitLCoT"
+				"SKT",
+				"TCE",
+				"ToA",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -28466,22 +28468,22 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"CM",
+				"DIP",
+				"EGW",
+				"GoS",
+				"IDRotF",
+				"KKW",
+				"OotA",
+				"OoW",
 				"PotA",
+				"QftIS",
+				"SCC-CK",
 				"SKT",
 				"TftYP",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"BGDIA",
-				"EGW",
-				"IDRotF",
-				"CM",
 				"WBtW",
-				"QftIS",
-				"OotA",
-				"KKW",
-				"OoW",
-				"SCC-CK"
+				"WDMM"
 			],
 			"size": [
 				"S"
@@ -28601,17 +28603,17 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP",
-				"ToA",
 				"BGDIA",
-				"EGW",
 				"CM",
-				"JttRC",
-				"DSotDQ",
-				"PSA",
 				"CoA",
+				"DSotDQ",
+				"EGW",
+				"JttRC",
+				"PSA",
 				"SCC-CK",
-				"SCC-HfMT"
+				"SCC-HfMT",
+				"TftYP",
+				"ToA"
 			],
 			"size": [
 				"L"
@@ -28791,17 +28793,17 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"CRCotN",
+				"DIP",
+				"DSotDQ",
+				"GoS",
+				"IDRotF",
+				"JttRC",
+				"LR",
+				"PSX",
+				"SDW",
 				"SKT",
 				"ToA",
-				"GoS",
-				"DIP",
-				"SDW",
-				"LR",
-				"IDRotF",
-				"CRCotN",
-				"JttRC",
-				"DSotDQ",
-				"PSX",
 				"VEoR",
 				"WDH"
 			],
@@ -28892,35 +28894,35 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"CoA",
 				"CoS",
+				"CRCotN",
+				"DIP",
+				"DSotDQ",
+				"EGW",
+				"ERLW",
+				"GoS",
+				"HftT",
 				"HotDQ",
 				"LMoP",
-				"RoT",
-				"SKT",
-				"TftYP",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"BGDIA",
-				"ERLW",
-				"RMBRE",
-				"EGW",
+				"LRDT",
 				"MOT",
-				"TCE",
-				"CRCotN",
-				"DSotDQ",
-				"PSX",
-				"HftT",
-				"PaBTSO",
-				"BMT",
-				"VEoR",
-				"QftIS",
-				"CoA",
 				"OotA",
 				"OoW",
-				"LRDT"
+				"PaBTSO",
+				"PSX",
+				"QftIS",
+				"RMBRE",
+				"RoT",
+				"SKT",
+				"TCE",
+				"TftYP",
+				"ToA",
+				"VEoR",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -29041,13 +29043,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"WDMM",
-				"GoS",
 				"EGW",
+				"GoS",
+				"KftGV",
+				"QftIS",
 				"TCE",
 				"WBtW",
-				"KftGV",
-				"QftIS"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -29149,13 +29151,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"CoA",
+				"CRCotN",
+				"IDRotF",
+				"MOT",
 				"PotA",
 				"SKT",
-				"WDH",
-				"MOT",
-				"IDRotF",
-				"CRCotN",
-				"CoA"
+				"WDH"
 			],
 			"size": [
 				"L"
@@ -29260,13 +29262,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
-				"GoS",
 				"EGW",
-				"PSX",
+				"GoS",
+				"OoW",
 				"PSA",
-				"WDMM",
-				"OoW"
+				"PSX",
+				"ToA",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -29334,9 +29336,9 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP",
 				"GoS",
-				"QftIS"
+				"QftIS",
+				"TftYP"
 			],
 			"size": [
 				"M"
@@ -29417,14 +29419,14 @@
 			"basicRules": true,
 			"referenceSources": [
 				"CoS",
+				"GoS",
+				"LRDT",
+				"OotA",
+				"PSX",
+				"TCE",
 				"TftYP",
 				"ToA",
-				"GoS",
-				"TCE",
-				"WBtW",
-				"PSX",
-				"OotA",
-				"LRDT"
+				"WBtW"
 			],
 			"size": [
 				"M"
@@ -29531,22 +29533,22 @@
 			"page": 157,
 			"srd": true,
 			"referenceSources": [
-				"TftYP",
-				"WDH",
-				"WDMM",
+				"BMT",
+				"CoA",
+				"CRCotN",
 				"ERLW",
 				"IDRotF",
-				"TCE",
-				"CRCotN",
 				"JttRC",
 				"KftGV",
-				"PaBTSO",
-				"BMT",
-				"QftIS",
-				"CoA",
-				"OotA",
 				"LLK",
-				"OoW"
+				"OotA",
+				"OoW",
+				"PaBTSO",
+				"QftIS",
+				"TCE",
+				"TftYP",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -29652,15 +29654,15 @@
 			"source": "MM",
 			"page": 160,
 			"referenceSources": [
-				"WDMM",
+				"AATM",
+				"BMT",
+				"CoA",
 				"LoX",
 				"PaBTSO",
-				"AATM",
-				"SatO",
-				"BMT",
-				"VEoR",
 				"QftIS",
-				"CoA"
+				"SatO",
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -29779,14 +29781,14 @@
 			"source": "MM",
 			"page": 160,
 			"referenceSources": [
-				"WDMM",
-				"SjA",
+				"AATM",
+				"BMT",
 				"LoX",
 				"PaBTSO",
-				"AATM",
+				"QftIS",
 				"SatO",
-				"BMT",
-				"QftIS"
+				"SjA",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -30019,9 +30021,9 @@
 			"source": "MM",
 			"page": 161,
 			"referenceSources": [
-				"WDMM",
 				"SatO",
-				"ToFW"
+				"ToFW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -30153,16 +30155,16 @@
 			"page": 58,
 			"srd": true,
 			"referenceSources": [
-				"TftYP",
-				"WDMM",
-				"GoS",
 				"BGDIA",
-				"EGW",
-				"CRCotN",
-				"SatO",
 				"BMT",
+				"CoA",
+				"CRCotN",
+				"EGW",
+				"GoS",
+				"SatO",
+				"TftYP",
 				"VEoR",
-				"CoA"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -30345,26 +30347,26 @@
 			"page": 346,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"RoT",
-				"SKT",
-				"ToA",
-				"GoS",
-				"DIP",
-				"SLW",
-				"BGDIA",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"CM",
-				"CRCotN",
-				"KftGV",
-				"SatO",
-				"ToFW",
-				"QftIS",
-				"CoA",
 				"AitFR-FCD",
-				"SCC-CK"
+				"BGDIA",
+				"CM",
+				"CoA",
+				"CoS",
+				"CRCotN",
+				"DIP",
+				"EGW",
+				"GoS",
+				"IDRotF",
+				"KftGV",
+				"MOT",
+				"QftIS",
+				"RoT",
+				"SatO",
+				"SCC-CK",
+				"SKT",
+				"SLW",
+				"ToA",
+				"ToFW"
 			],
 			"size": [
 				"M"
@@ -30503,18 +30505,18 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"TftYP",
-				"GoS",
 				"BGDIA",
-				"ERLW",
-				"EGW",
-				"IDRotF",
-				"SatO",
-				"ToFW",
 				"BMT",
+				"EGW",
+				"ERLW",
+				"GoS",
+				"IDRotF",
 				"OotA",
-				"OoW"
+				"OoW",
+				"PotA",
+				"SatO",
+				"TftYP",
+				"ToFW"
 			],
 			"size": [
 				"M"
@@ -30630,11 +30632,11 @@
 			"page": 163,
 			"referenceSources": [
 				"BGDIA",
-				"IDRotF",
-				"SatO",
-				"ToFW",
 				"BMT",
-				"OotA"
+				"IDRotF",
+				"OotA",
+				"SatO",
+				"ToFW"
 			],
 			"size": [
 				"M"
@@ -30755,12 +30757,12 @@
 			"source": "MM",
 			"page": 163,
 			"referenceSources": [
-				"PotA",
-				"GoS",
 				"BGDIA",
-				"ToFW",
 				"BMT",
-				"OotA"
+				"GoS",
+				"OotA",
+				"PotA",
+				"ToFW"
 			],
 			"size": [
 				"M"
@@ -30892,17 +30894,17 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
 				"CoS",
+				"GoS",
+				"IDRotF",
+				"PaBTSO",
 				"PotA",
 				"RoT",
 				"SKT",
 				"ToA",
-				"WDMM",
-				"GoS",
-				"BGDIA",
-				"IDRotF",
 				"WBtW",
-				"PaBTSO"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -30962,7 +30964,8 @@
 				"path": "bestiary/goat.mp3"
 			},
 			"traitTags": [
-				"Charge"
+				"Charge",
+				"Sure-Footed"
 			],
 			"damageTags": [
 				"B"
@@ -30985,30 +30988,30 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"LMoP",
-				"PotA",
-				"SKT",
-				"TftYP",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
 				"BGDIA",
-				"ERLW",
-				"RMBRE",
-				"EGW",
-				"IDRotF",
-				"TCE",
-				"WBtW",
+				"BMT",
 				"CRCotN",
 				"DSotDQ",
+				"EGW",
+				"ERLW",
+				"GoS",
 				"HftT",
-				"PaBTSO",
-				"SatO",
-				"BMT",
-				"OotA",
+				"IDRotF",
 				"KKW",
-				"OoW"
+				"LMoP",
+				"OotA",
+				"OoW",
+				"PaBTSO",
+				"PotA",
+				"RMBRE",
+				"SatO",
+				"SKT",
+				"TCE",
+				"TftYP",
+				"ToA",
+				"WBtW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"S"
@@ -31125,18 +31128,18 @@
 			"source": "MM",
 			"page": 166,
 			"referenceSources": [
-				"SKT",
-				"ToA",
-				"WDMM",
-				"GoS",
 				"BGDIA",
+				"GoS",
 				"IDRotF",
-				"TCE",
-				"WBtW",
 				"KftGV",
-				"PaBTSO",
+				"KKW",
 				"OotA",
-				"KKW"
+				"PaBTSO",
+				"SKT",
+				"TCE",
+				"ToA",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"S"
@@ -31494,16 +31497,16 @@
 			"page": 171,
 			"srd": true,
 			"referenceSources": [
-				"RoT",
-				"TftYP",
-				"WDMM",
-				"GoS",
 				"BGDIA",
-				"WBtW",
-				"LoX",
 				"BMT",
+				"GoS",
+				"LoX",
 				"QftIS",
-				"SCC-ARiR"
+				"RoT",
+				"SCC-ARiR",
+				"TftYP",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -31613,10 +31616,10 @@
 			"source": "MM",
 			"page": 59,
 			"referenceSources": [
-				"SatO",
-				"VEoR",
+				"CoA",
 				"QftIS",
-				"CoA"
+				"SatO",
+				"VEoR"
 			],
 			"size": [
 				"H"
@@ -31784,18 +31787,18 @@
 			"srd": true,
 			"referenceSources": [
 				"CoS",
-				"HotDQ",
-				"TftYP",
-				"WDH",
 				"GoS",
+				"HotDQ",
 				"KftGV",
-				"PaBTSO",
-				"OotA",
-				"WDMM",
 				"KKW",
 				"NRH-ASS",
+				"OotA",
+				"PaBTSO",
 				"SCC-CK",
-				"VNotEE"
+				"TftYP",
+				"VNotEE",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -31941,15 +31944,15 @@
 			"source": "MM",
 			"page": 277,
 			"referenceSources": [
-				"ToA",
-				"WDMM",
-				"WBtW",
+				"BMT",
 				"KftGV",
 				"PaBTSO",
-				"ToFW",
-				"BMT",
 				"QftIS",
-				"SCC-CK"
+				"SCC-CK",
+				"ToA",
+				"ToFW",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -32361,20 +32364,20 @@
 			"page": 177,
 			"srd": true,
 			"referenceSources": [
-				"ToA",
+				"BMT",
+				"CM",
+				"EGW",
 				"GoS",
 				"IMR",
-				"EGW",
-				"MOT",
-				"TCE",
-				"CM",
-				"WBtW",
 				"JttRC",
+				"MOT",
+				"OotA",
 				"PSI",
 				"SatO",
-				"BMT",
-				"OotA",
-				"SCC-TMM"
+				"SCC-TMM",
+				"TCE",
+				"ToA",
+				"WBtW"
 			],
 			"size": [
 				"M"
@@ -32673,15 +32676,15 @@
 			"source": "MM",
 			"page": 277,
 			"referenceSources": [
-				"WDMM",
-				"IDRotF",
-				"DSotDQ",
-				"SatO",
-				"ToFW",
 				"BMT",
-				"VEoR",
+				"DSotDQ",
+				"IDRotF",
 				"OotA",
-				"SCC-CK"
+				"SatO",
+				"SCC-CK",
+				"ToFW",
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -32883,21 +32886,21 @@
 			"source": "MM",
 			"page": 172,
 			"referenceSources": [
-				"PotA",
-				"TftYP",
-				"WDH",
-				"WDMM",
-				"IMR",
-				"IDRotF",
-				"CM",
-				"KftGV",
-				"PaBTSO",
 				"BMT",
-				"VEoR",
-				"QftIS",
+				"CM",
 				"CoA",
+				"IDRotF",
+				"IMR",
+				"KftGV",
 				"OotA",
-				"RtG"
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"RtG",
+				"TftYP",
+				"VEoR",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -33012,17 +33015,17 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"CoS",
-				"LMoP",
-				"PotA",
-				"TftYP",
-				"WDMM",
 				"CM",
+				"CoS",
 				"DSotDQ",
 				"KftGV",
+				"LMoP",
+				"OotA",
 				"PaBTSO",
+				"PotA",
 				"QftIS",
-				"OotA"
+				"TftYP",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -33137,12 +33140,12 @@
 			"source": "MM",
 			"page": 173,
 			"referenceSources": [
-				"WDMM",
 				"CM",
 				"DSotDQ",
-				"PaBTSO",
 				"OotA",
-				"SCC-HfMT"
+				"PaBTSO",
+				"SCC-HfMT",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -33261,17 +33264,17 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"HotDQ",
-				"PotA",
-				"SKT",
-				"WDH",
 				"BGDIA",
-				"ERLW",
 				"EGW",
-				"MOT",
+				"ERLW",
+				"HotDQ",
 				"IDRotF",
 				"JttRC",
+				"MOT",
+				"PotA",
 				"QftIS",
+				"SKT",
+				"WDH",
 				"XMtS"
 			],
 			"size": [
@@ -33371,11 +33374,11 @@
 			"page": 175,
 			"srd": true,
 			"referenceSources": [
-				"WDMM",
+				"CoA",
+				"OotA",
 				"PaBTSO",
 				"VEoR",
-				"CoA",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -33486,37 +33489,37 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"AATM",
+				"BGDIA",
+				"CM",
 				"CoS",
-				"HotDQ",
-				"PotA",
-				"RoT",
-				"SKT",
-				"ToA",
-				"WDH",
-				"GoS",
+				"CRCotN",
 				"DC",
 				"DIP",
-				"SLW",
-				"BGDIA",
-				"ERLW",
-				"EGW",
-				"MOT",
-				"CM",
-				"CRCotN",
-				"JttRC",
-				"LoX",
 				"DSotDQ",
+				"EGW",
+				"ERLW",
+				"GoS",
+				"HotDQ",
+				"JttRC",
 				"KftGV",
-				"AATM",
-				"SatO",
-				"ToFW",
-				"QftIS",
-				"OotA",
-				"TftYP-TSC",
-				"XMtS",
-				"OoW",
+				"LoX",
+				"MOT",
+				"NRH-ASS",
 				"NRH-TCMC",
-				"NRH-ASS"
+				"OotA",
+				"OoW",
+				"PotA",
+				"QftIS",
+				"RoT",
+				"SatO",
+				"SKT",
+				"SLW",
+				"TftYP-TSC",
+				"ToA",
+				"ToFW",
+				"WDH",
+				"XMtS"
 			],
 			"size": [
 				"M"
@@ -33606,13 +33609,13 @@
 			"page": 234,
 			"srd": true,
 			"referenceSources": [
-				"ToA",
-				"GoS",
 				"AATM",
 				"BMT",
-				"VEoR",
 				"CoA",
-				"TTP"
+				"GoS",
+				"ToA",
+				"TTP",
+				"VEoR"
 			],
 			"size": [
 				"L"
@@ -33806,12 +33809,12 @@
 			"page": 282,
 			"srd": true,
 			"referenceSources": [
-				"TftYP",
 				"IMR",
-				"MOT",
 				"JttRC",
+				"LLK",
+				"MOT",
 				"QftIS",
-				"LLK"
+				"TftYP"
 			],
 			"size": [
 				"L"
@@ -34032,13 +34035,13 @@
 			"source": "MM",
 			"page": 238,
 			"referenceSources": [
-				"PotA",
-				"SKT",
-				"WDH",
 				"BGDIA",
+				"DSotDQ",
 				"ERLW",
 				"IDRotF",
-				"DSotDQ"
+				"PotA",
+				"SKT",
+				"WDH"
 			],
 			"size": [
 				"L"
@@ -34138,11 +34141,11 @@
 			"page": 180,
 			"srd": true,
 			"referenceSources": [
-				"RoT",
 				"GoS",
-				"SLW",
+				"HotDQ",
 				"IMR",
-				"HotDQ"
+				"RoT",
+				"SLW"
 			],
 			"size": [
 				"M"
@@ -34273,17 +34276,17 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"SKT",
-				"GoS",
-				"DIP",
-				"ERLW",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"DoSI",
 				"BMT",
-				"CoA"
+				"CoA",
+				"DIP",
+				"DoSI",
+				"EGW",
+				"ERLW",
+				"GoS",
+				"IDRotF",
+				"MOT",
+				"PotA",
+				"SKT"
 			],
 			"size": [
 				"M"
@@ -34388,14 +34391,14 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"WDH",
 				"BGDIA",
-				"IDRotF",
 				"CM",
-				"WBtW",
+				"GoS",
+				"IDRotF",
 				"JttRC",
 				"QftIS",
-				"GoS"
+				"WBtW",
+				"WDH"
 			],
 			"size": [
 				"T"
@@ -34466,26 +34469,25 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"CoS",
-				"PotA",
-				"SKT",
-				"TftYP",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"SLW",
 				"BGDIA",
-				"IMR",
-				"EGW",
-				"MOT",
+				"BMT",
 				"CM",
+				"CoA",
+				"CoS",
+				"EGW",
+				"HFStCM",
+				"IMR",
 				"KftGV",
+				"MOT",
+				"OoW",
+				"PotA",
 				"PSI",
 				"SatO",
-				"BMT",
-				"HFStCM",
-				"CoA",
-				"OoW"
+				"SKT",
+				"SLW",
+				"TftYP",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -34600,22 +34602,22 @@
 			"source": "MM",
 			"page": 183,
 			"referenceSources": [
-				"HotDQ",
-				"PotA",
-				"RoT",
-				"SKT",
-				"TftYP",
-				"WDH",
-				"WDMM",
 				"BGDIA",
+				"BMT",
+				"HotDQ",
 				"IDRotF",
 				"JttRC",
 				"KftGV",
 				"PaBTSO",
-				"BMT",
-				"VEoR",
+				"PotA",
 				"QftIS",
-				"SCC-TMM"
+				"RoT",
+				"SCC-TMM",
+				"SKT",
+				"TftYP",
+				"VEoR",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -34749,18 +34751,18 @@
 			"page": 60,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"TftYP",
-				"WDMM",
 				"BGDIA",
-				"EGW",
-				"WBtW",
-				"CRCotN",
 				"BMT",
-				"VEoR",
-				"QftIS",
 				"CoA",
-				"OotA"
+				"CRCotN",
+				"EGW",
+				"OotA",
+				"PotA",
+				"QftIS",
+				"TftYP",
+				"VEoR",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -34920,15 +34922,15 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"RoT",
-				"SKT",
-				"TftYP",
-				"GoS",
-				"ERLW",
 				"EGW",
+				"ERLW",
+				"GoS",
+				"PotA",
+				"QftIS",
+				"RoT",
 				"SatO",
-				"QftIS"
+				"SKT",
+				"TftYP"
 			],
 			"size": [
 				"H"
@@ -35049,12 +35051,12 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"EGW",
+				"ERLW",
+				"OoW",
 				"PotA",
 				"SKT",
-				"WDH",
-				"ERLW",
-				"EGW",
-				"OoW"
+				"WDH"
 			],
 			"size": [
 				"L"
@@ -35146,22 +35148,22 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"DSotDQ",
+				"EGW",
+				"ERLW",
+				"GoS",
 				"HotDQ",
 				"LMoP",
+				"OoW",
+				"PaBTSO",
 				"PotA",
+				"QftIS",
+				"RMBRE",
 				"SKT",
 				"TftYP",
-				"WDMM",
-				"GoS",
-				"BGDIA",
-				"ERLW",
-				"RMBRE",
-				"EGW",
 				"WBtW",
-				"DSotDQ",
-				"PaBTSO",
-				"QftIS",
-				"OoW"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -35270,13 +35272,13 @@
 			"source": "MM",
 			"page": 186,
 			"referenceSources": [
-				"HotDQ",
-				"PotA",
-				"SKT",
-				"WDMM",
 				"BGDIA",
 				"DSotDQ",
-				"OoW"
+				"HotDQ",
+				"OoW",
+				"PotA",
+				"SKT",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -35399,12 +35401,12 @@
 			"source": "MM",
 			"page": 187,
 			"referenceSources": [
-				"SKT",
-				"WDMM",
 				"BGDIA",
 				"DSotDQ",
+				"QftIS",
 				"SatO",
-				"QftIS"
+				"SKT",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -35556,14 +35558,14 @@
 			"page": 188,
 			"srd": true,
 			"referenceSources": [
-				"WDMM",
 				"BGDIA",
+				"BMT",
+				"CM",
 				"ERLW",
 				"IMR",
 				"MOT",
-				"CM",
 				"PaBTSO",
-				"BMT"
+				"WDMM"
 			],
 			"size": [
 				"T"
@@ -35657,15 +35659,15 @@
 			"source": "MM",
 			"page": 189,
 			"referenceSources": [
-				"PotA",
-				"TftYP",
-				"WDMM",
-				"LoX",
-				"KftGV",
-				"PaBTSO",
-				"QftIS",
 				"CoA",
-				"OotA"
+				"KftGV",
+				"LoX",
+				"OotA",
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"TftYP",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -35773,12 +35775,12 @@
 			"page": 74,
 			"srd": true,
 			"referenceSources": [
-				"ToA",
 				"BGDIA",
-				"SatO",
-				"VEoR",
 				"CoA",
-				"RtG"
+				"RtG",
+				"SatO",
+				"ToA",
+				"VEoR"
 			],
 			"size": [
 				"L"
@@ -35944,15 +35946,15 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"DIP",
+				"EGW",
+				"GoS",
 				"PotA",
+				"PSX",
+				"SatO",
 				"SKT",
 				"TftYP",
 				"ToA",
-				"GoS",
-				"DIP",
-				"EGW",
-				"PSX",
-				"SatO",
 				"XMtS"
 			],
 			"size": [
@@ -36042,22 +36044,22 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"TftYP",
-				"ToA",
-				"WDMM",
-				"GoS",
 				"DIP",
-				"SLW",
 				"EGW",
-				"MOT",
+				"GoS",
 				"IDRotF",
 				"JttRC",
 				"LoX",
-				"PSZ",
+				"MOT",
 				"PaBTSO",
+				"PotA",
+				"PSZ",
 				"SatO",
-				"SCC-ARiR"
+				"SCC-ARiR",
+				"SLW",
+				"TftYP",
+				"ToA",
+				"WDMM"
 			],
 			"size": [
 				"H"
@@ -36172,10 +36174,10 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"OotA",
+				"BMT",
 				"CM",
-				"BMT"
+				"OotA",
+				"PotA"
 			],
 			"size": [
 				"M"
@@ -36250,10 +36252,10 @@
 			"srd": true,
 			"referenceSources": [
 				"BGDIA",
-				"TCE",
-				"SatO",
-				"VEoR",
 				"CoA",
+				"SatO",
+				"TCE",
+				"VEoR",
 				"WDMM"
 			],
 			"size": [
@@ -36456,13 +36458,13 @@
 			"page": 215,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"SKT",
-				"TftYP",
+				"CM",
 				"EGW",
 				"IDRotF",
-				"CM",
-				"KftGV"
+				"KftGV",
+				"PotA",
+				"SKT",
+				"TftYP"
 			],
 			"size": [
 				"S"
@@ -36615,24 +36617,23 @@
 			"page": 76,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"SKT",
-				"ToA",
-				"WDH",
-				"GoS",
 				"BGDIA",
-				"EGW",
-				"TCE",
-				"CM",
-				"KftGV",
-				"PSI",
-				"SatO",
-				"ToFW",
 				"BMT",
-				"VEoR",
-				"QftIS",
+				"CM",
 				"CoA",
-				"NRH-CoI"
+				"CoS",
+				"EGW",
+				"GoS",
+				"KftGV",
+				"NRH-CoI",
+				"PSI",
+				"QftIS",
+				"SatO",
+				"SKT",
+				"TCE",
+				"ToFW",
+				"VEoR",
+				"WDH"
 			],
 			"size": [
 				"T"
@@ -36791,19 +36792,19 @@
 			"page": 285,
 			"srd": true,
 			"referenceSources": [
-				"ToA",
-				"WDMM",
 				"BGDIA",
+				"CoA",
+				"CRCotN",
+				"EGW",
 				"ERLW",
 				"IMR",
-				"EGW",
-				"TCE",
-				"WBtW",
-				"CRCotN",
 				"KftGV",
+				"OotA",
+				"TCE",
+				"ToA",
 				"ToFW",
-				"CoA",
-				"OotA"
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -36957,14 +36958,14 @@
 			"source": "MM",
 			"page": 191,
 			"referenceSources": [
-				"WDH",
-				"WDMM",
+				"CoA",
 				"ERLW",
+				"OotA",
+				"OoW",
 				"PaBTSO",
 				"QftIS",
-				"CoA",
-				"OotA",
-				"OoW"
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"T"
@@ -37094,24 +37095,24 @@
 			"srd": true,
 			"referenceSources": [
 				"CoS",
-				"PotA",
-				"SKT",
-				"TftYP",
-				"ToA",
-				"WDMM",
-				"GoS",
+				"CRCotN",
 				"DC",
 				"DIP",
-				"SLW",
-				"MOT",
+				"GoS",
 				"IDRotF",
-				"WBtW",
-				"CRCotN",
 				"KftGV",
+				"MOT",
 				"PaBTSO",
-				"VEoR",
+				"PotA",
 				"QftIS",
-				"SCC-TMM"
+				"SCC-TMM",
+				"SKT",
+				"SLW",
+				"TftYP",
+				"ToA",
+				"VEoR",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -37242,18 +37243,18 @@
 			"page": 170,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"SKT",
-				"WDMM",
-				"GoS",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"SatO",
 				"BMT",
-				"VEoR",
 				"CoA",
-				"OoW"
+				"CoS",
+				"EGW",
+				"GoS",
+				"IDRotF",
+				"MOT",
+				"OoW",
+				"SatO",
+				"SKT",
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -37410,8 +37411,8 @@
 			"basicRules": true,
 			"referenceSources": [
 				"GoS",
-				"ToA",
-				"OoW"
+				"OoW",
+				"ToA"
 			],
 			"size": [
 				"S"
@@ -37488,13 +37489,13 @@
 			"source": "MM",
 			"page": 193,
 			"referenceSources": [
-				"PotA",
-				"GoS",
 				"BGDIA",
 				"CM",
+				"GoS",
 				"JttRC",
-				"QftIS",
-				"OoW"
+				"OoW",
+				"PotA",
+				"QftIS"
 			],
 			"size": [
 				"M"
@@ -37629,15 +37630,15 @@
 			"source": "MM",
 			"page": 194,
 			"referenceSources": [
-				"PotA",
-				"WDH",
-				"WDMM",
 				"BGDIA",
-				"ERLW",
 				"CM",
+				"ERLW",
 				"JttRC",
+				"LLK",
+				"PotA",
 				"ToFW",
-				"LLK"
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -37746,11 +37747,11 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"SKT",
-				"GoS",
 				"EGW",
-				"MOT",
+				"GoS",
 				"IDRotF",
+				"MOT",
+				"SKT",
 				"TTP"
 			],
 			"size": [
@@ -37846,34 +37847,34 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"CM",
+				"CoA",
 				"CoS",
+				"CRCotN",
+				"DC",
+				"DIP",
+				"DSotDQ",
+				"EGW",
+				"GoS",
+				"GotSF",
 				"HotDQ",
+				"JttRC",
+				"KftGV",
+				"MOT",
+				"OotA",
+				"OoW",
 				"PotA",
+				"QftIS",
 				"RoT",
+				"SatO",
 				"SKT",
 				"TftYP",
 				"ToA",
-				"WDH",
-				"GoS",
-				"DC",
-				"DIP",
-				"BGDIA",
-				"EGW",
-				"MOT",
-				"CM",
-				"WBtW",
-				"CRCotN",
-				"JttRC",
-				"DSotDQ",
-				"KftGV",
-				"GotSF",
-				"SatO",
 				"ToFW",
-				"BMT",
-				"QftIS",
-				"CoA",
-				"OotA",
-				"OoW"
+				"WBtW",
+				"WDH"
 			],
 			"size": [
 				"M"
@@ -37998,22 +37999,22 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"CoA",
+				"DoSI",
+				"EGW",
+				"ERLW",
+				"GoS",
 				"HotDQ",
+				"NRH-TCMC",
+				"OotA",
 				"RoT",
+				"SKT",
 				"TftYP",
+				"TLK",
 				"ToA",
 				"WDH",
-				"WDMM",
-				"GoS",
-				"BGDIA",
-				"ERLW",
-				"EGW",
-				"DoSI",
-				"CoA",
-				"OotA",
-				"SKT",
-				"TLK",
-				"NRH-TCMC"
+				"WDMM"
 			],
 			"size": [
 				"S"
@@ -38131,16 +38132,16 @@
 			"page": 197,
 			"srd": true,
 			"referenceSources": [
-				"GoS",
-				"SLW",
+				"BMT",
+				"CoA",
 				"EGW",
+				"GoS",
 				"MOT",
 				"PaBTSO",
 				"SatO",
-				"BMT",
-				"VEoR",
-				"CoA",
-				"SKT"
+				"SKT",
+				"SLW",
+				"VEoR"
 			],
 			"size": [
 				"G"
@@ -38353,16 +38354,16 @@
 			"source": "MM",
 			"page": 199,
 			"referenceSources": [
+				"EGW",
+				"GoS",
+				"OotA",
 				"PotA",
+				"PSI",
+				"RtG",
+				"SatO",
 				"TftYP",
 				"WDH",
-				"WDMM",
-				"GoS",
-				"EGW",
-				"PSI",
-				"SatO",
-				"OotA",
-				"RtG"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -38512,11 +38513,11 @@
 			"source": "MM",
 			"page": 200,
 			"referenceSources": [
-				"PotA",
-				"WDMM",
 				"CoA",
 				"OotA",
-				"RtG"
+				"PotA",
+				"RtG",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -38719,10 +38720,10 @@
 			"source": "MM",
 			"page": 198,
 			"referenceSources": [
-				"PotA",
-				"GoS",
 				"CoA",
-				"OotA"
+				"GoS",
+				"OotA",
+				"PotA"
 			],
 			"size": [
 				"M"
@@ -38861,11 +38862,11 @@
 			"source": "MM",
 			"page": 200,
 			"referenceSources": [
+				"GoS",
+				"OotA",
 				"PotA",
 				"WDH",
-				"WDMM",
-				"GoS",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -39035,11 +39036,11 @@
 			"page": 201,
 			"srd": true,
 			"referenceSources": [
+				"CM",
 				"GoS",
 				"MOT",
-				"CM",
-				"WBtW",
-				"QftIS"
+				"QftIS",
+				"WBtW"
 			],
 			"size": [
 				"L"
@@ -39183,11 +39184,11 @@
 			"page": 76,
 			"srd": true,
 			"referenceSources": [
-				"WDH",
 				"BGDIA",
+				"CoA",
 				"PSI",
 				"VEoR",
-				"CoA"
+				"WDH"
 			],
 			"size": [
 				"M"
@@ -39290,20 +39291,20 @@
 			"page": 202,
 			"srd": true,
 			"referenceSources": [
+				"BMT",
+				"CoA",
 				"CoS",
 				"GoS",
 				"IDRotF",
-				"TCE",
-				"PSI",
-				"SatO",
-				"ToFW",
-				"BMT",
-				"QftIS",
-				"CoA",
+				"OoW",
 				"PotA",
+				"PSI",
+				"QftIS",
+				"SatO",
+				"TCE",
 				"ToA",
-				"WDMM",
-				"OoW"
+				"ToFW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -39595,9 +39596,9 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"KftGV",
 				"TftYP",
-				"ToA",
-				"KftGV"
+				"ToA"
 			],
 			"size": [
 				"L"
@@ -39705,9 +39706,9 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
 				"JttRC",
 				"KftGV",
+				"ToA",
 				"TTP"
 			],
 			"size": [
@@ -39768,8 +39769,8 @@
 			"source": "MM",
 			"page": 205,
 			"referenceSources": [
-				"PotA",
 				"GoS",
+				"PotA",
 				"TCE"
 			],
 			"size": [
@@ -40051,20 +40052,20 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"DIP",
+				"EGW",
+				"GoS",
 				"HotDQ",
+				"IMR",
+				"JttRC",
+				"OoW",
 				"PotA",
 				"RoT",
-				"ToA",
-				"WDMM",
-				"GoS",
-				"DIP",
 				"SLW",
-				"IMR",
-				"EGW",
 				"TCE",
-				"JttRC",
+				"ToA",
 				"ToFW",
-				"OoW"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -40190,12 +40191,12 @@
 			"source": "MM",
 			"page": 205,
 			"referenceSources": [
-				"PotA",
-				"ToA",
+				"EGW",
 				"GoS",
 				"IMR",
-				"EGW",
-				"SCC-TMM"
+				"PotA",
+				"SCC-TMM",
+				"ToA"
 			],
 			"size": [
 				"M"
@@ -40370,45 +40371,45 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"AATM",
+				"BGDIA",
+				"BMT",
+				"CM",
+				"CoA",
 				"CoS",
-				"HotDQ",
-				"PotA",
-				"RoT",
-				"SKT",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
+				"CRCotN",
 				"DC",
 				"DIP",
-				"SLW",
-				"SDW",
-				"BGDIA",
-				"ERLW",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"TCE",
-				"CM",
-				"WBtW",
-				"CRCotN",
-				"JttRC",
-				"LoX",
 				"DSotDQ",
+				"EGW",
+				"ERLW",
+				"GoS",
+				"HotDQ",
+				"IDRotF",
+				"JttRC",
 				"KftGV",
-				"PSI",
-				"PaBTSO",
-				"AATM",
-				"SatO",
-				"ToFW",
-				"BMT",
-				"VEoR",
-				"QftIS",
-				"CoA",
+				"LoX",
+				"MOT",
 				"OotA",
 				"OoW",
+				"PaBTSO",
+				"PotA",
+				"PSI",
+				"QftIS",
+				"RoT",
 				"RtG",
-				"SCC-CK"
+				"SatO",
+				"SCC-CK",
+				"SDW",
+				"SKT",
+				"SLW",
+				"TCE",
+				"ToA",
+				"ToFW",
+				"VEoR",
+				"WBtW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -40594,14 +40595,14 @@
 			"page": 216,
 			"srd": true,
 			"referenceSources": [
+				"EGW",
+				"GoS",
+				"OotA",
 				"PotA",
+				"SjA",
 				"SKT",
 				"ToA",
-				"WDMM",
-				"GoS",
-				"EGW",
-				"SjA",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"S"
@@ -40758,13 +40759,13 @@
 			"page": 212,
 			"srd": true,
 			"referenceSources": [
+				"BGDIA",
+				"OotA",
 				"PotA",
+				"SatO",
 				"SKT",
 				"ToA",
-				"BGDIA",
-				"WBtW",
-				"SatO",
-				"OotA"
+				"WBtW"
 			],
 			"size": [
 				"S"
@@ -40873,11 +40874,11 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"CoA",
+				"CRCotN",
 				"EGW",
 				"IDRotF",
-				"CRCotN",
-				"QftIS",
-				"CoA"
+				"QftIS"
 			],
 			"size": [
 				"H"
@@ -40960,16 +40961,16 @@
 			"source": "MM",
 			"page": 60,
 			"referenceSources": [
-				"TftYP",
-				"GoS",
 				"BGDIA",
-				"IMR",
-				"WBtW",
-				"CRCotN",
-				"PSI",
 				"BMT",
 				"CoA",
-				"OotA"
+				"CRCotN",
+				"GoS",
+				"IMR",
+				"OotA",
+				"PSI",
+				"TftYP",
+				"WBtW"
 			],
 			"size": [
 				"S"
@@ -41062,20 +41063,20 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"DIP",
+				"DSotDQ",
+				"GoS",
+				"JttRC",
+				"MOT",
 				"PotA",
+				"SatO",
 				"SKT",
+				"SLW",
 				"TftYP",
 				"WDH",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"SLW",
-				"BGDIA",
-				"MOT",
-				"JttRC",
-				"DSotDQ",
-				"SatO",
-				"BMT"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -41189,19 +41190,19 @@
 			"source": "MM",
 			"page": 146,
 			"referenceSources": [
-				"WDMM",
-				"GoS",
-				"DIP",
-				"SLW",
-				"EGW",
-				"TCE",
-				"JttRC",
-				"DSotDQ",
-				"SatO",
 				"BMT",
-				"VEoR",
+				"DIP",
+				"DitLCoT",
+				"DSotDQ",
+				"EGW",
+				"GoS",
+				"JttRC",
 				"QftIS",
-				"DitLCoT"
+				"SatO",
+				"SLW",
+				"TCE",
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -41460,13 +41461,13 @@
 			"page": 61,
 			"srd": true,
 			"referenceSources": [
-				"WDMM",
-				"GoS",
 				"BGDIA",
+				"CoA",
 				"EGW",
+				"GoS",
 				"TCE",
 				"VEoR",
-				"CoA"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -41653,19 +41654,19 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
 				"CoS",
+				"DSotDQ",
+				"EGW",
+				"ERLW",
+				"KftGV",
+				"OoW",
+				"QftIS",
 				"SKT",
 				"TftYP",
-				"WDH",
-				"BGDIA",
-				"ERLW",
-				"EGW",
-				"DSotDQ",
-				"KftGV",
 				"ToFW",
-				"BMT",
-				"QftIS",
-				"OoW"
+				"WDH"
 			],
 			"size": [
 				"M"
@@ -41746,18 +41747,18 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"WDMM",
-				"GoS",
 				"BGDIA",
-				"ERLW",
-				"IMR",
-				"CM",
-				"SatO",
 				"BMT",
-				"OotA",
-				"ToA",
+				"CM",
+				"ERLW",
+				"GoS",
+				"IMR",
 				"LLK",
-				"PaBTSO"
+				"OotA",
+				"PaBTSO",
+				"SatO",
+				"ToA",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -41886,12 +41887,12 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"WDH",
 				"GoS",
-				"WBtW",
 				"JttRC",
 				"SKT",
-				"TTP"
+				"TTP",
+				"WBtW",
+				"WDH"
 			],
 			"size": [
 				"M"
@@ -41984,17 +41985,17 @@
 			"page": 219,
 			"srd": true,
 			"referenceSources": [
+				"DSotDQ",
+				"GoS",
+				"IDRotF",
+				"OotA",
 				"PotA",
+				"QftIS",
 				"RoT",
 				"SKT",
 				"TftYP",
-				"WDH",
-				"GoS",
-				"IDRotF",
 				"WBtW",
-				"DSotDQ",
-				"QftIS",
-				"OotA"
+				"WDH"
 			],
 			"size": [
 				"L"
@@ -42107,13 +42108,13 @@
 			"source": "MM",
 			"page": 313,
 			"referenceSources": [
+				"BGDIA",
+				"PaBTSO",
 				"PotA",
 				"RoT",
 				"ToA",
-				"WDMM",
-				"BGDIA",
-				"PaBTSO",
-				"ToFW"
+				"ToFW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -42318,28 +42319,28 @@
 			"page": 220,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"DIP",
 				"BGDIA",
-				"RMBRE",
-				"IMR",
+				"BMT",
+				"CM",
+				"CoS",
+				"DIP",
 				"EGW",
 				"IDRotF",
-				"CM",
-				"WBtW",
+				"IMR",
 				"KftGV",
-				"SatO",
-				"BMT",
-				"VEoR",
-				"QftIS",
+				"LRDT",
 				"OotA",
-				"TTP",
 				"OoW",
+				"QftIS",
+				"RMBRE",
+				"SatO",
 				"SCC-CK",
-				"LRDT"
+				"ToA",
+				"TTP",
+				"VEoR",
+				"WBtW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -42466,24 +42467,24 @@
 			"source": "MM",
 			"page": 222,
 			"referenceSources": [
-				"TftYP",
-				"WDH",
-				"WDMM",
-				"ERLW",
-				"IMR",
-				"IDRotF",
-				"TCE",
-				"SjA",
-				"LoX",
-				"KftGV",
-				"PaBTSO",
-				"SatO",
-				"ToFW",
 				"BMT",
-				"QftIS",
 				"CoA",
+				"ERLW",
+				"IDRotF",
+				"IMR",
+				"KftGV",
+				"LoX",
 				"OotA",
-				"OoW"
+				"OoW",
+				"PaBTSO",
+				"QftIS",
+				"SatO",
+				"SjA",
+				"TCE",
+				"TftYP",
+				"ToFW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -42645,9 +42646,9 @@
 			"source": "MM",
 			"page": 222,
 			"referenceSources": [
-				"WDMM",
+				"LLK",
 				"SatO",
-				"LLK"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -42873,19 +42874,19 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"CRCotN",
+				"EGW",
+				"ERLW",
+				"MOT",
+				"OotA",
 				"PotA",
+				"PSZ",
+				"QftIS",
+				"SatO",
 				"ToA",
 				"WDH",
-				"WDMM",
-				"BGDIA",
-				"ERLW",
-				"EGW",
-				"MOT",
-				"CRCotN",
-				"PSZ",
-				"SatO",
-				"QftIS",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -43005,19 +43006,19 @@
 			"page": 273,
 			"srd": true,
 			"referenceSources": [
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"SDW",
-				"BGDIA",
-				"IMR",
-				"DSotDQ",
-				"KftGV",
 				"AATM",
+				"BGDIA",
+				"DIP",
+				"DSotDQ",
+				"GoS",
+				"IMR",
+				"KftGV",
+				"OotA",
+				"SDW",
+				"ToA",
 				"VEoR",
-				"OotA"
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -43134,15 +43135,15 @@
 			"source": "MM",
 			"page": 224,
 			"referenceSources": [
-				"ToA",
 				"BGDIA",
 				"CM",
 				"KftGV",
-				"SatO",
-				"ToFW",
-				"OotA",
 				"LLK",
-				"OoW"
+				"OotA",
+				"OoW",
+				"SatO",
+				"ToA",
+				"ToFW"
 			],
 			"size": [
 				"M"
@@ -43268,15 +43269,15 @@
 			"source": "MM",
 			"page": 216,
 			"referenceSources": [
-				"PotA",
-				"ToA",
-				"WDMM",
 				"GoS",
-				"WBtW",
 				"JttRC",
 				"OotA",
+				"PotA",
+				"SCC-ARiR",
+				"ToA",
 				"TTP",
-				"SCC-ARiR"
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"S"
@@ -43408,9 +43409,9 @@
 			"basicRules": true,
 			"referenceSources": [
 				"CoS",
-				"SKT",
 				"GoS",
 				"KftGV",
+				"SKT",
 				"TTP",
 				"WDMM"
 			],
@@ -43471,7 +43472,8 @@
 				"path": "bestiary/mule.mp3"
 			},
 			"traitTags": [
-				"Beast of Burden"
+				"Beast of Burden",
+				"Sure-Footed"
 			],
 			"damageTags": [
 				"B"
@@ -43488,24 +43490,24 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"RoT",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
+				"AATM",
+				"AitFR-ISF",
 				"BGDIA",
-				"IDRotF",
-				"TCE",
+				"BMT",
 				"CM",
 				"DSotDQ",
-				"PSI",
-				"PaBTSO",
-				"AATM",
-				"BMT",
-				"QftIS",
+				"GoS",
+				"IDRotF",
 				"OotA",
+				"PaBTSO",
+				"PSI",
+				"QftIS",
+				"RoT",
 				"RtG",
-				"AitFR-ISF"
+				"TCE",
+				"ToA",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -43635,13 +43637,13 @@
 			"page": 229,
 			"srd": true,
 			"referenceSources": [
+				"AATM",
+				"CM",
+				"CoA",
 				"RoT",
+				"SatO",
 				"SKT",
 				"TCE",
-				"CM",
-				"AATM",
-				"SatO",
-				"CoA",
 				"TftYP-ToH",
 				"WDMM"
 			],
@@ -43923,13 +43925,13 @@
 			"source": "MM",
 			"page": 232,
 			"referenceSources": [
-				"WDMM",
-				"GoS",
-				"DoSI",
-				"KftGV",
 				"BMT",
+				"DoSI",
+				"GoS",
+				"KftGV",
 				"OotA",
-				"OoW"
+				"OoW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -44073,13 +44075,13 @@
 			"source": "MM",
 			"page": 232,
 			"referenceSources": [
-				"WDMM",
 				"GoS",
-				"IMR",
 				"IDRotF",
+				"IMR",
 				"KftGV",
+				"OotA",
 				"QftIS",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -44245,12 +44247,12 @@
 			"source": "MM",
 			"page": 230,
 			"referenceSources": [
-				"WDMM",
-				"DoSI",
 				"BMT",
+				"DoSI",
+				"LRDT",
 				"OotA",
 				"OoW",
-				"LRDT"
+				"WDMM"
 			],
 			"size": [
 				"S"
@@ -44337,16 +44339,16 @@
 			"page": 62,
 			"srd": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"CM",
+				"CoA",
+				"OotA",
+				"QftIS",
 				"TftYP",
 				"ToA",
-				"WDMM",
-				"BGDIA",
-				"CM",
-				"BMT",
 				"VEoR",
-				"QftIS",
-				"CoA",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -44516,11 +44518,11 @@
 			"page": 32,
 			"referenceSources": [
 				"CoS",
+				"DIP",
 				"GoS",
 				"IDRotF",
-				"PSI",
 				"PaBTSO",
-				"DIP",
+				"PSI",
 				"SCC-CK"
 			],
 			"size": [
@@ -44615,22 +44617,22 @@
 			"page": 178,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"ToA",
-				"WDMM",
-				"GoS",
 				"BGDIA",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"TCE",
+				"BMT",
 				"CM",
+				"CoA",
+				"CoS",
+				"EGW",
+				"GoS",
+				"IDRotF",
 				"JttRC",
 				"KftGV",
+				"MOT",
 				"SatO",
+				"TCE",
+				"ToA",
 				"ToFW",
-				"BMT",
-				"CoA"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -44961,14 +44963,14 @@
 			"page": 235,
 			"srd": true,
 			"referenceSources": [
+				"AATM",
 				"BGDIA",
-				"IMR",
-				"MOT",
+				"BMT",
 				"CoS",
 				"CRCotN",
-				"AATM",
+				"IMR",
+				"MOT",
 				"SatO",
-				"BMT",
 				"VEoR"
 			],
 			"size": [
@@ -45068,40 +45070,40 @@
 			"page": 348,
 			"srd": true,
 			"referenceSources": [
+				"AZfyT",
+				"BGDIA",
+				"BMT",
+				"CM",
 				"CoS",
+				"CRCotN",
+				"DC",
+				"DIP",
+				"DSotDQ",
+				"EGW",
+				"ERLW",
+				"GoS",
 				"HotDQ",
+				"IDRotF",
+				"IMR",
+				"JttRC",
+				"KftGV",
+				"KKW",
+				"MOT",
+				"NRH-CoI",
+				"OotA",
+				"OoW",
 				"PotA",
+				"QftIS",
 				"RoT",
+				"SatO",
 				"SKT",
 				"TftYP",
 				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"DC",
-				"DIP",
-				"BGDIA",
-				"ERLW",
-				"IMR",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"CM",
-				"WBtW",
-				"CRCotN",
-				"JttRC",
-				"DSotDQ",
-				"KftGV",
-				"SatO",
 				"ToFW",
-				"BMT",
 				"VEoR",
-				"QftIS",
-				"OotA",
-				"KKW",
-				"AZfyT",
-				"OoW",
-				"NRH-CoI"
+				"WBtW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -45195,26 +45197,26 @@
 			"page": 236,
 			"basicRules": true,
 			"referenceSources": [
-				"CoS",
-				"LMoP",
-				"PotA",
-				"ToA",
-				"WDMM",
 				"BGDIA",
-				"RMBRE",
+				"BMT",
+				"CoA",
+				"CoS",
 				"EGW",
-				"MOT",
 				"IDRotF",
 				"JttRC",
 				"KftGV",
-				"PaBTSO",
-				"ToFW",
-				"BMT",
-				"VEoR",
-				"CoA",
+				"LMoP",
+				"MOT",
+				"NRH-AT",
 				"OotA",
 				"OoW",
-				"NRH-AT"
+				"PaBTSO",
+				"PotA",
+				"RMBRE",
+				"ToA",
+				"ToFW",
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -45331,16 +45333,16 @@
 			"source": "MM",
 			"page": 314,
 			"referenceSources": [
-				"PotA",
-				"RoT",
-				"ToA",
-				"WDMM",
 				"BGDIA",
-				"TCE",
 				"KftGV",
 				"PaBTSO",
+				"PotA",
+				"RoT",
 				"SatO",
-				"ToFW"
+				"TCE",
+				"ToA",
+				"ToFW",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -45541,24 +45543,24 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"LMoP",
-				"PotA",
-				"TftYP",
-				"WDMM",
-				"GoS",
-				"DIP",
 				"BGDIA",
-				"ERLW",
-				"RMBRE",
-				"CRCotN",
-				"JttRC",
-				"HftT",
-				"PaBTSO",
 				"BMT",
-				"QftIS",
+				"CRCotN",
+				"DIP",
+				"ERLW",
+				"GoS",
+				"HftT",
+				"JttRC",
+				"LMoP",
 				"OotA",
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"RMBRE",
 				"SCC-CK",
-				"SCC-HfMT"
+				"SCC-HfMT",
+				"TftYP",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -45666,12 +45668,12 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"SKT",
 				"GoS",
-				"IMR",
 				"IDRotF",
-				"WBtW",
-				"TTP"
+				"IMR",
+				"SKT",
+				"TTP",
+				"WBtW"
 			],
 			"size": [
 				"S"
@@ -45776,34 +45778,34 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"HotDQ",
-				"LMoP",
-				"PotA",
-				"RoT",
-				"SKT",
-				"TftYP",
-				"GoS",
-				"DIP",
-				"SLW",
 				"BGDIA",
-				"ERLW",
-				"RMBRE",
-				"EGW",
-				"IDRotF",
 				"CM",
 				"CRCotN",
-				"SjA",
+				"DIP",
 				"DSotDQ",
-				"KftGV",
-				"PSZ",
+				"EGW",
+				"ERLW",
+				"GoS",
 				"HftT",
-				"PaBTSO",
-				"SatO",
-				"QftIS",
+				"HotDQ",
+				"IDRotF",
+				"KftGV",
+				"LMoP",
 				"OotA",
+				"OoW",
+				"PaBTSO",
+				"PotA",
+				"PSZ",
+				"QftIS",
+				"RMBRE",
+				"RoT",
+				"SatO",
+				"SjA",
+				"SKT",
+				"SLW",
+				"TftYP",
 				"WDH",
-				"WDMM",
-				"OoW"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -45903,18 +45905,18 @@
 			"page": 316,
 			"srd": true,
 			"referenceSources": [
-				"TftYP",
-				"ToA",
-				"WDMM",
-				"GoS",
 				"DIP",
-				"SDW",
+				"GoS",
 				"IDRotF",
 				"LoX",
-				"PaBTSO",
-				"VEoR",
 				"OoW",
-				"RtG"
+				"PaBTSO",
+				"RtG",
+				"SDW",
+				"TftYP",
+				"ToA",
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -46008,20 +46010,20 @@
 			"page": 239,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"SKT",
-				"TftYP",
-				"WDMM",
-				"GoS",
-				"ERLW",
 				"EGW",
-				"TCE",
-				"WBtW",
+				"ERLW",
+				"GoS",
 				"JttRC",
 				"KftGV",
+				"PotA",
 				"PSZ",
+				"SCC-TMM",
+				"SKT",
+				"TCE",
+				"TftYP",
 				"ToFW",
-				"SCC-TMM"
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -46190,22 +46192,22 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"CRCotN",
+				"DIP",
+				"EGW",
+				"ERLW",
+				"GoS",
+				"HftT",
 				"HotDQ",
+				"IDRotF",
 				"LMoP",
+				"OotA",
+				"PaBTSO",
 				"PotA",
+				"RMBRE",
 				"SKT",
 				"TftYP",
-				"ToA",
-				"GoS",
-				"DIP",
-				"ERLW",
-				"RMBRE",
-				"EGW",
-				"IDRotF",
-				"CRCotN",
-				"HftT",
-				"PaBTSO",
-				"OotA"
+				"ToA"
 			],
 			"size": [
 				"M"
@@ -46327,12 +46329,12 @@
 			"source": "MM",
 			"page": 247,
 			"referenceSources": [
-				"PotA",
-				"SKT",
-				"TftYP",
 				"EGW",
 				"IDRotF",
-				"OotA"
+				"OotA",
+				"PotA",
+				"SKT",
+				"TftYP"
 			],
 			"size": [
 				"M"
@@ -46490,13 +46492,13 @@
 			"source": "MM",
 			"page": 246,
 			"referenceSources": [
-				"SKT",
-				"ToA",
-				"WDMM",
+				"CRCotN",
 				"GoS",
 				"IDRotF",
+				"SKT",
+				"ToA",
 				"WBtW",
-				"CRCotN"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -46637,14 +46639,14 @@
 			"source": "MM",
 			"page": 247,
 			"referenceSources": [
+				"EGW",
+				"GoS",
+				"OotA",
 				"PotA",
 				"SKT",
 				"TftYP",
 				"WDH",
-				"WDMM",
-				"GoS",
-				"EGW",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -46771,20 +46773,20 @@
 			"srd": true,
 			"referenceSources": [
 				"HotDQ",
+				"IMR",
+				"JttRC",
+				"OotA",
+				"OoW",
+				"PaBTSO",
 				"RoT",
+				"RtG",
+				"SCC-CK",
+				"SCC-HfMT",
 				"SKT",
 				"TftYP",
 				"ToA",
-				"WDMM",
-				"IMR",
-				"JttRC",
-				"PaBTSO",
 				"ToFW",
-				"OotA",
-				"OoW",
-				"RtG",
-				"SCC-CK",
-				"SCC-HfMT"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -46905,10 +46907,10 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"RoT",
-				"IMR",
-				"IDRotF",
 				"CM",
+				"IDRotF",
+				"IMR",
+				"RoT",
 				"ToFW"
 			],
 			"size": [
@@ -46997,30 +46999,30 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BMT",
+				"CRCotN",
+				"DIP",
+				"DoSI",
+				"EGW",
+				"GoS",
+				"HftT",
+				"IDRotF",
+				"IMR",
 				"LMoP",
+				"LRDT",
+				"NRH-AT",
+				"PaBTSO",
 				"PotA",
+				"QftIS",
+				"RMBRE",
+				"RtG",
+				"SCC-CK",
+				"SDW",
 				"SKT",
 				"TftYP",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"SDW",
-				"RMBRE",
-				"IMR",
-				"EGW",
-				"IDRotF",
 				"WBtW",
-				"CRCotN",
-				"DoSI",
-				"HftT",
-				"PaBTSO",
-				"BMT",
-				"QftIS",
-				"RtG",
-				"NRH-AT",
-				"SCC-CK",
-				"LRDT"
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -47223,12 +47225,12 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BMT",
 				"ERLW",
-				"MOT",
-				"WBtW",
 				"JttRC",
+				"MOT",
 				"SatO",
-				"BMT"
+				"WBtW"
 			],
 			"size": [
 				"L"
@@ -47313,12 +47315,12 @@
 			"source": "MM",
 			"page": 226,
 			"referenceSources": [
-				"ToA",
-				"KftGV",
-				"SatO",
-				"ToFW",
 				"CoA",
-				"OoW"
+				"KftGV",
+				"OoW",
+				"SatO",
+				"ToA",
+				"ToFW"
 			],
 			"size": [
 				"L"
@@ -47455,15 +47457,15 @@
 			"source": "MM",
 			"page": 251,
 			"referenceSources": [
-				"HotDQ",
-				"PotA",
-				"TftYP",
 				"GoS",
-				"IDRotF",
-				"WBtW",
-				"JttRC",
 				"HoL",
-				"SCC-ARiR"
+				"HotDQ",
+				"IDRotF",
+				"JttRC",
+				"PotA",
+				"SCC-ARiR",
+				"TftYP",
+				"WBtW"
 			],
 			"size": [
 				"M"
@@ -47591,15 +47593,15 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"WDMM",
-				"GoS",
-				"DIP",
-				"SDW",
-				"MOT",
-				"IDRotF",
-				"PaBTSO",
 				"BMT",
-				"QftIS"
+				"DIP",
+				"GoS",
+				"IDRotF",
+				"MOT",
+				"PaBTSO",
+				"QftIS",
+				"SDW",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -47708,13 +47710,13 @@
 			"source": "MM",
 			"page": 252,
 			"referenceSources": [
+				"IDRotF",
+				"OotA",
 				"PotA",
 				"SKT",
 				"TftYP",
-				"WDMM",
-				"IDRotF",
 				"ToFW",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -47807,14 +47809,14 @@
 			"page": 77,
 			"srd": true,
 			"referenceSources": [
-				"WDMM",
 				"BGDIA",
+				"CoA",
 				"EGW",
-				"TCE",
 				"SatO",
+				"TCE",
 				"ToFW",
 				"VEoR",
-				"CoA"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -48034,16 +48036,16 @@
 			"source": "MM",
 			"page": 253,
 			"referenceSources": [
-				"GoS",
-				"ERLW",
-				"IMR",
+				"BMT",
 				"EGW",
-				"WBtW",
+				"ERLW",
+				"GoS",
+				"IMR",
 				"KftGV",
+				"QftIS",
 				"SatO",
 				"ToFW",
-				"BMT",
-				"QftIS"
+				"WBtW"
 			],
 			"size": [
 				"T"
@@ -48166,12 +48168,12 @@
 			"page": 17,
 			"srd": true,
 			"referenceSources": [
+				"AATM",
 				"BGDIA",
+				"CoA",
 				"CRCotN",
 				"JttRC",
-				"AATM",
 				"SatO",
-				"CoA",
 				"WDMM"
 			],
 			"size": [
@@ -48364,10 +48366,10 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
+				"DSotDQ",
 				"GoS",
 				"IDRotF",
-				"DSotDQ",
+				"ToA",
 				"TTP"
 			],
 			"size": [
@@ -48450,13 +48452,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP",
-				"ToA",
 				"GoS",
 				"IMR",
+				"OoW",
 				"QftIS",
-				"TTP",
-				"OoW"
+				"TftYP",
+				"ToA",
+				"TTP"
 			],
 			"size": [
 				"T"
@@ -48530,15 +48532,15 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"RoT",
-				"SKT",
-				"WDH",
-				"IMR",
+				"CoA",
 				"EGW",
 				"IDRotF",
-				"CoA",
+				"IMR",
 				"OotA",
+				"RoT",
+				"SKT",
 				"TftYP-AtG",
+				"WDH",
 				"WDMM"
 			],
 			"size": [
@@ -48631,16 +48633,16 @@
 			"source": "MM",
 			"page": 279,
 			"referenceSources": [
-				"CoS",
-				"IDRotF",
 				"CM",
-				"KftGV",
-				"PSI",
-				"ToFW",
-				"QftIS",
+				"CoS",
 				"HoL",
+				"IDRotF",
+				"KftGV",
+				"OotA",
+				"PSI",
+				"QftIS",
 				"RtG",
-				"OotA"
+				"ToFW"
 			],
 			"size": [
 				"M"
@@ -48785,9 +48787,9 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"SatO",
 				"SKT",
-				"WBtW",
-				"SatO"
+				"WBtW"
 			],
 			"size": [
 				"M"
@@ -48844,39 +48846,39 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"CM",
+				"CoA",
 				"CoS",
-				"HotDQ",
-				"PotA",
-				"SKT",
-				"TftYP",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
+				"CRCotN",
 				"DC",
 				"DIP",
-				"SLW",
-				"SDW",
-				"BGDIA",
-				"ERLW",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"TCE",
-				"CM",
-				"CRCotN",
-				"JttRC",
 				"DSotDQ",
-				"PSI",
-				"SatO",
-				"ToFW",
-				"BMT",
-				"VEoR",
-				"QftIS",
-				"CoA",
+				"EGW",
+				"ERLW",
+				"GoS",
+				"HotDQ",
+				"IDRotF",
+				"JttRC",
+				"MOT",
 				"OotA",
-				"XMtS",
-				"OoW"
+				"OoW",
+				"PotA",
+				"PSI",
+				"QftIS",
+				"SatO",
+				"SDW",
+				"SKT",
+				"SLW",
+				"TCE",
+				"TftYP",
+				"ToA",
+				"ToFW",
+				"VEoR",
+				"WDH",
+				"WDMM",
+				"XMtS"
 			],
 			"size": [
 				"M"
@@ -49020,14 +49022,14 @@
 			"page": 254,
 			"srd": true,
 			"referenceSources": [
+				"EGW",
+				"ERLW",
+				"GoS",
+				"IDRotF",
+				"IMR",
 				"RoT",
 				"ToA",
-				"WDMM",
-				"GoS",
-				"ERLW",
-				"IMR",
-				"EGW",
-				"IDRotF"
+				"WDMM"
 			],
 			"size": [
 				"T"
@@ -49172,13 +49174,13 @@
 			"page": 80,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
-				"GoS",
 				"ERLW",
-				"WBtW",
+				"GoS",
+				"SCC-CK",
+				"ToA",
 				"ToFW",
 				"TTP",
-				"SCC-CK"
+				"WBtW"
 			],
 			"size": [
 				"M"
@@ -49258,17 +49260,17 @@
 			"page": 255,
 			"srd": true,
 			"referenceSources": [
-				"EGW",
 				"CM",
+				"CoA",
+				"DSotDQ",
+				"EGW",
 				"JttRC",
 				"LoX",
-				"DSotDQ",
-				"PSI",
+				"OotA",
 				"PaBTSO",
+				"PSI",
 				"ToFW",
 				"VEoR",
-				"CoA",
-				"OotA",
 				"WDMM"
 			],
 			"size": [
@@ -49387,14 +49389,14 @@
 			"source": "MM",
 			"page": 226,
 			"referenceSources": [
-				"ToA",
-				"WDMM",
-				"KftGV",
-				"SatO",
-				"ToFW",
 				"CoA",
+				"KftGV",
 				"OoW",
-				"SCC-CK"
+				"SatO",
+				"SCC-CK",
+				"ToA",
+				"ToFW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -49531,11 +49533,11 @@
 			"source": "MM",
 			"page": 256,
 			"referenceSources": [
-				"WDMM",
 				"IDRotF",
 				"LoX",
+				"OotA",
 				"PaBTSO",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -49642,9 +49644,9 @@
 			"source": "MM",
 			"page": 230,
 			"referenceSources": [
-				"WDMM",
 				"IDRotF",
-				"OotA"
+				"OotA",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -49731,8 +49733,8 @@
 			"source": "MM",
 			"page": 256,
 			"referenceSources": [
-				"WDMM",
-				"IDRotF"
+				"IDRotF",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -49872,21 +49874,21 @@
 			"page": 63,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"TftYP",
-				"WDMM",
 				"BGDIA",
-				"EGW",
-				"TCE",
 				"CM",
-				"WBtW",
+				"CoS",
 				"CRCotN",
+				"EGW",
 				"KftGV",
-				"PSI",
-				"PaBTSO",
-				"VEoR",
+				"LLK",
 				"OotA",
-				"LLK"
+				"PaBTSO",
+				"PSI",
+				"TCE",
+				"TftYP",
+				"VEoR",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"T"
@@ -50045,13 +50047,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"ToA",
-				"GoS",
-				"MOT",
-				"IDRotF",
 				"CRCotN",
+				"GoS",
+				"IDRotF",
+				"MOT",
+				"PotA",
 				"PSA",
+				"ToA",
 				"ToFW",
 				"WDH"
 			],
@@ -50135,14 +50137,14 @@
 			"page": 257,
 			"srd": true,
 			"referenceSources": [
-				"TftYP",
-				"WDMM",
-				"GoS",
-				"ERLW",
-				"TCE",
 				"CM",
+				"ERLW",
+				"GoS",
+				"TCE",
+				"TftYP",
 				"VEoR",
-				"WDH"
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -50301,17 +50303,17 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP",
-				"ToA",
-				"WDH",
-				"GoS",
 				"BGDIA",
-				"EGW",
-				"IDRotF",
 				"BMT",
+				"EGW",
+				"GoS",
+				"IDRotF",
 				"QftIS",
 				"SKT",
+				"TftYP",
+				"ToA",
 				"TTP",
+				"WDH",
 				"WDMM"
 			],
 			"size": [
@@ -50389,13 +50391,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"CM",
 				"CoS",
 				"IDRotF",
-				"CM",
-				"WBtW",
 				"KftGV",
-				"VEoR",
 				"TTP",
+				"VEoR",
+				"WBtW",
 				"WDMM"
 			],
 			"size": [
@@ -50474,11 +50476,11 @@
 			"page": 98,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"WDMM",
 				"BGDIA",
+				"CoS",
 				"DSotDQ",
-				"OotA"
+				"OotA",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -50666,16 +50668,16 @@
 			"source": "MM",
 			"page": 276,
 			"referenceSources": [
-				"WDH",
+				"BMT",
+				"DSotDQ",
 				"GoS",
 				"IDRotF",
-				"DSotDQ",
 				"PaBTSO",
-				"ToFW",
-				"BMT",
 				"RtG",
+				"SCC-ARiR",
 				"SCC-CK",
-				"SCC-ARiR"
+				"ToFW",
+				"WDH"
 			],
 			"size": [
 				"L"
@@ -50817,13 +50819,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
-				"GoS",
-				"EGW",
 				"CRCotN",
+				"EGW",
+				"GoS",
 				"JttRC",
-				"TTP",
-				"RtG"
+				"RtG",
+				"ToA",
+				"TTP"
 			],
 			"size": [
 				"M"
@@ -50912,17 +50914,17 @@
 			"page": 258,
 			"srd": true,
 			"referenceSources": [
-				"SKT",
-				"TftYP",
-				"WDMM",
 				"BGDIA",
-				"IMR",
+				"BMT",
+				"CoA",
 				"EGW",
 				"IDRotF",
+				"IMR",
 				"LoX",
 				"PaBTSO",
-				"BMT",
-				"CoA"
+				"SKT",
+				"TftYP",
+				"WDMM"
 			],
 			"size": [
 				"H"
@@ -51026,19 +51028,19 @@
 			"source": "MM",
 			"page": 259,
 			"referenceSources": [
-				"CoS",
-				"PotA",
-				"ToA",
-				"WDMM",
-				"ERLW",
-				"EGW",
-				"MOT",
-				"CRCotN",
-				"JttRC",
-				"PaBTSO",
-				"SatO",
 				"BMT",
-				"HoL"
+				"CoS",
+				"CRCotN",
+				"EGW",
+				"ERLW",
+				"HoL",
+				"JttRC",
+				"MOT",
+				"PaBTSO",
+				"PotA",
+				"SatO",
+				"ToA",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -51202,12 +51204,11 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
-				"WDH",
 				"IDRotF",
-				"ToFW",
+				"PotA",
 				"QftIS",
-				"PotA"
+				"ToFW",
+				"WDH"
 			],
 			"size": [
 				"L"
@@ -51286,17 +51287,17 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"CoS",
-				"SKT",
-				"ToA",
-				"WDH",
-				"DIP",
 				"BGDIA",
-				"EGW",
+				"CoS",
 				"CRCotN",
+				"DIP",
+				"EGW",
 				"JttRC",
 				"KftGV",
 				"QftIS",
+				"SKT",
+				"ToA",
+				"WDH",
 				"XMtS"
 			],
 			"size": [
@@ -51355,18 +51356,18 @@
 			"page": 260,
 			"srd": true,
 			"referenceSources": [
+				"CM",
 				"CoS",
-				"SKT",
-				"GoS",
 				"DC",
 				"DIP",
 				"EGW",
-				"MOT",
+				"GoS",
 				"IDRotF",
-				"CM",
-				"WBtW",
+				"MOT",
 				"SatO",
-				"VEoR"
+				"SKT",
+				"VEoR",
+				"WBtW"
 			],
 			"size": [
 				"G"
@@ -51475,18 +51476,18 @@
 			"page": 261,
 			"srd": true,
 			"referenceSources": [
+				"BMT",
+				"CRCotN",
 				"HotDQ",
+				"JttRC",
+				"OotA",
+				"PaBTSO",
 				"PotA",
+				"QftIS",
 				"SKT",
 				"TftYP",
-				"WDMM",
-				"CRCotN",
-				"JttRC",
-				"PaBTSO",
 				"ToFW",
-				"BMT",
-				"QftIS",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -51614,24 +51615,24 @@
 			"page": 20,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"HotDQ",
-				"SKT",
-				"ToA",
-				"WDH",
-				"GoS",
-				"DIP",
-				"SDW",
 				"BGDIA",
-				"EGW",
 				"CM",
-				"WBtW",
+				"CoS",
+				"DIP",
+				"EGW",
+				"GoS",
+				"HotDQ",
 				"KftGV",
 				"QftIS",
-				"TftYP-TFoF",
-				"TTP",
 				"RtG",
-				"SCC-TMM"
+				"SCC-TMM",
+				"SDW",
+				"SKT",
+				"TftYP-TFoF",
+				"ToA",
+				"TTP",
+				"WBtW",
+				"WDH"
 			],
 			"size": [
 				"L"
@@ -51734,17 +51735,17 @@
 			"page": 262,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"SKT",
-				"WDH",
-				"WDMM",
-				"IMR",
 				"EGW",
 				"IDRotF",
-				"SatO",
-				"QftIS",
+				"IMR",
 				"OotA",
-				"TftYP-ToH"
+				"PotA",
+				"QftIS",
+				"SatO",
+				"SKT",
+				"TftYP-ToH",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -51839,14 +51840,14 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"EGW",
-				"MOT",
-				"IDRotF",
 				"CoS",
+				"EGW",
+				"IDRotF",
 				"JttRC",
+				"MOT",
+				"QftIS",
 				"SatO",
-				"ToFW",
-				"QftIS"
+				"ToFW"
 			],
 			"size": [
 				"L"
@@ -51938,13 +51939,13 @@
 			"page": 263,
 			"srd": true,
 			"referenceSources": [
-				"TftYP",
-				"GoS",
-				"DIP",
-				"SDW",
 				"BGDIA",
+				"DIP",
 				"EGW",
-				"SatO"
+				"GoS",
+				"SatO",
+				"SDW",
+				"TftYP"
 			],
 			"size": [
 				"M"
@@ -52077,11 +52078,11 @@
 			"source": "MM",
 			"page": 264,
 			"referenceSources": [
-				"TftYP",
-				"WDMM",
 				"GoS",
 				"JttRC",
-				"SatO"
+				"SatO",
+				"TftYP",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -52220,10 +52221,10 @@
 			"source": "MM",
 			"page": 264,
 			"referenceSources": [
-				"TftYP",
+				"BGDIA",
 				"GoS",
 				"SDW",
-				"BGDIA"
+				"TftYP"
 			],
 			"size": [
 				"M"
@@ -52396,18 +52397,18 @@
 			"page": 266,
 			"srd": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"CoA",
+				"DoSI",
+				"GotSF",
+				"JttRC",
+				"KftGV",
+				"OotA",
 				"PotA",
 				"SKT",
 				"TftYP",
-				"ToA",
-				"BGDIA",
-				"JttRC",
-				"DoSI",
-				"KftGV",
-				"GotSF",
-				"BMT",
-				"CoA",
-				"OotA"
+				"ToA"
 			],
 			"size": [
 				"L"
@@ -52543,16 +52544,16 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"SKT",
-				"IMR",
-				"CM",
-				"WBtW",
-				"KftGV",
-				"SatO",
-				"ToFW",
 				"BMT",
+				"CM",
+				"IMR",
+				"KftGV",
+				"OoW",
 				"QftIS",
-				"OoW"
+				"SatO",
+				"SKT",
+				"ToFW",
+				"WBtW"
 			],
 			"size": [
 				"M"
@@ -52711,13 +52712,13 @@
 			"source": "MM",
 			"page": 268,
 			"referenceSources": [
-				"CoS",
-				"WDH",
 				"CM",
+				"CoS",
+				"HoL",
 				"KftGV",
-				"ToA",
 				"OoW",
-				"HoL"
+				"ToA",
+				"WDH"
 			],
 			"size": [
 				"M"
@@ -52847,9 +52848,9 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"WDMM",
 				"PSX",
-				"TTP"
+				"TTP",
+				"WDMM"
 			],
 			"size": [
 				"T"
@@ -52920,37 +52921,37 @@
 			"page": 349,
 			"srd": true,
 			"referenceSources": [
+				"AZfyT",
+				"BGDIA",
+				"CM",
+				"CoA",
 				"CoS",
-				"HotDQ",
-				"PotA",
-				"RoT",
-				"SKT",
-				"TftYP",
-				"ToA",
-				"GoS",
+				"CRCotN",
 				"DC",
 				"DIP",
-				"SLW",
-				"SDW",
-				"BGDIA",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"CM",
-				"WBtW",
-				"CRCotN",
-				"JttRC",
 				"DSotDQ",
+				"EGW",
+				"GoS",
+				"HotDQ",
+				"IDRotF",
+				"JttRC",
 				"KftGV",
-				"SatO",
-				"QftIS",
-				"CoA",
+				"MOT",
 				"OotA",
-				"XMtS",
-				"WDMM",
-				"AZfyT",
 				"OoW",
-				"VNotEE"
+				"PotA",
+				"QftIS",
+				"RoT",
+				"SatO",
+				"SDW",
+				"SKT",
+				"SLW",
+				"TftYP",
+				"ToA",
+				"VNotEE",
+				"WBtW",
+				"WDMM",
+				"XMtS"
 			],
 			"size": [
 				"M"
@@ -53072,19 +53073,19 @@
 			"page": 179,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"TftYP",
-				"ToA",
-				"WDMM",
-				"GoS",
+				"CoA",
 				"DIP",
-				"SLW",
-				"MOT",
+				"GoS",
 				"IDRotF",
 				"JttRC",
+				"MOT",
+				"PotA",
 				"SatO",
-				"CoA",
-				"TTP"
+				"SLW",
+				"TftYP",
+				"ToA",
+				"TTP",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -53411,30 +53412,30 @@
 			"page": 269,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"PotA",
-				"TftYP",
-				"WDH",
-				"WDMM",
-				"GoS",
 				"BGDIA",
+				"BMT",
+				"CM",
+				"CoS",
+				"GoS",
+				"HoL",
+				"IDRotF",
 				"IMR",
 				"MOT",
-				"IDRotF",
-				"TCE",
-				"CM",
-				"WBtW",
-				"SjA",
-				"PSI",
-				"SatO",
-				"BMT",
-				"VEoR",
-				"QftIS",
 				"OotA",
-				"TTP",
 				"OoW",
-				"HoL",
-				"VNotEE"
+				"PotA",
+				"PSI",
+				"QftIS",
+				"SatO",
+				"SjA",
+				"TCE",
+				"TftYP",
+				"TTP",
+				"VEoR",
+				"VNotEE",
+				"WBtW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -53559,26 +53560,26 @@
 			"source": "MM",
 			"page": 64,
 			"referenceSources": [
+				"AATM",
+				"BGDIA",
+				"BMT",
+				"CoA",
 				"CoS",
+				"CRCotN",
+				"HoL",
+				"IDRotF",
+				"IMR",
+				"JttRC",
+				"KftGV",
+				"MOT",
+				"OotA",
 				"PotA",
+				"SatO",
+				"SCC-ARiR",
 				"SKT",
 				"ToA",
 				"WDH",
-				"WDMM",
-				"BGDIA",
-				"IMR",
-				"MOT",
-				"IDRotF",
-				"CRCotN",
-				"JttRC",
-				"KftGV",
-				"AATM",
-				"SatO",
-				"BMT",
-				"CoA",
-				"OotA",
-				"HoL",
-				"SCC-ARiR"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -53718,25 +53719,25 @@
 			"page": 270,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"HotDQ",
-				"TftYP",
-				"ToA",
-				"WDMM",
-				"GoS",
 				"BGDIA",
-				"MOT",
+				"BMT",
 				"CM",
-				"WBtW",
+				"CoS",
+				"GoS",
+				"HFStCM",
+				"HotDQ",
 				"JttRC",
 				"KftGV",
-				"PSI",
-				"BMT",
-				"HFStCM",
-				"VEoR",
-				"QftIS",
+				"MOT",
 				"OotA",
-				"SCC-TMM"
+				"PSI",
+				"QftIS",
+				"SCC-TMM",
+				"TftYP",
+				"ToA",
+				"VEoR",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -53859,24 +53860,24 @@
 			"page": 271,
 			"srd": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"CoA",
 				"CoS",
+				"CRCotN",
+				"GoS",
+				"IDRotF",
+				"KftGV",
+				"OotA",
+				"PaBTSO",
 				"PotA",
+				"RtG",
+				"SCC-CK",
 				"SKT",
 				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"BGDIA",
-				"IDRotF",
-				"CRCotN",
-				"KftGV",
-				"PaBTSO",
-				"BMT",
 				"VEoR",
-				"CoA",
-				"OotA",
-				"RtG",
-				"SCC-CK"
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -54004,14 +54005,14 @@
 			"page": 138,
 			"srd": true,
 			"referenceSources": [
-				"WDMM",
-				"GoS",
-				"PaBTSO",
-				"VEoR",
-				"QftIS",
 				"CoA",
+				"GoS",
 				"OotA",
-				"SCC-ARiR"
+				"PaBTSO",
+				"QftIS",
+				"SCC-ARiR",
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -54088,8 +54089,8 @@
 			"page": 118,
 			"srd": true,
 			"referenceSources": [
-				"SKT",
-				"IDRotF"
+				"IDRotF",
+				"SKT"
 			],
 			"size": [
 				"M"
@@ -54298,43 +54299,43 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"AATM",
+				"BGDIA",
+				"BMT",
 				"CoS",
-				"LMoP",
-				"PotA",
-				"SKT",
-				"TftYP",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
+				"CRCotN",
 				"DC",
 				"DIP",
-				"SDW",
-				"BGDIA",
-				"RMBRE",
-				"IMR",
-				"TCE",
-				"WBtW",
-				"CRCotN",
-				"JttRC",
 				"DSotDQ",
-				"KftGV",
+				"GoS",
 				"HftT",
-				"PaBTSO",
-				"AATM",
-				"SatO",
-				"ToFW",
-				"BMT",
-				"VEoR",
-				"QftIS",
-				"OotA",
-				"XMtS",
+				"IMR",
+				"JttRC",
+				"KftGV",
 				"LLK",
-				"OoW",
-				"RtG",
+				"LMoP",
+				"LRDT",
 				"NRH-ASS",
 				"NRH-AT",
-				"LRDT"
+				"OotA",
+				"OoW",
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"RMBRE",
+				"RtG",
+				"SatO",
+				"SDW",
+				"SKT",
+				"TCE",
+				"TftYP",
+				"ToA",
+				"ToFW",
+				"VEoR",
+				"WBtW",
+				"WDH",
+				"WDMM",
+				"XMtS"
 			],
 			"size": [
 				"M"
@@ -54433,15 +54434,15 @@
 			"source": "MM",
 			"page": 276,
 			"referenceSources": [
-				"EGW",
-				"IDRotF",
 				"CM",
 				"DSotDQ",
+				"EGW",
+				"IDRotF",
 				"KftGV",
 				"PaBTSO",
+				"RtG",
 				"SatO",
-				"WDMM",
-				"RtG"
+				"WDMM"
 			],
 			"size": [
 				"T"
@@ -54531,13 +54532,13 @@
 			"page": 217,
 			"referenceSources": [
 				"CoS",
+				"KftGV",
+				"OoW",
 				"PotA",
 				"SKT",
 				"ToA",
-				"WDMM",
-				"KftGV",
 				"ToFW",
-				"OoW"
+				"WDMM"
 			],
 			"size": [
 				"S"
@@ -54685,13 +54686,13 @@
 			"srd": true,
 			"referenceSources": [
 				"BGDIA",
+				"BMT",
 				"CM",
 				"CRCotN",
 				"JttRC",
 				"SatO",
-				"BMT",
-				"TftYP-TSC",
-				"TftYP-ToH"
+				"TftYP-ToH",
+				"TftYP-TSC"
 			],
 			"size": [
 				"L"
@@ -54925,18 +54926,18 @@
 			"page": 30,
 			"basicRules": true,
 			"referenceSources": [
-				"LMoP",
-				"WDH",
-				"WDMM",
-				"RMBRE",
 				"IDRotF",
-				"SjA",
 				"KftGV",
-				"PaBTSO",
-				"ToFW",
-				"QftIS",
+				"LMoP",
 				"OotA",
-				"SCC-ARiR"
+				"PaBTSO",
+				"QftIS",
+				"RMBRE",
+				"SCC-ARiR",
+				"SjA",
+				"ToFW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -55092,37 +55093,37 @@
 			"page": 279,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"HotDQ",
-				"PotA",
-				"RoT",
-				"SKT",
-				"TftYP",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"SLW",
-				"SDW",
+				"AATM",
 				"BGDIA",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"TCE",
+				"BMT",
 				"CM",
+				"CoS",
+				"DIP",
+				"EGW",
+				"GoS",
+				"HoL",
+				"HotDQ",
+				"IDRotF",
 				"JttRC",
 				"KftGV",
-				"PSI",
-				"PaBTSO",
-				"AATM",
-				"SatO",
-				"ToFW",
-				"BMT",
-				"VEoR",
-				"QftIS",
+				"MOT",
 				"OotA",
-				"HoL"
+				"PaBTSO",
+				"PotA",
+				"PSI",
+				"QftIS",
+				"RoT",
+				"SatO",
+				"SDW",
+				"SKT",
+				"SLW",
+				"TCE",
+				"TftYP",
+				"ToA",
+				"ToFW",
+				"VEoR",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -55254,14 +55255,14 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"WDMM",
-				"PSX",
+				"GoS",
 				"KftGV",
 				"OotA",
+				"OoW",
+				"PotA",
+				"PSX",
 				"TTP",
-				"GoS",
-				"OoW"
+				"WDMM"
 			],
 			"size": [
 				"T"
@@ -55354,12 +55355,12 @@
 			"source": "MM",
 			"page": 78,
 			"referenceSources": [
-				"ToA",
-				"WDH",
 				"BGDIA",
+				"CoA",
 				"KftGV",
 				"PSI",
-				"CoA"
+				"ToA",
+				"WDH"
 			],
 			"size": [
 				"S"
@@ -55514,15 +55515,15 @@
 			"page": 234,
 			"srd": true,
 			"referenceSources": [
-				"TftYP",
-				"WDMM",
-				"GoS",
 				"EGW",
-				"MOT",
+				"GoS",
 				"JttRC",
+				"MOT",
+				"OotA",
 				"PaBTSO",
+				"TftYP",
 				"VEoR",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -55697,20 +55698,20 @@
 			"page": 283,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"SKT",
-				"GoS",
 				"BGDIA",
-				"ERLW",
-				"IMR",
-				"CM",
-				"WBtW",
-				"KftGV",
-				"SatO",
 				"BMT",
-				"QftIS",
+				"CM",
+				"ERLW",
+				"GoS",
+				"IMR",
+				"KftGV",
 				"LLK",
-				"UtHftLH"
+				"PotA",
+				"QftIS",
+				"SatO",
+				"SKT",
+				"UtHftLH",
+				"WBtW"
 			],
 			"size": [
 				"T"
@@ -55824,37 +55825,37 @@
 			"page": 349,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"HotDQ",
-				"PotA",
-				"SKT",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"SLW",
+				"AitFR-ISF",
+				"AZfyT",
 				"BGDIA",
-				"ERLW",
-				"IMR",
-				"EGW",
-				"MOT",
-				"IDRotF",
+				"BMT",
 				"CM",
-				"WBtW",
+				"CoA",
+				"CoS",
 				"CRCotN",
+				"DIP",
+				"EGW",
+				"ERLW",
+				"GoS",
+				"HotDQ",
+				"IDRotF",
+				"IMR",
 				"JttRC",
 				"KftGV",
-				"SatO",
-				"ToFW",
-				"BMT",
-				"QftIS",
-				"CoA",
+				"MOT",
 				"OotA",
-				"TftYP-DiT",
-				"AZfyT",
 				"OoW",
-				"AitFR-ISF"
+				"PotA",
+				"QftIS",
+				"SatO",
+				"SKT",
+				"SLW",
+				"TftYP-DiT",
+				"ToA",
+				"ToFW",
+				"WBtW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -55971,14 +55972,14 @@
 			"page": 217,
 			"srd": true,
 			"referenceSources": [
+				"EGW",
+				"LLK",
 				"PotA",
+				"SCC-CK",
 				"SKT",
 				"TftYP",
 				"ToA",
-				"EGW",
-				"ToFW",
-				"LLK",
-				"SCC-CK"
+				"ToFW"
 			],
 			"size": [
 				"S"
@@ -56117,28 +56118,28 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"DIP",
+				"DoSI",
+				"EGW",
+				"GoS",
+				"HftT",
 				"HotDQ",
+				"IMR",
+				"KftGV",
+				"LLK",
 				"LMoP",
+				"OotA",
+				"PaBTSO",
 				"PotA",
+				"QftIS",
+				"RMBRE",
+				"SCC-CK",
 				"TftYP",
 				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"BGDIA",
-				"RMBRE",
-				"IMR",
-				"EGW",
-				"DoSI",
-				"KftGV",
-				"HftT",
-				"PaBTSO",
-				"QftIS",
-				"OotA",
 				"TTP",
-				"LLK",
-				"SCC-CK"
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"T"
@@ -56218,12 +56219,12 @@
 			"srd": true,
 			"referenceSources": [
 				"HotDQ",
+				"MOT",
+				"OotA",
+				"QftIS",
 				"SKT",
 				"TftYP",
-				"WDMM",
-				"MOT",
-				"QftIS",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"H"
@@ -56386,33 +56387,33 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"HotDQ",
-				"PotA",
-				"RoT",
-				"SKT",
-				"ToA",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"SLW",
+				"AATM",
 				"BGDIA",
-				"IMR",
+				"BMT",
 				"CM",
+				"CoA",
 				"CoS",
 				"CRCotN",
-				"JttRC",
+				"DIP",
 				"DSotDQ",
+				"GoS",
+				"HotDQ",
+				"IMR",
+				"JttRC",
 				"KftGV",
-				"AATM",
-				"SatO",
-				"BMT",
-				"VEoR",
-				"QftIS",
-				"CoA",
-				"OotA",
-				"TftYP-THSoT",
 				"LLK",
-				"OoW"
+				"OotA",
+				"OoW",
+				"PotA",
+				"QftIS",
+				"RoT",
+				"SatO",
+				"SKT",
+				"SLW",
+				"TftYP-THSoT",
+				"ToA",
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -56548,12 +56549,12 @@
 			"page": 156,
 			"srd": true,
 			"referenceSources": [
-				"SKT",
-				"TftYP",
 				"GoS",
-				"MOT",
 				"JttRC",
-				"SatO"
+				"MOT",
+				"SatO",
+				"SKT",
+				"TftYP"
 			],
 			"size": [
 				"H"
@@ -56746,20 +56747,20 @@
 			"page": 285,
 			"srd": true,
 			"referenceSources": [
-				"RoT",
-				"SKT",
-				"TftYP",
-				"ToA",
 				"BGDIA",
-				"ERLW",
-				"EGW",
-				"TCE",
-				"CRCotN",
-				"SatO",
 				"BMT",
 				"CoA",
+				"CRCotN",
+				"EGW",
+				"ERLW",
 				"HotDQ",
-				"OotA"
+				"OotA",
+				"RoT",
+				"SatO",
+				"SKT",
+				"TCE",
+				"TftYP",
+				"ToA"
 			],
 			"size": [
 				"M"
@@ -56915,21 +56916,21 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"AATM",
+				"CM",
 				"CoS",
+				"DitLCoT",
+				"EGW",
 				"HotDQ",
+				"LLK",
+				"OotA",
 				"PotA",
+				"QftIS",
 				"TftYP",
 				"ToA",
-				"WDMM",
-				"EGW",
-				"CM",
 				"WBtW",
-				"AATM",
-				"QftIS",
-				"OotA",
 				"WDH",
-				"LLK",
-				"DitLCoT"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -57135,10 +57136,10 @@
 			"referenceSources": [
 				"CoS",
 				"HotDQ",
-				"WDMM",
+				"KKW",
 				"OotA",
 				"ToA",
-				"KKW"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -57237,20 +57238,20 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"HotDQ",
-				"ToA",
-				"GoS",
 				"BGDIA",
-				"IMR",
 				"EGW",
+				"GoS",
+				"HotDQ",
+				"IMR",
 				"LoX",
-				"PSX",
-				"PSA",
+				"NRH-AWoL",
 				"OotA",
-				"SKT",
-				"WDMM",
 				"OoW",
-				"NRH-AWoL"
+				"PSA",
+				"PSX",
+				"SKT",
+				"ToA",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -57353,18 +57354,18 @@
 			"basicRules": true,
 			"referenceSources": [
 				"CoS",
+				"DIP",
+				"EGW",
+				"JttRC",
+				"MOT",
+				"OoW",
+				"QftIS",
 				"RoT",
+				"SCC-CK",
+				"SDW",
 				"TftYP",
 				"ToA",
-				"DIP",
-				"SDW",
-				"EGW",
-				"MOT",
-				"JttRC",
-				"VEoR",
-				"QftIS",
-				"OoW",
-				"SCC-CK"
+				"VEoR"
 			],
 			"size": [
 				"M"
@@ -57460,21 +57461,21 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"ToA",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"SDW",
-				"LR",
-				"WBtW",
 				"CRCotN",
-				"JttRC",
+				"DIP",
 				"DSotDQ",
+				"GoS",
+				"JttRC",
 				"KftGV",
+				"LR",
+				"OotA",
+				"PotA",
 				"PSA",
 				"QftIS",
-				"OotA"
+				"SDW",
+				"ToA",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -57581,15 +57582,15 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"CM",
 				"CoS",
+				"GoS",
 				"HotDQ",
+				"TCE",
 				"TftYP",
 				"WDH",
-				"WDMM",
-				"GoS",
-				"BGDIA",
-				"TCE",
-				"CM"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -57690,15 +57691,15 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"CM",
 				"CoS",
-				"RoT",
 				"DIP",
-				"SDW",
 				"EGW",
 				"IDRotF",
-				"TCE",
-				"CM",
-				"OoW"
+				"OoW",
+				"RoT",
+				"SDW",
+				"TCE"
 			],
 			"size": [
 				"M"
@@ -57789,18 +57790,18 @@
 			"page": 338,
 			"srd": true,
 			"referenceSources": [
+				"BMT",
 				"CoS",
-				"SKT",
-				"WDMM",
-				"GoS",
 				"DC",
 				"DIP",
+				"GoS",
 				"MOT",
-				"BMT",
-				"QftIS",
-				"WDH",
 				"OoW",
-				"RtG"
+				"QftIS",
+				"RtG",
+				"SKT",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -57921,11 +57922,11 @@
 			"srd": true,
 			"referenceSources": [
 				"CoS",
-				"WDMM",
 				"GoS",
-				"WBtW",
 				"QftIS",
-				"ToA"
+				"ToA",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -58022,12 +58023,12 @@
 			"page": 286,
 			"srd": true,
 			"referenceSources": [
-				"IMR",
-				"MOT",
+				"BMT",
 				"IDRotF",
-				"TCE",
+				"IMR",
 				"LoX",
-				"BMT"
+				"MOT",
+				"TCE"
 			],
 			"size": [
 				"G"
@@ -58469,31 +58470,31 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"SKT",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"SLW",
 				"BGDIA",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"TCE",
+				"BMT",
 				"CM",
+				"CoA",
 				"CoS",
 				"CRCotN",
+				"DIP",
+				"EGW",
+				"GoS",
+				"IDRotF",
 				"JttRC",
-				"LoX",
 				"KftGV",
-				"ToFW",
-				"BMT",
-				"CoA",
-				"OotA",
 				"LLK",
-				"OoW"
+				"LoX",
+				"MOT",
+				"OotA",
+				"OoW",
+				"PotA",
+				"SKT",
+				"SLW",
+				"TCE",
+				"ToA",
+				"ToFW",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -58610,12 +58611,12 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP",
-				"ToA",
-				"WDH",
 				"GoS",
 				"MOT",
-				"OoW"
+				"OoW",
+				"TftYP",
+				"ToA",
+				"WDH"
 			],
 			"size": [
 				"L"
@@ -58713,30 +58714,30 @@
 			"page": 289,
 			"srd": true,
 			"referenceSources": [
-				"RoT",
-				"SKT",
-				"WDH",
-				"GoS",
 				"BGDIA",
-				"ERLW",
-				"IMR",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"TCE",
-				"CM",
-				"WBtW",
-				"JttRC",
-				"LoX",
-				"DSotDQ",
-				"PSI",
-				"SatO",
 				"BMT",
-				"VEoR",
-				"QftIS",
+				"CM",
+				"DSotDQ",
+				"EGW",
+				"ERLW",
+				"GoS",
+				"IDRotF",
+				"IMR",
+				"JttRC",
 				"LLK",
+				"LoX",
+				"MOT",
 				"OoW",
-				"SCC-ARiR"
+				"PSI",
+				"QftIS",
+				"RoT",
+				"SatO",
+				"SCC-ARiR",
+				"SKT",
+				"TCE",
+				"VEoR",
+				"WBtW",
+				"WDH"
 			],
 			"size": [
 				"H"
@@ -58859,15 +58860,15 @@
 			"page": 350,
 			"srd": true,
 			"referenceSources": [
+				"EGW",
+				"GoS",
+				"IDRotF",
+				"MOT",
 				"PotA",
 				"RoT",
 				"SKT",
 				"TftYP",
 				"ToA",
-				"GoS",
-				"EGW",
-				"MOT",
-				"IDRotF",
 				"TTP"
 			],
 			"size": [
@@ -58970,9 +58971,9 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"CoA",
 				"ToA",
-				"ToFW",
-				"CoA"
+				"ToFW"
 			],
 			"size": [
 				"H"
@@ -59058,13 +59059,12 @@
 			"source": "MM",
 			"page": 225,
 			"referenceSources": [
-				"ToA",
-				"KftGV",
 				"BMT",
-				"QftIS",
 				"CoA",
+				"KftGV",
 				"OotA",
-				"OoW"
+				"OoW",
+				"QftIS"
 			],
 			"size": [
 				"M"
@@ -59198,17 +59198,17 @@
 			"source": "MM",
 			"page": 290,
 			"referenceSources": [
+				"BMT",
+				"HftT",
 				"HotDQ",
+				"OotA",
+				"PaBTSO",
 				"PotA",
+				"QftIS",
+				"SatO",
 				"TftYP",
 				"WDH",
-				"WDMM",
-				"HftT",
-				"PaBTSO",
-				"SatO",
-				"BMT",
-				"QftIS",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -59348,25 +59348,25 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"AitFR-AVT",
+				"DitLCoT",
+				"EGW",
+				"GoS",
 				"HotDQ",
+				"OotA",
 				"PotA",
+				"PSZ",
+				"QftIS",
 				"RoT",
+				"SatO",
+				"SCC-HfMT",
+				"SCC-TMM",
 				"SKT",
+				"SLW",
 				"TftYP",
 				"ToA",
 				"WDH",
-				"WDMM",
-				"GoS",
-				"SLW",
-				"EGW",
-				"PSZ",
-				"SatO",
-				"QftIS",
-				"OotA",
-				"AitFR-AVT",
-				"SCC-HfMT",
-				"SCC-TMM",
-				"DitLCoT"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -59637,16 +59637,16 @@
 			"basicRules": true,
 			"referenceSources": [
 				"CoS",
-				"LMoP",
-				"TftYP",
-				"GoS",
-				"RMBRE",
-				"WBtW",
-				"PSI",
-				"HftT",
-				"PaBTSO",
 				"DIP",
-				"NRH-AVitW"
+				"GoS",
+				"HftT",
+				"LMoP",
+				"NRH-AVitW",
+				"PaBTSO",
+				"PSI",
+				"RMBRE",
+				"TftYP",
+				"WBtW"
 			],
 			"size": [
 				"S"
@@ -59754,10 +59754,10 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
 				"EGW",
+				"QftIS",
 				"SatO",
-				"QftIS"
+				"ToA"
 			],
 			"size": [
 				"H"
@@ -59843,10 +59843,10 @@
 			"source": "MM",
 			"page": 314,
 			"referenceSources": [
-				"WDMM",
 				"BGDIA",
 				"EGW",
-				"JttRC"
+				"JttRC",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -60079,18 +60079,18 @@
 			"source": "MM",
 			"page": 292,
 			"referenceSources": [
-				"PotA",
-				"WDMM",
-				"IMR",
-				"IDRotF",
-				"LoX",
-				"PaBTSO",
-				"SatO",
 				"BMT",
-				"QftIS",
 				"CoA",
+				"IDRotF",
+				"IMR",
+				"LLK",
+				"LoX",
 				"OotA",
-				"LLK"
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"SatO",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -60206,17 +60206,17 @@
 			"page": 294,
 			"srd": true,
 			"referenceSources": [
-				"GoS",
 				"BGDIA",
+				"GoS",
 				"IMR",
-				"MOT",
-				"TCE",
-				"WBtW",
 				"KftGV",
-				"SatO",
-				"VEoR",
+				"MOT",
+				"OoW",
 				"QftIS",
-				"OoW"
+				"SatO",
+				"TCE",
+				"VEoR",
+				"WBtW"
 			],
 			"size": [
 				"L"
@@ -60417,24 +60417,24 @@
 			"page": 297,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"HotDQ",
-				"RoT",
-				"SKT",
-				"TftYP",
-				"WDMM",
-				"GoS",
-				"BGDIA",
-				"EGW",
-				"TCE",
-				"CM",
-				"DSotDQ",
 				"AATM",
-				"SatO",
-				"ToFW",
+				"BGDIA",
 				"BMT",
+				"CM",
+				"CoS",
+				"DSotDQ",
+				"EGW",
+				"GoS",
+				"HotDQ",
+				"LLK",
+				"RoT",
+				"SatO",
+				"SKT",
+				"TCE",
+				"TftYP",
+				"ToFW",
 				"VEoR",
-				"LLK"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -60671,22 +60671,22 @@
 			"page": 298,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"HotDQ",
-				"PotA",
-				"RoT",
-				"TftYP",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"SLW",
-				"EGW",
-				"TCE",
 				"AATM",
-				"VEoR",
-				"QftIS",
+				"CoS",
+				"DIP",
+				"EGW",
+				"GoS",
+				"HotDQ",
 				"LLK",
-				"OoW"
+				"OoW",
+				"PotA",
+				"QftIS",
+				"RoT",
+				"SLW",
+				"TCE",
+				"TftYP",
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -61411,41 +61411,41 @@
 			"page": 350,
 			"srd": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"CM",
+				"CoA",
 				"CoS",
-				"HotDQ",
-				"PotA",
-				"SKT",
-				"TftYP",
-				"ToA",
-				"WDH",
-				"WDMM",
-				"GoS",
+				"CRCotN",
 				"DC",
 				"DIP",
-				"SLW",
-				"SDW",
-				"BGDIA",
-				"ERLW",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"CM",
-				"CRCotN",
-				"JttRC",
-				"SjA",
-				"LoX",
 				"DSotDQ",
+				"EGW",
+				"ERLW",
+				"GoS",
+				"HotDQ",
+				"IDRotF",
+				"JttRC",
 				"KftGV",
-				"SatO",
-				"ToFW",
-				"BMT",
-				"VEoR",
-				"QftIS",
-				"CoA",
-				"OotA",
 				"KKW",
+				"LoX",
+				"MOT",
+				"OotA",
 				"OoW",
-				"RMBRE"
+				"PotA",
+				"QftIS",
+				"RMBRE",
+				"SatO",
+				"SDW",
+				"SjA",
+				"SKT",
+				"SLW",
+				"TftYP",
+				"ToA",
+				"ToFW",
+				"VEoR",
+				"WDH",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -61559,12 +61559,12 @@
 			"source": "MM",
 			"page": 32,
 			"referenceSources": [
+				"BMT",
 				"CoS",
-				"GoS",
-				"EGW",
-				"PSI",
 				"DIP",
-				"BMT"
+				"EGW",
+				"GoS",
+				"PSI"
 			],
 			"size": [
 				"M"
@@ -61679,11 +61679,11 @@
 			"page": 138,
 			"srd": true,
 			"referenceSources": [
-				"HotDQ",
-				"PotA",
-				"GoS",
 				"DoSI",
+				"GoS",
+				"HotDQ",
 				"OotA",
+				"PotA",
 				"SCC-CK"
 			],
 			"size": [
@@ -61774,22 +61774,22 @@
 			"page": 64,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"PotA",
-				"TftYP",
-				"WDMM",
-				"GoS",
 				"BGDIA",
-				"TCE",
+				"BMT",
 				"CM",
+				"CoS",
 				"CRCotN",
+				"GoS",
+				"OotA",
+				"PotA",
 				"PSI",
 				"SatO",
-				"BMT",
+				"SCC-ARiR",
+				"TCE",
+				"TftYP",
 				"VEoR",
-				"OotA",
-				"XMtS",
-				"SCC-ARiR"
+				"WDMM",
+				"XMtS"
 			],
 			"size": [
 				"L"
@@ -61959,12 +61959,12 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"CM",
 				"RoT",
 				"ToA",
-				"BGDIA",
-				"CM",
-				"WBtW",
-				"BMT"
+				"WBtW"
 			],
 			"size": [
 				"M"
@@ -62045,15 +62045,15 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"CRCotN",
+				"DSotDQ",
+				"EGW",
+				"HotDQ",
 				"PotA",
 				"RoT",
 				"SKT",
 				"ToA",
-				"BGDIA",
-				"EGW",
-				"CRCotN",
-				"DSotDQ",
-				"HotDQ",
 				"UtHftLH"
 			],
 			"size": [
@@ -62267,12 +62267,12 @@
 			"page": 273,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"SKT",
-				"CM",
-				"DSotDQ",
 				"BMT",
-				"OoW"
+				"CM",
+				"CoS",
+				"DSotDQ",
+				"OoW",
+				"SKT"
 			],
 			"size": [
 				"L"
@@ -62349,26 +62349,26 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"RoT",
-				"SKT",
-				"GoS",
-				"DIP",
-				"SLW",
+				"AitFR-FCD",
 				"BGDIA",
-				"IMR",
-				"MOT",
-				"TCE",
 				"CM",
-				"JttRC",
+				"DIP",
 				"DSotDQ",
-				"PaBTSO",
-				"VEoR",
-				"QftIS",
-				"TTP",
+				"GoS",
+				"IMR",
+				"JttRC",
+				"MOT",
 				"OoW",
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"RoT",
 				"RtG",
-				"AitFR-FCD"
+				"SKT",
+				"SLW",
+				"TCE",
+				"TTP",
+				"VEoR"
 			],
 			"size": [
 				"L"
@@ -62507,29 +62507,29 @@
 			"source": "MM",
 			"page": 299,
 			"referenceSources": [
-				"PotA",
-				"TftYP",
-				"DIP",
-				"SLW",
-				"MOT",
-				"IDRotF",
-				"CM",
-				"JttRC",
-				"DSotDQ",
-				"PaBTSO",
-				"LK",
-				"VEoR",
-				"QftIS",
-				"OotA",
-				"ToA",
-				"WDMM",
-				"OoW",
-				"RtG",
 				"AitFR-AVT",
-				"SCC-HfMT",
-				"SCC-ARiR",
+				"CM",
+				"DIP",
 				"DitLCoT",
-				"VNotEE"
+				"DSotDQ",
+				"IDRotF",
+				"JttRC",
+				"LK",
+				"MOT",
+				"OotA",
+				"OoW",
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"RtG",
+				"SCC-ARiR",
+				"SCC-HfMT",
+				"SLW",
+				"TftYP",
+				"ToA",
+				"VEoR",
+				"VNotEE",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -62647,9 +62647,9 @@
 			"basicRules": true,
 			"referenceSources": [
 				"IDRotF",
-				"WBtW",
 				"PaBTSO",
-				"QftIS"
+				"QftIS",
+				"WBtW"
 			],
 			"size": [
 				"T"
@@ -62721,8 +62721,8 @@
 			"page": 208,
 			"srd": true,
 			"referenceSources": [
-				"GoS",
 				"EGW",
+				"GoS",
 				"KftGV"
 			],
 			"size": [
@@ -62884,16 +62884,16 @@
 			"page": 209,
 			"srd": true,
 			"referenceSources": [
-				"ToA",
+				"BGDIA",
+				"BMT",
+				"CM",
 				"DC",
 				"DIP",
-				"BGDIA",
-				"IMR",
 				"EGW",
+				"IMR",
+				"PotA",
 				"TCE",
-				"CM",
-				"BMT",
-				"PotA"
+				"ToA"
 			],
 			"size": [
 				"M"
@@ -63058,20 +63058,20 @@
 			"page": 209,
 			"srd": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"CM",
+				"DIP",
+				"EGW",
+				"GoS",
+				"IMR",
+				"OotA",
+				"OoW",
+				"QftIS",
+				"SatO",
 				"TftYP",
 				"WDH",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"BGDIA",
-				"IMR",
-				"EGW",
-				"CM",
-				"SatO",
-				"BMT",
-				"QftIS",
-				"OotA",
-				"OoW"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -63227,11 +63227,11 @@
 			"page": 210,
 			"srd": true,
 			"referenceSources": [
-				"ToA",
 				"EGW",
 				"JttRC",
-				"ToFW",
 				"TftYP-THSoT",
+				"ToA",
+				"ToFW",
 				"TTP"
 			],
 			"size": [
@@ -63410,20 +63410,20 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"CM",
 				"CoS",
+				"EGW",
+				"ERLW",
+				"GoS",
+				"IDRotF",
+				"IMR",
 				"PotA",
 				"SKT",
-				"WDH",
-				"GoS",
-				"BGDIA",
-				"ERLW",
-				"IMR",
-				"EGW",
-				"IDRotF",
-				"CM",
-				"BMT",
+				"TftYP-WPM",
 				"VEoR",
-				"TftYP-WPM"
+				"WDH"
 			],
 			"size": [
 				"M"
@@ -63586,9 +63586,9 @@
 			"page": 102,
 			"srd": true,
 			"referenceSources": [
-				"SKT",
 				"EGW",
 				"IDRotF",
+				"SKT",
 				"TftYP-TSC"
 			],
 			"size": [
@@ -63779,32 +63779,32 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"AATM",
+				"BGDIA",
+				"BMT",
+				"CM",
 				"CoS",
+				"DIP",
+				"DSotDQ",
+				"EGW",
+				"GoS",
+				"HotDQ",
+				"IDRotF",
+				"PaBTSO",
 				"PotA",
+				"PSI",
+				"QftIS",
 				"RoT",
+				"RtG",
+				"SatO",
+				"SCC-ARiR",
+				"SDW",
 				"SKT",
 				"TftYP",
 				"ToA",
-				"WDMM",
-				"GoS",
-				"DIP",
-				"SDW",
-				"BGDIA",
-				"EGW",
-				"IDRotF",
-				"CM",
-				"DSotDQ",
-				"PSI",
-				"PaBTSO",
-				"AATM",
-				"SatO",
-				"BMT",
-				"VEoR",
-				"QftIS",
-				"HotDQ",
 				"TTP",
-				"RtG",
-				"SCC-ARiR"
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -63952,29 +63952,29 @@
 			"page": 301,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"HotDQ",
-				"PotA",
-				"TftYP",
-				"ToA",
-				"WDMM",
-				"GoS",
-				"DIP",
+				"AATM",
+				"AitFR-AVT",
 				"BGDIA",
-				"IDRotF",
+				"BMT",
 				"CM",
-				"WBtW",
+				"CoS",
 				"CRCotN",
+				"DIP",
+				"GoS",
+				"HotDQ",
+				"IDRotF",
 				"JttRC",
 				"LoX",
-				"PSI",
-				"AATM",
-				"SatO",
-				"BMT",
-				"VEoR",
-				"QftIS",
 				"OoW",
-				"AitFR-AVT"
+				"PotA",
+				"PSI",
+				"QftIS",
+				"SatO",
+				"TftYP",
+				"ToA",
+				"VEoR",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"T"
@@ -64122,12 +64122,12 @@
 			"source": "MM",
 			"page": 195,
 			"referenceSources": [
-				"HotDQ",
-				"ToA",
-				"GoS",
 				"CM",
 				"DoSI",
-				"OotA"
+				"GoS",
+				"HotDQ",
+				"OotA",
+				"ToA"
 			],
 			"size": [
 				"S"
@@ -64245,11 +64245,11 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"IDRotF",
+				"KftGV",
 				"SKT",
 				"TftYP",
-				"ToA",
-				"IDRotF",
-				"KftGV"
+				"ToA"
 			],
 			"size": [
 				"L"
@@ -64374,23 +64374,23 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BMT",
+				"CM",
+				"CoA",
 				"CoS",
+				"EGW",
+				"GoS",
+				"HftT",
 				"HotDQ",
+				"IDRotF",
+				"LK",
 				"LMoP",
+				"PaBTSO",
 				"PotA",
+				"QftIS",
 				"RoT",
 				"SKT",
-				"GoS",
-				"EGW",
-				"IDRotF",
 				"TCE",
-				"CM",
-				"HftT",
-				"PaBTSO",
-				"LK",
-				"BMT",
-				"QftIS",
-				"CoA",
 				"WDH"
 			],
 			"size": [
@@ -64484,14 +64484,14 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"PotA",
-				"SKT",
-				"WDMM",
+				"BMT",
+				"CM",
 				"ERLW",
 				"IDRotF",
-				"CM",
-				"BMT",
-				"SCC-CK"
+				"PotA",
+				"SCC-CK",
+				"SKT",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -64591,36 +64591,36 @@
 			"page": 302,
 			"srd": true,
 			"referenceSources": [
+				"AATM",
+				"BGDIA",
+				"BMT",
+				"CM",
 				"CoS",
-				"RoT",
-				"TftYP",
-				"ToA",
-				"WDMM",
-				"GoS",
 				"DC",
 				"DIP",
-				"SLW",
-				"SDW",
-				"BGDIA",
-				"EGW",
-				"MOT",
-				"IDRotF",
-				"TCE",
-				"CM",
-				"JttRC",
 				"DSotDQ",
+				"EGW",
+				"GoS",
+				"IDRotF",
+				"JttRC",
 				"KftGV",
-				"PSI",
-				"PaBTSO",
-				"AATM",
-				"SatO",
-				"BMT",
-				"VEoR",
-				"QftIS",
-				"OotA",
 				"LLK",
+				"MOT",
+				"OotA",
+				"PaBTSO",
+				"PSI",
+				"QftIS",
+				"RoT",
 				"RtG",
-				"SCC-ARiR"
+				"SatO",
+				"SCC-ARiR",
+				"SDW",
+				"SLW",
+				"TCE",
+				"TftYP",
+				"ToA",
+				"VEoR",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -64756,18 +64756,18 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"HotDQ",
-				"PotA",
-				"SKT",
-				"WDMM",
-				"DIP",
-				"SLW",
 				"BGDIA",
-				"CM",
-				"JttRC",
-				"ToFW",
 				"BMT",
-				"QftIS"
+				"CM",
+				"DIP",
+				"HotDQ",
+				"JttRC",
+				"PotA",
+				"QftIS",
+				"SKT",
+				"SLW",
+				"ToFW",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -64868,16 +64868,16 @@
 			"page": 304,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"WDMM",
-				"PaBTSO",
-				"SatO",
-				"QftIS",
 				"CoA",
-				"OotA",
-				"TTP",
+				"DitLCoT",
 				"LLK",
-				"DitLCoT"
+				"OotA",
+				"PaBTSO",
+				"PotA",
+				"QftIS",
+				"SatO",
+				"TTP",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -65008,11 +65008,11 @@
 			"page": 305,
 			"basicRules": true,
 			"referenceSources": [
-				"SKT",
-				"TftYP",
 				"EGW",
 				"IDRotF",
 				"LoX",
+				"SKT",
+				"TftYP",
 				"ToFW"
 			],
 			"size": [
@@ -65142,12 +65142,12 @@
 			"source": "MM",
 			"page": 65,
 			"referenceSources": [
-				"WDMM",
-				"EGW",
 				"CRCotN",
+				"EGW",
+				"OotA",
 				"PaBTSO",
 				"VEoR",
-				"OotA"
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -65370,11 +65370,11 @@
 			"page": 88,
 			"srd": true,
 			"referenceSources": [
-				"RoT",
-				"TftYP",
-				"GoS",
 				"BGDIA",
-				"LK"
+				"GoS",
+				"LK",
+				"RoT",
+				"TftYP"
 			],
 			"size": [
 				"L"
@@ -65590,14 +65590,14 @@
 			"page": 91,
 			"srd": true,
 			"referenceSources": [
-				"CoS",
-				"RoT",
-				"WDMM",
 				"BGDIA",
-				"MOT",
+				"CoS",
 				"DSotDQ",
 				"LK",
-				"QftIS"
+				"MOT",
+				"QftIS",
+				"RoT",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -66052,10 +66052,10 @@
 			"page": 108,
 			"srd": true,
 			"referenceSources": [
-				"WDH",
-				"GoS",
 				"CM",
-				"QftIS"
+				"GoS",
+				"QftIS",
+				"WDH"
 			],
 			"size": [
 				"L"
@@ -66298,8 +66298,8 @@
 			"page": 112,
 			"srd": true,
 			"referenceSources": [
-				"SKT",
-				"SatO"
+				"SatO",
+				"SKT"
 			],
 			"size": [
 				"L"
@@ -66782,17 +66782,17 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"BMT",
+				"HftT",
+				"LK",
+				"LMoP",
+				"OoW",
+				"PaBTSO",
+				"RMBRE",
 				"RoT",
 				"SKT",
-				"WDMM",
-				"BGDIA",
-				"RMBRE",
-				"HftT",
-				"PaBTSO",
-				"LK",
-				"BMT",
-				"LMoP",
-				"OoW"
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -67018,19 +67018,19 @@
 			"page": 98,
 			"srd": true,
 			"referenceSources": [
-				"PotA",
-				"RoT",
-				"ToA",
-				"WDMM",
-				"JttRC",
-				"LoX",
+				"BMT",
+				"CoA",
 				"DSotDQ",
+				"JttRC",
 				"KftGV",
 				"LK",
-				"SatO",
-				"BMT",
+				"LoX",
+				"PotA",
 				"QftIS",
-				"CoA"
+				"RoT",
+				"SatO",
+				"ToA",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -67241,8 +67241,8 @@
 			"page": 85,
 			"referenceSources": [
 				"AATM",
-				"QftIS",
-				"CoA"
+				"CoA",
+				"QftIS"
 			],
 			"size": [
 				"L"
@@ -67477,9 +67477,9 @@
 			"source": "MM",
 			"page": 258,
 			"referenceSources": [
-				"SKT",
 				"EGW",
-				"IDRotF"
+				"IDRotF",
+				"SKT"
 			],
 			"size": [
 				"L"
@@ -67567,8 +67567,8 @@
 			"page": 118,
 			"srd": true,
 			"referenceSources": [
-				"SKT",
-				"DSotDQ"
+				"DSotDQ",
+				"SKT"
 			],
 			"size": [
 				"L"
@@ -67803,13 +67803,13 @@
 			"page": 101,
 			"srd": true,
 			"referenceSources": [
-				"RoT",
-				"TftYP",
+				"BMT",
 				"DIP",
 				"IDRotF",
 				"LK",
-				"ToFW",
-				"BMT"
+				"RoT",
+				"TftYP",
+				"ToFW"
 			],
 			"size": [
 				"L"
@@ -68026,13 +68026,13 @@
 			"source": "MM",
 			"page": 308,
 			"referenceSources": [
-				"RoT",
-				"ToA",
-				"WDMM",
-				"DIP",
-				"SLW",
 				"CM",
-				"TTP"
+				"DIP",
+				"RoT",
+				"SLW",
+				"ToA",
+				"TTP",
+				"WDMM"
 			],
 			"size": [
 				"L"
@@ -68221,11 +68221,11 @@
 			"source": "MM",
 			"page": 309,
 			"referenceSources": [
+				"CM",
 				"HotDQ",
 				"RoT",
 				"SKT",
-				"ToA",
-				"CM"
+				"ToA"
 			],
 			"size": [
 				"M"
@@ -68592,12 +68592,12 @@
 			"source": "MM",
 			"page": 309,
 			"referenceSources": [
+				"CM",
 				"HotDQ",
 				"RoT",
 				"SKT",
-				"ToA",
-				"CM",
-				"TftYP-DiT"
+				"TftYP-DiT",
+				"ToA"
 			],
 			"size": [
 				"M"
@@ -68803,14 +68803,14 @@
 			"source": "MM",
 			"page": 310,
 			"referenceSources": [
+				"CM",
 				"HotDQ",
+				"PSI",
 				"RoT",
 				"SKT",
 				"ToA",
-				"WDMM",
-				"CM",
-				"PSI",
-				"TTP"
+				"TTP",
+				"WDMM"
 			],
 			"size": [
 				"M"
@@ -68969,42 +68969,42 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"AATM",
+				"BGDIA",
+				"BMT",
 				"CoS",
-				"LMoP",
-				"PotA",
-				"RoT",
-				"TftYP",
-				"ToA",
-				"WDMM",
-				"GoS",
 				"DC",
 				"DIP",
-				"SLW",
-				"SDW",
-				"BGDIA",
-				"ERLW",
-				"RMBRE",
-				"EGW",
-				"TCE",
-				"WBtW",
-				"JttRC",
 				"DoSI",
 				"DSotDQ",
-				"KftGV",
-				"PSI",
+				"EGW",
+				"ERLW",
+				"GoS",
 				"HftT",
-				"PaBTSO",
-				"AATM",
-				"SatO",
-				"ToFW",
-				"BMT",
-				"VEoR",
-				"QftIS",
-				"OotA",
+				"JttRC",
+				"KftGV",
 				"KKW",
+				"LMoP",
+				"OotA",
 				"OoW",
+				"PaBTSO",
+				"PotA",
+				"PSI",
+				"QftIS",
+				"RMBRE",
+				"RoT",
 				"RtG",
-				"VNotEE"
+				"SatO",
+				"SDW",
+				"SLW",
+				"TCE",
+				"TftYP",
+				"ToA",
+				"ToFW",
+				"VEoR",
+				"VNotEE",
+				"WBtW",
+				"WDMM"
 			],
 			"size": [
 				"M"

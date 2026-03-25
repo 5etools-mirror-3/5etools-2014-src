@@ -609,7 +609,8 @@
 					}
 				}
 			},
-			"hasToken": true
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Berlain Shadowdusk",
@@ -1355,7 +1356,8 @@
 				"name": "Nothic",
 				"source": "MM"
 			},
-			"hasToken": true
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Deformed Duergar",
@@ -1625,6 +1627,9 @@
 							]
 						}
 					}
+				},
+				"_preserve": {
+					"legendaryGroup": true
 				}
 			},
 			"languages": [
@@ -2613,7 +2618,8 @@
 					}
 				}
 			},
-			"hasToken": true
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Huge Gray Ooze",
@@ -4033,7 +4039,8 @@
 				"Draconic",
 				"Dwarvish",
 				"Giant",
-				"Terran"
+				"Terran",
+				"but can't speak (he uses {@spell Rary's telepathic bond} to communicate)"
 			],
 			"tokenCustom": true,
 			"senseTags": [
@@ -4042,6 +4049,7 @@
 			"languageTags": [
 				"AU",
 				"C",
+				"CS",
 				"D",
 				"DR",
 				"GI",
@@ -4406,7 +4414,8 @@
 					}
 				}
 			},
-			"hasToken": true
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Rowboat Mimic",
@@ -5721,7 +5730,8 @@
 					}
 				}
 			},
-			"hasToken": true
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Werebat",
@@ -6011,7 +6021,8 @@
 				"E",
 				"U"
 			],
-			"hasToken": true
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Xorta",
@@ -6031,7 +6042,8 @@
 					}
 				}
 			},
-			"hasToken": true
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Yrlakka",
@@ -6060,7 +6072,8 @@
 					}
 				}
 			},
-			"hasToken": true
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Zalthar Shadowdusk",

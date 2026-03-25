@@ -1715,7 +1715,7 @@ export class ConverterCreature extends ConverterBase {
 		TagImmResVulnConditional.tryRun(stats);
 		DragonAgeTag.tryRun(stats);
 		FamiliarTag.tryRun(stats, {styleHint: options.styleHint});
-		AttachedItemTag.tryRun(stats);
+		AttachedItemTag.tryRun(stats, {styleHint: options.styleHint});
 		this._doStatblockPostProcess_doCleanup(stats, options);
 		this._doStatblockPostProcess_doVerify(stats, options);
 	}

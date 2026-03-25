@@ -3,8 +3,8 @@
 		{
 			"name": "+1 Ammunition",
 			"referenceSources": [
-				"ToA",
-				"CoA"
+				"CoA",
+				"ToA"
 			],
 			"type": "GV|DMG",
 			"requires": [
@@ -35,8 +35,8 @@
 		{
 			"name": "+1 Armor",
 			"referenceSources": [
-				"LMoP",
 				"GotSF",
+				"LMoP",
 				"PaBTSO"
 			],
 			"type": "GV|DMG",
@@ -87,16 +87,16 @@
 		{
 			"name": "+1 Weapon",
 			"referenceSources": [
-				"LMoP",
-				"TftYP-DiT",
-				"GoS",
 				"DIP",
-				"NRH-ASS",
 				"DoSI",
-				"SjA",
+				"GoS",
+				"LMoP",
+				"NRH-ASS",
 				"PaBTSO",
-				"ToFW",
-				"QftIS"
+				"QftIS",
+				"SjA",
+				"TftYP-DiT",
+				"ToFW"
 			],
 			"type": "GV|DMG",
 			"requires": [
@@ -625,7 +625,8 @@
 				"entries": [
 					"{#itemEntry Armor of Resistance}"
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "Armor of Fire Resistance",
@@ -1054,12 +1055,12 @@
 		{
 			"name": "Berserker Axe",
 			"referenceSources": [
-				"TftYP-THSoT",
-				"GoS",
-				"IDRotF",
-				"HoL",
 				"DSotDQ",
+				"GoS",
+				"HoL",
+				"IDRotF",
 				"QftIS",
+				"TftYP-THSoT",
 				"TftYP-ToH"
 			],
 			"type": "GV|DMG",
@@ -1448,9 +1449,9 @@
 		{
 			"name": "Dragon Slayer",
 			"referenceSources": [
+				"DIP",
 				"PotA",
-				"TftYP-AtG",
-				"DIP"
+				"TftYP-AtG"
 			],
 			"type": "GV|DMG",
 			"requires": [
@@ -1720,10 +1721,10 @@
 			"name": "Flame Tongue",
 			"referenceSources": [
 				"OotA",
+				"QftIS",
 				"TftYP-ToH",
 				"ToA",
-				"WBtW",
-				"QftIS"
+				"WBtW"
 			],
 			"type": "GV|DMG",
 			"requires": [
@@ -2493,11 +2494,11 @@
 		{
 			"name": "Mithral Armor",
 			"referenceSources": [
-				"WDMM",
+				"CoA",
+				"GoS",
 				"IDRotF",
 				"KftGV",
-				"CoA",
-				"GoS"
+				"WDMM"
 			],
 			"type": "GV|DMG",
 			"requires": [
@@ -2613,8 +2614,8 @@
 		{
 			"name": "Nine Lives Stealer",
 			"referenceSources": [
-				"WDMM",
-				"CoA"
+				"CoA",
+				"WDMM"
 			],
 			"type": "GV|DMG",
 			"requires": [
@@ -3380,8 +3381,8 @@
 		{
 			"name": "Sword of Sharpness",
 			"referenceSources": [
-				"WDMM",
-				"LRDT"
+				"LRDT",
+				"WDMM"
 			],
 			"type": "GV|DMG",
 			"requires": [
@@ -3443,9 +3444,9 @@
 		{
 			"name": "Sword of Vengeance",
 			"referenceSources": [
+				"HoL",
 				"TftYP-AtG",
-				"TftYP-ToH",
-				"HoL"
+				"TftYP-ToH"
 			],
 			"type": "GV|DMG",
 			"requires": [
@@ -3737,8 +3738,8 @@
 		{
 			"name": "Weapon of Warning",
 			"referenceSources": [
-				"JttRC",
-				"CRCotN"
+				"CRCotN",
+				"JttRC"
 			],
 			"type": "GV|DMG",
 			"requires": [

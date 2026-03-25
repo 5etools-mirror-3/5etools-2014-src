@@ -941,7 +941,8 @@
 				}
 			],
 			"traitTags": [
-				"Charge"
+				"Charge",
+				"Sure-Footed"
 			],
 			"actionTags": [
 				"Multiattack"
@@ -5301,7 +5302,8 @@
 				}
 			],
 			"traitTags": [
-				"Charge"
+				"Charge",
+				"Sure-Footed"
 			],
 			"damageTags": [
 				"B"

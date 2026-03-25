@@ -18,17 +18,17 @@
 				}
 			],
 			"referenceSources": [
-				"TTP",
-				"WDMM",
-				"OoW",
 				"IMR",
-				"SCC-ARiR",
 				"JttRC",
 				"KftGV",
+				"OoW",
 				"PaBTSO",
+				"RtG",
+				"SCC-ARiR",
 				"TftYP-TSC",
 				"ToA",
-				"RtG"
+				"TTP",
+				"WDMM"
 			],
 			"type": "AT",
 			"rarity": "none",
@@ -147,10 +147,10 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP-TSC",
-				"IDRotF",
 				"CRCotN",
-				"DitLCoT"
+				"DitLCoT",
+				"IDRotF",
+				"TftYP-TSC"
 			],
 			"type": "A",
 			"rarity": "none",
@@ -418,12 +418,12 @@
 			],
 			"referenceSources": [
 				"BGDIA",
-				"IMR",
 				"CM",
+				"IMR",
 				"KftGV",
-				"ToFW",
+				"PaBTSO",
 				"SCC-HfMT",
-				"PaBTSO"
+				"ToFW"
 			],
 			"type": "AT",
 			"rarity": "none",
@@ -606,10 +606,10 @@
 				}
 			],
 			"referenceSources": [
-				"ToA",
-				"PaBTSO",
 				"DoSI",
-				"KftGV"
+				"KftGV",
+				"PaBTSO",
+				"ToA"
 			],
 			"type": "AT",
 			"rarity": "none",
@@ -692,13 +692,13 @@
 			"basicRules": true,
 			"referenceSources": [
 				"CoS",
-				"SCC-ARiR",
 				"CRCotN",
 				"DSotDQ",
+				"GoS",
 				"PaBTSO",
-				"VEoR",
 				"QftIS",
-				"GoS"
+				"SCC-ARiR",
+				"VEoR"
 			],
 			"type": "HA",
 			"rarity": "none",
@@ -719,10 +719,10 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP-TSC",
+				"CM",
 				"CoS",
-				"US",
-				"CM"
+				"TftYP-TSC",
+				"US"
 			],
 			"type": "MA",
 			"rarity": "none",
@@ -741,10 +741,10 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"WDH",
 				"GoS",
 				"KftGV",
-				"TftYP-AtG"
+				"TftYP-AtG",
+				"WDH"
 			],
 			"type": "M",
 			"rarity": "none",
@@ -943,14 +943,14 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"CM",
 				"CoS",
+				"CRCotN",
 				"GoS",
 				"IDRotF",
-				"CM",
-				"SCC-ARiR",
-				"CRCotN",
 				"KftGV",
 				"PaBTSO",
+				"SCC-ARiR",
 				"VEoR"
 			],
 			"type": "A",
@@ -987,17 +987,17 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"BGDIA",
+				"CM",
+				"CoS",
+				"DoSI",
+				"DSotDQ",
 				"GoS",
 				"IDRotF",
-				"CM",
 				"JttRC",
-				"DSotDQ",
-				"QftIS",
-				"CoS",
-				"TftYP-TSC",
-				"BGDIA",
-				"DoSI",
 				"PaBTSO",
+				"QftIS",
+				"TftYP-TSC",
 				"ToFW",
 				"VEoR"
 			],
@@ -1102,8 +1102,8 @@
 			"source": "DMG",
 			"page": 268,
 			"referenceSources": [
-				"QftIS",
-				"IDRotF"
+				"IDRotF",
+				"QftIS"
 			],
 			"type": "AF|DMG",
 			"rarity": "none",
@@ -1140,8 +1140,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
-				"RtG"
+				"RtG",
+				"ToA"
 			],
 			"type": "INS",
 			"rarity": "none",
@@ -1263,10 +1263,10 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP-AtG",
-				"RMBRE",
+				"IDRotF",
 				"PaBTSO",
-				"IDRotF"
+				"RMBRE",
+				"TftYP-AtG"
 			],
 			"type": "M",
 			"rarity": "none",
@@ -1308,8 +1308,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP-TSC",
-				"PaBTSO"
+				"PaBTSO",
+				"TftYP-TSC"
 			],
 			"type": "M",
 			"rarity": "none",
@@ -1358,8 +1358,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"ToA",
-				"LoX"
+				"LoX",
+				"ToA"
 			],
 			"type": "MA",
 			"rarity": "none",
@@ -1379,8 +1379,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"CoS",
 				"CM",
+				"CoS",
 				"VEoR"
 			],
 			"type": "R",
@@ -1441,13 +1441,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"CoS",
-				"TTP",
-				"SCC-ARiR",
-				"IDRotF",
 				"CM",
+				"CoS",
+				"IDRotF",
 				"KftGV",
-				"PaBTSO"
+				"PaBTSO",
+				"SCC-ARiR",
+				"TTP"
 			],
 			"type": "R",
 			"rarity": "none",
@@ -1576,9 +1576,9 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"DSotDQ",
 				"GoS",
 				"IDRotF",
-				"DSotDQ",
 				"TftYP-TSC"
 			],
 			"type": "M",
@@ -1782,8 +1782,8 @@
 				}
 			],
 			"referenceSources": [
-				"RtG",
 				"KftGV",
+				"RtG",
 				"ToA"
 			],
 			"type": "AT",
@@ -1851,13 +1851,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP-AtG",
-				"KftGV",
 				"CoS",
 				"GoS",
-				"US",
 				"IDRotF",
-				"PaBTSO"
+				"KftGV",
+				"PaBTSO",
+				"TftYP-AtG",
+				"US"
 			],
 			"type": "R",
 			"rarity": "none",
@@ -1926,10 +1926,10 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP-TSC",
-				"WDH",
 				"IDRotF",
-				"LK"
+				"LK",
+				"TftYP-TSC",
+				"WDH"
 			],
 			"type": "R",
 			"rarity": "none",
@@ -1965,21 +1965,21 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"CoS",
-				"WDH",
-				"GoS",
-				"RMBRE",
-				"US",
 				"CM",
-				"LoX",
+				"CoS",
 				"DSotDQ",
-				"PaBTSO",
-				"VEoR",
-				"TftYP-TSC",
+				"GoS",
 				"IDRotF",
 				"KftGV",
 				"LK",
-				"QftIS"
+				"LoX",
+				"PaBTSO",
+				"QftIS",
+				"RMBRE",
+				"TftYP-TSC",
+				"US",
+				"VEoR",
+				"WDH"
 			],
 			"type": "M",
 			"rarity": "none",
@@ -2002,13 +2002,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"DoSI",
+				"JttRC",
+				"LRDT",
+				"RtG",
 				"TftYP-ToH",
 				"ToA",
-				"TTP",
-				"RtG",
-				"JttRC",
-				"DoSI",
-				"LRDT"
+				"TTP"
 			],
 			"type": "INS",
 			"rarity": "none",
@@ -2064,14 +2064,14 @@
 				}
 			],
 			"referenceSources": [
+				"CRCotN",
+				"DSotDQ",
 				"GoS",
 				"IMR",
+				"PaBTSO",
 				"RtG",
 				"SCC-ARiR",
-				"CRCotN",
-				"PaBTSO",
-				"ToA",
-				"DSotDQ"
+				"ToA"
 			],
 			"type": "AT",
 			"rarity": "none",
@@ -2204,8 +2204,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"GoS",
 				"CoS",
+				"GoS",
 				"PaBTSO"
 			],
 			"type": "M",
@@ -2451,12 +2451,12 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP-AtG",
-				"GoS",
 				"BGDIA",
-				"US",
+				"GoS",
 				"PaBTSO",
-				"QftIS"
+				"QftIS",
+				"TftYP-AtG",
+				"US"
 			],
 			"type": "HA",
 			"rarity": "none",
@@ -2551,10 +2551,10 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TTP",
-				"WDH",
 				"CM",
-				"PaBTSO"
+				"PaBTSO",
+				"TTP",
+				"WDH"
 			],
 			"type": "M",
 			"rarity": "none",
@@ -2576,11 +2576,11 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
+				"CM",
 				"CoS",
 				"DitLCoT",
-				"US",
-				"CM",
-				"QftIS"
+				"QftIS",
+				"US"
 			],
 			"type": "M",
 			"rarity": "none",
@@ -2696,10 +2696,10 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP-TFoF",
-				"TTP",
 				"CM",
-				"DSotDQ"
+				"DSotDQ",
+				"TftYP-TFoF",
+				"TTP"
 			],
 			"type": "MA",
 			"rarity": "none",
@@ -2719,9 +2719,9 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP-TSC",
+				"KftGV",
 				"RMBRE",
-				"KftGV"
+				"TftYP-TSC"
 			],
 			"type": "M",
 			"rarity": "none",
@@ -2765,17 +2765,17 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP-AtG",
-				"TTP",
-				"WDH",
-				"GoS",
-				"WBtW",
-				"VEoR",
-				"TftYP-TSC",
 				"BGDIA",
-				"US",
 				"CRCotN",
-				"QftIS"
+				"GoS",
+				"QftIS",
+				"TftYP-AtG",
+				"TftYP-TSC",
+				"TTP",
+				"US",
+				"VEoR",
+				"WBtW",
+				"WDH"
 			],
 			"type": "S",
 			"rarity": "none",
@@ -2793,8 +2793,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP-TSC",
-				"CRCotN"
+				"CRCotN",
+				"TftYP-TSC"
 			],
 			"type": "R",
 			"rarity": "none",
@@ -2819,12 +2819,12 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"CoS",
-				"US",
 				"CM",
+				"CoS",
+				"IDRotF",
 				"KftGV",
 				"PaBTSO",
-				"IDRotF",
+				"US",
 				"VEoR"
 			],
 			"type": "M",
@@ -2947,14 +2947,14 @@
 				}
 			],
 			"referenceSources": [
+				"BGDIA",
+				"CM",
+				"IDRotF",
+				"KftGV",
+				"QftIS",
 				"ToA",
 				"TTP",
-				"WDH",
-				"BGDIA",
-				"IDRotF",
-				"CM",
-				"KftGV",
-				"QftIS"
+				"WDH"
 			],
 			"type": "AT",
 			"rarity": "none",
@@ -3035,16 +3035,16 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP-TSC",
-				"TftYP-AtG",
-				"GoS",
-				"SCC-ARiR",
+				"CRCotN",
 				"DSotDQ",
-				"PaBTSO",
+				"GoS",
 				"LK",
+				"PaBTSO",
 				"QftIS",
-				"US",
-				"CRCotN"
+				"SCC-ARiR",
+				"TftYP-AtG",
+				"TftYP-TSC",
+				"US"
 			],
 			"type": "M",
 			"rarity": "none",
@@ -3084,10 +3084,10 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TftYP-TSC",
+				"SCC-ARiR",
 				"TftYP-AtG",
-				"VEoR",
-				"SCC-ARiR"
+				"TftYP-TSC",
+				"VEoR"
 			],
 			"type": "HA",
 			"rarity": "none",
@@ -3131,13 +3131,13 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"LMoP",
-				"TftYP-TSC",
-				"ToA",
-				"GoS",
 				"BGDIA",
 				"CM",
-				"JttRC"
+				"GoS",
+				"JttRC",
+				"LMoP",
+				"TftYP-TSC",
+				"ToA"
 			],
 			"type": "LA",
 			"rarity": "none",
@@ -3186,16 +3186,16 @@
 			],
 			"referenceSources": [
 				"BGDIA",
-				"KftGV",
-				"PaBTSO",
-				"VEoR",
-				"QftIS",
-				"TTP",
-				"WDMM",
-				"OoW",
-				"IMR",
 				"IDRotF",
-				"RtG"
+				"IMR",
+				"KftGV",
+				"OoW",
+				"PaBTSO",
+				"QftIS",
+				"RtG",
+				"TTP",
+				"VEoR",
+				"WDMM"
 			],
 			"type": "AT",
 			"rarity": "none",
@@ -3276,8 +3276,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"TTP",
-				"GoS"
+				"GoS",
+				"TTP"
 			],
 			"type": "M",
 			"rarity": "none",
@@ -3363,8 +3363,8 @@
 			"basicRules": true,
 			"referenceSources": [
 				"CoS",
-				"TftYP-TFoF",
 				"GoS",
+				"TftYP-TFoF",
 				"US"
 			],
 			"type": "M",

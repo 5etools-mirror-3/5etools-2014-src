@@ -91,7 +91,7 @@ const PROPORDER_META = [
 	"internalCopies",
 
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 
 	"spellSchools",
 	"spellDistanceUnits",
@@ -134,7 +134,7 @@ const PROPORDER_MONSTER = [
 	"basicRules2024",
 	"additionalSources",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"isReprinted",
 	"reprintedAs",
 
@@ -420,7 +420,7 @@ const PROPORDER_SPELL = [
 	"basicRules2024",
 	"additionalSources",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	ObjectKey.getCopyKey({fnGetModOrder: () => PROPORDER_SPELL__COPY_MOD}),
@@ -508,7 +508,7 @@ const PROPORDER_ACTION = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"fromVariant",
@@ -590,7 +590,7 @@ const PROPORDER_BACKGROUND = [
 	"basicRules2024",
 	"additionalSources",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"edition",
@@ -673,7 +673,7 @@ const PROPORDER_CLASS = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"isReprinted",
 	"reprintedAs",
 
@@ -775,7 +775,7 @@ const PROPORDER_SUBCLASS = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"isReprinted",
 	"reprintedAs",
 
@@ -879,7 +879,7 @@ const PROPORDER_CLASS_FEATURE = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 
 	"className",
 	"classSource",
@@ -928,7 +928,7 @@ const PROPORDER_SUBCLASS_FEATURE = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 
 	"className",
 	"classSource",
@@ -1060,7 +1060,7 @@ const PROPORDER_LANGUAGE = [
 	"basicRules2024",
 	"additionalSources",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"type",
@@ -1114,7 +1114,7 @@ const PROPORDER_CONDITION = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"color",
@@ -1139,7 +1139,7 @@ const PROPORDER_DISEASE = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"type",
@@ -1166,7 +1166,7 @@ const PROPORDER_STATUS = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"color",
@@ -1190,7 +1190,7 @@ const PROPORDER_CULT = [
 	"basicRules2024",
 	"additionalSources",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"type",
@@ -1213,7 +1213,7 @@ const PROPORDER_BOON = [
 	"basicRules2024",
 	"additionalSources",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"type",
@@ -1240,7 +1240,7 @@ const PROPORDER_DEITY = [
 	"basicRules2024",
 	"additionalSources",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 
 	new ObjectKey("_copy", {
 		order: [
@@ -1298,7 +1298,7 @@ const PROPORDER_FEAT = [
 	"basicRules2024",
 	"additionalSources",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	ObjectKey.getCopyKey({fnGetModOrder: () => PROPORDER_FEAT__COPY_MOD}),
@@ -1375,7 +1375,7 @@ const PROPORDER_VEHICLE = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"vehicleType",
@@ -1453,7 +1453,7 @@ const PROPORDER_VEHICLE_UPGRADE = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 
 	"upgradeType",
 
@@ -1487,7 +1487,7 @@ const PROPORDER_ITEM = [
 	"basicRules2024",
 	"additionalSources",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	ObjectKey.getCopyKey({fnGetModOrder: () => PROPORDER_ITEM__COPY_MOD}),
@@ -1693,7 +1693,7 @@ const PROPORDER_MAGICVARIANT = [
 	"alias",
 	"group",
 	"source",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 
 	ObjectKey.getCopyKey({fnGetModOrder: () => PROPORDER_MAGICVARIANT__COPY_MOD}),
 
@@ -1834,7 +1834,7 @@ const PROPORDER_OBJECT = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"size",
@@ -1890,7 +1890,7 @@ const PROPORDER_OPTIONALFEATURE = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	ObjectKey.getCopyKey({fnGetModOrder: () => PROPORDER_OPTIONALFEATURE__COPY_MOD}),
@@ -1965,7 +1965,7 @@ const PROPORDER_REWARD = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"type",
@@ -1995,7 +1995,7 @@ const PROPORDER_VARIANTRULE = [
 	"basicRules2024",
 	"additionalSources",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"ruleType",
@@ -2013,7 +2013,7 @@ const PROPORDER_RACE_SUBRACE = [
 	"basicRules2024",
 	"additionalSources",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"edition",
@@ -2138,7 +2138,7 @@ const PROPORDER_TABLE = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 
 	"type",
 
@@ -2176,7 +2176,7 @@ const PROPORDER_TRAP = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"trapHazType",
@@ -2218,7 +2218,7 @@ const PROPORDER_HAZARD = [
 	"basicRules2024",
 	"additionalSources",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"trapHazType",
@@ -2240,7 +2240,7 @@ const PROPORDER_RECIPE = [
 	"page",
 
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 
 	"type",
 	"dishTypes",
@@ -2273,7 +2273,7 @@ const PROPORDER_CHAROPTION = [
 	"page",
 
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 
 	"prerequisite",
 
@@ -2297,7 +2297,7 @@ const PROPORDER_SKILL = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"ability",
@@ -2315,7 +2315,7 @@ const PROPORDER_SENSE = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"entries",
@@ -2331,7 +2331,7 @@ const PROPORDER_DECK = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 
 	ObjectKey.getCopyKey({fnGetModOrder: () => PROPORDER_DECK__COPY_MOD}),
 
@@ -2360,7 +2360,7 @@ const PROPORDER_CARD = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 
 	"suit",
 	"value",
@@ -2431,7 +2431,7 @@ const PROPORDER_FACILITY = [
 	"basicRules",
 	"basicRules2024",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"facilityType",
@@ -2464,7 +2464,7 @@ const PROPORDER_ENCOUNTER_SHAPE = [
 	"source",
 	"page",
 	"otherSources",
-	"referenceSources",
+	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
 	"reprintedAs",
 
 	"shapeTemplate",
