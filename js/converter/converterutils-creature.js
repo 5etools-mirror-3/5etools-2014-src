@@ -786,6 +786,7 @@ export class TraitActionTag {
 
 			"devil's sight": "Devil's Sight",
 			"devil sight": "Devil's Sight",
+			"ethereal sight": "Ethereal Sight",
 
 			"immutable form": "Immutable Form",
 
