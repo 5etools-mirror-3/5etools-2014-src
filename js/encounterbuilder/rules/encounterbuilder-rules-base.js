@@ -312,7 +312,7 @@ export class EncounterBuilderRulesBase extends BaseComponent {
 				});
 			});
 
-		return ee`<div class="ve-flex-v-center input-group ve-w-100">
+		return ee`<div class="ve-flex-v-center ve-input-group ve-w-100">
 			${selTier}
 			${selShapeType}
 			${btnGenerate}
