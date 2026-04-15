@@ -115,9 +115,9 @@ class StatGenPage {
 
 	async _pLoadRaces () {
 		return [
-			...(await DataUtil.race.loadJSON()).race,
-			...((await DataUtil.race.loadPrerelease({isAddBaseRaces: false})).race || []),
-			...((await DataUtil.race.loadBrew({isAddBaseRaces: false})).race || []),
+			...(await DataLoader.pCacheAndGetAllSite(UrlUtil.PG_RACES)),
+			...(await DataLoader.pCacheAndGetAllPrerelease(UrlUtil.PG_RACES)),
+			...(await DataLoader.pCacheAndGetAllBrew(UrlUtil.PG_RACES)),
 		]
 			.filter(it => {
 				const hash = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_RACES](it);
@@ -127,9 +127,9 @@ class StatGenPage {
 
 	async _pLoadBackgrounds () {
 		return [
-			...(await DataUtil.loadJSON("data/backgrounds.json")).background,
-			...((await PrereleaseUtil.pGetBrewProcessed()).background || []),
-			...((await BrewUtil2.pGetBrewProcessed()).background || []),
+			...(await DataLoader.pCacheAndGetAllSite(UrlUtil.PG_BACKGROUNDS)),
+			...(await DataLoader.pCacheAndGetAllPrerelease(UrlUtil.PG_BACKGROUNDS)),
+			...(await DataLoader.pCacheAndGetAllBrew(UrlUtil.PG_BACKGROUNDS)),
 		]
 			.filter(it => {
 				const hash = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_BACKGROUNDS](it);
@@ -139,9 +139,9 @@ class StatGenPage {
 
 	async _pLoadFeats () {
 		return [
-			...(await DataUtil.loadJSON("data/feats.json")).feat,
-			...((await PrereleaseUtil.pGetBrewProcessed()).feat || []),
-			...((await BrewUtil2.pGetBrewProcessed()).feat || []),
+			...(await DataLoader.pCacheAndGetAllSite(UrlUtil.PG_FEATS)),
+			...(await DataLoader.pCacheAndGetAllPrerelease(UrlUtil.PG_FEATS)),
+			...(await DataLoader.pCacheAndGetAllBrew(UrlUtil.PG_FEATS)),
 		]
 			.filter(it => {
 				const hash = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_FEATS](it);

@@ -48,6 +48,7 @@
 		$rgb-source-PSI: #7b64b3;
 		$rgb-source-PSX: #cb3631;
 		$rgb-source-XMtS: #be3e8d;
+		$rgb-source-CaBoMP: #b35a89;
 
 		// region Categories
 
@@ -225,6 +226,10 @@
 			&BMT,
 			&DMTCRG {
 				@include mix-source-color($rgb-source-BMT);
+			}
+
+			&CaBoMP {
+				@include mix-source-color($rgb-source-CaBoMP);
 			}
 		}
 	}

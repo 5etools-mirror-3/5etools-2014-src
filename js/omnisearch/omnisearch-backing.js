@@ -113,7 +113,8 @@ export class OmnisearchBacking {
 			"veh": [Parser.pageCategoryToFull(Parser.CAT_ID_VEHICLE)],
 			"obj": [Parser.pageCategoryToFull(Parser.CAT_ID_OBJECT)],
 			"god": [Parser.pageCategoryToFull(Parser.CAT_ID_DEITY)],
-			"rcp": [Parser.pageCategoryToFull(Parser.CAT_ID_RECIPES)], // :^)
+			"rcp": [Parser.pageCategoryToFull(Parser.CAT_ID_RECIPE)], // :^)
+			"ptn": [Parser.pageCategoryToFull(Parser.CAT_ID_CROCHET_PATTERN)], // :^^)
 
 			"cf": inCategoryAlias["classFeature"],
 			"scf": inCategoryAlias["subclassFeature"],
@@ -335,9 +336,13 @@ export class OmnisearchBacking {
 	]);
 
 	static _CATEGORIES_DEPRIORITIZED = new Set([
-		Parser.CAT_ID_RECIPES,
 		Parser.CAT_ID_LANGUAGE,
 		Parser.CAT_ID_CARD,
+	]);
+
+	static _CATEGORIES_DEPRIORITIZED_MORE = new Set([
+		Parser.CAT_ID_RECIPE,
+		Parser.CAT_ID_CROCHET_PATTERN,
 	]);
 
 	static _CATEGORIES_CORPORA = new Set([
@@ -361,6 +366,7 @@ export class OmnisearchBacking {
 		if (SourceUtil.isLegacySourceWotc(result.doc.s)) result.score *= 0.75;
 
 		if (this._CATEGORIES_DEPRIORITIZED.has(result.doc.c)) result.score *= 0.5;
+		if (this._CATEGORIES_DEPRIORITIZED_MORE.has(result.doc.c)) result.score *= 0.38;
 
 		if (result.doc.dR) result.score *= 0.9;
 	}

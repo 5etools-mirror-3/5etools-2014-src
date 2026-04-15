@@ -35,12 +35,15 @@ export class UtilsFoundryItem {
 		"robe",
 		"slippers?",
 		"signet",
+		"manacles",
 
 		"bell",
 		"kit",
 		"pen",
 		"costume",
 		"tinderbox",
+		"chain",
+		"rope",
 	].map(it => new RegExp(`\\b${it}\\b`, "i"));
 
 	static getFoundryItemType (item) {

@@ -911,9 +911,10 @@ class ListSelectClickHandlerBase {
 
 	bindSelectAllCheckbox (cbAll) {
 		// eslint-disable-next-line vet-jquery/jquery
-		cbAll = (globalThis.jQuery && cbAll instanceof globalThis.jQuery)
-			? e_({ele: cbAll[0]})
-			: cbAll;
+		if (globalThis.jQuery && cbAll instanceof globalThis.jQuery) {
+			if (!cbAll.length) return;
+			cbAll = e_({ele: cbAll[0]});
+		}
 		if (!cbAll) return;
 		cbAll
 			.addEventListener("change", () => {
@@ -1773,7 +1774,7 @@ class SearchUiUtil {
 		Object.values(alternateData).forEach(arr => arr.forEach(d => handleDataItem(d, true)));
 
 		const pAddPrereleaseBrewIndex = async ({brewUtil}) => {
-			const brewIndex = await brewUtil.pGetSearchIndex({id: availContent.ALL.documentStore.length});
+			const brewIndex = await brewUtil.pGetSearchIndex({id: ixMax + 1});
 
 			brewIndex.forEach(d => {
 				if (SearchUiUtil._isNoHoverCat(d.c) || fromDeepIndex(d)) return;
@@ -1782,6 +1783,7 @@ class SearchUiUtil {
 				initIndexForFullCat(d);
 				availContent.ALL.addDoc(d);
 				availContent[d.cf].addDoc(d);
+				ixMax = Math.max(ixMax, d.id);
 			});
 		};
 
@@ -2174,6 +2176,9 @@ class SearchWidget {
 	// region entity searches
 	static async pGetUserSpellSearch (opts) {
 		opts = opts || {};
+
+		const styleHint = opts.styleHint || VetoolsConfig.get("styleSwitcher", "style");
+
 		await SearchWidget.P_LOADING_CONTENT;
 
 		const nxtOpts = {
@@ -2189,6 +2194,7 @@ class SearchWidget {
 					isRename ? cpy.n.toSpellCase() : "",
 				];
 				while (pts.at(-1) === "") pts.pop();
+				if (styleHint !== "classic") pts[0] = pts[0].toTitleCase();
 				cpy.tag = `{@spell ${pts.join("|")}}`;
 				return cpy;
 			},

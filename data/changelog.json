@@ -3144,5 +3144,11 @@
 		"ver": "1.215.1",
 		"date": "2026-04-05",
 		"txt": "- (Brew) Added standard text tagging to Generic Text Converter\n- (Brew) Fixed display of source'd language/tool proficiencies in Backgrounds page filters\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.216.0",
+		"date": "2026-04-15",
+		"title": "Shoutout Me Nan",
+		"txt": "- Added \"Crochet: A Book of Many Patterns\" (big thanks @ Lyra for the data entry; schema)\n  - Added Home Crafts page <https://5e.tools/homecrafts.html>, with homebrew support\n- Added \"Heroes' Feast: The Deck of Many Morsels\" (previously available in the '24 version of the site; now back-ported)\n- Added \"Puncheons and Flagons\" (previously available in the '24 version of the site; now back-ported)\n- Added \"Show Notification on Update\" option to Preferences\n- Added Tomb of Annihilation poster maps\n- Added preview support to Races page\n- Fixed DM Screen Time Tracker failing to display \"Roll Weather\" button\n- Fixed page header appearing on mobile\n- Fixed various typos and minor bugs which had accumulated due to drift between '14 (secondary/downstream) and '24 (primary/upstream) versions\n- (Brew) Expanded Creature Homebrew Builder spellcasting type support to better match available schema\n- (Brew) Added `_copy` support for additional entity types (`boon`, `cult`, `encounterShape`, `itemMastery`, `psionic`, `sense`, `skill`, `vehicleUpgrade`)\n- (Brew) Canonized `_meta.includes._meta.<source>` behaviour as `_meta.includes.*.<source>`\n- (Brew) Improved Races page handling of homebrew race sizes\n- (Brew) Fixed Omnisearch index failing to fully populate in the presence of loaded homebrew, in some cases\n- (Fixed typos/added tags)"
 	}
 ]

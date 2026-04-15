@@ -9,7 +9,7 @@ class PageFilterRaces extends PageFilterBase {
 		lProfs.forEach(lProfGroup => {
 			Object.keys(lProfGroup)
 				.forEach(k => {
-					if (!["choose", "any", "anyStandard", "anyExotic"].includes(k)) outSet.add(k.toTitleCase());
+					if (!["choose", "any", "anyStandard", "anyExotic", "anyRare"].includes(k)) outSet.add(k.toTitleCase());
 					else outSet.add("Choose");
 				});
 		});
@@ -23,15 +23,16 @@ class PageFilterRaces extends PageFilterBase {
 		a = a.item;
 		b = b.item;
 
-		return SortUtil.ascSort(toNum(a), toNum(b));
+		return SortUtil.ascSort(Parser.SIZE_ABVS.indexOf(a), Parser.SIZE_ABVS.indexOf(b));
+	}
 
-		function toNum (size) {
-			switch (size) {
-				case "M": return 0;
-				case "S": return -1;
-				case "V": return 1;
-			}
-		}
+	static getSizeDisplayInfo (size) {
+		size ||= [Parser.SZ_VARIES];
+
+		return {
+			sizeText: size.map(sz => Parser.sizeAbvToFull(sz)).joinConjunct(", ", " or "),
+			sizeShortText: size.map(sz => Parser.sizeAbvToShort(sz)).join("/"),
+		};
 	}
 	// endregion
 
@@ -143,7 +144,7 @@ class PageFilterRaces extends PageFilterBase {
 		if (r.lineage) r._fMisc.push("Lineage");
 
 		const ability = r.ability ? Renderer.getAbilityData(r.ability, {isOnlyShort: true, isCurrentLineage: r.lineage === "VRGR"}) : {asTextShort: "None"};
-		r._slAbility = ability.asTextShort;
+		r._slAbility = ability.asTextShort || VeCt.STR_NONE;
 
 		if (r.age?.mature != null && r.age?.max != null) r._fAge = [r.age.mature, r.age.max];
 		else if (r.age?.mature != null) r._fAge = r.age.mature;

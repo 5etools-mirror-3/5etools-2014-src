@@ -2192,7 +2192,10 @@
 					"href": {
 						"type": "internal",
 						"path": "items/DMG/Figurine of Wondrous Power.webp"
-					}
+					},
+					"credit": "Conceptopolis",
+					"width": 1700,
+					"height": 904
 				}
 			]
 		},

@@ -34,6 +34,7 @@ class PageFilterRewards extends PageFilterBase {
 
 	static mutateForFilters (it) {
 		this._mutateForFilters_commonSources(it);
+
 		it._fRarity = it.rarity || "unknown";
 		it._fBenefits = [
 			it.additionalSpells ? "Spellcasting" : null,

@@ -86,7 +86,7 @@ class PageFilterFeats extends PageFilterBase {
 			feat.weaponProficiencies ? "Weapon Proficiency" : null,
 			feat.toolProficiencies ? "Tool Proficiency" : null,
 			feat.languageProficiencies ? "Language Proficiency" : null,
-		].filter(it => it);
+		].filter(Boolean);
 		if (feat.skillToolLanguageProficiencies?.length) {
 			if (feat.skillToolLanguageProficiencies.some(it => (it.choose || []).some(x => x.from || [].includes("anySkill")))) feat._fBenefits.push("Skill Proficiency");
 			if (feat.skillToolLanguageProficiencies.some(it => (it.choose || []).some(x => x.from || [].includes("anyTool")))) feat._fBenefits.push("Tool Proficiency");

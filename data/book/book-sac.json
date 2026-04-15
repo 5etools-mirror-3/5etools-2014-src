@@ -2,7 +2,7 @@
 	"data": [
 		{
 			"type": "section",
-			"name": "Sage Advice Compendium",
+			"name": "Sage Advice Compendium (2014)",
 			"page": 1,
 			"id": "000",
 			"entries": [
@@ -17,12 +17,12 @@
 						{
 							"type": "list",
 							"items": [
-								"{@book Player's Handbook|PHB} (abbreviated PHB)",
-								"{@book Monster Manual|MM} (abbreviated MM)",
-								"{@book Dungeon Master's Guide|DMG} (abbreviated DMG)"
+								"{@book Player's Handbook (2014)|PHB} (abbreviated PHB)",
+								"{@book Monster Manual (2014)|MM} (abbreviated MM)",
+								"{@book Dungeon Master's Guide (2014)|DMG} (abbreviated DMG)"
 							]
 						},
-						"The free {@link Basic Rules|https://www.dndbeyond.com/sources/dnd/basic-rules-2014} contains portions of those three books.",
+						"The free {@link Basic Rules (2014)|https://www.dndbeyond.com/sources/dnd/basic-rules-2014} contains portions of those three books.",
 						{
 							"type": "entries",
 							"name": "Official Rulings",
@@ -3379,7 +3379,7 @@
 											"type": "entries",
 											"name": "Recent books include monster stat blocks\u2014like the dragon blessed in Fizban's Treasury of Dragons and the Silverquill apprentice in Strixhaven: A Curriculum of Chaos\u2014that contain actions designated as spell attacks, rather than weapon attacks. What was the motivation for adding this type of action to the game?",
 											"entries": [
-												"This type of action isn't new. Monsters have had spell attacks since the {@book Monster Manual|MM}. See the {@creature lich|MM|lich's} Paralyzing Touch action and the {@creature cambion|MM|cambion's} Fire Ray action for other examples of actions that are spell attacks. As discussed in the {@book introduction|MM|0|Melee and Ranged Attacks} of the {@book Monster Manual|MM}, a monster's attack action is designated as either a weapon attack or a spell attack."
+												"This type of action isn't new. Monsters have had spell attacks since the {@book Monster Manual|MM} (2014). See the {@creature lich|MM|lich's} Paralyzing Touch action and the {@creature cambion|MM|cambion's} Fire Ray action for other examples of actions that are spell attacks. As discussed in the {@book introduction|MM|0|Melee and Ranged Attacks} of the {@book Monster Manual|MM}, a monster's attack action is designated as either a weapon attack or a spell attack."
 											],
 											"id": "16b"
 										},

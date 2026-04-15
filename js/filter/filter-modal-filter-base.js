@@ -132,16 +132,11 @@ export class ModalFilterBase {
 		this._list.init();
 		this._list.update();
 
-		const handleFilterChange = () => {
-			const f = this._pageFilter.filterBox.getValues();
-			this._list.filter(li => this._isListItemMatchingFilter(f, li));
-		};
-
 		this._pageFilter.trimState();
 
-		this._pageFilter.filterBox.on(EVNT_VALCHANGE, handleFilterChange);
+		this._pageFilter.filterBox.on(EVNT_VALCHANGE, this._handleFilterChange.bind(this));
 		this._pageFilter.filterBox.render();
-		handleFilterChange();
+		this._handleFilterChange();
 
 		ovlLoading.remove();
 
@@ -189,6 +184,11 @@ export class ModalFilterBase {
 		});
 
 		this._pageFilter.trimState();
+	}
+
+	_handleFilterChange () {
+		const f = this._pageFilter.filterBox.getValues();
+		this._list.filter(li => this._isListItemMatchingFilter(f, li));
 	}
 
 	handleHiddenOpenButtonClick () {

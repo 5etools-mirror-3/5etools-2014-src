@@ -266,6 +266,7 @@ class PageFilterItems extends PageFilterEquipment {
 		"futuristic",
 		"modern",
 		"renaissance",
+		"trade bar",
 	]);
 	static _FILTER_BASE_ITEMS_ATTUNEMENT = ["Requires Attunement", "Requires Attunement By...", "Attunement Optional", VeCt.STR_NO_ATTUNEMENT];
 

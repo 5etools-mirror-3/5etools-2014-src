@@ -9,7 +9,9 @@
 					"href": {
 						"type": "internal",
 						"path": "adventure/GoS/000-00-001.ghosts.webp"
-					}
+					},
+					"width": 1000,
+					"height": 1000
 				},
 				"{@note Listen: {@5etoolsAudio Saltmarsh Shanty|adventure/GoS/saltmarsh-shanty.opus}}",
 				"Welcome to Ghosts of Saltmarsh. This book collects seven D&D adventures, each famous for their unique challenges, for their deadly threats, and for embracing the danger and wonder of the high seas. Some of these adventures initially charted their courses in the earliest days of D&D's history, while others set sail in more recent years. In each case, these tales of plunder and peril have been updated for the current edition of the game, revealing deadly shores for brave crews to explore anew.",
@@ -23,7 +25,9 @@
 					"href": {
 						"type": "internal",
 						"path": "adventure/GoS/001-00-002.sea.webp"
-					}
+					},
+					"width": 1000,
+					"height": 657
 				},
 				{
 					"type": "section",
@@ -50,7 +54,9 @@
 										"type": "internal",
 										"path": "adventure/GoS/002-00-003.lure.webp"
 									},
-									"maxWidth": 360
+									"maxWidth": 360,
+									"width": 970,
+									"height": 1000
 								},
 								"The {@book Monster Manual|MM} contains stat blocks for most of the monsters and NPCs found in this book. When a creature's name appears in {@b bold} type, that's a visual cue pointing you to its stat block in {@adventure appendix C|GoS|11} or in the {@book Monster Manual|MM}. If a stat block appears in {@adventure appendix C|GoS|11} of this book, the text tells you so.",
 								"Spells and nonmagical equipment mentioned in the book are described in the {@book Player's Handbook|PHB}. Magic items are described in the {@book Dungeon Master's Guide|DMG}, unless the adventure's text directs you to an item's description in {@adventure appendix B|GoS|10}."
@@ -27521,7 +27527,7 @@
 											"page": 153,
 											"id": "45a",
 											"entries": [
-												"The unlocked chest next to the cot contains a selection of threadbare garments and worn sandals. It also holds a religious icon set with fourteen small diamonds (100 gp each), two blocks of amber (50 gp each), and a {@item Quaal's Feather Token||quaal's feather token (anchor)}.",
+												"The unlocked chest next to the cot contains a selection of threadbare garments and worn sandals. It also holds a religious icon set with fourteen small diamonds (100 gp each), two blocks of amber (50 gp each), and a {@item Quaal's Feather Token||Quaal's feather token (anchor)}.",
 												"The metal basin on the table holds water, and a bronze straight razor lies next to it. Closer inspection of the basin reveals that it is an upturned helmet bearing images of cavorting dolphins\u2014a {@item helm of underwater action|GoS} (see {@adventure appendix B|GoS|10}) whose magic went undetected by Borisanth and the other hermits."
 											]
 										}
@@ -34957,8 +34963,8 @@
 							"id": "519",
 							"entries": [
 								"This disease targets humanoids. While afflicted with bluerot, a victim grows grotesque blue boils on their face and back. This disease is carried by undead (including the drowned ones in Tammeraut's Fate), and victims most often acquire it through wounds caused by infected creatures.",
-								" The disease's boils manifest in {@dice 1d4} hours, causing the victim's Constitution and Charisma scores to decrease by {@dice 1d4} each, to a minimum of 3. This is quickly followed by a fever and tingling in the extremities. An infected creature is vulnerable to radiant damage and gains the ability to breathe underwater.",
-								" At the end of each long rest, an infected creature makes a {@dc 12} Constitution saving throw. On a success, the victim regains 1 point of Constitution and 1 point of Charisma lost to the disease. If the infected creature regains all the points lost to the disease, it is cured. Other effects that raise the victim's ability scores do not cure the disease. On a failed saving throw, the victim takes 18 ({@dice 4d8}) necrotic damage as the boils burst and spread. A creature reduced to 0 hit points by this damage cannot regain hit points until the disease is cured, though it can be stabilized as normal."
+								"The disease's boils manifest in {@dice 1d4} hours, causing the victim's Constitution and Charisma scores to decrease by {@dice 1d4} each, to a minimum of 3. This is quickly followed by a fever and tingling in the extremities. An infected creature is vulnerable to radiant damage and gains the ability to breathe underwater.",
+								"At the end of each long rest, an infected creature makes a {@dc 12} Constitution saving throw. On a success, the victim regains 1 point of Constitution and 1 point of Charisma lost to the disease. If the infected creature regains all the points lost to the disease, it is cured. Other effects that raise the victim's ability scores do not cure the disease. On a failed saving throw, the victim takes 18 ({@dice 4d8}) necrotic damage as the boils burst and spread. A creature reduced to 0 hit points by this damage cannot regain hit points until the disease is cured, though it can be stabilized as normal."
 							]
 						}
 					]

@@ -247,14 +247,15 @@ export class BrewUtil2Base {
 
 		await this._pGetBrewProcessed_pDoBlocklistExtension({cpyBrews});
 
-		// Avoid caching the meta merge, as we have our own cache. We might edit the brew, so we don't want a stale copy.
-		const cpyBrewsLoaded = await cpyBrews.pSerialAwaitMap(async ({head, body}) => {
-			const cpyBrew = await DataUtil.pDoMetaMerge(head.url || head.docIdLocal, body, {isSkipMetaMergeCache: true});
-			this._pGetBrewProcessed_mutDiagnostics({head, cpyBrew});
-			return cpyBrew;
-		});
+		// Add per-file diagnostics
+		cpyBrews.forEach(({head, body}) => this._pGetBrewProcessed_mutDiagnostics({head, body}));
 
-		this._cache_brewsProc = this._pGetBrewProcessed_getMergedOutput({cpyBrewsLoaded});
+		// Merge into single object; apply data migrations
+		const cpyBrewsMerged = this._pGetBrewProcessed_getMergedOutput({cpyBrews});
+
+		// Apply "_copy" etc.
+		this._cache_brewsProc = await DataUtil.pDoMetaMerge(CryptUtil.uid(), cpyBrewsMerged, {isSkipMetaMergeCache: true});
+
 		return this._cache_brewsProc;
 	}
 
@@ -266,10 +267,10 @@ export class BrewUtil2Base {
 		}
 	}
 
-	_pGetBrewProcessed_mutDiagnostics ({head, cpyBrew}) {
+	_pGetBrewProcessed_mutDiagnostics ({head, body}) {
 		if (!head.filename) return;
 
-		for (const arr of Object.values(cpyBrew)) {
+		for (const arr of Object.values(body)) {
 			if (!(arr instanceof Array)) continue;
 			for (const ent of arr) {
 				if (!("__prop" in ent)) break;
@@ -278,8 +279,8 @@ export class BrewUtil2Base {
 		}
 	}
 
-	_pGetBrewProcessed_getMergedOutput ({cpyBrewsLoaded}) {
-		return BrewDoc.mergeObjects(undefined, ...cpyBrewsLoaded);
+	_pGetBrewProcessed_getMergedOutput ({cpyBrews}) {
+		return BrewDoc.mergeObjects(undefined, ...cpyBrews.map(({body}) => body));
 	}
 
 	/**
@@ -700,7 +701,21 @@ export class BrewUtil2Base {
 		this._PROPS_DEPS.forEach(prop => {
 			const obj = brewDoc.body._meta?.[prop];
 			if (!obj || !Object.keys(obj).length) return;
-			Object.values(obj)
+
+			// "All content from <x> source"
+			const cpyObj = MiscUtil.copyFast(obj);
+			if (cpyObj["*"]) {
+				cpyObj["*"]
+					.forEach(src => sources.add(src));
+				delete cpyObj["*"];
+				return;
+			}
+
+			// "Content from <dataProperty> from <x> source"
+			// Note that current implementation is functionally the same as that of
+			//   the `*` property, above, but this is not guaranteed to remain true.
+			// Specifying exact data properties is preferred, where possible.
+			Object.values(cpyObj)
 				.flat()
 				.forEach(src => sources.add(src));
 		});
@@ -1112,6 +1127,7 @@ export class BrewUtil2Base {
 		[UrlUtil.PG_RECIPES]: ["recipe"],
 		[UrlUtil.PG_CLASS_SUBCLASS_FEATURES]: ["classFeature", "subclassFeature"],
 		[UrlUtil.PG_DECKS]: ["card", "deck"],
+		[UrlUtil.PG_HOMECRAFTS]: ["crochetPattern", "crochetPatternFluff"],
 	};
 
 	getPageProps ({page, isStrict = false, fallback = null} = {}) {
@@ -1142,6 +1158,7 @@ export class BrewUtil2Base {
 			case "creature": return "monster";
 			case "makebrew": return "makebrewCreatureTrait";
 			case "encounterbuilder": return "encounterShape";
+			case "crochetpattern": return "crochetPattern";
 		}
 		return dir;
 	}

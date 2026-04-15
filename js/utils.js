@@ -2,7 +2,7 @@
 
 // in deployment, `IS_DEPLOYED = "<version number>";` should be set below.
 globalThis.IS_DEPLOYED = undefined;
-globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.215.1"/* 5ETOOLS_VERSION__CLOSE */;
+globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.216.0"/* 5ETOOLS_VERSION__CLOSE */;
 globalThis.DEPLOYED_IMG_ROOT = undefined;
 // for the roll20 script to set
 globalThis.IS_VTT = false;
@@ -542,6 +542,7 @@ globalThis.SourceUtil = class {
 		{group: "homebrew", displayName: "Homebrew"},
 		{group: "screen", displayName: "Screens"},
 		{group: "recipe", displayName: "Recipes"},
+		{group: "homecraft", displayName: "Home Crafts"},
 		{group: "other", displayName: "Miscellaneous"},
 	];
 
@@ -1601,43 +1602,49 @@ class ElementUtil {
 	}
 
 	/** @this {HTMLElementExtended} */
-	static _attr (name, value) {
-		if (value === undefined) return this.getAttribute(name);
+	static _attr (...args) {
+		const [name, value] = args;
+		if (args.length <= 1) return this.getAttribute(name);
 		if (!value && ElementUtil._ATTRS_NO_FALSY.has(name)) this.removeAttribute(name);
 		else this.setAttribute(name, value);
 		return this;
 	}
 
 	/** @this {HTMLElementExtended} */
-	static _prop (name, value) {
-		if (value === undefined) return this[name];
+	static _prop (...args) {
+		const [name, value] = args;
+		if (args.length <= 1) return this[name];
 		this[name] = value;
 		return this;
 	}
 
 	/** @this {HTMLElementExtended} */
-	static _html (html) {
-		if (html === undefined) return this.innerHTML;
+	static _html (...args) {
+		const [html] = args;
+		if (!args.length) return this.innerHTML;
 		this.innerHTML = html;
 		return this;
 	}
 
 	/** @this {HTMLElementExtended} */
-	static _txt (txt) {
-		if (txt === undefined) return this.innerText;
+	static _txt (...args) {
+		const [txt] = args;
+		if (!args.length) return this.innerText;
 		this.innerText = txt;
 		return this;
 	}
 
 	/** @this {HTMLElementExtended} */
-	static _tooltip (title) {
-		if (title === undefined) return this.getAttribute("title");
+	static _tooltip (...args) {
+		const [title] = args;
+		if (!args.length) return this.getAttribute("title");
 		return this.attr("title", title);
 	}
 
 	/** @this {HTMLElementExtended} */
-	static _placeholdere (placeholder) {
-		if (placeholder === undefined) return this.getAttribute("placeholder");
+	static _placeholdere (...args) {
+		const [placeholder] = args;
+		if (!args.length) return this.getAttribute("placeholder");
 		return this.attr("placeholder", placeholder);
 	}
 
@@ -1664,9 +1671,10 @@ class ElementUtil {
 	}
 
 	/** @this {HTMLElementExtended} */
-	static _css (keyOrObj, val) {
+	static _css (...args) {
+		const [keyOrObj, val] = args;
 		if (typeof keyOrObj === "string") {
-			if (val === undefined) return this.style[keyOrObj];
+			if (args.length <= 1) return this.style[keyOrObj];
 			this.style[keyOrObj] = val;
 			return this;
 		}
@@ -1835,8 +1843,9 @@ class ElementUtil {
 	/* -------------------------------------------- */
 
 	/** @this {HTMLElementExtended} */
-	static _scrollTope (val) {
-		if (val === undefined) return this.scrollTop;
+	static _scrollTope (...args) {
+		const [val] = args;
+		if (!args.length) return this.scrollTop;
 		this.scrollTop = val;
 		return this;
 	}
@@ -3545,6 +3554,7 @@ globalThis.UrlUtil = class {
 	static PG_CHANGELOG = "changelog.html";
 	static PG_CHAR_CREATION_OPTIONS = "charcreationoptions.html";
 	static PG_RECIPES = "recipes.html";
+	static PG_HOMECRAFTS = "homecrafts.html";
 	static PG_CLASS_SUBCLASS_FEATURES = "classfeatures.html";
 	static PG_CREATURE_FEATURES = "creaturefeatures.html";
 	static PG_VEHICLE_FEATURES = "vehiclefeatures.html";
@@ -3936,6 +3946,7 @@ UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_ACTIONS] = UrlUtil.URL_TO_HASH_GENERIC;
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_LANGUAGES] = UrlUtil.URL_TO_HASH_GENERIC;
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CHAR_CREATION_OPTIONS] = UrlUtil.URL_TO_HASH_GENERIC;
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_RECIPES] = (it) => `${UrlUtil.encodeArrayForHash(it.name, it.source)}${it._scaleFactor ? `${HASH_PART_SEP}${VeCt.HASH_SCALED}${HASH_SUB_KV_SEP}${it._scaleFactor}` : ""}`;
+UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_HOMECRAFTS] = UrlUtil.URL_TO_HASH_GENERIC;
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_DECKS] = UrlUtil.URL_TO_HASH_GENERIC;
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CLASS_SUBCLASS_FEATURES] = (it) => (it.__prop === "subclassFeature" || it.subclassSource) ? UrlUtil.URL_TO_HASH_BUILDER["subclassFeature"](it) : UrlUtil.URL_TO_HASH_BUILDER["classFeature"](it);
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CREATURE_FEATURES] = UrlUtil.URL_TO_HASH_GENERIC;
@@ -3985,6 +3996,7 @@ UrlUtil.URL_TO_HASH_BUILDER["action"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_A
 UrlUtil.URL_TO_HASH_BUILDER["language"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_LANGUAGES];
 UrlUtil.URL_TO_HASH_BUILDER["charoption"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CHAR_CREATION_OPTIONS];
 UrlUtil.URL_TO_HASH_BUILDER["recipe"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_RECIPES];
+UrlUtil.URL_TO_HASH_BUILDER["crochetPattern"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_HOMECRAFTS];
 UrlUtil.URL_TO_HASH_BUILDER["deck"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_DECKS];
 
 UrlUtil.URL_TO_HASH_BUILDER["subclass"] = it => {
@@ -4066,6 +4078,7 @@ UrlUtil.PG_TO_NAME[UrlUtil.PG_TEXT_CONVERTER] = "Text Converter";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_CHANGELOG] = "Changelog";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_CHAR_CREATION_OPTIONS] = "Other Character Creation Options";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_RECIPES] = "Recipes";
+UrlUtil.PG_TO_NAME[UrlUtil.PG_HOMECRAFTS] = "Home Crafts";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_CREATURE_FEATURES] = "Creature Features";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_VEHICLE_FEATURES] = "Vehicle Features";
 UrlUtil.PG_TO_NAME[UrlUtil.PG_OBJECT_FEATURES] = "Object Features";
@@ -4122,7 +4135,8 @@ UrlUtil.CAT_TO_PAGE[Parser.CAT_ID_BOOK] = UrlUtil.PG_BOOK;
 UrlUtil.CAT_TO_PAGE[Parser.CAT_ID_PAGE] = null;
 UrlUtil.CAT_TO_PAGE[Parser.CAT_ID_LEGENDARY_GROUP] = null;
 UrlUtil.CAT_TO_PAGE[Parser.CAT_ID_CHAR_CREATION_OPTIONS] = UrlUtil.PG_CHAR_CREATION_OPTIONS;
-UrlUtil.CAT_TO_PAGE[Parser.CAT_ID_RECIPES] = UrlUtil.PG_RECIPES;
+UrlUtil.CAT_TO_PAGE[Parser.CAT_ID_RECIPE] = UrlUtil.PG_RECIPES;
+UrlUtil.CAT_TO_PAGE[Parser.CAT_ID_CROCHET_PATTERN] = UrlUtil.PG_HOMECRAFTS;
 UrlUtil.CAT_TO_PAGE[Parser.CAT_ID_STATUS] = UrlUtil.PG_CONDITIONS_DISEASES;
 UrlUtil.CAT_TO_PAGE[Parser.CAT_ID_DECK] = UrlUtil.PG_DECKS;
 UrlUtil.CAT_TO_PAGE[Parser.CAT_ID_CARD] = "card";
@@ -4165,6 +4179,7 @@ UrlUtil.SUBLIST_PAGES = {
 	[UrlUtil.PG_LANGUAGES]: true,
 	[UrlUtil.PG_CHAR_CREATION_OPTIONS]: true,
 	[UrlUtil.PG_RECIPES]: true,
+	[UrlUtil.PG_HOMECRAFTS]: true,
 	[UrlUtil.PG_DECKS]: true,
 };
 
@@ -6552,6 +6567,11 @@ globalThis.DataUtil = class {
 		static _FILENAME = "bestiary/template.json";
 	};
 
+	static encounterShape = class extends _DataUtilPropConfigSingleSource {
+		static _PAGE = "encounterShape";
+		static _FILENAME = "encounterbuilder.json";
+	};
+
 	static spell = class extends _DataUtilPropConfigMultiSource {
 		static _PAGE = UrlUtil.PG_SPELLS;
 		static _DIR = "spells";
@@ -6756,6 +6776,11 @@ globalThis.DataUtil = class {
 		static _PROP = "spellFluff";
 	};
 
+	static psionic = class extends _DataUtilPropConfigSingleSource {
+		static _PAGE = UrlUtil.PG_PSIONICS;
+		static _FILENAME = "psionics.json";
+	};
+
 	static background = class extends _DataUtilPropConfigSingleSource {
 		static _PAGE = UrlUtil.PG_BACKGROUNDS;
 		static _FILENAME = "backgrounds.json";
@@ -6942,6 +6967,10 @@ globalThis.DataUtil = class {
 			if (isMaintainCase) return out;
 			return out.toLowerCase();
 		}
+	};
+
+	static itemMastery = class extends _DataUtilPropConfig {
+		static _PAGE = "itemMastery";
 	};
 
 	static language = class extends _DataUtilPropConfigSingleSource {
@@ -7179,29 +7208,47 @@ globalThis.DataUtil = class {
 		static _FILENAME = "recipes.json";
 
 		static async loadJSON () {
-			return DataUtil.recipe._pLoadJson = DataUtil.recipe._pLoadJson || (async () => {
-				return {
-					recipe: await DataLoader.pCacheAndGetAllSite("recipe"),
-				};
+			return DataUtil.recipe._pLoadJson ||= (async () => {
+				return {recipe: await DataLoader.pCacheAndGetAllSite("recipe")};
 			})();
 		}
 
 		static async loadPrerelease () {
-			return {
-				recipe: await DataLoader.pCacheAndGetAllPrerelease("recipe"),
-			};
+			return {recipe: await DataLoader.pCacheAndGetAllPrerelease("recipe")};
 		}
 
 		static async loadBrew () {
-			return {
-				recipe: await DataLoader.pCacheAndGetAllBrew("recipe"),
-			};
+			return {recipe: await DataLoader.pCacheAndGetAllBrew("recipe")};
 		}
 	};
 
 	static recipeFluff = class extends _DataUtilPropConfigSingleSource {
 		static _PAGE = UrlUtil.PG_RECIPES;
 		static _FILENAME = "fluff-recipes.json";
+	};
+
+	static crochetPattern = class extends _DataUtilPropConfigSingleSource {
+		static _PAGE = UrlUtil.PG_HOMECRAFTS;
+		static _FILENAME = "homecrafts.json";
+
+		static async loadJSON () {
+			return DataUtil.crochetPattern._pLoadJson ||= (async () => {
+				return {crochetPattern: await DataLoader.pCacheAndGetAllSite("crochetPattern")};
+			})();
+		}
+
+		static async loadPrerelease () {
+			return {crochetPattern: await DataLoader.pCacheAndGetAllPrerelease("crochetPattern")};
+		}
+
+		static async loadBrew () {
+			return {crochetPattern: await DataLoader.pCacheAndGetAllBrew("crochetPattern")};
+		}
+	};
+
+	static crochetPatternFluff = class extends _DataUtilPropConfigSingleSource {
+		static _PAGE = UrlUtil.PG_HOMECRAFTS;
+		static _FILENAME = "fluff-homecrafts.json";
 	};
 
 	static vehicle = class extends _DataUtilPropConfigSingleSource {
@@ -7212,6 +7259,11 @@ globalThis.DataUtil = class {
 	static vehicleFluff = class extends _DataUtilPropConfigSingleSource {
 		static _PAGE = UrlUtil.PG_VEHICLES;
 		static _FILENAME = "fluff-vehicles.json";
+	};
+
+	static vehicleUpgrade = class extends _DataUtilPropConfigSingleSource {
+		static _PAGE = UrlUtil.PG_VEHICLES;
+		static _FILENAME = "vehicles.json";
 	};
 
 	static optionalfeature = class extends _DataUtilPropConfigSingleSource {
@@ -7452,15 +7504,11 @@ globalThis.DataUtil = class {
 		static _FILENAME = "deities.json";
 
 		static doPostLoad (data) {
-			const PRINT_ORDER = [
-				Parser.SRC_PHB,
-				Parser.SRC_DMG,
-				Parser.SRC_SCAG,
-				Parser.SRC_VGM,
-				Parser.SRC_MTF,
-				Parser.SRC_ERLW,
-				Parser.SRC_EGW,
-			];
+			const PRINT_ORDER = data.deity
+				.map(it => SourceUtil.getEntitySource(it))
+				.unique()
+				.sort((a, b) => SortUtil.ascSortDateString(Parser.sourceJsonToDate(a), Parser.sourceJsonToDate(b)))
+				.reverse();
 
 			const inSource = {};
 			PRINT_ORDER.forEach(src => {
@@ -7660,6 +7708,26 @@ globalThis.DataUtil = class {
 	static hazardFluff = class extends _DataUtilPropConfigSingleSource {
 		static _PAGE = UrlUtil.PG_TRAPS_HAZARDS;
 		static _FILENAME = "fluff-trapshazards.json";
+	};
+
+	static cult = class extends _DataUtilPropConfigSingleSource {
+		static _PAGE = UrlUtil.PG_CULTS_BOONS;
+		static _FILENAME = "cultsboons.json";
+	};
+
+	static boon = class extends _DataUtilPropConfigSingleSource {
+		static _PAGE = UrlUtil.PG_CULTS_BOONS;
+		static _FILENAME = "cultsboons.json";
+	};
+
+	static sense = class extends _DataUtilPropConfigSingleSource {
+		static _PAGE = "sense";
+		static _FILENAME = "senses.json";
+	};
+
+	static skill = class extends _DataUtilPropConfigSingleSource {
+		static _PAGE = "skill";
+		static _FILENAME = "skills.json";
 	};
 
 	static action = class extends _DataUtilPropConfigSingleSource {
@@ -9322,7 +9390,7 @@ globalThis.VeLock = function ({name = null, isDbg = false} = {}) {
 		lockMeta.unlock();
 	};
 };
-ExcludeUtil._lock = new VeLock();
+ExcludeUtil._lock = new VeLock({name: "blocklist"});
 
 // DATETIME ============================================================================================================
 globalThis.DatetimeUtil = class {

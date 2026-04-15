@@ -90,6 +90,8 @@
 		$rgb-source-QftIS: #6191ae;
 		$rgb-source-VEoR: #b74c62;
 		$rgb-source-TD: #bb9528;
+		$rgb-source-PaF: #5d7993;
+		$rgb-source-CaBoMP: #832c5a;
 
 		// region Categories
 
@@ -480,6 +482,14 @@
 
 			&TD {
 				@include mix-source-color($rgb-source-TD);
+			}
+
+			&PaF {
+				@include mix-source-color($rgb-source-PaF);
+			}
+
+			&CaBoMP {
+				@include mix-source-color($rgb-source-CaBoMP);
 			}
 		}
 		// endregion
