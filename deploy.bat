@@ -1,10 +1,10 @@
 @echo off
 setlocal EnableExtensions EnableDelayedExpansion
 
-set IMAGE=5e2014
+set DEPLOY_ID=5e2014
 set CONTAINER=5e2014
 set PORT=8214
-set IMAGE_REF=ghcr.io/5etools-mirror-3/5etools-2014-img:latest
+set BASE_IMAGE_REF=ghcr.io/5etools-mirror-3/5etools-2014-img:latest
 set LOCAL_URL=http://localhost:%PORT%
 set IMG_REPO_DIR=%~dp0img
 set STATE_DIR=%TEMP%\5etools_deploy_state
@@ -12,11 +12,11 @@ set STATE_DIR=%TEMP%\5etools_deploy_state
 if not exist "%STATE_DIR%" mkdir "%STATE_DIR%"
 
 :: File di stato di commit
-set LAST_COMMIT_FILE=%STATE_DIR%\.last_commit_%IMAGE%
-set CURRENT_COMMIT_FILE=%STATE_DIR%\.current_commit_%IMAGE%
-set LAST_COMMIT_FILE_IMG=%STATE_DIR%\.last_commit_%IMAGE%_img
-set CURRENT_COMMIT_FILE_IMG=%STATE_DIR%\.current_commit_%IMAGE%_img
-set LAST_IMAGE_ID_FILE=%STATE_DIR%\.last_image_id_%IMAGE%
+set LAST_COMMIT_FILE=%STATE_DIR%\.last_commit_%DEPLOY_ID%
+set CURRENT_COMMIT_FILE=%STATE_DIR%\.current_commit_%DEPLOY_ID%
+set LAST_COMMIT_FILE_IMG=%STATE_DIR%\.last_commit_%DEPLOY_ID%_img
+set CURRENT_COMMIT_FILE_IMG=%STATE_DIR%\.current_commit_%DEPLOY_ID%_img
+set LAST_IMAGE_ID_FILE=%STATE_DIR%\.last_image_id_%DEPLOY_ID%
 
 call :CheckReferenceImage
 call :CheckAndPullImgRepo
@@ -65,7 +65,6 @@ git clean -fd -- bestiary items spells >nul 2>&1
 
 docker compose -p %CONTAINER% down -v --remove-orphans >nul 2>&1
 docker rm -f %CONTAINER% >nul 2>&1
-docker image rm -f %IMAGE% >nul 2>&1
 
 docker compose -p %CONTAINER% up -d
 if errorlevel 1 (
@@ -85,10 +84,10 @@ set HAS_CHANGES_REF=0
 set CURRENT_IMAGE_ID=
 set PULL_OK=0
 
-echo [INFO] Aggiorno immagine di riferimento da GHCR: %IMAGE_REF%
+echo [INFO] Aggiorno immagine di riferimento da GHCR: %BASE_IMAGE_REF%
 for /L %%N in (1,1,3) do (
 	echo [INFO] Tentativo pull immagine GHCR %%N/3...
-	docker pull %IMAGE_REF% >nul 2>&1
+	docker pull %BASE_IMAGE_REF% >nul 2>&1
 	if not errorlevel 1 (
 		set PULL_OK=1
 		goto :AfterRefPull
@@ -98,9 +97,9 @@ for /L %%N in (1,1,3) do (
 :AfterRefPull
 if "%PULL_OK%"=="0" echo [WARN] Pull GHCR fallito (rete/auth). Uso immagine locale per confronto.
 
-for /f "delims=" %%i in ('docker image inspect %IMAGE_REF% --format "{{.Id}}" 2^>nul') do set CURRENT_IMAGE_ID=%%i
+for /f "delims=" %%i in ('docker image inspect %BASE_IMAGE_REF% --format "{{.Id}}" 2^>nul') do set CURRENT_IMAGE_ID=%%i
 if not defined CURRENT_IMAGE_ID (
-	echo [WARN] Impossibile leggere l'ID dell'immagine %IMAGE_REF% anche localmente. Forzo ricreazione.
+	echo [WARN] Impossibile leggere l'ID dell'immagine %BASE_IMAGE_REF% anche localmente. Forzo ricreazione.
 	set HAS_CHANGES_REF=1
 	exit /b 0
 )
