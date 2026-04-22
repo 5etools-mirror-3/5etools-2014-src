@@ -1,0 +1,6 @@
+services:
+  5etools:
+    image: ghcr.io/5etools-mirror-3/5etools-img:latest
+    restart: unless-stopped
+    ports:
+      - "8214:80" # where 8214 is the port on the machine and 80 is the internal port of the container. 
