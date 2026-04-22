@@ -3,11 +3,10 @@ name: 5e2014
 services:
   5etools:
     container_name: 5e2014
-    image: 5e2014
-    pull_policy: never
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/5etools-mirror-3/5etools-2014-img:latest
+    pull_policy: always
     restart: unless-stopped
+    volumes:
+      - .:/var/www/localhost/htdocs/
     ports:
       - "8214:80" # where 8214 is the port on the machine and 80 is the internal port of the container. 
