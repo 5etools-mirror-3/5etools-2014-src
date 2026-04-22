@@ -8,6 +8,8 @@ set BASE_IMAGE_REF=ghcr.io/5etools-mirror-3/5etools-2014-img:latest
 set LOCAL_URL=http://localhost:%PORT%
 set IMG_REPO_DIR=%~dp0img
 set STATE_DIR=%TEMP%\5etools_deploy_state
+set SEO_STAGE_DIR=%STATE_DIR%\seo_%DEPLOY_ID%
+set COMPOSE_ENV_FILE=%STATE_DIR%\%DEPLOY_ID%.env
 
 if not exist "%STATE_DIR%" mkdir "%STATE_DIR%"
 
@@ -59,14 +61,23 @@ if errorlevel 1 (
 	goto :End
 )
 
+echo [INFO] Copio gli output SEO nella directory di staging...
+call :StageSeoAssets
+if errorlevel 1 (
+	echo [ERRORE] Copia output SEO fallita.
+	goto :End
+)
+
 echo [INFO] Pulizia output SEO dal working tree...
 git restore --worktree --staged -- sitemap.xml bestiary items spells >nul 2>&1
 git clean -fd -- bestiary items spells >nul 2>&1
 
-docker compose -p %CONTAINER% down -v --remove-orphans >nul 2>&1
+echo SEO_STAGE_DIR=%SEO_STAGE_DIR% > "%COMPOSE_ENV_FILE%"
+
+docker compose --env-file "%COMPOSE_ENV_FILE%" -p %CONTAINER% down -v --remove-orphans >nul 2>&1
 docker rm -f %CONTAINER% >nul 2>&1
 
-docker compose -p %CONTAINER% up -d
+docker compose --env-file "%COMPOSE_ENV_FILE%" -p %CONTAINER% up -d
 if errorlevel 1 (
 	echo [ERRORE] docker compose up -d fallito.
 	goto :End
@@ -196,6 +207,25 @@ if /I "%LAST_COMMIT%"=="%CURRENT_COMMIT%" (
 ) else (
 	set HAS_CHANGES=1
 )
+exit /b 0
+
+:StageSeoAssets
+if exist "%SEO_STAGE_DIR%" rmdir /s /q "%SEO_STAGE_DIR%"
+mkdir "%SEO_STAGE_DIR%"
+if errorlevel 1 exit /b 1
+
+for %%D in (bestiary items spells) do (
+	if not exist "%%D" (
+		echo [WARN] Directory SEO "%%D" non trovata. Salto staging.
+		exit /b 1
+	)
+	robocopy "%%D" "%SEO_STAGE_DIR%\%%D" *.html /S /NFL /NDL /NJH /NJS /NC /NS /NP >nul
+	if errorlevel 8 exit /b 1
+)
+
+robocopy . "%SEO_STAGE_DIR%" sitemap.xml /NFL /NDL /NJH /NJS /NC /NS /NP >nul
+if errorlevel 8 exit /b 1
+
 exit /b 0
 
 :ContainerExists

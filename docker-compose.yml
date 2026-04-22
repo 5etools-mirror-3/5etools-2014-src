@@ -7,6 +7,10 @@ services:
     pull_policy: always
     restart: unless-stopped
     volumes:
-      - .:/var/www/localhost/htdocs/
+      - .:/var/www/localhost/htdocs/:ro
+      - ${SEO_STAGE_DIR}\sitemap.xml:/var/www/localhost/htdocs/sitemap.xml:ro
+      - ${SEO_STAGE_DIR}\bestiary:/var/www/localhost/htdocs/bestiary:ro
+      - ${SEO_STAGE_DIR}\items:/var/www/localhost/htdocs/items:ro
+      - ${SEO_STAGE_DIR}\spells:/var/www/localhost/htdocs/spells:ro
     ports:
       - "8214:80" # where 8214 is the port on the machine and 80 is the internal port of the container. 
