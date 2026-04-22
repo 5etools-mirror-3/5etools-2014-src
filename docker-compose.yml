@@ -1,5 +1,8 @@
+name: 5e2014
+
 services:
   5etools:
+    container_name: 5e2014
     image: ghcr.io/5etools-mirror-3/5etools-img:latest
     restart: unless-stopped
     ports:

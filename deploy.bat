@@ -58,20 +58,13 @@ echo [INFO] Pulizia output SEO dal working tree...
 git restore --worktree --staged -- sitemap.xml bestiary items spells >nul 2>&1
 git clean -fd -- bestiary items spells >nul 2>&1
 
-docker-compose down -v --remove-orphans >nul 2>&1
+docker compose -p %CONTAINER% down -v --remove-orphans >nul 2>&1
 docker rm -f %CONTAINER% >nul 2>&1
 docker image rm -f %IMAGE% >nul 2>&1
-docker image rm -f %IMAGE_REF% >nul 2>&1
 
-docker-compose up -d
+docker compose -p %CONTAINER% up -d
 if errorlevel 1 (
-	echo [ERRORE] docker-compose up -d fallito.
-	goto :End
-)
-
-docker run -d -p %PORT%:80 --restart unless-stopped --name %CONTAINER% %IMAGE_REF%
-if errorlevel 1 (
-	echo [ERRORE] docker run fallito.
+	echo [ERRORE] docker compose up -d fallito.
 	goto :End
 )
 
