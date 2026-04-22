@@ -34,6 +34,7 @@ if "%HAS_CHANGES%"=="0" if "%HAS_CHANGES_IMG%"=="0" if "%HAS_CHANGES_REF%"=="0" 
 	echo [INFO] Nessuna modifica Git rilevata. Riavvio solo il container esistente...
 	docker start %CONTAINER% >nul 2>&1
 	echo [OK] Web server disponibile su %LOCAL_URL%
+	start "" "%LOCAL_URL%" >nul 2>&1
 	goto :End
 )
 
@@ -88,6 +89,7 @@ if defined CURRENT_COMMIT_IMG echo %CURRENT_COMMIT_IMG% > "%LAST_COMMIT_FILE_IMG
 if defined CURRENT_IMAGE_ID echo %CURRENT_IMAGE_ID% > "%LAST_IMAGE_ID_FILE%"
 echo [OK] Ambiente ricreato correttamente.
 echo [OK] Web server disponibile su %LOCAL_URL%
+start "" "%LOCAL_URL%" >nul 2>&1
 goto :End
 
 :CheckReferenceImage
