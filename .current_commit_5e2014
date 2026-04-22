@@ -1,2 +1,7 @@
-?? .current_commit_5e2014
-?? .current_commit_5e2014_img
+ M .current_commit_5e2014
+ M .dockerignore
+ M deploy.bat
+ M docker-compose.yml
+?? .last_commit_5e2014
+?? .last_commit_5e2014_img
+?? .last_image_id_5e2014

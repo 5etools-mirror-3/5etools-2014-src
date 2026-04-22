@@ -24,3 +24,7 @@
 !pdf
 !prerelease
 !search
+
+# Exclude VCS metadata from included folders (especially img/.git)
+**/.git
+**/.git/**
