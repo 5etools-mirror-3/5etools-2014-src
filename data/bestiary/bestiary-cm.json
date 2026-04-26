@@ -1615,6 +1615,7 @@
 		},
 		{
 			"name": "Hag of the Fetid Gaze",
+			"isNpc": true,
 			"source": "CM",
 			"page": 76,
 			"_copy": {
