@@ -1540,7 +1540,7 @@ class TimeTrackerRoot_Clock_RandomWeather extends BaseComponent {
 				};
 			})
 			.map(v => {
-				const btn = ee`<div class="ve-m-2 ve-btn ve-btn-default ve-ui__btn-xxl-square ve-flex-col ve-flex-h-center">
+				const btn = ee`<div class="ve-m-2 ve-btn ve-btn-default ve-ui__btn-xxl-square ve-flex-col ve-flex-h-center ve-flex-v-center">
 						<div class="ve-ui-icn__wrp-icon ${v.iconClass} ve-mb-1"></div>
 						<div class="ve-whitespace-normal ve-w-100">${v.name}</div>
 					</div>`
@@ -1573,7 +1573,7 @@ class TimeTrackerRoot_Clock_RandomWeather extends BaseComponent {
 				};
 			})
 			.map(v => {
-				const btn = ee`<div class="ve-m-2 ve-btn ve-btn-default ve-ui__btn-xxl-square ve-flex-col ve-flex-h-center">
+				const btn = ee`<div class="ve-m-2 ve-btn ve-btn-default ve-ui__btn-xxl-square ve-flex-col ve-flex-h-center ve-flex-v-center">
 						<div class="ve-ui-icn__wrp-icon ${v.iconClass} ve-mb-1"></div>
 						<div class="ve-whitespace-normal ve-w-100">${v.name}</div>
 					</div>`

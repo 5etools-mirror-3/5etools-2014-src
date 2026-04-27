@@ -562,6 +562,7 @@ class ModalFilterItems extends ModalFilterBase {
 			...opts,
 			modalTitle: `Item${opts.isRadio ? "" : "s"}`,
 			pageFilter: new PageFilterItems(opts?.pageFilterOpts),
+			previewButtonHandler: new ListUiPreviewButtonHandlerStatsFluff({page: UrlUtil.PG_ITEMS}),
 		});
 	}
 
@@ -630,7 +631,7 @@ class ModalFilterItems extends ModalFilterBase {
 			},
 		);
 
-		ListUiUtil.bindPreviewButton(UrlUtil.PG_ITEMS, this._allData, listItem, btnShowHidePreview);
+		this._previewButtonHandler.bindPreviewButton({entity: item, listItem, btnShowHidePreview});
 
 		return listItem;
 	}
