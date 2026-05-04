@@ -81,6 +81,11 @@
 		"tinybench": "^6.0.0",
 		"workbox-cli": "^7.4.0"
 	},
+	"overrides": {
+		"serialize-javascript": "^7.0.5",
+		"@rollup/plugin-terser": "^0.4.5",
+		"source-map": "^0.7.4"
+	},
 	"bugs": {
 		"url": "https://github.com/5etools-mirror-3/5etools-src/issues"
 	},

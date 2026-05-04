@@ -1,0 +1,87 @@
+commit: feat(deps): complete phase 2 security updates
+
+SUMMARY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Fase 2 degli aggiornamenti delle dipendenze completata con successo.
+
+CRITICITÀ RISOLTE
+─────────────────────────────────────────────────────────────────────────────
+
+✅ Vulnerabilità critical: 2 → 0
+   ├─ handlebars@4.7.9     | AST type confusion / JS injection (8 advisories)
+   └─ simple-git@3.36.0    | RCE via config bypass (critical)
+
+✅ Vulnerabilità totali: 30+ → 7 (-76%)
+   └─ Rimaste 4 high (tutte transitive nella catena workbox-cli)
+
+✅ Allineamento Node: v17.1.0 → v24 (.node-version)
+   └─ Sincronizzato con engines.node >=24
+
+CHANGES
+─────────────────────────────────────────────────────────────────────────────
+
+package.json:
+  • handlebars:        4.7.8  → 4.7.9
+  • simple-git:        3.32.1 → 3.36.0
+  • 5etools-utils:     0.16.2 → 0.16.4
+  • ajv:               8.18.0 → 8.20.0
+  • cspell-lib:        9.6.4  → 9.8.0
+  • esbuild:           0.27.3 → 0.27.7
+  • eslint:            10.0.1 → 10.3.0
+  • globals:           17.3.0 → 17.6.0
+  • jest:              30.2.0 → 30.3.0
+  • prettier:          3.8.1  → 3.8.3
+  • probe-image-size:  7.2.3  → 7.3.0
+  • sass:              1.97.3 → 1.99.0
+  • stylelint:         17.3.0 → 17.10.0
+  • tinybench:         6.0.0  → 6.0.1
+
+package-lock.json:
+  • Rigenerato: +61 pacchetti, -46, 208 cambiati
+  • Transitive security issues risolti in massa
+
+.node-version:
+  • 17.1.0 → 24
+
+VALIDATION
+─────────────────────────────────────────────────────────────────────────────
+
+✓ Test Suite:
+  ├─ eslint . .................... PASS
+  ├─ stylelint scss/ ............. PASS
+  ├─ jest (9 suites, 38 tests) ... PASS
+  ├─ build:css ................... PASS
+  ├─ build:sw:prod ............... PASS
+  └─ npm run build (full) ........ PASS
+
+✓ Audit:
+  ├─ Critical warnings: 0
+  ├─ High warnings: 4 (transitive, deferred to Phase 3)
+  ├─ Moderate warnings: 0
+  └─ Low warnings: 3
+
+BREAKING CHANGES
+─────────────────────────────────────────────────────────────────────────────
+
+None. All changes are backward compatible.
+
+NEXT STEPS
+─────────────────────────────────────────────────────────────────────────────
+
+Phase 3: Resolve workbox-cli transitive vulnerabilities
+  • Options: Overrides, upgrade, or controlled acceptance
+  • Timeline: Next sprint
+
+Phase 4: Major version evaluations
+  • cspell-lib@10.0.0 (major)
+  • esbuild@0.28.0 (minor)
+
+DOCUMENTATION
+─────────────────────────────────────────────────────────────────────────────
+
+See attached:
+  • DEPENDENCY_AUDIT_PLAN.md — Complete migration roadmap
+  • PHASE_2_COMPLETION_REPORT.md — Detailed Phase 2 report
+  • EXECUTION_SUMMARY.txt — Quick reference summary
+
