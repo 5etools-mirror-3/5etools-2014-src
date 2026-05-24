@@ -6312,6 +6312,10 @@
 					}
 				]
 			},
+			"alignment": [
+				"L",
+				"G"
+			],
 			"cha": 14,
 			"languages": [
 				"Common"
@@ -7356,6 +7360,9 @@
 			"isNamedCreature": true,
 			"source": "WDH",
 			"page": 216,
+			"referenceSources": [
+				"WDMM"
+			],
 			"size": [
 				"M"
 			],
@@ -8735,6 +8742,10 @@
 					}
 				]
 			},
+			"alignment": [
+				"N",
+				"E"
+			],
 			"int": 16,
 			"languages": [
 				"Common",

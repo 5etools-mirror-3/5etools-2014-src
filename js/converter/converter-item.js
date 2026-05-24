@@ -99,6 +99,8 @@ export class ConverterItem extends ConverterBase {
 
 	// SHARED UTILITY FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////
 	static _doItemPostProcess (stats, options) {
+		this._doPostProcess_removePage(stats, options);
+
 		TagCondition.tryTagConditions(stats, {styleHint: options.styleHint});
 		ArtifactPropertiesTag.tryRun(stats);
 		if (stats.entries) {

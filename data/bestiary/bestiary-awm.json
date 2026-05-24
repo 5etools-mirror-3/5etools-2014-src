@@ -29,7 +29,6 @@
 			"int": 11,
 			"wis": 10,
 			"cha": 10,
-			"passive": 0,
 			"cr": "3",
 			"trait": [
 				{
@@ -97,7 +96,6 @@
 			"int": 4,
 			"wis": 12,
 			"cha": 6,
-			"passive": 0,
 			"cr": "1/4",
 			"trait": [
 				{
@@ -171,7 +169,6 @@
 			"int": 5,
 			"wis": 12,
 			"cha": 6,
-			"passive": 0,
 			"cr": "0",
 			"trait": [
 				{
@@ -234,7 +231,6 @@
 			"int": 11,
 			"wis": 11,
 			"cha": 12,
-			"passive": 0,
 			"cr": "1/8",
 			"trait": [
 				{
@@ -304,7 +300,6 @@
 			"int": 13,
 			"wis": 14,
 			"cha": 14,
-			"passive": 0,
 			"cr": "3",
 			"spellcasting": [
 				{
@@ -409,7 +404,6 @@
 			"int": 10,
 			"wis": 8,
 			"cha": 8,
-			"passive": 0,
 			"cr": "1/4",
 			"trait": [
 				{
@@ -489,7 +483,6 @@
 			"int": 10,
 			"wis": 11,
 			"cha": 10,
-			"passive": 0,
 			"resist": [
 				"poison"
 			],
@@ -559,7 +552,6 @@
 			"int": 11,
 			"wis": 11,
 			"cha": 12,
-			"passive": 0,
 			"cr": "15",
 			"trait": [
 				{
@@ -633,7 +625,6 @@
 			"int": 6,
 			"wis": 13,
 			"cha": 6,
-			"passive": 0,
 			"cr": "5",
 			"trait": [
 				{
@@ -722,7 +713,6 @@
 			"int": 5,
 			"wis": 9,
 			"cha": 6,
-			"passive": 0,
 			"cr": "4",
 			"action": [
 				{
@@ -798,7 +788,6 @@
 			"int": 18,
 			"wis": 20,
 			"cha": 18,
-			"passive": 0,
 			"cr": "4",
 			"spellcasting": [
 				{

@@ -14,12 +14,22 @@ import {ModalFilterGemsArtObjects} from "./lootgen-filter-gemsartobjects.js";
 import {LootGenUiOutputManager} from "./lootgen-outputmanager.js";
 
 export class LootGenUi extends BaseComponent {
-	constructor ({spells, items, ClsLootGenOutput}) {
+	constructor (
+		{
+			spells,
+			items,
+			ClsLootGenOutput,
+			rendererWrapped,
+		},
+	) {
+		if (!rendererWrapped) throw new Error(`Missing required "rendererWrapped" option!`);
+
 		super();
 
 		TabUiUtil.decorate(this, {isInitMeta: true});
 
 		this._ClsLootGenOutput = ClsLootGenOutput || LootGenOutput;
+		this._rendererWrapped = rendererWrapped;
 		this._stateManager = LootgenStateManager.getInstance();
 		this._outputManager = new LootGenUiOutputManager();
 		this._dataManager = new LootGenUiDataManager({spells, items});
@@ -36,6 +46,7 @@ export class LootGenUi extends BaseComponent {
 			stateManager: this._stateManager,
 			outputManager: this._outputManager,
 			dataManager: this._dataManager,
+			rendererWrapped: this._rendererWrapped,
 		});
 
 		this._generatorLootTables = new LootGenGeneratorLootTables({
@@ -43,6 +54,7 @@ export class LootGenUi extends BaseComponent {
 			stateManager: this._stateManager,
 			outputManager: this._outputManager,
 			dataManager: this._dataManager,
+			rendererWrapped: this._rendererWrapped,
 		});
 
 		this._generatorPartyLoot = new LootGenGeneratorPartyLoot({
@@ -50,6 +62,7 @@ export class LootGenUi extends BaseComponent {
 			stateManager: this._stateManager,
 			outputManager: this._outputManager,
 			dataManager: this._dataManager,
+			rendererWrapped: this._rendererWrapped,
 		});
 
 		this._generatorDragonHoard = new LootGenGeneratorDragonHoard({
@@ -57,6 +70,7 @@ export class LootGenUi extends BaseComponent {
 			stateManager: this._stateManager,
 			outputManager: this._outputManager,
 			dataManager: this._dataManager,
+			rendererWrapped: this._rendererWrapped,
 		});
 
 		this._generatorGemsArtObjects = new LootGenGeneratorGemsArtObjects({
@@ -64,6 +78,7 @@ export class LootGenUi extends BaseComponent {
 			stateManager: this._stateManager,
 			outputManager: this._outputManager,
 			dataManager: this._dataManager,
+			rendererWrapped: this._rendererWrapped,
 		});
 
 		this._generators = [

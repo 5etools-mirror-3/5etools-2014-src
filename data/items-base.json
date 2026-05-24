@@ -311,7 +311,8 @@
 			"basicRules": true,
 			"referenceSources": [
 				"PaBTSO",
-				"QftIS"
+				"QftIS",
+				"WDMM"
 			],
 			"type": "MA",
 			"rarity": "none",
@@ -1266,7 +1267,8 @@
 				"IDRotF",
 				"PaBTSO",
 				"RMBRE",
-				"TftYP-AtG"
+				"TftYP-AtG",
+				"WDMM"
 			],
 			"type": "M",
 			"rarity": "none",
@@ -1473,6 +1475,9 @@
 			"page": 144,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"WDMM"
+			],
 			"type": "MA",
 			"rarity": "none",
 			"weight": 12,
@@ -1757,7 +1762,8 @@
 			"srd": true,
 			"basicRules": true,
 			"referenceSources": [
-				"DSotDQ"
+				"DSotDQ",
+				"WDMM"
 			],
 			"type": "LA",
 			"rarity": "none",
@@ -1979,7 +1985,8 @@
 				"TftYP-TSC",
 				"US",
 				"VEoR",
-				"WDH"
+				"WDH",
+				"WDMM"
 			],
 			"type": "M",
 			"rarity": "none",
@@ -2825,7 +2832,8 @@
 				"KftGV",
 				"PaBTSO",
 				"US",
-				"VEoR"
+				"VEoR",
+				"WDMM"
 			],
 			"type": "M",
 			"rarity": "none",
