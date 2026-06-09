@@ -5350,7 +5350,7 @@
 			"rarity": "none",
 			"poison": true,
 			"entries": [
-				"This poison is created from blood harvested from a dead or {@condition incapacitated} lycanthrope in its animal or hybrid form. A creature subjected to this poison must succeed on a {@dc 12} Constitution saving throw or be cursed with lycanthropy (see the Monster Manual). The curse lasts until removed by the {@spell remove curse} spell or similar magic.",
+				"This poison is created from blood harvested from a dead or {@condition incapacitated} lycanthrope in its animal or hybrid form. A creature subjected to this poison must succeed on a {@dc 12} Constitution saving throw or be cursed with {@variantrule Player Characters as Lycanthropes|MM|lycanthropy} (see the Monster Manual). The curse lasts until removed by the {@spell remove curse} spell or similar magic.",
 				"The type of lycanthropy depends on the lycanthrope used to create the poison. To determine the type of lycanthropy randomly, roll a {@dice d6}:",
 				{
 					"type": "table",
@@ -24768,68 +24768,167 @@
 			"hasFluffImages": true
 		},
 		{
-			"name": "Lantern of Tracking",
+			"name": "Lantern of Tracking (Aberrations)",
 			"source": "IDRotF",
 			"page": 314,
 			"rarity": "common",
 			"wondrous": true,
 			"entries": [
 				"This hooded lantern burns for 6 hours on 1 pint of oil, shedding bright light in a 30-foot radius and dim light for an additional 30 feet.",
-				"Each lantern of tracking is designed to track down a certain type of creature, which is determined by rolling on the Lantern of Tracking table. Once determined, this creature type can't be changed. While the lantern is within 300 feet of any creature of that type, its flame turns bright green. The lantern doesn't pinpoint the creature's exact location, however.",
+				"While the lantern is within 300 feet of the Aberrations type, its flame turns bright green. The lantern doesn't pinpoint the creature's exact location, however."
+			],
+			"light": [
 				{
-					"type": "table",
-					"caption": "Lantern of Tracking",
-					"colLabels": [
-						"1d10",
-						"Creature Type"
-					],
-					"colStyles": [
-						"col-2 text-center",
-						"col-10"
-					],
-					"rows": [
-						[
-							"1",
-							"Aberrations"
-						],
-						[
-							"2",
-							"Celestials"
-						],
-						[
-							"3",
-							"Constructs"
-						],
-						[
-							"4",
-							"Dragons"
-						],
-						[
-							"5",
-							"Elementals"
-						],
-						[
-							"6",
-							"Fey"
-						],
-						[
-							"7",
-							"Fiends"
-						],
-						[
-							"8",
-							"Giants"
-						],
-						[
-							"9",
-							"Monstrosities"
-						],
-						[
-							"10",
-							"Undead"
-						]
-					]
+					"bright": 30,
+					"dim": 60
 				}
+			]
+		},
+		{
+			"name": "Lantern of Tracking (Celestials)",
+			"source": "IDRotF",
+			"page": 314,
+			"rarity": "common",
+			"wondrous": true,
+			"entries": [
+				"This hooded lantern burns for 6 hours on 1 pint of oil, shedding bright light in a 30-foot radius and dim light for an additional 30 feet.",
+				"While the lantern is within 300 feet of the Celestials type, its flame turns bright green. The lantern doesn't pinpoint the creature's exact location, however."
+			],
+			"light": [
+				{
+					"bright": 30,
+					"dim": 60
+				}
+			]
+		},
+		{
+			"name": "Lantern of Tracking (Constructs)",
+			"source": "IDRotF",
+			"page": 314,
+			"rarity": "common",
+			"wondrous": true,
+			"entries": [
+				"This hooded lantern burns for 6 hours on 1 pint of oil, shedding bright light in a 30-foot radius and dim light for an additional 30 feet.",
+				"While the lantern is within 300 feet of the Constructs type, its flame turns bright green. The lantern doesn't pinpoint the creature's exact location, however."
+			],
+			"light": [
+				{
+					"bright": 30,
+					"dim": 60
+				}
+			]
+		},
+		{
+			"name": "Lantern of Tracking (Dragons)",
+			"source": "IDRotF",
+			"page": 314,
+			"rarity": "common",
+			"wondrous": true,
+			"entries": [
+				"This hooded lantern burns for 6 hours on 1 pint of oil, shedding bright light in a 30-foot radius and dim light for an additional 30 feet.",
+				"While the lantern is within 300 feet of the Dragons type, its flame turns bright green. The lantern doesn't pinpoint the creature's exact location, however."
+			],
+			"light": [
+				{
+					"bright": 30,
+					"dim": 60
+				}
+			]
+		},
+		{
+			"name": "Lantern of Tracking (Elementals)",
+			"source": "IDRotF",
+			"page": 314,
+			"rarity": "common",
+			"wondrous": true,
+			"entries": [
+				"This hooded lantern burns for 6 hours on 1 pint of oil, shedding bright light in a 30-foot radius and dim light for an additional 30 feet.",
+				"While the lantern is within 300 feet of the Elementals type, its flame turns bright green. The lantern doesn't pinpoint the creature's exact location, however."
+			],
+			"light": [
+				{
+					"bright": 30,
+					"dim": 60
+				}
+			]
+		},
+		{
+			"name": "Lantern of Tracking (Fey)",
+			"source": "IDRotF",
+			"page": 314,
+			"rarity": "common",
+			"wondrous": true,
+			"entries": [
+				"This hooded lantern burns for 6 hours on 1 pint of oil, shedding bright light in a 30-foot radius and dim light for an additional 30 feet.",
+				"While the lantern is within 300 feet of the Fey type, its flame turns bright green. The lantern doesn't pinpoint the creature's exact location, however."
+			],
+			"light": [
+				{
+					"bright": 30,
+					"dim": 60
+				}
+			]
+		},
+		{
+			"name": "Lantern of Tracking (Fiends)",
+			"source": "IDRotF",
+			"page": 314,
+			"rarity": "common",
+			"wondrous": true,
+			"entries": [
+				"This hooded lantern burns for 6 hours on 1 pint of oil, shedding bright light in a 30-foot radius and dim light for an additional 30 feet.",
+				"While the lantern is within 300 feet of the Fiends type, its flame turns bright green. The lantern doesn't pinpoint the creature's exact location, however."
+			],
+			"light": [
+				{
+					"bright": 30,
+					"dim": 60
+				}
+			]
+		},
+		{
+			"name": "Lantern of Tracking (Giants)",
+			"source": "IDRotF",
+			"page": 314,
+			"rarity": "common",
+			"wondrous": true,
+			"entries": [
+				"This hooded lantern burns for 6 hours on 1 pint of oil, shedding bright light in a 30-foot radius and dim light for an additional 30 feet.",
+				"While the lantern is within 300 feet of the Giants type, its flame turns bright green. The lantern doesn't pinpoint the creature's exact location, however."
+			],
+			"light": [
+				{
+					"bright": 30,
+					"dim": 60
+				}
+			]
+		},
+		{
+			"name": "Lantern of Tracking (Monstrosities)",
+			"source": "IDRotF",
+			"page": 314,
+			"rarity": "common",
+			"wondrous": true,
+			"entries": [
+				"This hooded lantern burns for 6 hours on 1 pint of oil, shedding bright light in a 30-foot radius and dim light for an additional 30 feet.",
+				"While the lantern is within 300 feet of the Monstrosities type, its flame turns bright green. The lantern doesn't pinpoint the creature's exact location, however."
+			],
+			"light": [
+				{
+					"bright": 30,
+					"dim": 60
+				}
+			]
+		},
+		{
+			"name": "Lantern of Tracking (Undead)",
+			"source": "IDRotF",
+			"page": 314,
+			"rarity": "common",
+			"wondrous": true,
+			"entries": [
+				"This hooded lantern burns for 6 hours on 1 pint of oil, shedding bright light in a 30-foot radius and dim light for an additional 30 feet.",
+				"While the lantern is within 300 feet of the Undead type, its flame turns bright green. The lantern doesn't pinpoint the creature's exact location, however."
 			],
 			"light": [
 				{
@@ -49323,7 +49422,6 @@
 			"source": "DMG",
 			"page": 227,
 			"referenceSources": [
-				"IDRotF",
 				"OotA"
 			],
 			"baseItem": "mace|phb",
@@ -52875,6 +52973,90 @@
 				}
 			},
 			"hasFluffImages": true
+		},
+		{
+			"name": "Lantern of Tracking",
+			"source": "IDRotF",
+			"page": 314,
+			"rarity": "common",
+			"wondrous": true,
+			"entries": [
+				"This hooded lantern burns for 6 hours on 1 pint of oil, shedding bright light in a 30-foot radius and dim light for an additional 30 feet.",
+				"Each lantern of tracking is designed to track down a certain type of creature, which is determined by rolling on the Lantern of Tracking table. Once determined, this creature type can't be changed. While the lantern is within 300 feet of any creature of that type, its flame turns bright green. The lantern doesn't pinpoint the creature's exact location, however.",
+				{
+					"type": "table",
+					"caption": "Lantern of Tracking",
+					"colLabels": [
+						"1d10",
+						"Creature Type"
+					],
+					"colStyles": [
+						"col-2 text-center",
+						"col-10"
+					],
+					"rows": [
+						[
+							"1",
+							"{@item Lantern of Tracking (Aberrations)|IDRotF}"
+						],
+						[
+							"2",
+							"{@item Lantern of Tracking (Celestials)|IDRotF}"
+						],
+						[
+							"3",
+							"{@item Lantern of Tracking (Constructs)|IDRotF}"
+						],
+						[
+							"4",
+							"{@item Lantern of Tracking (Dragons)|IDRotF}"
+						],
+						[
+							"5",
+							"{@item Lantern of Tracking (Elementals)|IDRotF}"
+						],
+						[
+							"6",
+							"{@item Lantern of Tracking (Fey)|IDRotF}"
+						],
+						[
+							"7",
+							"{@item Lantern of Tracking (Fiends)|IDRotF}"
+						],
+						[
+							"8",
+							"{@item Lantern of Tracking (Giants)|IDRotF}"
+						],
+						[
+							"9",
+							"{@item Lantern of Tracking (Monstrosities)|IDRotF}"
+						],
+						[
+							"10",
+							"{@item Lantern of Tracking (Undead)|IDRotF}"
+						]
+					]
+				}
+			],
+			"items": [
+				"Lantern of Tracking (Aberrations)|IDRotF",
+				"Lantern of Tracking (Celestials)|IDRotF",
+				"Lantern of Tracking (Constructs)|IDRotF",
+				"Lantern of Tracking (Dragons)|IDRotF",
+				"Lantern of Tracking (Elementals)|IDRotF",
+				"Lantern of Tracking (Fey)|IDRotF",
+				"Lantern of Tracking (Fiends)|IDRotF",
+				"Lantern of Tracking (Giants)|IDRotF",
+				"Lantern of Tracking (Monstrosities)|IDRotF",
+				"Lantern of Tracking (Undead)|IDRotF"
+			],
+			"itemsHidden": true,
+			"light": [
+				{
+					"bright": 30,
+					"dim": 60
+				}
+			]
 		},
 		{
 			"name": "Lash of Shadows",

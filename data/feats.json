@@ -2488,6 +2488,9 @@
 			"name": "Mobile",
 			"source": "PHB",
 			"page": 168,
+			"traitTags": [
+				"Speed"
+			],
 			"entries": [
 				"You are exceptionally speedy and agile. You gain the following benefits:",
 				{
@@ -3903,6 +3906,9 @@
 						"amount": 1
 					}
 				}
+			],
+			"traitTags": [
+				"Speed"
 			],
 			"skillProficiencies": [
 				{

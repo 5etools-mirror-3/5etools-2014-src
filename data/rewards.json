@@ -2654,7 +2654,7 @@
 							"name": "Burden",
 							"page": 194,
 							"entries": [
-								"The character is cursed with {@creature loup garou|VRGR} lycanthropy (see {@book chapter 5|VRGR|5})."
+								"The character is cursed with {@creature loup garou|VRGR} {@variantrule Player Characters as Lycanthropes|MM|lycanthropy} (see {@book chapter 5|VRGR|5})."
 							]
 						},
 						{

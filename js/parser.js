@@ -2255,6 +2255,7 @@ Parser.prereqPatronToShort = function (patron) {
 
 Parser.FEAT_CATEGORY_TO_FULL = {
 	"D": "Dragonmark",
+	"DG": "Dark Gift",
 	"G": "General",
 	"O": "Origin",
 	"FS": "Fighting Style",

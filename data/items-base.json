@@ -3894,7 +3894,13 @@
 			"source": "PHB",
 			"page": 154,
 			"entries": [
-				"These special tools include the items needed to pursue a craft or trade. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency."
+				{
+					"type": "entries",
+					"name": "Artisan's Tools",
+					"entries": [
+						"These special tools include the items needed to pursue a craft or trade. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency."
+					]
+				}
 			]
 		},
 		{
@@ -3921,7 +3927,13 @@
 			"source": "PHB",
 			"page": 154,
 			"entries": [
-				"If you are proficient with a gaming set, you can add your proficiency bonus to ability checks you make to play a game with that set. Each type of gaming set requires a separate proficiency."
+				{
+					"type": "entries",
+					"name": "Gaming Set",
+					"entries": [
+						"If you are proficient with a gaming set, you can add your proficiency bonus to ability checks you make to play a game with that set. Each type of gaming set requires a separate proficiency."
+					]
+				}
 			]
 		},
 		{
@@ -3942,7 +3954,13 @@
 			"source": "PHB",
 			"page": 154,
 			"entries": [
-				"If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency."
+				{
+					"type": "entries",
+					"name": "Instrument",
+					"entries": [
+						"If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency."
+					]
+				}
 			]
 		},
 		{
@@ -4096,8 +4114,14 @@
 			"source": "PHB",
 			"page": 146,
 			"entries": [
-				"Most wealth is not in coins. It is measured in livestock, grain, land, rights to collect taxes, or rights to resources (such as a mine or a forest).",
-				"Guilds, nobles, and royalty regulate trade. Chartered companies are granted rights to conduct trade along certain routes, to send merchant ships to various ports, or to buy or sell specific goods. Guilds set prices for the goods or services that they control, and determine who may or may not offer those goods and services. Merchants commonly exchange trade goods without using currency."
+				{
+					"type": "entries",
+					"name": "Trade Good",
+					"entries": [
+						"Most wealth is not in coins. It is measured in livestock, grain, land, rights to collect taxes, or rights to resources (such as a mine or a forest).",
+						"Guilds, nobles, and royalty regulate trade. Chartered companies are granted rights to conduct trade along certain routes, to send merchant ships to various ports, or to buy or sell specific goods. Guilds set prices for the goods or services that they control, and determine who may or may not offer those goods and services. Merchants commonly exchange trade goods without using currency."
+					]
+				}
 			]
 		},
 		{

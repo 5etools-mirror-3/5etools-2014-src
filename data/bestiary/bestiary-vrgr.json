@@ -245,11 +245,11 @@
 		{
 			"name": "Brain in a Jar",
 			"source": "VRGR",
-			"page": 278,
+			"page": 229,
 			"otherSources": [
 				{
 					"source": "IDRotF",
-					"page": 278
+					"page": 279
 				}
 			],
 			"referenceSources": [
@@ -367,7 +367,7 @@
 				{
 					"name": "Mind Blast {@recharge 5}",
 					"entries": [
-						"The brain magically emits psychic energy in a 60-foot cone. Each creature in that area must succeed on a {@dc 14} Intelligence saving throw or take 17 ({@damage 3d8 + 4}) psychic damage and be {@condition stunned} for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+						"The brain magically emits psychic energy in a 60-foot cone. Each creature in that area must succeed on a {@dc 14} Intelligence saving throw or take 17 ({@damage 3d8 + 4}) psychic damage and be {@condition stunned} for 1 minute. A {@condition stunned} creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 					]
 				}
 			],
@@ -2364,7 +2364,7 @@
 				{
 					"name": "Bite (Dire Wolf or Hybrid Form Only)",
 					"entries": [
-						"{@atk mw} {@hit 9} to hit, reach 5 ft., one target. {@h}13 ({@damage 2d8 + 4}) piercing damage plus 14 ({@damage 4d6}) necrotic damage. If the target is a Humanoid, it must succeed on a {@dc 17} Constitution saving throw or be cursed with loup garou lycanthropy."
+						"{@atk mw} {@hit 9} to hit, reach 5 ft., one target. {@h}13 ({@damage 2d8 + 4}) piercing damage plus 14 ({@damage 4d6}) necrotic damage. If the target is a Humanoid, it must succeed on a {@dc 17} Constitution saving throw or be cursed with loup garou {@variantrule Player Characters as Lycanthropes|MM|lycanthropy}."
 					]
 				},
 				{
@@ -4554,7 +4554,7 @@
 				{
 					"name": "Beak (Raven or Hybrid Form Only)",
 					"entries": [
-						"{@atk mw} {@hit 4} to hit, reach 5 ft., one target. {@h}1 piercing damage in raven form, or 4 ({@damage 1d4 + 2}) piercing damage in hybrid form. If the target is humanoid, it must succeed on a {@dc 10} Constitution saving throw or be cursed with wereraven lycanthropy."
+						"{@atk mw} {@hit 4} to hit, reach 5 ft., one target. {@h}1 piercing damage in raven form, or 4 ({@damage 1d4 + 2}) piercing damage in hybrid form. If the target is humanoid, it must succeed on a {@dc 10} Constitution saving throw or be cursed with wereraven {@variantrule Player Characters as Lycanthropes|MM|lycanthropy}."
 					]
 				},
 				{

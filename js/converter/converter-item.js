@@ -614,6 +614,8 @@ export class ConverterItem extends ConverterBase {
 		[
 			"reprintedAs",
 			"edition",
+			"otherSources",
+			"referenceSources",
 		]
 			.forEach(prop => delete stats[prop]);
 		// endregion

@@ -3176,5 +3176,10 @@
 		"ver": "1.217.4",
 		"date": "2026-05-30",
 		"txt": "- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.217.5",
+		"date": "2026-06-09",
+		"txt": "- Added scroll-on-chapter-change behaviour to the Adventure/Book contents sidebar\n- Added \"Speed\" to Feats page \"Benefits\" filter\n- Added SHIFT+J/K hotkeys to list pages for sublist navigation (and tweaked list page help text)\n- Fixed list page highlighting of selected sublist items\n- Fixed list page handling of leading spaces after search command (e.g. `text: fire`)\n- (Brew) Improved Creature Text Converter handling of some hanging list formats\n- (Brew) Reworked Feat Text Converter category handling to automatically handle any new categories added in future\n- (Brew) Fixed Item Text Converter failing to remove some `\"baseitem\"` properties when deriving an `\"item\"`\n- (Brew) Fixed possible Bestiary crash when building special equipment filter values\n- (Fixed typos/added tags)"
 	}
 ]
