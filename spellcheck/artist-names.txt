@@ -60,6 +60,7 @@ Behm
 Belisle
 Belledin
 Berggren
+Bergting
 Bernadini
 Bernardini
 Berube
@@ -117,8 +118,8 @@ CoupleOfKooks
 Cristi
 Cueto
 Culp
-Cyarna
 cyarna
+Cyarna
 Cyprien
 Daarken
 Dabe
@@ -159,6 +160,7 @@ Eidenschink
 Ejiwa
 Ejsing
 Ekaterina
+Elderbrain_com
 EldritchBlep
 elisaserioart
 ellinainthesky
@@ -392,8 +394,8 @@ Meniconi
 Metheney
 Mhlaba
 Mihai
-Mikandii
 mikandii
+Mikandii
 Minard
 Minguez
 Minttu
@@ -415,8 +417,8 @@ Nael
 Nakarin
 Nelor
 Nereida
-Nèstor
 Néstor
+Nèstor
 Nidoart
 nikkidawes
 nikkidawesdraws
