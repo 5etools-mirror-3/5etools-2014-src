@@ -3189,10 +3189,10 @@
 				"type": "image",
 				"href": {
 					"type": "internal",
-					"path": "decks/CoS/Tarokka Deck/999-dnd_tarroka_back.webp"
+					"path": "decks/CoS/Tarokka Deck/999_dnd_tarokka_back_2.webp"
 				},
-				"width": 366,
-				"height": 512
+				"width": 623,
+				"height": 850
 			},
 			"entries": [
 				"{@note The rules for {@variantrule Prophet's Gambit|CoS} are available here.}",
