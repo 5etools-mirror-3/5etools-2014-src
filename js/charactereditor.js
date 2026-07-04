@@ -161,6 +161,7 @@ class CharacterEditorPage {
 		this.ace.setValue(JSON.stringify(placeholderMessage, null, 2), 1);
 		document.getElementById('message').textContent = `Welcome ${characterName}! Complete the wizard to create your level 1 character.`;
 		document.getElementById('message').style.color = 'blue';
+		this.updateButtonVisibility();
 
 		// Don't render character yet - wait for wizard completion
 		console.log('Level 0 placeholder created, waiting for wizard completion...');
@@ -8183,6 +8184,7 @@ class CharacterEditorPage {
 		try {
 			const jsonText = this.ace.getValue();
 			const characterData = JSON.parse(jsonText);
+			this.normalizeCharacterForEditor(characterData);
 
 			// Prevent name changes in edit mode to avoid creating duplicate characters
 			if (isEditMode && currentCharacterData && characterData.name !== currentCharacterData.name) {
@@ -8196,6 +8198,15 @@ class CharacterEditorPage {
 				characterData.source = 'MyCharacters';
 				// Update the JSON in the editor to reflect the change
 				this._safeSetAceValue(JSON.stringify(characterData, null, 2));
+			}
+
+			const validationResults = await this.validateCharacterForSave(characterData);
+			if (!validationResults.valid) {
+				const errorLines = validationResults.errors.map(it => `• ${it}`);
+				document.getElementById('message').textContent = `Cannot save invalid character:\n${errorLines.join('\n')}`;
+				document.getElementById('message').style.color = 'red';
+				document.getElementById('message').style.whiteSpace = 'pre-line';
+				return;
 			}
 
 			// Use CharacterManager for centralized permission checking
@@ -8527,10 +8538,15 @@ class CharacterEditorPage {
 	updateButtonVisibility() {
 		const deleteButton = document.getElementById('deleteCharacter');
 		const levelUpButton = document.getElementById('levelUpCharacter');
+		const saveButton = document.getElementById('saveCharacter');
+		const editSpellsButton = document.getElementById('editSpellsCharacter');
 
 		if (deleteButton) {
 			deleteButton.style.display = isEditMode ? 'inline-block' : 'none';
 		}
+
+		let canSave = false;
+		let canEditSpells = false;
 
 		if (levelUpButton) {
 			// Show level up button if we have character data with classes
@@ -8538,16 +8554,144 @@ class CharacterEditorPage {
 			try {
 				const jsonText = this.ace.getValue();
 				const characterData = JSON.parse(jsonText);
+				this.normalizeCharacterForEditor(characterData);
+				const structureErrors = this.getCharacterStructureErrors(characterData);
+				canSave = !structureErrors.length;
+				canEditSpells = canSave && this.hasSpellcastingClass(characterData);
 				if (characterData.class && Array.isArray(characterData.class) && characterData.class.length > 0) {
 					const currentLevel = CharacterEditorPage.getCharacterLevel(characterData);
 					showLevelUp = currentLevel < 20; // Can level up if under max level
 				}
 			} catch (e) {
 				// Invalid JSON, don't show level up button
+				canSave = false;
+				canEditSpells = false;
 				showLevelUp = false;
 			}
 			levelUpButton.style.display = showLevelUp ? 'inline-block' : 'none';
 		}
+
+		if (saveButton) {
+			saveButton.disabled = !canSave;
+			saveButton.title = canSave ? '' : 'Complete character creation before saving.';
+		}
+
+		if (editSpellsButton) {
+			editSpellsButton.style.display = canEditSpells ? 'inline-block' : 'none';
+		}
+	}
+
+	normalizeCharacterForEditor(character) {
+		if (!character || typeof character !== 'object' || Array.isArray(character)) return character;
+
+		const abilityKeys = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+		if (character.abilities && typeof character.abilities === 'object' && !Array.isArray(character.abilities)) {
+			abilityKeys.forEach(ab => {
+				if (character[ab] == null && character.abilities[ab] != null) character[ab] = character.abilities[ab];
+			});
+			delete character.abilities;
+		}
+
+		if (typeof character.race === 'string') {
+			character.race = {name: character.race, source: 'PHB'};
+		}
+
+		if (typeof character.background === 'string') {
+			character.background = {name: character.background, source: 'PHB'};
+		}
+
+		if (!Array.isArray(character.entries)) character.entries = character.entries ? [character.entries] : [];
+
+		if (character.ac == null) {
+			character.ac = [{ac: 10, from: ['Default']}];
+		} else if (typeof character.ac === 'number') {
+			character.ac = [{ac: character.ac, from: ['Calculated']}];
+		} else if (!Array.isArray(character.ac) && typeof character.ac === 'object' && character.ac.ac != null) {
+			character.ac = [{ac: character.ac.ac, from: character.ac.from || ['Calculated']}];
+		}
+
+		if (typeof character.hp === 'number') {
+			character.hp = {
+				average: character.hp,
+				formula: `${character.hp}`,
+				current: character.hp,
+				max: character.hp,
+				temp: 0,
+			};
+		} else if (character.hp && typeof character.hp === 'object') {
+			character.hp.average = character.hp.average ?? character.hp.max ?? character.hp.current ?? 1;
+			character.hp.current = character.hp.current ?? character.hp.average;
+			character.hp.max = character.hp.max ?? character.hp.average;
+			character.hp.formula = character.hp.formula || `${character.hp.average}`;
+			character.hp.temp = character.hp.temp ?? 0;
+		}
+
+		return character;
+	}
+
+	getCharacterStructureErrors(character) {
+		if (!character || typeof character !== 'object' || Array.isArray(character)) {
+			return ['Character data must be a JSON object'];
+		}
+
+		const errors = [];
+		const abilityKeys = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+
+		if (!character.name || !String(character.name).trim()) errors.push('Character name is missing');
+		if (!character.source || character.source === 'ADD_YOUR_NAME_HERE') errors.push('Character source is missing');
+		if (character.source === 'LEVEL_0_PLACEHOLDER') errors.push('Complete the create-character wizard before saving');
+		if (character.note === 'Complete the level-up wizard to generate your character...') errors.push('Placeholder characters cannot be saved');
+		if (!character.race?.name) errors.push('Character race is missing');
+		if (!character.background?.name) errors.push('Character background is missing');
+
+		if (!Array.isArray(character.class) || !character.class.length) {
+			errors.push('Character must have at least one class');
+		} else {
+			character.class.forEach((cls, ix) => {
+				if (!cls?.name) errors.push(`Class ${ix + 1} is missing a name`);
+				if (!Number.isFinite(cls?.level) || cls.level < 1) errors.push(`Class ${cls?.name || ix + 1} must have a valid level`);
+			});
+		}
+
+		abilityKeys.forEach(ab => {
+			if (character[ab] == null) errors.push(`Missing ${ab.toUpperCase()} ability score`);
+		});
+
+		if (!character.hp || typeof character.hp !== 'object') {
+			errors.push('Character hit points are missing');
+		} else {
+			if (character.hp.current == null) errors.push('Character current hit points are missing');
+			if (character.hp.max == null) errors.push('Character maximum hit points are missing');
+		}
+
+		if (!Array.isArray(character.ac) || !character.ac.length || character.ac.some(it => it?.ac == null)) {
+			errors.push('Character armor class is missing');
+		}
+
+		return [...new Set(errors)];
+	}
+
+	async validateCharacterForSave(character) {
+		const validationResults = {
+			valid: true,
+			warnings: [],
+			errors: [],
+			suggestions: [],
+		};
+
+		const structureErrors = this.getCharacterStructureErrors(character);
+		if (structureErrors.length) {
+			validationResults.errors.push(...structureErrors);
+			validationResults.valid = false;
+			return validationResults;
+		}
+
+		const ruleValidation = await this.validateCharacterRules(character, 'strict');
+		validationResults.warnings.push(...(ruleValidation.warnings || []));
+		validationResults.errors.push(...(ruleValidation.errors || []));
+		validationResults.suggestions.push(...(ruleValidation.suggestions || []));
+		validationResults.valid = validationResults.errors.length === 0;
+		return validationResults;
 	}
 
 	hasSpellcastingClass(characterData) {
@@ -10508,13 +10652,22 @@ class CharacterEditorPage {
 				return;
 			}
 
+			this.normalizeCharacterForEditor(completeCharacter);
+			const creationValidation = await this.validateCharacterForSave(completeCharacter);
+			if (!creationValidation.valid) {
+				document.getElementById('message').textContent = `Character creation failed validation:\n${creationValidation.errors.map(it => `• ${it}`).join('\n')}`;
+				document.getElementById('message').style.color = 'red';
+				document.getElementById('message').style.whiteSpace = 'pre-line';
+				return;
+			}
+
 			// Check if this is a spellcasting class and we need spell selection
 			console.log('=== LEVEL 0→1 CHARACTER CREATION SPELL CHECK ===');
 			if (selectedClass && this.isSpellcastingClass(selectedClass.name)) {
 				console.log(`${selectedClass.name} is a spellcasting class, checking if spell selection is needed`);
 				
 				// Store the completed character first
-				this.ace.setValue(JSON.stringify(completeCharacter, null, 2), 1);
+				this._safeSetAceValue(JSON.stringify(completeCharacter, null, 2), 1);
 				this.renderCharacter();
 				
 				// Try to open spell selection, but don't show alerts if it fails
@@ -10533,7 +10686,7 @@ class CharacterEditorPage {
 				console.log('Non-spellcasting class or no class selected, finalizing character');
 				
 				// Complete the character creation
-				this.ace.setValue(JSON.stringify(completeCharacter, null, 2), 1);
+				this._safeSetAceValue(JSON.stringify(completeCharacter, null, 2), 1);
 				this.renderCharacter();
 				
 				// Clear wizard state
