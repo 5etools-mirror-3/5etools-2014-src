@@ -177,21 +177,25 @@ class CharacterEditorPage {
 		// Populate dynamically from data files
 		$modalInner.html(`
 			<div class="form-group">
+				<label for="lvl0-name"><strong>Character Name</strong></label>
+				<input id="lvl0-name" class="form-control" value="${characterName.escapeQuotes()}">
+			</div>
+			<div class="form-group">
 				<label for="lvl0-race"><strong>Race</strong></label>
 				<select id="lvl0-race" class="form-control">
-					<option value="">-- Random --</option>
+					<option value="">-- Select Race --</option>
 				</select>
 			</div>
 			<div class="form-group">
 				<label for="lvl0-background"><strong>Background</strong></label>
 				<select id="lvl0-background" class="form-control">
-					<option value="">-- Random --</option>
+					<option value="">-- Select Background --</option>
 				</select>
 			</div>
 			<div class="form-group">
 				<label for="lvl0-alignment"><strong>Alignment</strong></label>
 				<select id="lvl0-alignment" class="form-control">
-					<option value="">-- Random --</option>
+					<option value="">-- Select Alignment --</option>
 					<option value="Lawful Good">Lawful Good</option>
 					<option value="Neutral Good">Neutral Good</option>
 					<option value="Chaotic Good">Chaotic Good</option>
@@ -206,6 +210,19 @@ class CharacterEditorPage {
 		`);
 
 		// Load races and backgrounds from data files and populate selects
+		const $btnCancel = $(`<button class="ve-btn ve-btn-default">Cancel</button>`).click(() => doClose(false));
+		const $btnConfirm = $(`<button class="ve-btn ve-btn-primary" style="margin-bottom:12px" disabled>Start Wizard</button>`);
+
+		const hkUpdateStartButton = () => {
+			const hasName = !!$modalInner.find('#lvl0-name').val()?.trim();
+			const hasRace = !!$modalInner.find('#lvl0-race').val();
+			const hasBackground = !!$modalInner.find('#lvl0-background').val();
+			const hasAlignment = !!$modalInner.find('#lvl0-alignment').val();
+			$btnConfirm.prop('disabled', !(hasName && hasRace && hasBackground && hasAlignment));
+		};
+
+		$modalInner.on('input change', '#lvl0-name, #lvl0-race, #lvl0-background, #lvl0-alignment', hkUpdateStartButton);
+
 		(async () => {
 			try {
 				const [rRes, bRes] = await Promise.all([
@@ -229,58 +246,58 @@ class CharacterEditorPage {
 					// Convert race object back to "name|source" format for dropdown
 					const raceValue = `${this.level0WizardData.race.name}|${this.level0WizardData.race.source}`;
 					$race.val(raceValue);
-				} else {
-					$race.val(''); // Explicitly select the "-- Random --" option
 				}
 				// Add backgrounds
 				backgrounds.forEach(bg => {
 					$bg.append(`<option value="${bg.name}">${bg.name} (${bg.source || ''})</option>`);
 				});
-				// If URL forced background exists, select it; otherwise ensure Random is selected
+				// If URL forced background exists, select it
 				if (this.level0WizardData?.background) {
-					$bg.val(this.level0WizardData.background);
-				} else {
-					$bg.val(''); // Explicitly select the "-- Random --" option
+					$bg.val(this.level0WizardData.background.name || this.level0WizardData.background);
 				}
+				hkUpdateStartButton();
 			} catch (e) {
 				console.warn('Could not load races/backgrounds for modal:', e);
 			}
 		})();
 
-		const $btnCancel = $(`<button class="ve-btn ve-btn-default">Cancel</button>`).click(() => doClose(false));
-		const $btnConfirm = $(`<button class="ve-btn ve-btn-primary" style="margin-bottom:12px">Start Wizard</button>`).click(async () => {
+		$btnConfirm.click(async () => {
+			const enteredName = $modalInner.find('#lvl0-name').val()?.trim();
 			const selectedRace = $modalInner.find('#lvl0-race').val();
 			const selectedBg = $modalInner.find('#lvl0-background').val();
 			const selectedAl = $modalInner.find('#lvl0-alignment').val();
+
+			if (!enteredName || !selectedRace || !selectedBg || !selectedAl) {
+				JqueryUtil.doToast({type: "warning", content: "Enter a name and choose a race, background, and alignment before starting the wizard."});
+				hkUpdateStartButton();
+				return;
+			}
+
+			this.level0WizardData.name = enteredName;
 			
 			// Convert race name to full race object
-			if (selectedRace && selectedRace !== '') {
-				// Parse the race value which now contains "name|source"
-				const [raceName, raceSource] = selectedRace.split('|');
-				console.log(`Selected race: ${raceName} from ${raceSource}`);
-				
-				this.level0WizardData.race = {
-					name: raceName,
-					source: raceSource
-				};
-			} else {
-				// User selected random - clear any previously set race
-				this.level0WizardData.race = null;
-			}
+			// Parse the race value which now contains "name|source"
+			const [raceName, raceSource] = selectedRace.split('|');
+			console.log(`Selected race: ${raceName} from ${raceSource}`);
+			
+			this.level0WizardData.race = {
+				name: raceName,
+				source: raceSource
+			};
 			
 			// Convert background name to full background object
-			if (selectedBg) {
-				this.level0WizardData.background = await this._getBackgroundByName(selectedBg);
-			} else {
-				this.level0WizardData.background = null;
-			}
+			this.level0WizardData.background = await this._getBackgroundByName(selectedBg);
 			
 			// Convert alignment string to array format
-			if (selectedAl) {
-				this.level0WizardData.alignment = this.convertAlignmentStringToArray(selectedAl);
-			} else {
-				this.level0WizardData.alignment = null;
-			}
+			this.level0WizardData.alignment = this.convertAlignmentStringToArray(selectedAl);
+
+			const placeholderMessage = {
+				name: this.level0WizardData.name,
+				source: "LEVEL_0_PLACEHOLDER",
+				note: "Complete the level-up wizard to generate your character..."
+			};
+			this.ace.setValue(JSON.stringify(placeholderMessage, null, 2), 1);
+			document.getElementById('message').textContent = `Welcome ${this.level0WizardData.name}! Complete the wizard to create your level 1 character.`;
 			
 			doClose(true);
 			setTimeout(() => this.initiateLevelUpForLevel0(), 200);
