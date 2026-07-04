@@ -166,13 +166,13 @@ class CharacterEditorPage {
 		// Don't render character yet - wait for wizard completion
 		console.log('Level 0 placeholder created, waiting for wizard completion...');
 
-	// Prompt the user to pick background and alignment before starting the wizard
-	const { $modalInner, $modalFooter, doClose } = UiUtil.getShowModal({
-		title: 'Level 0 - Initial Choices',
-		hasFooter: true,
-		isWidth100: false,
-		isPermanent: true
-	});
+		// Prompt the user to pick the required starting details before beginning the wizard
+		const { $modalInner, $modalFooter, doClose } = UiUtil.getShowModal({
+			title: 'Level 0 - Initial Choices',
+			hasFooter: true,
+			isWidth100: false,
+			isPermanent: true
+		});
 
 		// Populate dynamically from data files
 		$modalInner.html(`
