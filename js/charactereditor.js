@@ -168,10 +168,10 @@ class CharacterEditorPage {
 
 		// Prompt the user to pick the required starting details before beginning the wizard
 		const { $modalInner, $modalFooter, doClose } = UiUtil.getShowModal({
-			title: 'Level 0 - Initial Choices',
+			title: "Level 0 - Initial Choices",
 			hasFooter: true,
 			isWidth100: false,
-			isPermanent: true
+			isPermanent: true,
 		});
 
 		// Populate dynamically from data files
@@ -214,34 +214,34 @@ class CharacterEditorPage {
 		const $btnConfirm = $(`<button class="ve-btn ve-btn-primary" style="margin-bottom:12px" disabled>Start Wizard</button>`);
 
 		const hkUpdateStartButton = () => {
-			const hasName = !!$modalInner.find('#lvl0-name').val()?.trim();
-			const hasRace = !!$modalInner.find('#lvl0-race').val();
-			const hasBackground = !!$modalInner.find('#lvl0-background').val();
-			const hasAlignment = !!$modalInner.find('#lvl0-alignment').val();
-			$btnConfirm.prop('disabled', !(hasName && hasRace && hasBackground && hasAlignment));
+			const hasName = !!$modalInner.find("#lvl0-name").val()?.trim();
+			const hasRace = !!$modalInner.find("#lvl0-race").val();
+			const hasBackground = !!$modalInner.find("#lvl0-background").val();
+			const hasAlignment = !!$modalInner.find("#lvl0-alignment").val();
+			$btnConfirm.prop("disabled", !(hasName && hasRace && hasBackground && hasAlignment));
 		};
 
-		$modalInner.on('input change', '#lvl0-name, #lvl0-race, #lvl0-background, #lvl0-alignment', hkUpdateStartButton);
+		$modalInner.on("input change", "#lvl0-name, #lvl0-race, #lvl0-background, #lvl0-alignment", hkUpdateStartButton);
 
 		(async () => {
 			try {
 				const [rRes, bRes] = await Promise.all([
-					fetch('data/races.json'),
-					fetch('data/backgrounds.json')
+					fetch("data/races.json"),
+					fetch("data/backgrounds.json"),
 				]);
 				const racesJson = await rRes.json();
 				const bgsJson = await bRes.json();
 				const races = racesJson.race || [];
 				const backgrounds = bgsJson.background || [];
-				const $race = $modalInner.find('#lvl0-race');
-				const $bg = $modalInner.find('#lvl0-background');
+				const $race = $modalInner.find("#lvl0-race");
+				const $bg = $modalInner.find("#lvl0-background");
 				// Add races
 				races.forEach(r => {
 					// Include both name and source in the value, separated by a delimiter
-					const raceValue = `${r.name}|${r.source || 'PHB'}`;
-					$race.append(`<option value="${raceValue}">${r.name} (${r.source || 'PHB'})</option>`);
+					const raceValue = `${r.name}|${r.source || "PHB"}`;
+					$race.append(`<option value="${raceValue}">${r.name} (${r.source || "PHB"})</option>`);
 				});
-				// If URL forced race exists, select it; otherwise ensure Random is selected
+				// If URL forced race exists, select it
 				if (this.level0WizardData?.race) {
 					// Convert race object back to "name|source" format for dropdown
 					const raceValue = `${this.level0WizardData.race.name}|${this.level0WizardData.race.source}`;
@@ -249,23 +249,23 @@ class CharacterEditorPage {
 				}
 				// Add backgrounds
 				backgrounds.forEach(bg => {
-					$bg.append(`<option value="${bg.name}">${bg.name} (${bg.source || ''})</option>`);
+					$bg.append(`<option value="${bg.name}">${bg.name} (${bg.source || ""})</option>`);
 				});
 				// If URL forced background exists, select it
 				if (this.level0WizardData?.background) {
 					$bg.val(this.level0WizardData.background.name || this.level0WizardData.background);
 				}
 				hkUpdateStartButton();
-			} catch (e) {
-				console.warn('Could not load races/backgrounds for modal:', e);
+			} catch {
+				JqueryUtil.doToast({type: "warning", content: "Could not load race/background options for character creation."});
 			}
 		})();
 
 		$btnConfirm.click(async () => {
-			const enteredName = $modalInner.find('#lvl0-name').val()?.trim();
-			const selectedRace = $modalInner.find('#lvl0-race').val();
-			const selectedBg = $modalInner.find('#lvl0-background').val();
-			const selectedAl = $modalInner.find('#lvl0-alignment').val();
+			const enteredName = $modalInner.find("#lvl0-name").val()?.trim();
+			const selectedRace = $modalInner.find("#lvl0-race").val();
+			const selectedBg = $modalInner.find("#lvl0-background").val();
+			const selectedAl = $modalInner.find("#lvl0-alignment").val();
 
 			if (!enteredName || !selectedRace || !selectedBg || !selectedAl) {
 				JqueryUtil.doToast({type: "warning", content: "Enter a name and choose a race, background, and alignment before starting the wizard."});
@@ -274,31 +274,30 @@ class CharacterEditorPage {
 			}
 
 			this.level0WizardData.name = enteredName;
-			
+
 			// Convert race name to full race object
 			// Parse the race value which now contains "name|source"
-			const [raceName, raceSource] = selectedRace.split('|');
-			console.log(`Selected race: ${raceName} from ${raceSource}`);
-			
+			const [raceName, raceSource] = selectedRace.split("|");
+
 			this.level0WizardData.race = {
 				name: raceName,
-				source: raceSource
+				source: raceSource,
 			};
-			
+
 			// Convert background name to full background object
 			this.level0WizardData.background = await this._getBackgroundByName(selectedBg);
-			
+
 			// Convert alignment string to array format
 			this.level0WizardData.alignment = this.convertAlignmentStringToArray(selectedAl);
 
 			const placeholderMessage = {
 				name: this.level0WizardData.name,
 				source: "LEVEL_0_PLACEHOLDER",
-				note: "Complete the level-up wizard to generate your character..."
+				note: "Complete the level-up wizard to generate your character...",
 			};
 			this.ace.setValue(JSON.stringify(placeholderMessage, null, 2), 1);
-			document.getElementById('message').textContent = `Welcome ${this.level0WizardData.name}! Complete the wizard to create your level 1 character.`;
-			
+			document.getElementById("message").textContent = `Welcome ${this.level0WizardData.name}! Complete the wizard to create your level 1 character.`;
+
 			doClose(true);
 			setTimeout(() => this.initiateLevelUpForLevel0(), 200);
 		});
@@ -306,7 +305,7 @@ class CharacterEditorPage {
 		$modalFooter.append($btnCancel).append($btnConfirm);
 	}
 
-	async initiateLevelUpForLevel0() {
+	async initiateLevelUpForLevel0 () {
 		try {
 			// Create minimal character data for level up state using stored wizard data
 			// Note: race is already converted to proper object format in the modal handler
