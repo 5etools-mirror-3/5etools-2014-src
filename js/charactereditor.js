@@ -8762,24 +8762,6 @@ class CharacterEditorPage {
 			return;
 		}
 
-		// Use source from character data directly or fallback
-		const currentSource = currentCharacterData?.source || 'MyCharacters';
-		const sanitizedSource = this.sanitizeSourceName(currentSource);
-		const password = CharacterSourcePasswordManager.getCachedPassword(sanitizedSource);
-
-		if (!password) {
-			const cachedSources = Object.keys(CharacterSourcePasswordManager.getCachedPasswords());
-			let errorMsg = `Error: No cached password found for source "${currentSource}" (sanitized: "${sanitizedSource}").`;
-			if (cachedSources.length > 0) {
-				errorMsg += ` Available sources: ${cachedSources.join(', ')}. Please update the "source" field or visit Source Management.`;
-			} else {
-				errorMsg += ` Please visit Source Management to login to a source first.`;
-			}
-			document.getElementById('message').textContent = errorMsg;
-			document.getElementById('message').style.color = 'red';
-			return;
-		}
-
 		try {
 			const characterId = currentCharacterId || CharacterManager._generateCompositeId(characterName, currentCharacterData.source);
 			const characterSource = currentCharacterData.source;
@@ -8788,28 +8770,19 @@ class CharacterEditorPage {
 				throw new Error('Character has no source specified - cannot delete');
 			}
 
-			document.getElementById('message').textContent = 'Authenticating and deleting character...';
-			document.getElementById('message').style.color = 'orange';
-
-			const response = await fetch('/api/characters/delete', {
-				method: 'DELETE',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					characterId: characterId,
-					source: characterSource,
-					password: password
-				})
-			});
-
-			if (!response.ok) {
-				const error = await response.json();
-				throw new Error(error.error || 'Failed to delete character');
+			if (!CharacterManager.canEditCharacter(currentCharacterData)) {
+				document.getElementById('message').textContent = 'Access denied: Please log in before deleting this character';
+				document.getElementById('message').style.color = 'red';
+				return;
 			}
 
-			const result = await response.json();
-			console.log('Character deleted:', result);
+			document.getElementById('message').textContent = 'Deleting character...';
+			document.getElementById('message').style.color = 'orange';
+
+			const isDeleted = await CharacterManager.pDeleteCharacter(characterId);
+			if (!isDeleted) {
+				throw new Error('Failed to delete character via CharacterManager');
+			}
 
 			// Inform CharacterManager so it can remove from its in-memory cache and localStorage
 			try {
