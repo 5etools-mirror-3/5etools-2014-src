@@ -392,6 +392,10 @@
 		width: initial !important;
 	}
 
+	.ve-w-16p {
+		width: 16px !important;
+	}
+
 	.ve-w-20p {
 		width: 20px !important;
 	}
@@ -564,6 +568,10 @@
 
 	.ve-h-21p {
 		height: 21px !important;
+	}
+
+	.ve-h-22p {
+		height: 22px !important;
 	}
 
 	.ve-h-25p {
@@ -988,6 +996,12 @@
 	// region Opacity
 	.ve-opacity-50 {
 		opacity: 0.5 !important;
+	}
+	// endregion
+
+	// region Containers
+	.ve-container-inline {
+		container-type: inline-size !important;
 	}
 	// endregion
 

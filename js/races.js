@@ -47,6 +47,7 @@ class RacesSublistManager extends SublistManager {
 				hash,
 				page: race.page,
 				ability: race._slAbility,
+				size: sizeText,
 			},
 			{
 				entity: race,

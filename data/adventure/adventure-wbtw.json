@@ -1801,7 +1801,7 @@
 									"type": "insetReadaloud",
 									"id": "08c",
 									"entries": [
-										"A twenty-foot-tall teapot rests on a wooden platform, its painted surface whirling with moving imagery of flying dragons breathing streams of bubbles. A door at the base of the teapot allows entry to its interior; those who enter emerge from the spout enclosed in a bubble that detaches to float off across the carnival. Seven goblins sits around the platform, sipping tea from mismatched porcelain cups."
+										"A twenty-foot-tall teapot rests on a wooden platform, its painted surface whirling with moving imagery of flying dragons breathing streams of bubbles. A door at the base of the teapot allows entry to its interior; those who enter emerge from the spout enclosed in a bubble that detaches to float off across the carnival. Seven goblins sit around the platform, sipping tea from mismatched porcelain cups."
 									]
 								},
 								"This ride costs 1 ticket punch. The ride is managed by a friendly goblin noncombatant named Treaclewise (chaotic good), who wears bright yellow butterfly wings and carries a string of teaspoons on his belt. Seven more friendly goblins sit and chatter around the giant teapot while sipping tea. When the characters approach, Treaclewise gestures to a sign on his table that reads:",
@@ -6196,7 +6196,7 @@
 											"type": "insetReadaloud",
 											"id": "153",
 											"entries": [
-												"Looming above a ramshackle wooden pier is a balloon anchored by four thick ropes tied around wooden posts driven deep into the mire. The balloon's bladder expands and sags at irregular intervals as swamp gas fills it briefly before leaking out through various tears in its patchwork fabric. A bullywug stands near the top of a ladders and is using a long silver needle and a spool of catgut to sew up one of the openings. A second bullywug stands at the foot of the ladder to steady it. Huddled nearby are three giant frogs whose long tongues snap up passing insects."
+												"Looming above a ramshackle wooden pier is a balloon anchored by four thick ropes tied around wooden posts driven deep into the mire. The balloon's bladder expands and sags at irregular intervals as swamp gas fills it briefly before leaking out through various tears in its patchwork fabric. A bullywug stands near the top of a ladder and is using a long silver needle and a spool of catgut to sew up one of the openings. A second bullywug stands at the foot of the ladder to steady it. Huddled nearby are three giant frogs whose long tongues snap up passing insects."
 											]
 										},
 										"The two {@creature Bullywug||bullywugs} (neutral) watch the characters warily but pose no threat. The three {@creature Giant Frog||giant frogs} are here to prevent anyone from stealing the balloon. (Another one of Bavlorna's balloons was stolen recently. Characters encountered what was left of it at {@area Slanty Tower|12a|x} earlier in the chapter.)",
@@ -6995,7 +6995,7 @@
 							"id": "1a3",
 							"entries": [
 								"Bavlorna's cottage is {@quickref Vision and Light||2||heavily obscured} by thick fog to anyone 20 or more feet away from it. Clotheslines hang from the cottage's four corners and stretch across Murky Lake to their anchor points at areas {@adventure D4|WBtW|3|D4. Burned-out Balloon Factory}, {@adventure D11|WBtW|3|D11. Sinking Palace}, {@adventure D13|WBtW|3|D13. Big Barkless}, and {@adventure D19|WBtW|3|D19. Watch Tower}. Each line can support 200 pounds of added weight before snapping.",
-								"The cottage is a massive wooden edifice built on stilts, its floor 35 feet above the lake. It sits atop an well that extends up through the floor into {@area area B1|1a6|x}. A rickety wooden staircase with no railing rises from the lake, wrapping around the well as it climbs to a wooden trapdoor in the floor of area B1.",
+								"The cottage is a massive wooden edifice built on stilts, its floor 35 feet above the lake. It sits atop a well that extends up through the floor into {@area area B1|1a6|x}. A rickety wooden staircase with no railing rises from the lake, wrapping around the well as it climbs to a wooden trapdoor in the floor of area B1.",
 								"The cottage's physical features are as follows:",
 								{
 									"type": "list",
@@ -9226,7 +9226,7 @@
 									"height": 1125,
 									"credit": "Brynn Metheney"
 								},
-								"The wizard {@creature Kelek|WBtW}, founder of the League of Malevolence (see {@area appendix B|46b|x}), has ordered the assassin {@creature Zarak|WBtW} to hunt down Lamorna and chop off her horn. {@creature Zarak|WBtW} lurks in the forested outskirts of the pool, trying to find a way to the shore. (He doesn't know about the \"look like a unicorn\" requirement.) Characters who have a passive Wisdom ({@skill Perception}) score of 15 higher get the feeling they are being watched. See \"{@area Zarak Attacks!|21d|x}\" below for more information.",
+										"The wizard {@creature Kelek|WBtW}, founder of the League of Malevolence (see {@area appendix B|46b|x}), has ordered the assassin {@creature Zarak|WBtW} to hunt down Lamorna and chop off her horn. {@creature Zarak|WBtW} lurks in the forested outskirts of the pool, trying to find a way to the shore. (He doesn't know about the \"look like a unicorn\" requirement.) Characters who have a passive Wisdom ({@skill Perception}) score of 15 or higher get the feeling they are being watched. See \"{@area Zarak Attacks!|21d|x}\" below for more information.",
 								{
 									"type": "entries",
 									"name": "Regional Effects",
@@ -13786,7 +13786,7 @@
 									"id": "2d8",
 									"entries": [
 										"When the characters come to Motherhorn, Endelyn has foreseen their arrival and is expecting them. If you used the \"Lost Things\" adventure hook and the {@adventure Story Tracker|WBtW|11} indicates that Endelyn has one or more things that the characters need, she is willing to trade away these possessions one by one, but only after the characters agree to perform on her stage.",
-										"Regardless of what the characters want from her, Endelyn typically requires them to perform for her before she will bargain with them. If she deems the characters' performance satisfactory (see \"{@area A Tragedy in the Making|2db|x}\" below), she leads the party to her audience chamber ({@area area M18|338|x}) and conducts negotiations there. If the deems their performance unsatisfactory, she doesn't feel bound by the rule of reciprocity (see \"{@area Rules of Conduct|105|x}\" in {@adventure chapter 2|WBtW|2}) to grant them an audience.",
+										"Regardless of what the characters want from her, Endelyn typically requires them to perform for her before she will bargain with them. If she deems the characters' performance satisfactory (see \"{@area A Tragedy in the Making|2db|x}\" below), she leads the party to her audience chamber ({@area area M18|338|x}) and conducts negotiations there. If she deems their performance unsatisfactory, she doesn't feel bound by the rule of reciprocity (see \"{@area Rules of Conduct|105|x}\" in {@adventure chapter 2|WBtW|2}) to grant them an audience.",
 										{
 											"type": "inset",
 											"name": "Fey to the Rescue!",

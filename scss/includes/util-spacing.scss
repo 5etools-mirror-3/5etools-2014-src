@@ -576,6 +576,10 @@
 		margin-left: (-(vars.$spacer) * 0.25) !important;
 	}
 
+	.ve-ml-1p {
+		margin-left: 1px !important;
+	}
+
 	.ve-ml-2 {
 		margin-left: (vars.$spacer * 0.5) !important;
 	}
@@ -854,16 +858,24 @@
 		z-index: 1 !important;
 	}
 
+	.ve-top-0 {
+		top: 0 !important;
+	}
+
 	.ve-top-n1p {
-		top: -1px;
+		top: -1px !important;;
 	}
 
 	.ve-top-n3p {
-		top: -3px;
+		top: -3px !important;;
 	}
 
 	.ve-top-1p {
-		top: 1px;
+		top: 1px !important;;
+	}
+
+	.ve-top-2p {
+		top: 2px !important;
 	}
 
 	.ve-right-0 {

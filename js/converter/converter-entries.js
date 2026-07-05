@@ -20,6 +20,7 @@ export class ConverterEntries extends ConverterBase {
 
 		const entries = MarkdownConverter.getEntries(inText);
 
+		TagJsons.mutTagObjectStrictCapsWords(entries, {styleHint: options.styleHint});
 		TagJsons.mutTagObject(entries, {styleHint: options.styleHint});
 
 		options.cbOutput(entries, options.isAppend);

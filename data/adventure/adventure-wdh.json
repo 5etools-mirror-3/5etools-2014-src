@@ -1099,7 +1099,7 @@
 													"type": "flowBlock",
 													"name": "Dalakhar Flees",
 													"entries": [
-														"Dalakhar, a gnome thief working for Dagult. tries to smuggle the Stone of Golorr out of Waterdeep."
+														"Dalakhar, a gnome thief working for Dagult, tries to smuggle the Stone of Golorr out of Waterdeep."
 													],
 													"id": "4f2"
 												},
@@ -13399,15 +13399,15 @@
 												],
 												[
 													"10",
-													"A Paining of a Minotaur"
+													"A Painting of a Minotaur"
 												],
 												[
 													"11",
-													"A Paining of a Mummy"
+													"A Painting of a Mummy"
 												],
 												[
 													"12",
-													"A Paining of a Werewolf"
+													"A Painting of a Werewolf"
 												]
 											]
 										}

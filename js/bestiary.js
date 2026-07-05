@@ -123,12 +123,11 @@ class BestiarySublistManager extends SublistManager {
 			.onn("mousemove", evt => Renderer.hover.handleLinkMouseMove(evt, hovStatblock))
 			.onn("mouseleave", evt => Renderer.hover.handleLinkMouseLeave(evt, hovStatblock));
 
-		const hovTokenMeta = EncounterBuilderUiBestiary.getTokenHoverMeta(mon);
-		const hovToken = !hovTokenMeta ? ee`<span class="ve-col-1-2 best-ecgen__visible"></span>` : ee`<span class="ve-col-1-2 best-ecgen__visible ve-help ve-help--hover">Token</span>`
-			.onn("mouseover", evt => hovTokenMeta.mouseOver(evt, hovToken))
-			.onn("mousemove", evt => hovTokenMeta.mouseMove(evt, hovToken))
-			.onn("mouseleave", evt => hovTokenMeta.mouseLeave(evt, hovToken));
+		// TODO(Future) run `pFnCleanup` before list item is destroyed
+		const hovToken = ee`<span class="ve-col-1-2 best-ecgen__visible ve-help ve-help--hover">Token</span>`;
+		Renderer.monster.hover.bindTokenMouseover({mon, ele: hovToken});
 
+		// TODO(Future) run `pFnCleanup` before list item is destroyed
 		const hovImage = ee`<span class="ve-col-1-2 best-ecgen__visible ve-help ve-help--hover">Image</span>`;
 		Renderer.monster.hover.bindFluffImageMouseover({mon, ele: hovImage});
 
@@ -471,8 +470,6 @@ class BestiaryPage extends ListPageMultiSource {
 
 	set encounterBuilder (val) { this._encounterBuilder = val; }
 
-	get list_ () { return this._list; }
-
 	getListItem (mon, mI) {
 		const hash = UrlUtil.autoEncodeHash(mon);
 		if (this._seenHashes.has(hash)) return null;
@@ -535,7 +532,7 @@ class BestiaryPage extends ListPageMultiSource {
 
 	handleFilterChange () {
 		super.handleFilterChange();
-		this._encounterBuilder.resetCache();
+		this._encounterBuilder.resetCache(this._getEncounterBuilderCreatures());
 	}
 
 	async _pDoLoadHash ({id, lockToken}) {
@@ -948,8 +945,14 @@ class BestiaryPage extends ListPageMultiSource {
 		super._pOnLoad_initVisibleItemsDisplay(...arguments);
 
 		this._list.on("updated", () => {
-			this._encounterBuilder.resetCache();
+			this._encounterBuilder.resetCache(this._getEncounterBuilderCreatures());
 		});
+	}
+
+	_getEncounterBuilderCreatures () {
+		// Note that this intentionally provides only creatures visible in search results
+		return this._list.visibleItems
+			.map(li => this._dataList[li.ix]);
 	}
 }
 

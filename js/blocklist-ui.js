@@ -392,38 +392,19 @@ class BlocklistUi {
 			});
 		// endregion
 
-		ee(this._wrpControls.empty())`<div class="${this._isCompactUi ? "ve-mb-2" : "ve-mb-5"} ve-flex-v-center ve-mobile-sm__flex-col ve-mobile-sm__flex-ai-start">
-			<div class="ve-flex-vh-center ve-mr-4 ve-mobile-sm__mr-0 ve-mobile-sm__mb-2">
-				<div class="ve-mr-2">UA/Etc. Sources</div>
-				<div class="ve-flex-v-center ve-btn-group">
-					${btnExcludeAllUa}
-					${btnIncludeAllUa}
+		const getWrpExcludeInclude = ({name, btnExclude, btnInclude}) => ee`<div class="ve-flex-v-center ve-mobile-md__w-100 ve-mr-2 ve-mobile-md__mr-0 ve-mobile-md__mb-2 ve-p-2 ve-b-1p ve-bc-5p">
+				<div class="ve-mr-2">${name}</div>
+				<div class="ve-flex-v-center ve-btn-group ve-mobile-md__ml-auto">
+					${btnExclude}
+					${btnInclude}
 				</div>
-			</div>
+			</div>`;
 
-			<div class="ve-flex-vh-center ve-mr-3 ve-mobile-sm__mr-0 ve-mobile-sm__mb-2">
-				<div class="ve-mr-2">Comedy Sources</div>
-				<div class="ve-flex-v-center ve-btn-group">
-					${btnExcludeAllComedySources}
-					${btnIncludeAllComedySources}
-				</div>
-			</div>
-
-			<div class="ve-flex-vh-center ve-mr-3 ve-mobile-sm__mr-0 ve-mobile-sm__mb-2">
-				<div class="ve-mr-2">Non-<i>Forgotten Realms</i></div>
-				<div class="ve-flex-v-center ve-btn-group">
-					${btnExcludeAllNonForgottenRealmsSources}
-					${btnIncludeAllNonForgottenRealmsSources}
-				</div>
-			</div>
-
-			<div class="ve-flex-vh-center ve-mr-3 ve-mobile-sm__mr-0 ve-mobile-sm__mb-2">
-				<div class="ve-mr-2">All Sources</div>
-				<div class="ve-flex-v-center ve-btn-group">
-					${btnExcludeAllSources}
-					${btnIncludeAllSources}
-				</div>
-			</div>
+		ee(this._wrpControls.empty())`<div class="${this._isCompactUi ? "ve-mb-2" : "ve-mb-5"} ve-flex-v-center ve-mobile-md__flex-col ve-mobile-md__flex-ai-start">
+			${getWrpExcludeInclude({name: "UA/Etc. Sources", btnExclude: btnExcludeAllUa, btnInclude: btnIncludeAllUa})}
+			${getWrpExcludeInclude({name: `Comedy Sources`, btnExclude: btnExcludeAllComedySources, btnInclude: btnIncludeAllComedySources})}
+			${getWrpExcludeInclude({name: `Non-<i>Forgotten Realms</i>`, btnExclude: btnExcludeAllNonForgottenRealmsSources, btnInclude: btnIncludeAllNonForgottenRealmsSources})}
+			${getWrpExcludeInclude({name: `All Sources`, btnExclude: btnExcludeAllSources, btnInclude: btnIncludeAllSources})}
 		</div>
 
 		<div class="ve-flex-v-end ${this._isCompactUi ? "ve-mb-2" : "ve-mb-5"} ve-mobile-sm__flex-col ve-mobile-sm__flex-ai-start">

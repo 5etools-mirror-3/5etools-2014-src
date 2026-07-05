@@ -41,8 +41,9 @@ export class DmScreenSideMenu extends BaseComponent {
 
 				saveSlotStates: Object.fromEntries(
 					this._state.saveSlotStates
-						.map(saveSlotState => {
+						.map((saveSlotState, ix) => {
 							const out = MiscUtil.copyFast(saveSlotState.entity);
+							out._sort = ix;
 							this._mutCompressSaveSlotStateEntity(out);
 							return [saveSlotState.id, out];
 						}),
@@ -55,8 +56,9 @@ export class DmScreenSideMenu extends BaseComponent {
 
 	/* -------------------------------------------- */
 
-	_mutExpandSaveSlotStateEntity (obj, {isActive}) {
+	_mutExpandSaveSlotStateEntity (obj, {isActive, _sort = null}) {
 		obj.isActive = isActive;
+		if (_sort != null) obj._sort = _sort;
 		return obj;
 	}
 
@@ -70,12 +72,14 @@ export class DmScreenSideMenu extends BaseComponent {
 	setSaveSlotInfo ({idSaveSlotActive, saveSlotStates}) {
 		this._proxyAssignSimple("state", {
 			saveSlotStates: Object.entries(saveSlotStates)
-				.map(([id, saveSlotState]) => ({
+				.sort(([idA, saveSlotStateA], [idB, saveSlotStateB]) => SortUtil.ascSort(saveSlotStateA._sort ?? (Math.trunc(Number.MAX_SAFE_INTEGER / 2) + Number(idA)), saveSlotStateB._sort ?? (Math.trunc(Number.MAX_SAFE_INTEGER / 2) + Number(idB))))
+				.map(([id, saveSlotState], ix) => ({
 					id,
 					entity: this._mutExpandSaveSlotStateEntity(
 						MiscUtil.copyFast(saveSlotState),
 						{
 							isActive: idSaveSlotActive === id,
+							_sort: ix,
 						},
 					),
 				})),
@@ -117,7 +121,7 @@ export class DmScreenSideMenu extends BaseComponent {
 	_render_getBtnNewSaveSlot () {
 		return ee`<button class="ve-btn ve-btn-default ve-bc-0 ve-bb-0 ve-br-0 ve-bl-0" title="New Save Slot"><span class="glyphicon glyphicon-plus"></span></button>`
 			.onn("click", async () => {
-				await this._board.pHandleClick_doNewSaveSlot();
+				await this._board.pHandleClick_doNewSaveSlot({isActive: true});
 			});
 	}
 
@@ -152,7 +156,7 @@ export class DmScreenSideMenu extends BaseComponent {
 			),
 		]);
 
-		const wrpRenderableCollection = ee`<div class="ve-flex-col ve-w-100 ve-h-100 ve-min-h-0"></div>`;
+		const wrpRenderableCollection = ee`<div class="ve-flex-col ve-w-100 ve-h-100 ve-min-h-0 ve-relative"></div>`;
 
 		const menuRowOptions = ContextUtil.getMenu([
 			new ContextUtil.Action(
@@ -200,6 +204,11 @@ export class DmScreenSideMenu extends BaseComponent {
 						await ContextUtil.pOpenMenu(evt, menuMass);
 					});
 
+				const btnAddSlot = ee`<button class="ve-btn ve-btn-default ve-btn-xs ve-mr-2"><span class="glyphicon glyphicon-plus"></span> New Save Slot</button>`
+					.onn("click", async () => {
+						await this._board.pHandleClick_doNewSaveSlot();
+					});
+
 				const cbMulti = ee`<input type="checkbox">`;
 				selectClickHandler.bindSelectAllCheckbox(cbMulti);
 
@@ -207,6 +216,9 @@ export class DmScreenSideMenu extends BaseComponent {
 					<div class="ve-w-100 ve-flex-col ve-mb-1">
 						<div class="ve-flex-v-center">
 							${btnMass}
+						</div>
+						<div class="ve-flex-v-center ve-ml-auto">
+							${btnAddSlot}
 						</div>
 					</div>
 

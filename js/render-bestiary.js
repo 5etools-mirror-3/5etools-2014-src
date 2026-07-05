@@ -92,13 +92,31 @@ class _RenderBestiaryImplBase {
 
 			case "legendary":
 			case "mythic": {
-				const cpy = MiscUtil.copy(entries)
-					.map(it => {
-						if (it.name && it.entries) it.type ||= "item";
-						return it;
+				// Split runs of "rendered" (i.e., spellcasting entries) vs. "other" (i.e., likely hanging list items)
+				//   into groupings, and handle each appropriately.
+				const listGroups = [];
+
+				MiscUtil.copy(entries)
+					.forEach(ent => {
+						if (ent.rendered) return listGroups.push(ent.rendered);
+
+						if (ent.name && ent.entries) ent.type ||= "item";
+
+						if (!listGroups.length || listGroups.at(-1).rendered) {
+							listGroups.push({type: "list", style: "list-hang-notitle", items: []});
+						}
+						listGroups.at(-1).items.push(ent);
 					});
-				const toRender = {type: "list", style: "list-hang-notitle", items: cpy};
-				renderer.setFirstSection(true).recursiveRender(toRender, renderStack, {depth: depth});
+
+				listGroups.forEach(group => {
+					if (group.rendered) {
+						renderStack.push(group.rendered);
+						return;
+					}
+
+					renderer.setFirstSection(true).recursiveRender(group, renderStack, {depth: depth});
+				});
+
 				break;
 			}
 

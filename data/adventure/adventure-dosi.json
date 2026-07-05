@@ -391,7 +391,7 @@
 										"Can I..."
 									]
 								},
-								"Whatever the players ask, the answer should (almost) always be something like, \"You can try!\" If a character has a specific spell or ability that will let them accomplish what they want to do, help the player use that spell or ability. Otherwise, ask the player to make a ability check that's appropriate to their character's tactics, such as a Strength ({@skill Athletics}) check for trying to roll the barrel at the merrow, a Dexterity check to fling a sail over it, or a Charisma ({@skill Intimidation}) check to convince it that the crew is about to attack."
+								"Whatever the players ask, the answer should (almost) always be something like, \"You can try!\" If a character has a specific spell or ability that will let them accomplish what they want to do, help the player use that spell or ability. Otherwise, ask the player to make an ability check that's appropriate to their character's tactics, such as a Strength ({@skill Athletics}) check for trying to roll the barrel at the merrow, a Dexterity check to fling a sail over it, or a Charisma ({@skill Intimidation}) check to convince it that the crew is about to attack."
 							],
 							"id": "0ec"
 						},
@@ -5886,7 +5886,7 @@
 											"id": "096",
 											"entries": [
 												"A heavy iron chest lies on the floor of the hold, directly beneath the hole it fell through. If a character opens the chest here, a large air bubble rushes out, and a packet, wrapped and sealed in waxed fabric, rises up after it. Though the chest is heavy (about 125 pounds), the characters can also carry it to the surface before opening it.",
-												"The chest contains a {@item pouch|PHB} holding 55 gp and three {@item Turquoise||turquoise stones} (worth 10 gp each), as well as a pair of {@item boots of elvenkind}. The floating packet contains the captain's journal, which has been keep safe from the water by its wrapping. A braid of hair is stuck in the pages like a bookmark, indicating the log's last entry. The last entry reads as follows:",
+												"The chest contains a {@item pouch|PHB} holding 55 gp and three {@item Turquoise||turquoise stones} (worth 10 gp each), as well as a pair of {@item boots of elvenkind}. The floating packet contains the captain's journal, which has been kept safe from the water by its wrapping. A braid of hair is stuck in the pages like a bookmark, indicating the log's last entry. The last entry reads as follows:",
 												{
 													"type": "insetReadaloud",
 													"name": "19 Tarsakh",
@@ -7251,7 +7251,7 @@
 							"page": 37,
 							"id": "0da",
 							"entries": [
-								"A stat block specifies a creature's hit point maximum. In parentheses, the stat block also indicates the Hit Dice that were rolled to determined those hit points, plus the creature's Constitution modifier multiplied by the number of Hit Dice."
+								"A stat block specifies a creature's hit point maximum. In parentheses, the stat block also indicates the Hit Dice that were rolled to determine those hit points, plus the creature's Constitution modifier multiplied by the number of Hit Dice."
 							]
 						},
 						{

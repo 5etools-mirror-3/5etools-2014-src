@@ -533,12 +533,12 @@ class Board {
 		throw new Error(`No valid save slot ID available! This is a bug!`);
 	}
 
-	async pHandleClick_doNewSaveSlot () {
+	async pHandleClick_doNewSaveSlot ({isActive = false} = {}) {
 		const nxt = this.getSaveableState();
 		if (!this._isNextSaveSlotStatesAvailable(nxt, {isNotify: true})) return;
 
 		const idSaveSlot = this._getNextSaveSlotId(nxt);
-		nxt.sla = idSaveSlot;
+		if (isActive) nxt.sla = idSaveSlot;
 		nxt.sls[idSaveSlot] = {};
 
 		await this.pDoLoadStateFrom(nxt);

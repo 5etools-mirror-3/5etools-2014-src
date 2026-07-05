@@ -1,4 +1,4 @@
-import {EncounterPartyPlayerMeta} from "../encounterbuilder-models.js";
+import {EncounterPartyPlayerMeta} from "../encounterbuilder-models-other.js";
 import {EncounterBuilderPartyBase} from "./encounterbuilder-party-base.js";
 import {EncounterBuilderRenderableCollectionPlayersAdvanced} from "../encounterbuilder-playersadvanced.js";
 import {EncounterBuilderRenderableCollectionColsExtraAdvanced} from "../encounterbuilder-colsextraadvanced.js";

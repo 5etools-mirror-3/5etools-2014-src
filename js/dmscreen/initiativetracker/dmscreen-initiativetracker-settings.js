@@ -41,7 +41,7 @@ class _RenderableCollectionStatsCols extends RenderableCollectionGenericRows {
 
 		const btnDelete = this._utils.getBtnDelete({entity});
 
-		const padDrag = this._utils.getPadDrag({wrpRow: wrpRow[0]});
+		const padDrag = this._utils.getPadDrag({wrpRow});
 
 		ee(wrpRow)`
 			<div class="ve-col-5 ve-pr-1">${meta.constructor.NAME}</div>

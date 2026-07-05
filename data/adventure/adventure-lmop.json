@@ -1512,7 +1512,7 @@
 									"items": [
 										"{@b Relax.} Don't worry about impressing your players with your thespian skills (or lack thereof).",
 										"{@b Get inside the NPCs' minds.} Imagine how they might react to the characters, and strive to be realistic.",
-										"{@b Mug it up.} Scowl, smile, snarl, flutter your eyelashes, pout, cross your eyes, rub your hands together-what-ever it takes to make your NPCs come to life.",
+										"{@b Mug it up.} Scowl, smile, snarl, flutter your eyelashes, pout, cross your eyes, rub your hands together\u2014whatever it takes to make your NPCs come to life.",
 										"{@b Try different voices.} Borrow distinctive speech patterns from real life, movies, and television. Adjust the volume as appropriate. An NPC can be loud, soft-spoken, or something in between.",
 										"{@b Keep the game moving.} Let the players steer the interactions with the NPCs."
 									]
@@ -2005,7 +2005,7 @@
 							"page": 16,
 							"id": "057",
 							"entries": [
-								"Daran has heard stories from prospectors in the hills northeast of Phandalin that someone is digging around in the ruins known as Old Owl Well. More disturbingly, several prospectors have reported being chased from the area by undead. He asks the characters to visit the ruins, a couple days march northeast of Phandalin, and find out who's there and what they're up to. Daran knows that the ruins are an old watchtower of an ancient magical empire known as Netheril, and he worries that dangerous magic might be dormant there. If the party pursues this quest, see \"Old Owl Well\" (page 29)."
+								"Daran has heard stories from prospectors in the hills northeast of Phandalin that someone is digging around in the ruins known as Old Owl Well. More disturbingly, several prospectors have reported being chased from the area by undead. He asks the characters to visit the ruins, a couple days' march northeast of Phandalin, and find out who's there and what they're up to. Daran knows that the ruins are an old watchtower of an ancient magical empire known as Netheril, and he worries that dangerous magic might be dormant there. If the party pursues this quest, see \"Old Owl Well\" (page 29)."
 							]
 						},
 						{
@@ -2239,7 +2239,7 @@
 									"page": 19,
 									"id": "070",
 									"entries": [
-										"One of the thugs spits on the ground. Well, well,\" he snarls. \"Here's a whole pack of little puppies. What do you want, puppies? Come here to bark at us?\""
+										"One of the thugs spits on the ground. \"Well, well,\" he snarls. \"Here's a whole pack of little puppies. What do you want, puppies? Come here to bark at us?\""
 									]
 								},
 								"If the Redbrands confront the characters in the street, read:",
@@ -2746,7 +2746,7 @@
 								{
 									"type": "list",
 									"items": [
-										"The leader of the Redbrands is a human wizard known as Glasstaff, so named because his magic staff is made of glass.(Only Iarno Albrek and the Black Spider know Glasstaff's real name.) Glasstaff's chambers are in the western end of the stronghold (see areas 11 and 12).",
+										"The leader of the Redbrands is a human wizard known as Glasstaff, so named because his magic staff is made of glass. (Only Iarno Albrek and the Black Spider know Glasstaff's real name.) Glasstaff's chambers are in the western end of the stronghold (see areas 11 and 12).",
 										"A mysterious figure called the Black Spider has hired the Redbrands to frighten off adventurers and intimidate the locals, for reasons unknown. The Black Spider has sent bugbears to reinforce the Redbrands and provide extra muscle (see {@area 9|09e}).",
 										"The lower part of the complex is guarded by a hideous \"eye monster\" (see {@area 8|098}).",
 										"The Redbrands have a handful of captives in a holding area \"near the old crypts,\" which are guarded by skeletons (see areas 4 and 5)."
@@ -3117,7 +3117,7 @@
 							"id": "0a1",
 							"entries": [
 								"The bugbears are the only ones in the Redbrand hideout who know the location of Wave Echo Cave. They won't willingly divulge this information, since they fear the Black Spider more than they fear the characters.",
-								"The bugbears also know the location of Cragmaw Castle. but again, they don't share this information readily. A character who interrogates a captured bugbear can pry the information loose with a successful {@dc 15} Charisma ({@skill Intimidation}) check."
+								"The bugbears also know the location of Cragmaw Castle. But again, they don't share this information readily. A character who interrogates a captured bugbear can pry the information loose with a successful {@dc 15} Charisma ({@skill Intimidation}) check."
 							]
 						},
 						{
@@ -3364,7 +3364,7 @@
 									"page": 27,
 									"id": "0b9",
 									"entries": [
-										"Assume that the party travels twenty-four miles per day over a period of ten hours. The characters must rest for eight hours per day, with the remaining six hours consisting of making and breaking camp, preparing meals, and a little bit, of foraging or hunting as the opportunity permits."
+										"Assume that the party travels twenty-four miles per day over a period of ten hours. The characters must rest for eight hours per day, with the remaining six hours consisting of making and breaking camp, preparing meals, and a little bit of foraging or hunting as the opportunity permits."
 									]
 								},
 								{
@@ -3420,7 +3420,7 @@
 							"page": 27,
 							"id": "0ba",
 							"entries": [
-								"Ask the players to tell you the party's marching order, so that, you know which characters are in the lead and who's bringing up the rear. When the party camps, ask which characters are on watch. This information is important if the party encounters something dangerous.",
+								"Ask the players to tell you the party's marching order, so that you know which characters are in the lead and who's bringing up the rear. When the party camps, ask which characters are on watch. This information is important if the party encounters something dangerous.",
 								"The Triboar Trail is not safe. As the adventurers travel throughout this area, they might stumble across hungry beasts, greedy bandits, or vicious monsters. Check for encounters once during the day and once at night by rolling a {@dice d20}. On a roll of 17-20, an encounter takes place. Roll a {@dice d12} and consult the Wilderness Encounters table to determine what the party meets.",
 								"{@b Wilderness Encounters}",
 								{
@@ -3521,7 +3521,7 @@
 									"name": "Ghouls",
 									"page": 27,
 									"entries": [
-										"These undead humans hunger for living flesh,"
+										"These undead humans hunger for living flesh."
 									],
 									"id": "1aa"
 								},
@@ -5591,7 +5591,7 @@
 								"This high, narrow hall looks as if it might have been part of a chapel or shrine at one time. Angelic figures are sculpted along the room's upper reaches, looking down on the floor below. To the north, heavy curtains block a matching pair of archways. Between the archways is a cracked but ornately carved stone brazier."
 							]
 						},
-						"This chamber contains a {@creature grick}, the special pet of the goblin Lhupo ({@area 9|12f}). The grick like to climb up to a ledge hidden in the shadows of the statuary in the higher reaches of the room. It quietly observes intruders that enter the area before dropping down to strike. Compare the grick's Dexterity ({@skill Stealth}) check to the characters' Wisdom ({@skill Perception}) checks (or their passive scores) to determine who among them is {@status surprised}. The grick knows that goblins are not to be eaten unless Lhupo says so. The rest of the Cragmaws are terrified of Lhupo's pet and hurry through this room, preferably in twos or threes.",
+						"This chamber contains a {@creature grick}, the special pet of the goblin Lhupo ({@area 9|12f}). The grick likes to climb up to a ledge hidden in the shadows of the statuary in the higher reaches of the room. It quietly observes intruders that enter the area before dropping down to strike. Compare the grick's Dexterity ({@skill Stealth}) check to the characters' Wisdom ({@skill Perception}) checks (or their passive scores) to determine who among them is {@status surprised}. The grick knows that goblins are not to be eaten unless Lhupo says so. The rest of the Cragmaws are terrified of Lhupo's pet and hurry through this room, preferably in twos or threes.",
 						"Any cleric who examines the chapel's decor can attempt a {@dc 10} Intelligence ({@skill Religion}) check to identify the deities that were once revered here: Oghma (god of knowledge), Mystra (goddess of magic), Lathander (god of dawn), and Tymora (goddess of luck). This is an obvious sign that the builders of the castle were human.",
 						{
 							"type": "entries",
@@ -5906,7 +5906,7 @@
 					"page": 42,
 					"id": "14d",
 					"entries": [
-						"In this part of the adventure, XP is awarded for overcoming monsters, as in parts 2 and 3. However, XP awards for monsters is not given in the encounter description. Instead, the amount of XP that a monster is worth is noted in us stat block. You calculate the award by totaling the value for each monster the characters overcome. Additional XP awards, and the reasons for them, are described in the text, under the \"Awarding Experience Points\" heading."
+						"In this part of the adventure, XP is awarded for overcoming monsters, as in parts 2 and 3. However, XP awards for monsters are not given in the encounter description. Instead, the amount of XP that a monster is worth is noted in its stat block. You calculate the award by totaling the value for each monster the characters overcome. Additional XP awards, and the reasons for them, are described in the text, under the \"Awarding Experience Points\" heading."
 					]
 				},
 				{
@@ -7183,7 +7183,7 @@
 								"Many tunnels intersect at this natural, thirty-foot-high cavern. The walls are carved with simple reliefs showing dwarf and gnome miners hard at work. Below them, nearly two dozen skeletons in rusted scraps of armor are scattered across the cavern floor. Some are dwarf skeletons, while others are orc remains. Half a dozen large brass lanterns stand in niches or on ledges around the cavern, but none are lit."
 							]
 						},
-						"Clinging to the ceiling like bats are ten {@creature stirge||stirges}. The monsters find scant living prey in the mines, and they are ravenous. If the characters are looking down at the skeletons on the floor, the stirges are likely get the drop on them. Any character who isn't watching the ceiling is {@status surprised} unless his or her passive Wisdom ({@skill Perception}) score is higher than the stirges' Dexterity ({@skill Stealth}) check total (roll once for all of them). Characters who aren't {@status surprised} hear a flapping noise as the stirges descend to attack.",
+						"Clinging to the ceiling like bats are ten {@creature stirge||stirges}. The monsters find scant living prey in the mines, and they are ravenous. If the characters are looking down at the skeletons on the floor, the stirges are likely to get the drop on them. Any character who isn't watching the ceiling is {@status surprised} unless his or her passive Wisdom ({@skill Perception}) score is higher than the stirges' Dexterity ({@skill Stealth}) check total (roll once for all of them). Characters who aren't {@status surprised} hear a flapping noise as the stirges descend to attack.",
 						"The lanterns and the carvings of miners at work were meant as a welcome to newcomers."
 					]
 				},
@@ -7210,7 +7210,7 @@
 					"page": 44,
 					"id": "162",
 					"entries": [
-						"The mine's assayers worked here, weighing and assessing ore samples and paying the minors for their labor.",
+						"The mine's assayers worked here, weighing and assessing ore samples and paying the miners for their labor.",
 						{
 							"type": "insetReadaloud",
 							"id": "163",
@@ -7368,7 +7368,7 @@
 							"page": 46,
 							"id": "174",
 							"entries": [
-								"The largest bugbear carries a pouch containing 15 cp. 13ep, and a {@item potion of vitality}."
+								"The largest bugbear carries a pouch containing 15 cp, 13 ep, and a {@item potion of vitality}."
 							]
 						}
 					]
@@ -7399,7 +7399,7 @@
 					"page": 47,
 					"id": "177",
 					"entries": [
-						"The structural damage and the skeletal remains in this area are evidence of the destructive spell battle fought here centuries ago when the arcs and their mercenary wizards stormed the mines.",
+						"The structural damage and the skeletal remains in this area are evidence of the destructive spell battle fought here centuries ago when the orcs and their mercenary wizards stormed the mines.",
 						{
 							"type": "insetReadaloud",
 							"id": "178",

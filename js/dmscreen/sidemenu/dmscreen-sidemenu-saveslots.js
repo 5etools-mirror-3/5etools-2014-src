@@ -164,7 +164,11 @@ export class RenderableCollectionSaveSlotStatesManager extends RenderableCollect
 		const btnRemove = this._utils.getBtnDelete({
 			entity,
 			pFnGetIsConfirm: () => !!getCntPanelsNonEmpty(),
-		});
+		})
+			.removeClass("ve-btn-xxs")
+			.addClass("ve-btn-xs");
+
+		const padDrag = this._utils.getPadDrag({wrpRow});
 
 		comp._addHookBase("isActive", () => {
 			btnSetActive.toggleClass("ve-active", !!comp._state.isActive);
@@ -184,10 +188,14 @@ export class RenderableCollectionSaveSlotStatesManager extends RenderableCollect
 				${iptName}
 			</label>
 			
-			<div class="ve-flex-vh-center ve-ml-auto ve-btn-group ve-grow">
-				${btnSetActive}
-				${btnMenu}
-				${btnRemove}
+			<div class="ve-flex-vh-center ve-ml-auto ve-grow">
+				${padDrag}
+			
+				<div class="ve-btn-group ve-flex-vh-center ve-grow">
+					${btnSetActive}
+					${btnMenu}
+					${btnRemove}
+				</div>
 			</div>
 		`;
 

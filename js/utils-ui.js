@@ -249,6 +249,10 @@ class ProxyBase extends MixinProxyBase(class {}) {}
 globalThis.ProxyBase = ProxyBase;
 
 class UiUtil {
+	static SEARCH_RESULTS_CAP = 75;
+	static TYPE_TIMEOUT_MS = 100; // auto-search after 100ms
+	static TYPE_TIMEOUT_LAZY_MS = 1500;
+
 	static getBtnClassName (btnType) {
 		if (!btnType) return "ve-btn-primary";
 		switch (btnType) {
@@ -283,6 +287,14 @@ class UiUtil {
 	 */
 	static strToNumber (string, fallbackEmpty = 0, opts) { return UiUtil._strToNumber(string, fallbackEmpty, opts, false); }
 
+	static _parseStrAsNumber (str, isInt) {
+		const wrpTree = Renderer.dice.lang.getTree3(str);
+		if (!wrpTree) return NaN;
+		const out = wrpTree.tree.evl({});
+		if (!isNaN(out) && isInt) return Math.round(out);
+		return out;
+	}
+
 	static _strToNumber (string, fallbackEmpty = 0, opts, isInt) {
 		opts = opts || {};
 		let out;
@@ -311,6 +323,20 @@ class UiUtil {
 		string = string.trim().toLowerCase();
 		if (!string) return fallbackEmpty;
 		return string === "true" ? true : string === "false" ? false : opts.fallbackOnNaB;
+	}
+
+	static strToCr (string) {
+		string = string
+			.trim()
+			.replace(/[^0-9/.,]/g, "");
+		if (Parser.isValidCr(string)) return string;
+
+		if (isNaN(string)) return null;
+
+		const asFrac = Parser.numberToFractional(Number(string));
+		if (Parser.isValidCr(asFrac)) return asFrac;
+
+		return null;
 	}
 
 	static intToBonus (int, {isPretty = false} = {}) { return `${int >= 0 ? "+" : int < 0 ? (isPretty ? "\u2212" : "-") : ""}${Math.abs(int)}`; }
@@ -359,6 +385,11 @@ class UiUtil {
 			return lines;
 		}
 	}
+
+	/* -------------------------------------------- */
+
+	static _MODAL_STACK = null;
+	static _MODAL_LAST_MOUSEDOWN = null;
 
 	/**
 	 * @param {Object} [opts] Options object.
@@ -676,13 +707,7 @@ class UiUtil {
 		return sel;
 	}
 
-	static _parseStrAsNumber (str, isInt) {
-		const wrpTree = Renderer.dice.lang.getTree3(str);
-		if (!wrpTree) return NaN;
-		const out = wrpTree.tree.evl({});
-		if (!isNaN(out) && isInt) return Math.round(out);
-		return out;
-	}
+	/* -------------------------------------------- */
 
 	// eslint-disable-next-line vet-jquery/jquery
 	static bindTypingEnd ({ipt, $ipt, fnKeyup, fnKeypress, fnKeydown, fnClick, timeout} = {}) {
@@ -726,6 +751,8 @@ class UiUtil {
 		;
 	}
 
+	/* -------------------------------------------- */
+
 	/** Brute-force select the input, in case something has delayed the rendering (e.g. a VTT application window) */
 	static async pDoForceFocus (ele, {timeout = 250} = {}) {
 		if (!ele) return;
@@ -737,12 +764,60 @@ class UiUtil {
 			ele.focus();
 		}
 	}
+
+	/* -------------------------------------------- */
+
+	static getEleDragVerticalResize (
+		{
+			wrpContainer,
+			heightPxSaved,
+			fnSetHeightPxSaved,
+		},
+	) {
+		const eleResize = ee`<div class="ve-ui-resize__ele-resize ve-touch-action-none ve-absolute ve-w-100">...</div>`;
+
+		let mouseDownPosY;
+		let deltaY;
+		const resize = (evt) => {
+			evt.preventDefault();
+			evt.stopPropagation();
+
+			const dy = EventUtil.getClientY(evt) - mouseDownPosY + deltaY;
+
+			wrpContainer.style.height = `${dy}px`;
+		};
+
+		eleResize
+			.onn("mousedown", (evt) => {
+				if (evt.button !== 0) return;
+
+				evt.preventDefault();
+
+				mouseDownPosY = EventUtil.getClientY(evt);
+				deltaY = mouseDownPosY - wrpContainer.getBoundingClientRect().top + eleResize.getBoundingClientRect().height;
+
+				document.removeEventListener("mousemove", resize);
+				document.addEventListener("mousemove", resize);
+			});
+
+		document.addEventListener("mouseup", evt => {
+			if (evt.button !== 0) return;
+			if (mouseDownPosY == null) return;
+
+			document.removeEventListener("mousemove", resize);
+			mouseDownPosY = null;
+
+			const height = wrpContainer.getBoundingClientRect().height;
+			if (!height) return;
+
+			fnSetHeightPxSaved(Math.round(height));
+		});
+
+		if (heightPxSaved) wrpContainer.style.height = `${heightPxSaved}px`;
+
+		return eleResize;
+	}
 }
-UiUtil.SEARCH_RESULTS_CAP = 75;
-UiUtil.TYPE_TIMEOUT_MS = 100; // auto-search after 100ms
-UiUtil.TYPE_TIMEOUT_LAZY_MS = 1500;
-UiUtil._MODAL_STACK = null;
-UiUtil._MODAL_LAST_MOUSEDOWN = null;
 
 class ListSelectClickHandlerBase {
 	static _EVT_PASS_THOUGH_TAGS = new Set(["A", "BUTTON", "INPUT", "TEXTAREA"]);
@@ -4137,7 +4212,7 @@ function MixinBaseComponent (Cls) {
 
 		// to be overridden as required
 		getSaveableState () { return {...this.getBaseSaveableState()}; }
-		setStateFrom (toLoad, isOverwrite = false) { this.setBaseSaveableStateFrom(toLoad, isOverwrite); }
+		setStateFrom (toLoad, isOverwrite = false) { return this.setBaseSaveableStateFrom(toLoad, isOverwrite); }
 
 		async _pLock (lockName, {lockToken = null, isDbg = false} = {}) {
 			this.__locks[lockName] ||= new VeLock({name: lockName, isDbg});

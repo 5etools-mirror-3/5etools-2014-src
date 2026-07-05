@@ -2,7 +2,7 @@
 
 // in deployment, `IS_DEPLOYED = "<version number>";` should be set below.
 globalThis.IS_DEPLOYED = undefined;
-globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.217.7"/* 5ETOOLS_VERSION__CLOSE */;
+globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.217.8"/* 5ETOOLS_VERSION__CLOSE */;
 globalThis.DEPLOYED_IMG_ROOT = undefined;
 // for the roll20 script to set
 globalThis.IS_VTT = false;
@@ -17,64 +17,67 @@ globalThis.HASH_SUB_KV_SEP = ":";
 globalThis.HASH_BLANK = "blankhash";
 globalThis.HASH_SUB_NONE = "null";
 
-globalThis.VeCt = {
-	STR_NONE: "None",
-	STR_SEE_CONSOLE: "See the console (CTRL+SHIFT+J) for details.",
+globalThis.VeCt = class {
+	static STR_NONE = "None";
+	static STR_SEE_CONSOLE = "See the console (CTRL+SHIFT+J) for details.";
 
-	HASH_SCALED: "scaled",
-	HASH_SCALED_SPELL_SUMMON: "scaledspellsummon",
-	HASH_SCALED_CLASS_SUMMON: "scaledclasssummon",
+	static HASH_SCALED = "scaled";
+	static HASH_SCALED_SPELL_SUMMON = "scaledspellsummon";
+	static HASH_SCALED_CLASS_SUMMON = "scaledclasssummon";
 
-	FILTER_BOX_SUB_HASH_SEARCH_PREFIX: "fbsr",
-	FILTER_BOX_SUB_HASH_FLAG_IS_PRESERVE_EXISTING: "fbpe",
+	static FILTER_BOX_SUB_HASH_SEARCH_PREFIX = "fbsr";
+	static FILTER_BOX_SUB_HASH_FLAG_IS_PRESERVE_EXISTING = "fbpe";
 
-	JSON_PRERELEASE_INDEX: `prerelease/index.json`,
-	JSON_BREW_INDEX: `homebrew/index.json`,
+	static JSON_PRERELEASE_INDEX = `prerelease/index.json`;
+	static JSON_BREW_INDEX = `homebrew/index.json`;
 
-	STORAGE_HOMEBREW: "HOMEBREW_STORAGE",
-	STORAGE_HOMEBREW_META: "HOMEBREW_META_STORAGE",
-	STORAGE_EXCLUDES: "EXCLUDES_STORAGE",
-	STORAGE_DMSCREEN: "DMSCREEN_STORAGE",
-	STORAGE_DMSCREEN_TEMP_SUBLIST: "DMSCREEN_TEMP_SUBLIST",
-	STORAGE_ROLLER_MACRO: "ROLLER_MACRO_STORAGE",
-	STORAGE_ENCOUNTER: "ENCOUNTER_STORAGE",
-	STORAGE_POINTBUY: "POINTBUY_STORAGE",
-	STORAGE_GLOBAL_COMPONENT_STATE: "GLOBAL_COMPONENT_STATE",
+	static STORAGE_HOMEBREW = "HOMEBREW_STORAGE";
+	static STORAGE_HOMEBREW_META = "HOMEBREW_META_STORAGE";
+	static STORAGE_EXCLUDES = "EXCLUDES_STORAGE";
+	static STORAGE_DMSCREEN = "DMSCREEN_STORAGE";
+	static STORAGE_DMSCREEN_TEMP_SUBLIST = "DMSCREEN_TEMP_SUBLIST";
+	static STORAGE_ROLLER_MACRO = "ROLLER_MACRO_STORAGE";
+	static STORAGE_ENCOUNTER = "ENCOUNTER_STORAGE";
+	static STORAGE_POINTBUY = "POINTBUY_STORAGE";
+	static STORAGE_GLOBAL_COMPONENT_STATE = "GLOBAL_COMPONENT_STATE";
 
-	DUR_INLINE_NOTIFY: 500,
-	DUR_DEBOUNCE_SAVE: 100,
+	static DUR_INLINE_NOTIFY = 500;
+	static DUR_DEBOUNCE_SAVE = 100;
 
-	PG_NONE: "NO_PAGE",
-	STR_GENERIC: "Generic",
+	static PG_NONE = "NO_PAGE";
+	static STR_GENERIC = "Generic";
 
-	SYM_UI_SKIP: Symbol("uiSkip"),
+	static SYM_UI_SKIP = Symbol("uiSkip");
 
-	SYM_WALKER_BREAK: Symbol("walkerBreak"),
+	static SYM_WALKER_BREAK = Symbol("walkerBreak");
 
-	SYM_UTIL_TIMEOUT: Symbol("timeout"),
+	static SYM_UTIL_TIMEOUT = Symbol("timeout");
 
-	LOC_HOSTNAME_CANCER: "5e.tools",
+	static LOC_HOSTNAME_CANCER = "5e.tools";
 
-	URL_BREW: `https://github.com/TheGiddyLimit/homebrew`,
-	URL_ROOT_BREW: `https://raw.githubusercontent.com/TheGiddyLimit/homebrew/master/`, // N.b. must end with a slash
-	URL_ROOT_BREW_IMG: `https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/`, // N.b. must end with a slash
-	URL_PRERELEASE: `https://github.com/TheGiddyLimit/unearthed-arcana`,
-	URL_ROOT_PRERELEASE: `https://raw.githubusercontent.com/TheGiddyLimit/unearthed-arcana/master/`, // As above
+	static URL_BREW = `https://github.com/TheGiddyLimit/homebrew`;
+	static URL_ROOT_BREW = `https://raw.githubusercontent.com/TheGiddyLimit/homebrew/master/`; // N.b. must end with a slash
+	static URL_ROOT_BREW_IMG = `https://raw.githubusercontent.com/TheGiddyLimit/homebrew-img/main/`; // N.b. must end with a slash
+	static URL_PRERELEASE = `https://github.com/TheGiddyLimit/unearthed-arcana`;
+	static URL_ROOT_PRERELEASE = `https://raw.githubusercontent.com/TheGiddyLimit/unearthed-arcana/master/`; // As above
 
-	STR_NO_ATTUNEMENT: "No Attunement Required",
+	static STR_NO_ATTUNEMENT = "No Attunement Required";
 
-	CR_UNKNOWN: 100001,
-	CR_CUSTOM: 100000,
+	static CR_UNKNOWN = 100001;
+	static CR_CUSTOM = 100000;
 
-	SPELL_LEVEL_MAX: 9,
-	LEVEL_MAX: 20,
+	static SPELL_LEVEL_MAX = 9;
+	static SPELL_USES_MAX = 99;
+	static SPELL_USES_KEYS = new Set(Array.from({length: this.SPELL_USES_MAX}, (_, i) => `${i + 1}`));
+	static SPELL_USES_KEYS_EACH = new Set(Array.from({length: this.SPELL_USES_MAX}, (_, i) => `${i + 1}e`));
+	static LEVEL_MAX = 20;
 
-	ENTDATA_ITEM_MERGED_ENTRY_TAG: "item__mergedEntryTag",
+	static ENTDATA_ITEM_MERGED_ENTRY_TAG = "item__mergedEntryTag";
 
-	DRAG_TYPE_IMPORT: "ve-Import",
-	DRAG_TYPE_LOOT: "ve-Loot",
+	static DRAG_TYPE_IMPORT = "ve-Import";
+	static DRAG_TYPE_LOOT = "ve-Loot";
 
-	Z_INDEX_BENEATH_HOVER: 199,
+	static Z_INDEX_BENEATH_HOVER = 199;
 };
 
 // STRING ==============================================================================================================
@@ -387,6 +390,8 @@ globalThis.StrUtil = class {
 		"yuan-ti": "yuan-ti",
 	};
 
+	/* -------------------------------------------- */
+
 	static _IRREGULAR_SINGLE_WORDS = {
 		...Object.fromEntries(Object.entries(this._IRREGULAR_PLURAL_WORDS).map(([k, v]) => [v, k])),
 	};
@@ -395,7 +400,17 @@ globalThis.StrUtil = class {
 		[/(axe)s$/i, "$1"],
 	];
 
+	static _RE_TO_SINGLE_END_ES = null;
+	static _RE_TO_SINGLE_END_IES = null;
+
+	static _toSingle_init () {
+		this._RE_TO_SINGLE_END_ES ??= /(s|x|z|ch|sh)es$/i;
+		this._RE_TO_SINGLE_END_IES ??= /[bcdfghjklmnpqrstvwxyz]ies$/i;
+	}
+
 	static toSingle (str) {
+		this._toSingle_init();
+
 		if (this._IRREGULAR_SINGLE_WORDS[str.toLowerCase()]) return this._getMatchedCase(str, this._IRREGULAR_SINGLE_WORDS[str.toLowerCase()]);
 		const single = this._IRREGULAR_SINGLE_PATTERNS
 			.first(([re, repl]) => {
@@ -403,16 +418,28 @@ globalThis.StrUtil = class {
 			});
 		if (single) return single;
 
-		if (/(s|x|z|ch|sh)es$/i.test(str)) return str.slice(0, -2);
-		if (/[bcdfghjklmnpqrstvwxyz]ies$/i.test(str)) return `${str.slice(0, -3)}y`;
+		if (this._RE_TO_SINGLE_END_ES.test(str)) return str.slice(0, -2);
+		if (this._RE_TO_SINGLE_END_IES.test(str)) return `${str.slice(0, -3)}y`;
 		return str.replace(/s$/i, "");
 	}
 
+	/* -------------------------------------------- */
+
+	static _RE_TO_PLURAL_END_ES = null;
+	static _RE_TO_PLURAL_END_IES = null;
+
+	static _toPlural_init () {
+		this._RE_TO_PLURAL_END_ES ??= /(s|x|z|ch|sh)$/i;
+		this._RE_TO_PLURAL_END_IES ??= /[bcdfghjklmnpqrstvwxyz]y$/i;
+	}
+
 	static toPlural (str) {
+		this._toPlural_init();
+
 		let plural;
 		if (this._IRREGULAR_PLURAL_WORDS[str.toLowerCase()]) plural = this._IRREGULAR_PLURAL_WORDS[str.toLowerCase()];
-		else if (/(s|x|z|ch|sh)$/i.test(str)) plural = `${str}es`;
-		else if (/[bcdfghjklmnpqrstvwxyz]y$/i.test(str)) plural = str.replace(/y$/i, "ies");
+		else if (this._RE_TO_PLURAL_END_ES.test(str)) plural = `${str}es`;
+		else if (this._RE_TO_PLURAL_END_IES.test(str)) plural = `${str.slice(0, -1)}ies`;
 		else plural = `${str}s`;
 
 		return this._getMatchedCase(str, plural);
@@ -4567,6 +4594,11 @@ globalThis.SortUtil = class {
 		const ixB = SortUtil._ITEM_RARITY_ORDER.indexOf(b);
 		return (~ixA ? ixA : Number.MAX_SAFE_INTEGER) - (~ixB ? ixB : Number.MAX_SAFE_INTEGER);
 	}
+
+	static ascSortSpellRechargeKeys (a, b) {
+		// `parseInt` discards trailing/un-parsed `e`s; secondary ascSort handles `e`-vs-not-`e`
+		return SortUtil.ascSort(parseInt(a, 10), parseInt(b, 10)) || SortUtil.ascSort(a, b);
+	}
 };
 
 globalThis.MultiSourceUtil = class {
@@ -5822,19 +5854,14 @@ globalThis.DataUtil = class {
 				["recharge", "legendary", "charges", "rest", "restLong", "daily", "weekly", "monthly", "yearly"].forEach(prop => {
 					if (!modInfo[prop]) return;
 
-					for (let i = 1; i <= 9; ++i) {
-						const e = `${i}e`;
+					Object.entries(modInfo[prop])
+						.forEach(([k, spells]) => {
+							if (!VeCt.SPELL_USES_KEYS.has(k) && !VeCt.SPELL_USES_KEYS_EACH.has(k)) return;
 
-						spellcasting[prop] = spellcasting[prop] || {};
+							spellcasting[prop] ||= {};
 
-						if (modInfo[prop][i]) {
-							modInfo[prop][i].forEach(sp => (spellcasting[prop][i] = spellcasting[prop][i] || []).push(sp));
-						}
-
-						if (modInfo[prop][e]) {
-							modInfo[prop][e].forEach(sp => (spellcasting[prop][e] = spellcasting[prop][e] || []).push(sp));
-						}
-					}
+							spells.forEach(sp => (spellcasting[prop][k] ||= []).push(sp));
+						});
 				});
 			}
 
@@ -5866,19 +5893,16 @@ globalThis.DataUtil = class {
 				}
 
 				// TODO should be extended  to handle all non-slot-based spellcasters
-				if (modInfo.daily) {
-					for (let i = 1; i <= 9; ++i) {
-						const e = `${i}e`;
+				["daily"].forEach(prop => {
+					if (!modInfo[prop]) return;
 
-						if (modInfo.daily[i]) {
-							modInfo.daily[i].forEach(replaceMeta => handleReplace(spellcasting.daily, replaceMeta, i));
-						}
+					Object.entries(modInfo[prop])
+						.forEach(([k, replaceMetas]) => {
+							if (!VeCt.SPELL_USES_KEYS.has(k) && !VeCt.SPELL_USES_KEYS_EACH.has(k)) return;
 
-						if (modInfo.daily[e]) {
-							modInfo.daily[e].forEach(replaceMeta => handleReplace(spellcasting.daily, replaceMeta, e));
-						}
-					}
-				}
+							replaceMetas.forEach(replaceMeta => handleReplace(spellcasting[prop], replaceMeta, k));
+						});
+				});
 			}
 
 			static _doMod_removeSpells ({copyTo, copyFrom, modInfo, msgPtFailed}) {
@@ -5905,19 +5929,14 @@ globalThis.DataUtil = class {
 				["recharge", "legendary", "charges", "rest", "restLong", "daily", "weekly", "monthly", "yearly"].forEach(prop => {
 					if (!modInfo[prop]) return;
 
-					for (let i = 1; i <= 9; ++i) {
-						const e = `${i}e`;
+					Object.entries(modInfo[prop])
+						.forEach(([k, spells]) => {
+							if (!VeCt.SPELL_USES_KEYS.has(k) && !VeCt.SPELL_USES_KEYS_EACH.has(k)) return;
 
-						spellcasting[prop] = spellcasting[prop] || {};
+							spellcasting[prop] ||= {};
 
-						if (modInfo[prop][i]) {
-							spellcasting[prop][i] = spellcasting[prop][i].filter(it => !modInfo[prop][i].includes(it));
-						}
-
-						if (modInfo[prop][e]) {
-							spellcasting[prop][e] = spellcasting[prop][e].filter(it => !modInfo[prop][e].includes(it));
-						}
-					}
+							spellcasting[prop][k] = spellcasting[prop][k].filter(it => !spells.includes(it));
+						});
 				});
 			}
 

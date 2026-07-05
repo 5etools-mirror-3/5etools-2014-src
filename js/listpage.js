@@ -198,39 +198,16 @@ class SublistManager {
 	async _pBindSublistResizeHandlers () {
 		const STORAGE_KEY = "SUBLIST_RESIZE";
 
-		const eleHandle = ee`<div class="sublist__ele-resize ve-mobile-sm__hidden">...</div>`.appendTo(this._wrpContainer);
-
-		let mousePos;
-		const resize = (evt) => {
-			evt.preventDefault();
-			evt.stopPropagation();
-			const dx = EventUtil.getClientY(evt) - mousePos;
-			mousePos = EventUtil.getClientY(evt);
-			this._wrpContainer.style.height = `${this._wrpContainer.getBoundingClientRect().height + dx}px`;
-		};
-
-		eleHandle
-			.onn("mousedown", (evt) => {
-				if (evt.button !== 0) return;
-
-				evt.preventDefault();
-				mousePos = evt.clientY;
-				document.removeEventListener("mousemove", resize);
-				document.addEventListener("mousemove", resize);
-			});
-
-		document.addEventListener("mouseup", evt => {
-			if (evt.button !== 0) return;
-
-			document.removeEventListener("mousemove", resize);
-			StorageUtil.pSetForPage(STORAGE_KEY, this._wrpContainer.css("height").slice(0, -2));
-		});
-
-		// Avoid setting the height on mobile, as we force the sublist to a static size
-		if (JqueryUtil.isMobile()) return;
-
-		const storedHeight = await StorageUtil.pGetForPage(STORAGE_KEY);
-		if (storedHeight) this._wrpContainer.css("height", `${storedHeight}px`);
+		UiUtil.getEleDragVerticalResize({
+			wrpContainer: this._wrpContainer,
+			// Avoid setting the height on mobile, as we force the sublist to a static size
+			heightPxSaved: JqueryUtil.isMobile()
+				? null
+				: await StorageUtil.pGetForPage(STORAGE_KEY),
+			fnSetHeightPxSaved: heightPx => StorageUtil.pSetForPage(STORAGE_KEY, heightPx),
+		})
+			.addClass("ve-mobile-sm__hidden")
+			.appendTo(this._wrpContainer);
 	}
 
 	_onSublistChange () { /* Implement as required */ }

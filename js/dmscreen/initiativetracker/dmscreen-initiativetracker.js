@@ -248,7 +248,7 @@ export class InitiativeTracker extends BaseComponent {
 			),
 		]);
 
-		const btnNetworking = ee`<button class="ve-btn ve-btn-primary ve-btn-xs ve-mr-2" title="Player View (SHIFT to Open &quot;Standard&quot; View)"><span class="glyphicon glyphicon-user"></span></button>`
+		const btnNetworking = ee`<button class="ve-btn ve-btn-primary ve-btn-xs ve-mr-2" title="Configure Player View (SHIFT to Open Configuration for &quot;Standard&quot; View)"><span class="glyphicon glyphicon-user"></span></button>`
 			.onn("click", evt => {
 				if (evt.shiftKey) return this._networking.handleClick_playerWindowV1({doUpdateExternalStates});
 				return ContextUtil.pOpenMenu(evt, menuPlayerWindow);
@@ -328,6 +328,62 @@ export class InitiativeTracker extends BaseComponent {
 				this._proxyAssignSimple("state", stateNxt);
 			});
 
+		const btnSendToFoundry = ee`<button title="Send to Foundry" class="no-print ve-btn ve-btn-default ve-btn-xs dm-init-lockable"><span class="glyphicon glyphicon-send"></span></button>`
+			.onn("click", async () => {
+				if (this._state.isLocked) return;
+
+				const encounterActorName = await InputUiUtil.pGetUserString({title: "Encounter Actor Name", isSkippable: true});
+
+				const creatureMetasSerial = await Object.values(
+					this._state.rows
+						.filter(row => row.entity.source)
+						.reduce(
+							(accum, row) => {
+								const uidRow = [
+									row.entity.name,
+									row.entity.source,
+									row.entity.scaledCr,
+									row.entity.scaledSummonSpellLevel,
+									row.entity.scaledSummonClassLevel,
+								]
+									.join("__");
+
+								if (accum[uidRow]) {
+									accum[uidRow].count++;
+									return accum;
+								}
+
+								accum[uidRow] = {entityPrime: row.entity, count: 1};
+
+								return accum;
+							},
+							{},
+						),
+				)
+					.pSerialAwaitMap(async ({entityPrime, count}) => {
+						const creature = await DmScreenUtil.pGetScaledCreature({
+							name: entityPrime.name,
+							source: entityPrime.source,
+							scaledCr: entityPrime.scaledCr,
+							scaledSummonSpellLevel: entityPrime.scaledSummonSpellLevel,
+							scaledSummonClassLevel: entityPrime.scaledSummonClassLevel,
+						});
+
+						return {
+							creature,
+							count,
+						};
+					});
+
+				await ExtensionUtil.pDoSend({
+					type: "5etools.encounterbuilder.encounter",
+					data: {
+						encounterActorName,
+						creatureMetasSerial,
+					},
+				});
+			});
+
 		return ee`<div class="dm-init__wrp-controls">
 			<div class="ve-flex">
 				<div class="ve-btn-group ve-flex">
@@ -350,6 +406,7 @@ export class InitiativeTracker extends BaseComponent {
 
 				<div class="ve-btn-group ve-flex-v-center">
 					${btnLoad}
+					${btnSendToFoundry}
 					${btnReset}
 				</div>
 			</div>

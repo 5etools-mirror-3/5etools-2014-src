@@ -40,8 +40,14 @@ class _CreatureBuilder_SpellMetaInputRendererBasic extends _CreatureBuilder_Spel
 
 class _CreatureBuilder_SpellMetaInputRendererFrequency extends _CreatureBuilder_SpellMetaInputRendererBase {
 	_render ({out}) {
-		const iptFreq = ee`<input class="ve-form-control form-control--minimal ve-input-xs mkbru_mon__spell-header-ipt" min="1" max="9">`
-			.onn("change", () => this._doUpdateState());
+		const iptFreq = ee`<input class="ve-form-control form-control--minimal ve-input-xs mkbru_mon__spell-header-ipt ve-text-right" min="1" max="${VeCt.SPELL_USES_MAX}">`
+			.onn("change", () => {
+				const val = iptFreq.val().trim();
+				if (isNaN(val)) iptFreq.val("1");
+				if (Number(val) > VeCt.SPELL_USES_MAX) iptFreq.val(VeCt.SPELL_USES_MAX);
+				if (Number(val) < 1) iptFreq.val(1);
+				this._doUpdateState();
+			});
 		if (this._data) iptFreq.val(this._meta.count || 1);
 		else iptFreq.val(1);
 
@@ -56,7 +62,7 @@ class _CreatureBuilder_SpellMetaInputRendererFrequency extends _CreatureBuilder_
 		<label class="ve-flex-v-baseline ve-muted small ve-ml-auto"><span class="ve-mr-1">(Each? </span>${cbEach}<span>)</span></label>
 		</div>`;
 
-		out.getKeyPath = () => [this._meta.type, `${UiUtil.strToInt(iptFreq.val(), 1, {fallbackOnNaN: 1, min: 1, max: 9})}${cbEach.prop("checked") ? "e" : ""}`];
+		out.getKeyPath = () => [this._meta.type, `${UiUtil.strToInt(iptFreq.val(), 1, {fallbackOnNaN: 1, min: 1, max: VeCt.SPELL_USES_MAX})}${cbEach.prop("checked") ? "e" : ""}`];
 	}
 
 	_getPtChargesItem ({out}) {
@@ -2732,7 +2738,7 @@ export class CreatureBuilder extends BuilderBase {
 
 		if (trait) {
 			const handleFrequency = (prop, additionalData) => Object.entries(trait[prop])
-				.forEach(([k, v]) => doAddSpellRow({...MiscUtil.copy(_SPELLCASTING_META_LOOKUP[prop]), ...additionalData, each: k.endsWith("e"), count: Number(k[0])}, v));
+				.forEach(([k, v]) => doAddSpellRow({...MiscUtil.copy(_SPELLCASTING_META_LOOKUP[prop]), ...additionalData, each: k.endsWith("e"), count: parseInt(k, 10)}, v));
 
 			const handleRecharge = prop => Object.entries(trait[prop])
 				.forEach(([k, v]) => doAddSpellRow({...MiscUtil.copy(_SPELLCASTING_META_LOOKUP[prop]), minRoll: Number(k[0])}, v));

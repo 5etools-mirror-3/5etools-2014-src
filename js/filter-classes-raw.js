@@ -178,7 +178,7 @@ export class ModalFilterClasses extends ModalFilterBase {
 
 		const iptSearch = ee`<input class="ve-form-control ve-h-100" type="search" placeholder="Search...">`;
 		const btnReset = ee`<button class="ve-btn ve-btn-default">Reset</button>`;
-		const wrpFormTop = ee`<div class="ve-flex ve-input-group ve-btn-group ve-w-100 ve-lst__form-top">${iptSearch}${btnReset}</div>`;
+		const wrpFormTop = ee`<div class="ve-flex ve-input-group ve-input-group--top ve-btn-group ve-w-100 ve-lst__form-top">${iptSearch}${btnReset}</div>`;
 
 		const wrpFormBottom = ee`<div class="ve-w-100"></div>`;
 

@@ -176,6 +176,14 @@ Shared UI components
 	}
 	/* endregion */
 
+	/* region Drag to resize */
+	.ve-ui-resize__ {
+		&ele-resize {
+			border-color: #7f7f7f;
+		}
+	}
+	/* endregion */
+
 	/* region Hover tips */
 	.ve-night-mode .ve-ui-tip__ {
 		&child {

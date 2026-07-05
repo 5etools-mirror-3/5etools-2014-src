@@ -4375,7 +4375,7 @@
 				}
 			],
 			"entries": [
-				"You summon elementals that appear in unoccupied spaces that you can see within range. You choose one the following options for what appears:",
+				"You summon elementals that appear in unoccupied spaces that you can see within range. You choose one of the following options for what appears:",
 				{
 					"type": "list",
 					"items": [

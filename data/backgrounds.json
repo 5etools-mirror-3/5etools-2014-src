@@ -317,7 +317,7 @@
 					"name": "Cultural Chameleon",
 					"type": "entries",
 					"entries": [
-						"Before becoming an adventurer, you spent much of your adult life away from your homeland, living among people different from your kin. You came to understand these foreign cultures and the ways of their people, who eventually treated you as one of their own. One culture had more of an influence on you than any other, shaping your beliefs and customs Choose a race whose culture you've adopted, or roll on the Adopted Culture table.",
+						"Before becoming an adventurer, you spent much of your adult life away from your homeland, living among people different from your kin. You came to understand these foreign cultures and the ways of their people, who eventually treated you as one of their own. One culture had more of an influence on you than any other, shaping your beliefs and customs. Choose a race whose culture you've adopted, or roll on the Adopted Culture table.",
 						{
 							"type": "table",
 							"colLabels": [
@@ -816,7 +816,7 @@
 								],
 								[
 									"3",
-									"When I'm not exploring dungeons or ruins. I get jittery and impatient."
+									"When I'm not exploring dungeons or ruins, I get jittery and impatient."
 								],
 								[
 									"4",
@@ -12912,7 +12912,7 @@
 								],
 								[
 									"3",
-									"I once ran twenty-five miles without stopping to warn to my clan of an approaching orc horde. I'd do it again if I had to."
+									"I once ran twenty-five miles without stopping to warn my clan of an approaching orc horde. I'd do it again if I had to."
 								],
 								[
 									"4",

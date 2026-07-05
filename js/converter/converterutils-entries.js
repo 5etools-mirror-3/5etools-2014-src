@@ -23,6 +23,7 @@ export class TagJsons {
 		await ActionTag.pInit();
 		await FeatTag.pInit();
 		await AdventureBookTag.pInit();
+		await CreatureTag.pInit();
 	}
 
 	/**
@@ -78,7 +79,7 @@ export class TagJsons {
 	 * @param {boolean} isOptimistic
 	 * @param {"classic" | null} styleHint
 	 */
-	static mutTagObjectStrictCapsWords (json, {keySet = null, styleHint = null} = {}) {
+	static mutTagObjectStrictCapsWords (json, {keySet = null, isOptimistic = false, styleHint = null} = {}) {
 		styleHint ||= VetoolsConfig.get("styleSwitcher", "style");
 
 		Object.keys(json)
@@ -354,7 +355,7 @@ export class ItemTag extends ConverterTaggerInitializable {
 
 	/**
 	 * @param ent
-	 * @param {"classic" | "one" | null} styleHint
+	 * @param {"classic" | null} styleHint
 	 */
 	static _tryRun (ent, {styleHint = null} = {}) {
 		return this._WALKER.walk(
@@ -463,28 +464,6 @@ export class ItemTag extends ConverterTaggerInitializable {
 			})
 		;
 	}
-
-	/* -------------------------------------------- */
-
-	static _tryRunStrictCapsWords (ent) {
-		return WALKER_CONVERTER.walk(
-			ent,
-			{
-				string: (str) => {
-					const ptrStack = {_: ""};
-					TaggerUtils.walkerStringHandlerStrictCapsWords(
-						["@item"],
-						ptrStack,
-						str,
-						{
-							fnTag: (strMod) => this._fnTagStrict({strMod}),
-						},
-					);
-					return ptrStack._;
-				},
-			},
-		);
-	}
 }
 
 export class TableTag {
@@ -587,7 +566,7 @@ export class HazardTag {
 	}
 }
 
-export class CreatureTag {
+export class CreatureTag extends ConverterTaggerInitializable {
 	/**
 	 * Dynamically create a walker which can be re-used.
 	 */
@@ -635,6 +614,37 @@ export class CreatureTag {
 				},
 			);
 		};
+	}
+
+	/* -------------------------------------------- */
+
+	static _WALKER = MiscUtil.getWalker({
+		keyBlocklist: new Set([
+			...WALKER_CONVERTER_KEY_BLOCKLIST,
+		]),
+	});
+
+	static _LOOKUP_CLASSIC = null;
+	static _LOOKUP_CLASSIC_PLURAL = null;
+
+	static _RE_CLASSIC = null;
+	static _RE_CLASSIC_PLURAL = null;
+
+	static async _pInit () {
+		// TODO(Future)
+	}
+
+	/* -------------------------------------------- */
+
+	/**
+	 * @param ent
+	 * @param {"classic" | null} styleHint
+	 */
+	static _tryRun (ent, {styleHint = null} = {}) {
+		styleHint ||= VetoolsConfig.get("styleSwitcher", "style");
+
+		// No-op
+		return ent;
 	}
 }
 

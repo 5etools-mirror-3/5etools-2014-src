@@ -314,20 +314,6 @@
 					flex-grow: 1;
 				}
 			}
-
-			&ele-resize {
-				background-color: #aaa4;
-				border: 1px solid vars.$rgb-border-grey--trans-muted;
-				position: absolute;
-				bottom: 0;
-				height: 1px;
-				width: 100%;
-				cursor: ns-resize;
-				user-select: none;
-				line-height: 1px;
-				font-size: 10px;
-				text-align: center;
-			}
 		}
 	}
 

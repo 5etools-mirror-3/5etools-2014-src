@@ -2311,6 +2311,29 @@ class TimeTrackerRoot_Calendar extends TimeTrackerComponent {
 						this._parent.triggerMapUpdate("encounters");
 					});
 
+				const btnSendToFoundry = ee`<button title="Send to Foundry" class="no-print ve-btn ve-btn-default ve-btn-xs ve-mr-2"><span class="glyphicon glyphicon-send"></span></button>`
+					.onn("click", async () => {
+						const encounterActorName = await InputUiUtil.pGetUserString({title: "Encounter Actor Name", isSkippable: true});
+
+						const toLoad = await TimeTrackerRoot_Calendar._pGetDereferencedEncounter(encounter);
+
+						if (!toLoad) return JqueryUtil.doToast({content: "Could not find encounter data! Has the encounter been deleted?", type: "warning"});
+
+						const {entityInfos} = await ListUtilBestiary.pGetLoadableSublist({exportedSublist: toLoad.data});
+
+						await ExtensionUtil.pDoSend({
+							type: "5etools.encounterbuilder.encounter",
+							data: {
+								encounterActorName,
+								creatureMetasSerial: entityInfos
+									.map(({count, entity}) => ({
+										count,
+										creature: entity,
+									})),
+							},
+						});
+					});
+
 				const btnSaveToFile = ee`<button class="ve-btn ve-btn-xs ve-btn-default ve-mr-3" title="Download Encounter File"><span class="glyphicon glyphicon-download"></span></button>`
 					.onn("click", async () => {
 						const toSave = await TimeTrackerRoot_Calendar._pGetDereferencedEncounter(encounter);
@@ -2376,6 +2399,7 @@ class TimeTrackerRoot_Calendar extends TimeTrackerComponent {
 					${iptName}
 					${btnRunEncounter}
 					${btnResetUse}
+					${btnSendToFoundry}
 					${btnSaveToFile}
 					<label class="ve-flex-v-center ${timeInputs ? "ve-mr-2" : "ve-mr-3"}">
 						<div class="ve-mr-1 ve-no-wrap">Has Time?</div>

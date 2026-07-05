@@ -1,4 +1,4 @@
-import {ScaleCreature} from "../scalecreature/scalecreature-scaler-cr.js";
+import {RenderableCollectionViewerCreatures} from "./encounterbuilder-ui-creatures.js";
 
 class _RenderableCollectionCustomShapeGroups extends RenderableCollectionGenericRows {
 	constructor (
@@ -73,211 +73,6 @@ class _RenderableCollectionCustomShapeGroups extends RenderableCollectionGeneric
 	}
 }
 
-class _RenderableCollectionViewerCreatures extends RenderableCollectionGenericRows {
-	constructor (
-		{
-			comp,
-			wrpRows,
-			rendererWrapped,
-		},
-	) {
-		super(comp, "creatureMetas", wrpRows);
-		if (!rendererWrapped) throw new Error(`Missing required "rendererWrapped" option!`);
-		this._rendererWrapped = rendererWrapped;
-	}
-
-	_getWrpRow () {
-		return super._getWrpRow()
-			.addClass("ve-py-1p")
-			.addClass("ve-px-1");
-	}
-
-	_populateRow ({comp, wrpRow, entity}) {
-		const {wrp: wrpIptCount} = ComponentUiUtil.getIptNumber(comp, "count", 1, {min: 0, decorationRight: "ticker", asMeta: true});
-		wrpIptCount
-			.addClass("ve-w-50p")
-			.addClass("ve-mr-2")
-			.addClass("ve-no-shrink");
-		comp._addHookBase("count", () => {
-			if (comp._state.count > 0) return;
-			if (comp._state.isLocked) return comp._state.count = 1;
-			this._utils.doDelete({entity});
-		});
-
-		const dispCreature = ee`<div class="ve-mr-2 ve-mr-auto ve-grow"></div>`;
-
-		const pDoScaleCr = async ({targetCr = null} = {}) => {
-			// Fetch original
-			const ent = await DataLoader.pCacheAndGetHash(
-				UrlUtil.PG_BESTIARY,
-				UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_BESTIARY](comp._state.creature),
-				{isCopy: true},
-			);
-
-			const baseCr = ent.cr.cr || ent.cr;
-			if (baseCr == null) return;
-
-			const baseCrNum = Parser.crToNumber(baseCr);
-			const scaledToNum = comp._state.creature._isScaledCr ? comp._state.creature._scaledCr : null;
-
-			if (targetCr == null) {
-				comp._state.creature = ent;
-				iptCr.val(Parser.numberToCr(baseCrNum));
-				return;
-			}
-
-			if (!targetCr) {
-				iptCr.val(Parser.numberToCr(scaledToNum ?? baseCrNum));
-				return;
-			}
-
-			if (!Parser.isValidCr(targetCr)) {
-				JqueryUtil.doToast({
-					content: `"${targetCr}" is not a valid Challenge Rating! Please enter a valid CR (0-30). For fractions, "1/X" should be used.`,
-					type: "danger",
-				});
-
-				iptCr.val(Parser.numberToCr(scaledToNum ?? baseCrNum));
-				return;
-			}
-
-			const targetCrNum = Parser.crToNumber(targetCr);
-
-			if (targetCrNum === scaledToNum) {
-				iptCr.val(Parser.numberToCr(scaledToNum ?? baseCrNum));
-				return;
-			}
-
-			if (targetCrNum === baseCrNum) {
-				comp._state.creature = ent;
-				iptCr.val(Parser.numberToCr(baseCrNum));
-				return;
-			}
-
-			const entScaled = await ScaleCreature.scale(ent, targetCrNum);
-
-			// Merge state, if required
-			const entityOther = this._comp._state[this._prop]
-				.find(entityOther => {
-					if (entityOther.id === entity.id) return false;
-					return entityOther.getHash() === entity.getHash()
-						&& MiscUtil.isNearStrictlyEqual(entityOther.getCustomHashId(), entity.getCustomHashId());
-				});
-
-			if (entityOther) {
-				const cntToAdd = comp._state.count;
-				this._utils.doDelete({entity});
-				entityOther.setCount(entityOther.getCount() + cntToAdd);
-				this._comp._triggerCollectionUpdate(this._prop);
-				return;
-			}
-
-			comp._state.creature = entScaled;
-		};
-
-		let pScalingCr = null;
-		const iptCr = ee`<input class="ve-text-center ve-form-control form-control--minimal ve-input-xs ve-w-50p">`
-			.onn("click", () => iptCr.selecte())
-			.onn("change", async () => {
-				try {
-					await pScalingCr;
-				} catch (e) { setTimeout(() => { throw e; }); }
-
-				pScalingCr = pDoScaleCr({targetCr: iptCr.val().trim()});
-				await pScalingCr;
-				pScalingCr = null;
-			});
-
-		const btnResetCr = ee`<button title="Reset CR" class="ve-btn ve-btn-default ve-btn-xs"><span class="glyphicon glyphicon-refresh"></span></button>`
-			.onn("click", async () => {
-				try {
-					await pScalingCr;
-				} catch (e) { setTimeout(() => { throw e; }); }
-
-				pScalingCr = pDoScaleCr();
-				await pScalingCr;
-				pScalingCr = null;
-			});
-		comp._addHookBase("creature", () => {
-			btnResetCr.prop("disabled", !comp._state.creature._isScaledCr);
-		})();
-
-		const stgCr = ee`<div class="ve-mr-2 ve-no-wrap ve-no-shrink ve-flex-v-center">
-			<span class="ve-mr-2">CR</span>
-			<div class="ve-flex-v-center ve-input-group">
-				${iptCr}
-				${btnResetCr}
-			</div>
-		</div>`;
-
-		comp._addHookBase("creature", () => {
-			iptCr.val(comp._state.creature.cr?.cr || comp._state.creature.cr);
-
-			stgCr.toggleVe(ScaleCreature.isCrInScaleRange(comp._state.creature));
-
-			if (!Renderer.monster.isScaled(comp._state.creature)) {
-				dispCreature.html(`${this._rendererWrapped.er(`{@creature ${comp._state.creature.name}|${comp._state.creature.source}|${comp._state.creature._displayName || comp._state.creature.name}}`)}`);
-				return;
-			}
-
-			dispCreature.empty().append(
-				ee`<span class="ve-help ve-help--hover">${comp._state.creature._displayName || comp._state.creature.name}</span>`
-					.onn("mouseover", evt => {
-						return Renderer.hover.pHandleLinkMouseOver(
-							evt,
-							evt.currentTarget,
-							{
-								isSpecifiedLinkData: true,
-								page: UrlUtil.PG_BESTIARY,
-								source: comp._state.creature.source,
-								hash: UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_BESTIARY](comp._state.creature),
-								customHashId: Renderer.monster.getCustomHashId(comp._state.creature),
-							},
-						);
-					})
-					.onn("mousemove", evt => Renderer.hover.handleLinkMouseMove(evt, evt.currentTarget))
-					.onn("mouseleave", evt => Renderer.hover.handleLinkMouseLeave(evt, evt.currentTarget)),
-			);
-		})();
-
-		const btnShuffle = ee`<button title="Randomize Monster" class="ve-btn ve-btn-default ve-btn-xs"><span class="glyphicon glyphicon-random"></span></button>`
-			.onn("click", () => {
-				if (comp._state.isLocked) return;
-				this._comp.doShuffleCreature({creatureMeta: entity});
-			});
-
-		const btnLock = ComponentUiUtil.getBtnBool(
-			comp,
-			"isLocked",
-			{
-				html: `<button title="Lock Monster against Randomizing/Adjusting" class="ve-btn ve-btn-default ve-btn-xs"><span class="glyphicon glyphicon-lock"></span></button>`,
-			},
-		);
-
-		const btnDelete = ee`<button class="ve-btn ve-btn-danger ve-btn-xs" title="Delete"><span class="glyphicon glyphicon-trash"></span></button>`
-			.onn("click", () => {
-				if (comp._state.isLocked) return;
-				this._utils.doDelete({entity});
-			});
-
-		comp._addHookBase("isLocked", () => {
-			btnShuffle.toggleClass("ve-disabled", comp._state.isLocked);
-			btnDelete.toggleClass("ve-disabled", comp._state.isLocked);
-		})();
-
-		ee(wrpRow)`
-			${wrpIptCount}
-			${dispCreature}
-			${stgCr}
-			<div class="ve-btn-group ve-no-wrap ve-no-shrink ve-flex-v-center">
-				${btnShuffle}
-				${btnLock}
-				${btnDelete}
-			</div>
-		`;
-	}
-}
-
 class _RatioState {
 	constructor ({ratiosPrev = null, cntRotate = 0} = {}) {
 		this.ratiosPrev = ratiosPrev;
@@ -311,6 +106,8 @@ export class EncounterBuilderUi extends BaseComponent {
 	_partyComps;
 	/** @type {EncounterBuilderShapesLookup} */
 	_encounterShapesLookup;
+	/** @type {typeof RenderableCollectionViewerCreatures} */
+	_ClsRenderableCollectionViewerCreatures;
 
 	constructor (
 		{
@@ -320,11 +117,14 @@ export class EncounterBuilderUi extends BaseComponent {
 			partyComps,
 			encounterShapesLookup,
 			rendererWrapped,
+			ClsRenderableCollectionViewerCreatures = null,
 
 			headerTextSettings = "Settings",
 		},
 	) {
 		if (!rendererWrapped) throw new Error(`Missing required "rendererWrapped" option!`);
+
+		ClsRenderableCollectionViewerCreatures ??= RenderableCollectionViewerCreatures;
 
 		super();
 
@@ -336,6 +136,7 @@ export class EncounterBuilderUi extends BaseComponent {
 		this._partyCompsLookup = Object.fromEntries(this._partyComps.map(comp => [comp.partyId, comp]));
 		this._encounterShapesLookup = encounterShapesLookup;
 		this._rendererWrapped = rendererWrapped;
+		this._ClsRenderableCollectionViewerCreatures = ClsRenderableCollectionViewerCreatures;
 
 		this._headerTextSettings = headerTextSettings;
 
@@ -345,7 +146,8 @@ export class EncounterBuilderUi extends BaseComponent {
 
 	addHookOnSave (hk) {
 		const fns = [
-			this._addHookAll("state", hk),
+			this._addHookAllBase(hk),
+
 			...this._rulesComps
 				.map(rulesComp => rulesComp.addHookOnSave(hk)),
 			...this._partyComps
@@ -446,6 +248,7 @@ export class EncounterBuilderUi extends BaseComponent {
 	}
 
 	/* -------------------------------------------- */
+	/* -------------------------------------------- */
 
 	_render_settings ({stgSettings}) {
 		const selRulesId = ComponentUiUtil.getSelEnum(
@@ -481,22 +284,36 @@ export class EncounterBuilderUi extends BaseComponent {
 
 		if (!stgViewer) return;
 
-		const wrpOutput = ee`<div class="ve-py-2 ecgen-viewer__wrp-output"></div>`
-			.hideVe();
+		const wrpRows = ee`<div class="ve-py-2 ve-overflow-y-auto ve-min-h-0 ve-flex-col ve-h-100"></div>`;
+		const dispEmpty = ee`<div class="ve-muted ve-italic ve-text-center ve-p-2">Add a creature to begin.</div>`;
+
+		const wrpOutput = ee`<div class="ecgen-viewer__wrp-output ve-relative">
+			${wrpRows}
+			${dispEmpty}
+		</div>`;
+
+		UiUtil.getEleDragVerticalResize({
+			wrpContainer: wrpOutput,
+			heightPxSaved: this._state.viewerHeightPx || 130,
+			fnSetHeightPxSaved: heightPx => this._state.viewerHeightPx = heightPx,
+		})
+			.addClass("ecgen-viewer__ele-resize")
+			.appendTo(wrpOutput);
 
 		ee(stgViewer)`
 			<hr class="ve-hr-2">
 			${wrpOutput}
 		`;
 
-		rdState.renderableCollectionViewerCreatures = new _RenderableCollectionViewerCreatures({
+		rdState.renderableCollectionViewerCreatures = new this._ClsRenderableCollectionViewerCreatures({
 			comp: this._comp,
-			wrpRows: wrpOutput,
+			wrpRows,
 			rendererWrapped: this._rendererWrapped,
 		});
 
-		this._comp.addHookCreatureMetas(() => {
-			wrpOutput.toggleVe(!!this._comp.creatureMetas.length);
+		this._comp.addHookCreatureGroups(() => {
+			wrpRows.toggleVe(!!this._comp.creatureGroups.length);
+			dispEmpty.toggleVe(!this._comp.creatureGroups.length);
 
 			rdState.renderableCollectionViewerCreatures.render();
 		})();
@@ -551,6 +368,48 @@ export class EncounterBuilderUi extends BaseComponent {
 
 	/* -------------------------------------------- */
 
+	_getCustomShapeTemplate () {
+		return this._comp.customShapeGroups?.length
+			? {
+				groups: this._comp.customShapeGroups
+					.map(customShapeGroup => {
+						const {entity} = customShapeGroup;
+
+						return {
+							count: entity.countMinMaxMin === entity.countMinMaxMax
+								? {exact: entity.countMinMaxMin}
+								: {min: entity.countMinMaxMin, max: entity.countMinMaxMax},
+							ratio: {exact: entity.ratioPercentage / 100},
+						};
+					}),
+			}
+			: null;
+	}
+
+	_setCustomShapeGroupsFromShapeTemplate (shapeTemplate) {
+		if (!shapeTemplate?.groups) return 0;
+
+		const groupsConvertable = shapeTemplate.groups
+			.filter(group => (
+				group.ratio?.exact != null
+				&& group.count?.min != null
+				&& group.count?.max != null
+			));
+
+		if (!groupsConvertable.length) return 0;
+
+		this._comp.customShapeGroups = groupsConvertable
+			.map(group => (
+				this._comp.constructor.getDefaultCustomShapeGroup({
+					countMinMaxMin: group.count.min,
+					countMinMaxMax: group.count.max,
+					ratioPercentage: group.ratio.exact * 100,
+				})
+			));
+
+		return groupsConvertable.length;
+	}
+
 	_render_shapeCustom ({rdState, stgShapeCustom}) {
 		const btnAddGroup = ee`<button class="ve-btn ve-btn-xs ve-btn-default"><span class="glyphicon glyphicon-plus"></span> Add Creature Group</button>`
 			.onn("click", () => {
@@ -573,6 +432,27 @@ export class EncounterBuilderUi extends BaseComponent {
 				) return;
 
 				this._comp.customShapeGroups = [];
+			});
+
+		const btnExportCustomShapeGroups = ee`<button class="ve-btn ve-btn-xs ve-btn-default" title="Export Creature Group Configuration"><span class="glyphicon glyphicon-download"></span></button>`
+			.onn("click", () => {
+				DataUtil.userDownload(`custom-encounter-config`, this._getCustomShapeTemplate(), {fileType: "encounterbuilder-custom-shape-template"});
+			});
+
+		const btnImportCustomShapeGroups = ee`<button class="ve-btn ve-btn-xs ve-btn-default" title="Import Creature Group Configuration"><span class="glyphicon glyphicon-upload"></span></button>`
+			.onn("click", async () => {
+				const {jsons, errors} = await InputUiUtil.pGetUserUploadJson({expectedFileTypes: ["encounterbuilder-custom-shape-template"]});
+
+				DataUtil.doHandleFileLoadErrorsGeneric(errors);
+
+				if (!jsons?.length) return;
+
+				const [json] = jsons;
+
+				const cntSet = this._setCustomShapeGroupsFromShapeTemplate(json);
+				if (!cntSet) return JqueryUtil.doToast({content: `Failed to import creature groups! Please ensure the file contains a valid list of exported creature groups.`, type: "warning"});
+
+				JqueryUtil.doToast({content: `Imported ${cntSet} creature group${cntSet === 1 ? "" : "s"}!`});
 			});
 
 		const btnAutoAllocate = ee`<button class="ve-btn ve-btn-xs ve-btn-default" title="Auto-Distribute Remaining Budget (SHIFT to Auto Distribute Entire Budget; CTRL to Auto Distribute Entire Budget by Number of Creature)"><span class="glyphicon glyphicon-equalizer"></span></button>`
@@ -683,23 +563,7 @@ export class EncounterBuilderUi extends BaseComponent {
 
 			doUpdateDispSpent();
 
-			const customShapeTemplate = this._comp.customShapeGroups?.length
-				? {
-					groups: this._comp.customShapeGroups
-						.map(customShapeGroup => {
-							const {entity} = customShapeGroup;
-
-							return {
-								count: entity.countMinMaxMin === entity.countMinMaxMax
-									? {exact: entity.countMinMaxMin}
-									: {min: entity.countMinMaxMin, max: entity.countMinMaxMax},
-								ratio: {exact: entity.ratioPercentage / 100},
-							};
-						}),
-				}
-				: null;
-
-			this._encounterShapesLookup.setCustomShapeTemplate(customShapeTemplate);
+			this._encounterShapesLookup.setCustomShapeTemplate(this._getCustomShapeTemplate());
 
 			this._render_shapeCustom_doUpdateRatios(ratioState);
 		})();
@@ -737,9 +601,15 @@ export class EncounterBuilderUi extends BaseComponent {
 		ee(stgShapeCustom)`
 			<div class="ve-split-v-center ve-my-2">
 				<h4 class="ve-my-0">Custom Encounter</h4>
-				<div class="ve-btn-group ve-flex-v-center">
-					${btnAddGroup}
-					${btnClearGroups}
+				<div class="ve-flex-v-center">
+					<div class="ve-btn-group ve-flex-v-center ve-mr-2">
+						${btnAddGroup}
+						${btnClearGroups}
+					</div>
+					<div class="ve-btn-group ve-flex-v-center">
+						${btnExportCustomShapeGroups}
+						${btnImportCustomShapeGroups}
+					</div>
 				</div>
 			</div>
 
@@ -912,7 +782,7 @@ export class EncounterBuilderUi extends BaseComponent {
 				this._render_hk_doUpdateExternalStates();
 			}));
 
-		this._comp.addHookCreatureMetas(() => {
+		this._comp.addHookCreatureGroups(() => {
 			this._render_hk_triggerPulseDerivedPartyMeta();
 			this._render_hk_doUpdateExternalStates();
 		})();
@@ -946,6 +816,8 @@ export class EncounterBuilderUi extends BaseComponent {
 		return {
 			activeRulesId: null,
 			activePartyId: null,
+
+			viewerHeightPx: null,
 		};
 	}
 }

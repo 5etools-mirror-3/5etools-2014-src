@@ -39,7 +39,7 @@ export class ModalFilterBase {
 
 	get allData () { return this._allData; }
 
-	_getWrpList () { return ee`<div class="list ve-ui-list__wrp ve-overflow-x-hidden ve-overflow-y-auto ve-h-100 ve-min-h-0"></div>`; }
+	_getWrpList () { return ee`<div class="list ve-ui-list__wrp ve-overflow-x-hidden ve-overflow-y-scroll ve-h-100 ve-min-h-0"></div>`; }
 
 	_getColumnHeaderPreviewAll (opts) {
 		return ee`<button class="ve-btn ve-btn-default ve-btn-xs ${opts.isBuildUi ? "ve-col-1" : "ve-col-0-5"}">${ListUiPreviewButtonHandlerBase.HTML_GLYPHICON_EXPAND}</button>`;
@@ -75,7 +75,7 @@ export class ModalFilterBase {
 			${dispNumVisible}
 		</div>`;
 
-		const wrpFormTop = ee`<div class="ve-flex ve-input-group ve-btn-group ve-w-100 ve-lst__form-top">${wrpIptSearch}${btnReset}</div>`;
+		const wrpFormTop = ee`<div class="ve-flex ve-input-group ve-input-group--top ve-btn-group ve-w-100 ve-lst__form-top">${wrpIptSearch}${btnReset}</div>`;
 
 		const wrpFormBottom = opts.wrpMiniPills || ee`<div class="ve-w-100"></div>`;
 

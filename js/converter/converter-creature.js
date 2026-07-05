@@ -1871,7 +1871,7 @@ export class ConverterCreature extends ConverterBase {
 		let cntLines = 0;
 		const nextSixLines = [];
 		for (let i = meta.ixToConvert; nextSixLines.length < 6; ++i) {
-			const line = (meta.toConvert[i] || "").toLowerCase();
+			const line = (meta.toConvert[i] || "").toLowerCase().trim();
 			if (Parser.ABIL_ABVS.includes(line)) nextSixLines.push(line);
 			else break;
 			cntLines++;

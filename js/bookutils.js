@@ -687,6 +687,10 @@ export class BookUtil {
 			const fullParentSource = Parser.sourceJsonToFull(fromIndex.parentSource);
 			return fromIndex.name.replace(new RegExp(`^${fullParentSource.escapeRegexp()}: `, "i"), `<span title="${Parser.sourceJsonToFull(fromIndex.parentSource).qq()}">${Parser.sourceJsonToAbv(fromIndex.parentSource).qq()}</span>: `);
 		}
+		if (fromIndex.group === "screen") {
+			return fromIndex.name
+				.replace(/^Dungeon Master's Screen([;:] )/, (...m) => `DM Screen${m[1]}`);
+		}
 		return fromIndex.name;
 	}
 

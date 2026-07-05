@@ -123,7 +123,10 @@ export class EncounterBuilderUiBestiary extends EncounterBuilderUi {
 
 	/* -------------------------------------------- */
 
-	resetCache () { this._cache.reset(); }
+	resetCache (creatures) {
+		this._cache.reset();
+		this._cache.setCreatures(creatures);
+	}
 
 	isActive () {
 		return Hist.getSubHash(this.constructor._HASH_KEY) === "true";
@@ -154,8 +157,8 @@ export class EncounterBuilderUiBestiary extends EncounterBuilderUi {
 	}
 
 	async _pHandleShuffleClick ({evt, sublistItem}) {
-		const creatureMeta = EncounterBuilderHelpers.getSublistedCreatureMeta({sublistItem});
-		this._comp.doShuffleCreature({creatureMeta});
+		const creatureGroup = EncounterBuilderHelpers.getSublistedCreatureGroup({sublistItem});
+		this._comp.doShuffleCreatureGroup({creatureGroup});
 	}
 
 	handleSubhash () {
@@ -174,24 +177,6 @@ export class EncounterBuilderUiBestiary extends EncounterBuilderUi {
 				hash,
 				customHashId,
 			},
-		);
-	}
-
-	static getTokenHoverMeta (mon) {
-		if (!Renderer.monster.hasToken(mon)) return null;
-
-		return Renderer.hover.getMakePredefinedHover(
-			{
-				type: "image",
-				href: {
-					type: "external",
-					url: Renderer.monster.getTokenUrl(mon),
-				},
-				data: {
-					hoverTitle: `Token \u2014 ${mon.name}`,
-				},
-			},
-			{isBookContent: true},
 		);
 	}
 
@@ -220,11 +205,11 @@ export class EncounterBuilderUiBestiary extends EncounterBuilderUi {
 		const baseCr = mon.cr.cr || mon.cr;
 		if (baseCr == null) return;
 		const baseCrNum = Parser.crToNumber(baseCr);
-		const targetCr = iptCr.val();
+		const targetCr = UiUtil.strToCr(iptCr.val());
 
-		if (!Parser.isValidCr(targetCr)) {
+		if (targetCr == null) {
 			JqueryUtil.doToast({
-				content: `"${iptCr.val()}" is not a valid Challenge Rating! Please enter a valid CR (0-30). For fractions, "1/X" should be used.`,
+				content: `"${iptCr.val()}" is not a valid Challenge Rating! Please enter a valid CR (0-30).`,
 				type: "danger",
 			});
 			iptCr.val(Parser.numberToCr(scaledTo ?? baseCrNum));

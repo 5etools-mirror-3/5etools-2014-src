@@ -242,6 +242,11 @@ Parser._greatestCommonDivisor = function (a, b) {
 	return Parser._greatestCommonDivisor(b, Math.floor(a % b));
 };
 Parser.numberToFractional = function (number) {
+	const isMinus = number < 0;
+	number = Math.abs(Number(number.toFixed(6)));
+
+	if (!number) return `${number}`;
+
 	const len = number.toString().length - 2;
 	let denominator = 10 ** len;
 	let numerator = number * denominator;
@@ -249,7 +254,7 @@ Parser.numberToFractional = function (number) {
 	numerator = Math.floor(numerator / divisor);
 	denominator = Math.floor(denominator / divisor);
 
-	return denominator === 1 ? String(numerator) : `${Math.floor(numerator)}/${Math.floor(denominator)}`;
+	return `${isMinus ? "-" : ""}${denominator === 1 ? String(numerator) : `${Math.floor(numerator)}/${Math.floor(denominator)}`}`;
 };
 
 Parser.isNumberNearEqual = function (a, b) {
@@ -1878,28 +1883,33 @@ Parser._getFullImmRes_isSimpleTerm = val => {
 	return prop == null;
 };
 
-Parser._getFullImmRes_getNextProp = obj => obj.immune ? "immune" : obj.resist ? "resist" : obj.vulnerable ? "vulnerable" : null;
+Parser._getFullImmRes_getNextProp = obj => ["immune", "resist", "vulnerable", "conditionImmune"].find(prop => prop in obj) || null;
 
-Parser._getFullImmRes_getRenderedString = (str, {isPlainText = false, isTitleCase = false} = {}) => {
+Parser._getFullImmRes_getRenderedString = (str, {isPlainText = false, isEntry = false, isTitleCase = false, fnGetModString} = {}) => {
 	if (isTitleCase) str = str.toTitleCase();
-	return isPlainText ? Renderer.stripTags(`${str}`) : Renderer.get().render(`${str}`);
+	if (isPlainText) return Renderer.stripTags(`${str}`);
+	if (fnGetModString) str = fnGetModString(str);
+	if (isEntry) return str;
+	return Renderer.get().render(`${str}`);
 };
 
-Parser._getFullImmRes_getRenderedObject = (obj, {isPlainText = false, isTitleCase = false} = {}) => {
+Parser._getFullImmRes_getRenderedObject = (obj, {isPlainText = false, isEntry = false, isTitleCase = false, mode} = {}) => {
 	const stack = [];
 
 	if (obj.preNote) stack.push(Parser._getFullImmRes_getRenderedString(obj.preNote, {isPlainText}));
 
 	const prop = Parser._getFullImmRes_getNextProp(obj);
-	if (prop) stack.push(Parser._getFullImmRes_getRenderedArray(obj[prop], {isPlainText, isTitleCase, isGroup: true}));
+	if (prop) stack.push(Parser._getFullImmRes_getRenderedArray(obj[prop], {isPlainText, isEntry, isTitleCase, isGroup: true, mode}));
 
 	if (obj.note) stack.push(Parser._getFullImmRes_getRenderedString(obj.note, {isPlainText}));
 
 	return stack.join(" ");
 };
 
-Parser._getFullImmRes_getRenderedArray = (values, {isPlainText = false, isTitleCase = false, isGroup = false} = {}) => {
-	if (values.length === Parser.DMG_TYPES.length && CollectionUtil.deepEquals(Parser.DMG_TYPES, values)) {
+Parser._getFullImmRes_getRenderedArray = (values, {isPlainText = false, isEntry = false, isTitleCase = false, isGroup = false, mode} = {}) => {
+	if (isPlainText && isEntry) throw new Error(`Options "isPlainText" and "isEntry" are mutually exclusive!`);
+
+	if (mode === "damageType" && values.length === Parser.DMG_TYPES.length && CollectionUtil.deepEquals(Parser.DMG_TYPES, values)) {
 		return "all damage"[isTitleCase ? "toTitleCase" : "toString"]();
 	}
 
@@ -1910,8 +1920,8 @@ Parser._getFullImmRes_getRenderedArray = (values, {isPlainText = false, isTitleC
 			const rendCur = isSimpleCur
 				? val.special
 					? Parser._getFullImmRes_getRenderedString(val.special, {isPlainText, isTitleCase: false})
-					: Parser._getFullImmRes_getRenderedString(val, {isPlainText, isTitleCase})
-				: Parser._getFullImmRes_getRenderedObject(val, {isPlainText, isTitleCase});
+					: Parser._getFullImmRes_getRenderedString(val, {isPlainText, isEntry, isTitleCase, fnGetModString: mode === "condition" ? str => `{@condition ${str}}` : null})
+				: Parser._getFullImmRes_getRenderedObject(val, {isPlainText, isEntry, isTitleCase, mode});
 
 			if (i === arr.length - 1) return rendCur;
 
@@ -1927,32 +1937,17 @@ Parser._getFullImmRes_getRenderedArray = (values, {isPlainText = false, isTitleC
 
 Parser.getFullImmRes = function (values, {isPlainText = false, isTitleCase = false} = {}) {
 	if (!values?.length) return "";
-	return Parser._getFullImmRes_getRenderedArray(values, {isPlainText, isTitleCase});
+	return Parser._getFullImmRes_getRenderedArray(values, {isPlainText, isTitleCase, mode: "damageType"});
+};
+
+Parser.getFullCondImm = function (values, {isPlainText = false, isEntry = false, isTitleCase = false} = {}) {
+	if (isPlainText && isEntry) throw new Error(`Options "isPlainText" and "isEntry" are mutually exclusive!`);
+
+	if (!values?.length) return "";
+	return Parser._getFullImmRes_getRenderedArray(values, {isPlainText, isTitleCase, isEntry, mode: "condition"});
 };
 
 /* -------------------------------------------- */
-
-Parser.getFullCondImm = function (condImm, {isPlainText = false, isEntry = false, isTitleCase = false} = {}) {
-	if (isPlainText && isEntry) throw new Error(`Options "isPlainText" and "isEntry" are mutually exclusive!`);
-
-	if (!condImm?.length) return "";
-
-	const render = condition => {
-		if (isTitleCase) condition = condition.toTitleCase();
-		if (isPlainText) return condition;
-		const ent = `{@condition ${condition}}`;
-		if (isEntry) return ent;
-		return Renderer.get().render(ent);
-	};
-
-	return condImm
-		.map(it => {
-			if (it.special) return Renderer.get().render(it.special);
-			if (it.conditionImmune) return `${it.preNote ? `${it.preNote} ` : ""}${it.conditionImmune.map(render).join(", ")}${it.note ? ` ${it.note}` : ""}`;
-			return render(it);
-		})
-		.sort(SortUtil.ascSortLower).join(", ");
-};
 
 Parser.MON_SENSE_TAG_TO_FULL = {
 	"B": "blindsight",

@@ -104,7 +104,7 @@ export class TaggerUtils {
 		const reTokenSplit = new RegExp(reTokenStr, "g");
 		const reTokenCheck = new RegExp(reTokenStr);
 
-		const reCapsFirst = /^[A-Z]+[a-z']*$/;
+		const reCapsFirst = /^[A-Z]+[-a-z']*$/;
 
 		const setLower = new Set(StrUtil.TITLE_LOWER_WORDS);
 		const setUpper = new Set([...StrUtil.TITLE_UPPER_WORDS, ...StrUtil.TITLE_UPPER_WORDS_PLURAL].map(it => it.toUpperCase()));
@@ -113,10 +113,19 @@ export class TaggerUtils {
 			return reTokenCheck.test(tk) || setLower.has(tk);
 		};
 
+		let lenProcessed = 0;
+		const ixsSentenceStart = new Set([
+			0,
+			...str
+				.matchAll(/[.!?]\s*/g)
+				.map(it => it[0].length + it.index),
+		]);
+
 		tagSplit
 			.forEach(s => {
 				if (!s || s.startsWith("{@")) {
 					ptrStack._ += s;
+					lenProcessed += s.length;
 					return;
 				}
 
@@ -145,6 +154,7 @@ export class TaggerUtils {
 						if (tk === " ") {
 							if (stack.length) stack.push(tk);
 							else ptrStack._ += tk;
+							lenProcessed += tk.length;
 							return;
 						}
 
@@ -152,27 +162,38 @@ export class TaggerUtils {
 						if (reTokenCheck.test(tk)) {
 							flush();
 							ptrStack._ += tk;
+							lenProcessed += tk.length;
 							return;
 						}
 
-						if (setLower.has(tk)) {
+						if (
+							setLower.has(tk)
+							|| (
+								ixsSentenceStart.has(lenProcessed)
+								&& setLower.has(tk.toLowerCase())
+							)
+						) {
 							if (stack.length) stack.push(tk);
 							else ptrStack._ += tk;
+							lenProcessed += tk.length;
 							return;
 						}
 
 						if (setUpper.has(tk)) {
 							stack.push(tk);
+							lenProcessed += tk.length;
 							return;
 						}
 
 						if (reCapsFirst.test(tk)) {
 							stack.push(tk);
+							lenProcessed += tk.length;
 							return;
 						}
 
 						flush();
 						ptrStack._ += tk;
+						lenProcessed += tk.length;
 					});
 
 				flush();

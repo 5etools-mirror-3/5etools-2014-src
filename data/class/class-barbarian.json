@@ -1320,7 +1320,7 @@
 			"subclassSource": "PHB",
 			"level": 14,
 			"entries": [
-				"While you're raging, you can use a bonus action on your turn to knock a Large or smaller creature {@condition prone} when you hit it with melee weapon attack."
+				"While you're raging, you can use a bonus action on your turn to knock a Large or smaller creature {@condition prone} when you hit it with a melee weapon attack."
 			]
 		},
 		{

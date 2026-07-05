@@ -2935,7 +2935,7 @@
 				{
 					"name": "Magic Resistance",
 					"entries": [
-						"Bael have advantage on saving throws against spells and other magical effects."
+						"Bael has advantage on saving throws against spells and other magical effects."
 					]
 				},
 				{
@@ -4183,7 +4183,7 @@
 				{
 					"name": "Ice Walk",
 					"entries": [
-						"The hag can move across and climb icy surfaces without needing to make an ability check, and {@quickref difficult terrain||3} composed of ice or snow doesn't cost the hag extra moment."
+						"The hag can move across and climb icy surfaces without needing to make an ability check, and {@quickref difficult terrain||3} composed of ice or snow doesn't cost the hag extra movement."
 					]
 				}
 			],
@@ -11252,7 +11252,7 @@
 					"name": "Spellcasting",
 					"type": "spellcasting",
 					"headerEntries": [
-						"The drow's casts one of the following spells, requiring no material components and using Charisma as the spellcasting ability (spell save {@dc 18}):"
+						"The drow casts one of the following spells, requiring no material components and using Charisma as the spellcasting ability (spell save {@dc 18}):"
 					],
 					"will": [
 						"{@spell dancing lights}",

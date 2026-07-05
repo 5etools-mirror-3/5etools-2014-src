@@ -3191,5 +3191,10 @@
 		"ver": "1.217.7",
 		"date": "2026-06-19",
 		"txt": "- (Brew) Fixed homebrew spell class sources failing to load when hovered on non-Spells pages\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.217.8",
+		"date": "2026-07-05",
+		"txt": "- Added support for re-ordering DM Screen save slots\n- Added support for decimals (e.g. \"0.5\") in Bestiary Encounter Builder CR fields (previously, only fractions e.g. \"1/2\" were supported)\n- Fixed Races page sublist failing to sort by \"Size\"\n- Fixed rare CR Scaler crash when attempt to scale a dice expression\n- (Brew) Added support for spell usage counts up to 99 (was previously 9)\n- (Brew) Added OCR character handling to all Text Converters (previously only available in the Creature Text Converter)\n- (Brew) Added rudimentary `@creature` tagging to Text Converters\n- (Brew) Improved support for `\"spellcasting\"` entries within legendary actions/mythic actions\n- (Brew) Fixed Text Converter failing to identify title-case reference names in some cases\n- (Brew) Fixed Creature Text Converter failing to handle some ability score formats\n- (Brew) Fixed creature skills with sources failing to render correctly\n- (Brew) Fixed nested condition immunity groups failing to render correctly\n- (Foundry) Added Rivet button to Bestiary Encounter Builder; DM Screen Initiative Tracker; DM Screen Calendar\n- (Fixed typos/added tags)"
 	}
 ]

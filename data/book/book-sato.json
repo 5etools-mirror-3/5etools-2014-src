@@ -134,7 +134,7 @@
 								{
 									"type": "quote",
 									"entries": [
-										"\"Things happen in threes. Simple enough? It's not logical, but it's almost always true.\""
+										"Things happen in threes. Simple enough? It's not logical, but it's almost always true."
 									],
 									"by": "Ronassic of Sigil, planar scholar"
 								}
@@ -2570,7 +2570,7 @@
 												{
 													"type": "quote",
 													"entries": [
-														"\"Without passion, a body has no pain. Divest yourself of all passions, and you will achieve the final stage of death.\""
+														"Without passion, a body has no pain. Divest yourself of all passions, and you will achieve the final stage of death."
 													],
 													"by": "Skall, Factol of the Heralds of Dust"
 												},
@@ -2619,7 +2619,7 @@
 										{
 											"type": "quote",
 											"entries": [
-												"\"You are all tallow for my flames.\""
+												"You are all tallow for my flames."
 											],
 											"by": "Ignus, Hands of Havoc arsonist"
 										}
@@ -2667,7 +2667,7 @@
 								{
 									"type": "quote",
 									"entries": [
-										"\"It's the {@b Lady's Ward}, not the Ladies' Ward!\""
+										"It's the {@b Lady's Ward}, not the Ladies' Ward!"
 									],
 									"by": "Vrex Rexel, pedantic Harmonium officer"
 								},
@@ -3193,7 +3193,7 @@
 										{
 											"type": "quote",
 											"entries": [
-												"\"There is no nobler act than creation. Anyone can break something, and many do. It is easy to destroy. But when you choose to turn something that wasn't into something that is\u2013that is the stuff of gods.\""
+												"There is no nobler act than creation. Anyone can break something, and many do. It is easy to destroy. But when you choose to turn something that wasn't into something that is\u2013that is the stuff of gods."
 											],
 											"by": "Saladryn, Factol of the Mind's Eye"
 										}
@@ -3399,7 +3399,7 @@
 								{
 									"type": "quote",
 									"entries": [
-										"\"Sure, Sigil's got everything you could ever want\u2013if you can find it! My advice? Hire a tout to do your shopping. Last time I visited the Great Bazaar, it took me so long to find my way out that my avocados went bad. What a mess.\""
+										"Sure, Sigil's got everything you could ever want\u2013if you can find it! My advice? Hire a tout to do your shopping. Last time I visited the Great Bazaar, it took me so long to find my way out that my avocados went bad. What a mess."
 									],
 									"by": "Digny Vots, Market Ward shopper"
 								},
@@ -3637,7 +3637,7 @@
 												{
 													"type": "quote",
 													"entries": [
-														"\"Achieve understanding of self. Play music or dance. Paint or fight. Find your own way. And practice. Keep practicing until your body knows what to do. You've had years to learn the wrong way to do things, and it may take you years to learn the right way. The key is to act.\""
+														"Achieve understanding of self. Play music or dance. Paint or fight. Find your own way. And practice. Keep practicing until your body knows what to do. You've had years to learn the wrong way to do things, and it may take you years to learn the right way. The key is to act."
 													],
 													"by": "Rhys, factol of the Transcendent Order"
 												},
@@ -3780,7 +3780,7 @@
 						{
 							"type": "quote",
 							"entries": [
-								"\"Living in Sigil, we've probably seen everything... but the beauty and terror of it is that the planes always make more.\""
+								"Living in Sigil, we've probably seen everything... but the beauty and terror of it is that the planes always make more."
 							],
 							"by": "Erin Montgomery, factol of the Society of Sensation"
 						},
@@ -4108,7 +4108,7 @@
 										{
 											"type": "quote",
 											"entries": [
-												"\"I've been trying to find a bakery for the past three hours. Every building looks the same, and the street numbers don't help\u2013some of them have decimals! What a nightmare.\""
+												"I've been trying to find a bakery for the past three hours. Every building looks the same, and the street numbers don't help\u2013some of them have decimals! What a nightmare."
 											],
 											"by": "Quen Tooday, planar courier"
 										}
@@ -4319,7 +4319,7 @@
 										{
 											"type": "quote",
 											"entries": [
-												"\"What? What did you say?\""
+												"What? What did you say?"
 											],
 											"by": "Beck Bitterflute, resident of the Gatemouth district"
 										}
@@ -4433,7 +4433,7 @@
 								{
 									"type": "quote",
 									"entries": [
-										"\"Mistakes are ghosts. I lost count of the days I've spent in this awful prison, but I've never been able to escape the faces of those I wronged to wind up here. I deserve this.\""
+										"Mistakes are ghosts. I lost count of the days I've spent in this awful prison, but I've never been able to escape the faces of those I wronged to wind up here. I deserve this."
 									],
 									"by": "Slab, prisoner of Curst"
 								},
@@ -4681,7 +4681,7 @@
 										{
 											"type": "quote",
 											"entries": [
-												"\"Was the sky above this realm always so empty, or did the sun and the moon simply tire of their endless cycle and abandon it for a more exciting existence?\""
+												"Was the sky above this realm always so empty, or did the sun and the moon simply tire of their endless cycle and abandon it for a more exciting existence?"
 											],
 											"by": "A spirit musing atop a plinth in Ecstasy"
 										}
@@ -4780,6 +4780,7 @@
 										"Chase away the darkness, And free us from its jaws.",
 										"Guide our swords until that fateful day, When we can bask beneath your rays.\""
 									],
+									"skipMarks": true,
 									"by": "Excerpt from a prayer recited in Excelsior"
 								},
 								{
@@ -5019,7 +5020,7 @@
 										{
 											"type": "quote",
 											"entries": [
-												"\"On average, it takes a sloth thirty days to digest a single leaf.\""
+												"On average, it takes a sloth thirty days to digest a single leaf."
 											],
 											"by": "A mimir spouting animal facts"
 										}
@@ -5113,7 +5114,7 @@
 								{
 									"type": "quote",
 									"entries": [
-										"\"Would you look at that. It's time to cut the grass again.\""
+										"Would you look at that. It's time to cut the grass again."
 									],
 									"by": "Vern Cliptoe, Fortitude gardener"
 								},
@@ -5282,7 +5283,7 @@
 								{
 									"type": "quote",
 									"entries": [
-										"\"Glory? Ha! What do any of us know of glory? We're still alive! You seek a reward that can be attained only in death.\""
+										"Glory? Ha! What do any of us know of glory? We're still alive! You seek a reward that can be attained only in death."
 									],
 									"by": "Tyrza Bonebreaker, mayor of Glorium"
 								},
@@ -5493,7 +5494,7 @@
 										{
 											"type": "quote",
 											"entries": [
-												"\"Let me guess. You're going to dance? Splendid. Be careful not to slip on the ashes. I've never cared for slapstick comedy.\""
+												"Let me guess. You're going to dance? Splendid. Be careful not to slip on the ashes. I've never cared for slapstick comedy."
 											],
 											"by": "High Cardinal Thingol"
 										}
@@ -5607,7 +5608,7 @@
 								{
 									"type": "quote",
 									"entries": [
-										"\"The knife of betrayal is best twisted twice\u2013once in the back and again in the grave. Trust no one, not even the dead.\""
+										"The knife of betrayal is best twisted twice\u2013once in the back and again in the grave. Trust no one, not even the dead."
 									],
 									"by": "Alorio Nightriddle. archlector's adviser"
 								},
@@ -5823,7 +5824,7 @@
 										{
 											"type": "quote",
 											"entries": [
-												"\"Who needs an iron fist when you have a contract?\""
+												"Who needs an iron fist when you have a contract?"
 											],
 											"by": "Duchess Zelza Zurkbane"
 										}
@@ -5980,7 +5981,7 @@
 										{
 											"type": "quote",
 											"entries": [
-												"\"Congratulations, slate! You've been enlisted in regiment 231. Take this mop and report to the second ring for latrine duty. Then, you're headed to the front lines. Casualties are high, but so are the opportunities for promotion.\""
+												"Congratulations, slate! You've been enlisted in regiment 231. Take this mop and report to the second ring for latrine duty. Then, you're headed to the front lines. Casualties are high, but so are the opportunities for promotion."
 											],
 											"by": "Koldrel, gate greeter"
 										}
@@ -6092,7 +6093,7 @@
 								{
 									"type": "quote",
 									"entries": [
-										"\"Hey, everybody, watch this!\""
+										"Hey, everybody, watch this!"
 									],
 									"by": "Dewie Doubledare (may he rest in peace)"
 								},
@@ -6307,7 +6308,7 @@
 										{
 											"type": "quote",
 											"entries": [
-												"\"There's nothing more valuable than identity. Riches, once stolen, can be recouped, but reputations can be ruined beyond repair. Steal a name, and you steal everything it owns.\""
+												"There's nothing more valuable than identity. Riches, once stolen, can be recouped, but reputations can be ruined beyond repair. Steal a name, and you steal everything it owns."
 											],
 											"by": "The Mirrored Man, leader of the Lookalikes"
 										}
@@ -6487,7 +6488,7 @@
 										{
 											"type": "quote",
 											"entries": [
-												"\"Come on down to Forbi's Fixers, located across from Ooze Choose in the Everything Emporium! Apply just one coat of our award-winning Fixin' Polish, and your armor will be shinier than a modron's backside.\""
+												"Come on down to Forbi's Fixers, located across from Ooze Choose in the Everything Emporium! Apply just one coat of our award-winning Fixin' Polish, and your armor will be shinier than a modron's backside."
 											],
 											"by": "Forbi Figglemendle, Tradegate entrepreneur"
 										}
@@ -6602,7 +6603,7 @@
 										{
 											"type": "quote",
 											"entries": [
-												"\"Chaos, much like order, begins in the mind. Refuse its entry into your thoughts, and Xaos is yours to mold.\""
+												"Chaos, much like order, begins in the mind. Refuse its entry into your thoughts, and Xaos is yours to mold."
 											],
 											"by": "Bruth, Sha'sal Khou diplomat"
 										}

@@ -290,6 +290,10 @@ export class ConverterFeatureBase extends ConverterBase {
 	static _PREREQUISITE_TRIE = null;
 
 	static _getPrerequisiteTokens (entPrereqString) {
+		// Pre-clean "Level" formatting
+		entPrereqString = entPrereqString
+			.replace(/(?<=\bLevel \d+\+?)( and )/g, "; ");
+
 		if (this._PREREQUISITE_TRIE == null) {
 			this._PREREQUISITE_TRIE = new Trie();
 			[

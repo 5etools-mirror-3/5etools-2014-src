@@ -133,7 +133,7 @@
 												{
 													"type": "item",
 													"name": "Accomplishing Story Goals",
-													"entry": "The characters gain a level when they accomplish something significant, such lighting the beacon of Argynvostholt ({@adventure chapter 7|CoS|8}), thwarting the druids' ritual atop Yester Hill ({@adventure chapter 14|CoS|15}), or forging an alliance with {@creature Ezmerelda d'Avenir|CoS} ({@area appendix D|76f|x})."
+													"entry": "The characters gain a level when they accomplish something significant, such as lighting the beacon of Argynvostholt ({@adventure chapter 7|CoS|8}), thwarting the druids' ritual atop Yester Hill ({@adventure chapter 14|CoS|15}), or forging an alliance with {@creature Ezmerelda d'Avenir|CoS} ({@area appendix D|76f|x})."
 												}
 											]
 										},
@@ -1579,7 +1579,7 @@
 											]
 										},
 										"These Vistani refuse to speak the name of their \"dread lord\" and provide no additional information. If the characters press them for details, the Vistani reply, \"{@creature Madam Eva|CoS} has the answers you seek.\"",
-										"If the characters agree to accompany the Vistani, the Vistani lead them south along the Trade Way. After several days of uneventful travel, the mists of Ravenloft engulf the caravan, transporting the characters and the Vistani to Barovia. The Vistani then lead the party safely to their leader, {@creature Madam Eva|CoS}, at {@area area G|10e|x} (see {@adventure chapter 2|CoS|3}). The characters arrive at {@area area A|0f9|x} and are taken through {@area areas B|0fb|x}, {@area E|108|x}, and {@area F|109|x} on the way to {@creature Madam Eva|CoS}'s camp. If the characters rid themselves of their Vistani hosts before reaching {@creature Madam Eva|CoS}'s camp, they're on the own.",
+										"If the characters agree to accompany the Vistani, the Vistani lead them south along the Trade Way. After several days of uneventful travel, the mists of Ravenloft engulf the caravan, transporting the characters and the Vistani to Barovia. The Vistani then lead the party safely to their leader, {@creature Madam Eva|CoS}, at {@area area G|10e|x} (see {@adventure chapter 2|CoS|3}). The characters arrive at {@area area A|0f9|x} and are taken through {@area areas B|0fb|x}, {@area E|108|x}, and {@area F|109|x} on the way to {@creature Madam Eva|CoS}'s camp. If the characters rid themselves of their Vistani hosts before reaching {@creature Madam Eva|CoS}'s camp, they're on their own.",
 										"If the characters decline {@creature Stanimir|CoS}'s invitation, the Vistani are disappointed but leave as promised. A day or two later, use the \"{@area Creeping Fog|09e|x}\" adventure hook or some variation of it to draw the characters into Barovia."
 									]
 								}
@@ -3941,7 +3941,7 @@
 									"type": "insetReadaloud",
 									"id": "10a",
 									"entries": [
-										"An old wooden gallows creaks in a chill wind that blows down from the high ground to the west. A frayed length of rope dances from its beam. The well-worn road splits here, and a signpost opposite the gallows points off in three directions: Barovia Village to the east, Tser Pool to the northwest, and Ravenloft/Vallaki to the southwest.The northwest fork slants down and disappears into the trees, while the southwest fork clings to an upward slope. Across from the gallows, a low wall, crumbling in places, partially encloses a small plot of graves shrouded in fog."
+										"An old wooden gallows creaks in a chill wind that blows down from the high ground to the west. A frayed length of rope dances from its beam. The well-worn road splits here, and a signpost opposite the gallows points off in three directions: Barovia Village to the east, Tser Pool to the northwest, and Ravenloft/Vallaki to the southwest. The northwest fork slants down and disappears into the trees, while the southwest fork clings to an upward slope. Across from the gallows, a low wall, crumbling in places, partially encloses a small plot of graves shrouded in fog."
 									]
 								},
 								"The northwest fork leads down to the river and {@area area G|10e|x}. The road southwest leads to {@area area H|116|x}. The east road leads to an arching stone bridge and continues on to the village of Barovia ({@area area E|108|x}). If the characters are traveling with Vistani, the Vistani lead them along the northwest road to the Vistani encampment.",
@@ -3987,7 +3987,7 @@
 									"entries": [
 										"The road gradually disappears and is replaced by a twisted, muddy path through the trees. Deep ruts in the earth are evidence of the comings and goings of wagons.",
 										"The canopy of mist and branches suddenly gives way to black clouds boiling far above. There is a clearing here, next to a river that widens to form a small lake several hundred feet across. Five colorful round tents, each ten feet in diameter, are pitched outside a ring of four barrel-topped wagons. A much larger tent stands near the shore of the lake, its sagging form lit from within. Near this tent, eight unbridled horses drink from the river.",
-										"The mournful strains of an accordion clash with the singing of several brightly clad figures around bonfire. A footpath continues beyond this encampment, meandering north between the river and the forest's edge."
+										"The mournful strains of an accordion clash with the singing of several brightly clad figures around a bonfire. A footpath continues beyond this encampment, meandering north between the river and the forest's edge."
 									]
 								},
 								"The eight {@creature Draft Horse||draft horses} drinking from the river are used to pull the Vistani wagons and aren't easily startled.",
@@ -5299,7 +5299,7 @@
 											"type": "insetReadaloud",
 											"id": "164",
 											"entries": [
-												"The church's undercroft has rough-hewn walls and a floor made of damp clay and earth. Rotting wooden pillars strain under the weight of the wooden ceiling. Candlelight from the chapel above slips though the cracks, allowing you to glimpse a gaunt shape in the far corner."
+												"The church's undercroft has rough-hewn walls and a floor made of damp clay and earth. Rotting wooden pillars strain under the weight of the wooden ceiling. Candlelight from the chapel above slips through the cracks, allowing you to glimpse a gaunt shape in the far corner."
 											]
 										},
 										{
@@ -9541,7 +9541,7 @@
 									"type": "insetReadaloud",
 									"id": "1de",
 									"entries": [
-										"{@quickref Vision and Light||2||Dim light} filters in through a dust-caked window in the east wall. A door next to the window leads to the castle's northeast courtyard.Everything in this room is coated with dust, including a large, heavy table in the center of the floor. A thick book lies open on a desk, with an inkwell and a quill next to it. There is a broken door in the north wall, and a staircase in the south wall plunges into darkness. On each side of the staircase, a skeletal figure draped in gleaming chain mail stands sagging at attention, holding a rusty halberd."
+										"{@quickref Vision and Light||2||Dim light} filters in through a dust-caked window in the east wall. A door next to the window leads to the castle's northeast courtyard. Everything in this room is coated with dust, including a large, heavy table in the center of the floor. A thick book lies open on a desk, with an inkwell and a quill next to it. There is a broken door in the north wall, and a staircase in the south wall plunges into darkness. On each side of the staircase, a skeletal figure draped in gleaming chain mail stands sagging at attention, holding a rusty halberd."
 									]
 								},
 								"The skeletons, which were assembled by {@creature Cyrus Belview|CoS} (see {@area area K62|252|x}), are held together with wire frames and hung on pegs. They pose no threat.",
@@ -11950,7 +11950,7 @@
 									"type": "insetReadaloud",
 									"id": "1f0",
 									"entries": [
-										"Dusty scrolls and tomes line the walls of this room. More scrolls and books lie scattered on the floor, around four heavy wooden chests fitted with study iron locks. The only unobstructed floor space is directly in front of the doors on the east and west walls.",
+										"Dusty scrolls and tomes line the walls of this room. More scrolls and books lie scattered on the floor, around four heavy wooden chests fitted with sturdy iron locks. The only unobstructed floor space is directly in front of the doors on the east and west walls.",
 										"In the center of this clutter stands a great black desk. A figure crouches atop a tall stool, scratching on a seemingly endless scroll of paper with a dry quill pen. Nearby a tasseled rope hangs from a hole in the ceiling."
 									]
 								},
@@ -19821,7 +19821,7 @@
 									"type": "insetReadaloud",
 									"id": "248",
 									"entries": [
-										"The stairs end at a dark and dreary room with manacles attached to the walls. In the middle of the room is a wood-framed bed fitted with leather restraints. At the foot of the bed rests a closed iron chest, is lid sculpted with an emblem.",
+										"The stairs end at a dark and dreary room with manacles attached to the walls. In the middle of the room is a wood-framed bed fitted with leather restraints. At the foot of the bed rests a closed iron chest, its lid sculpted with an emblem.",
 										"A wooden ladder leads up to a trapdoor in the ceiling. Thin streams of water drip through the trapdoor's rotting wood, forming a puddle around the base of the ladder."
 									]
 								},
@@ -41587,7 +41587,7 @@
 					"height": 1000
 				},
 				"A secret society of good-aligned wizards built the Amber Temple in the Balinok Mountains more than two thousand years ago. They needed a vault in which to contain the evil vestiges (remnants of dead, malevolent entities) they had captured and the hoard of forbidden knowledge they had amassed. They dedicated the temple to a god of secrets, whom they trusted to keep it hidden from the rest of the world until the end of time. Unfortunately for the wizards, even the will of a god couldn't prevent other evil creatures from learning the temple's location. The wizards were forced to guard the temple themselves, to keep its secrets from falling into villainous hands. The evil forces that were imprisoned within the temple eventually corrupted the wizards, turning them against one another.",
-				"The wizards were dead and gone by the time an evil archmage named {@creature Exethanter|CoS} arrived at the temple. He breached the temple's wards, spoke to a vestige trapped in amber, and discovered the secret to becoming a lich. After his transformation, the lich {@creature Exethanter|CoS} took over the temple and turned the skulls of it previous defenders into flameskulls under his command. {@creature Exethanter|CoS} then took it upon himself to watch over the temple, not to hoard its evil secrets but to share them openly. Meanwhile, the evils within the temple fed on each other, growing in power.",
+				"The wizards were dead and gone by the time an evil archmage named {@creature Exethanter|CoS} arrived at the temple. He breached the temple's wards, spoke to a vestige trapped in amber, and discovered the secret to becoming a lich. After his transformation, the lich {@creature Exethanter|CoS} took over the temple and turned the skulls of its previous defenders into flameskulls under his command. {@creature Exethanter|CoS} then took it upon himself to watch over the temple, not to hoard its evil secrets but to share them openly. Meanwhile, the evils within the temple fed on each other, growing in power.",
 				{
 					"type": "inset",
 					"name": "Extreme Cold",
