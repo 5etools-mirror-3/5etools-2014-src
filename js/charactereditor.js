@@ -161,36 +161,41 @@ class CharacterEditorPage {
 		this.ace.setValue(JSON.stringify(placeholderMessage, null, 2), 1);
 		document.getElementById('message').textContent = `Welcome ${characterName}! Complete the wizard to create your level 1 character.`;
 		document.getElementById('message').style.color = 'blue';
+		this.updateButtonVisibility();
 
 		// Don't render character yet - wait for wizard completion
 		console.log('Level 0 placeholder created, waiting for wizard completion...');
 
-	// Prompt the user to pick background and alignment before starting the wizard
-	const { $modalInner, $modalFooter, doClose } = UiUtil.getShowModal({
-		title: 'Level 0 - Initial Choices',
-		hasFooter: true,
-		isWidth100: false,
-		isPermanent: true
-	});
+		// Prompt the user to pick the required starting details before beginning the wizard
+		const { $modalInner, $modalFooter, doClose } = UiUtil.getShowModal({
+			title: "Level 0 - Initial Choices",
+			hasFooter: true,
+			isWidth100: false,
+			isPermanent: true,
+		});
 
 		// Populate dynamically from data files
 		$modalInner.html(`
 			<div class="form-group">
+				<label for="lvl0-name"><strong>Character Name</strong></label>
+				<input id="lvl0-name" class="form-control" value="${characterName.escapeQuotes()}">
+			</div>
+			<div class="form-group">
 				<label for="lvl0-race"><strong>Race</strong></label>
 				<select id="lvl0-race" class="form-control">
-					<option value="">-- Random --</option>
+					<option value="">-- Select Race --</option>
 				</select>
 			</div>
 			<div class="form-group">
 				<label for="lvl0-background"><strong>Background</strong></label>
 				<select id="lvl0-background" class="form-control">
-					<option value="">-- Random --</option>
+					<option value="">-- Select Background --</option>
 				</select>
 			</div>
 			<div class="form-group">
 				<label for="lvl0-alignment"><strong>Alignment</strong></label>
 				<select id="lvl0-alignment" class="form-control">
-					<option value="">-- Random --</option>
+					<option value="">-- Select Alignment --</option>
 					<option value="Lawful Good">Lawful Good</option>
 					<option value="Neutral Good">Neutral Good</option>
 					<option value="Chaotic Good">Chaotic Good</option>
@@ -205,82 +210,94 @@ class CharacterEditorPage {
 		`);
 
 		// Load races and backgrounds from data files and populate selects
+		const $btnCancel = $(`<button class="ve-btn ve-btn-default">Cancel</button>`).click(() => doClose(false));
+		const $btnConfirm = $(`<button class="ve-btn ve-btn-primary" style="margin-bottom:12px" disabled>Start Wizard</button>`);
+
+		const hkUpdateStartButton = () => {
+			const hasName = !!$modalInner.find("#lvl0-name").val()?.trim();
+			const hasRace = !!$modalInner.find("#lvl0-race").val();
+			const hasBackground = !!$modalInner.find("#lvl0-background").val();
+			const hasAlignment = !!$modalInner.find("#lvl0-alignment").val();
+			$btnConfirm.prop("disabled", !(hasName && hasRace && hasBackground && hasAlignment));
+		};
+
+		$modalInner.on("input change", "#lvl0-name, #lvl0-race, #lvl0-background, #lvl0-alignment", hkUpdateStartButton);
+
 		(async () => {
 			try {
 				const [rRes, bRes] = await Promise.all([
-					fetch('data/races.json'),
-					fetch('data/backgrounds.json')
+					fetch("data/races.json"),
+					fetch("data/backgrounds.json"),
 				]);
 				const racesJson = await rRes.json();
 				const bgsJson = await bRes.json();
 				const races = racesJson.race || [];
 				const backgrounds = bgsJson.background || [];
-				const $race = $modalInner.find('#lvl0-race');
-				const $bg = $modalInner.find('#lvl0-background');
+				const $race = $modalInner.find("#lvl0-race");
+				const $bg = $modalInner.find("#lvl0-background");
 				// Add races
 				races.forEach(r => {
 					// Include both name and source in the value, separated by a delimiter
-					const raceValue = `${r.name}|${r.source || 'PHB'}`;
-					$race.append(`<option value="${raceValue}">${r.name} (${r.source || 'PHB'})</option>`);
+					const raceValue = `${r.name}|${r.source || "PHB"}`;
+					$race.append(`<option value="${raceValue}">${r.name} (${r.source || "PHB"})</option>`);
 				});
-				// If URL forced race exists, select it; otherwise ensure Random is selected
+				// If URL forced race exists, select it
 				if (this.level0WizardData?.race) {
 					// Convert race object back to "name|source" format for dropdown
 					const raceValue = `${this.level0WizardData.race.name}|${this.level0WizardData.race.source}`;
 					$race.val(raceValue);
-				} else {
-					$race.val(''); // Explicitly select the "-- Random --" option
 				}
 				// Add backgrounds
 				backgrounds.forEach(bg => {
-					$bg.append(`<option value="${bg.name}">${bg.name} (${bg.source || ''})</option>`);
+					$bg.append(`<option value="${bg.name}">${bg.name} (${bg.source || ""})</option>`);
 				});
-				// If URL forced background exists, select it; otherwise ensure Random is selected
+				// If URL forced background exists, select it
 				if (this.level0WizardData?.background) {
-					$bg.val(this.level0WizardData.background);
-				} else {
-					$bg.val(''); // Explicitly select the "-- Random --" option
+					$bg.val(this.level0WizardData.background.name || this.level0WizardData.background);
 				}
-			} catch (e) {
-				console.warn('Could not load races/backgrounds for modal:', e);
+				hkUpdateStartButton();
+			} catch {
+				JqueryUtil.doToast({type: "warning", content: "Could not load race/background options for character creation."});
 			}
 		})();
 
-		const $btnCancel = $(`<button class="ve-btn ve-btn-default">Cancel</button>`).click(() => doClose(false));
-		const $btnConfirm = $(`<button class="ve-btn ve-btn-primary" style="margin-bottom:12px">Start Wizard</button>`).click(async () => {
-			const selectedRace = $modalInner.find('#lvl0-race').val();
-			const selectedBg = $modalInner.find('#lvl0-background').val();
-			const selectedAl = $modalInner.find('#lvl0-alignment').val();
-			
+		$btnConfirm.click(async () => {
+			const enteredName = $modalInner.find("#lvl0-name").val()?.trim();
+			const selectedRace = $modalInner.find("#lvl0-race").val();
+			const selectedBg = $modalInner.find("#lvl0-background").val();
+			const selectedAl = $modalInner.find("#lvl0-alignment").val();
+
+			if (!enteredName || !selectedRace || !selectedBg || !selectedAl) {
+				JqueryUtil.doToast({type: "warning", content: "Enter a name and choose a race, background, and alignment before starting the wizard."});
+				hkUpdateStartButton();
+				return;
+			}
+
+			this.level0WizardData.name = enteredName;
+
 			// Convert race name to full race object
-			if (selectedRace && selectedRace !== '') {
-				// Parse the race value which now contains "name|source"
-				const [raceName, raceSource] = selectedRace.split('|');
-				console.log(`Selected race: ${raceName} from ${raceSource}`);
-				
-				this.level0WizardData.race = {
-					name: raceName,
-					source: raceSource
-				};
-			} else {
-				// User selected random - clear any previously set race
-				this.level0WizardData.race = null;
-			}
-			
+			// Parse the race value which now contains "name|source"
+			const [raceName, raceSource] = selectedRace.split("|");
+
+			this.level0WizardData.race = {
+				name: raceName,
+				source: raceSource,
+			};
+
 			// Convert background name to full background object
-			if (selectedBg) {
-				this.level0WizardData.background = await this._getBackgroundByName(selectedBg);
-			} else {
-				this.level0WizardData.background = null;
-			}
-			
+			this.level0WizardData.background = await this._getBackgroundByName(selectedBg);
+
 			// Convert alignment string to array format
-			if (selectedAl) {
-				this.level0WizardData.alignment = this.convertAlignmentStringToArray(selectedAl);
-			} else {
-				this.level0WizardData.alignment = null;
-			}
-			
+			this.level0WizardData.alignment = this.convertAlignmentStringToArray(selectedAl);
+
+			const placeholderMessage = {
+				name: this.level0WizardData.name,
+				source: "LEVEL_0_PLACEHOLDER",
+				note: "Complete the level-up wizard to generate your character...",
+			};
+			this.ace.setValue(JSON.stringify(placeholderMessage, null, 2), 1);
+			document.getElementById("message").textContent = `Welcome ${this.level0WizardData.name}! Complete the wizard to create your level 1 character.`;
+
 			doClose(true);
 			setTimeout(() => this.initiateLevelUpForLevel0(), 200);
 		});
@@ -288,7 +305,7 @@ class CharacterEditorPage {
 		$modalFooter.append($btnCancel).append($btnConfirm);
 	}
 
-	async initiateLevelUpForLevel0() {
+	async initiateLevelUpForLevel0 () {
 		try {
 			// Create minimal character data for level up state using stored wizard data
 			// Note: race is already converted to proper object format in the modal handler
@@ -8183,6 +8200,7 @@ class CharacterEditorPage {
 		try {
 			const jsonText = this.ace.getValue();
 			const characterData = JSON.parse(jsonText);
+			this.normalizeCharacterForEditor(characterData);
 
 			// Prevent name changes in edit mode to avoid creating duplicate characters
 			if (isEditMode && currentCharacterData && characterData.name !== currentCharacterData.name) {
@@ -8196,6 +8214,15 @@ class CharacterEditorPage {
 				characterData.source = 'MyCharacters';
 				// Update the JSON in the editor to reflect the change
 				this._safeSetAceValue(JSON.stringify(characterData, null, 2));
+			}
+
+			const validationResults = await this.validateCharacterForSave(characterData);
+			if (!validationResults.valid) {
+				const errorLines = validationResults.errors.map(it => `• ${it}`);
+				document.getElementById('message').textContent = `Cannot save invalid character:\n${errorLines.join('\n')}`;
+				document.getElementById('message').style.color = 'red';
+				document.getElementById('message').style.whiteSpace = 'pre-line';
+				return;
 			}
 
 			// Use CharacterManager for centralized permission checking
@@ -8527,10 +8554,15 @@ class CharacterEditorPage {
 	updateButtonVisibility() {
 		const deleteButton = document.getElementById('deleteCharacter');
 		const levelUpButton = document.getElementById('levelUpCharacter');
+		const saveButton = document.getElementById('saveCharacter');
+		const editSpellsButton = document.getElementById('editSpellsCharacter');
 
 		if (deleteButton) {
 			deleteButton.style.display = isEditMode ? 'inline-block' : 'none';
 		}
+
+		let canSave = false;
+		let canEditSpells = false;
 
 		if (levelUpButton) {
 			// Show level up button if we have character data with classes
@@ -8538,16 +8570,144 @@ class CharacterEditorPage {
 			try {
 				const jsonText = this.ace.getValue();
 				const characterData = JSON.parse(jsonText);
+				this.normalizeCharacterForEditor(characterData);
+				const structureErrors = this.getCharacterStructureErrors(characterData);
+				canSave = !structureErrors.length;
+				canEditSpells = canSave && this.hasSpellcastingClass(characterData);
 				if (characterData.class && Array.isArray(characterData.class) && characterData.class.length > 0) {
 					const currentLevel = CharacterEditorPage.getCharacterLevel(characterData);
 					showLevelUp = currentLevel < 20; // Can level up if under max level
 				}
 			} catch (e) {
 				// Invalid JSON, don't show level up button
+				canSave = false;
+				canEditSpells = false;
 				showLevelUp = false;
 			}
 			levelUpButton.style.display = showLevelUp ? 'inline-block' : 'none';
 		}
+
+		if (saveButton) {
+			saveButton.disabled = !canSave;
+			saveButton.title = canSave ? '' : 'Complete character creation before saving.';
+		}
+
+		if (editSpellsButton) {
+			editSpellsButton.style.display = canEditSpells ? 'inline-block' : 'none';
+		}
+	}
+
+	normalizeCharacterForEditor(character) {
+		if (!character || typeof character !== 'object' || Array.isArray(character)) return character;
+
+		const abilityKeys = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+		if (character.abilities && typeof character.abilities === 'object' && !Array.isArray(character.abilities)) {
+			abilityKeys.forEach(ab => {
+				if (character[ab] == null && character.abilities[ab] != null) character[ab] = character.abilities[ab];
+			});
+			delete character.abilities;
+		}
+
+		if (typeof character.race === 'string') {
+			character.race = {name: character.race, source: 'PHB'};
+		}
+
+		if (typeof character.background === 'string') {
+			character.background = {name: character.background, source: 'PHB'};
+		}
+
+		if (!Array.isArray(character.entries)) character.entries = character.entries ? [character.entries] : [];
+
+		if (character.ac == null) {
+			character.ac = [{ac: 10, from: ['Default']}];
+		} else if (typeof character.ac === 'number') {
+			character.ac = [{ac: character.ac, from: ['Calculated']}];
+		} else if (!Array.isArray(character.ac) && typeof character.ac === 'object' && character.ac.ac != null) {
+			character.ac = [{ac: character.ac.ac, from: character.ac.from || ['Calculated']}];
+		}
+
+		if (typeof character.hp === 'number') {
+			character.hp = {
+				average: character.hp,
+				formula: `${character.hp}`,
+				current: character.hp,
+				max: character.hp,
+				temp: 0,
+			};
+		} else if (character.hp && typeof character.hp === 'object') {
+			character.hp.average = character.hp.average ?? character.hp.max ?? character.hp.current ?? 1;
+			character.hp.current = character.hp.current ?? character.hp.average;
+			character.hp.max = character.hp.max ?? character.hp.average;
+			character.hp.formula = character.hp.formula || `${character.hp.average}`;
+			character.hp.temp = character.hp.temp ?? 0;
+		}
+
+		return character;
+	}
+
+	getCharacterStructureErrors(character) {
+		if (!character || typeof character !== 'object' || Array.isArray(character)) {
+			return ['Character data must be a JSON object'];
+		}
+
+		const errors = [];
+		const abilityKeys = ['str', 'dex', 'con', 'int', 'wis', 'cha'];
+
+		if (!character.name || !String(character.name).trim()) errors.push('Character name is missing');
+		if (!character.source || character.source === 'ADD_YOUR_NAME_HERE') errors.push('Character source is missing');
+		if (character.source === 'LEVEL_0_PLACEHOLDER') errors.push('Complete the create-character wizard before saving');
+		if (character.note === 'Complete the level-up wizard to generate your character...') errors.push('Placeholder characters cannot be saved');
+		if (!character.race?.name) errors.push('Character race is missing');
+		if (!character.background?.name) errors.push('Character background is missing');
+
+		if (!Array.isArray(character.class) || !character.class.length) {
+			errors.push('Character must have at least one class');
+		} else {
+			character.class.forEach((cls, ix) => {
+				if (!cls?.name) errors.push(`Class ${ix + 1} is missing a name`);
+				if (!Number.isFinite(cls?.level) || cls.level < 1) errors.push(`Class ${cls?.name || ix + 1} must have a valid level`);
+			});
+		}
+
+		abilityKeys.forEach(ab => {
+			if (character[ab] == null) errors.push(`Missing ${ab.toUpperCase()} ability score`);
+		});
+
+		if (!character.hp || typeof character.hp !== 'object') {
+			errors.push('Character hit points are missing');
+		} else {
+			if (character.hp.current == null) errors.push('Character current hit points are missing');
+			if (character.hp.max == null) errors.push('Character maximum hit points are missing');
+		}
+
+		if (!Array.isArray(character.ac) || !character.ac.length || character.ac.some(it => it?.ac == null)) {
+			errors.push('Character armor class is missing');
+		}
+
+		return [...new Set(errors)];
+	}
+
+	async validateCharacterForSave(character) {
+		const validationResults = {
+			valid: true,
+			warnings: [],
+			errors: [],
+			suggestions: [],
+		};
+
+		const structureErrors = this.getCharacterStructureErrors(character);
+		if (structureErrors.length) {
+			validationResults.errors.push(...structureErrors);
+			validationResults.valid = false;
+			return validationResults;
+		}
+
+		const ruleValidation = await this.validateCharacterRules(character, 'strict');
+		validationResults.warnings.push(...(ruleValidation.warnings || []));
+		validationResults.errors.push(...(ruleValidation.errors || []));
+		validationResults.suggestions.push(...(ruleValidation.suggestions || []));
+		validationResults.valid = validationResults.errors.length === 0;
+		return validationResults;
 	}
 
 	hasSpellcastingClass(characterData) {
@@ -10508,13 +10668,22 @@ class CharacterEditorPage {
 				return;
 			}
 
+			this.normalizeCharacterForEditor(completeCharacter);
+			const creationValidation = await this.validateCharacterForSave(completeCharacter);
+			if (!creationValidation.valid) {
+				document.getElementById('message').textContent = `Character creation failed validation:\n${creationValidation.errors.map(it => `• ${it}`).join('\n')}`;
+				document.getElementById('message').style.color = 'red';
+				document.getElementById('message').style.whiteSpace = 'pre-line';
+				return;
+			}
+
 			// Check if this is a spellcasting class and we need spell selection
 			console.log('=== LEVEL 0→1 CHARACTER CREATION SPELL CHECK ===');
 			if (selectedClass && this.isSpellcastingClass(selectedClass.name)) {
 				console.log(`${selectedClass.name} is a spellcasting class, checking if spell selection is needed`);
 				
 				// Store the completed character first
-				this.ace.setValue(JSON.stringify(completeCharacter, null, 2), 1);
+				this._safeSetAceValue(JSON.stringify(completeCharacter, null, 2), 1);
 				this.renderCharacter();
 				
 				// Try to open spell selection, but don't show alerts if it fails
@@ -10533,7 +10702,7 @@ class CharacterEditorPage {
 				console.log('Non-spellcasting class or no class selected, finalizing character');
 				
 				// Complete the character creation
-				this.ace.setValue(JSON.stringify(completeCharacter, null, 2), 1);
+				this._safeSetAceValue(JSON.stringify(completeCharacter, null, 2), 1);
 				this.renderCharacter();
 				
 				// Clear wizard state
