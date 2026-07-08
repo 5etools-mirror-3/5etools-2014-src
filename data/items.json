@@ -2538,6 +2538,10 @@
 					"page": true
 				}
 			},
+			"conditionImmune": [
+				"charmed",
+				"frightened"
+			],
 			"rarity": "legendary",
 			"modifySpeed": {
 				"equal": {
@@ -15540,6 +15544,9 @@
 			"resist": [
 				"poison"
 			],
+			"conditionImmune": [
+				"petrified"
+			],
 			"rarity": "legendary",
 			"reqAttune": true,
 			"weight": 6,
@@ -15728,6 +15735,9 @@
 			"page": 224,
 			"referenceSources": [
 				"VEoR"
+			],
+			"conditionImmune": [
+				"disease"
 			],
 			"rarity": "artifact",
 			"reqAttune": true,
@@ -18000,6 +18010,10 @@
 			"name": "Ghost Step Tattoo",
 			"source": "TCE",
 			"page": 128,
+			"conditionImmune": [
+				"grappled",
+				"restrained"
+			],
 			"rarity": "very rare",
 			"reqAttune": true,
 			"wondrous": true,
@@ -18732,6 +18746,9 @@
 			"resist": [
 				"psychic"
 			],
+			"conditionImmune": [
+				"charmed"
+			],
 			"rarity": "legendary",
 			"reqAttune": "by a creature that has psionic ability",
 			"reqAttuneTags": [
@@ -19453,6 +19470,9 @@
 			"referenceSources": [
 				"BGDIA",
 				"VEoR"
+			],
+			"conditionImmune": [
+				"disease"
 			],
 			"rarity": "artifact",
 			"reqAttune": true,
@@ -28791,6 +28811,10 @@
 				"lightning",
 				"poison"
 			],
+			"conditionImmune": [
+				"charmed",
+				"frightened"
+			],
 			"rarity": "legendary",
 			"reqAttune": true,
 			"weight": 4,
@@ -29503,6 +29527,9 @@
 			"name": "Orb of the Stein Rune",
 			"source": "SKT",
 			"page": 235,
+			"conditionImmune": [
+				"petrified"
+			],
 			"rarity": "rare",
 			"reqAttune": true,
 			"wondrous": true,
@@ -29628,6 +29655,10 @@
 			"page": 224,
 			"baseItem": "greataxe|phb",
 			"type": "M",
+			"conditionImmune": [
+				"frightened",
+				"incapacitated"
+			],
 			"rarity": "legendary",
 			"reqAttune": "by a dwarf, fighter, or paladin of good alignment",
 			"reqAttuneTags": [
@@ -35046,6 +35077,10 @@
 			"source": "CRCotN",
 			"page": 214,
 			"type": "RG|DMG",
+			"conditionImmune": [
+				"paralyzed",
+				"restrained"
+			],
 			"rarity": "very rare",
 			"reqAttune": true,
 			"modifySpeed": {
@@ -42322,6 +42357,14 @@
 			"name": "Staff of the Forgotten One",
 			"source": "ToA",
 			"page": 208,
+			"conditionImmune": [
+				"blinded",
+				"charmed",
+				"deafened",
+				"frightened",
+				"petrified",
+				"stunned"
+			],
 			"rarity": "artifact",
 			"reqAttune": "by a sorcerer, warlock, or wizard",
 			"reqAttuneTags": [
@@ -43041,6 +43084,10 @@
 					"page": true
 				}
 			},
+			"conditionImmune": [
+				"charmed",
+				"frightened"
+			],
 			"rarity": "rare",
 			"bonusAc": "+1",
 			"entries": [
@@ -49058,6 +49105,10 @@
 					"page": true
 				}
 			},
+			"conditionImmune": [
+				"charmed",
+				"frightened"
+			],
 			"rarity": "very rare",
 			"entries": [
 				"This ornament can be jewelry, a cloak, or another wearable accessory. It appears to be fashioned from a dragon's scale, tooth, or claw, or it incorporates images in those shapes.",
@@ -52405,6 +52456,9 @@
 			"referenceSources": [
 				"VEoR"
 			],
+			"conditionImmune": [
+				"disease"
+			],
 			"rarity": "artifact",
 			"reqAttune": true,
 			"wondrous": true,
@@ -54202,9 +54256,6 @@
 			"name": "Verminshroud",
 			"source": "EGW",
 			"page": 273,
-			"conditionImmune": [
-				"disease"
-			],
 			"rarity": "legendary",
 			"reqAttune": true,
 			"wondrous": true,

@@ -98,7 +98,7 @@ class _RenderBestiaryImplBase {
 
 				MiscUtil.copy(entries)
 					.forEach(ent => {
-						if (ent.rendered) return listGroups.push(ent.rendered);
+						if (ent.rendered) return listGroups.push({rendered: ent.rendered});
 
 						if (ent.name && ent.entries) ent.type ||= "item";
 
