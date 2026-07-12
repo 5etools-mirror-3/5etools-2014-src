@@ -14,8 +14,9 @@ import { getUserFromSession, setCORSHeaders } from "./auth-api.js";
  * @param {string} username - Username of the user who made the change
  * @param {Object} characterData - Full character data object (optional, for updates/creates)
  * @param {string} roomName - Room name to broadcast to (default: character-sync)
+ * @param {string|null} updatedAt - Server authoritative updated_at ISO timestamp
  */
-async function broadcastCharacterEvent(env, eventType, characterId, characterName, username, characterData = null, roomName = "character-sync") {
+async function broadcastCharacterEvent(env, eventType, characterId, characterName, username, characterData = null, roomName = "character-sync", updatedAt = null) {
     try {
         console.log(`[BROADCAST] Starting broadcast for ${eventType} - Character: ${characterId}`);
         
@@ -26,6 +27,7 @@ async function broadcastCharacterEvent(env, eventType, characterId, characterNam
             characterName: characterName,
             username: username,
             characterData: characterData, // Include full character JSON
+            updatedAt: updatedAt,
             timestamp: Date.now(),
             room: roomName
         };
@@ -124,7 +126,7 @@ export async function handleCharacterSave(request, env) {
         const user = await getAuthenticatedUser(request, env.DB);
         console.log(`[CHAR_API] User authenticated: ${user?.username || 'No user'}`);
         
-        const { characterData, isEdit, characterId } = await request.json();
+        const { characterData, isEdit, characterId, baseUpdatedAt = null } = await request.json();
         
         // For character creation, authentication is required
         // For character updates, allow anonymous updates (for quick edits)
@@ -139,7 +141,7 @@ export async function handleCharacterSave(request, env) {
             return jsonResponse({ error: "Invalid character data" }, 400);
         }
 
-		// Normalize character data for 5etools compatibility
+		// Normalize character data for 5etools compatibility (strips client sync meta)
 		const normalizedCharacterData = _normalizeCharacterData(characterData);
 
 		// Extract metadata for efficient querying
@@ -160,73 +162,141 @@ export async function handleCharacterSave(request, env) {
 				.substring(0, 50) + `-${user.id}`; // Add user ID
 		}
 
-		// If editing, verify user owns the character (if authenticated)
-		if (isEdit || characterId) {
-			const existingCharacter = await env.DB
-				.prepare("SELECT user_id FROM characters WHERE character_id = ?")
+		// Load existing row (full metadata for conditional update)
+		let existingCharacter;
+		if (user) {
+			existingCharacter = await env.DB
+				.prepare("SELECT character_id, created_at, updated_at, user_id, source_name, character_data FROM characters WHERE character_id = ? AND user_id = ?")
+				.bind(finalCharacterId, user.id)
+				.first();
+
+			// Also allow update by character_id alone when authenticated owner matches any row
+			if (!existingCharacter && (isEdit || characterId)) {
+				const byId = await env.DB
+					.prepare("SELECT character_id, created_at, updated_at, user_id, source_name, character_data FROM characters WHERE character_id = ?")
+					.bind(finalCharacterId)
+					.first();
+				if (byId && byId.user_id !== user.id) {
+					return jsonResponse({
+						error: "Access denied: You can only edit your own characters."
+					}, 403);
+				}
+				existingCharacter = byId || null;
+			}
+		} else {
+			existingCharacter = await env.DB
+				.prepare("SELECT character_id, created_at, updated_at, user_id, source_name, character_data FROM characters WHERE character_id = ?")
 				.bind(finalCharacterId)
 				.first();
 
-			// Only check ownership if user is authenticated
-			if (user && existingCharacter && existingCharacter.user_id !== user.id) {
-				return jsonResponse({
-					error: "Access denied: You can only edit your own characters."
-				}, 403);
-			}
-			
-			// For anonymous updates, the character must exist
-			if (!user && !existingCharacter) {
+			if (!existingCharacter) {
 				return jsonResponse({
 					error: "Character not found for anonymous update"
 				}, 404);
 			}
 		}
 
-		// Check if character already exists
-		let existingCharacter;
-		if (user) {
-			// Authenticated user - check by user ID
-			existingCharacter = await env.DB
-				.prepare("SELECT character_id, created_at, user_id, source_name FROM characters WHERE character_id = ? AND user_id = ?")
-				.bind(finalCharacterId, user.id)
-				.first();
-		} else {
-			// Anonymous update - just check by character ID
-			existingCharacter = await env.DB
-				.prepare("SELECT character_id, created_at, user_id, source_name FROM characters WHERE character_id = ?")
-				.bind(finalCharacterId)
-				.first();
-		}
-
 		const wasUpdate = !!existingCharacter;
-
-		// Determine user info for database
 		const dbUserId = user?.id || (existingCharacter?.user_id) || 'anonymous';
 		const dbUsername = user?.username || (existingCharacter?.source_name) || 'anonymous';
+		const nowIso = new Date().toISOString();
 
-		// Save character to database
-		await env.DB
-			.prepare(`
-				INSERT OR REPLACE INTO characters 
-				(character_id, user_id, source_name, character_name, character_data, 
-				 character_level, character_race, character_background, character_class, 
-				 created_at, updated_at)
-				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-			`)
-			.bind(
-				finalCharacterId,
-				dbUserId,
-				dbUsername, // Use username as source_name for backward compatibility
-				normalizedCharacterData.name,
-				JSON.stringify(normalizedCharacterData),
-				metadata.level,
-				metadata.race,
-				metadata.background,
-				metadata.primaryClass,
-				wasUpdate ? existingCharacter.created_at : new Date().toISOString(),
-				new Date().toISOString()
-			)
-			.run();
+		if (wasUpdate) {
+			// Optimistic concurrency: only overwrite if client base matches current updated_at
+			// Allow first save without baseUpdatedAt (legacy clients / first LWW migration)
+			if (baseUpdatedAt != null && existingCharacter.updated_at != null
+				&& String(baseUpdatedAt) !== String(existingCharacter.updated_at)) {
+				let currentData = null;
+				try {
+					currentData = JSON.parse(existingCharacter.character_data);
+				} catch (e) {
+					currentData = null;
+				}
+				return jsonResponse({
+					error: "Conflict: character was updated elsewhere",
+					code: "STALE_UPDATE",
+					characterId: finalCharacterId,
+					updatedAt: existingCharacter.updated_at,
+					characterData: currentData,
+				}, 409);
+			}
+
+			const expectedUpdatedAt = baseUpdatedAt != null ? baseUpdatedAt : existingCharacter.updated_at;
+
+			const updateResult = await env.DB
+				.prepare(`
+					UPDATE characters SET
+						user_id = ?,
+						source_name = ?,
+						character_name = ?,
+						character_data = ?,
+						character_level = ?,
+						character_race = ?,
+						character_background = ?,
+						character_class = ?,
+						updated_at = ?
+					WHERE character_id = ?
+					  AND updated_at = ?
+				`)
+				.bind(
+					dbUserId,
+					dbUsername,
+					normalizedCharacterData.name,
+					JSON.stringify(normalizedCharacterData),
+					metadata.level,
+					metadata.race,
+					metadata.background,
+					metadata.primaryClass,
+					nowIso,
+					finalCharacterId,
+					expectedUpdatedAt
+				)
+				.run();
+
+			// Race: another writer beat us between SELECT and UPDATE
+			if (updateResult?.meta?.changes === 0) {
+				const current = await env.DB
+					.prepare("SELECT character_data, updated_at FROM characters WHERE character_id = ?")
+					.bind(finalCharacterId)
+					.first();
+				let currentData = null;
+				try {
+					currentData = current ? JSON.parse(current.character_data) : null;
+				} catch (e) {
+					currentData = null;
+				}
+				return jsonResponse({
+					error: "Conflict: character was updated elsewhere",
+					code: "STALE_UPDATE",
+					characterId: finalCharacterId,
+					updatedAt: current?.updated_at || existingCharacter.updated_at,
+					characterData: currentData,
+				}, 409);
+			}
+		} else {
+			await env.DB
+				.prepare(`
+					INSERT INTO characters
+					(character_id, user_id, source_name, character_name, character_data,
+					 character_level, character_race, character_background, character_class,
+					 created_at, updated_at)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+				`)
+				.bind(
+					finalCharacterId,
+					dbUserId,
+					dbUsername,
+					normalizedCharacterData.name,
+					JSON.stringify(normalizedCharacterData),
+					metadata.level,
+					metadata.race,
+					metadata.background,
+					metadata.primaryClass,
+					nowIso,
+					nowIso
+				)
+				.run();
+		}
 
 		// Create sync event for WebSocket broadcasts
 		try {
@@ -243,9 +313,10 @@ export async function handleCharacterSave(request, env) {
 					JSON.stringify({
 						characterId: finalCharacterId,
 						characterName: normalizedCharacterData.name,
-						username: dbUsername
+						username: dbUsername,
+						updatedAt: nowIso,
 					}),
-					new Date().toISOString()
+					nowIso
 				)
 				.run();
 			console.log(`[CHAR_API] Sync event created for ${finalCharacterId}`);
@@ -254,15 +325,16 @@ export async function handleCharacterSave(request, env) {
 			// Continue with broadcast even if sync event fails
 		}
 
-	console.log(`[CHAR_API] Starting broadcast for ${finalCharacterId}`);
-		// Broadcast character change to all connected WebSocket clients with full character data
+		console.log(`[CHAR_API] Starting broadcast for ${finalCharacterId}`);
 		await broadcastCharacterEvent(
 			env,
 			wasUpdate ? "CHARACTER_UPDATED" : "CHARACTER_CREATED",
 			finalCharacterId,
 			normalizedCharacterData.name,
 			dbUsername,
-			normalizedCharacterData // Include full character data in broadcast
+			normalizedCharacterData,
+			"character-sync",
+			nowIso
 		);
 		console.log(`[CHAR_API] Broadcast completed for ${finalCharacterId}`);
 
@@ -270,7 +342,8 @@ export async function handleCharacterSave(request, env) {
             success: true,
             message: wasUpdate ? "Character updated successfully" : "Character created successfully",
             characterId: finalCharacterId,
-            wasUpdate: wasUpdate
+            wasUpdate: wasUpdate,
+            updatedAt: nowIso,
         });
 
     } catch (error) {
@@ -461,7 +534,7 @@ export async function handleCharacterDelete(request, env) {
             }, 404);
         }
 
-        if (character.user_id !== user.id) {
+        if (String(character.user_id) !== String(user.id)) {
             return jsonResponse({
                 error: "Access denied: You can only delete your own characters."
             }, 403);
@@ -469,8 +542,8 @@ export async function handleCharacterDelete(request, env) {
 
         // Delete the character
         await env.DB
-            .prepare("DELETE FROM characters WHERE character_id = ? AND user_id = ?")
-            .bind(id, user.id)
+            .prepare("DELETE FROM characters WHERE character_id = ? AND CAST(user_id AS TEXT) = ?")
+            .bind(id, String(user.id))
             .run();
 
 		// Create sync event for WebSocket broadcasts
@@ -578,6 +651,24 @@ function _extractCharacterMetadata(characterData) {
  */
 function _normalizeCharacterData(characterData) {
 	const normalized = { ...characterData };
+
+	// Strip client-only sync metadata before persisting to D1
+	const clientMetaKeys = [
+		"_localVersion",
+		"_remoteVersion",
+		"_lastModified",
+		"_isLocallyModified",
+		"_serverUpdatedAt",
+		"_fRace",
+		"_fClass",
+		"_fClassSimple",
+		"_fLevel",
+		"_fBackground",
+		"__prop",
+	];
+	for (const key of clientMetaKeys) {
+		delete normalized[key];
+	}
 
 	// Ensure class is an array of class objects
 	if (normalized.class && typeof normalized.class === 'string') {

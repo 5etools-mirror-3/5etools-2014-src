@@ -738,8 +738,8 @@ window.addEventListener("load", () => {
 				}
 				
 				// Clear CharacterManager's summaries cache  
-				if (typeof CharacterManager._SUMMARIES_STORAGE_KEY !== 'undefined') {
-					localStorage.removeItem(CharacterManager._SUMMARIES_STORAGE_KEY);
+				if (typeof CharacterManager._SUMMARIES_CACHE_KEY !== 'undefined') {
+					localStorage.removeItem(CharacterManager._SUMMARIES_CACHE_KEY);
 					console.log('✅ Cleared CharacterManager summaries cache');
 				}
 				

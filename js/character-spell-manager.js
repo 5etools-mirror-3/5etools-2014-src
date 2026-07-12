@@ -952,20 +952,36 @@ function createCharacterSpellManager() {
 					if (baseClassFi && baseClassFi.item) subclassFilterValues[baseClassFi.item] = 1;
 
 					const sc = cls.subclass;
-					if (sc && sc.name) {
+					if (sc && (sc.name || sc.shortName)) {
 						const subclassSource = sc.source || classSource;
 						const subclassShort = sc.shortName || sc.name;
-						const fi = PageFilterSpells._getSubclassFilterItem({
+						const subclassName = sc.name || sc.shortName;
+						// Base subclass pill (e.g. "Warlock: Genie") — covers shared expanded spells
+						const baseSubclassFi = PageFilterSpells._getSubclassFilterItem({
 							className: cls.name,
 							classSource: classSource,
 							subclassShortName: subclassShort,
-							subclassName: sc.name,
+							subclassName: subclassName,
 							subclassSource: subclassSource,
-							subSubclassName: sc.subSubclass,
 							isVariantClass: false,
 							definedInSource: subclassSource,
 						});
-						if (fi && fi.item) subclassFilterValues[fi.item] = 1;
+						if (baseSubclassFi?.item) subclassFilterValues[baseSubclassFi.item] = 1;
+
+						// Also include kind-specific pills (e.g. "Warlock: Genie, Marid")
+						if (sc.subSubclass) {
+							const kindFi = PageFilterSpells._getSubclassFilterItem({
+								className: cls.name,
+								classSource: classSource,
+								subclassShortName: subclassShort,
+								subclassName: subclassName,
+								subclassSource: subclassSource,
+								subSubclassName: sc.subSubclass,
+								isVariantClass: false,
+								definedInSource: subclassSource,
+							});
+							if (kindFi?.item) subclassFilterValues[kindFi.item] = 1;
+						}
 					}
 				} catch (e) {
 					console.warn(`Could not map subclass for filter: ${cls.name}`, e);

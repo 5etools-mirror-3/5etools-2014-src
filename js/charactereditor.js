@@ -127,6 +127,9 @@ class CharacterEditorPage {
 		if (characterData) {
 			try {
 				updateCurrentCharacterData(JSON.parse(characterData));
+				currentCharacterId = currentCharacterData?.id
+					|| CharacterManager._generateCompositeId(currentCharacterData?.name, currentCharacterData?.source)
+					|| null;
 				this.ace.setValue(JSON.stringify(currentCharacterData, null, 2), 1);
 				document.getElementById('message').textContent = 'Loaded character for editing';
 			} catch (e) {
@@ -8236,10 +8239,13 @@ class CharacterEditorPage {
 			const success = await CharacterManager.saveCharacter(characterData, isEditMode && currentCharacterData);
 
 			if (success) {
+				const warningSuffix = validationResults.warnings?.length
+					? `\nWarnings:\n${validationResults.warnings.map(it => `• ${it}`).join('\n')}`
+					: '';
 				if (isEditMode && currentCharacterData) {
-					document.getElementById('message').textContent = 'Character updated successfully';
+					document.getElementById('message').textContent = `Character updated successfully${warningSuffix}`;
 				} else {
-					document.getElementById('message').textContent = 'Character saved successfully';
+					document.getElementById('message').textContent = `Character saved successfully${warningSuffix}`;
 					// Update local state for potential future edits
 					currentCharacterData = characterData;
 					isEditMode = true;
@@ -8260,7 +8266,8 @@ class CharacterEditorPage {
 			} else {
 				throw new Error('Failed to save character via CharacterManager');
 			}
-			document.getElementById('message').style.color = 'green';
+			document.getElementById('message').style.color = validationResults.warnings?.length ? 'orange' : 'green';
+			document.getElementById('message').style.whiteSpace = 'pre-line';
 		} catch (e) {
 			console.error('Save error:', e);
 			let errorMessage = 'Save Error: ' + e.message;
@@ -8303,8 +8310,8 @@ class CharacterEditorPage {
 				}
 				
 				// Clear CharacterManager's summaries cache  
-				if (typeof CharacterManager._SUMMARIES_STORAGE_KEY !== 'undefined') {
-					localStorage.removeItem(CharacterManager._SUMMARIES_STORAGE_KEY);
+				if (typeof CharacterManager._SUMMARIES_CACHE_KEY !== 'undefined') {
+					localStorage.removeItem(CharacterManager._SUMMARIES_CACHE_KEY);
 					console.log('✅ Cleared CharacterManager summaries cache');
 				}
 				
@@ -8563,27 +8570,28 @@ class CharacterEditorPage {
 
 		let canSave = false;
 		let canEditSpells = false;
+		let showLevelUp = false;
+
+		try {
+			const jsonText = this.ace.getValue();
+			const characterData = JSON.parse(jsonText);
+			this.normalizeCharacterForEditor(characterData);
+			const structureErrors = this.getCharacterStructureErrors(characterData);
+			canSave = !structureErrors.length;
+			// Spell editing only needs a spellcasting class — not a fully save-valid character
+			canEditSpells = this.hasSpellcastingClass(characterData);
+			if (Array.isArray(characterData.class) && characterData.class.length > 0) {
+				const currentLevel = CharacterEditorPage.getCharacterLevel(characterData);
+				showLevelUp = currentLevel < 20; // Can level up if under max level
+			}
+		} catch (e) {
+			// Invalid JSON — hide action buttons that need parseable character data
+			canSave = false;
+			canEditSpells = false;
+			showLevelUp = false;
+		}
 
 		if (levelUpButton) {
-			// Show level up button if we have character data with classes
-			let showLevelUp = false;
-			try {
-				const jsonText = this.ace.getValue();
-				const characterData = JSON.parse(jsonText);
-				this.normalizeCharacterForEditor(characterData);
-				const structureErrors = this.getCharacterStructureErrors(characterData);
-				canSave = !structureErrors.length;
-				canEditSpells = canSave && this.hasSpellcastingClass(characterData);
-				if (characterData.class && Array.isArray(characterData.class) && characterData.class.length > 0) {
-					const currentLevel = CharacterEditorPage.getCharacterLevel(characterData);
-					showLevelUp = currentLevel < 20; // Can level up if under max level
-				}
-			} catch (e) {
-				// Invalid JSON, don't show level up button
-				canSave = false;
-				canEditSpells = false;
-				showLevelUp = false;
-			}
 			levelUpButton.style.display = showLevelUp ? 'inline-block' : 'none';
 		}
 
@@ -8658,7 +8666,7 @@ class CharacterEditorPage {
 		if (character.source === 'LEVEL_0_PLACEHOLDER') errors.push('Complete the create-character wizard before saving');
 		if (character.note === 'Complete the level-up wizard to generate your character...') errors.push('Placeholder characters cannot be saved');
 		if (!character.race?.name) errors.push('Character race is missing');
-		if (!character.background?.name) errors.push('Character background is missing');
+		// Background is optional — many characters are playable without one
 
 		if (!Array.isArray(character.class) || !character.class.length) {
 			errors.push('Character must have at least one class');
@@ -8702,6 +8710,10 @@ class CharacterEditorPage {
 			return validationResults;
 		}
 
+		if (!character.background?.name) {
+			validationResults.warnings.push('Character background is missing');
+		}
+
 		const ruleValidation = await this.validateCharacterRules(character, 'strict');
 		validationResults.warnings.push(...(ruleValidation.warnings || []));
 		validationResults.errors.push(...(ruleValidation.errors || []));
@@ -8711,6 +8723,10 @@ class CharacterEditorPage {
 	}
 
 	hasSpellcastingClass(characterData) {
+		if (!characterData?.class || !Array.isArray(characterData.class) || !characterData.class.length) {
+			return false;
+		}
+
 		// Check if any class has spellcasting ability
 		// This is a synchronous check using known spellcasting classes
 		const spellcastingClasses = [
@@ -8719,6 +8735,8 @@ class CharacterEditorPage {
 		];
 
 		return characterData.class.some(classEntry => {
+			if (!classEntry?.name) return false;
+
 			// Check main class
 			if (spellcastingClasses.some(sc => classEntry.name.toLowerCase().includes(sc.toLowerCase()))) {
 				return true;
@@ -8763,7 +8781,10 @@ class CharacterEditorPage {
 		}
 
 		try {
-			const characterId = currentCharacterId || CharacterManager._generateCompositeId(characterName, currentCharacterData.source);
+			// Prefer the real saved id from character JSON; fall back to composite
+			const characterId = currentCharacterData.id
+				|| currentCharacterId
+				|| CharacterManager._generateCompositeId(characterName, currentCharacterData.source);
 			const characterSource = currentCharacterData.source;
 
 			if (!characterSource) {
@@ -8779,43 +8800,23 @@ class CharacterEditorPage {
 			document.getElementById('message').textContent = 'Deleting character...';
 			document.getElementById('message').style.color = 'orange';
 
-			const isDeleted = await CharacterManager.pDeleteCharacter(characterId);
+			const isDeleted = await CharacterManager.pDeleteCharacter(characterId, currentCharacterData);
 			if (!isDeleted) {
 				throw new Error('Failed to delete character via CharacterManager');
 			}
 
-			// Inform CharacterManager so it can remove from its in-memory cache and localStorage
-			try {
-				if (typeof CharacterManager !== 'undefined' && CharacterManager.removeCharacter) {
-					CharacterManager.removeCharacter(characterId);
-				}
-			} catch (e) {
-				console.warn('Error notifying CharacterManager of deletion:', e);
-			}
-
-			// Clear local state
+			// Clear local editor state
 			currentCharacterData = null;
+			currentCharacterId = null;
 			isEditMode = false;
 			localStorage.removeItem('editingCharacter');
+			localStorage.removeItem('characterDataLastUpdated');
 
-			// Update URL to remove edit mode
-			const newUrl = new URL(window.location.href);
-			newUrl.searchParams.delete('edit');
-			window.history.replaceState({}, '', newUrl);
-
-			// Update button visibility
-			this.updateButtonVisibility();
-
-			// Show success message
-			document.getElementById('message').textContent = `Character "${characterName}" deleted successfully`;
+			document.getElementById('message').textContent = `Character "${characterName}" deleted successfully. Redirecting...`;
 			document.getElementById('message').style.color = 'green';
 
-			// Optionally redirect to characters page after a delay
-			setTimeout(() => {
-				if (confirm('Character deleted. Would you like to go to the characters page?')) {
-					window.location.href = 'characters.html';
-				}
-			}, 2000);
+			// Leave the editor — the character no longer exists
+			window.location.href = 'characters.html';
 
 		} catch (error) {
 			console.error('Delete error:', error);
