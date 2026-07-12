@@ -315,17 +315,36 @@ class CharactersPage extends ListPageMultiSource {
 		});
 
 		// Listen for WebSocket character update events
-		window.addEventListener('characterUpdated', (event) => {
-			const { character, characterId } = event.detail;
-			
+		window.addEventListener('characterUpdatedGlobally', (event) => {
+			const { character, characterId } = event.detail || {};
+			if (!character) return;
+
+			// Refresh list data when any character updates
+			try {
+				if (typeof this._addData === "function") {
+					this._processCharacterForDisplay(character);
+					// Prefer updating in-place when possible
+					const existingIx = (this._dataList || []).findIndex(c => c && (c.id === characterId || c.id === character.id));
+					if (existingIx >= 0) {
+						this._dataList[existingIx] = character;
+					}
+				}
+			} catch (e) { /* ignore list update errors */ }
+
 			if (this._currentCharacter) {
-				const currentId = CharacterManager._generateCompositeId(this._currentCharacter.name, this._currentCharacter.source);
-				if (currentId === characterId) {
-					// Update current character and re-render
+				const currentId = this._currentCharacter.id
+					|| CharacterManager._generateCompositeId(this._currentCharacter.name, this._currentCharacter.source);
+				if (currentId === characterId || currentId === character.id
+					|| (this._currentCharacter.name === character.name && this._currentCharacter.source === character.source)) {
 					this._currentCharacter = character;
 					this._renderStats_doBuildStatsTab({ent: character});
 				}
 			}
+		});
+
+		window.addEventListener('characterUpdated', (event) => {
+			// Legacy alias — forward to global handler path
+			window.dispatchEvent(new CustomEvent('characterUpdatedGlobally', { detail: event.detail }));
 		});
 	}
 
@@ -610,30 +629,7 @@ class CharactersPage extends ListPageMultiSource {
 
 	_canEditCharacter (character) {
 		try {
-			// Check if user is authenticated with new system
-			const sessionToken = localStorage.getItem('sessionToken');
-			const currentUserData = localStorage.getItem('currentUser');
-			
-			if (sessionToken && currentUserData) {
-				const currentUser = JSON.parse(currentUserData);
-				const characterSource = character.source;
-				
-				// User can edit if character source matches their username
-				// or for backward compatibility, if they're authenticated and source is reasonable
-				if (characterSource === currentUser.username) {
-					return true;
-				}
-				
-				// For backward compatibility, allow editing if user is authenticated
-				// and character has a valid source
-				if (characterSource && characterSource !== "Unknown" && characterSource !== "") {
-					return true;
-				}
-			}
-			
-			// Fallback: check old source-password system for backward compatibility
-			const cachedPassword = this._getCachedPassword(character.source?.toLowerCase());
-			return !!cachedPassword;
+			return CharacterManager.canEditCharacter(character);
 		} catch (e) {
 			console.error("Error checking character edit permissions:", e);
 			return false;

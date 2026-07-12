@@ -782,13 +782,14 @@ class CharacterP2P {
 				// Server notifies us of character deletion - remove from local cache
 				if (typeof CharacterManager !== "undefined" && data.characterId) {
 					console.log(`CharacterP2P: Character ${data.characterId} deleted by server`);
-					const local = CharacterManager._getCachedCharacterById(data.characterId);
-					if (local?._isLocallyModified) {
-						console.log(`CharacterP2P: Keeping locally-modified character ${data.characterId} despite delete broadcast`);
-						break;
-					}
+					CharacterManager._markTombstone(data.characterName, data.username || null, data.characterId);
+					CharacterManager.removeCharacter(data.characterId);
 					CharacterManager._removeCharacterFromCache(data.characterId);
+					if (data.characterName) {
+						CharacterManager._purgeLocalByNameAndSource(data.characterName, data.username || null);
+					}
 					CharacterManager._clearSummariesCache();
+					CharacterManager._notifyListeners();
 				}
 				break;
 
@@ -1274,6 +1275,8 @@ class CharacterManager {
 	static _conflictResolver = null; // Function to handle conflicts
 	static _onlineListenerSet = false; // Flag to prevent duplicate listeners
 	static _reconcileInProgress = false;
+	static _TOMBSTONE_KEY = "VeTool_CharacterManager_Tombstones";
+	static _TOMBSTONE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
 
 	/** Convert ISO string or epoch ms to comparable ms; 0 if unknown */
 	static _toTimestampMs (value) {
@@ -1325,6 +1328,105 @@ class CharacterManager {
 		} catch (e) {
 			return null;
 		}
+	}
+
+	static _loadTombstones () {
+		try {
+			const raw = localStorage.getItem(this._TOMBSTONE_KEY);
+			const data = raw ? JSON.parse(raw) : {};
+			const now = Date.now();
+			const cleaned = {};
+			for (const [key, ts] of Object.entries(data || {})) {
+				if (now - Number(ts) < this._TOMBSTONE_TTL_MS) cleaned[key] = ts;
+			}
+			return cleaned;
+		} catch (e) {
+			return {};
+		}
+	}
+
+	static _saveTombstones (map) {
+		try {
+			localStorage.setItem(this._TOMBSTONE_KEY, JSON.stringify(map || {}));
+		} catch (e) { /* ignore */ }
+	}
+
+	static _tombstoneKey (name, source, id = null) {
+		if (id) return `id:${id}`;
+		if (name) return `ns:${this._generateCompositeId(name, source)}`;
+		return null;
+	}
+
+	static _markTombstone (name, source, id = null) {
+		const map = this._loadTombstones();
+		const now = Date.now();
+		const idKey = this._tombstoneKey(null, null, id);
+		const nsKey = this._tombstoneKey(name, source);
+		if (idKey) map[idKey] = now;
+		if (nsKey) map[nsKey] = now;
+		this._saveTombstones(map);
+	}
+
+	static _clearTombstone (name, source, id = null) {
+		const map = this._loadTombstones();
+		const idKey = this._tombstoneKey(null, null, id);
+		const nsKey = this._tombstoneKey(name, source);
+		let changed = false;
+		if (idKey && map[idKey]) { delete map[idKey]; changed = true; }
+		if (nsKey && map[nsKey]) { delete map[nsKey]; changed = true; }
+		if (changed) this._saveTombstones(map);
+	}
+
+	static _isTombstoned (characterOrId, source = null) {
+		const map = this._loadTombstones();
+		if (!map || !Object.keys(map).length) return false;
+		if (typeof characterOrId === "string") {
+			if (map[`id:${characterOrId}`]) return true;
+			if (source != null && map[`ns:${this._generateCompositeId(characterOrId, source)}`]) return true;
+			return false;
+		}
+		const c = characterOrId;
+		if (!c) return false;
+		if (c.id && map[`id:${c.id}`]) return true;
+		if (c.name && map[`ns:${this._generateCompositeId(c.name, c.source)}`]) return true;
+		return false;
+	}
+
+	/**
+	 * Resolve the canonical server character id for save/delete to avoid duplicate rows.
+	 * Prefers exact preferredId if it exists on the server, else name match, else composite.
+	 */
+	static async _resolveCanonicalCharacterId (characterData, preferredId = null) {
+		const preferred = preferredId || characterData?.id || null;
+		const composite = characterData?.name
+			? this._generateCompositeId(characterData.name, characterData.source)
+			: null;
+
+		try {
+			const blobs = await this._getBlobList(null, true);
+			const ids = new Set((blobs || []).map(b => b?.id).filter(Boolean));
+
+			if (preferred && ids.has(preferred)) return preferred;
+
+			const nameLc = (characterData?.name || "").toLowerCase();
+			if (nameLc) {
+				const nameMatch = (blobs || []).find(b => {
+					const blobName = (b.character_name || b.name || "").toLowerCase();
+					return blobName === nameLc;
+				});
+				if (nameMatch?.id) return nameMatch.id;
+
+				const nameSlug = nameLc.replace(/[^a-z0-9_-]/g, "");
+				const prefixMatch = (blobs || []).find(b => String(b.id || "").toLowerCase().startsWith(nameSlug));
+				if (prefixMatch?.id) return prefixMatch.id;
+			}
+
+			if (composite && ids.has(composite)) return composite;
+		} catch (e) {
+			console.warn("CharacterManager: Canonical ID resolve failed, using local id:", e);
+		}
+
+		return preferred || composite || null;
 	}
 
 	static getInstance () {
@@ -2171,13 +2273,16 @@ class CharacterManager {
 			
 			// Handle version tracking and local modification flags
 			if (isFromRemote) {
-				// This is from remote - update remote version but preserve local changes
-				processedCharacter._remoteVersion = Date.now();
-				// Only mark as not locally modified if it wasn't already marked as such
+				// Prefer server clocks; never invent Date.now() as remote version
+				if (character._serverUpdatedAt || character.updated_at || character.updatedAt) {
+					this._applyServerTimestamp(
+						processedCharacter,
+						character._serverUpdatedAt || character.updated_at || character.updatedAt,
+					);
+				}
 				if (!existingCharacter || !existingCharacter._isLocallyModified) {
 					processedCharacter._isLocallyModified = false;
 				} else {
-					// Preserve existing local modification flag
 					processedCharacter._isLocallyModified = existingCharacter._isLocallyModified;
 				}
 			} else {
@@ -2705,8 +2810,7 @@ class CharacterManager {
 						await this.saveCharacter(item.data, item.operation === 'update');
 						break;
 					case 'delete':
-						// TODO: Implement delete API call
-						console.log('Delete operation queued but not implemented:', item.data.id);
+						await this.pDeleteCharacter(item.data?.id || item.data?.characterId, item.data);
 						break;
 					default:
 						console.warn('Unknown offline operation:', item.operation);
@@ -3326,7 +3430,8 @@ class CharacterManager {
 						console.log("CharacterManager: Daily list recheck detected changes; invalidating caches and reloading");
 						try { localStorage.setItem(this._LIST_CACHE_KEY, JSON.stringify({ blobs: serverBlobs || [], ts: Date.now() })); } catch (e) { /* ignore */ }
 						this._invalidateAllCaches();
-						await this.reloadCharacters();
+						await this.loadCharacterSummaries(true);
+						await this.reconcileWithServer();
 					}
 				} catch (e) {
 					console.warn("CharacterManager: Daily list recheck failed:", e);
@@ -3354,7 +3459,8 @@ class CharacterManager {
 	 * This makes characters work like any other content type in the system
 	 */
 	static async pGetCharacterData () {
-		const characters = await this.loadCharacters();
+		await this.loadCharacterSummaries(true);
+		const characters = this.getCharacters();
 		return { character: characters };
 	}
 
@@ -3365,12 +3471,11 @@ class CharacterManager {
 	 */
 	static canEditCharacter (characterOrSource) {
 		try {
-			// Get current user authentication
 			const sessionToken = localStorage.getItem('sessionToken');
 			const currentUserData = localStorage.getItem('currentUser');
-			
+
 			if (!sessionToken || !currentUserData) {
-				return false; // Not authenticated
+				return false;
 			}
 
 			const currentUser = JSON.parse(currentUserData);
@@ -3382,9 +3487,20 @@ class CharacterManager {
 				return false;
 			}
 
-			// User can edit if they're authenticated and the source matches their username
-			// or for backward compatibility, if they're just authenticated
-			return true; // If user is authenticated, they can edit
+			const username = (currentUser.username || "").toLowerCase();
+			const sourceLc = String(source).toLowerCase();
+
+			// Owner match (source is typically username)
+			if (username && sourceLc === username) return true;
+
+			// Backward-compatible personal bucket names
+			if (username && ["mycharacters", "my characters"].includes(sourceLc)) return true;
+
+			// Authenticated user editing their own loaded character by ownership hint
+			const owner = typeof characterOrSource === "object" ? characterOrSource?._owner || characterOrSource?.owner : null;
+			if (owner && String(owner).toLowerCase() === username) return true;
+
+			return false;
 		} catch (e) {
 			console.error("Error checking character edit permissions:", e);
 			return false;
@@ -3428,9 +3544,11 @@ class CharacterManager {
 				return false;
 			}
 
-			// Generate character ID if needed
-			const characterId = characterData.id || this._generateCompositeId(characterData.name, characterData.source);
+			// Resolve canonical server ID so we UPDATE instead of duplicate-INSERT
+			const previousId = characterData.id || null;
+			const characterId = await this._resolveCanonicalCharacterId(characterData, previousId);
 			const baseUpdatedAt = characterData._serverUpdatedAt || null;
+			const treatAsEdit = !!(isEdit || (characterId && characterId === previousId) || characterData._serverUpdatedAt);
 
 			const response = await fetch(`${API_BASE_URL}/characters/save`, {
 				method: "POST",
@@ -3440,7 +3558,7 @@ class CharacterManager {
 				},
 				body: JSON.stringify({
 					characterData: characterData,
-					isEdit: isEdit,
+					isEdit: treatAsEdit,
 					characterId: characterId,
 					baseUpdatedAt: baseUpdatedAt,
 				}),
@@ -3458,8 +3576,15 @@ class CharacterManager {
 				characterData._lastModified = now;
 				characterData._isLocallyModified = false;
 				this._applyServerTimestamp(characterData, serverUpdatedAt);
+				this._clearTombstone(characterData.name, characterData.source, resolvedId);
 				
-				// Update local cache - this is NOT from remote, it's our own save
+				// Drop stale alias IDs (composite vs name-userId)
+				if (previousId && previousId !== resolvedId) {
+					this.removeCharacter(previousId);
+					this._removeCharacterFromCache(previousId);
+				}
+				this._purgeLocalByNameAndSource(characterData.name, characterData.source);
+				// Re-add the canonical copy after purge
 				this.addOrUpdateCharacter(characterData, false);
 
 				// Update blob cache with the fresh blob info from save result
@@ -3652,13 +3777,10 @@ class CharacterManager {
 		this._clearSummariesCache();
 		this._notifyListeners();
 
-		if (serverDeleted) return true;
-
-		// No matching server rows for this name — local cleanup is enough
-		if (matchedServerIds.length === 0) return true;
-
-		// Server had matches: require those ids to be deleted or already gone
-		if (matchedServerIds.every(id => resolvedIds.includes(id))) return true;
+		if (serverDeleted || matchedServerIds.every(id => resolvedIds.includes(id)) || matchedServerIds.length === 0) {
+			this._markTombstone(character?.name, character?.source, characterId);
+			return true;
+		}
 
 		console.error("CharacterManager: Delete failed for server-matched IDs", { matchedServerIds, resolvedIds, lastError });
 		return false;
@@ -3725,7 +3847,7 @@ class CharacterManager {
 			} else {
 				// Revert local changes if server update failed
 				console.warn("CharacterManager: Server update failed, reverting local changes");
-				await this.reloadCharacters();
+				await this.ensureFullCharacter(characterId, { forceNetwork: true });
 			}
 
 			return success;
@@ -3910,7 +4032,7 @@ class CharacterManager {
 				}
 			}
 
-			// Local dirty orphans not on server → push create/save
+			// Local dirty orphans not on server → push create/save (unless tombstoned)
 			const localAll = [
 				...this._charactersArray.filter(Boolean),
 				...(this._loadFromLocalStorage() || []),
@@ -3919,6 +4041,12 @@ class CharacterManager {
 			for (const local of localAll) {
 				if (!local?.id || seen.has(local.id)) continue;
 				seen.add(local.id);
+				if (this._isTombstoned(local)) {
+					console.log(`CharacterManager: Skipping tombstoned local character ${local.id}`);
+					this.removeCharacter(local.id);
+					this._removeCharacterFromCache(local.id);
+					continue;
+				}
 				if (!serverIds.has(local.id) && local._isLocallyModified) {
 					console.log(`CharacterManager: Pushing orphan local character ${local.id}`);
 					await this.saveCharacter(local, false);
@@ -4014,20 +4142,20 @@ class CharacterManager {
 				break;
 
 			case "CHARACTER_DELETED":
-				if (characterId && this._characters.has(characterId)) {
-					// Remove from cache
-					this._characters.delete(characterId);
-					this._charactersArray = this._charactersArray.filter(c => c.id !== characterId);
-
-					// Notify listeners
+				if (characterId) {
+					this._markTombstone(null, null, characterId);
+					this.removeCharacter(characterId);
+					this._removeCharacterFromCache(characterId);
 					this._notifyListeners();
 				}
 				break;
 
 			case "CHARACTERS_RELOADED":
-				// Another tab reloaded characters, we should too
-				this.forceRefreshCharacters(); // Force refresh
-				this.loadCharacters(); // Reload
+				// Another tab reloaded characters — refresh summaries from server
+				this.forceRefreshCharacters();
+				this.reconcileWithServer().catch(err => {
+					console.warn("CharacterManager: Cross-tab reconcile failed:", err);
+				});
 				break;
 		}
 	}
@@ -4127,7 +4255,9 @@ class CharacterManager {
 						localStorage.removeItem(this._SUMMARIES_CACHE_KEY);
 					} catch (e) { /* ignore */ }
 					this.forceRefreshCharacters();
-					this.loadCharacters();
+					this.reconcileWithServer().catch(err => {
+						console.warn("CharacterManager: P2P reload reconcile failed:", err);
+					});
 					break;
 			}
 		} catch (e) {

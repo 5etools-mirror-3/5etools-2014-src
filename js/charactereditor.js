@@ -122,7 +122,7 @@ class CharacterEditorPage {
 	}
 
 	async loadCharacterForEdit() {
-		// Load character from localStorage
+		// Load character from localStorage, then refresh from server when possible
 		const characterData = localStorage.getItem('editingCharacter');
 		if (characterData) {
 			try {
@@ -130,8 +130,23 @@ class CharacterEditorPage {
 				currentCharacterId = currentCharacterData?.id
 					|| CharacterManager._generateCompositeId(currentCharacterData?.name, currentCharacterData?.source)
 					|| null;
+
+				if (navigator.onLine && currentCharacterId && !currentCharacterData?._isLocallyModified) {
+					try {
+						const fresh = await CharacterManager.ensureFullCharacter(currentCharacterId, { forceNetwork: true });
+						if (fresh) {
+							updateCurrentCharacterData(fresh);
+							currentCharacterId = fresh.id || currentCharacterId;
+							localStorage.setItem('editingCharacter', JSON.stringify(fresh));
+						}
+					} catch (e) {
+						console.warn('Could not refresh character from server; using local copy:', e);
+					}
+				}
+
 				this.ace.setValue(JSON.stringify(currentCharacterData, null, 2), 1);
 				document.getElementById('message').textContent = 'Loaded character for editing';
+				this.updateButtonVisibility();
 			} catch (e) {
 				console.error('Error loading character data:', e);
 				document.getElementById('message').textContent = 'Error loading character data';
@@ -8230,36 +8245,33 @@ class CharacterEditorPage {
 
 			// Use CharacterManager for centralized permission checking
 			if (!CharacterManager.canEditCharacter(characterData)) {
-				document.getElementById('message').textContent = 'Access denied: Invalid or missing password for this source';
+				document.getElementById('message').textContent = 'Access denied: Please log in as the character owner before saving.';
 				document.getElementById('message').style.color = 'red';
 				return;
 			}
 
 			// Use CharacterManager for all save operations
-			const success = await CharacterManager.saveCharacter(characterData, isEditMode && currentCharacterData);
+			const success = await CharacterManager.saveCharacter(characterData, !!isEditMode);
 
 			if (success) {
 				const warningSuffix = validationResults.warnings?.length
 					? `\nWarnings:\n${validationResults.warnings.map(it => `• ${it}`).join('\n')}`
 					: '';
-				if (isEditMode && currentCharacterData) {
-					document.getElementById('message').textContent = `Character updated successfully${warningSuffix}`;
-				} else {
-					document.getElementById('message').textContent = `Character saved successfully${warningSuffix}`;
-					// Update local state for potential future edits
-					currentCharacterData = characterData;
-					isEditMode = true;
-					currentCharacterId = characterData.id || CharacterManager._generateCompositeId(characterData.name, characterData.source);
-					localStorage.setItem('editingCharacter', JSON.stringify(characterData));
-					// Update button visibility to show delete button
-					this.updateButtonVisibility();
-				}
+
+				// Sync editor state with canonical server ID / timestamps from save
+				updateCurrentCharacterData(characterData);
+				currentCharacterId = characterData.id || currentCharacterId;
+				isEditMode = true;
+				localStorage.setItem('editingCharacter', JSON.stringify(characterData));
+				this._safeSetAceValue(JSON.stringify(characterData, null, 2));
+				this.updateButtonVisibility();
+
+				document.getElementById('message').textContent = `Character saved successfully${warningSuffix}`;
 
 				// Ask if user wants to view the character on the characters page
 				setTimeout(() => {
 					if (confirm('Character saved successfully! Would you like to view it on the characters page?')) {
-						const src = characterData.source || 'mycharacters';
-						const characterAnchor = this.generateCharacterAnchor(characterData.name, src);
+						const characterAnchor = this.generateCharacterAnchor(characterData.name, characterData.source, characterData.id);
 						window.location.href = `characters.html${characterAnchor}`;
 					}
 				}, 1000);
@@ -8856,9 +8868,10 @@ class CharacterEditorPage {
 		return 'MyCharacters';
 	}
 
-	generateCharacterAnchor(characterName, characterSource) {
-		// Use the canonical composite id generator so anchors match IDs used by CharacterManager
-		const id = CharacterManager._generateCompositeId(characterName, characterSource);
+	generateCharacterAnchor(characterName, characterSource, characterId = null) {
+		// Prefer the canonical server id when known so anchors match list rows
+		const id = characterId
+			|| CharacterManager._generateCompositeId(characterName, characterSource);
 		return id ? `#${id}` : '#';
 	}
 
