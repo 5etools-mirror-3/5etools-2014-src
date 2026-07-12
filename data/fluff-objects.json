@@ -15,7 +15,9 @@
 						"type": "internal",
 						"path": "objects/DSotDQ/Boilerdrak.webp"
 					},
-					"credit": "Kent Davis"
+					"credit": "Kent Davis",
+					"width": 850,
+					"height": 1039
 				}
 			]
 		},
@@ -29,7 +31,9 @@
 						"type": "internal",
 						"path": "objects/RMBRE/Captain A-Hole.webp"
 					},
-					"credit": "Troy Little"
+					"credit": "Troy Little",
+					"width": 671,
+					"height": 800
 				}
 			]
 		},
@@ -43,7 +47,9 @@
 						"type": "internal",
 						"path": "objects/TCE/Eldritch Cannon.webp"
 					},
-					"title": "Human Artillerist with Eldritch Cannon"
+					"title": "Human Artillerist with Eldritch Cannon",
+					"width": 800,
+					"height": 1197
 				},
 				{
 					"type": "image",
@@ -51,7 +57,9 @@
 						"type": "internal",
 						"path": "objects/TCE/Eldritch Cannon 2.webp"
 					},
-					"title": "The Gnome Artificer Vi and Her Cockatrice-like Eldritch Cannon Battle Foes Atop a Lightning Train"
+					"title": "The Gnome Artificer Vi and Her Cockatrice-like Eldritch Cannon Battle Foes Atop a Lightning Train",
+					"width": 1200,
+					"height": 800
 				}
 			]
 		},
@@ -89,7 +97,9 @@
 						"type": "internal",
 						"path": "objects/DSotDQ/Gnomeflinger.webp"
 					},
-					"credit": "Bruce Brenneise"
+					"credit": "Bruce Brenneise",
+					"width": 850,
+					"height": 907
 				}
 			]
 		},
@@ -104,7 +114,9 @@
 						"path": "objects/JttRC/Spirit Blister.webp"
 					},
 					"title": "A Spirit Blister at Sorrow's Zenith",
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 644,
+					"height": 850
 				}
 			]
 		},
@@ -118,7 +130,9 @@
 						"type": "internal",
 						"path": "objects/BMT/Unborn Palanquin.webp"
 					},
-					"credit": "Katerina Ladon"
+					"credit": "Katerina Ladon",
+					"width": 391,
+					"height": 1000
 				}
 			]
 		}

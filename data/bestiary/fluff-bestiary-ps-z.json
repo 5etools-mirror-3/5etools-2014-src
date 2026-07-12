@@ -21,7 +21,9 @@
 						"path": "bestiary/PSZ/Angel.webp"
 					},
 					"title": "Angel of Renewal",
-					"credit": "Todd Lockwood"
+					"credit": "Todd Lockwood",
+					"width": 541,
+					"height": 427
 				}
 			]
 		},
@@ -40,7 +42,9 @@
 						"path": "bestiary/PSZ/Archon of Redemption.webp"
 					},
 					"title": "Archon of Redemption",
-					"credit": "Steven Belledin"
+					"credit": "Steven Belledin",
+					"width": 266,
+					"height": 207
 				}
 			]
 		},
@@ -58,7 +62,9 @@
 						"path": "bestiary/PSZ/Baloth.webp"
 					},
 					"title": "Rampaging Baloths",
-					"credit": "Eric Deschamps"
+					"credit": "Eric Deschamps",
+					"width": 352,
+					"height": 251
 				}
 			]
 		},
@@ -85,7 +91,9 @@
 						"path": "bestiary/PSZ/Caustic Crawler.webp"
 					},
 					"title": "Caustic Crawler",
-					"credit": "Raymond Swanland"
+					"credit": "Raymond Swanland",
+					"width": 415,
+					"height": 285
 				}
 			]
 		},
@@ -104,7 +112,9 @@
 						"path": "bestiary/PSZ/Drake.webp"
 					},
 					"title": "Champion's Drake",
-					"credit": "Lars Grant-West"
+					"credit": "Lars Grant-West",
+					"width": 625,
+					"height": 415
 				}
 			]
 		},
@@ -127,7 +137,9 @@
 						"path": "bestiary/PSZ/Eldrazi Mimic.webp"
 					},
 					"title": "Eldrazi Mimic",
-					"credit": "Craig J. Spearing"
+					"credit": "Craig J. Spearing",
+					"width": 289,
+					"height": 559
 				}
 			]
 		},
@@ -147,7 +159,9 @@
 								"path": "bestiary/PSZ/Emrakul.webp"
 							},
 							"title": "Emrakul the Promised End",
-							"credit": "Jaime Jones"
+							"credit": "Jaime Jones",
+							"width": 900,
+							"height": 1235
 						}
 					}
 				}
@@ -168,7 +182,9 @@
 						"path": "bestiary/PSZ/Felidar.webp"
 					},
 					"title": "Hero of Goma Fada",
-					"credit": "Willian Murai"
+					"credit": "Willian Murai",
+					"width": 341,
+					"height": 242
 				}
 			]
 		},
@@ -195,7 +211,9 @@
 						"path": "bestiary/PSZ/Gomazoa.webp"
 					},
 					"title": "Guard Gomazoa",
-					"credit": "Rob Alexander"
+					"credit": "Rob Alexander",
+					"width": 666,
+					"height": 312
 				}
 			]
 		},
@@ -213,7 +231,9 @@
 						"path": "bestiary/PSZ/Great Cat.webp"
 					},
 					"title": "Scythe Leopard",
-					"credit": "Winona Nelson"
+					"credit": "Winona Nelson",
+					"width": 419,
+					"height": 302
 				}
 			]
 		},
@@ -232,7 +252,9 @@
 						"path": "bestiary/PSZ/Griffin.webp"
 					},
 					"title": "Courier Griffin",
-					"credit": "Kieran Yanner"
+					"credit": "Kieran Yanner",
+					"width": 396,
+					"height": 278
 				}
 			]
 		},
@@ -267,7 +289,9 @@
 						"path": "bestiary/PSZ/Hellion.webp"
 					},
 					"title": "Hellion Eruption",
-					"credit": "Anthony Francisco"
+					"credit": "Anthony Francisco",
+					"width": 900,
+					"height": 657
 				}
 			]
 		},
@@ -287,7 +311,9 @@
 						"path": "bestiary/PSZ/Hurda.webp"
 					},
 					"title": "Battle Hurda",
-					"credit": "Christopher Moeller"
+					"credit": "Christopher Moeller",
+					"width": 355,
+					"height": 270
 				}
 			]
 		},
@@ -323,7 +349,9 @@
 						"path": "bestiary/PSZ/Kraken.webp"
 					},
 					"title": "Wrexial, the Risen Deep",
-					"credit": "Eric Deschamps"
+					"credit": "Eric Deschamps",
+					"width": 642,
+					"height": 373
 				}
 			]
 		},
@@ -350,7 +378,9 @@
 						"path": "bestiary/PSZ/Ogre Channeler.webp"
 					},
 					"title": "Ogre Sentry",
-					"credit": "Eric Deschamps"
+					"credit": "Eric Deschamps",
+					"width": 353,
+					"height": 170
 				}
 			]
 		},
@@ -377,7 +407,9 @@
 						"path": "bestiary/PSZ/Pestilence Demon.webp"
 					},
 					"title": "Pestilence Demon",
-					"credit": "Justin Sweet"
+					"credit": "Justin Sweet",
+					"width": 549,
+					"height": 290
 				}
 			]
 		},
@@ -420,7 +452,9 @@
 						"path": "bestiary/PSZ/Sphinx.webp"
 					},
 					"title": "Sphinx of the Final Word",
-					"credit": "Lius Lasahido"
+					"credit": "Lius Lasahido",
+					"width": 542,
+					"height": 366
 				}
 			]
 		},
@@ -447,7 +481,9 @@
 						"path": "bestiary/PSZ/Spirit.webp"
 					},
 					"title": "Bog Tatters",
-					"credit": "Daarken"
+					"credit": "Daarken",
+					"width": 493,
+					"height": 371
 				}
 			]
 		},
@@ -466,7 +502,9 @@
 						"path": "bestiary/PSZ/Surrakar.webp"
 					},
 					"title": "Shoreline Salvager",
-					"credit": "Igor Kieryluk"
+					"credit": "Igor Kieryluk",
+					"width": 352,
+					"height": 244
 				}
 			]
 		},
@@ -484,7 +522,9 @@
 						"path": "bestiary/PSZ/Terastodon.webp"
 					},
 					"title": "Terastodon",
-					"credit": "Lars Grant-West"
+					"credit": "Lars Grant-West",
+					"width": 417,
+					"height": 303
 				}
 			]
 		},
@@ -526,7 +566,9 @@
 						"path": "bestiary/PSZ/Turntimber Giant.webp"
 					},
 					"title": "Ondu Giant",
-					"credit": "Igor Kieryluk"
+					"credit": "Igor Kieryluk",
+					"width": 336,
+					"height": 256
 				}
 			]
 		},
@@ -546,7 +588,9 @@
 								"path": "bestiary/PSZ/Ulamog.webp"
 							},
 							"title": "Oracle of Dust",
-							"credit": "Jason Rainville"
+							"credit": "Jason Rainville",
+							"width": 597,
+							"height": 448
 						}
 					}
 				}
@@ -601,7 +645,9 @@
 						"path": "bestiary/PSZ/Zendikar Dragon.webp"
 					},
 					"title": "Tyrant of Valakut",
-					"credit": "Steven Belledin"
+					"credit": "Steven Belledin",
+					"width": 547,
+					"height": 383
 				}
 			]
 		},
@@ -621,7 +667,9 @@
 						"path": "bestiary/PSZ/Hedrons.webp"
 					},
 					"title": "Hedron Crawler",
-					"credit": "Daniel Ljunggren"
+					"credit": "Daniel Ljunggren",
+					"width": 596,
+					"height": 503
 				}
 			]
 		}

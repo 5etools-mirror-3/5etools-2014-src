@@ -10,7 +10,9 @@
 						"type": "internal",
 						"path": "bestiary/IMR/The Demogorgon.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 819,
+					"height": 1000
 				}
 			]
 		},
@@ -28,7 +30,9 @@
 						"path": "bestiary/IMR/Banrion.webp"
 					},
 					"title": "Banrion the unicorn under green hag illusion",
-					"credit": "Jeff Carpenter"
+					"credit": "Jeff Carpenter",
+					"width": 902,
+					"height": 1000
 				}
 			]
 		},
@@ -70,7 +74,9 @@
 						"type": "internal",
 						"path": "bestiary/IMR/Moghadam.webp"
 					},
-					"credit": "Maxx Marshall"
+					"credit": "Maxx Marshall",
+					"width": 872,
+					"height": 1000
 				}
 			]
 		},
@@ -102,7 +108,9 @@
 						"type": "internal",
 						"path": "bestiary/IMR/Neo-Otyugh.webp"
 					},
-					"credit": "Arnie Swekel"
+					"credit": "Arnie Swekel",
+					"width": 561,
+					"height": 722
 				}
 			]
 		},
@@ -164,7 +172,9 @@
 						"type": "internal",
 						"path": "bestiary/IMR/Thessalar.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 677,
+					"height": 1000
 				}
 			]
 		},
@@ -178,7 +188,9 @@
 						"type": "internal",
 						"path": "bestiary/IMR/Thessalar's Homunculus.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 409,
+					"height": 352
 				}
 			]
 		},
@@ -210,7 +222,9 @@
 						"type": "internal",
 						"path": "bestiary/IMR/Thessalheart Construct.webp"
 					},
-					"credit": "Ralph Horsley"
+					"credit": "Ralph Horsley",
+					"width": 1350,
+					"height": 1000
 				}
 			]
 		},
@@ -247,7 +261,9 @@
 						"type": "internal",
 						"path": "bestiary/IMR/Two-Headed Owlbear.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 610,
+					"height": 1000
 				}
 			]
 		}

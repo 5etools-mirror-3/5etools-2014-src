@@ -672,6 +672,7 @@
 				"formula": "1d8"
 			},
 			"action": null,
+			"tokenCustom": true,
 			"miscTags": [],
 			"hasToken": true
 		},
@@ -817,6 +818,7 @@
 					"human"
 				]
 			},
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -1062,10 +1064,8 @@
 			"name": "Dark Tide Knight",
 			"source": "PotA",
 			"page": 205,
-			"otherSources": [
-				{
-					"source": "SLW"
-				}
+			"referenceSources": [
+				"SLW"
 			],
 			"size": [
 				"M"
@@ -1197,6 +1197,7 @@
 				]
 			},
 			"action": null,
+			"tokenCustom": true,
 			"miscTags": [],
 			"hasToken": true
 		},
@@ -1769,10 +1770,8 @@
 			"name": "Fathomer",
 			"source": "PotA",
 			"page": 207,
-			"otherSources": [
-				{
-					"source": "GoS"
-				}
+			"referenceSources": [
+				"GoS"
 			],
 			"size": [
 				"M"
@@ -2095,6 +2094,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"greatsword|phb"
 			],
@@ -3482,6 +3482,7 @@
 					"ability": "int"
 				}
 			],
+			"tokenCustom": true,
 			"damageTagsSpell": [
 				"F",
 				"O"
@@ -4700,6 +4701,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"maul|phb"
 			],
@@ -4922,6 +4924,7 @@
 					"ability": "int"
 				}
 			],
+			"tokenCustom": true,
 			"damageTagsLegendary": [],
 			"savingThrowForcedSpell": [
 				"charisma",
@@ -4961,6 +4964,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"warhammer|phb"
 			],
@@ -5534,6 +5538,7 @@
 				"CS"
 			],
 			"miscTags": [
+				"AOE",
 				"MW"
 			],
 			"savingThrowForced": [

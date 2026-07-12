@@ -1,6 +1,44 @@
 {
 	"reward": [
 		{
+			"name": "Ancient Seal",
+			"source": "VRGR",
+			"page": 193,
+			"type": "Curse",
+			"entries": [
+				"This curse protects the resting place of a long-dead ruler and punishes any who disturb the ruler's remains or plunder the treasures.",
+				{
+					"type": "entries",
+					"entries": [
+						{
+							"type": "entries",
+							"name": "Pronouncement",
+							"page": 193,
+							"entries": [
+								"Carved into the stone of the crypt door are the words \"Relentless death follows those who disturb the sovereign's rest.\""
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Burden",
+							"page": 193,
+							"entries": [
+								"Each character that gains the curse is hunted by a {@creature wraith} that appears at sunset and vanishes at dawn, pursuing the single-minded goal of slaying the cursed individual. The wraith manifests in an unoccupied space within 30 feet of its victim. Destroying the wraith grants a temporary reprieve; it doesn't reform for 10 days. You can scale this curse for lower- and higher-level characters by choosing another kind of creature."
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Resolution",
+							"page": 193,
+							"entries": [
+								"The cursed character sets right what they disturbed; stolen treasure must be returned, and if the ruler's body was disturbed, it must be reinterred with proper observances."
+							]
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "Athreos's Devotee",
 			"source": "MOT",
 			"page": 37,
@@ -546,6 +584,44 @@
 			],
 			"entries": [
 				"When you activate this charm, you can cast the {@spell crusader's mantle} or {@spell haste} spell. Alternatively, you can cast the {@spell guiding bolt} spell, and if it hits, you regain a number of hit points equal to the damage it deals. The charm vanishes after you activate it."
+			]
+		},
+		{
+			"name": "Broken Vow",
+			"source": "VRGR",
+			"page": 194,
+			"type": "Curse",
+			"entries": [
+				"A character breaks a solemn vow. The consequences stem from the powers that observed the oath's swearing.",
+				{
+					"type": "entries",
+					"entries": [
+						{
+							"type": "entries",
+							"name": "Pronouncement",
+							"page": 194,
+							"entries": [
+								"Whatever vow the character made, it came with an implied warning that guilt and restlessness would beset anyone who broke the oath."
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Burden",
+							"page": 194,
+							"entries": [
+								"The character is plagued by restless sleep and recurring nightmares featuring those the character swore to protect. The character gains 3 levels of {@condition exhaustion} that can't be removed until the curse ends."
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Resolution",
+							"page": 194,
+							"entries": [
+								"The curse lasts until the character upholds the broken oath. That might require the character to wait until the circumstances arise again or, more questionably, to engineer the circumstances."
+							]
+						}
+					]
+				}
 			]
 		},
 		{
@@ -1247,6 +1323,28 @@
 			]
 		},
 		{
+			"name": "Charm of the Heroes' Feast",
+			"source": "CM",
+			"page": 128,
+			"type": "Charm",
+			"additionalSpells": [
+				{
+					"innate": {
+						"_": {
+							"limited": {
+								"1": [
+									"heroes' feast"
+								]
+							}
+						}
+					}
+				}
+			],
+			"entries": [
+				"This charm allows you to cast the {@spell heroes' feast} spell as an action, no components required. Once used, this charm goes away."
+			]
+		},
+		{
 			"name": "Charm of the Ice Troll",
 			"source": "IDRotF",
 			"page": 283,
@@ -1668,6 +1766,28 @@
 			]
 		},
 		{
+			"name": "Charm of Water Breathing",
+			"source": "ToR",
+			"page": 213,
+			"type": "Charm",
+			"additionalSpells": [
+				{
+					"innate": {
+						"_": {
+							"limited": {
+								"1": [
+									"water breathing"
+								]
+							}
+						}
+					}
+				}
+			],
+			"entries": [
+				"The charm allows the character to cast the {@spell water breathing} spell, after which its magic fades."
+			]
+		},
+		{
 			"name": "Clay No-Face's Charm",
 			"source": "ToA",
 			"page": 179,
@@ -1701,59 +1821,6 @@
 					}
 				}
 			]
-		},
-		{
-			"name": "Curse of Ruin",
-			"source": "TDCSR",
-			"page": 39,
-			"type": "Curse",
-			"entries": [
-				"Countless legends invoke {@i hgar'Gruum}, the Curse of Ruin. Great orc warriors have been laid low when bloodlust overtook their reason. Mighty mages driven by a foolhardy ambition forsook caution and delved furiously into knowledge no mortal eyes should behold. The Curse of Ruin is said to be the birthright of all {@book orcs|TDCSR|4|orcs}\u2014a deadly taint carried in the blood of the {@deity The Ruiner|Exandria|TDCSR|Ruiner} that forged their people during the {@book Calamity|TDCSR|1|The Calamity}.",
-				{
-					"type": "entries",
-					"name": "Truth of Ruin",
-					"page": 39,
-					"entries": [
-						"The truth is that the Curse of Ruin is a myth. The blood of the {@deity The Ruiner|Exandria|TDCSR|Ruiner} granted {@book orcs|TDCSR|4|orcs} physical strength and superhuman endurance, but it imparted none of the Betrayer God's evil. The power of the myth, however, is more ruinous than any magic."
-					]
-				},
-				{
-					"type": "entries",
-					"name": "Consequences of the Myth",
-					"page": 39,
-					"entries": [
-						"Countless superstitious folk across Exandria\u2014including many {@book orcs|TDCSR|4|orcs} themselves\u2014believe in the Curse of Ruin. This belief doesn't make the curse any more real. The myth's existence is a convenient way for any one orc to ignore the real consequences of their mistakes, or of any act of thoughtless harm\u2014the curse takes the blame. Even worse is when this \"birthright\" is leveled at wise, even-tempered {@book orcs|TDCSR|4|orcs} who have done nothing wrong, and their frustrated reactions are then taken as proof of the curse's existence."
-					]
-				}
-			],
-			"hasFluffImages": true
-		},
-		{
-			"name": "Curse of Strife",
-			"source": "TDCSR",
-			"page": 39,
-			"type": "Curse",
-			"entries": [
-				"The insidious voice of the {@deity The Strife Emperor|Exandria|TDCSR|Strife Emperor}, both damnable and damning, invades the minds of countless people across Tal'Dorei who have been afflicted by the Curse of Strife. The curse is especially prevalent in {@book Rifenmist|TDCSR|3|Rifenmist Peninsula}, where the {@deity The Strife Emperor|Exandria|TDCSR|Strife Emperor's} faithful clerics bestow it upon their soldiery, transforming them into perfect weapons of war. The curse acts in unpredictable ways, turning some into chaotic berserkers, others into obedient legionnaires, and others still into selfish, isolationist thieves. Cultists of the {@deity The Strife Emperor|Exandria|TDCSR|Strife Emperor} also use their power to covertly spread the curse throughout hospitable and kind communities across Exandria, aiming to destroy them from within and make them more susceptible to conquest.",
-				{
-					"type": "entries",
-					"name": "Origin of Strife",
-					"page": 39,
-					"entries": [
-						"Such transformations are the result of the {@deity The Strife Emperor|Exandria|TDCSR|Strife Emperor's} torment, which whispers constantly in the victims' minds. The free goblinkin of Tal'Dorei regard those who spread the curse with special contempt\u2014and those who suffer from it with immense pity.",
-						"For centuries, small-minded people in Tal'Dorei have feared {@book goblins|TDCSR|4|goblinkin} because they are the children of the {@deity The Strife Emperor|Exandria|TDCSR|Strife Emperor}. But while the first {@creature goblin|MM|goblins}, {@creature hobgoblin|MM|hobgoblins}, and {@creature bugbear|MM|bugbears} were created in the {@book Calamity|TDCSR|1|The Calamity} as soldiers for this fell god, the curse does not linger in their blood\u2014it spreads via those who pledge their souls to the {@deity The Strife Emperor|Exandria|TDCSR|Strife Emperor}. Clerics of the {@deity The Strife Emperor|Exandria|TDCSR|Strife Emperor} can use the {@spell bestow curse} spell to inflict the Curse of Strife."
-					]
-				},
-				{
-					"type": "entries",
-					"name": "Curing the Curse",
-					"page": 39,
-					"entries": [
-						"Creatures who experience kindness or suffer near-death experiences can have epiphanies that allow their true self to tear through the bloody shroud of the {@deity The Strife Emperor|Exandria|TDCSR|Strife Emperor's} lies. A curse-afflicted creature who spends one week being treated with love and compassion instead of hatred and fear can make a {@dc 20} Wisdom {@quickref saving throws|PHB|2|1|saving throw}, breaking the curse on a success. The {@spell remove curse} spell also immediately ends the curse\u2014and many reformed clerics of the {@deity The Strife Emperor|Exandria|TDCSR|Strife Emperor} have united with clerics of other faiths to loosen the bloody god's grip on their families."
-					]
-				}
-			],
-			"hasFluffImages": true
 		},
 		{
 			"name": "Dark Gift of Dahlver-Nar, He of the Many Teeth",
@@ -2171,14 +2238,41 @@
 			]
 		},
 		{
-			"name": "Fortune's Grace",
-			"source": "TDCSR",
-			"page": 190,
-			"type": "Blessing",
+			"name": "Final Breath",
+			"source": "VRGR",
+			"page": 194,
+			"type": "Curse",
 			"entries": [
-				"Your fate-touched essence can cause events to shift in your favor. When you make an attack roll, an ability check, or a {@quickref saving throws|PHB|2|1|saving throw}, you can choose to reroll the {@dice d20}. You must reroll the die before the outcome of the initial roll is determined.",
-				"Alternatively, when a creature you can see makes an attack against you or makes a {@quickref saving throws|PHB|2|1|saving throw} against one of your spells or features, you can force that creature to reroll the attack roll or {@quickref saving throws|PHB|2|1|saving throw}.",
-				"If the roll that triggers the reroll is made with {@quickref Advantage and Disadvantage|PHB|2|0|advantage} or {@quickref Advantage and Disadvantage|PHB|2|0|disadvantage}, {@dice 2d20|both d20s} are rerolled. Once you use this feature, you can't use it again until you finish a {@quickref resting|PHB|2|0|long rest}."
+				"A deity's favored servant lies dying and calls down divine wrath.",
+				{
+					"type": "entries",
+					"entries": [
+						{
+							"type": "entries",
+							"name": "Pronouncement",
+							"page": 194,
+							"entries": [
+								"The dying creature declares to the killer, \"May your mind grow dim in battle until the sun sets forever.\""
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Burden",
+							"page": 194,
+							"entries": [
+								"The character has disadvantage on attack rolls brought on by brief, sporadic bouts of confusion."
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Resolution",
+							"page": 194,
+							"entries": [
+								"To lift the curse, the character must cause a symbolic setting of the sun or an empowering of the night to appease the slain creature's deity. The character might prevent a festival dedicated to a sun god or perform a ritual that shrouds an entire settlement in magical night for 24 hours, thus ending the curse."
+							]
+						}
+					]
+				}
 			]
 		},
 		{
@@ -2532,6 +2626,44 @@
 							"type": "item",
 							"name": "Power:",
 							"entry": "The host's Dexterity score becomes 23, unless it is already higher."
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Innocent Blood",
+			"source": "VRGR",
+			"page": 194,
+			"type": "Curse",
+			"entries": [
+				"The tragic situation came to pass where a character killed an undeserving person, who laid a vengeful curse in punishment.",
+				{
+					"type": "entries",
+					"entries": [
+						{
+							"type": "entries",
+							"name": "Pronouncement",
+							"page": 194,
+							"entries": [
+								"The dying victim spits final words: \"You shall spill innocent blood until laid low by the moon's bite!\""
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Burden",
+							"page": 194,
+							"entries": [
+								"The character is cursed with {@creature loup garou|VRGR} {@variantrule Player Characters as Lycanthropes|MM|lycanthropy} (see {@book chapter 5|VRGR|5})."
+							]
+						},
+						{
+							"type": "entries",
+							"name": "Resolution",
+							"page": 194,
+							"entries": [
+								"This curse can't be broken until the character is reduced to 0 hit points by a silvered weapon. If the character survives, the curse can be broken as described in the \"{@book Loup Garou Lycanthropy|VRGR|5|Loup Garou Lycanthropy}\" section of {@book chapter 5|VRGR|5}. Treat the character as a {@creature werewolf} whose loup garou progenitor has been killed."
+							]
 						}
 					]
 				}

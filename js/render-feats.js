@@ -33,7 +33,7 @@ class _RenderFeatsImplBase extends RenderPageImplBase {
 			ent.category,
 			Renderer.utils.prerequisite.getHtml(ent.prerequisite, {styleHint: this._style}),
 		);
-		return ptCategoryPrerequisite ? `<tr><td colspan="6" class="pb-2 pt-0"><i>${ptCategoryPrerequisite}</i></td></tr>` : "";
+		return ptCategoryPrerequisite ? `<tr><td colspan="6" class="ve-pb-2 ve-pt-0"><i>${ptCategoryPrerequisite}</i></td></tr>` : "";
 	}
 
 	/* ----- */
@@ -82,16 +82,16 @@ class _RenderFeatsImplClassic extends _RenderFeatsImplBase {
 
 			${htmlPtIsExcluded}
 			${htmlPtName}
-			
+
 			${htmlPtPrerequisites}
 			${htmlPtRepeatable}
-		
-			<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider"></div></td></tr>
+
+			<tr><td colspan="6" class="ve-py-0"><div class="ve-tbl-divider"></div></td></tr>
 			
 			<tr><td colspan="6">
 				${htmlPtEntries}
 			</td></tr>
-			
+
 			${htmlPtPage}
 			${Renderer.utils.getBorderTr()}
 		`;
@@ -101,10 +101,10 @@ class _RenderFeatsImplClassic extends _RenderFeatsImplBase {
 export class RenderFeats {
 	static _RENDER_CLASSIC = new _RenderFeatsImplClassic();
 
-	static $getRenderedFeat (ent) {
+	static getRenderedFeat (ent) {
 		const styleHint = VetoolsConfig.get("styleSwitcher", "style");
 		switch (styleHint) {
-			case SITE_STYLE__CLASSIC: return this._RENDER_CLASSIC.$getRendered(ent);
+			case SITE_STYLE__CLASSIC: return this._RENDER_CLASSIC.getRendered(ent);
 			default: throw new Error(`Unhandled style "${styleHint}"!`);
 		}
 	}

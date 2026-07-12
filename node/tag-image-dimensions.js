@@ -5,7 +5,7 @@ import probe from "probe-image-size";
 import {ObjectWalker} from "5etools-utils";
 import {Command} from "commander";
 import {readJsonSync} from "5etools-utils/lib/UtilFs.js";
-import {getAllJson} from "./util-json-files.js";
+import {getCliJsonFiles, mutCommanderJsonFileOptions} from "./util-commander.js";
 
 function getFileProbeTarget (path) {
 	const target = fs.createReadStream(path);
@@ -75,6 +75,8 @@ async function main (
 	{
 		dirs,
 		files,
+		convertedBy = null,
+		filter = null,
 		localBrewDir = null,
 		localBrewDirImg = null,
 		isAllowExternal = false,
@@ -82,14 +84,51 @@ async function main (
 ) {
 	const tStart = Date.now();
 
-	const allFiles = getAllJson({dirs, files});
+	const allFiles = getCliJsonFiles(
+		{
+			dirs,
+			files,
+			convertedBy,
+			filter,
+			fnMutDefaultSelection: ({files, dirs}) => {
+				const addAllFilesFluffDir = (dir) => {
+					return Object.values(readJsonSync(`./data/${dir}/fluff-index.json`))
+						.forEach((fname) => files.push(`./data/${dir}/${fname}`));
+				};
+
+				dirs.push("./data/adventure");
+				dirs.push("./data/book");
+
+				files.push("./data/decks.json");
+
+				files.push("./data/fluff-backgrounds.json");
+				files.push("./data/fluff-charcreationoptions.json");
+				files.push("./data/fluff-conditionsdiseases.json");
+				files.push("./data/fluff-feats.json");
+				files.push("./data/fluff-homecrafts.json");
+				files.push("./data/fluff-items.json");
+				files.push("./data/fluff-languages.json");
+				files.push("./data/fluff-objects.json");
+				files.push("./data/fluff-optionalfeatures.json");
+				files.push("./data/fluff-races.json");
+				files.push("./data/fluff-recipes.json");
+				files.push("./data/fluff-rewards.json");
+				files.push("./data/fluff-trapshazards.json");
+				files.push("./data/fluff-vehicles.json");
+
+				addAllFilesFluffDir("class");
+				addAllFilesFluffDir("bestiary");
+				addAllFilesFluffDir("spells");
+			},
+		},
+	);
 	console.log(`Running on ${allFiles.length} JSON file${allFiles.length === 1 ? "" : "s"}...`);
 
 	const imageEntries = [];
-	allFiles.forEach(meta => {
+	allFiles.forEach(jsonFile => {
 		ObjectWalker.walk({
-			filePath: meta.path,
-			obj: meta.json,
+			filePath: jsonFile.getFilePath(),
+			obj: jsonFile.getContents(),
 			primitiveHandlers: {
 				object: getImageEntries.bind(this, imageEntries),
 			},
@@ -106,15 +145,13 @@ async function main (
 			}),
 	);
 
-	allFiles.forEach(meta => fs.writeFileSync(meta.path, CleanUtil.getCleanJson(meta.json), "utf-8"));
+	allFiles.forEach(jsonFile => fs.writeFileSync(jsonFile.getFilePath(), CleanUtil.getCleanJson(jsonFile.getContents()), "utf-8"));
 
 	const tEnd = Date.now();
 	console.log(`Completed in ${((tEnd - tStart) / 1000).toFixed(2)}s.`);
 }
 
-const program = new Command()
-	.option("--file <file...>", `Input files`)
-	.option("--dir <dir...>", `Input directories`)
+const program = mutCommanderJsonFileOptions({command: new Command()})
 	.option("--allow-external", "Allow external URLs to be probed.")
 	.option("--local-brew-dir <localBrewDir>", "Use local homebrew directory for relevant URLs.")
 	.option("--local-brew-dir-img <localBrewDirImg>", "Use local homebrew-img directory for relevant URLs.")
@@ -123,26 +160,11 @@ const program = new Command()
 program.parse(process.argv);
 const params = program.opts();
 
-const dirs = [...(params.dir || [])];
-const files = [...(params.file || [])];
-
-// If no options specified, use default selection
-if (!dirs.length && !files.length) {
-	dirs.push("./data/adventure");
-	dirs.push("./data/book");
-
-	files.push("./data/decks.json");
-	files.push("./data/fluff-recipes.json");
-	files.push("./data/fluff-backgrounds.json");
-	files.push("./data/fluff-races.json");
-
-	Object.values(readJsonSync("./data/class/fluff-index.json"))
-		.forEach((fname) => files.push(`./data/class/${fname}`));
-}
-
 main({
-	dirs,
-	files,
+	dirs: params.dir,
+	files: params.file,
+	convertedBy: params.convertedBy,
+	filter: params.filter,
 	localBrewDir: params.localBrewDir,
 	localBrewDirImg: params.localBrewDirImg,
 	isAllowExternal: params.allowExternal,

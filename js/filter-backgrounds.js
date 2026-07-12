@@ -1,25 +1,16 @@
 "use strict";
 
 class PageFilterBackgrounds extends PageFilterBase {
-	// TODO(Future) expand/move to `Renderer.generic`
-	static _getToolDisplayText (tool) {
-		if (tool === "anyTool") return "Any Tool";
-		if (tool === "anyArtisansTool") return "Any Artisan's Tool";
-		if (tool === "anyMusicalInstrument") return "Any Musical Instrument";
-		if (tool === "anyGamingSet") return "Any Gaming Set";
-		return tool.toTitleCase();
-	}
-
 	constructor () {
 		super();
 
 		this._asiFilter = new AbilityScoreFilter({header: "Ability Scores"});
-		this._skillFilter = new Filter({header: "Skill Proficiencies", displayFn: StrUtil.toTitleCase.bind(StrUtil)});
+		this._skillFilter = FilterCommon.getSkillProficienciesFilter();
 		this._prereqFilter = new Filter({
 			header: "Prerequisite",
 			items: [...FilterCommon.PREREQ_FILTER_ITEMS],
 		});
-		this._toolFilter = new Filter({header: "Tool Proficiencies", displayFn: PageFilterBackgrounds._getToolDisplayText.bind(PageFilterBackgrounds)});
+		this._toolFilter = FilterCommon.getToolProficienciesFilter();
 		this._languageFilter = FilterCommon.getLanguageProficienciesFilter();
 		this._otherBenefitsFilter = new Filter({
 			header: "Other Benefits",
@@ -149,16 +140,17 @@ class ModalFilterBackgrounds extends ModalFilterBase {
 			...opts,
 			modalTitle: `Background${opts.isRadio ? "" : "s"}`,
 			pageFilter: new PageFilterBackgrounds(),
+			previewButtonHandler: new ListUiPreviewButtonHandlerStatsFluff({page: UrlUtil.PG_BACKGROUNDS}),
 		});
 	}
 
-	_$getColumnHeaders () {
+	_getColumnHeaders () {
 		const btnMeta = [
 			{sort: "name", text: "Name", width: "4"},
 			{sort: "skills", text: "Skills", width: "6"},
 			{sort: "source", text: "Source", width: "1"},
 		];
-		return ModalFilterBase._$getFilterColumnHeaders(btnMeta);
+		return ModalFilterBase._getFilterColumnHeaders(btnMeta);
 	}
 
 	async _pLoadAllData () {
@@ -171,21 +163,21 @@ class ModalFilterBackgrounds extends ModalFilterBase {
 
 	_getListItem (pageFilter, bg, bgI) {
 		const eleRow = document.createElement("div");
-		eleRow.className = "px-0 w-100 ve-flex-col no-shrink";
+		eleRow.className = "ve-px-0 ve-w-100 ve-flex-col ve-no-shrink";
 
 		const hash = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_BACKGROUNDS](bg);
 		const source = Parser.sourceJsonToAbv(bg.source);
 
-		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst__row-border veapp__list-row no-select lst__wrp-cells">
-			<div class="ve-col-0-5 pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="no-events">` : `<input type="checkbox" class="no-events">`}</div>
+		eleRow.innerHTML = `<div class="ve-w-100 ve-flex-vh-center ve-lst__row-border veapp__list-row ve-no-select ve-lst__wrp-cells">
+			<div class="ve-col-0-5 ve-pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="ve-no-events">` : `<input type="checkbox" class="ve-no-events">`}</div>
 
-			<div class="ve-col-0-5 px-1 ve-flex-vh-center">
-				<div class="ui-list__btn-inline px-2 no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
+			<div class="ve-col-0-5 ve-px-1 ve-flex-vh-center">
+				<div class="ve-ui-list__btn-inline ve-px-2 ve-no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
 			</div>
 
-			<div class="ve-col-4 px-1 ${bg._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${bg._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${bg.name}</div>
-			<div class="ve-col-6 px-1">${bg._skillDisplay}</div>
-			<div class="ve-col-1 pl-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(bg.source)}" title="${Parser.sourceJsonToFull(bg.source)}">${source}${Parser.sourceJsonToMarkerHtml(bg.source, {isList: true})}</div>
+			<div class="ve-col-4 ve-px-1 ${bg._versionBase_isVersion ? "ve-italic" : ""} ${this._getNameStyle()}">${bg._versionBase_isVersion ? `<span class="ve-px-3"></span>` : ""}${bg.name}</div>
+			<div class="ve-col-6 ve-px-1">${bg._skillDisplay}</div>
+			<div class="ve-col-1 ve-pl-1 ve-pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(bg.source)}" title="${Parser.sourceJsonToFull(bg.source)}">${source}${Parser.sourceJsonToMarkerHtml(bg.source, {isList: true})}</div>
 		</div>`;
 
 		const btnShowHidePreview = eleRow.firstElementChild.children[1].firstElementChild;
@@ -207,7 +199,7 @@ class ModalFilterBackgrounds extends ModalFilterBase {
 			},
 		);
 
-		ListUiUtil.bindPreviewButton(UrlUtil.PG_BACKGROUNDS, this._allData, listItem, btnShowHidePreview);
+		this._previewButtonHandler.bindPreviewButton({entity: bg, listItem, btnShowHidePreview});
 
 		return listItem;
 	}

@@ -31,7 +31,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/DMG/Giant Fly.webp"
-					}
+					},
+					"width": 1000,
+					"height": 792
 				}
 			]
 		}

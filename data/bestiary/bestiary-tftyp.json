@@ -48,6 +48,15 @@
 			"name": "Animated Table",
 			"source": "TftYP",
 			"page": 230,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"L"
 			],
@@ -153,6 +162,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 158,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Commoner",
 				"source": "MM",
@@ -190,6 +202,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 159,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Orc",
 				"source": "MM"
@@ -202,6 +217,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 9,
+			"referenceSources": [
+				"TftYP-TSC"
+			],
 			"size": [
 				"M"
 			],
@@ -387,6 +405,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 23,
+			"referenceSources": [
+				"TftYP-TSC"
+			],
 			"size": [
 				"M"
 			],
@@ -484,6 +505,15 @@
 			"name": "Centaur Mummy",
 			"source": "TftYP",
 			"page": 231,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"L"
 			],
@@ -606,6 +636,7 @@
 			],
 			"miscTags": [
 				"CUR",
+				"HPR",
 				"MLW",
 				"MW",
 				"RCH"
@@ -628,6 +659,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 170,
+			"referenceSources": [
+				"TftYP-AtG"
+			],
 			"_copy": {
 				"name": "Frost Giant",
 				"source": "MM",
@@ -676,6 +710,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 158,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Commoner",
 				"source": "MM",
@@ -699,6 +736,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 16,
+			"referenceSources": [
+				"TftYP-TSC"
+			],
 			"_copy": {
 				"name": "Troll",
 				"source": "MM",
@@ -744,6 +784,15 @@
 			"name": "Dread Warrior",
 			"source": "TftYP",
 			"page": 233,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"M"
 			],
@@ -859,6 +908,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 126,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Spy",
 				"source": "MM",
@@ -943,6 +995,15 @@
 			"name": "Duergar Spy",
 			"source": "TftYP",
 			"page": 234,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"M"
 			],
@@ -1002,7 +1063,7 @@
 				{
 					"name": "Cunning Action",
 					"entries": [
-						"On each of its turns, the spy can use a bonus action to take the Dash, Disengage, or Hide action."
+						"On each of its turns, the spy can use a bonus action to take the {@action Dash}, {@action Disengage}, or {@action Hide} action."
 					]
 				},
 				{
@@ -1095,6 +1156,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 25,
+			"referenceSources": [
+				"TftYP-TSC"
+			],
 			"size": [
 				"M"
 			],
@@ -1191,6 +1255,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 159,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Druid",
 				"source": "MM",
@@ -1218,6 +1285,9 @@
 			"name": "Elder Black Pudding",
 			"source": "TftYP",
 			"page": 143,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Black Pudding",
 				"source": "MM"
@@ -1265,6 +1335,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 22,
+			"referenceSources": [
+				"TftYP-TSC"
+			],
 			"size": [
 				"M"
 			],
@@ -1346,7 +1419,7 @@
 					"name": "Channel Divinity: Turn Undead (1/Short Rest)",
 					"entries": [
 						"Erky presents his holy Symbol and speaks a prayer censuring the Undead. Each Undead that can see or hear Erky within 30 feet of him must make a {@dc 12} Wisdom saving throw. If the creature fails its saving throw, it is turned for 1 minute or until it takes any damage.",
-						"A turned creature must spend its turns trying to move as far away from Erky as it can, and it can't willingly move to a space within 30 feet of him. It also can't take reactions. For its action, it can use only the Dash action or try to escape from an effect that prevents it from moving. If there's nowhere to move, the creature can use the Dodge action."
+						"A turned creature must spend its turns trying to move as far away from Erky as it can, and it can't willingly move to a space within 30 feet of him. It also can't take reactions. For its action, it can use only the {@action Dash} action or try to escape from an effect that prevents it from moving. If there's nowhere to move, the creature can use the {@action Dodge} action."
 					]
 				}
 			],
@@ -1392,6 +1465,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 189,
+			"referenceSources": [
+				"TftYP-AtG"
+			],
 			"_copy": {
 				"name": "Cloud Giant",
 				"source": "MM",
@@ -1466,6 +1542,9 @@
 			"name": "Fire Giant Servant",
 			"source": "TftYP",
 			"page": 171,
+			"referenceSources": [
+				"TftYP-AtG"
+			],
 			"_copy": {
 				"name": "Hill Giant",
 				"source": "MM",
@@ -1527,6 +1606,10 @@
 			"name": "Four-Armed Gargoyle",
 			"source": "TftYP",
 			"page": 129,
+			"referenceSources": [
+				"TftYP-DiT",
+				"TftYP-ToH"
+			],
 			"size": [
 				"M"
 			],
@@ -1637,6 +1720,9 @@
 			"name": "Frost Giant Servant",
 			"source": "TftYP",
 			"page": 187,
+			"referenceSources": [
+				"TftYP-AtG"
+			],
 			"_copy": {
 				"name": "Hill Giant",
 				"source": "MM"
@@ -1667,6 +1753,15 @@
 			"name": "Giant Crayfish",
 			"source": "TftYP",
 			"page": 235,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"L"
 			],
@@ -1750,6 +1845,15 @@
 			"name": "Giant Ice Toad",
 			"source": "TftYP",
 			"page": 235,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"L"
 			],
@@ -1856,6 +1960,15 @@
 			"name": "Giant Lightning Eel",
 			"source": "TftYP",
 			"page": 236,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"L"
 			],
@@ -1930,6 +2043,7 @@
 				"P"
 			],
 			"miscTags": [
+				"AOE",
 				"MW"
 			],
 			"conditionInflict": [
@@ -1944,16 +2058,17 @@
 			"name": "Giant Skeleton",
 			"source": "TftYP",
 			"page": 236,
-			"otherSources": [
-				{
-					"source": "DC"
-				},
-				{
-					"source": "SDW"
-				},
-				{
-					"source": "IMR"
-				}
+			"referenceSources": [
+				"DC",
+				"IMR",
+				"SDW",
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
 			],
 			"size": [
 				"H"
@@ -2068,6 +2183,15 @@
 			"name": "Giant Subterranean Lizard",
 			"source": "TftYP",
 			"page": 236,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"H"
 			],
@@ -2157,6 +2281,9 @@
 			"name": "Goblin Commoner",
 			"source": "TftYP",
 			"page": 24,
+			"referenceSources": [
+				"TftYP-TSC"
+			],
 			"_copy": {
 				"name": "Commoner",
 				"source": "MM",
@@ -2202,6 +2329,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 151,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Priest",
 				"source": "MM",
@@ -2228,6 +2358,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 42,
+			"referenceSources": [
+				"TftYP-TFoF"
+			],
 			"_copy": {
 				"name": "Ogre",
 				"source": "MM",
@@ -2261,16 +2394,17 @@
 			"name": "Greater Zombie",
 			"source": "TftYP",
 			"page": 237,
-			"otherSources": [
-				{
-					"source": "DC"
-				},
-				{
-					"source": "SDW"
-				},
-				{
-					"source": "IMR"
-				}
+			"referenceSources": [
+				"DC",
+				"IMR",
+				"SDW",
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
 			],
 			"size": [
 				"M"
@@ -2384,6 +2518,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 25,
+			"referenceSources": [
+				"TftYP-TSC"
+			],
 			"size": [
 				"S"
 			],
@@ -2460,7 +2597,7 @@
 				{
 					"name": "Nimble Escape",
 					"entries": [
-						"The goblin can take the Disengage or Hide action as a bonus action on each of its turns."
+						"The goblin can take the {@action Disengage} or {@action Hide} action as a bonus action on each of its turns."
 					]
 				}
 			],
@@ -2518,6 +2655,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 170,
+			"referenceSources": [
+				"TftYP-AtG"
+			],
 			"_copy": {
 				"name": "Hill Giant",
 				"source": "MM",
@@ -2538,6 +2678,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 21,
+			"referenceSources": [
+				"TftYP-TSC"
+			],
 			"size": [
 				"M"
 			],
@@ -2582,6 +2725,7 @@
 			],
 			"miscTags": [
 				"DIS",
+				"HPR",
 				"MW"
 			],
 			"savingThrowForced": [
@@ -2596,6 +2740,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 160,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Deathlock Wight",
 				"source": "MTF",
@@ -2614,6 +2761,9 @@
 			"name": "Hill Giant Sergeant",
 			"source": "TftYP",
 			"page": 170,
+			"referenceSources": [
+				"TftYP-AtG"
+			],
 			"_copy": {
 				"name": "Hill Giant",
 				"source": "MM"
@@ -2653,6 +2803,9 @@
 			"name": "Hill Giant Subchief",
 			"source": "TftYP",
 			"page": 170,
+			"referenceSources": [
+				"TftYP-AtG"
+			],
 			"_copy": {
 				"name": "Stone Giant",
 				"source": "MM"
@@ -2664,10 +2817,9 @@
 			"name": "Huge Giant Crab",
 			"source": "TftYP",
 			"page": 103,
-			"otherSources": [
-				{
-					"source": "SLW"
-				}
+			"referenceSources": [
+				"SLW",
+				"TftYP-WPM"
 			],
 			"size": [
 				"H"
@@ -2772,6 +2924,9 @@
 			"name": "Huge Polar Bear",
 			"source": "TftYP",
 			"page": 187,
+			"referenceSources": [
+				"TftYP-AtG"
+			],
 			"_copy": {
 				"name": "Polar Bear",
 				"source": "MM"
@@ -2791,6 +2946,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 157,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Commoner",
 				"source": "MM",
@@ -2820,6 +2978,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 189,
+			"referenceSources": [
+				"TftYP-AtG"
+			],
 			"_copy": {
 				"name": "Cloud Giant",
 				"source": "MM",
@@ -2891,6 +3052,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 15,
+			"referenceSources": [
+				"TftYP-TSC"
+			],
 			"_copy": {
 				"name": "Quasit",
 				"source": "MM",
@@ -2911,6 +3075,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 45,
+			"referenceSources": [
+				"TftYP-TFoF"
+			],
 			"size": [
 				"M"
 			],
@@ -3084,6 +3251,15 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 238,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"L"
 			],
@@ -3189,6 +3365,15 @@
 			"name": "Kelpie",
 			"source": "TftYP",
 			"page": 238,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"M"
 			],
@@ -3321,6 +3506,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 132,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Commoner",
 				"source": "MM",
@@ -3351,6 +3539,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 157,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Commoner",
 				"source": "MM"
@@ -3369,6 +3560,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 193,
+			"referenceSources": [
+				"TftYP-AtG"
+			],
 			"_copy": {
 				"name": "Fire Giant",
 				"source": "MM",
@@ -3419,6 +3613,9 @@
 			"name": "Kobold Commoner",
 			"source": "TftYP",
 			"page": 18,
+			"referenceSources": [
+				"TftYP-TSC"
+			],
 			"_copy": {
 				"name": "Commoner",
 				"source": "MM",
@@ -3479,10 +3676,10 @@
 			"name": "Lacedon",
 			"source": "TftYP",
 			"page": 147,
-			"otherSources": [
-				{
-					"source": "EGW"
-				}
+			"referenceSources": [
+				"EGW",
+				"TftYP-DiT",
+				"US"
 			],
 			"_copy": {
 				"name": "Ghoul",
@@ -3508,6 +3705,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 131,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Evoker",
 				"source": "VGM",
@@ -3517,8 +3717,38 @@
 						"replace": "the evoker",
 						"with": "Lahnis",
 						"flags": "i"
+					},
+					"trait": {
+						"mode": "appendArr",
+						"items": {
+							"name": "Special Equipment",
+							"entries": [
+								"Lahnis wears a {@item ring of protection}."
+							]
+						}
 					}
 				}
+			},
+			"ac": [
+				{
+					"ac": 13,
+					"from": [
+						"{@item ring of protection}"
+					]
+				},
+				{
+					"ac": 16,
+					"condition": "with {@spell mage armor}",
+					"braces": true
+				}
+			],
+			"save": {
+				"str": "+0",
+				"dex": "+3",
+				"con": "+2",
+				"int": "+8",
+				"wis": "+6",
+				"cha": "+1"
 			},
 			"hasToken": true,
 			"hasFluffImages": true
@@ -3562,6 +3792,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 153,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Deva",
 				"source": "MM",
@@ -3581,6 +3814,15 @@
 			"name": "Malformed Kraken",
 			"source": "TftYP",
 			"page": 239,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"H"
 			],
@@ -3733,6 +3975,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 157,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Enchanter",
 				"source": "VGM",
@@ -3760,6 +4005,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 91,
+			"referenceSources": [
+				"TftYP-THSoT"
+			],
 			"size": [
 				"M"
 			],
@@ -3871,6 +4119,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 209,
+			"referenceSources": [
+				"TftYP-AtG"
+			],
 			"_copy": {
 				"name": "Drow Priestess of Lolth",
 				"source": "MM",
@@ -3908,6 +4159,15 @@
 			"name": "Nereid",
 			"source": "TftYP",
 			"page": 240,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"M"
 			],
@@ -4040,6 +4300,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 54,
+			"referenceSources": [
+				"TftYP-TFoF"
+			],
 			"_copy": {
 				"name": "Duergar",
 				"source": "MM",
@@ -4098,6 +4361,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 196,
+			"referenceSources": [
+				"TftYP-AtG"
+			],
 			"_copy": {
 				"name": "Assassin",
 				"source": "MM",
@@ -4135,6 +4401,9 @@
 			"name": "Ogre Skeleton",
 			"source": "TftYP",
 			"page": 54,
+			"referenceSources": [
+				"TftYP-TFoF"
+			],
 			"_copy": {
 				"name": "Ogre",
 				"source": "MM",
@@ -4157,6 +4426,15 @@
 			"name": "Ooze Master",
 			"source": "TftYP",
 			"page": 241,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"H"
 			],
@@ -4405,6 +4683,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 157,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Yuan-ti Malison (Type 3)",
 				"source": "MM",
@@ -4425,6 +4706,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 132,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Necromancer",
 				"source": "VGM",
@@ -4450,6 +4734,9 @@
 			"name": "Reduced-Threat Aboleth",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Aboleth",
 				"source": "MM",
@@ -4467,6 +4754,9 @@
 			"name": "Reduced-Threat Basilisk",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Basilisk",
 				"source": "MM",
@@ -4483,6 +4773,9 @@
 			"name": "Reduced-Threat Behir",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Behir",
 				"source": "MM",
@@ -4516,6 +4809,9 @@
 			"name": "Reduced-Threat Beholder",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Beholder",
 				"source": "MM",
@@ -4532,6 +4828,9 @@
 			"name": "Reduced-Threat Black Pudding",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Black Pudding",
 				"source": "MM",
@@ -4548,6 +4847,9 @@
 			"name": "Reduced-Threat Carrion Crawler",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Carrion Crawler",
 				"source": "MM",
@@ -4564,6 +4866,9 @@
 			"name": "Reduced-Threat Clay Golem",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Clay Golem",
 				"source": "MM",
@@ -4580,6 +4885,9 @@
 			"name": "Reduced-Threat Darkmantle",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Darkmantle",
 				"source": "MM",
@@ -4596,6 +4904,9 @@
 			"name": "Reduced-Threat Displacer Beast",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Displacer Beast",
 				"source": "MM",
@@ -4612,6 +4923,9 @@
 			"name": "Reduced-Threat Dragon Turtle",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Dragon Turtle",
 				"source": "MM",
@@ -4653,6 +4967,9 @@
 			"name": "Reduced-Threat Ettercap",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Ettercap",
 				"source": "MM",
@@ -4674,6 +4991,9 @@
 			"name": "Reduced-Threat Flesh Golem",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Flesh Golem",
 				"source": "MM",
@@ -4690,6 +5010,9 @@
 			"name": "Reduced-Threat Glabrezu",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Glabrezu",
 				"source": "MM",
@@ -4706,6 +5029,9 @@
 			"name": "Reduced-Threat Gray Ooze",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Gray Ooze",
 				"source": "MM",
@@ -4726,6 +5052,9 @@
 			"name": "Reduced-Threat Helmed Horror",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Helmed Horror",
 				"source": "MM",
@@ -4742,6 +5071,9 @@
 			"name": "Reduced-Threat Hezrou",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Hezrou",
 				"source": "MM",
@@ -4758,6 +5090,9 @@
 			"name": "Reduced-Threat Hook Horror",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Hook Horror",
 				"source": "MM",
@@ -4774,6 +5109,9 @@
 			"name": "Reduced-Threat Ochre Jelly",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Ochre Jelly",
 				"source": "MM",
@@ -4790,6 +5128,9 @@
 			"name": "Reduced-Threat Otyugh",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Otyugh",
 				"source": "MM",
@@ -4829,6 +5170,9 @@
 			"name": "Reduced-Threat Owlbear",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Owlbear",
 				"source": "MM",
@@ -4845,6 +5189,9 @@
 			"name": "Reduced-Threat Peryton",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Peryton",
 				"source": "MM",
@@ -4861,6 +5208,9 @@
 			"name": "Reduced-Threat Remorhaz",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Remorhaz",
 				"source": "MM",
@@ -4877,6 +5227,9 @@
 			"name": "Reduced-Threat Stone Golem",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Stone Golem",
 				"source": "MM",
@@ -4893,6 +5246,9 @@
 			"name": "Reduced-Threat Vrock",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Vrock",
 				"source": "MM",
@@ -4909,6 +5265,9 @@
 			"name": "Reduced-Threat Wight",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Wight",
 				"source": "MM",
@@ -4925,6 +5284,9 @@
 			"name": "Reduced-Threat Wyvern",
 			"source": "TftYP",
 			"page": 113,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Wyvern",
 				"source": "MM",
@@ -4941,6 +5303,10 @@
 			"name": "Scrag",
 			"source": "TftYP",
 			"page": 147,
+			"referenceSources": [
+				"RoT",
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Troll",
 				"source": "MM"
@@ -4957,12 +5323,20 @@
 			"page": 242,
 			"otherSources": [
 				{
-					"source": "LR"
-				},
-				{
 					"source": "GoS",
 					"page": 252
 				}
+			],
+			"referenceSources": [
+				"GoS",
+				"LR",
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
 			],
 			"size": [
 				"L"
@@ -5073,6 +5447,9 @@
 			"name": "Sentient Gray Ooze",
 			"source": "TftYP",
 			"page": 158,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Gray Ooze",
 				"source": "MM",
@@ -5100,6 +5477,9 @@
 			"name": "Sentient Ochre Jelly",
 			"source": "TftYP",
 			"page": 158,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Ochre Jelly",
 				"source": "MM",
@@ -5125,6 +5505,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 119,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Knight",
 				"source": "MM",
@@ -5146,6 +5529,15 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 242,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"M"
 			],
@@ -5281,6 +5673,15 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 243,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"M"
 			],
@@ -5383,10 +5784,15 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 243,
-			"otherSources": [
-				{
-					"source": "MOT"
-				}
+			"referenceSources": [
+				"MOT",
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
 			],
 			"size": [
 				"M"
@@ -5526,6 +5932,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 102,
+			"referenceSources": [
+				"TftYP-WPM"
+			],
 			"size": [
 				"M"
 			],
@@ -5593,7 +6002,7 @@
 					"name": "Spellcasting",
 					"type": "spellcasting",
 					"headerEntries": [
-						"Snarla is a 6th-level spellcaster. Her spellcasting ability is Intelligence (spell save {@dc 14}, +6 to hit with spell attacks). She has the following wizard spells prepared:"
+						"Snarla is a 6th-level spellcaster. Her spellcasting ability is Intelligence (spell save {@dc 14}, {@hit 6} to hit with spell attacks). She has the following wizard spells prepared:"
 					],
 					"spells": {
 						"0": {
@@ -5656,7 +6065,7 @@
 				{
 					"name": "Bite (Wolf or Hybrid Form Only)",
 					"entries": [
-						"{@atk mw} {@hit 4} to hit, reach 5 ft., one target. {@h}6 ({@damage 1d8 + 2}) piercing damage. If the target is a humanoid, it must succeed on a {@dc 12} Constitution saving throw or be cursed with werewolf lycanthropy."
+						"{@atk mw} {@hit 4} to hit, reach 5 ft., one target. {@h}6 ({@damage 1d8 + 2}) piercing damage. If the target is a humanoid, it must succeed on a {@dc 12} Constitution saving throw or be cursed with werewolf {@variantrule Player Characters as Lycanthropes|MM|lycanthropy}."
 					]
 				},
 				{
@@ -5741,6 +6150,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 53,
+			"referenceSources": [
+				"TftYP-TFoF"
+			],
 			"size": [
 				"M"
 			],
@@ -5951,6 +6363,15 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 244,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"M"
 			],
@@ -6210,6 +6631,15 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 245,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"L"
 			],
@@ -6343,6 +6773,15 @@
 			"name": "Thayan Apprentice",
 			"source": "TftYP",
 			"page": 245,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"M"
 			],
@@ -6474,6 +6913,15 @@
 			"name": "Thayan Warrior",
 			"source": "TftYP",
 			"page": 246,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"M"
 			],
@@ -6587,6 +7035,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 173,
+			"referenceSources": [
+				"TftYP-AtG"
+			],
 			"_copy": {
 				"name": "Stone Giant",
 				"source": "MM",
@@ -6643,6 +7094,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 158,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Commoner",
 				"source": "MM",
@@ -6674,6 +7128,15 @@
 			"name": "Thorn Slinger",
 			"source": "TftYP",
 			"page": 246,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"L"
 			],
@@ -6755,6 +7218,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 68,
+			"referenceSources": [
+				"TftYP-THSoT"
+			],
 			"size": [
 				"M"
 			],
@@ -6831,7 +7297,7 @@
 				{
 					"name": "Regeneration",
 					"entries": [
-						"The vampire regains 10 hit points at the start of its turn if it has at least 1 hit point and isn't in sunlight or running water. If the vampire takes radiant damage or damage from holy water, this trait doesn't function at the start of the vampire's next turn."
+						"The vampire regains 10 hit points at the start of its turn if it has at least 1 hit point and isn't in sunlight or running water. If the vampire takes radiant damage or damage from {@item Holy Water (Flask)|PHB|holy water}, this trait doesn't function at the start of the vampire's next turn."
 					]
 				},
 				{
@@ -6945,6 +7411,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 159,
+			"referenceSources": [
+				"TftYP-DiT"
+			],
 			"_copy": {
 				"name": "Wight",
 				"source": "MM",
@@ -6963,6 +7432,9 @@
 			"name": "Werejaguar",
 			"source": "TftYP",
 			"page": 79,
+			"referenceSources": [
+				"TftYP-THSoT"
+			],
 			"_copy": {
 				"name": "Weretiger",
 				"source": "MM",
@@ -7002,6 +7474,15 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 248,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"G"
 			],
@@ -7112,6 +7593,9 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 83,
+			"referenceSources": [
+				"TftYP-THSoT"
+			],
 			"_copy": {
 				"name": "Roper",
 				"source": "MM",
@@ -7132,6 +7616,9 @@
 			"name": "Yeti Leader",
 			"source": "TftYP",
 			"page": 183,
+			"referenceSources": [
+				"TftYP-AtG"
+			],
 			"_copy": {
 				"name": "Yeti",
 				"source": "MM",
@@ -7282,6 +7769,15 @@
 			"isNamedCreature": true,
 			"source": "TftYP",
 			"page": 248,
+			"referenceSources": [
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
+			],
 			"size": [
 				"S"
 			],

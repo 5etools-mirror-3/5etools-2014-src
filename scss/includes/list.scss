@@ -1,7 +1,7 @@
 @use "../vars/vars";
 
 @layer vetools {
-	.lst__ {
+	.ve-lst__ {
 		&wrp-search-glass {
 			position: absolute;
 			top: 0;
@@ -36,7 +36,7 @@
 		}
 
 		&is-exporting-image {
-			.lst-is-exporting-image {
+			.ve-lst-is-exporting-image {
 				&__hidden {
 					display: none !important;
 				}
@@ -71,13 +71,27 @@
 				}
 			}
 
+			&-lnk-inner {
+				color: inherit;
+				display: flex;
+				align-items: center;
+				overflow: hidden;
+				text-decoration: none;
+				width: 100%;
+
+				&:hover,
+				&:focus {
+					text-decoration: none;
+				}
+			}
+
 			&-border {
 				border-bottom: 1px solid vars.$rgb-border-grey--list-row;
 			}
 		}
 	}
 
-	input.lst__ {
+	input.ve-lst__ {
 		&search {
 			padding-left: 23px;
 		}

@@ -1,4 +1,5 @@
 import {ConverterUiBase} from "./converter-ui-base.js";
+import {ConverterEntries} from "./converter-entries.js";
 
 export class EntryConverterUi extends ConverterUiBase {
 	constructor ({ui, converterData}) {
@@ -17,15 +18,11 @@ export class EntryConverterUi extends ConverterUiBase {
 		);
 	}
 
-	_renderSidebar (parent, $wrpSidebar) {
-		$wrpSidebar.empty();
-	}
-
 	handleParse (input, cbOutput, cbWarning, isAppend) {
 		const opts = this._handleParse_getOpts({cbOutput, cbWarning, isAppend});
 
 		switch (this._state.mode) {
-			case "md": return cbOutput(MarkdownConverter.getEntries(input));
+			case "md": return cbOutput(ConverterEntries.doParseMarkdown(input, opts));
 			default: throw new Error(`Unimplemented!`);
 		}
 	}

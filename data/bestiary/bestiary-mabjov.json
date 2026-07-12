@@ -76,7 +76,7 @@
 				{
 					"name": "Spring Attack",
 					"entries": [
-						"The achaierai takes the Disengage action."
+						"The achaierai takes the {@action Disengage} action."
 					]
 				}
 			],
@@ -745,6 +745,7 @@
 		{
 			"name": "Bhaal, Ravager",
 			"shortName": "ravager",
+			"isNamedCreature": true,
 			"source": "MaBJoV",
 			"page": 95,
 			"size": [
@@ -958,6 +959,7 @@
 		{
 			"name": "Bhaal, Slayer",
 			"shortName": "slayer",
+			"isNamedCreature": true,
 			"source": "MaBJoV",
 			"page": 93,
 			"size": [
@@ -1346,8 +1348,7 @@
 			"damageTags": [
 				"B",
 				"N",
-				"P",
-				"R"
+				"P"
 			],
 			"miscTags": [
 				"HPR",
@@ -1480,7 +1481,7 @@
 				{
 					"name": "Nimble Escape",
 					"entries": [
-						"Borivik can take the Disengage or Hide action."
+						"Borivik can take the {@action Disengage} or {@action Hide} action."
 					]
 				}
 			],
@@ -2580,7 +2581,7 @@
 				13,
 				{
 					"ac": 18,
-					"condition": "with {@item staff of power} and  {@spell mage armor}",
+					"condition": "with {@item staff of power} and {@spell mage armor}",
 					"braces": true
 				}
 			],
@@ -3807,7 +3808,7 @@
 				{
 					"name": "Cunning Action",
 					"entries": [
-						"Imoen takes the Dash, Disengage, or Hide action."
+						"Imoen takes the {@action Dash}, {@action Disengage}, or {@action Hide} action."
 					]
 				}
 			],
@@ -4897,7 +4898,7 @@
 				{
 					"name": "Beak (Raven or Hybrid Form Only)",
 					"entries": [
-						"{@atk mw} {@hit 8} to hit, reach 5 ft., one target. {@h}1 piercing damage in raven form, or 6 ({@damage 1d4 + 4}) piercing damage in hybrid form. If the target is Humanoid, it must succeed on a {@dc 15} Constitution saving throw or be cursed with wereraven lycanthropy."
+						"{@atk mw} {@hit 8} to hit, reach 5 ft., one target. {@h}1 piercing damage in raven form, or 6 ({@damage 1d4 + 4}) piercing damage in hybrid form. If the target is Humanoid, it must succeed on a {@dc 15} Constitution saving throw or be cursed with wereraven {@variantrule Player Characters as Lycanthropes|MM|lycanthropy}."
 					]
 				},
 				{
@@ -5314,7 +5315,7 @@
 				{
 					"name": "Greatsword",
 					"entries": [
-						"{@atk mw} {@hit 9} to hit, reach 5 ft., one target. {@h}12 ({@damage 2d6 + 5}) slashing damage"
+						"{@atk mw} {@hit 9} to hit, reach 5 ft., one target. {@h}12 ({@damage 2d6 + 5}) slashing damage."
 					]
 				}
 			],
@@ -8106,7 +8107,7 @@
 				{
 					"name": "Nimble Escape",
 					"entries": [
-						"The tasloi can take the Disengage or Hide action as a bonus action on each of its turns."
+						"The tasloi can take the {@action Disengage} or {@action Hide} action as a bonus action on each of its turns."
 					]
 				}
 			],
@@ -8209,7 +8210,7 @@
 				{
 					"name": "Nimble Escape",
 					"entries": [
-						"The tasloi can take the Disengage or Hide action as a bonus action on each of its turns."
+						"The tasloi can take the {@action Disengage} or {@action Hide} action as a bonus action on each of its turns."
 					]
 				}
 			],
@@ -8476,7 +8477,7 @@
 				{
 					"name": "Shadow Stealth",
 					"entries": [
-						"While in dim light or darkness, Valygar can take the Hide action as a bonus action."
+						"While in dim light or darkness, Valygar can take the {@action Hide} action as a bonus action."
 					]
 				}
 			],
@@ -8580,7 +8581,7 @@
 				{
 					"name": "Animal Companions",
 					"entries": [
-						"Vellin is accompanied by Akela ({@creature wolf} with 18 hit points). Vellin can mount or dismount Akela using 5 feet of movement. While mounted, Vellin can order Akela to Dash, Disengage, and Dodge. In addition, Vellin has an {@creature owl} companion with 3 hit points. On Vellin's turn, the owl can perform a flyby on a creature of Vellin's choice. The next attack that Vellin makes against that creature has advantage."
+						"Vellin is accompanied by Akela ({@creature wolf} with 18 hit points). Vellin can mount or dismount Akela using 5 feet of movement. While mounted, Vellin can order Akela to {@action Dash}, {@action Disengage}, and {@action Dodge}. In addition, Vellin has an {@creature owl} companion with 3 hit points. On Vellin's turn, the owl can perform a flyby on a creature of Vellin's choice. The next attack that Vellin makes against that creature has advantage."
 					]
 				},
 				{
@@ -8626,7 +8627,7 @@
 				{
 					"name": "Nimble Escape",
 					"entries": [
-						"Vellin can take the Disengage or Hide action."
+						"Vellin can take the {@action Disengage} or {@action Hide} action."
 					]
 				}
 			],
@@ -8669,7 +8670,11 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"drow"
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					}
 				]
 			},
 			"alignment": [
@@ -9636,6 +9641,9 @@
 			],
 			"spellcastingTags": [
 				"O"
+			],
+			"miscTags": [
+				"AOE"
 			],
 			"conditionInflictSpell": [
 				"poisoned"

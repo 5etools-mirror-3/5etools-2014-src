@@ -2,7 +2,8 @@
 	"_meta": {
 		"otherSources": {
 			"monster": {
-				"NRH-TCMC": "NRH-ASS"
+				"NRH-TCMC": "NRH-ASS",
+				"MM": "NRH-ASS"
 			}
 		}
 	},
@@ -16,6 +17,9 @@
 					"source": "NRH-AT",
 					"page": 11
 				}
+			],
+			"referenceSources": [
+				"NRH-AT"
 			],
 			"size": [
 				"M"
@@ -67,10 +71,11 @@
 				{
 					"name": "Scimitar",
 					"entries": [
-						"{@atk mw} {@hit 3} to hit, reach 5 ft., one target. {@h}4 ({@damage 1d6 + 1}) slashing damage"
+						"{@atk mw} {@hit 3} to hit, reach 5 ft., one target. {@h}4 ({@damage 1d6 + 1}) slashing damage."
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"scimitar|phb"
 			],

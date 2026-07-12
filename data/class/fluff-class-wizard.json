@@ -412,24 +412,6 @@
 					"height": 1353
 				}
 			]
-		},
-		{
-			"name": "Blood Magic",
-			"shortName": "Blood Magic",
-			"source": "TDCSR",
-			"className": "Wizard",
-			"classSource": "PHB",
-			"images": [
-				{
-					"type": "image",
-					"href": {
-						"type": "internal",
-						"path": "classes/TDCSR/Blood Magic Wizard.webp"
-					},
-					"width": 850,
-					"height": 1210
-				}
-			]
 		}
 	]
 }

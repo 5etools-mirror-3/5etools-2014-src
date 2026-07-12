@@ -1524,7 +1524,7 @@
 									"page": 65,
 									"id": "177",
 									"entries": [
-										"This hallowed hall is filled with statues of the university's past Oracles. At the center of the hall, a pulsing ball of magical energy\u2014the Strixhaven Snarl\u2014fills the area with bright light. See the book's {@book introduction|SCC|0|Strixhaven's World} for information about snarls and the Oracle.",
+										"This hallowed hall is filled with statues of the university's past Oracles. At the center of the hall, a pulsing ball of magical energy\u2014the Strixhaven Snarl\u2014fills the area with {@quickref Vision and Light||2||bright light}. See the book's {@book introduction|SCC|0|Strixhaven's World} for information about snarls and the Oracle.",
 										"The \"{@adventure Orientation Challenge|SCC-CK|0|Orientation Challenge}\" event later in this chapter starts here."
 									]
 								},
@@ -3373,7 +3373,7 @@
 											"type": "insetReadaloud",
 											"id": "1c6",
 											"entries": [
-												"As the bright light of the central campus fades into the verdant grounds of Captain Dapplewing's Manor, you see a small group of your peers congregated underneath a massive oak tree in the manor's front yard."
+												"As the {@quickref Vision and Light||2||bright light} of the central campus fades into the verdant grounds of Captain Dapplewing's Manor, you see a small group of your peers congregated underneath a massive oak tree in the manor's front yard."
 											]
 										},
 										"One student turns to another and says in a stage whisper, \"I told you they'd arrive! Now pay up, you goof!\" Turning to the characters, the student points to the manor house and says:",
@@ -4590,7 +4590,7 @@
 												},
 												"Once Captain Dapplewing's study, this large office is often used for sensitive discussions among faculty members. The decor has stayed the same since Captain Dapplewing's time.",
 												"On the northern wall, a plaque holds the heads of a black and a red dragon, each clearly constructed from metallic crafting supplies. This device is a strange magic curiosity that was once a favorite of the captain's and that faculty members using the office know to avoid. The plaque animates both heads to attack any character who moves within 5 feet of it.",
-												"While animated, each dragon head has {@sense blindsight} out to a range of 30 feet and is blind beyond that distance. On initiative count 20, the black dragon head exhales a glob of acid while the red dragon exhales a fiery missile, each targeting one creature the head can see (+6 to hit). A creature hit by either attack takes 6 ({@dice 1d8 + 2}) damage of the appropriate type (acid or fire).",
+												"While animated, each dragon head has {@sense blindsight} out to a range of 30 feet and is blind beyond that distance. On initiative count 20, the black dragon head exhales a glob of acid while the red dragon exhales a fiery missile, each targeting one creature the head can see ({@hit 6} to hit). A creature hit by either attack takes 6 ({@dice 1d8 + 2}) damage of the appropriate type (acid or fire).",
 												"Each head has a speed of 0, AC 16, 25 hit points, and immunity to poison and psychic damage. Their ability scores are as follows: Strength 6, Dexterity 14, Constitution 10, Intelligence 3, Wisdom 3, and Charisma 1."
 											]
 										},
@@ -5696,7 +5696,7 @@
 							"id": "221",
 							"entries": [
 								"The day after the incident at the Rose Stage Festival, the characters are scheduled to collect spell components from Sedgemoor and bring those samples back to Professor Lang, who teaches their Magical Physiologies course. This gives them a convenient opportunity to investigate that area on behalf of Professor Totsky.",
-								"The characters know that they must pour the flask of holy water given to them by Professor Totsky into an underwater spring somewhere in area S7. Doing so should prevent future flare-ups of the wild magic that tainted the eldritch balm behind all the strange campus mishaps. In addition, they can find {@creature Murgaxor|SCC}'s journal, which points to a spellcaster's troublesome meddling, in {@adventure area S7|SCC-CK|0|S7. Underwater Spring}.",
+								"The characters know that they must pour the {@item Holy Water (Flask)|PHB|flask of holy water} given to them by Professor Totsky into an underwater spring somewhere in area S7. Doing so should prevent future flare-ups of the wild magic that tainted the eldritch balm behind all the strange campus mishaps. In addition, they can find {@creature Murgaxor|SCC}'s journal, which points to a spellcaster's troublesome meddling, in {@adventure area S7|SCC-CK|0|S7. Underwater Spring}.",
 								"When the characters venture into Sedgemoor, read or paraphrase the following to set the scene:",
 								{
 									"type": "insetReadaloud",

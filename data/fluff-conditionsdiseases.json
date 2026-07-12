@@ -9,7 +9,9 @@
 					"href": {
 						"type": "internal",
 						"path": "conditionsdiseases/PHB/blinded.webp"
-					}
+					},
+					"width": 250,
+					"height": 250
 				}
 			]
 		},
@@ -22,7 +24,9 @@
 					"href": {
 						"type": "internal",
 						"path": "conditionsdiseases/PHB/charmed.webp"
-					}
+					},
+					"width": 450,
+					"height": 450
 				}
 			]
 		},
@@ -35,7 +39,9 @@
 					"href": {
 						"type": "internal",
 						"path": "conditionsdiseases/PHB/deafened.webp"
-					}
+					},
+					"width": 262,
+					"height": 269
 				}
 			]
 		},
@@ -48,7 +54,9 @@
 					"href": {
 						"type": "internal",
 						"path": "conditionsdiseases/PHB/frightened.webp"
-					}
+					},
+					"width": 381,
+					"height": 318
 				}
 			]
 		},
@@ -61,7 +69,9 @@
 					"href": {
 						"type": "internal",
 						"path": "conditionsdiseases/PHB/grappled.webp"
-					}
+					},
+					"width": 257,
+					"height": 383
 				}
 			]
 		},
@@ -74,7 +84,9 @@
 					"href": {
 						"type": "internal",
 						"path": "conditionsdiseases/PHB/invisible.webp"
-					}
+					},
+					"width": 530,
+					"height": 129
 				}
 			]
 		},
@@ -87,7 +99,9 @@
 					"href": {
 						"type": "internal",
 						"path": "conditionsdiseases/PHB/paralyzed.webp"
-					}
+					},
+					"width": 431,
+					"height": 314
 				}
 			]
 		},
@@ -100,7 +114,9 @@
 					"href": {
 						"type": "internal",
 						"path": "conditionsdiseases/PHB/petrified.webp"
-					}
+					},
+					"width": 450,
+					"height": 450
 				}
 			]
 		},
@@ -113,7 +129,9 @@
 					"href": {
 						"type": "internal",
 						"path": "conditionsdiseases/PHB/poisoned.webp"
-					}
+					},
+					"width": 271,
+					"height": 392
 				}
 			]
 		},
@@ -126,7 +144,9 @@
 					"href": {
 						"type": "internal",
 						"path": "conditionsdiseases/PHB/prone.webp"
-					}
+					},
+					"width": 420,
+					"height": 463
 				}
 			]
 		},
@@ -139,7 +159,9 @@
 					"href": {
 						"type": "internal",
 						"path": "conditionsdiseases/PHB/restrained.webp"
-					}
+					},
+					"width": 432,
+					"height": 463
 				}
 			]
 		},
@@ -152,7 +174,9 @@
 					"href": {
 						"type": "internal",
 						"path": "conditionsdiseases/PHB/stunned.webp"
-					}
+					},
+					"width": 393,
+					"height": 463
 				}
 			]
 		},
@@ -165,7 +189,9 @@
 					"href": {
 						"type": "internal",
 						"path": "conditionsdiseases/PHB/unconscious.webp"
-					}
+					},
+					"width": 365,
+					"height": 310
 				}
 			]
 		}

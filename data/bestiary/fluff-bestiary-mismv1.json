@@ -18,14 +18,18 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MisMV1/Coral.webp"
-					}
+					},
+					"width": 869,
+					"height": 1000
 				},
 				{
 					"type": "image",
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MisMV1/Coral (Original).webp"
-					}
+					},
+					"width": 1700,
+					"height": 1546
 				}
 			]
 		},
@@ -48,14 +52,18 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MisMV1/Dandylion.webp"
-					}
+					},
+					"width": 604,
+					"height": 1000
 				},
 				{
 					"type": "image",
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MisMV1/Dandylion (Original).webp"
-					}
+					},
+					"width": 1700,
+					"height": 1820
 				}
 			]
 		},
@@ -77,14 +85,18 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MisMV1/Rain.webp"
-					}
+					},
+					"width": 706,
+					"height": 1000
 				},
 				{
 					"type": "image",
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MisMV1/Rain (Original).webp"
-					}
+					},
+					"width": 1700,
+					"height": 1808
 				}
 			]
 		},
@@ -107,14 +119,18 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MisMV1/Scrapper.webp"
-					}
+					},
+					"width": 959,
+					"height": 1000
 				},
 				{
 					"type": "image",
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MisMV1/Scrapper (Original).webp"
-					}
+					},
+					"width": 1700,
+					"height": 2018
 				}
 			]
 		},
@@ -136,14 +152,18 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MisMV1/Seth the Shapeshifting Dragon.webp"
-					}
+					},
+					"width": 504,
+					"height": 1000
 				},
 				{
 					"type": "image",
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MisMV1/Seth the Shapeshifting Dragon (Original).webp"
-					}
+					},
+					"width": 1700,
+					"height": 1339
 				}
 			]
 		},
@@ -165,14 +185,18 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MisMV1/Sheldon the Blueberry Dragon.webp"
-					}
+					},
+					"width": 703,
+					"height": 1000
 				},
 				{
 					"type": "image",
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MisMV1/Sheldon the Blueberry Dragon (Original).webp"
-					}
+					},
+					"width": 1700,
+					"height": 1822
 				}
 			]
 		}

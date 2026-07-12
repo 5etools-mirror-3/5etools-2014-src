@@ -2,6 +2,10 @@
 	"magicvariant": [
 		{
 			"name": "+1 Ammunition",
+			"referenceSources": [
+				"CoA",
+				"ToA"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -30,6 +34,11 @@
 		},
 		{
 			"name": "+1 Armor",
+			"referenceSources": [
+				"GotSF",
+				"LMoP",
+				"PaBTSO"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -77,6 +86,18 @@
 		},
 		{
 			"name": "+1 Weapon",
+			"referenceSources": [
+				"DIP",
+				"DoSI",
+				"GoS",
+				"LMoP",
+				"NRH-ASS",
+				"PaBTSO",
+				"QftIS",
+				"SjA",
+				"TftYP-DiT",
+				"ToFW"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -153,6 +174,10 @@
 		},
 		{
 			"name": "+2 Armor",
+			"referenceSources": [
+				"CoS",
+				"TftYP-AtG"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -200,6 +225,10 @@
 		},
 		{
 			"name": "+2 Weapon",
+			"referenceSources": [
+				"BGDIA",
+				"GotSF"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -596,7 +625,8 @@
 				"entries": [
 					"{#itemEntry Armor of Resistance}"
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "Armor of Fire Resistance",
@@ -1024,6 +1054,15 @@
 		},
 		{
 			"name": "Berserker Axe",
+			"referenceSources": [
+				"DSotDQ",
+				"GoS",
+				"HoL",
+				"IDRotF",
+				"QftIS",
+				"TftYP-THSoT",
+				"TftYP-ToH"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -1316,6 +1355,9 @@
 		},
 		{
 			"name": "Defender",
+			"referenceSources": [
+				"TftYP-ToH"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -1406,6 +1448,11 @@
 		},
 		{
 			"name": "Dragon Slayer",
+			"referenceSources": [
+				"DIP",
+				"PotA",
+				"TftYP-AtG"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -1452,6 +1499,9 @@
 		},
 		{
 			"name": "Dragonlance",
+			"referenceSources": [
+				"DSotDQ"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -1669,6 +1719,13 @@
 		},
 		{
 			"name": "Flame Tongue",
+			"referenceSources": [
+				"OotA",
+				"QftIS",
+				"TftYP-ToH",
+				"ToA",
+				"WBtW"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -1761,6 +1818,9 @@
 		},
 		{
 			"name": "Frost Brand",
+			"referenceSources": [
+				"WBtW"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -1824,6 +1884,9 @@
 		},
 		{
 			"name": "Giant Slayer",
+			"referenceSources": [
+				"SKT"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -1942,6 +2005,9 @@
 		},
 		{
 			"name": "Holy Avenger",
+			"referenceSources": [
+				"CoA"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -2260,6 +2326,10 @@
 		},
 		{
 			"name": "Luck Blade",
+			"referenceSources": [
+				"CoS",
+				"WDMM"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -2326,6 +2396,10 @@
 		},
 		{
 			"name": "Mariner's Armor",
+			"referenceSources": [
+				"PotA",
+				"WDMM"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -2419,6 +2493,13 @@
 		},
 		{
 			"name": "Mithral Armor",
+			"referenceSources": [
+				"CoA",
+				"GoS",
+				"IDRotF",
+				"KftGV",
+				"WDMM"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -2532,6 +2613,10 @@
 		},
 		{
 			"name": "Nine Lives Stealer",
+			"referenceSources": [
+				"CoA",
+				"WDMM"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -2557,46 +2642,6 @@
 				]
 			},
 			"hasFluffImages": true
-		},
-		{
-			"name": "Oceanic Weapon",
-			"type": "GV|DMG",
-			"requires": [
-				{
-					"type": "R"
-				},
-				{
-					"property": "T"
-				}
-			],
-			"excludes": {
-				"net": true
-			},
-			"inherits": {
-				"namePrefix": "Oceanic ",
-				"source": "TDCSR",
-				"page": 199,
-				"rarity": "rare",
-				"reqAttune": true,
-				"bonusWeapon": "+1",
-				"modifySpeed": {
-					"static": {
-						"swim": 30
-					}
-				},
-				"recharge": "dawn",
-				"entries": [
-					"This elegant weapon is adorned with engravings depicting leaping dolphins and drifting jellyfish. You gain a {=bonusWeapon} bonus to attack and damage rolls made with this magic weapon, and you ignore {@quickref Underwater Combat|PHB|3|0|the normal penalties on ranged weapon attacks while using this weapon underwater}. While holding the weapon in front of you with both hands, you have a swimming speed of 30 feet.",
-					"Additionally, while you hold the weapon, you can use an action to cast the {@spell water breathing} spell. Once this property is used, it can't be used again until the next dawn."
-				],
-				"attachedSpells": {
-					"daily": {
-						"1e": [
-							"water breathing"
-						]
-					}
-				}
-			}
 		},
 		{
 			"name": "Orb of Shielding (Fernian Basalt)",
@@ -3269,6 +3314,10 @@
 		},
 		{
 			"name": "Sword of Life Stealing",
+			"referenceSources": [
+				"CoA",
+				"VEoR"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -3331,6 +3380,10 @@
 		},
 		{
 			"name": "Sword of Sharpness",
+			"referenceSources": [
+				"LRDT",
+				"WDMM"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -3390,6 +3443,11 @@
 		},
 		{
 			"name": "Sword of Vengeance",
+			"referenceSources": [
+				"HoL",
+				"TftYP-AtG",
+				"TftYP-ToH"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -3477,6 +3535,9 @@
 		},
 		{
 			"name": "Vicious Weapon",
+			"referenceSources": [
+				"CoA"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -3509,6 +3570,9 @@
 		},
 		{
 			"name": "Vorpal Sword",
+			"referenceSources": [
+				"LLK"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{
@@ -3673,6 +3737,10 @@
 		},
 		{
 			"name": "Weapon of Warning",
+			"referenceSources": [
+				"CRCotN",
+				"JttRC"
+			],
 			"type": "GV|DMG",
 			"requires": [
 				{

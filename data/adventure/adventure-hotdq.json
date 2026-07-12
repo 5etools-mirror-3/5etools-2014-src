@@ -535,7 +535,7 @@
 												"type": "internal",
 												"path": "adventure/HotDQ/000-tod-00-01.webp"
 											},
-											"title": "Severin",
+											"title": "{@creature Severin|RoT}",
 											"width": 685,
 											"height": 1000
 										},
@@ -649,7 +649,7 @@
 							"page": 14,
 							"id": "042",
 							"entries": [
-								"If the characters claimed Skyreach Castle in {@i Hoard of the Dragon Queen}, they might well hear from a frost giant diplomat who shows up to reclaim it as property of the giants who built it. A frost giant named Harshnag lives on Mount Sar north of Waterdeep, and he is sometimes called upon when the Sword Coast faces dire threats. The player characters could fly the citadel to him or\u2014in a more dramatic interlude\u2014he might come to a council meeting and demand the citadel's return on behalf of his kin so that he might rally them against their ancient foes.",
+								"If the characters claimed Skyreach Castle in {@i Hoard of the Dragon Queen}, they might well hear from a frost giant diplomat who shows up to reclaim it as property of the giants who built it. A frost giant named {@creature Harshnag|SKT} lives on Mount Sar north of Waterdeep, and he is sometimes called upon when the Sword Coast faces dire threats. The player characters could fly the citadel to him or\u2014in a more dramatic interlude\u2014he might come to a council meeting and demand the citadel's return on behalf of his kin so that he might rally them against their ancient foes.",
 								"If the player characters did not claim the citadel (or crashed it), this option is not available to them.",
 								{
 									"type": "entries",
@@ -804,7 +804,7 @@
 										"Delaan has come to the Council of Waterdeep as the lone representative of the Emerald Enclave. Even his regular companion, a winter wolf named Loska, remains on patrol outside the city. Delaan spends much of his time wandering the northern wilderness, and although he visits friends in Nesmé once a year, he otherwise shies away from large settlements. He is clearly uncomfortable in Waterdeep.",
 										"There is no question that Tiamat must be stopped, but the Emerald Enclave wants to see the world restored to order. This sometimes means taking a middle ground in battles between good and evil. Delaan is acutely aware of the destruction accompanying the recent activities of the Cult of the Dragon. He knows the cult must be destroyed for upsetting the balance of nature, and he knows that many dragons supporting the cult will die before the end. He would rather not kill unnecessarily, however.",
 										"Delaan is initially reserved in his support of the party. To earn his respect, the characters must recognize that their battle is not just to save civilization but to preserve the natural order. He thus objects to many actions that good or neutral characters might not think twice about\u2014including destroying chromatic dragon eggs and other acts that disrupt the natural cycle.",
-										"Delaan's oldest friend and mentor is a mighty treant named Turlang who resides in the High Forest. With Delaan's support, many treants will join the fight against Tiamat."
+										"Delaan's oldest friend and mentor is a mighty treant named {@creature Turlang|SKT} who resides in the High Forest. With Delaan's support, many treants will join the fight against Tiamat."
 									]
 								}
 							]
@@ -1111,7 +1111,7 @@
 											"page": 23,
 											"id": "066",
 											"entries": [
-												"Burning buildings and a half moon provide dim light throughout the town. The inside of the keep is brightly illuminated."
+												"Burning buildings and a half moon provide {@quickref Vision and Light||2||dim light} throughout the town. The inside of the keep is brightly illuminated."
 											]
 										},
 										{
@@ -1681,7 +1681,7 @@
 										"The force outside the temple is split into three groups. One (A) is battering at the front doors, another (B) is circling the temple in a screeching mob, and the third (C) is heaping burning straw against a rear door. All these groups together would overwhelm 1st-level characters, but characters can devise a plan that gets them inside the temple by dealing with one group.",
 										"Group A consists of one {@creature dragonclaw|HotDQ} (see {@adventure appendix D|HotDQ|12}), two {@creature Cultist||cultists}, and six {@creature Kobold||kobolds}. The cultists are handling the ram while the kobolds stand guard in case the town militia mounts a counterattack. The dragonclaw is in charge. The kobold guards are alert, but they are distracted when Group B passes in front of the temple.",
 										"Group B consists of three {@creature Cultist||cultists}, ten {@creature Kobold||kobolds}, and two {@creature Ambush Drake|HotDQ|ambush drakes} (see {@adventure appendix D|HotDQ|12}) strung out in a mob that stretches 50 feet. This procession with leaping and whirling kobolds completes one circuit around the temple approximately every eight minutes (two minutes per side).",
-										"Group C consists of four {@creature Cultist||cultists} and four {@creature Kobold||kobolds} clustered tightly around the temple's back door. Their meager fire produces little flame, instead creating prodigious clouds of thick smoke that engulf the back of the temple and blanket the surrounding 30 feet of ground. Everything in the smoke is lightly obscured, and objects or creatures that are seen through more than 15 feet of smoke are heavily obscured. Characters can sneak up on these raiders and gain a surprise round against them, as long as they avoid Group B in the process."
+										"Group C consists of four {@creature Cultist||cultists} and four {@creature Kobold||kobolds} clustered tightly around the temple's back door. Their meager fire produces little flame, instead creating prodigious clouds of thick smoke that engulf the back of the temple and blanket the surrounding 30 feet of ground. Everything in the smoke is {@quickref Vision and Light||2||lightly obscured}, and objects or creatures that are seen through more than 15 feet of smoke are {@quickref Vision and Light||2||heavily obscured}. Characters can sneak up on these raiders and gain a surprise round against them, as long as they avoid Group B in the process."
 									]
 								},
 								{
@@ -1718,7 +1718,7 @@
 									"type": "insetReadaloud",
 									"id": "087",
 									"entries": [
-										"From the darkness, a creature strides into the dim light of the dying fires around the keep. Although it is shaped roughly like a human, it is at least seven feet tall, its skin is covered in blue scales, its fingers bear wicked claws, and its face has the muzzle and reptilian eyes of a dragon. The creature stops about eighty yards from the main gate of the keep and scans the walls. A line of kobolds fans out behind it. With their spears, they prod four human prisoners into the dim light. You can make out a woman, a teenage boy in a blood-soaked tunic, and two children. Then the half-dragon creature hails the keep.",
+										"From the darkness, a creature strides into the {@quickref Vision and Light||2||dim light} of the dying fires around the keep. Although it is shaped roughly like a human, it is at least seven feet tall, its skin is covered in blue scales, its fingers bear wicked claws, and its face has the muzzle and reptilian eyes of a dragon. The creature stops about eighty yards from the main gate of the keep and scans the walls. A line of kobolds fans out behind it. With their spears, they prod four human prisoners into the {@quickref Vision and Light||2||dim light}. You can make out a woman, a teenage boy in a blood-soaked tunic, and two children. Then the half-dragon creature hails the keep.",
 										"\"Defenders of Greenest! This has been a successful night, and I am feeling generous. Do you see these four pitiful, useless prisoners? We have no need for them, so I will trade them back to you. Send out your best warrior to fight me, and you can have these four in exchange.\""
 									]
 								},
@@ -3630,7 +3630,7 @@
 							"page": 40,
 							"id": "0c1",
 							"entries": [
-								"This cave is a shrine to Tiamat, but with an emphasis on her black dragon head and on black dragons in general. It also contains many Cult of the Dragon icons, and a devious trap for the unwary; see \"Acid Trap\" below. Flickering oil lamps provide dim light.",
+								"This cave is a shrine to Tiamat, but with an emphasis on her black dragon head and on black dragons in general. It also contains many Cult of the Dragon icons, and a devious trap for the unwary; see \"Acid Trap\" below. Flickering oil lamps provide {@quickref Vision and Light||2||dim light}.",
 								"{@creature Langdedrosa Cyanwrath|HotDQ} occupies the shrine, and he is joined by two human {@creature Berserker||berserkers}. (If the adventuring party contains more than four characters, add one more berserker for each additional character. If Langdedrosa was killed, then replace him with another half-dragon with the same statistics.) If Cyanwrath fought any of the characters one-on-one in Greenest, he immediately singles out that person to address as follows.",
 								{
 									"type": "insetReadaloud",
@@ -3717,7 +3717,7 @@
 												"type": "internal",
 												"path": "adventure/HotDQ/019-tod-03-02.webp"
 											},
-											"title": "Guard Drake",
+											"title": "{@creature Guard Drake|HotDQ}",
 											"width": 1000,
 											"height": 847
 										},
@@ -4001,8 +4001,8 @@
 									"width": 776,
 									"height": 1000
 								},
-								"{@creature Azbara Jos|HotDQ} (see {@adventure appendix D|HotDQ|12} for statistics) is a male human and a Red Wizard of Thay. Red Wizards are widely disliked and mistrusted, so he takes some pains to disguise his membership in that group by always wearing a wool cap with ear and neck flaps to cover his shaved, tattooed head. It's not an especially effective disguise; characters who make a successful {@dc 15} Wisdom ({@skill Perception}) check notice the edges of the tattoos peeking out from under the cap. Many Thayans have shaved, tattooed heads, however, but only a few are Red Wizards. Countless Thayans fled their country when the lich Szass Tam seized control, so they are not entirely strange on the Sword Coast. If questioned, Jos claims to be just another Thayan expatriot trying to find refuge while his country is controlled by undead monsters. In fact, other than the denial that he's a Red Wizard, this is all true.",
-								"Jos buys space aboard one of the cult wagons, although they turned away everyone else who sought passage earlier in the journey. He does not mingle with the other travelers and seldom speaks to anyone except the man who seems to be the leader of the cultists.",
+								"{@creature Azbara Jos|HotDQ} (see {@adventure appendix D|HotDQ|12} for statistics) is a male human and a Red Wizard of Thay. Red Wizards are widely disliked and mistrusted, so he takes some pains to disguise his membership in that group by always wearing a wool cap with ear and neck flaps to cover his shaved, tattooed head. It's not an especially effective disguise; characters who make a successful {@dc 15} Wisdom ({@skill Perception}) check notice the edges of the tattoos peeking out from under the cap. Many Thayans have shaved, tattooed heads, however, but only a few are Red Wizards. Countless Thayans fled their country when the lich Szass Tam seized control, so they are not entirely strange on the Sword Coast. If questioned, {@creature Azbara Jos|HotDQ|Jos} claims to be just another Thayan expatriot trying to find refuge while his country is controlled by undead monsters. In fact, other than the denial that he's a Red Wizard, this is all true.",
+								"{@creature Azbara Jos|HotDQ|Jos} buys space aboard one of the cult wagons, although they turned away everyone else who sought passage earlier in the journey. He does not mingle with the other travelers and seldom speaks to anyone except the man who seems to be the leader of the cultists.",
 								"{@creature Jamna Gleamsilver|HotDQ} (see {@adventure appendix D|HotDQ|12} for statistics) is a female gnome and a member of a secretive organization called the Black Network, also known as the Zhentarim. Outwardly, the Black Network provides mercenaries and other forms of muscle for hire. Informally, it is known as a criminal society akin to a widespread thieves guild. Secretly, its leaders seek to extend their shadowy fingers into every throne room and ruling council chamber in Faerûn. Like the Harpers, the Zhentarim too are aware that the Cult of the Dragon is on the move, and they need to know the cult's plans so they can prevent them from interfering with the Zhentarim's own plans, plus perhaps take advantage of the plunder possibilities.",
 								"That's why Gleamsilver joins the caravan. The Black Network's spies learned that the cult is moving freight northward, and, like the characters, she was tasked with finding out what they're hauling and where it's headed. Those above her seriously considered wiping out the caravan with mercenaries disguised as bandits, ransacking the wagons, and torturing cult members for the desired information. Fortunately for the characters, Gleamsilver persuaded her superiors to give her a shot at uncovering the truth in a less bloody fashion. If she hasn't come up with something useful by the time the caravan reaches Waterdeep, she will put plan B\u2014the one involving mass murder\u2014into action.",
 								"Despite the vast gulf between their outlooks, the Black Network and the Harpers have a common enemy, and that is pushing them into an unlikely alliance. Gleamsilver is the antithesis of a hero\u2014she is self-serving, a skilled thief and liar, and willing to murder anyone who stands between her and her goal."
@@ -5666,7 +5666,7 @@
 									"id": "135",
 									"entries": [
 										"Only one Red Wizard is present at Castle Naerytar: {@creature Azbara Jos|HotDQ}, who was also in the cult camp on the Greenfields and traveled north with {@creature Rezmir|HotDQ}. He has no interest in the Mere of Dead Men, bullywugs, or lizardfolk, and just slightly more interest in black dragons. He is here only as {@creature Rath Modar|HotDQ}'s liaison to {@creature Rezmir|HotDQ}. The portal beneath the castle piques Jos's interest, however; portals are always of concern to the Red Wizards.",
-										"Adventurers appearing at this remote, secret site also interest him. If {@creature Azbara Jos|HotDQ} sees the characters or learns of their presence, he arranges a private meeting\u2014one that {@creature Rezmir|HotDQ} and Borngray don't even know about, let alone attend. He wants to learn how much the characters know of the cult's plans, where and how they uncovered the information, who else knows about it, and what they think of the plan's chance to succeed. If the characters are captured and locked up in the castle, Jos finds an opportunity to ask all the same questions, again privately, but he is in a better position to force answers out of the characters.",
+										"Adventurers appearing at this remote, secret site also interest him. If {@creature Azbara Jos|HotDQ} sees the characters or learns of their presence, he arranges a private meeting\u2014one that {@creature Rezmir|HotDQ} and Borngray don't even know about, let alone attend. He wants to learn how much the characters know of the cult's plans, where and how they uncovered the information, who else knows about it, and what they think of the plan's chance to succeed. If the characters are captured and locked up in the castle, {@creature Azbara Jos|HotDQ|Jos} finds an opportunity to ask all the same questions, again privately, but he is in a better position to force answers out of the characters.",
 										"This assumes the characters are at Castle Naerytar posing as cultists or hiding among the lizardfolk. If they're rampaging through the castle, killing everyone they meet, then {@creature Azbara Jos|HotDQ} has only one concern: escaping through the portal before someone or something kills him."
 									]
 								},
@@ -5698,8 +5698,8 @@
 						{
 							"type": "list",
 							"items": [
-								"{@creature Rezmir|HotDQ} and {@creature Azbara Jos|HotDQ} do almost anything to avoid a battle with interfering adventurers. They have bigger concerns than the safety of Castle Naerytar and its occupants. If a battle develops, both of these characters head directly for the gate beneath the castle and teleport to {@creature Talis the White|HotDQ}'s hunting lodge (see {@adventure chapter 7|HotDQ|7}). For purposes of this adventure, do everything you can to ensure that {@creature Rezmir|HotDQ} and Jos survive this chapter. It's not a catastrophe if they don't, but it's much better if they do.",
-								"{@creature Dralmorrer Borngray|HotDQ} and {@creature Pharblex Spattergoo|HotDQ} have everything to lose if enemies of the cult overrun Castle Naerytar; a defeat would cost Borngray his hard-earned rank in the cult, and Spattergoo would lose the base from which he hopes to rule the mere after the cult is finished with the castle. They fight to the death to protect the castle (simultaneously buying time for {@creature Rezmir|HotDQ} and Jos to escape). Despite their loathing for one another, they understand that they are much stronger together than apart. As soon as fighting breaks out, they join forces and cooperate.",
+								"{@creature Rezmir|HotDQ} and {@creature Azbara Jos|HotDQ} do almost anything to avoid a battle with interfering adventurers. They have bigger concerns than the safety of Castle Naerytar and its occupants. If a battle develops, both of these characters head directly for the gate beneath the castle and teleport to {@creature Talis the White|HotDQ}'s hunting lodge (see {@adventure chapter 7|HotDQ|7}). For purposes of this adventure, do everything you can to ensure that {@creature Rezmir|HotDQ} and {@creature Azbara Jos|HotDQ|Jos} survive this chapter. It's not a catastrophe if they don't, but it's much better if they do.",
+								"{@creature Dralmorrer Borngray|HotDQ} and {@creature Pharblex Spattergoo|HotDQ} have everything to lose if enemies of the cult overrun Castle Naerytar; a defeat would cost Borngray his hard-earned rank in the cult, and Spattergoo would lose the base from which he hopes to rule the mere after the cult is finished with the castle. They fight to the death to protect the castle (simultaneously buying time for {@creature Rezmir|HotDQ} and {@creature Azbara Jos|HotDQ|Jos} to escape). Despite their loathing for one another, they understand that they are much stronger together than apart. As soon as fighting breaks out, they join forces and cooperate.",
 								"The best place for Borngray and Pharblex to make their stand depends on how the attack develops; you'll need to play that part by ear. Their best ploy against a determined assault may be a fighting retreat through the castle and down into the caverns, where the narrow passages and giant frogs work in their favor.",
 								"The bullywugs are numerous but cowardly. They fight to protect Pharblex, but if he isn't immediately in sight\u2014if Pharblex has retreated into the caverns while other bullywugs are fighting in the inner ward, for example\u2014bullywugs who feel as if he has abandoned them are likely to leap away into the mere and never come back. If Pharblex is killed, most bullywugs desert immediately.",
 								"The lizardfolk are brave, but they despise the bullywugs. If characters haven't recruited the lizardfolk to their side, then the lizardfolk fight well whenever they're alone. If bullywugs are nearby, lizardfolk pull back and let the bullywugs bear the brunt of combat and casualties. If the lizardfolk have been won over to fighting alongside the characters, then they hunt bullywugs through the castle and grounds and murder them mercilessly. If bullywugs flee into the swamp, lizardfolk chase them. They are half-hearted when facing cultists\u2014not because they fear the cultists but because they don't hate them, and they have a harder time mentally turning against that alliance.",
@@ -5752,9 +5752,9 @@
 									"grid": {
 										"type": "square",
 										"size": 128,
-										"offsetX": 47,
-										"offsetY": 33,
-										"distance": 20
+										"offsetX": 188,
+										"offsetY": 132,
+										"scale": 4
 									},
 									"id": "280",
 									"mapRegions": [
@@ -6678,9 +6678,9 @@
 									"grid": {
 										"type": "square",
 										"size": 128,
-										"offsetX": 47,
-										"offsetY": 33,
-										"distance": 20
+										"offsetX": 188,
+										"offsetY": 132,
+										"scale": 4
 									},
 									"mapParent": {
 										"id": "280"
@@ -6787,7 +6787,7 @@
 							"entries": [
 								"The barbican is the primary defensive position for the castle. It is guarded round-the-clock by ten {@creature Bullywug||bullywugs} and {@dice 1d6} {@creature Giant Frog||giant frogs}. Unless a fight or other disturbance has happened somewhere, these guards are at low alertness.",
 								"Sloppy mud covers the stone floor of this large chamber. Planks have been laid from the gateway to the causeway entrance to create a 10-foot-wide raised boardwalk for the cultists, who don't enjoy walking through mud the way bullywugs do. The slippery mud makes everywhere off the planks {@quickref difficult terrain||3} for characters. A few tables have been thrown together from planks laid across barrels, with crudely made benches for seats. The tables and benches are nearly as muddy as the floor.",
-								"The barbican has no windows or arrow slits at ground level. During daytime, bright light is within 20 feet of the open gateway and the open doorway to the causeway. Everywhere else, oil lamps cast only dim light (because the bullywugs never clean them).",
+								"The barbican has no windows or arrow slits at ground level. During daytime, {@quickref Vision and Light||2||bright light} is within 20 feet of the open gateway and the open doorway to the causeway. Everywhere else, oil lamps cast only {@quickref Vision and Light||2||dim light} (because the bullywugs never clean them).",
 								"Stairs lead up to {@area area 2A|160|x}."
 							]
 						},
@@ -6992,7 +6992,7 @@
 							"page": 69,
 							"id": "15a",
 							"entries": [
-								"Swamp water seeps into this chamber through a crack in the foundation to pool inches deep on the sagging stone floor and fill the air with a cloying, moldy stink. The cultists laid a walkway of planks across the floor so they can walk between the two doorways without soaking their feet. This chamber isn't used for anything other than a passage between areas 1Q and 1R."
+								"Swamp water seeps into this chamber through a crack in the foundation to pool inches deep on the sagging stone floor and fill the air with a cloying, moldy stink. The cultists laid a walkway of planks across the floor so they can walk between the two doorways without soaking their feet. This chamber isn't used for anything other than a passage between areas 1Q and 1S."
 							]
 						},
 						{
@@ -7031,7 +7031,7 @@
 							"page": 70,
 							"id": "15e",
 							"entries": [
-								"Normally, these rooms aren't used, but {@creature Azbara Jos|HotDQ} occupies them currently. They are reasonably warm and comfortable. Jos will be here when he isn't consulting with {@creature Rezmir|HotDQ} in area 1U, {@area 2N|16a|x}, or {@area 3L|176|x}. Jos keeps all of his real valuables with him. The only things he leaves in these chambers are his clothes and his traveling spellbook\u2014which contains all the spells he has prepared (see {@adventure appendix D|HotDQ|12}). The spellbook is locked inside a box of silver-inlaid redwood. The lock can be opened with a successful {@dc 15} Dexterity check, but if the roll is less than 20, the tampering sets off a magical ward with the same effect as a {@spell Melf's acid arrow} spell; the acid arrow launches at the character who opened the box and causes {@dice 4d6} acid damage immediately plus another {@dice 4d6} acid damage at the end of the character's next turn. The damage is halved if the character makes a successful {@dc 15} Dexterity saving throw. Opening the box with the key disarms the trap automatically; Jos carries the key on a string around his neck."
+								"Normally, these rooms aren't used, but {@creature Azbara Jos|HotDQ} occupies them currently. They are reasonably warm and comfortable. {@creature Azbara Jos|HotDQ|Jos} will be here when he isn't consulting with {@creature Rezmir|HotDQ} in area 1U, {@area 2N|16a|x}, or {@area 3L|176|x}. {@creature Azbara Jos|HotDQ|Jos} keeps all of his real valuables with him. The only things he leaves in these chambers are his clothes and his traveling spellbook\u2014which contains all the spells he has prepared (see {@adventure appendix D|HotDQ|12}). The spellbook is locked inside a box of silver-inlaid redwood. The lock can be opened with a successful {@dc 15} Dexterity check, but if the roll is less than 20, the tampering sets off a magical ward with the same effect as a {@spell Melf's acid arrow} spell; the acid arrow launches at the character who opened the box and causes {@dice 4d6} acid damage immediately plus another {@dice 4d6} acid damage at the end of the character's next turn. The damage is halved if the character makes a successful {@dc 15} Dexterity saving throw. Opening the box with the key disarms the trap automatically; {@creature Azbara Jos|HotDQ|Jos} carries the key on a string around his neck."
 							]
 						}
 					]
@@ -7058,9 +7058,9 @@
 									"grid": {
 										"type": "square",
 										"size": 129,
-										"offsetX": 8,
-										"offsetY": -3,
-										"distance": 20
+										"offsetX": 32,
+										"offsetY": -12,
+										"scale": 4
 									},
 									"id": "281",
 									"mapRegions": [
@@ -7524,9 +7524,9 @@
 									"grid": {
 										"type": "square",
 										"size": 129,
-										"offsetX": 8,
-										"offsetY": -3,
-										"distance": 20
+										"offsetX": 32,
+										"offsetY": -12,
+										"scale": 4
 									},
 									"mapParent": {
 										"id": "281"
@@ -7641,7 +7641,7 @@
 							"page": 72,
 							"id": "16a",
 							"entries": [
-								"Books and manuscripts line wooden shelves constructed from salvaged lumber. One dragonwing (see {@adventure appendix D|HotDQ|12} for statistics) and four {@creature Cultist||cultists} (initiates) spend most of their time here, organizing the books.",
+								"Books and manuscripts line wooden shelves constructed from salvaged lumber. One {@creature dragonwing|HotDQ} (see {@adventure appendix D|HotDQ|12} for statistics) and four {@creature Cultist||cultists} (initiates) spend most of their time here, organizing the books.",
 								"Since treasure first started funneling through Naerytar, {@creature Dralmorrer Borngray|HotDQ} has pulled out any books, parchments, tablets, and other written material that interested him. He knows better than to claim them as his own; he will forward these treasures to Tiamat's hoard when the work at Castle Naerytar draws to a close. Until then, he keeps the written material at the castle to study and to divert him from the miserable surroundings. {@creature Rezmir|HotDQ} knows about the library and approves of using the books this way, as long as they are delivered to the Well of Dragons before Tiamat's arrival.",
 								"Borngray has assembled an impressive library. It contains over one hundred books, quartos, and manuscripts covering the history of the Sword Coast, natural philosophy, mathematics, astronomy, magic, and many theoretical works on alternate reality, time, and dimensional travel. This collection would be a priceless addition to any library or collector in Waterdeep if it could be removed from the castle before the cultists spirit it away or the bullywugs spoil it."
 							]
@@ -7725,8 +7725,8 @@
 									"grid": {
 										"type": "square",
 										"size": 129,
-										"offsetX": 6,
-										"distance": 20
+										"offsetX": 24,
+										"scale": 4
 									},
 									"id": "282",
 									"mapRegions": [
@@ -8089,8 +8089,8 @@
 									"grid": {
 										"type": "square",
 										"size": 125,
-										"offsetY": -7,
-										"distance": 20
+										"offsetY": -28,
+										"scale": 4
 									},
 									"mapParent": {
 										"id": "282",
@@ -8306,9 +8306,9 @@
 															"grid": {
 																"type": "square",
 																"size": 96,
-																"offsetX": 3,
-																"offsetY": 6,
-																"distance": 10
+																"offsetX": 6,
+																"offsetY": 12,
+																"scale": 2
 															},
 															"id": "283",
 															"mapRegions": [
@@ -9164,9 +9164,9 @@
 															"grid": {
 																"type": "square",
 																"size": 80,
-																"offsetX": 1,
-																"offsetY": 5,
-																"distance": 10
+																"offsetX": 2,
+																"offsetY": 10,
+																"scale": 2
 															},
 															"mapParent": {
 																"id": "283",
@@ -10599,7 +10599,7 @@
 											"page": 84,
 											"id": "1d7",
 											"entries": [
-												"Refusing Talis's generous offer triggers a fight. Talis shouts for reinforcements, which brings the gargoyles from {@area area 5,|1b4|x} the helmed horror from {@area area 6|1b7|x}, and the kobolds from {@area area 12 |1c9|x} running, and even yells out the window for {@creature Trepsin|HotDQ} the troll. Pull out all the stops\u2014and if things go badly, Talis climbs out a window and flees into the woods or through a portal (see {@area area 1|1a7|x})."
+												"Refusing Talis's generous offer triggers a fight. Talis shouts for reinforcements, which brings the gargoyles from {@area area 5,|1b4|x} the helmed horror from {@area area 6|1b7|x}, and the kobolds from {@area area 12|1c9|x} running, and even yells out the window for {@creature Trepsin|HotDQ} the troll. Pull out all the stops\u2014and if things go badly, Talis climbs out a window and flees into the woods or through a portal (see {@area area 1|1a7|x})."
 											]
 										}
 									]
@@ -10617,7 +10617,7 @@
 												"type": "internal",
 												"path": "adventure/HotDQ/044-tod-07-04.webp"
 											},
-											"title": "Dragonclaw",
+											"title": "{@creature Dragonclaw|HotDQ}",
 											"width": 561,
 											"height": 1000
 										},
@@ -10625,7 +10625,7 @@
 										{
 											"type": "list",
 											"items": [
-												"Talis identifies the five leaders of the cult as \"wyrmspeakers,\" each of whom has an affinity for a particular kind of chromatic dragon. The leaders' names are Severin the Red, Galvan the Blue, Neronvain the Green, {@creature Rezmir|HotDQ} the Black, and Varram the White.",
+												"Talis identifies the five leaders of the cult as \"wyrmspeakers,\" each of whom has an affinity for a particular kind of chromatic dragon. The leaders' names are {@creature Severin|RoT} the Red, {@creature Galvan|RoT} the Blue, {@creature Neronvain|RoT} the Green, {@creature Rezmir|HotDQ} the Black, and {@creature Varram|RoT} the White.",
 												"She explains the significance of the banner in {@area area 15|1ce|x} and reveals the various cult signs and signals (see the sidebar at the start of the chapter).",
 												"If that is not sufficient, she tells them that the cult has an enormous hoard of valuables in a flying castle hidden nearby\u2014but not for long. If pressed for details, Talis reveals that castle belongs to a cloud giant allied with the cult. The castle, she says, is hidden near the village of Parnast, which is under the cult's control.",
 												"If all that is not enough, she tells the party, in glowing and worshipful tones, that a great white dragon inhabits the castle. She refers to the dragon as \"snow-white Glazhael, the Cloudchaser, a handsome dragon of the pure northern breed.\" She sounds like a fanatic when discussing dragonkind.",
@@ -10886,10 +10886,9 @@
 									"grid": {
 										"type": "square",
 										"size": 88,
-										"offsetX": 14,
-										"offsetY": -9,
-										"scale": 2,
-										"distance": 10
+										"offsetX": 28,
+										"offsetY": -18,
+										"scale": 4
 									},
 									"id": "286",
 									"mapRegions": [
@@ -10996,10 +10995,9 @@
 									"grid": {
 										"type": "square",
 										"size": 89,
-										"offsetX": -3,
-										"offsetY": -28,
-										"scale": 2,
-										"distance": 10
+										"offsetX": -6,
+										"offsetY": -56,
+										"scale": 4
 									},
 									"mapParent": {
 										"id": "286"
@@ -11225,7 +11223,7 @@
 							"page": 91,
 							"id": "208",
 							"entries": [
-								"The castle is carved from opaque ice magically reinforced to be as hard as stone. While on the ground, the castle rests in a wide ravine on the outskirts of Parnast. Everything in the ravine is heavily obscured by fog, so the characters can approach the castle without being seen by its inhabitants. Until the castle takes flight, cultists and guards from the village deliver wagons laden with supplies and treasure to the castle's main gate (see {@area area 6|20f|x} for details).",
+								"The castle is carved from opaque ice magically reinforced to be as hard as stone. While on the ground, the castle rests in a wide ravine on the outskirts of Parnast. Everything in the ravine is {@quickref Vision and Light||2||heavily obscured} by fog, so the characters can approach the castle without being seen by its inhabitants. Until the castle takes flight, cultists and guards from the village deliver wagons laden with supplies and treasure to the castle's main gate (see {@area area 6|20f|x} for details).",
 								{
 									"type": "entries",
 									"id": "209",
@@ -12197,7 +12195,7 @@
 											"page": 93,
 											"id": "213",
 											"entries": [
-												"In addition to the ogres standing watch (see above), the {@creature vampire} {@creature Sandesyl Morgia|HotDQ} patrols the lower courtyard, which is heavily obscured by thick fog at night, and the upper courtyard, which is lightly obscured at night. As long as the vampire is on patrol, cultists and kobolds steer clear of the courtyards."
+												"In addition to the ogres standing watch (see above), the {@creature vampire} {@creature Sandesyl Morgia|HotDQ} patrols the lower courtyard, which is {@quickref Vision and Light||2||heavily obscured} by thick fog at night, and the upper courtyard, which is {@quickref Vision and Light||2||lightly obscured} at night. As long as the vampire is on patrol, cultists and kobolds steer clear of the courtyards."
 											]
 										}
 									]
@@ -12248,7 +12246,7 @@
 											"page": 93,
 											"id": "21a",
 											"entries": [
-												"Javelin. {@i Ranged Weapon Attack}: +7 to hit, range 120 ft./480 ft., one target. {@i Hit}: 14 ({@dice 3d8}) piercing damage."
+												"Javelin. {@i Ranged Weapon Attack}: {@hit 7} to hit, range 120 ft./480 ft., one target. {@i Hit}: 14 ({@dice 3d8}) piercing damage."
 											]
 										},
 										"Each ballista has AC 10, hp 50, and immunity to poison and psychic damage."
@@ -12272,7 +12270,7 @@
 							"page": 94,
 							"id": "21c",
 							"entries": [
-								"The upper courtyard ({@area area 16|239|x}) partially overhangs the lower courtyard, held aloft by gigantic arches of ice. At night, the lower courtyard is heavily obscured by fog to a height of 40 feet\u2014the same height as the walls that enclose it.",
+								"The upper courtyard ({@area area 16|239|x}) partially overhangs the lower courtyard, held aloft by gigantic arches of ice. At night, the lower courtyard is {@quickref Vision and Light||2||heavily obscured} by fog to a height of 40 feet\u2014the same height as the walls that enclose it.",
 								{
 									"type": "insetReadaloud",
 									"id": "21d",
@@ -12560,7 +12558,7 @@
 							"page": 97,
 							"id": "239",
 							"entries": [
-								"The upper courtyard is the primary landing site for dragons, wyverns, and flying spellcasters when the castle is airborne. During the day, {@dice 2d6} {@creature Ogre||ogres} practice their javelin hurling here. At night, the courtyard is lightly obscured by fog (to a height of 30 feet) and patrolled by the {@creature vampire}, {@creature Sandesyl Morgia|HotDQ} (see {@area area 18|23f|x}).",
+								"The upper courtyard is the primary landing site for dragons, wyverns, and flying spellcasters when the castle is airborne. During the day, {@dice 2d6} {@creature Ogre||ogres} practice their javelin hurling here. At night, the courtyard is {@quickref Vision and Light||2||lightly obscured} by fog (to a height of 30 feet) and patrolled by the {@creature vampire}, {@creature Sandesyl Morgia|HotDQ} (see {@area area 18|23f|x}).",
 								{
 									"type": "insetReadaloud",
 									"id": "23a",
@@ -12794,7 +12792,7 @@
 													"page": 99,
 													"id": "253",
 													"entries": [
-														"Foggy cloudstuff engulfing the castle dissipates. Lightly obscured areas become clear in 1 round, and heavily obscured areas become lightly obscured for 1 minute, then become clear."
+														"Foggy cloudstuff engulfing the castle dissipates. {@quickref Vision and Light||2||Lightly obscured} areas become clear in 1 round, and {@quickref Vision and Light||2||heavily obscured} areas become {@quickref Vision and Light||2||lightly obscured} for 1 minute, then become clear."
 													]
 												},
 												{
@@ -12803,7 +12801,7 @@
 													"page": 99,
 													"id": "254",
 													"entries": [
-														"Foggy cloudstuff materializes around the castle. After one minute, all creatures and objects in outdoor areas within 100 feet of the castle are heavily obscured, and all creatures and objects in indoor areas are lightly obscured."
+														"Foggy cloudstuff materializes around the castle. After one minute, all creatures and objects in outdoor areas within 100 feet of the castle are {@quickref Vision and Light||2||heavily obscured}, and all creatures and objects in indoor areas are {@quickref Vision and Light||2||lightly obscured}."
 													]
 												},
 												{
@@ -13113,7 +13111,7 @@
 								"type": "internal",
 								"path": "adventure/HotDQ/055-tod-08-07.webp"
 							},
-							"title": "Mask of the Dragon Queen",
+							"title": "{@item Mask of the Dragon Queen|RoT}",
 							"width": 506,
 							"height": 1000
 						},
@@ -13148,7 +13146,7 @@
 								"As the Cult of the Dragon has grown bolder, its actions have drawn attention. Your character has stumbled into the Cult's scheme in some manner or has a connection to dragons. The following tables provide you with bonds tailored to this campaign. Use them in place of or in addition to the ones you selected from (or created for) your background.",
 								{
 									"type": "entries",
-									"name": "Campaign Bonds (d10)",
+									"name": "Campaign Bonds",
 									"page": 176,
 									"id": "274",
 									"entries": [
@@ -13544,7 +13542,7 @@
 									"+",
 									"\u2014",
 									"+",
-									"Killed Neronvain"
+									"Killed {@creature Neronvain|RoT}"
 								],
 								[
 									"+",
@@ -13557,7 +13555,7 @@
 									"+",
 									"+",
 									"+",
-									"Captured Neronvein"
+									"Captured {@creature Neronvain|RoT}"
 								],
 								[
 									"+",

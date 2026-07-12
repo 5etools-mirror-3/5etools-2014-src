@@ -353,17 +353,17 @@
 									],
 									"rows": [
 										[
-											"{@filter Dwarf|races|base race=Dwarf}",
+											"{@filter Dwarf|races|Base Species=Dwarf}",
 											"{@class Bard}",
 											"{@background Acolyte}"
 										],
 										[
-											"{@filter Elf|races|base race=Elf}",
+											"{@filter Elf|races|Base Species=Elf}",
 											"{@class Cleric}",
 											"{@background Variant Criminal (Spy)||Criminal}"
 										],
 										[
-											"{@filter Halfling|races|base race=Halfling}",
+											"{@filter Halfling|races|Base Species=Halfling}",
 											"{@class Fighter}",
 											"{@background Entertainer}"
 										],
@@ -1180,7 +1180,7 @@
 											"page": 12,
 											"id": "043",
 											"entries": [
-												"For its defense, Axeholm relied heavily on ballistas\u2014massive crossbows that fire heavy bolts. A crew of three dwarves operated each ballista. Before it can be fired, a ballista must be loaded and aimed. It takes one action to load the weapon, one action to aim it, and one action to fire it. {@i Ranged Weapon Attack}: +6 to hit, range 120/480 ft., one target. {@i Hit}: 16 ({@dice 3d10}) piercing damage."
+												"For its defense, Axeholm relied heavily on ballistas\u2014massive crossbows that fire heavy bolts. A crew of three dwarves operated each ballista. Before it can be fired, a ballista must be loaded and aimed. It takes one action to load the weapon, one action to aim it, and one action to fire it. {@i Ranged Weapon Attack}: {@hit 6} to hit, range 120/480 ft., one target. {@i Hit}: 16 ({@dice 3d10}) piercing damage."
 											]
 										},
 										{
@@ -10705,7 +10705,7 @@
 										],
 										[
 											"11\u201314",
-											"Tiny, insubstantial motes of light circle the caster, shedding bright light in a 10-foot radius and dim light for an additional 10 feet."
+											"Tiny, insubstantial motes of light circle the caster, shedding {@quickref Vision and Light||2||bright light} in a 10-foot radius and {@quickref Vision and Light||2||dim light} for an additional 10 feet."
 										],
 										[
 											"15\u201317",
@@ -13390,7 +13390,7 @@
 											"page": 28,
 											"id": "106",
 											"entries": [
-												"{@i Melee Weapon Attack}: +2 to hit, reach 5 ft., one target. {@i Hit}: 5 ({@dice 2d4}) piercing damage, and the target is {@condition grappled} (escape {@dc 10})."
+												"{@i Melee Weapon Attack}: {@hit 2} to hit, reach 5 ft., one target. {@i Hit}: 5 ({@dice 2d4}) piercing damage, and the target is {@condition grappled} (escape {@dc 10})."
 											]
 										}
 									]
@@ -13409,7 +13409,7 @@
 											"page": 28,
 											"id": "108",
 											"entries": [
-												"{@i Ranged Weapon Attack}: +5 to hit, range 50/200 ft., one target. {@i Hit}: 5 ({@dice 1d10}) piercing damage.",
+												"{@i Ranged Weapon Attack}: {@hit 5} to hit, range 50/200 ft., one target. {@i Hit}: 5 ({@dice 1d10}) piercing damage.",
 												"Sitting in the chair when the characters first enter this area is the device's inventor, a {@creature rock gnome recluse|DIP} named Facktoré. When she sees strangers, Facktoré decides to test out the contraption on them. She stands down only when she or her contraption cease to function, or when she can no longer see any targets. Being deranged and utterly consumed by her work, she can barely string together a cohesive sentence, let alone advise visitors on where to go or whom to talk to."
 											]
 										}
@@ -13449,7 +13449,7 @@
 									"page": 29,
 									"id": "10b",
 									"entries": [
-										"This area is lightly obscured by mist from the waterfall. The larger eastern part of the room contains two rapidly spinning devices that look like turnstiles fitted with stacks of long, sharp blades spaced 1 foot apart. The northern turnstile spins counterclockwise, while the southern one spins clockwise. Any creature that enters or starts its turn in the eastern part of the room while the blades are spinning must make a {@dc 15} Dexterity saving throw, taking 18 ({@dice 4d8}) slashing damage on a failed save, or half as much damage on a successful one.",
+										"This area is {@quickref Vision and Light||2||lightly obscured} by mist from the waterfall. The larger eastern part of the room contains two rapidly spinning devices that look like turnstiles fitted with stacks of long, sharp blades spaced 1 foot apart. The northern turnstile spins counterclockwise, while the southern one spins clockwise. Any creature that enters or starts its turn in the eastern part of the room while the blades are spinning must make a {@dc 15} Dexterity saving throw, taking 18 ({@dice 4d8}) slashing damage on a failed save, or half as much damage on a successful one.",
 										"Set into the south wall of the smaller western part of the room is a brass lever in the down position. Pulling the lever up causes the turnstiles to stop spinning, allowing safe passage through the chamber. The rock gnomes bypass this trap by using the {@spell mage hand} cantrip to move the lever from the east doorway."
 									]
 								},
@@ -25003,7 +25003,7 @@
 											"page": 50,
 											"id": "1f8",
 											"entries": [
-												"A creature with {@sense darkvision} can see in the dark within a specific radius. The creature can see in dim light within the radius as if it were bright light, and in darkness as if it were dim light. The creature can't discern color in darkness, only shades of gray."
+												"A creature with {@sense darkvision} can see in the dark within a specific radius. The creature can see in {@quickref Vision and Light||2||dim light} within the radius as if it were {@quickref Vision and Light||2||bright light}, and in darkness as if it were {@quickref Vision and Light||2||dim light}. The creature can't discern color in darkness, only shades of gray."
 											]
 										},
 										{

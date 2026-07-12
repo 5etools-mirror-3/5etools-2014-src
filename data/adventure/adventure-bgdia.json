@@ -448,9 +448,9 @@
 							"page": 16,
 							"id": "01e",
 							"entries": [
-								"Elfsong Tavern's location is marked on {@5etoolsImg map 1.1|adventure/BGDIA/005-0pnlf-map-1-1-dm.webp}, while {@5etoolsImg map 1.2|adventure/BGDIA/008-awf96-map-1-2-dm.webp} shows its interior.",
+								"Elfsong Tavern's location is marked on {@area map 1.1|1a8|x}, while {@area map 1.2|329|x} shows its interior.",
 								"From time to time, the disembodied voice of a female elf fills the tavern with a melancholy song, giving the establishment its name. The ballad isn't loud enough to disrupt conversation, but most patrons stop speaking when the elfsong begins, then resume only after it ends. Many customers frequent the tavern in the hopes of hearing it. Those who speak Elvish can understand the lyrics, which lament an unnamed lover lost at sea. No one is sure how the spirit came to haunt the tavern, just as no one can predict when it will sing again.",
-								"Alan Alyth, the tavern's current owner and proprietor, is a neutral half-elf {@creature commoner} with {@sense darkvision} out to a range of 60 feet. Alan recently turned seventy-five years old and has run the establishment for decades. His elven blood through his half-elf mother has kept him alive this long, and keeps him looking better than most full-blooded humans his age. He runs a moneylending business on the side, offering loans to customers he trusts. He rarely gives loans to adventurers, knowing how flighty they can be, but he might offer them a free glass of Elverquisst wine if he thinks it'll keep their swords sheathed (see the \"Taverns in Baldur's Gate\" sidebar).",
+								"Alan Alyth, the tavern's current owner and proprietor, is a neutral half-elf {@creature commoner} with {@sense darkvision} out to a range of 60 feet. Alan recently turned seventy-five years old and has run the establishment for decades. His elven blood through his half-elf mother has kept him alive this long, and keeps him looking better than most full-blooded humans his age. He runs a moneylending business on the side, offering loans to customers he trusts. He rarely gives loans to adventurers, knowing how flighty they can be, but he might offer them a free glass of {@recipe Elverquisst|HFFotM} wine if he thinks it'll keep their swords sheathed (see the \"Taverns in Baldur's Gate\" sidebar).",
 								{
 									"type": "inset",
 									"name": "Taverns in Baldur's Gate",
@@ -2556,7 +2556,7 @@
 											]
 										},
 										"The steel skull mask represents the visage of Bhaal and has no magical properties.",
-										"The humanoid entrails were left on the altar as an offering to the god of murder. Pouring a vial of holy water on the entrails causes them to melt away and also causes the altar to smolder."
+										"The humanoid entrails were left on the altar as an offering to the god of murder. Pouring a {@item Holy Water (Flask)|PHB|vial of holy water} on the entrails causes them to melt away and also causes the altar to smolder."
 									]
 								},
 								{
@@ -2725,7 +2725,7 @@
 											"page": 23,
 											"id": "05a",
 											"entries": [
-												"If the contents of the sarcophagus are disturbed, a ghostly battleaxe appears above the sarcophagus. The battleaxe is created by magic similar to a {@spell spiritual weapon} spell and is treated as a 2nd-level spell effect for the purpose of dispelling it. The ghostly battleaxe can't be harmed, can't leave the room, and targets only creatures, acting on initiative count 20. On each of its turns, it moves up to 10 feet and makes a melee spell attack (+5 to hit) against an available target, dealing 6 ({@dice 1d8 + 2}) force damage on a hit. The effect ends when there are no longer any creatures in the room, and the trap resets after 24 hours."
+												"If the contents of the sarcophagus are disturbed, a ghostly battleaxe appears above the sarcophagus. The battleaxe is created by magic similar to a {@spell spiritual weapon} spell and is treated as a 2nd-level spell effect for the purpose of dispelling it. The ghostly battleaxe can't be harmed, can't leave the room, and targets only creatures, acting on initiative count 20. On each of its turns, it moves up to 10 feet and makes a melee spell attack ({@hit 5} to hit) against an available target, dealing 6 ({@dice 1d8 + 2}) force damage on a hit. The effect ends when there are no longer any creatures in the room, and the trap resets after 24 hours."
 											]
 										}
 									]
@@ -4729,7 +4729,7 @@
 									"page": 35,
 									"id": "0a6",
 									"entries": [
-										"While entertaining visitors in this room, the duke likes to sit in an austere, high-backed chair facing a pair of padded couches and a coffee table. A hidden compartment in the left armrest of the duke's chair contains a silvered dagger. A character who examines the chair can locate the hidden compartment with a successful {@dc 12} Wisdom ({@skill Perception}) check.",
+										"While entertaining visitors in this room, the duke likes to sit in an austere, high-backed chair facing a pair of padded couches and a coffee table. A hidden compartment in the left armrest of the duke's chair contains a {@item silvered dagger|PHB}. A character who examines the chair can locate the hidden compartment with a successful {@dc 12} Wisdom ({@skill Perception}) check.",
 										"Thin drapes cover the windows to diffuse the natural light, and the walls are lined with framed paintings of the duke, her three dead husbands, her three sons, and the family's winged cat, Slobberchops.",
 										{
 											"type": "entries",
@@ -5457,7 +5457,7 @@
 							"id": "0bf",
 							"entries": [
 								"The dungeon is remarkably clean and kept in excellent condition. Its common features are summarized here.",
-								"{@b Lit Tunnels}. Tunnels are 9 feet high and have curved ceilings. Oil lanterns fitted with thick panes of green-tinted glass hang at regular intervals on 1-foot-long iron chains. Each lantern sheds dim light in a 10-foot radius.",
+								"{@b Lit Tunnels}. Tunnels are 9 feet high and have curved ceilings. Oil lanterns fitted with thick panes of green-tinted glass hang at regular intervals on 1-foot-long iron chains. Each lantern sheds {@quickref Vision and Light||2||dim light} in a 10-foot radius.",
 								"{@b Iron Doors}. Doors are made of riveted iron plates, with iron handles and well-oiled hinges. Some doors have locks or barred windows set into them, as noted in the text. A character can use {@item thieves' tools|phb} to pick a door's lock with a successful {@dc 15} Dexterity check, or force open a locked door with a successful {@dc 24} Strength ({@skill Athletics}) check.",
 								"{@b Surfaces and Secret Doors}. The dungeon has brick walls and stone-tiled floors. Rooms have 10-foot-high plaster ceilings. Secret doors blend in with the surrounding walls, but a character with {@sense darkvision} or sufficient light can find a secret door with a successful {@dc 10} Wisdom ({@skill Perception}) check.",
 								"{@b Smell of Incense}. Pairs of black-robed human {@creature Cultist||cultists} march through the corridors with censers, constantly perfuming the sewers with incense to counteract what would otherwise be a mildly nauseating stench.",
@@ -5607,7 +5607,7 @@
 											"page": 39,
 											"id": "0ce",
 											"entries": [
-												"The statue's head and neck are hollow. Lodged in this cavity is a {@item +1 mace} that can be removed only if the statue is destroyed. The head of the mace sheds bright light in a 5-foot-radius and dim light for an additional 5 feet. The wielder of the mace can extinguish or ignite its light as an action. (This light is what causes the statue's eyes to glow.)"
+												"The statue's head and neck are hollow. Lodged in this cavity is a {@item +1 mace} that can be removed only if the statue is destroyed. The head of the mace sheds {@quickref Vision and Light||2||bright light} in a 5-foot-radius and {@quickref Vision and Light||2||dim light} for an additional 5 feet. The wielder of the mace can extinguish or ignite its light as an action. (This light is what causes the statue's eyes to glow.)"
 											]
 										}
 									]
@@ -5730,7 +5730,7 @@
 									"page": 41,
 									"id": "0da",
 									"entries": [
-										"The dim light from two of the cultists' green-glass lanterns doesn't reach the ends of this corridor, creating pools of darkness there. Two lawful evil human {@creature Cult Fanatic||cult fanatics} guard the tunnel, one at each end. Characters with {@sense darkvision} or their own light sources spot the fanatics. Otherwise, the fanatics surprise the characters. Each fanatic wears a black robe and a thin gold devil mask similar to those worn by cultists in other areas.",
+										"The {@quickref Vision and Light||2||dim light} from two of the cultists' green-glass lanterns doesn't reach the ends of this corridor, creating pools of darkness there. Two lawful evil human {@creature Cult Fanatic||cult fanatics} guard the tunnel, one at each end. Characters with {@sense darkvision} or their own light sources spot the fanatics. Otherwise, the fanatics surprise the characters. Each fanatic wears a black robe and a thin gold devil mask similar to those worn by cultists in other areas.",
 										"Sounds of combat here alert the cultists in area V33, who arm themselves but stay where they are."
 									]
 								},
@@ -5958,7 +5958,7 @@
 										"\"The city's cavalry rode across the land, striking down fiends wherever they found them and suffering fearful losses. But it was never enough. For every fiend they destroyed, it seemed as though two more appeared elsewhere. The ruler of Elturel, the High Rider, asked his people to pray to the gods for aid. To everyone's astonishment, a mighty angel entered the city the next day. Her name was Zariel, which means Companion of Light. The prayers of Elturel had been heard, and help had come.",
 										"\"Zariel located the gate through which the fiends were entering the natural world, on the Fields of the Dead west of the city. Zariel declared that she would lead the cavalry into Avernus, destroying the infernal host that was amassing there, and striking a great blow against the forces of darkness.",
 										"\"The High Rider sent out the riders of Elturel, now numbering many thousands, with Zariel at their head, riding a golden mastodon. With a great cry, Zariel and her army charged through the gate. The legions of Avernus trembled and buckled, but did not crumble. Zariel was defeated, and the remnants of her army returned to Elturel, overcome with grief at the loss of their glorious general but confident that the lords of the Nine Hells would think twice about threatening Elturel again.",
-										"\"There were great celebrations to honor the valiant knights of the cavalry, who became known as Hellriders from that day on.\" "
+										"\"There were great celebrations to honor the valiant knights of the cavalry, who became known as Hellriders from that day on.\""
 									]
 								},
 								{
@@ -6702,7 +6702,7 @@
 									"page": 56,
 									"id": "128",
 									"entries": [
-										"The characters see a charred humanoid corpse in the middle of the street, clutching a {@item silvered longsword|phb} in its hand. When any creature moves within 5 feet of the corpse, a gout of hellfire erupts from it. Any creature within 5 feet of the corpse must make a {@dc 12} Dexterity saving throw, taking 14 ({@dice 4d6}) fire damage on a failed save, or half as much damage on a successful one.",
+										"The characters see a charred humanoid corpse in the middle of the street, clutching a {@item silvered longsword|PHB} in its hand. When any creature moves within 5 feet of the corpse, a gout of hellfire erupts from it. Any creature within 5 feet of the corpse must make a {@dc 12} Dexterity saving throw, taking 14 ({@dice 4d6}) fire damage on a failed save, or half as much damage on a successful one.",
 										{
 											"type": "entries",
 											"name": "Treasure",
@@ -7018,9 +7018,9 @@
 															"grid": {
 																"type": "square",
 																"size": 128,
-																"offsetX": -13,
-																"offsetY": -10,
-																"distance": 10
+																"offsetX": -26,
+																"offsetY": -20,
+																"scale": 2
 															},
 															"id": "3c8",
 															"mapRegions": [
@@ -7635,9 +7635,9 @@
 															"grid": {
 																"type": "square",
 																"size": 128,
-																"offsetX": -11,
-																"offsetY": -5,
-																"distance": 10
+																"offsetX": -22,
+																"offsetY": -10,
+																"scale": 2
 															},
 															"mapParent": {
 																"id": "3c8"
@@ -7698,7 +7698,7 @@
 											"type": "list",
 											"items": [
 												"A character who kneels before the altar, prays to Torm for 1 minute, and succeeds on a {@dc 15} Intelligence ({@skill Religion}) check at the end of the prayer causes Torm's power to wash over the altar and wipe clean the blood and other desecrating elements.",
-												"Splashing at least three flasks of holy water on the altar destroys the desecrating elements and purifies the altar."
+												"Splashing at least three {@item Holy Water (Flask)|PHB|flasks of holy water} on the altar destroys the desecrating elements and purifies the altar."
 											]
 										},
 										{
@@ -7717,9 +7717,9 @@
 													"grid": {
 														"type": "square",
 														"size": 190,
-														"offsetX": -37,
-														"offsetY": -54,
-														"distance": 10
+														"offsetX": -74,
+														"offsetY": -108,
+														"scale": 2
 													},
 													"id": "3c9",
 													"mapRegions": [
@@ -8134,9 +8134,9 @@
 													"grid": {
 														"type": "square",
 														"size": 137,
-														"offsetX": -47,
-														"offsetY": -61,
-														"distance": 10
+														"offsetX": -94,
+														"offsetY": -122,
+														"scale": 2
 													},
 													"mapParent": {
 														"id": "3c9",
@@ -8238,9 +8238,9 @@
 															"grid": {
 																"type": "square",
 																"size": 140,
-																"offsetX": -79,
-																"offsetY": 33,
-																"distance": 10
+																"offsetX": -158,
+																"offsetY": 66,
+																"scale": 2
 															},
 															"id": "3ca",
 															"mapRegions": [
@@ -9162,9 +9162,9 @@
 															"grid": {
 																"type": "square",
 																"size": 131,
-																"offsetX": -13,
-																"offsetY": -7,
-																"distance": 10
+																"offsetX": -26,
+																"offsetY": -14,
+																"scale": 2
 															},
 															"mapParent": {
 																"id": "3ca",
@@ -9266,7 +9266,7 @@
 											"page": 64,
 											"id": "15c",
 											"entries": [
-												"The two wide fonts here contain water that has been blessed by priests, enough to fill fifty flasks with holy water.",
+												"The two wide fonts here contain water that has been blessed by priests, enough to fill fifty {@item Holy Water (Flask)|PHB|flasks with holy water}.",
 												"A successful {@dc 15} Intelligence ({@skill Investigation}) check notices odd details in the stonework around one of the fonts, which covers a secret tunnel ({@area area H17|15e|x})."
 											]
 										},
@@ -9351,7 +9351,7 @@
 							"page": 66,
 							"id": "163",
 							"entries": [
-								"The section describes locations in the city's cemetery\u2014both the chapel and the areas around it (areas G1 through G6), and a subterranean ossuary level beneath the chapel (areas G7 through G12). The descriptions of the areas in this section are keyed to {@adventure map 2.5 |BGDIA|2|Map 2.5: Grand Cemetery Chapel} and {@adventure map 2.6|BGDIA|2|Map 2.6: Grand Cemetery, Ossuary level}.",
+								"The section describes locations in the city's cemetery\u2014both the chapel and the areas around it (areas G1 through G6), and a subterranean ossuary level beneath the chapel (areas G7 through G12). The descriptions of the areas in this section are keyed to {@adventure map 2.5|BGDIA|2|Map 2.5: Grand Cemetery Chapel} and {@adventure map 2.6|BGDIA|2|Map 2.6: Grand Cemetery, Ossuary level}.",
 								"Several graves have been dug up, leaving pits in the earth that are 6 feet deep, 2 feet wide, and 7 feet long. A number of stone mausoleums stand vacant, their doors hanging open. The interior of a mausoleum is dimly lit when its door is open and shrouded in darkness when the door is closed.",
 								"As the characters investigate the cemetery, they observe dozens of {@creature Skeleton||skeletons} and {@creature Zombie||zombies} moving about the grounds. These undead, wandering aimlessly and without direction, pose no threat to the characters on their way into the chapel. However, if the characters fail to deal with Gideon before leaving Elturel, the priest has time to coordinate the efforts of the undead, turning them into a potent threat against the city.",
 								{
@@ -11002,8 +11002,8 @@
 										{
 											"type": "list",
 											"items": [
-												"{@creature Chukka|BGDIA} wields a silvered pike (+2 to hit) that has a reach of 10 feet and deals 5 ({@dice 1d10}) piercing damage on a hit.",
-												"{@creature Clonk|BGDIA} wields a {@i hellfire warhammer} (+2 to hit) that deals 4 ({@dice 1d8}) bludgeoning damage on a hit, or 5 ({@dice 1d10}) bludgeoning damage when used with two hands. For more information on {@i hellfire weapons}, see \"{@item Hellfire Weapon|BGDIA}\"."
+												"{@creature Chukka|BGDIA} wields a {@item silvered pike|PHB} ({@hit 2} to hit) that has a reach of 10 feet and deals 5 ({@dice 1d10}) piercing damage on a hit.",
+												"{@creature Clonk|BGDIA} wields a {@i hellfire warhammer} ({@hit 2} to hit) that deals 4 ({@dice 1d8}) bludgeoning damage on a hit, or 5 ({@dice 1d10}) bludgeoning damage when used with two hands. For more information on {@i hellfire weapons}, see \"{@item Hellfire Weapon|BGDIA}\"."
 											]
 										},
 										{
@@ -15113,7 +15113,7 @@
 											"page": 121,
 											"id": "278",
 											"entries": [
-												"{@i Melee Weapon Attack}: +9 to hit, reach 5 ft., one creature. {@i Hit}: 8 ({@dice 1d6 + 5}) piercing damage.",
+												"{@i Melee Weapon Attack}: {@hit 9} to hit, reach 5 ft., one creature. {@i Hit}: 8 ({@dice 1d6 + 5}) piercing damage.",
 												"Casting {@spell greater restoration}, {@spell heal}, or similar magic on the hapless creature restores its mental faculties, whereupon the slaad assumes its true form and attacks. As a creature of pure chaos and extreme malice, it delights in wanton destruction."
 											]
 										},
@@ -16348,9 +16348,9 @@
 													"grid": {
 														"type": "square",
 														"size": 128,
-														"offsetX": 50,
-														"offsetY": -4,
-														"distance": 10
+														"offsetX": 100,
+														"offsetY": -8,
+														"scale": 2
 													},
 													"id": "3d4",
 													"mapRegions": [
@@ -17957,9 +17957,9 @@
 													"grid": {
 														"type": "square",
 														"size": 128,
-														"offsetX": 56,
-														"offsetY": -8,
-														"distance": 10
+														"offsetX": 112,
+														"offsetY": -16,
+														"scale": 2
 													},
 													"mapParent": {
 														"id": "3d4",
@@ -18286,9 +18286,9 @@
 											"grid": {
 												"type": "square",
 												"size": 123,
-												"offsetX": -8,
-												"offsetY": -8,
-												"distance": 10
+												"offsetX": -16,
+												"offsetY": -16,
+												"scale": 2
 											},
 											"id": "3d5",
 											"mapRegions": [
@@ -18374,9 +18374,9 @@
 											"grid": {
 												"type": "square",
 												"size": 123,
-												"offsetX": -7,
-												"offsetY": -5,
-												"distance": 10
+												"offsetX": -14,
+												"offsetY": -10,
+												"scale": 2
 											},
 											"mapParent": {
 												"id": "3d5"
@@ -23218,7 +23218,7 @@
 										],
 										[
 											"11\u201313",
-											"{@b Blinding Smoke}. The helm station fills with smoke and is heavily obscured until this mishap ends. Any creature in the helm station is {@condition blinded} by the smoke.",
+											"{@b Blinding Smoke}. The helm station fills with smoke and is {@quickref Vision and Light||2||heavily obscured} until this mishap ends. Any creature in the helm station is {@condition blinded} by the smoke.",
 											"15 (Dex)"
 										],
 										[
@@ -23569,7 +23569,7 @@
 							"items": [
 								"- Pickled vine blight salad -",
 								"- Pan-fried myconid cap with garlic butter -",
-								"- Spicy shredded stirge sliders -"
+								"- {@recipe Spicy shredded stirge sliders|HFDoMM} -"
 							]
 						},
 						{

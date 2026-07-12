@@ -1,4 +1,4 @@
-export const getFnRootPropListSort = (prop) => {
+export const getFnRootPropListSort = (prop, {isRequired = false} = {}) => {
 	switch (prop) {
 		case "spell":
 		case "roll20Spell":
@@ -14,6 +14,7 @@ export const getFnRootPropListSort = (prop) => {
 		case "foundryAction":
 		case "background":
 		case "legendaryGroup":
+		case "legendaryGroupTemplate":
 		case "language":
 		case "languageScript":
 		case "name":
@@ -42,6 +43,7 @@ export const getFnRootPropListSort = (prop) => {
 		case "item":
 		case "foundryItem":
 		case "baseitem":
+		case "foundryBaseitem":
 		case "magicvariant":
 		case "foundryMagicvariant":
 		case "itemGroup":
@@ -75,6 +77,9 @@ export const getFnRootPropListSort = (prop) => {
 		case "foundryMap":
 		case "facility":
 		case "facilityFluff":
+		case "encounterShape":
+		case "crochetPattern":
+		case "crochetPatternFluff":
 			return SortUtil.ascSortGenericEntity.bind(SortUtil);
 		case "deity":
 			return SortUtil.ascSortDeity.bind(SortUtil);
@@ -83,11 +88,11 @@ export const getFnRootPropListSort = (prop) => {
 		case "class":
 		case "classFluff":
 		case "foundryClass":
-			return (a, b) => SortUtil.ascSortDateString(Parser.sourceJsonToDate(b.source), Parser.sourceJsonToDate(a.source)) || SortUtil.ascSortLower(a.name, b.name) || SortUtil.ascSortLower(a.source, b.source);
+			return SortUtil.ascSortClass.bind(SortUtil);
 		case "subclass":
 		case "subclassFluff":
 		case "foundrySubclass":
-			return (a, b) => SortUtil.ascSortDateString(Parser.sourceJsonToDate(b.source), Parser.sourceJsonToDate(a.source)) || SortUtil.ascSortLower(a.name, b.name);
+			return SortUtil.ascSortSubclass.bind(SortUtil);
 		case "classFeature":
 		case "foundryClassFeature":
 			return (a, b) => SortUtil.ascSortLower(a.classSource, b.classSource)
@@ -126,6 +131,8 @@ export const getFnRootPropListSort = (prop) => {
 			return (a, b) => SortUtil.ascSortLower(a.abbreviation, b.abbreviation) || SortUtil.ascSortLower(a.source, b.source);
 		case "converterSample":
 			return (a, b) => SortUtil.ascSortLower(a.converterId, b.converterId) || SortUtil.ascSortLower(a.format, b.format) || SortUtil.ascSortLower(a.edition, b.edition);
-		default: throw new Error(`Unhandled prop "${prop}"`);
+		default:
+			if (!isRequired) return null;
+			throw new Error(`Unhandled prop "${prop}"`);
 	}
 };

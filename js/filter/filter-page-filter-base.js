@@ -112,6 +112,9 @@ export class PageFilterBase {
 		if (!ent?.reprintedAs?.length) return false;
 		return ent.reprintedAs
 			.some(it => {
+				// Ignore '24+ reprints
+				if (it.edition && it.edition !== "classic") return false;
+
 				if (!UrlUtil.URL_TO_HASH_BUILDER[ent.__prop]) {
 					if (fnMissingBuilder) fnMissingBuilder(ent);
 					return true;
@@ -132,8 +135,8 @@ export class PageFilterBase {
 
 	static _hasSoundClip (ent) { return !!ent.soundClip; }
 
-	static _mutateForFilters_commonSources (ent) {
-		ent._fSources = SourceFilter.getCompleteFilterSources(ent);
+	static _mutateForFilters_commonSources (ent, {isIncludeBaseSource = false} = {}) {
+		ent._fSources = SourceFilter.getCompleteFilterSources(ent, {isIncludeBaseSource});
 	}
 
 	static _mutateForFilters_commonMisc (ent) {
@@ -156,6 +159,12 @@ export class PageFilterBase {
 		if (this._hasSoundClip(ent)) ent._fMisc.push("Has Pronunciation Audio");
 
 		if (this.isReprinted(ent)) ent._fMisc.push("Reprinted");
+
+		if (ent.tokenCustom) ent._fMisc.push("Has Custom/Unofficial Token");
+		if (ent.tokenCredit) ent._fMisc.push("Has Token Credit");
+
+		if (DataUtil.proxy.hasVersions(ent.__prop, ent)) ent._fMisc.push("Has Flavours");
+		if (ent._versionBase_isVersion) ent._fMisc.push("Is Flavour");
 	}
 	// endregion
 }

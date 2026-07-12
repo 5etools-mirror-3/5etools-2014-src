@@ -11,10 +11,6 @@ export class RenderPageImplBase {
 		return ee`${this._getRendered({ent, renderer, opts})}`;
 	}
 
-	$getRendered (ent, opts) {
-		return $(this.getRendered(ent, opts));
-	}
-
 	/**
 	 * @abstract
 	 *
@@ -65,5 +61,20 @@ export class RenderPageImplBase {
 
 	_getCommonHtmlParts_page ({ent}) {
 		return Renderer.utils.getPageTr(ent);
+	}
+
+	/* -------------------------------------------- */
+
+	_getRenderedSeeAlso (
+		{
+			renderer,
+			ent,
+			prop,
+			tag,
+		},
+	) {
+		if (!ent[prop]) return "";
+
+		return `<div>${renderer.render(`{@note See also: ${ent[prop].map(uid => `{@${tag} ${uid.split("|").map((pt, i) => !i ? pt.toTitleCase() : pt).join("|")}}`).join(", ")}.}`)}</div>`;
 	}
 }

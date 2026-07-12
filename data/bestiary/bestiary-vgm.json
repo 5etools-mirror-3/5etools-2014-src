@@ -160,7 +160,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/abjurer.mp3"
+				"path": "bestiary/abjurer.opus"
 			},
 			"attachedItems": [
 				"quarterstaff|phb"
@@ -198,6 +198,9 @@
 			"name": "Alhoon",
 			"source": "VGM",
 			"page": 172,
+			"referenceSources": [
+				"TLK"
+			],
 			"reprintedAs": [
 				"Alhoon|MPMM"
 			],
@@ -399,7 +402,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/alhoon.mp3"
+				"path": "bestiary/alhoon.opus"
 			},
 			"traitTags": [
 				"Magic Resistance",
@@ -460,10 +463,8 @@
 			"name": "Annis Hag",
 			"source": "VGM",
 			"page": 159,
-			"otherSources": [
-				{
-					"source": "MOT"
-				}
+			"referenceSources": [
+				"MOT"
 			],
 			"reprintedAs": [
 				"Annis Hag|MPMM"
@@ -824,7 +825,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/annis-hag.mp3"
+				"path": "bestiary/annis-hag.opus"
 			},
 			"senseTags": [
 				"D"
@@ -1139,22 +1140,13 @@
 			"name": "Apprentice Wizard",
 			"source": "VGM",
 			"page": 209,
-			"otherSources": [
-				{
-					"source": "WDH"
-				},
-				{
-					"source": "ToA"
-				},
-				{
-					"source": "DIP"
-				},
-				{
-					"source": "SLW"
-				},
-				{
-					"source": "ERLW"
-				}
+			"referenceSources": [
+				"AZfyT",
+				"DIP",
+				"ERLW",
+				"SLW",
+				"TLK",
+				"WDH"
 			],
 			"reprintedAs": [
 				"Apprentice Wizard|MPMM"
@@ -1236,7 +1228,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/apprentice-wizard.mp3"
+				"path": "bestiary/apprentice-wizard.opus"
 			},
 			"attachedItems": [
 				"dagger|phb"
@@ -1273,14 +1265,14 @@
 			"page": 210,
 			"otherSources": [
 				{
-					"source": "WDMM"
-				},
-				{
-					"source": "GoS"
-				},
-				{
-					"source": "MOT"
+					"source": "WDMM",
+					"page": 311
 				}
+			],
+			"referenceSources": [
+				"GoS",
+				"MOT",
+				"WDMM"
 			],
 			"reprintedAs": [
 				"Archdruid|MPMM"
@@ -1444,7 +1436,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/archdruid.mp3"
+				"path": "bestiary/archdruid.opus"
 			},
 			"attachedItems": [
 				"scimitar|phb"
@@ -1492,16 +1484,10 @@
 			"name": "Archer",
 			"source": "VGM",
 			"page": 210,
-			"otherSources": [
-				{
-					"source": "DIP"
-				},
-				{
-					"source": "SLW"
-				},
-				{
-					"source": "MOT"
-				}
+			"referenceSources": [
+				"DIP",
+				"MOT",
+				"SLW"
 			],
 			"reprintedAs": [
 				"Archer|MPMM"
@@ -1582,7 +1568,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/archer.mp3"
+				"path": "bestiary/archer.opus"
 			},
 			"attachedItems": [
 				"longbow|phb",
@@ -1668,7 +1654,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/aurochs.mp3"
+				"path": "bestiary/aurochs.opus"
 			},
 			"traitTags": [
 				"Charge"
@@ -1811,7 +1797,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/babau.mp3"
+				"path": "bestiary/babau.opus"
 			},
 			"attachedItems": [
 				"spear|phb"
@@ -1914,7 +1900,7 @@
 				{
 					"name": "Shadow Stealth",
 					"entries": [
-						"While in dim light or darkness, the banderhobb can take the Hide action as a bonus action."
+						"While in dim light or darkness, the banderhobb can take the {@action Hide} action as a bonus action."
 					]
 				}
 			],
@@ -1950,7 +1936,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/banderhobb.mp3"
+				"path": "bestiary/banderhobb.opus"
 			},
 			"senseTags": [
 				"SD"
@@ -1985,16 +1971,10 @@
 			"name": "Bard",
 			"source": "VGM",
 			"page": 211,
-			"otherSources": [
-				{
-					"source": "WDH"
-				},
-				{
-					"source": "GoS"
-				},
-				{
-					"source": "SDW"
-				}
+			"referenceSources": [
+				"GoS",
+				"SDW",
+				"WDH"
 			],
 			"reprintedAs": [
 				"Bard|MPMM"
@@ -2115,7 +2095,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/bard.mp3"
+				"path": "bestiary/bard.opus"
 			},
 			"attachedItems": [
 				"shortbow|phb",
@@ -2155,10 +2135,15 @@
 			"name": "Barghest",
 			"source": "VGM",
 			"page": 123,
-			"otherSources": [
-				{
-					"source": "TftYP"
-				}
+			"referenceSources": [
+				"TftYP",
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
 			],
 			"reprintedAs": [
 				"Barghest|MPMM"
@@ -2312,7 +2297,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/barghest.mp3"
+				"path": "bestiary/barghest.opus"
 			},
 			"traitTags": [
 				"Keen Senses",
@@ -2718,7 +2703,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/bheur-hag.mp3"
+				"path": "bestiary/bheur-hag.opus"
 			},
 			"senseTags": [
 				"D"
@@ -3119,7 +3104,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/guard-drake.mp3"
+				"path": "bestiary/guard-drake.opus"
 			},
 			"traitTags": [
 				"Amphibious"
@@ -3149,19 +3134,11 @@
 			"name": "Blackguard",
 			"source": "VGM",
 			"page": 211,
-			"otherSources": [
-				{
-					"source": "DC"
-				},
-				{
-					"source": "DIP"
-				},
-				{
-					"source": "SDW"
-				},
-				{
-					"source": "MOT"
-				}
+			"referenceSources": [
+				"DC",
+				"DIP",
+				"MOT",
+				"SDW"
 			],
 			"reprintedAs": [
 				"Blackguard|MPMM"
@@ -3283,7 +3260,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/blackguard.mp3"
+				"path": "bestiary/blackguard.opus"
 			},
 			"attachedItems": [
 				"glaive|phb",
@@ -3408,7 +3385,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/guard-drake.mp3"
+				"path": "bestiary/guard-drake.opus"
 			},
 			"senseTags": [
 				"D"
@@ -3435,13 +3412,9 @@
 			"name": "Bodak",
 			"source": "VGM",
 			"page": 127,
-			"otherSources": [
-				{
-					"source": "ToA"
-				},
-				{
-					"source": "GoS"
-				}
+			"referenceSources": [
+				"GoS",
+				"ToA"
 			],
 			"reprintedAs": [
 				"Bodak|MPMM"
@@ -3553,7 +3526,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/bodak.mp3"
+				"path": "bestiary/bodak.opus"
 			},
 			"traitTags": [
 				"Sunlight Sensitivity"
@@ -3568,7 +3541,6 @@
 			"damageTags": [
 				"B",
 				"N",
-				"R",
 				"Y"
 			],
 			"miscTags": [
@@ -3588,13 +3560,9 @@
 			"name": "Boggle",
 			"source": "VGM",
 			"page": 128,
-			"otherSources": [
-				{
-					"source": "IMR"
-				},
-				{
-					"source": "WBtW"
-				}
+			"referenceSources": [
+				"IMR",
+				"WBtW"
 			],
 			"reprintedAs": [
 				"Boggle|MPMM"
@@ -3687,7 +3655,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/boggle.mp3"
+				"path": "bestiary/boggle.opus"
 			},
 			"senseTags": [
 				"D"
@@ -3744,6 +3712,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true
 		},
@@ -3765,6 +3734,7 @@
 					"ability": "int"
 				}
 			],
+			"tokenCustom": true,
 			"spellcastingTags": [
 				"CW"
 			],
@@ -3800,6 +3770,7 @@
 					]
 				}
 			},
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true
 		},
@@ -3832,6 +3803,7 @@
 					]
 				}
 			},
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true
 		},
@@ -3864,6 +3836,7 @@
 					]
 				}
 			},
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true
 		},
@@ -3886,6 +3859,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true
 		},
@@ -3908,6 +3882,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true
 		},
@@ -3918,10 +3893,8 @@
 			],
 			"source": "VGM",
 			"page": 139,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA"
 			],
 			"reprintedAs": [
 				"Brontosaurus|MPMM"
@@ -3979,7 +3952,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/brontosaurus.mp3"
+				"path": "bestiary/brontosaurus.opus"
 			},
 			"damageTags": [
 				"B"
@@ -4002,10 +3975,8 @@
 			"name": "Catoblepas",
 			"source": "VGM",
 			"page": 129,
-			"otherSources": [
-				{
-					"source": "MOT"
-				}
+			"referenceSources": [
+				"MOT"
 			],
 			"reprintedAs": [
 				"Catoblepas|MPMM"
@@ -4076,7 +4047,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/catoblepas.mp3"
+				"path": "bestiary/catoblepas.opus"
 			},
 			"traitTags": [
 				"Keen Senses"
@@ -4193,7 +4164,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/cave-fisher.mp3"
+				"path": "bestiary/cave-fisher.opus"
 			},
 			"traitTags": [
 				"Spider Climb"
@@ -4226,14 +4197,22 @@
 			"page": 212,
 			"otherSources": [
 				{
-					"source": "WDMM"
-				},
-				{
-					"source": "TftYP"
-				},
-				{
-					"source": "ToA"
+					"source": "WDMM",
+					"page": 312
 				}
+			],
+			"referenceSources": [
+				"GoS",
+				"TftYP",
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM",
+				"ToA",
+				"WDMM"
 			],
 			"reprintedAs": [
 				"Champion|MPMM"
@@ -4325,7 +4304,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/champion.mp3"
+				"path": "bestiary/champion.opus"
 			},
 			"attachedItems": [
 				"greatsword|phb",
@@ -4446,7 +4425,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/chitine.mp3"
+				"path": "bestiary/chitine.opus"
 			},
 			"attachedItems": [
 				"dagger|phb"
@@ -4616,7 +4595,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/choldrith.mp3"
+				"path": "bestiary/choldrith.opus"
 			},
 			"attachedItems": [
 				"dagger|phb"
@@ -4828,7 +4807,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/cloud-giant-smiling-one.mp3"
+				"path": "bestiary/cloud-giant-smiling-one.opus"
 			},
 			"attachedItems": [
 				"morningstar|phb"
@@ -4872,10 +4851,15 @@
 			"name": "Conjurer",
 			"source": "VGM",
 			"page": 212,
-			"otherSources": [
-				{
-					"source": "TftYP"
-				}
+			"referenceSources": [
+				"TftYP",
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
 			],
 			"reprintedAs": [
 				"Conjurer Wizard|MPMM"
@@ -5007,7 +4991,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/conjurer.mp3"
+				"path": "bestiary/conjurer.opus"
 			},
 			"attachedItems": [
 				"dagger|phb"
@@ -5046,10 +5030,8 @@
 			"name": "Cow",
 			"source": "VGM",
 			"page": 207,
-			"otherSources": [
-				{
-					"source": "DIP"
-				}
+			"referenceSources": [
+				"DIP"
 			],
 			"size": [
 				"L"
@@ -5097,7 +5079,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/cow.mp3"
+				"path": "bestiary/cow.opus"
 			},
 			"traitTags": [
 				"Charge"
@@ -5178,7 +5160,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/cranium-rat.mp3"
+				"path": "bestiary/cranium-rat.opus"
 			},
 			"traitTags": [
 				"Illumination"
@@ -5204,10 +5186,8 @@
 			"name": "Darkling",
 			"source": "VGM",
 			"page": 134,
-			"otherSources": [
-				{
-					"source": "WBtW"
-				}
+			"referenceSources": [
+				"WBtW"
 			],
 			"reprintedAs": [
 				"Darkling|MPMM"
@@ -5287,7 +5267,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/darkling.mp3"
+				"path": "bestiary/darkling.opus"
 			},
 			"attachedItems": [
 				"dagger|phb"
@@ -5327,10 +5307,8 @@
 			"name": "Darkling Elder",
 			"source": "VGM",
 			"page": 134,
-			"otherSources": [
-				{
-					"source": "WBtW"
-				}
+			"referenceSources": [
+				"WBtW"
 			],
 			"reprintedAs": [
 				"Darkling Elder|MPMM"
@@ -5416,7 +5394,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/darkling-elder.mp3"
+				"path": "bestiary/darkling-elder.opus"
 			},
 			"attachedItems": [
 				"shortsword|phb"
@@ -5550,7 +5528,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/death-kiss.mp3"
+				"path": "bestiary/death-kiss.opus"
 			},
 			"senseTags": [
 				"SD"
@@ -5654,7 +5632,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/rothe.mp3"
+				"path": "bestiary/rothe.opus"
 			},
 			"traitTags": [
 				"Charge"
@@ -5678,10 +5656,8 @@
 			"name": "Deep Scion",
 			"source": "VGM",
 			"page": 135,
-			"otherSources": [
-				{
-					"source": "GoS"
-				}
+			"referenceSources": [
+				"GoS"
 			],
 			"reprintedAs": [
 				"Deep Scion|MPMM"
@@ -5790,7 +5766,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/deep-scion.mp3"
+				"path": "bestiary/deep-scion.opus"
 			},
 			"attachedItems": [
 				"battleaxe|phb"
@@ -5837,12 +5813,13 @@
 			"page": 139,
 			"otherSources": [
 				{
-					"source": "ToA"
-				},
-				{
 					"source": "PSX",
 					"page": 30
 				}
+			],
+			"referenceSources": [
+				"ToA",
+				"XMtS"
 			],
 			"reprintedAs": [
 				"Deinonychus|MPMM"
@@ -5915,7 +5892,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/deinonychus.mp3"
+				"path": "bestiary/deinonychus.opus"
 			},
 			"traitTags": [
 				"Pounce"
@@ -6026,7 +6003,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/devourer.mp3"
+				"path": "bestiary/devourer.opus"
 			},
 			"senseTags": [
 				"SD"
@@ -6060,10 +6037,9 @@
 			],
 			"source": "VGM",
 			"page": 139,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA",
+				"TTP"
 			],
 			"reprintedAs": [
 				"Dimetrodon|MPMM"
@@ -6116,7 +6092,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/dimetrodon.mp3"
+				"path": "bestiary/dimetrodon.opus"
 			},
 			"damageTags": [
 				"P"
@@ -6284,7 +6260,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/diviner.mp3"
+				"path": "bestiary/diviner.opus"
 			},
 			"attachedItems": [
 				"quarterstaff|phb"
@@ -6319,10 +6295,9 @@
 			"name": "Dolphin",
 			"source": "VGM",
 			"page": 208,
-			"otherSources": [
-				{
-					"source": "GoS"
-				}
+			"referenceSources": [
+				"GoS",
+				"TTP"
 			],
 			"reprintedAs": [
 				"Dolphin|MPMM"
@@ -6392,7 +6367,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/dolphin.mp3"
+				"path": "bestiary/dolphin.opus"
 			},
 			"traitTags": [
 				"Charge",
@@ -6529,7 +6504,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/draegloth.mp3"
+				"path": "bestiary/draegloth.opus"
 			},
 			"traitTags": [
 				"Fey Ancestry"
@@ -6726,7 +6701,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/elder-brain.mp3"
+				"path": "bestiary/elder-brain.opus"
 			},
 			"traitTags": [
 				"Legendary Resistances",
@@ -6784,10 +6759,15 @@
 			"name": "Enchanter",
 			"source": "VGM",
 			"page": 213,
-			"otherSources": [
-				{
-					"source": "TftYP"
-				}
+			"referenceSources": [
+				"TftYP",
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
 			],
 			"reprintedAs": [
 				"Enchanter Wizard|MPMM"
@@ -6920,7 +6900,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/enchanter.mp3"
+				"path": "bestiary/enchanter.opus"
 			},
 			"attachedItems": [
 				"quarterstaff|phb"
@@ -6956,19 +6936,19 @@
 			"name": "Evoker",
 			"source": "VGM",
 			"page": 214,
-			"otherSources": [
-				{
-					"source": "TftYP"
-				},
-				{
-					"source": "DIP"
-				},
-				{
-					"source": "SLW"
-				},
-				{
-					"source": "ERLW"
-				}
+			"referenceSources": [
+				"DIP",
+				"ERLW",
+				"LLK",
+				"SLW",
+				"TftYP",
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
 			],
 			"reprintedAs": [
 				"Evoker Wizard|MPMM"
@@ -7108,7 +7088,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/evoker.mp3"
+				"path": "bestiary/evoker.opus"
 			},
 			"attachedItems": [
 				"quarterstaff|phb"
@@ -7240,7 +7220,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/fire-giant-dreadnought.mp3"
+				"path": "bestiary/fire-giant-dreadnought.opus"
 			},
 			"actionTags": [
 				"Multiattack"
@@ -7271,10 +7251,8 @@
 			"name": "Firenewt Warlock of Imix",
 			"source": "VGM",
 			"page": 143,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA"
 			],
 			"reprintedAs": [
 				"Firenewt Warlock of Imix|MPMM"
@@ -7436,10 +7414,8 @@
 			"name": "Firenewt Warrior",
 			"source": "VGM",
 			"page": 142,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA"
 			],
 			"reprintedAs": [
 				"Firenewt Warrior|MPMM"
@@ -7524,7 +7500,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/firenewt-warrior.mp3"
+				"path": "bestiary/firenewt-warrior.opus"
 			},
 			"attachedItems": [
 				"scimitar|phb"
@@ -7558,16 +7534,11 @@
 			"name": "Flail Snail",
 			"source": "VGM",
 			"page": 144,
-			"otherSources": [
-				{
-					"source": "ToA"
-				},
-				{
-					"source": "DIP"
-				},
-				{
-					"source": "SLW"
-				}
+			"referenceSources": [
+				"DIP",
+				"SLW",
+				"ToA",
+				"TTP"
 			],
 			"reprintedAs": [
 				"Flail Snail|MPMM"
@@ -7623,21 +7594,18 @@
 							"style": "list-hang-notitle",
 							"items": [
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "1\u20132",
-									"style": "italic",
 									"entry": "If the spell affects an area or has multiple targets, it fails and has no effect. If the spell targets only the snail, it has no effect on the snail and is reflected back at the caster, using the spell slot level, spell save DC, attack bonus, and spellcasting ability of the caster."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "3\u20134",
-									"style": "italic",
 									"entry": "No additional effect."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "5\u20136",
-									"style": "italic",
 									"entry": "The snail's shell converts some of the spell's energy into a burst of destructive force. Each creature within 30 feet of the snail must make a {@dc 15} Constitution saving throw, taking {@damage 1d6} force damage per level of the spell on a failed save, or half as much damage on a successful one."
 								}
 							]
@@ -7684,7 +7652,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/flail-snail.mp3"
+				"path": "bestiary/flail-snail.opus"
 			},
 			"senseTags": [
 				"D",
@@ -7819,7 +7787,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/flind.mp3"
+				"path": "bestiary/flind.opus"
 			},
 			"attachedItems": [
 				"longbow|phb"
@@ -7860,10 +7828,9 @@
 			"name": "Froghemoth",
 			"source": "VGM",
 			"page": 145,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"LLK",
+				"ToA"
 			],
 			"reprintedAs": [
 				"Froghemoth|MPMM"
@@ -7961,7 +7928,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/froghemoth.mp3"
+				"path": "bestiary/froghemoth.opus"
 			},
 			"traitTags": [
 				"Amphibious"
@@ -8106,7 +8073,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/frost-giant-everlasting-one.mp3"
+				"path": "bestiary/frost-giant-everlasting-one.opus"
 			},
 			"attachedItems": [
 				"greataxe|phb"
@@ -8231,39 +8198,33 @@
 							"style": "list-hang-notitle",
 							"items": [
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "1. Devour Magic Ray",
-									"style": "italic",
 									"entry": "The targeted creature must succeed on a {@dc 14} Dexterity saving throw or have one of its magic items lose all magical properties until the start of the gauth's next turn. If the object is a charged item, it also loses {@dice 1d4} charges. Determine the affected item randomly, ignoring single-use items such as potions and scrolls."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "2. Enervation Ray",
-									"style": "italic",
 									"entry": "The targeted creature must make a {@dc 14} Constitution saving throw, taking 18 ({@damage 4d8}) necrotic damage on a failed save, or half as much damage on a successful one."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "3. Pushing Ray",
-									"style": "italic",
 									"entry": "The targeted creature must succeed on a {@dc 14} Strength saving throw or be pushed up to 15 feet directly away from the gauth and have its speed halved until the start of the gauth's next turn."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "4. Fire Ray",
-									"style": "italic",
 									"entry": "The targeted creature must succeed on a {@dc 14} Dexterity saving throw or take 22 ({@damage 4d10}) fire damage."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "5. Paralyzing Ray",
-									"style": "italic",
 									"entry": "The targeted creature must succeed on a {@dc 14} Constitution saving throw or be {@condition paralyzed} for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "6. Sleep Ray",
-									"style": "italic",
 									"entry": "The targeted creature must succeed on a {@dc 14} Wisdom saving throw or fall asleep and remain {@condition unconscious} for 1 minute. The target awakens if it takes damage or another creature takes an action to wake it. This ray has no effect on constructs and undead."
 								}
 							]
@@ -8276,7 +8237,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/gauth.mp3"
+				"path": "bestiary/gauth.opus"
 			},
 			"traitTags": [
 				"Death Burst"
@@ -8295,6 +8256,7 @@
 				"P"
 			],
 			"miscTags": [
+				"AOE",
 				"MW"
 			],
 			"conditionInflict": [
@@ -8319,10 +8281,8 @@
 			],
 			"source": "VGM",
 			"page": 126,
-			"otherSources": [
-				{
-					"source": "WDH"
-				}
+			"referenceSources": [
+				"WDH"
 			],
 			"reprintedAs": [
 				"Gazer|MPMM"
@@ -8401,27 +8361,23 @@
 							"style": "list-hang-notitle",
 							"items": [
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "1. Dazing Ray",
-									"style": "italic",
 									"entry": "The targeted creature must succeed on a {@dc 12} Wisdom saving throw or be {@condition charmed} until the start of the gazer's next turn. While the target is {@condition charmed} in this way, its speed is halved, and it has disadvantage on attack rolls."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "2. Fear Ray",
-									"style": "italic",
 									"entry": "The targeted creature must succeed on a {@dc 12} Wisdom saving throw or be {@condition frightened} until the start of the gazer's next turn."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "3. Frost Ray",
-									"style": "italic",
 									"entry": "The targeted creature must succeed on a {@dc 12} Dexterity saving throw or take 10 ({@damage 3d6}) cold damage."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "4. Telekinetic Ray",
-									"style": "italic",
 									"entries": [
 										"If the target is a creature that is Medium or smaller, it must succeed on a {@dc 12} Strength saving throw or be moved up to 30 feet directly away from the gazer.",
 										"If the target is an object weighing 10 pounds or less that isn't being worn or carried, the gazer moves it up to 30 feet in any direction. The gazer can also exert fine control on objects with this ray, such as manipulating a simple tool or opening a container."
@@ -8457,7 +8413,7 @@
 			"familiar": true,
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/gazer.mp3"
+				"path": "bestiary/gazer.opus"
 			},
 			"traitTags": [
 				"Aggressive",
@@ -8490,10 +8446,8 @@
 			"name": "Giant Strider",
 			"source": "VGM",
 			"page": 143,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA"
 			],
 			"reprintedAs": [
 				"Giant Strider|MPMM"
@@ -8561,7 +8515,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/giant-strider.mp3"
+				"path": "bestiary/giant-strider.opus"
 			},
 			"traitTags": [
 				"Damage Absorption"
@@ -8585,13 +8539,9 @@
 			"name": "Girallon",
 			"source": "VGM",
 			"page": 152,
-			"otherSources": [
-				{
-					"source": "ToA"
-				},
-				{
-					"source": "IMR"
-				}
+			"referenceSources": [
+				"IMR",
+				"ToA"
 			],
 			"reprintedAs": [
 				"Girallon|MPMM"
@@ -8668,7 +8618,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/girallon.mp3"
+				"path": "bestiary/girallon.opus"
 			},
 			"traitTags": [
 				"Aggressive",
@@ -8786,7 +8736,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/gnoll-flesh-gnawer.mp3"
+				"path": "bestiary/gnoll-flesh-gnawer.opus"
 			},
 			"attachedItems": [
 				"shortsword|phb"
@@ -8909,7 +8859,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/gnoll-hunter.mp3"
+				"path": "bestiary/gnoll-hunter.opus"
 			},
 			"attachedItems": [
 				"longbow|phb",
@@ -9035,7 +8985,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/gnoll-witherling.mp3"
+				"path": "bestiary/gnoll-witherling.opus"
 			},
 			"attachedItems": [
 				"club|phb"
@@ -9149,7 +9099,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/guard-drake.mp3"
+				"path": "bestiary/guard-drake.opus"
 			},
 			"traitTags": [
 				"Amphibious"
@@ -9179,10 +9129,8 @@
 			"name": "Grung",
 			"source": "VGM",
 			"page": 156,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA"
 			],
 			"reprintedAs": [
 				"Grung|MPMM"
@@ -9321,7 +9269,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/grung.mp3"
+				"path": "bestiary/grung.opus"
 			},
 			"attachedItems": [
 				"dagger|phb"
@@ -9462,10 +9410,8 @@
 			"name": "Grung Elite Warrior",
 			"source": "VGM",
 			"page": 157,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA"
 			],
 			"reprintedAs": [
 				"Grung Elite Warrior|MPMM"
@@ -9616,7 +9562,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/grung-elite-warrior.mp3"
+				"path": "bestiary/grung-elite-warrior.opus"
 			},
 			"attachedItems": [
 				"dagger|phb",
@@ -9761,10 +9707,8 @@
 			"name": "Grung Wildling",
 			"source": "VGM",
 			"page": 157,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA"
 			],
 			"reprintedAs": [
 				"Grung Wildling|MPMM"
@@ -9946,7 +9890,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/grung-wildling.mp3"
+				"path": "bestiary/grung-wildling.opus"
 			},
 			"attachedItems": [
 				"dagger|phb",
@@ -10100,12 +10044,12 @@
 			"page": 140,
 			"otherSources": [
 				{
-					"source": "ToA"
-				},
-				{
 					"source": "PSX",
 					"page": 29
 				}
+			],
+			"referenceSources": [
+				"ToA"
 			],
 			"reprintedAs": [
 				"Hadrosaurus|MPMM"
@@ -10157,7 +10101,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/hadrosaurus.mp3"
+				"path": "bestiary/hadrosaurus.opus"
 			},
 			"damageTags": [
 				"B"
@@ -10300,7 +10244,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/hobgoblin-devastator.mp3"
+				"path": "bestiary/hobgoblin-devastator.opus"
 			},
 			"attachedItems": [
 				"quarterstaff|phb"
@@ -10459,7 +10403,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/hobgoblin-iron-shadow.mp3"
+				"path": "bestiary/hobgoblin-iron-shadow.opus"
 			},
 			"attachedItems": [
 				"dart|phb"
@@ -10768,7 +10712,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/mind-flayer-lich-illithilich.mp3"
+				"path": "bestiary/mind-flayer-lich-illithilich.opus"
 			},
 			"traitTags": [
 				"Legendary Resistances",
@@ -10844,10 +10788,15 @@
 			"name": "Illusionist",
 			"source": "VGM",
 			"page": 214,
-			"otherSources": [
-				{
-					"source": "TftYP"
-				}
+			"referenceSources": [
+				"TftYP",
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
 			],
 			"reprintedAs": [
 				"Illusionist Wizard|MPMM"
@@ -10972,7 +10921,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/illusionist.mp3"
+				"path": "bestiary/illusionist.opus"
 			},
 			"attachedItems": [
 				"quarterstaff|phb"
@@ -11250,7 +11199,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/ki-rin.mp3"
+				"path": "bestiary/ki-rin.opus"
 			},
 			"traitTags": [
 				"Legendary Resistances",
@@ -11297,13 +11246,9 @@
 			"name": "Kobold Dragonshield",
 			"source": "VGM",
 			"page": 165,
-			"otherSources": [
-				{
-					"source": "DIP"
-				},
-				{
-					"source": "SLW"
-				}
+			"referenceSources": [
+				"DIP",
+				"SLW"
 			],
 			"reprintedAs": [
 				"Kobold Dragonshield|MPMM"
@@ -11403,7 +11348,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/kobold-dragonshield.mp3"
+				"path": "bestiary/kobold-dragonshield.opus"
 			},
 			"attachedItems": [
 				"spear|phb"
@@ -11439,10 +11384,9 @@
 			"name": "Kobold Inventor",
 			"source": "VGM",
 			"page": 166,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"LLK",
+				"ToA"
 			],
 			"reprintedAs": [
 				"Kobold Inventor|MPMM"
@@ -11524,51 +11468,43 @@
 							"style": "list-hang-notitle",
 							"items": [
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "1. Acid",
-									"style": "italic",
 									"entry": "The kobold hurls a flask of {@item Acid (vial)|phb|acid}. {@atk rw} {@hit 4} to hit, range 5/20 ft., one target. {@h}7 ({@damage 2d6}) acid damage."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "2. Alchemist's fire",
-									"style": "italic",
 									"entry": "The kobold throws a flask of {@item Alchemist's Fire (flask)|phb|alchemist's fire}. {@atk rw} {@hit 4} to hit, range 5/20 ft., one target. {@h}2 ({@damage 1d4}) fire damage at the start of each of the target's turns. A creature can end this damage by using its action to make a {@dc 10} Dexterity check to extinguish the flames."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "3. Basket of Centipedes",
-									"style": "italic",
 									"entry": "The kobold throws a small basket into a 5-foot-square space within 20 feet of it. A {@creature swarm of centipedes||swarm of insects (centipedes)} with 11 hit points emerges from the basket and rolls initiative. At the end of each of the swarm's turns, there's a {@chance 50} chance that the swarm disperses."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "4. Green Slime Pot",
-									"style": "italic",
 									"entry": "The kobold throws a clay pot full of green slime at the target, and it breaks open on impact. {@atk rw} {@hit 4} to hit, range 5/20 ft., one target. {@h}The target is covered in a patch of {@hazard green slime} (see chapter 5 of the Dungeon Master's Guide). Miss: A patch of green slime covers a randomly determined 5-foot-square section of wall or floor within 5 feet of the target."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "5. Rot Grub Pot",
-									"style": "italic",
 									"entry": "The kobold throws a clay pot into a 5-foot-square space within 20 feet of it, and it breaks open on impact. A {@creature swarm of rot grubs|vgm} (see appendix A) emerges from the shattered pot and remains a hazard in that square."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "6. Scorpion on a Stick",
-									"style": "italic",
 									"entry": "The kobold makes a melee attack with a scorpion tied to the end of a 5-foot-long pole. {@atk mw} {@hit 4} to hit, reach 5 ft., one target. {@h}1 piercing damage, and the target must make a {@dc 9} Constitution saving throw, taking 4 ({@damage 1d8}) poison damage on a failed save, or half as much damage on a successful one."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "7. Skunk in a Cage",
-									"style": "italic",
 									"entry": "The kobold releases a skunk into an unoccupied space within 5 feet of it. The skunk has a walking speed of 20 feet, AC 10, 1 hit point, and no effective attacks. It rolls initiative and, on its turn, uses its action to spray musk at a random creature within 5 feet of it. The target must make a {@dc 9} Constitution saving throw. On a failed save, the target retches and can't take actions for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. A creature that doesn't need to breathe or is immune to poison automatically succeeds on the saving throw. Once the skunk has sprayed its musk, it can't do so again until it finishes a short or long rest."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "8. Wasp Nest in a Bag",
-									"style": "italic",
 									"entry": "The kobold throws a small bag into a 5-foot-square space within 20 feet of it. A {@creature swarm of wasps||swarm of insects (wasps)} with 11 hit points emerges from the bag and rolls initiative. At the end of each of the swarm's turns, there's a {@chance 50} chance that the swarm disperses."
 								}
 							]
@@ -11585,7 +11521,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/kobold-inventor.mp3"
+				"path": "bestiary/kobold-inventor.opus"
 			},
 			"attachedItems": [
 				"dagger|phb",
@@ -11627,10 +11563,8 @@
 			"name": "Kobold Scale Sorcerer",
 			"source": "VGM",
 			"page": 167,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA"
 			],
 			"reprintedAs": [
 				"Kobold Scale Sorcerer|MPMM"
@@ -11755,7 +11689,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/kobold-scale-sorcerer.mp3"
+				"path": "bestiary/kobold-scale-sorcerer.opus"
 			},
 			"attachedItems": [
 				"dagger|phb"
@@ -11806,10 +11740,8 @@
 			"name": "Korred",
 			"source": "VGM",
 			"page": 168,
-			"otherSources": [
-				{
-					"source": "WBtW"
-				}
+			"referenceSources": [
+				"WBtW"
 			],
 			"reprintedAs": [
 				"Korred|MPMM"
@@ -11940,7 +11872,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/korred.mp3"
+				"path": "bestiary/korred.opus"
 			},
 			"attachedItems": [
 				"greatclub|phb"
@@ -11997,19 +11929,11 @@
 			"name": "Kraken Priest",
 			"source": "VGM",
 			"page": 215,
-			"otherSources": [
-				{
-					"source": "GoS"
-				},
-				{
-					"source": "DIP"
-				},
-				{
-					"source": "SLW"
-				},
-				{
-					"source": "LR"
-				}
+			"referenceSources": [
+				"DIP",
+				"GoS",
+				"LR",
+				"SLW"
 			],
 			"reprintedAs": [
 				"Kraken Priest|MPMM"
@@ -12119,7 +12043,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/kraken-priest.mp3"
+				"path": "bestiary/kraken-priest.opus"
 			},
 			"traitTags": [
 				"Amphibious"
@@ -12160,13 +12084,16 @@
 			"name": "Leucrotta",
 			"source": "VGM",
 			"page": 169,
-			"otherSources": [
-				{
-					"source": "TftYP"
-				},
-				{
-					"source": "MOT"
-				}
+			"referenceSources": [
+				"MOT",
+				"TftYP",
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
 			],
 			"reprintedAs": [
 				"Leucrotta|MPMM"
@@ -12223,7 +12150,7 @@
 				{
 					"name": "Kicking Retreat",
 					"entries": [
-						"If the leucrotta attacks with its hooves, it can take the Disengage action as a bonus action."
+						"If the leucrotta attacks with its hooves, it can take the {@action Disengage} action as a bonus action."
 					]
 				},
 				{
@@ -12265,7 +12192,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/leucrotta.mp3"
+				"path": "bestiary/leucrotta.opus"
 			},
 			"traitTags": [
 				"Keen Senses",
@@ -12297,16 +12224,17 @@
 			"name": "Martial Arts Adept",
 			"source": "VGM",
 			"page": 216,
-			"otherSources": [
-				{
-					"source": "WDH"
-				},
-				{
-					"source": "TftYP"
-				},
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"LLK",
+				"TftYP",
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM",
+				"WDH"
 			],
 			"reprintedAs": [
 				"Martial Arts Adept|MPMM"
@@ -12398,7 +12326,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/martial-arts-adept.mp3"
+				"path": "bestiary/martial-arts-adept.opus"
 			},
 			"attachedItems": [
 				"dart|phb"
@@ -12437,21 +12365,17 @@
 			"page": 216,
 			"otherSources": [
 				{
-					"source": "DIP"
-				},
-				{
-					"source": "SLW"
-				},
-				{
-					"source": "SDW"
-				},
-				{
 					"source": "IMR",
 					"page": 216
-				},
-				{
-					"source": "MOT"
 				}
+			],
+			"referenceSources": [
+				"DIP",
+				"IMR",
+				"MOT",
+				"SDW",
+				"SLW",
+				"TLK"
 			],
 			"reprintedAs": [
 				"Master Thief|MPMM"
@@ -12509,7 +12433,7 @@
 				{
 					"name": "Cunning Action",
 					"entries": [
-						"On each of its turns, the thief can use a bonus action to take the Dash, Disengage, or Hide action."
+						"On each of its turns, the thief can use a bonus action to take the {@action Dash}, {@action Disengage}, or {@action Hide} action."
 					]
 				},
 				{
@@ -12558,7 +12482,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/master-thief.mp3"
+				"path": "bestiary/master-thief.opus"
 			},
 			"attachedItems": [
 				"light crossbow|phb",
@@ -12592,10 +12516,8 @@
 			"name": "Maw Demon",
 			"source": "VGM",
 			"page": 137,
-			"otherSources": [
-				{
-					"source": "GoS"
-				}
+			"referenceSources": [
+				"GoS"
 			],
 			"reprintedAs": [
 				"Maw Demon|MPMM"
@@ -12676,7 +12598,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/maw-demon.mp3"
+				"path": "bestiary/maw-demon.opus"
 			},
 			"traitTags": [
 				"Rampage"
@@ -12702,10 +12624,8 @@
 			"name": "Meenlock",
 			"source": "VGM",
 			"page": 170,
-			"otherSources": [
-				{
-					"source": "CM"
-				}
+			"referenceSources": [
+				"CM"
 			],
 			"reprintedAs": [
 				"Meenlock|MPMM"
@@ -12790,7 +12710,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/meenlock.mp3"
+				"path": "bestiary/meenlock.opus"
 			},
 			"traitTags": [
 				"Light Sensitivity"
@@ -13124,39 +13044,33 @@
 							"style": "list-hang-notitle",
 							"items": [
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "1. Aversion Ray",
-									"style": "italic",
 									"entry": "The targeted creature must make a {@dc 13} Charisma saving throw. On a failed save, the target has disadvantage on attack rolls for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "2. Fear Ray",
-									"style": "italic",
 									"entry": "The targeted creature must succeed on a {@dc 13} Wisdom saving throw or be {@condition frightened} for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "3. Psychic Ray",
-									"style": "italic",
 									"entry": "The target must succeed on a {@dc 13} Intelligence saving throw or take 27 ({@damage 6d8}) psychic damage."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "4. Slowing Ray",
-									"style": "italic",
 									"entry": "The targeted creature must make a {@dc 13} Dexterity saving throw. On a failed save, the target's speed is halved for 1 minute. In addition, the creature can't take reactions, and it can take either an action or a bonus action on its turn but not both. The creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "5. Stunning Ray",
-									"style": "italic",
 									"entry": "The targeted creature must succeed on a {@dc 13} Constitution saving throw or be {@condition stunned} for 1 minute. The target can repeat the saving throw at the start of each of its turns, ending the effect on itself on a success."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "6. Telekinetic Ray",
-									"style": "italic",
 									"entries": [
 										"If the target is a creature, it must make a {@dc 13} Strength saving throw. On a failed save, the mindwitness moves it up to 30 feet in any direction, and it is {@condition restrained} by the ray's telekinetic grip until the start of the mindwitness's next turn or until the mindwitness is {@condition incapacitated}.",
 										"If the target is an object weighing 300 pounds or less that isn't being worn or carried, it is telekinetically moved up to 30 feet in any direction. The mindwitness can also exert fine control on objects with this ray, such as manipulating a simple tool or opening a door or a container."
@@ -13172,7 +13086,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/mindwitness.mp3"
+				"path": "bestiary/mindwitness.opus"
 			},
 			"senseTags": [
 				"SD"
@@ -13378,7 +13292,7 @@
 				{
 					"name": "Hypnosis",
 					"entries": [
-						"The morkoth projects a 30-foot cone of magical energy. Each creature in that area must make a {@dc 17} Wisdom saving throw. On a failed save, the creature is {@condition charmed} by the morkoth for 1 minute. While {@condition charmed} in this way, the target tries to get as close to the morkoth as possible, using its actions to Dash until it is within 5 feet of the morkoth. A {@condition charmed} target can repeat the saving throw at the end of each of its turns and whenever it takes damage, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature has advantage on saving throws against the morkoth's Hypnosis for 24 hours."
+						"The morkoth projects a 30-foot cone of magical energy. Each creature in that area must make a {@dc 17} Wisdom saving throw. On a failed save, the creature is {@condition charmed} by the morkoth for 1 minute. While {@condition charmed} in this way, the target tries to get as close to the morkoth as possible, using its actions to {@action Dash} until it is within 5 feet of the morkoth. A {@condition charmed} target can repeat the saving throw at the end of each of its turns and whenever it takes damage, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature has advantage on saving throws against the morkoth's Hypnosis for 24 hours."
 					]
 				}
 			],
@@ -13400,7 +13314,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/morkoth.mp3"
+				"path": "bestiary/morkoth.opus"
 			},
 			"traitTags": [
 				"Amphibious"
@@ -13546,7 +13460,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/mouth-of-grolantor.mp3"
+				"path": "bestiary/mouth-of-grolantor.opus"
 			},
 			"languageTags": [
 				"GI"
@@ -13567,16 +13481,17 @@
 			"name": "Necromancer",
 			"source": "VGM",
 			"page": 217,
-			"otherSources": [
-				{
-					"source": "TftYP"
-				},
-				{
-					"source": "DC"
-				},
-				{
-					"source": "DIP"
-				}
+			"referenceSources": [
+				"DC",
+				"DIP",
+				"TftYP",
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
 			],
 			"reprintedAs": [
 				"Necromancer Wizard|MPMM"
@@ -13720,7 +13635,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/necromancer.mp3"
+				"path": "bestiary/necromancer.opus"
 			},
 			"languageTags": [
 				"X"
@@ -13843,7 +13758,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/neogi.mp3"
+				"path": "bestiary/neogi.opus"
 			},
 			"traitTags": [
 				"Spider Climb"
@@ -13944,7 +13859,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/neogi-hatchling.mp3"
+				"path": "bestiary/neogi-hatchling.opus"
 			},
 			"traitTags": [
 				"Spider Climb"
@@ -14109,7 +14024,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/neogi-master.mp3"
+				"path": "bestiary/neogi-master.opus"
 			},
 			"traitTags": [
 				"Spider Climb"
@@ -14173,8 +14088,12 @@
 			"page": 181,
 			"otherSources": [
 				{
-					"source": "WDMM"
+					"source": "WDMM",
+					"page": 315
 				}
+			],
+			"referenceSources": [
+				"WDMM"
 			],
 			"reprintedAs": [
 				"Neothelid|MPMM"
@@ -14272,7 +14191,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/neothelid.mp3"
+				"path": "bestiary/neothelid.opus"
 			},
 			"traitTags": [
 				"Magic Resistance"
@@ -14406,7 +14325,7 @@
 				{
 					"name": "Nimble Escape",
 					"entries": [
-						"The nilbog can take the Disengage or Hide action as a bonus action on each of its turns."
+						"The nilbog can take the {@action Disengage} or {@action Hide} action as a bonus action on each of its turns."
 					]
 				}
 			],
@@ -14439,7 +14358,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/nilbog.mp3"
+				"path": "bestiary/nilbog.opus"
 			},
 			"attachedItems": [
 				"shortbow|phb"
@@ -14588,7 +14507,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/orc-blade-of-ilneval.mp3"
+				"path": "bestiary/orc-blade-of-ilneval.opus"
 			},
 			"attachedItems": [
 				"javelin|phb",
@@ -14742,7 +14661,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/orc-claw-of-luthic.mp3"
+				"path": "bestiary/orc-claw-of-luthic.opus"
 			},
 			"traitTags": [
 				"Aggressive"
@@ -14891,7 +14810,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/orc-hand-of-yurtrus.mp3"
+				"path": "bestiary/orc-hand-of-yurtrus.opus"
 			},
 			"traitTags": [
 				"Aggressive"
@@ -15008,7 +14927,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/orc-nurtured-one-of-yurtrus.mp3"
+				"path": "bestiary/orc-nurtured-one-of-yurtrus.opus"
 			},
 			"traitTags": [
 				"Aggressive"
@@ -15094,7 +15013,7 @@
 				{
 					"name": "Cunning Action",
 					"entries": [
-						"On each of its turns, the orc can use a bonus action to take the Dash, Disengage, or Hide action."
+						"On each of its turns, the orc can use a bonus action to take the {@action Dash}, {@action Disengage}, or {@action Hide} action."
 					]
 				},
 				{
@@ -15151,7 +15070,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/orc-red-fang.mp3"
+				"path": "bestiary/orc-red-fang.opus"
 			},
 			"attachedItems": [
 				"dart|phb",
@@ -15185,10 +15104,8 @@
 			"name": "Ox",
 			"source": "VGM",
 			"page": 208,
-			"otherSources": [
-				{
-					"source": "PotA"
-				}
+			"referenceSources": [
+				"PotA"
 			],
 			"reprintedAs": [
 				"Ox|MPMM"
@@ -15245,7 +15162,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/ox.mp3"
+				"path": "bestiary/ox.opus"
 			},
 			"traitTags": [
 				"Beast of Burden",
@@ -15267,10 +15184,9 @@
 			],
 			"source": "VGM",
 			"page": 140,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA",
+				"XMtS"
 			],
 			"reprintedAs": [
 				"Quetzalcoatlus|MPMM"
@@ -15338,7 +15254,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/quetzalcoatlus.mp3"
+				"path": "bestiary/quetzalcoatlus.opus"
 			},
 			"traitTags": [
 				"Flyby"
@@ -15357,10 +15273,9 @@
 			"name": "Quickling",
 			"source": "VGM",
 			"page": 187,
-			"otherSources": [
-				{
-					"source": "WBtW"
-				}
+			"referenceSources": [
+				"LLK",
+				"WBtW"
 			],
 			"reprintedAs": [
 				"Quickling|MPMM"
@@ -15437,7 +15352,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/quickling.mp3"
+				"path": "bestiary/quickling.opus"
 			},
 			"attachedItems": [
 				"dagger|phb"
@@ -15542,7 +15457,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/guard-drake.mp3"
+				"path": "bestiary/guard-drake.opus"
 			},
 			"senseTags": [
 				"D"
@@ -15569,19 +15484,10 @@
 			"name": "Redcap",
 			"source": "VGM",
 			"page": 188,
-			"otherSources": [
-				{
-					"source": "ToA"
-				},
-				{
-					"source": "BGDIA"
-				},
-				{
-					"source": "IMR"
-				},
-				{
-					"source": "WBtW"
-				}
+			"referenceSources": [
+				"BGDIA",
+				"IMR",
+				"WBtW"
 			],
 			"reprintedAs": [
 				"Redcap|MPMM"
@@ -15685,7 +15591,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/redcap.mp3"
+				"path": "bestiary/redcap.opus"
 			},
 			"altArt": [
 				{
@@ -15780,7 +15686,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/rothe.mp3"
+				"path": "bestiary/rothe.opus"
 			},
 			"traitTags": [
 				"Charge"
@@ -15897,7 +15803,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/sea-spawn.mp3"
+				"path": "bestiary/sea-spawn.opus"
 			},
 			"senseTags": [
 				"SD"
@@ -16046,7 +15952,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/shadow-mastiff.mp3"
+				"path": "bestiary/shadow-mastiff.opus"
 			},
 			"traitTags": [
 				"Keen Senses"
@@ -16209,7 +16115,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/shoosuva.mp3"
+				"path": "bestiary/shoosuva.opus"
 			},
 			"traitTags": [
 				"Rampage"
@@ -16247,16 +16153,9 @@
 			"name": "Slithering Tracker",
 			"source": "VGM",
 			"page": 191,
-			"otherSources": [
-				{
-					"source": "ToA"
-				},
-				{
-					"source": "IMR"
-				},
-				{
-					"source": "MOT"
-				}
+			"referenceSources": [
+				"IMR",
+				"MOT"
 			],
 			"reprintedAs": [
 				"Slithering Tracker|MPMM"
@@ -16364,7 +16263,7 @@
 				{
 					"name": "Watery Stealth",
 					"entries": [
-						"While underwater, the slithering tracker has advantage on Dexterity ({@skill Stealth}) checks made to hide, and it can take the Hide action as a bonus action."
+						"While underwater, the slithering tracker has advantage on Dexterity ({@skill Stealth}) checks made to hide, and it can take the {@action Hide} action as a bonus action."
 					]
 				}
 			],
@@ -16388,7 +16287,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/slithering-tracker.mp3"
+				"path": "bestiary/slithering-tracker.opus"
 			},
 			"traitTags": [
 				"Ambusher",
@@ -16509,7 +16408,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/spawn-of-kyuss.mp3"
+				"path": "bestiary/spawn-of-kyuss.opus"
 			},
 			"traitTags": [
 				"Regeneration"
@@ -16547,10 +16446,8 @@
 			],
 			"source": "VGM",
 			"page": 140,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA"
 			],
 			"reprintedAs": [
 				"Stegosaurus|MPMM"
@@ -16599,7 +16496,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/stegosaurus.mp3"
+				"path": "bestiary/stegosaurus.opus"
 			},
 			"damageTags": [
 				"P"
@@ -16676,7 +16573,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/stench-cow.mp3"
+				"path": "bestiary/stench-cow.opus"
 			},
 			"traitTags": [
 				"Charge"
@@ -16803,7 +16700,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/stone-giant-dreamwalker.mp3"
+				"path": "bestiary/stone-giant-dreamwalker.opus"
 			},
 			"attachedItems": [
 				"greatclub|phb"
@@ -16845,10 +16742,8 @@
 			"name": "Storm Giant Quintessent",
 			"source": "VGM",
 			"page": 151,
-			"otherSources": [
-				{
-					"source": "GoS"
-				}
+			"referenceSources": [
+				"GoS"
 			],
 			"reprintedAs": [
 				"Storm Giant Quintessent|MPMM"
@@ -16984,7 +16879,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/storm-giant-quintessent.mp3"
+				"path": "bestiary/storm-giant-quintessent.opus"
 			},
 			"traitTags": [
 				"Amphibious"
@@ -17132,7 +17027,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/swarm-of-cranium-rats.mp3"
+				"path": "bestiary/swarm-of-cranium-rats.opus"
 			},
 			"traitTags": [
 				"Illumination"
@@ -17165,10 +17060,8 @@
 			"name": "Swarm of Rot Grubs",
 			"source": "VGM",
 			"page": 208,
-			"otherSources": [
-				{
-					"source": "GoS"
-				}
+			"referenceSources": [
+				"GoS"
 			],
 			"reprintedAs": [
 				"Swarm of Rot Grubs|MPMM"
@@ -17240,7 +17133,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/swarm-of-rot-grubs.mp3"
+				"path": "bestiary/swarm-of-rot-grubs.opus"
 			},
 			"senseTags": [
 				"B"
@@ -17260,22 +17153,11 @@
 			"name": "Swashbuckler",
 			"source": "VGM",
 			"page": 217,
-			"otherSources": [
-				{
-					"source": "WDH"
-				},
-				{
-					"source": "ToA"
-				},
-				{
-					"source": "DIP"
-				},
-				{
-					"source": "SLW"
-				},
-				{
-					"source": "SDW"
-				}
+			"referenceSources": [
+				"DIP",
+				"SDW",
+				"SLW",
+				"WDH"
 			],
 			"reprintedAs": [
 				"Swashbuckler|MPMM"
@@ -17331,7 +17213,7 @@
 				{
 					"name": "Lightfooted",
 					"entries": [
-						"The swashbuckler can take the Dash or Disengage action as a bonus action on each of its turns."
+						"The swashbuckler can take the {@action Dash} or {@action Disengage} action as a bonus action on each of its turns."
 					]
 				},
 				{
@@ -17367,7 +17249,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/swashbuckler.mp3"
+				"path": "bestiary/swashbuckler.opus"
 			},
 			"attachedItems": [
 				"dagger|phb",
@@ -17502,7 +17384,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/tanarukk.mp3"
+				"path": "bestiary/tanarukk.opus"
 			},
 			"attachedItems": [
 				"greatsword|phb"
@@ -17538,10 +17420,8 @@
 			"name": "Thorny",
 			"source": "VGM",
 			"page": 197,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA"
 			],
 			"reprintedAs": [
 				"Thorny Vegepygmy|MPMM"
@@ -17621,7 +17501,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/thorny.mp3"
+				"path": "bestiary/thorny.opus"
 			},
 			"traitTags": [
 				"Camouflage",
@@ -17720,7 +17600,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/tlincalli.mp3"
+				"path": "bestiary/tlincalli.opus"
 			},
 			"attachedItems": [
 				"longsword|phb"
@@ -17761,10 +17641,15 @@
 			"name": "Transmuter",
 			"source": "VGM",
 			"page": 218,
-			"otherSources": [
-				{
-					"source": "TftYP"
-				}
+			"referenceSources": [
+				"TftYP",
+				"TftYP-AtG",
+				"TftYP-DiT",
+				"TftYP-TFoF",
+				"TftYP-THSoT",
+				"TftYP-ToH",
+				"TftYP-TSC",
+				"TftYP-WPM"
 			],
 			"reprintedAs": [
 				"Transmuter Wizard|MPMM"
@@ -17901,7 +17786,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/transmuter.mp3"
+				"path": "bestiary/transmuter.opus"
 			},
 			"attachedItems": [
 				"quarterstaff|phb"
@@ -17941,10 +17826,8 @@
 			"name": "Trapper",
 			"source": "VGM",
 			"page": 194,
-			"otherSources": [
-				{
-					"source": "IMR"
-				}
+			"referenceSources": [
+				"IMR"
 			],
 			"reprintedAs": [
 				"Trapper|MPMM"
@@ -18014,7 +17897,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/trapper.mp3"
+				"path": "bestiary/trapper.opus"
 			},
 			"traitTags": [
 				"False Appearance",
@@ -18046,8 +17929,12 @@
 			"page": 175,
 			"otherSources": [
 				{
-					"source": "WDMM"
+					"source": "WDMM",
+					"page": 316
 				}
+			],
+			"referenceSources": [
+				"WDMM"
 			],
 			"reprintedAs": [
 				"Ulitharid|MPMM"
@@ -18174,7 +18061,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/ulitharid.mp3"
+				"path": "bestiary/ulitharid.opus"
 			},
 			"traitTags": [
 				"Magic Resistance"
@@ -18311,7 +18198,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/vargouille.mp3"
+				"path": "bestiary/vargouille.opus"
 			},
 			"senseTags": [
 				"D"
@@ -18345,10 +18232,8 @@
 			"name": "Vegepygmy",
 			"source": "VGM",
 			"page": 196,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA"
 			],
 			"reprintedAs": [
 				"Vegepygmy|MPMM"
@@ -18431,7 +18316,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/vegepygmy.mp3"
+				"path": "bestiary/vegepygmy.opus"
 			},
 			"attachedItems": [
 				"sling|phb"
@@ -18463,10 +18348,8 @@
 			"name": "Vegepygmy Chief",
 			"source": "VGM",
 			"page": 197,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA"
 			],
 			"reprintedAs": [
 				"Vegepygmy Chief|MPMM"
@@ -18561,7 +18444,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/vegepygmy-chief.mp3"
+				"path": "bestiary/vegepygmy-chief.opus"
 			},
 			"attachedItems": [
 				"spear|phb"
@@ -18610,12 +18493,13 @@
 			"page": 140,
 			"otherSources": [
 				{
-					"source": "ToA"
-				},
-				{
 					"source": "PSX",
 					"page": 30
 				}
+			],
+			"referenceSources": [
+				"ToA",
+				"XMtS"
 			],
 			"reprintedAs": [
 				"Velociraptor|MPMM"
@@ -18687,7 +18571,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/velociraptor.mp3"
+				"path": "bestiary/velociraptor.opus"
 			},
 			"traitTags": [
 				"Pack Tactics"
@@ -18709,19 +18593,11 @@
 			"name": "War Priest",
 			"source": "VGM",
 			"page": 218,
-			"otherSources": [
-				{
-					"source": "DC"
-				},
-				{
-					"source": "DIP"
-				},
-				{
-					"source": "SDW"
-				},
-				{
-					"source": "MOT"
-				}
+			"referenceSources": [
+				"DC",
+				"DIP",
+				"MOT",
+				"SDW"
 			],
 			"reprintedAs": [
 				"War Priest|MPMM"
@@ -18867,7 +18743,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/war-priest.mp3"
+				"path": "bestiary/war-priest.opus"
 			},
 			"attachedItems": [
 				"maul|phb"
@@ -19044,7 +18920,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/warlock-of-the-archfey.mp3"
+				"path": "bestiary/warlock-of-the-archfey.opus"
 			},
 			"attachedItems": [
 				"dagger|phb"
@@ -19089,10 +18965,8 @@
 			"name": "Warlock of the Fiend",
 			"source": "VGM",
 			"page": 219,
-			"otherSources": [
-				{
-					"source": "IMR"
-				}
+			"referenceSources": [
+				"IMR"
 			],
 			"reprintedAs": [
 				"Warlock of the Fiend|MPMM"
@@ -19242,7 +19116,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/warlock-of-the-fiend.mp3"
+				"path": "bestiary/warlock-of-the-fiend.opus"
 			},
 			"attachedItems": [
 				"mace|phb"
@@ -19293,10 +19167,8 @@
 			"name": "Warlock of the Great Old One",
 			"source": "VGM",
 			"page": 220,
-			"otherSources": [
-				{
-					"source": "IMR"
-				}
+			"referenceSources": [
+				"IMR"
 			],
 			"reprintedAs": [
 				"Warlock of the Great Old One|MPMM"
@@ -19440,7 +19312,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/warlock-of-the-great-old-one.mp3"
+				"path": "bestiary/warlock-of-the-great-old-one.opus"
 			},
 			"attachedItems": [
 				"dagger|phb"
@@ -19493,10 +19365,8 @@
 			"name": "Warlord",
 			"source": "VGM",
 			"page": 220,
-			"otherSources": [
-				{
-					"source": "IMR"
-				}
+			"referenceSources": [
+				"IMR"
 			],
 			"reprintedAs": [
 				"Warlord|MPMM"
@@ -19609,7 +19479,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/warlord.mp3"
+				"path": "bestiary/warlord.opus"
 			},
 			"attachedItems": [
 				"greatsword|phb",
@@ -19717,7 +19587,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/guard-drake.mp3"
+				"path": "bestiary/guard-drake.opus"
 			},
 			"senseTags": [
 				"D"
@@ -19744,13 +19614,9 @@
 			"name": "Wood Woad",
 			"source": "VGM",
 			"page": 198,
-			"otherSources": [
-				{
-					"source": "DIP"
-				},
-				{
-					"source": "SDW"
-				}
+			"referenceSources": [
+				"DIP",
+				"SDW"
 			],
 			"reprintedAs": [
 				"Wood Woad|MPMM"
@@ -19855,7 +19721,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/wood-woad.mp3"
+				"path": "bestiary/wood-woad.opus"
 			},
 			"attachedItems": [
 				"club|phb"
@@ -19941,7 +19807,7 @@
 				{
 					"name": "Low Cunning",
 					"entries": [
-						"The xvart can take the Disengage action as a bonus action on each of its turns."
+						"The xvart can take the {@action Disengage} action as a bonus action on each of its turns."
 					]
 				},
 				{
@@ -19977,7 +19843,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/xvart.mp3"
+				"path": "bestiary/xvart.opus"
 			},
 			"attachedItems": [
 				"shortsword|phb",
@@ -20056,7 +19922,7 @@
 				{
 					"name": "Low Cunning",
 					"entries": [
-						"The xvart can take the Disengage action as a bonus action on each of its turns."
+						"The xvart can take the {@action Disengage} action as a bonus action on each of its turns."
 					]
 				},
 				{
@@ -20092,7 +19958,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/xvart-speaker.mp3"
+				"path": "bestiary/xvart-speaker.opus"
 			},
 			"attachedItems": [
 				"shortsword|phb",
@@ -20220,7 +20086,7 @@
 				{
 					"name": "Low Cunning",
 					"entries": [
-						"The xvart can take the Disengage action as a bonus action on each of its turns."
+						"The xvart can take the {@action Disengage} action as a bonus action on each of its turns."
 					]
 				},
 				{
@@ -20250,7 +20116,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/xvart-warlock-of-raxivort.mp3"
+				"path": "bestiary/xvart-warlock-of-raxivort.opus"
 			},
 			"attachedItems": [
 				"scimitar|phb"
@@ -20395,7 +20261,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/yeth-hound.mp3"
+				"path": "bestiary/yeth-hound.opus"
 			},
 			"traitTags": [
 				"Keen Senses"
@@ -20616,7 +20482,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/yuan-ti-anathema.mp3"
+				"path": "bestiary/yuan-ti-anathema.opus"
 			},
 			"traitTags": [
 				"Magic Resistance",
@@ -20678,10 +20544,8 @@
 			"name": "Yuan-ti Broodguard",
 			"source": "VGM",
 			"page": 203,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA"
 			],
 			"reprintedAs": [
 				"Yuan-ti Broodguard|MPMM"
@@ -20809,7 +20673,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/yuan-ti-broodguard.mp3"
+				"path": "bestiary/yuan-ti-broodguard.opus"
 			},
 			"traitTags": [
 				"Reckless"
@@ -20840,11 +20704,6 @@
 			"name": "Yuan-ti Malison (Type 4)",
 			"source": "VGM",
 			"page": 96,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
-			],
 			"size": [
 				"M"
 			],
@@ -20982,7 +20841,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/yuan-ti-malison.mp3"
+				"path": "bestiary/yuan-ti-malison.opus"
 			},
 			"attachedItems": [
 				"longbow|phb",
@@ -21029,11 +20888,6 @@
 			"name": "Yuan-ti Malison (Type 5)",
 			"source": "VGM",
 			"page": 96,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
-			],
 			"size": [
 				"M"
 			],
@@ -21171,7 +21025,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/yuan-ti-malison.mp3"
+				"path": "bestiary/yuan-ti-malison.opus"
 			},
 			"attachedItems": [
 				"longbow|phb",
@@ -21408,7 +21262,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/yuan-ti-mind-whisperer.mp3"
+				"path": "bestiary/yuan-ti-mind-whisperer.opus"
 			},
 			"attachedItems": [
 				"scimitar|phb"
@@ -21459,10 +21313,8 @@
 			"name": "Yuan-ti Nightmare Speaker",
 			"source": "VGM",
 			"page": 205,
-			"otherSources": [
-				{
-					"source": "ToA"
-				}
+			"referenceSources": [
+				"ToA"
 			],
 			"reprintedAs": [
 				"Yuan-ti Nightmare Speaker|MPMM"
@@ -21654,7 +21506,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/yuan-ti-nightmare-speaker.mp3"
+				"path": "bestiary/yuan-ti-nightmare-speaker.opus"
 			},
 			"attachedItems": [
 				"scimitar|phb"
@@ -21910,7 +21762,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/yuan-ti-pit-master.mp3"
+				"path": "bestiary/yuan-ti-pit-master.opus"
 			},
 			"traitTags": [
 				"Magic Resistance",

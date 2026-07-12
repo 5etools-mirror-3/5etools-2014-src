@@ -23,7 +23,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Abyssal Chicken.webp"
-					}
+					},
+					"width": 623,
+					"height": 1200
 				}
 			]
 		},
@@ -49,7 +51,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Amrik Vanthampur.webp"
-					}
+					},
+					"width": 586,
+					"height": 1000
 				}
 			]
 		},
@@ -84,7 +88,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Archduke Zariel of Avernus.webp"
-					}
+					},
+					"width": 1000,
+					"height": 857
 				}
 			]
 		},
@@ -112,7 +118,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Arkhan the Cruel.webp"
-					}
+					},
+					"width": 1000,
+					"height": 964
 				}
 			]
 		},
@@ -139,7 +147,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Bel.webp"
-					}
+					},
+					"width": 813,
+					"height": 1000
 				}
 			]
 		},
@@ -152,7 +162,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/057-u4jqy-03-09.webp"
-					}
+					},
+					"width": 932,
+					"height": 1000
 				}
 			]
 		},
@@ -199,7 +211,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Black Gauntlet of Bane.webp"
-					}
+					},
+					"width": 1000,
+					"height": 627
 				}
 			]
 		},
@@ -225,7 +239,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Bone Whelk.webp"
-					}
+					},
+					"width": 1000,
+					"height": 715
 				}
 			]
 		},
@@ -238,7 +254,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/053-p0ex0-03-05.webp"
-					}
+					},
+					"width": 1000,
+					"height": 604
 				}
 			]
 		},
@@ -251,7 +269,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/053-p0ex0-03-05.webp"
-					}
+					},
+					"width": 1000,
+					"height": 604
 				}
 			]
 		},
@@ -277,7 +297,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Crokek'toeck.webp"
-					}
+					},
+					"width": 1000,
+					"height": 665
 				}
 			]
 		},
@@ -343,7 +365,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Duke Thalamra Vanthampur.webp"
-					}
+					},
+					"width": 550,
+					"height": 1000
 				}
 			]
 		},
@@ -356,7 +380,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/058-gyhxw-03-10.webp"
-					}
+					},
+					"width": 445,
+					"height": 1000
 				}
 			]
 		},
@@ -439,7 +465,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Gideon Lightward.webp"
-					}
+					},
+					"width": 548,
+					"height": 1000
 				}
 			]
 		},
@@ -480,7 +508,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Hellwasp.webp"
-					}
+					},
+					"width": 709,
+					"height": 1000
 				}
 			]
 		},
@@ -507,7 +537,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Hollyphant.webp"
-					}
+					},
+					"width": 1000,
+					"height": 905
 				}
 			]
 		},
@@ -572,7 +604,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Kostchtchie.webp"
-					}
+					},
+					"width": 1000,
+					"height": 698
 				}
 			]
 		},
@@ -585,7 +619,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Krull.webp"
-					}
+					},
+					"width": 805,
+					"height": 1000
 				}
 			]
 		},
@@ -598,7 +634,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/101-efblf-05-01.webp"
-					}
+					},
+					"width": 1000,
+					"height": 642
 				}
 			]
 		},
@@ -611,7 +649,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/052-vhatr-03-04.webp"
-					}
+					},
+					"width": 956,
+					"height": 1000
 				}
 			]
 		},
@@ -641,7 +681,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Mahadi the Rakshasa.webp"
-					}
+					},
+					"width": 1000,
+					"height": 697
 				}
 			]
 		},
@@ -698,7 +740,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Mortlock Vanthampur.webp"
-					}
+					},
+					"width": 684,
+					"height": 1000
 				}
 			]
 		},
@@ -738,7 +782,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Necromite of Myrkul.webp"
-					}
+					},
+					"width": 1000,
+					"height": 627
 				}
 			]
 		},
@@ -803,7 +849,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Nine-Fingers Keene.webp"
-					}
+					},
+					"width": 879,
+					"height": 1000
 				}
 			]
 		},
@@ -816,7 +864,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/059-kyqim-03-11.webp"
-					}
+					},
+					"width": 751,
+					"height": 1000
 				}
 			]
 		},
@@ -829,7 +879,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/055-1ivlr-03-07.webp"
-					}
+					},
+					"width": 734,
+					"height": 1000
 				}
 			]
 		},
@@ -876,7 +928,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Reaper of Bhaal.webp"
-					}
+					},
+					"width": 1000,
+					"height": 627
 				}
 			]
 		},
@@ -902,7 +956,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Rilsa Rael.webp"
-					}
+					},
+					"width": 634,
+					"height": 1000
 				}
 			]
 		},
@@ -963,7 +1019,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Smiler the Defiler.webp"
-					}
+					},
+					"width": 507,
+					"height": 1000
 				}
 			]
 		},
@@ -976,14 +1034,18 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/001-ud5xx-00-01.webp"
-					}
+					},
+					"width": 1000,
+					"height": 643
 				},
 				{
 					"type": "image",
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/089-zbxl3-03-20.webp"
-					}
+					},
+					"width": 381,
+					"height": 1000
 				}
 			]
 		},
@@ -1009,7 +1071,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Thurstwell Vanthampur.webp"
-					}
+					},
+					"width": 583,
+					"height": 1000
 				}
 			]
 		},
@@ -1022,7 +1086,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Torogar Steelfist.webp"
-					}
+					},
+					"width": 1000,
+					"height": 947
 				}
 			]
 		},
@@ -1036,7 +1102,9 @@
 						"type": "internal",
 						"path": "bestiary/BGDIA/Tressym.webp"
 					},
-					"title": "Slobberchops the Tressym"
+					"title": "Slobberchops the Tressym",
+					"width": 1000,
+					"height": 763
 				}
 			]
 		},
@@ -1052,7 +1120,7 @@
 							"entries": [
 								"Ulder Ravengard is a fearless soldier who rose up through the ranks of the Flaming Fist to become its supreme marshal. Ravengard used his military position and influence to secure for himself a seat on the Council of Four. Following the deaths of two council members amid a cloud of corruption and scandal, he persuaded the Parliament of Peers to back his election to grand duke.",
 								"Upon ascending to the highest position in the city government, Ravengard refused to relinquish command of the Flaming Fist, making him the most powerful figure in the city by far. This decision has not endeared him to anyone, but Ravengard could care less about his popularity. His only concerns are the stability and prosperity of Baldur's Gate, and he doesn't trust any of the other dukes or anyone in the Parliament of Peers to put the city's interests before their own.",
-								"Ravengard rose to grand duke on a platform largely backed by idealistic commoners and enemies of the other established dukes. While he won election handily, Ravengard has struggled in performing his duties, finding his hands tied at every turn by both overt and {@condition invisible} bureaucracy. Despite this, he's been a voice of reason and common sense on the Council of Four\u2014if not the egalitarianism some hoped. He's also proven largely resistant to scandal and corruption, though many of his fellow dukes and those in the Parliament of Peers still regularly outmaneuver him politically. One of his only obvious pleasures remains the surprise inspections he regularly visits upon the troops at Wyrm's Rock.",
+								"Ravengard rose to grand duke on a platform largely backed by idealistic commoners and enemies of the other established dukes. While he won election handily, Ravengard has struggled in performing his duties, finding his hands tied at every turn by both overt and invisible bureaucracy. Despite this, he's been a voice of reason and common sense on the Council of Four\u2014if not the egalitarianism some hoped. He's also proven largely resistant to scandal and corruption, though many of his fellow dukes and those in the Parliament of Peers still regularly outmaneuver him politically. One of his only obvious pleasures remains the surprise inspections he regularly visits upon the troops at Wyrm's Rock.",
 								"Ravengard was recently tricked into attending a diplomatic summit in Elturel, unaware that his political enemies in Baldur's Gate orchestrated this meeting in a fiendish plot to remove him from power. In his absence, the Flaming Fist is leaderless, the council rudderless."
 							]
 						}
@@ -1065,7 +1133,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGDIA/Ulder Ravengard.webp"
-					}
+					},
+					"width": 671,
+					"height": 1000
 				}
 			]
 		}

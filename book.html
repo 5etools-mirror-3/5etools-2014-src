@@ -51,7 +51,7 @@
 
 	<script type="text/javascript" src="sw-injector.js"></script>
 
-	<script type="module" src="js/styleswitch.js"></script>
+	<script blocking="render" type="module" src="js/styleswitch.js"></script>
 	<script type="text/javascript" src="js/navigation.js"></script>
 	<script type="module" src="js/browsercheck.js"></script>
 </head>
@@ -62,29 +62,31 @@
 
 <div class="cancer__wrp-leaderboard cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__wrp-leaderboard-inner cancer__wrp-interactive"><!--5ETOOLS_AD_LEADERBOARD--></div></div>
 
-<header class="hidden-xs hidden-sm page__header">
-	<div class="container ve-flex-v-baseline">
-		<h1 class="page__title no-wrap my-0" id="page__title">Book Details</h1>
-		<p class="page__subtitle no-wrap my-0" id="page__subtitle">Loading...</p>
-	</div>
-</header>
+<div class="ve-flex-col" data-cancer-id="cancer-header">
+	<header class="ve-mobile-sm__hidden page__header">
+		<div class="container ve-flex-v-baseline">
+			<h1 class="page__title ve-no-wrap ve-my-0" id="page__title">Book Details</h1>
+			<p class="page__subtitle ve-no-wrap ve-my-0" id="page__subtitle">Loading...</p>
+		</div>
+	</header>
 
-<nav class="container page__nav" id="navigation">
-	<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
-</nav>
+	<nav class="container page__nav" id="navigation">
+		<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
+	</nav>
+</div>
 
 <div class="cancer__wrp-sidebar cancer__wrp-sidebar-lhs cancer__wrp-sidebar-lhs--scrolling-page cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__sidebar-inner cancer__sidebar-inner--top cancer__wrp-interactive"><!--5ETOOLS_AD_LEFT_1--></div><div class="cancer__sidebar-inner cancer__sidebar-inner--bottom cancer__wrp-interactive"><!--5ETOOLS_AD_LEFT_2--></div></div>
 <div class="cancer__wrp-sidebar cancer__wrp-sidebar-rhs cancer__wrp-sidebar-rhs--scrolling-page cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__sidebar-inner cancer__sidebar-inner--top cancer__wrp-interactive"><!--5ETOOLS_AD_RIGHT_1--></div><div class="cancer__sidebar-inner cancer__sidebar-inner--bottom cancer__wrp-interactive"><!--5ETOOLS_AD_RIGHT_2--></div></div>
 
-<div class="container view-col-wrapper">
+<div class="container view-col-wrapper" data-cancer-id="cancer-wrapper">
 	<div class="view-col book-contents view-col--wrp-book-contents" id="listcontainer">
-		<div class="list contents ve-flex-col">
+		<div class="list contents ve-flex-col" id="lst-contents">
 			<!-- populate with JS -->
 		</div>
 	</div>
 
 	<div class="view-col linked-titles book-view">
-		<table id="pagecontent" class="w-100 stats stats--book stats--book-large">
+		<table id="pagecontent" class="ve-w-100 ve-stats ve-stats--book ve-stats--book-large">
 			<tr><th class="ve-tbl-border" colspan="6"></th></tr>
 			<tr><td colspan="6" class="initial-message initial-message--med book-loading-message">Loading...</td></tr>
 			<!-- (Placeholder text until page loads) -->
@@ -93,17 +95,16 @@
 		</table>
 
 		<div class="bk__overlay-loading">
-			<div class="h-100 w-100 ve-flex-vh-center"><span class="initial-message initial-message--med">Loading...</span></div>
+			<div class="ve-h-100 ve-w-100 ve-flex-vh-center"><span class="initial-message initial-message--med">Loading...</span></div>
 		</div>
 
-		<div class="cancer__footer-pad w-100"></div>
+		<div class="cancer__footer-pad ve-w-100"></div>
 	</div>
 </div>
 
 <!--5ETOOLS_SCRIPT_ANCHOR-->
 <!--5ETOOLS_AD_ADHESION-->
 
-<script type="text/javascript" defer src="lib/jquery.js"></script>
 <script type="text/javascript" defer src="js/parser.js"></script>
 <script type="text/javascript" defer src="js/utils.js"></script>
 <script type="text/javascript" defer src="js/utils-ui.js"></script>
@@ -111,7 +112,7 @@
 <script type="module" defer src="js/omnidexer.js"></script>
 <script type="module" src="js/omnisearch.js"></script>
 <script type="module" src="js/filter.js"></script>
-<script type="text/javascript" defer src="js/utils-dataloader.js"></script>
+<script type="module" src="js/utils-dataloader.js"></script>
 <script type="module" src="js/utils-font.js"></script>
 <script type="module" src="js/utils-brew.js"></script>
 <script type="module" src="js/utils-config.js"></script>
@@ -127,7 +128,7 @@
 <script type="module" src="js/render-map.js"></script>
 <script type="module" src="js/bookutils.js"></script>
 <script type="module" src="js/book.js"></script>
-<script type="text/javascript" defer src="js/list2.js"></script>
+<script type="module" defer src="js/list2.js"></script>
 <script type="text/javascript" defer src="lib/elasticlunr.js"></script>
 <!-- Dice Controls Container -->
 <div id="dice-box"></div>

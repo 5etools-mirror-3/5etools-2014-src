@@ -39,7 +39,9 @@
 						"path": "bestiary/PSX/Aegisaur.webp"
 					},
 					"title": "Bellowing Aegisaur",
-					"credit": "Craig J. Spearing"
+					"credit": "Craig J. Spearing",
+					"width": 1275,
+					"height": 680
 				}
 			]
 		},
@@ -65,7 +67,9 @@
 						"path": "bestiary/PSX/Aerosaur.webp"
 					},
 					"title": "Shining Aerosaur",
-					"credit": "Dan Scott"
+					"credit": "Dan Scott",
+					"width": 1278,
+					"height": 785
 				},
 				{
 					"type": "image",
@@ -74,7 +78,9 @@
 						"path": "bestiary/PSX/Aerosaur2.webp"
 					},
 					"title": "Sky Terror",
-					"credit": "Johann Bodin"
+					"credit": "Johann Bodin",
+					"width": 565,
+					"height": 421
 				}
 			]
 		},
@@ -93,7 +99,9 @@
 						"path": "bestiary/PSX/Air Totem Elemental.webp"
 					},
 					"title": "Air Elemental",
-					"credit": "Tomasz Jedruszek"
+					"credit": "Tomasz Jedruszek",
+					"width": 1276,
+					"height": 863
 				}
 			]
 		},
@@ -112,7 +120,9 @@
 						"path": "bestiary/PSX/Altisaur.webp"
 					},
 					"title": "Itlimoc, Cradle of the Sun",
-					"credit": "Grzegorz Rutkowski"
+					"credit": "Grzegorz Rutkowski",
+					"width": 628,
+					"height": 609
 				}
 			]
 		},
@@ -150,7 +160,9 @@
 						"path": "bestiary/PSX/Armasaur.webp"
 					},
 					"title": "Steadfast Armasaur",
-					"credit": "Greg Opalanski"
+					"credit": "Greg Opalanski",
+					"width": 638,
+					"height": 465
 				}
 			]
 		},
@@ -203,7 +215,9 @@
 						"path": "bestiary/PSX/Brontodon.webp"
 					},
 					"title": "Belligerent Brontodon",
-					"credit": "Dan Scott"
+					"credit": "Dan Scott",
+					"width": 1276,
+					"height": 913
 				}
 			]
 		},
@@ -241,7 +255,9 @@
 						"path": "bestiary/PSX/Ceratops.webp"
 					},
 					"title": "Goring Ceratops",
-					"credit": "Zezhou Chen"
+					"credit": "Zezhou Chen",
+					"width": 638,
+					"height": 418
 				}
 			]
 		},
@@ -271,7 +287,9 @@
 						"path": "bestiary/PSX/Chupacabra.webp"
 					},
 					"title": "Lurking Chupacabra",
-					"credit": "YW Tang"
+					"credit": "YW Tang",
+					"width": 924,
+					"height": 532
 				}
 			]
 		},
@@ -290,7 +308,9 @@
 						"path": "bestiary/PSX/Coatl.webp"
 					},
 					"title": "Favorable Winds",
-					"credit": "Shreya Shetty"
+					"credit": "Shreya Shetty",
+					"width": 630,
+					"height": 664
 				}
 			]
 		},
@@ -319,7 +339,9 @@
 						"type": "internal",
 						"path": "bestiary/PSX/Demon.webp"
 					},
-					"credit": "Zack Stella"
+					"credit": "Zack Stella",
+					"width": 1275,
+					"height": 771
 				}
 			]
 		},
@@ -358,7 +380,9 @@
 						"path": "bestiary/PSX/Dryad.webp"
 					},
 					"title": "Old-Growth Dryads",
-					"credit": "Yongjae Choi"
+					"credit": "Yongjae Choi",
+					"width": 634,
+					"height": 458
 				}
 			]
 		},
@@ -384,7 +408,9 @@
 						"path": "bestiary/PSX/Elder Dinosaur.webp"
 					},
 					"title": "Regisaur Alpha",
-					"credit": "Jonathan Kuo"
+					"credit": "Jonathan Kuo",
+					"width": 1278,
+					"height": 894
 				}
 			]
 		},
@@ -403,7 +429,9 @@
 						"path": "bestiary/PSX/Elder Dinosaur (Etali, Primal Storm).webp"
 					},
 					"title": "Etali, Primal Storm",
-					"credit": "Raymond Swanland"
+					"credit": "Raymond Swanland",
+					"width": 630,
+					"height": 445
 				}
 			]
 		},
@@ -422,7 +450,9 @@
 						"path": "bestiary/PSX/Elder Dinosaur (Ghalta, Primal Hunger).webp"
 					},
 					"title": "Ghalta, Primal Hunger",
-					"credit": "Chase Stone"
+					"credit": "Chase Stone",
+					"width": 630,
+					"height": 746
 				}
 			]
 		},
@@ -441,7 +471,9 @@
 						"path": "bestiary/PSX/Elder Dinosaur (Nezahal, Primal Tide).webp"
 					},
 					"title": "Nezahal, Primal Tide",
-					"credit": "Sam Burley"
+					"credit": "Sam Burley",
+					"width": 423,
+					"height": 352
 				}
 			]
 		},
@@ -460,7 +492,9 @@
 						"path": "bestiary/PSX/Elder Dinosaur (Tetzimoc, Primal Death).webp"
 					},
 					"title": "Tetzimoc, Primal Death",
-					"credit": "Zack Stella"
+					"credit": "Zack Stella",
+					"width": 422,
+					"height": 352
 				}
 			]
 		},
@@ -479,7 +513,9 @@
 						"path": "bestiary/PSX/Elder Dinosaur (Zacama, Primal Calamity).webp"
 					},
 					"title": "Zacama, Primal Calamity",
-					"credit": "Jaime Jones"
+					"credit": "Jaime Jones",
+					"width": 422,
+					"height": 352
 				}
 			]
 		},
@@ -498,7 +534,9 @@
 						"path": "bestiary/PSX/Elder Dinosaur (Zetalpa, Primal Dawn).webp"
 					},
 					"title": "Zetalpa, Primal Dawn",
-					"credit": "Chris Rallis"
+					"credit": "Chris Rallis",
+					"width": 626,
+					"height": 445
 				}
 			]
 		},
@@ -535,7 +573,9 @@
 						"path": "bestiary/PSX/Ferocidon.webp"
 					},
 					"title": "Thrash of Raptors",
-					"credit": "Jonathan Kuo"
+					"credit": "Jonathan Kuo",
+					"width": 630,
+					"height": 646
 				}
 			]
 		},
@@ -573,7 +613,9 @@
 						"path": "bestiary/PSX/Frilled Deathspitter.webp"
 					},
 					"title": "Frilled Deathspitter",
-					"credit": "Zoltan Boros"
+					"credit": "Zoltan Boros",
+					"width": 630,
+					"height": 551
 				}
 			]
 		},
@@ -592,7 +634,9 @@
 						"path": "bestiary/PSX/Gishath, Sun's Avatar.webp"
 					},
 					"title": "Gishath, Sun's Avatar",
-					"credit": "Zack Stella"
+					"credit": "Zack Stella",
+					"width": 1135,
+					"height": 829
 				}
 			]
 		},
@@ -610,7 +654,9 @@
 						"path": "bestiary/PSX/Griffin.webp"
 					},
 					"title": "Resplendent Griffin",
-					"credit": "Sam Rowan"
+					"credit": "Sam Rowan",
+					"width": 848,
+					"height": 623
 				}
 			]
 		},
@@ -655,7 +701,9 @@
 						"path": "bestiary/PSX/Hammerskull.webp"
 					},
 					"title": "Territorial Hammerskull",
-					"credit": "Lars Grant-West"
+					"credit": "Lars Grant-West",
+					"width": 628,
+					"height": 857
 				}
 			]
 		},
@@ -686,7 +734,9 @@
 						"path": "bestiary/PSX/Harpy.webp"
 					},
 					"title": "Mausoleum Harpy",
-					"credit": "Randy Vargas"
+					"credit": "Randy Vargas",
+					"width": 634,
+					"height": 449
 				}
 			]
 		},
@@ -771,7 +821,9 @@
 						"path": "bestiary/PSX/Sailback.webp"
 					},
 					"title": "Snapping Sailback",
-					"credit": "Dan Scott"
+					"credit": "Dan Scott",
+					"width": 626,
+					"height": 480
 				}
 			]
 		},
@@ -799,7 +851,9 @@
 						"path": "bestiary/PSX/Stone Guardian.webp"
 					},
 					"title": "Golden Guardian",
-					"credit": "Svetlin Velinov"
+					"credit": "Svetlin Velinov",
+					"width": 705,
+					"height": 517
 				}
 			]
 		},
@@ -841,7 +895,9 @@
 						"path": "bestiary/PSX/Sunbird.webp"
 					},
 					"title": "Sunbird's Invocation",
-					"credit": "Christine Choi"
+					"credit": "Christine Choi",
+					"width": 626,
+					"height": 309
 				}
 			]
 		},
@@ -884,7 +940,9 @@
 						"path": "bestiary/PSX/Trilobite.webp"
 					},
 					"title": "Shore Keeper",
-					"credit": "YW Tang"
+					"credit": "YW Tang",
+					"width": 762,
+					"height": 558
 				}
 			]
 		},
@@ -929,7 +987,9 @@
 						"path": "bestiary/PSX/Tyrant.webp"
 					},
 					"title": "Regisaur Alpha",
-					"credit": "Jonathan Kuo"
+					"credit": "Jonathan Kuo",
+					"width": 1278,
+					"height": 894
 				}
 			]
 		},

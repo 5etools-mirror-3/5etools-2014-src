@@ -18,7 +18,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HAT-TG/Doric.webp"
-					}
+					},
+					"width": 705,
+					"height": 1000
 				}
 			]
 		},
@@ -40,7 +42,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HAT-TG/Edgin Darvis.webp"
-					}
+					},
+					"width": 753,
+					"height": 1000
 				}
 			]
 		},
@@ -62,7 +66,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HAT-TG/Forge Fitzwilliam.webp"
-					}
+					},
+					"width": 528,
+					"height": 1000
 				}
 			]
 		},
@@ -84,7 +90,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HAT-TG/Holga Kilgore.webp"
-					}
+					},
+					"width": 683,
+					"height": 1000
 				}
 			]
 		},
@@ -106,7 +114,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HAT-TG/Simon Aumar.webp"
-					}
+					},
+					"width": 979,
+					"height": 1000
 				}
 			]
 		},
@@ -128,7 +138,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HAT-TG/Sofina.webp"
-					}
+					},
+					"width": 1000,
+					"height": 942
 				}
 			]
 		},
@@ -151,7 +163,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HAT-TG/Xenk Yendar.webp"
-					}
+					},
+					"width": 747,
+					"height": 1000
 				}
 			]
 		}

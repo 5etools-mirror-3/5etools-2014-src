@@ -444,9 +444,10 @@ RendererCard.utils = class {
 		const baseText = Renderer.utils.isDisplayPage(it.page) ? `text | <b>Source:</b> <i>${Parser.sourceJsonToAbv(it.source)}${sourceSub}</i>, page ${it.page}` : "";
 		const addSourceText = this._getPageText_getAltSourceText(it, "additionalSources", "Additional information from");
 		const otherSourceText = this._getPageText_getAltSourceText(it, "otherSources", "Also found in");
+		const referenceSourceText = this._getPageText_getAltSourceText(it, "referenceSources", "Referenced in");
 		const externalSourceText = this._getPageText_getAltSourceText(it, "externalSources", "External sources:");
 
-		return `${[baseText, addSourceText, otherSourceText, externalSourceText].filter(it => it).join(". ")}${baseText && (addSourceText || otherSourceText || externalSourceText) ? "." : ""}\n`;
+		return `${[baseText, addSourceText, otherSourceText, referenceSourceText, externalSourceText].filter(it => it).join(". ")}${baseText && (addSourceText || otherSourceText || referenceSourceText || externalSourceText) ? "." : ""}\n`;
 	}
 
 	static _getPageText_getAltSourceText (it, prop, introText) {

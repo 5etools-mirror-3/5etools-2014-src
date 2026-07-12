@@ -23,7 +23,7 @@ class _RenderConditionDiseaseStatusImplBase extends RenderPageImplBase {
 	/* ----- */
 
 	_getCommonHtmlParts_type ({ent, renderer}) {
-		return ent.type ? `<tr><td colspan="6" class="pb-2 pt-0">${renderer.render(`{@i ${ent.type}}`)}</td></tr>` : "";
+		return ent.type ? `<tr><td colspan="6" class="ve-pb-2 ve-pt-0">${renderer.render(`{@i ${ent.type}}`)}</td></tr>` : "";
 	}
 
 	/* ----- */
@@ -50,7 +50,7 @@ class _RenderConditionDiseaseStatusImplBase extends RenderPageImplBase {
 			opts,
 		});
 
-		const ptDivider = this._style === SITE_STYLE__CLASSIC ? `<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider"></div></td></tr>` : "";
+		const ptDivider = this._style === SITE_STYLE__CLASSIC ? `<tr><td colspan="6" class="ve-py-0"><div class="ve-tbl-divider"></div></td></tr>` : "";
 
 		return `
 			${Renderer.utils.getBorderTr()}
@@ -100,25 +100,25 @@ export class RenderConditionDiseases {
 	static _RENDER_CLASSIC__DISEASE = new _RenderDiseasesImplClassic();
 	static _RENDER_CLASSIC__STATUS = new _RenderStatusImplClassic();
 
-	static $getRenderedConditionDisease (ent) {
+	static getRenderedConditionDisease (ent) {
 		const styleHint = VetoolsConfig.get("styleSwitcher", "style");
 
 		switch (ent.__prop) {
 			case "condition": {
 				switch (styleHint) {
-					case SITE_STYLE__CLASSIC: return this._RENDER_CLASSIC__CONDITION.$getRendered(ent);
+					case SITE_STYLE__CLASSIC: return this._RENDER_CLASSIC__CONDITION.getRendered(ent);
 					default: throw new Error(`Unhandled style "${styleHint}"!`);
 				}
 			}
 			case "disease": {
 				switch (styleHint) {
-					case SITE_STYLE__CLASSIC: return this._RENDER_CLASSIC__DISEASE.$getRendered(ent);
+					case SITE_STYLE__CLASSIC: return this._RENDER_CLASSIC__DISEASE.getRendered(ent);
 					default: throw new Error(`Unhandled style "${styleHint}"!`);
 				}
 			}
 			case "status": {
 				switch (styleHint) {
-					case SITE_STYLE__CLASSIC: return this._RENDER_CLASSIC__STATUS.$getRendered(ent);
+					case SITE_STYLE__CLASSIC: return this._RENDER_CLASSIC__STATUS.getRendered(ent);
 					default: throw new Error(`Unhandled style "${styleHint}"!`);
 				}
 			}

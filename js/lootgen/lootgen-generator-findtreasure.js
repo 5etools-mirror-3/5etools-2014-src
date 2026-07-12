@@ -1,5 +1,4 @@
 import {LootGenGeneratorBase} from "./lootgen-generator-base.js";
-import {LootGenRender} from "./lootgen-render.js";
 
 /** @abstract */
 class LootGenGeneratorFindTreasureBase extends LootGenGeneratorBase {
@@ -34,33 +33,33 @@ class LootGenGeneratorFindTreasureBase extends LootGenGeneratorBase {
 
 		const cbIsHoard = ComponentUiUtil.getCbBool(this, "ft_isHoard");
 
-		const btnRoll = ee`<button class="ve-btn ve-btn-default ve-btn-xs mr-2">Roll Loot</button>`
+		const btnRoll = ee`<button class="ve-btn ve-btn-default ve-btn-xs ve-mr-2">Roll Loot</button>`
 			.onn("click", () => this._ft_pDoHandleClickRollLoot());
 
 		const btnClear = ee`<button class="ve-btn ve-btn-danger ve-btn-xs">Clear Output</button>`
 			.onn("click", () => this._outputManager.doClearOutput());
 
-		ee`<div class="ve-flex-col py-2 px-3">
-			<label class="split-v-center mb-2">
-				<div class="mr-2 w-66 no-shrink">Challenge Rating</div>
+		ee`<div class="ve-flex-col ve-py-2 ve-px-3">
+			<label class="ve-split-v-center ve-mb-2">
+				<div class="ve-mr-2 ve-w-66 ve-no-shrink">Challenge Rating</div>
 				${selChallenge}
 			</label>
 
-			<label class="split-v-center mb-2">
-				<div class="mr-2 w-66 no-shrink">Is Treasure Hoard?</div>
+			<label class="ve-split-v-center ve-mb-2">
+				<div class="ve-mr-2 ve-w-66 ve-no-shrink">Is Treasure Hoard?</div>
 				${cbIsHoard}
 			</label>
 
 			${this._render_getStgHoardAdditional()}
 
-			<div class="ve-flex-v-center mb-2 mt-2">
+			<div class="ve-flex-v-center ve-mb-2 ve-mt-2">
 				${btnRoll}
 				${btnClear}
 			</div>
 
-			<hr class="hr-3">
+			<hr class="ve-hr-3">
 
-			<div class="ve-small italic">${this._getHtmlBasedOn()}</div>
+			<div class="ve-small ve-italic">${this._getHtmlBasedOn()}</div>
 		</div>`.appendTo(tabMeta.wrpTab);
 	}
 
@@ -85,6 +84,7 @@ class LootGenGeneratorFindTreasureBase extends LootGenGeneratorBase {
 			type: `Individual Treasure: ${this.constructor._CHALLENGE_RATING_RANGES[this._state.ft_challenge]}`,
 			name: `{@b Individual Treasure} for challenge rating {@b ${this.constructor._CHALLENGE_RATING_RANGES[this._state.ft_challenge]}}`,
 			coins,
+			rendererWrapped: this._rendererWrapped,
 		});
 		this._outputManager.doAddOutput({lootOutput});
 	}
@@ -130,6 +130,7 @@ class LootGenGeneratorFindTreasureBase extends LootGenGeneratorBase {
 			gems,
 			artObjects,
 			magicItemsByTable,
+			rendererWrapped: this._rendererWrapped,
 		});
 		this._outputManager.doAddOutput({lootOutput});
 	}
@@ -147,7 +148,7 @@ export class LootGenGeneratorFindTreasure extends LootGenGeneratorFindTreasureBa
 	_source = Parser.SRC_DMG;
 
 	_getHtmlBasedOn () {
-		return LootGenRender.er(`Based on the tables and rules in the {@book ${Parser.sourceJsonToFull(Parser.SRC_DMG)}|DMG|7|Treasure Tables}, pages 133-149.`);
+		return this._rendererWrapped.er(`Based on the tables and rules in the {@book ${Parser.sourceJsonToFull(Parser.SRC_DMG)}|DMG|7|Treasure Tables}, pages 133-149.`);
 	}
 
 	_render_getStgHoardAdditional () { return null; }

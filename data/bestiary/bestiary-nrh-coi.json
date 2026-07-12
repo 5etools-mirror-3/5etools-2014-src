@@ -2,7 +2,8 @@
 	"_meta": {
 		"otherSources": {
 			"monster": {
-				"NRH-TCMC": "NRH-CoI"
+				"NRH-TCMC": "NRH-CoI",
+				"MM": "NRH-CoI"
 			}
 		}
 	},
@@ -60,6 +61,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C"
 			],
@@ -136,6 +138,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Reckless"
 			],
@@ -203,7 +206,7 @@
 				{
 					"name": "Cunning Action",
 					"entries": [
-						"On each of his turns, Magnifico can use a bonus action to take the Dash, Disengage, or Hide action."
+						"On each of his turns, Magnifico can use a bonus action to take the {@action Dash}, {@action Disengage}, or {@action Hide} action."
 					]
 				}
 			],
@@ -221,6 +224,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"hand crossbow|phb",
 				"shortsword|phb"

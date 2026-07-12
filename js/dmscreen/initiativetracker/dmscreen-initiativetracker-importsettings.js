@@ -26,43 +26,43 @@ export class InitiativeTrackerSettingsImport extends BaseComponent {
 	/* -------------------------------------------- */
 
 	pGetShowModalResults () {
-		const {$modalInner, $modalFooter, pGetResolved, doClose} = UiUtil.getShowModal({
+		const {eleModalInner, eleModalFooter, pGetResolved, doClose} = UiUtil.getShowModal({
 			title: "Import Settings",
 			isUncappedHeight: true,
 			hasFooter: true,
 		});
 
-		UiUtil.addModalSep($modalInner);
-		this._pGetShowModalResults_renderSection_isRolls({$modalInner});
-		UiUtil.addModalSep($modalInner);
-		this._pGetShowModalResults_renderSection_import({$modalInner});
+		UiUtil.addModalSep(eleModalInner);
+		this._pGetShowModalResults_renderSection_isRolls({eleModalInner});
+		UiUtil.addModalSep(eleModalInner);
+		this._pGetShowModalResults_renderSection_import({eleModalInner});
 
-		this._pGetShowModalResults_renderFooter({$modalFooter, doClose});
+		this._pGetShowModalResults_renderFooter({eleModalFooter, doClose});
 
 		return pGetResolved();
 	}
 
 	/* -------------------------------------------- */
 
-	_pGetShowModalResults_renderSection_isRolls ({$modalInner}) {
-		UiUtil.$getAddModalRowCb2({$wrp: $modalInner, comp: this, prop: "isRollInit", text: "Roll creature initiative"});
-		UiUtil.$getAddModalRowCb2({$wrp: $modalInner, comp: this, prop: "isRollHp", text: "Roll creature hit points"});
+	_pGetShowModalResults_renderSection_isRolls ({eleModalInner}) {
+		UiUtil.getAddModalRowCb2({wrp: eleModalInner, comp: this, prop: "isRollInit", text: "Roll creature initiative"});
+		UiUtil.getAddModalRowCb2({wrp: eleModalInner, comp: this, prop: "isRollHp", text: "Roll creature hit points"});
 	}
 
-	_pGetShowModalResults_renderSection_import ({$modalInner}) {
-		UiUtil.$getAddModalRowCb2({$wrp: $modalInner, comp: this, prop: "importIsRollGroups", text: "Roll groups of creatures together"});
-		UiUtil.$getAddModalRowCb2({$wrp: $modalInner, comp: this, prop: "importIsAddPlayers", text: "Add players"});
-		UiUtil.$getAddModalRowCb2({$wrp: $modalInner, comp: this, prop: "importIsAppend", text: "Add to existing tracker state"});
+	_pGetShowModalResults_renderSection_import ({eleModalInner}) {
+		UiUtil.getAddModalRowCb2({wrp: eleModalInner, comp: this, prop: "importIsRollGroups", text: "Roll groups of creatures together"});
+		UiUtil.getAddModalRowCb2({wrp: eleModalInner, comp: this, prop: "importIsAddPlayers", text: "Add players"});
+		UiUtil.getAddModalRowCb2({wrp: eleModalInner, comp: this, prop: "importIsAppend", text: "Add to existing tracker state"});
 	}
 
 	/* -------------------------------------------- */
 
-	_pGetShowModalResults_renderFooter ({$modalFooter, doClose}) {
-		const $btnSave = $(`<button class="ve-btn ve-btn-primary ve-btn-sm w-100">Save</button>`)
-			.click(() => doClose(true));
+	_pGetShowModalResults_renderFooter ({eleModalFooter, doClose}) {
+		const btnSave = ee`<button class="ve-btn ve-btn-primary ve-btn-sm ve-w-100">Save</button>`
+			.onn("click", () => doClose(true));
 
-		$$($modalFooter)`<div class="w-100 py-3 no-shrink">
-			${$btnSave}
+		ee(eleModalFooter)`<div class="ve-w-100 ve-py-3 ve-no-shrink">
+			${btnSave}
 		</div>`;
 	}
 }

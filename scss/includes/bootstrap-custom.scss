@@ -20,7 +20,7 @@
 	}
 	// endregion
 
-	.roller {
+	.ve-roller {
 		color: vars.$rgb-link-blue;
 		cursor: pointer;
 	}
@@ -30,7 +30,7 @@
 	}
 
 	// Help styling which should only be displayed on screens wide enough to use hover windows
-	.help--hover {
+	.ve-help--hover {
 		// This should approx. match the hover cutoff defined in renderer (768px).
 		// Approximate, since jQuery calculates window width differently, offset likely varies with e.g. scrollbar width.
 		@media screen and (width <= #{vars.$width-screen-sm}) {
@@ -90,11 +90,13 @@
 
 	/* custom scrollbars */
 	// Firefox only--use thinner scrollbars where possible (Chrome uses `-webkit` custom styling instead)
-	@-moz-document url-prefix() {
+	/* stylelint-disable at-rule-no-deprecated */
+	@document url-prefix() {
 		* {
 			scrollbar-width: thin;
 		}
 	}
+	/* stylelint-enable at-rule-no-deprecated */
 
 	::-webkit-scrollbar {
 		width: 9px;
@@ -125,7 +127,7 @@
 		position: relative;
 	}
 
-	.input-xs {
+	.ve-input-xs {
 		height: vars.$h-ipt-xs;
 		padding: 1px 5px;
 		font-size: 12px;
@@ -182,9 +184,9 @@
 		}
 	}
 
-	.page__nav-inner > li.active > a,
-	.page__nav-inner > li.active > a:focus,
-	.page__nav-inner > li.active > a:hover {
+	.page__nav-inner > li.ve-active > a,
+	.page__nav-inner > li.ve-active > a:focus,
+	.page__nav-inner > li.ve-active > a:hover {
 		background-color: #006bc4;
 		border-top: 0;
 
@@ -239,7 +241,7 @@
 		}
 	}
 
-	.ve-dropdown-menu > .disabled > span {
+	.ve-dropdown-menu > .ve-disabled > span {
 		pointer-events: none;
 		color: vars.$rgb-ctx-item-text-disabled;
 
@@ -275,13 +277,9 @@
 		display: inline-block;
 	}
 
-	.caret--right {
-		transform: rotate(270deg);
-	}
-
 	// region Override defaults to better implement filter UI
-	.input-group {
-		> input.form-control,
+	.ve-input-group {
+		> input.ve-form-control,
 		> label,
 		> button,
 		> a.ve-btn {
@@ -300,9 +298,9 @@
 			}
 		}
 
-		// The first horizontal row in multiple vertically-stacked input-group rows
+		// The first horizontal row in multiple vertically-stacked ve-input-group rows
 		&--top {
-			input.form-control,
+			input.ve-form-control,
 			label,
 			button,
 			a.ve-btn {
@@ -317,7 +315,7 @@
 		}
 
 		&--middle {
-			input.form-control,
+			input.ve-form-control,
 			label,
 			button,
 			a.ve-btn {
@@ -334,7 +332,7 @@
 		}
 
 		&--bottom {
-			input.form-control,
+			input.ve-form-control,
 			label,
 			button,
 			a.ve-btn {
@@ -351,8 +349,8 @@
 		}
 	}
 
-	.ve-night-mode .input-group {
-		> input.form-control,
+	.ve-night-mode .ve-input-group {
+		> input.ve-form-control,
 		> label,
 		> button,
 		> a.ve-btn {

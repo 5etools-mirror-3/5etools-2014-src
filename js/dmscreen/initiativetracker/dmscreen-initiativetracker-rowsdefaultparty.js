@@ -7,12 +7,12 @@ class _RenderableCollectionRowDataDefaultParty extends RenderableCollectionRowDa
 	constructor (
 		{
 			comp,
-			$wrpRows,
+			wrpRows,
 			roller,
 			rowStateBuilder,
 		},
 	) {
-		super({comp, prop: "rowsDefaultParty", $wrpRows, roller, networking: null, rowStateBuilder});
+		super({comp, prop: "rowsDefaultParty", wrpRows, roller, networking: null, rowStateBuilder});
 	}
 
 	async _pPopulateRow_pGetMonsterMeta ({comp}) {
@@ -25,28 +25,28 @@ class _RenderableCollectionRowDataDefaultParty extends RenderableCollectionRowDa
 
 	/* ----- */
 
-	_pPopulateRow_monster ({comp, $wrpLhs, isMon, mon, fluff}) {
+	_pPopulateRow_monster ({comp, wrpLhs, isMon, mon, fluff}) {
 		/* No-op */
 	}
 
 	/* ----- */
 
-	_pPopulateRow_conditions ({comp, $wrpLhs}) {
+	_pPopulateRow_conditions ({comp, wrpLhs}) {
 		/* No-op */
 	}
 
 	/* ----- */
 
-	_pPopulateRow_initiative ({comp, $wrpRhs}) {
+	_pPopulateRow_initiative ({comp, wrpRhs}) {
 		/* No-op */
 	}
 
 	/* ----- */
 
-	_pPopulateRow_btns ({comp, entity, $wrpRhs}) {
-		$(`<button class="ve-btn ve-btn-danger ve-btn-xs dm-init__row-btn dm-init-lockable" tabindex="-1"><span class="glyphicon glyphicon-trash"></span></button>`)
-			.appendTo($wrpRhs)
-			.on("click", () => {
+	_pPopulateRow_btns ({comp, entity, wrpRhs}) {
+		ee`<button class="ve-btn ve-btn-danger ve-btn-xs dm-init__row-btn dm-init-lockable" tabindex="-1"><span class="glyphicon glyphicon-trash"></span></button>`
+			.appendTo(wrpRhs)
+			.onn("click", () => {
 				if (this._comp._state.isLocked) return;
 				this._utils.doDelete({entity});
 			});
@@ -57,8 +57,8 @@ export class InitiativeTrackerRowDataViewDefaultParty extends InitiativeTrackerR
 	_TextHeaderLhs = "Player";
 	_ClsRenderableCollectionRowData = _RenderableCollectionRowDataDefaultParty;
 
-	_render_$getWrpHeaderRhs ({rdState}) {
-		return $$`<div class="dm-init__row-rhs">
+	_render_getWrpHeaderRhs ({rdState}) {
+		return ee`<div class="dm-init__row-rhs">
 			<div class="dm-init__header dm-init__header--input dm-init__header--input-wide" title="Hit Points">HP</div>
 			<div class="dm-init__spc-header-buttons--single"></div>
 		</div>`;

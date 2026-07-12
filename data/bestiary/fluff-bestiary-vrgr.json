@@ -19,7 +19,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Bodytaker Plant.webp"
 					},
-					"credit": "Irina Nordsol"
+					"credit": "Irina Nordsol",
+					"width": 1000,
+					"height": 754
 				}
 			]
 		},
@@ -43,7 +45,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Boneless.webp"
 					},
-					"credit": "Olga Drebas"
+					"credit": "Olga Drebas",
+					"width": 832,
+					"height": 1000
 				}
 			]
 		},
@@ -84,7 +88,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Brain in a Jar.webp"
 					},
-					"credit": "David Rene Christensen"
+					"credit": "David Rene Christensen",
+					"width": 896,
+					"height": 1000
 				}
 			]
 		},
@@ -108,7 +114,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Carrion Stalker.webp"
 					},
-					"credit": "Christopher Burdett"
+					"credit": "Christopher Burdett",
+					"width": 788,
+					"height": 1000
 				}
 			]
 		},
@@ -132,7 +140,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Carrionette.webp"
 					},
-					"credit": "Irina Nordsol"
+					"credit": "Irina Nordsol",
+					"width": 702,
+					"height": 1000
 				}
 			]
 		},
@@ -166,7 +176,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Deaths Head.webp"
 					},
-					"credit": "Helder Almeida"
+					"credit": "Helder Almeida",
+					"width": 899,
+					"height": 1000
 				}
 			]
 		},
@@ -231,7 +243,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Dullahan.webp"
 					},
-					"credit": "Helder Almeida"
+					"credit": "Helder Almeida",
+					"width": 786,
+					"height": 2000
 				}
 			]
 		},
@@ -254,7 +268,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Elise.webp"
 					},
-					"credit": "Irina Nordsol"
+					"credit": "Irina Nordsol",
+					"width": 1700,
+					"height": 1100
 				}
 			]
 		},
@@ -277,7 +293,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Gallows Speaker.webp"
 					},
-					"credit": "Scott Murphy"
+					"credit": "Scott Murphy",
+					"width": 1231,
+					"height": 1913
 				}
 			]
 		},
@@ -319,7 +337,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Greater Star Spawn Emissary.webp"
 					},
-					"credit": "April Prime"
+					"credit": "April Prime",
+					"width": 386,
+					"height": 1000
 				}
 			]
 		},
@@ -343,7 +363,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Gremishka.webp"
 					},
-					"credit": "April Prime"
+					"credit": "April Prime",
+					"width": 913,
+					"height": 1000
 				}
 			]
 		},
@@ -368,7 +390,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Inquisitor of the Mind Fire.webp"
 					},
-					"credit": "Zuzanna Wužyk"
+					"credit": "Zuzanna Wužyk",
+					"width": 623,
+					"height": 1000
 				}
 			]
 		},
@@ -393,7 +417,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Inquisitor of the Sword.webp"
 					},
-					"credit": "Zuzanna Wužyk"
+					"credit": "Zuzanna Wužyk",
+					"width": 557,
+					"height": 1000
 				}
 			]
 		},
@@ -418,7 +444,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Inquisitor of the Tome.webp"
 					},
-					"credit": "Zuzanna Wužyk"
+					"credit": "Zuzanna Wužyk",
+					"width": 615,
+					"height": 1000
 				}
 			]
 		},
@@ -443,7 +471,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Isolde.webp"
 					},
-					"credit": "Helder Almeida"
+					"credit": "Helder Almeida",
+					"width": 850,
+					"height": 1719
 				}
 			]
 		},
@@ -466,7 +496,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Jiangshi.webp"
 					},
-					"credit": "Julian Kok"
+					"credit": "Julian Kok",
+					"width": 612,
+					"height": 1000
 				}
 			]
 		},
@@ -533,7 +565,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Loup Garou.webp"
 					},
-					"credit": "Olga Drebas"
+					"credit": "Olga Drebas",
+					"width": 821,
+					"height": 1000
 				}
 			]
 		},
@@ -556,7 +590,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Necrichor.webp"
 					},
-					"credit": "Steven Oakley"
+					"credit": "Steven Oakley",
+					"width": 800,
+					"height": 1000
 				}
 			]
 		},
@@ -580,7 +616,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Nosferatu.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1190,
+					"height": 1520
 				}
 			]
 		},
@@ -745,7 +783,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Priest of Osybus.webp"
 					},
-					"credit": "Olly Lawson"
+					"credit": "Olly Lawson",
+					"width": 1700,
+					"height": 1057
 				}
 			]
 		},
@@ -864,7 +904,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Relentless Juggernaut.webp"
 					},
-					"credit": "David Sladek"
+					"credit": "David Sladek",
+					"width": 785,
+					"height": 1000
 				}
 			]
 		},
@@ -997,7 +1039,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Strigoi.webp"
 					},
-					"credit": "Scott Murphy"
+					"credit": "Scott Murphy",
+					"width": 867,
+					"height": 1000
 				}
 			]
 		},
@@ -1021,7 +1065,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Swarm of Gremishkas.webp"
 					},
-					"credit": "April Prime"
+					"credit": "April Prime",
+					"width": 913,
+					"height": 1000
 				}
 			]
 		},
@@ -1073,7 +1119,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Swarm of Maggots.webp"
 					},
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 804,
+					"height": 1000
 				}
 			]
 		},
@@ -1189,7 +1237,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/The Bagman.webp"
 					},
-					"credit": "Steven Oakley"
+					"credit": "Steven Oakley",
+					"width": 850,
+					"height": 839
 				}
 			]
 		},
@@ -1394,7 +1444,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Unspeakable Horror.webp"
 					},
-					"credit": "Christopher Burdett"
+					"credit": "Christopher Burdett",
+					"width": 821,
+					"height": 1000
 				}
 			]
 		},
@@ -1417,7 +1469,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Vampiric Mind Flayer.webp"
 					},
-					"credit": "Mark Behm"
+					"credit": "Mark Behm",
+					"width": 743,
+					"height": 1000
 				}
 			]
 		},
@@ -1467,7 +1521,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Wereraven.webp"
 					},
-					"credit": "April Prime"
+					"credit": "April Prime",
+					"width": 1000,
+					"height": 844
 				},
 				{
 					"type": "image",
@@ -1475,7 +1531,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Wereraven 2.webp"
 					},
-					"credit": "Stephen Oakley"
+					"credit": "Stephen Oakley",
+					"width": 869,
+					"height": 1000
 				}
 			]
 		},
@@ -1535,7 +1593,9 @@
 						"type": "internal",
 						"path": "bestiary/VRGR/Zombie Clot.webp"
 					},
-					"credit": "Scott Murphy"
+					"credit": "Scott Murphy",
+					"width": 867,
+					"height": 992
 				}
 			]
 		},

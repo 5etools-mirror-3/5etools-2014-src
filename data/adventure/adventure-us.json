@@ -689,7 +689,7 @@
 										"Ahead, you spy a mossy knoll rising out of the marsh with a curious standing stone at its center. A jagged, eight-foot-tall monolith of black rock, the stone is laced with veins of crystal that shimmer with a strange light."
 									]
 								},
-								"Roughly 3 feet across, this enchanted menhir glows with a pale radiance under moonlight, shedding dim light in a 5-foot radius. Any character who succeeds on a {@dc 15} Intelligence ({@skill Arcana}) check or a {@dc 18} Intelligence ({@skill Religion}) check understands that this ritual stone is an ancient monument to some dark, primordial god, and that it serves modern spellcasters by acting as a focus for illicit rituals and dark incantations. ({@creature Bol'bara|EGW} was using the stone to commune with her patron when she was beset by soldiers of Fort Venture.)",
+								"Roughly 3 feet across, this enchanted menhir glows with a pale radiance under moonlight, shedding {@quickref Vision and Light||2||dim light} in a 5-foot radius. Any character who succeeds on a {@dc 15} Intelligence ({@skill Arcana}) check or a {@dc 18} Intelligence ({@skill Religion}) check understands that this ritual stone is an ancient monument to some dark, primordial god, and that it serves modern spellcasters by acting as a focus for illicit rituals and dark incantations. ({@creature Bol'bara|EGW} was using the stone to commune with her patron when she was beset by soldiers of Fort Venture.)",
 								{
 									"type": "entries",
 									"name": "Rite of Communion",
@@ -770,7 +770,7 @@
 									"page": 256,
 									"id": "922",
 									"entries": [
-										"Long-term proximity to the eldritch phenomena of the marsh has granted the {@creature Mossback Steward|EGW} a modest array of magical abilities. This unique creature is a {@creature horizonback tortoise|EGW} (see {@book chapter 7 |EGW|8|Horizonback Tortoise} for its stat block) with these changes:",
+										"Long-term proximity to the eldritch phenomena of the marsh has granted the {@creature Mossback Steward|EGW} a modest array of magical abilities. This unique creature is a {@creature horizonback tortoise|EGW} (see {@book chapter 7|EGW|8|Horizonback Tortoise} for its stat block) with these changes:",
 										{
 											"type": "list",
 											"items": [
@@ -1214,7 +1214,7 @@
 									"id": "92d",
 									"entries": [
 										"Scores of bear traps are hidden among the tall grass in a 40-foot-wide area surrounding the palisade. A character with a passive Wisdom ({@skill Perception}) score of 12 or higher is able to spot the traps and avoid them. Characters who don't spot the traps have a {@chance 50} chance of stepping on a bear trap and triggering it whenever they move through the area.",
-										"A bear trap's attack is +8 to hit and deals 5 ({@dice 1d10}) piercing damage on a hit. This attack can't be made with advantage or disadvantage. A creature hit by the trap also has its speed reduced to 0 and can't move until it breaks free of the trap. Breaking free requires a successful {@dc 15} Strength check by the trapped creature or another creature within 5 feet of the trap. A successful {@dc 10} Dexterity check using thieves' tools disables a bear trap."
+										"A bear trap's attack is {@hit 8} to hit and deals 5 ({@dice 1d10}) piercing damage on a hit. This attack can't be made with advantage or disadvantage. A creature hit by the trap also has its speed reduced to 0 and can't move until it breaks free of the trap. Breaking free requires a successful {@dc 15} Strength check by the trapped creature or another creature within 5 feet of the trap. A successful {@dc 10} Dexterity check using thieves' tools disables a bear trap."
 									]
 								},
 								{
@@ -1352,7 +1352,7 @@
 							"page": 259,
 							"id": "93c",
 							"entries": [
-								"The bulk of Fort Venture's garrison are usually found on this muddy training yard. Four tall braziers stand at the corners of the area. They are lit at sundown and burn through the night, shedding bright light in a 20-foot radius and dim light for an additional 20 feet.",
+								"The bulk of Fort Venture's garrison are usually found on this muddy training yard. Four tall braziers stand at the corners of the area. They are lit at sundown and burn through the night, shedding {@quickref Vision and Light||2||bright light} in a 20-foot radius and {@quickref Vision and Light||2||dim light} for an additional 20 feet.",
 								"When the characters see this area, read:",
 								{
 									"type": "insetReadaloud",

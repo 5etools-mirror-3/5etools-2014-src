@@ -10,7 +10,7 @@
 		text-decoration-color: $rgb !important;
 	}
 
-	.ve-night-mode .source {
+	.ve-night-mode .ve-source {
 		$rgb-source-category-site: #de000a;
 		$rgb-source-category-extras: #bb6468;
 		$rgb-source-category-prerelease: vars-night.$rgb-subclass-ua--night;
@@ -40,7 +40,6 @@
 		$rgb-source-FTD: #cc311a;
 		$rgb-source-SAiS: #0b80b3;
 		$rgb-source-DSotDQ: #b9484b;
-		$rgb-source-TDCSR: #a1557e;
 		$rgb-source-PAitM: #b8419c;
 		$rgb-source-BMT: #846481;
 		$rgb-source-HAT: #2985ac;
@@ -49,6 +48,7 @@
 		$rgb-source-PSI: #7b64b3;
 		$rgb-source-PSX: #cb3631;
 		$rgb-source-XMtS: #be3e8d;
+		$rgb-source-CaBoMP: #b35a89;
 
 		// region Categories
 
@@ -212,10 +212,6 @@
 				@include mix-source-color($rgb-source-HAT);
 			}
 
-			&TDCSR {
-				@include mix-source-color($rgb-source-TDCSR);
-			}
-
 			&PAitM,
 			&SatO,
 			&ToFW,
@@ -231,11 +227,15 @@
 			&DMTCRG {
 				@include mix-source-color($rgb-source-BMT);
 			}
+
+			&CaBoMP {
+				@include mix-source-color($rgb-source-CaBoMP);
+			}
 		}
 	}
 
 	// (Unused)
-	.ve-night-mode .itm__ {
+	.ve-night-mode .ve-itm__ {
 		&rarity-alt- {
 			&common {
 				color: color.adjust(vars-night.$rgb-font--night, $lightness: -15%);
@@ -263,7 +263,7 @@
 		}
 	}
 
-	.ve-night-mode .itm__ {
+	.ve-night-mode .ve-itm__ {
 		&rarity- {
 			&common {
 				color: color.adjust(vars-night.$rgb-font--night, $lightness: -15%);

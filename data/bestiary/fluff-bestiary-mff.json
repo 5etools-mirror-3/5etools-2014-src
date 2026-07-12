@@ -55,7 +55,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Assassin Bug.webp"
-					}
+					},
+					"width": 1023,
+					"height": 1401
 				}
 			]
 		},
@@ -110,7 +112,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Blindheim.webp"
-					}
+					},
+					"width": 1397,
+					"height": 1463
 				}
 			]
 		},
@@ -166,7 +170,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Crab Folk.webp"
-					}
+					},
+					"width": 1275,
+					"height": 1450
 				}
 			]
 		},
@@ -214,7 +220,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Dire Corby.webp"
-					}
+					},
+					"width": 1408,
+					"height": 1818
 				}
 			]
 		},
@@ -261,7 +269,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Eye of Fear and Flame.webp"
-					}
+					},
+					"width": 1335,
+					"height": 1351
 				}
 			]
 		},
@@ -322,7 +332,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Fog Giant.webp"
-					}
+					},
+					"width": 1800,
+					"height": 1800
 				}
 			]
 		},
@@ -371,7 +383,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Forlarren.webp"
-					}
+					},
+					"width": 1047,
+					"height": 1319
 				}
 			]
 		},
@@ -425,7 +439,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Jermlaine.webp"
-					}
+					},
+					"width": 948,
+					"height": 776
 				}
 			]
 		},
@@ -473,7 +489,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Khargra.webp"
-					}
+					},
+					"width": 1402,
+					"height": 1709
 				}
 			]
 		},
@@ -522,7 +540,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Killmoulis.webp"
-					}
+					},
+					"width": 900,
+					"height": 1121
 				}
 			]
 		},
@@ -576,7 +596,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Mite.webp"
-					}
+					},
+					"width": 1418,
+					"height": 1096
 				}
 			]
 		},
@@ -632,7 +654,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Needle Spawn.webp"
-					}
+					},
+					"width": 1800,
+					"height": 1800
 				}
 			]
 		},
@@ -679,7 +703,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Norker.webp"
-					}
+					},
+					"width": 358,
+					"height": 397
 				}
 			]
 		},
@@ -734,7 +760,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Screaming Devilkin.webp"
-					}
+					},
+					"width": 794,
+					"height": 1028
 				}
 			]
 		},
@@ -781,7 +809,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Xill.webp"
-					}
+					},
+					"width": 1348,
+					"height": 1485
 				}
 			]
 		},
@@ -822,7 +852,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MFF/Ygorl, Lord of Entropy.webp"
-					}
+					},
+					"width": 980,
+					"height": 934
 				}
 			]
 		}

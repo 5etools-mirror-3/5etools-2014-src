@@ -53,7 +53,9 @@
 						"path": "bestiary/PSA/Archfiend of Ifnir.webp"
 					},
 					"title": "Archfiend of Ifnir",
-					"credit": "Slawomir Maniak"
+					"credit": "Slawomir Maniak",
+					"width": 638,
+					"height": 893
 				}
 			]
 		},
@@ -87,7 +89,9 @@
 						"path": "bestiary/PSA/Amonkhet Dragon.webp"
 					},
 					"title": "Glorybringer",
-					"credit": "Sam Burley"
+					"credit": "Sam Burley",
+					"width": 1280,
+					"height": 780
 				}
 			]
 		},
@@ -125,7 +129,9 @@
 						"path": "bestiary/PSA/Amonkhet Hydra.webp"
 					},
 					"title": "Honored Hydra",
-					"credit": "Todd Lockwood"
+					"credit": "Todd Lockwood",
+					"width": 818,
+					"height": 901
 				}
 			]
 		},
@@ -162,7 +168,9 @@
 						"path": "bestiary/PSA/Amonkhet Mummy Lord.webp"
 					},
 					"title": "Lord of the Accursed",
-					"credit": "Grzegorz Rutkowski"
+					"credit": "Grzegorz Rutkowski",
+					"width": 630,
+					"height": 726
 				}
 			]
 		},
@@ -200,7 +208,9 @@
 						"path": "bestiary/PSA/Amonkhet Sphinx.webp"
 					},
 					"title": "Ominous Sphinx",
-					"credit": "Lars Grant-West"
+					"credit": "Lars Grant-West",
+					"width": 1280,
+					"height": 1256
 				}
 			]
 		},
@@ -238,7 +248,9 @@
 						"path": "bestiary/PSA/Angel of Amonkhet.webp"
 					},
 					"title": "Seraph of the Suns",
-					"credit": "Winona Nelson"
+					"credit": "Winona Nelson",
+					"width": 642,
+					"height": 740
 				}
 			]
 		},
@@ -296,7 +308,9 @@
 						"path": "bestiary/PSA/Cerodon.webp"
 					},
 					"title": "Desert Cerodon",
-					"credit": "Igor Kieryluk"
+					"credit": "Igor Kieryluk",
+					"width": 444,
+					"height": 584
 				}
 			]
 		},
@@ -332,7 +346,9 @@
 						"path": "bestiary/PSA/Criosphinx.webp"
 					},
 					"title": "Unesh, Criosphinx Sovereign",
-					"credit": "Adrian Majkrzak"
+					"credit": "Adrian Majkrzak",
+					"width": 779,
+					"height": 608
 				}
 			]
 		},
@@ -379,7 +395,9 @@
 						"path": "bestiary/PSA/Drake.webp"
 					},
 					"title": "Angler Drake",
-					"credit": "Svetlin Velinov"
+					"credit": "Svetlin Velinov",
+					"width": 628,
+					"height": 857
 				}
 			]
 		},
@@ -414,7 +432,9 @@
 						"path": "bestiary/PSA/Eternal.webp"
 					},
 					"title": "Wildfire Eternal",
-					"credit": "Magali Villeneuve"
+					"credit": "Magali Villeneuve",
+					"width": 635,
+					"height": 725
 				}
 			]
 		},
@@ -460,7 +480,9 @@
 						"path": "bestiary/PSA/Manticore, Heart-Piercer.webp"
 					},
 					"title": "Heart-Piercer Manticore",
-					"credit": "Scott Murphy"
+					"credit": "Scott Murphy",
+					"width": 821,
+					"height": 535
 				}
 			]
 		},
@@ -495,7 +517,9 @@
 						"path": "bestiary/PSA/River Serpent.webp"
 					},
 					"title": "River Serpent",
-					"credit": "Christopher Moeller"
+					"credit": "Christopher Moeller",
+					"width": 1280,
+					"height": 1233
 				}
 			]
 		},
@@ -525,7 +549,9 @@
 						"path": "bestiary/PSA/Sandwurm.webp"
 					},
 					"title": "Sandwurm Convergence",
-					"credit": "Slawomir Maniak"
+					"credit": "Slawomir Maniak",
+					"width": 817,
+					"height": 633
 				}
 			]
 		},
@@ -555,7 +581,9 @@
 						"path": "bestiary/PSA/Serpopard.webp"
 					},
 					"title": "Prowling Serpopard",
-					"credit": "Tyler Jacobson"
+					"credit": "Tyler Jacobson",
+					"width": 805,
+					"height": 623
 				}
 			]
 		},

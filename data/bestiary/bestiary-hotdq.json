@@ -23,6 +23,9 @@
 					"page": 180
 				}
 			],
+			"referenceSources": [
+				"RoT"
+			],
 			"size": [
 				"M"
 			],
@@ -292,6 +295,9 @@
 					"source": "ToD",
 					"page": 181
 				}
+			],
+			"referenceSources": [
+				"RoT"
 			],
 			"size": [
 				"H"
@@ -599,6 +605,9 @@
 					"page": 182
 				}
 			],
+			"referenceSources": [
+				"RoT"
+			],
 			"size": [
 				"M"
 			],
@@ -716,6 +725,9 @@
 					"source": "ToD",
 					"page": 183
 				}
+			],
+			"referenceSources": [
+				"RoT"
 			],
 			"size": [
 				"M"
@@ -1248,6 +1260,9 @@
 					"page": 185
 				}
 			],
+			"referenceSources": [
+				"RoT"
+			],
 			"reprintedAs": [
 				"Guard Drake|MPMM"
 			],
@@ -1315,7 +1330,7 @@
 			],
 			"soundClip": {
 				"type": "internal",
-				"path": "bestiary/guard-drake.mp3"
+				"path": "bestiary/guard-drake.opus"
 			},
 			"senseTags": [
 				"D"
@@ -1437,7 +1452,7 @@
 				{
 					"name": "Cunning Action",
 					"entries": [
-						"Jamna can take a bonus action to take the Dash, Disengage, or Hide action."
+						"Jamna can take a bonus action to take the {@action Dash}, {@action Disengage}, or {@action Hide} action."
 					]
 				},
 				{
@@ -1664,6 +1679,15 @@
 					}
 				}
 			},
+			"type": {
+				"type": "humanoid",
+				"tags": [
+					"half-elf"
+				]
+			},
+			"languages": [
+				"Common"
+			],
 			"hasToken": true,
 			"hasFluffImages": true
 		},
@@ -1701,6 +1725,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"spear|phb"
 			],
@@ -1748,7 +1773,15 @@
 					"human"
 				]
 			},
+			"alignment": [
+				"L",
+				"G"
+			],
+			"languages": [
+				"Common"
+			],
 			"hasToken": true,
+			"hasFluff": true,
 			"hasFluffImages": true
 		},
 		{
@@ -1762,6 +1795,9 @@
 					"source": "ToD",
 					"page": 187
 				}
+			],
+			"referenceSources": [
+				"RoT"
 			],
 			"size": [
 				"M"
@@ -1969,6 +2005,7 @@
 			"ac": [
 				11
 			],
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -1986,6 +2023,9 @@
 					"source": "ToD",
 					"page": 188
 				}
+			],
+			"referenceSources": [
+				"RoT"
 			],
 			"size": [
 				"M"
@@ -2176,12 +2216,12 @@
 			"page": 93,
 			"otherSources": [
 				{
-					"source": "RoT"
-				},
-				{
 					"source": "ToD",
 					"page": 180
 				}
+			],
+			"referenceSources": [
+				"RoT"
 			],
 			"size": [
 				"M"
@@ -2323,7 +2363,7 @@
 				{
 					"name": "Hide",
 					"entries": [
-						"Rezmir takes the Hide action."
+						"Rezmir takes the {@action Hide} action."
 					]
 				}
 			],

@@ -53,7 +53,7 @@
 
 	<script type="text/javascript" src="sw-injector.js"></script>
 
-	<script type="module" src="js/styleswitch.js"></script>
+	<script blocking="render" type="module" src="js/styleswitch.js"></script>
 	<script type="text/javascript" src="js/navigation.js"></script>
 	<script type="module" src="js/browsercheck.js"></script>
 </head>
@@ -63,34 +63,33 @@
 <div class="overlay-noise no-print"></div>
 
 <div class="viewport-wrapper">
-	<header class="hidden page__header">
-		<div class="container ve-flex-v-baseline">
-			<h1 class="page__title no-wrap my-0" id="page__title">DM Screen</h1>
-			<p class="page__subtitle no-wrap my-0" id="page__subtitle">Build a personalised DM screen.</p>
-		</div>
-	</header>
+	<div class="ve-flex-col" data-cancer-id="cancer-header">
+		<header class="ve-mobile-sm__hidden page__header">
+			<div class="container ve-flex-v-baseline">
+				<h1 class="page__title ve-no-wrap ve-my-0" id="page__title">DM Screen</h1>
+				<p class="page__subtitle ve-no-wrap ve-my-0" id="page__subtitle">Build a personalised DM screen.</p>
+			</div>
+		</header>
 
-	<nav class="container page__nav" id="navigation">
-		<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
-	</nav>
+		<nav class="container page__nav" id="navigation">
+			<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
+		</nav>
+	</div>
 
-	<div class="dm-screen min-h-0">
-		<div class="sidemenu__toggle">
-			<div class="sidemenu__hotzone"></div>
-			<div class="sidemenu__burger"></div>
-			<div class="sidemenu__burger"></div>
-			<div class="sidemenu__burger"></div>
-			<div class="sidemenu"></div>
+	<div class="ve-flex ve-min-h-0 ve-w-100 ve-h-100">
+		<div class="ve-flex-col ve-h-100 ve-min-h-0 ve-relative dmsm__stg-container" id="dm-screen-sidemenu">
+			<div class="ve-flex-col ve-min-h-0 ve-absolute ve-br-1p ve-bt-1p ve-bb-1p ve-overflow-y-auto ve-overflow-x-hidden ve-p-2 dmsmh__wrp-history" id="dm-screen-sidemenu-history"></div>
+
+			<div class="ve-flex-col ve-w-40p ve-h-100 ve-min-h-0 ve-mt-3p ve-mr-3p ve-br-1p ve-bt-1p dmsm__wrp-sidebar" id="dm-screen-sidemenu-controls"></div>
 		</div>
+		<div class="dm-screen ve-w-100 ve-min-h-0"></div>
 	</div>
 </div>
 
 <!--5ETOOLS_SCRIPT_ANCHOR-->
 <!--5ETOOLS_AD_ADHESION-->
 
-<script type="text/javascript" defer src="lib/jquery.js"></script>
 <script type="text/javascript" defer src="lib/peerjs.js"></script>
-<script type="text/javascript" defer src="lib/jquery.panzoom.js"></script>
 <script type="text/javascript" defer src="lib/lzma.js"></script>
 <script type="text/javascript" defer src="js/parser.js"></script>
 <script type="text/javascript" defer src="js/utils.js"></script>
@@ -99,7 +98,7 @@
 <script type="module" defer src="js/omnidexer.js"></script>
 <script type="module" src="js/omnisearch.js"></script>
 <script type="module" src="js/filter.js"></script>
-<script type="text/javascript" defer src="js/utils-dataloader.js"></script>
+<script type="module" src="js/utils-dataloader.js"></script>
 <script type="module" src="js/utils-font.js"></script>
 <script type="module" src="js/utils-brew.js"></script>
 <script type="module" src="js/utils-config.js"></script>
@@ -115,7 +114,7 @@
 <script type="text/javascript" defer src="js/hist.js"></script>
 <script type="module" src="js/render-map.js"></script>
 <script type="module" src="js/dmscreen.js"></script>
-<script type="text/javascript" defer src="js/list2.js"></script>
+<script type="module" defer src="js/list2.js"></script>
 <script type="text/javascript" defer src="lib/elasticlunr.js"></script>
 <!-- Dice Controls Container -->
 <div id="dice-box"></div>

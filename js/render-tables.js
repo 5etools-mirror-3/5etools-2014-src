@@ -35,16 +35,16 @@ class RenderTables {
 		}
 	}
 
-	static $getRenderedTable (it) {
+	static getRenderedTable (it) {
 		it.type = it.type || "table";
 
 		const ptFrom = this._getPartTableFrom(it);
 
-		return $$`
+		return ee`
 		${Renderer.utils.getBorderTr()}
 		${Renderer.utils.getExcludedTr({entity: it, dataProp: "table"})}
 		${Renderer.utils.getNameTr(it, {page: UrlUtil.PG_TABLES})}
-		<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider"></div></td></tr>
+		<tr><td colspan="6" class="ve-py-0"><div class="ve-tbl-divider"></div></td></tr>
 		<tr><td colspan="6">${Renderer.get().setFirstSection(true).render(it)}</td></tr>
 		${ptFrom}
 		${Renderer.utils.getPageTr(it)}

@@ -2155,9 +2155,9 @@
 							"grid": {
 								"type": "square",
 								"size": 52,
-								"offsetX": -3,
-								"offsetY": -13,
-								"distance": 10
+								"offsetX": -6,
+								"offsetY": -26,
+								"scale": 2
 							},
 							"id": "08c",
 							"hrefThumbnail": {
@@ -2178,8 +2178,8 @@
 							"grid": {
 								"type": "square",
 								"size": 56,
-								"offsetY": -15,
-								"distance": 10
+								"offsetY": -30,
+								"scale": 2
 							},
 							"mapParent": {
 								"id": "08c",
@@ -2578,7 +2578,7 @@
 									],
 									"id": "081"
 								},
-								"The orb at the east end of the hall is made of crystal and radiates an aura of conjuration magic under the scrutiny of a {@spell detect magic} spell or similar effect. The orb, which is 1 foot in diameter, sheds bright light in a 30-foot radius and dim light for an additional 30 feet. Whenever a creature touches the orb, roll a {@dice d6}. On a roll of 2 or higher, the orb teleports the creature to {@area 24|051}. On a roll of 1, the orb malfunctions and emits lightning in a 100-foot-long line as wide as the hall. Each creature in the area of effect must make a {@dc 15} Dexterity saving throw, taking 14 ({@damage 4d6}) lightning damage on a failed save, or half as much damage on a successful one. The orb can't be removed from its wall fixture. It has AC 10, 1 hit point, and immunity to poison and psychic damage. Destroying the orb extinguishes its light and renders the pieces nonmagical.",
+								"The orb at the east end of the hall is made of crystal and radiates an aura of conjuration magic under the scrutiny of a {@spell detect magic} spell or similar effect. The orb, which is 1 foot in diameter, sheds {@quickref Vision and Light||2||bright light} in a 30-foot radius and {@quickref Vision and Light||2||dim light} for an additional 30 feet. Whenever a creature touches the orb, roll a {@dice d6}. On a roll of 2 or higher, the orb teleports the creature to {@area 24|051}. On a roll of 1, the orb malfunctions and emits lightning in a 100-foot-long line as wide as the hall. Each creature in the area of effect must make a {@dc 15} Dexterity saving throw, taking 14 ({@damage 4d6}) lightning damage on a failed save, or half as much damage on a successful one. The orb can't be removed from its wall fixture. It has AC 10, 1 hit point, and immunity to poison and psychic damage. Destroying the orb extinguishes its light and renders the pieces nonmagical.",
 								"The doors along the north wall open into the rooms beyond. The doors to the west and south have hinges on this side and open into the hallway.",
 								"The clay urns are purely decorative and contain nothing of value."
 							]
@@ -2828,8 +2828,8 @@
 									"items": [
 										"The {@creature giant slug|ttp} has 66 hit points.",
 										"It has a walking speed and climbing speed of 10 feet. It can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check.",
-										"It can innately cast each of the following spells once per day, requiring no components: {@spell guiding bolt}, {@spell sanctuary}, and {@spell spiritual weapon}. Its spellcasting ability is Wisdom (spell save {@dc 11}; +3 to hit with spell attacks).",
-										"When the slug takes damage in this cave, it can use its reaction to animate one of the tentacles of the kraken statue and cause it to make a melee weapon attack ({@hit +3|+3 to hit}) against one creature within 20 feet of the statue that the slug can see. The tentacle deals 8 ({@damage 1d8 + 4}) bludgeoning damage on a hit.",
+										"It can innately cast each of the following spells once per day, requiring no components: {@spell guiding bolt}, {@spell sanctuary}, and {@spell spiritual weapon}. Its spellcasting ability is Wisdom (spell save {@dc 11}; {@hit 3} to hit with spell attacks).",
+										"When the slug takes damage in this cave, it can use its reaction to animate one of the tentacles of the kraken statue and cause it to make a melee weapon attack ({@hit +3|{@hit 3} to hit}) against one creature within 20 feet of the statue that the slug can see. The tentacle deals 8 ({@damage 1d8 + 4}) bludgeoning damage on a hit.",
 										"It has darkvision out to a range of 60 feet.",
 										"It understands {@language Abyssal|phb}, {@language primordial|phb|Aquan}, and {@language Common|phb}, but can't speak.",
 										"It has a challenge rating of 3 (700 XP)."
@@ -3145,7 +3145,7 @@
 					"name": "Handout A: Eeyal",
 					"id": "068",
 					"entries": [
-						"Eeyal's the name. i've traveled from the snout of omgar to {@adventure Fort Beluarian|ToA|2|Fort Beluarian} and know the hazards of Chult well. i've seen many astounding sights and visited wondrous places in my travels. i carry my own gear, have all the necessary tools for survival, and leave nothing to chance. i don't believe in taking unnecessary risks. my fee is 5 gold pieces per day. i will also accept an up-front, non-refundable payment of 40 gold pieces for a tenday. i strongly recommend that you purchase a charter of exploration at {@adventure Fort Beluarian|ToA|2|Fort Beluarian} before heading into the jungle. fifty gold pieces is a small price to pay to keep the {@adventure flaming fist|ToA|1|Flaming Fist} off your backs.",
+						"Eeyal's the name. i've traveled from the snout of Omgar to {@adventure Fort Beluarian|ToA|2|Fort Beluarian} and know the hazards of Chult well. i've seen many astounding sights and visited wondrous places in my travels. i carry my own gear, have all the necessary tools for survival, and leave nothing to chance. i don't believe in taking unnecessary risks. my fee is 5 gold pieces per day. i will also accept an up-front, non-refundable payment of 40 gold pieces for a tenday. i strongly recommend that you purchase a charter of exploration at {@adventure Fort Beluarian|ToA|2|Fort Beluarian} before heading into the jungle. fifty gold pieces is a small price to pay to keep the {@adventure flaming fist|ToA|1|Flaming Fist} off your backs.",
 						{
 							"type": "image",
 							"href": {

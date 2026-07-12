@@ -4,6 +4,11 @@
 			"monster": [
 				"MM"
 			]
+		},
+		"otherSources": {
+			"monster": {
+				"MM": "NRH-TCMC"
+			}
 		}
 	},
 	"monster": [
@@ -39,6 +44,13 @@
 					"page": 12
 				}
 			],
+			"referenceSources": [
+				"NRH-ASS",
+				"NRH-AVitW",
+				"NRH-AWoL",
+				"NRH-CoI",
+				"NRH-TLT"
+			],
 			"_copy": {
 				"name": "Wererat",
 				"source": "MM",
@@ -51,6 +63,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -104,7 +117,7 @@
 				{
 					"name": "Nimble Escape",
 					"entries": [
-						"Slurmy can take the Disengage or Hide action as a bonus action on each of their turns."
+						"Slurmy can take the {@action Disengage} or {@action Hide} action as a bonus action on each of their turns."
 					]
 				}
 			],
@@ -116,6 +129,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C"
 			],

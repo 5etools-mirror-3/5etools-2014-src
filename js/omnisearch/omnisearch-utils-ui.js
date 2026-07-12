@@ -1,4 +1,5 @@
 import {OmnisearchBacking} from "./omnisearch-backing.js";
+import {PARTNERED_CONTENT_MODE_NONE, PARTNERED_CONTENT_MODE_TEXT, PARTNERED_CONTENT_MODE_TOOLTIP, PARTNERED_CONTENT_MODES} from "./omnisearch-consts.js";
 
 export class OmnisearchUtilsUi {
 	static _isFauxPage (resultDoc) {
@@ -14,7 +15,7 @@ export class OmnisearchUtilsUi {
 	static getResultLink (resultDoc) {
 		const isFauxPage = this._isFauxPage(resultDoc);
 
-		if (isFauxPage) return ee`<span tabindex="0" ${resultDoc.h ? this._getResultLink_getHoverString(resultDoc.c, resultDoc.u, resultDoc.s, {isFauxPage}) : ""} class="omni__lnk-name help">${resultDoc.cf}: ${resultDoc.n}</span>`;
+		if (isFauxPage) return ee`<span tabindex="0" ${resultDoc.h ? this._getResultLink_getHoverString(resultDoc.c, resultDoc.u, resultDoc.s, {isFauxPage}) : ""} class="omni__lnk-name ve-help">${resultDoc.cf}: ${resultDoc.n}</span>`;
 
 		const href = this.getResultHref(resultDoc);
 		return ee`<a href="${href}" ${resultDoc.h ? this._getResultLink_getHoverString(resultDoc.c, resultDoc.u, resultDoc.s, {isFauxPage}) : ""} class="omni__lnk-name">${resultDoc.cf}: ${resultDoc.n}</a>`;
@@ -27,6 +28,27 @@ export class OmnisearchUtilsUi {
 			hash: url,
 			isFauxPage,
 		});
+	}
+
+	/* -------------------------------------------- */
+
+	static bindBtnCyclePartneredMode ({btn, omnisearchState, fnDoSearch}) {
+		btn
+			.onn("click", () => {
+				omnisearchState.setPartneredMode(PARTNERED_CONTENT_MODES.getNext(omnisearchState.getPartneredMode()));
+			})
+			.onn("contextmenu", evt => {
+				evt.preventDefault();
+				omnisearchState.setPartneredMode(PARTNERED_CONTENT_MODES.getPrevious(omnisearchState.getPartneredMode()));
+			});
+
+		omnisearchState.addHookPartnered((val) => {
+			btn
+				.tooltip(PARTNERED_CONTENT_MODE_TOOLTIP[omnisearchState.getPartneredMode()] || "")
+				.txt(PARTNERED_CONTENT_MODE_TEXT[omnisearchState.getPartneredMode()])
+				.toggleClass("ve-active", omnisearchState.getPartneredMode() !== PARTNERED_CONTENT_MODE_NONE);
+			if (val != null) fnDoSearch().then(null);
+		})();
 	}
 
 	/* -------------------------------------------- */
@@ -51,7 +73,7 @@ export class OmnisearchUtilsUi {
 	/* -------------------------------------------- */
 
 	static doShowHelp ({isIncludeHotkeys = false} = {}) {
-		const {$modalInner} = UiUtil.getShowModal({
+		const {eleModalInner} = UiUtil.getShowModal({
 			title: "Help",
 			isMinHeight0: true,
 			isUncappedHeight: true,
@@ -62,14 +84,14 @@ export class OmnisearchUtilsUi {
 			.sort(([shortA], [shortB]) => SortUtil.ascSortLower(shortA, shortB))
 			.map(([short, longs]) => {
 				return `<li class="ve-flex">
-					<span class="ve-inline-block min-w-60p ve-text-right"><code>in:${short}</code></span>
-					<span class="mx-2">&rarr;</span>
+					<span class="ve-inline-block ve-min-w-60p ve-text-right"><code>in:${short}</code></span>
+					<span class="ve-mx-2">&rarr;</span>
 					<span class="ve-flex-wrap">${longs.map(long => `<code>in:${long.toLowerCase()}</code>`).join("/")}</span>
 				</li>`;
 			})
 			.join("");
 
-		$modalInner.append(`
+		eleModalInner.appends(`
 			<p>The following search syntax is available:</p>
 			<ul>
 				<li><code>source:&lt;abbreviation&gt;</code> where <code>&lt;abbreviation&gt;</code> is an abbreviated source/book name (&quot;PHB&quot;, &quot;MM&quot;, etc.)</li>
@@ -114,19 +136,19 @@ export class OmnisearchUtilsUi {
 			return keys
 				.map(({keys, description}) => {
 					return `<div class="ve-flex">
-					<span class="ve-inline-block min-w-60p ve-text-right">${keys.map(it => `<kbd>${it}</kbd>`).join("+")}</span>
-					<span class="mx-2">&rarr;</span>
+					<span class="ve-inline-block ve-min-w-60p ve-text-right">${keys.map(it => `<kbd>${it}</kbd>`).join("+")}</span>
+					<span class="ve-mx-2">&rarr;</span>
 					<span class="ve-flex-wrap">${description}</span>
 				</div>`;
 				})
 				.join("");
 		};
 
-		return `<hr class="hr-2">
-		<div class="mb-1">The following hotkeys are available:</div>
-		<div class="ml-2 mb-1"><i>When search input is focused:</i></div>
-		<div class="pl-80p mb-2">${getPtKeys(keysInput)}</div>
-		<div class="ml-2 mb-1"><i>When result link is focused:</i></div>
-		<div class="pl-80p mb-2">${getPtKeys(keysResults)}</div>`;
+		return `<hr class="ve-hr-2">
+		<div class="ve-mb-1">The following hotkeys are available:</div>
+		<div class="ve-ml-2 ve-mb-1"><i>When search input is focused:</i></div>
+		<div class="ve-pl-80p ve-mb-2">${getPtKeys(keysInput)}</div>
+		<div class="ve-ml-2 ve-mb-1"><i>When result link is focused:</i></div>
+		<div class="ve-pl-80p ve-mb-2">${getPtKeys(keysResults)}</div>`;
 	}
 }

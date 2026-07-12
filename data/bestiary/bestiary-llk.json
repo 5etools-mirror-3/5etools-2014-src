@@ -5,6 +5,11 @@
 				"MM",
 				"VGM"
 			]
+		},
+		"otherSources": {
+			"monster": {
+				"MM": "LLK"
+			}
 		}
 	},
 	"monster": [
@@ -12,10 +17,8 @@
 			"name": "Brain in a Jar",
 			"source": "LLK",
 			"page": 38,
-			"otherSources": [
-				{
-					"source": "IMR"
-				}
+			"referenceSources": [
+				"IMR"
 			],
 			"size": [
 				"M"
@@ -242,6 +245,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Magic Resistance"
 			],
@@ -336,6 +340,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -363,6 +368,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -460,7 +466,7 @@
 				{
 					"name": "Cunning Action",
 					"entries": [
-						"On each of his turns, Garret can use a bonus action to take the Dash, Disengage, or Hide action."
+						"On each of his turns, Garret can use a bonus action to take the {@action Dash}, {@action Disengage}, or {@action Hide} action."
 					]
 				},
 				{
@@ -582,6 +588,9 @@
 			"isNamedCreature": true,
 			"source": "LLK",
 			"page": 23,
+			"referenceSources": [
+				"IMR"
+			],
 			"_copy": {
 				"name": "Medusa",
 				"source": "MM",
@@ -607,7 +616,7 @@
 				{
 					"name": "Petrifying Gaze",
 					"entries": [
-						"When a creature that can see the medusa's eyes starts its turn within 30 feet of the medusa, the medusa can force it to make a {@dc 14} Constitution saving throw if the medusa isn't {@condition incapacitated} and can see the creature. If the saving throw fails by 5 or more, the creature is instantly {@condition petrified}. Otherwise, a creature that fails the save begins to turn to glass and is {@condition restrained}. The {@condition restrained} creature must repeat the saving throw at the end of its next turn, becoming {@condition petrified} on a failure or ending the effect on a success. The petrification lasts until the creature is freed by the  {@spell greater restoration} spell or other magic.",
+						"When a creature that can see the medusa's eyes starts its turn within 30 feet of the medusa, the medusa can force it to make a {@dc 14} Constitution saving throw if the medusa isn't {@condition incapacitated} and can see the creature. If the saving throw fails by 5 or more, the creature is instantly {@condition petrified}. Otherwise, a creature that fails the save begins to turn to glass and is {@condition restrained}. The {@condition restrained} creature must repeat the saving throw at the end of its next turn, becoming {@condition petrified} on a failure or ending the effect on a success. The petrification lasts until the creature is freed by the {@spell greater restoration} spell or other magic.",
 						"Unless {@status surprised}, a creature can avert its eyes to avoid the saving throw at the start of its turn. If the creature does so, it can't see the medusa until the start of its next turn, when it can avert its eyes again. If the creature looks at the medusa in the meantime, it must immediately make the save.",
 						"If the medusa sees itself reflected on a polished surface within 30 feet of it and in an area of bright light, the medusa is, due to its curse, affected by its own gaze."
 					]
@@ -765,6 +774,7 @@
 				"CL"
 			],
 			"miscTags": [
+				"AOE",
 				"MLW",
 				"MW"
 			],
@@ -848,6 +858,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -929,6 +940,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"senseTags": [
 				"B"
 			],
@@ -981,6 +993,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"hasToken": true
 		}
 	]

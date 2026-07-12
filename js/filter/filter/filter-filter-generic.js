@@ -1,6 +1,7 @@
 import {FilterItem} from "../filter-item.js";
 import {FilterBase} from "./filter-filter-base.js";
-import {MISC_FILTER_VALUE__BASIC_RULES_2014, MISC_FILTER_VALUE__BASIC_RULES_2024, MISC_FILTER_VALUE__SRD_5_1, MISC_FILTER_VALUE__SRD_5_2, PILL_STATE__IGNORE, PILL_STATE__NO, PILL_STATE__YES, PILL_STATES} from "../filter-constants.js";
+import {MISC_FILTER_VALUE__BASIC_RULES_2014, MISC_FILTER_VALUE__BASIC_RULES_2024, MISC_FILTER_VALUE__SRD_5_1, MISC_FILTER_VALUE__SRD_5_2, PILL_STATE__IGNORE, PILL_STATE__NO, PILL_STATE__YES, PILL_STATES, getPillStateDisplayClass} from "../filter-constants.js";
+import {FilterUtils} from "../filter-utils.js";
 
 class FilterTransientOptions {
 	/**
@@ -9,6 +10,14 @@ class FilterTransientOptions {
 	 */
 	constructor (opts) {
 		this.isExtendDefaultState = opts.isExtendDefaultState;
+	}
+}
+
+export class CompSearch extends BaseComponent {
+	_getDefaultState () {
+		return {
+			searchTermParent: "",
+		};
 	}
 }
 
@@ -55,6 +64,7 @@ export class Filter extends FilterBase {
 	 * @param [opts.isSortByDisplayItems] If items should be sorted by their display value, rather than their internal value.
 	 * @param [opts.pFnOnChange] Function to be run when a filter item changes.
 	 * @param [opts.isMiscFilter] If this is the Misc. filter (containing "SRD" and "Basic Rules" tags).
+	 * @param [opts.compSearch] Component responsible for managing search term update propagation.
 	 */
 	constructor (opts) {
 		super(opts);
@@ -84,16 +94,18 @@ export class Filter extends FilterBase {
 
 		this._filterBox = null;
 		this._items.forEach(it => this._defaultItemState(it, {isForce: true}));
-		this.__$wrpFilter = null;
+		this.__wrpFilter = null;
 		this.__wrpPills = null;
 		this.__wrpMiniPills = null;
-		this.__$wrpNestHeadInner = null;
+		this.__wrpNestHeadInner = null;
 		this._updateNestSummary = null;
 		this.__nestsHidden = {};
 		this._nestsHidden = this._getProxy("nestsHidden", this.__nestsHidden);
 		this._isNestsDirty = false;
 		this._isItemsDirty = false;
 		this._pillGroupsMeta = {};
+
+		this._compSearch = opts.compSearch || new CompSearch();
 	}
 
 	get isReprintedFilter () { return this._isReprintedFilter; }
@@ -222,7 +234,7 @@ export class Filter extends FilterBase {
 		const pt = Object.entries(this._state)
 			.filter(([k]) => !k.startsWith("_"))
 			.filter(([, v]) => v)
-			.map(([k, v]) => `${v === PILL_STATE__NO ? "!" : ""}${k}`)
+			.map(([k, v]) => `${v === PILL_STATE__NO ? "!" : ""}${FilterUtils.getEscapedPipes(k)}`)
 			.join(";")
 			.toLowerCase();
 
@@ -270,14 +282,14 @@ export class Filter extends FilterBase {
 			.map(({v, dispItem}) => {
 				if (isPlainText) return `${v === PILL_STATE__NO ? "not " : ""}${dispItem}`;
 
-				return `<span class="fltr__disp-state fltr__disp-state--${PILL_STATES[v]}">${dispItem}</span>`;
+				return `<span class="ve-fltr__disp-state ${getPillStateDisplayClass(v)}">${dispItem}</span>`;
 			})
 			.join(", ");
 
 		if (!ptState) {
 			if (isPlainText) return [`${this._getHeaderDisplayName()}: (cleared)`];
 			return [
-				`${this._getDisplayStatePart_getHeader({isPlainText})}<span class="italic fltr__disp-state fltr__disp-state--ignore">(cleared)</span>`,
+				`${this._getDisplayStatePart_getHeader({isPlainText})}<span class="ve-italic ve-fltr__disp-state ve-fltr__disp-state--ignore">(cleared)</span>`,
 			];
 		}
 
@@ -315,18 +327,18 @@ export class Filter extends FilterBase {
 			.sort(({item: itemA}, {item: itemB}) => this._itemSortFn ? this._itemSortFn(itemA, itemB) : 0)
 			.map(({item, v}) => {
 				const rdDisplay = this._getDisplayText(item);
-				return `<span class="fltr__pill fltr__pill--display-only" data-state="${PILL_STATES[v]}">${rdDisplay}</span>`;
+				return `<span class="ve-fltr__pill ve-fltr__pill--display-only" data-state="${PILL_STATES[v]}">${rdDisplay}</span>`;
 			})
 			.join("");
 
 		const ptWithoutItems = entriesWithoutItems.length
-			? `<span class="ve-muted italic fltr__pill fltr__pill--display-only" data-state="${PILL_STATES[PILL_STATE__IGNORE]}">And ${entriesWithoutItems.length} more item${entriesWithoutItems.length === 1 ? "" : "s"}.</span>`
+			? `<span class="ve-muted ve-italic ve-fltr__pill ve-fltr__pill--display-only" data-state="${PILL_STATES[PILL_STATE__IGNORE]}">And ${entriesWithoutItems.length} more item${entriesWithoutItems.length === 1 ? "" : "s"}.</span>`
 			: "";
 
 		return [
-			`<div class="ve-flex-col my-1">
-				<h5 class="mt-0 mb-1">${this._getHeaderDisplayName()}</h5>
-				<div class="ve-flex-wrap w-100">
+			`<div class="ve-flex-col ve-my-1">
+				<h5 class="ve-mt-0 ve-mb-1">${this._getHeaderDisplayName()}</h5>
+				<div class="ve-flex-wrap ve-w-100">
 					${ptWithItems}${ptWithoutItems}
 				</div>
 			</div>`,
@@ -477,7 +489,7 @@ export class Filter extends FilterBase {
 
 		const btnPill = e_({
 			tag: "div",
-			clazz: "fltr__pill",
+			clazz: "ve-fltr__pill",
 			html: displayText,
 			click: evt => this._getPill_handleClick({evt, item}),
 			contextmenu: evt => this._getPill_handleContextmenu({evt, item}),
@@ -526,8 +538,8 @@ export class Filter extends FilterBase {
 			const isDefaultDesel = this._deselFn && this._deselFn(it.item);
 			const isDefaultSel = this._selFn && this._selFn(it.item);
 			it.btnMini
-				.toggleClass("fltr__mini-pill--default-desel", isDefaultDesel)
-				.toggleClass("fltr__mini-pill--default-sel", isDefaultSel);
+				.toggleClass("ve-fltr__mini-pill--default-desel", isDefaultDesel)
+				.toggleClass("ve-fltr__mini-pill--default-sel", isDefaultSel);
 		});
 	}
 
@@ -536,17 +548,17 @@ export class Filter extends FilterBase {
 
 		const btnMini = e_({
 			tag: "div",
-			clazz: `fltr__mini-pill ${this._filterBox.isMinisHidden(this.header) ? "ve-hidden" : ""} ${this._deselFn && this._deselFn(item.item) ? "fltr__mini-pill--default-desel" : ""} ${this._selFn && this._selFn(item.item) ? "fltr__mini-pill--default-sel" : ""}`,
+			clazz: `ve-fltr__mini-pill ${this._filterBox.isMinisHidden(this.header) ? "ve-hidden" : ""} ${this._deselFn && this._deselFn(item.item) ? "ve-fltr__mini-pill--default-desel" : ""} ${this._selFn && this._selFn(item.item) ? "ve-fltr__mini-pill--default-sel" : ""}`,
 			html: toDisplay,
 			title: `${this._displayFnTitle ? `${this._displayFnTitle(item.item, item)} (` : ""}Filter: ${this._getHeaderDisplayName()}${this._displayFnTitle ? ")" : ""}`,
 			click: () => {
 				this._state[item.item] = PILL_STATE__IGNORE;
 				this._filterBox.fireChangeEvent();
 			},
-		}).attr("data-state", PILL_STATES[this._state[item.item]]);
+		}).attr("data-state", PILL_STATES[this._state[item.item] || 0]);
 
 		const hook = () => {
-			const val = PILL_STATES[this._state[item.item]];
+			const val = PILL_STATES[this._state[item.item] || 0];
 			btnMini.attr("data-state", val);
 			// Bind change handlers in the mini-pill render step, as the mini-pills should always be available.
 			if (this._pFnOnChange) this._pFnOnChange(item.item, val);
@@ -559,29 +571,56 @@ export class Filter extends FilterBase {
 		return btnMini;
 	}
 
-	_doSetPillsAll () {
-		this._proxyAssignSimple(
-			"state",
-			Object.keys(this._state)
-				.mergeMap(k => ({[k]: PILL_STATE__YES})),
-			true,
-		);
+	_doSetPillsAll ({isIgnoreSearchTermParent = false} = {}) {
+		this._doSetPillsBulk({stateTarget: PILL_STATE__YES, isIgnoreSearchTermParent});
 	}
 
-	_doSetPillsClear () {
-		this._proxyAssignSimple(
-			"state",
-			Object.keys(this._state)
-				.mergeMap(k => ({[k]: PILL_STATE__IGNORE})),
-			true,
-		);
+	_doSetPillsClear ({isIgnoreSearchTermParent = false} = {}) {
+		this._doSetPillsBulk({stateTarget: PILL_STATE__IGNORE, isIgnoreSearchTermParent});
 	}
 
-	_doSetPillsNone () {
+	_doSetPillsNone ({isIgnoreSearchTermParent = false} = {}) {
+		this._doSetPillsBulk({stateTarget: PILL_STATE__NO, isIgnoreSearchTermParent});
+	}
+
+	_doSetPillsBulk ({stateTarget, isIgnoreSearchTermParent = false} = {}) {
+		if (isIgnoreSearchTermParent || !this._compSearch._state.searchTermParent) {
+			this._proxyAssignSimple(
+				"state",
+				Object.keys(this._state)
+					.mergeMap(k => ({[k]: stateTarget})),
+				true,
+			);
+			return;
+		}
+
+		const {
+			itemsVisible: searchVisibleItems,
+			itemsNotVisible: searchNotVisibleItems,
+		} = this._getSearchVisibleItems({searchTerm: this._compSearch._state.searchTermParent});
+
+		if (!searchVisibleItems.length) {
+			this._proxyAssignSimple(
+				"state",
+				Object.keys(this._state)
+					.mergeMap(k => ({[k]: stateTarget})),
+				true,
+			);
+			return;
+		}
+
 		this._proxyAssignSimple(
 			"state",
-			Object.keys(this._state)
-				.mergeMap(k => ({[k]: PILL_STATE__NO})),
+			{
+				...Object.fromEntries(
+					searchVisibleItems
+						.map(itm => [itm.item, stateTarget]),
+				),
+				...Object.fromEntries(
+					searchNotVisibleItems
+						.map(itm => [itm.item, PILL_STATE__IGNORE]),
+				),
+			},
 			true,
 		);
 	}
@@ -593,36 +632,45 @@ export class Filter extends FilterBase {
 	_getHeaderControls (opts) {
 		const btnAll = e_({
 			tag: "button",
-			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} fltr__h-btn--all w-100`,
-			click: () => this._doSetPillsAll(),
+			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} ve-fltr__h-btn--all ve-w-100`,
+			click: evt => this._doSetPillsAll({isIgnoreSearchTermParent: !!evt.shiftKey}),
 			html: "All",
 		});
 		const btnClear = e_({
 			tag: "button",
-			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} fltr__h-btn--clear w-100`,
-			click: () => this._doSetPillsClear(),
+			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} ve-fltr__h-btn--clear ve-w-100`,
+			click: evt => this._doSetPillsClear({isIgnoreSearchTermParent: !!evt.shiftKey}),
 			html: "Clear",
 		});
 		const btnNone = e_({
 			tag: "button",
-			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} fltr__h-btn--none w-100`,
-			click: () => this._doSetPillsNone(),
+			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} ve-fltr__h-btn--none ve-w-100`,
+			click: evt => this._doSetPillsNone({isIgnoreSearchTermParent: !!evt.shiftKey}),
 			html: "None",
 		});
+		this._compSearch._addHookBase("searchTermParent", () => {
+			const tooltipIgnoreSearch = this._compSearch._state.searchTermParent
+				? `SHIFT to Ignore Search`
+				: null;
+			btnAll.tooltip(tooltipIgnoreSearch);
+			btnClear.tooltip(tooltipIgnoreSearch);
+			btnNone.tooltip(tooltipIgnoreSearch);
+		})();
+
 		const btnDefault = e_({
 			tag: "button",
-			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} w-100`,
+			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} ve-w-100`,
 			click: () => this._doSetPinsDefault(),
 			html: "Default",
 		});
 
 		const wrpStateBtnsOuter = e_({
 			tag: "div",
-			clazz: "ve-flex-v-center fltr__h-wrp-state-btns-outer",
+			clazz: "ve-flex-v-center ve-fltr__h-wrp-state-btns-outer",
 			children: [
 				e_({
 					tag: "div",
-					clazz: "ve-btn-group ve-flex-v-center w-100",
+					clazz: "ve-btn-group ve-flex-v-center ve-w-100",
 					children: [
 						btnAll,
 						btnClear,
@@ -638,7 +686,7 @@ export class Filter extends FilterBase {
 
 		const btnCombineBlue = e_({
 			tag: "button",
-			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} fltr__h-btn-logic--blue fltr__h-btn-logic w-100`,
+			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} ve-fltr__h-btn-logic--blue ve-fltr__h-btn-logic ve-w-100`,
 			click: () => this._meta.combineBlue = Filter._getNextCombineMode(this._meta.combineBlue),
 			title: `Blue match mode for this filter. "AND" requires all blues to match, "OR" requires at least one blue to match, "XOR" requires exactly one blue to match.`,
 		});
@@ -648,7 +696,7 @@ export class Filter extends FilterBase {
 
 		const btnCombineRed = e_({
 			tag: "button",
-			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} fltr__h-btn-logic--red fltr__h-btn-logic w-100`,
+			clazz: `ve-btn ve-btn-default ${opts.isMulti ? "ve-btn-xxs" : "ve-btn-xs"} ve-fltr__h-btn-logic--red ve-fltr__h-btn-logic ve-w-100`,
 			click: () => this._meta.combineRed = Filter._getNextCombineMode(this._meta.combineRed),
 			title: `Red match mode for this filter. "AND" requires all reds to match, "OR" requires at least one red to match, "XOR" requires exactly one red to match.`,
 		});
@@ -658,7 +706,7 @@ export class Filter extends FilterBase {
 
 		const btnShowHide = this._getBtnShowHide({isMulti: opts.isMulti});
 		const hookShowHide = () => {
-			e_({ele: btnShowHide}).toggleClass("active", this._uiMeta.isHidden);
+			e_({ele: btnShowHide}).toggleClass("ve-active", this._uiMeta.isHidden);
 			wrpStateBtnsOuter.toggleVe(!this._uiMeta.isHidden);
 
 			// Skip updating renders if results would be invisible
@@ -672,13 +720,13 @@ export class Filter extends FilterBase {
 
 			const htmlSummary = [
 				cur._totals.yes
-					? `<span class="fltr__summary_item fltr__summary_item--include" title="${cur._totals.yes} hidden &quot;required&quot; tags">${cur._totals.yes}</span>`
+					? `<span class="ve-fltr__summary_item ve-fltr__summary_item--include" title="${cur._totals.yes} hidden &quot;required&quot; tags">${cur._totals.yes}</span>`
 					: null,
 				cur._totals.yes && cur._totals.no
-					? `<span class="fltr__summary_item_spacer"></span>`
+					? `<span class="ve-fltr__summary_item_spacer"></span>`
 					: null,
 				cur._totals.no
-					? `<span class="fltr__summary_item fltr__summary_item--exclude" title="${cur._totals.no} hidden &quot;excluded&quot; tags">${cur._totals.no}</span>`
+					? `<span class="ve-fltr__summary_item ve-fltr__summary_item--exclude" title="${cur._totals.no} hidden &quot;excluded&quot; tags">${cur._totals.no}</span>`
 					: null,
 			].filter(Boolean).join("");
 			e_({ele: wrpSummary, html: htmlSummary}).toggleVe(this._uiMeta.isHidden);
@@ -689,14 +737,14 @@ export class Filter extends FilterBase {
 
 		return e_({
 			tag: "div",
-			clazz: `ve-flex-v-center fltr__h-wrp-btns-outer`,
+			clazz: `ve-flex-v-center ve-fltr__h-wrp-btns-outer`,
 			children: [
 				wrpSummary,
 				wrpStateBtnsOuter,
-				e_({tag: "span", clazz: `ve-btn-group ml-2 ve-flex-v-center`, children: [btnCombineBlue, btnCombineRed]}),
+				e_({tag: "span", clazz: `ve-btn-group ve-ml-2 ve-flex-v-center`, children: [btnCombineBlue, btnCombineRed]}),
 				e_({
 					tag: "div",
-					clazz: "ve-btn-group ve-flex-v-center ml-2",
+					clazz: "ve-btn-group ve-flex-v-center ve-ml-2",
 					children: [
 						btnShowHide,
 						this._getBtnMenu({isMulti: opts.isMulti}),
@@ -714,23 +762,23 @@ export class Filter extends FilterBase {
 	 * @param opts Options.
 	 * @param opts.filterBox The FilterBox to which this filter is attached.
 	 * @param opts.isFirst True if this is visually the first filter in the box.
-	 * @param opts.$wrpMini The form mini-view element.
+	 * @param opts.wrpMini The form mini-view element.
 	 * @param opts.isMulti The name of the MultiFilter this filter belongs to, if any.
 	 */
-	$render (opts) {
+	render (opts) {
 		this._filterBox = opts.filterBox;
-		this.__wrpMiniPills = opts.$wrpMini ? e_({ele: opts.$wrpMini[0]}) : null;
+		this.__wrpMiniPills = opts.wrpMini ? e_({ele: opts.wrpMini}) : null;
 
 		const wrpControls = this._getHeaderControls(opts);
 
-		this.__wrpPills = e_({tag: "div", clazz: `fltr__wrp-pills ${this._groupFn ? "fltr__wrp-subs" : "fltr__container-pills"}`});
+		this.__wrpPills = e_({tag: "div", clazz: `ve-fltr__wrp-pills ${this._groupFn ? "ve-fltr__wrp-subs" : "ve-fltr__container-pills"}`});
 		this._addHook("uiMeta", "isHidden", () => this.__wrpPills.toggleVe(!this._uiMeta.isHidden))();
 
 		if (this._nests) {
-			const wrpNestHead = e_({tag: "div", clazz: "fltr__wrp-pills--sub"}).appendTo(this.__wrpPills);
-			this.__$wrpNestHeadInner = e_({tag: "div", clazz: "ve-flex ve-flex-wrap fltr__container-pills"}).appendTo(wrpNestHead);
+			const wrpNestHead = e_({tag: "div", clazz: "ve-fltr__wrp-pills--sub"}).appendTo(this.__wrpPills);
+			this.__wrpNestHeadInner = e_({tag: "div", clazz: "ve-flex ve-flex-wrap ve-fltr__container-pills"}).appendTo(wrpNestHead);
 
-			const wrpNestHeadSummary = e_({tag: "div", clazz: "fltr__summary_nest"}).appendTo(wrpNestHead);
+			const wrpNestHeadSummary = e_({tag: "div", clazz: "ve-fltr__summary_nest"}).appendTo(wrpNestHead);
 
 			this._updateNestSummary = () => {
 				const stats = {high: 0, low: 0};
@@ -744,18 +792,18 @@ export class Filter extends FilterBase {
 				if (stats.high) {
 					e_({
 						tag: "span",
-						clazz: "fltr__summary_item fltr__summary_item--include",
+						clazz: "ve-fltr__summary_item ve-fltr__summary_item--include",
 						text: stats.high,
 						title: `${stats.high} hidden "required" tag${stats.high === 1 ? "" : "s"}`,
 					}).appendTo(wrpNestHeadSummary);
 				}
 
-				if (stats.high && stats.low) e_({tag: "span", clazz: "fltr__summary_item_spacer"}).appendTo(wrpNestHeadSummary);
+				if (stats.high && stats.low) e_({tag: "span", clazz: "ve-fltr__summary_item_spacer"}).appendTo(wrpNestHeadSummary);
 
 				if (stats.low) {
 					e_({
 						tag: "span",
-						clazz: "fltr__summary_item fltr__summary_item--exclude",
+						clazz: "ve-fltr__summary_item ve-fltr__summary_item--exclude",
 						text: stats.low,
 						title: `${stats.low} hidden "excluded" tag${stats.low === 1 ? "" : "s"}`,
 					}).appendTo(wrpNestHeadSummary);
@@ -769,11 +817,11 @@ export class Filter extends FilterBase {
 
 		const btnMobToggleControls = this._getBtnMobToggleControls(wrpControls);
 
-		this.__$wrpFilter = $$`<div>
-			${opts.isFirst ? "" : `<div class="fltr__dropdown-divider ${opts.isMulti ? "fltr__dropdown-divider--indented" : ""} mb-1"></div>`}
-			<div class="split fltr__h ${this._minimalUi ? "fltr__minimal-hide" : ""} mb-1">
-				<div class="fltr__h-text ve-flex-h-center mobile__w-100">
-					${opts.isMulti ? `<span class="mr-2">\u2012</span>` : ""}
+		this.__wrpFilter = ee`<div>
+			${opts.isFirst ? "" : `<div class="ve-fltr__dropdown-divider ${opts.isMulti ? "ve-fltr__dropdown-divider--indented" : ""} ve-mb-1"></div>`}
+			<div class="ve-split ve-fltr__h ${this._minimalUi ? "ve-fltr__minimal-hide" : ""} ve-mb-1">
+				<div class="ve-fltr__h-text ve-flex-h-center ve-mobile-sm__w-100">
+					${opts.isMulti ? `<span class="ve-mr-2">\u2012</span>` : ""}
 					${this._getRenderedHeader()}
 					${btnMobToggleControls}
 				</div>
@@ -784,21 +832,21 @@ export class Filter extends FilterBase {
 
 		this._doToggleDisplay();
 
-		return this.__$wrpFilter;
+		return this.__wrpFilter;
 	}
 
 	/**
 	 * @param opts Options.
 	 * @param opts.filterBox The FilterBox to which this filter is attached.
 	 * @param opts.isFirst True if this is visually the first filter in the box.
-	 * @param opts.$wrpMini The form mini-view element.
+	 * @param opts.wrpMini The form mini-view element.
 	 * @param opts.isMulti The name of the MultiFilter this filter belongs to, if any.
 	 */
-	$renderMinis (opts) {
-		if (!opts.$wrpMini) return;
+	renderMinis (opts) {
+		if (!opts.wrpMini) return;
 
 		this._filterBox = opts.filterBox;
-		this.__wrpMiniPills = e_({ele: opts.$wrpMini[0]});
+		this.__wrpMiniPills = e_({ele: opts.wrpMini});
 
 		this._doRenderMiniPills();
 	}
@@ -922,21 +970,21 @@ export class Filter extends FilterBase {
 	}
 
 	_doRenderPills_doRenderWrpGroup_getDivider (group) {
-		const eleHr = this._doRenderPills_doRenderWrpGroup_getDividerHr(group);
+		const hr = this._doRenderPills_doRenderWrpGroup_getDividerHr(group);
 		const elesHeader = this._doRenderPills_doRenderWrpGroup_getDividerHeaders(group);
 
 		return e_({
 			tag: "div",
-			clazz: "ve-flex-col w-100",
+			clazz: "ve-flex-col ve-w-100",
 			children: [
-				eleHr,
+				hr,
 				...elesHeader,
 			]
 				.filter(Boolean),
 		});
 	}
 
-	_doRenderPills_doRenderWrpGroup_getDividerHr (group) { return e_({tag: "hr", clazz: `fltr__dropdown-divider--sub hr-2 mx-3`}); }
+	_doRenderPills_doRenderWrpGroup_getDividerHr (group) { return e_({tag: "hr", clazz: `ve-fltr__dropdown-divider--sub ve-hr-2 ve-mx-3`}); }
 
 	_doRenderPills_doRenderWrpGroup_getDividerHeaders (group) {
 		const groupName = this._groupNameFn?.(group);
@@ -945,13 +993,13 @@ export class Filter extends FilterBase {
 		return [
 			e_({
 				tag: "div",
-				clazz: `fltr__divider-header ve-muted italic ve-small`,
+				clazz: `ve-fltr__divider-header ve-muted ve-italic ve-small`,
 				text: groupName,
 			}),
 		];
 	}
 
-	_doRenderPills_doRenderWrpGroup_getWrpPillsSub () { return e_({tag: "div", clazz: `fltr__wrp-pills--sub fltr__container-pills`}); }
+	_doRenderPills_doRenderWrpGroup_getWrpPillsSub () { return e_({tag: "div", clazz: `ve-fltr__wrp-pills--sub ve-fltr__container-pills`}); }
 
 	_doRenderMiniPills () {
 		// create a list view so we can freely sort
@@ -971,23 +1019,25 @@ export class Filter extends FilterBase {
 
 	_doToggleDisplay () {
 		// if there are no items, hide everything
-		if (this.__$wrpFilter) this.__$wrpFilter.toggleClass("fltr__no-items", !this._items.length);
+		if (this.__wrpFilter) this.__wrpFilter.toggleClass("ve-fltr__no-items", !this._items.length);
 	}
 
-	_doRenderNests () {
+	_doRenderNests_doUpdateElements () {
+		if (!this.__wrpNestHeadInner) return;
+
 		Object.entries(this._nests)
 			.sort((a, b) => SortUtil.ascSort(a[0], b[0])) // array 0 (key) is the nest name
 			.forEach(([nestName, nestMeta]) => {
-				if (nestMeta._$btnNest == null) {
+				if (nestMeta._btnNest == null) {
 					// this can be restored from a saved state, otherwise, initialise it
 					if (this._nestsHidden[nestName] == null) this._nestsHidden[nestName] = !!nestMeta.isHidden;
 
-					const $btnText = $(`<span>${nestName} [${this._nestsHidden[nestName] ? "+" : "\u2212"}]</span>`);
-					nestMeta._$btnNest = $$`<div class="fltr__btn_nest">${$btnText}</div>`
-						.click(() => this._nestsHidden[nestName] = !this._nestsHidden[nestName]);
+					const btnText = ee`<span>${nestName} [${this._nestsHidden[nestName] ? "+" : "\u2212"}]</span>`;
+					nestMeta._btnNest = ee`<div class="ve-fltr__btn_nest">${btnText}</div>`
+						.onn("click", () => this._nestsHidden[nestName] = !this._nestsHidden[nestName]);
 
 					const hook = () => {
-						$btnText.text(`${nestName} [${this._nestsHidden[nestName] ? "+" : "\u2212"}]`);
+						btnText.txt(`${nestName} [${this._nestsHidden[nestName] ? "+" : "\u2212"}]`);
 
 						const stats = {high: 0, low: 0, total: 0};
 						this._items
@@ -999,11 +1049,11 @@ export class Filter extends FilterBase {
 							});
 						const allHigh = stats.total === stats.high;
 						const allLow = stats.total === stats.low;
-						nestMeta._$btnNest.toggleClass("fltr__btn_nest--include-all", this._nestsHidden[nestName] && allHigh)
-							.toggleClass("fltr__btn_nest--exclude-all", this._nestsHidden[nestName] && allLow)
-							.toggleClass("fltr__btn_nest--include", this._nestsHidden[nestName] && !!(!allHigh && !allLow && stats.high && !stats.low))
-							.toggleClass("fltr__btn_nest--exclude", this._nestsHidden[nestName] && !!(!allHigh && !allLow && !stats.high && stats.low))
-							.toggleClass("fltr__btn_nest--both", this._nestsHidden[nestName] && !!(!allHigh && !allLow && stats.high && stats.low));
+						nestMeta._btnNest.toggleClass("ve-fltr__btn_nest--include-all", this._nestsHidden[nestName] && allHigh)
+							.toggleClass("ve-fltr__btn_nest--exclude-all", this._nestsHidden[nestName] && allLow)
+							.toggleClass("ve-fltr__btn_nest--include", this._nestsHidden[nestName] && !!(!allHigh && !allLow && stats.high && !stats.low))
+							.toggleClass("ve-fltr__btn_nest--exclude", this._nestsHidden[nestName] && !!(!allHigh && !allLow && !stats.high && stats.low))
+							.toggleClass("ve-fltr__btn_nest--both", this._nestsHidden[nestName] && !!(!allHigh && !allLow && stats.high && stats.low));
 
 						if (this._updateNestSummary) this._updateNestSummary();
 					};
@@ -1017,9 +1067,13 @@ export class Filter extends FilterBase {
 					this._addHook("nestsHidden", nestName, hook);
 					hook();
 				}
-				nestMeta._$btnNest.appendTo(this.__$wrpNestHeadInner);
-			});
 
+				nestMeta._btnNest.appendTo(this.__wrpNestHeadInner);
+			});
+	}
+
+	_doRenderNests () {
+		this._doRenderNests_doUpdateElements();
 		if (this._updateNestSummary) this._updateNestSummary();
 	}
 
@@ -1223,30 +1277,37 @@ export class Filter extends FilterBase {
 	}
 
 	handleSearch (searchTerm) {
-		const isHeaderMatch = this._getHeaderDisplayName().toLowerCase().includes(searchTerm);
+		this._compSearch._state.searchTermParent = searchTerm;
 
-		if (isHeaderMatch) {
-			this._items.forEach(it => {
+		const {
+			itemsVisible: searchVisibleItems,
+			itemsNotVisible: searchNotVisibleItems,
+		} = this._getSearchVisibleItems({searchTerm});
+
+		searchVisibleItems
+			.forEach(it => {
 				if (!it.rendered) return;
-				it.rendered.toggleClass("fltr__hidden--search", false);
+				it.rendered.toggleClass("ve-fltr__hidden--search", false);
 			});
 
-			if (this.__$wrpFilter) this.__$wrpFilter.toggleClass("fltr__hidden--search", false);
+		searchNotVisibleItems
+			.forEach(it => {
+				if (!it.rendered) return;
+				it.rendered.toggleClass("ve-fltr__hidden--search", true);
+			});
 
-			return true;
-		}
+		if (this.__wrpFilter) this.__wrpFilter.toggleClass("ve-fltr__hidden--search", !searchVisibleItems.length);
 
-		let visibleCount = 0;
-		this._items.forEach(it => {
-			if (!it.rendered) return;
-			const isVisible = it.searchText.includes(searchTerm);
-			it.rendered.toggleClass("fltr__hidden--search", !isVisible);
-			if (isVisible) visibleCount++;
-		});
+		return !!searchVisibleItems.length;
+	}
 
-		if (this.__$wrpFilter) this.__$wrpFilter.toggleClass("fltr__hidden--search", visibleCount === 0);
+	_getSearchVisibleItems ({searchTerm}) {
+		const isHeaderMatch = this._getHeaderDisplayName().toLowerCase().includes(searchTerm);
 
-		return visibleCount !== 0;
+		if (isHeaderMatch) return {itemsVisible: this._items, itemsNotVisible: []};
+
+		const [itemsVisible, itemsNotVisible] = this._items.segregate(it => it.searchText.includes(searchTerm));
+		return {itemsVisible, itemsNotVisible};
 	}
 
 	static _getNextCombineMode (combineMode) {
@@ -1263,8 +1324,8 @@ export class Filter extends FilterBase {
 		});
 
 		Object.values(this._nests || {})
-			.filter(nestMeta => nestMeta._$btnNest)
-			.forEach(nestMeta => nestMeta._$btnNest.detach());
+			.filter(nestMeta => nestMeta._btnNest)
+			.forEach(nestMeta => nestMeta._btnNest.detach());
 
 		Object.values(this._pillGroupsMeta || {})
 			.forEach(it => {

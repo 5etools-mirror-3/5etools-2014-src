@@ -86,7 +86,7 @@ class PageFilterFeats extends PageFilterBase {
 			feat.weaponProficiencies ? "Weapon Proficiency" : null,
 			feat.toolProficiencies ? "Tool Proficiency" : null,
 			feat.languageProficiencies ? "Language Proficiency" : null,
-		].filter(it => it);
+		].filter(Boolean);
 		if (feat.skillToolLanguageProficiencies?.length) {
 			if (feat.skillToolLanguageProficiencies.some(it => (it.choose || []).some(x => x.from || [].includes("anySkill")))) feat._fBenefits.push("Skill Proficiency");
 			if (feat.skillToolLanguageProficiencies.some(it => (it.choose || []).some(x => x.from || [].includes("anyTool")))) feat._fBenefits.push("Tool Proficiency");
@@ -98,8 +98,8 @@ class PageFilterFeats extends PageFilterBase {
 		feat._slAbility = ability.asTextShort || VeCt.STR_NONE;
 		feat._slPrereq = prereqText;
 
-		FilterCommon.mutateForFilters_damageVulnResImmune(feat);
-		FilterCommon.mutateForFilters_conditionImmune(feat);
+		FilterCommon.mutateForFilters_damageVulnResImmunePlayer(feat);
+		FilterCommon.mutateForFilters_conditionImmunePlayer(feat);
 	}
 
 	addToFilters (feat, isExcluded) {
@@ -167,17 +167,18 @@ class ModalFilterFeats extends ModalFilterBase {
 			...opts,
 			modalTitle: `Feat${opts.isRadio ? "" : "s"}`,
 			pageFilter: new PageFilterFeats(),
+			previewButtonHandler: new ListUiPreviewButtonHandlerStatsFluff({page: UrlUtil.PG_FEATS}),
 		});
 	}
 
-	_$getColumnHeaders () {
+	_getColumnHeaders () {
 		const btnMeta = [
 			{sort: "name", text: "Name", width: "4"},
 			{sort: "ability", text: "Ability", width: "3"},
 			{sort: "prerequisite", text: "Prerequisite", width: "3"},
 			{sort: "source", text: "Source", width: "1"},
 		];
-		return ModalFilterBase._$getFilterColumnHeaders(btnMeta);
+		return ModalFilterBase._getFilterColumnHeaders(btnMeta);
 	}
 
 	async _pLoadAllData () {
@@ -190,22 +191,22 @@ class ModalFilterFeats extends ModalFilterBase {
 
 	_getListItem (pageFilter, feat, ftI) {
 		const eleRow = document.createElement("div");
-		eleRow.className = "px-0 w-100 ve-flex-col no-shrink";
+		eleRow.className = "ve-px-0 ve-w-100 ve-flex-col ve-no-shrink";
 
 		const hash = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_FEATS](feat);
 		const source = Parser.sourceJsonToAbv(feat.source);
 
-		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst__row-border veapp__list-row no-select lst__wrp-cells">
-			<div class="ve-col-0-5 pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="no-events">` : `<input type="checkbox" class="no-events">`}</div>
+		eleRow.innerHTML = `<div class="ve-w-100 ve-flex-vh-center ve-lst__row-border veapp__list-row ve-no-select ve-lst__wrp-cells">
+			<div class="ve-col-0-5 ve-pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="ve-no-events">` : `<input type="checkbox" class="ve-no-events">`}</div>
 
-			<div class="ve-col-0-5 px-1 ve-flex-vh-center">
-				<div class="ui-list__btn-inline px-2 no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
+			<div class="ve-col-0-5 ve-px-1 ve-flex-vh-center">
+				<div class="ve-ui-list__btn-inline ve-px-2 ve-no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
 			</div>
 
-			<div class="ve-col-4 px-1 ${feat._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${feat._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${feat.name}</div>
-			<span class="ve-col-3 px-1 ${feat._slAbility === VeCt.STR_NONE ? "italic" : ""}">${feat._slAbility}</span>
-			<span class="ve-col-3 px-1 ${feat._slPrereq === VeCt.STR_NONE ? "italic" : ""}">${feat._slPrereq}</span>
-			<div class="ve-col-1 pl-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(feat.source)}" title="${Parser.sourceJsonToFull(feat.source)}">${source}${Parser.sourceJsonToMarkerHtml(feat.source, {isList: true})}</div>
+			<div class="ve-col-4 ve-px-1 ${feat._versionBase_isVersion ? "ve-italic" : ""} ${this._getNameStyle()}">${feat._versionBase_isVersion ? `<span class="ve-px-3"></span>` : ""}${feat.name}</div>
+			<span class="ve-col-3 ve-px-1 ${feat._slAbility === VeCt.STR_NONE ? "ve-italic" : ""}">${feat._slAbility}</span>
+			<span class="ve-col-3 ve-px-1 ${feat._slPrereq === VeCt.STR_NONE ? "ve-italic" : ""}">${feat._slPrereq}</span>
+			<div class="ve-col-1 ve-pl-1 ve-pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(feat.source)}" title="${Parser.sourceJsonToFull(feat.source)}">${source}${Parser.sourceJsonToMarkerHtml(feat.source, {isList: true})}</div>
 		</div>`;
 
 		const btnShowHidePreview = eleRow.firstElementChild.children[1].firstElementChild;
@@ -228,7 +229,7 @@ class ModalFilterFeats extends ModalFilterBase {
 			},
 		);
 
-		ListUiUtil.bindPreviewButton(UrlUtil.PG_FEATS, this._allData, listItem, btnShowHidePreview);
+		this._previewButtonHandler.bindPreviewButton({entity: feat, listItem, btnShowHidePreview});
 
 		return listItem;
 	}

@@ -21,7 +21,7 @@
 					"type": "inset",
 					"id": "001",
 					"entries": [
-						" {@comic That's a really poetic o-o-opening, Morty, and it's all kinda mostly true, but the theater major who wrote that forgot to mention...} "
+						"{@comic That's a really poetic o-o-opening, Morty, and it's all kinda mostly true, but the theater major who wrote that forgot to mention...} "
 					]
 				},
 				{
@@ -62,7 +62,7 @@
 					"type": "inset",
 					"id": "004",
 					"entries": [
-						" {@comic What kind of cleric sends somebody in to die for them, anyway? He's totally complicit, Morty.} "
+						"{@comic What kind of cleric sends somebody in to die for them, anyway? He's totally complicit, Morty.} "
 					]
 				},
 				"Unlike a game of make-believe, D&D gives structure to the stories\u2014a way of determining the consequences of the adventurers' actions. Players roll dice to determine whether their attacks hit or miss and whether their characters can scale a cliff, roll away from the strike of a magical lightning bolt, or pull off some other dangerous task. Anything is possible, but the dice make some things more probable than others.",
@@ -117,7 +117,7 @@
 						"{@comic Being a Dungeon Master is all that stuff, but it's a lot {@i more} than that.}",
 						"{@comic {@comicH1 playing d&d is good, but running it is a total power load, Morty!}}",
 						"{@comic Y-y-you get to be a {@comicH3 god}, Morty. You control the h-h-horizontal and the vertical. Y-y-ou tell the players what's going on and then you entertain their asses with your {@i brilliance}, Morty. You get a little taste of what it's like to be {@comicH3 me}, all the time. I'm your teacher now. School can't help you here. School is a {@i prison}. Ninety-two percent of races in the universe don't even believe in schools\u2014because they know. They already know.}",
-						"{@comic Anyway, the point is, the Dungeon Master is in charge, and since I don't want that balding little turd from the {@b cartoon} messing with us again, that means {@comicH3 I'm} in charge. O-o-or if you're reading this book right now, which you are if you're seeing these words, th-th-then {@i you're} in charge! {@b {@i {@comicH4 YOU}! }}I totally just {@i deputized} you by the power of Greyhawk, or whatever it is.}"
+						"{@comic Anyway, the point is, the Dungeon Master is in charge, and since I don't want that balding little turd from the {@b cartoon} messing with us again, that means {@comicH3 I'm} in charge. O-o-or if you're reading this book right now, which you are if you're seeing these words, th-th-then {@i you're} in charge! {@b {@i {@comicH4 YOU}!}}I totally just {@i deputized} you by the power of Greyhawk, or whatever it is.}"
 					],
 					"style": "comic-speaker"
 				},
@@ -158,7 +158,7 @@
 					"type": "inset",
 					"id": "009",
 					"entries": [
-						" {@comic {@b {@i {@comicH4 \"UNEXPECTED\"}}} i-i-is the key word there, Morty. Your job as the DM is to mess with player expectations.} {@comicH1 mess them up real good.} {@comic Set 'em up and then tweak their nipples, Morty. You're not winning until someone cries. It's about the journey, not the destination.} "
+						"{@comic {@b {@i {@comicH4 \"UNEXPECTED\"}}} i-i-is the key word there, Morty. Your job as the DM is to mess with player expectations.} {@comicH1 mess them up real good.} {@comic Set 'em up and then tweak their nipples, Morty. You're not winning until someone cries. It's about the journey, not the destination.} "
 					]
 				},
 				"There's no winning and losing in D&D\u2014at least not the way those terms are usually understood. Together, the DM and the players create a story of bold adventurers who confront deadly perils. Sometimes an adventurer might come to a grisly end, torn apart by ferocious monsters or done in by a nefarious villain. Even so, the other adventurers can search for powerful magic to revive their fallen comrade, or the player might choose to play a new character. The group might fail to complete an adventure successfully, but if the players had a good time and created a memorable story, they all win.",
@@ -588,7 +588,7 @@
 											"type": "inset",
 											"id": "020",
 											"entries": [
-												" {@comic Notice how they've got stats there up to {@comicH3 30} even though you can only start with a max of {@comicH3 20}? That's there to show you a simple fact of life: S-s-some things are just {@i better} than you, Morty. I mean, a {@u lot} of things are better than {@i you}, but I also mean here in the world of D&D.} {@comic Anything 8 or lower I call a {@i \"blart.\"} It comes from this dimension I found where all numbers less than 9 have the same term: \"blart.\" It means fart. Fart, fart, fart, fart, fart, fart, fart, fart, nine, ten, eleven, you get it.} {@comic Anyway, blarts stink, Morty.} "
+												"{@comic Notice how they've got stats there up to {@comicH3 30} even though you can only start with a max of {@comicH3 20}? That's there to show you a simple fact of life: S-s-some things are just {@i better} than you, Morty. I mean, a {@u lot} of things are better than {@i you}, but I also mean here in the world of D&D.} {@comic Anything 8 or lower I call a {@i \"blart.\"} It comes from this dimension I found where all numbers less than 9 have the same term: \"blart.\" It means fart. Fart, fart, fart, fart, fart, fart, fart, fart, nine, ten, eleven, you get it.} {@comic Anyway, blarts stink, Morty.} "
 											]
 										}
 									]
@@ -787,7 +787,7 @@
 											"type": "inset",
 											"id": "02c",
 											"entries": [
-												" {@comic A good DM knows when to force players to make contested rolls {@comicH3 against} each other, Morty.} {@comic {@comicH1 You wanna keep the adventuring party from operating too efficiently, }} {@comic so put 'em in situations where they need to {@b arm wrestle for rations} at the campsite or {@b have a drinking contest} at dinner with the Duke of Dingleberry.} "
+												"{@comic A good DM knows when to force players to make contested rolls {@comicH3 against} each other, Morty.} {@comic {@comicH1 You wanna keep the adventuring party from operating too efficiently, }} {@comic so put 'em in situations where they need to {@b arm wrestle for rations} at the campsite or {@b have a drinking contest} at dinner with the Duke of Dingleberry.} "
 											]
 										}
 									]
@@ -999,7 +999,7 @@
 													"page": 12,
 													"id": "03a",
 													"entries": [
-														"One of the main factors in determining whether you can find a hidden creature or object is how well you can see in an area, which might be lightly or heavily obscured. In a lightly obscured area\u2014such as dim light, patchy fog, or moderate foliage\u2014creatures have disadvantage on Wisdom ({@skill Perception}) checks that rely on sight. In a heavily obscured area\u2014such as darkness, opaque fog, or dense foliage\u2014vision is blocked, effectively imposing the {@condition blinded} condition, as explained in the appendix."
+														"One of the main factors in determining whether you can find a hidden creature or object is how well you can see in an area, which might be lightly or {@quickref Vision and Light||2||heavily obscured}. In a {@quickref Vision and Light||2||lightly obscured} area\u2014such as {@quickref Vision and Light||2||dim light}, patchy fog, or moderate foliage\u2014creatures have disadvantage on Wisdom ({@skill Perception}) checks that rely on sight. In a {@quickref Vision and Light||2||heavily obscured} area\u2014such as darkness, opaque fog, or dense foliage\u2014vision is blocked, effectively imposing the {@condition blinded} condition, as explained in the appendix."
 													]
 												}
 											]
@@ -1021,7 +1021,7 @@
 												},
 												"{@comic S-s-sure you can memorize all this if you want: passive blah-blah and how much of a character's ass is sticking out or whatever, but if you wanna do this Rick-style, here's how it goes: roll a {@dice d20} behind your DM screen and then\u2014it {@i doesn't matter what the roll was}, just look at the players, squint your eyes a bit, and say:}",
 												"{@comicH1 \"oops. they spotted you.\"}",
-												"{@comic {@b {@i {@comicH4 BAM-A-LAM}! }}Problem solved. Saves you a lotta trouble, Morty. Gets you to the good stuff.}"
+												"{@comic {@b {@i {@comicH4 BAM-A-LAM}!}}Problem solved. Saves you a lotta trouble, Morty. Gets you to the good stuff.}"
 											],
 											"style": "comic-speaker"
 										}
@@ -1391,7 +1391,7 @@
 									"type": "inset",
 									"id": "057",
 									"entries": [
-										" {@comic {@comicH3 This is the core of it, Morty: }} {@comicH1 FORCE THEM TO JUMP THROUGH POINTLESS HOOPS FOR YOUR OWN ENTERTAINMENT.} {@comic Some players think they're unt-t-touchable, Morty. This is how you touch them with the {@i finger of God}.} "
+										"{@comic {@comicH3 This is the core of it, Morty: }} {@comicH1 FORCE THEM TO JUMP THROUGH POINTLESS HOOPS FOR YOUR OWN ENTERTAINMENT.} {@comic Some players think they're unt-t-touchable, Morty. This is how you touch them with the {@i finger of God}.} "
 									]
 								},
 								{
@@ -1460,7 +1460,7 @@
 							"type": "inset",
 							"id": "05b",
 							"entries": [
-								" {@comic Six seconds doesn't sound like much, but life is cheap, Morty. By the time you can count to \"six,\" I could use a tri-laser monofilament to cut a half-dozen Gromflomites into space-kibble.} "
+								"{@comic Six seconds doesn't sound like much, but life is cheap, Morty. By the time you can count to \"six,\" I could use a tri-laser monofilament to cut a half-dozen Gromflomites into space-kibble.} "
 							]
 						},
 						{
@@ -1508,7 +1508,7 @@
 									"type": "inset",
 									"id": "05e",
 									"entries": [
-										" {@comic Remember before when I mentioned stuff about messing with player expectations? Combat and non-combat surprises are a crucial part of that, Morty.} {@comic If one of your players is wasting too much time searching for s*** that doesn't matter, or getting weepy about their character's backstory, just yell {@comicH3 \"SURPRISE!\"} and drop a random encounter on their asses.} "
+										"{@comic Remember before when I mentioned stuff about messing with player expectations? Combat and non-combat surprises are a crucial part of that, Morty.} {@comic If one of your players is wasting too much time searching for s*** that doesn't matter, or getting weepy about their character's backstory, just yell {@comicH3 \"SURPRISE!\"} and drop a random encounter on their asses.} "
 									]
 								},
 								{
@@ -2029,7 +2029,7 @@
 									"type": "inset",
 									"id": "07c",
 									"entries": [
-										" {@comicH1 READY} {@comic If a player steps away from a goblin instead of killing it, they're a useless little weasel who deserves what's coming to 'em, Morty.} "
+										"{@comicH1 READY} {@comic If a player steps away from a goblin instead of killing it, they're a useless little weasel who deserves what's coming to 'em, Morty.} "
 									]
 								}
 							]
@@ -2063,7 +2063,7 @@
 						"Whenever you make an attack roll, you're making an attack. Whether you're striking with a melee weapon, firing a weapon at range, or making an attack roll as part of a spell, an attack has the following structure:",
 						"{@b 1. Choose a target}. Pick a target within your attack's range: a creature, an object, or a location.",
 						"{@b 2. Determine modifiers}. The DM determines whether the target has cover and whether you have advantage or disadvantage against the target. In addition, spells, special abilities, and other effects can apply penalties, bonuses, advantage, or disadvantage to your attack roll.",
-						"{@comic 2A{@b . Describe your attack in a cool way}. Why are you even playing this game if you're just going to be your normal, boring-ass self?}",
+						"{@comic 2A.{@b Describe your attack in a cool way}. Why are you even playing this game if you're just going to be your normal, boring-ass self?}",
 						"{@b 3. Resolve the attack}. You make the attack roll. On a hit, you roll damage, unless the particular attack specifies otherwise.",
 						"{@comic 3A.{@b Curse your luck}. When you roll like s***, and trust me, you will sometimes, curse the polyhedron gods who look down and laugh at your misery. We all do it when the dice go to hell. This time, it's your turn. But lucky for you, this is a great time to use those fancy cuss words you learned online.}",
 						{
@@ -2217,7 +2217,7 @@
 											"type": "inset",
 											"id": "08b",
 											"entries": [
-												" {@comic I'm with Wizards of the Coast on this one, Morty. Anybody trying to shoot an arrow at a dude less than 5 feet away {@b deserves} {@i disadvantage}.} {@comic This is why we invented swords.} "
+												"{@comic I'm with Wizards of the Coast on this one, Morty. Anybody trying to shoot an arrow at a dude less than 5 feet away {@b deserves} {@i disadvantage}.} {@comic This is why we invented swords.} "
 											]
 										}
 									]
@@ -2361,9 +2361,9 @@
 						},
 						"Walls, trees, creatures, and other obstacles can provide cover during combat, making a target more difficult to harm. A target can benefit from cover only when an attack or other effect originates on the opposite side of the cover.",
 						"There are three degrees of cover. If a target is behind multiple sources of cover, only the most protective degree of cover applies; the degrees aren't added together.",
-						"A target with {@b half cover} has a +2 bonus to AC and Dexterity saving throws. A target has half cover if an obstacle blocks at least half of its body. The obstacle might be a low wall, a large piece of furniture, a narrow tree trunk, or a creature, whether that creature is an enemy or a friend.",
-						"A target with {@b three-quarters cover} has a +5 bonus to AC and Dexterity saving throws. A target has three-quarters cover if about three-quarters of it is covered by an obstacle. The obstacle might be a portcullis, an arrow slit, or a thick tree trunk.",
-						"A target with {@b total cover} can't be targeted directly by an attack or a spell, although some spells can reach such a target by including it in an area of effect. A target has total cover if it is completely concealed by an obstacle.",
+						"A target with {@b half cover} has a +2 bonus to AC and Dexterity saving throws. A target has {@quickref Cover||3||half cover} if an obstacle blocks at least half of its body. The obstacle might be a low wall, a large piece of furniture, a narrow tree trunk, or a creature, whether that creature is an enemy or a friend.",
+						"A target with {@b three-quarters cover} has a +5 bonus to AC and Dexterity saving throws. A target has {@quickref Cover||3||three-quarters cover} if about three-quarters of it is covered by an obstacle. The obstacle might be a portcullis, an arrow slit, or a thick tree trunk.",
+						"A target with {@b total cover} can't be targeted directly by an attack or a spell, although some spells can reach such a target by including it in an area of effect. A target has {@quickref Cover||3||total cover} if it is completely concealed by an obstacle.",
 						{
 							"type": "inset",
 							"id": "093",
@@ -2411,7 +2411,7 @@
 							"type": "inset",
 							"id": "095",
 							"entries": [
-								" {@comic \"Constant companions\" makes it sound all sweet, like it's no big deal that this game has a {@comicH3 stat} for how alive you are.} {@comic That's dark as f***, Morty.} "
+								"{@comic \"Constant companions\" makes it sound all sweet, like it's no big deal that this game has a {@comicH3 stat} for how alive you are.} {@comic That's dark as f***, Morty.} "
 							]
 						},
 						{
@@ -2582,7 +2582,7 @@
 											"type": "inset",
 											"id": "09d",
 											"entries": [
-												" {@comic {@b D&D Rickth Edition} has a {@b new} d-d-damage type I just came up with, Morty.} "
+												"{@comic {@b D&D Rickth Edition} has a {@b new} d-d-damage type I just came up with, Morty.} "
 											]
 										},
 										{
@@ -2730,7 +2730,7 @@
 													"height": 194,
 													"credit": "Troy Little"
 												},
-												"{@comic Death just {@b happens}, Morty. The whole thing is just cells changing states. Composing and decomposing. {@b Over and over}. }",
+												"{@comic Death just {@b happens}, Morty. The whole thing is just cells changing states. Composing and decomposing. {@b Over and over}.}",
 												"{@comic Th-th-the sooner you {@i accept} that, Morty, the sooner you'll see why we play games... w-w-why we distract ourselves from the {@b meaningless} reality of entropic f-f-forces acting all around us.}",
 												"{@comicH1 everything's a game, Morty; but here you get to be a god.}",
 												{
@@ -2773,7 +2773,7 @@
 													"height": 352,
 													"credit": "Troy Little"
 												},
-												"{@comic And th-th-that's why you gotta be {@b {@i {@comicH4 NUMB}}}... numb to the universe 'cause it's numb to you... numb... num... {@i number one}! }",
+												"{@comic And th-th-that's why you gotta be {@b {@i {@comicH4 NUMB}}}... numb to the universe 'cause it's numb to you... numb... num... {@i number one}!}",
 												"{@comic We're number one, Morty!}",
 												"{@comic Nuuuuummber ooo-*BURP*-oone!}"
 											],
@@ -3284,7 +3284,7 @@
 							"type": "inset",
 							"id": "0c5",
 							"entries": [
-								" {@comic {@b Electrum} has no electricity in it, Morty. I checked. It won't make your balls tingle or anything. I checked that too.} {@comic Twice.} "
+								"{@comic {@b Electrum} has no electricity in it, Morty. I checked. It won't make your balls tingle or anything. I checked that too.} {@comic Twice.} "
 							]
 						},
 						{
@@ -3336,7 +3336,7 @@
 									"type": "inset",
 									"id": "0c9",
 									"entries": [
-										" {@comic Old school D&D measured everything compared to the weight of coins 'cause they knew that's all anyone gave a s*** about.} {@i And it still is.} {@comic You can't escape the power of coinage, Morty.} "
+										"{@comic Old school D&D measured everything compared to the weight of coins 'cause they knew that's all anyone gave a s*** about.} {@i And it still is.} {@comic You can't escape the power of coinage, Morty.} "
 									]
 								}
 							]
@@ -4146,11 +4146,12 @@
 						{
 							"type": "entries",
 							"name": "Adventuring Gear",
-							"page": 41,
+							"page": 40,
 							"id": "0eb",
 							"entries": [
 								{
 									"type": "table",
+									"page": 40,
 									"colLabels": [
 										"Item",
 										"Cost",
@@ -4459,7 +4460,7 @@
 											"page": 40,
 											"id": "0ed",
 											"entries": [
-												"For 1 hour, a candle sheds bright light in a 5-foot radius and dim light for an additional 5 feet."
+												"For 1 hour, a candle sheds {@quickref Vision and Light||2||bright light} in a 5-foot radius and {@quickref Vision and Light||2||dim light} for an additional 5 feet."
 											]
 										},
 										{
@@ -4555,7 +4556,7 @@
 											"page": 40,
 											"id": "0f4",
 											"entries": [
-												"A bullseye lantern casts bright light in a 60-foot cone and dim light for an additional 60 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil."
+												"A bullseye lantern casts {@quickref Vision and Light||2||bright light} in a 60-foot cone and {@quickref Vision and Light||2||dim light} for an additional 60 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil."
 											]
 										},
 										{
@@ -4564,7 +4565,7 @@
 											"page": 40,
 											"id": "0f5",
 											"entries": [
-												"A hooded lantern casts bright light in a 30-foot radius and dim light for an additional 30 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil. As an action, you can lower the hood, reducing the light to dim light in a 5-foot radius."
+												"A hooded lantern casts {@quickref Vision and Light||2||bright light} in a 30-foot radius and {@quickref Vision and Light||2||dim light} for an additional 30 feet. Once lit, it burns for 6 hours on a flask (1 pint) of oil. As an action, you can lower the hood, reducing the light to {@quickref Vision and Light||2||dim light} in a 5-foot radius."
 											]
 										},
 										{
@@ -4695,12 +4696,12 @@
 											"page": 42,
 											"id": "100",
 											"entries": [
-												"A torch burns for 1 hour, providing bright light in a 20-foot radius and dim light for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",
+												"A torch burns for 1 hour, providing {@quickref Vision and Light||2||bright light} in a 20-foot radius and {@quickref Vision and Light||2||dim light} for an additional 20 feet. If you make a melee attack with a burning torch and hit, it deals 1 fire damage.",
 												{
 													"type": "inset",
 													"id": "101",
 													"entries": [
-														" {@comic {@i Anything} can be a torch, if you try hard enough.} {@comic Actually, you don't have to try that hard.} {@comic {@b {@i {@comicH4 IT'S FIRE, MORTY}.}}} {@comic Even {@b you} can figure this one out.} {@comic {@b Literally} humanity's first invention, Morty.} "
+														"{@comic {@i Anything} can be a torch, if you try hard enough.} {@comic Actually, you don't have to try that hard.} {@comic {@b {@i {@comicH4 IT'S FIRE, MORTY}.}}} {@comic Even {@b you} can figure this one out.} {@comic {@b Literally} humanity's first invention, Morty.} "
 													]
 												}
 											]
@@ -5353,7 +5354,7 @@
 											"type": "inset",
 											"id": "11d",
 											"entries": [
-												" {@comicH1 (V)} {@comic The rules don't actually say what {@i specific} words you have to speak for a {@comicH3 verbal component}, so I just say whatever comes to mind or power up a filthy insult and let 'er rip.} "
+												"{@comicH1 (V)} {@comic The rules don't actually say what {@i specific} words you have to speak for a {@comicH3 verbal component}, so I just say whatever comes to mind or power up a filthy insult and let 'er rip.} "
 											]
 										},
 										{
@@ -5379,7 +5380,7 @@
 											"type": "inset",
 											"id": "11f",
 											"entries": [
-												" {@comicH1 (S)} {@comic Again, they don't specify what {@comicH3 magical moves} are required, so get Schwifty and s***.} {@comic Make your spellcasting signature move so hot that monsters beg to join your side before you blast 'em into {@i Experience Particles}.} "
+												"{@comicH1 (S)} {@comic Again, they don't specify what {@comicH3 magical moves} are required, so get Schwifty and s***.} {@comic Make your spellcasting signature move so hot that monsters beg to join your side before you blast 'em into {@i Experience Particles}.} "
 											]
 										}
 									]
@@ -5397,7 +5398,7 @@
 											"type": "inset",
 											"id": "121",
 											"entries": [
-												" {@comicH1 (M)} {@comic {@b {@i {@comicH4 NO ONE IS KEEPING TRACK OF PINCHES OF DUST AND CLUMPS OF MOSS}.}}} {@comic Don't be that guy, Morty. The Dungeon Master will tell you when a spell's got ingredients worth shelling out for. The rest is just doing cool hand symbols and saying {@comicH3 BLADOWIE! }(see below).} "
+												"{@comicH1 (M)} {@comic {@b {@i {@comicH4 NO ONE IS KEEPING TRACK OF PINCHES OF DUST AND CLUMPS OF MOSS}.}}} {@comic Don't be that guy, Morty. The Dungeon Master will tell you when a spell's got ingredients worth shelling out for. The rest is just doing cool hand symbols and saying {@comicH3 BLADOWIE! }(see below).} "
 											]
 										},
 										{
@@ -6766,7 +6767,7 @@
 				"{@comic Yeah, I said it.}",
 				"{@comic {@comicH3 Truth bomb barr}*uuuuurrrrp*{@comicH3 age!}}",
 				"{@comic Ready to see how a {@b master} crafts a memorable dungeoneering experience, Morty? Keep a hold of your butt cheeks and take a peek at the {@b adventure book}:}",
-				"{@comicH1 {@adventure the lost dungeon of rickedness: Big Rick Energy|RMBRE}}"
+				"{@comicH1 {@adventure The Lost Dungeon of Rickedness: Big Rick Energy|RMBRE}}"
 			]
 		},
 		{

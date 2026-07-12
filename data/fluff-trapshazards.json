@@ -11,7 +11,9 @@
 						"path": "traps/BMT/Balance and Ruin.webp"
 					},
 					"title": "Diagram 4.5: Balance and Ruin",
-					"credit": "Mike Schley"
+					"credit": "Mike Schley",
+					"width": 850,
+					"height": 1186
 				}
 			]
 		},
@@ -43,7 +45,9 @@
 						"path": "traps/BMT/Surface of the Sun.webp"
 					},
 					"title": "Diagram 4.6: Surface of the Sun",
-					"credit": "Mike Schley"
+					"credit": "Mike Schley",
+					"width": 850,
+					"height": 1189
 				}
 			]
 		},
@@ -58,7 +62,9 @@
 						"path": "traps/BMT/Test of the Empty Moon.webp"
 					},
 					"title": "Diagram 4.7: Test of the Empty Moon",
-					"credit": "Mike Schley"
+					"credit": "Mike Schley",
+					"width": 850,
+					"height": 1188
 				}
 			]
 		}

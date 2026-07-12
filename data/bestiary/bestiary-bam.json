@@ -4,10 +4,8 @@
 			"name": "Aartuk Elder",
 			"source": "BAM",
 			"page": 8,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"L"
@@ -139,10 +137,8 @@
 			"name": "Aartuk Starhorror",
 			"source": "BAM",
 			"page": 9,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -279,10 +275,8 @@
 			"name": "Aartuk Weedling",
 			"source": "BAM",
 			"page": 9,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -390,13 +384,9 @@
 			"name": "Adult Lunar Dragon",
 			"source": "BAM",
 			"page": 34,
-			"otherSources": [
-				{
-					"source": "LoX"
-				},
-				{
-					"source": "VEoR"
-				}
+			"referenceSources": [
+				"LoX",
+				"VEoR"
 			],
 			"size": [
 				"H"
@@ -700,6 +690,7 @@
 				"source": "BAM"
 			},
 			"dragonAge": "adult",
+			"tokenCustom": true,
 			"traitTags": [
 				"Flyby",
 				"Legendary Resistances",
@@ -1094,10 +1085,8 @@
 			"name": "Astral Elf Aristocrat",
 			"source": "BAM",
 			"page": 11,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -1272,10 +1261,8 @@
 			"name": "Astral Elf Commander",
 			"source": "BAM",
 			"page": 12,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -1418,10 +1405,8 @@
 			"name": "Astral Elf Honor Guard",
 			"source": "BAM",
 			"page": 12,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -1538,10 +1523,8 @@
 			"name": "Astral Elf Star Priest",
 			"source": "BAM",
 			"page": 13,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -1705,10 +1688,8 @@
 			"name": "Astral Elf Warrior",
 			"source": "BAM",
 			"page": 13,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -1828,10 +1809,8 @@
 			"name": "Autognome",
 			"source": "BAM",
 			"page": 13,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"S"
@@ -1986,10 +1965,8 @@
 			"name": "B'rohg",
 			"source": "BAM",
 			"page": 16,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"H"
@@ -2076,10 +2053,8 @@
 			"name": "Braxat",
 			"source": "BAM",
 			"page": 15,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"H"
@@ -2225,10 +2200,8 @@
 			"name": "Brown Scavver",
 			"source": "BAM",
 			"page": 49,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"L"
@@ -2412,10 +2385,8 @@
 			"name": "Cosmic Horror",
 			"source": "BAM",
 			"page": 18,
-			"otherSources": [
-				{
-					"source": "VEoR"
-				}
+			"referenceSources": [
+				"VEoR"
 			],
 			"size": [
 				"G"
@@ -2572,10 +2543,8 @@
 			"name": "Dohwar",
 			"source": "BAM",
 			"page": 19,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"S"
@@ -2673,10 +2642,8 @@
 			"name": "Esthetic",
 			"source": "BAM",
 			"page": 20,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"G"
@@ -2804,10 +2771,8 @@
 			"name": "Eye Monger",
 			"source": "BAM",
 			"page": 21,
-			"otherSources": [
-				{
-					"source": "VEoR"
-				}
+			"referenceSources": [
+				"VEoR"
 			],
 			"size": [
 				"L"
@@ -2918,10 +2883,8 @@
 			"name": "Feyr",
 			"source": "BAM",
 			"page": 22,
-			"otherSources": [
-				{
-					"source": "BMT"
-				}
+			"referenceSources": [
+				"BMT"
 			],
 			"size": [
 				"L"
@@ -3048,10 +3011,8 @@
 			"name": "Gaj",
 			"source": "BAM",
 			"page": 23,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"L"
@@ -3202,13 +3163,9 @@
 			"name": "Giff Shipmate",
 			"source": "BAM",
 			"page": 24,
-			"otherSources": [
-				{
-					"source": "LoX"
-				},
-				{
-					"source": "SJA"
-				}
+			"referenceSources": [
+				"LoX",
+				"SjA"
 			],
 			"size": [
 				"M"
@@ -3310,10 +3267,8 @@
 			"name": "Giff Shock Trooper",
 			"source": "BAM",
 			"page": 25,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -3572,10 +3527,8 @@
 			"name": "Githyanki Buccaneer",
 			"source": "BAM",
 			"page": 27,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -3848,10 +3801,8 @@
 			"name": "Githyanki Xenomancer",
 			"source": "BAM",
 			"page": 27,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -3990,10 +3941,8 @@
 			"name": "Gray Scavver",
 			"source": "BAM",
 			"page": 49,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -4065,10 +4014,8 @@
 			"name": "Hadozee Explorer",
 			"source": "BAM",
 			"page": 28,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -4147,7 +4094,7 @@
 				{
 					"name": "Nimble Escape",
 					"entries": [
-						"The hadozee takes the Disengage or Hide action."
+						"The hadozee takes the {@action Disengage} or {@action Hide} action."
 					]
 				}
 			],
@@ -4185,10 +4132,8 @@
 			"name": "Hadozee Shipmate",
 			"source": "BAM",
 			"page": 29,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -4275,6 +4220,9 @@
 			"name": "Hadozee Warrior",
 			"source": "BAM",
 			"page": 29,
+			"referenceSources": [
+				"LoX"
+			],
 			"size": [
 				"M"
 			],
@@ -4494,10 +4442,8 @@
 			"name": "Kindori",
 			"source": "BAM",
 			"page": 31,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"G"
@@ -4708,10 +4654,8 @@
 			"name": "Megapede",
 			"source": "BAM",
 			"page": 36,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"G"
@@ -4813,10 +4757,8 @@
 			"name": "Mercane",
 			"source": "BAM",
 			"page": 37,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"L"
@@ -5089,10 +5031,8 @@
 			"name": "Neh-thalggu",
 			"source": "BAM",
 			"page": 39,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"L"
@@ -5354,10 +5294,8 @@
 			"name": "Neogi Pirate",
 			"source": "BAM",
 			"page": 41,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"S"
@@ -5650,10 +5588,8 @@
 			"name": "Night Scavver",
 			"source": "BAM",
 			"page": 49,
-			"otherSources": [
-				{
-					"source": "VEoR"
-				}
+			"referenceSources": [
+				"VEoR"
 			],
 			"size": [
 				"H"
@@ -5838,6 +5774,9 @@
 			"name": "Plasmoid Explorer",
 			"source": "BAM",
 			"page": 43,
+			"referenceSources": [
+				"LoX"
+			],
 			"size": [
 				"M"
 			],
@@ -6065,10 +6004,8 @@
 			"name": "Psurlon",
 			"source": "BAM",
 			"page": 44,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -6366,10 +6303,8 @@
 			"name": "Psurlon Ringer",
 			"source": "BAM",
 			"page": 45,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -6454,6 +6389,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"dagger|phb"
 			],
@@ -6487,10 +6423,8 @@
 			"name": "Reigar",
 			"source": "BAM",
 			"page": 47,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -6794,10 +6728,8 @@
 			"name": "Space Clown",
 			"source": "BAM",
 			"page": 54,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -7016,10 +6948,8 @@
 			"name": "Space Guppy",
 			"source": "BAM",
 			"page": 55,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"S"
@@ -7145,7 +7075,7 @@
 				{
 					"name": "Escape",
 					"entries": [
-						"The hamster takes the Dash or Disengage action."
+						"The hamster takes the {@action Dash} or {@action Disengage} action."
 					]
 				}
 			],
@@ -7292,10 +7222,8 @@
 			"name": "Ssurran Defiler",
 			"source": "BAM",
 			"page": 58,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -7437,10 +7365,8 @@
 			"name": "Ssurran Poisoner",
 			"source": "BAM",
 			"page": 58,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -7556,10 +7482,8 @@
 			"name": "Starlight Apparition",
 			"source": "BAM",
 			"page": 59,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -7704,10 +7628,8 @@
 			"name": "Thri-kreen Gladiator",
 			"source": "BAM",
 			"page": 60,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -7821,10 +7743,8 @@
 			"name": "Thri-kreen Hunter",
 			"source": "BAM",
 			"page": 61,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -7936,10 +7856,8 @@
 			"name": "Thri-kreen Mystic",
 			"source": "BAM",
 			"page": 61,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -8076,10 +7994,8 @@
 			"name": "Vampirate",
 			"source": "BAM",
 			"page": 62,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -8198,10 +8114,8 @@
 			"name": "Vampirate Captain",
 			"source": "BAM",
 			"page": 63,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -8338,10 +8252,8 @@
 			"name": "Vampirate Mage",
 			"source": "BAM",
 			"page": 63,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"
@@ -8461,6 +8373,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Spider Climb",
 				"Unusual Nature"
@@ -8501,10 +8414,8 @@
 			"name": "Void Scavver",
 			"source": "BAM",
 			"page": 49,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"H"
@@ -8739,10 +8650,8 @@
 			"name": "Young Solar Dragon",
 			"source": "BAM",
 			"page": 53,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"L"
@@ -8843,6 +8752,7 @@
 				}
 			],
 			"dragonAge": "young",
+			"tokenCustom": true,
 			"traitTags": [
 				"Flyby",
 				"Unusual Nature"
@@ -8878,10 +8788,8 @@
 			"name": "Zodar",
 			"source": "BAM",
 			"page": 64,
-			"otherSources": [
-				{
-					"source": "LoX"
-				}
+			"referenceSources": [
+				"LoX"
 			],
 			"size": [
 				"M"

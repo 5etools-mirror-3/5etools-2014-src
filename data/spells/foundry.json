@@ -756,17 +756,66 @@
 			"source": "PHB",
 			"activities": [
 				{
+					"type": "attack",
+					"activation": {
+						"type": "action"
+					},
+					"attack": {
+						"type": {
+							"value": "ranged",
+							"classification": "spell"
+						}
+					},
+					"damage": {
+						"includeBase": true,
+						"parts": [
+							{
+								"number": 1,
+								"denomination": 12,
+								"types": [
+									"lightning"
+								],
+								"scaling": {
+									"mode": "whole",
+									"number": 1
+								}
+							}
+						]
+					},
+					"effects": [
+						{
+							"foundryId": "witchBolt"
+						}
+					]
+				},
+				{
+					"name": "Action Damage",
 					"type": "damage",
+					"activation": {
+						"type": "action"
+					},
+					"duration": {
+						"units": "inst",
+						"concentration": false,
+						"override": true
+					},
+					"consumption": {
+						"scaling": {
+							"allowed": false
+						},
+						"spellSlot": false
+					},
 					"damage": {
 						"parts": [
 							{
-								"custom": {
-									"enabled": true,
-									"formula": "1d12"
-								},
+								"number": 1,
+								"denomination": 12,
 								"types": [
 									"lightning"
-								]
+								],
+								"scaling": {
+									"number": 1
+								}
 							}
 						]
 					}

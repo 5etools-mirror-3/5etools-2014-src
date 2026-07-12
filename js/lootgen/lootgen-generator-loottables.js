@@ -5,7 +5,6 @@ import {
 } from "./lootgen-const.js";
 import {LootGenMagicItem} from "./lootgen-magicitem.js";
 import {LootGenOutputMagicItems} from "./lootgen-output.js";
-import {LootGenRender} from "./lootgen-render.js";
 
 export class LootGenGeneratorLootTables extends LootGenGeneratorBase {
 	identifier = "lootTables";
@@ -51,16 +50,16 @@ export class LootGenGeneratorLootTables extends LootGenGeneratorBase {
 		};
 		this._stateManager.addHookBase("pulseItemsFiltered", hkPulseItem);
 
-		const btnRoll = ee`<button class="ve-btn ve-btn-default ve-btn-xs mr-2">Roll Loot</button>`
+		const btnRoll = ee`<button class="ve-btn ve-btn-default ve-btn-xs ve-mr-2">Roll Loot</button>`
 			.onn("click", () => this._lt_pDoHandleClickRollLoot());
 
 		const btnClear = ee`<button class="ve-btn ve-btn-danger ve-btn-xs">Clear Output</button>`
 			.onn("click", () => this._outputManager.doClearOutput());
 
-		const hrHelp = ee`<hr class="hr-3">`;
-		const dispHelp = ee`<div class="ve-small italic"></div>`;
-		const hrTable = ee`<hr class="hr-3">`;
-		const dispTable = ee`<div class="ve-flex-col w-100"></div>`;
+		const hrHelp = ee`<hr class="ve-hr-3">`;
+		const dispHelp = ee`<div class="ve-small ve-italic"></div>`;
+		const hrTable = ee`<hr class="ve-hr-3">`;
+		const dispTable = ee`<div class="ve-flex-col ve-w-100"></div>`;
 
 		const hkTable = () => {
 			const tableMeta = this._lt_tableMetas[this._state.lt_ixTable];
@@ -73,18 +72,18 @@ export class LootGenGeneratorLootTables extends LootGenGeneratorBase {
 			if (tableMeta == null) return;
 
 			dispHelp.html(this._lt_getRenderedHelp({tableMeta}));
-			dispTable.html(LootGenRender.er(tableMeta.tableEntry));
+			dispTable.html(this._rendererWrapped.er(tableMeta.tableEntry));
 		};
 		this._addHookBase("lt_ixTable", hkTable);
 		hkTable();
 
-		ee`<div class="ve-flex-col py-2 px-3">
-			<label class="split-v-center mb-3">
-				<div class="mr-2 w-66 no-shrink">Table</div>
+		ee`<div class="ve-flex-col ve-py-2 ve-px-3">
+			<label class="ve-split-v-center ve-mb-3">
+				<div class="ve-mr-2 ve-w-66 ve-no-shrink">Table</div>
 				${selTable}
 			</label>
 
-			<div class="ve-flex-v-center mb-2">
+			<div class="ve-flex-v-center ve-mb-2">
 				${btnRoll}
 				${btnClear}
 			</div>
@@ -107,8 +106,8 @@ export class LootGenGeneratorLootTables extends LootGenGeneratorBase {
 
 	_lt_getRenderedHelp ({tableMeta}) {
 		switch (tableMeta.metaType) {
-			case LOOT_TABLES_TYPE__DMG_MAGIC_ITEMS: return LootGenRender.er(`Based on the tables and rules in the {@book ${Parser.sourceJsonToFull(Parser.SRC_DMG)}|DMG|7|Treasure Tables}, pages 133-149.`);
-			case LOOT_TABLES_TYPE__XGE_FAUX: return LootGenRender.er(`Tables auto-generated based on the rules in {@book ${Parser.sourceJsonToFull(Parser.SRC_XGE)} (Choosing Items Piecemeal)|XGE|2|choosing items piecemeal}, pages 135-136.`);
+			case LOOT_TABLES_TYPE__DMG_MAGIC_ITEMS: return this._rendererWrapped.er(`Based on the tables and rules in the {@book ${Parser.sourceJsonToFull(Parser.SRC_DMG)}|DMG|7|Treasure Tables}, pages 133-149.`);
+			case LOOT_TABLES_TYPE__XGE_FAUX: return this._rendererWrapped.er(`Tables auto-generated based on the rules in {@book ${Parser.sourceJsonToFull(Parser.SRC_XGE)} (Choosing Items Piecemeal)|XGE|2|choosing items piecemeal}, pages 135-136.`);
 			default: throw new Error(`Unhandled table meta-type "${tableMeta.metaType}"`);
 		}
 	}
@@ -121,6 +120,7 @@ export class LootGenGeneratorLootTables extends LootGenGeneratorBase {
 			type: `Treasure Table Roll: ${this._lt_pDoHandleClickRollLoot_getTypePart({tableMeta})}`,
 			name: this._lt_pDoHandleClickRollLoot_getNamePart({tableMeta}),
 			magicItemsByTable: await this._lt_pDoHandleClickRollLoot_pGetMagicItemMetas({tableMeta, isTest}),
+			rendererWrapped: this._rendererWrapped,
 		});
 		this._outputManager.doAddOutput({lootOutput});
 	}
@@ -152,6 +152,7 @@ export class LootGenGeneratorLootTables extends LootGenGeneratorBase {
 						lootGenMagicItems: breakdown,
 						spells: this._dataManager.getDataSpellsFiltered(),
 						magicItemTable: tableMeta.table,
+						rendererWrapped: this._rendererWrapped,
 						rowRoll,
 					});
 					breakdown.push(lootItem);
@@ -162,6 +163,7 @@ export class LootGenGeneratorLootTables extends LootGenGeneratorBase {
 				lootGenMagicItems: breakdown,
 				spells: this._dataManager.getDataSpellsFiltered(),
 				magicItemTable: tableMeta.table,
+				rendererWrapped: this._rendererWrapped,
 			});
 			breakdown.push(lootItem);
 		}

@@ -58,16 +58,6 @@
 			]
 		},
 		{
-			"name": "Ashari",
-			"source": "TDCSR",
-			"entries": [
-				"Isolated from the political struggles of urban Tal'Dorei, you are a member of {@book the Ashari|TDCSR|2|The Ashari} people\u2014a society bound to an ancient covenant protecting the Material Plane from the chaos of the primordial elements. You've been raised to revere and protect the natural world, and to shepherd the tumultuous elemental forces that give it life. When the elements threaten to overwhelm the delicate balance of nature, it is the role of {@book the Ashari|TDCSR|2|The Ashari} to restore harmony.",
-				"You grew up in a tight-knit society, bound to a leader who successfully returned from the traditional journey to the Elemental Planes known as an Aramente. By contrast, you might well have never traveled more than a few days from your home, and thus have closer bonds with your family and neighbors than many people of Tal'Dorei.",
-				"In your early life, you likely took up one of the many roles that make up your society, whether homemaker, hunter, explorer, or protector. If you have the ability to use elemental magic, you might have had one of the most important duties of all: protecting and soothing the elemental rift at the heart of your home. And even as an adventurer now traveling far beyond that home, your loyalties still lie with the continued safety of your order. Whatever else you do as you learn about the new world around you, you're conscious of the need to gather allies to your cause.",
-				"Each Ashari is tethered to one of the four elemental orders and their settlements. You must select Pyrah (fire), Vesrah (water), {@book Terrah|TDCSR|3|Terrah} (earth), or {@book Zephrah|TDCSR|3|Zephrah} (wind). The rifts of earth and air are both in Tal'Dorei. If you live or lived among your people, then you are familiar with the remarkable sights of Air Ashari on {@item skysail|TDCSR|skysails} above the {@book Summit Peaks|TDCSR|3|Summit Peaks}, or {@book Earth Ashari|TDCSR|3|Terrah} erupting from the solid stone of the {@book Cliffkeep Mountains|TDCSR|3|Cliffkeep Mountains} on their {@item earthboard|TDCSR|earthboards}."
-			]
-		},
-		{
 			"name": "Astral Drifter",
 			"source": "AAG",
 			"entries": [
@@ -399,24 +389,6 @@
 			]
 		},
 		{
-			"name": "Black Fist Double Agent",
-			"source": "ALCurseOfStrahd",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"You are an informant for the Tears of Virulence who now lord over Phlan, but are also a double agent for original town guard of Phlan, the Black Fists. For the Tears you've been tasked with ferreting out the secrets of Phlan's criminal underworld, insurgency, and the common peoples of Phlan. In exchange for reporting on the activities of dissenters, criminals, and other rebel elements, the Tears of Virulence leave you alone to conduct your affairs in peace.",
-								"In reality you work for the deposed Black Fists, sharing misinformation with the Tears of Virulence that often helps the Black Fists and other Phlan insurgents. Since the evacuation of Phlan, you are even busier today than you ever were previously, as the number of dissenters among the refugees grows daily, while you are afforded many opportunities to spy on the peoples of Mulmaster and Elventree, to the pleasure of your contact(s) within the Tears of Virulence."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
 			"name": "Boros Legionnaire",
 			"source": "GGR",
 			"entries": [
@@ -427,23 +399,6 @@
 							"type": "entries",
 							"entries": [
 								"As a member of the Boros Legion, your life is devoted to the service of angels and consecrated to the work of establishing justice and peace on the streets of Ravnica. You might be a true believer, inspired by the example of the angels, moved by the plight of the downtrodden, and devoted to the cause of justice. Or you could be a cynic in the ranks, perhaps because you reluctantly followed in the footsteps of a Boros parent, succumbed to the persuasion of a charismatic recruiter's lofty promises, or were drawn in by the prospect of a life of action."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Caravan Specialist",
-			"source": "ALElementalEvil",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"You are used to life on the road. You pride yourself at having traveled every major trade way in the Moonsea region, including the best backroads and shortcuts. When traveling these roads, you know where the best inns, campsites, and water sources are located, as well as potential locations of danger such as ambush. Having worked the roads as long as you have, you have made many acquaintances and find it easy to pick up information and rumors floating from town to town. You are skilled with beasts of burden and handling and repairing wagons of all kinds."
 							]
 						}
 					]
@@ -538,28 +493,6 @@
 			]
 		},
 		{
-			"name": "Clasp Member",
-			"source": "TDCSR",
-			"entries": [
-				"Whether you grew up in the mean streets of {@book Kymal|TDCSR|3|Kymal} bamboozling foolish gamblers, or spent your youth pilfering loose coin from the pockets of {@book Emon's|TDCSR|3|Emon, the City of Fellowship} many tourists, your lifestyle of deceiving-to-survive eventually drew the attention of the {@book Clasp|TDCSR|2|The Clasp}: a storied crime syndicate that has hideouts in every city in Tal'Dorei. In exchange for protection, a modicum of kinship, and a number of useful resources to further develop your craft as a criminal, you agreed to receive the brand of the {@book Clasp|TDCSR|2|The Clasp} and join their ranks.",
-				"You might have spent time working the guild's most menial assignments, wandering the alleys as a simple cutpurse and filling your pockets with silver while you waited to climb the professional ladder. Or you might be a clever actor and liar, whose skill at blending in with all facets of society has made you an indispensable spy. Perhaps your swift technique with a blade led you to become a feared assassin for the {@book Spireling leader|TDCSR|2|Spireling Shenn} of a local {@book Clasp|TDCSR|2|The Clasp} sect. Regardless, though the threat of the law is ever looming, the advantages to having a connection to such a powerful cartel greatly outweighs your paranoia. Most of the time.",
-				"Since the {@book Clasp|TDCSR|2|The Clasp} is an organization, its members can rise in rank by proving their worth, by making the right friends in high places, or even through blackmail and bribery. You and the Game Master can decide together how your actions affect your rank in the {@book Clasp|TDCSR|2|The Clasp}, and what benefits that rank grants you."
-			],
-			"images": [
-				{
-					"type": "image",
-					"href": {
-						"type": "internal",
-						"path": "backgrounds/TDCSR/ClaspMember.webp"
-					},
-					"credit": "{@link John Anthony di Giovanni|https://artstation.com/jad}",
-					"altText": "A man with short black hair and beard wearing dark clothing holding a curved dagger leaning against a stone wall.",
-					"width": 645,
-					"height": 1046
-				}
-			]
-		},
-		{
 			"name": "Cloistered Scholar",
 			"source": "SCAG",
 			"entries": [
@@ -590,23 +523,6 @@
 							"entries": [
 								"The Cobalt Soul is an organization of monastic scholars dedicated to preserving knowledge and recorded history, not just across Wildemount but all of Exandria. Its operations are primarily based out of the cities of Zadash and Rexxentrum in the Dwendalian Empire, and you likely studied at one of those sites.",
 								"As a rank-and-file pupil of the Cobalt Soul, you adventure to help expand your mind. Alternatively (and with the DM's permission), you might also take on a more specific role within the organization. Expositors are secret agents who gather information in the field, while archivists are the curators who ensure the well-being of the Cobalt Soul's many Archives. Monks of the Cobalt Soul are enlightened scholars who lead expeditions into ancient and forgotten places, hoping to reclaim their lost knowledge and history."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Cormanthor Refugee",
-			"source": "ALRageOfDemons",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"You are one of hundreds of refugees that were driven from Hillsfar or that fled the destruction of Myth Drannor and who now shelter in hidden camps under the northern eaves of the Cormanthor Forest. If you up grew in the camps, you have never been to a settlement other than the village of Elventree. As a guest of the elves, you have learned their ways and the ways of the forest. You are also a traumatized, as residual wild magic, energies released by the fall of Thultanthar upon Myth Drannor, and the constant fear of raids hunting for nonhumans to fight in Hillsfar's Arena have taken their toll on you, as they have on everyone in the camps."
 							]
 						}
 					]
@@ -661,41 +577,6 @@
 							"entries": [
 								"You're a spy. Secrets and misinformation are your stock in trade. You skulk in the shadows, infiltrate other guilds, and steal the most precious secrets, whether they're written in locked journals or hidden away in someone's mind. Even you might not be aware of all the reasons behind the missions you carry out. Sometimes a mission's sole purpose is to conceal the motivation behind another strike performed in a different part of the city, or simply to spread fear.",
 								"As part of your covert work for House Dimir, you maintain a false identity as a member of another guild. You can choose your secondary guild or roll to determine it randomly. This secondary guild membership determines a portion of your starting equipment and is also where most of your contacts come from. You infiltrate your secondary guild to learn its secrets, keep tabs on its activities, or perhaps undermine it from within."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Dragon Casualty",
-			"source": "ALCurseOfStrahd",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"When the Maimed Virulence descended upon Phlan, you were one of the unfortunate casualties of war. Captured during the initial assault, you have spent the last year of your life as a plaything of a capricious and malevolent overlord. While many of your fellow prisoners fell to the dragon's insatiable fury over the coming months, you and your fellow \"survivors\" were spared only for a worse fate as one of the dragon's magical experiments, leaving you and those who survived the torture scarred and disfigured.",
-								"What reasons the dragon had for releasing you few survivors, nobody knows. You only fear that those who died under his terrible claw were the lucky ones, and you and your fellow Dragonscarred are doomed for a fate worse than death."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Earthspur Miner",
-			"source": "ALElementalEvil",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"You are a down-on your luck miner from the Earthspur Mountains who is no stranger to hardship. You have spent a great deal of time living among the dwarves, goliaths, and denizens of the Underdark that also work mines in the area. At this point, you're just as comfortable working underground as above. You know how to read a seam, dicker for supplies with the deep gnomes, party with dwarves, and find your way back to the surface afterwards. Unfortunately, you haven't struck it rich...yet. Although you've come to Mulmaster looking for work, the tall peaks and deep mines of the Earthspurs still call to you."
 							]
 						}
 					]
@@ -977,23 +858,6 @@
 			]
 		},
 		{
-			"name": "Gate Urchin",
-			"source": "ALRageOfDemons",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"All traffic into and out of the City of Trade passes through the Hillsfar Gate, making it the ideal place for the destitute to gather to panhandle, busk, gossip, and pick pockets. You grew up on the streets in the shadow of that great steel edifice, which houses both Red Plumes and Guild Mages. Though you may have moved on, you still have friends among them, and that life has had a lasting impact on you."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
 			"name": "Gate Warden",
 			"source": "SatO",
 			"entries": [
@@ -1159,23 +1023,6 @@
 			]
 		},
 		{
-			"name": "Harborfolk",
-			"source": "ALElementalEvil",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"You are one of the hundreds of small-time fishermen and women who haul the bounty of Mulmaster's freshwater harbor to the city's markets each morning. You have spent countless days rowing in the waters in and around Mulmaster and know them and the other fisherfolk, dockworkers, and port inhabitants better than anyone. Though you have left that life behind, you still visit once in a while."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
 			"name": "Haunted One",
 			"source": "VRGR",
 			"entries": [
@@ -1215,41 +1062,6 @@
 							"type": "entries",
 							"entries": [
 								"You lived in seclusion\u2013either in a sheltered community such as a monastery, or entirely alone\u2013for a formative part of your life. In your time apart from the clamor of society, you found quiet, solitude, and perhaps some of the answers you were looking for."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Hillsfar Merchant",
-			"source": "ALRageOfDemons",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"Before becoming an adventurer, you were a successful merchant operating out Hillsfar, the City of Trade. Your family operated warehouses, organized caravans, managed stores, or owned a ship and has trade contacts throughout the Moonsea region, as well as up and down the length of the Sword Coast. Perhaps they import ore, uncut gems, untreated furs, or grain into the City of Trade, or they export fine cloth, faceted gems, fine furs, or Dragon's Breath, a brandy-like liquor. Regardless, you've largely given that life up for some reason and have chosen to seek adventure instead. Nevertheless, the training you received then, and perhaps the contacts you made, serve you well as an adventurer."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Hillsfar Smuggler",
-			"source": "ALRageOfDemons",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"Hillsfar is the City of Trade. However, the Great Law of Trade only protects \"legitimate\" trade, trade that passes through the city's sole gate, which the Red Plumes monitor and tax. And the Great Law of Humanity banishes non-humans from the city altogether. The two Great Laws create great demand and great risk for smugglers, who shepherd illicit goods and non-humans into and out of the city by secret routes. The Rogues Guild tightly controls all of this activity, taking its cut from sanctioned jobs and exacting punishment for independent jobs.",
-								"Perhaps you trafficked Dragon's Breath (a brandy-like liquor) to avoid tariffs or contraband to avoid seizure, or maybe you are a human who sympathizes with the non-humans and worked as part of the network of secret routes and safe houses that helps them pass through Hillsfar. Either way, you have contacts in the smuggling community who can help you slip into and out of the city unnoticed, for a price."
 							]
 						}
 					]
@@ -1435,23 +1247,6 @@
 			]
 		},
 		{
-			"name": "Iron Route Bandit",
-			"source": "ALCurseOfStrahd",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"The Iron Route, once the primary trade route between Phlan and Zhentil Keep, used to be a site of extensive banditry until the Phlan's recent occupation. Your time as an erstwhile bandit has given you plenty of experience in the saddle and a knack for acquiring and appraising other people's mounts, pets, and vehicles among other things. This particular set of skills has become very lucrative for you by working for the underground as a horse thief for a local guild of thieves and other shadowy organizations."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
 			"name": "Izzet Engineer",
 			"source": "GGR",
 			"entries": [
@@ -1559,28 +1354,6 @@
 			]
 		},
 		{
-			"name": "Lyceum Scholar",
-			"source": "TDCSR",
-			"entries": [
-				"You most likely came up through money or hailed from a family with social prestige if you were able to afford tuition at the {@book Alabaster Lyceum|TDCSR|3|5. Alabaster Lyceum} in {@book Emon|TDCSR|3|Emon, the City of Fellowship}. But whatever your origin, your interests and pursuits brought you to the hallowed halls of Tal'Dorei's highest place of learning, where you soaked in every lesson you could, hoping to better make your mark on the world. (Or at least you pretended to. Even at the {@book Lyceum|TDCSR|3|5. Alabaster Lyceum}, every class has its slackers.) Eventually, though, the call to adventure pulled you from your studies, and you now face the challenge of keeping up with your education even as the tides of destiny threaten to sweep you away.",
-				"You might have come to the {@book Lyceum|TDCSR|3|5. Alabaster Lyceum} to better research and understand the history and lore of Exandria and the lands you call home. Perhaps you sought a future here as a professor\u2014or you might hope to do so still. You could also have been drawn by the promise of prosperity in politics, learning the inner workings of government and alliances to better position yourself as a future writer of history. Or perhaps your knack for the arcane inspired you to attend the {@book Lyceum|TDCSR|3|5. Alabaster Lyceum} to refine your spellcraft, following in the footsteps of some of the finest wizards to ever practice the arts of magic.",
-				"When you choose this background, you could be either an active student seeking adventures for your own research, or a graduated alumnus. With a little modification, you could easily be a professor as well."
-			],
-			"images": [
-				{
-					"type": "image",
-					"href": {
-						"type": "internal",
-						"path": "backgrounds/TDCSR/LyceumScholar.webp"
-					},
-					"credit": "{@link Claudia Ianniciello|https://artstation.com/claudiasg}",
-					"altText": "A Black woman stands with her back to us. Her dreadlocked hair is pulled up into a bun. She wears light blue robes with a dark blue sash down the middle of her back. She reads magically glowing runes on a stone wall.",
-					"width": 594,
-					"height": 1655
-				}
-			]
-		},
-		{
 			"name": "Mage of High Sorcery",
 			"source": "DSotDQ",
 			"entries": [
@@ -1665,23 +1438,6 @@
 			]
 		},
 		{
-			"name": "Mulmaster Aristocrat",
-			"source": "ALElementalEvil",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"From your hilltop home, you have looked down (literally and perhaps figuratively) on the unwashed masses of Mulmaster for your entire life. Your fur-trimmed robes and training in the visual and performing arts mark you as wealthy and perhaps well-born; you are a member of the City of Danger's aristocracy. None of your immediate family members sits on the Council of Blades or is even a Zor or Zora...yet. Nevertheless, you are one of Mulmaster's elite, and whether you personally covet a higher standing or not, you are at home in the dance halls where the aristocracy gathers to plot, to scheme, to do business, to discuss the arts, and, above all, to see, and to be seen."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
 			"name": "Myriad Operative (Criminal)",
 			"source": "EGW",
 			"entries": [
@@ -1750,41 +1506,6 @@
 							"type": "entries",
 							"entries": [
 								"You grew up in the wilds, far from civilization and the comforts of town and technology. You've witnessed the migration of herds larger than forests, survived weather more extreme than any city-dweller could comprehend, and enjoyed the solitude of being the only thinking creature for miles in any direction. The wilds are in your blood, whether you were a nomad, an explorer, a recluse, a hunter-gatherer, or even a marauder. Even in places where you don't know the specific features of the terrain, you know the ways of the wild."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Phlan Insurgent",
-			"source": "ALCurseOfStrahd",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"The taking of Phlan by Vorgansharax is a clear memory in your mind. You were going about your everyday business when the green dragon's forces spilled out of the sewers and assailed your home. Many of Phlan's citizens, young and old alike, were captured, killed, or offered as tribute to the Maimed Virulence. You, yourself were one of those captured. But, either with the help of adventurers or through your own wits and sheer determination, you escaped.",
-								"Rather than flee the region, you've chosen to stay and fight. Finding refuge outside the town and the deadly thicket surrounding it, you strike out against the Tears of the Virulence and their monstrous allies. You've learned to survive in dire and desperate circumstances, with supplies running low and the arrival of reinforcements uncertain. You've grown accustomed to acting under the cover of night, dealing what blows you can to avenge the friends and family you lost within the currently occupied Phlan. You will drive Vorgansharax out, or you die trying."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Phlan Refugee",
-			"source": "ALElementalEvil",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"Gone are the happier days of walking into the Laughing Goblin Inn after a hard day's labor. Everything has changed, and you are lucky to be alive. Back in Phlan you could count yourself among those street-wise folks who knew when to pay a bribe and who to work with to make a living. Your ability to listen to the winds of change have saved you before, and this time they allowed you to be one of the lucky few who escaped Phlan with something more than just the shirt on your back."
 							]
 						}
 					]
@@ -1897,16 +1618,6 @@
 						}
 					]
 				}
-			]
-		},
-		{
-			"name": "Reformed Cultist",
-			"source": "TDCSR",
-			"entries": [
-				"Two pantheons have battled over the fate of Exandria since the world's founding\u2014the {@book Prime Deities|TDCSR|2|Prime Deities} and the {@book Betrayer Gods|TDCSR|2|Betrayer Gods}. During the {@book Calamity|TDCSR|1|The Calamity}, the {@book Prime Deities|TDCSR|2|Prime Deities} allied themselves with the mortal races of Exandria, their original creations, to protect their flawed world and its multifarious forms of life. The Betrayers sought to wipe the slate clean.",
-				"At the end of that devastating war, the {@book Prime Deities|TDCSR|2|Prime Deities} established a Divine Gate that would prevent all gods, good or evil, from directly affecting the world, but which would leave the gods' mortal followers and supernal servants to enact their will. And so the corrupting whispers of the {@book Betrayer Gods|TDCSR|2|Betrayer Gods} have ensnared the minds of power-hungry mortals for centuries, promising them a sliver of the gods' great power in exchange for dedicating their souls to occult lore.",
-				"You once belonged to such a cult of the {@book Betrayer Gods|TDCSR|2|Betrayer Gods}. Perhaps this faith only briefly tempted your rebellious, youthful spirit. Perhaps the cult gave you love and family when you had none, asking only your adherence to their prophet in exchange. Or maybe you were raised from birth to pay homage to gods of selfish cruelty\u2014until one fateful day the veil was lifted, so that nothing stood between you and the horrifying truth.",
-				"However it happened, you were freed from the shackles of this poisonous sect. Yet you know that this group does not forgive betrayers. As long as you live, you will be hunted\u2014and if the members of the cult think you dead, their hunt will begin again the second they learn they're wrong."
 			]
 		},
 		{
@@ -2050,23 +1761,6 @@
 			]
 		},
 		{
-			"name": "Secret Identity",
-			"source": "ALRageOfDemons",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"Even though you are a non-human, despite Hillfar's Great Law of Humanity, you continue to live in the City of Trade. You do so by maintaining a secret identity, forging documents, and wearing a disguise. Few, if any, know you aren't human. If you're a halfling or gnome, you pass as a little person or a child. If you're a half-elf, half-orc, or genasi, you disguise your non-human features. Other races use a combination of disguise and concealing clothing to hide. Your reasons for doing so are your own. Perhaps you're a dissident or the agent of a foreign power. Maybe you have a relationship with someone you cannot bear to leave. Regardless, this way of life has taken a heavy toll on you."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
 			"name": "Selesnya Initiate",
 			"source": "GGR",
 			"entries": [
@@ -2077,23 +1771,6 @@
 							"type": "entries",
 							"entries": [
 								"You are a member of a blessed community, built on the ideals of harmony. Here, nature and civilization coexist peacefully, living and growing in accordance with the will of the Worldsoul, Mat'Selesnya. As a member of the Selesnya Conclave, you are surrounded by people and other creatures who share your worldview and your longing for deeper spiritual communion with the world, and you have a fervent desire to share the joy you have experienced with Ravnica. Along with the rest of the conclave, you are committed to resisting the ambitions of the other guilds\u2014with military force if necessary."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Shade Fanatic",
-			"source": "ALRageOfDemons",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"You grew up at a time when the wizards of Netheril were at war with the elves of Cormanthor. You recall sitting cross-legged hearing the stories of the glorious Thultanthar, also called the Shade Enclave and the City of Shade, and aspired to study there and maybe even did, for a time. Your dreams came crashing down a few years ago when Thultanthar fell from the sky upon Myth Drannor. You know that there was a Netherese Garrison stationed near Hillsfar and have heard rumors that its downfall came from traitors within the ranks. You remain loyal to Netheril and seek other Shade loyalists and fanatics in the Cormanthor forest and the areas surrounding Hillsfar."
 							]
 						}
 					]
@@ -2170,59 +1847,6 @@
 							"entries": [
 								"War has been your life for as long as you care to remember. You trained as a youth, studied the use of weapons and armor, learned basic survival techniques, including how to stay alive on the battlefield. You might have been part of a standing national army or a mercenary company, or perhaps a member of a local militia who rose to prominence during a recent war.",
 								"When you choose this background, work with your DM to determine which military organization you were a part of, how far through its ranks you progressed, and what kind of experiences you had during your military career. Was it a standing army, a town guard, or a village militia? Or it might have been a noble's or merchant's private army, or a mercenary company."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Stojanow Prisoner",
-			"source": "ALCurseOfStrahd",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"Those words still haunt your dreams at night. When everyone was fleeing Phlan, you choose to stay. Whether out of an emotional attachment, or pursuit of riches, you made the decision that would affect the rest of your life.",
-								"Food became scarcer for those without connections. You became a beggar and to stay alive you bartered information to any interested party with food or gold to spare. You were good at what you did, and thought you were invincible. That changed when you were captured by the Tears of Virulence, the soldiers of Vorgansharax, the Maimed Virulence, for selling secrets to those bent on overthrowing the dragon. They locked you in the cells of Stojanow Gate. The first weeks you hoped to stay alive. As the weeks turned into months, and the interrogations continued you began to pray for death."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Ticklebelly Nomad",
-			"source": "ALCurseOfStrahd",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"You were born into a nomadic tribe that called the Ticklebelly Hills home. You migrated from location to location, living off the land with your tribe. The tribe would seasonally travel south into the Grass Sea and the Giant's Cairn, north into the Dragonspine Mountains, and even occasionally east across the Stojanow River to the borders of the Quivering forest.",
-								"In your migrations, your people have come to know the stone giant tribes that populate the Giant's Cairn. The dragon cultists came to the hills one day\u2014magic-users wearing purple and riding horrid beasts, black-clad warriors wearing wicked masks, and even soldiers from the nearby town of Phlan. Then the dragon called Vorgansharax arrived and laired in the hills, causing horrid thickets to grow and animals to act unusually. The cultists began raiding nomad camps for victims to offer to the wyrm. Eventually, the dragon moved on to attack Phlan, but life was never again the same for the nomads of the Ticklebelly Hills."
-							]
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Trade Sheriff",
-			"source": "ALRageOfDemons",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								"You are one of the many people that make sure the trade routes are clear at ALL times. You assure that the Great Law of Trade is followed at all costs. You work by yourself or in groups to quell bandits and brigands who might stop trade routes from going through. You investigate potential ambushes and possible rumors as to someone wanting to rob or stop caravans. You are as much an investigator as you are law enforcement. You are able to go into a town/village around the Hillsfar area and find a contact that is willing to give you information from rumor to fact. This sometimes comes at a cost of a minor bribe of 1-9 silver pieces."
 							]
 						}
 					]
@@ -2570,29 +2194,6 @@
 							]
 						}
 					]
-				}
-			]
-		},
-		{
-			"name": "Whitestone Rifle Corps",
-			"source": "TDCSR",
-			"entries": [
-				"You trained with the elite forces charged with the defense and protection of the isolated city-state of {@book Whitestone|TDCSR|3|Whitestone}, with much of that training focused on how to care for, protect, and safeguard the firearms that are the weapons of the {@book Whitestone Rifle Corps|TDCSR|3|Whitestone Rifle Corps}. You are also entrusted with a solemn duty\u2014to never let the secrets of your liege-lord's deadly creations fall into the wrong hands.",
-				"You might have come to {@book Whitestone|TDCSR|3|Whitestone} to prove yourself worthy of wielding the secretive and highly coveted firearms created there, and to seek instruction from warriors who have mastered those weapons. Or you might have grown up in {@book Whitestone|TDCSR|3|Whitestone}, perhaps even remembering the brutal days when {@book Lord and Lady Briarwood|TDCSR|3|Scars of the Briarwoods} ruled your homeland\u2014a reign that began some thirty years ago and lasted for six harrowing years.",
-				"Alternatively, you or your parents might have come to {@book Whitestone|TDCSR|3|Whitestone} as refugees fleeing the destruction of the {@book Chroma Conclave's|TDCSR|1|The Chroma Conclave} attack on Tal'Dorei. If so, your life in the city-state might have been a relatively peaceful one, dwelling among the engineers, artisans, and merchants seeking to capitalize upon {@book Whitestone's|TDCSR|3|Whitestone} reputation as an up-and-coming center of trade, culture, and invention.",
-				"When you choose this background, decide whether you were a member of the {@book Rifle Corps|TDCSR|3|Whitestone Rifle Corps}, the {@book Pale Guard|TDCSR|3|Pale Guard}, or the {@book Grey Hunters|TDCSR|3|Grey Hunters}. The {@book \"Whitestone\" section in chapter 3|TDCSR|3|Whitestone} has more information about the {@book Pale Guard|TDCSR|3|Pale Guard}, as well as the armaments and militia in the city-state. See below for more information on the {@book Grey Hunters|TDCSR|3|Grey Hunters}."
-			],
-			"images": [
-				{
-					"type": "image",
-					"href": {
-						"type": "internal",
-						"path": "backgrounds/TDCSR/RifleCorps.webp"
-					},
-					"credit": "{@link Ameera Sheikh|https://mikandii.com/}",
-					"altText": "A muscled Black half-elven woman with long brown dreadlocks wearing a blue coat, crouching on one knee in a patch of white daisies, aiming a rifle.",
-					"width": 1022,
-					"height": 766
 				}
 			]
 		},

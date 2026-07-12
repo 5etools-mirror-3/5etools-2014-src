@@ -375,7 +375,7 @@
 			"entries": [
 				"Your control over your body allows you to deliver acid or poison attacks."
 			],
-			"focus": "While focused on this discipline, you have resistance to acid and poison damage",
+			"focus": "While focused on this discipline, you have resistance to acid and poison damage.",
 			"modes": [
 				{
 					"cost": {

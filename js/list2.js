@@ -1,6 +1,6 @@
-"use strict";
+import {List2SyntaxParser} from "./list2/list2-syntaxparser.js";
 
-class ListHelpers {
+class _ListHelpers {
 	static getSearchText (text) {
 		return CleanUtil.getCleanString(text)
 			.toAscii()
@@ -17,7 +17,7 @@ class ListHelpers {
 	}
 }
 
-class ListItem {
+export class ListItem {
 	static getCommonValues (ent) {
 		return {
 			group: ent.group ? ent.group.join(",") : "",
@@ -53,14 +53,15 @@ class ListItem {
 			if (!v) continue;
 			searchText += `${v} - `;
 		}
-		this.searchText = ListHelpers.getNormalizedText(ListHelpers.getSearchText(searchText));
+		this.searchText = _ListHelpers.getNormalizedText(_ListHelpers.getSearchText(searchText));
 	}
 
 	set isSelected (val) {
 		if (this._isSelected === val) return;
 		this._isSelected = val;
 
-		if (this.ele instanceof $) {
+		// eslint-disable-next-line vet-jquery/jquery
+		if (globalThis.jQuery && this.ele instanceof globalThis.jQuery) {
 			if (this._isSelected) this.ele.addClass("list-multi-selected");
 			else this.ele.removeClass("list-multi-selected");
 		} else {
@@ -72,18 +73,16 @@ class ListItem {
 	get isSelected () { return this._isSelected; }
 }
 
+globalThis.ListItem = ListItem;
+
 class _ListSearch {
 	#isInterrupted = false;
 
-	#term = null;
-	#fn = null;
-	#isNegate = false;
+	#syntaxMetas = null;
 	#items = null;
 
-	constructor ({term, fn, isNegate = false, items}) {
-		this.#term = term;
-		this.#fn = fn;
-		this.#isNegate = isNegate;
+	constructor ({syntaxMetas, items}) {
+		this.#syntaxMetas = syntaxMetas;
 		this.#items = [...items];
 	}
 
@@ -91,15 +90,27 @@ class _ListSearch {
 
 	async pRun () {
 		const out = [];
-		for (const item of this.#items) {
+		outer: for (const item of this.#items) {
 			if (this.#isInterrupted) break;
-			if (!(await this.#fn(item, this.#term)) === this.#isNegate) out.push(item);
+
+			for (const syntaxMeta of this.#syntaxMetas) {
+				if (!(await syntaxMeta.syntax.fn(item, syntaxMeta.term)) !== syntaxMeta.isNegate) continue outer;
+			}
+
+			out.push(item);
 		}
 		return {isInterrupted: this.#isInterrupted, searchedItems: out};
 	}
 }
 
-class List {
+export class List {
+	static _DEFAULTS = {
+		searchTerm: "",
+		sortBy: "name",
+		sortDir: "asc",
+		fnFilter: null,
+	};
+
 	#activeSearch = null;
 
 	/**
@@ -122,11 +133,15 @@ class List {
 	constructor (opts) {
 		if (opts.fnSearch && opts.isFuzzy) throw new Error(`The options "fnSearch" and "isFuzzy" are mutually incompatible!`);
 
+		// eslint-disable-next-line vet-jquery/jquery
 		if (opts.$iptSearch && opts.iptSearch) throw new Error(`Only one of "$iptSearch" and "iptSearch" may be passed!`);
+		// eslint-disable-next-line vet-jquery/jquery
 		if (opts.$wrpList && opts.wrpList) throw new Error(`Only one of "$iptSearch" and "iptSearch" may be passed!`);
 
-		const iptSearch = opts.iptSearch || opts.$iptSearch?.[0];
-		const wrpList = opts.wrpList || opts.$wrpList?.[0];
+		// eslint-disable-next-line vet-jquery/jquery
+		const iptSearch = opts.iptSearch || (opts.$iptSearch?.[0] ? e_({ele: opts.$iptSearch?.[0]}) : undefined);
+		// eslint-disable-next-line vet-jquery/jquery
+		const wrpList = opts.wrpList || (opts.$wrpList?.[0] ? e_({ele: opts.$wrpList?.[0]}) : undefined);
 
 		this._iptSearch = iptSearch ? e_(iptSearch) : iptSearch;
 		this._wrpList = wrpList ? e_(wrpList) : wrpList;
@@ -175,6 +190,17 @@ class List {
 	setFnSearch (fn) {
 		this._fnSearch = fn;
 		this._isDirty = true;
+	}
+
+	getScrollWrpInfo () {
+		return {
+			scrollTop: this._wrpList.scrollTop,
+			height: this._wrpList.getBoundingClientRect().height,
+		};
+	}
+
+	setScrollWrpTop (val) {
+		this._wrpList.scrollTop = val;
 	}
 
 	init ({isLazySearch = false} = {}) {
@@ -276,27 +302,26 @@ class List {
 	_doSearch_doSearchTerm () {
 		if (this._doSearch_doSearchTerm_preSyntax()) return;
 
-		const matchingSyntax = this._doSearch_getMatchingSyntax();
-		if (matchingSyntax) {
-			if (this._doSearch_doSearchTerm_syntax(matchingSyntax)) return;
+		const matchingSyntaxInfo = this._doSearch_getMatchingSyntaxInfo();
+		if (matchingSyntaxInfo) {
+			if (this._doSearch_doSearchTerm_syntax(matchingSyntaxInfo.syntaxMetas)) {
+				this._doSearch_doSearchTerm_basic({searchedItems: this._searchedItems, searchTerm: matchingSyntaxInfo.searchTerm});
+				return;
+			}
 
 			// For async syntax, blank the list for now, and allow the search to "resume" later
 			this._searchedItems = [];
-			this._doSearch_doSearchTerm_pSyntax(matchingSyntax)
+			this._doSearch_doSearchTerm_pSyntax(matchingSyntaxInfo.syntaxMetas)
 				.then(isContinue => {
 					if (!isContinue) return;
+					this._doSearch_doSearchTerm_basic({searchedItems: this._searchedItems, searchTerm: matchingSyntaxInfo.searchTerm});
 					this._doSearch_doPostSearchTerm();
 				});
 
 			return;
 		}
 
-		if (this._isFuzzy) return this._searchedItems = this._doSearch_doSearchTerm_fuzzy();
-
-		if (this._fnSearch) return this._searchedItems = this._items.filter(it => this._fnSearch(it, this._searchTerm));
-
-		const searchTermNormalized = ListHelpers.getNormalizedText(this._searchTerm);
-		this._searchedItems = this._items.filter(it => this.constructor.isVisibleDefaultSearch(it, searchTermNormalized));
+		this._doSearch_doSearchTerm_basic();
 	}
 
 	_doSearch_doSearchTerm_preSyntax () {
@@ -306,49 +331,93 @@ class List {
 		}
 	}
 
-	_doSearch_getMatchingSyntax () {
-		const [command, term] = this._searchTerm.split(/^([a-z]+):/).filter(Boolean);
-		if (!command || !term || !this._syntax?.[command]) return null;
-		const {term: termProc, isNegate} = this._doSearch_getSyntaxSearchTerm(term);
-		return {term: termProc, isNegate, syntax: this._syntax[command]};
+	/**
+	 * @param {?Array} searchedItems
+	 * @param {?string} searchTerm
+	 */
+	_doSearch_doSearchTerm_basic ({searchedItems = null, searchTerm = null} = {}) {
+		if (this._isFuzzy) {
+			if (searchedItems) throw new Error(`Using list syntax with fuzzy search is unsupported.`);
+			return this._searchedItems = this._doSearch_doSearchTerm_fuzzy({searchTerm});
+		}
+
+		searchTerm ??= this._searchTerm;
+
+		if (this._fnSearch) return this._searchedItems = (searchedItems || this._items).filter(it => this._fnSearch(it, searchTerm));
+
+		const searchTermNormalized = _ListHelpers.getNormalizedText(searchTerm);
+		this._searchedItems = (searchedItems || this._items).filter(it => this.constructor.isVisibleDefaultSearch(it, searchTermNormalized));
 	}
 
-	static _RE_SYNTAX_SEARCH_TERM_REGEX = /^(?<isNegate>!)?\/(?<reTerm>.*)\/$/;
+	_doSearch_getMatchingSyntaxInfo () {
+		if (!this._syntax) return null;
+
+		const {syntaxMetasRaw, searchTerm} = List2SyntaxParser.getParsedSyntaxInfo({searchTerm: this._searchTerm, reCommand: this._syntax.reCommand});
+
+		return {
+			syntaxMetas: syntaxMetasRaw
+				.map(({command, term}) => {
+					const {term: termProc, isNegate} = this._doSearch_getSyntaxSearchTerm(term);
+					return {
+						term: termProc,
+						isNegate,
+						syntax: this._syntax[command],
+					};
+				}),
+			searchTerm: searchTerm
+				.trim()
+				.replace(/\s+/g, " "),
+		};
+	}
+
+	static _RE_SYNTAX_SEARCH_TERM_QUOTES = /^(?<isNegate>!)?"(?<term>.*)"$/;
+	static _RE_SYNTAX_SEARCH_TERM_REGEX = /^(?<isNegate>!)?\/(?<term>.*)\/$/;
 
 	_doSearch_getSyntaxSearchTerm (term) {
+		const mQuote = this.constructor._RE_SYNTAX_SEARCH_TERM_QUOTES.exec(term);
+		if (mQuote) {
+			const {isNegate, term: quoteTerm} = mQuote.groups;
+
+			return {term: quoteTerm.trim(), isNegate: !!isNegate};
+		}
+
 		const mRegex = this.constructor._RE_SYNTAX_SEARCH_TERM_REGEX.exec(term);
-		if (!mRegex) {
-			const isNegate = term.startsWith("!");
-			term = isNegate ? term.slice(1) : term;
-			return {term, isNegate};
+		if (mRegex) {
+			const {isNegate, term: reTerm} = mRegex.groups;
+
+			let re;
+			try {
+				re = new RegExp(reTerm);
+			} catch (ignored) {
+				return {term, isNegate: !!isNegate};
+			}
+
+			return {term: re, isNegate: !!isNegate};
 		}
 
-		const {isNegate, reTerm} = mRegex.groups;
-
-		let re;
-		try {
-			re = new RegExp(reTerm);
-		} catch (ignored) {
-			return {term, isNegate: !!isNegate};
-		}
-
-		return {term: re, isNegate: !!isNegate};
+		const isNegate = term.startsWith("!");
+		term = isNegate ? term.slice(1) : term;
+		return {term, isNegate};
 	}
 
-	_doSearch_doSearchTerm_syntax ({term, syntax: {fn, isAsync}, isNegate}) {
-		if (isAsync) return false;
+	_doSearch_doSearchTerm_syntax (syntaxMetas) {
+		if (syntaxMetas.some(syntaxMeta => syntaxMeta.syntax.isAsync)) return false;
 
-		this._searchedItems = this._items.filter(it => !fn(it, term) === isNegate);
+		this._searchedItems = this._items;
+		syntaxMetas
+			.forEach(syntaxMeta => {
+				this._searchedItems = this._searchedItems
+					.filter(it => !syntaxMeta.syntax.fn(it, syntaxMeta.term) === syntaxMeta.isNegate);
+			});
+
 		return true;
 	}
 
-	async _doSearch_doSearchTerm_pSyntax ({term, syntax: {fn, isAsync}, isNegate}) {
-		if (!isAsync) return false;
+	async _doSearch_doSearchTerm_pSyntax (syntaxMetas) {
+		if (syntaxMetas.every(syntaxMeta => !syntaxMeta.syntax.isAsync)) return false;
 
 		this.#activeSearch = new _ListSearch({
-			term,
-			fn,
-			isNegate,
+			syntaxMetas,
 			items: this._items,
 		});
 		const {isInterrupted, searchedItems} = await this.#activeSearch.pRun();
@@ -360,10 +429,13 @@ class List {
 
 	static isVisibleDefaultSearch (li, searchTerm) { return li.searchText.includes(searchTerm); }
 
-	_doSearch_doSearchTerm_fuzzy () {
+	/**
+	 * @param {?string} searchTerm
+	 */
+	_doSearch_doSearchTerm_fuzzy ({searchTerm = null} = {}) {
 		const results = this._fuzzySearch
 			.search(
-				this._searchTerm,
+				searchTerm ?? this._searchTerm,
 				{
 					fields: {
 						s: {expand: true},
@@ -497,6 +569,16 @@ class List {
 	removeItemByData (dataName, value) {
 		const ixItem = this._items.findIndex(it => it.data[dataName] === value);
 		return this.removeItemByIndex(ixItem, ixItem);
+	}
+
+	removeItemsByFilter (fnFilter) {
+		const [itemsToRemove, itemsNxt] = this._items.segregate((li, ix) => fnFilter(li, ix));
+		if (itemsNxt.length === this._items.length) return;
+
+		this._isDirty = true;
+		this._items = itemsNxt;
+
+		if (this._isFuzzy) itemsToRemove.forEach(li => this._fuzzySearch.removeDocByRef(li.ix));
 	}
 
 	removeAllItems () {
@@ -661,15 +743,8 @@ class List {
 	static _RE_SEARCH_CLEAN_WHITESPACE = /\s\s+/g;
 
 	static getCleanSearchTerm (str) {
-		return ListHelpers.getSearchText(str || "").trim().replace(this._RE_SEARCH_CLEAN_WHITESPACE, " ");
+		return _ListHelpers.getSearchText(str || "").trim().replace(this._RE_SEARCH_CLEAN_WHITESPACE, " ");
 	}
 }
-List._DEFAULTS = {
-	searchTerm: "",
-	sortBy: "name",
-	sortDir: "asc",
-	fnFilter: null,
-};
 
 globalThis.List = List;
-globalThis.ListItem = ListItem;

@@ -134,6 +134,46 @@
 	],
 	"subclass": [
 		{
+			"name": "Battle Master",
+			"shortName": "Battle Master",
+			"source": "PHB",
+			"className": "Fighter",
+			"classSource": "PHB",
+			"advancement": [
+				{
+					"type": "ScaleValue",
+					"configuration": {
+						"identifier": "superiority",
+						"type": "dice",
+						"scale": {
+							"3": {
+								"number": 4,
+								"faces": 8
+							},
+							"7": {
+								"number": 5,
+								"faces": 8
+							},
+							"10": {
+								"number": 5,
+								"faces": 10
+							},
+							"15": {
+								"number": 6,
+								"faces": 10
+							},
+							"18": {
+								"number": 6,
+								"faces": 12
+							}
+						}
+					},
+					"title": "Superiority Dice"
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
 			"name": "Nature Domain",
 			"shortName": "Nature",
 			"source": "PHB",
@@ -585,7 +625,9 @@
 			"className": "Fighter",
 			"classSource": "PHB",
 			"level": 1,
-			"isIgnored": true,
+			"entries": [
+				"You adopt a particular style of fighting as your specialty. You can't take the same Fighting Style option more than once, even if you get to choose again."
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -815,7 +857,9 @@
 			"className": "Paladin",
 			"classSource": "PHB",
 			"level": 2,
-			"isIgnored": true,
+			"entries": [
+				"You adopt a particular style of fighting as your specialty. You can't take the same Fighting Style option more than once, even if you get to choose again."
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -880,7 +924,9 @@
 			"className": "Ranger",
 			"classSource": "PHB",
 			"level": 2,
-			"isIgnored": true,
+			"entries": [
+				"You adopt a particular style of fighting as your specialty. You can't take the same Fighting Style option more than once, even if you get to choose again."
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -896,6 +942,58 @@
 					}
 				]
 			},
+			"migrationVersion": 3
+		},
+		{
+			"name": "Nature's Veil",
+			"source": "TCE",
+			"className": "Ranger",
+			"classSource": "PHB",
+			"level": 10,
+			"system": {
+				"uses.max": "@prof",
+				"uses.recovery": [
+					{
+						"period": "lr",
+						"type": "recoverAll"
+					}
+				]
+			},
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "bonus",
+						"value": 1
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "itemUses",
+								"value": "1"
+							}
+						]
+					},
+					"target": {
+						"affects": {
+							"type": "self"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "naturesVeil"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "naturesVeil",
+					"statuses": [
+						"invisible"
+					]
+				}
+			],
 			"migrationVersion": 3
 		},
 		{
@@ -1648,6 +1746,9 @@
 			"subclassShortName": "Swords",
 			"subclassSource": "XGE",
 			"level": 3,
+			"entries": [
+				"At 3rd level, you adopt a style of fighting as your specialty. You can't take a Fighting Style option more than once, even if something in the game lets you choose again."
+			],
 			"isIgnored": true,
 			"migrationVersion": 3
 		},
@@ -2464,23 +2565,6 @@
 			"migrationVersion": 3
 		},
 		{
-			"name": "Bonus Proficiencies",
-			"source": "TDCSR",
-			"className": "Cleric",
-			"classSource": "PHB",
-			"subclassShortName": "Blood",
-			"subclassSource": "TDCSR",
-			"level": 1,
-			"entryData": {
-				"weaponProficiencies": [
-					{
-						"martial": true
-					}
-				]
-			},
-			"migrationVersion": 3
-		},
-		{
 			"name": "Bonus Proficiency",
 			"source": "XGE",
 			"className": "Cleric",
@@ -2743,32 +2827,6 @@
 					}
 				}
 			],
-			"migrationVersion": 3
-		},
-		{
-			"name": "Call of the Shadowseeds",
-			"source": "TDCSR",
-			"className": "Druid",
-			"classSource": "PHB",
-			"subclassShortName": "Blighted",
-			"subclassSource": "TDCSR",
-			"level": 6,
-			"system": {},
-			"migrationVersion": 3
-		},
-		{
-			"name": "Incarnation of Corruption",
-			"source": "TDCSR",
-			"className": "Druid",
-			"classSource": "PHB",
-			"subclassShortName": "Blighted",
-			"subclassSource": "TDCSR",
-			"level": 14,
-			"entryData": {
-				"resist": [
-					"necrotic"
-				]
-			},
 			"migrationVersion": 3
 		},
 		{
@@ -3098,17 +3156,6 @@
 					]
 				}
 			],
-			"migrationVersion": 3
-		},
-		{
-			"name": "Additional Fighting Style",
-			"source": "PHB",
-			"className": "Fighter",
-			"classSource": "PHB",
-			"subclassShortName": "Champion",
-			"subclassSource": "PHB",
-			"level": 10,
-			"isIgnored": true,
 			"migrationVersion": 3
 		},
 		{
@@ -3675,99 +3722,6 @@
 				"toolProficiencies": [
 					{
 						"herbalism kit": true
-					}
-				]
-			},
-			"migrationVersion": 3
-		},
-		{
-			"name": "Mystical Erudition",
-			"source": "TDCSR",
-			"className": "Monk",
-			"classSource": "PHB",
-			"subclassShortName": "Cobalt Soul",
-			"subclassSource": "TDCSR",
-			"level": 6,
-			"entryData": {
-				"languageProficiencies": [
-					{
-						"any": 1
-					}
-				],
-				"skillProficiencies": [
-					{
-						"choose": {
-							"from": [
-								"arcana",
-								"history",
-								"investigation",
-								"nature",
-								"religion"
-							],
-							"count": 1
-						}
-					}
-				]
-			},
-			"migrationVersion": 3
-		},
-		{
-			"name": "Mystical Erudition (11th Level)",
-			"source": "TDCSR",
-			"className": "Monk",
-			"classSource": "PHB",
-			"subclassShortName": "Cobalt Soul",
-			"subclassSource": "TDCSR",
-			"level": 11,
-			"entryData": {
-				"languageProficiencies": [
-					{
-						"any": 1
-					}
-				],
-				"skillProficiencies": [
-					{
-						"choose": {
-							"from": [
-								"arcana",
-								"history",
-								"investigation",
-								"nature",
-								"religion"
-							],
-							"count": 1
-						}
-					}
-				]
-			},
-			"migrationVersion": 3
-		},
-		{
-			"name": "Mystical Erudition (17th Level)",
-			"source": "TDCSR",
-			"className": "Monk",
-			"classSource": "PHB",
-			"subclassShortName": "Cobalt Soul",
-			"subclassSource": "TDCSR",
-			"level": 17,
-			"entryData": {
-				"languageProficiencies": [
-					{
-						"any": 1
-					}
-				],
-				"skillProficiencies": [
-					{
-						"choose": {
-							"from": [
-								"arcana",
-								"history",
-								"investigation",
-								"nature",
-								"religion"
-							],
-							"count": 1
-						}
 					}
 				]
 			},
@@ -4372,6 +4326,74 @@
 							"type": "creature"
 						}
 					}
+				}
+			],
+			"migrationVersion": 3
+		},
+		{
+			"name": "Writhing Tide",
+			"source": "TCE",
+			"className": "Ranger",
+			"classSource": "PHB",
+			"subclassShortName": "Swarmkeeper",
+			"subclassSource": "TCE",
+			"level": 7,
+			"system": {
+				"uses.max": "@prof",
+				"uses.recovery": [
+					{
+						"period": "lr",
+						"type": "recoverAll"
+					}
+				]
+			},
+			"activities": [
+				{
+					"type": "utility",
+					"activation": {
+						"type": "bonus",
+						"value": 1
+					},
+					"consumption": {
+						"targets": [
+							{
+								"type": "itemUses",
+								"value": "1"
+							}
+						]
+					},
+					"target": {
+						"affects": {
+							"type": "self"
+						}
+					},
+					"effects": [
+						{
+							"foundryId": "writhingTide"
+						}
+					]
+				}
+			],
+			"effects": [
+				{
+					"foundryId": "writhingTide",
+					"duration": {
+						"seconds": 60
+					},
+					"changes": [
+						{
+							"key": "system.attributes.movement.fly",
+							"mode": "OVERRIDE",
+							"value": 10,
+							"priority": 20
+						},
+						{
+							"key": "system.attributes.movement.hover",
+							"value": "yes",
+							"priority": 20,
+							"mode": "CUSTOM"
+						}
+					]
 				}
 			],
 			"migrationVersion": 3
@@ -5931,17 +5953,6 @@
 					}
 				]
 			},
-			"migrationVersion": 3
-		},
-		{
-			"name": "Steel Defender",
-			"source": "TCE",
-			"className": "Artificer",
-			"classSource": "TCE",
-			"subclassShortName": "Battle Smith",
-			"subclassSource": "TCE",
-			"level": 3,
-			"system": {},
 			"migrationVersion": 3
 		},
 		{

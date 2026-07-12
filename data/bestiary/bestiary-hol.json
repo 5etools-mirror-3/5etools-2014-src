@@ -1,4 +1,11 @@
 {
+	"_meta": {
+		"otherSources": {
+			"monster": {
+				"MM": "HoL"
+			}
+		}
+	},
 	"monster": [
 		{
 			"name": "Apprentice",
@@ -85,6 +92,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"quarterstaff|phb"
 			],
@@ -196,6 +204,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"mace|phb"
 			],
@@ -278,10 +287,11 @@
 				{
 					"name": "Disengage",
 					"entries": [
-						"You take the Disengage action."
+						"You take the {@action Disengage} action."
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"dagger|phb"
 			],
@@ -356,6 +366,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"longsword|phb"
 			],

@@ -204,6 +204,7 @@
 				"O"
 			],
 			"miscTags": [
+				"AOE",
 				"MW"
 			],
 			"conditionInflict": [
@@ -225,6 +226,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 116,
 			"_copy": {
 				"name": "Werewolf",
 				"source": "MM",
@@ -298,7 +300,7 @@
 				{
 					"name": "Berserk",
 					"entries": [
-						"Whenever the bearer takes damage or makes a Strength or Dexterity saving throw, roll a {@dice d6}. On a 5 or 6, the bearer goes berserk. On each of its turns while berserk, the bearer has advantage on melee attack rolls, it can Dash as a bonus action, and it must attack the nearest creature it can see. If no creature is near enough to move to and attack, the bearer attacks an object, with preference for an object smaller than itself. Once the bearer goes berserk, it remains berserk until it is destroyed or its creator gives it a pristine black rose."
+						"Whenever the bearer takes damage or makes a Strength or Dexterity saving throw, roll a {@dice d6}. On a 5 or 6, the bearer goes berserk. On each of its turns while berserk, the bearer has advantage on melee attack rolls, it can {@action Dash} as a bonus action, and it must attack the nearest creature it can see. If no creature is near enough to move to and attack, the bearer attacks an object, with preference for an object smaller than itself. Once the bearer goes berserk, it remains berserk until it is destroyed or its creator gives it a pristine black rose."
 					]
 				},
 				{
@@ -666,7 +668,7 @@
 				{
 					"name": "Mist Sight",
 					"entries": [
-						"The blazebear can see normally through heavily obscured areas created by mist or fog, including areas created by spells such as Fog Cloud."
+						"The blazebear can see normally through {@quickref Vision and Light||2||heavily obscured} areas created by mist or fog, including areas created by spells such as Fog Cloud."
 					]
 				}
 			],
@@ -1245,6 +1247,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 80,
 			"_copy": {
 				"name": "Blade Scout",
 				"source": "VEoR",
@@ -1730,6 +1733,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 29,
 			"_copy": {
 				"name": "Priest",
 				"source": "MM",
@@ -1961,6 +1965,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 53,
 			"_copy": {
 				"name": "Erinyes",
 				"source": "MM",
@@ -1980,6 +1985,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 64,
 			"_copy": {
 				"name": "Mage",
 				"source": "MM",
@@ -2271,6 +2277,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 49,
 			"_copy": {
 				"name": "Mage",
 				"source": "MM",
@@ -2582,10 +2589,11 @@
 			"hasFluffImages": true
 		},
 		{
-			"name": "Inda",
+			"name": "Inda Malayuri",
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 68,
 			"_copy": {
 				"name": "Deva",
 				"source": "MM",
@@ -2608,6 +2616,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 18,
 			"_copy": {
 				"name": "Noble",
 				"source": "MM",
@@ -2641,6 +2650,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 28,
 			"_copy": {
 				"name": "Necromancer Wizard",
 				"source": "MPMM",
@@ -3018,7 +3028,6 @@
 			"damageTags": [
 				"N",
 				"P",
-				"R",
 				"S"
 			],
 			"miscTags": [
@@ -3040,6 +3049,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 156,
 			"_copy": {
 				"name": "Vampire",
 				"source": "MM",
@@ -3059,6 +3069,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 54,
 			"_copy": {
 				"name": "Spiderdragon",
 				"source": "VEoR",
@@ -3078,6 +3089,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 34,
 			"_copy": {
 				"name": "Lonely Sorrowsworn",
 				"source": "MPMM",
@@ -3097,6 +3109,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 157,
 			"_copy": {
 				"name": "Red Abishai",
 				"source": "MPMM",
@@ -3116,6 +3129,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 132,
 			"_copy": {
 				"name": "Assassin",
 				"source": "MM",
@@ -3145,6 +3159,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 60,
 			"_copy": {
 				"name": "Githyanki Knight",
 				"source": "MM",
@@ -3168,6 +3183,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 41,
 			"_copy": {
 				"name": "Assassin",
 				"source": "MM",
@@ -3302,7 +3318,7 @@
 				{
 					"name": "Mirror Stealth",
 					"entries": [
-						"While within 5 feet of a reflective surface, such as a mirror, the mirror shade takes the Hide action."
+						"While within 5 feet of a reflective surface, such as a mirror, the mirror shade takes the {@action Hide} action."
 					]
 				}
 			],
@@ -3717,6 +3733,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 175,
 			"_copy": {
 				"name": "Drow Mage",
 				"source": "MM",
@@ -3736,6 +3753,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 157,
 			"_copy": {
 				"name": "Blue Abishai",
 				"source": "MPMM",
@@ -3755,6 +3773,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 129,
 			"_copy": {
 				"name": "Adult Lunar Dragon",
 				"source": "BAM",
@@ -4106,6 +4125,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 80,
 			"_copy": {
 				"name": "Blade Scout",
 				"source": "VEoR",
@@ -4326,6 +4346,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 66,
 			"_copy": {
 				"name": "Treant",
 				"source": "MM",
@@ -4492,6 +4513,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 146,
 			"_copy": {
 				"name": "False Lich",
 				"source": "VEoR",
@@ -4511,6 +4533,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 158,
 			"_copy": {
 				"name": "Green Abishai",
 				"source": "MPMM",
@@ -4530,6 +4553,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 113,
 			"_copy": {
 				"name": "Werewolf",
 				"source": "MM",
@@ -4556,6 +4580,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 31,
 			"_copy": {
 				"name": "Vampire",
 				"source": "MM",
@@ -4575,6 +4600,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 20,
 			"_copy": {
 				"name": "Mage",
 				"source": "MM",
@@ -4601,6 +4627,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 95,
 			"_copy": {
 				"name": "Inquisitor of the Tome",
 				"source": "VRGR",
@@ -4644,6 +4671,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 22,
 			"_copy": {
 				"name": "Marid",
 				"source": "MM",
@@ -4895,6 +4923,7 @@
 				"P"
 			],
 			"miscTags": [
+				"AOE",
 				"MW"
 			],
 			"conditionInflict": [
@@ -5154,7 +5183,6 @@
 				"F",
 				"N",
 				"P",
-				"R",
 				"S"
 			],
 			"spellcastingTags": [
@@ -5388,6 +5416,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 115,
 			"_copy": {
 				"name": "Archmage",
 				"source": "MM",
@@ -5417,6 +5446,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 23,
 			"_copy": {
 				"name": "Mage",
 				"source": "MM",
@@ -5447,6 +5477,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 158,
 			"_copy": {
 				"name": "Rakshasa",
 				"source": "MM",
@@ -5467,6 +5498,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 175,
 			"_copy": {
 				"name": "Drow Mage",
 				"source": "MM",
@@ -5486,6 +5518,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 120,
 			"_copy": {
 				"name": "Werewolf",
 				"source": "MM",
@@ -6352,6 +6385,7 @@
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "VEoR",
+			"page": 60,
 			"_copy": {
 				"name": "Githyanki Knight",
 				"source": "MM",

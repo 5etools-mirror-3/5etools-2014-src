@@ -163,7 +163,7 @@ class PageFilterClassesBase extends PageFilterBase {
 				? cls._fSourceSubclass
 				: cls._fSources,
 			cls._fMisc,
-			null,
+			null, // Options filter
 		];
 	}
 }
@@ -229,6 +229,7 @@ class PageFilterClasses extends PageFilterClassesBase {
 				: cls._fSources,
 			cls._fMisc,
 			cls._fLevelRange,
+			null, // Options filter
 		];
 	}
 }

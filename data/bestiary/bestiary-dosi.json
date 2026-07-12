@@ -88,6 +88,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Death Burst",
 				"Unusual Nature"
@@ -192,6 +193,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"dagger|phb"
 			],
@@ -431,6 +433,7 @@
 					]
 				}
 			},
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true
 		},
@@ -582,10 +585,11 @@
 				{
 					"name": "Cunning Action",
 					"entries": [
-						"Tarak takes the Dash, Disengage, or Hide action."
+						"Tarak takes the {@action Dash}, {@action Disengage}, or {@action Hide} action."
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"dagger|phb"
 			],
@@ -669,6 +673,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"shortsword|phb"
 			],
@@ -692,13 +697,9 @@
 			"name": "Violet Fungus",
 			"source": "DoSI",
 			"page": 48,
-			"otherSources": [
-				{
-					"source": "PaBTSO"
-				},
-				{
-					"source": "BMT"
-				}
+			"referenceSources": [
+				"BMT",
+				"PaBTSO"
 			],
 			"_copy": {
 				"name": "Violet Fungus",

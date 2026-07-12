@@ -39,7 +39,9 @@
 						"type": "internal",
 						"path": "feats/TCE/Eldritch Adept.webp"
 					},
-					"credit": "Brian Valeza"
+					"credit": "Brian Valeza",
+					"width": 800,
+					"height": 1214
 				}
 			]
 		},
@@ -52,7 +54,9 @@
 					"href": {
 						"type": "internal",
 						"path": "feats/BGG/Fury of the Frost Giant.webp"
-					}
+					},
+					"width": 850,
+					"height": 1172
 				}
 			]
 		},
@@ -67,7 +71,9 @@
 						"path": "feats/DSotDQ/Mage of High Sorcery.webp"
 					},
 					"title": "Mages of High Sorcery of the Orders of the Black, Red, and White Robes",
-					"credit": "Linda Lithén"
+					"credit": "Linda Lithén",
+					"width": 1700,
+					"height": 1223
 				}
 			]
 		},
@@ -80,7 +86,9 @@
 					"href": {
 						"type": "internal",
 						"path": "feats/PHB/Inspiring Leader.webp"
-					}
+					},
+					"width": 1000,
+					"height": 750
 				}
 			]
 		},
@@ -95,7 +103,9 @@
 						"path": "feats/SatO/Planar Wanderer.webp"
 					},
 					"title": "A planar cartographer on a Lower Plane asks a pit fiend for directions",
-					"credit": "Michele Giorgi"
+					"credit": "Michele Giorgi",
+					"width": 850,
+					"height": 1981
 				}
 			]
 		},
@@ -108,7 +118,9 @@
 					"href": {
 						"type": "internal",
 						"path": "feats/PHB/Ritual Caster.webp"
-					}
+					},
+					"width": 1000,
+					"height": 749
 				}
 			]
 		},
@@ -123,7 +135,9 @@
 						"path": "feats/PSK/Servo Crafting.webp"
 					},
 					"title": "Servo",
-					"credit": "Igor Kieryluk"
+					"credit": "Igor Kieryluk",
+					"width": 739,
+					"height": 985
 				}
 			]
 		},
@@ -138,7 +152,9 @@
 						"path": "feats/TCE/Telepathic.webp"
 					},
 					"title": "Astride a unicorn, a telepathic bard inspires her wizard companion.",
-					"credit": "Zoltan Boros"
+					"credit": "Zoltan Boros",
+					"width": 1200,
+					"height": 802
 				}
 			]
 		}

@@ -21,7 +21,9 @@
 						"path": "bestiary/PSK/Angel.webp"
 					},
 					"title": "Exquisite Archangel",
-					"credit": "Brad Rigney"
+					"credit": "Brad Rigney",
+					"width": 636,
+					"height": 515
 				}
 			]
 		},
@@ -73,7 +75,9 @@
 						"path": "bestiary/PSK/Construct.webp"
 					},
 					"title": "Prizefighter Construct",
-					"credit": "Daniel Ljunggren"
+					"credit": "Daniel Ljunggren",
+					"width": 851,
+					"height": 613
 				}
 			]
 		},
@@ -118,7 +122,9 @@
 						"path": "bestiary/PSK/Demon.webp"
 					},
 					"title": "Demon of Dark Schemes",
-					"credit": "Daarken"
+					"credit": "Daarken",
+					"width": 638,
+					"height": 543
 				}
 			]
 		},
@@ -139,7 +145,9 @@
 						"path": "bestiary/PSK/Dragon.webp"
 					},
 					"title": "Skyship Stalker",
-					"credit": "Tyler Jacobson"
+					"credit": "Tyler Jacobson",
+					"width": 634,
+					"height": 915
 				}
 			]
 		},
@@ -167,7 +175,9 @@
 						"path": "bestiary/PSK/Drake.webp"
 					},
 					"title": "Take Down",
-					"credit": "Izzy"
+					"credit": "Izzy",
+					"width": 634,
+					"height": 723
 				}
 			]
 		},
@@ -188,7 +198,9 @@
 						"path": "bestiary/PSK/Giant.webp"
 					},
 					"title": "Enraged Giant",
-					"credit": "Anthony Palumbo"
+					"credit": "Anthony Palumbo",
+					"width": 642,
+					"height": 848
 				}
 			]
 		},
@@ -207,7 +219,9 @@
 						"path": "bestiary/PSK/Gremlin.webp"
 					},
 					"title": "Brazen Scourge",
-					"credit": "Kev Walker"
+					"credit": "Kev Walker",
+					"width": 1278,
+					"height": 850
 				}
 			]
 		},
@@ -234,7 +248,9 @@
 						"path": "bestiary/PSK/Hellion.webp"
 					},
 					"title": "Lathnu Hellion",
-					"credit": "Lars Grant-West"
+					"credit": "Lars Grant-West",
+					"width": 1126,
+					"height": 798
 				}
 			]
 		},
@@ -254,7 +270,9 @@
 						"path": "bestiary/PSK/Hydra.webp"
 					},
 					"title": "Bristling Hydra",
-					"credit": "Chris Rahn"
+					"credit": "Chris Rahn",
+					"width": 817,
+					"height": 638
 				}
 			]
 		},
@@ -273,7 +291,9 @@
 						"type": "internal",
 						"path": "bestiary/PSK/Lifecraft.webp"
 					},
-					"credit": "Adam Paquette"
+					"credit": "Adam Paquette",
+					"width": 1275,
+					"height": 1227
 				}
 			]
 		},
@@ -304,7 +324,9 @@
 						"path": "bestiary/PSK/Servo.webp"
 					},
 					"title": "Servo",
-					"credit": "Igor Kieryluk"
+					"credit": "Igor Kieryluk",
+					"width": 739,
+					"height": 985
 				}
 			]
 		},
@@ -324,7 +346,9 @@
 						"path": "bestiary/PSK/Sky Leviathan.webp"
 					},
 					"title": "Aethersquall Ancient",
-					"credit": "Sam Burley"
+					"credit": "Sam Burley",
+					"width": 1277,
+					"height": 825
 				}
 			]
 		},
@@ -363,7 +387,9 @@
 						"path": "bestiary/PSK/Thopter.webp"
 					},
 					"title": "Dukhara Peafowl",
-					"credit": "Craig J Spearing"
+					"credit": "Craig J Spearing",
+					"width": 887,
+					"height": 735
 				},
 				{
 					"type": "image",
@@ -372,7 +398,9 @@
 						"path": "bestiary/PSK/Thopter2.webp"
 					},
 					"title": "Thopter",
-					"credit": "Svetlin Velinov"
+					"credit": "Svetlin Velinov",
+					"width": 628,
+					"height": 528
 				}
 			]
 		},
@@ -448,7 +476,9 @@
 						"path": "bestiary/PSK/Wurm.webp"
 					},
 					"title": "Cowl Prowler",
-					"credit": "Tomasz Jedruszek"
+					"credit": "Tomasz Jedruszek",
+					"width": 625,
+					"height": 466
 				}
 			]
 		}

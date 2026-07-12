@@ -1034,10 +1034,8 @@
 			"name": "Displacer Beast Kitten",
 			"source": "WBtW",
 			"page": 108,
-			"otherSources": [
-				{
-					"source": "BMT"
-				}
+			"referenceSources": [
+				"BMT"
 			],
 			"size": [
 				"S"
@@ -1189,7 +1187,7 @@
 				{
 					"name": "+1 Longsword",
 					"entries": [
-						"{@atk mw}  {@hit 2} to hit, reach 5 ft., one target. {@h}4 ({@damage 1d8}) slashing damage, or 5 ({@damage 1d10}) slashing damage when used with two hands. If the target is a creature that is Large or bigger, it takes an extra 5 ({@damage 1d10}) slashing damage."
+						"{@atk mw} {@hit 2} to hit, reach 5 ft., one target. {@h}4 ({@damage 1d8}) slashing damage, or 5 ({@damage 1d10}) slashing damage when used with two hands. If the target is a creature that is Large or bigger, it takes an extra 5 ({@damage 1d10}) slashing damage."
 					]
 				}
 			],
@@ -1791,6 +1789,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Keen Senses"
 			],
@@ -2254,7 +2253,7 @@
 				{
 					"name": "Light Crossbow",
 					"entries": [
-						"{@atk rw} {@hit 5} to hit (the target gains no benefit from less than {@quickref Cover||3||total cover}), range 320 ft., one target. {@h}7 ({@damage 1d8 + 3}) piercing damage. {@hom}Immediately after making this attack, the harengon can use the Hide action."
+						"{@atk rw} {@hit 5} to hit (the target gains no benefit from less than {@quickref Cover||3||total cover}), range 320 ft., one target. {@h}7 ({@damage 1d8 + 3}) piercing damage. {@hom}Immediately after making this attack, the harengon can use the {@action Hide} action."
 					]
 				}
 			],
@@ -2285,10 +2284,8 @@
 			"isNamedCreature": true,
 			"source": "WBtW",
 			"page": 205,
-			"otherSources": [
-				{
-					"source": "VEoR"
-				}
+			"referenceSources": [
+				"VEoR"
 			],
 			"size": [
 				"M"
@@ -2776,7 +2773,7 @@
 				{
 					"name": "Nimble Escape",
 					"entries": [
-						"Jingle Jangle can take the Disengage or Hide action as a bonus action on each of her turns."
+						"Jingle Jangle can take the {@action Disengage} or {@action Hide} action as a bonus action on each of her turns."
 					]
 				}
 			],
@@ -3870,6 +3867,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Keen Senses"
 			],
@@ -3998,7 +3996,7 @@
 				{
 					"name": "Cunning Action",
 					"entries": [
-						"On each of her turns, Raezil can use a bonus action to take the Dash, Disengage, or Hide action."
+						"On each of her turns, Raezil can use a bonus action to take the {@action Dash}, {@action Disengage}, or {@action Hide} action."
 					]
 				},
 				{
@@ -5671,6 +5669,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"dagger|phb"
 			],
@@ -5712,6 +5711,7 @@
 				"average": 7,
 				"formula": "2d6"
 			},
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true
 		},
@@ -5806,7 +5806,7 @@
 				{
 					"name": "Assassin's Whim",
 					"entries": [
-						"Zarak takes the Dash, Disengage, or Hide action."
+						"Zarak takes the {@action Dash}, {@action Disengage}, or {@action Hide} action."
 					]
 				}
 			],

@@ -9,7 +9,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToFW/ParvazOpheliaEbonclaw.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -35,7 +37,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToFW/FarrowPlum.webp"
-					}
+					},
+					"width": 850,
+					"height": 2267
 				}
 			]
 		},
@@ -48,7 +52,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToFW/Gertrube.webp"
-					}
+					},
+					"width": 850,
+					"height": 2266
 				}
 			]
 		},
@@ -61,7 +67,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToFW/FarrowPlum.webp"
-					}
+					},
+					"width": 850,
+					"height": 2267
 				}
 			]
 		},
@@ -74,7 +82,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToFW/Kopoha.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -87,7 +97,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToFW/X01Modron.webp"
-					}
+					},
+					"width": 1700,
+					"height": 2200
 				}
 			]
 		},
@@ -108,7 +120,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToFW/Morte.webp"
-					}
+					},
+					"width": 682,
+					"height": 1000
 				}
 			]
 		},
@@ -121,7 +135,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToFW/ParvazOpheliaEbonclaw.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -134,7 +150,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToFW/ParvazOpheliaEbonclaw.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -147,7 +165,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToFW/R04M.webp"
-					}
+					},
+					"width": 850,
+					"height": 1147
 				}
 			]
 		},
@@ -160,7 +180,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToFW/Shariel.webp"
-					}
+					},
+					"width": 850,
+					"height": 1532
 				}
 			]
 		},
@@ -173,7 +195,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToFW/VecnaImpersonator.webp"
-					}
+					},
+					"width": 850,
+					"height": 1942
 				}
 			]
 		},
@@ -186,7 +210,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToFW/Whirlwyrm.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -199,7 +225,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToFW/X01Modron.webp"
-					}
+					},
+					"width": 1700,
+					"height": 2200
 				}
 			]
 		},
@@ -212,7 +240,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToFW/Zaythir.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		}

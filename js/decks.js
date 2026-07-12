@@ -5,7 +5,7 @@ class DecksSublistManager extends SublistManager {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-12 px-0",
+				css: "ve-bold ve-col-12 ve-px-0",
 				colStyle: "",
 			}),
 		];
@@ -14,17 +14,17 @@ class DecksSublistManager extends SublistManager {
 	pGetSublistItem (ent, hash) {
 		const cellsText = [ent.name];
 
-		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst__row-border lst__row-inner">
+		const ele = ee`<div class="ve-lst__row ve-lst__row--sublist ve-flex-col">
+			<a href="#${hash}" class="ve-lst__row-border ve-lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
-		</div>`)
-			.contextmenu(evt => this._handleSublistItemContextMenu(evt, listItem))
-			.click(evt => this._listSub.doSelect(listItem, evt));
+		</div>`
+			.onn("contextmenu", evt => this._handleSublistItemContextMenu(evt, listItem))
+			.onn("click", evt => this._listSub.doSelect(listItem, evt));
 
 		const listItem = new ListItem(
 			hash,
-			$ele,
+			ele,
 			ent.name,
 			{
 				hash,
@@ -107,6 +107,13 @@ class DecksPage extends ListPage {
 
 			dataProps: ["deck"],
 
+			// TODO(Future) implement e.g. custom `ClsBookView` to allow more useful deck printing
+			bookViewOptions: {
+				nameSingular: "deck",
+				namePlural: "decks",
+				pageTitle: "Decks Book View",
+			},
+
 			listSyntax: new ListSyntaxDecks({fnGetDataList: () => this._dataList}),
 
 			compSettings: new DecksPageSettingsManager(),
@@ -130,14 +137,14 @@ class DecksPage extends ListPage {
 		this._pageFilter.mutateAndAddToFilters(ent, isExcluded);
 
 		const eleLi = document.createElement("div");
-		eleLi.className = `lst__row ve-flex-col ${isExcluded ? "lst__row--blocklisted" : ""}`;
+		eleLi.className = `ve-lst__row ve-flex-col ${isExcluded ? "ve-lst__row--blocklisted" : ""}`;
 
 		const source = Parser.sourceJsonToAbv(ent.source);
 		const hash = UrlUtil.autoEncodeHash(ent);
 
-		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
-			<span class="ve-col-10 bold pl-0 pr-1">${ent.name}</span>
-			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(ent.source)} pl-1 pr-0" title="${Parser.sourceJsonToFull(ent.source)}">${source}</span>
+		eleLi.innerHTML = `<a href="#${hash}" class="ve-lst__row-border ve-lst__row-inner">
+			<span class="ve-col-10 ve-bold ve-pl-0 ve-pr-1">${ent.name}</span>
+			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(ent.source)} ve-pl-1 ve-pr-0" title="${Parser.sourceJsonToFull(ent.source)}">${source}</span>
 		</a>`;
 
 		const listItem = new ListItem(
@@ -165,14 +172,14 @@ class DecksPage extends ListPage {
 			.splice(1, this._renderFnsCleanup.length)
 			.forEach(fn => fn());
 
-		this._$wrpTabs
-			.find(`[data-name="deck-wrp-controls"]`).remove();
+		this._wrpTabs
+			.find(`[data-name="deck-wrp-controls"]`)?.remove();
 
-		const $wrpControls = $(`<div class="ve-flex mt-auto" data-name="deck-wrp-controls"></div>`)
-			.prependTo(this._$wrpTabs);
+		const wrpControls = ee`<div class="ve-flex ve-mt-auto" data-name="deck-wrp-controls"></div>`
+			.prependTo(this._wrpTabs);
 
-		const $btnDraw = $(`<button class="ve-btn ve-btn-xs ve-btn-primary bb-0 bbr-0 bbl-0" title="Draw a Card (SHIFT to Skip Replacement; CTRL to Skip Animation)"><i class="fas fa-fw fa-cards"></i></button>`)
-			.click(async evt => {
+		const btnDraw = ee`<button class="ve-btn ve-btn-xs ve-btn-primary ve-bb-0 ve-bbr-0 ve-bbl-0" title="Draw a Card (SHIFT to Skip Replacement; CTRL to Skip Animation)"><i class="fas fa-fw fa-cards"></i></button>`
+			.onn("click", async evt => {
 				const cards = this._compCardState.getUndrawnCards(ent);
 				if (!cards.length) return JqueryUtil.doToast({content: "All cards have already been drawn!", type: "warning"});
 
@@ -193,52 +200,52 @@ class DecksPage extends ListPage {
 				}
 
 				try {
-					$btnDraw.prop("disabled", true);
+					btnDraw.prop("disabled", true);
 					await RenderDecks.pRenderStgCard({deck: ent, card});
 				} finally {
-					$btnDraw.prop("disabled", false);
+					btnDraw.prop("disabled", false);
 				}
 			});
 
-		const $btnReset = $(`<button class="ve-btn ve-btn-xs ve-btn-default bb-0 bbr-0 bbl-0" title="Reset Deck"><i class="fas fa-fw fa-rotate-left"></i></button>`)
-			.click(async () => {
+		const btnReset = ee`<button class="ve-btn ve-btn-xs ve-btn-default ve-bb-0 ve-bbr-0 ve-bbl-0" title="Reset Deck"><i class="fas fa-fw fa-rotate-left"></i></button>`
+			.onn("click", async () => {
 				await this._compCardState.pResetDeck(ent);
 				JqueryUtil.doToast("Reset deck!");
 			});
 
 		// region List vs Grid view
-		const $btnViewList = this._compSettings ? $(`<button class="ve-btn ve-btn-xs ve-btn-default bb-0 bbr-0 bbl-0" title="Card List View"><i class="fas fa-fw fa-list"></i></button>`)
-			.click(() => {
+		const btnViewList = this._compSettings ? ee`<button class="ve-btn ve-btn-xs ve-btn-default ve-bb-0 ve-bbr-0 ve-bbl-0" title="Card List View"><i class="fas fa-fw fa-list"></i></button>`
+			.onn("click", () => {
 				this._compSettings.pSet("cardLayout", "list").then(null);
 			}) : null;
 
-		const $btnViewGrid = this._compSettings ? $(`<button class="ve-btn ve-btn-xs ve-btn-default bb-0 bbr-0 bbl-0" title="Card Grid View"><i class="fas fa-fw fa-grid-2"></i></button>`)
-			.click(() => {
+		const btnViewGrid = this._compSettings ? ee`<button class="ve-btn ve-btn-xs ve-btn-default ve-bb-0 ve-bbr-0 ve-bbl-0" title="Card Grid View"><i class="fas fa-fw fa-grid-2"></i></button>`
+			.onn("click", () => {
 				this._compSettings.pSet("cardLayout", "grid").then(null);
 			}) : null;
 
 		const hkCardLayout = this._compSettings.addHookBase("cardLayout", () => {
 			const mode = this._compSettings.get("cardLayout");
-			$btnViewList.toggleClass("active", mode === "list");
-			$btnViewGrid.toggleClass("active", mode === "grid");
+			btnViewList.toggleClass("ve-active", mode === "list");
+			btnViewGrid.toggleClass("ve-active", mode === "grid");
 		});
 		this._renderFnsCleanup.push(() => this._compSettings.removeHookBase("cardLayout", hkCardLayout));
 		hkCardLayout();
 		// endregion
 
-		$$($wrpControls)`<div class="ve-flex">
+		ee(wrpControls)`<div class="ve-flex">
 			<div class="ve-flex-v-center ve-btn-group">
-				${$btnDraw}
-				${$btnReset}
+				${btnDraw}
+				${btnReset}
 			</div>
 
-			<div class="ve-flex-v-center ve-btn-group ml-2">
-				${$btnViewList}
-				${$btnViewGrid}
+			<div class="ve-flex-v-center ve-btn-group ve-ml-2">
+				${btnViewList}
+				${btnViewGrid}
 			</div>
 		</div>`;
 
-		const {$ele, fnsCleanup} = RenderDecks.getRenderedDeckMeta(
+		const {ele, fnsCleanup} = RenderDecks.getRenderedDeckMeta(
 			ent,
 			{
 				settingsManager: this._compSettings,
@@ -247,9 +254,9 @@ class DecksPage extends ListPage {
 		);
 		this._renderFnsCleanup.push(...fnsCleanup);
 
-		this._$pgContent
+		this._pgContent
 			.empty()
-			.append($ele);
+			.appends(ele);
 	}
 }
 

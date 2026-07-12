@@ -14,14 +14,18 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoA/Abigor.webp"
-					}
+					},
+					"width": 861,
+					"height": 1131
 				},
 				{
 					"type": "image",
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoA/Abigoralt.webp"
-					}
+					},
+					"width": 1856,
+					"height": 2454
 				}
 			]
 		},
@@ -39,7 +43,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Aeshma.webp"
 					},
-					"credit": "Lius Lasahido"
+					"credit": "Lius Lasahido",
+					"width": 949,
+					"height": 1903
 				}
 			]
 		},
@@ -72,7 +78,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Affliction Devil (Kocrachon).webp"
 					},
-					"credit": "Sebastian Kowoll"
+					"credit": "Sebastian Kowoll",
+					"width": 1857,
+					"height": 2454
 				}
 			]
 		},
@@ -93,7 +101,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Anagwendol.webp"
 					},
-					"credit": "Lius Lasahido"
+					"credit": "Lius Lasahido",
+					"width": 906,
+					"height": 1542
 				}
 			]
 		},
@@ -129,7 +139,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Asmodeus.webp"
 					},
-					"credit": "Aaron Sims"
+					"credit": "Aaron Sims",
+					"width": 1857,
+					"height": 2454
 				}
 			]
 		},
@@ -143,7 +155,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Avatar of Baalzebul.webp"
 					},
-					"credit": "Sergey Musin"
+					"credit": "Sergey Musin",
+					"width": 1766,
+					"height": 1340
 				}
 			]
 		},
@@ -176,7 +190,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Ayperobo Swarm.webp"
 					},
-					"credit": "Sebastian Kowoll"
+					"credit": "Sebastian Kowoll",
+					"width": 915,
+					"height": 1344
 				}
 			]
 		},
@@ -213,7 +229,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Baalzebul.webp"
 					},
-					"credit": "Aaron Sims"
+					"credit": "Aaron Sims",
+					"width": 1855,
+					"height": 1307
 				}
 			]
 		},
@@ -231,7 +249,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Barachiel.webp"
 					},
-					"credit": "Paul Adam, Lius Lasahido"
+					"credit": "Paul Adam, Lius Lasahido",
+					"width": 1856,
+					"height": 1121
 				}
 			]
 		},
@@ -283,7 +303,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Belial.webp"
 					},
-					"credit": "Aaron Sims"
+					"credit": "Aaron Sims",
+					"width": 1856,
+					"height": 1402
 				}
 			]
 		},
@@ -297,7 +319,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Brother Adramalech.webp"
 					},
-					"credit": "Aaron Sims"
+					"credit": "Aaron Sims",
+					"width": 931,
+					"height": 1418
 				}
 			]
 		},
@@ -311,7 +335,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Brother Morax.webp"
 					},
-					"credit": "Aaron Sims"
+					"credit": "Aaron Sims",
+					"width": 992,
+					"height": 985
 				}
 			]
 		},
@@ -325,7 +351,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Buer.webp"
 					},
-					"credit": "Aaron Sims"
+					"credit": "Aaron Sims",
+					"width": 933,
+					"height": 1441
 				}
 			]
 		},
@@ -358,7 +386,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Corruption Devil (Paeliryon).webp"
 					},
-					"credit": "Sebastian Kowoll"
+					"credit": "Sebastian Kowoll",
+					"width": 929,
+					"height": 1287
 				}
 			]
 		},
@@ -386,7 +416,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Dispater.webp"
 					},
-					"credit": "Aaron Sims"
+					"credit": "Aaron Sims",
+					"width": 1856,
+					"height": 1742
 				}
 			]
 		},
@@ -427,7 +459,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Displacer Fiend.webp"
 					},
-					"credit": "Sebastian Kowoll"
+					"credit": "Sebastian Kowoll",
+					"width": 1857,
+					"height": 2454
 				}
 			]
 		},
@@ -441,7 +475,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Eriflamme.webp"
 					},
-					"credit": "Sergei Sarichev"
+					"credit": "Sergei Sarichev",
+					"width": 1856,
+					"height": 2454
 				}
 			]
 		},
@@ -468,7 +504,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Fierna.webp"
 					},
-					"credit": "Aaron Sims"
+					"credit": "Aaron Sims",
+					"width": 1855,
+					"height": 2454
 				}
 			]
 		},
@@ -482,7 +520,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Fire Kraken.webp"
 					},
-					"credit": "Sergei Sarichev"
+					"credit": "Sergei Sarichev",
+					"width": 1856,
+					"height": 1357
 				}
 			]
 		},
@@ -510,7 +550,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Glasya.webp"
 					},
-					"credit": "Aaron Sims"
+					"credit": "Aaron Sims",
+					"width": 1857,
+					"height": 1551
 				}
 			]
 		},
@@ -571,7 +613,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Halog.webp"
 					},
-					"credit": "Sebastian Kowoll"
+					"credit": "Sebastian Kowoll",
+					"width": 1856,
+					"height": 2454
 				}
 			]
 		},
@@ -596,7 +640,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Hellcat (Bezekira).webp"
 					},
-					"credit": "Sebastian Kowoll"
+					"credit": "Sebastian Kowoll",
+					"width": 919,
+					"height": 1350
 				}
 			]
 		},
@@ -614,7 +660,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Jenevere.webp"
 					},
-					"credit": "Lius Lasahido"
+					"credit": "Lius Lasahido",
+					"width": 1857,
+					"height": 992
 				}
 			]
 		},
@@ -632,7 +680,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Koh Tam.webp"
 					},
-					"credit": "Paul Adam, Lius Lasahido"
+					"credit": "Paul Adam, Lius Lasahido",
+					"width": 1863,
+					"height": 986
 				}
 			]
 		},
@@ -669,7 +719,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Levistus.webp"
 					},
-					"credit": "Aaron Sims"
+					"credit": "Aaron Sims",
+					"width": 1852,
+					"height": 1556
 				}
 			]
 		},
@@ -702,7 +754,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Maelephant Nomad.webp"
 					},
-					"credit": "Sebastian Kowoll"
+					"credit": "Sebastian Kowoll",
+					"width": 936,
+					"height": 1114
 				}
 			]
 		},
@@ -731,7 +785,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Mammon.webp"
 					},
-					"credit": "Aaron Sims"
+					"credit": "Aaron Sims",
+					"width": 1857,
+					"height": 1723
 				}
 			]
 		},
@@ -758,7 +814,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Mephistopheles.webp"
 					},
-					"credit": "Aaron Sims"
+					"credit": "Aaron Sims",
+					"width": 1856,
+					"height": 1429
 				}
 			]
 		},
@@ -799,7 +857,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Miasmorne.webp"
 					},
-					"credit": "Sebastian Kowoll"
+					"credit": "Sebastian Kowoll",
+					"width": 1854,
+					"height": 2454
 				}
 			]
 		},
@@ -832,7 +892,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Oneirovore.webp"
 					},
-					"credit": "Sebastian Kowoll"
+					"credit": "Sebastian Kowoll",
+					"width": 799,
+					"height": 1325
 				}
 			]
 		},
@@ -865,7 +927,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Pain Devil (Excruciarch).webp"
 					},
-					"credit": "Sebastian Kowoll"
+					"credit": "Sebastian Kowoll",
+					"width": 984,
+					"height": 1416
 				}
 			]
 		},
@@ -883,7 +947,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Ramius.webp"
 					},
-					"credit": "Lius Lasahido"
+					"credit": "Lius Lasahido",
+					"width": 1857,
+					"height": 2454
 				}
 			]
 		},
@@ -897,7 +963,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Rimmon.webp"
 					},
-					"credit": "Aaron Sims"
+					"credit": "Aaron Sims",
+					"width": 924,
+					"height": 1404
 				}
 			]
 		},
@@ -919,7 +987,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Sarevok.webp"
 					},
-					"credit": "Lius Lasahido"
+					"credit": "Lius Lasahido",
+					"width": 1857,
+					"height": 2454
 				}
 			]
 		},
@@ -960,7 +1030,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Shredwing.webp"
 					},
-					"credit": "Sebastian Kowoll"
+					"credit": "Sebastian Kowoll",
+					"width": 1856,
+					"height": 2454
 				}
 			]
 		},
@@ -985,7 +1057,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Styx Dragon.webp"
 					},
-					"credit": "Sebastian Kowoll"
+					"credit": "Sebastian Kowoll",
+					"width": 1856,
+					"height": 2454
 				}
 			]
 		},
@@ -1004,7 +1078,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Tiax.webp"
 					},
-					"credit": "Lius Lasahido"
+					"credit": "Lius Lasahido",
+					"width": 939,
+					"height": 1559
 				}
 			]
 		},
@@ -1060,7 +1136,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Tyrant Shadows.webp"
 					},
-					"credit": "Sebastian Kowoll"
+					"credit": "Sebastian Kowoll",
+					"width": 1854,
+					"height": 2454
 				}
 			]
 		},
@@ -1101,7 +1179,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Vorvolaka.webp"
 					},
-					"credit": "Sebastian Kowoll"
+					"credit": "Sebastian Kowoll",
+					"width": 1856,
+					"height": 2454
 				}
 			]
 		},
@@ -1134,7 +1214,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/War Devil.webp"
 					},
-					"credit": "Sebastian Kowoll"
+					"credit": "Sebastian Kowoll",
+					"width": 905,
+					"height": 1490
 				}
 			]
 		},
@@ -1148,7 +1230,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Zagum.webp"
 					},
-					"credit": "Aaron Sims"
+					"credit": "Aaron Sims",
+					"width": 911,
+					"height": 1287
 				}
 			]
 		},
@@ -1184,7 +1268,9 @@
 						"type": "internal",
 						"path": "bestiary/CoA/Zythan.webp"
 					},
-					"credit": "Lius Lasahido"
+					"credit": "Lius Lasahido",
+					"width": 1854,
+					"height": 2454
 				}
 			]
 		}

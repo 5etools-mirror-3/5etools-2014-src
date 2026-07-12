@@ -29,7 +29,6 @@
 			"int": 11,
 			"wis": 10,
 			"cha": 10,
-			"passive": 0,
 			"cr": "3",
 			"trait": [
 				{
@@ -49,10 +48,11 @@
 				{
 					"name": "Constrict",
 					"entries": [
-						"{@atk mw} {@hit 5} to hit, one target. {@h}13 ({@damage 3d6+3}) bludgeoning damage. If the target is Medium or smaller, it is {@condition grappled} (escape {@dc 13}) and pulled 5 feet toward the big water slurpent. Until this grapple ends, the target is {@condition restrained}, the big water slurpent tries to drown it, and the big water slurpent can't constrict another target."
+						"{@atk mw} {@hit 5} to hit, one target. {@h}13 ({@damage 3d6+3}) bludgeoning damage. If the target is Medium or smaller, it is {@condition grappled} (escape {@dc 13}) and pulled 5 feet toward the big water slurpent. Until this {@action grapple} ends, the target is {@condition restrained}, the big water slurpent tries to drown it, and the big water slurpent can't constrict another target."
 					]
 				}
 			],
+			"tokenCustom": true,
 			"damageTags": [
 				"B"
 			],
@@ -61,7 +61,6 @@
 			],
 			"conditionInflict": [
 				"grappled",
-				"invisible",
 				"restrained"
 			],
 			"hasToken": true,
@@ -97,7 +96,6 @@
 			"int": 4,
 			"wis": 12,
 			"cha": 6,
-			"passive": 0,
 			"cr": "1/4",
 			"trait": [
 				{
@@ -171,7 +169,6 @@
 			"int": 5,
 			"wis": 12,
 			"cha": 6,
-			"passive": 0,
 			"cr": "0",
 			"trait": [
 				{
@@ -189,8 +186,12 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Pack Tactics"
+			],
+			"damageTags": [
+				"P"
 			],
 			"miscTags": [
 				"MW"
@@ -230,7 +231,6 @@
 			"int": 11,
 			"wis": 11,
 			"cha": 12,
-			"passive": 0,
 			"cr": "1/8",
 			"trait": [
 				{
@@ -254,6 +254,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Amphibious"
 			],
@@ -262,6 +263,9 @@
 			],
 			"miscTags": [
 				"MW"
+			],
+			"conditionInflict": [
+				"charmed"
 			],
 			"savingThrowForced": [
 				"wisdom"
@@ -296,20 +300,18 @@
 			"int": 13,
 			"wis": 14,
 			"cha": 14,
-			"passive": 0,
 			"cr": "3",
 			"spellcasting": [
 				{
 					"name": "Innate Spellcasting",
 					"type": "spellcasting",
+					"headerEntries": [
+						"The hag's spellcasting ability is Charisma (spell save {@dc 12}). It can innately cast the following spells:"
+					],
 					"will": [
 						"{@spell dancing lights}",
 						"{@spell minor illusion}",
 						"{@spell vicious mockery}"
-					],
-					"footerEntries": [
-						"The hag's spellcasting ability is Charisma",
-						"(spell save {@dc 12}). It can innately cast the following spells:"
 					]
 				}
 			],
@@ -347,6 +349,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Amphibious",
 				"Mimicry"
@@ -362,9 +365,6 @@
 			],
 			"miscTags": [
 				"MW"
-			],
-			"conditionInflict": [
-				"invisible"
 			],
 			"savingThrowForcedSpell": [
 				"wisdom"
@@ -404,7 +404,6 @@
 			"int": 10,
 			"wis": 8,
 			"cha": 8,
-			"passive": 0,
 			"cr": "1/4",
 			"trait": [
 				{
@@ -462,7 +461,7 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"Dwarf"
+					"dwarf"
 				]
 			},
 			"alignment": [
@@ -484,7 +483,9 @@
 			"int": 10,
 			"wis": 11,
 			"cha": 10,
-			"passive": 0,
+			"resist": [
+				"poison"
+			],
 			"cr": "1/4",
 			"trait": [
 				{
@@ -518,6 +519,7 @@
 		},
 		{
 			"name": "Great Kroom, Purple Worm",
+			"shortName": "Great Kroom",
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "AWM",
@@ -550,7 +552,6 @@
 			"int": 11,
 			"wis": 11,
 			"cha": 12,
-			"passive": 0,
 			"cr": "15",
 			"trait": [
 				{
@@ -580,10 +581,6 @@
 					]
 				}
 			],
-			"environment": [
-				"desert",
-				"underdark"
-			],
 			"traitTags": [
 				"Tunneler"
 			],
@@ -592,6 +589,7 @@
 				"Swallow"
 			],
 			"damageTags": [
+				"I",
 				"P"
 			],
 			"miscTags": [
@@ -627,7 +625,6 @@
 			"int": 6,
 			"wis": 13,
 			"cha": 6,
-			"passive": 0,
 			"cr": "5",
 			"trait": [
 				{
@@ -647,17 +644,17 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 6} to hit, reach 5 ft., one target. {@h}12 ({@damage 2d8 + 3}) piercing damage. Target must make a {@dc 15} Constitution save, or take d ({@damage 1d10}) poison damage until cured."
+						"{@atk mw} {@hit 6} to hit, reach 5 ft., one target. {@h}12 ({@damage 2d8 + 3}) piercing damage. Target must make a {@dc 15} Constitution save, or take 6 ({@damage 1d10}) poison damage until cured."
 					]
 				},
 				{
 					"name": "Tentacle",
 					"entries": [
-						"{@atk mw} {@hit 6} to hit, reach 10 ft., one target. {@h}7 ({@damage 1d8 + 3}) bludgeoning damage ,Target must make a {@dc 19} Constitution save, or take 42 ({@damage 12d6}) poison damage"
+						"{@atk mw} {@hit 6} to hit, reach 10 ft., one target. {@h}7 ({@damage 1d8 + 3}) bludgeoning damage. Target must make a {@dc 19} Constitution save, or take 42 ({@damage 12d6}) poison damage."
 					]
 				},
 				{
-					"name": "Slam",
+					"name": "Slam!",
 					"entries": [
 						"Target must make a {@dc 14} Constitution save, or be {@condition grappled}."
 					]
@@ -666,23 +663,29 @@
 			"environment": [
 				"underdark"
 			],
+			"tokenCustom": true,
 			"actionTags": [
 				"Multiattack",
 				"Tentacles"
 			],
 			"damageTags": [
 				"B",
+				"I",
 				"P"
 			],
 			"miscTags": [
 				"MW",
 				"RCH"
 			],
+			"conditionInflict": [
+				"grappled"
+			],
 			"hasToken": true,
 			"hasFluff": true
 		},
 		{
 			"name": "Hill Giant, Blorbo",
+			"shortName": "Blorbo",
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "AWM",
@@ -710,7 +713,6 @@
 			"int": 5,
 			"wis": 9,
 			"cha": 6,
-			"passive": 0,
 			"cr": "4",
 			"action": [
 				{
@@ -752,6 +754,7 @@
 		},
 		{
 			"name": "Saleeth the Couatl",
+			"shortName": "Saleeth",
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "AWM",
@@ -785,7 +788,6 @@
 			"int": 18,
 			"wis": 20,
 			"cha": 18,
-			"passive": 0,
 			"cr": "4",
 			"spellcasting": [
 				{
@@ -828,7 +830,7 @@
 				{
 					"name": "Shielded Mind",
 					"entries": [
-						"The couatl is immune to scrying and to any effect that would sense its emotions, read its thoughts, or detect its location."
+						"The couatl is immune to {@spell scrying} and to any effect that would sense its emotions, read its thoughts, or detect its location."
 					]
 				}
 			],
@@ -836,23 +838,24 @@
 				{
 					"name": "Bite",
 					"entries": [
-						"{@atk mw} {@hit 8} to hit, reach 5 ft., one creature. {@h}8 ({@damage 1d6 + 5}) piercing damage, Target must make a {@dc 13} Constitution save, or fall {@condition unconscious}. Another creature can use an action to shake the target awake."
+						"{@atk mw} {@hit 8} to hit, reach 5 ft., one creature. {@h}8 ({@damage 1d6 + 5}) piercing damage. Target must make a {@dc 13} Constitution save, or fall {@condition unconscious}. Another creature can use an action to shake the target awake."
 					]
 				},
 				{
 					"name": "Constrict",
 					"entries": [
-						"{@atk mw} {@hit 6} to hit, reach 10 ft., one Medium or smaller creature. {@h}10 ({@damage 2d6 + 3}) bludgeoning damage, Target is {@condition grappled} (escape {@dc 15}). The couatl can constrain only one target at a time."
+						"{@atk mw} {@hit 6} to hit, reach 10 ft., one Medium or smaller creature. {@h}10 ({@damage 2d6 + 3}) bludgeoning damage. Target is {@condition grappled} (escape {@dc 15}). The couatl can constrain only one target at a time."
 					]
 				},
 				{
 					"name": "Change Shape",
 					"entries": [
-						"The couatl magically polymorphs into a humanoid or beast that has a challenge rating equal to or less than its own, or back into its true form. It reverts to its true form if it dies. Any equipment it is wearing or carrying is absorbed or borne by the new form (the couatl's choice).",
+						"The couatl magically polymorphs into {@filter a humanoid or beast that has a challenge rating equal to or less than its own|bestiary|Challenge Rating=[&0;&4]|type=beast;humanoid}, or back into its true form. It reverts to its true form if it dies. Any equipment it is wearing or carrying is absorbed or borne by the new form (the couatl's choice).",
 						"In a new form, the couatl retains its game statistics and ability to speak, but its AC, movement modes, Strength, Dexterity, and other actions are replaced by those of the new form, and it gains any statistics and capabilities (except class features, legendary actions, and lair actions) that the new form has but that it lacks. If the new form has a bite attack, the couatl can use its bite in that form."
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Magic Weapons"
 			],
@@ -874,7 +877,8 @@
 				"RCH"
 			],
 			"conditionInflict": [
-				"grappled"
+				"grappled",
+				"unconscious"
 			],
 			"savingThrowForcedSpell": [
 				"wisdom"

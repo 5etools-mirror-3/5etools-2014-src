@@ -1,4 +1,11 @@
 {
+	"_meta": {
+		"otherSources": {
+			"monster": {
+				"MM": "AitFR-ISF"
+			}
+		}
+	},
 	"monster": [
 		{
 			"name": "Exul",
@@ -106,6 +113,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"handaxe|phb"
 			],
@@ -264,10 +272,11 @@
 				{
 					"name": "Dagger",
 					"entries": [
-						"{@atk mw,rw} {@hit 5} to hit, reach 5 ft. or range 20/60 ft., one target. {@h}4 ({@damage 1d4 + 2}) piercing damage"
+						"{@atk mw,rw} {@hit 5} to hit, reach 5 ft. or range 20/60 ft., one target. {@h}4 ({@damage 1d4 + 2}) piercing damage."
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"dagger|phb"
 			],

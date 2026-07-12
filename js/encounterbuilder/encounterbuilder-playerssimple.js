@@ -5,38 +5,48 @@ export class EncounterBuilderRenderableCollectionPlayersSimple extends Renderabl
 			rdState,
 		},
 	) {
-		super(comp, "playersSimple", rdState.$wrpRowsSimple);
+		super(comp, "playersSimple", rdState.wrpRowsSimple);
 	}
 
-	_$getWrpRow () {
-		return $(`<div class="ve-flex-v-center mb-2 ecgen-player__wrp-row"></div>`);
+	_getWrpRow () {
+		return ee`<div class="ve-flex-v-center ve-mb-2 ecgen-player__wrp-row"></div>`;
 	}
 
-	_populateRow ({comp, $wrpRow, entity}) {
-		const $selCount = ComponentUiUtil.$getSelEnum(
+	_populateRow ({comp, wrpRow, entity}) {
+		const selCount = ComponentUiUtil.getSelEnum(
 			comp,
 			"count",
 			{
 				values: [...new Array(12)].map((_, i) => i + 1),
 			},
-		).addClass("form-control--minimal no-shrink");
+		)
+			.addClass("form-control--minimal")
+			.addClass("ve-no-shrink");
 
-		const $selLevel = ComponentUiUtil.$getSelEnum(
+		const selLevel = ComponentUiUtil.getSelEnum(
 			comp,
 			"level",
 			{
 				values: [...new Array(20)].map((_, i) => i + 1),
 			},
-		).addClass("form-control--minimal no-shrink bl-0");
+		)
+			.addClass("form-control--minimal")
+			.addClass("ve-no-shrink")
+			.addClass("ve-bl-0");
 
-		const $btnRemove = this._utils.$getBtnDelete({entity, title: "Remove Player Group"})
-			.addClass("ecgen-player__btn-inline h-ipt-xs no-shrink bl-0 bbl-0 btl-0")
+		const btnRemove = this._utils.getBtnDelete({entity, title: "Remove Player Group"})
+			.addClass("ecgen-player__btn-inline")
+			.addClass("ve-h-ipt-xs")
+			.addClass("ve-no-shrink")
+			.addClass("ve-bl-0")
+			.addClass("ve-bbl-0")
+			.addClass("ve-btl-0")
 			.attr("tabindex", "-1");
 
-		$$($wrpRow)`
-			<div class="w-20">${$selCount}</div>
-			<div class="w-20">${$selLevel}</div>
-			<div class="ve-flex-v-center">${$btnRemove}</div>
+		ee(wrpRow)`
+			<div class="ve-w-80p">${selCount}</div>
+			<div class="ve-w-80p">${selLevel}</div>
+			<div class="ve-flex-v-center">${btnRemove}</div>
 		`;
 	}
 }

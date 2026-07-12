@@ -1,4 +1,9 @@
 {
+	"_meta": {
+		"internalCopies": [
+			"monsterFluff"
+		]
+	},
 	"monsterFluff": [
 		{
 			"name": "Animated Ballista",
@@ -67,9 +72,19 @@
 						"type": "internal",
 						"path": "bestiary/WDMM/Arcturia.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1000,
+					"height": 1201
 				}
 			]
+		},
+		{
+			"name": "Azal",
+			"source": "WDMM",
+			"_copy": {
+				"name": "Sha'sal Khou",
+				"source": "WDMM"
+			}
 		},
 		{
 			"name": "Berlain Shadowdusk",
@@ -105,9 +120,11 @@
 					"type": "image",
 					"href": {
 						"type": "internal",
-						"path": "bestiary/WDMM/041-13-01.webp"
+						"path": "bestiary/WDMM/Bore Worm.webp"
 					},
-					"credit": "Craig J Spearing"
+					"credit": "Craig J Spearing",
+					"width": 2550,
+					"height": 1694
 				}
 			]
 		},
@@ -124,7 +141,9 @@
 						"type": "internal",
 						"path": "bestiary/WDMM/Captain N'ghathrod.webp"
 					},
-					"credit": "Eric Belisle"
+					"credit": "Eric Belisle",
+					"width": 2550,
+					"height": 1716
 				}
 			]
 		},
@@ -202,6 +221,21 @@
 			]
 		},
 		{
+			"name": "Crystal Helm Nothic",
+			"source": "WDMM",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/WDMM/Crystal Helm Nothic.webp"
+					},
+					"width": 2550,
+					"height": 1659
+				}
+			]
+		},
+		{
 			"name": "Deformed Duergar",
 			"source": "WDMM",
 			"entries": [
@@ -233,7 +267,9 @@
 						"type": "internal",
 						"path": "bestiary/WDMM/Dezmyr Shadowdusk.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1000,
+					"height": 1375
 				}
 			]
 		},
@@ -260,6 +296,22 @@
 			]
 		},
 		{
+			"name": "Ezzat",
+			"source": "WDMM",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/WDMM/Ezzat.webp"
+					},
+					"credit": "Zoltan Boros",
+					"width": 2550,
+					"height": 1648
+				}
+			]
+		},
+		{
 			"name": "Fazrian",
 			"source": "WDMM",
 			"entries": [
@@ -279,19 +331,17 @@
 						}
 					]
 				}
-			]
-		},
-		{
-			"name": "Gorka Tharn",
-			"source": "WDMM",
+			],
 			"images": [
 				{
 					"type": "image",
 					"href": {
 						"type": "internal",
-						"path": "bestiary/WDMM/Gorka Tharn.webp"
+						"path": "bestiary/WDMM/Fazrian.webp"
 					},
-					"credit": "Zoltan Boros"
+					"credit": "Sam Keiser",
+					"width": 2550,
+					"height": 1630
 				}
 			]
 		},
@@ -332,7 +382,9 @@
 						"type": "internal",
 						"path": "bestiary/WDMM/Halaster Blackcloak.webp"
 					},
-					"credit": "Clint Cearley"
+					"credit": "Clint Cearley",
+					"width": 1000,
+					"height": 1338
 				}
 			]
 		},
@@ -356,6 +408,28 @@
 						}
 					]
 				}
+			]
+		},
+		{
+			"name": "Hrossk",
+			"source": "WDMM",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/WDMM/Hrossk.webp"
+					},
+					"width": 2550,
+					"height": 1694
+				}
+			]
+		},
+		{
+			"name": "Iron Spider",
+			"source": "WDMM",
+			"entries": [
+				"The iron spider exists solely to produce web cables. It has no attacks and no instinct for self-preservation."
 			]
 		},
 		{
@@ -395,7 +469,9 @@
 						"type": "internal",
 						"path": "bestiary/WDMM/Lava Child.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1000,
+					"height": 1382
 				}
 			]
 		},
@@ -516,7 +592,9 @@
 						"type": "internal",
 						"path": "bestiary/WDMM/Muiral.webp"
 					},
-					"credit": "Sidharth Chaturvedi"
+					"credit": "Sidharth Chaturvedi",
+					"width": 1000,
+					"height": 1357
 				}
 			]
 		},
@@ -571,6 +649,14 @@
 			]
 		},
 		{
+			"name": "Rishindar",
+			"source": "WDMM",
+			"_copy": {
+				"name": "Sha'sal Khou",
+				"source": "WDMM"
+			}
+		},
+		{
 			"name": "Scaladar",
 			"source": "WDMM",
 			"entries": [
@@ -598,7 +684,24 @@
 						"type": "internal",
 						"path": "bestiary/WDMM/Scaladar.webp"
 					},
-					"credit": "Leesha Hannigan"
+					"credit": "Leesha Hannigan",
+					"width": 1000,
+					"height": 1243
+				}
+			]
+		},
+		{
+			"name": "Sha'sal Khou",
+			"source": "WDMM",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/WDMM/Sha'sal Khou.webp"
+					},
+					"width": 2550,
+					"height": 1626
 				}
 			]
 		},
@@ -678,22 +781,7 @@
 			"name": "Sundeth",
 			"source": "WDMM",
 			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								{
-									"type": "entries",
-									"entries": [
-										"Sundeth is a hideous, 8-foot-tall, half-ogre."
-									]
-								}
-							]
-						}
-					]
-				}
+				"Sundeth is a hideous, 8-foot-tall, half-ogre."
 			]
 		},
 		{
@@ -772,7 +860,9 @@
 						"type": "internal",
 						"path": "bestiary/WDMM/Trobriand.webp"
 					},
-					"credit": "Scott Murphy"
+					"credit": "Scott Murphy",
+					"width": 2550,
+					"height": 1638
 				}
 			]
 		},
@@ -786,7 +876,9 @@
 						"type": "internal",
 						"path": "bestiary/WDMM/Umbraxakar.webp"
 					},
-					"credit": "Eric Belisle"
+					"credit": "Eric Belisle",
+					"width": 2550,
+					"height": 1592
 				}
 			]
 		},
@@ -818,6 +910,14 @@
 			"entries": [
 				"Archmages are exceedingly rare in duergar society, and Valtagar's gift for wizardry never sat well with the clans of Gracklstugh. He doesn't put himself in harm's way unless he has a clear tactical edge."
 			]
+		},
+		{
+			"name": "Vond",
+			"source": "WDMM",
+			"_copy": {
+				"name": "Sha'sal Khou",
+				"source": "WDMM"
+			}
 		},
 		{
 			"name": "Werebat",
@@ -868,7 +968,9 @@
 						"type": "internal",
 						"path": "bestiary/WDMM/Werebat.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1529,
+					"height": 1000
 				}
 			]
 		},
@@ -914,7 +1016,57 @@
 						}
 					]
 				}
+			],
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/WDMM/Wyllow.webp"
+					},
+					"credit": "Zoltan Boros",
+					"width": 1000,
+					"height": 646
+				}
 			]
+		},
+		{
+			"name": "Xarann A'Daragon",
+			"source": "WDMM",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/WDMM/Xarann ADaragon.webp"
+					},
+					"width": 2550,
+					"height": 1656
+				}
+			]
+		},
+		{
+			"name": "Xorta",
+			"source": "WDMM",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/WDMM/Xorta.webp"
+					},
+					"width": 2550,
+					"height": 1644
+				}
+			]
+		},
+		{
+			"name": "Yrlakka",
+			"source": "WDMM",
+			"_copy": {
+				"name": "Sha'sal Khou",
+				"source": "WDMM"
+			}
 		}
 	]
 }

@@ -99,6 +99,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Regeneration"
 			],
@@ -116,6 +117,7 @@
 				"Y"
 			],
 			"miscTags": [
+				"AOE",
 				"MW"
 			],
 			"hasToken": true,
@@ -268,6 +270,7 @@
 					}
 				]
 			},
+			"tokenCustom": true,
 			"traitTags": [
 				"Legendary Resistances",
 				"Magic Resistance"
@@ -487,7 +490,7 @@
 				{
 					"name": "Shred",
 					"entries": [
-						"{@atk mw} {@hitYourSpellAttack} to hit, reach 5 ft., one target. {@h}{@damage 1d4 + 3 + PB} slashing damage"
+						"{@atk mw} {@hitYourSpellAttack} to hit, reach 5 ft., one target. {@h}{@damage 1d4 + 3 + PB} slashing damage."
 					]
 				}
 			],
@@ -588,6 +591,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Flyby",
 				"Pack Tactics",
@@ -939,6 +943,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"senseTags": [
 				"D"
 			],
@@ -1224,6 +1229,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Amorphous"
 			],
@@ -1478,6 +1484,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"shortsword|phb"
 			],
@@ -1644,6 +1651,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Death Burst",
 				"Devil's Sight",
@@ -1666,6 +1674,7 @@
 				"S"
 			],
 			"miscTags": [
+				"AOE",
 				"MW"
 			],
 			"hasToken": true,
@@ -2277,7 +2286,7 @@
 				{
 					"name": "Shadow Stealth (Fear Only)",
 					"entries": [
-						"While in dim light or darkness, the spirit takes the Hide action."
+						"While in dim light or darkness, the spirit takes the {@action Hide} action."
 					]
 				}
 			],
@@ -2294,6 +2303,7 @@
 				"C"
 			],
 			"miscTags": [
+				"AOE",
 				"MW"
 			],
 			"conditionInflict": [
@@ -2554,6 +2564,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Incorporeal Movement"
 			],

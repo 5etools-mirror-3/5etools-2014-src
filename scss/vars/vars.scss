@@ -80,8 +80,6 @@ $rgb-roll-max--muted: color.adjust($rgb-roll-max, $saturation: - 35%);
 /* Z-Indices */
 $z-token-image: 10;
 
-$z-side-menu: 60;
-
 $z-omnisearch: 100;
 $z-book-find: 100;
 $z-bookmode: 100;
@@ -193,15 +191,15 @@ $width-screen-hg: 1600px;
 
 // region linked titles
 @mixin linked-titles-base {
-	.rd__h--0 .entry-title-inner:hover::before {
+	.ve-rd__h--0 .entry-title-inner:hover::before {
 		font-size: 50%;
 	}
 
-	.rd__h--1 .entry-title-inner:hover::before {
+	.ve-rd__h--1 .entry-title-inner:hover::before {
 		font-size: 55%;
 	}
 
-	.rd__h--2 .entry-title-inner:hover::before {
+	.ve-rd__h--2 .entry-title-inner:hover::before {
 		font-size: 60%;
 	}
 }
@@ -246,16 +244,16 @@ $fltr-2stripe: 22px;
 		@include mix-shadow-active;
 	}
 
-	&.active {
+	&.ve-active {
 		background: $rgb-cb-grey;
 		border-color: color.adjust($rgb-cb-grey, $lightness: 15%);
 
-		&.disabled {
+		&.ve-disabled {
 			background-color: color.adjust($rgb-cb-grey, $lightness: 25%);
 		}
 	}
 
-	&.disabled {
+	&.ve-disabled {
 		cursor: default;
 		box-shadow: none;
 	}

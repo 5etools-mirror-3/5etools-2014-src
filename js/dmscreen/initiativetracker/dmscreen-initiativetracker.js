@@ -27,6 +27,7 @@ import {
 import {InitiativeTrackerDefaultParty} from "./dmscreen-initiativetracker-defaultparty.js";
 import {ListUtilBestiary} from "../../utils-list-bestiary.js";
 
+// TODO(Future) refactor to subclass `DmScreenPanelAppBase`; move state to `_comp`
 export class InitiativeTracker extends BaseComponent {
 	constructor ({board, savedState}) {
 		super();
@@ -45,6 +46,39 @@ export class InitiativeTracker extends BaseComponent {
 		this._compDefaultParty = null;
 
 		this._creatureViewers = [];
+
+		this._doUpdateExternalStates = null;
+		this._sendStateToClientsDebounced = null;
+	}
+
+	getState () {
+		return this._getSerializedState();
+	}
+
+	async pDoConnectLocalV1 () {
+		const {token} = await this._networking.startServerV1({doUpdateExternalStates: this._doUpdateExternalStates});
+		return token;
+	}
+
+	async pDoConnectLocalV0 (clientView) {
+		await this._networking.pHandleDoConnectLocalV0({clientView});
+		this._sendStateToClientsDebounced();
+	}
+
+	getSummary () {
+		const names = this._state.rows
+			.map(({entity}) => entity.name)
+			.filter(name => name && name.trim());
+
+		return `${this._state.rows.length} creature${this._state.rows.length === 1 ? "" : "s"} ${names.length ? `(${names.slice(0, 3).join(", ")}${names.length > 3 ? "..." : ""})` : ""}`;
+	}
+
+	async pDoLoadEncounter ({entityInfos, encounterInfo}) {
+		await this._pDoLoadEncounter({entityInfos, encounterInfo});
+	}
+
+	getApi () {
+		return this;
 	}
 
 	render () {
@@ -56,10 +90,10 @@ export class InitiativeTracker extends BaseComponent {
 
 		this._render_bindSortDirHooks();
 
-		const $wrpTracker = $(`<div class="dm-init dm__panel-bg dm__data-anchor"></div>`)
-			.on("drop", evt => this._pDoHandleImportDrop(evt.originalEvent));
+		const wrpTracker = ee`<div class="dm-init dm__panel-bg"></div>`
+			.onn("drop", evt => this._pDoHandleImportDrop(evt));
 
-		const sendStateToClientsDebounced = MiscUtil.debounce(
+		this._sendStateToClientsDebounced = MiscUtil.debounce(
 			() => {
 				this._networking.sendStateToClients({fnGetToSend: this._getPlayerFriendlyState.bind(this)});
 				this._sendStateToCreatureViewers();
@@ -67,11 +101,11 @@ export class InitiativeTracker extends BaseComponent {
 			100, // long delay to avoid network spam
 		);
 
-		const doUpdateExternalStates = () => {
+		this._doUpdateExternalStates = () => {
 			this._board.doSaveStateDebounced();
-			sendStateToClientsDebounced();
+			this._sendStateToClientsDebounced();
 		};
-		this._addHookAllBase(doUpdateExternalStates);
+		this._addHookAllBase(this._doUpdateExternalStates);
 
 		this._viewRowsActive = new InitiativeTrackerRowDataViewActive({
 			comp: this,
@@ -81,39 +115,16 @@ export class InitiativeTracker extends BaseComponent {
 			rowStateBuilder: this._rowStateBuilderActive,
 		});
 		this._viewRowsActiveMeta = this._viewRowsActive.getRenderedView();
-		this._viewRowsActiveMeta.$ele.appendTo($wrpTracker);
+		this._viewRowsActiveMeta.ele.appendTo(wrpTracker);
 
-		this._render_$getWrpFooter({doUpdateExternalStates}).appendTo($wrpTracker);
+		this._render_getWrpFooter({wrpTracker, doUpdateExternalStates: this._doUpdateExternalStates}).appendTo(wrpTracker);
 
-		$wrpTracker.data("pDoConnectLocalV1", async () => {
-			const {token} = await this._networking.startServerV1({doUpdateExternalStates});
-			return token;
-		});
-
-		$wrpTracker.data("pDoConnectLocalV0", async (clientView) => {
-			await this._networking.pHandleDoConnectLocalV0({clientView});
-			sendStateToClientsDebounced();
-		});
-
-		$wrpTracker.data("getState", () => this._getSerializedState());
-		$wrpTracker.data("getSummary", () => {
-			const names = this._state.rows
-				.map(({entity}) => entity.name)
-				.filter(name => name && name.trim());
-
-			return `${this._state.rows.length} creature${this._state.rows.length === 1 ? "" : "s"} ${names.length ? `(${names.slice(0, 3).join(", ")}${names.length > 3 ? "..." : ""})` : ""}`;
-		});
-
-		$wrpTracker.data("pDoLoadEncounter", ({entityInfos, encounterInfo}) => this._pDoLoadEncounter({entityInfos, encounterInfo}));
-
-		$wrpTracker.data("getApi", () => this);
-
-		return $wrpTracker;
+		return wrpTracker;
 	}
 
-	_render_$getWrpButtonsSort () {
-		const $btnSortAlpha = $(`<button title="Sort Alphabetically" class="ve-btn ve-btn-default ve-btn-xs"><span class="glyphicon glyphicon-sort-by-alphabet"></span></button>`)
-			.on("click", () => {
+	_render_getWrpButtonsSort () {
+		const btnSortAlpha = ee`<button title="Sort Alphabetically" class="ve-btn ve-btn-default ve-btn-xs"><span class="glyphicon glyphicon-sort-by-alphabet"></span></button>`
+			.onn("click", () => {
 				if (this._state.sort === InitiativeTrackerConst.SORT_ORDER_ALPHA) return this._doReverseSortDir();
 				this._proxyAssignSimple(
 					"state",
@@ -124,8 +135,8 @@ export class InitiativeTracker extends BaseComponent {
 				);
 			});
 
-		const $btnSortNumber = $(`<button title="Sort Numerically" class="ve-btn ve-btn-default ve-btn-xs"><span class="glyphicon glyphicon-sort-by-order"></span></button>`)
-			.on("click", () => {
+		const btnSortNumber = ee`<button title="Sort Numerically" class="ve-btn ve-btn-default ve-btn-xs"><span class="glyphicon glyphicon-sort-by-order"></span></button>`
+			.onn("click", () => {
 				if (this._state.sort === InitiativeTrackerConst.SORT_ORDER_NUM) return this._doReverseSortDir();
 				this._proxyAssignSimple(
 					"state",
@@ -137,22 +148,22 @@ export class InitiativeTracker extends BaseComponent {
 			});
 
 		const hkSortDir = () => {
-			$btnSortAlpha.toggleClass("active", this._state.sort === InitiativeTrackerConst.SORT_ORDER_ALPHA);
-			$btnSortNumber.toggleClass("active", this._state.sort === InitiativeTrackerConst.SORT_ORDER_NUM);
+			btnSortAlpha.toggleClass("ve-active", this._state.sort === InitiativeTrackerConst.SORT_ORDER_ALPHA);
+			btnSortNumber.toggleClass("ve-active", this._state.sort === InitiativeTrackerConst.SORT_ORDER_NUM);
 		};
 		this._addHookBase("sort", hkSortDir);
 		this._addHookBase("dir", hkSortDir);
 		hkSortDir();
 
-		return $$`<div class="ve-btn-group ve-flex">
-			${$btnSortAlpha}
-			${$btnSortNumber}
+		return ee`<div class="ve-btn-group ve-flex">
+			${btnSortAlpha}
+			${btnSortNumber}
 		</div>`;
 	}
 
-	_render_$getWrpFooter ({doUpdateExternalStates}) {
-		const $btnAdd = $(`<button class="ve-btn ve-btn-primary ve-btn-xs dm-init-lockable" title="Add Player"><span class="glyphicon glyphicon-plus"></span></button>`)
-			.on("click", async () => {
+	_render_getWrpFooter ({wrpTracker, doUpdateExternalStates}) {
+		const btnAdd = ee`<button class="ve-btn ve-btn-primary ve-btn-xs dm-init-lockable" title="Add Player"><span class="glyphicon glyphicon-plus"></span></button>`
+			.onn("click", async () => {
 				if (this._state.isLocked) return;
 				this._state.rows = [
 					...this._state.rows,
@@ -163,8 +174,8 @@ export class InitiativeTracker extends BaseComponent {
 					.filter(Boolean);
 			});
 
-		const $btnAddMonster = $(`<button class="ve-btn ve-btn-success ve-btn-xs dm-init-lockable mr-2" title="Add Creature"><span class="glyphicon glyphicon-print"></span></button>`)
-			.on("click", async () => {
+		const btnAddMonster = ee`<button class="ve-btn ve-btn-success ve-btn-xs dm-init-lockable ve-mr-2" title="Add Creature"><span class="glyphicon glyphicon-print"></span></button>`
+			.onn("click", async () => {
 				if (this._state.isLocked) return;
 
 				const [isDataEntered, monstersToLoad] = await new InitiativeTrackerMonsterAdd({board: this._board, isRollHp: this._state.isRollHp})
@@ -211,16 +222,16 @@ export class InitiativeTracker extends BaseComponent {
 				this._state.rows = rowsNxt;
 			});
 
-		const $btnSetPrevActive = $(`<button class="ve-btn ve-btn-default ve-btn-xs" title="Previous Turn"><span class="glyphicon glyphicon-step-backward"></span></button>`)
-			.click(() => this._viewRowsActive.pDoShiftActiveRow({direction: InitiativeTrackerConst.DIR_BACKWARDS}));
-		const $btnSetNextActive = $(`<button class="ve-btn ve-btn-default ve-btn-xs mr-2" title="Next Turn"><span class="glyphicon glyphicon-step-forward"></span></button>`)
-			.click(() => this._viewRowsActive.pDoShiftActiveRow({direction: InitiativeTrackerConst.DIR_FORWARDS}));
+		const btnSetPrevActive = ee`<button class="ve-btn ve-btn-default ve-btn-xs" title="Previous Turn"><span class="glyphicon glyphicon-step-backward"></span></button>`
+			.onn("click", () => this._viewRowsActive.pDoShiftActiveRow({direction: InitiativeTrackerConst.DIR_BACKWARDS}));
+		const btnSetNextActive = ee`<button class="ve-btn ve-btn-default ve-btn-xs ve-mr-2" title="Next Turn"><span class="glyphicon glyphicon-step-forward"></span></button>`
+			.onn("click", () => this._viewRowsActive.pDoShiftActiveRow({direction: InitiativeTrackerConst.DIR_FORWARDS}));
 
-		const $iptRound = ComponentUiUtil.$getIptInt(this, "round", 1, {min: 1})
+		const iptRound = ComponentUiUtil.getIptInt(this, "round", 1, {min: 1})
 			.addClass("dm-init__rounds")
 			.removeClass("ve-text-right")
 			.addClass("ve-text-center")
-			.title("Round");
+			.tooltip("Round");
 
 		const menuPlayerWindow = ContextUtil.getMenu([
 			new ContextUtil.Action(
@@ -237,21 +248,21 @@ export class InitiativeTracker extends BaseComponent {
 			),
 		]);
 
-		const $btnNetworking = $(`<button class="ve-btn ve-btn-primary ve-btn-xs mr-2" title="Player View (SHIFT to Open &quot;Standard&quot; View)"><span class="glyphicon glyphicon-user"></span></button>`)
-			.click(evt => {
+		const btnNetworking = ee`<button class="ve-btn ve-btn-primary ve-btn-xs ve-mr-2" title="Configure Player View (SHIFT to Open Configuration for &quot;Standard&quot; View)"><span class="glyphicon glyphicon-user"></span></button>`
+			.onn("click", evt => {
 				if (evt.shiftKey) return this._networking.handleClick_playerWindowV1({doUpdateExternalStates});
 				return ContextUtil.pOpenMenu(evt, menuPlayerWindow);
 			});
 
-		const $btnLock = $(`<button class="ve-btn ve-btn-danger ve-btn-xs" title="Lock Tracker"><span class="glyphicon glyphicon-lock"></span></button>`)
-			.on("click", () => this._state.isLocked = !this._state.isLocked);
+		const btnLock = ee`<button class="ve-btn ve-btn-danger ve-btn-xs" title="Lock Tracker"><span class="glyphicon glyphicon-lock"></span></button>`
+			.onn("click", () => this._state.isLocked = !this._state.isLocked);
 		this._addHookBase("isLocked", () => {
-			$btnLock
+			btnLock
 				.toggleClass("ve-btn-success", !!this._state.isLocked)
 				.toggleClass("ve-btn-danger", !this._state.isLocked)
-				.title(this._state.isLocked ? "Unlock Tracker" : "Lock Tracker");
-			$(".dm-init-lockable").toggleClass("disabled", !!this._state.isLocked);
-			$("input.dm-init-lockable").prop("disabled", !!this._state.isLocked);
+				.tooltip(this._state.isLocked ? "Unlock Tracker" : "Lock Tracker");
+			wrpTracker.findAll(".dm-init-lockable").forEach(ele => ele.toggleClass("ve-disabled", !!this._state.isLocked));
+			wrpTracker.findAll("input.dm-init-lockable").forEach(ele => ele.prop("disabled", !!this._state.isLocked));
 		})();
 
 		this._compDefaultParty = new InitiativeTrackerDefaultParty({comp: this, roller: this._roller, rowStateBuilder: this._rowStateBuilderDefaultParty});
@@ -276,8 +287,8 @@ export class InitiativeTracker extends BaseComponent {
 			),
 		]);
 
-		const $btnConfigure = $(`<button class="ve-btn ve-btn-default ve-btn-xs mr-2" title="Configure (SHIFT to Open &quot;Settings&quot;)"><span class="glyphicon glyphicon-cog"></span></button>`)
-			.click(async evt => {
+		const btnConfigure = ee`<button class="ve-btn ve-btn-default ve-btn-xs ve-mr-2" title="Configure (SHIFT to Open &quot;Settings&quot;)"><span class="glyphicon glyphicon-cog"></span></button>`
+			.onn("click", async evt => {
 				if (evt.shiftKey) return pHandleClickSettings();
 				return ContextUtil.pOpenMenu(evt, menuConfigure);
 			});
@@ -297,13 +308,13 @@ export class InitiativeTracker extends BaseComponent {
 			),
 		]);
 
-		const $btnLoad = $(`<button title="Import an encounter from the Bestiary" class="ve-btn ve-btn-success ve-btn-xs dm-init-lockable"><span class="glyphicon glyphicon-upload"></span></button>`)
-			.click((evt) => {
+		const btnLoad = ee`<button title="Import an encounter from the Bestiary" class="ve-btn ve-btn-success ve-btn-xs dm-init-lockable"><span class="glyphicon glyphicon-upload"></span></button>`
+			.onn("click", (evt) => {
 				if (this._state.isLocked) return;
 				ContextUtil.pOpenMenu(evt, menuImport);
 			});
-		const $btnReset = $(`<button title="Reset Tracker" class="ve-btn ve-btn-danger ve-btn-xs dm-init-lockable"><span class="glyphicon glyphicon-trash"></span></button>`)
-			.click(async () => {
+		const btnReset = ee`<button title="Reset Tracker" class="ve-btn ve-btn-danger ve-btn-xs dm-init-lockable"><span class="glyphicon glyphicon-trash"></span></button>`
+			.onn("click", async () => {
 				if (this._state.isLocked) return;
 				if (!await InputUiUtil.pGetUserBoolean({title: "Reset", htmlDescription: "Are you sure?", textYes: "Yes", textNo: "Cancel"})) return;
 
@@ -317,29 +328,86 @@ export class InitiativeTracker extends BaseComponent {
 				this._proxyAssignSimple("state", stateNxt);
 			});
 
-		return $$`<div class="dm-init__wrp-controls">
+		const btnSendToFoundry = ee`<button title="Send to Foundry" class="no-print ve-btn ve-btn-default ve-btn-xs dm-init-lockable"><span class="glyphicon glyphicon-send"></span></button>`
+			.onn("click", async () => {
+				if (this._state.isLocked) return;
+
+				const encounterActorName = await InputUiUtil.pGetUserString({title: "Encounter Actor Name", isSkippable: true});
+
+				const creatureMetasSerial = await Object.values(
+					this._state.rows
+						.filter(row => row.entity.source)
+						.reduce(
+							(accum, row) => {
+								const uidRow = [
+									row.entity.name,
+									row.entity.source,
+									row.entity.scaledCr,
+									row.entity.scaledSummonSpellLevel,
+									row.entity.scaledSummonClassLevel,
+								]
+									.join("__");
+
+								if (accum[uidRow]) {
+									accum[uidRow].count++;
+									return accum;
+								}
+
+								accum[uidRow] = {entityPrime: row.entity, count: 1};
+
+								return accum;
+							},
+							{},
+						),
+				)
+					.pSerialAwaitMap(async ({entityPrime, count}) => {
+						const creature = await DmScreenUtil.pGetScaledCreature({
+							name: entityPrime.name,
+							source: entityPrime.source,
+							scaledCr: entityPrime.scaledCr,
+							scaledSummonSpellLevel: entityPrime.scaledSummonSpellLevel,
+							scaledSummonClassLevel: entityPrime.scaledSummonClassLevel,
+						});
+
+						return {
+							creature,
+							count,
+						};
+					});
+
+				await ExtensionUtil.pDoSend({
+					type: "5etools.encounterbuilder.encounter",
+					data: {
+						encounterActorName,
+						creatureMetasSerial,
+					},
+				});
+			});
+
+		return ee`<div class="dm-init__wrp-controls">
 			<div class="ve-flex">
 				<div class="ve-btn-group ve-flex">
-					${$btnAdd}
-					${$btnAddMonster}
+					${btnAdd}
+					${btnAddMonster}
 				</div>
-				<div class="ve-btn-group">${$btnSetPrevActive}${$btnSetNextActive}</div>
-				${$iptRound}
+				<div class="ve-btn-group">${btnSetPrevActive}${btnSetNextActive}</div>
+				${iptRound}
 			</div>
 
-			${this._render_$getWrpButtonsSort()}
+			${this._render_getWrpButtonsSort()}
 
 			<div class="ve-flex">
-				${$btnNetworking}
+				${btnNetworking}
 
 				<div class="ve-btn-group ve-flex-v-center">
-					${$btnLock}
-					${$btnConfigure}
+					${btnLock}
+					${btnConfigure}
 				</div>
 
 				<div class="ve-btn-group ve-flex-v-center">
-					${$btnLoad}
-					${$btnReset}
+					${btnLoad}
+					${btnSendToFoundry}
+					${btnReset}
 				</div>
 			</div>
 		</div>`;
@@ -401,10 +469,15 @@ export class InitiativeTracker extends BaseComponent {
 				if (isMon ? !!this._state.playerInitShowExactMonsterHp : !!this._state.playerInitShowExactPlayerHp) {
 					out.hpCurrent = entity.hpCurrent;
 					out.hpMax = entity.hpMax;
+				}
+
+				if (isNaN(entity.hpCurrent) || isNaN(entity.hpMax)) {
+					out.hpWoundLevel = -1;
 				} else {
-					out.hpWoundLevel = isNaN(entity.hpCurrent) || isNaN(entity.hpMax)
-						? -1
-						: InitiativeTrackerUtil.getWoundLevel(100 * entity.hpCurrent / entity.hpMax);
+					const pctWounded = this._state.isInvertWoundDirection
+						? 100 * (entity.hpMax - entity.hpCurrent) / entity.hpMax
+						: 100 * entity.hpCurrent / entity.hpMax;
+					out.hpWoundLevel = InitiativeTrackerUtil.getWoundLevel(pctWounded);
 				}
 
 				if (this._state.playerInitShowOrdinals && entity.isShowOrdinal) out.ordinal = entity.ordinal;
@@ -438,14 +511,16 @@ export class InitiativeTracker extends BaseComponent {
 			roller: this._roller,
 			rowStateBuilderActive: this._rowStateBuilderActive,
 
+			isInvertWoundDirection: this._state.isInvertWoundDirection,
 			importIsAddPlayers: isAddPlayers,
 			importIsRollGroups: this._state.importIsRollGroups,
 			isRollInit: this._state.isRollInit,
 			isRollHp: this._state.isRollHp,
 			isRollGroups: this._state.isRollGroups,
-		}).pGetConverted({entityInfos, encounterInfo});
+		})
+			.pGetConverted({entityInfos, encounterInfo});
 
-		const rowsFromDefaultParty = await this._compDefaultParty.pGetConvertedDefaultPartyActiveRows();
+		const rowsFromDefaultParty = await this._compDefaultParty.pGetConvertedDefaultPartyActiveRows({rowsPrev});
 		const idsDefaultParty = new Set(rowsFromDefaultParty.map(({id}) => id));
 		const rowsPrevNonDefaultParty = rowsPrev
 			.filter(({id}) => !idsDefaultParty.has(id));
@@ -627,6 +702,7 @@ export class InitiativeTracker extends BaseComponent {
 		if (this._savedState.m != null) stateNxt.isRollHp = this._savedState.m;
 		if (this._savedState.rg != null) stateNxt.isRollGroups = this._savedState.rg;
 		if (this._savedState.rri != null) stateNxt.isRerollInitiativeEachRound = this._savedState.rri;
+		if (this._savedState.wId != null) stateNxt.isInvertWoundDirection = this._savedState.wId;
 		if (this._savedState.g != null) stateNxt.importIsRollGroups = this._savedState.g;
 		if (this._savedState.p != null) stateNxt.importIsAddPlayers = this._savedState.p;
 		if (this._savedState.a != null) stateNxt.importIsAppend = this._savedState.a;
@@ -655,6 +731,7 @@ export class InitiativeTracker extends BaseComponent {
 			m: this._state.isRollHp,
 			rg: this._state.isRollGroups,
 			rri: this._state.isRerollInitiativeEachRound,
+			wId: this._state.isInvertWoundDirection,
 			g: this._state.importIsRollGroups,
 			p: this._state.importIsAddPlayers,
 			a: this._state.importIsAppend,
@@ -694,6 +771,7 @@ export class InitiativeTracker extends BaseComponent {
 			isRollHp: false,
 			isRollGroups: false,
 			isRerollInitiativeEachRound: false,
+			isInvertWoundDirection: false,
 			importIsRollGroups: true,
 			importIsAddPlayers: true,
 			importIsAppend: false,
@@ -726,7 +804,11 @@ export class InitiativeTracker extends BaseComponent {
 
 	/* -------------------------------------------- */
 
-	static $getPanelElement (board, savedState) {
-		return new this({board, savedState}).render();
+	static getPanelApp ({board, savedState}) {
+		return new this({board, savedState});
+	}
+
+	getPanelElement () {
+		return this.render();
 	}
 }

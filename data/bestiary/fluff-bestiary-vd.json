@@ -21,7 +21,9 @@
 							"href": {
 								"type": "internal",
 								"path": "bestiary/VD/Book of Vile Darkness.webp"
-							}
+							},
+							"width": 850,
+							"height": 580
 						}
 					]
 				}
@@ -32,21 +34,27 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/VD/Vecna Profile.webp"
-					}
+					},
+					"width": 707,
+					"height": 850
 				},
 				{
 					"type": "image",
 					"href": {
 						"type": "internal",
 						"path": "bestiary/VD/Head of Vecna.webp"
-					}
+					},
+					"width": 1700,
+					"height": 2186
 				},
 				{
 					"type": "image",
 					"href": {
 						"type": "internal",
 						"path": "bestiary/VD/Eye of Vecna.webp"
-					}
+					},
+					"width": 850,
+					"height": 660
 				}
 			]
 		}

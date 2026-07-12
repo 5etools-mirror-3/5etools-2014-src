@@ -6,7 +6,9 @@
 			"page": 151,
 			"srd": "Apparatus of the Crab",
 			"vehicleType": "OBJECT",
-			"size": "L",
+			"size": [
+				"L"
+			],
 			"terrain": [
 				"sea"
 			],
@@ -15,8 +17,10 @@
 			"ac": 20,
 			"speed": {
 				"walk": 30,
-				"swim": 30,
-				"note": "(or 0 ft. for both if the legs and tail aren't extended)"
+				"swim": {
+					"number": 30,
+					"condition": "(or 0 ft. for both if the legs aren't extended)"
+				}
 			},
 			"hp": 200,
 			"immune": [
@@ -867,6 +871,7 @@
 				}
 			],
 			"tokenCredit": "Castro Lorenzo",
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -1107,6 +1112,7 @@
 				}
 			],
 			"tokenCredit": "Harvey W. Johnson",
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -1364,6 +1370,7 @@
 				}
 			],
 			"tokenCredit": "OlgaRodinaARTS",
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -1942,6 +1949,7 @@
 				}
 			],
 			"tokenCredit": "Alan Sanders",
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -2602,7 +2610,9 @@
 			"source": "DitLCoT",
 			"page": 15,
 			"vehicleType": "OBJECT",
-			"size": "G",
+			"size": [
+				"G"
+			],
 			"dimensions": [
 				"30 ft.",
 				"10 ft."
@@ -2613,8 +2623,10 @@
 			"capCargo": 0.5,
 			"speed": {
 				"walk": 20,
-				"swim": 20,
-				"note": "(can't travel underwater)"
+				"swim": {
+					"number": 20,
+					"condition": "(can't travel underwater)"
+				}
 			},
 			"entries": [
 				"This magic vehicle has four legs that propel it across land and water. It moves according to your spoken directions while you are riding it, and creatures of your choice gain a +1 bonus to their Armor Class while on the boat.",
@@ -2866,6 +2878,7 @@
 		{
 			"name": "Venatrix",
 			"source": "VEoR",
+			"page": 151,
 			"vehicleType": "INFWAR",
 			"size": "G",
 			"weight": 12000,
@@ -3070,6 +3083,7 @@
 				}
 			],
 			"tokenCredit": "Gordon Frickers",
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -3521,7 +3535,7 @@
 				"IWM:W"
 			],
 			"entries": [
-				"This flexible hose is connected to a tank that holds 30 gallons of water from the {@area River Styx|1a3|x}. Each use of the weapon depletes 10 gallons of the water. Refilling the tank requires access to the Styx.",
+				"This flexible hose is connected to a tank that holds 30 gallons of water from the {@adventure River Styx|BGDIA|3|River Styx}. Each use of the weapon depletes 10 gallons of the water. Refilling the tank requires access to the Styx.",
 				{
 					"type": "entries",
 					"name": "Styx Sprayer (Requires 1 Crew and Grants Half Cover; 3 Uses)",

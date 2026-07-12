@@ -1053,6 +1053,7 @@
 				"I"
 			],
 			"miscTags": [
+				"AOE",
 				"MLW",
 				"MW",
 				"RCH"
@@ -1432,6 +1433,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"greataxe|phb"
 			],
@@ -1668,7 +1670,8 @@
 				}
 			],
 			"traitTags": [
-				"Charge"
+				"Charge",
+				"Sure-Footed"
 			],
 			"senseTags": [
 				"SD"
@@ -2230,6 +2233,7 @@
 				"S"
 			],
 			"miscTags": [
+				"AOE",
 				"MW"
 			],
 			"conditionInflict": [
@@ -3153,6 +3157,7 @@
 				"P"
 			],
 			"miscTags": [
+				"AOE",
 				"MW",
 				"RCH"
 			],
@@ -3626,10 +3631,8 @@
 			],
 			"source": "MOT",
 			"page": 236,
-			"otherSources": [
-				{
-					"source": "CM"
-				}
+			"referenceSources": [
+				"CM"
 			],
 			"size": [
 				"M"
@@ -3998,7 +4001,8 @@
 			],
 			"traitTags": [
 				"Charge",
-				"Magic Resistance"
+				"Magic Resistance",
+				"Sure-Footed"
 			],
 			"damageTags": [
 				"B",
@@ -4575,6 +4579,7 @@
 				"P"
 			],
 			"miscTags": [
+				"AOE",
 				"MW",
 				"RCH"
 			],
@@ -5605,6 +5610,9 @@
 			"spellcastingTags": [
 				"I"
 			],
+			"miscTags": [
+				"AOE"
+			],
 			"savingThrowForcedSpell": [
 				"constitution",
 				"strength"
@@ -5690,7 +5698,7 @@
 				{
 					"name": "Nimble Escape",
 					"entries": [
-						"The triton can take the Disengage or Hide actions as a bonus action on each of its turns."
+						"The triton can take the {@action Disengage} or {@action Hide} actions as a bonus action on each of its turns."
 					]
 				}
 			],
@@ -5948,6 +5956,7 @@
 				"S"
 			],
 			"miscTags": [
+				"AOE",
 				"MW",
 				"RCH"
 			],

@@ -13,44 +13,44 @@ class _RenderableCollectionStatsCols extends RenderableCollectionGenericRows {
 			comp,
 
 			doClose,
-			$wrpRows,
+			wrpRows,
 		},
 	) {
-		super(comp, "statsCols", $wrpRows);
+		super(comp, "statsCols", wrpRows);
 		this._doClose = doClose;
 	}
 
-	_populateRow ({comp, $wrpRow, entity}) {
-		$wrpRow.addClass("py-1p");
+	_populateRow ({comp, wrpRow, entity}) {
+		wrpRow.addClass("ve-py-1p");
 
 		const meta = InitiativeTrackerStatColumnFactory.fromPopulateWith({populateWith: comp._state.populateWith});
 
-		const $iptAbv = ComponentUiUtil.$getIptStr(comp, "abbreviation");
+		const iptAbv = ComponentUiUtil.getIptStr(comp, "abbreviation");
 
-		const $cbIsEditable = ComponentUiUtil.$getCbBool(comp, "isEditable");
+		const cbIsEditable = ComponentUiUtil.getCbBool(comp, "isEditable");
 
-		const $btnVisible = InitiativeTrackerUi.$getBtnPlayerVisible(
-			comp._state.isPlayerVisible,
-			() => comp._state.isPlayerVisible = $btnVisible.hasClass("ve-btn-primary--half")
+		const btnVisible = InitiativeTrackerUi.getBtnPlayerVisible({
+			isVisible: comp._state.isPlayerVisible,
+			fnOnClick: () => comp._state.isPlayerVisible = btnVisible.hasClass("ve-btn-primary--half")
 				? IS_PLAYER_VISIBLE_PLAYER_UNITS_ONLY
-				: $btnVisible.hasClass("ve-btn-primary")
+				: btnVisible.hasClass("ve-btn-primary")
 					? IS_PLAYER_VISIBLE_ALL
 					: IS_PLAYER_VISIBLE_NONE,
-			true,
-		);
+			isTriState: true,
+		});
 
-		const $btnDelete = this._utils.$getBtnDelete({entity});
+		const btnDelete = this._utils.getBtnDelete({entity});
 
-		const $padDrag = this._utils.$getPadDrag({$wrpRow});
+		const padDrag = this._utils.getPadDrag({wrpRow});
 
-		$$($wrpRow)`
-			<div class="ve-col-5 pr-1">${meta.constructor.NAME}</div>
-			<div class="ve-col-3 pr-1">${$iptAbv}</div>
-			<div class="ve-col-1-5 ve-text-center">${$cbIsEditable}</div>
-			<div class="ve-col-1-5 ve-text-center">${$btnVisible}</div>
+		ee(wrpRow)`
+			<div class="ve-col-5 ve-pr-1">${meta.constructor.NAME}</div>
+			<div class="ve-col-3 ve-pr-1">${iptAbv}</div>
+			<div class="ve-col-1-5 ve-text-center">${cbIsEditable}</div>
+			<div class="ve-col-1-5 ve-text-center">${btnVisible}</div>
 
-			<div class="ve-col-0-5 ve-flex-vh-center">${$btnDelete}</div>
-			<div class="ve-col-0-5 ve-flex-vh-center">${$padDrag}</div>
+			<div class="ve-col-0-5 ve-flex-vh-center">${btnDelete}</div>
+			<div class="ve-col-0-5 ve-flex-vh-center">${padDrag}</div>
 		`;
 	}
 }
@@ -61,6 +61,7 @@ export class InitiativeTrackerSettings extends BaseComponent {
 		"isRollHp",
 		"isRollGroups",
 		"isRerollInitiativeEachRound",
+		"isInvertWoundDirection",
 		"playerInitShowExactPlayerHp",
 		"playerInitShowExactMonsterHp",
 		"playerInitHideNewMonster",
@@ -113,47 +114,53 @@ export class InitiativeTrackerSettings extends BaseComponent {
 	/* -------------------------------------------- */
 
 	pGetShowModalResults () {
-		const {$modalInner, $modalFooter, pGetResolved, doClose} = UiUtil.getShowModal({
+		const {eleModalInner, eleModalFooter, pGetResolved, doClose} = UiUtil.getShowModal({
 			title: "Settings",
 			isUncappedHeight: true,
 			hasFooter: true,
 		});
 
-		UiUtil.addModalSep($modalInner);
-		this._pGetShowModalResults_renderSection_isRolls({$modalInner});
-		UiUtil.addModalSep($modalInner);
-		this._pGetShowModalResults_renderSection_playerView({$modalInner});
-		UiUtil.addModalSep($modalInner);
-		this._pGetShowModalResults_renderSection_additionalCols({$modalInner});
+		UiUtil.addModalSep(eleModalInner);
+		this._pGetShowModalResults_renderSection_isRolls({eleModalInner});
+		UiUtil.addModalSep(eleModalInner);
+		this._pGetShowModalResults_renderSection_wounds({eleModalInner});
+		UiUtil.addModalSep(eleModalInner);
+		this._pGetShowModalResults_renderSection_playerView({eleModalInner});
+		UiUtil.addModalSep(eleModalInner);
+		this._pGetShowModalResults_renderSection_additionalCols({eleModalInner});
 
-		this._pGetShowModalResults_renderFooter({$modalFooter, doClose});
+		this._pGetShowModalResults_renderFooter({eleModalFooter, doClose});
 
 		return pGetResolved();
 	}
 
 	/* -------------------------------------------- */
 
-	_pGetShowModalResults_renderSection_isRolls ({$modalInner}) {
-		UiUtil.$getAddModalRowCb2({$wrp: $modalInner, comp: this, prop: "isRollInit", text: "Roll initiative"});
-		UiUtil.$getAddModalRowCb2({$wrp: $modalInner, comp: this, prop: "isRollHp", text: "Roll hit points"});
-		UiUtil.$getAddModalRowCb2({$wrp: $modalInner, comp: this, prop: "isRollGroups", text: "Roll groups of creatures together"});
-		UiUtil.$getAddModalRowCb2({$wrp: $modalInner, comp: this, prop: "isRerollInitiativeEachRound", text: "Reroll initiative each round"});
+	_pGetShowModalResults_renderSection_isRolls ({eleModalInner}) {
+		UiUtil.getAddModalRowCb2({wrp: eleModalInner, comp: this, prop: "isRollInit", text: "Roll initiative"});
+		UiUtil.getAddModalRowCb2({wrp: eleModalInner, comp: this, prop: "isRollHp", text: "Roll hit points"});
+		UiUtil.getAddModalRowCb2({wrp: eleModalInner, comp: this, prop: "isRollGroups", text: "Roll groups of creatures together"});
+		UiUtil.getAddModalRowCb2({wrp: eleModalInner, comp: this, prop: "isRerollInitiativeEachRound", text: "Reroll initiative each round"});
 	}
 
-	_pGetShowModalResults_renderSection_playerView ({$modalInner}) {
-		UiUtil.$getAddModalRowCb2({$wrp: $modalInner, comp: this, prop: "playerInitShowExactPlayerHp", text: "Player View: Show exact player HP"});
-		UiUtil.$getAddModalRowCb2({$wrp: $modalInner, comp: this, prop: "playerInitShowExactMonsterHp", text: "Player View: Show exact monster HP"});
-		UiUtil.$getAddModalRowCb2({$wrp: $modalInner, comp: this, prop: "playerInitHideNewMonster", text: "Player View: Auto-hide new monsters"});
-		UiUtil.$getAddModalRowCb2({$wrp: $modalInner, comp: this, prop: "playerInitShowOrdinals", text: "Player View: Show ordinals", title: "For example, if you add two Goblins, one will be Goblin (1) and the other Goblin (2), rather than having identical names."});
+	_pGetShowModalResults_renderSection_wounds ({eleModalInner}) {
+		UiUtil.getAddModalRowCb2({wrp: eleModalInner, comp: this, prop: "isInvertWoundDirection", text: "Track Hit Points as Damage", title: `For example, by default a creature might have "100/100" hit points when at full HP. When tracking damage, this would instead be displayed as "0/100" when the creature is at full HP.`});
 	}
 
-	_pGetShowModalResults_renderSection_additionalCols ({$modalInner}) {
-		UiUtil.$getAddModalRowCb2({$wrp: $modalInner, comp: this, prop: "isStatsAddColumns", text: "Additional Columns"});
-		this._pGetShowModalResults_renderSection_additionalCols_head({$modalInner});
-		this._pGetShowModalResults_renderSection_additionalCols_body({$modalInner});
+	_pGetShowModalResults_renderSection_playerView ({eleModalInner}) {
+		UiUtil.getAddModalRowCb2({wrp: eleModalInner, comp: this, prop: "playerInitShowExactPlayerHp", text: "Player View: Show exact player HP"});
+		UiUtil.getAddModalRowCb2({wrp: eleModalInner, comp: this, prop: "playerInitShowExactMonsterHp", text: "Player View: Show exact monster HP"});
+		UiUtil.getAddModalRowCb2({wrp: eleModalInner, comp: this, prop: "playerInitHideNewMonster", text: "Player View: Auto-hide new monsters"});
+		UiUtil.getAddModalRowCb2({wrp: eleModalInner, comp: this, prop: "playerInitShowOrdinals", text: "Player View: Show ordinals", title: "For example, if you add two Goblins, one will be Goblin (1) and the other Goblin (2), rather than having identical names."});
 	}
 
-	_pGetShowModalResults_renderSection_additionalCols_head ({$modalInner}) {
+	_pGetShowModalResults_renderSection_additionalCols ({eleModalInner}) {
+		UiUtil.getAddModalRowCb2({wrp: eleModalInner, comp: this, prop: "isStatsAddColumns", text: "Additional Columns"});
+		this._pGetShowModalResults_renderSection_additionalCols_head({eleModalInner});
+		this._pGetShowModalResults_renderSection_additionalCols_body({eleModalInner});
+	}
+
+	_pGetShowModalResults_renderSection_additionalCols_head ({eleModalInner}) {
 		const getAction = Cls => new ContextUtil.Action(
 			Cls.NAME,
 			() => {
@@ -175,29 +182,29 @@ export class InitiativeTrackerSettings extends BaseComponent {
 				}),
 		);
 
-		const $btnAddRow = $(`<button class="ve-btn ve-btn-default ve-btn-xs bb-0 bbr-0 bbl-0" title="Add"><span class="glyphicon glyphicon-plus"></span></button>`)
-			.click(evt => ContextUtil.pOpenMenu(evt, menuAddStatsCol));
+		const btnAddRow = ee`<button class="ve-btn ve-btn-default ve-btn-xs ve-bb-0 ve-bbr-0 ve-bbl-0" title="Add"><span class="glyphicon glyphicon-plus"></span></button>`
+			.onn("click", evt => ContextUtil.pOpenMenu(evt, menuAddStatsCol));
 
-		const $wrpTblStatsHead = $$`<div class="ve-flex-vh-center w-100 mb-2 bb-1p-trans">
+		const wrpTblStatsHead = ee`<div class="ve-flex-vh-center ve-w-100 ve-mb-2 ve-bb-1p-trans">
 			<div class="ve-col-5">Contains</div>
 			<div class="ve-col-3">Abbreviation</div>
-			<div class="ve-col-1-5 ve-text-center help" title="Only affects creatures. Players are always editable.">Editable</div>
+			<div class="ve-col-1-5 ve-text-center ve-help" title="Only affects creatures. Players are always editable.">Editable</div>
 			<div class="ve-col-1-5">&nbsp;</div>
-			<div class="ve-col-1 ve-flex-v-center ve-flex-h-right">${$btnAddRow}</div>
+			<div class="ve-col-1 ve-flex-v-center ve-flex-h-right">${btnAddRow}</div>
 		</div>`
-			.appendTo($modalInner);
+			.appendTo(eleModalInner);
 
-		this._addHookBase("isStatsAddColumns", () => $wrpTblStatsHead.toggleVe(this._state.isStatsAddColumns))();
+		this._addHookBase("isStatsAddColumns", () => wrpTblStatsHead.toggleVe(this._state.isStatsAddColumns))();
 	}
 
-	_pGetShowModalResults_renderSection_additionalCols_body ({$modalInner}) {
-		const $wrpRows = $(`<div class="pr-1 h-120p ve-flex-col ve-overflow-y-auto relative"></div>`).appendTo($modalInner);
-		this._addHookBase("isStatsAddColumns", () => $wrpRows.toggleVe(this._state.isStatsAddColumns))();
+	_pGetShowModalResults_renderSection_additionalCols_body ({eleModalInner}) {
+		const wrpRows = ee`<div class="ve-pr-1 ve-h-120p ve-flex-col ve-overflow-y-auto ve-relative"></div>`.appendTo(eleModalInner);
+		this._addHookBase("isStatsAddColumns", () => wrpRows.toggleVe(this._state.isStatsAddColumns))();
 
 		const renderableCollectionStatsCols = new _RenderableCollectionStatsCols(
 			{
 				comp: this,
-				$wrpRows,
+				wrpRows,
 			},
 		);
 
@@ -208,12 +215,12 @@ export class InitiativeTrackerSettings extends BaseComponent {
 
 	/* -------------------------------------------- */
 
-	_pGetShowModalResults_renderFooter ({$modalFooter, doClose}) {
-		const $btnSave = $(`<button class="ve-btn ve-btn-primary ve-btn-sm w-100">Save</button>`)
-			.click(() => doClose(true));
+	_pGetShowModalResults_renderFooter ({eleModalFooter, doClose}) {
+		const btnSave = ee`<button class="ve-btn ve-btn-primary ve-btn-sm ve-w-100">Save</button>`
+			.onn("click", () => doClose(true));
 
-		$$($modalFooter)`<div class="w-100 py-3 no-shrink">
-			${$btnSave}
+		ee(eleModalFooter)`<div class="ve-w-100 ve-py-3 ve-no-shrink">
+			${btnSave}
 		</div>`;
 	}
 }

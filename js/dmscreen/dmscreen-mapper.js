@@ -1,13 +1,24 @@
 import {RenderMap} from "../render-map.js";
+import {PanelContentManager_DynamicMap} from "./dmscreen-panels.js";
+import {DmScreenPanelAppBase} from "./dmscreen-panelapp-base.js";
 
-export class DmMapper {
-	static $getMapper (board, state) {
-		const $wrpPanel = $(`<div class="w-100 h-100 dm-map__root dm__panel-bg dm__data-anchor"></div>`) // root class used to identify for saving
-			.data("getState", () => mapper.getSaveableState());
-		const mapper = new DmMapperRoot(board, $wrpPanel);
-		mapper.setStateFrom(state);
-		mapper.render($wrpPanel);
-		return $wrpPanel;
+export class DmMapper extends DmScreenPanelAppBase {
+	constructor (...args) {
+		super(...args);
+
+		this._comp = null;
+	}
+
+	_getPanelElement (board, state) {
+		const wrpPanel = ee`<div class="ve-w-100 ve-h-100 dm-map__root dm__panel-bg"></div>`;
+		this._comp = new DmMapperRoot(board, wrpPanel);
+		this._comp.setStateFrom(state);
+		this._comp.render(wrpPanel);
+		return wrpPanel;
+	}
+
+	getState () {
+		return this._comp.getSaveableState();
 	}
 
 	static _getProps ({catId}) {
@@ -46,14 +57,14 @@ export class DmMapper {
 
 		menu.doClose();
 
-		const {$modalInner, doClose} = UiUtil.getShowModal({
+		const {eleModalInner, doClose} = UiUtil.getShowModal({
 			title: `Select Map\u2014${chosenDoc.n}`,
 			isWidth100: true,
 			isHeight100: true,
 			isUncappedHeight: true,
 		});
 
-		$modalInner.append(`<div class="ve-flex-vh-center w-100 h-100"><i class="dnd-font ve-muted">Loading...</i></div>`);
+		eleModalInner.appends(`<div class="ve-flex-vh-center ve-w-100 ve-h-100"><i class="ve-dnd-font ve-muted">Loading...</i></div>`);
 
 		const {page, source, hash} = SearchWidget.docToPageSourceHash(chosenDoc);
 		const adventureBookPack = await DataLoader.pCacheAndGet(page, source, hash);
@@ -97,27 +108,28 @@ export class DmMapper {
 		});
 
 		if (!mapDatas.length) {
-			$modalInner
+			eleModalInner
 				.empty()
-				.append(`<div class="ve-flex-vh-center w-100 h-100"><span class="dnd-font">Adventure did not contain any valid maps!</span></div>`);
+				.appends(`<div class="ve-flex-vh-center ve-w-100 ve-h-100"><span class="ve-dnd-font">Adventure did not contain any valid maps!</span></div>`);
 			return;
 		}
 
-		$modalInner
+		eleModalInner
 			.empty()
 			.removeClass("ve-flex-col")
 			.addClass("ve-text-center");
 
 		mapDatas.map(mapData => {
-			$(`<div class="m-1 p-1 clickable dm-map__picker-wrp-img relative">
+			ee`<div class="ve-m-1 ve-p-1 ve-clickable dm-map__picker-wrp-img ve-relative">
 				<div class="dm-map__picker-img" style="background-image: url(${encodeURI(mapData.hrefThumbnail || mapData.href)})"></div>
-				<span class="absolute ve-text-center dm-map__picker-disp-name">${mapData.name.escapeQuotes()}</span>
-			</div>`)
-				.click(() => {
+				<span class="ve-absolute ve-text-center dm-map__picker-disp-name">${mapData.name.escapeQuotes()}</span>
+			</div>`
+				.onn("click", async () => {
 					doClose();
-					menu.pnl.doPopulate_AdventureBookDynamicMap({state: mapData});
+					const pcm = new PanelContentManager_DynamicMap({board: menu.pnl.board, panel: menu.pnl});
+					await pcm.pDoPopulate({state: {state: mapData}});
 				})
-				.appendTo($modalInner);
+				.appendTo(eleModalInner);
 		});
 	}
 }
@@ -125,24 +137,24 @@ export class DmMapper {
 class DmMapperRoot extends BaseComponent {
 	/**
 	 * @param board DM Screen board.
-	 * @param $wrpPanel Panel wrapper element for us to populate.
+	 * @param wrpPanel Panel wrapper element for us to populate.
 	 */
-	constructor (board, $wrpPanel) {
+	constructor (board, wrpPanel) {
 		super();
 		this._board = board;
-		this._$wrpPanel = $wrpPanel;
+		this._wrpPanel = wrpPanel;
 	}
 
-	render ($parent) {
-		$parent.empty();
+	render (eleParent) {
+		eleParent.empty();
 
-		$parent.append(`<div class="ve-flex-vh-center w-100 h-100"><i class="dnd-font ve-muted">Loading...</i></div>`);
+		eleParent.appends(`<div class="ve-flex-vh-center ve-w-100 ve-h-100"><i class="ve-dnd-font ve-muted">Loading...</i></div>`);
 
-		RenderMap.$pGetRendered(
+		RenderMap.pGetRendered(
 			this._state,
 			{
 				fnGetContainerDimensions: () => {
-					const bcr = $parent[0].getBoundingClientRect();
+					const bcr = eleParent.getBoundingClientRect();
 					return {
 						w: bcr.width,
 						h: bcr.height,
@@ -150,6 +162,6 @@ class DmMapperRoot extends BaseComponent {
 				},
 			},
 		)
-			.then($ele => $parent.empty().append($ele));
+			.then(ele => eleParent.empty().appends(ele));
 	}
 }

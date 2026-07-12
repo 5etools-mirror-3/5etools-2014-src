@@ -1,6 +1,54 @@
 import {ConverterUiUtil} from "./converter-ui-utils.js";
 
+const _APPEND_PREPEND_MODE__APPEND = "append";
+const _APPEND_PREPEND_MODE__PREPEND = "prepend";
+
+class _ConverterUiSettings extends BaseComponent {
+	constructor ({comp, converter, ...rest}) {
+		super({...rest});
+
+		this._comp = comp;
+		this._converter = converter;
+	}
+
+	render ({eleParent}) {
+		const iptInputSeparator = ComponentUiUtil.getIptStr(this._comp, "inputSeparator").addClass("ve-code");
+
+		const selAppendPrependMode = ComponentUiUtil.getSelEnum(
+			this._comp,
+			"appendPrependMode",
+			{
+				values: [
+					_APPEND_PREPEND_MODE__APPEND,
+					_APPEND_PREPEND_MODE__PREPEND,
+				],
+				fnDisplay: val => val.toTitleCase(),
+			},
+		);
+
+		ee`<div class="ve-flex-col ve-mt-3">
+			<label class="ve-split-v-center ve-w-100 ve-mb-2" title="A separator used to mark the end of one to-be-converted entity (creature, spell, etc.) so that multiple entities can be converted in one run. If left blank, the entire input text will be parsed as one entity.">
+				<span class="ve-w-66 ve-no-shrink ve-mr-2 ve-flex-v-center">Input Separator</span>
+				${iptInputSeparator}
+			</label>
+
+			<label class="ve-split-v-center ve-w-100" title="Sets output order when using the &quot;Parse and Add&quot; button, or parsing multiple blocks of text using a separator.">
+				<span class="ve-w-66 ve-no-shrink ve-mr-2 ve-flex-v-center">&quot;Parse and Add&quot; Behaviour</span>
+				${selAppendPrependMode}
+			</label>
+
+			<hr class="ve-hr-3">
+		</div>`
+			.appendTo(eleParent);
+
+		this._converter.renderSettingsModal({compParent: this._comp, eleParent});
+	}
+}
+
 export class ConverterUi extends BaseComponent {
+	static _STORAGE_INPUT = "converterInput";
+	static _STORAGE_STATE = "converterState";
+
 	constructor () {
 		super();
 
@@ -9,8 +57,8 @@ export class ConverterUi extends BaseComponent {
 
 		this._converters = {};
 
-		this._saveInputDebounced = MiscUtil.debounce(() => StorageUtil.pSetForPage(ConverterUi.STORAGE_INPUT, this._editorIn.getValue()), 50);
-		this.saveSettingsDebounced = MiscUtil.debounce(() => StorageUtil.pSetForPage(ConverterUi.STORAGE_STATE, this.getBaseSaveableState()), 50);
+		this._saveInputDebounced = MiscUtil.debounce(() => StorageUtil.pSetForPage(this.constructor._STORAGE_INPUT, this._editorIn.getValue()), VeCt.DUR_DEBOUNCE_SAVE);
+		this.saveSettingsDebounced = MiscUtil.debounce(() => StorageUtil.pSetForPage(this.constructor._STORAGE_STATE, this.getBaseSaveableState()), VeCt.DUR_DEBOUNCE_SAVE);
 
 		this._addHookAll("state", () => this.saveSettingsDebounced());
 
@@ -20,6 +68,10 @@ export class ConverterUi extends BaseComponent {
 
 	set converters (converters) { this._converters = converters; }
 	get activeConverter () { return this._converters[this._state.converter]; }
+
+	getInputSeparator () { return this._state.inputSeparator; }
+	addHookInputSeparator (hk) { return this._addHookBase("inputSeparator", hk); }
+	removeHookInputSeparator (hk) { return this._removeHookBase("inputSeparator", hk); }
 
 	getBaseSaveableState () {
 		return {
@@ -37,21 +89,18 @@ export class ConverterUi extends BaseComponent {
 		super.setBaseSaveableStateFrom(toLoad, ...rest);
 	}
 
-	getPod () {
-		return {
-			...super.getPod(),
-			doRefreshAvailableSources: this._doRefreshAvailableSources.bind(this),
-		};
-	}
-
 	_doRefreshAvailableSources () {
 		this._state.availableSources = BrewUtil2.getSources().sort((a, b) => SortUtil.ascSortLower(a.full, b.full))
 			.map(it => it.json);
 	}
 
+	doRefreshAvailableSources () {
+		return this._doRefreshAvailableSources();
+	}
+
 	async pInit () {
 		// region load state
-		const savedState = await StorageUtil.pGetForPage(ConverterUi.STORAGE_STATE);
+		const savedState = await StorageUtil.pGetForPage(this.constructor._STORAGE_STATE);
 		if (savedState) {
 			this.setBaseSaveableStateFrom(savedState);
 			Object.values(this._converters)
@@ -69,23 +118,27 @@ export class ConverterUi extends BaseComponent {
 		this._state.hasAppended = false;
 		// endregion
 
-		this._editorIn = await EditorUtil.pInitEditor("converter_input");
+		this._editorIn = await EditorUtil.pInitEditor("ipt-converter-input");
 		try {
-			const prevInput = await StorageUtil.pGetForPage(ConverterUi.STORAGE_INPUT);
+			const prevInput = await StorageUtil.pGetForPage(this.constructor._STORAGE_INPUT);
 			if (prevInput) this._editorIn.setValue(prevInput, -1);
 		} catch (ignored) { setTimeout(() => { throw ignored; }); }
 		this._editorIn.on("change", () => this._saveInputDebounced());
 
-		this._editorOut = await EditorUtil.pInitEditor("converter_output", {readOnly: true, mode: "ace/mode/json"});
+		this._editorOut = await EditorUtil.pInitEditor("ipt-converter-output", {readOnly: true, mode: "ace/mode/json"});
 
-		$(`#editable`).click(() => {
-			this._outReadOnly = false;
-			JqueryUtil.doToast({type: "warning", content: "Enabled editing. Note that edits will be overwritten as you parse new stat blocks."});
-		});
+		const btnEnableEditing = es(`#btn-enable-edit`)
+			.onn("click", () => {
+				this._state.outputEnableEditing = !this._state.outputEnableEditing;
+			});
+		this._addHookBase("outputEnableEditing", () => {
+			btnEnableEditing.toggleClass("ve-active", !!this._state.outputEnableEditing);
+			this._editorOut.setOptions({readOnly: !this._state.outputEnableEditing});
+		})();
 
 		let hovWindowPreview = null;
-		$(`#preview`)
-			.on("click", async evt => {
+		es(`#btn-preview`)
+			.onn("click", async evt => {
 				const metaCurr = this._getCurrentEntities();
 
 				if (!metaCurr?.entities?.length) return JqueryUtil.doToast({content: "Nothing to preview!", type: "warning"});
@@ -106,18 +159,24 @@ export class ConverterUi extends BaseComponent {
 							};
 						});
 
-				const $content = Renderer.hover.$getHoverContent_generic({
-					type: "entries",
-					entries,
-				});
+				let content;
+				try {
+					content = Renderer.hover.getHoverContent_generic({
+						type: "entries",
+						entries,
+					});
+				} catch (e) {
+					JqueryUtil.doToast({type: "danger", content: `Could not render preview! ${VeCt.STR_SEE_CONSOLE}`});
+					throw e;
+				}
 
 				if (hovWindowPreview) {
-					hovWindowPreview.$setContent($content);
+					hovWindowPreview.setContent(content);
 					return;
 				}
 
 				hovWindowPreview = Renderer.hover.getShowWindow(
-					$content,
+					content,
 					Renderer.hover.getWindowPositionFromEvent(evt),
 					{
 						title: "Preview",
@@ -129,7 +188,7 @@ export class ConverterUi extends BaseComponent {
 				);
 			});
 
-		const $btnSaveLocal = $(`#save_local`).click(async () => {
+		const btnSaveLocal = es(`#btn-save-local`).onn("click", async () => {
 			const metaCurr = this._getCurrentEntities();
 
 			if (!metaCurr?.entities?.length) return JqueryUtil.doToast({content: "Nothing to save!", type: "warning"});
@@ -152,7 +211,7 @@ export class ConverterUi extends BaseComponent {
 				.map(ent => ent.source);
 			if (uneditableSources.length) {
 				JqueryUtil.doToast({
-					content: `One or more entries have sources which belong to non-editable homebrew: ${uneditableSources.join(", ")}`,
+					content: `One or more entries have sources which belong to non-btn-enable-edit homebrew: ${uneditableSources.join(", ")}`,
 					type: "danger",
 				});
 				return;
@@ -230,16 +289,16 @@ export class ConverterUi extends BaseComponent {
 		});
 
 		this._addHookBase("converter", () => {
-			$btnSaveLocal.toggleClass("hidden", !this.activeConverter.canSaveLocal);
+			btnSaveLocal.toggleClass("hidden", !this.activeConverter.canSaveLocal);
 		})();
 
-		$(`#btn-output-download`).click(() => {
+		es(`#btn-output-download`).onn("click", () => {
 			const metaCurr = this._getCurrentEntities();
 
 			if (!metaCurr?.entities?.length) return JqueryUtil.doToast({content: "Nothing to download!", type: "warning"});
 			if (metaCurr.error) {
 				JqueryUtil.doToast({
-					content: `Current output was not valid JSON. Downloading as <span class="code">.txt</span> instead.`,
+					content: `Current output was not valid JSON. Downloading as <span class="ve-code">.txt</span> instead.`,
 					type: "warning",
 				});
 				DataUtil.userDownloadText(`converter-output.txt`, metaCurr.text);
@@ -250,7 +309,9 @@ export class ConverterUi extends BaseComponent {
 			DataUtil.userDownload(`converter-output`, out);
 		});
 
-		$(`#btn-output-copy`).click(async evt => {
+		es(`#btn-output-copy`).onn("click", async evt => {
+			const btn = evt.target;
+
 			const output = this._outText;
 			if (!output || !output.trim()) {
 				return JqueryUtil.doToast({
@@ -260,7 +321,7 @@ export class ConverterUi extends BaseComponent {
 			}
 
 			await MiscUtil.pCopyTextToClipboard(output);
-			JqueryUtil.showCopiedEffect(evt.currentTarget, "Copied!");
+			JqueryUtil.showCopiedEffect(btn);
 		});
 
 		/**
@@ -308,15 +369,17 @@ export class ConverterUi extends BaseComponent {
 			});
 		};
 
-		$("#parsestatblock").on("click", () => doConversion(false));
-		$(`#parsestatblockadd`).on("click", () => doConversion(true));
+		es("#btn-parse").onn("click", () => doConversion(false));
+		es(`#btn-parse-and-add`).onn("click", () => doConversion(true));
 
-		$(document.body)
-			.on("keydown", evt => {
+		e_(document.body)
+			.onn("keydown", evt => {
 				if (EventUtil.isInInput(evt) || !EventUtil.noModifierKeys(evt)) return;
 
 				const key = EventUtil.getKeyIgnoreCapsLock(evt);
 				if (!["+", "-"].includes(key)) return;
+
+				if (!this.activeConverter?.getHasPageNumbers()) return;
 
 				evt.stopPropagation();
 				evt.preventDefault();
@@ -324,8 +387,7 @@ export class ConverterUi extends BaseComponent {
 				this.activeConverter.page += (key === "+" ? 1 : -1);
 			});
 
-		this._initSideMenu();
-		this._initFooterLhs();
+		this._initSettings();
 
 		this._pInit_dispErrorsWarnings();
 
@@ -333,12 +395,12 @@ export class ConverterUi extends BaseComponent {
 	}
 
 	_pInit_dispErrorsWarnings () {
-		const $stgErrors = $(`#lastError`);
-		const $stgWarnings = $(`#lastWarnings`);
+		const stgErrors = es(`#disp-errors`);
+		const stgWarnings = es(`#disp-warnings`);
 
 		const getRow = ({prefix, text, prop}) => {
-			const $btnClose = $(`<button class="ve-btn ve-btn-danger ve-btn-xs w-24p" title="Dismiss ${prefix} (SHIFT to Dismiss All)">×</button>`)
-				.on("click", evt => {
+			const btnClose = ee`<button class="ve-btn ve-btn-danger ve-btn-xs ve-w-24p" title="Dismiss ${prefix} (SHIFT to Dismiss All)">×</button>`
+				.onn("click", evt => {
 					if (evt.shiftKey) {
 						this._meta[prop] = [];
 						return;
@@ -350,29 +412,29 @@ export class ConverterUi extends BaseComponent {
 					this._meta[prop] = [...this._meta[prop]];
 				});
 
-			return $$`<div class="split-v-center py-1">
+			return ee`<div class="ve-split-v-center ve-py-1">
 				<div>[${prefix}] ${text}</div>
-				${$btnClose}
+				${btnClose}
 			</div>`;
 		};
 
 		this._addHook("meta", "errors", () => {
-			$stgErrors.toggleVe(this._meta.errors.length);
-			$stgErrors.empty();
+			stgErrors.toggleVe(!!this._meta.errors.length);
+			stgErrors.empty();
 			this._meta.errors
 				.forEach(it => {
 					getRow({prefix: "Error", text: it, prop: "errors"})
-						.appendTo($stgErrors);
+						.appendTo(stgErrors);
 				});
 		})();
 
 		this._addHook("meta", "warnings", () => {
-			$stgWarnings.toggleVe(this._meta.warnings.length);
-			$stgWarnings.empty();
+			stgWarnings.toggleVe(!!this._meta.warnings.length);
+			stgWarnings.empty();
 			this._meta.warnings
 				.forEach(it => {
 					getRow({prefix: "Warning", text: it, prop: "warnings"})
-						.appendTo($stgWarnings);
+						.appendTo(stgWarnings);
 				});
 		})();
 
@@ -393,65 +455,46 @@ export class ConverterUi extends BaseComponent {
 		}
 	}
 
-	_initSideMenu () {
-		const $mnu = $(`.sidemenu`);
-
-		const $selConverter = ComponentUiUtil.$getSelEnum(
+	_initSettings () {
+		ComponentUiUtil.getSelEnum(
 			this,
 			"converter",
 			{
+				ele: es(`#sel-mode`)
+					.attr("disabled", false),
 				values: Object.keys(this._converters),
 				fnDisplay: converterId => this._converters[converterId].name,
 			},
 		);
 
-		$$`<div class="w-100 split-v-center"><div class="sidemenu__row__label">Mode</div>${$selConverter}</div>`
-			.appendTo($mnu);
+		es(`#btn-settings`)
+			.attr("disabled", false)
+			.onn("click", () => {
+				const {eleModalInner} = UiUtil.getShowModal({
+					title: "Settings",
+					isHeaderBorder: true,
+					isUncappedHeight: true,
+				});
 
-		ConverterUiUtil.renderSideMenuDivider($mnu);
+				const compSettings = new _ConverterUiSettings({
+					comp: this,
+					converter: this.activeConverter,
+				});
+				compSettings.render({eleParent: eleModalInner});
+			});
 
-		// region mult-part parsing options
-		const $iptInputSeparator = ComponentUiUtil.$getIptStr(this, "inputSeparator").addClass("code");
-		$$`<div class="w-100 split-v-center mb-2"><div class="sidemenu__row__label help mr-2" title="A separator used to mark the end of one to-be-converted entity (creature, spell, etc.) so that multiple entities can be converted in one run. If left blank, the entire input text will be parsed as one entity.">Separator</div>${$iptInputSeparator}</div>`
-			.appendTo($mnu);
+		const wrpSettings = es(`#wrp-settings`);
 
-		const $selAppendPrependMode = ComponentUiUtil.$getSelEnum(
-			this,
-			"appendPrependMode",
-			{
-				values: [
-					ConverterUi._APPEND_PREPEND_MODE__APPEND,
-					ConverterUi._APPEND_PREPEND_MODE__PREPEND,
-				],
-				fnDisplay: val => val.toTitleCase(),
-			},
-		);
-		$$`<div class="w-100 split-v-center"><div class="sidemenu__row__label mr-2" title="Sets output order when using the &quot;Parse and Add&quot; button, or parsing multiple blocks of text using a separator.">On Add</div>${$selAppendPrependMode}</div>`
-			.appendTo($mnu);
+		let fnsCleanupLast = null;
+		this._addHookBase("converter", () => {
+			wrpSettings.empty();
+			if (fnsCleanupLast) fnsCleanupLast.forEach(fn => fn());
+			({fnsCleanupLast} = this.activeConverter.renderSettings({compParent: this, wrpSettings}));
 
-		ConverterUiUtil.renderSideMenuDivider($mnu);
-		// endregion
-
-		const $wrpConverters = $(`<div class="w-100 ve-flex-col"></div>`).appendTo($mnu);
-		Object.entries(this._converters)
-			.sort(([, vA], [, vB]) => SortUtil.ascSortLower(vA.name, vB.name))
-			.forEach(([, converter]) => converter.renderSidebar(this.getPod(), $wrpConverters));
-
-		const hkMode = () => {
 			this._editorIn.setOptions({
 				mode: ConverterUiUtil.getAceMode(this.activeConverter?.mode),
 			});
-		};
-		this._addHookBase("converter", hkMode);
-		hkMode();
-	}
-
-	_initFooterLhs () {
-		const $wrpFooterLhs = $(`#wrp-footer-lhs`);
-
-		Object.entries(this._converters)
-			.sort(([, vA], [, vB]) => SortUtil.ascSortLower(vA.name, vB.name))
-			.forEach(([, converter]) => converter.renderFooterLhs(this.getPod(), {$wrpFooterLhs}));
+		})();
 	}
 
 	doCleanAndOutput (obj, append) {
@@ -467,15 +510,22 @@ export class ConverterUi extends BaseComponent {
 		}
 	}
 
-	set _outReadOnly (val) { this._editorOut.setOptions({readOnly: val}); }
-
 	get _outText () { return this._editorOut.getValue(); }
 	set _outText (text) { this._editorOut.setValue(text, -1); }
 
 	get inText () { return CleanUtil.getCleanString((this._editorIn.getValue() || "").trim(), {isFast: false}); }
 	set inText (text) { this._editorIn.setValue(text, -1); }
 
-	_getDefaultState () { return MiscUtil.copy(ConverterUi._DEFAULT_STATE); }
+	static _DEFAULT_STATE = {
+		hasAppended: false,
+		appendPrependMode: _APPEND_PREPEND_MODE__APPEND,
+		converter: "monster",
+		sourceJson: "",
+		inputSeparator: "===",
+		outputEnableEditing: false,
+	};
+
+	_getDefaultState () { return MiscUtil.copy(this.constructor._DEFAULT_STATE); }
 
 	_getDefaultMetaState () {
 		return {
@@ -484,14 +534,3 @@ export class ConverterUi extends BaseComponent {
 		};
 	}
 }
-ConverterUi.STORAGE_INPUT = "converterInput";
-ConverterUi.STORAGE_STATE = "converterState";
-ConverterUi._APPEND_PREPEND_MODE__APPEND = "append";
-ConverterUi._APPEND_PREPEND_MODE__PREPEND = "prepend";
-ConverterUi._DEFAULT_STATE = {
-	hasAppended: false,
-	appendPrependMode: ConverterUi._APPEND_PREPEND_MODE__APPEND,
-	converter: "Creature",
-	sourceJson: "",
-	inputSeparator: "===",
-};

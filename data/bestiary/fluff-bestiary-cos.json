@@ -9,7 +9,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Amber Golem.webp"
-					}
+					},
+					"width": 643,
+					"height": 1000
 				}
 			]
 		},
@@ -22,7 +24,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Anastrasya Karelova.webp"
-					}
+					},
+					"width": 915,
+					"height": 1000
 				}
 			]
 		},
@@ -35,7 +39,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Arrigal.webp"
-					}
+					},
+					"width": 813,
+					"height": 1000
 				}
 			]
 		},
@@ -124,7 +130,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Baba Lysaga.webp"
-					}
+					},
+					"width": 745,
+					"height": 1000
 				}
 			]
 		},
@@ -170,7 +178,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Baba Lysaga's Creeping Hut.webp"
-					}
+					},
+					"width": 1000,
+					"height": 592
 				}
 			]
 		},
@@ -183,7 +193,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Baron Vargas Vallakovich.webp"
-					}
+					},
+					"width": 973,
+					"height": 1000
 				}
 			]
 		},
@@ -229,7 +241,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Barovian Witch.webp"
-					}
+					},
+					"width": 698,
+					"height": 1000
 				}
 			]
 		},
@@ -242,7 +256,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Beucephalus.webp"
-					}
+					},
+					"width": 753,
+					"height": 1000
 				}
 			]
 		},
@@ -255,7 +271,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Bray Martikov.webp"
-					}
+					},
+					"width": 1000,
+					"height": 705
 				}
 			]
 		},
@@ -268,7 +286,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Brom Martikov.webp"
-					}
+					},
+					"width": 1000,
+					"height": 705
 				}
 			]
 		},
@@ -305,7 +325,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Clovin Belview.webp"
-					}
+					},
+					"width": 871,
+					"height": 1000
 				}
 			]
 		},
@@ -318,7 +340,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Cyrus Belview.webp"
-					}
+					},
+					"width": 781,
+					"height": 1000
 				}
 			]
 		},
@@ -331,7 +355,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Danika Dorakova.webp"
-					}
+					},
+					"width": 1000,
+					"height": 705
 				}
 			]
 		},
@@ -344,7 +370,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Davian Martikov.webp"
-					}
+					},
+					"width": 645,
+					"height": 1000
 				}
 			]
 		},
@@ -357,7 +385,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Donavich.webp"
-					}
+					},
+					"width": 853,
+					"height": 1000
 				}
 			]
 		},
@@ -370,7 +400,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Doru.webp"
-					}
+					},
+					"width": 830,
+					"height": 1000
 				}
 			]
 		},
@@ -383,7 +415,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Emil Toranescu.webp"
-					}
+					},
+					"width": 802,
+					"height": 1000
 				}
 			]
 		},
@@ -396,7 +430,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Escher.webp"
-					}
+					},
+					"width": 915,
+					"height": 1000
 				}
 			]
 		},
@@ -497,7 +533,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Ezmerelda d'Avenir.webp"
-					}
+					},
+					"width": 603,
+					"height": 1000
 				}
 			]
 		},
@@ -510,7 +548,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Gadof Blinsky.webp"
-					}
+					},
+					"width": 921,
+					"height": 1000
 				}
 			]
 		},
@@ -523,7 +563,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Gertruda.webp"
-					}
+					},
+					"width": 589,
+					"height": 1000
 				}
 			]
 		},
@@ -568,7 +610,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Guardian Portrait.webp"
-					}
+					},
+					"width": 598,
+					"height": 800
 				}
 			]
 		},
@@ -581,7 +625,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Henrik van der Voort.webp"
-					}
+					},
+					"width": 801,
+					"height": 1000
 				}
 			]
 		},
@@ -594,7 +640,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Ireena Kolyana.webp"
-					}
+					},
+					"width": 1000,
+					"height": 969
 				}
 			]
 		},
@@ -607,7 +655,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Ismark Kolyanovich.webp"
-					}
+					},
+					"width": 789,
+					"height": 1000
 				}
 			]
 		},
@@ -695,7 +745,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Izek Strazni.webp"
-					}
+					},
+					"width": 300,
+					"height": 369
 				}
 			]
 		},
@@ -708,7 +760,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Kasimir Velikov.webp"
-					}
+					},
+					"width": 300,
+					"height": 369
 				}
 			]
 		},
@@ -721,7 +775,39 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Kiril Stoyanovich.webp"
-					}
+					},
+					"width": 708,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Lady Fiona Wachter",
+			"source": "CoS",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/CoS/060-cos05-11.webp"
+					},
+					"width": 1000,
+					"height": 819
+				}
+			]
+		},
+		{
+			"name": "Lief Lipsiege",
+			"source": "CoS",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/CoS/Lief Lipsiege.webp"
+					},
+					"width": 751,
+					"height": 1000
 				}
 			]
 		},
@@ -734,7 +820,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Luvash.webp"
-					}
+					},
+					"width": 849,
+					"height": 1000
 				}
 			]
 		},
@@ -747,7 +835,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/016-cos03-04.webp"
-					}
+					},
+					"width": 823,
+					"height": 1000
 				}
 			]
 		},
@@ -831,7 +921,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/060-cos05-11.webp"
-					}
+					},
+					"width": 1000,
+					"height": 819
 				}
 			]
 		},
@@ -844,7 +936,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Milivoj.webp"
-					}
+					},
+					"width": 746,
+					"height": 1000
 				}
 			]
 		},
@@ -904,7 +998,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Mongrelfolk.webp"
-					}
+					},
+					"width": 781,
+					"height": 1000
 				}
 			]
 		},
@@ -917,7 +1013,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Otto Belview.webp"
-					}
+					},
+					"width": 865,
+					"height": 1000
 				}
 			]
 		},
@@ -930,7 +1028,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Patrina Velikovna.webp"
-					}
+					},
+					"width": 300,
+					"height": 369
 				}
 			]
 		},
@@ -989,7 +1089,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Phantom Warrior.webp"
-					}
+					},
+					"width": 800,
+					"height": 1000
 				}
 			]
 		},
@@ -1002,7 +1104,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Piccolo.webp"
-					}
+					},
+					"width": 921,
+					"height": 1000
 				}
 			]
 		},
@@ -1079,7 +1183,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Pidlwick II.webp"
-					}
+					},
+					"width": 300,
+					"height": 435
 				}
 			]
 		},
@@ -1169,7 +1275,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Rahadin.webp"
-					}
+					},
+					"width": 300,
+					"height": 366
 				}
 			]
 		},
@@ -1249,7 +1357,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Rictavio.webp"
-					}
+					},
+					"width": 300,
+					"height": 721
 				}
 			]
 		},
@@ -1262,7 +1372,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Rosavalda Rose Durst.webp"
-					}
+					},
+					"width": 526,
+					"height": 1000
 				}
 			]
 		},
@@ -1275,7 +1387,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Sir Godfrey Gwilym.webp"
-					}
+					},
+					"width": 757,
+					"height": 1000
 				}
 			]
 		},
@@ -1316,55 +1430,55 @@
 									"type": "entries",
 									"name": "The Vampire's Minions",
 									"entries": [
-										"Whenever Strahd appears in a location other than his tomb or the place indicated by the card reading, roll a {@dice d20} and consult the Strahd's Minions table to determine what creatures he brings with him, if any."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "Strahd's Minions",
-									"entries": [
+										"Whenever Strahd appears in a location other than his tomb or the place indicated by the card reading, roll a {@dice d20} and consult the Strahd's Minions table to determine what creatures he brings with him, if any.",
 										{
-											"type": "table",
-											"colLabels": [
-												"d20",
-												"Creatures"
-											],
-											"colStyles": [
-												"col-6",
-												"col-6"
-											],
-											"rows": [
-												[
-													"1\u20133",
-													"{@dice 1d4 + 2} {@creature dire wolf||dire wolves}"
-												],
-												[
-													"4\u20136",
-													"{@dice 1d6 + 3} {@creature ghoul||ghouls}"
-												],
-												[
-													"7\u20139",
-													"{@dice 1d4 + 2} {@creature Strahd zombie|CoS|Strahd zombies} (in this appendix)"
-												],
-												[
-													"10\u201312",
-													"{@dice 2d4} {@creature swarm of bats||swarms of bats}"
-												],
-												[
-													"13\u201315",
-													"{@dice 1d4 + 1} {@creature vampire spawn}"
-												],
-												[
-													"16\u201318",
-													"{@dice 3d6} {@creature wolf||wolves}"
-												],
-												[
-													"19\u201320",
-													"None"
-												]
+											"type": "entries",
+											"name": "Strahd's Minions",
+											"entries": [
+												{
+													"type": "table",
+													"colLabels": [
+														"d20",
+														"Creatures"
+													],
+													"colStyles": [
+														"col-6",
+														"col-6"
+													],
+													"rows": [
+														[
+															"1\u20133",
+															"{@dice 1d4 + 2} {@creature dire wolf||dire wolves}"
+														],
+														[
+															"4\u20136",
+															"{@dice 1d6 + 3} {@creature ghoul||ghouls}"
+														],
+														[
+															"7\u20139",
+															"{@dice 1d4 + 2} {@creature Strahd zombie|CoS|Strahd zombies} (in this appendix)"
+														],
+														[
+															"10\u201312",
+															"{@dice 2d4} {@creature swarm of bats||swarms of bats}"
+														],
+														[
+															"13\u201315",
+															"{@dice 1d4 + 1} {@creature vampire spawn}"
+														],
+														[
+															"16\u201318",
+															"{@dice 3d6} {@creature wolf||wolves}"
+														],
+														[
+															"19\u201320",
+															"None"
+														]
+													]
+												},
+												"If the characters are in a residence, Strahd's creatures break through doors and windows to reach them, or crawl up through the earth, or swoop down the chimney. The vampire spawn (all that's left of a party of adventurers that Strahd defeated long ago) can't enter the characters' location unless invited."
 											]
-										},
-										"If the characters are in a residence, Strahd's creatures break through doors and windows to reach them, or crawl up through the earth, or swoop down the chimney. The vampire spawn (all that's left of a party of adventurers that Strahd defeated long ago) can't enter the characters' location unless invited."
+										}
 									]
 								},
 								{
@@ -1388,7 +1502,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/153-636988936829621698.webp"
-					}
+					},
+					"width": 300,
+					"height": 364
 				}
 			]
 		},
@@ -1463,7 +1579,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Strahd's Animated Armor.webp"
-					}
+					},
+					"width": 800,
+					"height": 1000
 				}
 			]
 		},
@@ -1476,7 +1594,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/052-cos05-05.webp"
-					}
+					},
+					"width": 697,
+					"height": 1000
 				}
 			]
 		},
@@ -1489,7 +1609,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Thornboldt Thorn Durst.webp"
-					}
+					},
+					"width": 526,
+					"height": 1000
 				}
 			]
 		},
@@ -1534,7 +1656,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Tree Blight.webp"
-					}
+					},
+					"width": 1000,
+					"height": 723
 				}
 			]
 		},
@@ -1547,7 +1671,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/005-cos02-02.webp"
-					}
+					},
+					"width": 1000,
+					"height": 654
 				}
 			]
 		},
@@ -1560,7 +1686,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Vilnius.webp"
-					}
+					},
+					"width": 845,
+					"height": 1000
 				}
 			]
 		},
@@ -1573,7 +1701,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Vistana Commoner.webp"
-					}
+					},
+					"width": 2018,
+					"height": 2235
 				}
 			]
 		},
@@ -1628,7 +1758,7 @@
 												"His Armor Class is 17 (half plate).",
 												"He has 192 hit points.",
 												"He speaks Common and Draconic.",
-												"Vladimir wields a +2 greatsword with a hilt sculpted to resemble silver dragon wings and a pommel shaped like a silver dragon's head clutching a black opal between its teeth. As an action, he can make two attacks with the sword (+9 to hit). It deals 20 ({@damage 4d6 + 6}) slashing damage on a hit. Against Strahd, Vladimir deals an extra 14 ({@damage 4d6}) slashing damage with the weapon.",
+												"Vladimir wields a +2 greatsword with a hilt sculpted to resemble silver dragon wings and a pommel shaped like a silver dragon's head clutching a black opal between its teeth. As an action, he can make two attacks with the sword ({@hit 9} to hit). It deals 20 ({@damage 4d6 + 6}) slashing damage on a hit. Against Strahd, Vladimir deals an extra 14 ({@damage 4d6}) slashing damage with the weapon.",
 												"Vladimir has a challenge rating of 7 (2,900 XP)."
 											]
 										}
@@ -1700,7 +1830,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Vladimir Horngaard.webp"
-					}
+					},
+					"width": 585,
+					"height": 1000
 				}
 			]
 		},
@@ -1713,7 +1845,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/053-cos05-06.webp"
-					}
+					},
+					"width": 774,
+					"height": 1000
 				}
 			]
 		},
@@ -1726,7 +1860,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Zuleika Toranescu.webp"
-					}
+					},
+					"width": 804,
+					"height": 1000
 				}
 			]
 		},
@@ -1739,7 +1875,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/CoS/Zygfrek Belview.webp"
-					}
+					},
+					"width": 901,
+					"height": 1000
 				}
 			]
 		}

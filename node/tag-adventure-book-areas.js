@@ -3,8 +3,8 @@ import "../js/parser.js";
 import "../js/utils.js";
 import "../js/render.js";
 import {Command} from "commander";
-import {getAllJson} from "./util-json-files.js";
 import {writeJsonSync} from "5etools-utils/lib/UtilFs.js";
+import {getCliJsonFiles, mutCommanderJsonFileOptions} from "./util-commander.js";
 
 class AreaTagger {
 	constructor (json) {
@@ -62,41 +62,45 @@ class AreaTagger {
 	}
 }
 
-const program = new Command()
-	.option("--file <file...>", `Input files`)
-	.option("--dir <dir...>", `Input directories`)
-;
+const program = mutCommanderJsonFileOptions({command: new Command()});
 
 program.parse(process.argv);
 const params = program.opts();
 
-const dirs = [...(params.dir || [])];
-const files = [...(params.file || [])];
-
-// If no options specified, use default selection
-if (!dirs.length && !files.length) {
-	[
-		{
-			index: ut.readJson("./data/adventures.json"),
-			type: "adventure",
-		},
-		{
-			index: ut.readJson("./data/books.json"),
-			type: "book",
-		},
-	]
-		.forEach(({index, type}) => {
-			index[type]
-				.forEach(meta => {
-					files.push(`./data/${type}/${type}-${meta.id.toLowerCase()}.json`);
-				});
-		});
-}
-
 console.log(`Running area tagging pass...`);
 
-getAllJson({dirs, files})
-	.forEach(({path, json}) => {
+getCliJsonFiles(
+	{
+		dirs: params.dir,
+		files: params.file,
+		convertedBy: params.convertedBy,
+		filter: params.filter,
+		fnMutDefaultSelection: ({files}) => {
+			[
+				{
+					index: ut.readJson("./data/adventures.json"),
+					type: "adventure",
+				},
+				{
+					index: ut.readJson("./data/books.json"),
+					type: "book",
+				},
+			]
+				.forEach(({index, type}) => {
+					index[type]
+						.forEach(meta => {
+							files.push(`./data/${type}/${type}-${meta.id.toLowerCase()}.json`);
+						});
+				});
+		},
+	},
+)
+	.forEach(jsonFile => {
+		const path = jsonFile.getFilePath();
+		const json = jsonFile.getContents();
+
+		console.log(`\tTagging "${path}"...`);
+
 		if (json.data) {
 			new AreaTagger(json).run();
 		} else {
@@ -108,7 +112,7 @@ getAllJson({dirs, files})
 
 		writeJsonSync(path, json, {isClean: true});
 
-		console.log(`\tTagged "${path}"...`);
+		console.log(`\tTagged "${path}".`);
 	});
 
 console.log(`Area tagging complete.`);

@@ -133,7 +133,7 @@
 												[
 													"{@adventure Book of Cylinders|CM|8}",
 													"6",
-													"Engraved cylinders contained within a book tell a gripping and portentious tale when rolled across wet clay."
+													"Engraved cylinders contained within a book tell a gripping and portentous tale when rolled across wet clay."
 												],
 												[
 													"{@adventure Sarah of Yellowcrest Manor|CM|9}",
@@ -1107,7 +1107,7 @@
 													]
 												},
 												{
-													"area": "051",
+													"area": "073",
 													"points": [
 														[
 															2280,
@@ -2325,7 +2325,7 @@
 									"id": "08f",
 									"entries": [
 										"With broad shoulders and a permanent scowl on her face, Valor is an intimidating, 24-year-old tiefling {@creature knight}. Originally from Cormyr, a country to the east, she served as a Purple Dragon Knight in the Cormyrean army. Since leaving that life behind, she has taken up bounty hunting, which she greatly prefers. Valor is in Candlekeep to research a particularly elusive target. Her entrance gift wasn't cheap, and she's annoyed that it turned out to be a monstrous fake. She is helping the Avowed with various chores to make amends.",
-										"Valor is reshingling the roof of the Hearth during the day, or pacing in the Court of Air at night. Agitated and restless, she's wary of people who want to speak with her. A successful {@dc 15} Charisma ({@skill Persuasion}) check, or polite and persistent questioning, convinces her to talk to the characters, if only to get them to leave her presence sooner.",
+										"Valor is re-shingling the roof of the Hearth during the day, or pacing in the Court of Air at night. Agitated and restless, she's wary of people who want to speak with her. A successful {@dc 15} Charisma ({@skill Persuasion}) check, or polite and persistent questioning, convinces her to talk to the characters, if only to get them to leave her presence sooner.",
 										"Valor can share the following information:",
 										{
 											"type": "list",
@@ -3540,10 +3540,10 @@
 												"The character needs endorsements from at least three members of the kindness."
 											]
 										},
-										"Characters who aren't wereravens but who meet the other criteria for membership must find a patron in the Scarlet Sash or some other wereraven willing to turn them into lycanthropes. Any member of the Scarlet Sash who bestows the \"gift\" of wereraven lycanthropy on a character becomes responsible for that character's conduct in the eyes of the other members of the kindness; therefore, the decision to bestow the gift is not made lightly.",
+										"Characters who aren't wereravens but who meet the other criteria for membership must find a patron in the Scarlet Sash or some other wereraven willing to turn them into lycanthropes. Any member of the Scarlet Sash who bestows the \"gift\" of wereraven {@variantrule Player Characters as Lycanthropes|MM|lycanthropy} on a character becomes responsible for that character's conduct in the eyes of the other members of the kindness; therefore, the decision to bestow the gift is not made lightly.",
 										"Getting the endorsement of Scarlet Sash members isn't as simple as succeeding on an ability check. Earning the trust and friendship of the wereravens should require good roleplaying, and it could take days, weeks, or months for members of the Scarlet Sash to trust any characters enough to welcome them into their tight-knit circle.",
 										"Members of the Scarlet Sash have no obligations other than to support the group's goal of keeping evil items out of evil hands. Madrina asks only that members visit Chalet Brantifax on occasion and keep her apprised of their efforts in this regard.",
-										"A character who joins the Scarlet Sash can leave the kindness at any time without fear of reprisal. If subjected to a {@spell greater restoration} spell, a {@spell remove curse} spell, or any other magic that ends a curse, that character is no longer afflicted with wereraven lycanthropy but can choose to remain a member of the Scarlet Sash."
+										"A character who joins the Scarlet Sash can leave the kindness at any time without fear of reprisal. If subjected to a {@spell greater restoration} spell, a {@spell remove curse} spell, or any other magic that ends a curse, that character is no longer afflicted with wereraven {@variantrule Player Characters as Lycanthropes|MM|lycanthropy} but can choose to remain a member of the Scarlet Sash."
 									]
 								}
 							]
@@ -4792,7 +4792,7 @@
 											"id": "0e7",
 											"entries": [
 												"The only feature of this damp, cold, circular room is a four-foot-diameter well in the middle of the floor. Next to this shaft sits a wooden bucket fastened to a coiled length of rope.",
-												"The bottom of the shaft is veiled in darkness. From its depths, a whispering voice says, \"Brorn! Where are you, boy?\" "
+												"The bottom of the shaft is veiled in darkness. From its depths, a whispering voice says, \"Brorn! Where are you, boy?\""
 											]
 										},
 										"After the death of Brorn, his beloved mastiff, Baron Brantifax was beset by spells of sleepwalking, during which he would wander about the chalet looking for his lost hound. The servants mistook his sleepwalking for temporary madness brought on by insomnia, and they assumed he was awake at the time. He was sleepwalking when he fell down the well, and he drowned before the servants could get him out. The haunting whispers of his restless spirit terrified the staff, who fled the chalet shortly thereafter. The baron's spirit is too weak to manifest physically or cause any harm.",
@@ -5644,7 +5644,7 @@
 									"page": 51,
 									"id": "135",
 									"entries": [
-										"The {@creature Meenlock|VGM|meenlocks} haunting Vermeillon avoid bright light. They prefer to stay in their nest until nightfall, though they sometimes hunt on overcast days.",
+										"The {@creature Meenlock|VGM|meenlocks} haunting Vermeillon avoid {@quickref Vision and Light||2||bright light}. They prefer to stay in their nest until nightfall, though they sometimes hunt on overcast days.",
 										"The meenlocks avoid combat with a well-armed group of foes. If the characters don't split up on their own, the meenlocks try to divide the party using their ability to create hallucinations. Their aim is to isolate and paralyze one character, then drag that character back to their nest to be tortured and transformed into a meenlock. If given the opportunity, meenlocks psychically torment their prey for hours or days, breaking down their mental and emotional state to make the eventual transformation easier.",
 										"Be devious and tricksy with these foes\u2014they're intelligent creatures, not mindless monsters driven by bloodlust. Hide them from the characters for as long as possible to heighten the mystery and suspense."
 									]
@@ -5681,9 +5681,9 @@
 											"grid": {
 												"type": "square",
 												"size": 58,
-												"offsetX": 2,
-												"offsetY": -2,
-												"distance": 10
+												"offsetX": 4,
+												"offsetY": -4,
+												"scale": 2
 											},
 											"title": "Map 5.1: Vermeillon",
 											"width": 3000,
@@ -5937,9 +5937,9 @@
 											"grid": {
 												"type": "square",
 												"size": 58,
-												"offsetX": 2,
-												"offsetY": -2,
-												"distance": 10
+												"offsetX": 4,
+												"offsetY": -4,
+												"scale": 2
 											},
 											"title": "Player Version",
 											"width": 3000,
@@ -6597,7 +6597,7 @@
 												"Dust covers everything in this wide hallway. Moth-eaten cloaks hang from hooks on the left-hand wall. To the left and the right, hallways branch off into the gloom. Ahead, a stairway leads up to the second floor, and a door stands beneath the stairs, seemingly leading to the back yard."
 											]
 										},
-										"Dim light filters in through the dust-covered windows, the only light within the house. The cloaks are too decayed to be of any use."
+										"{@quickref Vision and Light||2||Dim light} filters in through the dust-covered windows, the only light within the house. The cloaks are too decayed to be of any use."
 									]
 								},
 								{
@@ -6744,7 +6744,7 @@
 												"Meenlocks are corrupted fey creatures that spontaneously manifest in response to fear in places where the border with the Feywild is thin.",
 												"Meenlocks create more of their kind by transforming humanoids through a process of psychic torment that takes hours or days.",
 												"Meenlocks live in subterranean nests.",
-												"Meenlocks are sensitive to bright light and can sense shadows and darkness."
+												"Meenlocks are sensitive to {@quickref Vision and Light||2||bright light} and can sense shadows and darkness."
 											]
 										},
 										"By the time Mayor Duvezin discovered this book, she was already being harried by the meenlocks. They took her shortly afterward."
@@ -8208,7 +8208,7 @@
 											]
 										},
 										"The tools were left behind by the workers in the wake of the disaster.",
-										"Characters who look up see scores of bats hanging from the 20-foot-high ceiling. If bright light is shone at them or if someone makes a noise louder than a whisper, the bats coalesce into three hostile {@creature Swarm of Bats||swarms of bats}. These swarms were drawn to the mine by the meenlocks' unwholesome presence and attack all creatures except the meenlocks."
+										"Characters who look up see scores of bats hanging from the 20-foot-high ceiling. If {@quickref Vision and Light||2||bright light} is shone at them or if someone makes a noise louder than a whisper, the bats coalesce into three hostile {@creature Swarm of Bats||swarms of bats}. These swarms were drawn to the mine by the meenlocks' unwholesome presence and attack all creatures except the meenlocks."
 									]
 								},
 								{
@@ -8420,7 +8420,7 @@
 											"page": 60,
 											"id": "17b",
 											"entries": [
-												"A meenlock shuns bright light. It can supernaturally sense areas of darkness and shadow in its vicinity and thus is able to teleport from one darkened space to another\u2014enabling it to sneak up on its prey and run away when outmatched."
+												"A meenlock shuns {@quickref Vision and Light||2||bright light}. It can supernaturally sense areas of darkness and shadow in its vicinity and thus is able to teleport from one darkened space to another\u2014enabling it to sneak up on its prey and run away when outmatched."
 											]
 										},
 										{
@@ -8630,7 +8630,7 @@
 									"type": "list",
 									"items": [
 										"{@creature Varnyr|CM} speaks Common and Elvish, and she has {@sense darkvision} out to a range of 60 feet. She has advantage on saving throws against being {@condition charmed}, and magic can't put her to sleep.",
-										"Instead of a rapier, {@creature Varnyr|CM} wields a cane and can use an action to make two melee weapon attacks with it: +3 to hit, reach 5 ft., one target. {@i Hit}: 2 ({@dice 1d4}) bludgeoning damage."
+										"Instead of a rapier, {@creature Varnyr|CM} wields a cane and can use an action to make two melee weapon attacks with it: {@hit 3} to hit, reach 5 ft., one target. {@i Hit}: 2 ({@dice 1d4}) bludgeoning damage."
 									]
 								},
 								{
@@ -8799,7 +8799,7 @@
 									"items": [
 										"{@creature K'Tulah|CM} speaks Common and Druidic, and she has {@sense darkvision} out to a range of 60 feet.",
 										"When {@creature K'Tulah|CM} moves on her turn in combat, she can double her speed until the end of the turn. Once she uses this ability, she can't use it again until she moves 0 feet on one of her turns.",
-										"As an action, {@creature K'Tulah|CM} can make a melee weapon attack with her claws: +2 to hit, reach 5 ft., one target. {@i Hit}: 2 ({@dice 1d4}) slashing damage."
+										"As an action, {@creature K'Tulah|CM} can make a melee weapon attack with her claws: {@hit 2} to hit, reach 5 ft., one target. {@i Hit}: 2 ({@dice 1d4}) slashing damage."
 									]
 								},
 								{
@@ -10582,7 +10582,7 @@
 											"type": "insetReadaloud",
 											"id": "1ef",
 											"entries": [
-												"This bedroom could be another wing of the library for all the books packed into the shelves that line the walls. Two five-foot-tall candlesticks in the middle of the room have magical flames flickering atop them\u2014a welcome reprieve from the relatively dim light of the firefly lamps."
+												"This bedroom could be another wing of the library for all the books packed into the shelves that line the walls. Two five-foot-tall candlesticks in the middle of the room have magical flames flickering atop them\u2014a welcome reprieve from the relatively {@quickref Vision and Light||2||dim light} of the firefly lamps."
 											]
 										},
 										"Each candlestick is lit by a {@i continual light} spell that {@creature Varnyr|CM} can suppress by speaking a command word known only to her. The books in here represent {@creature Varnyr|CM}'s personal collection.",
@@ -11075,7 +11075,7 @@
 										{
 											"type": "item",
 											"name": "Light",
-											"entry": "All areas of the bathhouse and the tower are filled with bright light during the day and evening, either from sunlight or lanterns. After midnight, these areas are dark unless characters are using a light source. The ground floor of the shrine ({@area area T11|230|x}) is unlit, while its basement is lit by a magic pool (see {@area area T12|234|x} for details)."
+											"entry": "All areas of the bathhouse and the tower are filled with {@quickref Vision and Light||2||bright light} during the day and evening, either from sunlight or lanterns. After midnight, these areas are dark unless characters are using a light source. The ground floor of the shrine ({@area area T11|230|x}) is unlit, while its basement is lit by a magic pool (see {@area area T12|234|x} for details)."
 										}
 									]
 								}
@@ -11927,7 +11927,7 @@
 											"page": 85,
 											"id": "226",
 											"entries": [
-												"Ilmar keeps a silvered {@item shortsword|PHB}, a {@item hand crossbow|PHB} with twenty {@item Crossbow Bolts (20)|PHB|bolts}, and a {@item spell scroll} of {@spell greater restoration} hidden underneath the massage bed in the south treatment room. These can be discovered by any character who searches the room. He keeps a vial of {@item oil of slipperiness} hidden among the massage lotions and oils on the shelf in the north treatment room. It can be spotted with a successful {@dc 14} Wisdom ({@skill Perception}) check."
+												"Ilmar keeps a {@item silvered shortsword|PHB}, a {@item hand crossbow|PHB} with twenty {@item Crossbow Bolts (20)|PHB|bolts}, and a {@item spell scroll} of {@spell greater restoration} hidden underneath the massage bed in the south treatment room. These can be discovered by any character who searches the room. He keeps a vial of {@item oil of slipperiness} hidden among the massage lotions and oils on the shelf in the north treatment room. It can be spotted with a successful {@dc 14} Wisdom ({@skill Perception}) check."
 											]
 										}
 									]
@@ -12082,7 +12082,7 @@
 											"page": 87,
 											"id": "237",
 											"entries": [
-												"Submerged in the pool is {@item Radiance|CM}, a {@item +1 wand of the war mage} in the form of an exquisite golden hand mirror. While surrounded by darkness, it sheds dim light in a 5-foot radius. A creature that is attuned to Radiance can use a bonus action while holding the mirror to cast the {@spell enhance ability} spell, choosing itself and no other creature as the spell's target. Once this property of the wand is used, it can't be used again until the next dawn. The wand is Sylvarie's, but she offers it to the characters as a reward for ending her curse.",
+												"Submerged in the pool is {@item Radiance|CM}, a {@item +1 wand of the war mage} in the form of an exquisite golden hand mirror. While surrounded by darkness, it sheds {@quickref Vision and Light||2||dim light} in a 5-foot radius. A creature that is attuned to Radiance can use a bonus action while holding the mirror to cast the {@spell enhance ability} spell, choosing itself and no other creature as the spell's target. Once this property of the wand is used, it can't be used again until the next dawn. The wand is Sylvarie's, but she offers it to the characters as a reward for ending her curse.",
 												{
 													"type": "gallery",
 													"images": [
@@ -13263,7 +13263,7 @@
 											"type": "insetReadaloud",
 											"id": "26d",
 											"entries": [
-												"The upper court of the temple has been completely cleared of debris. Six pillars support the ten-foot-high ceiling, and the northern half of the enclosed area is bathed in bright light, making it easy for you to see the horrific scene playing out in the far end of the room."
+												"The upper court of the temple has been completely cleared of debris. Six pillars support the ten-foot-high ceiling, and the northern half of the enclosed area is bathed in {@quickref Vision and Light||2||bright light}, making it easy for you to see the horrific scene playing out in the far end of the room."
 											]
 										},
 										"The following events are unfolding as the party enters. Lashed to a makeshift altar are two neutral good yuan-ti, a {@creature Yuan-ti Malison (Type 1)||type 1 yuan-ti malison} named Maaz and a {@creature yuan-ti pureblood} named Vorsa. They are being tortured by an evil {@creature yuan-ti abomination} that is presiding over a ritual. An enormous sarcophagus rests behind them, its exterior carved with serpents. Two {@creature Yuan-ti Malison (Type 1)||yuan-ti malisons}, a {@creature Yuan-ti Malison (Type 1)||type 1} and a {@creature Yuan-ti Malison (Type 3)||type 3}, are positioned on either side of it. Both are evil. One carries a lantern that is the source of the illumination, and the other one is holding up a chime and preparing to strike it. As the characters take in the scene, the abomination is studying the script on the sarcophagus intently, engrossed in what it sees. At a gesture from the abomination, the chime is struck. As it rings out, the seam around the lid of the sarcophagus glows brightly for an instant. Then the sarcophagus comes open partway, and the bound prisoners howl in agony.",
@@ -16034,7 +16034,7 @@
 							]
 						},
 						"As these words pass into the characters' consciousness, the book begins to pull the characters out of the story. When the last line is read, the characters return to the same spot in Candlekeep they left. {@i Lore of Lurue}, closed and sealed, rests where it did when the characters' experience began.",
-						"If the characters defeated the corrupted unicorn before Selûne intervened, and thus they feel deserving of a reward, they might discover that Lurue herself has provided them with one. Sitting on the front cover of the book as the characters emerge from the demiplane is a moonstone and opal ring. A successful {@dc 18} Intelligence ({@skill Arcana}) check reveals this to be a {@item ring of shooting stars}. In addition, each character is the recipient of a supernatural gift from Lurue: a {@i charm of animal conjuring} (see \"{@book Charms|DMG|7|Charms}\" in the {@book Dungeon Master's Guide|DMG})."
+						"If the characters defeated the corrupted unicorn before Selûne intervened, and thus they feel deserving of a reward, they might discover that Lurue herself has provided them with one. Sitting on the front cover of the book as the characters emerge from the demiplane is a moonstone and opal ring. A successful {@dc 18} Intelligence ({@skill Arcana}) check reveals this to be a {@item ring of shooting stars}. In addition, each character is the recipient of a supernatural gift from Lurue: a {@reward charm of animal conjuring} (see \"{@book Charms|DMG|7|Charms}\" in the {@book Dungeon Master's Guide|DMG})."
 					]
 				}
 			]
@@ -17096,7 +17096,7 @@
 											"id": "325",
 											"entries": [
 												"One or more of the other books described in this adventure anthology might be found here at your discretion, having been purloined by Stonky. The remaining books are mostly dull treatises with titles that tickled the gnome's fancy. The books are arranged by color rather than some more useful system, but characters who make a quick survey of the shelves discover three tomes that warrant further examination:",
-												"{@i Heroes' Feast: A Cookbook}. This richly illustrated book of recipes was written by a trio of culinary enthusiasts named Wyk Nenmael, Nojen Eptros, and Imrit Welachwe. Any creature that spends a short rest poring over the book's recipes gains a supernatural charm called the {@i charm of the heroes' feast}. This charm allows you to cast the {@spell heroes' feast} spell as an action, no components required. Once used, this charm goes away. See \"{@book Supernatural Gifts|DMG|7|Supernatural Gifts}\" in the {@book Dungeon Master's Guide|DMG} for more information on how charms work. The book teleports to a secret vault in Candlekeep after bestowing its charm on a creature.",
+												"{@i Heroes' Feast: A Cookbook}. This richly illustrated book of recipes was written by a trio of culinary enthusiasts named Wyk Nenmael, Nojen Eptros, and Imrit Welachwe. Any creature that spends a short rest poring over the book's recipes gains a supernatural charm called the {@reward charm of the heroes' feast|CM}. This charm allows you to cast the {@spell heroes' feast} spell as an action, no components required. Once used, this charm goes away. See \"{@book Supernatural Gifts|DMG|7|Supernatural Gifts}\" in the {@book Dungeon Master's Guide|DMG} for more information on how charms work. The book teleports to a secret vault in Candlekeep after bestowing its charm on a creature.",
 												"{@i Stonky Noptopper's Spells o' Plenty}. Stonky's fat little spellbook contains the following wizard spells: {@spell alarm}, {@spell animate objects}, {@spell arcane lock}, {@spell banishment}, {@spell chain lightning}, {@spell clairvoyance}, {@spell detect magic}, {@spell dispel magic}, {@spell fabricate}, {@spell fireball}, {@spell flesh to stone}, {@spell fly}, {@spell globe of invulnerability}, {@spell glyph of warding}, {@spell grease}, {@spell knock}, {@spell legend lore}, {@spell levitate}, {@spell locate creature}, {@spell locate object}, {@spell mage armor}, {@spell planar binding}, {@spell polymorph}, {@spell programmed illusion}, {@spell protection from evil and good}, {@spell scrying}, {@spell see invisibility}, {@spell sending}, {@spell shield}, {@spell telekinesis}, and {@spell true seeing}.",
 												"{@i Trobriand's Machinations, Vol. X}. This hefty tome, written by the mad wizard Trobriand of Undermountain, describes the processes by which he creates animated metal constructs. The book is filled with the wizard's ravings and drawings of his contraptions. Characters who compare those drawings with Stonky's skitterwidgets can tell where the gnome got the inspiration for his mechanical creations."
 											]
@@ -18136,7 +18136,7 @@
 							"page": 134,
 							"id": "353",
 							"entries": [
-								"The characters can use the lever in {@area area B4|327|x} to abort or delay the launch. If they fail to do that, you must determine when the launch occurs based on your estimation of how much time has elapsed since the earthquake. If the characters take a short rest or otherwise waste time, the Barn Door launches at the end of the 60-minute countdown. When that happens, the entire tower flies into the sky, soaring along its preset trajectory. It leaves behind a cloud of smoke large enough to engulf the entire Inner Ward of Candlekeep (treat the area as heavily obscured for 1 minute). Any creature in {@area area U1|32e|x} or {@area area U2|331|x} takes 132 ({@dice 24d10}) fire damage from the rocket engines as the tower lifts off.",
+								"The characters can use the lever in {@area area B4|327|x} to abort or delay the launch. If they fail to do that, you must determine when the launch occurs based on your estimation of how much time has elapsed since the earthquake. If the characters take a short rest or otherwise waste time, the Barn Door launches at the end of the 60-minute countdown. When that happens, the entire tower flies into the sky, soaring along its preset trajectory. It leaves behind a cloud of smoke large enough to engulf the entire Inner Ward of Candlekeep (treat the area as {@quickref Vision and Light||2||heavily obscured} for 1 minute). Any creature in {@area area U1|32e|x} or {@area area U2|331|x} takes 132 ({@dice 24d10}) fire damage from the rocket engines as the tower lifts off.",
 								"Any creatures clinging to the outside of the tower when it launches are shaken off, while those inside are borne upward at phenomenal speed. Creatures in the tower that are not tied down when it launches are thrown about, taking 10 ({@dice 3d6}) bludgeoning damage and falling {@condition prone} at the start of each of their turns until they find some way to secure themselves.",
 								"If the Barn Door's trajectory is altered enough to prevent it from reaching outer space, it crashes and explodes in a remote location of your choosing, dealing 88 ({@dice 16d10}) bludgeoning damage plus 56 ({@dice 16d6}) fire damage to each creature aboard. If it reaches space, the tower begins to orbit the planet, as magical wards kick in to provide occupants with artificial gravity and a continuous supply of air and heat.",
 								"If the characters were inside the Barn Door for the launch and have come along for the ride, you can decide what measures might allow them to return to the world, from reprogramming the tower's controls and the rocket engines, to having a {@item spell scroll} of {@spell teleportation circle} found amid Stonky's books. If Stonky and his cultists take off alone, the tower's supply of rations keeps them fed for a year, after which they turn to cannibalism."
@@ -19850,7 +19850,7 @@
 					"entries": [
 						"After the party deals with Ashgarlyth and finds the clues in the dragon's lair, the characters can travel to the Cloud Peaks in search of {@creature Zikran|CM}.",
 						"Flesh out the journey with encounters appropriate for your campaign, and give the characters a chance to prepare before they start climbing mountains. They will be encountering extreme weather conditions and might have difficulty with the harshness of the climb.",
-						"Rules for extreme cold, strong wind, and high altitude can be found in {@book Chapter 5|DMG|5|Wilderness Survival} of the {@book Dungeon Master's Guide|DMG}.",
+						"Rules for {@hazard extreme cold}, {@hazard strong wind}, and {@hazard high altitude} can be found in {@book Chapter 5|DMG|5|Wilderness Survival} of the {@book Dungeon Master's Guide|DMG}.",
 						{
 							"type": "entries",
 							"name": "The Climb",
@@ -19897,7 +19897,7 @@
 					"page": 143,
 					"id": "37f",
 					"entries": [
-						"The ruins of a cloud giant keep sit in a frozen, naturally formed cleft in the mountain near its peak. Sheltered by the high walls of the cleft, the ruins are not subject to strong wind. Rules for extreme cold apply, however.",
+						"The ruins of a cloud giant keep sit in a frozen, naturally formed cleft in the mountain near its peak. Sheltered by the high walls of the cleft, the ruins are not subject to strong wind. Rules for {@hazard extreme cold} apply, however.",
 						"What was once a truly impressive structure, six or more floors in height, is now frozen rubble. Only the first floor of the castle, part of the second floor, and the basement are traversable. The surrounding rubble is scattered in a way that suggests a tornado might have been responsible.",
 						{
 							"type": "entries",
@@ -19938,9 +19938,9 @@
 											"grid": {
 												"type": "square",
 												"size": 57,
-												"offsetX": 3,
-												"offsetY": 18,
-												"distance": 10
+												"offsetX": 6,
+												"offsetY": 36,
+												"scale": 2
 											},
 											"title": "Map 12.2: Cloud Giants' Keep",
 											"width": 2214,
@@ -20415,9 +20415,9 @@
 											"grid": {
 												"type": "square",
 												"size": 57,
-												"offsetX": 3,
-												"offsetY": 18,
-												"distance": 10
+												"offsetX": 6,
+												"offsetY": 36,
+												"scale": 2
 											},
 											"title": "Player Version",
 											"width": 2214,
@@ -23667,7 +23667,7 @@
 										{
 											"type": "item",
 											"name": "Walls and Floors",
-											"entry": "The crystal from which the temple was constructed glows with a bright light that fills all areas, even as it allows the characters faint glimpses of what lies beyond it. The magic of the walls obscures certain features, however, so that secret passages and rooms can't be seen from outside them. The crystal that makes up the tomb can't be damaged by any means available to the characters."
+											"entry": "The crystal from which the temple was constructed glows with a {@quickref Vision and Light||2||bright light} that fills all areas, even as it allows the characters faint glimpses of what lies beyond it. The magic of the walls obscures certain features, however, so that secret passages and rooms can't be seen from outside them. The crystal that makes up the tomb can't be damaged by any means available to the characters."
 										},
 										{
 											"type": "item",
@@ -23713,10 +23713,9 @@
 											"grid": {
 												"type": "square",
 												"size": 78,
-												"offsetX": -21,
-												"offsetY": 3,
-												"scale": 2,
-												"distance": 10
+												"offsetX": -42,
+												"offsetY": 6,
+												"scale": 4
 											},
 											"title": "Map 15.1: Tomb of Valin Sarnaster",
 											"width": 2094,
@@ -24205,10 +24204,9 @@
 											"grid": {
 												"type": "square",
 												"size": 78,
-												"offsetX": -21,
-												"offsetY": 3,
-												"scale": 2,
-												"distance": 10
+												"offsetX": -42,
+												"offsetY": 6,
+												"scale": 4
 											},
 											"title": "Player Version",
 											"width": 2094,
@@ -24462,7 +24460,7 @@
 											"page": 178,
 											"id": "456",
 											"entries": [
-												"The room is heavily obscured by the dark steam coming off the scrying pool. At the end of each minute a creature spends here, it must succeed on a {@dc 15} Constitution saving throw or take 14 ({@dice 4d6}) poison damage."
+												"The room is {@quickref Vision and Light||2||heavily obscured} by the dark steam coming off the scrying pool. At the end of each minute a creature spends here, it must succeed on a {@dc 15} Constitution saving throw or take 14 ({@dice 4d6}) poison damage."
 											]
 										},
 										{
@@ -26211,7 +26209,7 @@
 											]
 										},
 										"Scholars and guests of the library once worked and taught in this area. The furniture here is of similar construction to that seen in area H3, surviving for centuries in the relatively dry environment of the haven but eventually succumbing to rot.",
-										"The room is dark when the characters enter. Any creature in the room that speaks the command word \"candesca\" causes the three crystal hemispheres in the ceiling to glow, filling the room with bright light. The hemispheres go dark again as soon as there are no longer any creatures in the room.",
+										"The room is dark when the characters enter. Any creature in the room that speaks the command word \"candesca\" causes the three crystal hemispheres in the ceiling to glow, filling the room with {@quickref Vision and Light||2||bright light}. The hemispheres go dark again as soon as there are no longer any creatures in the room.",
 										{
 											"type": "entries",
 											"name": "Warded Door",
@@ -27810,7 +27808,7 @@
 												"Its breath weapon is a 60-foot cone of abrasive sand instead of steam that deals slashing damage instead of fire damage."
 											]
 										},
-										"{@creature Dragon Tortoise|CM|Ogruhl} has been trapped here for millennia, {@condition restrained} by magic chains. Ogruhl was the prisoner of a cruel Netherese wizard. When the city around the tortoise was abandoned, Ogruhl was left to die. A band of chwingas found the tortoise and brought it food and water little by little to keep it alive. Over time, the chwingas and Ogruhl developed a symbiotic relationship\u2014it defended them and provided a home for them, and they helped it to survive.",
+										"{@creature Ogruhl|CM} has been trapped here for millennia, {@condition restrained} by magic chains. Ogruhl was the prisoner of a cruel Netherese wizard. When the city around the tortoise was abandoned, Ogruhl was left to die. A band of chwingas found the tortoise and brought it food and water little by little to keep it alive. Over time, the chwingas and Ogruhl developed a symbiotic relationship\u2014it defended them and provided a home for them, and they helped it to survive.",
 										"{@b Helping Ogruhl}. A successful {@dc 20} Intelligence ({@skill Arcana}) check determines that the chains that bind Ogruhl can be broken with a successful {@spell dispel magic} spell ({@dc 19}).",
 										"If commanded to do so, the {@creature Sapphire Sentinel|CM|golem} uses its sapphire heart to cast {@spell dispel magic} with a flash of blue light. If the players don't realize that the golem can dispel magic, you can have the golem do this automatically and the players learn about it that way.",
 										"If freed, Ogruhl expresses its immense gratitude and eagerly wants to reclaim its ancestral territory. The bravest chwingas come out to bestow a charm on each of the characters."
@@ -28844,9 +28842,9 @@
 											"grid": {
 												"type": "square",
 												"size": 55,
-												"offsetX": 2,
-												"offsetY": 26,
-												"distance": 10
+												"offsetX": 4,
+												"offsetY": 52,
+												"scale": 2
 											},
 											"title": "Map 18.1: Lykortha Expanse",
 											"width": 3000,
@@ -30641,9 +30639,9 @@
 											"grid": {
 												"type": "square",
 												"size": 55,
-												"offsetX": 2,
-												"offsetY": 26,
-												"distance": 10
+												"offsetX": 4,
+												"offsetY": 52,
+												"scale": 2
 											},
 											"title": "Player Version",
 											"width": 3000,
@@ -30810,7 +30808,7 @@
 													"rows": [
 														[
 															"1\u20132",
-															"The mycelium lashes out and makes the following melee weapon attack against a target of the DM's choice: +10 to hit, reach 60 ft., one creature. Hit: 24 ({@dice 6d6 + 3}) acid damage."
+															"The mycelium lashes out and makes the following melee weapon attack against a target of the DM's choice: {@hit 10} to hit, reach 60 ft., one creature. Hit: 24 ({@dice 6d6 + 3}) acid damage."
 														],
 														[
 															"3\u20134",
@@ -30984,7 +30982,7 @@
 											"page": 220,
 											"id": "554",
 											"entries": [
-												"The fog is confined to this chamber and covers the floor here to a depth of 2 feet. Any creature or object completely submerged in the fog is heavily obscured.",
+												"The fog is confined to this chamber and covers the floor here to a depth of 2 feet. Any creature or object completely submerged in the fog is {@quickref Vision and Light||2||heavily obscured}.",
 												"The behirs avoid the fog by crawling along the walls and ceiling. When a creature enters the fog for the first time on a turn or starts its turn there, it must succeed on a {@dc 16} Constitution saving throw or gain 1 level of {@condition exhaustion}. A creature that makes a successful saving throw against the fog becomes immune to it for the next 24 hours (although levels of {@condition exhaustion} already gained aren't removed).",
 												"If Thunderwing sees one or more party members struggling with the effects of the fog, she overcomes her fear of the cave and flits around it while avoiding contact with the fog. Pulsing with arcane power, she blows the fog away before collapsing. She recovers after 1 minute with only a hazy memory of what she did. A {@spell gust of wind} spell or similar magic also disperses the fog, which returns after 10 minutes."
 											]

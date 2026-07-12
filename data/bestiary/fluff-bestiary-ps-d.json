@@ -45,7 +45,9 @@
 						"path": "bestiary/PSD/Homarid.webp"
 					},
 					"title": "Homarid Explorer",
-					"credit": "Jehan Choo"
+					"credit": "Jehan Choo",
+					"width": 767,
+					"height": 601
 				}
 			]
 		},
@@ -101,7 +103,9 @@
 						"path": "bestiary/PSD/Kavu Predator.webp"
 					},
 					"title": "Kavu Climber",
-					"credit": "Jonathan Kuo"
+					"credit": "Jonathan Kuo",
+					"width": 347,
+					"height": 272
 				}
 			]
 		},
@@ -128,7 +132,9 @@
 						"path": "bestiary/PSD/Serra Angel.webp"
 					},
 					"title": "Angel",
-					"credit": "Winona Nelson"
+					"credit": "Winona Nelson",
+					"width": 348,
+					"height": 495
 				}
 			]
 		},
@@ -173,7 +179,9 @@
 						"path": "bestiary/PSD/Steel Leaf Kavu.webp"
 					},
 					"title": "Kavu Climber",
-					"credit": "Jonathan Kuo"
+					"credit": "Jonathan Kuo",
+					"width": 345,
+					"height": 273
 				}
 			]
 		}

@@ -5,13 +5,9 @@
 			"source": "DMG",
 			"page": 164,
 			"srd": true,
-			"otherSources": [
-				{
-					"source": "TCE"
-				},
-				{
-					"source": "BMT"
-				}
+			"referenceSources": [
+				"BMT",
+				"TCE"
 			],
 			"size": [
 				"M"
@@ -144,19 +140,11 @@
 			"name": "Larva",
 			"source": "DMG",
 			"page": 63,
-			"otherSources": [
-				{
-					"source": "BGDIA"
-				},
-				{
-					"source": "SatO"
-				},
-				{
-					"source": "ToFW"
-				},
-				{
-					"source": "CoA"
-				}
+			"referenceSources": [
+				"BGDIA",
+				"CoA",
+				"SatO",
+				"ToFW"
 			],
 			"size": [
 				"M"

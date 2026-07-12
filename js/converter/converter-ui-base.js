@@ -1,6 +1,7 @@
 import {ConverterUiUtil} from "./converter-ui-utils.js";
 import {VetoolsConfig} from "../utils-config/utils-config-config.js";
 import {SITE_STYLE__CLASSIC, SITE_STYLE_DISPLAY} from "../consts.js";
+import {SourceUiUtil} from "../utils-ui/utils-ui-sourcebuilder.js";
 
 export class ConverterUiBase extends BaseComponent {
 	static _getDisplayMode (mode) {
@@ -59,9 +60,10 @@ export class ConverterUiBase extends BaseComponent {
 
 	get mode () { return this._state.mode; }
 
+	getHasPageNumbers () { return !!this._hasPageNumbers; }
+
 	/* -------------------------------------------- */
 
-	_renderSidebar () { throw new Error("Unimplemented!"); }
 	handleParse () { throw new Error("Unimplemented!"); }
 
 	/* -------------------------------------------- */
@@ -86,133 +88,39 @@ export class ConverterUiBase extends BaseComponent {
 
 	/* -------------------------------------------- */
 
-	renderSidebar (parent, $parent) {
-		const $wrpSidebar = $(`<div class="w-100 ve-flex-col"></div>`).appendTo($parent);
-		const hkShowSidebar = () => $wrpSidebar.toggleClass("hidden", parent.get("converter") !== this._converterId);
-		parent.addHook("converter", hkShowSidebar);
-		hkShowSidebar();
+	renderSettings ({compParent, wrpSettings}) {
+		const fnsCleanup = [];
 
-		this._renderSidebar(parent, $wrpSidebar);
-		this._renderSidebarSamplesPart(parent, $wrpSidebar);
-		this._renderSidebarConverterOptionsPart(parent, $wrpSidebar);
-		this._renderSidebarPagePart(parent, $wrpSidebar);
-		this._renderSidebarSourcePart(parent, $wrpSidebar);
-		this._renderSidebarStyleHintPart(parent, $wrpSidebar);
+		this._renderSettings_source({compParent, wrpSettings});
+		this._renderSettings_page({wrpSettings, fnsCleanup});
+
+		const wrpModesSamples = ee`<div class="ve-btn-group ve-flex-v-center ve-mobile-md__mb-2">
+			<div class="ve-vr-3 ve-mobile-md__hidden"></div>
+		</div>`
+			.appendTo(wrpSettings);
+		this._renderSettings_modes({wrpModesSamples});
+		this._renderSettings_samples({wrpModesSamples});
+
+		return {fnsCleanup};
 	}
 
-	/* -------------------------------------------- */
-
-	_handleParse_getOpts ({cbOutput, cbWarning, isAppend}) {
-		const opts = {
-			cbWarning,
-			cbOutput,
-			isAppend,
-
-			titleCaseFields: this._titleCaseFields,
-
-			styleHint: this._state.styleHint,
-
-			isTitleCase: this._state.isTitleCase,
-			source: this._state.source,
-			page: this._state.page,
-		};
-
-		if (this._titleCaseFields) opts.isTitleCase = this._state.isTitleCase;
-		if (this._hasSource) opts.page = this._state.source;
-		if (this._hasPageNumbers) opts.page = this._state.page;
-
-		return opts;
-	}
-
-	/* -------------------------------------------- */
-
-	_renderSidebarSamplesPart (parent, $wrpSidebar) {
-		const $btnsSamples = this._modes.map(mode => {
-			return $(`<button class="ve-btn ve-btn-xs ve-btn-default">Sample ${ConverterUiBase._getDisplayMode(mode)}</button>`)
-				.click(() => {
-					const sample = this._getSample(mode);
-					if (!sample) {
-						JqueryUtil.doToast({type: "warning", content: `No ${ConverterUiBase._getDisplayMode(mode)} sample available!`});
-						return;
-					}
-					this._ui.inText = sample;
-					this._state.mode = mode;
-				});
-		});
-
-		$$`<div class="w-100 ve-flex-vh-center-around">${$btnsSamples}</div>`.appendTo($wrpSidebar);
-
-		ConverterUiUtil.renderSideMenuDivider($wrpSidebar);
-	}
-
-	_renderSidebarConverterOptionsPart (parent, $wrpSidebar) {
-		const hasModes = this._modes.length > 1;
-
-		if (!hasModes && !this._titleCaseFields) return;
-
-		const hkMode = () => {
-			this._ui._editorIn.setOptions({
-				mode: ConverterUiUtil.getAceMode(this._state.mode),
-			});
-		};
-		this._addHookBase("mode", hkMode);
-		hkMode();
-
-		if (hasModes) {
-			const $selMode = ComponentUiUtil.$getSelEnum(this, "mode", {values: this._modes, html: `<select class="form-control input-xs select-inline"></select>`, fnDisplay: it => `Parse as ${ConverterUiBase._getDisplayMode(it)}`});
-			$$`<div class="w-100 mt-2 ve-flex-vh-center-around">${$selMode}</div>`.appendTo($wrpSidebar);
-		}
-
-		if (this._titleCaseFields) {
-			const $cbTitleCase = ComponentUiUtil.$getCbBool(this, "isTitleCase");
-			$$`<div class="w-100 mt-2 split-v-center">
-				<label class="sidemenu__row__label sidemenu__row__label--cb-label" title="Should the creature's name be converted to title-case? Useful when pasting a name which is all-caps."><span>Title-Case Name</span>
-				${$cbTitleCase}
-			</label></div>`.appendTo($wrpSidebar);
-		}
-		ConverterUiUtil.renderSideMenuDivider($wrpSidebar);
-	}
-
-	_renderSidebarPagePart (parent, $wrpSidebar) {
-		if (!this._hasPageNumbers) return;
-
-		const getBtnIncrementDecrement = (dir) => {
-			const verb = ~dir ? "Increment" : "Decrement";
-			return $(`<button class="ve-btn ve-btn-xs ve-btn-default h-100" title="${verb} Page Number (SHIFT to ${verb} by 5)"><span class="glyphicon glyphicon-${~dir ? "plus" : "minus"}"></span></button>`)
-				.on("click", evt => this._state.page += dir * (evt.shiftKey ? 5 : 1));
-		};
-
-		const $iptPage = ComponentUiUtil.$getIptInt(this, "page", 0)
-			.addClass("max-w-80p");
-		$$`<div class="w-100 split-v-center">
-			<div class="sidemenu__row__label mr-2 help" title="Note that a line of the form &quot;PAGE=&lt;page number&gt;&quot; in the Input will set the page in the Output, ignoring any value set here. This is especially useful when parsing multiple inputs delimited by a separator.">Page</div>
-			<div class="ve-btn-group input-group ve-flex-v-center h-100">
-				${getBtnIncrementDecrement(-1)}
-				${$iptPage}
-				${getBtnIncrementDecrement(1)}
-			</div>
-		</div>`.appendTo($wrpSidebar);
-
-		ConverterUiUtil.renderSideMenuDivider($wrpSidebar);
-	}
-
-	_renderSidebarSourcePart (parent, $wrpSidebar) {
+	_renderSettings_source ({compParent, wrpSettings}) {
 		if (!this._hasSource) return;
 
-		const $wrpSourceOverlay = $(`<div class="h-100 w-100"></div>`);
+		const wrpSourceOverlay = ee`<div class="ve-h-100 ve-w-100"></div>`;
 		let modalMeta = null;
 
 		const rebuildStageSource = (options) => {
 			SourceUiUtil.render({
 				...options,
-				$parent: $wrpSourceOverlay,
+				eleParent: wrpSourceOverlay,
 				cbConfirm: async (source) => {
 					const isNewSource = options.mode !== "edit";
 
 					if (isNewSource) await BrewUtil2.pAddSource(source);
 					else await BrewUtil2.pEditSource(source);
 
-					if (isNewSource) parent.doRefreshAvailableSources();
+					if (isNewSource) compParent.doRefreshAvailableSources();
 					this._state.source = source.json;
 
 					if (modalMeta) modalMeta.doClose();
@@ -228,26 +136,27 @@ export class ConverterUiBase extends BaseComponent {
 			});
 		};
 
-		const $selSource = $$`
-			<select class="form-control input-xs"><option value="">(None)</option></select>`
-			.change(() => this._state.source = $selSource.val());
+		const selSource = ee`<select class="ve-form-control ve-input-xs ve-br-0 ve-w-120p ve-text-clip-ellipsis"><option value="">(None)</option></select>`
+			.onn("change", () => this._state.source = selSource.val());
 
-		$(`<option></option>`, {val: "5e_divider", text: `\u2014`, disabled: true}).appendTo($selSource);
+		const optDivider = e_({tag: "option", val: "5e_divider", txt: `\u2014`, attrs: {disabled: true}}).appendTo(selSource);
 
-		Object.keys(Parser.SOURCE_JSON_TO_FULL)
-			.forEach(src => $(`<option></option>`, {val: src, text: Parser.sourceJsonToFull(src)}).appendTo($selSource));
+		const srcToOption = Object.fromEntries(
+			Object.keys(Parser.SOURCE_JSON_TO_FULL)
+				.map(src => [src, e_({tag: "option", val: src, txt: Parser.sourceJsonToFull(src)}).appendTo(selSource)]),
+		);
 
-		const hkAvailSources = () => {
-			const curSources = new Set($selSource.find(`option`).map((i, e) => $(e).val()));
+		compParent._addHookBase("availableSources", () => {
+			const curSources = new Set(Object.keys(srcToOption));
 			curSources.add("");
-			const nxtSources = new Set(parent.get("availableSources"));
+			const nxtSources = new Set(compParent._state.availableSources);
 			nxtSources.add("");
 			nxtSources.add("5e_divider");
 			Object.keys(Parser.SOURCE_JSON_TO_FULL).forEach(it => nxtSources.add(it));
 
 			const optionsToAdd = [];
 
-			parent.get("availableSources").forEach(source => {
+			compParent._state.availableSources.forEach(source => {
 				nxtSources.add(source);
 				if (!curSources.has(source)) {
 					optionsToAdd.push(source);
@@ -255,27 +164,24 @@ export class ConverterUiBase extends BaseComponent {
 			});
 
 			if (optionsToAdd.length) {
-				const $optBrewLast = $selSource.find(`option[disabled]`).prev();
+				const optBrewLast = optDivider.prev();
 				optionsToAdd.forEach(source => {
 					const fullSource = BrewUtil2.sourceJsonToSource(source);
-					$(`<option></option>`, {val: fullSource.json, text: fullSource.full}).insertAfter($optBrewLast);
+					srcToOption[source] = e_({tag: "option", val: fullSource.json, txt: fullSource.full}).insertAfter(optBrewLast);
 				});
 			}
 
 			const toDelete = curSources.difference(nxtSources);
-			if (toDelete.size) $selSource.find(`option`).filter((i, e) => toDelete.has($(e).val())).remove();
-		};
-		parent.addHook("availableSources", hkAvailSources);
-		hkAvailSources();
+			if (toDelete.size) {
+				toDelete.forEach(src => {
+					srcToOption[src].remove();
+					delete srcToOption[src];
+				});
+			}
+		})();
 
-		const hkSource = () => $selSource.val(this._state.source);
-		this._addHookBase("source", hkSource);
-		hkSource();
-
-		$$`<div class="w-100 mb-2 split-v-center"><div class="sidemenu__row__label mr-2">Source</div>${$selSource}</div>`.appendTo($wrpSidebar);
-
-		const $btnSourceEdit = $(`<button class="ve-btn ve-btn-default ve-btn-xs">Edit Selected</button>`)
-			.click(() => {
+		const btnSourceEdit = ee`<button class="ve-btn ve-btn-default ve-btn-xs" title="Edit Selected Source"><span class="glyphicon glyphicon-pencil"></span></button>`
+			.onn("click", () => {
 				const curSourceJson = this._state.source;
 				if (!curSourceJson) {
 					JqueryUtil.doToast({type: "warning", content: "No source selected!"});
@@ -284,30 +190,170 @@ export class ConverterUiBase extends BaseComponent {
 
 				const curSource = BrewUtil2.sourceJsonToSource(curSourceJson);
 				if (!curSource) return;
+
 				rebuildStageSource({mode: "edit", source: MiscUtil.copy(curSource)});
 				modalMeta = UiUtil.getShowModal({
 					isHeight100: true,
 					isUncappedHeight: true,
-					cbClose: () => $wrpSourceOverlay.detach(),
+					cbClose: () => wrpSourceOverlay.detach(),
 				});
-				$wrpSourceOverlay.appendTo(modalMeta.$modalInner);
+				wrpSourceOverlay.appendTo(modalMeta.eleModalInner);
 			});
 
-		const $btnSourceAdd = $(`<button class="ve-btn ve-btn-default ve-btn-xs">Add New</button>`).click(() => {
-			rebuildStageSource({mode: "add"});
-			modalMeta = UiUtil.getShowModal({
-				isHeight100: true,
-				isUncappedHeight: true,
-				cbClose: () => $wrpSourceOverlay.detach(),
+		const btnSourceAdd = ee`<button class="ve-btn ve-btn-default ve-btn-xs" title="Add New Source"><span class="glyphicon glyphicon-plus"></span></button>`
+			.onn("click", () => {
+				rebuildStageSource({mode: "add"});
+				modalMeta = UiUtil.getShowModal({
+					isHeight100: true,
+					isUncappedHeight: true,
+					cbClose: () => wrpSourceOverlay.detach(),
+				});
+				wrpSourceOverlay.appendTo(modalMeta.eleModalInner);
 			});
-			$wrpSourceOverlay.appendTo(modalMeta.$modalInner);
-		});
-		$$`<div class="w-100 ve-btn-group ve-flex-v-center ve-flex-h-right">${$btnSourceEdit}${$btnSourceAdd}</div>`.appendTo($wrpSidebar);
 
-		ConverterUiUtil.renderSideMenuDivider($wrpSidebar);
+		ee`<div class="ve-flex-v-stretch ve-mobile-md__mb-2">
+			<div class="ve-vr-3 ve-mr-2 ve-mobile-md__hidden"></div>
+
+			<div class="ve-flex-v-stretch">
+				<div class="ve-mr-2 ve-flex-v-center">Source</div>
+				<div class="ve-flex-v-stretch ve-input-group ve-btn-group ve-mr-2">
+					${selSource}
+					${btnSourceEdit}
+				</div>
+				${btnSourceAdd}
+			</div>
+		</div>`
+			.appendTo(wrpSettings);
+
+		this._addHookBase("source", () => {
+			selSource
+				.val(this._state.source)
+				.tooltip(BrewUtil2.hasSourceJson(this._state.source) ? BrewUtil2.sourceJsonToFull(this._state.source) : null);
+			btnSourceEdit.attr("disabled", !this._state.source || !BrewUtil2.sourceJsonToSource(this._state.source));
+		})();
 	}
 
-	_renderSidebarStyleHintPart (parent, $wrpSidebar) {
+	_renderSettings_page ({wrpSettings, fnsCleanup}) {
+		if (!this._hasPageNumbers) return;
+
+		const getBtnIncrementDecrement = (dir) => {
+			const verb = ~dir ? "Increment" : "Decrement";
+			const iconClassName = ~dir ? "glyphicon-plus" : "glyphicon-minus";
+			return ee`<button class="ve-btn ve-btn-xs ve-btn-default" title="${verb} Page Number (SHIFT to ${verb} by 5)"><span class="glyphicon ${iconClassName}"></span></button>`
+				.onn("click", evt => this._state.page += dir * (evt.shiftKey ? 5 : 1));
+		};
+
+		const iptPage = ComponentUiUtil.getIptInt(this, "page", 0)
+			.addClass("ve-w-40p");
+		const cbAddPageNumber = ComponentUiUtil.getCbBool(this, "isAddPageNumber");
+
+		const dispPage = ee`<div class="ve-mr-2 ve-help">Page</div>`;
+		const hkInputSeparator = () => {
+			dispPage.tooltip(`Note that a line of the form "PAGE=&lt;page number&gt;" in the Input will set the page in the Output, ignoring any value set here. This is especially useful when parsing multiple inputs delimited by a separator (${this._ui.getInputSeparator()}).`);
+		};
+		this._ui.addHookInputSeparator(hkInputSeparator)();
+		fnsCleanup.push(() => this._ui.removeHookInputSeparator(hkInputSeparator));
+
+		ee`<div class="ve-flex-v-center ve-mobile-md__mb-2">
+			<div class="ve-vr-3 ve-mobile-md__hidden"></div>
+
+			${dispPage}
+			<div class="ve-btn-group ve-input-group ve-flex-v-stretch ve-mr-2">
+				${getBtnIncrementDecrement(-1)}
+				${iptPage}
+				${getBtnIncrementDecrement(1)}
+			</div>
+
+			<label class="ve-flex-v-center" title="Add Page Number">
+				${cbAddPageNumber}
+			</label>
+		</div>`.appendTo(wrpSettings);
+	}
+
+	_renderSettings_modes ({wrpModesSamples}) {
+		if (this._modes.length < 2) return;
+
+		this._addHookBase("mode", () => {
+			this._ui._editorIn.setOptions({
+				mode: ConverterUiUtil.getAceMode(this._state.mode),
+			});
+		})();
+
+		const selMode = ComponentUiUtil.getSelEnum(this, "mode", {values: this._modes, html: `<select class="ve-form-control ve-input-xs ve-min-w-140p"></select>`, fnDisplay: it => `Parse as ${ConverterUiBase._getDisplayMode(it)}`})
+			.appendTo(wrpModesSamples);
+	}
+
+	_renderSettings_samples ({wrpModesSamples}) {
+		const btnsSamples = this._modes.map(mode => {
+			return ee`<button class="ve-btn ve-btn-xs ve-btn-default">Sample ${ConverterUiBase._getDisplayMode(mode)}</button>`
+				.onn("click", () => {
+					const sample = this._getSample(mode);
+					if (!sample) {
+						JqueryUtil.doToast({type: "warning", content: `No ${ConverterUiBase._getDisplayMode(mode)} sample available!`});
+						return;
+					}
+					this._ui.inText = sample;
+					this._state.mode = mode;
+				});
+		});
+
+		ee`<div class="ve-btn-group ve-flex-v-stretch ve-ml-2">${btnsSamples}</div>`.appendTo(wrpModesSamples);
+	}
+
+	/* -------------------------------------------- */
+
+	_handleParse_getOpts ({cbOutput, cbWarning, isAppend}) {
+		const opts = {
+			cbWarning,
+			cbOutput,
+			isAppend,
+
+			titleCaseFields: this._titleCaseFields,
+
+			styleHint: this._state.styleHint,
+
+			isTitleCase: this._state.isTitleCase,
+			isAddPageNumber: this._state.isAddPageNumber,
+			source: this._state.source,
+			page: this._state.page,
+		};
+
+		if (this._titleCaseFields) opts.isTitleCase = this._state.isTitleCase;
+		if (this._hasSource) opts.page = this._state.source;
+		if (this._hasPageNumbers) opts.page = this._state.page;
+
+		return opts;
+	}
+
+	/* -------------------------------------------- */
+
+	renderSettingsModal ({compParent, eleParent}) {
+		this._renderSettingsModal_converterOptions({eleParent});
+		this._renderSettingsModal_styleHint({eleParent});
+	}
+
+	_renderSettingsModal_converterOptions ({eleParent}) {
+		if (!this._titleCaseFields && !this._hasPageNumbers) return;
+
+		const cbTitleCase = this._titleCaseFields ? ComponentUiUtil.getCbBool(this, "isTitleCase") : null;
+		const cbAddPageNumber = this._hasPageNumbers ? ComponentUiUtil.getCbBool(this, "isAddPageNumber") : null;
+
+		ee`<div class="ve-flex-col">
+			${this._titleCaseFields ? ee`<label class="ve-split-v-center ve-w-100" title="Should the entity's name be converted to title-case? Useful when pasting a name which is all-caps.">
+				<span class="ve-w-66 ve-no-shrink ve-mr-2 ve-flex-v-center">Title-Case Name</span>
+				${cbTitleCase}
+			</label>` : null}
+			${this._hasPageNumbers ? ee`<label class="ve-split-v-center ve-w-100" title="Should the output include the page field?">
+				<span class="ve-w-66 ve-no-shrink ve-mr-2 ve-flex-v-center">Add Page Number</span>
+				${cbAddPageNumber}
+			</label>` : null}
+
+			<hr class="ve-hr-3">
+		</div>`
+			.appendTo(eleParent);
+	}
+
+	_renderSettingsModal_styleHint ({eleParent}) {
 		const selStyleHint = ComponentUiUtil.getSelEnum(
 			this,
 			"styleHint",
@@ -319,24 +365,15 @@ export class ConverterUiBase extends BaseComponent {
 			},
 		);
 
-		$$`<div class="w-100 mb-2 split-v-center"><div class="sidemenu__row__label mr-2">Style</div>${selStyleHint}</div>`.appendTo($wrpSidebar);
+		ee`<div class="ve-flex-col">
+			<label class="ve-split-v-center ve-w-100" title="Which game version the input text is intended to be used with.">
+				<span class="ve-w-66 ve-no-shrink ve-mr-2 ve-flex-v-center">Version</span>
+				${selStyleHint}
+			</label>
 
-		ConverterUiUtil.renderSideMenuDivider($wrpSidebar);
-	}
-
-	/* -------------------------------------------- */
-
-	renderFooterLhs (parent, {$wrpFooterLhs}) {
-		if (!this._hasPageNumbers) return;
-
-		const $dispPage = $(`<div class="ve-muted italic" title="Use &quot;+&quot; and &quot;-&quot; (when the cursor is not in a text input) to increase/decrease."></div>`)
-			.appendTo($wrpFooterLhs);
-
-		this._addHookBase("page", () => {
-			$dispPage.html(this._state.page != null ? `<b class="mr-1">Page:</b> ${this._state.page}` : "");
-		})();
-
-		parent.addHook("converter", () => $dispPage.toggleClass("ve-hidden", parent.get("converter") !== this._converterId))();
+			<hr class="ve-hr-3">
+		</div>`
+			.appendTo(eleParent);
 	}
 
 	/* -------------------------------------------- */
@@ -347,7 +384,10 @@ export class ConverterUiBase extends BaseComponent {
 			styleHint: VetoolsConfig.get("styleSwitcher", "style"),
 		};
 
-		if (this._hasPageNumbers) out.page = 0;
+		if (this._hasPageNumbers) {
+			out.page = 0;
+			out.isAddPageNumber = true;
+		}
 		if (this._titleCaseFields) out.isTitleCase = false;
 		if (this._hasSource) out.source = "";
 

@@ -5,17 +5,17 @@ class CultsBoonsSublistManager extends SublistManager {
 		return [
 			new SublistCellTemplate({
 				name: "Type",
-				css: "ve-col-2 ve-text-center pl-0 pr-1",
+				css: "ve-col-2 ve-text-center ve-pl-0 ve-pr-1",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "Subtype",
-				css: "ve-col-2 px-1 ve-text-center",
+				css: "ve-col-2 ve-px-1 ve-text-center",
 				colStyle: "text-center",
 			}),
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-8 pl-1 pr-0",
+				css: "ve-bold ve-col-8 ve-pl-1 ve-pr-0",
 				colStyle: "",
 			}),
 		];
@@ -24,17 +24,17 @@ class CultsBoonsSublistManager extends SublistManager {
 	pGetSublistItem (it, hash) {
 		const cellsText = [it._lType, it._lSubType, it.name];
 
-		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst__row-border lst__row-inner">
+		const ele = ee`<div class="ve-lst__row ve-lst__row--sublist ve-flex-col">
+			<a href="#${hash}" class="ve-lst__row-border ve-lst__row-inner">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
-		</div>`)
-			.contextmenu(evt => this._handleSublistItemContextMenu(evt, listItem))
-			.click(evt => this._listSub.doSelect(listItem, evt));
+		</div>`
+			.onn("contextmenu", evt => this._handleSublistItemContextMenu(evt, listItem))
+			.onn("click", evt => this._listSub.doSelect(listItem, evt));
 
 		const listItem = new ListItem(
 			hash,
-			$ele,
+			ele,
 			it.name,
 			{
 				hash,
@@ -60,6 +60,12 @@ class CultsBoonsPage extends ListPage {
 			pageFilter,
 
 			dataProps: ["cult", "boon"],
+
+			bookViewOptions: {
+				nameSingular: "cult/boon",
+				namePlural: "cults/boons",
+				pageTitle: "Cults and Boons Book View",
+			},
 		});
 	}
 
@@ -70,16 +76,16 @@ class CultsBoonsPage extends ListPage {
 		it._lSubType = it.type || "\u2014";
 
 		const eleLi = document.createElement("div");
-		eleLi.className = `lst__row ve-flex-col ${isExcluded ? "lst__row--blocklisted" : ""}`;
+		eleLi.className = `ve-lst__row ve-flex-col ${isExcluded ? "ve-lst__row--blocklisted" : ""}`;
 
 		const source = Parser.sourceJsonToAbv(it.source);
 		const hash = UrlUtil.autoEncodeHash(it);
 
-		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
-			<span class="ve-col-2 ve-text-center pl-0">${it._lType}</span>
-			<span class="ve-col-2 px-1 ve-text-center">${it._lSubType}</span>
-			<span class="bold ve-col-6 px-1">${it.name}</span>
-			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(it.source)} pl-1 pr-0" title="${Parser.sourceJsonToFull(it.source)}">${source}</span>
+		eleLi.innerHTML = `<a href="#${hash}" class="ve-lst__row-border ve-lst__row-inner">
+			<span class="ve-col-2 ve-text-center ve-pl-0">${it._lType}</span>
+			<span class="ve-col-2 ve-px-1 ve-text-center">${it._lSubType}</span>
+			<span class="ve-bold ve-col-6 ve-px-1">${it.name}</span>
+			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(it.source)} ve-pl-1 ve-pr-0" title="${Parser.sourceJsonToFull(it.source)}">${source}</span>
 		</a>`;
 
 		const listItem = new ListItem(
@@ -105,7 +111,7 @@ class CultsBoonsPage extends ListPage {
 	}
 
 	_renderStats_doBuildStatsTab ({ent}) {
-		this._$pgContent.empty().append(RenderCultsBoons.$getRenderedCultBoon(ent));
+		this._pgContent.empty().appends(RenderCultsBoons.getRenderedCultBoon(ent));
 	}
 }
 

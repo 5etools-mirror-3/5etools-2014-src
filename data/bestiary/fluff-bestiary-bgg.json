@@ -34,7 +34,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Aerosaur.webp"
-					}
+					},
+					"width": 850,
+					"height": 1050
 				}
 			]
 		},
@@ -68,7 +70,9 @@
 						"type": "internal",
 						"path": "bestiary/BGG/Altisaur.webp"
 					},
-					"credit": "Claudio Pozas"
+					"credit": "Claudio Pozas",
+					"width": 1700,
+					"height": 647
 				}
 			]
 		},
@@ -104,7 +108,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Bag Jelly.webp"
-					}
+					},
+					"width": 569,
+					"height": 1000
 				}
 			]
 		},
@@ -126,7 +132,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Barrowghast.webp"
-					}
+					},
+					"width": 389,
+					"height": 1000
 				}
 			]
 		},
@@ -148,7 +156,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Cairnwight.webp"
-					}
+					},
+					"width": 415,
+					"height": 1000
 				}
 			]
 		},
@@ -181,7 +191,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Ceratops.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1111
 				}
 			]
 		},
@@ -203,7 +215,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Cinder Hulk.webp"
-					}
+					},
+					"width": 686,
+					"height": 1000
 				}
 			]
 		},
@@ -226,7 +240,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Cloud Giant Destiny Gambler.webp"
-					}
+					},
+					"width": 430,
+					"height": 1000
 				}
 			]
 		},
@@ -248,7 +264,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Cloud Giant of Evil Air.webp"
-					}
+					},
+					"width": 497,
+					"height": 1000
 				}
 			]
 		},
@@ -439,7 +457,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Death Giant Reaper.webp"
-					}
+					},
+					"width": 533,
+					"height": 1000
 				}
 			]
 		},
@@ -472,7 +492,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Death Giant Shrouded One.webp"
-					}
+					},
+					"width": 657,
+					"height": 1000
 				}
 			]
 		},
@@ -542,7 +564,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Dust Hulk.webp"
-					}
+					},
+					"width": 396,
+					"height": 1000
 				}
 			]
 		},
@@ -571,7 +595,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Echo of Demogorgon.webp"
-					}
+					},
+					"width": 637,
+					"height": 1000
 				}
 			]
 		},
@@ -593,7 +619,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Ettin Ceremorph.webp"
-					}
+					},
+					"width": 447,
+					"height": 1000
 				}
 			]
 		},
@@ -626,7 +654,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Fensir Devourer.webp"
-					}
+					},
+					"width": 961,
+					"height": 1000
 				}
 			]
 		},
@@ -712,7 +742,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Firbolg Primeval Warden.webp"
-					}
+					},
+					"width": 850,
+					"height": 1077
 				}
 			]
 		},
@@ -745,7 +777,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Firbolg Wanderer.webp"
-					}
+					},
+					"width": 898,
+					"height": 1000
 				}
 			]
 		},
@@ -781,7 +815,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Fire Giant Forgecaller.webp"
-					}
+					},
+					"width": 850,
+					"height": 1741
 				}
 			]
 		},
@@ -803,7 +839,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Fire Giant of Evil Fire.webp"
-					}
+					},
+					"width": 556,
+					"height": 1000
 				}
 			]
 		},
@@ -833,7 +871,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Fire Hellion.webp"
-					}
+					},
+					"width": 424,
+					"height": 1000
 				}
 			]
 		},
@@ -855,7 +895,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Firegaunt.webp"
-					}
+					},
+					"width": 809,
+					"height": 1000
 				}
 			]
 		},
@@ -877,7 +919,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Flesh Colossus.webp"
-					}
+					},
+					"width": 690,
+					"height": 1000
 				}
 			]
 		},
@@ -910,7 +954,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Fomorian Deep Crawler.webp"
-					}
+					},
+					"width": 1700,
+					"height": 768
 				}
 			]
 		},
@@ -951,7 +997,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Fomorian Noble.webp"
-					}
+					},
+					"width": 683,
+					"height": 1000
 				}
 			]
 		},
@@ -984,7 +1032,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Fomorian Warlock of the Dark.webp"
-					}
+					},
+					"width": 416,
+					"height": 1000
 				}
 			]
 		},
@@ -1019,7 +1069,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Frost Giant Ice Shaper.webp"
-					}
+					},
+					"width": 850,
+					"height": 1735
 				}
 			]
 		},
@@ -1048,7 +1100,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Frost Giant of Evil Water.webp"
-					}
+					},
+					"width": 725,
+					"height": 1000
 				}
 			]
 		},
@@ -1071,7 +1125,9 @@
 						"type": "internal",
 						"path": "bestiary/BGG/Frostmourn.webp"
 					},
-					"credit": "Daneen Wilkerson"
+					"credit": "Daneen Wilkerson",
+					"width": 850,
+					"height": 2247
 				}
 			]
 		},
@@ -1093,7 +1149,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Fury of Kostchtchie.webp"
-					}
+					},
+					"width": 942,
+					"height": 1000
 				}
 			]
 		},
@@ -1116,7 +1174,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Gargantua.webp"
-					}
+					},
+					"width": 437,
+					"height": 1000
 				}
 			]
 		},
@@ -1139,7 +1199,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Giant Goose.webp"
-					}
+					},
+					"width": 537,
+					"height": 1000
 				}
 			]
 		},
@@ -1176,7 +1238,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Giant Lynx.webp"
-					}
+					},
+					"width": 950,
+					"height": 1000
 				}
 			]
 		},
@@ -1204,7 +1268,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Giant Ox.webp"
-					}
+					},
+					"width": 1000,
+					"height": 704
 				}
 			]
 		},
@@ -1226,7 +1292,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Giant Ram.webp"
-					}
+					},
+					"width": 885,
+					"height": 1000
 				}
 			]
 		},
@@ -1247,7 +1315,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Giant Tick.webp"
-					}
+					},
+					"width": 821,
+					"height": 1000
 				}
 			]
 		},
@@ -1270,7 +1340,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Gigant.webp"
-					}
+					},
+					"width": 840,
+					"height": 1000
 				}
 			]
 		},
@@ -1300,7 +1372,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Goliath Giant-Kin.webp"
-					}
+					},
+					"width": 1000,
+					"height": 976
 				}
 			]
 		},
@@ -1337,7 +1411,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Grinning Cat.webp"
-					}
+					},
+					"width": 352,
+					"height": 1000
 				}
 			]
 		},
@@ -1359,7 +1435,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Hill Giant Avalancher.webp"
-					}
+					},
+					"width": 850,
+					"height": 2248
 				}
 			]
 		},
@@ -1388,7 +1466,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Lightning Hulk.webp"
-					}
+					},
+					"width": 600,
+					"height": 1000
 				}
 			]
 		},
@@ -1412,7 +1492,9 @@
 						"type": "internal",
 						"path": "bestiary/BGG/Maw of Yeenoghu.webp"
 					},
-					"credit": "Daarken"
+					"credit": "Daarken",
+					"width": 1700,
+					"height": 963
 				}
 			]
 		},
@@ -1442,7 +1524,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Mist Hulk.webp"
-					}
+					},
+					"width": 379,
+					"height": 1000
 				}
 			]
 		},
@@ -1471,7 +1555,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Mud Hulk.webp"
-					}
+					},
+					"width": 443,
+					"height": 1000
 				}
 			]
 		},
@@ -1505,7 +1591,9 @@
 						"type": "internal",
 						"path": "bestiary/BGG/Regisaur.webp"
 					},
-					"credit": "Quintin Gleim"
+					"credit": "Quintin Gleim",
+					"width": 1700,
+					"height": 1197
 				}
 			]
 		},
@@ -1535,7 +1623,9 @@
 						"type": "internal",
 						"path": "bestiary/BGG/Rime Hulk.webp"
 					},
-					"credit": "Linda Lithén"
+					"credit": "Linda Lithén",
+					"width": 850,
+					"height": 1521
 				}
 			]
 		},
@@ -1558,7 +1648,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Runic Colossus.webp"
-					}
+					},
+					"width": 325,
+					"height": 1000
 				}
 			]
 		},
@@ -1593,7 +1685,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Scion of Grolantor.webp"
-					}
+					},
+					"width": 1000,
+					"height": 664
 				}
 			]
 		},
@@ -1629,7 +1723,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Scion of Memnor.webp"
-					}
+					},
+					"width": 1000,
+					"height": 606
 				}
 			]
 		},
@@ -1678,7 +1774,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Scion of Skoraeus.webp"
-					}
+					},
+					"width": 378,
+					"height": 1000
 				}
 			]
 		},
@@ -1714,7 +1812,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Scion of Stronmaus.webp"
-					}
+					},
+					"width": 382,
+					"height": 1000
 				}
 			]
 		},
@@ -1756,7 +1856,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Scion of Surtur.webp"
-					}
+					},
+					"width": 1000,
+					"height": 630
 				}
 			]
 		},
@@ -1791,7 +1893,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Scion of Thrym.webp"
-					}
+					},
+					"width": 1000,
+					"height": 624
 				}
 			]
 		},
@@ -1827,7 +1931,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Spectral Cloud.webp"
-					}
+					},
+					"width": 370,
+					"height": 1000
 				}
 			]
 		},
@@ -1856,7 +1962,9 @@
 						"type": "internal",
 						"path": "bestiary/BGG/Spotted Lion.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 519,
+					"height": 1000
 				}
 			]
 		},
@@ -1879,7 +1987,9 @@
 						"type": "internal",
 						"path": "bestiary/BGG/Stalker of Baphomet.webp"
 					},
-					"credit": "Suzanne Helmigh"
+					"credit": "Suzanne Helmigh",
+					"width": 850,
+					"height": 2128
 				}
 			]
 		},
@@ -1901,7 +2011,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Stone Giant of Evil Earth.webp"
-					}
+					},
+					"width": 393,
+					"height": 1000
 				}
 			]
 		},
@@ -1923,7 +2035,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Stone Giant Rockspeaker.webp"
-					}
+					},
+					"width": 669,
+					"height": 1000
 				}
 			]
 		},
@@ -1952,7 +2066,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Storm Crab.webp"
-					}
+					},
+					"width": 378,
+					"height": 1000
 				}
 			]
 		},
@@ -1974,7 +2090,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Storm Giant Tempest Caller.webp"
-					}
+					},
+					"width": 654,
+					"height": 1000
 				}
 			]
 		},
@@ -1997,7 +2115,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Storm Herald.webp"
-					}
+					},
+					"width": 474,
+					"height": 1000
 				}
 			]
 		},
@@ -2019,7 +2139,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Tempest Spirit.webp"
-					}
+					},
+					"width": 830,
+					"height": 1000
 				}
 			]
 		},
@@ -2048,7 +2170,9 @@
 						"type": "internal",
 						"path": "bestiary/BGG/Titanothere.webp"
 					},
-					"credit": "Brian Valeza"
+					"credit": "Brian Valeza",
+					"width": 360,
+					"height": 1000
 				}
 			]
 		},
@@ -2082,7 +2206,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Troll Amalgam.webp"
-					}
+					},
+					"width": 811,
+					"height": 1000
 				}
 			]
 		},
@@ -2115,7 +2241,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BGG/Troll Mutate.webp"
-					}
+					},
+					"width": 434,
+					"height": 1000
 				}
 			]
 		},

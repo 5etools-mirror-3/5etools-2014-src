@@ -11,7 +11,8 @@
 				"TftYP": "GoS",
 				"PotA": "GoS",
 				"ToA": "GoS",
-				"MTF": "GoS"
+				"MTF": "GoS",
+				"MM": "GoS"
 			}
 		}
 	},
@@ -20,10 +21,9 @@
 			"name": "Amphisbaena",
 			"source": "GoS",
 			"page": 230,
-			"otherSources": [
-				{
-					"source": "MOT"
-				}
+			"referenceSources": [
+				"MOT",
+				"TftYP-THSoT"
 			],
 			"size": [
 				"M"
@@ -270,10 +270,8 @@
 			"name": "Bullywug Royal",
 			"source": "GoS",
 			"page": 232,
-			"otherSources": [
-				{
-					"source": "WBtW"
-				}
+			"referenceSources": [
+				"WBtW"
 			],
 			"size": [
 				"M"
@@ -462,8 +460,7 @@
 				"R"
 			],
 			"spellcastingTags": [
-				"CC",
-				"I"
+				"CC"
 			],
 			"hasToken": true,
 			"hasFluffImages": true
@@ -472,10 +469,8 @@
 			"name": "Drowned Ascetic",
 			"source": "GoS",
 			"page": 233,
-			"otherSources": [
-				{
-					"source": "LR"
-				}
+			"referenceSources": [
+				"LR"
 			],
 			"size": [
 				"M"
@@ -590,10 +585,8 @@
 			"name": "Drowned Assassin",
 			"source": "GoS",
 			"page": 234,
-			"otherSources": [
-				{
-					"source": "LR"
-				}
+			"referenceSources": [
+				"LR"
 			],
 			"size": [
 				"M"
@@ -670,7 +663,7 @@
 				{
 					"name": "Multiattack",
 					"entries": [
-						"The drowned assassin makes two hand crossbow attacks or two dagger attacks. It can then take the Dash, Disengage, or Hide action."
+						"The drowned assassin makes two hand crossbow attacks or two dagger attacks. It can then take the {@action Dash}, {@action Disengage}, or {@action Hide} action."
 					]
 				},
 				{
@@ -734,10 +727,8 @@
 			"name": "Drowned Blade",
 			"source": "GoS",
 			"page": 235,
-			"otherSources": [
-				{
-					"source": "LR"
-				}
+			"referenceSources": [
+				"LR"
 			],
 			"size": [
 				"M"
@@ -847,10 +838,8 @@
 			"name": "Drowned Master",
 			"source": "GoS",
 			"page": 235,
-			"otherSources": [
-				{
-					"source": "LR"
-				}
+			"referenceSources": [
+				"LR"
 			],
 			"size": [
 				"M"
@@ -1457,7 +1446,7 @@
 				{
 					"name": "Ink Cloud (Costs 3 Actions)",
 					"entries": [
-						"While underwater, the kraken expels an ink cloud in a 40-foot radius. The cloud spreads around corners, and that area is heavily obscured to creatures other than the kraken. Each creature other than the kraken that ends its turn there must succeed on a {@dc 18} Constitution saving throw, taking 11 ({@damage 2d10}) poison damage on a failed save or half as much damage on a successful one. A strong current disperses the cloud, which otherwise disappears at the end of the kraken's next turn."
+						"While underwater, the kraken expels an ink cloud in a 40-foot radius. The cloud spreads around corners, and that area is {@quickref Vision and Light||2||heavily obscured} to creatures other than the kraken. Each creature other than the kraken that ends its turn there must succeed on a {@dc 18} Constitution saving throw, taking 11 ({@damage 2d10}) poison damage on a failed save or half as much damage on a successful one. A strong current disperses the cloud, which otherwise disappears at the end of the kraken's next turn."
 					]
 				}
 			],
@@ -2131,13 +2120,9 @@
 			"name": "Lizardfolk Render",
 			"source": "GoS",
 			"page": 241,
-			"otherSources": [
-				{
-					"source": "SLW"
-				},
-				{
-					"source": "IMR"
-				}
+			"referenceSources": [
+				"IMR",
+				"SLW"
 			],
 			"size": [
 				"L"
@@ -2367,10 +2352,8 @@
 			"name": "Lizardfolk Subchief",
 			"source": "GoS",
 			"page": 242,
-			"otherSources": [
-				{
-					"source": "SLW"
-				}
+			"referenceSources": [
+				"SLW"
 			],
 			"size": [
 				"M"
@@ -2526,10 +2509,8 @@
 			"name": "Locathah",
 			"source": "GoS",
 			"page": 243,
-			"otherSources": [
-				{
-					"source": "IMR"
-				}
+			"referenceSources": [
+				"IMR"
 			],
 			"size": [
 				"M"
@@ -3570,6 +3551,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"light crossbow|phb",
 				"trident|phb"
@@ -3624,6 +3606,7 @@
 				"Abyssal",
 				"Draconic"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"AB",
 				"C",
@@ -4157,6 +4140,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"quarterstaff|phb"
 			],
@@ -4191,13 +4175,9 @@
 			"name": "Sahuagin Blademaster",
 			"source": "GoS",
 			"page": 249,
-			"otherSources": [
-				{
-					"source": "SDW"
-				},
-				{
-					"source": "LR"
-				}
+			"referenceSources": [
+				"LR",
+				"SDW"
 			],
 			"size": [
 				"M"
@@ -4570,10 +4550,8 @@
 			"name": "Sahuagin Deep Diver",
 			"source": "GoS",
 			"page": 250,
-			"otherSources": [
-				{
-					"source": "LR"
-				}
+			"referenceSources": [
+				"LR"
 			],
 			"size": [
 				"M"
@@ -4725,10 +4703,8 @@
 			"name": "Sahuagin Hatchling Swarm",
 			"source": "GoS",
 			"page": 250,
-			"otherSources": [
-				{
-					"source": "LR"
-				}
+			"referenceSources": [
+				"LR"
 			],
 			"size": [
 				"L"
@@ -4832,10 +4808,8 @@
 			"name": "Sahuagin High Priestess",
 			"source": "GoS",
 			"page": 251,
-			"otherSources": [
-				{
-					"source": "SDW"
-				}
+			"referenceSources": [
+				"SDW"
 			],
 			"size": [
 				"M"
@@ -5248,6 +5222,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"dagger|phb"
 			],
@@ -5412,6 +5387,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Magic Resistance",
 				"Water Breathing"
@@ -5537,10 +5513,8 @@
 			"name": "Skeletal Juggernaut",
 			"source": "GoS",
 			"page": 253,
-			"otherSources": [
-				{
-					"source": "IMR"
-				}
+			"referenceSources": [
+				"IMR"
 			],
 			"size": [
 				"L"
@@ -5631,6 +5605,7 @@
 				"S"
 			],
 			"miscTags": [
+				"AOE",
 				"MW",
 				"RCH"
 			],
@@ -5644,13 +5619,9 @@
 			"name": "Skeletal Swarm",
 			"source": "GoS",
 			"page": 254,
-			"otherSources": [
-				{
-					"source": "DC"
-				},
-				{
-					"source": "IMR"
-				}
+			"referenceSources": [
+				"DC",
+				"IMR"
 			],
 			"size": [
 				"L"
@@ -6105,6 +6076,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Immutable Form",
 				"Legendary Resistances"
@@ -6156,6 +6128,7 @@
 				}
 			},
 			"type": "undead",
+			"tokenCustom": true,
 			"traitTags": [
 				"Sunlight Sensitivity"
 			],

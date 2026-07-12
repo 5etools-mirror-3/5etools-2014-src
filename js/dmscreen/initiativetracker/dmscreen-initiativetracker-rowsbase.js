@@ -8,27 +8,27 @@ class _RenderableCollectionRowStatColData extends RenderableCollectionGenericRow
 		{
 			rootComp,
 			comp,
-			$wrpRows,
+			wrpRows,
 			networking,
 			mon,
 		},
 	) {
-		super(comp, "rowStatColData", $wrpRows);
+		super(comp, "rowStatColData", wrpRows);
 		this._rootComp = rootComp;
 		this._networking = networking;
 		this._mon = mon;
 	}
 
-	_$getWrpRow () {
-		return $(`<div class="ve-flex-vh-center"></div>`);
+	_getWrpRow () {
+		return ee`<div class="ve-flex-vh-center"></div>`;
 	}
 
-	_populateRow ({comp, $wrpRow, entity}) {
+	_populateRow ({comp, wrpRow, entity}) {
 		const statsColData = this._rootComp._state.statsCols.find(statsCol => statsCol.id === entity.id);
 		if (!statsColData) return {};
 
 		const meta = InitiativeTrackerStatColumnFactory.fromStateData({data: statsColData});
-		meta.$getRendered({comp, mon: this._mon, networking: this._networking}).appendTo($wrpRow);
+		meta.getRendered({comp, mon: this._mon, networking: this._networking}).appendTo(wrpRow);
 
 		return {
 			cbOnTurnStart: ({state, direction}) => {
@@ -47,13 +47,13 @@ export class RenderableCollectionRowDataBase extends RenderableCollectionAsyncGe
 		{
 			comp,
 			prop,
-			$wrpRows,
+			wrpRows,
 			roller,
 			networking = null,
 			rowStateBuilder,
 		},
 	) {
-		super(comp, prop, $wrpRows);
+		super(comp, prop, wrpRows);
 		this._roller = roller;
 		this._networking = networking;
 		this._rowStateBuilder = rowStateBuilder;
@@ -61,33 +61,33 @@ export class RenderableCollectionRowDataBase extends RenderableCollectionAsyncGe
 
 	/* -------------------------------------------- */
 
-	_$getWrpRow () {
-		return $(`<div class="dm-init__row ve-overflow-hidden pr-1"></div>`);
+	_getWrpRow () {
+		return ee`<div class="dm-init__row ve-overflow-hidden ve-pr-1"></div>`;
 	}
 
-	async _pPopulateRow ({comp, $wrpRow, entity}) {
+	async _pPopulateRow ({comp, wrpRow, entity}) {
 		const fnsCleanup = [];
 
 		const {isMon, mon, fluff} = await this._pPopulateRow_pGetMonsterMeta({comp});
 
-		comp._addHookBase("isActive", () => $wrpRow.toggleClass("dm-init__row-active", !!comp._state.isActive))();
+		comp._addHookBase("isActive", () => wrpRow.toggleClass("dm-init__row-active", !!comp._state.isActive))();
 
 		this._pPopulateRow_bindParentRowStatColsIsEditableHook({comp, entity, mon, fluff, fnsCleanup});
 
-		const $wrpLhs = $(`<div class="dm-init__row-lhs"></div>`).appendTo($wrpRow);
+		const wrpLhs = ee`<div class="dm-init__row-lhs"></div>`.appendTo(wrpRow);
 
-		this._pPopulateRow_player({comp, $wrpLhs, isMon});
-		this._pPopulateRow_monster({comp, $wrpLhs, isMon, mon, fluff});
+		this._pPopulateRow_player({comp, wrpLhs, isMon});
+		this._pPopulateRow_monster({comp, wrpLhs, isMon, mon, fluff});
 
-		this._pPopulateRow_conditions({comp, $wrpLhs});
+		this._pPopulateRow_conditions({comp, wrpLhs});
 
-		this._pPopulateRow_statsCols({comp, $wrpRow, mon, fnsCleanup});
+		this._pPopulateRow_statsCols({comp, wrpRow, mon, fnsCleanup});
 
-		const $wrpRhs = $(`<div class="dm-init__row-rhs"></div>`).appendTo($wrpRow);
+		const wrpRhs = ee`<div class="dm-init__row-rhs"></div>`.appendTo(wrpRow);
 
-		this._pPopulateRow_hp({comp, $wrpRhs});
-		this._pPopulateRow_initiative({comp, $wrpRhs});
-		this._pPopulateRow_btns({comp, entity, $wrpRhs});
+		this._pPopulateRow_hp({comp, wrpRhs, fnsCleanup});
+		this._pPopulateRow_initiative({comp, wrpRhs});
+		this._pPopulateRow_btns({comp, entity, wrpRhs});
 
 		return {
 			cbOnTurnStart: ({state, direction}) => {
@@ -156,16 +156,16 @@ export class RenderableCollectionRowDataBase extends RenderableCollectionAsyncGe
 
 	/* ----- */
 
-	_pPopulateRow_player ({comp, $wrpLhs, isMon}) {
+	_pPopulateRow_player ({comp, wrpLhs, isMon}) {
 		if (isMon) return;
 
-		ComponentUiUtil.$getIptStr(
+		ComponentUiUtil.getIptStr(
 			comp,
 			"name",
 			{
-				html: `<input class="form-control input-sm name dm-init__ipt-name dm-init-lockable dm-init__row-input" placeholder="Name">`,
+				html: `<input class="ve-form-control ve-input-sm name dm-init__ipt-name dm-init-lockable dm-init__row-input" placeholder="Name">`,
 			},
-		).appendTo($wrpLhs);
+		).appendTo(wrpLhs);
 	}
 
 	/* ----- */
@@ -174,7 +174,7 @@ export class RenderableCollectionRowDataBase extends RenderableCollectionAsyncGe
 	 * @abstract
 	 * @return void
 	 */
-	_pPopulateRow_monster ({comp, $wrpLhs, isMon, mon, fluff}) {
+	_pPopulateRow_monster ({comp, wrpLhs, isMon, mon, fluff}) {
 		throw new Error("Unimplemented!");
 	}
 
@@ -184,24 +184,24 @@ export class RenderableCollectionRowDataBase extends RenderableCollectionAsyncGe
 	 * @abstract
 	 * @return void
 	 */
-	_pPopulateRow_conditions ({comp, $wrpLhs}) {
+	_pPopulateRow_conditions ({comp, wrpLhs}) {
 		throw new Error("Unimplemented!");
 	}
 
 	/* ----- */
 
-	_pPopulateRow_statsCols ({comp, $wrpRow, mon, fnsCleanup}) {
-		const $wrp = $(`<div class="dm-init__row-mid"></div>`)
-			.appendTo($wrpRow);
+	_pPopulateRow_statsCols ({comp, wrpRow, mon, fnsCleanup}) {
+		const wrp = ee`<div class="dm-init__row-mid"></div>`
+			.appendTo(wrpRow);
 
-		const hkParentStatsAddCols = () => $wrp.toggleVe(!!this._comp._state.isStatsAddColumns);
+		const hkParentStatsAddCols = () => wrp.toggleVe(!!this._comp._state.isStatsAddColumns);
 		this._comp._addHookBase("isStatsAddColumns", hkParentStatsAddCols)();
 		fnsCleanup.push(() => this._comp._removeHookBase("isStatsAddColumns", hkParentStatsAddCols));
 
 		const renderableCollection = new _RenderableCollectionRowStatColData({
 			rootComp: this._comp,
 			comp,
-			$wrpRows: $wrp,
+			wrpRows: wrp,
 			networking: this._networking,
 			mon,
 		});
@@ -210,52 +210,58 @@ export class RenderableCollectionRowDataBase extends RenderableCollectionAsyncGe
 
 	/* ----- */
 
-	_pPopulateRow_hp ({comp, $wrpRhs}) {
-		const $iptHpCurrent = ComponentUiUtil.$getIptNumber(
+	_pPopulateRow_hp ({comp, wrpRhs, fnsCleanup}) {
+		const iptHpCurrent = ComponentUiUtil.getIptNumber(
 			comp,
 			"hpCurrent",
 			null,
 			{
 				isAllowNull: true,
 				fallbackOnNaN: null,
-				html: `<input class="form-control input-sm hp dm-init__row-input ve-text-right w-40p mr-0 br-0">`,
+				html: `<input class="ve-form-control ve-input-sm hp dm-init__row-input ve-text-right ve-w-40p ve-mr-0 ve-br-0">`,
 			},
 		)
-			.on("click", () => $iptHpCurrent.select());
+			.onn("click", () => iptHpCurrent.select());
 
-		const $iptHpMax = ComponentUiUtil.$getIptNumber(
+		const iptHpMax = ComponentUiUtil.getIptNumber(
 			comp,
 			"hpMax",
 			null,
 			{
 				isAllowNull: true,
 				fallbackOnNaN: null,
-				html: `<input class="form-control input-sm hp-max dm-init__row-input w-40p mr-0 bl-0">`,
+				html: `<input class="ve-form-control ve-input-sm hp-max dm-init__row-input ve-w-40p ve-mr-0 ve-bl-0">`,
 			},
 		)
-			.on("click", () => $iptHpMax.select());
+			.onn("click", () => iptHpMax.select());
 
 		const hkHpColors = () => {
-			const woundLevel = InitiativeTrackerUtil.getWoundLevel(100 * comp._state.hpCurrent / comp._state.hpMax);
+			const pctWounded = this._comp._state.isInvertWoundDirection
+				? 100 * (comp._state.hpMax - comp._state.hpCurrent) / comp._state.hpMax
+				: 100 * comp._state.hpCurrent / comp._state.hpMax;
+			const woundLevel = InitiativeTrackerUtil.getWoundLevel(pctWounded);
 			if (~woundLevel) {
 				const woundMeta = InitiativeTrackerUtil.getWoundMeta(woundLevel);
-				$iptHpCurrent.css("color", woundMeta.color);
-				$iptHpMax.css("color", woundMeta.color);
+				iptHpCurrent.css({"color": woundMeta.color});
+				iptHpMax.css({"color": woundMeta.color});
 			} else {
-				$iptHpCurrent.css("color", "");
-				$iptHpMax.css("color", "");
+				iptHpCurrent.css({"color": ""});
+				iptHpMax.css({"color": ""});
 			}
 		};
 		comp._addHookBase("hpCurrent", hkHpColors);
 		comp._addHookBase("hpMax", hkHpColors);
 		hkHpColors();
 
-		$$`<div class="ve-flex relative mr-3p">
-			<div class="ve-text-right">${$iptHpCurrent}</div>
+		this._comp._addHookBase("isInvertWoundDirection", hkHpColors)();
+		fnsCleanup.push(() => this._comp._removeHookBase("isInvertWoundDirection", hkHpColors));
+
+		ee`<div class="ve-flex ve-relative ve-mr-3p">
+			<div class="ve-text-right">${iptHpCurrent}</div>
 			<div class="dm-init__sep-fields-slash ve-flex-vh-center">/</div>
-			<div class="ve-text-left">${$iptHpMax}</div>
+			<div class="ve-text-left">${iptHpMax}</div>
 		</div>`
-			.appendTo($wrpRhs);
+			.appendTo(wrpRhs);
 	}
 
 	/* ----- */
@@ -264,7 +270,7 @@ export class RenderableCollectionRowDataBase extends RenderableCollectionAsyncGe
 	 * @abstract
 	 * @return void
 	 */
-	_pPopulateRow_initiative ({comp, $wrpRhs}) {
+	_pPopulateRow_initiative ({comp, wrpRhs}) {
 		throw new Error("Unimplemented!");
 	}
 
@@ -274,7 +280,7 @@ export class RenderableCollectionRowDataBase extends RenderableCollectionAsyncGe
 	 * @abstract
 	 * @return void
 	 */
-	_pPopulateRow_btns ({comp, entity, $wrpRhs}) {
+	_pPopulateRow_btns ({comp, entity, wrpRhs}) {
 		throw new Error("Unimplemented!");
 	}
 
@@ -312,36 +318,36 @@ export class InitiativeTrackerRowDataViewBase {
 	getRenderedView () {
 		const rdState = new this.constructor._RenderState();
 
-		const $ele = $$`<div class="dm-init__wrp-header-outer">
-				<div class="dm-init__wrp-header pr-1">
+		const ele = ee`<div class="dm-init__wrp-header-outer">
+				<div class="dm-init__wrp-header ve-pr-1">
 					<div class="dm-init__row-lhs dm-init__header">
-						<div class="w-100">${this._TextHeaderLhs}</div>
+						<div class="ve-w-100">${this._TextHeaderLhs}</div>
 					</div>
 
-					${this._render_$getWrpHeaderStatsCols({rdState})}
+					${this._render_getWrpHeaderStatsCols({rdState})}
 
-					${this._render_$getWrpHeaderRhs({rdState})}
+					${this._render_getWrpHeaderRhs({rdState})}
 				</div>
 
-				${this._render_$getWrpRows({rdState})}
+				${this._render_getWrpRows({rdState})}
 		</div>`;
 
 		return {
-			$ele,
+			ele,
 			cbDoCleanup: () => rdState.fnsCleanup.forEach(fn => fn()),
 		};
 	}
 
-	_render_$getWrpHeaderStatsCols ({rdState}) {
-		const $wrpHeaderStatsCols = $(`<div class="dm-init__row-mid"></div>`);
+	_render_getWrpHeaderStatsCols ({rdState}) {
+		const wrpHeaderStatsCols = ee`<div class="dm-init__row-mid"></div>`;
 		const hkHeaderStatsCols = () => {
-			$wrpHeaderStatsCols.empty();
+			wrpHeaderStatsCols.empty();
 
 			if (!this._comp._state.isStatsAddColumns) return;
 
 			this._comp._state.statsCols.forEach(data => {
 				const meta = InitiativeTrackerStatColumnFactory.fromStateData({data});
-				$wrpHeaderStatsCols.append(meta.$getRenderedHeader());
+				wrpHeaderStatsCols.appends(meta.getEleRenderedHeader());
 			});
 		};
 		this._comp._addHookBase("isStatsAddColumns", hkHeaderStatsCols);
@@ -352,23 +358,23 @@ export class InitiativeTrackerRowDataViewBase {
 			() => this._comp._removeHookBase("statsCols", hkHeaderStatsCols),
 		);
 
-		return $wrpHeaderStatsCols;
+		return wrpHeaderStatsCols;
 	}
 
 	/**
 	 * @abstract
-	 * @return {jQuery}
+	 * @return {HTMLElementExtended}
 	 */
-	_render_$getWrpHeaderRhs ({rdState}) {
+	_render_getWrpHeaderRhs ({rdState}) {
 		throw new Error("Unimplemented!");
 	}
 
-	_render_$getWrpRows ({rdState}) {
-		const $wrpRows = $(`<div class="dm-init__wrp-entries"></div>`);
+	_render_getWrpRows ({rdState}) {
+		const wrpRows = ee`<div class="dm-init__wrp-entries"></div>`;
 
 		this._compRows = new this._ClsRenderableCollectionRowData({
 			comp: this._comp,
-			$wrpRows,
+			wrpRows,
 			roller: this._roller,
 			networking: this._networking,
 			rowStateBuilder: this._rowStateBuilder,
@@ -376,7 +382,7 @@ export class InitiativeTrackerRowDataViewBase {
 
 		this._render_bindHooksRows({rdState});
 
-		return $wrpRows;
+		return wrpRows;
 	}
 
 	/**

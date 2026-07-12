@@ -9,7 +9,7 @@
 		text-decoration-color: $rgb !important;
 	}
 
-	.source {
+	.ve-source {
 		$rgb-source-category-site: #e50711;
 		$rgb-source-category-extras: #9d4c4f;
 		$rgb-source-category-prerelease: vars.$rgb-subclass-ua;
@@ -82,7 +82,6 @@
 		$rgb-source-KftGV: #876e38;
 		$rgb-source-HAT: #a24545;
 		$rgb-source-BGG: #469cb7;
-		$rgb-source-TDCSR: #642e4b;
 		$rgb-source-PaBTSO: #b2b34e;
 		$rgb-source-PAitM: #a23087;
 		$rgb-source-CoA: #a13a0f;
@@ -91,6 +90,8 @@
 		$rgb-source-QftIS: #6191ae;
 		$rgb-source-VEoR: #b74c62;
 		$rgb-source-TD: #bb9528;
+		$rgb-source-PaF: #5d7993;
+		$rgb-source-CaBoMP: #832c5a;
 
 		// region Categories
 
@@ -445,10 +446,6 @@
 				@include mix-source-color($rgb-source-BGG);
 			}
 
-			&TDCSR {
-				@include mix-source-color($rgb-source-TDCSR);
-			}
-
 			&PaBTSO {
 				@include mix-source-color($rgb-source-PaBTSO);
 			}
@@ -486,60 +483,68 @@
 			&TD {
 				@include mix-source-color($rgb-source-TD);
 			}
+
+			&PaF {
+				@include mix-source-color($rgb-source-PaF);
+			}
+
+			&CaBoMP {
+				@include mix-source-color($rgb-source-CaBoMP);
+			}
 		}
 		// endregion
 	}
 
-	.sp__ {
-		&school- {
-			&A {
+	.ve-sp__ {
+		&school-- {
+			&a {
 				color: #00b921;
 			}
 
-			&V {
+			&v {
 				color: #bb0100;
 			}
 
-			&E {
+			&e {
 				color: #b30083;
 			}
 
-			&I {
+			&i {
 				color: #006dbd;
 			}
 
-			&D {
+			&d {
 				color: #00adb3;
 			}
 
-			&N {
+			&n {
 				color: #6c00cc;
 			}
 
-			&T {
+			&t {
 				color: #ccbe00;
 			}
 
-			&C {
+			&c {
 				color: #bd0044;
 			}
 		}
 	}
 
-	.psi__ {
-		&type- {
-			&D {
+	.ve-psi__ {
+		&type-- {
+			&d {
 				// (Unused)
 			}
 
-			&T {
+			&t {
 				// (Unused)
 			}
 		}
 	}
 
 	// (Unused)
-	.itm__ {
+	.ve-itm__ {
 		&rarity-alt- {
 			&common {
 				color: color.adjust(vars.$rgb-font, $lightness: 15%);
@@ -568,7 +573,7 @@
 		}
 	}
 
-	.itm__ {
+	.ve-itm__ {
 		&rarity- {
 			&common {
 				color: color.adjust(vars.$rgb-font, $lightness: 15%);

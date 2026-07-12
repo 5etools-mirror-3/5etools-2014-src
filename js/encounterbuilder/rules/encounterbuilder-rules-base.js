@@ -1,0 +1,506 @@
+import {EncounterPartyPlayerMeta} from "../encounterbuilder-models-other.js";
+import {EncounterBuilderRandomizerTemplated} from "../randomizer/encounterbuilder-randomizer-templated.js";
+import {BUDGET_MODE_CR, BUDGET_MODE_XP} from "../consts/encounterbuilder-consts.js";
+import {EncounterbuilderAdjusterTemplated} from "../adjuster/encounterbuilder-adjuster-slots.js";
+import {SITE_STYLE__CLASSIC, SITE_STYLE__ONE} from "../../consts.js";
+import {EncounterBuilderTtkClassic} from "../ttk/encounterbuilder-ttk-classic.js";
+import {ENCOUNTER_SHAPE_CUSTOM_NAME, ENCOUNTER_SHAPE_CUSTOM_SOURCE, ENCOUNTER_SHAPE_RANDOM_NAME, ENCOUNTER_SHAPE_RANDOM_SOURCE} from "../encounterbuilder-consts.js";
+
+export class TierHtmlProviderBase {
+	_budgetMode;
+	_tierTitles;
+
+	getTierName ({tier}) {
+		return tier?.toTitleCase();
+	}
+
+	getTierHtml ({partyMeta, tier}) {
+		const title = this.getTierTitle({tier});
+		const ptTierName = this.getTierName({tier}) || "?";
+		const ptTierBudget = partyMeta.cntPlayers
+			? (partyMeta?.getTierDisplayBudget(tier) || "?")
+			: "?";
+
+		return `<span class="ve-help-subtle" ${title ? `title="${title}"` : ""}>${ptTierName}:</span> ${ptTierBudget} ${this._getBudgetUnit()}`;
+	}
+
+	getTierTitle ({tier}) {
+		return this._tierTitles[tier] || "";
+	}
+
+	_getBudgetUnit () {
+		switch (this._budgetMode) {
+			case BUDGET_MODE_XP: return "XP";
+			case BUDGET_MODE_CR: return "CR";
+			default: throw new Error(`Unhandled budget mode "${this._budgetMode}"!`);
+		}
+	}
+
+	/* -------------------------------------------- */
+
+	_getPtRatioSpentPct ({ratioSpent}) {
+		const ptPct = (ratioSpent * 100).toFixed(2).replace(/\.0+$/, "")
+			.padStart(3, "\u2007");
+
+		return `<span class="ve-mr-1">${ptPct}%</span>`;
+	}
+
+	getSpentHtml (
+		{
+			partyMeta,
+			tier,
+			ratioSpent = null,
+		},
+	) {
+		if (!partyMeta || !tier || ratioSpent == null) return "";
+
+		const ptTierBudgetSpent = partyMeta.getTierDisplayBudget(tier, {multiplier: ratioSpent});
+		const ptTierBudgetTotal = partyMeta.getTierDisplayBudget(tier);
+
+		return `${this._getPtRatioSpentPct({ratioSpent})} <span class="ve-small ve-muted">(${ptTierBudgetSpent}/${ptTierBudgetTotal} ${this._getBudgetUnit()})</span>`;
+	}
+
+	getGroupSpentHtml (
+		{
+			partyMeta,
+			tier,
+			ratioSpent,
+			cntMin,
+			cntMax,
+		},
+	) {
+		if (!partyMeta || !tier || ratioSpent == null) return "";
+
+		const unit = this._getBudgetUnit();
+
+		if (cntMin === cntMax || !ratioSpent) {
+			const ptTierBudgetSpent = partyMeta.getTierDisplayBudget(tier, {multiplier: ratioSpent});
+			const ptTierBudgetSpentPerCreature = cntMin
+				? partyMeta.getTierDisplayBudget(tier, {multiplier: ratioSpent / cntMin})
+				: 0;
+			return `<span class="ve-small ve-small-caps ve-split-v-center" title="${ptTierBudgetSpentPerCreature} ${unit} Per Creature (${ptTierBudgetSpent} ${unit} Total)">
+				${this._getPtRatioSpentPct({ratioSpent})}
+				<span class="ve-muted">(${ptTierBudgetSpentPerCreature} ${unit} ea.)</span>
+			</span>`;
+		}
+
+		const ptTierBudgetSpentPerCreatureMin = cntMin
+			? partyMeta.getTierDisplayBudget(tier, {multiplier: ratioSpent / cntMin})
+			: 0;
+		const ptTierBudgetSpentMin = cntMin
+			? partyMeta.getTierDisplayBudget(tier, {multiplier: ratioSpent})
+			: 0;
+		const ptTierBudgetSpentPerCreatureMax = cntMax
+			? partyMeta.getTierDisplayBudget(tier, {multiplier: ratioSpent / cntMax})
+			: 0;
+		const ptTierBudgetSpentMax = cntMax
+			? partyMeta.getTierDisplayBudget(tier, {multiplier: ratioSpent})
+			: 0;
+		return `<span class="ve-small ve-small-caps ve-split-v-center" title="${ptTierBudgetSpentPerCreatureMin}\u2013${ptTierBudgetSpentPerCreatureMax} ${unit} Per Creature (${ptTierBudgetSpentMin}\u2013${ptTierBudgetSpentMax} ${unit} Total)">
+			${this._getPtRatioSpentPct({ratioSpent})}
+			<span class="ve-muted">(${ptTierBudgetSpentPerCreatureMin}\u2013${ptTierBudgetSpentPerCreatureMax} ${unit} ea.)</span>
+		</span>`;
+	}
+}
+
+/**
+ * @abstract
+ */
+export class EncounterBuilderRulesBase extends BaseComponent {
+	rulesId;
+	displayName;
+	_tierHtmlProvider;
+
+	_budgetMode;
+
+	constructor (
+		{
+			comp,
+			cache,
+			encounterShapesLookup,
+			rendererWrapped,
+		},
+	) {
+		if (!rendererWrapped) throw new Error(`Missing required "rendererWrapped" option!`);
+
+		super();
+
+		this._comp = comp;
+		this._cache = cache;
+		this._encounterShapesLookup = encounterShapesLookup;
+		this._rendererWrapped = rendererWrapped;
+	}
+
+	/* -------------------------------------------- */
+
+	getBudgetMode () { return this._budgetMode; }
+
+	isCustomEncounterShape () { return this._state.shapeHashRandom === UrlUtil.URL_TO_HASH_BUILDER["encounterShape"]({name: ENCOUNTER_SHAPE_CUSTOM_NAME, source: ENCOUNTER_SHAPE_CUSTOM_SOURCE}); }
+
+	/* -------------------------------------------- */
+
+	addHookOnSave (hk) { return this._addHookAll("state", hk); }
+
+	addHookTierRandom (hk) { return this._addHookBase("tierRandom", hk); }
+	addHookShapeHashRandom (hk) { return this._addHookBase("shapeHashRandom", hk); }
+
+	/* -------------------------------------------- */
+
+	setStateFrom (toLoad, isOverwrite = false) {
+		if (!toLoad) return super.setStateFrom(toLoad, isOverwrite);
+
+		if (!this._encounterShapesLookup.getEncounterShape(toLoad.state.shapeHashRandom)) {
+			toLoad.state.shapeHashRandom = UrlUtil.URL_TO_HASH_BUILDER["encounterShape"]({name: ENCOUNTER_SHAPE_RANDOM_NAME, source: ENCOUNTER_SHAPE_RANDOM_SOURCE});
+		}
+
+		super.setStateFrom(toLoad, isOverwrite);
+	}
+
+	/* -------------------------------------------- */
+
+	/**
+	 * @abstract
+	 * @return void
+	 */
+	render ({stgSettingsRules, stgRandomAndAdjust, stgGroup, stgDifficulty}) { throw new Error("Unimplemented!"); }
+
+	/* -------------------------------------------- */
+
+	/**
+	 * @abstract
+	 * @return string
+	 */
+	getDisplaySummary () { throw new Error("Unimplemented!"); }
+
+	/* -------------------------------------------- */
+
+	/**
+	 * @abstract
+	 * @param {?number} ratioSpent
+	 * @param {?EncounterPartyMetaBase} partyMeta
+	 * @return string
+	 */
+	getDisplayBudgetSpent (
+		{
+			ratioSpent,
+			partyMeta = null,
+		},
+	) {
+		partyMeta ??= this.getEncounterPartyMeta();
+
+		return this._tierHtmlProvider.getSpentHtml({
+			partyMeta,
+			tier: this._state.tierRandom,
+			ratioSpent,
+		});
+	}
+
+	/**
+	 * @abstract
+	 * @param {number} ratioSpent
+	 * @param {EncounterPartyMetaBase} partyMeta
+	 * @param {?number} cntMin
+	 * @param {?number} cntMax
+	 * @return string
+	 */
+	getDisplayGroupBudgetSpent (
+		{
+			ratioSpent,
+			partyMeta = null,
+			cntMin = null,
+			cntMax = null,
+		},
+	) {
+		partyMeta ??= this.getEncounterPartyMeta();
+
+		return this._tierHtmlProvider.getGroupSpentHtml({
+			partyMeta,
+			tier: this._state.tierRandom,
+			ratioSpent,
+			cntMin,
+			cntMax,
+		});
+	}
+
+	/* -------------------------------------------- */
+
+	async _pDoGenerateRandomEncounter ({shapeHash, tier}) {
+		const partyMeta = this.getEncounterPartyMeta();
+
+		const {budgetMin, budgetMax} = partyMeta.getBudgetRange(tier);
+
+		const randomizer = new EncounterBuilderRandomizerTemplated({
+			partyMeta,
+			cache: this._cache,
+			budgetMin,
+			budgetMax,
+			budgetMode: this._budgetMode,
+			encounterShapesLookup: this._encounterShapesLookup,
+			encounterShapeHash: shapeHash,
+		});
+
+		const randomCreatureGroups = await randomizer.pGetRandomEncounter({
+			creatureGroupsLocked: this._comp.creatureGroups.filter(creatureGroup => creatureGroup.getIsLocked()),
+		});
+
+		if (randomCreatureGroups != null) this._comp.creatureGroups = randomCreatureGroups;
+	}
+
+	async _pDoAdjustEncounter ({tier}) {
+		const partyMeta = this.getEncounterPartyMeta();
+
+		const {budgetMin, budgetMax} = partyMeta.getBudgetRangeApprox(tier);
+
+		const adjuster = new EncounterbuilderAdjusterTemplated({
+			partyMeta,
+			cache: this._cache,
+			budgetMin,
+			budgetMax,
+			budgetMode: this._budgetMode,
+		});
+
+		const adjustedCreatureGroups = await adjuster.pGetAdjustedEncounter({
+			creatureGroups: this._comp.creatureGroups,
+		});
+
+		if (adjustedCreatureGroups != null) this._comp.creatureGroups = adjustedCreatureGroups;
+	}
+
+	/* -------------------------------------------- */
+
+	_getRenderedWrpRandomAndAdjust (
+		{
+			tiers,
+		},
+	) {
+		const stgRandom = this._getRenderedWrpRandomAndAdjust_getStgRandom({tiers})
+			.addClass("ve-mobile-lg__mb-2");
+		const stgAdjust = this._getRenderedWrpRandomAndAdjust_getAdjustMeta({tiers});
+
+		return ee`<div class="ve-flex-col">
+			<div class="ve-flex-v-center ve-mobile-lg__flex-col ve-mobile-lg__flex-ai-start">
+				${stgRandom}
+
+				<div class="ve-vr-2 ve-min-h-24p ve-mobile-lg__hidden"></div>
+
+				${stgAdjust}
+			</div>
+		</div>`
+			.hideVe();
+	}
+
+	_getRenderedWrpRandomAndAdjust_getStgRandom ({tiers}) {
+		const selTier = ComponentUiUtil.getSelEnum(
+			this,
+			"tierRandom",
+			{
+				html: `<select class="ve-form-control ve-h-34p ve-br-0"></select>`,
+				values: tiers,
+				fnDisplay: val => val.toTitleCase(),
+			},
+		);
+
+		const selShapeType = ComponentUiUtil.getSelEnum(
+			this,
+			"shapeHashRandom",
+			{
+				html: `<select class="ve-form-control ve-h-34p ve-br-0 ve-w-100"></select>`,
+				values: this._encounterShapesLookup.getHashList(),
+				fnDisplay: val => this._encounterShapesLookup.getEncounterShape(val).name,
+			},
+		);
+
+		const btnGenerate = ee`<button class="ve-btn ve-btn-primary ve-h-34p" title="Generate Encounter"><span class="glyphicon glyphicon-play"></span></button>`
+			.onn("click", async () => {
+				if (
+					this._encounterShapesLookup.isCustomEncounterHash(this._state.shapeHashRandom)
+				) {
+					if (!this._comp.customShapeGroups?.length) return JqueryUtil.doToast({type: "warning", content: `Your custom encounter does not contain any creature groups! Please add a creature group first.`});
+					if (this._comp.customShapeGroups.map(({entity}) => entity.ratioPercentage).sum() !== 100) return JqueryUtil.doToast({type: "warning", content: `Your custom encounter has un-allocated budget! Please allocate the full budget first.`});
+				}
+
+				await this._pDoGenerateRandomEncounter({
+					shapeHash: this._state.shapeHashRandom,
+					tier: this._state.tierRandom,
+				});
+			});
+
+		return ee`<div class="ve-flex-v-center ve-input-group ve-w-100">
+			${selTier}
+			${selShapeType}
+			${btnGenerate}
+		</div>`;
+	}
+
+	_getRenderedWrpRandomAndAdjust_getBtnSendToFoundry () {
+		if (globalThis.IS_VTT || !ExtensionUtil.ACTIVE) return null;
+
+		return ee`<button title="Send to Foundry" class="no-print ve-btn ve-btn-md ve-btn-default ve-ml-2"><span class="glyphicon glyphicon-send"></span></button>`
+			.onn("click", async () => {
+				const encounterActorName = await InputUiUtil.pGetUserString({title: "Encounter Actor Name", isSkippable: true});
+
+				await ExtensionUtil.pDoSend({
+					type: "5etools.encounterbuilder.encounter",
+					data: {
+						encounterActorName,
+						creatureMetasSerial: this._comp.creatureGroups
+							.map(({entity}) => ({
+								creature: entity.creature,
+								count: entity.count,
+							})),
+					},
+				});
+			});
+	}
+
+	_getRenderedWrpRandomAndAdjust_getAdjustMeta ({tiers}) {
+		const getButtonText = tier => `Adjust to ${tier.toTitleCase()}`;
+		const getButtonTitle = tier => `Adjust the current encounter to ${tier.toTitleCase()} Difficulty`;
+
+		const pSetTier = async ({tier = null} = {}) => {
+			if (tier) this._state.tierAdjust = tier;
+
+			await this._pDoAdjustEncounter({tier: this._state.tierAdjust});
+		};
+
+		const btn = ee`<button class="ve-btn ve-btn-primary ecgen__btn-adjust"></button>`
+			.onn("click", async evt => {
+				evt.preventDefault();
+				await pSetTier();
+			});
+
+		this._addHookBase("tierAdjust", () => {
+			btn
+				.txt(getButtonText(this._state.tierAdjust))
+				.tooltip(getButtonTitle(this._state.tierAdjust));
+		})();
+
+		const menu = ContextUtil.getMenu(
+			tiers
+				.map(tier => new ContextUtil.Action(
+					getButtonText(tier),
+					async () => pSetTier({tier}),
+					{
+						title: getButtonTitle(tier),
+					},
+				)),
+		);
+
+		const dispCaret = ee`<span class="ve-caret"></span>`;
+		menu.on("open", () => dispCaret.addClass("ve-caret--up"));
+		menu.on("close", () => dispCaret.removeClass("ve-caret--up"));
+
+		const btnMenu = ee`<button class="ve-btn ve-btn-primary ve-w-24p ve-px-0">${dispCaret}</button>`
+			.onn("click", evt => {
+				if (menu.isOpen()) {
+					evt.preventDefault();
+					evt.stopPropagation();
+					return menu.close();
+				}
+
+				const bcr = btnMenu.getBoundingClientRect();
+				return ContextUtil.pOpenMenu(evt, menu, {
+					xPos: (window.innerWidth - bcr.right) + window.scrollX,
+					isFromRight: true,
+					yPos: bcr.bottom + window.scrollY + 1,
+				});
+			});
+
+		const btnSendToFoundry = this._getRenderedWrpRandomAndAdjust_getBtnSendToFoundry();
+
+		return ee`<div class="ve-flex-v-center ve-relative ve-no-shrink">
+			<div class="ve-btn-group ve-flex-v-center">
+				${btn}
+				${btnMenu}
+			</div>
+			${btnSendToFoundry}
+		</div>`;
+	}
+
+	/* -------------------------------------------- */
+
+	_getRenderedDispsTierMeta ({tiers}) {
+		const dispsLookup = Object.fromEntries(
+			tiers
+				.map(tier => [tier, ee`<div></div>`]),
+		);
+
+		const onHookPulseDeriverPartyMeta = ({partyMeta}) => {
+			const encounterXpInfo = partyMeta.getEncounterSpendInfo(this._comp.creatureGroups);
+
+			const tier = partyMeta.getEncounterTier(encounterXpInfo);
+
+			Object.entries(dispsLookup)
+				.forEach(([tier_, disp]) => {
+					disp
+						.toggleClass("ve-bold", tier === tier_)
+						.html(
+							this._tierHtmlProvider.getTierHtml({
+								partyMeta,
+								tier: tier_,
+							}),
+						);
+				});
+		};
+
+		return {
+			disps: tiers.map(tier => dispsLookup[tier]),
+			onHookPulseDeriverPartyMeta,
+		};
+	}
+
+	/* -------------------------------------------- */
+
+	static _TITLE_XP_TO_NEXT_LEVEL = "The total XP required to allow each member of the party to level up to their next level.";
+
+	_getRenderedExpToLevel ({partyMeta}) {
+		return `<span class="ve-help-subtle" title="${this.constructor._TITLE_XP_TO_NEXT_LEVEL}">XP to Next Level:</span> ${partyMeta?.xpToNextLevel ? partyMeta?.xpToNextLevel.toLocaleStringVe() : "?"} XP`;
+	}
+
+	/* -------------------------------------------- */
+
+	getEncounterPartyMeta () { return this._getEncounterPartyMeta(this._comp.getPartyPlayerMetas()); }
+
+	/**
+	 * @abstract
+	 * @param {Array<EncounterPartyPlayerMeta>} playerMetas
+	 * @return {EncounterPartyMetaBase}
+	 */
+	_getEncounterPartyMeta (playerMetas) { throw new Error("Unimplemented!"); }
+
+	/* -------------------------------------------- */
+
+	static _TITLE_TTK = "Time to Kill: The estimated number of rounds the party will require to defeat the encounter. This assumes single-target damage only.";
+
+	_getTtkProvider ({partyMeta, styleHint}) {
+		const sharedOpts = {partyMeta, creatureGroups: this._comp.creatureGroups};
+
+		switch (styleHint) {
+			case SITE_STYLE__CLASSIC: return new EncounterBuilderTtkClassic(sharedOpts);
+			default: throw new Error(`Unhandled style "${styleHint}"!`);
+		}
+	}
+
+	_getTtkHtml ({partyMeta, styleHint = null}) {
+		styleHint ||= VetoolsConfig.get("styleSwitcher", "style");
+
+		const ptTtk = partyMeta.cntPlayers
+			? `${this._getTtkProvider({partyMeta, styleHint}).getApproxTurnsToKill().toFixed(2)} <span title="Rounds" class="ve-small-caps">rnd.</span>`
+			: `<span class="ve-muted">?</span>`;
+
+		return `<span class="ve-help" title="${this.constructor._TITLE_TTK}">TTK:</span> ${ptTtk}`;
+	}
+
+	/* -------------------------------------------- */
+
+	doCleanup () { /* Implement as required */ }
+
+	/* -------------------------------------------- */
+
+	_getDefaultState () {
+		return {
+			tierRandom: null,
+			shapeHashRandom: UrlUtil.URL_TO_HASH_BUILDER["encounterShape"]({name: ENCOUNTER_SHAPE_RANDOM_NAME, source: ENCOUNTER_SHAPE_RANDOM_SOURCE}),
+		};
+	}
+}

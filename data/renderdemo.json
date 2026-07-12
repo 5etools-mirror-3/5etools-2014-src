@@ -27,7 +27,7 @@
 						"Auto dice tags; as above, but a result is automatically rolled upon rendering: {@autodice 2d10+2}.",
 						"Chance tags; similar to dice roller tags, but output success/failure. Similar syntax as dice tags: {@chance 50}; {@chance 50|display text}; {@chance 50|display text|rolled by name}; {@chance 50|display text|rolled by name|on success text}; {@chance 50|display text|rolled by name|on success text|on failure text}.",
 						"Summon/companion-specific tags: {@hitYourSpellAttack} ({@hitYourSpellAttack with optional display text}), {@dcYourSpellSave} ({@dcYourSpellSave with optional display text}).",
-						"Recharge tags; output success/failure for ability recharge. {@recharge} in an ability title for '(Recharge 6)', {@recharge 4} for '(Recharge 4\u20136)'.",
+						"Recharge tags; output success/failure for ability recharge. {@recharge} in an ability title for '(Recharge 6)', {@recharge 4} for '(Recharge 4\u20136)'., {@recharge 4|m} for a \"minimal\" look (i.e., no brackets)",
 						"Coinflip tags; {@coinflip} or {@coinflip display text|rolee name|success text|failure text}",
 						"Skill and sense tags; {@skill Athletics}/{@skill Perception} (case sensitive) and {@sense Truesight}/{@sense darkvision} (case insensitive) which provide tooltips on hover.",
 						"Footnote tags; allows a footnote to be embedded {@footnote directly in text|This is primarily for homebrew purposes, as the official texts (so far) avoid using footnotes}, with {@footnote optional reference information|This is the footnote. References are free text.|Footnote 1, page 20}.",
@@ -65,9 +65,11 @@
 								"Actions: {@action Attack} assumes PHB by default, {@action Tumble|DMG} can have sources added with a pipe, {@action Tumble|DMG|and optional link text added with another pipe}.",
 								"Languages: {@language common} assumes PHB by default, {@language Dambrathan|SCAG} can have sources added with a pipe, {@language Dambrathan|SCAG|and optional link text added with another pipe}.",
 								"Other Character Creation Options: {@charoption Anvilwrought} assumes MOT by default, {@charoption Hollow One|EGW} can have sources added with a pipe, {@charoption Hollow One|EGW|and optional link text added with another pipe}.",
-								"Recipes: {@recipe Elven Bread} assumes Heroes' Feast by default, {@recipe Barovian Garlic Bread|HFFotM} can have sources added with a pipe, {@recipe Barovian Garlic Bread|HFFotM|and optional link text added with another pipe}.",
 								"Decks: {@deck Deck of Many Things} assumes DMG by default, {@deck Deck of Many Things|DMG} can have sources added with a pipe, {@deck Deck of Many Things|DMG|and optional link text added with another pipe}.",
-								"Cards: {@card Vizier|Deck of Many Things} assumes DMG by default, {@card Vizier|Deck of Many Things|DMG} can have sources added with a pipe, {@card Vizier|Deck of Many Things|DMG|and optional link text added with another pipe}."
+								"Cards: {@card Vizier|Deck of Many Things} assumes DMG by default, {@card Vizier|Deck of Many Things|DMG} can have sources added with a pipe, {@card Vizier|Deck of Many Things|DMG|and optional link text added with another pipe}.",
+								"Item properties: {@itemProperty F} assumes Player's Handbook by default, {@itemProperty F|PHB} can have sources added with a pipe, {@itemProperty F|PHB|and optional link text added with another pipe}.",
+								"Recipes: {@recipe Elven Bread} assumes Heroes' Feast by default, {@recipe Barovian Garlic Bread|HFFotM} can have sources added with a pipe, {@recipe Barovian Garlic Bread|HFFotM|and optional link text added with another pipe}.",
+								"Crochet Patterns: {@crochet Bag of Holding} assumes Crochet: A Book of Many Patterns by default, {@crochet Bag of Holding|CaBoMP} can have sources added with a pipe, {@crochet Bag of Holding|CaBoMP|and optional link text added with another pipe}."
 							]
 						},
 						{
@@ -135,6 +137,7 @@
 									"items": [
 										"Internal links: {@5etools This Is Your Life|lifegen.html}",
 										"Internal \"img\" links (i.e., anything in {@link https://github.com/5etools-mirror-3/5etools-img}): {@5etoolsImg Players Handbook Cover|covers/PHB.webp}; {@5etoolsImg Human Paladin sheet|pdf/DoSI/Human-Paladin.pdf}",
+										"Internal \"audio\" links (i.e., anything in {@link https://github.com/5etools-mirror-3/5etools-src/tree/main/audio}): {@5etoolsAudio Saltmarsh Shanty|adventure/GoS/saltmarsh-shanty.mp3}",
 										"External links: {@link https://discord.gg/5etools} or {@link Discord|https://discord.gg/5etools}"
 									]
 								},
@@ -753,7 +756,7 @@
 								],
 								"soundClip": {
 									"type": "internal",
-									"path": "bestiary/unicorn.mp3"
+									"path": "bestiary/unicorn.opus"
 								},
 								"traitTags": [
 									"Charge",
@@ -855,7 +858,8 @@
 							"type": "statblock",
 							"prop": "subclass",
 							"source": "PHB",
-							"name": "Wild",
+							"name": "Wild Magic",
+							"shortName": "Wild",
 							"displayName": "Wild Magic Sorcerer",
 							"className": "Sorcerer",
 							"classSource": "PHB",

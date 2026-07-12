@@ -1,4 +1,4 @@
-import {AttachedSpellChargesTag, AttachedSpellTag, BasicTextClean, BonusTag, ChargeTag, ConditionImmunityTag, DamageImmunityTag, DamageResistanceTag, DamageVulnerabilityTag, ItemMiscTag, ItemOtherTagsTag, ItemSpellcastingFocusTag, LightTag, RechargeAmountTag, RechargeTypeTag, ReqAttuneTagTag} from "./converterutils-item.js";
+import {AttachedSpellChargesTag, AttachedSpellTag, BasicTextClean, BonusTag, ChargeTag, ConditionImmunityTag, DamageImmunityTag, DamageResistanceTag, DamageVulnerabilityTag, InstrumentBaseItemTag, ItemMiscTag, ItemOtherTagsTag, ItemSpellcastingFocusTag, LightTag, RechargeAmountTag, RechargeTypeTag, ReqAttuneTagTag} from "./converterutils-item.js";
 import {ConverterBase} from "./converter-base.js";
 import {ArtifactPropertiesTag, TagCondition} from "./converterutils-tags.js";
 import {TagJsons} from "./converterutils-entries.js";
@@ -8,9 +8,29 @@ import {SITE_STYLE__CLASSIC} from "../consts.js";
 import {PropOrder} from "../utils-proporder.js";
 
 export class ConverterItem extends ConverterBase {
+	static _ALL_ITEMS = null;
+	static _ALL_CLASSES = null;
+	static _MAPPED_ITEM_NAMES = {
+		"studded leather": "studded leather armor",
+		"leather": "leather armor",
+		"scale": "scale mail",
+	};
+
+	static _getLookupArmorName (name) {
+		return name.toLowerCase().trim().replace(/ armor$/i, "");
+	}
+
 	static init (itemData, classData) {
 		ConverterItem._ALL_ITEMS = itemData;
 		ConverterItem._ALL_CLASSES = classData.class;
+
+		itemData
+			.filter(itm => Renderer.item.isMundane(itm) && itm.type && [Parser.ITM_TYP_ABV__HEAVY_ARMOR, Parser.ITM_TYP_ABV__LIGHT_ARMOR, Parser.ITM_TYP_ABV__MEDIUM_ARMOR].includes(DataUtil.itemType.unpackUid(itm.type).abbreviation) && [Parser.SRC_PHB].includes(itm.source))
+			.forEach(itm => {
+				this._GENERIC_REQUIRES_LOOKUP_ARMOR[this._getLookupArmorName(itm.name)] = [{"name": itm.name, "source": Parser.SRC_PHB}];
+
+				this._GENERIC_EXCLUDES_LOOKUP_ARMOR[this._getLookupArmorName(itm.name)] = {"name": itm.name};
+			});
 	}
 
 	static getItem (itemName) {
@@ -99,6 +119,8 @@ export class ConverterItem extends ConverterBase {
 
 	// SHARED UTILITY FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////
 	static _doItemPostProcess (stats, options) {
+		this._doPostProcess_removePage(stats, options);
+
 		TagCondition.tryTagConditions(stats, {styleHint: options.styleHint});
 		ArtifactPropertiesTag.tryRun(stats);
 		if (stats.entries) {
@@ -128,6 +150,7 @@ export class ConverterItem extends ConverterBase {
 		AttachedSpellTag.tryRun(stats);
 		AttachedSpellChargesTag.tryRun(stats);
 		LightTag.tryRun(stats);
+		InstrumentBaseItemTag.tryRun(stats);
 
 		// TODO
 		//  - tag damage type?
@@ -142,41 +165,6 @@ export class ConverterItem extends ConverterBase {
 	// SHARED PARSING FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////
 	static _setCleanTaglineInfo (stats, curLine, options) {
 		const parts = curLine.trim().split(StrUtil.COMMAS_NOT_IN_PARENTHESES_REGEX).map(it => it.trim()).filter(Boolean);
-
-		const handlePartRarity = (rarity) => {
-			rarity = rarity.trim().toLowerCase();
-			switch (rarity) {
-				case "common": stats.rarity = rarity; return true;
-				case "uncommon": stats.rarity = rarity; return true;
-				case "rare": stats.rarity = rarity; return true;
-				case "very rare": stats.rarity = rarity; return true;
-				case "legendary": stats.rarity = rarity; return true;
-				case "artifact": stats.rarity = rarity; return true;
-				case "varies":
-				case "rarity varies": {
-					stats.rarity = "varies";
-					stats.__prop = "itemGroup";
-					return true;
-				}
-				case "unknown rarity": {
-					// Make a best-guess as to whether or not the item is magical
-					if (stats.wondrous || stats.staff) stats.rarity = "unknown (magic)";
-					if (
-						stats.type
-						&& [
-							Parser.ITM_TYP_ABV__POTION,
-							Parser.ITM_TYP_ABV__RING,
-							Parser.ITM_TYP_ABV__ROD,
-							Parser.ITM_TYP_ABV__WAND,
-							Parser.ITM_TYP_ABV__SCROLL,
-						].includes(DataUtil.itemType.unpackUid(stats.type).abbreviation)
-					) return "unknown (magic)";
-					else stats.rarity = "unknown";
-					return true;
-				}
-			}
-			return false;
-		};
 
 		let baseItem = null;
 
@@ -201,14 +189,14 @@ export class ConverterItem extends ConverterBase {
 
 			// region rarity/attunement
 			// Check if the part is an exact match for a rarity string
-			const isHandledRarity = handlePartRarity(partLower);
+			const isHandledRarity = this._setCleanTaglineInfo_handlePartRarity({stats, rarity: partLower});
 			if (isHandledRarity) continue;
 
 			if (partLower.includes("(requires attunement")) {
 				const [rarityRaw, ...rest] = part.split("(");
 				const rarity = rarityRaw.trim().toLowerCase();
 
-				const isHandledRarity = rarity ? handlePartRarity(rarity) : true;
+				const isHandledRarity = rarity ? this._setCleanTaglineInfo_handlePartRarity({stats, rarity: rarity}) : true;
 				if (!isHandledRarity) options.cbWarning(`${stats.name ? `(${stats.name}) ` : ""}Rarity "${rarityRaw}" requires manual conversion`);
 
 				let attunement = rest.join("(");
@@ -216,7 +204,7 @@ export class ConverterItem extends ConverterBase {
 				if (!attunement) {
 					stats.reqAttune = true;
 				} else {
-					stats.reqAttune = attunement.toLowerCase();
+					stats.reqAttune = attunement;
 				}
 
 				// if specific attunement is required, absorb any further parts which are class names
@@ -255,16 +243,14 @@ export class ConverterItem extends ConverterBase {
 					stats.type = Parser.ITM_TYP__ROD;
 				}
 
-				if (mBaseWeapon.groups.ptParens === "spear or javelin") {
-					(stats.requires ||= []).push(...this._setCleanTaglineInfo_getGenericRequires({stats, str: "spear", options}));
-					stats.__genericType = true;
-					continue;
-				}
-
 				const ptsParens = ConverterUtils.splitConjunct(mBaseWeapon.groups.ptParens);
+				const ptsParensNoAny = ptsParens.map(pt => pt.replace(/^any /i, ""));
 
-				if (ptsParens.length > 1 && ptsParens.every(pt => this._GENERIC_REQUIRES_LOOKUP_WEAPON[pt.toLowerCase()])) {
-					ptsParens.forEach(pt => {
+				if (
+					ptsParensNoAny.every(pt => this._GENERIC_REQUIRES_LOOKUP_WEAPON_CATEGORY[pt.toLowerCase()])
+					|| (ptsParensNoAny.length > 1 && ptsParensNoAny.every(pt => this._GENERIC_REQUIRES_LOOKUP_WEAPON[pt.toLowerCase()]))
+				) {
+					ptsParensNoAny.forEach(pt => {
 						(stats.requires ||= []).push(
 							...this._setCleanTaglineInfo_getGenericRequires({stats, str: pt, options}),
 						);
@@ -299,8 +285,17 @@ export class ConverterItem extends ConverterBase {
 
 				const ptsParens = ConverterUtils.splitConjunct(mBaseArmor.groups.type);
 
-				if (ptsParens.length > 1 && ptsParens.every(pt => this._GENERIC_REQUIRES_LOOKUP_ARMOR[pt.toLowerCase()])) {
-					ptsParens.forEach(pt => {
+				const ptsParensClean = ptsParens.map(pt => this._getLookupArmorName(pt));
+
+				const [ptsInclude, ptsExclude] = ptsParensClean.segregate(pt => !/^\bbut not\b/i.test(pt))
+					.map((arr, i) => !i ? arr : arr.map(pt => pt.replace(/^\bbut not\b/i, "").trim()));
+
+				if (
+					ptsParensClean.length > 1
+					&& ptsInclude.every(pt => this._GENERIC_REQUIRES_LOOKUP_ARMOR[pt.toLowerCase()])
+					&& ptsExclude.every(pt => this._GENERIC_EXCLUDES_LOOKUP_ARMOR[pt.toLowerCase()])
+				) {
+					ptsInclude.forEach(pt => {
 						(stats.requires ||= []).push(
 							...this._setCleanTaglineInfo_getGenericRequires({stats, str: pt, options}),
 						);
@@ -320,6 +315,41 @@ export class ConverterItem extends ConverterBase {
 		}
 
 		this._setCleanTaglineInfo_handleBaseItem(stats, baseItem, options);
+	}
+
+	static _setCleanTaglineInfo_handlePartRarity ({stats, rarity}) {
+		rarity = rarity.trim().toLowerCase();
+		switch (rarity) {
+			case "common": stats.rarity = rarity; return true;
+			case "uncommon": stats.rarity = rarity; return true;
+			case "rare": stats.rarity = rarity; return true;
+			case "very rare": stats.rarity = rarity; return true;
+			case "legendary": stats.rarity = rarity; return true;
+			case "artifact": stats.rarity = rarity; return true;
+			case "varies":
+			case "rarity varies": {
+				stats.rarity = "varies";
+				stats.__prop = "itemGroup";
+				return true;
+			}
+			case "unknown rarity": {
+				// Make a best-guess as to whether or not the item is magical
+				if (stats.wondrous || stats.staff) stats.rarity = "unknown (magic)";
+				if (
+					stats.type
+					&& [
+						Parser.ITM_TYP_ABV__POTION,
+						Parser.ITM_TYP_ABV__RING,
+						Parser.ITM_TYP_ABV__ROD,
+						Parser.ITM_TYP_ABV__WAND,
+						Parser.ITM_TYP_ABV__SCROLL,
+					].includes(DataUtil.itemType.unpackUid(stats.type).abbreviation)
+				) return "unknown (magic)";
+				else stats.rarity = "unknown";
+				return true;
+			}
+		}
+		return false;
 	}
 
 	static _GENERIC_CATEGORY_TO_PROP = {
@@ -453,7 +483,7 @@ export class ConverterItem extends ConverterBase {
 		stats.baseItem = `${baseItem.name.toLowerCase()}${baseItem.source === Parser.SRC_DMG ? "" : `|${baseItem.source}`}`;
 	}
 
-	static _GENERIC_REQUIRES_LOOKUP_WEAPON = {
+	static _GENERIC_REQUIRES_LOOKUP_WEAPON_NAMED = {
 		"weapon": [{"weapon": true}],
 		"sword": [{"sword": true}],
 		"axe": [{"axe": true}],
@@ -470,13 +500,17 @@ export class ConverterItem extends ConverterBase {
 		"mace": [{"mace": true}],
 		"staff": [{"staff": true}],
 
-		"ammunition": [{"type": Parser.ITM_TYP__AMMUNITION}, {"type": Parser.ITM_TYP__AMMUNITION_FUTURISTIC}],
 		"arrow": [{"arrow": true}],
 		"bolt": [{"bolt": true}],
-		"arrow or bolt": [{"arrow": true}, {"bolt": true}],
+	};
+
+	static _GENERIC_REQUIRES_LOOKUP_WEAPON_CATEGORY = {
+		"ammunition": [{"type": Parser.ITM_TYP__AMMUNITION}, {"type": Parser.ITM_TYP__AMMUNITION_FUTURISTIC}],
 
 		"melee": [{"type": Parser.ITM_TYP__MELEE_WEAPON}],
 		"martial weapon": [{"weaponCategory": "martial"}],
+
+		"simple melee weapon": [{"weaponCategory": "simple", "type": Parser.ITM_TYP__MELEE_WEAPON}],
 
 		"bludgeoning": [{"dmgType": "B"}],
 		"weapon that deals bludgeoning damage": [{"dmgType": "B"}],
@@ -484,13 +518,26 @@ export class ConverterItem extends ConverterBase {
 		"slashing": [{"dmgType": "S"}],
 
 		"melee bludgeoning weapon": [{"type": Parser.ITM_TYP__MELEE_WEAPON, "dmgType": "B"}],
+
+		"martial with the ammunition property": [{"weaponCategory": "martial", "property": Parser.ITM_PROP__AMMUNITION}],
+		"martial with the thrown property": [{"weaponCategory": "martial", "property": Parser.ITM_PROP__THROWN}],
+	};
+
+	static _GENERIC_REQUIRES_LOOKUP_WEAPON = {
+		...this._GENERIC_REQUIRES_LOOKUP_WEAPON_NAMED,
+		...this._GENERIC_REQUIRES_LOOKUP_WEAPON_CATEGORY,
 	};
 
 	static _GENERIC_REQUIRES_LOOKUP_ARMOR = {
-		"light": [{"type": Parser.ITM_TYP__LIGHT_ARMOR}],
-		"medium": [{"type": Parser.ITM_TYP__MEDIUM_ARMOR}],
-		"heavy": [{"type": Parser.ITM_TYP__HEAVY_ARMOR}],
-		"hide": [{"name": "Hide Armor", "source": Parser.SRC_PHB}],
+		"light": ({styleHint}) => [{"type": styleHint === SITE_STYLE__ONE ? Parser.ITM_TYP__ODND_LIGHT_ARMOR : Parser.ITM_TYP__LIGHT_ARMOR}],
+		"medium": ({styleHint}) => [{"type": styleHint === SITE_STYLE__ONE ? Parser.ITM_TYP__ODND_MEDIUM_ARMOR : Parser.ITM_TYP__MEDIUM_ARMOR}],
+		"heavy": ({styleHint}) => [{"type": styleHint === SITE_STYLE__ONE ? Parser.ITM_TYP__ODND_HEAVY_ARMOR : Parser.ITM_TYP__HEAVY_ARMOR}],
+
+		// (Additionally populated during `init`)
+	};
+
+	static _GENERIC_EXCLUDES_LOOKUP_ARMOR = {
+		// (Populated during `init`)
 	};
 
 	static _setCleanTaglineInfo_getGenericRequires ({stats, str, options}) {
@@ -601,6 +648,8 @@ export class ConverterItem extends ConverterBase {
 		[
 			"reprintedAs",
 			"edition",
+			"otherSources",
+			"referenceSources",
 		]
 			.forEach(prop => delete stats[prop]);
 		// endregion

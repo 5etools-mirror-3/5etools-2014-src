@@ -98,6 +98,7 @@
 				}
 			},
 			"tokenCredit": "@hamosart",
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true
 		},
@@ -309,10 +310,8 @@
 			"isNamedCreature": true,
 			"source": "ToFW",
 			"page": 10,
-			"otherSources": [
-				{
-					"source": "MPP"
-				}
+			"referenceSources": [
+				"MPP"
 			],
 			"size": [
 				"T"

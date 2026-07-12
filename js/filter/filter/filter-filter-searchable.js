@@ -1,31 +1,27 @@
-import {Filter} from "./filter-filter-generic.js";
+import {CompSearch, Filter} from "./filter-filter-generic.js";
 import {PILL_STATE__IGNORE, PILL_STATE__NO, PILL_STATE__YES} from "../filter-constants.js";
+
+class _CompSearchSearchable extends CompSearch {
+	_getDefaultState () {
+		return {
+			...super._getDefaultState(),
+			search: "",
+		};
+	}
+}
 
 export class SearchableFilter extends Filter {
 	constructor (opts) {
-		super(opts);
-
-		this._compSearch = BaseComponent.fromObject({
-			search: "",
-			searchTermParent: "",
-		});
-	}
-
-	handleSearch (searchTerm) {
-		const out = super.handleSearch(searchTerm);
-
-		this._compSearch._state.searchTermParent = searchTerm;
-
-		return out;
+		super({...opts, compSearch: new _CompSearchSearchable()});
 	}
 
 	_getPill (item) {
 		const btnPill = super._getPill(item);
 
 		const hkIsVisible = () => {
-			if (this._compSearch._state.searchTermParent) return btnPill.toggleClass("fltr__hidden--inactive", false);
+			if (this._compSearch._state.searchTermParent) return btnPill.toggleClass("ve-fltr__hidden--inactive", false);
 
-			btnPill.toggleClass("fltr__hidden--inactive", this._state[item.item] === PILL_STATE__IGNORE);
+			btnPill.toggleClass("ve-fltr__hidden--inactive", this._state[item.item] === PILL_STATE__IGNORE);
 		};
 		this._addHook("state", item.item, hkIsVisible);
 		this._compSearch._addHookBase("searchTermParent", hkIsVisible);
@@ -47,13 +43,13 @@ export class SearchableFilter extends Filter {
 		this._state[item.item] = PILL_STATE__IGNORE;
 	}
 
-	_$render_getRowBtn ({fnsCleanup, $iptSearch, item, subtype, state}) {
+	_render_getRowBtn ({fnsCleanup, iptSearch, item, subtype, state}) {
 		const handleClick = evt => {
 			evt.stopPropagation();
 			evt.preventDefault();
 
 			// Keep the dropdown open
-			$iptSearch.focus();
+			iptSearch.focuse();
 
 			if (evt.shiftKey) {
 				this._doSetPillsClear();
@@ -65,7 +61,7 @@ export class SearchableFilter extends Filter {
 
 		const btn = e_({
 			tag: "div",
-			clazz: `no-shrink clickable fltr-search__btn-activate fltr-search__btn-activate--${subtype} ve-flex-vh-center`,
+			clazz: `ve-no-shrink ve-clickable ve-fltr-search__btn-activate ve-fltr-search__btn-activate--${subtype} ve-flex-vh-center`,
 			click: evt => handleClick(evt),
 			contextmenu: evt => handleClick(evt),
 			mousedown: evt => {
@@ -84,48 +80,48 @@ export class SearchableFilter extends Filter {
 		return btn;
 	}
 
-	$render (opts) {
-		const $out = super.$render(opts);
+	render (opts) {
+		const out = super.render(opts);
 
-		const $iptSearch = ComponentUiUtil.$getIptStr(
+		const iptSearch = ComponentUiUtil.getIptStr(
 			this._compSearch,
 			"search",
 			{
-				html: `<input class="form-control form-control--minimal input-xs" placeholder="Search...">`,
+				html: `<input class="ve-form-control form-control--minimal ve-input-xs" placeholder="Search...">`,
 			},
 		);
 
 		const wrpValues = e_({
 			tag: "div",
-			clazz: "ve-overflow-y-auto bt-0 absolute fltr-search__wrp-values",
+			clazz: "ve-overflow-y-auto ve-bt-0 ve-absolute ve-fltr-search__wrp-values",
 		});
 
 		const fnsCleanup = [];
 		const rowMetas = [];
 
-		this._$render_bindSearchHandler_keydown({$iptSearch, fnsCleanup, rowMetas});
-		this._$render_bindSearchHandler_focus({$iptSearch, fnsCleanup, rowMetas, wrpValues});
-		this._$render_bindSearchHandler_blur({$iptSearch});
+		this._render_bindSearchHandler_keydown({iptSearch, fnsCleanup, rowMetas});
+		this._render_bindSearchHandler_focus({iptSearch, fnsCleanup, rowMetas, wrpValues});
+		this._render_bindSearchHandler_blur({iptSearch});
 
-		const $wrp = $$`<div class="fltr-search__wrp-search ve-flex-col relative mt-1 mx-2p mb-1">
-			${$iptSearch}
+		const wrp = ee`<div class="ve-fltr-search__wrp-search ve-flex-col ve-relative ve-mt-1 ve-mx-2p ve-mb-1">
+			${iptSearch}
 			${wrpValues}
 		</div>`.prependTo(this.__wrpPills);
 
 		const hkParentSearch = () => {
-			$wrp.toggleVe(!this._compSearch._state.searchTermParent);
+			wrp.toggleVe(!this._compSearch._state.searchTermParent);
 		};
 		this._compSearch._addHookBase("searchTermParent", hkParentSearch);
 		hkParentSearch();
 
-		return $out;
+		return out;
 	}
 
-	_$render_bindSearchHandler_keydown ({$iptSearch, rowMetas}) {
-		$iptSearch
-			.on("keydown", evt => {
+	_render_bindSearchHandler_keydown ({iptSearch, rowMetas}) {
+		iptSearch
+			.onn("keydown", evt => {
 				switch (evt.key) {
-					case "Escape": evt.stopPropagation(); return $iptSearch.blur();
+					case "Escape": evt.stopPropagation(); return iptSearch.blur();
 
 					case "ArrowDown": {
 						evt.preventDefault();
@@ -140,16 +136,16 @@ export class SearchableFilter extends Filter {
 						if (!visibleRowMetas.length) return;
 						if (evt.shiftKey) this._doSetPillsClear();
 						this._state[visibleRowMetas[0].item.item] = (EventUtil.isCtrlMetaKey(evt)) ? PILL_STATE__NO : PILL_STATE__YES;
-						$iptSearch.blur();
+						iptSearch.blure();
 						break;
 					}
 				}
 			});
 	}
 
-	_$render_bindSearchHandler_focus ({$iptSearch, fnsCleanup, rowMetas, wrpValues}) {
-		$iptSearch
-			.on("focus", () => {
+	_render_bindSearchHandler_focus ({iptSearch, fnsCleanup, rowMetas, wrpValues}) {
+		iptSearch
+			.onn("focus", () => {
 				fnsCleanup
 					.splice(0, fnsCleanup.length)
 					.forEach(fn => fn());
@@ -160,48 +156,48 @@ export class SearchableFilter extends Filter {
 
 				rowMetas.push(
 					...this._items
-						.map(item => this._$render_bindSearchHandler_focus_getRowMeta({$iptSearch, fnsCleanup, rowMetas, wrpValues, item})),
+						.map(item => this._render_bindSearchHandler_focus_getRowMeta({iptSearch, fnsCleanup, rowMetas, wrpValues, item})),
 				);
 
-				this._$render_bindSearchHandler_focus_addHookSearch({rowMetas, fnsCleanup});
+				this._render_bindSearchHandler_focus_addHookSearch({rowMetas, fnsCleanup});
 
 				wrpValues.scrollIntoView({block: "nearest", inline: "nearest"});
 			});
 	}
 
-	_$render_bindSearchHandler_focus_getRowMeta ({$iptSearch, fnsCleanup, rowMetas, wrpValues, item}) {
+	_render_bindSearchHandler_focus_getRowMeta ({iptSearch, fnsCleanup, rowMetas, wrpValues, item}) {
 		const dispName = this._getDisplayText(item);
 
 		const eleName = e_({
 			tag: "div",
-			clazz: "fltr-search__disp-name ml-2",
+			clazz: "ve-fltr-search__disp-name ve-ml-2",
 		});
 
-		const btnBlue = this._$render_getRowBtn({
+		const btnBlue = this._render_getRowBtn({
 			fnsCleanup,
-			$iptSearch,
+			iptSearch,
 			item,
 			subtype: "yes",
 			state: PILL_STATE__YES,
 		});
-		btnBlue.addClass("br-0");
-		btnBlue.addClass("btr-0");
-		btnBlue.addClass("bbr-0");
+		btnBlue.addClass("ve-br-0");
+		btnBlue.addClass("ve-btr-0");
+		btnBlue.addClass("ve-bbr-0");
 
-		const btnRed = this._$render_getRowBtn({
+		const btnRed = this._render_getRowBtn({
 			fnsCleanup,
-			$iptSearch,
+			iptSearch,
 			item,
 			subtype: "no",
 			state: PILL_STATE__NO,
 		});
-		btnRed.addClass("bl-0");
-		btnRed.addClass("btl-0");
-		btnRed.addClass("bbl-0");
+		btnRed.addClass("ve-bl-0");
+		btnRed.addClass("ve-btl-0");
+		btnRed.addClass("ve-bbl-0");
 
 		const row = e_({
 			tag: "div",
-			clazz: "py-1p px-2 ve-flex-v-center fltr-search__wrp-row",
+			clazz: "ve-py-1p ve-px-2 ve-flex-v-center ve-fltr-search__wrp-row",
 			children: [
 				btnBlue,
 				btnRed,
@@ -231,7 +227,7 @@ export class SearchableFilter extends Filter {
 						const ixCur = visibleRowMetas.indexOf(out);
 						const prev = visibleRowMetas[ixCur - 1];
 						if (prev) return prev.row.focus();
-						$iptSearch.focus();
+						iptSearch.focuse();
 						break;
 					}
 
@@ -258,7 +254,7 @@ export class SearchableFilter extends Filter {
 		return out;
 	}
 
-	_$render_bindSearchHandler_focus_addHookSearch ({rowMetas, fnsCleanup}) {
+	_render_bindSearchHandler_focus_addHookSearch ({rowMetas, fnsCleanup}) {
 		const hkSearch = () => {
 			const searchTerm = this._compSearch._state.search.toLowerCase();
 
@@ -287,9 +283,9 @@ export class SearchableFilter extends Filter {
 		fnsCleanup.push(() => this._compSearch._removeHookBase("search", hkSearch));
 	}
 
-	_$render_bindSearchHandler_blur ({$iptSearch}) {
-		$iptSearch
-			.on("blur", () => {
+	_render_bindSearchHandler_blur ({iptSearch}) {
+		iptSearch
+			.onn("blur", () => {
 				this._compSearch._state.search = "";
 			});
 	}

@@ -4,6 +4,9 @@
 			"name": "Ancient Deep Crow",
 			"source": "AI",
 			"page": 211,
+			"referenceSources": [
+				"OoW"
+			],
 			"size": [
 				"H"
 			],
@@ -71,7 +74,7 @@
 				{
 					"name": "Shadow Stealth",
 					"entries": [
-						"While in dim light or darkness, the ancient deep crow can take the Hide action as a bonus action."
+						"While in dim light or darkness, the ancient deep crow can take the {@action Hide} action as a bonus action."
 					]
 				}
 			],
@@ -145,6 +148,7 @@
 				"Y"
 			],
 			"miscTags": [
+				"AOE",
 				"MW",
 				"RCH"
 			],
@@ -433,6 +437,9 @@
 			"name": "Chaos Quadrapod",
 			"source": "AI",
 			"page": 209,
+			"referenceSources": [
+				"OoW"
+			],
 			"size": [
 				"L"
 			],
@@ -534,6 +541,9 @@
 			"name": "Clockwork Dragon",
 			"source": "AI",
 			"page": 209,
+			"referenceSources": [
+				"OoW"
+			],
 			"size": [
 				"M"
 			],
@@ -701,7 +711,7 @@
 				{
 					"name": "Shadow Stealth",
 					"entries": [
-						"While in dim light or darkness, the deep crow can take the Hide action as a bonus action."
+						"While in dim light or darkness, the deep crow can take the {@action Hide} action as a bonus action."
 					]
 				},
 				{
@@ -937,6 +947,9 @@
 			"isNamedCreature": true,
 			"source": "AI",
 			"page": 200,
+			"referenceSources": [
+				"OoW"
+			],
 			"size": [
 				"M"
 			],
@@ -1095,6 +1108,9 @@
 			"isNamedCreature": true,
 			"source": "AI",
 			"page": 197,
+			"referenceSources": [
+				"OoW"
+			],
 			"size": [
 				"M"
 			],
@@ -1274,7 +1290,11 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					"elf"
+					{
+						"tag": "elf",
+						"prefix": "Drow",
+						"prefixHidden": true
+					}
 				]
 			},
 			"alignment": [
@@ -1464,6 +1484,9 @@
 			"name": "Keg Robot",
 			"source": "AI",
 			"page": 212,
+			"referenceSources": [
+				"OoW"
+			],
 			"size": [
 				"M"
 			],
@@ -1598,6 +1621,9 @@
 			"isNamedCreature": true,
 			"source": "AI",
 			"page": 199,
+			"referenceSources": [
+				"OoW"
+			],
 			"size": [
 				"M"
 			],
@@ -1909,6 +1935,9 @@
 			"isNamedCreature": true,
 			"source": "AI",
 			"page": 196,
+			"referenceSources": [
+				"OoW"
+			],
 			"size": [
 				"M"
 			],
@@ -2530,6 +2559,9 @@
 			"name": "Prophetess Dran",
 			"source": "AI",
 			"page": 208,
+			"referenceSources": [
+				"OoW"
+			],
 			"size": [
 				"M"
 			],
@@ -2850,6 +2882,9 @@
 			"name": "Splugoth the Returned",
 			"source": "AI",
 			"page": 213,
+			"referenceSources": [
+				"OoW"
+			],
 			"size": [
 				"S"
 			],
@@ -2912,7 +2947,7 @@
 				{
 					"name": "Nimble Escape",
 					"entries": [
-						"Splugoth can take the Disengage or Hide action as a bonus action on each of his turns."
+						"Splugoth can take the {@action Disengage} or {@action Hide} action as a bonus action on each of his turns."
 					]
 				},
 				{
@@ -2988,6 +3023,9 @@
 			"isNamedCreature": true,
 			"source": "AI",
 			"page": 198,
+			"referenceSources": [
+				"OoW"
+			],
 			"size": [
 				"M"
 			],

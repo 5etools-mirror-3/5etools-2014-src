@@ -870,8 +870,8 @@
 									"grid": {
 										"type": "square",
 										"size": 150,
-										"offsetX": -57,
-										"distance": 10
+										"offsetX": -114,
+										"scale": 2
 									},
 									"title": "Map 4.1: The House of Lament",
 									"width": 4000,
@@ -3181,8 +3181,8 @@
 									"grid": {
 										"type": "square",
 										"size": 150,
-										"offsetX": -60,
-										"distance": 10
+										"offsetX": -120,
+										"scale": 2
 									},
 									"title": "Player Version",
 									"width": 4000,
@@ -4320,7 +4320,7 @@
 										"Creaking stairs lead into a damp, cobweb-draped cellar containing dusty racks and eight-foot-tall wine tuns. One of the casks has burst, covering the stone floor in crimson stains."
 									]
 								},
-								"All three wine tuns are empty, though the one farthest from the stairs looks as though something burst from within. The racks are packed with bottles bearing obscure names, such as \"Purple Grapemash No. 3\" and \"Ludendorf Arsenic Wine.\" All the wine either leaked or spoiled long ago.",
+								"All three wine tuns are empty, though the one farthest from the stairs looks as though something burst from within. The racks are packed with bottles bearing obscure names, such as \"{@recipe Purple Grapemash No. 3|HFFotM}\" and \"Ludendorf Arsenic Wine.\" All the wine either leaked or spoiled long ago.",
 								{
 									"type": "entries",
 									"id": "557",

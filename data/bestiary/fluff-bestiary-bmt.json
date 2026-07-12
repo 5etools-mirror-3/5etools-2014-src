@@ -54,7 +54,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Ambitious Assassin.webp"
-					}
+					},
+					"width": 577,
+					"height": 1000
 				}
 			]
 		},
@@ -87,7 +89,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Aspirant of the Comet.webp"
-					}
+					},
+					"width": 323,
+					"height": 1000
 				}
 			]
 		},
@@ -110,7 +114,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Asteria.webp"
-					}
+					},
+					"width": 386,
+					"height": 1000
 				}
 			]
 		},
@@ -170,7 +176,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Aurnozci.webp"
-					}
+					},
+					"width": 376,
+					"height": 1000
 				}
 			]
 		},
@@ -194,7 +202,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Boss Augustus.webp"
-					}
+					},
+					"width": 443,
+					"height": 1000
 				}
 			]
 		},
@@ -217,7 +227,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Boss Delour.webp"
-					}
+					},
+					"width": 641,
+					"height": 1000
 				}
 			]
 		},
@@ -239,7 +251,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Breath Drinker.webp"
-					}
+					},
+					"width": 654,
+					"height": 1000
 				}
 			]
 		},
@@ -253,7 +267,9 @@
 						"type": "internal",
 						"path": "bestiary/BMT/Deck Defender.webp"
 					},
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 1700,
+					"height": 1079
 				}
 			]
 		},
@@ -298,7 +314,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Enchanting Infiltrator.webp"
-					}
+					},
+					"width": 827,
+					"height": 1000
 				}
 			]
 		},
@@ -320,7 +338,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Euryale.webp"
-					}
+					},
+					"width": 727,
+					"height": 1000
 				}
 			]
 		},
@@ -342,7 +362,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Fate Hag.webp"
-					}
+					},
+					"width": 699,
+					"height": 1000
 				}
 			]
 		},
@@ -389,7 +411,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Grim Champion of Bloodshed.webp"
-					}
+					},
+					"width": 586,
+					"height": 1000
 				}
 			]
 		},
@@ -424,7 +448,9 @@
 						"type": "internal",
 						"path": "bestiary/BMT/Grim Champion of Desolation.webp"
 					},
-					"credit": "Domenico Cava"
+					"credit": "Domenico Cava",
+					"width": 734,
+					"height": 1000
 				}
 			]
 		},
@@ -458,7 +484,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Grim Champion of Pestilence.webp"
-					}
+					},
+					"width": 751,
+					"height": 1000
 				}
 			]
 		},
@@ -480,7 +508,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Harrow Hawk.webp"
-					}
+					},
+					"width": 818,
+					"height": 1000
 				}
 			]
 		},
@@ -502,7 +532,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Harrow Hound.webp"
-					}
+					},
+					"width": 1000,
+					"height": 969
 				}
 			]
 		},
@@ -585,7 +617,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Hierophant Medusa.webp"
-					}
+					},
+					"width": 776,
+					"height": 1000
 				}
 			]
 		},
@@ -608,7 +642,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Hierophant of the Comet.webp"
-					}
+					},
+					"width": 389,
+					"height": 1000
 				}
 			]
 		},
@@ -630,7 +666,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Hulgaz.webp"
-					}
+					},
+					"width": 831,
+					"height": 1000
 				}
 			]
 		},
@@ -651,7 +689,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Initiate of the Comet.webp"
-					}
+					},
+					"width": 610,
+					"height": 1000
 				}
 			]
 		},
@@ -673,7 +713,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Living Portent.webp"
-					}
+					},
+					"width": 875,
+					"height": 1000
 				}
 			]
 		},
@@ -752,7 +794,9 @@
 						"type": "internal",
 						"path": "bestiary/BMT/Malaxxix.webp"
 					},
-					"credit": "Katerina Ladon"
+					"credit": "Katerina Ladon",
+					"width": 391,
+					"height": 1000
 				}
 			]
 		},
@@ -765,7 +809,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Minotaur Archaeologist.webp"
-					}
+					},
+					"width": 1000,
+					"height": 668
 				}
 			]
 		},
@@ -787,7 +833,9 @@
 						"type": "internal",
 						"path": "bestiary/BMT/Oddlewin.webp"
 					},
-					"credit": "Craig J spearing"
+					"credit": "Craig J spearing",
+					"width": 1000,
+					"height": 774
 				}
 			]
 		},
@@ -832,7 +880,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Otherworldly Corrupter.webp"
-					}
+					},
+					"width": 835,
+					"height": 1000
 				}
 			]
 		},
@@ -857,7 +907,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Pazrodine.webp"
-					}
+					},
+					"width": 1000,
+					"height": 646
 				}
 			]
 		},
@@ -878,7 +930,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Quadrone Detention Drone.webp"
-					}
+					},
+					"width": 850,
+					"height": 1000
 				}
 			]
 		},
@@ -901,7 +955,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Riffler.webp"
-					}
+					},
+					"width": 751,
+					"height": 1000
 				}
 			]
 		},
@@ -923,7 +979,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Ruin Spider.webp"
-					}
+					},
+					"width": 792,
+					"height": 1000
 				}
 			]
 		},
@@ -944,7 +1002,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Sir Jared.webp"
-					}
+					},
+					"width": 433,
+					"height": 1000
 				}
 			]
 		},
@@ -969,7 +1029,9 @@
 						"type": "internal",
 						"path": "bestiary/BMT/Solar Bastion Knight.webp"
 					},
-					"credit": "Zuzanna Wužyk"
+					"credit": "Zuzanna Wužyk",
+					"width": 1000,
+					"height": 743
 				}
 			]
 		},
@@ -991,7 +1053,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Talon Beast.webp"
-					}
+					},
+					"width": 892,
+					"height": 1000
 				}
 			]
 		},
@@ -1036,7 +1100,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Veiled Presence.webp"
-					}
+					},
+					"width": 722,
+					"height": 1000
 				}
 			]
 		},
@@ -1058,7 +1124,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BMT/Werevulture.webp"
-					}
+					},
+					"width": 865,
+					"height": 1000
 				}
 			]
 		}

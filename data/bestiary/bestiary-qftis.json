@@ -920,19 +920,27 @@
 				{
 					"name": "Grenade Launcher {@recharge 5}",
 					"entries": [
-						"The robot fires a grenade at a point it can see within 120 feet of itself. The grenade explodes in a 20-foot-radius sphere centered on that point, creating one of the following effects (robot's choice):"
-					]
-				},
-				{
-					"name": "Concussion Grenade",
-					"entries": [
-						"Each creature in the sphere must make a {@dc 15} Dexterity saving throw, taking 21 ({@damage 6d6}) force damage on a failed save or half as much damage on a successful one."
-					]
-				},
-				{
-					"name": "Sleep Grenade",
-					"entries": [
-						"Each creature in the sphere must succeed on a {@dc 15} Constitution saving throw or have the {@condition unconscious} condition for 1 hour. The condition ends on a creature early if the creature takes damage or if another creature uses an action to shake it awake."
+						"The robot fires a grenade at a point it can see within 120 feet of itself. The grenade explodes in a 20-foot-radius sphere centered on that point, creating one of the following effects (robot's choice):",
+						{
+							"type": "list",
+							"style": "list-hang-notitle",
+							"items": [
+								{
+									"type": "item",
+									"name": "Concussion Grenade",
+									"entries": [
+										"Each creature in the sphere must make a {@dc 15} Dexterity saving throw, taking 21 ({@damage 6d6}) force damage on a failed save or half as much damage on a successful one."
+									]
+								},
+								{
+									"type": "item",
+									"name": "Sleep Grenade",
+									"entries": [
+										"Each creature in the sphere must succeed on a {@dc 15} Constitution saving throw or have the {@condition unconscious} condition for 1 hour. The condition ends on a creature early if the creature takes damage or if another creature uses an action to shake it awake."
+									]
+								}
+							]
+						}
 					]
 				}
 			],
@@ -940,7 +948,7 @@
 				{
 					"name": "Emergency Speed (2/Day)",
 					"entries": [
-						"The robot takes the Dash or Disengage action."
+						"The robot takes the {@action Dash} or {@action Disengage} action."
 					]
 				}
 			],
@@ -1503,7 +1511,6 @@
 			"damageTags": [
 				"N",
 				"P",
-				"R",
 				"S"
 			],
 			"miscTags": [
@@ -2258,7 +2265,7 @@
 				{
 					"name": "Cunning Trick",
 					"entries": [
-						"The leprechaun takes the Disengage or Hide action or makes a Dexterity ({@skill Sleight of Hand}) check."
+						"The leprechaun takes the {@action Disengage} or {@action Hide} action or makes a Dexterity ({@skill Sleight of Hand}) check."
 					]
 				}
 			],
@@ -3030,6 +3037,7 @@
 			],
 			"miscTags": [
 				"CUR",
+				"HPR",
 				"MW"
 			],
 			"conditionInflict": [
@@ -3147,7 +3155,7 @@
 					"name": "Communal Spellcasting (2/Day)",
 					"type": "spellcasting",
 					"headerEntries": [
-						"The pech works with three or more pechs to cast spells, requiring no spell components and using Wisdom as the spellcasting ability (save {@dc 12}). If at least three other pechs are within 30 feet of it, the pech can cast {@spell Wall of Stone} . If at least seven other pechs are within 30 feet of it, it can cast {@spell Greater Restoration} . Each other pech involved in casting the spell can't have the incapacitated condition and must have at least one use of Communal Spellcasting remaining, which it must immediately expend to participate (no action required)."
+						"The pech works with three or more pechs to cast spells, requiring no spell components and using Wisdom as the spellcasting ability (save {@dc 12}). If at least three other pechs are within 30 feet of it, the pech can cast {@spell Wall of Stone}. If at least seven other pechs are within 30 feet of it, it can cast {@spell Greater Restoration}. Each other pech involved in casting the spell can't have the incapacitated condition and must have at least one use of Communal Spellcasting remaining, which it must immediately expend to participate (no action required)."
 					],
 					"daily": {
 						"2": [
@@ -4356,7 +4364,7 @@
 				{
 					"name": "Nimble Escape",
 					"entries": [
-						"The vegepygmy takes the Disengage or Hide action."
+						"The vegepygmy takes the {@action Disengage} or {@action Hide} action."
 					]
 				}
 			],

@@ -45,7 +45,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/RMBRE/000-intro-1.webp"
-					}
+					},
+					"width": 850,
+					"height": 540
 				}
 			]
 		},
@@ -72,7 +74,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/RMBRE/021-intro-14.webp"
-					}
+					},
+					"width": 641,
+					"height": 800
 				}
 			]
 		},
@@ -108,7 +112,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/RMBRE/Lycanthropickle.webp"
-					}
+					},
+					"width": 792,
+					"height": 1000
 				}
 			]
 		},
@@ -156,7 +162,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/RMBRE/015-intro-8.webp"
-					}
+					},
+					"width": 623,
+					"height": 800
 				}
 			]
 		}

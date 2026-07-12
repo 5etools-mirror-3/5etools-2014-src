@@ -4,6 +4,9 @@
 			"name": "Air Bubble",
 			"source": "AAG",
 			"page": 22,
+			"referenceSources": [
+				"LoX"
+			],
 			"level": 2,
 			"school": "C",
 			"time": [

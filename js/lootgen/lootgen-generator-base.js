@@ -5,12 +5,25 @@ import {LootGenMagicItem} from "./lootgen-magicitem.js";
 export class LootGenGeneratorBase extends BaseComponent {
 	identifier;
 
-	constructor ({ClsLootGenOutput, stateManager, outputManager, dataManager, ...rest}) {
+	constructor (
+		{
+			ClsLootGenOutput,
+			stateManager,
+			outputManager,
+			dataManager,
+			rendererWrapped,
+			...rest
+		},
+	) {
+		if (!rendererWrapped) throw new Error(`Missing required "rendererWrapped" option!`);
+
 		super({...rest});
+
 		this._ClsLootGenOutput = ClsLootGenOutput;
 		this._stateManager = stateManager;
 		this._outputManager = outputManager;
 		this._dataManager = dataManager;
+		this._rendererWrapped = rendererWrapped;
 	}
 
 	getSaveableStateProp () { return `comp${this.identifier.uppercaseFirst()}`; }
@@ -73,6 +86,7 @@ export class LootGenGeneratorBase extends BaseComponent {
 
 				if (!byType[type]) {
 					byType[type] = {
+						type,
 						breakdown: {},
 						count: 0,
 					};
@@ -93,10 +107,10 @@ export class LootGenGeneratorBase extends BaseComponent {
 				meta.breakdown[type2] = (meta.breakdown[type2] || 0) + 1;
 			});
 
-		return Object.entries(byType)
-			.map(([type, meta]) => {
+		return Object.values(byType)
+			.map(meta => {
 				return new LootGenOutputGemsArtObjects({
-					type,
+					type: meta.type,
 					typeRoll: null,
 					typeTable: lootMeta.typeTable,
 					count: meta.count,
@@ -134,6 +148,7 @@ export class LootGenGeneratorBase extends BaseComponent {
 					magicItemTable,
 					itemsAltChoose,
 					itemsAltChooseDisplayText,
+					rendererWrapped: this._rendererWrapped,
 					isItemsAltChooseRoll: fnGetIsPreferAltChoose ? fnGetIsPreferAltChoose() : false,
 					fnGetIsPreferAltChoose,
 				});
@@ -164,6 +179,7 @@ export class LootGenGeneratorBase extends BaseComponent {
 
 					if (!byType[type]) {
 						byType[type] = {
+							type,
 							breakdown: [],
 							count: 0,
 							typeTable: magicItemsObj.typeTable,
@@ -183,6 +199,7 @@ export class LootGenGeneratorBase extends BaseComponent {
 						magicItemTable,
 						itemsAltChoose,
 						itemsAltChooseDisplayText,
+						rendererWrapped: this._rendererWrapped,
 						isItemsAltChooseRoll: fnGetIsPreferAltChoose ? fnGetIsPreferAltChoose() : false,
 						fnGetIsPreferAltChoose,
 					});
@@ -190,10 +207,10 @@ export class LootGenGeneratorBase extends BaseComponent {
 				});
 		});
 
-		return Object.entries(byType)
-			.map(([type, meta]) => {
+		return Object.values(byType)
+			.map(meta => {
 				return new LootGenOutputMagicItems({
-					type,
+					type: meta.type,
 					count: meta.count,
 					typeRoll: null,
 					typeTable: meta.typeTable,

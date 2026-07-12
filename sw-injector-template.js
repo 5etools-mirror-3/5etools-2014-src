@@ -42,6 +42,8 @@ const fetchError = {
 const wb = new Workbox("sw.js");
 
 wb.addEventListener("controlling", () => {
+	if (!VetoolsConfig.get("ui", "isNotifyUpdates")) return;
+
 	const lnk = ee`<a href="${Renderer.get().baseUrl}changelog.html" class="alert-link">changelog</a>`
 		.onn("click", evt => {
 			evt.stopPropagation();
@@ -101,7 +103,7 @@ let downloadBar = null;
  */
 const removeDownloadBar = () => {
 	if (downloadBar === null) return;
-	downloadBar.$wrapOuter.remove();
+	downloadBar.wrapOuter.remove();
 	downloadBar = null;
 };
 
@@ -112,21 +114,21 @@ const removeDownloadBar = () => {
 const initDownloadBar = () => {
 	if (downloadBar !== null) removeDownloadBar();
 
-	const $displayProgress = $(`<div class="page__disp-download-progress-bar"></div>`);
-	const $displayPercent = $(`<div class="page__disp-download-progress-text ve-flex-vh-center bold">0%</div>`);
+	const displayProgress = ee`<div class="page__disp-download-progress-bar"></div>`;
+	const displayPercent = ee`<div class="page__disp-download-progress-text ve-flex-vh-center ve-bold">0%</div>`;
 
-	const $btnCancel = $(`<button class="ve-btn ve-btn-default"><span class="glyphicon glyphicon-remove"></span></button>`)
-		.click(() => {
+	const btnCancel = ee`<button class="ve-btn ve-btn-default"><span class="glyphicon glyphicon-remove"></span></button>`
+		.onn("click", () => {
 			swCancelCacheRoutes();
 		});
 
-	const $wrapBar = $$`<div class="page__wrp-download-bar w-100 relative mr-2">${$displayProgress}${$displayPercent}</div>`;
-	const $wrapOuter = $$`<div class="page__wrp-download">
-			${$wrapBar}
-			${$btnCancel}
-		</div>`.appendTo(document.body);
+	const wrapBar = ee`<div class="page__wrp-download-bar ve-w-100 ve-relative ve-mr-2">${displayProgress}${displayPercent}</div>`;
+	const wrapOuter = ee`<div class="page__wrp-download">
+		${wrapBar}
+		${btnCancel}
+	</div>`.appendTo(document.body);
 
-	downloadBar = {$wrapOuter, $wrapBar, $displayProgress, $displayPercent};
+	downloadBar = {wrapOuter, wrapBar, displayProgress, displayPercent};
 };
 
 /**
@@ -140,8 +142,8 @@ const updateDownloadBar = (msg) => {
 		case "CACHE_ROUTES_PROGRESS":
 			// eslint-disable-next-line no-case-declarations
 			const percent = `${(100 * (msg.payload.fetched / msg.payload.fetchTotal)).toFixed(3)}%`;
-			downloadBar.$displayProgress.css("width", percent);
-			downloadBar.$displayPercent.text(percent);
+			downloadBar.displayProgress.css({width: percent});
+			downloadBar.displayPercent.txt(percent);
 			// do a toast and cleanup if every single file has been downloaded.
 			if (msg.payload.fetched === msg.payload.fetchTotal) finishedDownload();
 			break;
@@ -152,9 +154,9 @@ const updateDownloadBar = (msg) => {
 				console.error(error);
 			}
 
-			downloadBar.$wrapBar.addClass("page__wrp-download-bar--error");
-			downloadBar.$displayProgress.addClass("page__disp-download-progress-bar--error");
-			downloadBar.$displayPercent.text("Error!");
+			downloadBar.wrapBar.addClass("page__wrp-download-bar--error");
+			downloadBar.displayProgress.addClass("page__disp-download-progress-bar--error");
+			downloadBar.displayPercent.txt("Error!");
 
 			setTimeout(() => {
 				removeDownloadBar();

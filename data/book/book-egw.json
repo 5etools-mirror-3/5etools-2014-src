@@ -11730,7 +11730,7 @@
 													"page": 148,
 													"id": "4ff",
 													"entries": [
-														" One of the prominent mining companies within the city has recently uncovered a mysterious purple stone of unknown origin, about fifteen feet in diameter. Dozens of superstitious miners have fled this site, so the company hires the characters to investigate the stone and uncover its nature. When any of the stone's smooth, reflective surface takes damages, this buried relic of the Shadowfell begins to summon {@creature Shadowghast|EGW|shadowghasts} and {@creature Gloomstalker|EGW|gloomstalkers} (see {@book chapter 7|EGW|8|Gloomstalker}) at an increasingly fast rate. The characters must discover a way to repair and reseal the stone, destroy it, or banish it from Exandria before the city is overwhelmed."
+														"One of the prominent mining companies within the city has recently uncovered a mysterious purple stone of unknown origin, about fifteen feet in diameter. Dozens of superstitious miners have fled this site, so the company hires the characters to investigate the stone and uncover its nature. When any of the stone's smooth, reflective surface takes damages, this buried relic of the Shadowfell begins to summon {@creature Shadowghast|EGW|shadowghasts} and {@creature Gloomstalker|EGW|gloomstalkers} (see {@book chapter 7|EGW|8|Gloomstalker}) at an increasingly fast rate. The characters must discover a way to repair and reseal the stone, destroy it, or banish it from Exandria before the city is overwhelmed."
 													]
 												}
 											]
@@ -11811,7 +11811,7 @@
 										{
 											"type": "list",
 											"items": [
-												"An ember thicket is a lightly obscured area.",
+												"An ember thicket is a {@quickref Vision and Light||2||lightly obscured} area.",
 												"Creatures gain one level of {@condition exhaustion} for every 10 minutes spent inside an ember thicket without suitable protection from the heat, smoke, and ash.",
 												"Ranged attacks through an ember thicket are made with disadvantage. A ranged weapon attack made through or within an ember thicket automatically misses a target beyond the weapon's normal range."
 											]
@@ -11828,7 +11828,7 @@
 										{
 											"type": "list",
 											"items": [
-												"An etheric rift is a lightly obscured area.",
+												"An etheric rift is a {@quickref Vision and Light||2||lightly obscured} area.",
 												"Any creature that enters an etheric rift or starts its turn there has a {@chance 33} chance of gaining the effect of the {@spell etherealness} spell until the end of its next turn."
 											]
 										}
@@ -11896,7 +11896,7 @@
 											"type": "list",
 											"items": [
 												"Any non-plant creature within 20 feet of a toxic fungus colony is {@condition poisoned}. A creature {@condition poisoned} by the colony for 1 hour has a {@chance 20} chance of gaining a random form of short-term madness (see \"{@book Madness|DMG|8|Madness}\" in chapter 8 of the {@book Dungeon Master's Guide|DMG}).",
-												"A toxic fungus colony can be bioluminescent. A bioluminescent colony sheds dim light within its area and for an additional 20 feet beyond its outer edges."
+												"A toxic fungus colony can be bioluminescent. A bioluminescent colony sheds {@quickref Vision and Light||2||dim light} within its area and for an additional 20 feet beyond its outer edges."
 											]
 										}
 									]
@@ -14941,11 +14941,11 @@
 												],
 												[
 													"13",
-													"While exploring a remote forest, you were attacked by evil lycanthropes but escaped before being killed. You are cursed with {@creature wereboar}, {@creature wererat}, or {@creature werewolf} lycanthropy (DM's choice)."
+													"While exploring a remote forest, you were attacked by evil lycanthropes but escaped before being killed. You are cursed with {@creature wereboar}, {@creature wererat}, or {@creature werewolf} {@variantrule Player Characters as Lycanthropes|MM|lycanthropy} (DM's choice)."
 												],
 												[
 													"14",
-													"While lost in a remote forest or jungle, you were saved by a {@creature werebear} or {@creature weretiger} (DM's choice). The lycanthrope believed you were destined for greatness and granted you the gift of lycanthropy with your consent."
+													"While lost in a remote forest or jungle, you were saved by a {@creature werebear} or {@creature weretiger} (DM's choice). The lycanthrope believed you were destined for greatness and granted you the gift of {@variantrule Player Characters as Lycanthropes|MM|lycanthropy} with your consent."
 												],
 												[
 													"15",

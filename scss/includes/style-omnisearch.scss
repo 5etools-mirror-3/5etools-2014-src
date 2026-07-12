@@ -25,11 +25,11 @@
 			}
 
 			@media screen and (width > #{vars.$width-screen-xxs}) {
-				max-width: 300px;
-				min-width: 270px;
+				width: calc(100vw - 30px);
 			}
 
 			@media screen and (width > #{vars.$width-screen-xs}) {
+				width: unset;
 				max-width: 460px;
 				min-width: 430px;
 			}
@@ -63,12 +63,12 @@
 
 				.omni__input {
 					min-width: initial;
-					border-top-left-radius: 4px;
+					border-top-left-radius: 4px !important;
 					border-top-color: vars.$rgb-border-grey;
 				}
 
 				.omni__submit {
-					border-top-right-radius: 4px;
+					border-top-right-radius: 4px !important;
 					border-top-color: vars.$rgb-border-grey;
 				}
 
@@ -97,9 +97,13 @@
 			min-width: 100px;
 
 			@media screen and (width > #{vars.$width-screen-md}) {
-				border-top-left-radius: 0;
+				border-top-left-radius: 0 !important;
 				border-top-color: transparent;
 			}
+		}
+
+		&btn-partnered-mode {
+			min-width: 105px;
 		}
 
 		&btn-clear {
@@ -113,7 +117,7 @@
 			padding: 3px 7px;
 
 			@media screen and (width > #{vars.$width-screen-md}) {
-				border-top-right-radius: 0;
+				border-top-right-radius: 0 !important;
 				border-top-color: transparent;
 			}
 		}

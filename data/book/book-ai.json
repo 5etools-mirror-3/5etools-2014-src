@@ -17,7 +17,7 @@
 				},
 				"Acquisitions Incorporated was founded in Seattle, Washington, in a time spoken of in only hushed tones: the year 2009. It first saw life as a podcast, which, at the time, was an unusual way to play Dungeons & Dragons. The intervening decade saw Acq Inc take on many forms\u2014streams, recorded content, comics, and, of course, live roleplaying shows. While these are all now completely normal ways to discover and enjoy D&D, back then, not so much. We just did it because it seemed like a cool idea, and ten years later, it seems like maybe we were right. Today, Acq Inc's adventures continue, dutifully chronicled online at acq-inc.com.",
 				"Our intention with Acquisitions Incorporated was to bring dark office comedy to a world of swords, sorcery, dungeons, and (dare we say) dragons. This book, created in concert with Wizards of the Coast, sets you up for success in your own fantasy-business endeavors. Chapter 1 provides an orientation for new franchise members, detailing how to start a game and play the Acquisitions Incorporated way. {@book Chapter 2|AI|1} explores the various positions within an Acq Inc franchise, introducing a variety of roles vital to an adventuring enterprise's success. {@book Chapter 3|AI|2} delves into backgrounds for Acq Inc franchise members, entrenching company goals at the core of their beings. In {@adventure Chapter 4|OoW|0}, all this comes together in an adventure taking characters from level 1 to 6, establishing a party's claim on a world they've begun to explore and strip-mine for profit.",
-				"Following these chapters, {@book appendix A|AI|4} presents stalwarts of the Acquisitions Incorporated world, founding members and characters from the company's ongoing adventures. {@book Appendix B|AI|11} details foes, from terrifying deep crows to infamous keg robots. {@book Appendices C|AI|12}, {@book D|AI|13}, and {@book E|AI|14} conclude this guide with a variety of Acq Inc tools and treasures, from vehicles like the {@vehicle battle balloon|AI} to the mighty {@item Orrery of the Wanderer|AI}.",
+				"Following these chapters, {@book appendix A|AI|4} presents stalwarts of the Acquisitions Incorporated world, founding members and characters from the company's ongoing adventures. {@book Appendix B|AI|4} details foes, from terrifying deep crows to infamous keg robots. {@book Appendices C|AI|6}, {@book D|AI|7}, and {@book E|AI|8} conclude this guide with a variety of Acq Inc tools and treasures, from vehicles like the {@vehicle battle balloon|AI} to the mighty {@item Orrery of the Wanderer|AI}.",
 				"Many hands worked diligently throughout the process of creating the Acquisitions Incorporated campaign and this resulting book. If you put your ear very close to the pages, you will hear us whisper, \"thank you.\"",
 				{
 					"type": "section",
@@ -833,7 +833,7 @@
 											"page": 15,
 											"entries": [
 												"A hot air balloon is lit by a magic furnace channeling elemental power. A galleon suspended below the balloon features a helm that controls the ship. The vessel can fly virtually anywhere, ignoring {@quickref difficult terrain||3}, but it is at risk from storms and strong winds. If the balloon takes significant damage, the ship could be forced to descend\u2014or might even crash.",
-												"({@book Appendix C|AI|12} features vehicle statistics for a typical battle balloon. For characters who choose this highly coveted feature for their headquarters, the DM can impose limitations on the ship's attacks and make changes to its statistics.)"
+												"({@book Appendix C|AI|6} features vehicle statistics for a typical battle balloon. For characters who choose this highly coveted feature for their headquarters, the DM can impose limitations on the ship's attacks and make changes to its statistics.)"
 											],
 											"id": "02c"
 										},
@@ -890,7 +890,7 @@
 											"name": "Giant Fist",
 											"page": 16,
 											"entries": [
-												"{@i Melee Weapon Attack}: +8 to hit, reach 15 ft., one object or creature. {@i Hit}: 16 ({@dice 3d10}) bludgeoning damage."
+												"{@i Melee Weapon Attack}: {@hit 8} to hit, reach 15 ft., one object or creature. {@i Hit}: 16 ({@dice 3d10}) bludgeoning damage."
 											],
 											"id": "032"
 										},
@@ -1279,7 +1279,7 @@
 									"name": "Map of Shortcuts",
 									"page": 20,
 									"entries": [
-										"At rank 3, your map case becomes a common magic item. In addition to storing normal maps, your {@item cartographer's map case|AI} can be used to generate a special map identifying a shortcut. You can use your action to make a {@dc 15} Wisdom ({@skill Perception}) check, with a success revealing a map buried in your {@i cartographer's map case} noting a relevant shortcut . Your travel time is reduced by half while you follow that route. If you succeed at the check by 5 or more, the map includes notes on the terrain, granting you advantage on the next ability check you make to travel through the mapped area in the next hour. Once you use this feature, you cannot use it again until you finish a long rest.",
+										"At rank 3, your map case becomes a common magic item. In addition to storing normal maps, your {@item cartographer's map case|AI} can be used to generate a special map identifying a shortcut. You can use your action to make a {@dc 15} Wisdom ({@skill Perception}) check, with a success revealing a map buried in your {@i cartographer's map case} noting a relevant shortcut. Your travel time is reduced by half while you follow that route. If you succeed at the check by 5 or more, the map includes notes on the terrain, granting you advantage on the next ability check you make to travel through the mapped area in the next hour. Once you use this feature, you cannot use it again until you finish a long rest.",
 										{
 											"type": "inset",
 											"name": "Half-Orc Cartographer (Fighter)",
@@ -1514,7 +1514,7 @@
 									"page": 22,
 									"entries": [
 										"As a rank 1 decisionist, you gain proficiency with a musical instrument (horn).",
-										"Head office also grants you the use of a musical instrument (your choice of {@item horn|PHB}), a voting kit (ballots, a ballot box, an \"I Voted\" sticker set), and a {@item coin of decisionry|AI}. This large gold coin is emblazoned with the sigil of Acquisitions Incorporated as \"heads,\" and has a \"tails\" image that varies.",
+										"Head Office also grants you the use of a musical instrument (your choice of {@item horn|PHB}), a voting kit (ballots, a ballot box, an \"I Voted\" sticker set), and a {@item coin of decisionry|AI}. This large gold coin is emblazoned with the sigil of Acquisitions Incorporated as \"heads,\" and has a \"tails\" image that varies.",
 										{
 											"type": "table",
 											"caption": "Coin of Decisionry \"Tails\" Image",
@@ -1811,7 +1811,7 @@
 										{
 											"type": "quote",
 											"entries": [
-												"(The {@filter genasi|races|base race=Genasi} can be found in {@adventure Princes of the Apocalypse|PotA} and the {@i Elemental Evil Player's Companion}.)"
+												"(The {@filter genasi|races|Base Species=Genasi} can be found in {@adventure Princes of the Apocalypse|PotA} and the {@i Elemental Evil Player's Companion}.)"
 											]
 										}
 									],
@@ -1853,7 +1853,7 @@
 									"page": 24,
 									"entries": [
 										"As a rank 1 documancer, you gain proficiency with {@item calligrapher's supplies|PHB}.",
-										"Head office also grants you the use of {@item calligrapher's supplies|PHB} (ink, a dozen sheets of parchment, and three quills), a {@item documancy satchel|AI} for your calligrapher's supplies, a ledger, {@item sealing wax|PHB}, copper and silver leaf, a documancer's seal of limited authority, and a {@item Map or Scroll Case|PHB|scroll case}."
+										"Head Office also grants you the use of {@item calligrapher's supplies|PHB} (ink, a dozen sheets of parchment, and three quills), a {@item documancy satchel|AI} for your calligrapher's supplies, a ledger, {@item sealing wax|PHB}, copper and silver leaf, a documancer's seal of limited authority, and a {@item Map or Scroll Case|PHB|scroll case}."
 									],
 									"id": "060"
 								},
@@ -2034,7 +2034,7 @@
 									"page": 25,
 									"entries": [
 										"As a rank 1 hoardsperson, you gain proficiency with jeweler's tools.",
-										"Head office also grants you the use of {@item jeweler's tools|PHB} (a small saw and hammer, files, pliers, and tweezers) and an account ledger, as well as up to 5 gp worth of equipment from the following options: {@item barrel|PHB}, {@item basket|PHB}, {@item block and tackle|PHB}, {@item bucket|PHB}, {@item chest|PHB}, {@item Tankard|PHB|flask or tankard}, {@item Jug|PHB|jug or pitcher}, {@item iron pot|PHB}, {@item pouch|PHB}, {@item sack|PHB}, {@item saddlebags|PHB}, {@item vial|PHB}, and {@item waterskin|PHB}."
+										"Head Office also grants you the use of {@item jeweler's tools|PHB} (a small saw and hammer, files, pliers, and tweezers) and an account ledger, as well as up to 5 gp worth of equipment from the following options: {@item barrel|PHB}, {@item basket|PHB}, {@item block and tackle|PHB}, {@item bucket|PHB}, {@item chest|PHB}, {@item Tankard|PHB|flask or tankard}, {@item Jug|PHB|jug or pitcher}, {@item iron pot|PHB}, {@item pouch|PHB}, {@item sack|PHB}, {@item saddlebags|PHB}, {@item vial|PHB}, and {@item waterskin|PHB}."
 									],
 									"id": "069"
 								},
@@ -2185,7 +2185,7 @@
 									"name": "Portable Hole Satchel",
 									"page": 26,
 									"entries": [
-										"At rank 4, your {@item living loot satchel|AI} receives another upgrade, becoming a very rare magic item. The secret chest accessed by your satchel now has the storage capacity of a {@item portable hole}\u20146 feet in diameter and 10 feet deep. As before, you can place any appropriately sized object into the {@i portable-hole}-sized chest, even if it wouldn't normally fit into your satchel.",
+										"At rank 4, your {@item living loot satchel|AI} receives another upgrade, becoming a very rare magic item. The secret chest accessed by your satchel now has the storage capacity of a {@item portable hole}\u20146 feet in diameter and 10 feet deep. As before, you can place any appropriately sized object into the {@item portable hole||portable-hole}-sized chest, even if it wouldn't normally fit into your satchel.",
 										{
 											"type": "quote",
 											"entries": [
@@ -2314,7 +2314,7 @@
 									"page": 27,
 									"entries": [
 										"As a rank 1 loremonger, you gain one of the following proficiencies of your choice: artisan's tools (choose type), {@item navigator's tools|PHB}, vehicles (land), or vehicles (water).",
-										"Head office also grants you the use of an appropriate tool kit if you chose a tool proficiency, as well as ink and an ink pen."
+										"Head Office also grants you the use of an appropriate tool kit if you chose a tool proficiency, as well as ink and an ink pen."
 									],
 									"id": "073"
 								},
@@ -2565,7 +2565,7 @@
 									"page": 29,
 									"entries": [
 										"As a rank 1 obviator, you gain proficiency with {@item alchemist's supplies|PHB}.",
-										"Head office also grants you the use of {@item alchemist's supplies|PHB} (two glass beakers, a metal frame to hold a beaker in place over an open flame, a glass stirring rod, a small mortar and pestle, and a pouch of common alchemical ingredients including salt, powdered iron, and purified water); your choice of a {@item Acid (vial)|PHB|vial of acid}, a {@item Alchemist's Fire (flask)|PHB|flask of alchemist's fire}, or a {@item Antitoxin (vial)|PHB|vial of antitoxin}; and a {@item hunting trap|PHB}."
+										"Head Office also grants you the use of {@item alchemist's supplies|PHB} (two glass beakers, a metal frame to hold a beaker in place over an open flame, a glass stirring rod, a small mortar and pestle, and a pouch of common alchemical ingredients including salt, powdered iron, and purified water); your choice of a {@item Acid (vial)|PHB|vial of acid}, a {@item Alchemist's Fire (flask)|PHB|flask of alchemist's fire}, or a {@item Antitoxin (vial)|PHB|vial of antitoxin}; and a {@item hunting trap|PHB}."
 									],
 									"id": "07d"
 								},
@@ -2825,7 +2825,7 @@
 									"page": 31,
 									"entries": [
 										"As a rank 1 occultant, you gain proficiency with one of the following of your choice: {@item cook's utensils|PHB}, {@item leatherworker's tools|PHB}, or {@item weaver's tools|PHB}.",
-										"Head office also grants you the use of a tool kit for your chosen proficiency, a merchant's scale, five waterproof belt pouches in which to store creature parts or other tools, and a unique item known as an {@item occultant abacus|AI} (sometimes just referred to as an occultant), whose beads resemble tiny skulls.",
+										"Head Office also grants you the use of a tool kit for your chosen proficiency, a merchant's scale, five waterproof belt pouches in which to store creature parts or other tools, and a unique item known as an {@item occultant abacus|AI} (sometimes just referred to as an occultant), whose beads resemble tiny skulls.",
 										{
 											"type": "image",
 											"href": {
@@ -3075,7 +3075,7 @@
 									"page": 33,
 									"entries": [
 										"As a rank 1 secretarian, you gain proficiency with one of the following of your choice: gaming set, musical instrument, or {@item disguise kit|PHB}.",
-										"Head office also grants you the use of a tool kit for your chosen proficiency, a collection of sales brochures, a set of business cards, a metal bell, and a {@item Fine Clothes|PHB|set of fine clothes}.",
+										"Head Office also grants you the use of a tool kit for your chosen proficiency, a collection of sales brochures, a set of business cards, a metal bell, and a {@item Fine Clothes|PHB|set of fine clothes}.",
 										{
 											"type": "quote",
 											"entries": [
@@ -5432,7 +5432,7 @@
 									"name": "Places to Go",
 									"page": 65,
 									"entries": [
-										"As you do those rangery things you do, you've had the opportunity to travel to many exotic and exciting locales. But there's one place you just keep coming back to.",
+										"As you do those ranger-y things you do, you've had the opportunity to travel to many exotic and exciting locales. But there's one place you just keep coming back to.",
 										{
 											"type": "table",
 											"caption": "Points of Interest",
@@ -5549,7 +5549,7 @@
 								{
 									"type": "quote",
 									"entries": [
-										"Personally, I feel that \"rogue\" is a little misleading as a term. It implies that those of us who follow a more... eclectic path toward life can all be grouped into a single category. That works with most other professions because they're good at one thing. But me? I'm good at everything.You need someone to sweet-talk the town guard? I'm your guy. Impersonate the governor? Easy peasy. Hit the streets for intel? Throw a dinner party? Engage in a clandestine property reassignment? Done and done. And if someone's giving you trouble? Well, let's just say they'll be no trouble to me."
+										"Personally, I feel that \"rogue\" is a little misleading as a term. It implies that those of us who follow a more... eclectic path toward life can all be grouped into a single category. That works with most other professions because they're good at one thing. But me? I'm good at everything.You need someone to sweet-talk the town guard? I'm your guy. Impersonate the governor? Easy-peasy. Hit the streets for intel? Throw a dinner party? Engage in a clandestine property reassignment? Done and done. And if someone's giving you trouble? Well, let's just say they'll be no trouble to me."
 									],
 									"by": "{@creature Viari|AI}"
 								},
@@ -7016,7 +7016,7 @@
 										"She is lawful good.",
 										"She has Strength 14.",
 										"She wears breastplate (AC 14).",
-										"She has the following attack: {@b Maul}. {@i Melee Weapon Attack}: +4 to hit, reach 5 ft., one target. {@i Hit}: 9 ({@dice 2d6 + 2}) bludgeoning damage.",
+										"She has the following attack: {@b Maul}. {@i Melee Weapon Attack}: {@hit 4} to hit, reach 5 ft., one target. {@i Hit}: 9 ({@dice 2d6 + 2}) bludgeoning damage.",
 										"She has these racial traits: Prophetess has advantage on saving throws against being {@condition charmed}, and magic can't put her to sleep. She has {@sense darkvision} out to a range of 60 feet. She speaks Common and Elvish."
 									]
 								}

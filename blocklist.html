@@ -51,7 +51,7 @@
 
 	<script type="text/javascript" src="sw-injector.js"></script>
 
-	<script type="module" src="js/styleswitch.js"></script>
+	<script blocking="render" type="module" src="js/styleswitch.js"></script>
 	<script type="text/javascript" src="js/navigation.js"></script>
 	<script type="module" src="js/browsercheck.js"></script>
 </head>
@@ -62,28 +62,30 @@
 
 <div class="cancer__wrp-leaderboard cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__wrp-leaderboard-inner cancer__wrp-interactive"><!--5ETOOLS_AD_LEADERBOARD--></div></div>
 
-<header class="hidden-xs hidden-sm page__header">
-	<div class="container ve-flex-v-baseline">
-		<h1 class="page__title no-wrap my-0" id="page__title">Content Blocklist</h1>
-		<p class="page__subtitle no-wrap my-0" id="page__subtitle">Exclude content and export configurations.</p>
-	</div>
-</header>
+<div class="ve-flex-col" data-cancer-id="cancer-header">
+	<header class="ve-mobile-sm__hidden page__header">
+		<div class="container ve-flex-v-baseline">
+			<h1 class="page__title ve-no-wrap ve-my-0" id="page__title">Content Blocklist</h1>
+			<p class="page__subtitle ve-no-wrap ve-my-0" id="page__subtitle">Exclude content and export configurations.</p>
+		</div>
+	</header>
 
-<nav class="container page__nav" id="navigation">
-	<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
-</nav>
+	<nav class="container page__nav" id="navigation">
+		<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
+	</nav>
+</div>
 
 <div class="cancer__wrp-sidebar cancer__wrp-sidebar-lhs cancer__wrp-sidebar-lhs--scrolling-page cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__sidebar-inner cancer__sidebar-inner--top cancer__wrp-interactive"><!--5ETOOLS_AD_LEFT_1--></div><div class="cancer__sidebar-inner cancer__sidebar-inner--bottom cancer__wrp-interactive"><!--5ETOOLS_AD_LEFT_2--></div></div>
 <div class="cancer__wrp-sidebar cancer__wrp-sidebar-rhs cancer__wrp-sidebar-rhs--scrolling-page cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__sidebar-inner cancer__sidebar-inner--top cancer__wrp-interactive"><!--5ETOOLS_AD_RIGHT_1--></div><div class="cancer__sidebar-inner cancer__sidebar-inner--bottom cancer__wrp-interactive"><!--5ETOOLS_AD_RIGHT_2--></div></div>
 
-<main class="container">
-	<div class="px-4 mt-4">
+<main class="container" data-cancer-id="cancer-wrapper">
+	<div class="ve-px-4 ve-mt-4">
 		<p>
 			This page allows you to create configurations which &quot;blocklist&quot; site content, hiding it from list pages.
 			This can be used, for example, in conjunction with homebrew content, to create a campaign JSON file containing additions to the base game,
 			as well as the removal of extraneous content.
 		</p>
-		<p class="mb-0"><i class="ve-muted">
+		<p class="ve-mb-0"><i class="ve-muted">
 			With great power comes great responsibility. If you are a DM intending to use this system to remove parts of the game you
 			consider broken; inconvenient; or otherwise in need of adjustment, please first consider the needs and expectations of your players,
 			as well as the extensive playtesting and design iteration backing 5th Edition.
@@ -94,14 +96,13 @@
 	<hr>
 
 	<div class="ve-flex-col" id="blocklist-content">
-		<div class="py-2 ve-flex-vh-center initial-message initial-message--med">Loading...</div>
+		<div class="ve-py-2 ve-flex-vh-center initial-message initial-message--med">Loading...</div>
 	</div>
 </main>
 
 <!--5ETOOLS_SCRIPT_ANCHOR-->
 <!--5ETOOLS_AD_ADHESION-->
 
-<script type="text/javascript" defer src="lib/jquery.js"></script>
 <script type="text/javascript" defer src="js/parser.js"></script>
 <script type="text/javascript" defer src="js/utils.js"></script>
 <script type="text/javascript" defer src="js/utils-ui.js"></script>
@@ -109,7 +110,7 @@
 <script type="module" defer src="js/omnidexer.js"></script>
 <script type="module" src="js/omnisearch.js"></script>
 <script type="module" src="js/filter.js"></script>
-<script type="text/javascript" defer src="js/utils-dataloader.js"></script>
+<script type="module" src="js/utils-dataloader.js"></script>
 <script type="module" src="js/utils-font.js"></script>
 <script type="module" src="js/utils-brew.js"></script>
 <script type="module" src="js/utils-config.js"></script>
@@ -123,7 +124,7 @@
 <script type="text/javascript" defer src="js/hist.js"></script>
 <script type="text/javascript" defer src="js/blocklist-ui.js"></script>
 <script type="text/javascript" defer src="js/blocklist.js"></script>
-<script type="text/javascript" defer src="js/list2.js"></script>
+<script type="module" defer src="js/list2.js"></script>
 <script type="text/javascript" defer src="lib/elasticlunr.js"></script>
 <!-- Dice Controls Container -->
 <div id="dice-box"></div>

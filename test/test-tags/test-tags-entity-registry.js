@@ -1,4 +1,5 @@
 import * as utS from "../../node/util-search-index.js";
+import {readJsonSync} from "5etools-utils/lib/UtilFs.js";
 
 export class TagTestUrlLookup {
 	constructor (
@@ -33,17 +34,23 @@ export class TagTestUrlLookup {
 		this._ALL_URLS_LIST.push(url);
 	}
 
-	_addEntityItem (ent, page) {
-		const url = `${page.toLowerCase()}#${(UrlUtil.URL_TO_HASH_BUILDER[page](ent)).toLowerCase().trim()}`;
+	_addEntityItem (ent, propOrPage) {
+		const url = `${propOrPage.toLowerCase()}#${(UrlUtil.getHashBuilder(propOrPage)(ent)).toLowerCase().trim()}`;
 
 		if (ent._versionBase_isVersion) {
-			this._ALL_URLS_SET__VERSIONS.add(url);
-			this._ALL_URLS_LIST__VERSIONS.push(url);
-			return;
+			if (!this._ALL_URLS_SET__VERSIONS.has(url)) {
+				this._ALL_URLS_SET__VERSIONS.add(url);
+				this._ALL_URLS_LIST__VERSIONS.push(url);
+			}
+		} else {
+			if (!this._ALL_URLS_SET.has(url)) {
+				this._ALL_URLS_SET.add(url);
+				this._ALL_URLS_LIST.push(url);
+			}
 		}
 
-		this._ALL_URLS_SET.add(url);
-		this._ALL_URLS_LIST.push(url);
+		const propPage = DataLoader.getPropPage(propOrPage);
+		if (propPage && propOrPage !== propPage) this._addEntityItem(ent, propPage);
 	}
 
 	/* -------------------------------------------- */
@@ -55,64 +62,132 @@ export class TagTestUrlLookup {
 	}
 
 	async _pInit_pPopulateUrls () {
+		if (this._fileAdditional) {
+			const contents = readJsonSync(this._fileAdditional);
+			const brewUtil = contents._meta?.sources?.some(source => source?.json?.startsWith("UA") || source?.json?.startsWith("XUA"))
+				? PrereleaseUtil
+				: BrewUtil2;
+			await brewUtil.pAddBrewFromUrl(this._fileAdditional, {isLoadReferences: true});
+		}
+
 		const primaryIndex = Omnidexer.decompressIndex(await utS.UtilSearchIndex.pGetIndex({doLogging: false, noFilter: true}));
 		primaryIndex
 			.forEach(indexItem => this._addIndexItem(indexItem));
-		const secondaryIndexItem = Omnidexer.decompressIndex(await utS.UtilSearchIndex.pGetIndexAdditionalItem({baseIndex: primaryIndex.last().id + 1, doLogging: false}));
+		const secondaryIndexItem = Omnidexer.decompressIndex(await utS.UtilSearchIndex.pGetIndexAdditional(Parser.CAT_ID_ITEM, {baseIndex: primaryIndex.last().id + 1, doLogging: false}));
 		secondaryIndexItem
 			.forEach(indexItem => this._addIndexItem(indexItem));
 
 		if (this._fileAdditional) {
-			const brewIndexItems = Omnidexer.decompressIndex(await utS.UtilSearchIndex.pGetIndexLocalHomebrew({baseIndex: secondaryIndexItem.last().id + 1, filepath: this._fileAdditional}));
+			const prereleaseIndexItems = await PrereleaseUtil.pGetSearchIndex({
+				id: secondaryIndexItem.at(-1).id,
+				isIncludeExtendedSourceInfo: true,
+			});
+			prereleaseIndexItems
+				.forEach(indexItem => this._addIndexItem(indexItem));
+
+			const brewIndexItems = await BrewUtil2.pGetSearchIndex({
+				id: secondaryIndexItem.at(-1).id,
+				isIncludeExtendedSourceInfo: true,
+			});
 			brewIndexItems
 				.forEach(indexItem => this._addIndexItem(indexItem));
 		}
 
-		(await DataLoader.pCacheAndGetAllSite("itemProperty"))
-			.forEach(ent => this._addEntityItem(ent, "itemProperty"));
+		for (const prop of [
+			// Partially search-indexed entities
+			"item", // specific variants
 
-		(await DataLoader.pCacheAndGetAllSite("feat"))
-			.filter(ent => ent._versionBase_isVersion)
-			.forEach(ent => this._addEntityItem(ent, UrlUtil.PG_FEATS));
+			// Non-search-indexed entities
+			"itemProperty",
+			"citation",
+		]) {
+			[
+				...(await DataLoader.pCacheAndGetAllSite(prop)),
+				...(await DataLoader.pCacheAndGetAllPrerelease(prop)),
+				...(await DataLoader.pCacheAndGetAllBrew(prop)),
+			]
+				.reverse()
+				.forEach(ent => this._addEntityItem(ent, prop));
+		}
+
+		// Non-search-indexed `_version`s
+		// Note that these are generally only valid in specific cases,
+		//   (e.g., not in regular @tag links) so not all properties are
+		//   indexed.
+		for (const prop of [
+			"feat",
+			"legendaryGroup",
+		]) {
+			[
+				...(await DataLoader.pCacheAndGetAllSite(prop)),
+				...(await DataLoader.pCacheAndGetAllPrerelease(prop)),
+				...(await DataLoader.pCacheAndGetAllBrew(prop)),
+			]
+				.reverse()
+				.filter(ent => ent._versionBase_isVersion)
+				.forEach(ent => this._addEntityItem(ent, prop));
+		}
 	}
 
 	async _pInit_pPopulateUrlsAdditionalFluff () {
 		// TODO(Future) revise/expand
-		(await DataUtil.monsterFluff.pLoadAll())
-			.forEach(ent => this._addEntityItem(ent, "monsterFluff"));
+		for (const prop of [
+			"monsterFluff",
+			"raceFluff",
+			"crochetPatternFluff",
+		]) {
+			[
+				...(await DataLoader.pCacheAndGetAllSite(prop)),
+				...(await DataLoader.pCacheAndGetAllPrerelease(prop)),
+				...(await DataLoader.pCacheAndGetAllBrew(prop)),
+			]
+				.reverse()
+				.forEach(ent => this._addEntityItem(ent, prop));
+		}
 	}
 
 	async _pInit_pPopulateClassSubclassIndex () {
-		const classData = await DataUtil.class.loadJSON();
-
 		const tmpClassIxFeatures = {};
-		classData.class.forEach(cls => {
-			cls.name = cls.name.toLowerCase();
-			cls.source = (cls.source || Parser.SRC_PHB).toLowerCase();
 
-			this._CLASS_SUBCLASS_LOOKUP[cls.source] = this._CLASS_SUBCLASS_LOOKUP[cls.source] || {};
-			this._CLASS_SUBCLASS_LOOKUP[cls.source][cls.name] = {};
+		[
+			...(await DataLoader.pCacheAndGetAllSite("class")),
+			...(await DataLoader.pCacheAndGetAllPrerelease("class")),
+			...(await DataLoader.pCacheAndGetAllBrew("class")),
+		]
+			.reverse()
+			.forEach(cls => {
+				cls.name = cls.name.toLowerCase();
+				cls.source = (cls.source || Parser.SRC_PHB).toLowerCase();
 
-			const ixFeatures = [];
-			cls.classFeatures.forEach((levelFeatures, ixLevel) => {
-				levelFeatures.forEach((_, ixFeature) => {
-					ixFeatures.push(`${ixLevel}-${ixFeature}`);
+				this._CLASS_SUBCLASS_LOOKUP[cls.source] = this._CLASS_SUBCLASS_LOOKUP[cls.source] || {};
+				this._CLASS_SUBCLASS_LOOKUP[cls.source][cls.name] = {};
+
+				const ixFeatures = [];
+				cls.classFeatures.forEach((levelFeatures, ixLevel) => {
+					levelFeatures.forEach((_, ixFeature) => {
+						ixFeatures.push(`${ixLevel}-${ixFeature}`);
+					});
 				});
+				MiscUtil.set(tmpClassIxFeatures, cls.source, cls.name, ixFeatures);
 			});
-			MiscUtil.set(tmpClassIxFeatures, cls.source, cls.name, ixFeatures);
-		});
 
-		classData.subclass.forEach(sc => {
-			sc.shortName = (sc.shortName || sc.name).toLowerCase();
-			sc.source = (sc.source || sc.classSource).toLowerCase();
-			sc.className = sc.className.toLowerCase();
-			sc.classSource = sc.classSource.toLowerCase();
+		[
+			...(await DataLoader.pCacheAndGetAllSite("subclass")),
+			...(await DataLoader.pCacheAndGetAllPrerelease("subclass")),
+			...(await DataLoader.pCacheAndGetAllBrew("subclass")),
+		]
+			.reverse()
+			.forEach(sc => {
+				sc.shortName = (sc.shortName || sc.name).toLowerCase();
+				sc.source = (sc.source || sc.classSource).toLowerCase();
+				sc.className = sc.className.toLowerCase();
+				sc.classSource = sc.classSource.toLowerCase();
 
-			if (sc.className === VeCt.STR_GENERIC.toLowerCase() && sc.classSource === VeCt.STR_GENERIC.toLowerCase()) return;
+				if (sc.className === VeCt.STR_GENERIC.toLowerCase() && sc.classSource === VeCt.STR_GENERIC.toLowerCase()) return;
 
-			this._CLASS_SUBCLASS_LOOKUP[sc.classSource][sc.className][sc.source] = this._CLASS_SUBCLASS_LOOKUP[sc.classSource][sc.className][sc.source] || {};
-			this._CLASS_SUBCLASS_LOOKUP[sc.classSource][sc.className][sc.source][sc.shortName] = MiscUtil.copyFast(MiscUtil.get(tmpClassIxFeatures, sc.classSource, sc.className));
-		});
+				this._CLASS_SUBCLASS_LOOKUP[sc.classSource][sc.className][sc.source] = this._CLASS_SUBCLASS_LOOKUP[sc.classSource][sc.className][sc.source] || {};
+				this._CLASS_SUBCLASS_LOOKUP[sc.classSource][sc.className][sc.source][sc.shortName] = MiscUtil.copyFast(MiscUtil.get(tmpClassIxFeatures, sc.classSource, sc.className));
+			});
 	}
 
 	getSubclassFeatureIndex (className, classSource, subclassName, subclassSource) {
@@ -146,7 +221,7 @@ export class TagTestUrlLookup {
 	/* -------------------------------------------- */
 
 	getEncodedProxy (uid, tag, prop = null) {
-		prop ||= tag;
+		prop ||= Parser.getTagProps(tag)[0];
 		const unpacked = DataUtil.proxy.unpackUid(prop, uid, tag);
 		const hashBuilder = UrlUtil.URL_TO_HASH_BUILDER[prop];
 		if (!hashBuilder) throw new Error(`No hash builder found for prop "${prop}"!`);

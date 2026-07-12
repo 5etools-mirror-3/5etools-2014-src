@@ -146,27 +146,23 @@
 							"style": "list-hang-notitle",
 							"items": [
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "1. Psyche-Reconstruction Ray",
-									"style": "italic",
 									"entry": "The target must make a {@dc 22} Wisdom saving throw, taking 49 ({@damage 9d10}) psychic damage on a failed save, or half as much damage on a successful one. If this damage reduces a creature to 0 hit points, it dies and transforms into a spectator under Belashyrra's control and acts immediately after Belashyrra in the initiative order. The target can't be returned to its original form by any means short of a {@spell wish} spell."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "2. Domination Ray",
-									"style": "italic",
 									"entry": "The target must succeed on a {@dc 22} Wisdom saving throw or be {@condition charmed} by Belashyrra for 1 minute or until the target takes damage. Belashyrra can issue telepathic commands to the {@condition charmed} creature (no action required), which it does its best to obey."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "3. Mind-Weakening Ray",
-									"style": "italic",
 									"entry": "The target must succeed on a {@dc 22} Intelligence saving throw or take 36 ({@damage 8d8}) psychic damage and be unable to cast spells or activate magic items for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 								},
 								{
-									"type": "item",
+									"type": "itemSub",
 									"name": "4. Blinding Ray",
-									"style": "italic",
 									"entry": "The target and each creature within 10 feet of it must succeed on a {@dc 22} Constitution saving throw or take 19 ({@damage 3d12}) radiant damage and be {@condition blinded} for 1 minute. Until this blindness ends, Belashyrra can see through the {@condition blinded} creature's eyes. The {@condition blinded} creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 								}
 							]
@@ -220,6 +216,7 @@
 				"Y"
 			],
 			"miscTags": [
+				"AOE",
 				"MW"
 			],
 			"conditionInflict": [
@@ -411,6 +408,9 @@
 			"name": "Changeling",
 			"source": "ERLW",
 			"page": 317,
+			"referenceSources": [
+				"EFR"
+			],
 			"size": [
 				"M"
 			],
@@ -506,6 +506,7 @@
 				"P"
 			],
 			"miscTags": [
+				"AOE",
 				"MLW",
 				"MW",
 				"RW",
@@ -626,6 +627,9 @@
 			"isNamedCreature": true,
 			"source": "ERLW",
 			"page": 271,
+			"referenceSources": [
+				"EFR"
+			],
 			"_copy": {
 				"name": "Spy",
 				"source": "MM",
@@ -652,6 +656,7 @@
 				"average": 21,
 				"formula": "6d6"
 			},
+			"tokenCustom": true,
 			"languageTags": [
 				"H",
 				"X"
@@ -1027,6 +1032,7 @@
 			],
 			"miscTags": [
 				"CUR",
+				"HPR",
 				"MW"
 			],
 			"conditionInflictSpell": [
@@ -1319,6 +1325,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Flyby"
 			],
@@ -1370,7 +1377,7 @@
 				{
 					"name": "Quickness {@recharge 5}",
 					"entries": [
-						"The fastieth can take the Dodge action as a bonus action."
+						"The fastieth can take the {@action Dodge} action as a bonus action."
 					]
 				}
 			],
@@ -1398,6 +1405,9 @@
 			"isNamedCreature": true,
 			"source": "ERLW",
 			"page": 272,
+			"referenceSources": [
+				"EFR"
+			],
 			"_copy": {
 				"name": "Half-Ogre (Ogrillon)",
 				"source": "MM"
@@ -1407,6 +1417,7 @@
 				"E"
 			],
 			"int": 14,
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -2149,6 +2160,9 @@
 			"name": "Kalashtar",
 			"source": "ERLW",
 			"page": 317,
+			"referenceSources": [
+				"EFR"
+			],
 			"size": [
 				"M"
 			],
@@ -3027,6 +3041,9 @@
 			"name": "Magewright",
 			"source": "ERLW",
 			"page": 318,
+			"referenceSources": [
+				"EFR"
+			],
 			"size": [
 				"M"
 			],
@@ -3691,6 +3708,7 @@
 				"I"
 			],
 			"miscTags": [
+				"AOE",
 				"MW",
 				"RCH",
 				"RW"
@@ -3714,12 +3732,16 @@
 				"name": "Guard",
 				"source": "MM"
 			},
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
 			"name": "Shifter",
 			"source": "ERLW",
 			"page": 319,
+			"referenceSources": [
+				"EFR"
+			],
 			"size": [
 				"M"
 			],
@@ -4193,6 +4215,7 @@
 				"I"
 			],
 			"miscTags": [
+				"AOE",
 				"MLW",
 				"MW"
 			],
@@ -4807,6 +4830,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Magic Resistance"
 			],
@@ -5046,6 +5070,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Keen Senses"
 			],
@@ -5398,6 +5423,9 @@
 			"name": "Warforged Soldier",
 			"source": "ERLW",
 			"page": 320,
+			"referenceSources": [
+				"EFR"
+			],
 			"size": [
 				"M"
 			],
@@ -5617,6 +5645,7 @@
 				"S"
 			],
 			"miscTags": [
+				"AOE",
 				"MW",
 				"RCH"
 			],

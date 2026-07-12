@@ -4,6 +4,11 @@
 			"monster": [
 				"MM"
 			]
+		},
+		"otherSources": {
+			"monster": {
+				"MM": "OoW"
+			}
 		}
 	},
 	"monster": [
@@ -113,6 +118,7 @@
 				"C",
 				"E"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C",
 				"I",
@@ -123,8 +129,7 @@
 				"R"
 			],
 			"spellcastingTags": [
-				"CC",
-				"I"
+				"CC"
 			],
 			"hasToken": true
 		},
@@ -266,6 +271,7 @@
 			"languages": [
 				"Common"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C"
 			],
@@ -284,6 +290,7 @@
 				"poison",
 				"psychic"
 			],
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -361,6 +368,7 @@
 				"Modron",
 				"can understand Common but speaks only preprogrammed responses"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C",
 				"OTH"
@@ -397,6 +405,7 @@
 				"Modron",
 				"can understand Common but speaks only preprogrammed responses"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C",
 				"OTH"
@@ -430,6 +439,7 @@
 				"Modron",
 				"can understand Common but speaks only preprogrammed responses"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C",
 				"OTH"
@@ -466,6 +476,7 @@
 				"Modron",
 				"can understand Common but speaks only preprogrammed responses"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C",
 				"OTH"
@@ -499,6 +510,7 @@
 				"Modron",
 				"can understand Common but speaks only preprogrammed responses"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C",
 				"OTH"
@@ -532,6 +544,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"damageTags": [
 				"B"
 			],

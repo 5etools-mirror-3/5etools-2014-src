@@ -1099,7 +1099,7 @@
 													"type": "flowBlock",
 													"name": "Dalakhar Flees",
 													"entries": [
-														"Dalakhar, a gnome thief working for Dagult. tries to smuggle the Stone of Golorr out of Waterdeep."
+														"Dalakhar, a gnome thief working for Dagult, tries to smuggle the Stone of Golorr out of Waterdeep."
 													],
 													"id": "4f2"
 												},
@@ -1826,7 +1826,7 @@
 		},
 		{
 			"type": "section",
-			"name": "A Friend in Need",
+			"name": "Chapter 1: A Friend in Need",
 			"page": 21,
 			"id": "049",
 			"entries": [
@@ -3256,7 +3256,7 @@
 		},
 		{
 			"type": "section",
-			"name": "Trollskull Alley",
+			"name": "Chapter 2: Trollskull Alley",
 			"page": 31,
 			"id": "094",
 			"entries": [
@@ -3287,10 +3287,9 @@
 									"grid": {
 										"type": "square",
 										"size": 56,
-										"offsetX": -18,
-										"offsetY": 28,
-										"scale": 4,
-										"distance": 10
+										"offsetX": -36,
+										"offsetY": 56,
+										"scale": 8
 									},
 									"href": {
 										"type": "internal",
@@ -3564,10 +3563,9 @@
 									"grid": {
 										"type": "square",
 										"size": 56,
-										"offsetX": -18,
-										"offsetY": 28,
-										"scale": 4,
-										"distance": 10
+										"offsetX": -36,
+										"offsetY": 56,
+										"scale": 8
 									},
 									"href": {
 										"type": "internal",
@@ -3667,7 +3665,7 @@
 									"type": "list",
 									"items": [
 										"{@creature Embric|WDH} is neutral good.",
-										"He has these racial traits: He can cast {@spell produce flame} at will. (Constitution is his spellcasting ability, and he has a +4 bonus to hit with spell attacks.) He has darkvision out to a range of 60 feet and resistance to fire damage. He speaks Common and Primordial."
+										"He has these racial traits: He can cast {@spell produce flame} at will. (Constitution is his spellcasting ability, and he has a {@hit 4} bonus to hit with spell attacks.) He has darkvision out to a range of 60 feet and resistance to fire damage. He speaks Common and Primordial."
 									]
 								},
 								"{@creature Avi|WDH} worships Eldath, god of peace, and uses his magic to quench hot steel. He is an expert armorsmith. {@creature Avi|WDH} is laid back and speaks plainly. He has the statistics of a {@creature priest}, with these changes:",
@@ -4076,7 +4074,7 @@
 												[
 													"5th",
 													"\"{@creature Xanathar|WDH} is using intellect devourers to take control of Waterdavians in key positions throughout the city. We must deal with this problem at once. Infiltrate {@creature Xanathar|WDH}'s lair and destroy whatever is responsible for creating these creatures.\"",
-													"The characters must slay {@b Nihiloor} the {@creature mind flayer} (see {@adventure appendix B|WDH|12}). They can stake out a Xanathar Guild hideout (see chapter 1) and wait for {@creature Nihiloor|WDH} to show up there, or confront the mind flayer in {@creature Xanathar|WDH}'s lair (see chapter 5). {@i Reward}: Each Gray Hand character gains 2 renown. Every character who participated in the raid receives a {@item potion of resistance}. In addition, Vajra covers the cost of any {@spell raise dead} spells needed to bring back dead characters."
+													"The characters must slay {@creature Nihiloor|WDH} the {@creature mind flayer} (see {@adventure appendix B|WDH|12}). They can stake out a Xanathar Guild hideout (see chapter 1) and wait for {@creature Nihiloor|WDH} to show up there, or confront the mind flayer in {@creature Xanathar|WDH}'s lair (see chapter 5). {@i Reward}: Each Gray Hand character gains 2 renown. Every character who participated in the raid receives a {@item potion of resistance}. In addition, Vajra covers the cost of any {@spell raise dead} spells needed to bring back dead characters."
 												]
 											]
 										}
@@ -4214,7 +4212,7 @@
 									"id": "0b6",
 									"entries": [
 										"If the party includes one or more likely recruits, Savra Belabranta (NG female Tethyrian human {@creature knight}) visits the characters' residence and invites them to the Halls of Justice, the temple of Tyr (located west of the Market in the Castle Ward), where they can be sworn into the order. The swearing-in ceremony involves the recitation of an oath to find and destroy evil in all its forms. The oath is spoken while every candidate wears a silver gauntlet (a symbol of the order). After the ceremony, Savra gives new recruits their first mission.",
-										"The Belabrantas are a Waterdavian noble family that raises griffons for the Griffon Cavalry. Savra is trying to regain her honor by serving Tyr, thus atoning for the evil acts she committed as a member of an evil elemental cult called the Howling Hatred. Savra's sins are irrelevant to this adventure, but you can learn more about her past in {@adventure Princes of the Apocalypse|pota}. Whenever she has a mission for the characters, she communicates the missive to them herself.",
+										"The Belabrantas are a Waterdavian noble family that raises griffons for the Griffon Cavalry. Savra is trying to regain her honor by serving Tyr, thus atoning for the evil acts she committed as a member of an evil elemental cult called the Howling Hatred. Savra's sins are irrelevant to this adventure, but you can learn more about her past in {@adventure Princes of the Apocalypse|PotA}. Whenever she has a mission for the characters, she communicates the missive to them herself.",
 										{
 											"type": "table",
 											"colLabels": [
@@ -4236,7 +4234,7 @@
 												[
 													"3rd",
 													"\"A notorious thief called the {@creature Black Viper|WDH}, long thought dead, has apparently returned to Waterdeep. She has already robbed at least a dozen noble estates. No one knows her identity because she wears a mask, but it was reported in The Waterdeep Wazoo that she's a noble. Find out what else the broadsheet's publisher knows about her and report back to me.\"",
-													"The characters can meet with Gaxly Rudderbust (N male Illuskan human {@creature commoner}), the publisher of The Waterdeep Wazoo, and either succeed on a {@dc 12} Charisma (Intimidation or Persuasion) check or bribe him with at least 50 gp. If they do so, Gaxly shares his suspicions that the {@creature Black Viper|WDH} is the secret, evil twin sister of {@creature Ammalia Cassalanter|WDH} (see {@adventure appendix B|WDH|12}), and that she wears a mask to hide a disfigurement. Interviewing the Cassalanters at their villa (see chapter 6) or conducting a day-long investigation and succeeding on a {@dc 15} Intelligence (Investigation) check reveals that no such person exists.  {@i Reward}: Each Order of the Gauntlet character gains 1 renown for reporting what Gaxly said."
+													"The characters can meet with Gaxly Rudderbust (N male Illuskan human {@creature commoner}), the publisher of The Waterdeep Wazoo, and either succeed on a {@dc 12} Charisma (Intimidation or Persuasion) check or bribe him with at least 50 gp. If they do so, Gaxly shares his suspicions that the {@creature Black Viper|WDH} is the secret, evil twin sister of {@creature Ammalia Cassalanter|WDH} (see {@adventure appendix B|WDH|12}), and that she wears a mask to hide a disfigurement. Interviewing the Cassalanters at their villa (see chapter 6) or conducting a day-long investigation and succeeding on a {@dc 15} Intelligence (Investigation) check reveals that no such person exists. {@i Reward}: Each Order of the Gauntlet character gains 1 renown for reporting what Gaxly said."
 												],
 												[
 													"4th",
@@ -4595,7 +4593,7 @@
 		},
 		{
 			"type": "section",
-			"name": "Fireball",
+			"name": "Chapter 3: Fireball",
 			"page": 43,
 			"id": "0ca",
 			"entries": [
@@ -4705,8 +4703,8 @@
 										"path": "adventure/WDH/Watch.webp"
 									},
 									"title": "Saeth and Barnibus",
-									"width": 592,
-									"height": 800
+									"width": 749,
+									"height": 1000
 								},
 								"Twenty minutes after the explosion, a City Watch {@creature sergeant|WDH} named {@creature Saeth Cromley|wdh} (see {@adventure appendix B|WDH|12}) escorts a member of the Watchful Order of Magists and Protectors named {@creature Barnibus Blastwind|WDH} (see {@adventure appendix B|WDH|12}) to the crime scene. Barnibus quietly takes charge of the investigation at that point, while {@creature Sergeant|WDH} Cromley directs a force of twenty constables ({@creature veteran||veterans}) to knock on doors and question locals.",
 								"Before allowing the corpses to be removed and taken to local temples, Barnibus inspects the scene closely and reaches the following conclusions, which he prefers to keep to himself but might share with other members of the Watchful Order:",
@@ -4838,7 +4836,7 @@
 									]
 								},
 								"The creature atop the temple is Nim, a {@creature nimblewright|WDH} (see {@adventure appendix B|WDH|12}). Nim was given to the temple as a gift from a visiting Lantanese wizard and has been creating its own inventions on the sly. One of those inventions was the nimblewright that detonated the fireball in Trollskull Alley. Another less-dangerous invention, a mechanical sparrow, is on an accidental collision course with the party.",
-								"Have the characters roll initiative. Nim's mechanical bird acts on initiative count 10, has a flying speed of 60 feet, and starts 60 feet away from the characters. It has AC 15, 1 hit point, and immunity to poison and psychic damage. On its turn, it flies toward one party member at random and makes a melee weapon attack (+0 to hit) against that character. On a hit, the bird deals 2 ({@dice 1d3}) piercing damage as it slams into the character with surprising force. On a miss, it crashes. Either way, it's destroyed on impact.",
+								"Have the characters roll initiative. Nim's mechanical bird acts on initiative count 10, has a flying speed of 60 feet, and starts 60 feet away from the characters. It has AC 15, 1 hit point, and immunity to poison and psychic damage. On its turn, it flies toward one party member at random and makes a melee weapon attack ({@hit 0} to hit) against that character. On a hit, the bird deals 2 ({@dice 1d3}) piercing damage as it slams into the character with surprising force. On a miss, it crashes. Either way, it's destroyed on impact.",
 								"After the attack, Nim withdraws into the temple's attic through a secret hatch in the roof and lies low, hoping the characters don't report the incident to the temple's acolytes."
 							]
 						},
@@ -6426,7 +6424,7 @@
 		},
 		{
 			"type": "section",
-			"name": "Dragon Season",
+			"name": "Chapter 4: Dragon Season",
 			"page": 57,
 			"id": "123",
 			"entries": [
@@ -7858,7 +7856,7 @@
 									"id": "168",
 									"entries": [
 										"Playing on the ice underneath the docks are three street urchins wearing frayed cloaks and gloves. They dart in and out of view, hurling snowballs at each other and laughing as the blizzard batters the structures above them (see \"{@area The Three Urchins|14e|x}\").",
-										"When the children see the characters for the first time, their interest is piqued. The children fancy themselves adventurers of sorts, and they are quick to idolize and emulate real-life ones. {@creature Squiddly|WDH} even has the audacity to hurl a snowball at one of them (+0 bonus to hit). The children know who Agorn Fuoco is because he used to live and play music in Mistshore. They offer to lead characters to his mother's residence."
+										"When the children see the characters for the first time, their interest is piqued. The children fancy themselves adventurers of sorts, and they are quick to idolize and emulate real-life ones. {@creature Squiddly|WDH} even has the audacity to hurl a snowball at one of them ({@hit 0} bonus to hit). The children know who Agorn Fuoco is because he used to live and play music in Mistshore. They offer to lead characters to his mother's residence."
 									]
 								},
 								{
@@ -11921,7 +11919,7 @@
 									"page": 85,
 									"id": "1f7",
 									"entries": [
-										"The dense fog from outside settles in the sewers, and areas B2, B3, and B4 are lightly obscured."
+										"The dense fog from outside settles in the sewers, and areas B2, B3, and B4 are {@quickref Vision and Light||2||lightly obscured}."
 									]
 								},
 								{
@@ -13401,15 +13399,15 @@
 												],
 												[
 													"10",
-													"A Paining of a Minotaur"
+													"A Painting of a Minotaur"
 												],
 												[
 													"11",
-													"A Paining of a Mummy"
+													"A Painting of a Mummy"
 												],
 												[
 													"12",
-													"A Paining of a Werewolf"
+													"A Painting of a Werewolf"
 												]
 											]
 										}
@@ -15037,7 +15035,7 @@
 		},
 		{
 			"type": "section",
-			"name": "Spring Madness",
+			"name": "Chapter 5: Spring Madness",
 			"page": 99,
 			"id": "25c",
 			"entries": [
@@ -15185,7 +15183,7 @@
 													"items": [
 														"{@creature Ahmaergo|WDH}, dwarf majordomo",
 														"{@creature Nar'l Xibrindas|wdh}, drow advisor",
-														"{@b Nihiloor}, {@creature mind flayer}",
+														"{@creature Nihiloor|WDH}, {@creature mind flayer}",
 														"{@creature Noska Ur'gray|wdh}, dwarf enforcer",
 														"{@creature Ott Steeltoes|wdh}, dwarf fishkeeper",
 														"{@creature Thorvin Twinbeard|wdh}, dwarf engineer"
@@ -18408,7 +18406,7 @@
 		},
 		{
 			"type": "section",
-			"name": "Hell of a Summer",
+			"name": "Chapter 6: Hell of a Summer",
 			"page": 115,
 			"id": "2d5",
 			"entries": [
@@ -20042,7 +20040,53 @@
 									"page": 118,
 									"id": "2ec",
 									"entries": [
-										"The Cassalanters host guests in this stately guest house. {@b CG1. Mud Room}. Guests can remove and store dirty cloaks and boots here. {@b CG2. Storage}. Guests can store their traveling gear here. {@b CG3. Dining Room}. This room is furnished with two dining tables, each surrounded by six chairs. {@b CG4. Kitchen}. Guests are expected to dine with the Cassalanters in the manor but can prepare their own breakfast here. {@b CG5. Parlor}. This room is furnished with a billiard table, a card table, and four luxurious armchairs. {@b CG6. Sitting Room}. This room features an upright piano and four luxurious armchairs. {@b CG7. Bedrooms}. Each room contains a bed for two, a pair of wardrobes, a small vanity with matching stool, and a storage trunk for valuables. {@b CG8. Master Bedroom}. This room has a balcony and contains a large canopied bed, a standing mirror in a gilded frame, a writing desk and matching chair, a dresser, a tall wardrobe, and an owlbear throw rug draped over a padded chair with matching ottoman.",
+										"The Cassalanters host guests in this stately guest house.",
+										{
+											"type": "list",
+											"style": "list-hang-notitle",
+											"items": [
+												{
+													"type": "item",
+													"name": "CG1. Mud Room",
+													"entry": "Guests can remove and store dirty cloaks and boots here."
+												},
+												{
+													"type": "item",
+													"name": "CG2. Storage",
+													"entry": "Guests can store their traveling gear here."
+												},
+												{
+													"type": "item",
+													"name": "CG3. Dining Room",
+													"entry": "This room is furnished with two dining tables, each surrounded by six chairs."
+												},
+												{
+													"type": "item",
+													"name": "CG4. Kitchen",
+													"entry": "Guests are expected to dine with the Cassalanters in the manor but can prepare their own breakfast here."
+												},
+												{
+													"type": "item",
+													"name": "CG5. Parlor",
+													"entry": "This room is furnished with a billiard table, a card table, and four luxurious armchairs."
+												},
+												{
+													"type": "item",
+													"name": "CG6. Sitting Room",
+													"entry": "This room features an upright piano and four luxurious armchairs."
+												},
+												{
+													"type": "item",
+													"name": "CG7. Bedrooms",
+													"entry": "Each room contains a bed for two, a pair of wardrobes, a small vanity with matching stool, and a storage trunk for valuables."
+												},
+												{
+													"type": "item",
+													"name": "CG8. Master Bedroom",
+													"entry": "This room has a balcony and contains a large canopied bed, a standing mirror in a gilded frame, a writing desk and matching chair, a dresser, a tall wardrobe, and an owlbear throw rug draped over a padded chair with matching ottoman."
+												}
+											]
+										},
 										{
 											"type": "gallery",
 											"images": [
@@ -23119,7 +23163,7 @@
 		},
 		{
 			"type": "section",
-			"name": "Maestro's Fall",
+			"name": "Chapter 7: Maestro's Fall",
 			"page": 131,
 			"id": "350",
 			"entries": [
@@ -27044,7 +27088,7 @@
 		},
 		{
 			"type": "section",
-			"name": "Winter Wizardry",
+			"name": "Chapter 8: Winter Wizardry",
 			"page": 147,
 			"id": "3cc",
 			"entries": [
@@ -30838,7 +30882,7 @@
 		},
 		{
 			"type": "section",
-			"name": "Volo's Waterdeep Enchiridion",
+			"name": "Chapter 9: Volo's Waterdeep Enchiridion",
 			"page": 163,
 			"id": "43b",
 			"entries": [
@@ -32036,7 +32080,7 @@
 		},
 		{
 			"type": "section",
-			"name": "Magic Items",
+			"name": "Appendix A: Magic Items",
 			"page": 189,
 			"id": "493",
 			"entries": [
@@ -32114,7 +32158,7 @@
 		},
 		{
 			"type": "section",
-			"name": "Monsters and NPCs",
+			"name": "Appendix B: Monsters and NPCs",
 			"page": 193,
 			"id": "494",
 			"entries": [
@@ -32509,7 +32553,7 @@
 					"page": 202,
 					"id": "4b2",
 					"entries": [
-						"Floon, a native Waterdavian in his early thirties, is a handsome fellow but not very bright. He used to work as an escort in festhalls but is currently unemployed. Several months ago, he came upon a married noble engaging in some indiscreet behavior, and now lives off the generous bribe he is being paid to keep silent.",
+						"{@creature Floon Blagmaar|WDH|Floon}, a native Waterdavian in his early thirties, is a handsome fellow but not very bright. He used to work as an escort in festhalls but is currently unemployed. Several months ago, he came upon a married noble engaging in some indiscreet behavior, and now lives off the generous bribe he is being paid to keep silent.",
 						"With friends all over the city, Floon spends most of his time drinking and carousing. He gets by on his looks and doesn't know what to do with his life, and has shown little interest in working for a living.",
 						{
 							"type": "entries",
@@ -33235,7 +33279,7 @@
 		},
 		{
 			"type": "section",
-			"name": "Handouts",
+			"name": "Appendix C: Handouts",
 			"page": 221,
 			"id": "4e6",
 			"entries": [

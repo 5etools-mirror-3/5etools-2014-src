@@ -55,9 +55,9 @@ class _RenderBestiaryImplBase {
 		return !opts.isSkipTokenRender && Renderer.monster.hasToken(mon);
 	}
 
-	_getBtnPronounce ({mon}) {
-		return `<button class="ve-btn ve-btn-xs ve-btn-default stats__btn-name-pronounce lst-is-exporting-image__hidden no-print ml-2 mb-2 ve-self-flex-end">
-			<span class="glyphicon glyphicon-volume-up stats__icn-pronounce-name"></span>
+	_getBtnPronounceHtml ({mon}) {
+		return `<button class="ve-btn ve-btn-xs ve-btn-default ve-stats__btn-name-pronounce ve-lst-is-exporting-image__hidden no-print ve-ml-2 ve-mb-2 ve-self-flex-end">
+			<span class="glyphicon glyphicon-volume-up ve-stats__icn-pronounce-name"></span>
 			<audio class="ve-hidden" preload="none" data-name="aud-pronounce">
 			   <source src="${Renderer.utils.getEntryMediaUrl(mon, "soundClip", "audio")}" type="audio/mpeg">
 			</audio>
@@ -68,7 +68,7 @@ class _RenderBestiaryImplBase {
 
 	_getRenderedSectionHeader ({mon, title, prop}) {
 		const propNote = `${prop}Note`;
-		return `<tr><td colspan="6"><h3 class="stats__sect-header-inner">${title}${mon[propNote] ? ` (<span class="small">${mon[propNote]}</span>)` : ""}</h3></td></tr>`;
+		return `<tr><td colspan="6"><h3 class="ve-stats__sect-header-inner">${title}${mon[propNote] ? ` (<span class="small">${mon[propNote]}</span>)` : ""}</h3></td></tr>`;
 	}
 
 	/**
@@ -92,13 +92,31 @@ class _RenderBestiaryImplBase {
 
 			case "legendary":
 			case "mythic": {
-				const cpy = MiscUtil.copy(entries)
-					.map(it => {
-						if (it.name && it.entries) it.type ||= "item";
-						return it;
+				// Split runs of "rendered" (i.e., spellcasting entries) vs. "other" (i.e., likely hanging list items)
+				//   into groupings, and handle each appropriately.
+				const listGroups = [];
+
+				MiscUtil.copy(entries)
+					.forEach(ent => {
+						if (ent.rendered) return listGroups.push({rendered: ent.rendered});
+
+						if (ent.name && ent.entries) ent.type ||= "item";
+
+						if (!listGroups.length || listGroups.at(-1).rendered) {
+							listGroups.push({type: "list", style: "list-hang-notitle", items: []});
+						}
+						listGroups.at(-1).items.push(ent);
 					});
-				const toRender = {type: "list", style: "list-hang-notitle", items: cpy};
-				renderer.setFirstSection(true).recursiveRender(toRender, renderStack, {depth: depth});
+
+				listGroups.forEach(group => {
+					if (group.rendered) {
+						renderStack.push(group.rendered);
+						return;
+					}
+
+					renderer.setFirstSection(true).recursiveRender(group, renderStack, {depth: depth});
+				});
+
 				break;
 			}
 
@@ -112,8 +130,8 @@ class _RenderBestiaryImplBase {
 
 		ptHeader ||= mon ? Renderer.monster.getSectionIntro(mon, {prop}) : "";
 
-		return `${ptHeader ? `<tr><td colspan="6" class="stats__sect-row-inner">${ptHeader}</td></tr>` : ""}
-			<tr><td colspan="6" class="stats__sect-row-inner">${renderStack.join("")}</td></tr>`;
+		return `${ptHeader ? `<tr><td colspan="6" class="ve-stats__sect-row-inner">${ptHeader}</td></tr>` : ""}
+			<tr><td colspan="6" class="ve-stats__sect-row-inner">${renderStack.join("")}</td></tr>`;
 	}
 
 	/* -------------------------------------------- */
@@ -138,7 +156,7 @@ class _RenderBestiaryImplBase {
 		return {
 			htmlPtIsExcluded: this._getCommonHtmlParts_isExcluded({mon, isSkipExcludesRender}),
 			htmlPtName: this._getCommonHtmlParts_name({mon, isInlinedToken}),
-			htmlPtSizeTypeAlignment: this._getCommonHtmlParts_sizeTypeAlignment({mon, isInlinedToken}),
+			htmlPtSizeTypeAlignment: this._getCommonHtmlParts_sizeTypeAlignment({mon, renderer, isInlinedToken}),
 
 			htmlPtHitPoints: this._getCommonHtmlParts_hitPoints({mon, isInlinedToken}),
 			htmlPtsResources: this._getCommonHtmlParts_resources({mon, isInlinedToken}),
@@ -177,7 +195,7 @@ class _RenderBestiaryImplBase {
 		return Renderer.utils.getNameTr(
 			mon,
 			{
-				controlRhs: mon.soundClip ? this._getBtnPronounce({mon}) : "",
+				htmlControlRhs: mon.soundClip ? this._getBtnPronounceHtml({mon}) : "",
 				isInlinedToken,
 				page: UrlUtil.PG_BESTIARY,
 				extensionData: {
@@ -189,8 +207,8 @@ class _RenderBestiaryImplBase {
 		);
 	}
 
-	_getCommonHtmlParts_sizeTypeAlignment ({mon, isInlinedToken}) {
-		return `<tr><td colspan="6"><div ${isInlinedToken ? `class="stats__wrp-avoid-token"` : ""}><i>${Renderer.monster.getTypeAlignmentPart(mon)}</i></div></td></tr>`;
+	_getCommonHtmlParts_sizeTypeAlignment ({mon, renderer, isInlinedToken}) {
+		return `<tr><td colspan="6"><div ${isInlinedToken ? `class="ve-stats__wrp-avoid-token"` : ""}><i>${Renderer.monster.getTypeAlignmentPart(mon, {renderer})}</i></div></td></tr>`;
 	}
 
 	/* ----- */
@@ -199,18 +217,18 @@ class _RenderBestiaryImplBase {
 		const label = this._style === "classic" ? "Hit Points" : "HP";
 		const ptTitle = this._style === "classic" ? "" : `title="Hit Points"`;
 		const rendered = mon.hp == null ? "\u2014" : Renderer.monster.getRenderedHp(mon.hp);
-		return `<tr><td colspan="6"><div ${isInlinedToken ? `class="stats__wrp-avoid-token"` : ""}><strong ${ptTitle}>${label}</strong> ${rendered}</div></td></tr>`;
+		return `<tr><td colspan="6"><div ${isInlinedToken ? `class="ve-stats__wrp-avoid-token"` : ""}><strong ${ptTitle}>${label}</strong> ${rendered}</div></td></tr>`;
 	}
 
 	_getCommonHtmlParts_resources ({mon, isInlinedToken}) {
 		return mon.resource?.length
 			? mon.resource
-				.map(res => `<tr><td colspan="6"><div ${isInlinedToken ? `class="stats__wrp-avoid-token"` : ""}><strong>${res.name}</strong> ${Renderer.monster.getRenderedResource(res)}</div></td></tr>`)
+				.map(res => `<tr><td colspan="6"><div ${isInlinedToken ? `class="ve-stats__wrp-avoid-token"` : ""}><strong>${res.name}</strong> ${Renderer.monster.getRenderedResource(res)}</div></td></tr>`)
 			: [];
 	}
 
 	_getCommonHtmlParts_speed ({mon, isInlinedToken}) {
-		return `<tr><td colspan="6"><div ${this._style !== "classic" && isInlinedToken ? `class="stats__wrp-avoid-token"` : ""}><strong>Speed</strong> ${Parser.getSpeedString(mon, {styleHint: this._style})}</div></td></tr>`;
+		return `<tr><td colspan="6"><div ${this._style !== "classic" && isInlinedToken ? `class="ve-stats__wrp-avoid-token"` : ""}><strong>Speed</strong> ${Parser.getSpeedString(mon, {styleHint: this._style})}</div></td></tr>`;
 	}
 
 	/* ----- */
@@ -281,12 +299,12 @@ class _RenderBestiaryImplBase {
 	/* ----- */
 
 	_getCommonHtmlParts_lairActions ({legGroup}) {
-		return `${legGroup && legGroup.lairActions ? `<tr><td colspan="6"><h3 class="stats__sect-header-inner stats__sect-header-inner--non-statblock">Lair Actions</h3></td></tr>
+		return `${legGroup && legGroup.lairActions ? `<tr><td colspan="6"><h3 class="ve-stats__sect-header-inner ve-stats__sect-header-inner--non-statblock">Lair Actions</h3></td></tr>
 		${this._getRenderedSection({prop: "lairaction", entries: legGroup.lairActions, depth: -1})}` : ""}`;
 	}
 
 	_getCommonHtmlParts_regionalEffects ({legGroup}) {
-		return `${legGroup && legGroup.regionalEffects ? `<tr><td colspan="6"><h3 class="stats__sect-header-inner stats__sect-header-inner--non-statblock">Regional Effects</h3></td></tr>
+		return `${legGroup && legGroup.regionalEffects ? `<tr><td colspan="6"><h3 class="ve-stats__sect-header-inner ve-stats__sect-header-inner--non-statblock">Regional Effects</h3></td></tr>
 		${this._getRenderedSection({prop: "regionaleffect", entries: legGroup.regionalEffects, depth: -1})}` : ""}`;
 	}
 
@@ -301,14 +319,14 @@ class _RenderBestiaryImplBase {
 
 		const ptVariants = renderedVariants ? `<tr><td colspan="6">${renderedVariants}</td></tr>` : "";
 
-		const ptFooter = `${mon.footer ? `<tr><td colspan="6" class="stats__sect-row-inner">${renderer.render({entries: mon.footer})}</td></tr>` : ""}
+		const ptFooter = `${mon.footer ? `<tr><td colspan="6" class="ve-stats__sect-row-inner">${renderer.render({entries: mon.footer})}</td></tr>` : ""}
 		${mon.summonedBySpell ? `<tr><td colspan="6"><b>Summoned By:</b> ${renderer.render(`{@spell ${mon.summonedBySpell}}`)}</td></tr>` : ""}
 		${ptEnvironment ? `<tr><td colspan="6">${ptEnvironment}</td></tr>` : ""}
 		${ptTreasure ? `<tr><td colspan="6">${ptTreasure}</td></tr>` : ""}
 		<tr><td colspan="6">${ptSource}</td></tr>`.trim();
 
 		return `${ptVariants}
-		${ptFooter.length ? `<tr><td colspan="6" class="p-0 pt-3"></td></tr>` : ""}
+		${ptFooter.length ? `<tr><td colspan="6" class="ve-p-0 ve-pt-3"></td></tr>` : ""}
 		${ptFooter}`;
 	}
 
@@ -320,6 +338,7 @@ class _RenderBestiaryImplBase {
 			srd52: mon.srd52,
 			sourceSub: mon.sourceSub,
 			otherSources: mon.otherSources,
+			referenceSources: mon.referenceSources,
 			additionalSources: mon.additionalSources,
 			externalSources: mon.externalSources,
 			reprintedAs: mon.reprintedAs,
@@ -406,7 +425,7 @@ class _RenderBestiaryImplClassic extends _RenderBestiaryImplBase {
 	/* ----- */
 
 	_getHtmlParts_armorClass ({mon, renderer, isInlinedToken}) {
-		return `<tr><td colspan="6"><div ${isInlinedToken ? `class="stats__wrp-avoid-token"` : ""}><strong>Armor Class</strong> ${mon.ac == null ? "\u2014" : Parser.acToFull(mon.ac, {renderer})}</div></td></tr>`;
+		return `<tr><td colspan="6"><div ${isInlinedToken ? `class="ve-stats__wrp-avoid-token"` : ""}><strong>Armor Class</strong> ${mon.ac == null ? "\u2014" : Parser.acToFull(mon.ac, {renderer})}</div></td></tr>`;
 	}
 
 	/* ----- */
@@ -438,7 +457,7 @@ class _RenderBestiaryImplClassic extends _RenderBestiaryImplBase {
 	/* ----- */
 
 	_getHtmlParts_traits ({mon, entsTrait}) {
-		return `${entsTrait?.length ? `<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider mb-0"></div></td></tr>` : ""}
+		return `${entsTrait?.length ? `<tr><td colspan="6" class="ve-py-0"><div class="ve-tbl-divider ve-mb-0"></div></td></tr>` : ""}
 		${entsTrait?.length ? this._getRenderedSection({prop: "trait", entries: entsTrait}) : ""}`;
 	}
 
@@ -528,18 +547,18 @@ class _RenderBestiaryImplClassic extends _RenderBestiaryImplBase {
 		${htmlPtName}
 		${htmlPtSizeTypeAlignment}
 
-		<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider ${isInlinedToken ? `stats__wrp-avoid-token` : ""}"></div></td></tr>
+		<tr><td colspan="6" class="ve-py-0"><div class="ve-tbl-divider ${isInlinedToken ? `ve-stats__wrp-avoid-token` : ""}"></div></td></tr>
 
 		${htmlPtArmorClass}
 		${htmlPtHitPoints}
 		${htmlPtsResources.join("")}
 		${htmlPtSpeed}
 
-		<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider"></div></td></tr>
+		<tr><td colspan="6" class="ve-py-0"><div class="ve-tbl-divider"></div></td></tr>
 
 		${htmlPtAbilityScores}
 
-		<tr><td colspan="6" class="py-0"><div class="ve-tbl-divider"></div></td></tr>
+		<tr><td colspan="6" class="ve-py-0"><div class="ve-tbl-divider"></div></td></tr>
 
 		${htmlPtSavingThrows}
 		${htmlPtSkills}
@@ -552,13 +571,13 @@ class _RenderBestiaryImplClassic extends _RenderBestiaryImplBase {
 		${htmlPtSenses}
 		${htmlPtLanguages}
 
-		<tr class="relative">
+		<tr class="ve-relative">
 			${this._getTdChallenge(mon, opts)}
 			${htmlPtPb}
 		</tr>
 
-		<tr>${opts.selSummonSpellLevel ? ee`<td colspan="6"><strong class="mr-2">Spell Level</strong> ${opts.selSummonSpellLevel}</td>` : ""}</tr>
-		<tr>${opts.selSummonClassLevel ? ee`<td colspan="6"><strong class="mr-2">${opts.classLevelScalerClass ? "Class Level" : "Level"}</strong> ${opts.selSummonClassLevel}</td>` : ""}</tr>
+		<tr>${opts.selSummonSpellLevel ? ee`<td colspan="6"><strong class="ve-mr-2">Spell Level</strong> ${opts.selSummonSpellLevel}</td>` : ""}</tr>
+		<tr>${opts.selSummonClassLevel ? ee`<td colspan="6"><strong class="ve-mr-2">${opts.classLevelScalerClass ? "Class Level" : "Level"}</strong> ${opts.selSummonClassLevel}</td>` : ""}</tr>
 
 		${htmlPtTraits}
 		${htmlPtActions}
@@ -597,28 +616,14 @@ export class RenderBestiary {
 		}
 	}
 
-	/**
-	 * @param {object} mon Creature data.
-	 * @param [opts]
-	 * @param [opts.btnScaleCr] CR scaler button.
-	 * @param [opts.btnResetScaleCr] CR scaler reset button.
-	 * @param [opts.selSummonSpellLevel] Summon spell level selector.
-	 * @param [opts.selSummonClassLevel] Summon spell level selector.
-	 * @param [opts.isSkipExcludesRender] If the "this entity is blocklisted" display should be skipped.
-	 * @param [opts.isSkipTokenRender]
-	 */
-	static $getRenderedCreature (mon, opts) {
-		return $(this.getRenderedCreature(mon, opts));
-	}
-
-	static $getRenderedLegendaryGroup (legGroup) {
-		return $$`
+	static getRenderedLegendaryGroup (legGroup) {
+		return ee`
 		${Renderer.utils.getBorderTr()}
 		${Renderer.utils.getNameTr(legGroup)}
 		<tr><td colspan="6">
 			${legGroup.lairActions && legGroup.lairActions.length ? Renderer.get().render({type: "entries", entries: [{type: "entries", name: "Lair Actions", entries: legGroup.lairActions}]}) : ""}
 			${legGroup.regionalEffects && legGroup.regionalEffects.length ? Renderer.get().render({type: "entries", entries: [{type: "entries", name: "Regional Effects", entries: legGroup.regionalEffects}]}) : ""}
-			${legGroup.mythicEncounter && legGroup.mythicEncounter.length ? Renderer.get().render({type: "entries", entries: [{type: "entries", name: `<i title="This will display the creature's name when this legendary group is referenced from a creature statblock." class="help-subtle">&lt;Creature Name&gt;</i> as a Mythic Encounter`, entries: legGroup.mythicEncounter}]}) : ""}
+			${legGroup.mythicEncounter && legGroup.mythicEncounter.length ? Renderer.get().render({type: "entries", entries: [{type: "entries", name: `<i title="This will display the creature's name when this legendary group is referenced from a creature statblock." class="ve-help-subtle">&lt;Creature Name&gt;</i> as a Mythic Encounter`, entries: legGroup.mythicEncounter}]}) : ""}
 		</td></tr>
 		${Renderer.utils.getBorderTr()}`;
 	}

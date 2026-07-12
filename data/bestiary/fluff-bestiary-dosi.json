@@ -42,7 +42,9 @@
 						"type": "internal",
 						"path": "bestiary/DoSI/Merrow Extortionist.webp"
 					},
-					"credit": "Linda Lithén"
+					"credit": "Linda Lithén",
+					"width": 1700,
+					"height": 1404
 				}
 			]
 		},
@@ -76,7 +78,9 @@
 						"type": "internal",
 						"path": "bestiary/DoSI/Runara.webp"
 					},
-					"credit": "David Auden Nash"
+					"credit": "David Auden Nash",
+					"width": 1700,
+					"height": 1176
 				}
 			]
 		},
@@ -111,7 +115,9 @@
 						"type": "internal",
 						"path": "bestiary/DoSI/Spore Servant Octopus.webp"
 					},
-					"credit": "Linda Lithén"
+					"credit": "Linda Lithén",
+					"width": 1700,
+					"height": 974
 				}
 			]
 		},

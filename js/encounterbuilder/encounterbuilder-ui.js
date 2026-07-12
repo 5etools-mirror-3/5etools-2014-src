@@ -1,581 +1,800 @@
-import {EncounterBuilderRandomizer} from "./encounterbuilder-randomizer.js";
-import {EncounterBuilderCreatureMeta, EncounterBuilderXpInfo, EncounterPartyMeta, EncounterPartyPlayerMeta} from "./encounterbuilder-models.js";
-import {EncounterBuilderUiTtk} from "./encounterbuilder-ui-ttk.js";
-import {EncounterBuilderUiHelp} from "./encounterbuilder-ui-help.js";
-import {EncounterBuilderRenderableCollectionPlayersSimple} from "./encounterbuilder-playerssimple.js";
-import {EncounterBuilderRenderableCollectionColsExtraAdvanced} from "./encounterbuilder-colsextraadvanced.js";
-import {EncounterBuilderRenderableCollectionPlayersAdvanced} from "./encounterbuilder-playersadvanced.js";
-import {EncounterBuilderAdjuster} from "./encounterbuilder-adjuster.js";
+import {RenderableCollectionViewerCreatures} from "./encounterbuilder-ui-creatures.js";
 
-/**
- * TODO rework this to use doubled multipliers for XP, so we avoid the 0.5x issue for 6+ party sizes. Then scale
- *   everything back down at the end.
- */
-export class EncounterBuilderUi extends BaseComponent {
-	static _RenderState = class {
-		constructor () {
-			this.$wrpRowsSimple = null;
-			this.$wrpRowsAdvanced = null;
-			this.$wrpHeadersAdvanced = null;
-			this.$wrpFootersAdvanced = null;
-
-			this.infoHoverId = null;
-
-			this._collectionPlayersSimple = null;
-			this._collectionColsExtraAdvanced = null;
-			this._collectionPlayersAdvanced = null;
-		}
-	};
+class _RenderableCollectionCustomShapeGroups extends RenderableCollectionGenericRows {
+	constructor (
+		{
+			comp,
+			wrpRows,
+		},
+	) {
+		super(comp, "customShapeGroups", wrpRows);
+	}
 
 	/* -------------------------------------------- */
 
-	_cache = null;
-	_comp = null;
+	_getWrpRow () {
+		return super._getWrpRow()
+			.addClass("ve-py-1");
+	}
 
-	constructor ({cache, comp}) {
+	_populateRow ({comp, wrpRow, entity}) {
+		// region Count
+		const iptCountMinMaxMin = ComponentUiUtil.getIptInt(comp, "countMinMaxMin", 0, {min: 0})
+			.addClass("ve-text-center")
+			.tooltip("Minimum Number of Creatures");
+		const iptCountMinMaxMax = ComponentUiUtil.getIptInt(comp, "countMinMaxMax", 1, {min: 1})
+			.addClass("ve-text-center")
+			.tooltip("Maximum Number of Creatures");
+
+		const hkCountMinMax = () => {
+			if (comp._state.countMinMaxMin <= comp._state.countMinMaxMax) return;
+
+			[comp._state.countMinMaxMin, comp._state.countMinMaxMax] = [comp._state.countMinMaxMax, comp._state.countMinMaxMin];
+		};
+
+		comp._addHookBase("countMinMaxMin", hkCountMinMax);
+		comp._addHookBase("countMinMaxMax", hkCountMinMax);
+
+		hkCountMinMax();
+		// endregion
+
+		// region Ratio
+		const sldRatio = ComponentUiUtil.getSliderNumber(comp, "ratioPercentage", {min: 0, max: 100, step: 1})
+			.addClass("ve-mr-2");
+
+		const dispSpent = ee`<div class="ve-small ve-self-flex-end ve-no-shrink ve-w-140p ve-text-right ve-no-wrap ve-overflow-x-hidden ve-mr-2"></div>`;
+		const setHtmlDispSpent = (html) => {
+			dispSpent.html(html);
+		};
+		// endregion
+
+		const btnDelete = ee`<button class="ve-btn ve-btn-danger ve-btn-xxs" title="Delete"><span class="glyphicon glyphicon-trash"></span></button>`
+			.onn("click", () => {
+				this._utils.doDelete({entity});
+			});
+
+		ee(wrpRow)`
+			<div class="ve-col-3 ve-flex-vh-center ve-pr-1">
+				${iptCountMinMaxMin}
+				<div class="ve-mx-1">\u2013</div>
+				${iptCountMinMaxMax}
+			</div>
+
+			<div class="ve-col-9 ve-flex-vh-center ve-pl-1">
+				${sldRatio}
+				${dispSpent}
+				${btnDelete}
+			</div>
+		`;
+
+		return {
+			setHtmlDispSpent,
+		};
+	}
+}
+
+class _RatioState {
+	constructor ({ratiosPrev = null, cntRotate = 0} = {}) {
+		this.ratiosPrev = ratiosPrev;
+		this.cntRotate = cntRotate;
+	}
+
+	setState ({ratiosPrev = null, cntRotate = 0} = {}) {
+		this.ratiosPrev = ratiosPrev;
+		this.cntRotate = cntRotate;
+	}
+}
+
+export class EncounterBuilderUi extends BaseComponent {
+	static _RenderState = class {
+		constructor () {
+			this.renderableCollectionViewerCreatures = null;
+		}
+	};
+
+	static _CUSTOM_GROUPS_CNT_MAX = 50;
+
+	/* -------------------------------------------- */
+
+	/** @type {EncounterBuilderCacheBase} */
+	_cache;
+	/** @type {EncounterBuilderComponent} */
+	_comp;
+	/** @type {Array<EncounterBuilderRulesBase>} */
+	_rulesComps;
+	/** @type {Array<EncounterBuilderPartyBase>} */
+	_partyComps;
+	/** @type {EncounterBuilderShapesLookup} */
+	_encounterShapesLookup;
+	/** @type {typeof RenderableCollectionViewerCreatures} */
+	_ClsRenderableCollectionViewerCreatures;
+
+	constructor (
+		{
+			cache,
+			comp,
+			rulesComps,
+			partyComps,
+			encounterShapesLookup,
+			rendererWrapped,
+			ClsRenderableCollectionViewerCreatures = null,
+
+			headerTextSettings = "Settings",
+		},
+	) {
+		if (!rendererWrapped) throw new Error(`Missing required "rendererWrapped" option!`);
+
+		ClsRenderableCollectionViewerCreatures ??= RenderableCollectionViewerCreatures;
+
 		super();
 
 		this._cache = cache;
 		this._comp = comp;
+		this._rulesComps = rulesComps;
+		this._rulesCompsLookup = Object.fromEntries(this._rulesComps.map(comp => [comp.rulesId, comp]));
+		this._partyComps = partyComps;
+		this._partyCompsLookup = Object.fromEntries(this._partyComps.map(comp => [comp.partyId, comp]));
+		this._encounterShapesLookup = encounterShapesLookup;
+		this._rendererWrapped = rendererWrapped;
+		this._ClsRenderableCollectionViewerCreatures = ClsRenderableCollectionViewerCreatures;
+
+		this._headerTextSettings = headerTextSettings;
+
+		this._state.activeRulesId = this._rulesComps[0].rulesId;
+		this._state.activePartyId = this._partyComps[0].partyId;
+	}
+
+	addHookOnSave (hk) {
+		const fns = [
+			this._addHookAllBase(hk),
+
+			...this._rulesComps
+				.map(rulesComp => rulesComp.addHookOnSave(hk)),
+			...this._partyComps
+				.map(partyComp => partyComp.addHookOnSave(hk)),
+		];
+		return (...args) => fns.forEach(fn => fn(...args));
+	}
+
+	getActivePartyId () { return this._state.activePartyId; }
+	setActivePartyId (val) {
+		if (!this._partyCompsLookup[val]) return;
+		this._state.activePartyId = val;
+	}
+
+	getSaveableState () {
+		const out = super.getSaveableState();
+		out.stateRulesComps = Object.fromEntries(
+			this._rulesComps
+				.map(rulesComp => [rulesComp.rulesId, rulesComp.getSaveableState()]),
+		);
+		out.statePartyComps = Object.fromEntries(
+			this._partyComps
+				.map(partyComp => [partyComp.partyId, partyComp.getSaveableState()]),
+		);
+		return out;
+	}
+
+	setStateFrom (toLoad, isOverwrite = false) {
+		if (!toLoad) return super.setStateFrom(toLoad, isOverwrite);
+
+		if (toLoad.state) {
+			if (!this._rulesCompsLookup[toLoad.state.activeRulesId]) toLoad.state.activeRulesId = this._rulesComps[0].rulesId;
+			if (!this._partyCompsLookup[toLoad.state.activePartyId]) toLoad.state.activePartyId = this._partyComps[0].partyId;
+		}
+
+		const out = super.setStateFrom(toLoad, isOverwrite);
+
+		Object.entries(toLoad?.stateRulesComps || {})
+			.forEach(([rulesId, toLoadSub]) => {
+				this._rulesCompsLookup[rulesId]?.setStateFrom(toLoadSub, isOverwrite);
+			});
+		Object.entries(toLoad?.statePartyComps || {})
+			.forEach(([partyId, toLoadSub]) => {
+				this._partyCompsLookup[partyId]?.setStateFrom(toLoadSub, isOverwrite);
+			});
+		return out;
 	}
 
 	/**
-	 * @param {?jQuery} $parentRandomAndAdjust
-	 * @param {?jQuery} $parentViewer
-	 * @param {?jQuery} $parentGroupAndDifficulty
+	 * @param {HTMLElementExtended} stgSettings
+	 * @param {HTMLElementExtended} stgRandomAndAdjust
+	 * @param {?HTMLElementExtended} stgViewer
+	 * @param {HTMLElementExtended} stgShapeCustom
+	 * @param {HTMLElementExtended} stgGroup
+	 * @param {HTMLElementExtended} stgDifficulty
+	 * @param {?HTMLElementExtended} stgFooter
 	 */
 	render (
 		{
-			$parentRandomAndAdjust = null,
-			$parentViewer = null,
-			$parentGroupAndDifficulty = null,
+			stgSettings,
+			stgRandomAndAdjust,
+			stgViewer = null,
+			stgShapeCustom,
+			stgGroup,
+			stgDifficulty,
+			stgFooter = null,
 		},
 	) {
 		const rdState = new this.constructor._RenderState();
 
-		this._render_randomAndAdjust({rdState, $parentRandomAndAdjust});
-		this._render_viewer({rdState, $parentViewer});
-		this._render_groupAndDifficulty({rdState, $parentGroupAndDifficulty});
-		this._render_addHooks({rdState});
+		const {stgSettingsRules} = this._render_settings({rdState, stgSettings});
+
+		this._render_viewer({rdState, stgViewer});
+		const {stgGroupSummary} = this._render_group({stgGroup});
+		this._render_shapeCustom({rdState, stgShapeCustom});
+
+		this._rulesComps
+			.forEach(rulesComp => {
+				const {eles} = rulesComp.render({rdState, stgSettingsRules, stgRandomAndAdjust, stgGroupSummary, stgDifficulty});
+				this._addHookBase("activeRulesId", () => {
+					eles.forEach(ele => ele.toggleVe(this._state.activeRulesId === rulesComp.rulesId));
+				})();
+			});
+
+		this._render_footer({rdState, stgFooter});
+
+		this._render_addHooks();
+
+		return rdState;
+	}
+
+	_getActiveRulesComp () {
+		return this._rulesCompsLookup[this._state.activeRulesId];
+	}
+
+	_getActivePartyComp () {
+		return this._partyCompsLookup[this._state.activePartyId];
 	}
 
 	/* -------------------------------------------- */
+	/* -------------------------------------------- */
 
-	_render_randomAndAdjust ({$parentRandomAndAdjust}) {
-		const {
-			$btnRandom,
-			$btnRandomMode,
-			$liRandomEasy,
-			$liRandomMedium,
-			$liRandomHard,
-			$liRandomDeadly,
-		} = this._render_randomAndAdjust_getRandomMeta();
+	_render_settings ({stgSettings}) {
+		const selRulesId = ComponentUiUtil.getSelEnum(
+			this,
+			"activeRulesId",
+			{
+				values: this._rulesComps.map(({rulesId}) => rulesId),
+				fnDisplay: val => this._rulesCompsLookup[val]?.displayName,
+			},
+		);
 
-		const {
-			$btnAdjust,
-			$btnAdjustMode,
-			$liAdjustEasy,
-			$liAdjustMedium,
-			$liAdjustHard,
-			$liAdjustDeadly,
-		} = this._render_randomAndAdjust_getAdjustMeta();
+		const stgSettingsRules = ee`<div class="ve-flex-col"></div>`;
 
-		$$($parentRandomAndAdjust)`<div class="ve-flex-col">
-			<div class="ve-flex-h-right">
-				<div class="ve-btn-group mr-3">
-					${$btnRandom}
-					${$btnRandomMode}
-					<ul class="ve-dropdown-menu">
-						${$liRandomEasy}
-						${$liRandomMedium}
-						${$liRandomHard}
-						${$liRandomDeadly}
-					</ul>
-				</div>
+		ee(stgSettings)`
+			<h4 class="ve-my-2">${this._headerTextSettings}</h4>
+			<label class="ve-flex-v-center ve-mb-2"><b class="ve-mr-2">Rules:</b> ${selRulesId}</label>
+			${stgSettingsRules}
+		`;
 
-				<div class="ve-btn-group">
-					${$btnAdjust}
-					${$btnAdjustMode}
-					<ul class="ve-dropdown-menu">
-						${$liAdjustEasy}
-						${$liAdjustMedium}
-						${$liAdjustHard}
-						${$liAdjustDeadly}
-					</ul>
-				</div>
-			</div>
+		return {
+			stgSettingsRules,
+		};
+	}
+
+	/**
+	 * @param {_RenderState} rdState
+	 * @param {?HTMLElementExtended} stgViewer
+	 */
+	_render_viewer ({rdState, stgViewer}) {
+		this._addHookBase("activeRulesId", () => {
+			this._comp.setActiveRulesComp(this._getActiveRulesComp());
+		})();
+
+		if (!stgViewer) return;
+
+		const wrpRows = ee`<div class="ve-py-2 ve-overflow-y-auto ve-min-h-0 ve-flex-col ve-h-100"></div>`;
+		const dispEmpty = ee`<div class="ve-muted ve-italic ve-text-center ve-p-2">Add a creature to begin.</div>`;
+
+		const wrpOutput = ee`<div class="ecgen-viewer__wrp-output ve-relative">
+			${wrpRows}
+			${dispEmpty}
 		</div>`;
-	}
 
-	_render_randomAndAdjust_getRandomMeta () {
-		let modeRandom = "medium";
+		UiUtil.getEleDragVerticalResize({
+			wrpContainer: wrpOutput,
+			heightPxSaved: this._state.viewerHeightPx || 130,
+			fnSetHeightPxSaved: heightPx => this._state.viewerHeightPx = heightPx,
+		})
+			.addClass("ecgen-viewer__ele-resize")
+			.appendTo(wrpOutput);
 
-		const pSetRandomMode = async (mode) => {
-			const randomizer = new EncounterBuilderRandomizer({
-				partyMeta: this._getPartyMeta(),
-				cache: this._cache,
-			});
-			const randomCreatureMetas = await randomizer.pGetRandomEncounter({
-				difficulty: mode,
-				lockedEncounterCreatures: this._comp.creatureMetas.filter(creatureMeta => creatureMeta.isLocked),
-			});
+		ee(stgViewer)`
+			<hr class="ve-hr-2">
+			${wrpOutput}
+		`;
 
-			if (randomCreatureMetas != null) this._comp.creatureMetas = randomCreatureMetas;
+		rdState.renderableCollectionViewerCreatures = new this._ClsRenderableCollectionViewerCreatures({
+			comp: this._comp,
+			wrpRows,
+			rendererWrapped: this._rendererWrapped,
+		});
 
-			modeRandom = mode;
-			$btnRandom
-				.text(`Random ${mode.toTitleCase()}`)
-				.title(`Randomly generate ${Parser.getArticle(mode)} ${mode.toTitleCase()} encounter`);
-		};
+		this._comp.addHookCreatureGroups(() => {
+			wrpRows.toggleVe(!!this._comp.creatureGroups.length);
+			dispEmpty.toggleVe(!this._comp.creatureGroups.length);
 
-		const $getLiRandom = (mode) => {
-			return $(`<li title="Randomly generate ${Parser.getArticle(mode)} ${mode.toTitleCase()} encounter"><a href="#">Random ${mode.toTitleCase()}</a></li>`)
-				.click(async (evt) => {
-					evt.preventDefault();
-					await pSetRandomMode(mode);
-				});
-		};
-
-		const $btnRandom = $(`<button class="ve-btn ve-btn-primary ecgen__btn-random-adjust" title="Randomly generate a Medium encounter">Random Medium</button>`)
-			.click(async evt => {
-				evt.preventDefault();
-				await pSetRandomMode(modeRandom);
-			});
-
-		const $btnRandomMode = $(`<button class="ve-btn ve-btn-primary ve-dropdown-toggle"><span class="caret"></span></button>`);
-		JqueryUtil.bindDropdownButton($btnRandomMode);
-
-		return {
-			$btnRandom,
-			$btnRandomMode,
-			$liRandomEasy: $getLiRandom("easy"),
-			$liRandomMedium: $getLiRandom("medium"),
-			$liRandomHard: $getLiRandom("hard"),
-			$liRandomDeadly: $getLiRandom("deadly"),
-		};
-	}
-
-	_render_randomAndAdjust_getAdjustMeta () {
-		let modeAdjust = "medium";
-
-		const pSetAdjustMode = async (mode) => {
-			const adjuster = new EncounterBuilderAdjuster({
-				partyMeta: this._getPartyMeta(),
-			});
-			const adjustedCreatureMetas = await adjuster.pGetAdjustedEncounter({
-				difficulty: mode,
-				creatureMetas: this._comp.creatureMetas,
-			});
-
-			if (adjustedCreatureMetas != null) this._comp.creatureMetas = adjustedCreatureMetas;
-
-			modeAdjust = mode;
-			$btnAdjust
-				.text(`Adjust to ${mode.toTitleCase()}`)
-				.title(`Adjust the current encounter difficulty to ${mode.toTitleCase()}`);
-		};
-
-		const $getLiAdjust = (mode) => {
-			return $(`<li title="Adjust the current encounter difficulty to ${mode.toTitleCase()}"><a href="#">Adjust to ${mode.toTitleCase()}</a></li>`)
-				.click(async (evt) => {
-					evt.preventDefault();
-					await pSetAdjustMode(mode);
-				});
-		};
-
-		const $btnAdjust = $(`<button class="ve-btn ve-btn-primary ecgen__btn-random-adjust" title="Adjust the current encounter difficulty to Medium">Adjust to Medium</button>`)
-			.click(async evt => {
-				evt.preventDefault();
-				await pSetAdjustMode(modeAdjust);
-			});
-
-		const $btnAdjustMode = $(`<button class="ve-btn ve-btn-primary ve-dropdown-toggle"><span class="caret"></span></button>`);
-		JqueryUtil.bindDropdownButton($btnAdjustMode);
-
-		return {
-			$btnAdjust,
-			$btnAdjustMode,
-			$liAdjustEasy: $getLiAdjust("easy"),
-			$liAdjustMedium: $getLiAdjust("medium"),
-			$liAdjustHard: $getLiAdjust("hard"),
-			$liAdjustDeadly: $getLiAdjust("deadly"),
-		};
-	}
-
-	/* -------------------------------------------- */
-
-	_render_viewer ({$parentViewer}) {
-		if (!$parentViewer) return;
-
-		const $wrpOutput = $(`<div class="py-2 mt-5" style="background: #333"></div>`);
-
-		$$($parentViewer)`${$wrpOutput}`;
-
-		this._comp.addHookCreatureMetas(() => {
-			const $lis = this._comp.creatureMetas
-				.map(creatureMeta => {
-					const $btnShuffle = $(`<button class="ve-btn ve-btn-default ve-btn-xs"><span class="glyphicon glyphicon-random"></span></button>`)
-						.click(() => {
-							this._doShuffle({creatureMeta});
-						});
-
-					return $$`<li>${$btnShuffle} <span>${Renderer.get().render(`${creatureMeta.count}× {@creature ${creatureMeta.creature.name}|${creatureMeta.creature.source}}`)}</span></li>`;
-				});
-
-			$$($wrpOutput.empty())`<ul>
-				${$lis}
-			</ul>`;
+			rdState.renderableCollectionViewerCreatures.render();
 		})();
 	}
 
-	/* -------------------------------------------- */
+	_render_group ({stgGroup}) {
+		const selPartyId = ComponentUiUtil.getSelEnum(
+			this,
+			"activePartyId",
+			{
+				values: this._partyComps.map(({partyId}) => partyId),
+				fnDisplay: val => this._partyCompsLookup[val]?.displayName,
+			},
+		)
+			.addClass("ve-w-120p");
 
-	_render_groupAndDifficulty ({rdState, $parentGroupAndDifficulty}) {
-		const {
-			$stg: $stgSimple,
-			$wrpRows: $wrpRowsSimple,
-		} = this._renderGroupAndDifficulty_getGroupEles_simple();
-		rdState.$wrpRowsSimple = $wrpRowsSimple;
+		const stgParty = ee`<div class="ve-flex-col"></div>`;
 
-		const {
-			$stg: $stgAdvanced,
-			$wrpRows: $wrpRowsAdvanced,
-			$wrpHeaders: $wrpHeadersAdvanced,
-			$wrpFooters: $wrpFootersAdvanced,
-		} = this._renderGroupAndDifficulty_getGroupEles_advanced();
-		rdState.$wrpRowsAdvanced = $wrpRowsAdvanced;
-		rdState.$wrpHeadersAdvanced = $wrpHeadersAdvanced;
-		rdState.$wrpFootersAdvanced = $wrpFootersAdvanced;
+		const stgGroupSummary = ee`<div class="ve-flex-col ve-w-40"></div>`;
 
-		const $hrHasCreatures = $(`<hr class="hr-1">`);
-		const $wrpDifficulty = $$`<div class="ve-flex">
-			${this._renderGroupAndDifficulty_$getDifficultyLhs()}
-			${this._renderGroupAndDifficulty_$getDifficultyRhs({rdState})}
-		</div>`;
-
-		this._addHookBase("derivedGroupAndDifficulty", () => {
-			const {
-				encounterXpInfo = EncounterBuilderXpInfo.getDefault(),
-			} = this._state.derivedGroupAndDifficulty;
-			$hrHasCreatures.toggleVe(encounterXpInfo.relevantCount);
-			$wrpDifficulty.toggleVe(encounterXpInfo.relevantCount);
-		})();
-
-		$$($parentGroupAndDifficulty)`
-		<h3 class="mt-1 m-2">Group Info</h3>
-		<div class="ve-flex">
-			${$stgSimple}
-			${$stgAdvanced}
-			${this._renderGroupAndDifficulty_$getGroupInfoRhs()}
-		</div>
-
-		${$hrHasCreatures}
-		${$wrpDifficulty}`;
-
-		rdState.collectionPlayersSimple = new EncounterBuilderRenderableCollectionPlayersSimple({
-			comp: this._comp,
-			rdState,
-		});
-
-		rdState.collectionColsExtraAdvanced = new EncounterBuilderRenderableCollectionColsExtraAdvanced({
-			comp: this._comp,
-			rdState,
-		});
-
-		rdState.collectionPlayersAdvanced = new EncounterBuilderRenderableCollectionPlayersAdvanced({
-			comp: this._comp,
-			rdState,
-		});
-	}
-
-	_renderGroupAndDifficulty_getGroupEles_simple () {
-		const $btnAddPlayers = $(`<button class="ve-btn ve-btn-primary ve-btn-xs"><span class="glyphicon glyphicon-plus"></span> Add Another Level</button>`)
-			.click(() => this._comp.doAddPlayer());
-
-		const $wrpRows = $(`<div class="ve-flex-col w-100"></div>`);
-
-		const $stg = $$`<div class="w-70 ve-flex-col">
+		ee(stgGroup)`
+			<h4 class="ve-my-2">Group Info</h4>
+			<label class="ve-flex-v-center ve-mb-2"><b class="ve-mr-2">Mode:</b> ${selPartyId}</label>
+			<hr class="ve-hr-2 ve-mt-0">
 			<div class="ve-flex">
-				<div class="w-20">Players:</div>
-				<div class="w-20">Level:</div>
-			</div>
-
-			${$wrpRows}
-
-			<div class="mb-1 ve-flex">
-				<div class="ecgen__wrp_add_players_btn_wrp">
-					${$btnAddPlayers}
+				<div class="ve-flex-col ve-w-60">
+					${stgParty}
 				</div>
+
+				${stgGroupSummary}
 			</div>
+		`;
 
-			${this._renderGroupAndDifficulty_$getPtAdvancedMode()}
+		this._partyComps
+			.forEach(partyComp => {
+				const {eles} = partyComp.render({stgGroup: stgParty});
+				this._addHookBase("activePartyId", () => {
+					eles.forEach(ele => ele.toggleVe(this._state.activePartyId === partyComp.partyId));
+				})();
+			});
 
-		</div>`;
+		this._addHookBase("activePartyId", (valNotFirstRun) => {
+			this._comp.setActivePartyComp(this._getActivePartyComp());
 
-		this._comp.addHookIsAdvanced(() => {
-			$stg.toggleVe(!this._comp.isAdvanced);
+			if (valNotFirstRun == null) return;
+			this._render_hk_triggerPulseDerivedPartyMeta();
+			this._render_hk_doUpdateExternalStates();
 		})();
 
-		return {
-			$wrpRows,
-			$stg,
-		};
-	}
-
-	_renderGroupAndDifficulty_getGroupEles_advanced () {
-		const $btnAddPlayers = $(`<button class="ve-btn ve-btn-primary ve-btn-xs"><span class="glyphicon glyphicon-plus"></span> Add Another Player</button>`)
-			.click(() => this._comp.doAddPlayer());
-
-		const $btnAddAdvancedCol = $(`<button class="ve-btn ve-btn-primary ve-btn-xxs ecgen-player__btn-inline h-ipt-xs bl-0 bb-0 bbl-0 bbr-0 btl-0 ml-n1" title="Add Column" tabindex="-1"><span class="glyphicon glyphicon-list-alt"></span></button>`)
-			.click(() => this._comp.doAddColExtraAdvanced());
-
-		const $wrpHeaders = $(`<div class="ve-flex"></div>`);
-		const $wrpFooters = $(`<div class="ve-flex"></div>`);
-
-		const $wrpRows = $(`<div class="ve-flex-col"></div>`);
-
-		const $stg = $$`<div class="w-70 ve-overflow-x-auto ve-flex-col">
-			<div class="ve-flex-h-center mb-2 bb-1p small-caps ve-self-flex-start">
-				<div class="w-100p mr-1 h-ipt-xs no-shrink">Name</div>
-				<div class="w-40p ve-text-center mr-1 h-ipt-xs no-shrink">Level</div>
-				${$wrpHeaders}
-				${$btnAddAdvancedCol}
-			</div>
-
-			${$wrpRows}
-
-			<div class="mb-1 ve-flex">
-				<div class="ecgen__wrp_add_players_btn_wrp no-shrink no-grow">
-					${$btnAddPlayers}
-				</div>
-				${$wrpFooters}
-			</div>
-
-			${this._renderGroupAndDifficulty_$getPtAdvancedMode()}
-
-			<div class="row">
-				<div class="w-100">
-					${Renderer.get().render(`{@note Additional columns will be imported into the DM Screen.}`)}
-				</div>
-			</div>
-		</div>`;
-
-		this._comp.addHookIsAdvanced(() => {
-			$stg.toggleVe(this._comp.isAdvanced);
-		})();
-
-		return {
-			$stg,
-			$wrpRows,
-			$wrpHeaders,
-			$wrpFooters,
-		};
-	}
-
-	_renderGroupAndDifficulty_$getPtAdvancedMode () {
-		const $cbAdvanced = ComponentUiUtil.$getCbBool(this._comp, "isAdvanced");
-
-		return $$`<div class="ve-flex-v-center">
-			<label class="ve-flex-v-center">
-				<div class="mr-2">Advanced Mode</div>
-				${$cbAdvanced}
-			</label>
-		</div>`;
-	}
-
-	static _TITLE_DIFFICULTIES = {
-		easy: "An easy encounter doesn't tax the characters' resources or put them in serious peril. They might lose a few hit points, but victory is pretty much guaranteed.",
-		medium: "A medium encounter usually has one or two scary moments for the players, but the characters should emerge victorious with no casualties. One or more of them might need to use healing resources.",
-		hard: "A hard encounter could go badly for the adventurers. Weaker characters might get taken out of the fight, and there's a slim chance that one or more characters might die.",
-		deadly: "A deadly encounter could be lethal for one or more player characters. Survival often requires good tactics and quick thinking, and the party risks defeat",
-		absurd: "An &quot;absurd&quot; encounter is a deadly encounter as per the rules, but is differentiated here to provide an additional tool for judging just how deadly a &quot;deadly&quot; encounter will be. It is calculated as: &quot;deadly + (deadly - hard)&quot;.",
-	};
-	static _TITLE_BUDGET_DAILY = "This provides a rough estimate of the adjusted XP value for encounters the party can handle before the characters will need to take a long rest.";
-	static _TITLE_XP_TO_NEXT_LEVEL = "The total XP required to allow each member of the party to level up to their next level.";
-	static _TITLE_TTK = "Time to Kill: The estimated number of turns the party will require to defeat the encounter. This assumes single-target damage only.";
-
-	static _getDifficultyKey ({partyMeta, encounterXpInfo}) {
-		if (encounterXpInfo.adjustedXp >= partyMeta.easy && encounterXpInfo.adjustedXp < partyMeta.medium) return "easy";
-		if (encounterXpInfo.adjustedXp >= partyMeta.medium && encounterXpInfo.adjustedXp < partyMeta.hard) return "medium";
-		if (encounterXpInfo.adjustedXp >= partyMeta.hard && encounterXpInfo.adjustedXp < partyMeta.deadly) return "hard";
-		if (encounterXpInfo.adjustedXp >= partyMeta.deadly && encounterXpInfo.adjustedXp < partyMeta.absurd) return "deadly";
-		if (encounterXpInfo.adjustedXp >= partyMeta.absurd) return "absurd";
-		return "trivial";
-	}
-
-	static _getDifficultyHtml ({partyMeta, difficulty}) {
-		return `<span class="help-subtle" title="${this._TITLE_DIFFICULTIES[difficulty]}">${difficulty.toTitleCase()}:</span> ${partyMeta[difficulty].toLocaleString()} XP`;
-	}
-
-	_renderGroupAndDifficulty_$getGroupInfoRhs () {
-		const $dispXpEasy = $(`<div></div>`);
-		const $dispXpMedium = $(`<div></div>`);
-		const $dispXpHard = $(`<div></div>`);
-		const $dispXpDeadly = $(`<div></div>`);
-		const $dispXpAbsurd = $(`<div></div>`);
-
-		const $dispsXpDifficulty = {
-			"easy": $dispXpEasy,
-			"medium": $dispXpMedium,
-			"hard": $dispXpHard,
-			"deadly": $dispXpDeadly,
-			"absurd": $dispXpAbsurd,
-		};
-
-		const $dispTtk = $(`<div></div>`);
-
-		const $dispBudgetDaily = $(`<div></div>`);
-		const $dispExpToLevel = $(`<div class="ve-muted"></div>`);
-
-		this._addHookBase("derivedGroupAndDifficulty", () => {
-			const {
-				partyMeta = EncounterPartyMeta.getDefault(),
-				encounterXpInfo = EncounterBuilderXpInfo.getDefault(),
-			} = this._state.derivedGroupAndDifficulty;
-
-			const difficulty = this.constructor._getDifficultyKey({partyMeta, encounterXpInfo});
-
-			Object.entries($dispsXpDifficulty)
-				.forEach(([difficulty_, $disp]) => {
-					$disp
-						.toggleClass("bold", difficulty === difficulty_)
-						.html(this.constructor._getDifficultyHtml({partyMeta, difficulty: difficulty_}));
-				});
-
-			$dispTtk
-				.html(`<span class="help" title="${this.constructor._TITLE_TTK}">TTK:</span> ${EncounterBuilderUiTtk.getApproxTurnsToKill({partyMeta, creatureMetas: this._comp.creatureMetas}).toFixed(2)}`);
-
-			$dispBudgetDaily
-				.html(`<span class="help-subtle" title="${this.constructor._TITLE_BUDGET_DAILY}">Daily Budget:</span> ${partyMeta.dailyBudget.toLocaleString()} XP`);
-
-			$dispExpToLevel
-				.html(`<span class="help-subtle" title="${this.constructor._TITLE_XP_TO_NEXT_LEVEL}">XP to Next Level:</span> ${partyMeta.xpToNextLevel.toLocaleString()} XP`);
-		})();
-
-		return $$`<div class="w-30 ve-text-right">
-			${$dispXpEasy}
-			${$dispXpMedium}
-			${$dispXpHard}
-			${$dispXpDeadly}
-			${$dispXpAbsurd}
-			<br>
-			${$dispTtk}
-			<br>
-			${$dispBudgetDaily}
-			${$dispExpToLevel}
-		</div>`;
-	}
-
-	_renderGroupAndDifficulty_$getDifficultyLhs () {
-		const $dispDifficulty = $(`<h3 class="mt-2"></h3>`);
-
-		this._addHookBase("derivedGroupAndDifficulty", () => {
-			const {
-				partyMeta = EncounterPartyMeta.getDefault(),
-				encounterXpInfo = EncounterBuilderXpInfo.getDefault(),
-			} = this._state.derivedGroupAndDifficulty;
-
-			const difficulty = this.constructor._getDifficultyKey({partyMeta, encounterXpInfo});
-
-			$dispDifficulty.text(`Difficulty: ${difficulty.toTitleCase()}`);
-		})();
-
-		return $$`<div class="w-50">
-			${$dispDifficulty}
-		</div>`;
-	}
-
-	_renderGroupAndDifficulty_$getDifficultyRhs ({rdState}) {
-		const $dispXpRawTotal = $(`<h4></h4>`);
-		const $dispXpRawPerPlayer = $(`<i></i>`);
-
-		const $hovXpAdjustedInfo = $(`<span class="glyphicon glyphicon-info-sign mr-2"></span>`);
-
-		const $dispXpAdjustedTotal = $(`<h4 class="ve-flex-v-center"></h4>`);
-		const $dispXpAdjustedPerPlayer = $(`<i></i>`);
-
-		this._addHookBase("derivedGroupAndDifficulty", () => {
-			const {
-				partyMeta = EncounterPartyMeta.getDefault(),
-				encounterXpInfo = EncounterBuilderXpInfo.getDefault(),
-			} = this._state.derivedGroupAndDifficulty;
-
-			$dispXpRawTotal.text(`Total XP: ${encounterXpInfo.baseXp.toLocaleString()}`);
-			$dispXpRawPerPlayer.text(`(${Math.floor(encounterXpInfo.baseXp / partyMeta.cntPlayers).toLocaleString()} per player)`);
-
-			const infoEntry = EncounterBuilderUiHelp.getHelpEntry({partyMeta, encounterXpInfo});
-
-			if (rdState.infoHoverId == null) {
-				const hoverMeta = Renderer.hover.getMakePredefinedHover(infoEntry, {isBookContent: true});
-				rdState.infoHoverId = hoverMeta.id;
-
-				$hovXpAdjustedInfo
-					.off("mouseover")
-					.off("mousemove")
-					.off("mouseleave")
-					.on("mouseover", function (event) { hoverMeta.mouseOver(event, this); })
-					.on("mousemove", function (event) { hoverMeta.mouseMove(event, this); })
-					.on("mouseleave", function (event) { hoverMeta.mouseLeave(event, this); });
-			} else {
-				Renderer.hover.updatePredefinedHover(rdState.infoHoverId, infoEntry);
-			}
-
-			$dispXpAdjustedTotal.html(`Adjusted XP <span class="ve-small ve-muted ml-2" title="XP Multiplier">(×${encounterXpInfo.playerAdjustedXpMult})</span>: <b class="ml-2">${encounterXpInfo.adjustedXp.toLocaleString()}</b>`);
-			$dispXpAdjustedPerPlayer.text(`(${Math.floor(encounterXpInfo.adjustedXp / partyMeta.cntPlayers).toLocaleString()} per player)`);
-		})();
-
-		return $$`<div class="w-50 ve-text-right">
-			${$dispXpRawTotal}
-			<div>${$dispXpRawPerPlayer}</div>
-			<div class="ve-flex-v-center ve-flex-h-right">${$hovXpAdjustedInfo}${$dispXpAdjustedTotal}</div>
-			<div>${$dispXpAdjustedPerPlayer}</div>
-		</div>`;
+		return {stgGroupSummary};
 	}
 
 	/* -------------------------------------------- */
 
-	_render_addHooks ({rdState}) {
-		this._comp.addHookPlayersSimple((valNotFirstRun) => {
-			rdState.collectionPlayersSimple.render();
+	_getCustomShapeTemplate () {
+		return this._comp.customShapeGroups?.length
+			? {
+				groups: this._comp.customShapeGroups
+					.map(customShapeGroup => {
+						const {entity} = customShapeGroup;
 
+						return {
+							count: entity.countMinMaxMin === entity.countMinMaxMax
+								? {exact: entity.countMinMaxMin}
+								: {min: entity.countMinMaxMin, max: entity.countMinMaxMax},
+							ratio: {exact: entity.ratioPercentage / 100},
+						};
+					}),
+			}
+			: null;
+	}
+
+	_setCustomShapeGroupsFromShapeTemplate (shapeTemplate) {
+		if (!shapeTemplate?.groups) return 0;
+
+		const groupsConvertable = shapeTemplate.groups
+			.filter(group => (
+				group.ratio?.exact != null
+				&& group.count?.min != null
+				&& group.count?.max != null
+			));
+
+		if (!groupsConvertable.length) return 0;
+
+		this._comp.customShapeGroups = groupsConvertable
+			.map(group => (
+				this._comp.constructor.getDefaultCustomShapeGroup({
+					countMinMaxMin: group.count.min,
+					countMinMaxMax: group.count.max,
+					ratioPercentage: group.ratio.exact * 100,
+				})
+			));
+
+		return groupsConvertable.length;
+	}
+
+	_render_shapeCustom ({rdState, stgShapeCustom}) {
+		const btnAddGroup = ee`<button class="ve-btn ve-btn-xs ve-btn-default"><span class="glyphicon glyphicon-plus"></span> Add Creature Group</button>`
+			.onn("click", () => {
+				if (this._comp.customShapeGroups.length >= this.constructor._CUSTOM_GROUPS_CNT_MAX) {
+					JqueryUtil.doToast({type: "warning", content: "Maximum group limit reached! Please remove some existing groups first."});
+					return;
+				}
+
+				this._comp.customShapeGroups = [
+					...this._comp.customShapeGroups,
+					this._comp.constructor.getDefaultCustomShapeGroup(),
+				];
+			});
+
+		const btnClearGroups = ee`<button class="ve-btn ve-btn-xs ve-btn-danger" title="Delete All Groups"><span class="glyphicon glyphicon-trash"></span></button>`
+			.onn("click", async () => {
+				if (
+					this._comp.customShapeGroups?.length
+					&& !await InputUiUtil.pGetUserBoolean({title: "Are you Sure?", htmlDescription: `Are you sure you want to creature delete ${this._comp.customShapeGroups.length} group${this._comp.customShapeGroups.length === 1 ? "" : "s"}?`})
+				) return;
+
+				this._comp.customShapeGroups = [];
+			});
+
+		const btnExportCustomShapeGroups = ee`<button class="ve-btn ve-btn-xs ve-btn-default" title="Export Creature Group Configuration"><span class="glyphicon glyphicon-download"></span></button>`
+			.onn("click", () => {
+				DataUtil.userDownload(`custom-encounter-config`, this._getCustomShapeTemplate(), {fileType: "encounterbuilder-custom-shape-template"});
+			});
+
+		const btnImportCustomShapeGroups = ee`<button class="ve-btn ve-btn-xs ve-btn-default" title="Import Creature Group Configuration"><span class="glyphicon glyphicon-upload"></span></button>`
+			.onn("click", async () => {
+				const {jsons, errors} = await InputUiUtil.pGetUserUploadJson({expectedFileTypes: ["encounterbuilder-custom-shape-template"]});
+
+				DataUtil.doHandleFileLoadErrorsGeneric(errors);
+
+				if (!jsons?.length) return;
+
+				const [json] = jsons;
+
+				const cntSet = this._setCustomShapeGroupsFromShapeTemplate(json);
+				if (!cntSet) return JqueryUtil.doToast({content: `Failed to import creature groups! Please ensure the file contains a valid list of exported creature groups.`, type: "warning"});
+
+				JqueryUtil.doToast({content: `Imported ${cntSet} creature group${cntSet === 1 ? "" : "s"}!`});
+			});
+
+		const btnAutoAllocate = ee`<button class="ve-btn ve-btn-xs ve-btn-default" title="Auto-Distribute Remaining Budget (SHIFT to Auto Distribute Entire Budget; CTRL to Auto Distribute Entire Budget by Number of Creature)"><span class="glyphicon glyphicon-equalizer"></span></button>`
+			.onn("click", evt => {
+				if (!this._comp.customShapeGroups?.length) return;
+
+				if (evt.shiftKey || EventUtil.isCtrlMetaKey(evt)) {
+					const ratiosCur = this._comp.customShapeGroups
+						.map(() => 0);
+
+					this._doAdjustRatios({
+						deltaRatio: 100,
+						ratioState: new _RatioState({ratiosPrev: ratiosCur}),
+						ratiosCur,
+						direction: 1,
+						isRespectCreatureCount: EventUtil.isCtrlMetaKey(evt),
+					});
+
+					this._comp.customShapeGroups
+						.forEach(({entity}, i) => entity.ratioPercentage = ratiosCur[i]);
+					this._comp.customShapeGroups = [...this._comp.customShapeGroups];
+					return;
+				}
+
+				const ratiosCur = this._comp.customShapeGroups
+					.map(({entity}) => entity.ratioPercentage);
+				const ratioPercentageTotal = ratiosCur.sum();
+
+				this._doAdjustRatios({
+					deltaRatio: 100 - ratioPercentageTotal,
+					ratioState: new _RatioState({ratiosPrev: ratiosCur}),
+					ratiosCur,
+					direction: 1,
+				});
+
+				this._comp.customShapeGroups
+					.forEach(({entity}, i) => entity.ratioPercentage = ratiosCur[i]);
+				this._comp.customShapeGroups = [...this._comp.customShapeGroups];
+			});
+
+		const dispSpent = ee`<div class="ve-ml-auto ve-small ve-self-flex-end"></div>`;
+		const getUnspentInfo = () => {
+			const ratioPercentageTotal = this._comp.customShapeGroups
+				.map(({entity}) => entity.ratioPercentage)
+				.sum();
+
+			const activeRulesComp = this._getActiveRulesComp();
+			const partyMeta = activeRulesComp.getEncounterPartyMeta();
+
+			return {
+				html: activeRulesComp
+					.getDisplayBudgetSpent({
+						ratioSpent: ratioPercentageTotal / 100,
+						partyMeta,
+					}),
+				htmlRowsLookup: Object.fromEntries(
+					this._comp.customShapeGroups
+						.map(customShapeGroup => {
+							return [
+								customShapeGroup.id,
+								activeRulesComp
+									.getDisplayGroupBudgetSpent({
+										ratioSpent: customShapeGroup.entity.ratioPercentage / 100,
+										partyMeta,
+										cntMin: customShapeGroup.entity.countMinMaxMin,
+										cntMax: customShapeGroup.entity.countMinMaxMax,
+									}),
+							];
+						}),
+				),
+				isComplete: !(100 - ratioPercentageTotal),
+			};
+		};
+		const doUpdateDispSpent = () => {
+			const {
+				html: htmlUnspentHeader,
+				htmlRowsLookup,
+				isComplete,
+			} = getUnspentInfo();
+			dispSpent
+				.html(`<span class="ve-split-v-center ve-w-140p ve-no-shrink" title="The percentage of the encounter budget, for the currently-selected difficulty, allocated to encounter groups.">${htmlUnspentHeader}</span>`)
+				.toggleClass("text-danger", !isComplete);
+
+			const renderedCustomShapeGroups = this._comp._getRenderedCollection({prop: "customShapeGroups"});
+			Object.entries(renderedCustomShapeGroups)
+				.forEach(([id, meta]) => meta.setHtmlDispSpent(htmlRowsLookup[id]));
+		};
+
+		const wrpGroupsCustom = ee`<div class="ve-pb-2 ve-flex-col"></div>`;
+		const wrpGroupsCustomEmpty = ee`<div class="ve-pb-2 ve-flex-vh-center">
+			<i class="ve-muted ve-pt-2">Add a Custom Creature Group to begin.</i>
+		</div>`;
+
+		const renderableCollectionCustomShapeGroups = new _RenderableCollectionCustomShapeGroups({
+			comp: this._comp,
+			wrpRows: wrpGroupsCustom,
+		});
+
+		const ratioState = new _RatioState();
+
+		this._comp.addHookCustomShapeGroups(() => {
+			btnAutoAllocate.toggleClass("ve-disabled", !this._comp.customShapeGroups?.length);
+
+			renderableCollectionCustomShapeGroups.render();
+
+			wrpGroupsCustom.toggleVe(!!this._comp.customShapeGroups?.length);
+			wrpGroupsCustomEmpty.toggleVe(!this._comp.customShapeGroups?.length);
+
+			doUpdateDispSpent();
+
+			this._encounterShapesLookup.setCustomShapeTemplate(this._getCustomShapeTemplate());
+
+			this._render_shapeCustom_doUpdateRatios(ratioState);
+		})();
+
+		const hkOnNonGroupUpdate = () => {
+			const isCustom = this._getActiveRulesComp().isCustomEncounterShape();
+			stgShapeCustom.toggleVe(isCustom);
+
+			if (!isCustom) return;
+
+			doUpdateDispSpent();
+		};
+
+		this._addHookBase("activeRulesId", hkOnNonGroupUpdate);
+		this._comp.addHookPulseDeriverPartyMeta(hkOnNonGroupUpdate);
+		hkOnNonGroupUpdate();
+
+		this._rulesComps
+			.forEach(rulesComp => {
+				rulesComp.addHookTierRandom(() => {
+					const activeRulesComp = this._getActiveRulesComp();
+					if (activeRulesComp !== rulesComp) return;
+
+					hkOnNonGroupUpdate();
+				});
+
+				rulesComp.addHookShapeHashRandom(() => {
+					const activeRulesComp = this._getActiveRulesComp();
+					if (activeRulesComp !== rulesComp) return;
+
+					hkOnNonGroupUpdate();
+				})();
+			});
+
+		ee(stgShapeCustom)`
+			<div class="ve-split-v-center ve-my-2">
+				<h4 class="ve-my-0">Custom Encounter</h4>
+				<div class="ve-flex-v-center">
+					<div class="ve-btn-group ve-flex-v-center ve-mr-2">
+						${btnAddGroup}
+						${btnClearGroups}
+					</div>
+					<div class="ve-btn-group ve-flex-v-center">
+						${btnExportCustomShapeGroups}
+						${btnImportCustomShapeGroups}
+					</div>
+				</div>
+			</div>
+
+			<div class="ve-w-100 ve-flex ve-bb-1p-trans ve-pb-1p">
+				<div class="ve-col-3 ve-no-shrink ve-small-caps ve-pr-1">Creatures</div>
+				<div class="ve-w-100 ve-small-caps ve-px-1 ve-split-v-center">
+					<div class="ve-flex-v-center">
+						<div class="ve-mr-2">Budget Allocation</div>
+						${btnAutoAllocate}
+					</div>
+					${dispSpent}
+				</div>
+				<div class="ve-w-20p ve-no-shrink"></div>
+			</div>
+
+			${wrpGroupsCustom}
+			${wrpGroupsCustomEmpty}
+
+			<hr class="ve-hr-2">
+		`;
+	}
+
+	/**
+	 * @param {_RatioState} ratioState
+	 * @private
+	 */
+	_render_shapeCustom_doUpdateRatios (ratioState) {
+		if (!this._comp.customShapeGroups.length) {
+			return ratioState.setState();
+		}
+
+		const ratiosCur = this._comp.customShapeGroups
+			.map(({entity}) => entity.ratioPercentage);
+
+		if (ratioState.ratiosPrev == null) {
+			return ratioState.setState({ratiosPrev: ratiosCur});
+		}
+
+		if (
+			// We deleted a row, so total spent ratio can only decrease
+			ratiosCur.length < ratioState.ratiosPrev.length
+			// We added a row, which has 0% of the ratio by default, so total spend doesn't change
+			|| ratiosCur.length > ratioState.ratiosPrev.length
+		) {
+			return ratioState.setState({ratiosPrev: ratiosCur});
+		}
+
+		// Ratios are the same, or have decreased
+		if (ratiosCur.length === ratioState.ratiosPrev.length && ratiosCur.every((ratio, i) => ratio <= ratioState.ratiosPrev[i])) {
+			return ratioState.setState({ratiosPrev: ratiosCur, cntRotate: ratioState.cntRotate});
+		}
+
+		// Ratios have increased
+		// If total ratio is >100, reduce ratios of un-changed indices
+		// We cap at `_CUSTOM_GROUPS_CNT_MAX` rows, so this should always work
+		const ttlRatio = ratiosCur.sum();
+		if (ttlRatio <= 100) {
+			return ratioState.setState({ratiosPrev: ratiosCur, cntRotate: ratioState.cntRotate});
+		}
+
+		this._doAdjustRatios({
+			deltaRatio: ttlRatio - 100,
+			ratioState,
+			ratiosCur,
+			direction: -1,
+		});
+
+		ratioState.ratiosPrev = ratiosCur;
+		this._comp.customShapeGroups
+			.forEach(({entity}, i) => entity.ratioPercentage = ratiosCur[i]);
+		this._comp.customShapeGroups = [...this._comp.customShapeGroups];
+	}
+
+	_doAdjustRatios ({deltaRatio, ratioState, ratiosCur, direction, isRespectCreatureCount = false}) {
+		if (deltaRatio < 0 || deltaRatio > 100) throw new Error(`"deltaRaio" should be in range 0-100, inclusive!`);
+		if (![1, -1].includes(direction)) throw new Error(`"direction" must be -1 or 1!`);
+
+		const ixsModify = ratioState.ratiosPrev
+			.map((_, i) => i)
+			.filter(i => {
+				return ratioState.ratiosPrev[i] === ratiosCur[i]
+					&& ((ratiosCur[i] && !~direction) || (ratiosCur[i] < 100 && ~direction));
+			});
+		if (!ixsModify.length) throw new Error(`No "ixsModify" \u2014 should never occur!`);
+
+		ixsModify.rotateRight(++ratioState.cntRotate);
+		if (ratioState.cntRotate >= Number.MAX_SAFE_INTEGER) ratioState.cntRotate = 0;
+
+		const cntCreatures = ixsModify
+			.map(ix => {
+				return [
+					this._comp.customShapeGroups[ix].entity.countMinMaxMin,
+					this._comp.customShapeGroups[ix].entity.countMinMaxMax,
+				]
+					.mean();
+			})
+			.sum();
+
+		outer: while (deltaRatio) {
+			const deltaRatioCache = deltaRatio;
+
+			for (let i = ixsModify.length - 1; i >= 0; --i) {
+				const ix = ixsModify[i];
+
+				const adjustAmount = this._doAdjustRatios_getAdjustAmount({
+					isRespectCreatureCount,
+					deltaRatioCache,
+					cntCreatures,
+					ixsModify,
+					ix,
+				});
+
+				if (ratiosCur[ix] < 0 || ratiosCur[ix] > 100) throw new Error(`Out-of-bounds "ratiosCur[${ix}]"=${ratiosCur[ix]} \u2014 should never occur!`);
+
+				const adjustAmountForRatio = ~direction
+					? Math.min(adjustAmount, 100 - ratiosCur[ix])
+					: Math.min(adjustAmount, ratiosCur[ix]);
+				if (!adjustAmountForRatio) continue;
+
+				ratiosCur[ix] += adjustAmountForRatio * direction;
+				if (
+					(!ratiosCur[ix] && ~direction)
+					|| (ratiosCur[ix] === 100 && !~direction)
+				) ixsModify.splice(i, 1);
+
+				deltaRatio -= adjustAmountForRatio;
+				if (deltaRatio < 0) throw new Error(`Negative "deltaRatio"=${deltaRatio} \u2014 should never occur!`);
+				if (!deltaRatio) break outer;
+			}
+		}
+	}
+
+	_doAdjustRatios_getAdjustAmount (
+		{
+			isRespectCreatureCount,
+			deltaRatioCache,
+			cntCreatures,
+			ixsModify,
+			ix,
+		},
+	) {
+		if (!isRespectCreatureCount) return Math.floor(deltaRatioCache / ixsModify.length) || 1;
+
+		const sliced = Math.floor(deltaRatioCache / cntCreatures);
+		if (!sliced) {
+			return 1;
+		}
+
+		return Math.floor(
+			sliced
+				* [
+					this._comp.customShapeGroups[ix].entity.countMinMaxMin,
+					this._comp.customShapeGroups[ix].entity.countMinMaxMax,
+				]
+					.mean(),
+		);
+	}
+
+	/* -------------------------------------------- */
+
+	_render_footer ({rdState, stgFooter}) { /* Implement as required */ }
+
+	/* -------------------------------------------- */
+
+	_render_addHooks () {
+		this._partyComps
+			.forEach(partyComp => partyComp.addHookOnPartyChange((valNotFirstRun) => {
+				if (valNotFirstRun == null) return;
+				this._render_hk_triggerPulseDerivedPartyMeta();
+				this._render_hk_doUpdateExternalStates();
+			}));
+
+		this._comp.addHookCreatureGroups(() => {
+			this._render_hk_triggerPulseDerivedPartyMeta();
+			this._render_hk_doUpdateExternalStates();
+		})();
+
+		this._comp.addHookCustomShapeGroups((valNotFirstRun) => {
 			if (valNotFirstRun == null) return;
-			this._render_hk_setDerivedGroupAndDifficulty();
-			this._render_hk_doUpdateExternalStates();
-		})();
-
-		this._comp.addHookPlayersAdvanced((valNotFirstRun) => {
-			rdState.collectionPlayersAdvanced.render();
-
-			if (valNotFirstRun == null) return;
-			this._render_hk_setDerivedGroupAndDifficulty();
-			this._render_hk_doUpdateExternalStates();
-		})();
-
-		this._comp.addHookIsAdvanced((valNotFirstRun) => {
-			if (valNotFirstRun == null) return;
-			this._render_hk_setDerivedGroupAndDifficulty();
-			this._render_hk_doUpdateExternalStates();
-		})();
-
-		this._comp.addHookCreatureMetas(() => {
-			this._render_hk_setDerivedGroupAndDifficulty();
-			this._render_hk_doUpdateExternalStates();
-		})();
-
-		this._comp.addHookColsExtraAdvanced(() => {
-			rdState.collectionColsExtraAdvanced.render();
 			this._render_hk_doUpdateExternalStates();
 		})();
 	}
 
-	_render_hk_setDerivedGroupAndDifficulty () {
-		const partyMeta = this._getPartyMeta();
-		const encounterXpInfo = EncounterBuilderCreatureMeta.getEncounterXpInfo(this._comp.creatureMetas, this._getPartyMeta());
-
-		this._state.derivedGroupAndDifficulty = {
-			partyMeta,
-			encounterXpInfo,
-		};
+	_render_hk_triggerPulseDerivedPartyMeta () {
+		this._comp.pulseDerivedPartyMeta();
 	}
 
 	_render_hk_doUpdateExternalStates () {
@@ -584,64 +803,21 @@ export class EncounterBuilderUi extends BaseComponent {
 
 	/* -------------------------------------------- */
 
-	_doShuffle ({creatureMeta}) {
-		if (creatureMeta.isLocked) return;
-
-		const ix = this._comp.creatureMetas.findIndex(creatureMeta_ => creatureMeta_.isSameCreature(creatureMeta));
-		if (!~ix) throw new Error(`Could not find creature ${creatureMeta.getHash()} (${creatureMeta.customHashId})`);
-
-		const creatureMeta_ = this._comp.creatureMetas[ix];
-		if (creatureMeta_.isLocked) return;
-
-		const lockedHashes = new Set(
-			this._comp.creatureMetas
-				.filter(creatureMeta => creatureMeta.isLocked)
-				.map(creatureMeta => creatureMeta.getHash()),
-		);
-
-		const monRolled = this._doShuffle_getShuffled({creatureMeta: creatureMeta_, lockedHashes});
-		if (!monRolled) return JqueryUtil.doToast({content: "Could not find another creature worth the same amount of XP!", type: "warning"});
-
-		const creatureMetaNxt = new EncounterBuilderCreatureMeta({
-			creature: monRolled,
-			count: creatureMeta_.count,
-		});
-
-		const creatureMetasNxt = [...this._comp.creatureMetas];
-		const withMonRolled = creatureMetasNxt.find(creatureMeta_ => creatureMeta_.hasCreature(monRolled));
-		if (withMonRolled) {
-			withMonRolled.count += creatureMetaNxt.count;
-			creatureMetasNxt.splice(ix, 1);
-		} else {
-			creatureMetasNxt[ix] = creatureMetaNxt;
-		}
-
-		this._comp.creatureMetas = creatureMetasNxt;
-	}
-
-	_doShuffle_getShuffled ({creatureMeta, lockedHashes}) {
-		const xp = creatureMeta.getXp();
-		const hash = creatureMeta.getHash();
-
-		const availMons = this._cache.getCreaturesByXp(xp)
-			.filter(mon => {
-				const hash_ = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_BESTIARY](mon);
-				return !lockedHashes.has(hash) && hash_ !== hash;
-			});
-		if (!availMons.length) return null;
-
-		return RollerUtil.rollOnArray(availMons);
+	doCleanup () {
+		this._rulesComps
+			.forEach(comp => comp.doCleanup());
+		this._partyComps
+			.forEach(comp => comp.doCleanup());
 	}
 
 	/* -------------------------------------------- */
 
-	_getPartyMeta () {
-		return this._comp.getPartyMeta();
-	}
-
 	_getDefaultState () {
 		return {
-			derivedGroupAndDifficulty: {},
+			activeRulesId: null,
+			activePartyId: null,
+
+			viewerHeightPx: null,
 		};
 	}
 }

@@ -10,7 +10,9 @@
 						"type": "internal",
 						"path": "bestiary/LR/Gar Shatterkeel.webp"
 					},
-					"credit": "Raymond Swanland"
+					"credit": "Raymond Swanland",
+					"width": 1533,
+					"height": 956
 				}
 			]
 		},
@@ -24,7 +26,9 @@
 						"type": "internal",
 						"path": "bestiary/LR/Young Kraken.webp"
 					},
-					"credit": "Joachim Barrum"
+					"credit": "Joachim Barrum",
+					"width": 914,
+					"height": 1000
 				}
 			]
 		}

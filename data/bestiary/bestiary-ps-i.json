@@ -230,6 +230,7 @@
 					]
 				}
 			},
+			"tokenCustom": true,
 			"damageTags": [
 				"F",
 				"P",
@@ -292,6 +293,7 @@
 				}
 			},
 			"cr": "11",
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -320,6 +322,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"damageTags": [
 				"B",
 				"N",
@@ -441,6 +444,7 @@
 				}
 			],
 			"traitTags": [
+				"Ethereal Sight",
 				"Incorporeal Movement"
 			],
 			"senseTags": [
@@ -562,6 +566,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -629,6 +634,7 @@
 					"ability": "wis"
 				}
 			],
+			"tokenCustom": true,
 			"damageTagsSpell": [
 				"F",
 				"T"
@@ -952,7 +958,7 @@
 				{
 					"name": "Regeneration",
 					"entries": [
-						"The vampire regains 10 hit points at the start of its turn if it has at least 1 hit point. If the vampire takes radiant damage or damage from holy water, this trait doesn't function at the start of the vampire's next turn."
+						"The vampire regains 10 hit points at the start of its turn if it has at least 1 hit point. If the vampire takes radiant damage or damage from {@item Holy Water (Flask)|PHB|holy water}, this trait doesn't function at the start of the vampire's next turn."
 					]
 				}
 			],

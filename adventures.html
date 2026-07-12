@@ -51,7 +51,7 @@
 
 	<script type="text/javascript" src="sw-injector.js"></script>
 
-	<script type="module" src="js/styleswitch.js"></script>
+	<script blocking="render" type="module" src="js/styleswitch.js"></script>
 	<script type="text/javascript" src="js/navigation.js"></script>
 	<script type="module" src="js/browsercheck.js"></script>
 </head>
@@ -62,41 +62,43 @@
 
 <div class="cancer__wrp-leaderboard cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__wrp-leaderboard-inner cancer__wrp-interactive"><!--5ETOOLS_AD_LEADERBOARD--></div></div>
 
-<header class="hidden-xs hidden-sm page__header">
-	<div class="container ve-flex-v-baseline">
-		<h1 class="page__title no-wrap my-0" id="page__title">Adventures</h1>
-		<p class="page__subtitle no-wrap my-0" id="page__subtitle">Browse adventures by name and contents</p>
-	</div>
-</header>
+<div class="ve-flex-col" data-cancer-id="cancer-header">
+	<header class="ve-mobile-sm__hidden page__header">
+		<div class="container ve-flex-v-baseline">
+			<h1 class="page__title ve-no-wrap ve-my-0" id="page__title">Adventures</h1>
+			<p class="page__subtitle ve-no-wrap ve-my-0" id="page__subtitle">Browse adventures by name and contents</p>
+		</div>
+	</header>
 
-<nav class="container page__nav" id="navigation">
-	<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
-</nav>
+	<nav class="container page__nav" id="navigation">
+		<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
+	</nav>
+</div>
 
 <div class="cancer__wrp-sidebar cancer__wrp-sidebar-lhs cancer__wrp-sidebar-lhs--scrolling-page cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__sidebar-inner cancer__sidebar-inner--top cancer__wrp-interactive"><!--5ETOOLS_AD_LEFT_1--></div><div class="cancer__sidebar-inner cancer__sidebar-inner--bottom cancer__wrp-interactive"><!--5ETOOLS_AD_LEFT_2--></div></div>
 <div class="cancer__wrp-sidebar cancer__wrp-sidebar-rhs cancer__wrp-sidebar-rhs--scrolling-page cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__sidebar-inner cancer__sidebar-inner--top cancer__wrp-interactive"><!--5ETOOLS_AD_RIGHT_1--></div><div class="cancer__sidebar-inner cancer__sidebar-inner--bottom cancer__wrp-interactive"><!--5ETOOLS_AD_RIGHT_2--></div></div>
 
-<div class="container view-col-wrapper">
+<div class="container view-col-wrapper" data-cancer-id="cancer-wrapper">
 	<div class="view-col" id="listcontainer">
-		<div class="lst__form-top">
-			<input type="search" id="search" autocomplete="off" autocapitalize="off" spellcheck="false" class="search form-control" placeholder="Find adventure...">
+		<div class="ve-lst__form-top">
+			<input type="search" id="search" autocomplete="off" autocapitalize="off" spellcheck="false" class="search ve-form-control" placeholder="Find adventure...">
 			<button class="ve-btn ve-btn-default" id="reset">Reset</button>
 		</div>
 
-		<div id="filtertools" class="input-group input-group--bottom ve-flex no-shrink">
+		<div id="filtertools" class="ve-input-group ve-input-group--bottom ve-flex ve-no-shrink">
 			<button type="button" class="ve-col-1-3 sort ve-btn ve-btn-default ve-btn-xs" data-sort="group">Type</button>
 			<button type="button" class="ve-col-5-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
 			<button type="button" class="ve-col-2-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="storyline">Storyline</button>
 			<button type="button" class="ve-col-1 sort ve-btn ve-btn-default ve-btn-xs" data-sort="level">Levels</button>
 			<button type="button" class="ve-col-1-7 sort ve-btn ve-btn-default ve-btn-xs" data-sort="published">Published</button>
-			<button class="ve-btn ve-btn-default ve-btn-xs w-30p mobile__hidden" disabled></button>
+			<button class="ve-btn ve-btn-default ve-btn-xs ve-w-30p ve-mobile-sm__hidden" disabled></button>
 		</div>
 
 		<div class="list list--stats books">
 			<!-- populate with JS -->
 		</div>
 
-		<div class="ve-flex-vh-center mt-3 no-print">
+		<div class="ve-flex-vh-center ve-mt-3 no-print">
 			<div class="ve-flex-v-center ve-btn-group" id="btngroup-manager">
 				<button type="button" class="ve-btn ve-btn-xs ve-btn-primary" name="manage-content">Manage Content</button>
 				<button type="button" class="ve-btn ve-btn-xs ve-btn-primary" name="manage-prerelease" title="Manage Prerelease Content"><span class="glyphicon glyphicon-wrench"></span></button>
@@ -104,7 +106,7 @@
 			</div>
 		</div>
 
-		<hr class="hr-3 mt-4">
+		<hr class="ve-hr-3 ve-mt-4">
 
 		<div class="books--alt ve-flex-h-center ve-flex-wrap bks__wrp-bookshelf">
 			<!-- populate with JS -->
@@ -115,7 +117,6 @@
 <!--5ETOOLS_SCRIPT_ANCHOR-->
 <!--5ETOOLS_AD_ADHESION-->
 
-<script type="text/javascript" defer src="lib/jquery.js"></script>
 <script type="text/javascript" defer src="js/parser.js"></script>
 <script type="text/javascript" defer src="js/utils.js"></script>
 <script type="text/javascript" defer src="js/utils-ui.js"></script>
@@ -123,7 +124,7 @@
 <script type="module" defer src="js/omnidexer.js"></script>
 <script type="module" src="js/omnisearch.js"></script>
 <script type="module" src="js/filter.js"></script>
-<script type="text/javascript" defer src="js/utils-dataloader.js"></script>
+<script type="module" src="js/utils-dataloader.js"></script>
 <script type="module" src="js/utils-font.js"></script>
 <script type="module" src="js/utils-brew.js"></script>
 <script type="module" src="js/utils-config.js"></script>
@@ -138,7 +139,7 @@
 <script type="module" src="js/bookutils.js"></script>
 <script type="module" src="js/bookslist.js"></script>
 <script type="module" src="js/adventures.js"></script>
-<script type="text/javascript" defer src="js/list2.js"></script>
+<script type="module" defer src="js/list2.js"></script>
 <script type="text/javascript" defer src="lib/elasticlunr.js"></script>
 <!-- Dice Controls Container -->
 <div id="dice-box"></div>

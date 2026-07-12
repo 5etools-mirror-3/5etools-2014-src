@@ -1,12 +1,21 @@
 import {
+	PANEL_TYP_ADVENTURE_DYNAMIC_MAP,
+	PANEL_TYP_COUNTER,
 	PANEL_TYP_INITIATIVE_TRACKER, PANEL_TYP_INITIATIVE_TRACKER_CREATURE_VIEWER,
 	PANEL_TYP_INITIATIVE_TRACKER_PLAYER_V0,
-	PANEL_TYP_INITIATIVE_TRACKER_PLAYER_V1,
+	PANEL_TYP_INITIATIVE_TRACKER_PLAYER_V1, PANEL_TYP_MONEY_CONVERTER, PANEL_TYP_TEXTBOX, PANEL_TYP_TIME_TRACKER, PANEL_TYP_UNIT_CONVERTER,
 	PANEL_TYP_CHARACTERS,
+
 } from "./dmscreen-consts.js";
 import {InitiativeTracker} from "./initiativetracker/dmscreen-initiativetracker.js";
 import {InitiativeTrackerPlayerV0, InitiativeTrackerPlayerV1} from "./dmscreen-playerinitiativetracker.js";
 import {InitiativeTrackerCreatureViewer} from "./dmscreen-initiativetrackercreatureviewer.js";
+import {Counter} from "./dmscreen-counter.js";
+import {NoteBox} from "./dmscreen-notebox.js";
+import {UnitConverter} from "./dmscreen-unitconverter.js";
+import {MoneyConverter} from "./dmscreen-moneyconverter.js";
+import {TimeTracker} from "./dmscreen-timetracker.js";
+import {DmMapper} from "./dmscreen-mapper.js";
 import {RenderCharacters} from "../render-characters.js";
 // CharacterManager is available globally via character-manager.js script tag
 
@@ -34,7 +43,7 @@ export class PanelContentManagerFactory {
 		{
 			type,
 			toSaveTitle,
-			$content,
+			panelApp,
 		},
 	) {
 		if (!this._PANEL_TYPES[type]) return undefined;
@@ -43,7 +52,7 @@ export class PanelContentManagerFactory {
 			.getSaveableContent({
 				type,
 				toSaveTitle,
-				$content,
+				panelApp,
 			});
 	}
 }
@@ -64,7 +73,7 @@ class _PanelContentManager {
 		{
 			type,
 			toSaveTitle,
-			$content,
+			panelApp,
 		},
 	) {
 		return {
@@ -72,7 +81,7 @@ class _PanelContentManager {
 			r: toSaveTitle,
 			s: this._IS_STATELESS
 				? {}
-				: $($content.children()[0]).data("getState")(),
+				: panelApp.getState(),
 		};
 	}
 
@@ -92,20 +101,23 @@ class _PanelContentManager {
 
 	/**
 	 * @abstract
-	 * @return {jQuery}
+	 * @return {*}
 	 */
-	_$getPanelElement ({state}) {
+	_getPanelApp ({state}) {
 		throw new Error("Unimplemented!");
 	}
 
 	async pDoPopulate ({state = {}, title = null} = {}) {
-		this._panel.set$ContentTab(
-			this.constructor._PANEL_TYPE,
-			state,
-			$(`<div class="panel-content-wrapper-inner"></div>`).append(this._$getPanelElement({state})),
-			title || this.constructor._TITLE,
-			true,
-		);
+		const panelApp = this._getPanelApp({state});
+
+		this._panel.setEleContentTab({
+			panelType: this.constructor._PANEL_TYPE,
+			contentMeta: state,
+			panelApp,
+			eleContent: ee`<div class="panel-content-wrapper-inner"></div>`.appends(panelApp.getPanelElement()),
+			title: title || this.constructor._TITLE,
+			tabCanRename: true,
+		});
 
 		this._board.fireBoardEvent({type: "panelPopulate", payload: {type: this.constructor._PANEL_TYPE}});
 	}
@@ -126,8 +138,8 @@ export class PanelContentManager_InitiativeTracker extends _PanelContentManager 
 
 	static _ = this._register();
 
-	_$getPanelElement ({state}) {
-		return InitiativeTracker.$getPanelElement(this._board, state);
+	_getPanelApp ({state}) {
+		return InitiativeTracker.getPanelApp({board: this._board, savedState: state});
 	}
 }
 
@@ -138,8 +150,8 @@ export class PanelContentManager_InitiativeTrackerCreatureViewer extends _PanelC
 
 	static _ = this._register();
 
-	_$getPanelElement ({state}) {
-		return InitiativeTrackerCreatureViewer.$getPanelElement(this._board, state);
+	_getPanelApp ({state}) {
+		return InitiativeTrackerCreatureViewer.getPanelApp({board: this._board, savedState: state});
 	}
 }
 
@@ -150,8 +162,8 @@ export class PanelContentManager_InitiativeTrackerPlayerViewV1 extends _PanelCon
 
 	static _ = this._register();
 
-	_$getPanelElement ({state}) {
-		return InitiativeTrackerPlayerV1.$getPanelElement(this._board, state);
+	_getPanelApp ({state}) {
+		return InitiativeTrackerPlayerV1.getPanelApp({board: this._board, savedState: state});
 	}
 }
 
@@ -162,8 +174,74 @@ export class PanelContentManager_InitiativeTrackerPlayerViewV0 extends _PanelCon
 
 	static _ = this._register();
 
-	_$getPanelElement ({state}) {
-		return InitiativeTrackerPlayerV0.$getPanelElement(this._board, state);
+	_getPanelApp ({state}) {
+		return InitiativeTrackerPlayerV0.getPanelApp({board: this._board, savedState: state});
+	}
+}
+
+export class PanelContentManager_Counter extends _PanelContentManager {
+	static _PANEL_TYPE = PANEL_TYP_COUNTER;
+	static _TITLE = "Counter";
+
+	static _ = this._register();
+
+	_getPanelApp ({state}) {
+		return Counter.getPanelApp({board: this._board, savedState: state});
+	}
+}
+
+export class PanelContentManager_NoteBox extends _PanelContentManager {
+	static _PANEL_TYPE = PANEL_TYP_TEXTBOX;
+	static _TITLE = "Notes";
+
+	static _ = this._register();
+
+	_getPanelApp ({state}) {
+		return NoteBox.getPanelApp({board: this._board, savedState: state});
+	}
+}
+
+export class PanelContentManager_UnitConverter extends _PanelContentManager {
+	static _PANEL_TYPE = PANEL_TYP_UNIT_CONVERTER;
+	static _TITLE = "Unit Converter";
+
+	static _ = this._register();
+
+	_getPanelApp ({state}) {
+		return UnitConverter.getPanelApp({board: this._board, savedState: state});
+	}
+}
+
+export class PanelContentManager_MoneyConverter extends _PanelContentManager {
+	static _PANEL_TYPE = PANEL_TYP_MONEY_CONVERTER;
+	static _TITLE = "Coin Converter";
+
+	static _ = this._register();
+
+	_getPanelApp ({state}) {
+		return MoneyConverter.getPanelApp({board: this._board, savedState: state});
+	}
+}
+
+export class PanelContentManager_TimeTracker extends _PanelContentManager {
+	static _PANEL_TYPE = PANEL_TYP_TIME_TRACKER;
+	static _TITLE = "Time Tracker";
+
+	static _ = this._register();
+
+	_getPanelApp ({state}) {
+		return TimeTracker.getPanelApp({board: this._board, savedState: state});
+	}
+}
+
+export class PanelContentManager_DynamicMap extends _PanelContentManager {
+	static _PANEL_TYPE = PANEL_TYP_ADVENTURE_DYNAMIC_MAP;
+	static _TITLE = "Map Viewer";
+
+	static _ = this._register();
+
+	_getPanelApp ({state}) {
+		return DmMapper.getPanelApp({board: this._board, savedState: state});
 	}
 }
 

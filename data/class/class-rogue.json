@@ -808,7 +808,8 @@
 				"Steady Eye|Rogue||Inquisitive|XGE|9",
 				"Unerring Eye|Rogue||Inquisitive|XGE|13",
 				"Eye for Weakness|Rogue||Inquisitive|XGE|17"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Mastermind",
@@ -829,7 +830,8 @@
 				"Misdirection|Rogue||Mastermind|XGE|13",
 				"Soul of Deceit|Rogue||Mastermind|XGE|17"
 			],
-			"hasFluff": true
+			"hasFluff": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Scout",
@@ -843,7 +845,8 @@
 				"Superior Mobility|Rogue||Scout|XGE|9",
 				"Ambush Master|Rogue||Scout|XGE|13",
 				"Sudden Strike|Rogue||Scout|XGE|17"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Swashbuckler",
@@ -864,7 +867,8 @@
 				"Elegant Maneuver|Rogue||Swashbuckler|XGE|13",
 				"Master Duelist|Rogue||Swashbuckler|XGE|17"
 			],
-			"hasFluff": true
+			"hasFluff": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Phantom",

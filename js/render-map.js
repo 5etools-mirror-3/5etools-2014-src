@@ -28,10 +28,10 @@ export class RenderMap {
 			return {w: wWrpContent, h: hWrapContent};
 		};
 
-		const {$wrp, setZoom} = this._$getWindowContent({mapData, fnGetContainerDimensions});
+		const {wrp, setZoom} = this._getEleWindowContent({mapData, fnGetContainerDimensions});
 
 		const hoverWindow = Renderer.hover.getShowWindow(
-			$wrp,
+			wrp,
 			// Open in the top-right corner of the screen
 			Renderer.hover.getWindowPositionExact(document.body.clientWidth, 7, evt),
 			{
@@ -40,7 +40,7 @@ export class RenderMap {
 				isBookContent: true,
 				width: Math.min(Math.floor(document.body.clientWidth / 2), mapData.width),
 				height: mapData.height + 32,
-				$pFnGetPopoutContent: () => this._$getWindowContent({mapData, fnGetContainerDimensions}).$wrp,
+				pFnGetPopoutContent: () => wrp,
 				fnGetPopoutSize: () => {
 					const zoomInfo = this._getValidZoomInfo(mapData);
 					return {
@@ -52,6 +52,8 @@ export class RenderMap {
 			},
 		);
 
+		if (hoverWindow.pPoppingOut) await hoverWindow.pPoppingOut;
+
 		this._mutInitialZoom({
 			fnGetContainerDimensions,
 			mapData,
@@ -61,16 +63,20 @@ export class RenderMap {
 
 	/* -------------------------------------------- */
 
-	static async $pGetRendered (mapData, {fnGetContainerDimensions = null} = {}) {
+	/**
+	 * @param mapData
+	 * @param {?Function} fnGetContainerDimensions
+	 */
+	static async pGetRendered (mapData, {fnGetContainerDimensions = null} = {}) {
 		await RenderMap._pMutMapData(mapData);
 		if (!mapData.loadedImage) return;
-		const {$wrp, setZoom} = this._$getWindowContent({mapData, fnGetContainerDimensions});
+		const {wrp, setZoom} = this._getEleWindowContent({mapData, fnGetContainerDimensions});
 		this._mutInitialZoom({
 			fnGetContainerDimensions,
 			mapData,
 			setZoom,
 		});
-		return $wrp;
+		return wrp;
 	}
 
 	/* -------------------------------------------- */
@@ -200,12 +206,11 @@ export class RenderMap {
 	 * @param {object} mapData
 	 * @param {?Function} fnGetContainerDimensions
 	 */
-	static _$getWindowContent ({mapData, fnGetContainerDimensions = null}) {
+	static _getEleWindowContent ({mapData, fnGetContainerDimensions = null}) {
 		const X = 0;
 		const Y = 1;
 
-		const $cvs = $(`<canvas class="p-0 m-0"></canvas>`);
-		const cvs = $cvs[0];
+		const cvs = ee`<canvas class="ve-p-0 ve-m-0"></canvas>`;
 		cvs.width = mapData.width;
 		cvs.height = mapData.height;
 		const ctx = cvs.getContext("2d");
@@ -271,15 +276,14 @@ export class RenderMap {
 			const diffWidth = zoomInfo.widthZoomed - cvs.width;
 			const diffHeight = zoomInfo.heightZoomed - cvs.height;
 
-			const eleWrpCvs = $wrpCvs[0];
-			const scrollLeft = eleWrpCvs.scrollLeft;
-			const scrollTop = eleWrpCvs.scrollTop;
+			const scrollLeft = wrpCvs.scrollLeft;
+			const scrollTop = wrpCvs.scrollTop;
 
 			cvs.width = zoomInfo.widthZoomed;
 			cvs.height = zoomInfo.heightZoomed;
 
 			// Scroll to offset the zoom, keeping the same region centred
-			eleWrpCvs.scrollTo(
+			wrpCvs.scrollTo(
 				scrollLeft + Math.round(diffWidth / 2),
 				scrollTop + Math.round(diffHeight / 2),
 			);
@@ -342,10 +346,11 @@ export class RenderMap {
 			point: null,
 			time: null,
 			scrollPos: null,
+			fnsCleanup: [],
 		};
 
-		$cvs
-			.on("click", async evt => {
+		cvs
+			.onn("click", async evt => {
 				const clickPt = getEventPoint(evt);
 
 				const intersectedRegions = RenderMap._getIntersectedRegions(mapData.regions, clickPt);
@@ -375,9 +380,8 @@ export class RenderMap {
 					return;
 				}
 
-				const $content = Renderer.hover.$getHoverContent_generic(area.entry, {isLargeBookContent: true, depth: area.depth});
 				mapData.activeWindows[area.entry.id] = Renderer.hover.getShowWindow(
-					$content,
+					Renderer.hover.getHoverContent_generic(area.entry, {isLargeBookContent: true, depth: area.depth}),
 					Renderer.hover.getWindowPositionExactVisibleBottom(
 						EventUtil.getClientX(evt),
 						EventUtil.getClientY(evt),
@@ -393,80 +397,95 @@ export class RenderMap {
 					},
 				);
 			})
-			.on("mousedown", evt => {
+			.onn("mousedown", evt => {
 				if (evt.button !== 2) return; // RMB
 
-				const eleWrpCvs = $wrpCvs[0];
 				cvs.style.cursor = "grabbing";
 
+				lastRmbMeta.fnsCleanup.forEach(fn => fn());
+
 				// Find the nearest body, in case we're in a popout window
-				lastRmbMeta.body = lastRmbMeta.body || $out.closest("body")[0];
+				lastRmbMeta.body ||= e_({ele: out.closeste("body")});
 				lastRmbMeta.point = [EventUtil.getClientX(evt), EventUtil.getClientY(evt)];
 				lastRmbMeta.time = Date.now();
-				lastRmbMeta.scrollPos = [eleWrpCvs.scrollLeft, eleWrpCvs.scrollTop];
+				lastRmbMeta.scrollPos = [wrpCvs.scrollLeft, wrpCvs.scrollTop];
+				lastRmbMeta.fnsCleanup = [];
 
-				$(lastRmbMeta.body)
-					.off(`mouseup.rd__map`)
-					.on(`mouseup.rd__map`, evt => {
-						if (evt.button !== 2) return; // RMB
+				const onMouseUpBody = evt => {
+					if (evt.button !== 2) return; // RMB
 
-						$(lastRmbMeta.body)
-							.off(`mouseup.rd__map`)
-							.off(`mousemove.rd__map`);
+					lastRmbMeta.body
+						.off(`mouseup`, onMouseUpBody)
+						.off(`mousemove`, onMouseMoveBody);
 
-						cvs.style.cursor = "";
+					cvs.style.cursor = "";
 
-						lastRmbMeta.point = null;
-						lastRmbMeta.time = null;
-						lastRmbMeta.scrollPos = null;
-					})
-					.off(`mousemove.rd__map`)
-					.on(`mousemove.rd__map`, evt => {
-						if (lastRmbMeta.point == null) return;
+					lastRmbMeta.point = null;
+					lastRmbMeta.time = null;
+					lastRmbMeta.scrollPos = null;
+				};
 
-						const movePt = [EventUtil.getClientX(evt), EventUtil.getClientY(evt)];
+				const onMouseMoveBody = evt => {
+					if (lastRmbMeta.point == null) return;
 
-						const diffX = lastRmbMeta.point[X] - movePt[X];
-						const diffY = lastRmbMeta.point[Y] - movePt[Y];
+					const movePt = [EventUtil.getClientX(evt), EventUtil.getClientY(evt)];
 
-						lastRmbMeta.time = Date.now();
+					const diffX = lastRmbMeta.point[X] - movePt[X];
+					const diffY = lastRmbMeta.point[Y] - movePt[Y];
 
-						eleWrpCvs.scrollTo(
-							lastRmbMeta.scrollPos[X] + diffX,
-							lastRmbMeta.scrollPos[Y] + diffY,
-						);
-					})
+					lastRmbMeta.time = Date.now();
+
+					wrpCvs.scrollTo(
+						lastRmbMeta.scrollPos[X] + diffX,
+						lastRmbMeta.scrollPos[Y] + diffY,
+					);
+				};
+
+				const onContextMenuBody = evt => {
+					evt.stopPropagation();
+					evt.preventDefault();
+
+					lastRmbMeta.body.off(`contextmenu`, onContextMenuBody);
+				};
+
+				lastRmbMeta.fnsCleanup.push(
+					() => {
+						lastRmbMeta.body
+							.off("mouseup", onMouseUpBody)
+							.off("mousemove", onMouseMoveBody)
+							.off("contextmenu", onContextMenuBody)
+						;
+					},
+				);
+
+				lastRmbMeta.body
+					.onn("mouseup", onMouseUpBody)
+					.onn("mousemove", onMouseMoveBody)
 					// Bind a document-wide handler to block the context menu at the end of the pan
-					.off(`contextmenu.rd__map`)
-					.on(`contextmenu.rd__map`, evt => {
-						evt.stopPropagation();
-						evt.preventDefault();
-
-						$(lastRmbMeta.body).off(`contextmenu.rd__map`);
-					});
+					.onn(`contextmenu`, onContextMenuBody);
 			});
 
-		const $btnZoomMinus = $(`<button class="ve-btn ve-btn-xs ve-btn-default"><span class="glyphicon glyphicon-zoom-out"></span> Zoom Out</button>`)
-			.on("click", () => zoomChange("out"));
+		const btnZoomMinus = ee`<button class="ve-btn ve-btn-xs ve-btn-default"><span class="glyphicon glyphicon-zoom-out"></span> Zoom Out</button>`
+			.onn("click", () => zoomChange("out"));
 
-		const $btnZoomPlus = $(`<button class="ve-btn ve-btn-xs ve-btn-default"><span class="glyphicon glyphicon-zoom-in"></span> Zoom In</button>`)
-			.on("click", () => zoomChange("in"));
+		const btnZoomPlus = ee`<button class="ve-btn ve-btn-xs ve-btn-default"><span class="glyphicon glyphicon-zoom-in"></span> Zoom In</button>`
+			.onn("click", () => zoomChange("in"));
 
-		const $btnZoomReset = $(`<button class="ve-btn ve-btn-xs ve-btn-default mr-2"><span class="glyphicon glyphicon-search"></span> Reset Zoom</button>`)
-			.on("click", () => zoomChange("fill"));
+		const btnZoomReset = ee`<button class="ve-btn ve-btn-xs ve-btn-default ve-mr-2"><span class="glyphicon glyphicon-search"></span> Reset Zoom</button>`
+			.onn("click", () => zoomChange("fill"));
 
-		const $btnZoomFit = $(`<button class="ve-btn ve-btn-xs ve-btn-default"><span class="glyphicon glyphicon-search"></span> Zoom to Fit</button>`)
-			.on("click", () => zoomChange("fit"));
+		const btnZoomFit = ee`<button class="ve-btn ve-btn-xs ve-btn-default"><span class="glyphicon glyphicon-search"></span> Zoom to Fit</button>`
+			.onn("click", () => zoomChange("fit"));
 
-		const $btnHelp = $(`<button class="ve-btn ve-btn-xs ve-btn-default ml-auto mr-4" title="Help"><span class="glyphicon glyphicon-info-sign"></span> Help</button>`)
-			.on("click", evt => {
-				const {$modalInner} = UiUtil.getShowModal({
+		const btnHelp = ee`<button class="ve-btn ve-btn-xs ve-btn-default ve-ml-auto ve-mr-4" title="Help"><span class="glyphicon glyphicon-info-sign"></span> Help</button>`
+			.onn("click", evt => {
+				const {eleModalInner} = UiUtil.getShowModal({
 					title: "Help",
 					isMinHeight0: true,
 					window: evt.view?.window,
 				});
 
-				$modalInner.append(`
+				eleModalInner.appends(`
 					<p><i>Use of the &quot;Open as Popup Window&quot; button in the window title bar is recommended.</i></p>
 					<ul>
 						<li>Left-click to open an area as a new window.</li>
@@ -477,39 +496,41 @@ export class RenderMap {
 				`);
 			});
 
-		const $wrpCvs = $$`<div class="w-100 h-100 ve-overflow-x-scroll ve-overflow-y-scroll rd__scroller-viewer ${mapData.expectsLightBackground ? "rd__scroller-viewer--bg-light" : mapData.expectsDarkBackground ? "rd__scroller-viewer--bg-dark" : ""}">
-			${$cvs}
+		const onMouseWheelCanvas = evt => {
+			if (!EventUtil.isCtrlMetaKey(evt)) return;
+			evt.stopPropagation();
+			evt.preventDefault();
+
+			const direction = (evt.wheelDelta != null && evt.wheelDelta > 0)
+				|| (evt.deltaY != null && evt.deltaY < 0)
+				// `evt.detail` seems to work on Firefox
+				|| (evt.detail != null && !isNaN(evt.detail) && evt.detail < 0) ? "in" : "out";
+			zoomChangeDebounced(direction);
+		};
+
+		const wrpCvs = ee`<div class="ve-w-100 ve-h-100 ve-overflow-x-scroll ve-overflow-y-scroll ve-rd__scroller-viewer ${mapData.expectsLightBackground ? "ve-rd__scroller-viewer--bg-light" : mapData.expectsDarkBackground ? "ve-rd__scroller-viewer--bg-dark" : ""}">
+			${cvs}
 		</div>`
-			.on("mousewheel DOMMouseScroll", evt => {
-				if (!EventUtil.isCtrlMetaKey(evt)) return;
-				evt.stopPropagation();
-				evt.preventDefault();
-				evt = evt.originalEvent; // Access the underlying properties
+			.onn("mousewheel", onMouseWheelCanvas)
+			.onn("DOMMouseScroll", onMouseWheelCanvas);
 
-				const direction = (evt.wheelDelta != null && evt.wheelDelta > 0)
-					|| (evt.deltaY != null && evt.deltaY < 0)
-					// `evt.detail` seems to work on Firefox
-					|| (evt.detail != null && !isNaN(evt.detail) && evt.detail < 0) ? "in" : "out";
-				zoomChangeDebounced(direction);
-			});
-
-		const $out = $$`<div class="ve-flex-col w-100 h-100">
-			<div class="ve-flex no-shrink p-2">
-				<div class="ve-btn-group ve-flex mr-2">
-					${$btnZoomMinus}
-					${$btnZoomPlus}
+		const out = ee`<div class="ve-flex-col ve-w-100 ve-h-100">
+			<div class="ve-flex ve-no-shrink ve-p-2">
+				<div class="ve-btn-group ve-flex ve-mr-2">
+					${btnZoomMinus}
+					${btnZoomPlus}
 				</div>
-				${$btnZoomReset}
-				${$btnZoomFit}
-				${$btnHelp}
+				${btnZoomReset}
+				${btnZoomFit}
+				${btnHelp}
 			</div>
-			${$wrpCvs}
+			${wrpCvs}
 		</div>`;
 
 		zoomChange();
 
 		return {
-			$wrp: $out,
+			wrp: out,
 			setZoom: zoomLevel => {
 				if (Parser.isNumberNearEqual(zoomLevel, mapData.zoomLevel)) return;
 

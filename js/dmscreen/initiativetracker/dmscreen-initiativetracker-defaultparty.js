@@ -25,25 +25,25 @@ export class InitiativeTrackerDefaultParty extends BaseComponent {
 	pGetShowModalResults () {
 		const rdState = new this.constructor._RenderState();
 
-		const {$modalInner, $modalFooter, pGetResolved, doClose} = UiUtil.getShowModal({
+		const {eleModalInner, eleModalFooter, pGetResolved, doClose} = UiUtil.getShowModal({
 			title: "Edit Default Party",
 			isHeaderBorder: true,
 			isUncappedHeight: true,
 			hasFooter: true,
 			cbClose: () => rdState.fnsCleanup.forEach(fn => fn()),
-			$titleSplit: this._render_$getBtnAdd({rdState}),
+			eleTitleSplit: this._render_getBtnAdd({rdState}),
 		});
 		rdState.cbDoClose = doClose;
 
-		this._render_renderBody({rdState, $modalInner});
-		this._render_renderFooter({rdState, $modalFooter});
+		this._render_renderBody({rdState, eleModalInner});
+		this._render_renderFooter({rdState, eleModalFooter});
 
 		return pGetResolved();
 	}
 
-	_render_$getBtnAdd ({rdState}) {
-		return $(`<button class="ve-btn ve-btn-default ve-btn-xs" title="Add Player"><span class="glyphicon glyphicon-plus"></span></button>`)
-			.on("click", async () => {
+	_render_getBtnAdd ({rdState}) {
+		return ee`<button class="ve-btn ve-btn-default ve-btn-xs" title="Add Player"><span class="glyphicon glyphicon-plus"></span></button>`
+			.onn("click", async () => {
 				this._comp._state[this._prop] = [
 					...this._comp._state[this._prop],
 					await this._rowStateBuilder.pGetNewRowState(),
@@ -53,7 +53,7 @@ export class InitiativeTrackerDefaultParty extends BaseComponent {
 
 	/* -------------------------------------------- */
 
-	_render_renderBody ({rdState, $modalInner}) {
+	_render_renderBody ({rdState, eleModalInner}) {
 		this._viewRowsDefaultParty = new InitiativeTrackerRowDataViewDefaultParty({
 			comp: this._comp,
 			prop: this._prop,
@@ -61,25 +61,37 @@ export class InitiativeTrackerDefaultParty extends BaseComponent {
 			rowStateBuilder: this._rowStateBuilder,
 		});
 		this._viewRowsDefaultPartyMeta = this._viewRowsDefaultParty.getRenderedView();
-		this._viewRowsDefaultPartyMeta.$ele.appendTo($modalInner);
+		this._viewRowsDefaultPartyMeta.ele.appendTo(eleModalInner);
 		rdState.fnsCleanup.push(this._viewRowsDefaultPartyMeta.cbDoCleanup);
 	}
 
 	/* -------------------------------------------- */
 
-	_render_renderFooter ({rdState, $modalFooter}) {
-		const $btnSave = $(`<button class="ve-btn ve-btn-primary ve-btn-sm w-100">Save</button>`)
-			.click(() => rdState.cbDoClose(true));
+	_render_renderFooter ({rdState, eleModalFooter}) {
+		const btnSave = ee`<button class="ve-btn ve-btn-primary ve-btn-sm ve-w-100">Save</button>`
+			.onn("click", () => rdState.cbDoClose(true));
 
-		$$($modalFooter)`<div class="w-100 py-3 no-shrink">
-			${$btnSave}
+		ee(eleModalFooter)`<div class="ve-w-100 ve-py-3 ve-no-shrink">
+			${btnSave}
 		</div>`;
 	}
 
 	/* -------------------------------------------- */
 
-	async pGetConvertedDefaultPartyActiveRows () {
-		const rows = MiscUtil.copyFast(this._comp._state.rowsDefaultParty);
+	/**
+	 * @param {?Array<object>} rowsPrev
+	 */
+	async pGetConvertedDefaultPartyActiveRows ({rowsPrev = null} = {}) {
+		const rowsPrevLookup = Object.fromEntries((rowsPrev || []).map(row => [row.id, row]));
+
+		const rows = this._comp._state.rowsDefaultParty
+			.map(row => {
+				const rowOut = rowsPrevLookup[row.id]
+					? MiscUtil.copyFast(rowsPrevLookup[row.id])
+					: MiscUtil.copyFast(row);
+				delete rowOut.entity?.initiative;
+				return rowOut;
+			});
 
 		if (!this._comp._state.isRollInit) return rows;
 

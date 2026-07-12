@@ -1,4 +1,9 @@
 {
+	"_meta": {
+		"internalCopies": [
+			"monsterFluff"
+		]
+	},
 	"monsterFluff": [
 		{
 			"name": "Acererak",
@@ -54,78 +59,65 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Acererak.webp"
-					}
+					},
+					"width": 422,
+					"height": 489
+				}
+			]
+		},
+		{
+			"name": "Albino Dwarf",
+			"source": "ToA",
+			"entries": [
+				{
+					"type": "section",
+					"name": "Albino Dwarf",
+					"entries": [
+						"The albino dwarves of Chult were driven from their subterranean homes by volcanic activity, and those who didn't seek refuge in Port Nyanzaru adapted to living in the jungle. They make armor out of dinosaur hide; shape weapons out of dinosaur bones, flint, and wood; and craft ornate jewelry out of bones, feathers, tusks, and stone beads. Albino dwarves haven't forgotten how to forge metal, but they seldom have the means to do so."
+					]
+				}
+			],
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/ToA/Albino Dwarf.webp"
+					},
+					"width": 1000,
+					"height": 1039
 				}
 			]
 		},
 		{
 			"name": "Albino Dwarf Spirit Warrior",
 			"source": "ToA",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								{
-									"type": "entries",
-									"entries": [
-										"The albino dwarves of Chult were driven from their subterranean homes by volcanic activity, and those who didn't seek refuge in Port Nyanzaru adapted to living in the jungle. They make armor out of dinosaur hide; shape weapons out of dinosaur bones, flint, and wood; and craft ornate jewelry out of bones, feathers, tusks, and stone beads. Albino dwarves haven't forgotten how to forge metal, but they seldom have the means to do so."
-									]
-								},
-								{
-									"type": "entries",
-									"name": "Albino Dwarf Spirit Warriors",
-									"entries": [
-										"An albino dwarf can become so attuned to the land of Chult that a benevolent nature spirit takes notice and bestows a powerful charm on the dwarf, granting it innate spellcasting abilities. These dwarf spirit warriors dedicate themselves to preserving the natural beauty of Chult and battling unnatural threats. An albino dwarf spirit warrior has the statistics of an albino dwarf warrior, except it has a challenge rating of 1 (200 XP) and gains an Innate Spellcasting feature."
-									]
-								}
-							]
-						}
-					]
-				}
-			],
-			"images": [
-				{
-					"type": "image",
-					"href": {
-						"type": "internal",
-						"path": "bestiary/ToA/Albino Dwarf.webp"
+			"_copy": {
+				"name": "Albino Dwarf",
+				"source": "ToA",
+				"_mod": {
+					"entries": {
+						"mode": "prependArr",
+						"items": [
+							{
+								"type": "section",
+								"name": "Albino Dwarf Spirit Warriors",
+								"entries": [
+									"An albino dwarf can become so attuned to the land of Chult that a benevolent nature spirit takes notice and bestows a powerful charm on the dwarf, granting it innate spellcasting abilities. These dwarf spirit warriors dedicate themselves to preserving the natural beauty of Chult and battling unnatural threats. An albino dwarf spirit warrior has the statistics of an albino dwarf warrior, except it has a challenge rating of 1 (200 XP) and gains an Innate Spellcasting feature."
+								]
+							}
+						]
 					}
 				}
-			]
+			}
 		},
 		{
 			"name": "Albino Dwarf Warrior",
 			"source": "ToA",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								{
-									"type": "entries",
-									"entries": [
-										"The albino dwarves of Chult were driven from their subterranean homes by volcanic activity, and those who didn't seek refuge in Port Nyanzaru adapted to living in the jungle. They make armor out of dinosaur hide; shape weapons out of dinosaur bones, flint, and wood; and craft ornate jewelry out of bones, feathers, tusks, and stone beads. Albino dwarves haven't forgotten how to forge metal, but they seldom have the means to do so."
-									]
-								}
-							]
-						}
-					]
-				}
-			],
-			"images": [
-				{
-					"type": "image",
-					"href": {
-						"type": "internal",
-						"path": "bestiary/ToA/Albino Dwarf.webp"
-					}
-				}
-			]
+			"_copy": {
+				"name": "Albino Dwarf",
+				"source": "ToA"
+			}
 		},
 		{
 			"name": "Aldani (Lobsterfolk)",
@@ -169,7 +161,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Aldani (Lobsterfolk).webp"
-					}
+					},
+					"width": 1000,
+					"height": 947
 				}
 			]
 		},
@@ -201,7 +195,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Almiraj.webp"
-					}
+					},
+					"width": 527,
+					"height": 1000
 				}
 			]
 		},
@@ -209,43 +205,7 @@
 			"name": "Ankylosaurus Zombie",
 			"source": "ToA",
 			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								{
-									"type": "entries",
-									"entries": [
-										"Several new zombie variants are presented below. For more information on zombies, see the Monster Manual.",
-										{
-											"name": "Ankylosaurus Zombie",
-											"type": "entries",
-											"entries": [
-												"This creature is slow and barely aware of its surroundings."
-											]
-										},
-										{
-											"name": "Girallon Zombie",
-											"type": "entries",
-											"entries": [
-												"Girallons are four-armed apes with white fur. Girallon zombies are slower than their non-undead counterparts but no less fierce. The necromantic energy empowering them fuels their murderous hearts and their hunger for living flesh."
-											]
-										},
-										{
-											"name": "Tyrannosaurus Zombie",
-											"type": "entries",
-											"entries": [
-												"A tyrannosaurus zombie has a gullet full of smaller zombies, which it can disgorge. These zombies aren't under the tyrannosaurus zombie's control."
-											]
-										}
-									]
-								}
-							]
-						}
-					]
-				}
+				"This creature is slow and barely aware of its surroundings."
 			]
 		},
 		{
@@ -311,7 +271,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Artus Cimber.webp"
-					}
+					},
+					"width": 450,
+					"height": 747
 				}
 			]
 		},
@@ -349,7 +311,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Asharra.webp"
-					}
+					},
+					"width": 1000,
+					"height": 758
 				}
 			]
 		},
@@ -382,7 +346,9 @@
 						"type": "internal",
 						"path": "bestiary/ToA/Assassin Vine.webp"
 					},
-					"credit": "Zoltan Boros"
+					"credit": "Zoltan Boros",
+					"width": 748,
+					"height": 1000
 				}
 			]
 		},
@@ -429,7 +395,24 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Atropal.webp"
-					}
+					},
+					"width": 1000,
+					"height": 712
+				}
+			]
+		},
+		{
+			"name": "Azaka Stormfang",
+			"source": "ToA",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/ToA/Azaka Stormfang.webp"
+					},
+					"width": 897,
+					"height": 510
 				}
 			]
 		},
@@ -461,7 +444,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Bag of Nails.webp"
-					}
+					},
+					"width": 756,
+					"height": 1000
 				}
 			]
 		},
@@ -474,7 +459,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Blind Artist.webp"
-					}
+					},
+					"width": 908,
+					"height": 1000
 				}
 			]
 		},
@@ -520,7 +507,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Chwinga.webp"
-					}
+					},
+					"width": 1100,
+					"height": 725
 				}
 			]
 		},
@@ -616,7 +605,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Dragonbait.webp"
-					}
+					},
+					"width": 761,
+					"height": 1000
 				}
 			]
 		},
@@ -648,7 +639,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Eblis.webp"
-					}
+					},
+					"width": 647,
+					"height": 1000
 				}
 			]
 		},
@@ -661,7 +654,24 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Ekene-Afa.webp"
-					}
+					},
+					"width": 860,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Eku",
+			"source": "ToA",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/ToA/Eku.webp"
+					},
+					"width": 897,
+					"height": 510
 				}
 			]
 		},
@@ -674,7 +684,24 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Elok Jaharwon.webp"
-					}
+					},
+					"width": 311,
+					"height": 525
+				}
+			]
+		},
+		{
+			"name": "Faroul",
+			"source": "ToA",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/ToA/Faroul and Gondolo.webp"
+					},
+					"width": 897,
+					"height": 510
 				}
 			]
 		},
@@ -687,7 +714,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Fenthaza.webp"
-					}
+					},
+					"width": 599,
+					"height": 1000
 				}
 			]
 		},
@@ -699,8 +728,10 @@
 					"type": "image",
 					"href": {
 						"type": "internal",
-						"path": "bestiary/ToA/098-ph08.webp"
-					}
+						"path": "bestiary/ToA/River Mist and Flask of Wine.webp"
+					},
+					"width": 897,
+					"height": 510
 				}
 			]
 		},
@@ -731,7 +762,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Flying Monkey.webp"
-					}
+					},
+					"width": 734,
+					"height": 1000
 				}
 			]
 		},
@@ -762,7 +795,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Giant Four-Armed Gargoyle.webp"
-					}
+					},
+					"width": 1000,
+					"height": 642
 				}
 			]
 		},
@@ -792,43 +827,7 @@
 			"name": "Girallon Zombie",
 			"source": "ToA",
 			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								{
-									"type": "entries",
-									"entries": [
-										"Several new zombie variants are presented below. For more information on zombies, see the Monster Manual.",
-										{
-											"name": "Ankylosaurus Zombie",
-											"type": "entries",
-											"entries": [
-												"This creature is slow and barely aware of its surroundings."
-											]
-										},
-										{
-											"name": "Girallon Zombie",
-											"type": "entries",
-											"entries": [
-												"Girallons are four-armed apes with white fur. Girallon zombies are slower than their non-undead counterparts but no less fierce. The necromantic energy empowering them fuels their murderous hearts and their hunger for living flesh."
-											]
-										},
-										{
-											"name": "Tyrannosaurus Zombie",
-											"type": "entries",
-											"entries": [
-												"A tyrannosaurus zombie has a gullet full of smaller zombies, which it can disgorge. These zombies aren't under the tyrannosaurus zombie's control."
-											]
-										}
-									]
-								}
-							]
-						}
-					]
-				}
+				"Girallons are four-armed apes with white fur. Girallon zombies are slower than their non-undead counterparts but no less fierce. The necromantic energy empowering them fuels their murderous hearts and their hunger for living flesh."
 			],
 			"images": [
 				{
@@ -836,7 +835,24 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Girallon Zombie.webp"
-					}
+					},
+					"width": 722,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Gondolo",
+			"source": "ToA",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/ToA/Faroul and Gondolo.webp"
+					},
+					"width": 897,
+					"height": 510
 				}
 			]
 		},
@@ -849,7 +865,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Grabstab.webp"
-					}
+					},
+					"width": 712,
+					"height": 1000
 				}
 			]
 		},
@@ -887,7 +905,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Hew Hackinstone.webp"
-					}
+					},
+					"width": 897,
+					"height": 510
 				}
 			]
 		},
@@ -900,7 +920,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Ifan Talro'a.webp"
-					}
+					},
+					"width": 840,
+					"height": 1000
 				}
 			]
 		},
@@ -932,7 +954,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Jaculi.webp"
-					}
+					},
+					"width": 1000,
+					"height": 827
 				}
 			]
 		},
@@ -945,7 +969,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Jessamine.webp"
-					}
+					},
+					"width": 700,
+					"height": 1000
 				}
 			]
 		},
@@ -958,7 +984,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Jobal.webp"
-					}
+					},
+					"width": 772,
+					"height": 1000
 				}
 			]
 		},
@@ -990,7 +1018,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Kamadan.webp"
-					}
+					},
+					"width": 1000,
+					"height": 1007
 				}
 			]
 		},
@@ -1021,7 +1051,24 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/King of Feathers.webp"
-					}
+					},
+					"width": 1150,
+					"height": 771
+				}
+			]
+		},
+		{
+			"name": "Kupalué",
+			"source": "ToA",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/ToA/Qawasha and Kupalue.webp"
+					},
+					"width": 897,
+					"height": 510
 				}
 			]
 		},
@@ -1034,7 +1081,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Kwayothe.webp"
-					}
+					},
+					"width": 730,
+					"height": 1000
 				}
 			]
 		},
@@ -1047,7 +1096,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Laskilar.webp"
-					}
+					},
+					"width": 301,
+					"height": 525
 				}
 			]
 		},
@@ -1106,7 +1157,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Liara Portyr.webp"
-					}
+					},
+					"width": 759,
+					"height": 1000
 				}
 			]
 		},
@@ -1124,6 +1177,21 @@
 							]
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "Musharib",
+			"source": "ToA",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/ToA/Musharib.webp"
+					},
+					"width": 897,
+					"height": 510
 				}
 			]
 		},
@@ -1211,7 +1279,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Mwaxanaré.webp"
-					}
+					},
+					"width": 843,
+					"height": 1000
 				}
 			]
 		},
@@ -1224,7 +1294,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Nanny Pu'pu.webp"
-					}
+					},
+					"width": 445,
+					"height": 1000
 				}
 			]
 		},
@@ -1237,7 +1309,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Orvex Ocrammas.webp"
-					}
+					},
+					"width": 750,
+					"height": 1000
 				}
 			]
 		},
@@ -1269,7 +1343,24 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Pterafolk.webp"
-					}
+					},
+					"width": 1000,
+					"height": 914
+				}
+			]
+		},
+		{
+			"name": "Qawasha",
+			"source": "ToA",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/ToA/Qawasha and Kupalue.webp"
+					},
+					"width": 897,
+					"height": 510
 				}
 			]
 		},
@@ -1342,7 +1433,24 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Ras Nsi.webp"
-					}
+					},
+					"width": 1000,
+					"height": 646
+				}
+			]
+		},
+		{
+			"name": "River Mist",
+			"source": "ToA",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/ToA/River Mist and Flask of Wine.webp"
+					},
+					"width": 897,
+					"height": 510
 				}
 			]
 		},
@@ -1354,8 +1462,25 @@
 					"type": "image",
 					"href": {
 						"type": "internal",
-						"path": "bestiary/ToA/099-ph09.webp"
-					}
+						"path": "bestiary/ToA/Salida.webp"
+					},
+					"width": 896,
+					"height": 509
+				}
+			]
+		},
+		{
+			"name": "Shago",
+			"source": "ToA",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "bestiary/ToA/Shago.webp"
+					},
+					"width": 897,
+					"height": 510
 				}
 			]
 		},
@@ -1368,7 +1493,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/065-502.webp"
-					}
+					},
+					"width": 1000,
+					"height": 642
 				}
 			]
 		},
@@ -1423,7 +1550,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Stone Juggernaut.webp"
-					}
+					},
+					"width": 1200,
+					"height": 792
 				}
 			]
 		},
@@ -1456,76 +1585,67 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Su-monster.webp"
-					}
+					},
+					"width": 562,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Tabaxi",
+			"source": "ToA",
+			"entries": [
+				{
+					"type": "section",
+					"name": "Tabaxi",
+					"entries": [
+						"Tabaxi are catfolk who hail from the land of Maztica. The ultimate wanderers, Tabaxi rarely stay in one place for long. They love to collect interesting artifacts, gather tales, and lay eyes on all the world's wonders. This curiosity pushes them to leave no secrets uncovered, and no treasures or legends lost. They revere a fickle deity called the Cat Lord, who is said to wander the world.",
+						"Tabaxi hunters are trained to survive in the wild, making them excellent guides. Tabaxi minstrels gather in small troupes and make themselves at home in any settlement, earning coin through music and storytelling.",
+						{
+							"type": "entries",
+							"entries": [
+								{
+									"type": "entries",
+									"entries": [
+										{
+											"name": "Names",
+											"type": "entries",
+											"entries": [
+												"A tabaxi typically has a single name, determined by his or her clan and based on a complex formula involving astrology, prophecy, clan history, and other factors. Male and female tabaxi use the same names, and most use nicknames derived from or inspired by their full names. Tabaxi clan names are usually based on a geographical feature located in or near a clan's territory. Sample tabaxi names include Nest of Eggs (\"Eggs\"), Dead Leaf (\"Leaf\"), Eyes of Onyx (\"Onyx\"), Lost Spear (\"Lost\"), and Daylight Moon (\"Moon\"). Clan names include Distant Rain, Hundred Feathers, Sleeping Creek, Bright Cliffs, and Snoring Mountain."
+											]
+										}
+									]
+								}
+							]
+						}
+					]
 				}
 			]
 		},
 		{
 			"name": "Tabaxi Hunter",
 			"source": "ToA",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								{
-									"type": "entries",
-									"entries": [
-										"Tabaxi are catfolk who hail from the land of Maztica. The ultimate wanderers, Tabaxi rarely stay in one place for long. They love to collect interesting artifacts, gather tales, and lay eyes on all the world's wonders. This curiosity pushes them to leave no secrets uncovered, and no treasures or legends lost. They revere a fickle deity called the Cat Lord, who is said to wander the world.",
-										"Tabaxi hunters are trained to survive in the wild, making them excellent guides. Tabaxi minstrels gather in small troupes and make themselves at home in any settlement, earning coin through music and storytelling.",
-										{
-											"name": "Names",
-											"type": "entries",
-											"entries": [
-												"A tabaxi typically has a single name, determined by his or her clan and based on a complex formula involving astrology, prophecy, clan history, and other factors. Male and female tabaxi use the same names, and most use nicknames derived from or inspired by their full names. Tabaxi clan names are usually based on a geographical feature located in or near a clan's territory. Sample tabaxi names include Nest of Eggs (\"Eggs\"), Dead Leaf (\"Leaf\"), Eyes of Onyx (\"Onyx\"), Lost Spear (\"Lost\"), and Daylight Moon (\"Moon\"). Clan names include Distant Rain, Hundred Feathers, Sleeping Creek, Bright Cliffs, and Snoring Mountain."
-											]
-										}
-									]
-								}
-							]
-						}
-					]
-				}
-			]
+			"_copy": {
+				"name": "Tabaxi",
+				"source": "ToA"
+			}
 		},
 		{
 			"name": "Tabaxi Minstrel",
 			"source": "ToA",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								{
-									"type": "entries",
-									"entries": [
-										"Tabaxi are catfolk who hail from the land of Maztica. The ultimate wanderers, Tabaxi rarely stay in one place for long. They love to collect interesting artifacts, gather tales, and lay eyes on all the world's wonders. This curiosity pushes them to leave no secrets uncovered, and no treasures or legends lost. They revere a fickle deity called the Cat Lord, who is said to wander the world.",
-										"Tabaxi hunters are trained to survive in the wild, making them excellent guides. Tabaxi minstrels gather in small troupes and make themselves at home in any settlement, earning coin through music and storytelling.",
-										{
-											"name": "Names",
-											"type": "entries",
-											"entries": [
-												"A tabaxi typically has a single name, determined by his or her clan and based on a complex formula involving astrology, prophecy, clan history, and other factors. Male and female tabaxi use the same names, and most use nicknames derived from or inspired by their full names. Tabaxi clan names are usually based on a geographical feature located in or near a clan's territory. Sample tabaxi names include Nest of Eggs (\"Eggs\"), Dead Leaf (\"Leaf\"), Eyes of Onyx (\"Onyx\"), Lost Spear (\"Lost\"), and Daylight Moon (\"Moon\"). Clan names include Distant Rain, Hundred Feathers, Sleeping Creek, Bright Cliffs, and Snoring Mountain."
-											]
-										}
-									]
-								}
-							]
-						}
-					]
-				}
-			],
+			"_copy": {
+				"name": "Tabaxi",
+				"source": "ToA"
+			},
 			"images": [
 				{
 					"type": "image",
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Tabaxi Minstrel.webp"
-					}
+					},
+					"width": 636,
+					"height": 1000
 				}
 			]
 		},
@@ -1556,7 +1676,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Tomb Dwarf.webp"
-					}
+					},
+					"width": 810,
+					"height": 1000
 				}
 			]
 		},
@@ -1588,7 +1710,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Tomb Guardian.webp"
-					}
+					},
+					"width": 559,
+					"height": 1000
 				}
 			]
 		},
@@ -1619,7 +1743,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Tri-flower Frond.webp"
-					}
+					},
+					"width": 730,
+					"height": 1000
 				}
 			]
 		},
@@ -1627,43 +1753,7 @@
 			"name": "Tyrannosaurus Zombie",
 			"source": "ToA",
 			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								{
-									"type": "entries",
-									"entries": [
-										"Several new zombie variants are presented below. For more information on zombies, see the Monster Manual.",
-										{
-											"name": "Ankylosaurus Zombie",
-											"type": "entries",
-											"entries": [
-												"This creature is slow and barely aware of its surroundings."
-											]
-										},
-										{
-											"name": "Girallon Zombie",
-											"type": "entries",
-											"entries": [
-												"Girallons are four-armed apes with white fur. Girallon zombies are slower than their non-undead counterparts but no less fierce. The necromantic energy empowering them fuels their murderous hearts and their hunger for living flesh."
-											]
-										},
-										{
-											"name": "Tyrannosaurus Zombie",
-											"type": "entries",
-											"entries": [
-												"A tyrannosaurus zombie has a gullet full of smaller zombies, which it can disgorge. These zombies aren't under the tyrannosaurus zombie's control."
-											]
-										}
-									]
-								}
-							]
-						}
-					]
-				}
+				"A tyrannosaurus zombie has a gullet full of smaller zombies, which it can disgorge. These zombies aren't under the tyrannosaurus zombie's control."
 			],
 			"images": [
 				{
@@ -1671,7 +1761,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Tyrannosaurus Zombie.webp"
-					}
+					},
+					"width": 2550,
+					"height": 3338
 				}
 			]
 		},
@@ -1712,7 +1804,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Valindra Shadowmantle.webp"
-					}
+					},
+					"width": 839,
+					"height": 1000
 				}
 			]
 		},
@@ -1775,7 +1869,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Wakanga O'tamu.webp"
-					}
+					},
+					"width": 778,
+					"height": 1000
 				}
 			]
 		},
@@ -1806,7 +1902,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Withers.webp"
-					}
+					},
+					"width": 482,
+					"height": 1000
 				}
 			]
 		},
@@ -1865,97 +1963,85 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Xandala.webp"
-					}
+					},
+					"width": 951,
+					"height": 1000
 				}
 			]
 		},
 		{
 			"name": "Yellow Musk Creeper",
 			"source": "ToA",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								{
-									"type": "entries",
-									"entries": [
-										"A yellow musk creeper is an unholy vine whose flowers resemble an orchid's. Bright yellow with splashes of purple, these flowers expel a musk that attracts prey. A yellow musk creeper clings to walls, pillars, gravestones, door frames, or statuary in shadowy locations, remaining motionless until it strikes.",
-										{
-											"name": "Humanoid Hosts",
-											"type": "entries",
-											"entries": [
-												"A yellow musk creeper destroys the minds of humanoids, then implants bulbs in those it kills. Twenty-four hours after being implanted, a bulb sprouts a creeper vine that magically animates the host corpse, turning it into a yellow musk zombie under the young vine's control. In addition to protecting the defenseless plant, the zombie acts as fertilizer for the young creeper vine, which grows to full size in seven days. Once it is fully grown, the new yellow musk creeper becomes mobile and bursts from its zombie host, whereupon the zombie collapses into a mound of dead offal. If the zombie is destroyed before the creeper emerges, the creeper withers and dies."
-											]
-										},
-										{
-											"name": "Small Yellow Musk Zombies",
-											"type": "entries",
-											"entries": [
-												"A Medium humanoid transformed into a yellow musk zombie uses the stat block presented in this section. A Small humanoid transformed into a yellow musk zombie becomes a Small undead with 27 ({@dice 6d6 + 6}) hit points, but otherwise has the same statistics."
-											]
-										}
-									]
-								}
-							]
-						}
-					]
+			"_copy": {
+				"name": "Yellow Musk Vine",
+				"source": "ToA",
+				"_mod": {
+					"entries": {
+						"mode": "prependArr",
+						"items": [
+							{
+								"type": "section",
+								"entries": [
+									"A yellow musk creeper destroys the minds of humanoids, then implants bulbs in those it kills. Twenty-four hours after being implanted, a bulb sprouts a creeper vine that magically animates the host corpse, turning it into a yellow musk zombie under the young vine's control. In addition to protecting the defenseless plant, the zombie acts as fertilizer for the young creeper vine, which grows to full size in seven days. Once it is fully grown, the new yellow musk creeper becomes mobile and bursts from its zombie host, whereupon the zombie collapses into a mound of dead offal. If the zombie is destroyed before the creeper emerges, the creeper withers and dies."
+								]
+							}
+						]
+					}
 				}
-			],
+			},
 			"images": [
 				{
 					"type": "image",
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Yellow Musk Creeper.webp"
-					}
+					},
+					"width": 627,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Yellow Musk Vine",
+			"source": "ToA",
+			"entries": [
+				{
+					"type": "section",
+					"entries": [
+						"A yellow musk creeper is an unholy vine whose flowers resemble an orchid's. Bright yellow with splashes of purple, these flowers expel a musk that attracts prey. A yellow musk creeper clings to walls, pillars, gravestones, door frames, or statuary in shadowy locations, remaining motionless until it strikes."
+					]
 				}
 			]
 		},
 		{
 			"name": "Yellow Musk Zombie",
 			"source": "ToA",
-			"entries": [
-				{
-					"type": "entries",
-					"entries": [
-						{
-							"type": "entries",
-							"entries": [
-								{
-									"type": "entries",
-									"entries": [
-										"A yellow musk creeper is an unholy vine whose flowers resemble an orchid's. Bright yellow with splashes of purple, these flowers expel a musk that attracts prey. A yellow musk creeper clings to walls, pillars, gravestones, door frames, or statuary in shadowy locations, remaining motionless until it strikes.",
-										{
-											"name": "Humanoid Hosts",
-											"type": "entries",
-											"entries": [
-												"A yellow musk creeper destroys the minds of humanoids, then implants bulbs in those it kills. Twenty-four hours after being implanted, a bulb sprouts a creeper vine that magically animates the host corpse, turning it into a yellow musk zombie under the young vine's control. In addition to protecting the defenseless plant, the zombie acts as fertilizer for the young creeper vine, which grows to full size in seven days. Once it is fully grown, the new yellow musk creeper becomes mobile and bursts from its zombie host, whereupon the zombie collapses into a mound of dead offal. If the zombie is destroyed before the creeper emerges, the creeper withers and dies."
-											]
-										},
-										{
-											"name": "Small Yellow Musk Zombies",
-											"type": "entries",
-											"entries": [
-												"A Medium humanoid transformed into a yellow musk zombie uses the stat block presented in this section. A Small humanoid transformed into a yellow musk zombie becomes a Small undead with 27 ({@dice 6d6 + 6}) hit points, but otherwise has the same statistics."
-											]
-										}
-									]
-								}
-							]
-						}
-					]
+			"_copy": {
+				"name": "Yellow Musk Vine",
+				"source": "ToA",
+				"_mod": {
+					"entries": {
+						"mode": "prependArr",
+						"items": [
+							{
+								"type": "section",
+								"entries": [
+									"A Medium humanoid transformed into a yellow musk zombie uses the stat block presented in this section. A Small humanoid transformed into a yellow musk zombie becomes a Small undead with 27 ({@dice 6d6 + 6}) hit points, but otherwise has the same statistics."
+								]
+							}
+						]
+					}
 				}
-			],
+			},
 			"images": [
 				{
 					"type": "image",
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Yellow Musk Zombie.webp"
-					}
+					},
+					"width": 726,
+					"height": 1000
 				}
 			]
 		},
@@ -1968,7 +2054,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Yorb.webp"
-					}
+					},
+					"width": 878,
+					"height": 1000
 				}
 			]
 		},
@@ -1981,7 +2069,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Zaroum Al-Saryak.webp"
-					}
+					},
+					"width": 498,
+					"height": 525
 				}
 			]
 		},
@@ -1994,7 +2084,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Zhanthi.webp"
-					}
+					},
+					"width": 1157,
+					"height": 1599
 				}
 			]
 		},
@@ -2053,7 +2145,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Zindar.webp"
-					}
+					},
+					"width": 581,
+					"height": 1000
 				}
 			]
 		},
@@ -2084,7 +2178,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/ToA/Zorbo.webp"
-					}
+					},
+					"width": 1000,
+					"height": 998
 				}
 			]
 		}

@@ -6,9 +6,107 @@
 	},
 	"baseitem": [
 		{
+			"name": "Alchemist's Supplies",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 79
+				}
+			],
+			"referenceSources": [
+				"IMR",
+				"JttRC",
+				"KftGV",
+				"OoW",
+				"PaBTSO",
+				"RtG",
+				"SCC-ARiR",
+				"TftYP-TSC",
+				"ToA",
+				"TTP",
+				"WDMM"
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 8,
+			"value": 5000,
+			"additionalEntries": [
+				"Alchemist's supplies enable a character to produce useful concoctions, such as acid or alchemist's fire.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Alchemist's supplies include two glass beakers, a metal frame to hold a beaker in place over an open flame, a glass stirring rod, a small mortar and pestle, and a pouch of common alchemical ingredients, including salt, powdered iron, and purified water."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Arcana",
+					"entries": [
+						"Proficiency with alchemist's supplies allows you to unlock more information on {@skill Arcana} checks involving potions and similar materials."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Investigation",
+					"entries": [
+						"When you inspect an area for clues, proficiency with alchemist's supplies grants additional insight into any chemicals or other substances that might have been used in the area."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Alchemical Crafting",
+					"entries": [
+						"You can use this tool proficiency to create alchemical items. A character can spend money to collect raw materials, which weigh 1 pound for every 50 gp spent. The DM can allow a character to make a check using the indicated skill with advantage. As part of a long rest, you can use alchemist's supplies to make one dose of {@item acid (vial)|phb|acid}, {@item alchemist's fire (flask)|phb|alchemist's fire}, {@item antitoxin (vial)|phb|antitoxin}, {@item oil (flask)|phb|oil}, {@item perfume (vial)|phb|perfume}, or {@item soap|phb}. Subtract half the value of the created item from the total gp worth of raw materials you are carrying."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Alchemist's Supplies",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Create a puff of thick smoke",
+							"10"
+						],
+						[
+							"Identify a poison",
+							"10"
+						],
+						[
+							"Identify a substance",
+							"15"
+						],
+						[
+							"Start a fire",
+							"15"
+						],
+						[
+							"Neutralize acid",
+							"20"
+						]
+					]
+				}
+			]
+		},
+		{
 			"name": "Antimatter Rifle",
 			"source": "DMG",
 			"page": 268,
+			"referenceSources": [
+				"QftIS"
+			],
 			"type": "R",
 			"rarity": "none",
 			"weight": 10,
@@ -33,6 +131,9 @@
 			"page": 150,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"ToA"
+			],
 			"type": "A",
 			"rarity": "none",
 			"weight": 0.05,
@@ -45,6 +146,12 @@
 			"page": 150,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CRCotN",
+				"DitLCoT",
+				"IDRotF",
+				"TftYP-TSC"
+			],
 			"type": "A",
 			"rarity": "none",
 			"weight": 1,
@@ -118,6 +225,9 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CoS"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 4,
@@ -199,6 +309,11 @@
 			"page": 145,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"PaBTSO",
+				"QftIS",
+				"WDMM"
+			],
 			"type": "MA",
 			"rarity": "none",
 			"weight": 20,
@@ -210,11 +325,382 @@
 			]
 		},
 		{
+			"name": "Brewer's Supplies",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 79
+				}
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 9,
+			"value": 2000,
+			"additionalEntries": [
+				"Brewing is the art of producing beer. Not only does beer serve as an alcoholic beverage, but the process of brewing purifies water. Crafting beer takes weeks of fermentation, but only a few hours of work.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Brewer's supplies include a large glass jug, a quantity of hops, a siphon, and several feet of tubing."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "History",
+					"entries": [
+						"Proficiency with brewer's supplies gives you additional insight on Intelligence ({@skill History}) checks concerning events that involve alcohol as a significant element."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Medicine",
+					"entries": [
+						"This tool proficiency grants additional insight when you treat anyone suffering from alcohol poisoning or when you can use alcohol to dull pain."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Persuasion",
+					"entries": [
+						"A stiff drink can help soften the hardest heart. Your proficiency with brewer's supplies can help you ply someone with drink, giving them just enough alcohol to mellow their mood."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Potable Water",
+					"entries": [
+						"Your knowledge of brewing enables you to purify water that would otherwise be undrinkable. As part of a long rest, you can purify up to 6 gallons of water, or 1 gallon as part of a short rest."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Brewer's Supplies",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Detect poison or impurities in a drink",
+							"10"
+						],
+						[
+							"Identify alcohol",
+							"15"
+						],
+						[
+							"Ignore effects of alcohol",
+							"20"
+						]
+					]
+				}
+			]
+		},
+		{
+			"name": "Calligrapher's Supplies",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 79
+				}
+			],
+			"referenceSources": [
+				"BGDIA",
+				"CM",
+				"IMR",
+				"KftGV",
+				"PaBTSO",
+				"SCC-HfMT",
+				"ToFW"
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 5,
+			"value": 1000,
+			"additionalEntries": [
+				"Calligraphy treats writing as a delicate, beautiful art. Calligraphers produce text that is pleasing to the eye, using a style that is difficult to forge. Their supplies also give them some ability to examine scripts and determine if they are legitimate, since a calligrapher's training involves long hours of studying writing and attempting to replicate its style and design.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Calligrapher's supplies include ink, a dozen sheets of parchment, and three quills."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Arcana",
+					"entries": [
+						"Although calligraphy is of little help in deciphering the content of magical writings, proficiency with these supplies can aid in identifying who wrote a script of a magical nature."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "History",
+					"entries": [
+						"This tool proficiency can augment the benefit of successful checks made to analyze or investigate ancient writings, scrolls, or other texts, including runes etched in stone or messages in frescoes or other displays."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Decipher Treasure Map",
+					"entries": [
+						"This tool proficiency grants you expertise in examining maps. You can make an Intelligence check to determine a map's age, whether a map includes any hidden messages, or similar facts."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Calligrapher's Supplies",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-6",
+						"col-6"
+					],
+					"rows": [
+						[
+							"Identify writer of nonmagical script",
+							"10"
+						],
+						[
+							"Determine writer's state of mind",
+							"15"
+						],
+						[
+							"Spot forged text",
+							"15"
+						],
+						[
+							"Forge a signature",
+							"20"
+						]
+					]
+				}
+			]
+		},
+		{
+			"name": "Carpenter's Tools",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 80
+				}
+			],
+			"referenceSources": [
+				"OoW"
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 6,
+			"value": 800,
+			"additionalEntries": [
+				"Skill at carpentry enables a character to construct wooden structures. A carpenter can build a house, a shack, a wooden cabinet, or similar items.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Carpenter's tools include a saw, a hammer, nails, a hatchet, a square, a ruler, an adze, a plane, and a chisel."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "History",
+					"entries": [
+						"This tool proficiency aids you in identifying the use and the origin of wooden buildings and other large wooden objects."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Investigation",
+					"entries": [
+						"You gain additional insight when inspecting areas within wooden structures, because you know tricks of construction that can conceal areas from discovery."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Perception",
+					"entries": [
+						"You can spot irregularities in wooden walls or floors, making it easier to find trap doors and secret passages."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Stealth",
+					"entries": [
+						"You can quickly assess the weak spots in a wooden floor, making it easier to avoid the places that creak and groan when they're stepped on."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Fortify",
+					"entries": [
+						"With 1 minute of work and raw materials, you can make a door or window harder to force open. Increase the DC needed to open it by 5."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Temporary Shelter",
+					"entries": [
+						"As part of a long rest, you can construct a lean-to or a similar shelter to keep your group dry and in the shade for the duration of the rest. Because it was fashioned quickly from whatever wood was available, the shelter collapses {@dice 1d3} days after being assembled."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Carpenter's Tools",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Build a simple wooden structure",
+							"10"
+						],
+						[
+							"Design a complex wooden structure",
+							"15"
+						],
+						[
+							"Find a weak point in a wooden wall",
+							"15"
+						],
+						[
+							"Pry apart a door",
+							"20"
+						]
+					]
+				}
+			]
+		},
+		{
+			"name": "Cartographer's Tools",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 80
+				}
+			],
+			"referenceSources": [
+				"DoSI",
+				"KftGV",
+				"PaBTSO",
+				"ToA"
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 6,
+			"value": 1500,
+			"additionalEntries": [
+				"Using cartographer's tools, you can create accurate maps to make travel easier for yourself and those who come after you. These maps can range from large-scale depictions of mountain ranges to diagrams that show the layout of a dungeon level.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Cartographer's tools consist of a quill, ink, parchment, a pair of compasses, calipers, and a ruler."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Arcana, History, Religion",
+					"entries": [
+						"You can use your knowledge of maps and locations to unearth more detailed information when you use these skills. For instance, you might spot hidden messages in a map, identify when the map was made to determine if geographical features have changed since then, and so forth."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Nature",
+					"entries": [
+						"Your familiarity with physical geography makes it easier for you to answer questions or solve issues relating to the terrain around you."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Survival",
+					"entries": [
+						"Your understanding of geography makes it easier to find paths to civilization, to predict areas where villages or towns might be found, and to avoid becoming lost. You have studied so many maps that common patterns, such as how trade routes evolve and where settlements arise in relation to geographic locations, are familiar to you."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Craft a Map",
+					"entries": [
+						"While traveling, you can draw a map as you go in addition to engaging in other activity."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Cartographer's Tools",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Determine a map's age and origin",
+							"10"
+						],
+						[
+							"Estimate direction and distance to a landmark",
+							"15"
+						],
+						[
+							"Discern that a map is fake",
+							"15"
+						],
+						[
+							"Fill in a missing part of a map",
+							"20"
+						]
+					]
+				}
+			]
+		},
+		{
 			"name": "Chain Mail",
 			"source": "PHB",
 			"page": 145,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CoS",
+				"CRCotN",
+				"DSotDQ",
+				"GoS",
+				"PaBTSO",
+				"QftIS",
+				"SCC-ARiR",
+				"VEoR"
+			],
 			"type": "HA",
 			"rarity": "none",
 			"weight": 55,
@@ -233,6 +719,12 @@
 			"page": 144,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CM",
+				"CoS",
+				"TftYP-TSC",
+				"US"
+			],
 			"type": "MA",
 			"rarity": "none",
 			"weight": 20,
@@ -249,6 +741,12 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"GoS",
+				"KftGV",
+				"TftYP-AtG",
+				"WDH"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 2,
@@ -263,11 +761,176 @@
 			"weapon": true
 		},
 		{
+			"name": "Cobbler's Tools",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 80
+				}
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 5,
+			"value": 500,
+			"additionalEntries": [
+				"Although the cobbler's trade might seem too humble for an adventurer, a good pair of boots will see a character across rugged wilderness and through deadly dungeons.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Cobbler's tools consist of a hammer, an awl, a knife, a shoe stand, a cutter, spare leather, and thread."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Arcana, History",
+					"entries": [
+						"Your knowledge of shoes aids you in identifying the magical properties of enchanted boots or the history of such items."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Investigation",
+					"entries": [
+						"Footwear holds a surprising number of secrets. You can learn where someone has recently visited by examining the wear and the dirt that has accumulated on their shoes. Your experience in repairing shoes makes it easier for you to identify where damage might come from."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Maintain Shoes",
+					"entries": [
+						"As part of a long rest, you can repair your companions' shoes. For the next 24 hours, up to six creatures of your choice who wear shoes you worked on can travel up to 10 hours a day without making saving throws to avoid {@condition exhaustion}."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Craft Hidden Compartment",
+					"entries": [
+						"With 8 hours of work, you can add a hidden compartment to a pair of shoes. The compartment can hold an object up to 3 inches long and 1 inch wide and deep. You make an Intelligence check using your tool proficiency to determine the Intelligence ({@skill Investigation}) check DC needed to find the compartment."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Cobbler's Tools",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Determine a shoe's age and origin",
+							"10"
+						],
+						[
+							"Find a hidden compartment in a boot heel",
+							"15"
+						]
+					]
+				}
+			]
+		},
+		{
+			"name": "Cook's Utensils",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 80
+				}
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 8,
+			"value": 100,
+			"additionalEntries": [
+				"Adventuring is a hard life. With a cook along on the journey, your meals will be much better than the typical mix of hardtack and dried fruit.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Cook's utensils include a metal pot, knives, forks, a stirring spoon, and a ladle."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "History",
+					"entries": [
+						"Your knowledge of cooking techniques allows you to assess the social patterns involved in a culture's eating habits."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Medicine",
+					"entries": [
+						"When administering treatment, you can transform medicine that is bitter or sour into a pleasing concoction."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Survival",
+					"entries": [
+						"When foraging for food, you can make do with ingredients you scavenge that others would be unable to transform into nourishing meals."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Prepare Meals",
+					"entries": [
+						"As part of a short rest, you can prepare a tasty meal that helps your companions regain their strength. You and up to five creatures of your choice regain 1 extra hit point per Hit Die spent during a short rest, provided you have access to your cook's utensils and sufficient food."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Cook's Utensils",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Create a typical meal",
+							"10"
+						],
+						[
+							"Duplicate a meal",
+							"10"
+						],
+						[
+							"Spot poison or impurities in food",
+							"15"
+						],
+						[
+							"Create a gourmet meal",
+							"15"
+						]
+					]
+				}
+			]
+		},
+		{
 			"name": "Crossbow Bolt",
 			"source": "PHB",
 			"page": 150,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"TTP"
+			],
 			"type": "A",
 			"rarity": "none",
 			"weight": 0.075,
@@ -280,6 +943,17 @@
 			"page": 150,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CM",
+				"CoS",
+				"CRCotN",
+				"GoS",
+				"IDRotF",
+				"KftGV",
+				"PaBTSO",
+				"SCC-ARiR",
+				"VEoR"
+			],
 			"type": "A",
 			"rarity": "none",
 			"weight": 1.5,
@@ -313,6 +987,21 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"BGDIA",
+				"CM",
+				"CoS",
+				"DoSI",
+				"DSotDQ",
+				"GoS",
+				"IDRotF",
+				"JttRC",
+				"PaBTSO",
+				"QftIS",
+				"TftYP-TSC",
+				"ToFW",
+				"VEoR"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 1,
@@ -335,6 +1024,9 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CM"
+			],
 			"type": "R",
 			"rarity": "none",
 			"weight": 0.25,
@@ -383,6 +1075,10 @@
 			"page": 154,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"JttRC",
+				"RtG"
+			],
 			"type": "INS",
 			"rarity": "none",
 			"weight": 3,
@@ -394,6 +1090,9 @@
 			"page": 154,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"ToA"
+			],
 			"type": "INS",
 			"rarity": "none",
 			"weight": 10,
@@ -403,6 +1102,10 @@
 			"name": "Energy Cell",
 			"source": "DMG",
 			"page": 268,
+			"referenceSources": [
+				"IDRotF",
+				"QftIS"
+			],
 			"type": "AF|DMG",
 			"rarity": "none",
 			"weight": 0.3125,
@@ -418,6 +1121,10 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CoS",
+				"TftYP-AtG"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 2,
@@ -433,6 +1140,10 @@
 			"page": 154,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"RtG",
+				"ToA"
+			],
 			"type": "INS",
 			"rarity": "none",
 			"weight": 1,
@@ -444,6 +1155,10 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"GoS",
+				"SCC-ARiR"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 6,
@@ -458,6 +1173,79 @@
 			"dmgType": "S",
 			"polearm": true,
 			"weapon": true
+		},
+		{
+			"name": "Glassblower's Tools",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 82
+				}
+			],
+			"referenceSources": [
+				"IMR"
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 5,
+			"value": 3000,
+			"additionalEntries": [
+				"Someone who is proficient with glassblower's tools has not only the ability to shape glass, but also specialized knowledge of the methods used to produce glass objects.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"The tools include a blowpipe, a small marver, blocks, and tweezers. You need a source of heat to work glass."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Arcana, History",
+					"entries": [
+						"Your knowledge of glassmaking techniques aids you when you examine glass objects, such as potion bottles or glass items found in a treasure hoard. For instance, you can study how a glass potion bottle has been changed by its contents to help determine a potion's effects. (A potion might leave behind a residue, deform the glass, or stain it.)"
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Investigation",
+					"entries": [
+						"When you study an area, your knowledge can aid you if the clues include broken glass or glass objects."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Identify Weakness",
+					"entries": [
+						"With 1 minute of study, you can identify the weak points in a glass object. Any damage dealt to the object by striking a weak spot is doubled."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Glassblower's Tools",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Identify source of glass",
+							"10"
+						],
+						[
+							"Determine what a glass object once held",
+							"20"
+						]
+					]
+				}
+			]
 		},
 		{
 			"name": "Glaur",
@@ -475,6 +1263,13 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"IDRotF",
+				"PaBTSO",
+				"RMBRE",
+				"TftYP-AtG",
+				"WDMM"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 7,
@@ -514,6 +1309,10 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"PaBTSO",
+				"TftYP-TSC"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 6,
@@ -534,6 +1333,11 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"IDRotF",
+				"KftGV",
+				"VEoR"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 6,
@@ -555,6 +1359,10 @@
 			"page": 145,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"LoX",
+				"ToA"
+			],
 			"type": "MA",
 			"rarity": "none",
 			"weight": 40,
@@ -572,6 +1380,11 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CM",
+				"CoS",
+				"VEoR"
+			],
 			"type": "R",
 			"rarity": "none",
 			"weight": 3,
@@ -605,6 +1418,9 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"TftYP-TFoF"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 2,
@@ -626,6 +1442,15 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CM",
+				"CoS",
+				"IDRotF",
+				"KftGV",
+				"PaBTSO",
+				"SCC-ARiR",
+				"TTP"
+			],
 			"type": "R",
 			"rarity": "none",
 			"weight": 18,
@@ -650,6 +1475,9 @@
 			"page": 144,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"WDMM"
+			],
 			"type": "MA",
 			"rarity": "none",
 			"weight": 12,
@@ -716,6 +1544,9 @@
 			"page": 154,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"TTP"
+			],
 			"type": "INS",
 			"rarity": "none",
 			"weight": 2,
@@ -749,6 +1580,12 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"DSotDQ",
+				"GoS",
+				"IDRotF",
+				"TftYP-TSC"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 2,
@@ -762,6 +1599,81 @@
 			"dmgType": "P",
 			"spear": true,
 			"weapon": true
+		},
+		{
+			"name": "Jeweler's Tools",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 82
+				}
+			],
+			"referenceSources": [
+				"IMR",
+				"PaBTSO",
+				"RtG"
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 2,
+			"value": 2500,
+			"additionalEntries": [
+				"Training with jeweler's tools includes the basic techniques needed to beautify gems. It also gives you expertise in identifying precious stones.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Jeweler's tools consist of a small saw and hammer, files, pliers, and tweezers."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Arcana",
+					"entries": [
+						"Proficiency with jeweler's tools grants you knowledge about the reputed mystical uses of gems. This insight proves handy when you make {@skill Arcana} checks related to gems or gem-encrusted items."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Investigation",
+					"entries": [
+						"When you inspect jeweled objects, your proficiency with jeweler's tools aids you in picking out clues they might hold."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Identify Gems",
+					"entries": [
+						"You can identify gems and determine their value at a glance."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Jeweler's Tools",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Modify a gem's appearance",
+							"15"
+						],
+						[
+							"Determine a gem's history",
+							"20"
+						]
+					]
+				}
+			]
 		},
 		{
 			"name": "Lance",
@@ -796,6 +1708,10 @@
 			"name": "Laser Pistol",
 			"source": "DMG",
 			"page": 268,
+			"referenceSources": [
+				"IDRotF",
+				"QftIS"
+			],
 			"type": "R",
 			"rarity": "none",
 			"weight": 2,
@@ -817,6 +1733,10 @@
 			"name": "Laser Rifle",
 			"source": "DMG",
 			"page": 268,
+			"referenceSources": [
+				"IDRotF",
+				"QftIS"
+			],
 			"type": "R",
 			"rarity": "none",
 			"weight": 7,
@@ -841,6 +1761,10 @@
 			"page": 144,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"DSotDQ",
+				"WDMM"
+			],
 			"type": "LA",
 			"rarity": "none",
 			"weight": 10,
@@ -852,11 +1776,95 @@
 			]
 		},
 		{
+			"name": "Leatherworker's Tools",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 82
+				}
+			],
+			"referenceSources": [
+				"KftGV",
+				"RtG",
+				"ToA"
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 5,
+			"value": 500,
+			"additionalEntries": [
+				"Knowledge of leatherworking extends to lore concerning animal hides and their properties. It also confers knowledge of leather armor and similar goods.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Leatherworker's tools include a knife, a small mallet, an edger, a hole punch, thread, and leather scraps."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Arcana",
+					"entries": [
+						"Your expertise in working with leather grants you added insight when you inspect magic items crafted from leather, such as boots and some cloaks."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Investigation",
+					"entries": [
+						"You gain added insight when studying leather items or clues related to them, as you draw on your knowledge of leather to pick out details that others would overlook."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Identify Hides",
+					"entries": [
+						"When looking at a hide or a leather item, you can determine the source of the leather and any special techniques used to treat it. For example, you can spot the difference between leather crafted using dwarven methods and leather crafted using halfling methods."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Leatherworker's Tools",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Modify a leather item's appearance",
+							"10"
+						],
+						[
+							"Determine a leather item's history",
+							"20"
+						]
+					]
+				}
+			]
+		},
+		{
 			"name": "Light Crossbow",
 			"source": "PHB",
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CoS",
+				"GoS",
+				"IDRotF",
+				"KftGV",
+				"PaBTSO",
+				"TftYP-AtG",
+				"US"
+			],
 			"type": "R",
 			"rarity": "none",
 			"weight": 5,
@@ -923,6 +1931,12 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"IDRotF",
+				"LK",
+				"TftYP-TSC",
+				"WDH"
+			],
 			"type": "R",
 			"rarity": "none",
 			"weight": 2,
@@ -956,6 +1970,24 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CM",
+				"CoS",
+				"DSotDQ",
+				"GoS",
+				"IDRotF",
+				"KftGV",
+				"LK",
+				"LoX",
+				"PaBTSO",
+				"QftIS",
+				"RMBRE",
+				"TftYP-TSC",
+				"US",
+				"VEoR",
+				"WDH",
+				"WDMM"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 3,
@@ -976,6 +2008,15 @@
 			"page": 154,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"DoSI",
+				"JttRC",
+				"LRDT",
+				"RtG",
+				"TftYP-ToH",
+				"ToA",
+				"TTP"
+			],
 			"type": "INS",
 			"rarity": "none",
 			"weight": 2,
@@ -987,6 +2028,11 @@
 			"page": 154,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"RtG",
+				"ToA",
+				"TTP"
+			],
 			"type": "INS",
 			"rarity": "none",
 			"weight": 2,
@@ -998,6 +2044,10 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"QftIS",
+				"VEoR"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 4,
@@ -1009,11 +2059,102 @@
 			"weapon": true
 		},
 		{
+			"name": "Mason's Tools",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 83
+				}
+			],
+			"referenceSources": [
+				"CRCotN",
+				"DSotDQ",
+				"GoS",
+				"IMR",
+				"PaBTSO",
+				"RtG",
+				"SCC-ARiR",
+				"ToA"
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 8,
+			"value": 1000,
+			"additionalEntries": [
+				"Mason's tools allow you to craft stone structures, including walls and buildings crafted from brick.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Mason's tools consist of a trowel, a hammer, a chisel, brushes, and a square."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "History",
+					"entries": [
+						"Your expertise aids you in identifying a stone building's date of construction and purpose, along with insight into who might have built it."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Investigation",
+					"entries": [
+						"You gain additional insight when inspecting areas within stone structures."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Perception",
+					"entries": [
+						"You can spot irregularities in stone walls or floors, making it easier to find trap doors and secret passages."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Demolition",
+					"entries": [
+						"Your knowledge of masonry allows you to spot weak points in brick walls. You deal double damage to such structures with your weapon attacks."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Mason's Tools",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Chisel a small hole in a stone wall",
+							"10"
+						],
+						[
+							"Find a weak point in a stone wall",
+							"15"
+						]
+					]
+				}
+			]
+		},
+		{
 			"name": "Maul",
 			"source": "PHB",
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"RMBRE",
+				"SCC-ARiR"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 10,
@@ -1032,6 +2173,9 @@
 			"name": "Modern Bullet",
 			"source": "DMG",
 			"page": 268,
+			"referenceSources": [
+				"WDMM"
+			],
 			"type": "AF|DMG",
 			"rarity": "none",
 			"weight": 0.1,
@@ -1066,6 +2210,11 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CoS",
+				"GoS",
+				"PaBTSO"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 4,
@@ -1080,6 +2229,10 @@
 			"name": "Musket",
 			"source": "DMG",
 			"page": 268,
+			"referenceSources": [
+				"CoS",
+				"LoX"
+			],
 			"type": "R",
 			"rarity": "none",
 			"weight": 10,
@@ -1104,6 +2257,10 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"ToA",
+				"TTP"
+			],
 			"type": "R",
 			"rarity": "none",
 			"weight": 3,
@@ -1135,6 +2292,9 @@
 			"page": 151,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CoS"
+			],
 			"type": "SCF",
 			"scfType": "arcane",
 			"rarity": "none",
@@ -1159,6 +2319,79 @@
 			]
 		},
 		{
+			"name": "Painter's Supplies",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 83
+				}
+			],
+			"referenceSources": [
+				"SCC-HfMT"
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 5,
+			"value": 1000,
+			"additionalEntries": [
+				"Proficiency with painter's supplies represents your ability to paint and draw. You also acquire an understanding of art history, which can aid you in examining works of art.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Painter's supplies include an easel, canvas, paints, brushes, charcoal sticks, and a palette."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Arcana, History, Religion",
+					"entries": [
+						"Your expertise aids you in uncovering lore of any sort that is attached to a work of art, such as the magical properties of a painting or the origins of a strange mural found in a dungeon."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Investigation, Perception",
+					"entries": [
+						"When you inspect a painting or a similar work of visual art, your knowledge of the practices behind creating it can grant you additional insight."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Painting and Drawing",
+					"entries": [
+						"As part of a short or long rest, you can produce a simple work of art. Although your work might lack precision, you can capture an image or a scene, or make a quick copy of a piece of art you saw."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Painter's Supplies",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Paint an accurate portrait",
+							"10"
+						],
+						[
+							"Create a painting with a hidden message",
+							"20"
+						]
+					]
+				}
+			]
+		},
+		{
 			"name": "Pan Flute",
 			"source": "PHB",
 			"page": 154,
@@ -1175,6 +2408,10 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"IDRotF",
+				"KftGV"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 18,
@@ -1193,6 +2430,10 @@
 			"name": "Pistol",
 			"source": "DMG",
 			"page": 268,
+			"referenceSources": [
+				"HoL",
+				"LoX"
+			],
 			"type": "R",
 			"rarity": "none",
 			"weight": 3,
@@ -1216,6 +2457,14 @@
 			"page": 145,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"BGDIA",
+				"GoS",
+				"PaBTSO",
+				"QftIS",
+				"TftYP-AtG",
+				"US"
+			],
 			"type": "HA",
 			"rarity": "none",
 			"weight": 65,
@@ -1229,11 +2478,91 @@
 			]
 		},
 		{
+			"name": "Potter's Tools",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 84
+				}
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 3,
+			"value": 1000,
+			"additionalEntries": [
+				"Potter's tools are used to create a variety of ceramic objects, most typically pots and similar vessels.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Potter's tools include potter's needles, ribs, scrapers, a knife, and calipers."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "History",
+					"entries": [
+						"Your expertise aids you in identifying ceramic objects, including when they were created and their likely place or culture of origin."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Investigation, Perception",
+					"entries": [
+						"You gain additional insight when inspecting ceramics, uncovering clues others would overlook by spotting minor irregularities."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Reconstruction",
+					"entries": [
+						"By examining pottery shards, you can determine an object's original, intact form and its likely purpose."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Potter's Tools",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Determine what a vessel once held",
+							"10"
+						],
+						[
+							"Create a serviceable pot",
+							"15"
+						],
+						[
+							"Find a weak point in a ceramic object",
+							"20"
+						]
+					]
+				}
+			]
+		},
+		{
 			"name": "Quarterstaff",
 			"source": "PHB",
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CM",
+				"PaBTSO",
+				"TTP",
+				"WDH"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 4,
@@ -1253,6 +2582,13 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CM",
+				"CoS",
+				"DitLCoT",
+				"QftIS",
+				"US"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 2,
@@ -1305,6 +2641,9 @@
 			"name": "Revolver",
 			"source": "DMG",
 			"page": 268,
+			"referenceSources": [
+				"WDMM"
+			],
 			"type": "R",
 			"rarity": "none",
 			"weight": 3,
@@ -1328,6 +2667,9 @@
 			"page": 145,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"HoL"
+			],
 			"type": "HA",
 			"rarity": "none",
 			"weight": 40,
@@ -1360,6 +2702,12 @@
 			"page": 144,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CM",
+				"DSotDQ",
+				"TftYP-TFoF",
+				"TTP"
+			],
 			"type": "MA",
 			"rarity": "none",
 			"weight": 45,
@@ -1377,6 +2725,11 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"KftGV",
+				"RMBRE",
+				"TftYP-TSC"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 3,
@@ -1418,6 +2771,19 @@
 			"page": 144,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"BGDIA",
+				"CRCotN",
+				"GoS",
+				"QftIS",
+				"TftYP-AtG",
+				"TftYP-TSC",
+				"TTP",
+				"US",
+				"VEoR",
+				"WBtW",
+				"WDH"
+			],
 			"type": "S",
 			"rarity": "none",
 			"weight": 6,
@@ -1433,6 +2799,10 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CRCotN",
+				"TftYP-TSC"
+			],
 			"type": "R",
 			"rarity": "none",
 			"weight": 2,
@@ -1455,6 +2825,16 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CM",
+				"CoS",
+				"IDRotF",
+				"KftGV",
+				"PaBTSO",
+				"US",
+				"VEoR",
+				"WDMM"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 2,
@@ -1534,6 +2914,10 @@
 			"page": 150,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"DoSI",
+				"IDRotF"
+			],
 			"type": "A",
 			"rarity": "none",
 			"weight": 0.075,
@@ -1559,6 +2943,90 @@
 			]
 		},
 		{
+			"name": "Smith's Tools",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 84
+				}
+			],
+			"referenceSources": [
+				"BGDIA",
+				"CM",
+				"IDRotF",
+				"KftGV",
+				"QftIS",
+				"ToA",
+				"TTP",
+				"WDH"
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 8,
+			"value": 2000,
+			"additionalEntries": [
+				"Smith's tools allow you to work metal, heating it to alter its shape, repair damage, or work raw ingots into useful items.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Smith's tools include hammers, tongs, charcoal, rags, and a whetstone."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Arcana and History",
+					"entries": [
+						"Your expertise lends you additional insight when examining metal objects, such as weapons."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Investigation",
+					"entries": [
+						"You can spot clues and make deductions that others might overlook when an investigation involves armor, weapons, or other metalwork."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Repair",
+					"entries": [
+						"With access to your tools and an open flame hot enough to make metal pliable, you can restore 10 hit points to a damaged metal object for each hour of work."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Smith's Tools",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Sharpen a dull blade",
+							"10"
+						],
+						[
+							"Repair a suit of armor",
+							"15"
+						],
+						[
+							"Sunder a nonmagical metal object",
+							"15"
+						]
+					]
+				}
+			]
+		},
+		{
 			"name": "Songhorn",
 			"source": "SCAG",
 			"page": 124,
@@ -1574,6 +3042,18 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CRCotN",
+				"DSotDQ",
+				"GoS",
+				"LK",
+				"PaBTSO",
+				"QftIS",
+				"SCC-ARiR",
+				"TftYP-AtG",
+				"TftYP-TSC",
+				"US"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 3,
@@ -1611,6 +3091,12 @@
 			"page": 145,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"SCC-ARiR",
+				"TftYP-AtG",
+				"TftYP-TSC",
+				"VEoR"
+			],
 			"type": "HA",
 			"rarity": "none",
 			"weight": 60,
@@ -1652,6 +3138,15 @@
 			"page": 144,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"BGDIA",
+				"CM",
+				"GoS",
+				"JttRC",
+				"LMoP",
+				"TftYP-TSC",
+				"ToA"
+			],
 			"type": "LA",
 			"rarity": "none",
 			"weight": 13,
@@ -1686,6 +3181,93 @@
 			]
 		},
 		{
+			"name": "Tinker's Tools",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 84
+				}
+			],
+			"referenceSources": [
+				"BGDIA",
+				"IDRotF",
+				"IMR",
+				"KftGV",
+				"OoW",
+				"PaBTSO",
+				"QftIS",
+				"RtG",
+				"TTP",
+				"VEoR",
+				"WDMM"
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 10,
+			"value": 5000,
+			"additionalEntries": [
+				"A set of tinker's tools is designed to enable you to repair many mundane objects. Though you can't manufacture much with tinker's tools, you can mend torn clothes, sharpen a worn sword, and patch a tattered suit of chain mail.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Tinker's tools include a variety of hand tools, thread, needles, a whetstone, scraps of cloth and leather, and a small pot of glue."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "History",
+					"entries": [
+						"You can determine the age and origin of objects, even if you have only a few pieces remaining from the original."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Investigation",
+					"entries": [
+						"When you inspect a damaged object, you gain knowledge of how it was damaged and how long ago."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Repair",
+					"entries": [
+						"You can restore 10 hit points to a damaged object for each hour of work. For any object, you need access to the raw materials required to repair it. For metal objects, you need access to an open flame hot enough to make the metal pliable."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Tinker's Tools",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Temporarily repair a disabled device",
+							"10"
+						],
+						[
+							"Repair an item in half the time",
+							"15"
+						],
+						[
+							"Improvise a temporary item using scraps",
+							"20"
+						]
+					]
+				}
+			]
+		},
+		{
 			"name": "Tocken",
 			"source": "SCAG",
 			"page": 124,
@@ -1701,6 +3283,10 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"GoS",
+				"TTP"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 4,
@@ -1722,6 +3308,10 @@
 			"page": 154,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"ToA",
+				"TTP"
+			],
 			"type": "INS",
 			"rarity": "none",
 			"weight": 1,
@@ -1736,6 +3326,9 @@
 			"page": 151,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CM"
+			],
 			"type": "SCF",
 			"scfType": "arcane",
 			"rarity": "none",
@@ -1748,6 +3341,9 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CoS"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 2,
@@ -1773,6 +3369,12 @@
 			"page": 149,
 			"srd": true,
 			"basicRules": true,
+			"referenceSources": [
+				"CoS",
+				"GoS",
+				"TftYP-TFoF",
+				"US"
+			],
 			"type": "M",
 			"rarity": "none",
 			"weight": 2,
@@ -1786,6 +3388,87 @@
 			"dmg2": "1d10",
 			"hammer": true,
 			"weapon": true
+		},
+		{
+			"name": "Weaver's Tools",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 85
+				}
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 5,
+			"value": 100,
+			"additionalEntries": [
+				"Weaver's tools allow you to create cloth and tailor it into articles of clothing.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Weaver's tools include thread, needles, and scraps of cloth. You know how to work a loom, but such equipment is too large to transport."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Arcana, History",
+					"entries": [
+						"Your expertise lends you additional insight when examining cloth objects, including cloaks and robes."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Investigation",
+					"entries": [
+						"Using your knowledge of the process of creating cloth objects, you can spot clues and make deductions that others would overlook when you examine tapestries, upholstery, clothing, and other woven items."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Repair",
+					"entries": [
+						"As part of a short rest, you can repair a single damaged cloth object."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Craft Clothing",
+					"entries": [
+						"Assuming you have access to sufficient cloth and thread, you can create an outfit for a creature as part of a long rest."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Weaver's Tools",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Repurpose cloth",
+							"10"
+						],
+						[
+							"Mend a hole in a piece of cloth",
+							"10"
+						],
+						[
+							"Tailor an outfit",
+							"15"
+						]
+					]
+				}
+			]
 		},
 		{
 			"name": "Whip",
@@ -1805,6 +3488,88 @@
 			"dmg1": "1d4",
 			"dmgType": "S",
 			"weapon": true
+		},
+		{
+			"name": "Woodcarver's Tools",
+			"source": "PHB",
+			"page": 154,
+			"srd": true,
+			"basicRules": true,
+			"additionalSources": [
+				{
+					"source": "XGE",
+					"page": 85
+				}
+			],
+			"referenceSources": [
+				"IDRotF",
+				"RtG",
+				"VEoR"
+			],
+			"type": "AT",
+			"rarity": "none",
+			"weight": 5,
+			"value": 100,
+			"additionalEntries": [
+				"Woodcarver's tools allow you to craft intricate objects from wood, such as wooden tokens or arrows.",
+				{
+					"type": "entries",
+					"name": "Components",
+					"entries": [
+						"Woodcarver's tools consist of a knife, a gouge, and a small saw."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Arcana, History",
+					"entries": [
+						"Your expertise lends you additional insight when you examine wooden objects, such as figurines or arrows."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Nature",
+					"entries": [
+						"Your knowledge of wooden objects gives you some added insight when you examine trees."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Repair",
+					"entries": [
+						"As part of a short rest, you can repair a single damaged wooden object."
+					]
+				},
+				{
+					"type": "entries",
+					"name": "Craft Arrows",
+					"entries": [
+						"As part of a short rest, you can craft up to five arrows. As part of a long rest, you can craft up to twenty. You must have enough wood on hand to produce them."
+					]
+				},
+				{
+					"type": "table",
+					"caption": "Woodcarver's Tools",
+					"colLabels": [
+						"Activity",
+						"DC"
+					],
+					"colStyles": [
+						"col-10",
+						"col-2 text-center"
+					],
+					"rows": [
+						[
+							"Craft a small wooden figurine",
+							"10"
+						],
+						[
+							"Carve an intricate pattern in wood",
+							"15"
+						]
+					]
+				}
+			]
 		},
 		{
 			"name": "Wooden Staff",
@@ -1928,22 +3693,6 @@
 					"name": "Burst Fire",
 					"entries": [
 						"A weapon that has the burst fire property can make a single-target attack, or it can spray a 10-foot-cube area within normal range with shots. Each creature in the area must succeed on a {@dc 15} Dexterity saving throw or take the weapon's normal damage. This action uses ten pieces of ammunition."
-					]
-				}
-			]
-		},
-		{
-			"abbreviation": "ER",
-			"source": "TDCSR",
-			"page": 195,
-			"template": "{{prop_name_lower}} ({{item.reach}}\u00A0ft.)",
-			"entriesTemplate": [
-				{
-					"type": "entries",
-					"name": "Extended Reach",
-					"page": 195,
-					"entries": [
-						"This weapon adds {{item.reach}} feet to your reach when you attack with it. This property also determines your reach for {@action opportunity attack|PHB|opportunity attacks} with an Extended Reach weapon."
 					]
 				}
 			]
@@ -2077,8 +3826,8 @@
 		},
 		{
 			"abbreviation": "Vst",
-			"source": "TDCSR",
-			"page": 200,
+			"source": "EGW",
+			"page": 270,
 			"template": "Vestige",
 			"entries": [
 				{
@@ -2086,7 +3835,7 @@
 					"name": "Vestige of Divergence",
 					"page": 200,
 					"entries": [
-						"{@note This item is a Vestige of Divergence, see {@book Tal'Dorei Treasures|TDCSR|5|Vestiges of Divergence} for more information.}"
+						"{@note This item is a Vestige of Divergence, see {@book Vestiges of Divergence|EGW|7|Vestiges of Divergence} for more information.}"
 					]
 				}
 			]
@@ -2145,7 +3894,13 @@
 			"source": "PHB",
 			"page": 154,
 			"entries": [
-				"These special tools include the items needed to pursue a craft or trade. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency."
+				{
+					"type": "entries",
+					"name": "Artisan's Tools",
+					"entries": [
+						"These special tools include the items needed to pursue a craft or trade. Proficiency with a set of artisan's tools lets you add your proficiency bonus to any ability checks you make using the tools in your craft. Each type of artisan's tools requires a separate proficiency."
+					]
+				}
 			]
 		},
 		{
@@ -2172,7 +3927,13 @@
 			"source": "PHB",
 			"page": 154,
 			"entries": [
-				"If you are proficient with a gaming set, you can add your proficiency bonus to ability checks you make to play a game with that set. Each type of gaming set requires a separate proficiency."
+				{
+					"type": "entries",
+					"name": "Gaming Set",
+					"entries": [
+						"If you are proficient with a gaming set, you can add your proficiency bonus to ability checks you make to play a game with that set. Each type of gaming set requires a separate proficiency."
+					]
+				}
 			]
 		},
 		{
@@ -2188,21 +3949,18 @@
 			"page": 145
 		},
 		{
-			"name": "Illegal Drug",
-			"abbreviation": "IDG",
-			"source": "TDCSR",
-			"page": 85,
-			"entriesTemplate": [
-				"{@note This item is an illegal drug; see {@variantrule Illegal Drugs|TDCSR} for more information.}"
-			]
-		},
-		{
 			"name": "Instrument",
 			"abbreviation": "INS",
 			"source": "PHB",
 			"page": 154,
 			"entries": [
-				"If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency."
+				{
+					"type": "entries",
+					"name": "Instrument",
+					"entries": [
+						"If you have proficiency with a given musical instrument, you can add your proficiency bonus to any ability checks you make to play music with the instrument. A bard can use a musical instrument as a spellcasting focus. Each type of musical instrument requires a separate proficiency."
+					]
+				}
 			]
 		},
 		{
@@ -2356,8 +4114,14 @@
 			"source": "PHB",
 			"page": 146,
 			"entries": [
-				"Most wealth is not in coins. It is measured in livestock, grain, land, rights to collect taxes, or rights to resources (such as a mine or a forest).",
-				"Guilds, nobles, and royalty regulate trade. Chartered companies are granted rights to conduct trade along certain routes, to send merchant ships to various ports, or to buy or sell specific goods. Guilds set prices for the goods or services that they control, and determine who may or may not offer those goods and services. Merchants commonly exchange trade goods without using currency."
+				{
+					"type": "entries",
+					"name": "Trade Good",
+					"entries": [
+						"Most wealth is not in coins. It is measured in livestock, grain, land, rights to collect taxes, or rights to resources (such as a mine or a forest).",
+						"Guilds, nobles, and royalty regulate trade. Chartered companies are granted rights to conduct trade along certain routes, to send merchant ships to various ports, or to buy or sell specific goods. Guilds set prices for the goods or services that they control, and determine who may or may not offer those goods and services. Merchants commonly exchange trade goods without using currency."
+					]
+				}
 			]
 		},
 		{

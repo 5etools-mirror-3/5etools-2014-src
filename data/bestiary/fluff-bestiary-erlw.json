@@ -96,7 +96,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Belashyrra.webp"
 					},
-					"credit": "Cory Trego-Erdner"
+					"credit": "Cory Trego-Erdner",
+					"width": 750,
+					"height": 1000
 				}
 			]
 		},
@@ -138,7 +140,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Bone Knight.webp"
 					},
-					"credit": "Tomas Giorello"
+					"credit": "Tomas Giorello",
+					"width": 731,
+					"height": 1000
 				}
 			]
 		},
@@ -190,7 +194,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Clawfoot.webp"
 					},
-					"credit": "Art from Wayfinder's Guide to Eberron"
+					"credit": "Art from Wayfinder's Guide to Eberron",
+					"width": 1000,
+					"height": 788
 				}
 			]
 		},
@@ -242,7 +248,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Dolgaunt.webp"
 					},
-					"credit": "Dave Allsop"
+					"credit": "Dave Allsop",
+					"width": 729,
+					"height": 1000
 				}
 			]
 		},
@@ -270,7 +278,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Dolgrim.webp"
 					},
-					"credit": "Dave Allsop"
+					"credit": "Dave Allsop",
+					"width": 1000,
+					"height": 917
 				}
 			]
 		},
@@ -351,7 +361,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Dusk Hag.webp"
 					},
-					"credit": "Colin Boyer"
+					"credit": "Colin Boyer",
+					"width": 988,
+					"height": 1000
 				}
 			]
 		},
@@ -446,7 +458,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Dyrrn.webp"
 					},
-					"credit": "Brian Valeza"
+					"credit": "Brian Valeza",
+					"width": 1000,
+					"height": 661
 				}
 			]
 		},
@@ -505,7 +519,9 @@
 								"type": "internal",
 								"path": "bestiary/ERLW/Fastieth.webp"
 							},
-							"credit": "Olga Drebas"
+							"credit": "Olga Drebas",
+							"width": 1000,
+							"height": 915
 						}
 					}
 				}
@@ -554,7 +570,9 @@
 								"type": "internal",
 								"path": "bestiary/ERLW/Hashalaq Quori.webp"
 							},
-							"credit": "Cory Trego-Erdner"
+							"credit": "Cory Trego-Erdner",
+							"width": 920,
+							"height": 1000
 						}
 					}
 				}
@@ -620,7 +638,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Inspired.webp"
 					},
-					"credit": "Lake Hurwitz"
+					"credit": "Lake Hurwitz",
+					"width": 766,
+					"height": 1000
 				}
 			]
 		},
@@ -653,7 +673,9 @@
 								"type": "internal",
 								"path": "bestiary/ERLW/Iron Defender.webp"
 							},
-							"credit": "Ron Lemen"
+							"credit": "Ron Lemen",
+							"width": 1000,
+							"height": 842
 						}
 					}
 				}
@@ -689,7 +711,9 @@
 								"type": "internal",
 								"path": "bestiary/ERLW/Kalaraq Quori.webp"
 							},
-							"credit": "Christopher Burdett"
+							"credit": "Christopher Burdett",
+							"width": 861,
+							"height": 1000
 						}
 					}
 				}
@@ -718,7 +742,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Kalashtar.webp"
 					},
-					"credit": "Efflam Mercier"
+					"credit": "Efflam Mercier",
+					"width": 571,
+					"height": 1000
 				}
 			]
 		},
@@ -770,7 +796,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Karrnathi Undead Soldier.webp"
 					},
-					"credit": "Andrew Jones"
+					"credit": "Andrew Jones",
+					"width": 677,
+					"height": 1000
 				}
 			]
 		},
@@ -836,7 +864,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Lady Illmarrow.webp"
 					},
-					"credit": "Lake Hurwitz"
+					"credit": "Lake Hurwitz",
+					"width": 948,
+					"height": 1000
 				}
 			]
 		},
@@ -855,7 +885,9 @@
 								"type": "internal",
 								"path": "bestiary/ERLW/Living Burning Hands.webp"
 							},
-							"credit": "Claudio Pozas"
+							"credit": "Claudio Pozas",
+							"width": 988,
+							"height": 1000
 						}
 					}
 				}
@@ -876,7 +908,9 @@
 								"type": "internal",
 								"path": "bestiary/ERLW/Living Cloudkill.webp"
 							},
-							"credit": "Claudio Pozas"
+							"credit": "Claudio Pozas",
+							"width": 822,
+							"height": 1000
 						}
 					}
 				}
@@ -897,7 +931,9 @@
 								"type": "internal",
 								"path": "bestiary/ERLW/Living Lightning Bolt.webp"
 							},
-							"credit": "Claudio Pozas"
+							"credit": "Claudio Pozas",
+							"width": 870,
+							"height": 1000
 						}
 					}
 				}
@@ -1063,7 +1099,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Magewright.webp"
 					},
-					"credit": "Sam Keiser"
+					"credit": "Sam Keiser",
+					"width": 664,
+					"height": 1000
 				}
 			]
 		},
@@ -1092,7 +1130,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Mordakhesh.webp"
 					},
-					"credit": "Zack Stella"
+					"credit": "Zack Stella",
+					"width": 752,
+					"height": 1000
 				}
 			]
 		},
@@ -1193,7 +1233,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Radiant Idol.webp"
 					},
-					"credit": "Craig J Spearing"
+					"credit": "Craig J Spearing",
+					"width": 619,
+					"height": 1000
 				}
 			]
 		},
@@ -1242,7 +1284,9 @@
 								"type": "internal",
 								"path": "bestiary/ERLW/Rak Tulkhesh.webp"
 							},
-							"credit": "Shawn Wood"
+							"credit": "Shawn Wood",
+							"width": 1000,
+							"height": 656
 						}
 					}
 				}
@@ -1271,7 +1315,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Shifter.webp"
 					},
-					"credit": "Cory Trego-Erdner"
+					"credit": "Cory Trego-Erdner",
+					"width": 854,
+					"height": 1000
 				}
 			]
 		},
@@ -1320,7 +1366,9 @@
 								"type": "internal",
 								"path": "bestiary/ERLW/Sul Khatesh.webp"
 							},
-							"credit": "Matt Stewart"
+							"credit": "Matt Stewart",
+							"width": 717,
+							"height": 1000
 						}
 					}
 				}
@@ -1401,7 +1449,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Tarkanan Assassin.webp"
 					},
-					"credit": "Efflam Mercier"
+					"credit": "Efflam Mercier",
+					"width": 733,
+					"height": 1000
 				}
 			]
 		},
@@ -1436,7 +1486,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/The Lord of Blades.webp"
 					},
-					"credit": "Steve Prescott"
+					"credit": "Steve Prescott",
+					"width": 1000,
+					"height": 889
 				}
 			]
 		},
@@ -1483,7 +1535,9 @@
 								"type": "internal",
 								"path": "bestiary/ERLW/Tsucora Quori.webp"
 							},
-							"credit": "Dave Allsop"
+							"credit": "Dave Allsop",
+							"width": 871,
+							"height": 1000
 						}
 					}
 				}
@@ -1600,7 +1654,9 @@
 								"type": "internal",
 								"path": "bestiary/ERLW/Undying Soldier.webp"
 							},
-							"credit": "James Zhang"
+							"credit": "James Zhang",
+							"width": 641,
+							"height": 1000
 						}
 					}
 				}
@@ -1701,7 +1757,9 @@
 								"type": "internal",
 								"path": "bestiary/ERLW/Valenar Hound.webp"
 							},
-							"credit": "Olga Drebas"
+							"credit": "Olga Drebas",
+							"width": 917,
+							"height": 1000
 						}
 					}
 				}
@@ -1722,7 +1780,9 @@
 								"type": "internal",
 								"path": "bestiary/ERLW/Valenar Steed.webp"
 							},
-							"credit": "Leesha Hannigan"
+							"credit": "Leesha Hannigan",
+							"width": 718,
+							"height": 1000
 						}
 					}
 				}
@@ -1778,7 +1838,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/124-4-07.webp"
 					},
-					"credit": "Titus Lunter"
+					"credit": "Titus Lunter",
+					"width": 1200,
+					"height": 627
 				}
 			]
 		},
@@ -1806,7 +1868,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Warforged Soldier.webp"
 					},
-					"credit": "Claudio Pozas"
+					"credit": "Claudio Pozas",
+					"width": 715,
+					"height": 1000
 				}
 			]
 		},
@@ -1840,7 +1904,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Warforged Titan.webp"
 					},
-					"credit": "Wayne Reynolds"
+					"credit": "Wayne Reynolds",
+					"width": 634,
+					"height": 1000
 				}
 			]
 		},
@@ -1869,7 +1935,9 @@
 						"type": "internal",
 						"path": "bestiary/ERLW/Zakya Rakshasa.webp"
 					},
-					"credit": "Zack Stella"
+					"credit": "Zack Stella",
+					"width": 738,
+					"height": 1000
 				}
 			]
 		}

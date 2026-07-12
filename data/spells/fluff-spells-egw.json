@@ -10,7 +10,9 @@
 						"type": "internal",
 						"path": "spells/EGW/Dark Star.webp"
 					},
-					"credit": "Axel Defois"
+					"credit": "Axel Defois",
+					"width": 1496,
+					"height": 1000
 				}
 			]
 		},
@@ -24,7 +26,9 @@
 						"type": "internal",
 						"path": "spells/EGW/Reality Break.webp"
 					},
-					"credit": "Brian Valeza"
+					"credit": "Brian Valeza",
+					"width": 1496,
+					"height": 1000
 				}
 			]
 		}

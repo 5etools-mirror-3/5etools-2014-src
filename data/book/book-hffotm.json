@@ -864,7 +864,7 @@
 							"height": 287
 						},
 						"So, the oddest event has befallen us.",
-						"Some hours after we fled the Yawning Portal\u2014cause of an unpaid bill\u2014we found sanctuary in the underhold of a sea vessel docked at port. As I calmed my stalwart party, a door creaked aside, and framed in dim light came to us a small, curious figure\u2014no taller than my brother, had I one. Encased head to toe in dented bronze plate, squat and pot-bellied, this ancient lad called out in a fluty gasp.",
+						"Some hours after we fled the Yawning Portal\u2014cause of an unpaid bill\u2014we found sanctuary in the underhold of a sea vessel docked at port. As I calmed my stalwart party, a door creaked aside, and framed in {@quickref Vision and Light||2||dim light} came to us a small, curious figure\u2014no taller than my brother, had I one. Encased head to toe in dented bronze plate, squat and pot-bellied, this ancient lad called out in a fluty gasp.",
 						"\"ARE YOU THE QUATERNATE TETRAD?\"",
 						"As all wise adventurers know, when someone asks you if you are who you are NOT, you say YES.",
 						"So, I did thus. \"Yes! Of course we are.\"",
@@ -1705,7 +1705,7 @@
 							"width": 1759,
 							"height": 1988
 						},
-						"Those who happen upon the Solamnian city of Palanthus would be fools not to drop by the A Taste of Silvanost restaurant and try its famous Stuffed Trout. Of course, what the trout is stuffed with is anyone's guess. According to the menu (which is written in Silvanesti), you'll find \"specially prepared mixtures\" inside. But rumor has it the stuffing is composed of breadcrumbs made from the fresh-baked loaves of the elven proprietor Solamna Farseer, and seasoned with a rare spice known as Old Bay, named for the Bay of Branchala, next to which the city rests.",
+						"Those who happen upon the Solamnian city of Palanthas would be fools not to drop by the A Taste of Silvanost restaurant and try its famous Stuffed Trout. Of course, what the trout is stuffed with is anyone's guess. According to the menu (which is written in Silvanesti), you'll find \"specially prepared mixtures\" inside. But rumor has it the stuffing is composed of breadcrumbs made from the fresh-baked loaves of the elven proprietor Solamna Farseer, and seasoned with a rare spice known as Old Bay, named for the Bay of Branchala, next to which the city rests.",
 						{
 							"type": "statblock",
 							"tag": "recipe",
@@ -2446,7 +2446,7 @@
 							"height": 287
 						},
 						"We flee into the eternal Barovian night and make it to the calamitous site beyond the woods where the spelljammer crashed. I can only guess, out of fear and madness, that we had some hope Dint would rise from his grave and whisk us and the spelljammer into the sky and to safety.",
-						"But then I remember . . BETRAYED! Dastardly Dint bade us deliver ourselves up to be eaten! Nary an Astral Diamond to be found! Now, out of the Svalich Woods, march the hungry skeletal minions of Vampeer housesitter, Chahd.",
+						"But then I remember... BETRAYED! Dastardly Dint bade us deliver ourselves up to be eaten! Nary an Astral Diamond to be found! Now, out of the Svalich Woods, march the hungry skeletal minions of Vampeer housesitter, Chahd.",
 						"I sign off...from this life and deem this the final entry of the BUREAU OF DARK TABLES. TPK.",
 						{
 							"type": "image",

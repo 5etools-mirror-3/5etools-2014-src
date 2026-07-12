@@ -16,6 +16,7 @@ export class InitiativeTrackerEncounterConverter {
 		{
 			roller,
 			rowStateBuilderActive,
+			isInvertWoundDirection,
 			importIsAddPlayers,
 			importIsRollGroups,
 			isRollInit,
@@ -25,6 +26,7 @@ export class InitiativeTrackerEncounterConverter {
 		this._roller = roller;
 		this._rowStateBuilderActive = rowStateBuilderActive;
 
+		this._isInvertWoundDirection = isInvertWoundDirection;
 		this._importIsAddPlayers = importIsAddPlayers;
 		this._importIsRollGroups = importIsRollGroups;
 		this._isRollInit = isRollInit;
@@ -45,26 +47,30 @@ export class InitiativeTrackerEncounterConverter {
 	async _pGetConverted_pPlayers ({entityInfos, encounterInfo, out}) {
 		if (!this._importIsAddPlayers) return;
 
-		await this._pGetConverted_pPlayers_advanced({entityInfos, encounterInfo, out});
-		await this._pGetConverted_pPlayers_simple({entityInfos, encounterInfo, out});
+		switch (encounterInfo.activePartyId) {
+			case "customAdvanced": return this._pGetConverted_pPlayers_advanced({entityInfos, encounterInfo, out});
+			case "custom": return this._pGetConverted_pPlayers_simple({entityInfos, encounterInfo, out});
+			default: throw new Error(`Unimplemented!`);
+		}
 	}
 
 	async _pGetConverted_pPlayers_advanced ({entityInfos, encounterInfo, out}) {
-		if (!encounterInfo.isAdvanced || !encounterInfo.playersAdvanced) return;
+		const partyCompState = this._getPartyCompState({encounterInfo, partyId: "customAdvanced"});
+		if (!partyCompState?.playersAdvanced) return;
 
 		const colNameIndex = {};
-		encounterInfo.colsExtraAdvanced = encounterInfo.colsExtraAdvanced || [];
-		if (encounterInfo.colsExtraAdvanced.length) {
+		const colsExtraAdvanced = partyCompState.colsExtraAdvanced || [];
+		if (colsExtraAdvanced.length) {
 			out.isOverwriteStatsCols = true;
 			out.isStatsAddColumns = true;
 		}
 
-		encounterInfo.colsExtraAdvanced.forEach((col, i) => colNameIndex[i] = (col?.name || "").toLowerCase());
+		colsExtraAdvanced.forEach((col, i) => colNameIndex[i] = (col?.name || "").toLowerCase());
 
-		const {ixsColLookup, ixExtrasHp, statsCols} = this._pGetConverted_pPlayers_advanced_getExtrasInfo({encounterInfo});
+		const {ixsColLookup, ixExtrasHp, statsCols} = this._pGetConverted_pPlayers_advanced_getExtrasInfo({colsExtraAdvanced});
 		out.statsCols.push(...statsCols);
 
-		await encounterInfo.playersAdvanced
+		await partyCompState.playersAdvanced
 			.pSerialAwaitMap(async playerDetails => {
 				out.rows.push(
 					await this._rowStateBuilderActive
@@ -84,12 +90,12 @@ export class InitiativeTrackerEncounterConverter {
 			});
 	}
 
-	_pGetConverted_pPlayers_advanced_getExtrasInfo ({encounterInfo}) {
+	_pGetConverted_pPlayers_advanced_getExtrasInfo ({colsExtraAdvanced}) {
 		const statsCols = [];
 		const ixsColLookup = {};
 		let ixExtrasHp = null;
 
-		encounterInfo.colsExtraAdvanced.forEach((col, i) => {
+		colsExtraAdvanced.forEach((col, i) => {
 			let colName = col?.name || "";
 			if (colName.toLowerCase() === "hp") {
 				ixExtrasHp = i;
@@ -147,9 +153,10 @@ export class InitiativeTrackerEncounterConverter {
 	}
 
 	async _pGetConverted_pPlayers_simple ({entityInfos, encounterInfo, out}) {
-		if (encounterInfo.isAdvanced || !encounterInfo.playersSimple) return;
+		const partyCompState = this._getPartyCompState({encounterInfo, partyId: "custom"});
+		if (!partyCompState?.playersSimple) return;
 
-		await encounterInfo.playersSimple
+		await partyCompState.playersSimple
 			.pSerialAwaitMap(async playerGroup => {
 				await [...new Array(playerGroup.count || 1)]
 					.pSerialAwaitMap(async () => {
@@ -167,6 +174,10 @@ export class InitiativeTrackerEncounterConverter {
 						);
 					});
 			});
+	}
+
+	_getPartyCompState ({encounterInfo, partyId}) {
+		return encounterInfo.statePartyComps?.[partyId]?.state;
 	}
 
 	/* -------------------------------------------- */
@@ -201,7 +212,7 @@ export class InitiativeTrackerEncounterConverter {
 									isActive: false,
 									source: entityInfo.entity.source,
 									conditions: [],
-									hpCurrent: hpVal,
+									hpCurrent: this._isInvertWoundDirection ? 0 : hpVal,
 									hpMax: hpVal,
 								}),
 						);

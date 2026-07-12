@@ -56,7 +56,9 @@
 						"path": "bestiary/PSI/Angel1.webp"
 					},
 					"title": "Gisela, Blade of Goldnight",
-					"credit": "Jason Chan"
+					"credit": "Jason Chan",
+					"width": 712,
+					"height": 546
 				},
 				{
 					"type": "image",
@@ -65,7 +67,9 @@
 						"path": "bestiary/PSI/Angel2.webp"
 					},
 					"title": "Fiery Temper",
-					"credit": "Johannes Voss"
+					"credit": "Johannes Voss",
+					"width": 1229,
+					"height": 905
 				},
 				{
 					"type": "image",
@@ -74,7 +78,9 @@
 						"path": "bestiary/PSI/Sigarda.webp"
 					},
 					"title": "Sigarda, Host of Herons",
-					"credit": "Chris Rahn"
+					"credit": "Chris Rahn",
+					"width": 724,
+					"height": 505
 				}
 			]
 		},
@@ -108,7 +114,9 @@
 						"path": "bestiary/PSI/Creepy Doll.webp"
 					},
 					"title": "Creepy Doll",
-					"credit": "Matt Stewart"
+					"credit": "Matt Stewart",
+					"width": 712,
+					"height": 470
 				}
 			]
 		},
@@ -189,7 +197,9 @@
 						"path": "bestiary/PSI/Geist.webp"
 					},
 					"title": "Bygone Bishop",
-					"credit": "Jason A. Engle"
+					"credit": "Jason A. Engle",
+					"width": 1227,
+					"height": 830
 				},
 				{
 					"type": "image",
@@ -198,7 +208,9 @@
 						"path": "bestiary/PSI/Geist2.webp"
 					},
 					"title": "Geist-Honored Monk",
-					"credit": "Clint Cearley"
+					"credit": "Clint Cearley",
+					"width": 601,
+					"height": 344
 				}
 			]
 		},
@@ -234,7 +246,9 @@
 						"path": "bestiary/PSI/Necro-Alchemist.webp"
 					},
 					"title": "Laboratory Maniac",
-					"credit": "Jason Felix"
+					"credit": "Jason Felix",
+					"width": 754,
+					"height": 585
 				}
 			]
 		},
@@ -272,7 +286,9 @@
 						"path": "bestiary/PSI/Strefan.webp"
 					},
 					"title": "Falkenrath Noble",
-					"credit": "Slawomir Maniak"
+					"credit": "Slawomir Maniak",
+					"width": 1227,
+					"height": 823
 				}
 			]
 		},
@@ -353,7 +369,9 @@
 						"path": "bestiary/PSI/Vampire Neonate.webp"
 					},
 					"title": "Markov Dreadknight",
-					"credit": "Cynthia Sheppard"
+					"credit": "Cynthia Sheppard",
+					"width": 607,
+					"height": 1590
 				}
 			]
 		},
@@ -419,7 +437,9 @@
 						"path": "bestiary/PSI/Werewolf (Krallenhorde).webp"
 					},
 					"title": "Moonmist",
-					"credit": "Ryan Yee"
+					"credit": "Ryan Yee",
+					"width": 1227,
+					"height": 821
 				},
 				{
 					"type": "image",
@@ -428,7 +448,9 @@
 						"path": "bestiary/PSI/Werewolf (Krallenhorde)2.webp"
 					},
 					"title": "Bound by Moonsilver",
-					"credit": "Joseph Meehan"
+					"credit": "Joseph Meehan",
+					"width": 617,
+					"height": 475
 				}
 			]
 		},
@@ -449,7 +471,9 @@
 						"path": "bestiary/PSI/Zombies.webp"
 					},
 					"title": "Unbreathing Horde",
-					"credit": "Dave Kendall"
+					"credit": "Dave Kendall",
+					"width": 1227,
+					"height": 916
 				}
 			]
 		},

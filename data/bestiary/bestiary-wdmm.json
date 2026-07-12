@@ -38,6 +38,10 @@
 					}
 				}
 			},
+			"hp": {
+				"average": 140,
+				"formula": "14d8 + 28"
+			},
 			"hasToken": true
 		},
 		{
@@ -88,7 +92,7 @@
 				{
 					"name": "Magic Bolt",
 					"entries": [
-						"{@atk rw} {@hit 6} to hit, range 120 ft., one target. {@h}16 ({@damage 3d10}) fire damage"
+						"{@atk rw} {@hit 6} to hit, range 120 ft., one target. {@h}16 ({@damage 3d10}) fire damage."
 					]
 				}
 			],
@@ -173,7 +177,7 @@
 			],
 			"trait": [
 				{
-					"name": "Wielder Domination",
+					"name": "Charm",
 					"entries": [
 						"A creature can grab the staff out of the air with a successful grapple check against the staff, and grappling the staff does not reduce the creature's speed. Any creature that successfully grapples the staff must succeed on a {@dc 12} Charisma saving throw or be {@condition charmed} by the staff until the staff is no longer in its grasp. While the creature is {@condition charmed}, the staff can issue commands to it, which the creature does its best to obey. The creature can repeat the saving throw each time it takes damage, ending the effect on itself on a success. A creature that successfully resists the staff's control can't be {@condition charmed} by it for 24 hours.",
 						"A creature holding the staff that isn't {@condition charmed} by it can use an action to attempt to break the staff over a knee or against a solid surface, doing so with a successful {@dc 17} Strength ({@skill Athletics}) check. Breaking the staff in this manner destroys it."
@@ -188,7 +192,7 @@
 					]
 				},
 				{
-					"name": "Staff",
+					"name": "Melee Attack",
 					"entries": [
 						"{@atk mw} {@hit 5} to hit, reach 5 ft., one target. {@h}7 ({@damage 2d6}) bludgeoning damage plus 1 cold damage."
 					]
@@ -213,6 +217,47 @@
 			"savingThrowForced": [
 				"charisma"
 			],
+			"hasToken": true
+		},
+		{
+			"name": "Animated Statue",
+			"source": "WDMM",
+			"page": 125,
+			"_copy": {
+				"name": "Archmage",
+				"source": "MM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "archmage",
+						"with": "statue",
+						"flags": "i"
+					},
+					"_": {
+						"mode": "replaceSpells",
+						"spells": {
+							"4": [
+								{
+									"replace": "{@spell banishment}",
+									"with": "{@spell ice storm}"
+								}
+							],
+							"7": [
+								{
+									"replace": "{@spell teleport}",
+									"with": "{@spell finger of death}"
+								}
+							]
+						}
+					}
+				}
+			},
+			"type": "construct",
+			"alignment": [
+				"U"
+			],
+			"tokenCredit": "Onefold, Ltd.",
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -250,6 +295,7 @@
 				"understands Abyssal but can't speak"
 			],
 			"cr": "11",
+			"tokenCustom": true,
 			"traitTags": [
 				"Immutable Form",
 				"Magic Resistance",
@@ -495,6 +541,55 @@
 			"hasFluffImages": true
 		},
 		{
+			"name": "Armored Troglodyte",
+			"source": "WDMM",
+			"page": 150,
+			"_copy": {
+				"name": "Troglodyte",
+				"source": "MM",
+				"_mod": {
+					"action": [
+						{
+							"mode": "replaceArr",
+							"replace": "Multiattack",
+							"items": {
+								"name": "Multiattack",
+								"entries": [
+									"The troglodyte either makes two attacks with its longsword, or it makes three attacks: one with its bite and two with its claws."
+								]
+							}
+						},
+						{
+							"mode": "replaceArr",
+							"replace": "Claw",
+							"items": {
+								"name": "Longsword",
+								"entries": [
+									"{@atk mw} {@hit 4} to hit, reach 5 ft., one target. {@h}6 ({@damage 1d8 + 2}) slashing damage, or 7 ({@damage 1d10 + 2}) slashing damage if used with two hands."
+								]
+							}
+						}
+					]
+				}
+			},
+			"ac": [
+				{
+					"ac": 14,
+					"from": [
+						"{@item breastplate|phb}"
+					]
+				}
+			],
+			"languages": [
+				"understands Undercommon but can't speak"
+			],
+			"languageTags": [
+				"CS",
+				"U"
+			],
+			"hasToken": true
+		},
+		{
 			"name": "Ashtyrranthor",
 			"isNpc": true,
 			"isNamedCreature": true,
@@ -587,6 +682,27 @@
 			"hasToken": true
 		},
 		{
+			"name": "Azal",
+			"isNpc": true,
+			"isNamedCreature": true,
+			"source": "WDMM",
+			"page": 202,
+			"_copy": {
+				"name": "Githzerai Zerth",
+				"source": "MM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the githzerai",
+						"with": "Azal",
+						"flags": "i"
+					}
+				}
+			},
+			"hasToken": true,
+			"hasFluffImages": true
+		},
+		{
 			"name": "Berlain Shadowdusk",
 			"isNpc": true,
 			"isNamedCreature": true,
@@ -602,10 +718,10 @@
 						"with": "Berlain",
 						"flags": "i"
 					},
-					"trait": {
+					"bonus": {
 						"mode": "appendArr",
 						"items": {
-							"name": "Extra Parts",
+							"name": "Fused Form",
 							"entries": [
 								"As a bonus action, Berlain can use her extra mouth and arms to cast any cantrip she has prepared."
 							]
@@ -713,6 +829,7 @@
 					"ability": "int"
 				}
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C",
 				"DS",
@@ -768,6 +885,30 @@
 				"MW",
 				"RCH"
 			],
+			"hasToken": true
+		},
+		{
+			"name": "Blacktongue Bullywug",
+			"source": "WDMM",
+			"page": 110,
+			"_copy": {
+				"name": "Bullywug",
+				"source": "MM",
+				"_mod": {
+					"action": {
+						"mode": "replaceArr",
+						"replace": "Spear",
+						"items": [
+							{
+								"name": "Spear",
+								"entries": [
+									"{@atk mw,rw} {@hit 3} to hit, reach 5 ft. or range 20/60 ft., one target. {@h}4 ({@damage 1d6 + 1}) piercing damage, or 5 ({@damage 1d8 + 1}) piercing damage if used with two hands to make a melee attack. A creature hit by a bullywug's Spear attack must succeed on a {@dc 13} Constitution saving throw or be {@condition poisoned} for 1 minute. A creature {@condition poisoned} in this way is also {@condition paralyzed}. The creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
+								]
+							}
+						]
+					}
+				}
+			},
 			"hasToken": true
 		},
 		{
@@ -867,7 +1008,7 @@
 				{
 					"name": "Tail Stinger",
 					"entries": [
-						"{@atk mw} {@hit 9} to hit, reach 10 ft., one creature. {@h}19 ({@damage 3d6 + 9}) piercing damage, and the target must make a {@dc 19} Constitution saving throw, taking 42 ({@damage 12d6}) poison damage on a failed save, or half as much damage on a successful one."
+						"{@atk mw} {@hit 14} to hit, reach 10 ft., one creature. {@h}19 ({@damage 3d6 + 9}) piercing damage, and the target must make a {@dc 19} Constitution saving throw, taking 42 ({@damage 12d6}) poison damage on a failed save, or half as much damage on a successful one."
 					]
 				}
 			],
@@ -937,19 +1078,7 @@
 			"page": 189,
 			"_copy": {
 				"name": "Ogre",
-				"source": "MM",
-				"_mod": {
-					"trait": {
-						"mode": "appendArr",
-						"items": {
-							"type": "entries",
-							"name": "Tied Down",
-							"entries": [
-								"While lashed to the floor, the creature is {@condition prone} and {@condition restrained}. It also suffers from two levels of {@condition exhaustion}."
-							]
-						}
-					}
-				}
+				"source": "MM"
 			},
 			"int": 1,
 			"languages": null,
@@ -973,6 +1102,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"actionTags": [
 				"Multiattack",
 				"Tentacles"
@@ -1140,6 +1270,7 @@
 					"ability": "int"
 				}
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C",
 				"DS",
@@ -1190,6 +1321,7 @@
 				"N",
 				"E"
 			],
+			"tokenCustom": true,
 			"senseTags": [
 				"D"
 			],
@@ -1293,6 +1425,19 @@
 			"hasFluff": true
 		},
 		{
+			"name": "Crystal Helm Nothic",
+			"isNpc": true,
+			"isNamedCreature": true,
+			"source": "WDMM",
+			"page": 130,
+			"_copy": {
+				"name": "Nothic",
+				"source": "MM"
+			},
+			"hasToken": true,
+			"hasFluffImages": true
+		},
+		{
 			"name": "Deformed Duergar",
 			"isNpc": true,
 			"source": "WDMM",
@@ -1349,8 +1494,8 @@
 						"with": "Dezmyr",
 						"flags": "i"
 					},
-					"trait": {
-						"mode": "prependArr",
+					"bonus": {
+						"mode": "appendArr",
 						"items": [
 							{
 								"name": "Warp Reality",
@@ -1362,6 +1507,11 @@
 					}
 				}
 			},
+			"languages": [
+				"Abyssal",
+				"Common",
+				"Deep Speech"
+			],
 			"spellcasting": [
 				{
 					"name": "Spellcasting",
@@ -1409,6 +1559,11 @@
 					"ability": "cha"
 				}
 			],
+			"languageTags": [
+				"AB",
+				"C",
+				"DS"
+			],
 			"savingThrowForcedSpell": [
 				"constitution",
 				"wisdom"
@@ -1427,7 +1582,7 @@
 				"source": "MM",
 				"_templates": [
 					{
-						"name": "Drow",
+						"name": "Drow (Levitate)",
 						"source": "PHB"
 					}
 				],
@@ -1449,6 +1604,10 @@
 					}
 				}
 			},
+			"alignment": [
+				"N",
+				"E"
+			],
 			"languages": [
 				"Abyssal",
 				"Common",
@@ -1457,6 +1616,7 @@
 				"Goblin",
 				"Undercommon"
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Fey Ancestry",
 				"Magic Resistance",
@@ -1507,6 +1667,12 @@
 					}
 				}
 			},
+			"hp": {
+				"average": 221,
+				"formula": "13d12 + 78"
+			},
+			"tokenCredit": "Paizo",
+			"tokenCustom": true,
 			"damageTags": [
 				"F",
 				"S"
@@ -1539,6 +1705,9 @@
 							]
 						}
 					}
+				},
+				"_preserve": {
+					"legendaryGroup": true
 				}
 			},
 			"languages": [
@@ -1651,7 +1820,8 @@
 				"dexterity",
 				"wisdom"
 			],
-			"hasToken": true
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Fazrian",
@@ -1691,7 +1861,8 @@
 				"constitution"
 			],
 			"hasToken": true,
-			"hasFluff": true
+			"hasFluff": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Fidelio",
@@ -1722,6 +1893,7 @@
 			"languages": [
 				"Common"
 			],
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -1782,6 +1954,36 @@
 			"hasToken": true
 		},
 		{
+			"name": "Flying Wand",
+			"source": "WDMM",
+			"page": 105,
+			"_copy": {
+				"name": "Flying Sword",
+				"source": "MM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "\\bsword\\b",
+						"with": "wand"
+					}
+				}
+			},
+			"action": [
+				{
+					"name": "Magic Missile",
+					"entries": [
+						"The wand shoots a dart of magical force at one creature that it can detect within 60 feet of it. The target takes 3 ({@damage 1d4 + 1}) force damage as the dart hits it unerringly."
+					]
+				}
+			],
+			"tokenCredit": "Hayden Stutz",
+			"tokenCustom": true,
+			"damageTags": [
+				"O"
+			],
+			"hasToken": true
+		},
+		{
 			"name": "Giant Flying Spider",
 			"source": "WDMM",
 			"page": 150,
@@ -1797,85 +1999,50 @@
 			"hasToken": true
 		},
 		{
-			"name": "Giant Mutated Drow",
+			"name": "Giant Gelatinous Cube",
 			"source": "WDMM",
-			"page": 143,
+			"page": 241,
 			"_copy": {
-				"name": "Cloud Giant",
+				"name": "Gelatinous Cube",
 				"source": "MM",
 				"_mod": {
-					"*": {
-						"mode": "replaceTxt",
-						"replace": "giant",
-						"with": "drow",
-						"flags": "i"
-					},
-					"trait": {
-						"mode": "appendArr",
-						"items": [
-							{
-								"name": "Fey Ancestry",
+					"trait": [
+						{
+							"mode": "replaceArr",
+							"replace": "Ooze Cube",
+							"items": {
+								"name": "Ooze Cube",
 								"entries": [
-									"The drow has advantage on saving throws against being charmed, and magic can't put the drow to sleep."
-								]
-							},
-							{
-								"name": "Sunlight Sensitivity",
-								"entries": [
-									"While in sunlight, the drow has disadvantage on attack rolls, as well as on Wisdom ({@skill Perception}) checks that rely on sight."
+									"The cube takes up its entire space. Other creatures can enter the space, but a creature that does so is subjected to the cube's Engulf and has disadvantage on the saving throw.",
+									"Creatures inside the cube can be seen but have {@quickref Cover||3||total cover}.",
+									"A creature within 5 feet of the cube can take an action to pull a creature or object out of the cube. Doing so requires a successful {@dc 12} Strength check, and the creature making the attempt takes 10 ({@damage 3d6}) acid damage.",
+									"The cube can hold up to nine Large creatures or up to thirty-six Medium or smaller creatures inside it at a time."
 								]
 							}
-						]
+						},
+						{
+							"mode": "appendArr",
+							"items": [
+								{
+									"name": "Enlarged",
+									"entries": [
+										"The cube makes Strength checks and Strength saving throws with advantage. When the cube shrinks back to normal size, any creatures that it can no longer contain are expelled into unoccupied spaces around it."
+									]
+								}
+							]
+						}
+					],
+					"action": {
+						"mode": "prependArr",
+						"items": {
+							"name": "Multiattack",
+							"entries": [
+								"The cube makes four pseudopod attacks."
+							]
+						}
 					}
 				}
 			},
-			"type": "giant",
-			"alignment": [
-				"N",
-				"E"
-			],
-			"senses": [
-				"darkvision 120 ft."
-			],
-			"languages": [
-				"Elvish",
-				"Undercommon"
-			],
-			"spellcasting": [
-				{
-					"name": "Innate Spellcasting",
-					"type": "spellcasting",
-					"headerEntries": [
-						"The drow's innate spellcasting ability is Charisma (spell save {@dc 15}). The drow can innately cast the following spells, requiring no material components:"
-					],
-					"will": [
-						"{@spell dancing lights}"
-					],
-					"daily": {
-						"1e": [
-							"{@spell darkness}",
-							"{@spell faerie fire}"
-						]
-					},
-					"ability": "cha"
-				}
-			],
-			"traitTags": [
-				"Fey Ancestry",
-				"Keen Senses",
-				"Sunlight Sensitivity"
-			],
-			"senseTags": [
-				"SD"
-			],
-			"languageTags": [
-				"C",
-				"E",
-				"GI"
-			],
-			"savingThrowForcedSpell": [
-				"dexterity"
-			],
 			"hasToken": true
 		},
 		{
@@ -1932,6 +2099,9 @@
 							}
 						]
 					}
+				},
+				"_preserve": {
+					"legendaryGroup": true
 				}
 			},
 			"languages": [
@@ -2007,56 +2177,6 @@
 				"constitution",
 				"dexterity",
 				"wisdom"
-			],
-			"hasToken": true,
-			"hasFluffImages": true
-		},
-		{
-			"name": "Gorzil's Gang Troglodyte",
-			"source": "WDMM",
-			"page": 150,
-			"_copy": {
-				"name": "Troglodyte",
-				"source": "MM",
-				"_mod": {
-					"action": [
-						{
-							"mode": "replaceArr",
-							"replace": "Multiattack",
-							"items": {
-								"name": "Multiattack",
-								"entries": [
-									"The troglodyte makes three attacks: one with its bite and two with its longsword."
-								]
-							}
-						},
-						{
-							"mode": "replaceArr",
-							"replace": "Claw",
-							"items": {
-								"name": "Longsword",
-								"entries": [
-									"{@atk mw} {@hit 4} to hit, reach 5 ft., one target. {@h}6 ({@damage 1d8 + 2}) slashing damage, or 7 ({@damage 1d10 + 2}) slashing damage if used with two hands."
-								]
-							}
-						}
-					]
-				}
-			},
-			"ac": [
-				{
-					"ac": 14,
-					"from": [
-						"{@item breastplate|phb}"
-					]
-				}
-			],
-			"languages": [
-				"understands Undercommon but can't speak"
-			],
-			"languageTags": [
-				"CS",
-				"U"
 			],
 			"hasToken": true
 		},
@@ -2390,6 +2510,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"damageTags": [
 				"B"
 			],
@@ -2451,6 +2572,44 @@
 			"hasToken": true
 		},
 		{
+			"name": "Hammer-Handed Golem",
+			"source": "WDMM",
+			"page": 259,
+			"_copy": {
+				"name": "Stone Golem",
+				"source": "MM",
+				"_mod": {
+					"action": [
+						{
+							"mode": "replaceArr",
+							"replace": "Multiattack",
+							"items": [
+								{
+									"name": "Multiattack",
+									"entries": [
+										"The golem makes two mallet attacks."
+									]
+								}
+							]
+						},
+						{
+							"mode": "replaceArr",
+							"replace": "Slam",
+							"items": [
+								{
+									"name": "Mallet",
+									"entries": [
+										"{@atk mw} {@hit 10} to hit, reach 5 ft., one target. {@h}19 ({@damage 3d8 + 6}) bludgeoning damage, and the target must succeed on a {@dc 17} Constitution saving throw or be {@condition stunned} until the end of its next turn."
+									]
+								}
+							]
+						}
+					]
+				}
+			},
+			"hasToken": true
+		},
+		{
 			"name": "Haungharassk",
 			"isNpc": true,
 			"isNamedCreature": true,
@@ -2502,6 +2661,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Spider Climb"
 			],
@@ -2542,6 +2702,7 @@
 				"Infernal",
 				"Undercommon"
 			],
+			"tokenCustom": true,
 			"senseTags": [
 				"D"
 			],
@@ -2552,10 +2713,30 @@
 				"U"
 			],
 			"spellcastingTags": [
-				"CW",
-				"I"
+				"CW"
 			],
 			"hasToken": true
+		},
+		{
+			"name": "Hrossk",
+			"isNpc": true,
+			"isNamedCreature": true,
+			"source": "WDMM",
+			"page": 183,
+			"_copy": {
+				"name": "Fire Giant",
+				"source": "MM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the giant",
+						"with": "Hrossk",
+						"flags": "i"
+					}
+				}
+			},
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Huge Gray Ooze",
@@ -2600,6 +2781,8 @@
 					]
 				}
 			],
+			"tokenCredit": "Slay the Spire 2",
+			"tokenCustom": true,
 			"actionTags": [
 				"Multiattack"
 			],
@@ -2670,7 +2853,7 @@
 			"source": "WDMM",
 			"page": 165,
 			"size": [
-				"M"
+				"L"
 			],
 			"type": "construct",
 			"alignment": [
@@ -2700,6 +2883,20 @@
 				"poison",
 				"psychic"
 			],
+			"trait": [
+				{
+					"name": "Spider Climb",
+					"entries": [
+						"The iron spider can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+					]
+				},
+				{
+					"name": "Antimagic Susceptibility",
+					"entries": [
+						"The iron spider is {@condition incapacitated} while in the area of an {@spell antimagic field}. If targeted by {@spell dispel magic}, the iron spider must succeed on a Constitution saving throw against the caster's spell save DC or fall {@condition unconscious} for 1 minute."
+					]
+				}
+			],
 			"action": [
 				{
 					"name": "Web Cable",
@@ -2708,10 +2905,16 @@
 					]
 				}
 			],
+			"tokenCustom": true,
+			"traitTags": [
+				"Antimagic Susceptibility",
+				"Spider Climb"
+			],
 			"senseTags": [
 				"B"
 			],
-			"hasToken": true
+			"hasToken": true,
+			"hasFluff": true
 		},
 		{
 			"name": "Junior Drow Priestess of Lolth",
@@ -2738,6 +2941,10 @@
 				"N",
 				"E"
 			],
+			"languages": [
+				"Elvish",
+				"Undercommon"
+			],
 			"traitTags": [
 				"Fey Ancestry",
 				"Sunlight Sensitivity"
@@ -2747,7 +2954,7 @@
 			],
 			"languageTags": [
 				"E",
-				"X"
+				"U"
 			],
 			"spellcastingTags": [
 				"CC",
@@ -2756,7 +2963,7 @@
 			"hasToken": true
 		},
 		{
-			"name": "Kavil",
+			"name": "Kavil Mereshanter",
 			"isNpc": true,
 			"isNamedCreature": true,
 			"source": "WDMM",
@@ -2890,6 +3097,7 @@
 				"name": "Keresta Delvingstone",
 				"source": "WDMM"
 			},
+			"tokenCustom": true,
 			"damageTagsSpell": [
 				"I",
 				"N",
@@ -2961,7 +3169,7 @@
 		{
 			"name": "Large Mimic",
 			"source": "WDMM",
-			"page": 76,
+			"page": 26,
 			"_copy": {
 				"name": "Mimic",
 				"source": "MM"
@@ -2970,8 +3178,8 @@
 				"L"
 			],
 			"hp": {
-				"average": 67,
-				"formula": "9d10 + 18"
+				"average": 75,
+				"formula": "10d10 + 20"
 			},
 			"hasToken": true
 		},
@@ -3139,6 +3347,7 @@
 				"blinded",
 				"deafened"
 			],
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -3265,6 +3474,7 @@
 				"and Undercommon but can't speak"
 			],
 			"cr": "12",
+			"tokenCustom": true,
 			"languageTags": [
 				"AB",
 				"C",
@@ -3373,6 +3583,7 @@
 				"Elvish",
 				"Undercommon"
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Fey Ancestry"
 			],
@@ -3430,6 +3641,7 @@
 				"Draconic",
 				"Dwarvish"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C",
 				"D",
@@ -3455,6 +3667,10 @@
 					]
 				}
 			],
+			"hp": {
+				"average": 24,
+				"formula": "3d8"
+			},
 			"senses": [
 				"darkvision 60 ft."
 			],
@@ -3469,6 +3685,7 @@
 				"petrified",
 				"poisoned"
 			],
+			"tokenCustom": true,
 			"senseTags": [
 				"D"
 			],
@@ -3505,6 +3722,7 @@
 				"average": 42,
 				"formula": "7d6"
 			},
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -3740,6 +3958,89 @@
 			"hasFluffImages": true
 		},
 		{
+			"name": "Mutated Drow",
+			"source": "WDMM",
+			"page": 143,
+			"_copy": {
+				"name": "Cloud Giant",
+				"source": "MM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "giant",
+						"with": "drow",
+						"flags": "i"
+					},
+					"trait": {
+						"mode": "appendArr",
+						"items": [
+							{
+								"name": "Fey Ancestry",
+								"entries": [
+									"The drow has advantage on saving throws against being charmed, and magic can't put the drow to sleep."
+								]
+							},
+							{
+								"name": "Sunlight Sensitivity",
+								"entries": [
+									"While in sunlight, the drow has disadvantage on attack rolls, as well as on Wisdom ({@skill Perception}) checks that rely on sight."
+								]
+							}
+						]
+					}
+				}
+			},
+			"type": "giant",
+			"alignment": [
+				"N",
+				"E"
+			],
+			"senses": [
+				"darkvision 120 ft."
+			],
+			"languages": [
+				"Elvish",
+				"Undercommon"
+			],
+			"spellcasting": [
+				{
+					"name": "Innate Spellcasting",
+					"type": "spellcasting",
+					"headerEntries": [
+						"The drow's innate spellcasting ability is Charisma (spell save {@dc 15}). The drow can innately cast the following spells, requiring no material components:"
+					],
+					"will": [
+						"{@spell dancing lights}"
+					],
+					"daily": {
+						"1e": [
+							"{@spell darkness}",
+							"{@spell faerie fire}"
+						]
+					},
+					"ability": "cha"
+				}
+			],
+			"tokenCustom": true,
+			"traitTags": [
+				"Fey Ancestry",
+				"Keen Senses",
+				"Sunlight Sensitivity"
+			],
+			"senseTags": [
+				"SD"
+			],
+			"languageTags": [
+				"C",
+				"E",
+				"GI"
+			],
+			"savingThrowForcedSpell": [
+				"dexterity"
+			],
+			"hasToken": true
+		},
+		{
 			"name": "Nerozar the Defeated",
 			"isNpc": true,
 			"isNamedCreature": true,
@@ -3767,27 +4068,23 @@
 									"style": "list-hang-notitle",
 									"items": [
 										{
-											"type": "item",
+											"type": "itemSub",
 											"name": "1. Paralyzing Ray",
-											"style": "italic",
 											"entry": "The targeted creature must succeed on a {@dc 14} Constitution saving throw or be {@condition paralyzed} for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 										},
 										{
-											"type": "item",
+											"type": "itemSub",
 											"name": "2. Fear Ray",
-											"style": "italic",
 											"entry": "The targeted creature must succeed on a {@dc 14} Wisdom saving throw or be {@condition frightened} for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 										},
 										{
-											"type": "item",
+											"type": "itemSub",
 											"name": "3. Enervation Ray",
-											"style": "italic",
 											"entry": "The targeted creature must make a {@dc 14} Constitution saving throw, taking 36 ({@damage 8d8}) necrotic damage on a failed save, or half as much damage on a successful one."
 										},
 										{
-											"type": "item",
+											"type": "itemSub",
 											"name": "4. Telekinetic Ray",
-											"style": "italic",
 											"entry": "If the target is a creature, it must succeed on a {@dc 14} Strength saving throw, or the zombie moves it up to 30 feet in any direction. It is restrained by the ray's telekinetic grip until the start of the zombie's next turn or until the zombie is incapacitated. If the target is an object weighing 300 pounds or less that isn't being worn or carried, it is moved up to 30 feet in any direction. The zombie can also exert fine control on objects with this ray, such as manipulating a simple tool or opening a door or container."
 										}
 									]
@@ -3848,6 +4145,10 @@
 				}
 			},
 			"type": "undead",
+			"alignment": [
+				"C",
+				"E"
+			],
 			"senses": [
 				"darkvision 60 ft."
 			],
@@ -3857,14 +4158,17 @@
 				"Draconic",
 				"Dwarvish",
 				"Giant",
-				"Terran"
+				"Terran",
+				"but can't speak (he uses {@spell Rary's telepathic bond} to communicate)"
 			],
+			"tokenCustom": true,
 			"senseTags": [
 				"D"
 			],
 			"languageTags": [
 				"AU",
 				"C",
+				"CS",
 				"D",
 				"DR",
 				"GI",
@@ -3932,6 +4236,9 @@
 							]
 						}
 					}
+				},
+				"_preserve": {
+					"legendaryGroup": true
 				}
 			},
 			"size": [
@@ -3994,6 +4301,7 @@
 			"languages": [
 				"Common"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C"
 			],
@@ -4080,6 +4388,12 @@
 					]
 				}
 			},
+			"type": {
+				"type": "humanoid",
+				"tags": [
+					"human"
+				]
+			},
 			"alignment": [
 				"L",
 				"N"
@@ -4087,6 +4401,7 @@
 			"languages": [
 				"Common"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C"
 			],
@@ -4153,6 +4468,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"senseTags": [
 				"SD"
 			],
@@ -4195,8 +4511,30 @@
 			"languages": null,
 			"cr": "0",
 			"action": null,
+			"tokenCustom": true,
 			"languageTags": [],
 			"hasToken": true
+		},
+		{
+			"name": "Rishindar",
+			"isNpc": true,
+			"isNamedCreature": true,
+			"source": "WDMM",
+			"page": 202,
+			"_copy": {
+				"name": "Githzerai Zerth",
+				"source": "MM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the githzerai",
+						"with": "Rishindar",
+						"flags": "i"
+					}
+				}
+			},
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Rowboat Mimic",
@@ -4223,17 +4561,41 @@
 				"name": "Behir",
 				"source": "MM"
 			},
-			"legendary": [
+			"spellcasting": [
 				{
 					"name": "Lesser Magic",
-					"entries": [
-						"The behir casts {@spell color spray} or {@spell sleep}, requiring no components."
+					"type": "spellcasting",
+					"headerEntries": [
+						"The behir casts {@spell color spray} or {@spell sleep}, requiring no components. Its spellcasting ability is Charisma (spell save {@dc 13})."
+					],
+					"legendary": {
+						"1e": [
+							"{@spell color spray}",
+							"{@spell sleep}"
+						]
+					},
+					"ability": "cha",
+					"displayAs": "legendary",
+					"hidden": [
+						"legendary"
 					]
 				},
 				{
 					"name": "Greater Magic (Costs 2 Actions)",
-					"entries": [
+					"type": "spellcasting",
+					"headerEntries": [
 						"The behir casts {@spell invisibility} or {@spell misty step}, requiring no components."
+					],
+					"legendary": {
+						"2e": [
+							"{@spell invisibility}",
+							"{@spell misty step}"
+						]
+					},
+					"ability": "cha",
+					"displayAs": "legendary",
+					"hidden": [
+						"legendary"
 					]
 				}
 			],
@@ -4445,7 +4807,7 @@
 				{
 					"name": "Shadow Stealth",
 					"entries": [
-						"While in dim light or darkness, the assassin can take the Hide action as a bonus action."
+						"While in dim light or darkness, the assassin can take the {@action Hide} action as a bonus action."
 					]
 				},
 				{
@@ -4465,7 +4827,7 @@
 				{
 					"name": "Shadow Blade",
 					"entries": [
-						"{@atk mw} {@hit 8} to hit, reach 5 ft., one target. {@h}7 ({@damage 1d6 + 4}) piercing damage plus 10 ({@damage 3d6}) necrotic damage. Unless the target is immune to necrotic damage, the target's Strength score is reduced by {@dice 1d4} each time it is hit by this attack. The target dies if its Strength is reduced to 0. The reduction lasts until the target finishes a short or long rest. If a non-evil humanoid dies from this attack, a shadow (see the Monster Manual) rises from the corpse {@dice 1d4} hours later."
+						"{@atk mw} {@hit 8} to hit, reach 5 ft., one target. {@h}7 ({@damage 1d6 + 4}) piercing damage plus 10 ({@damage 3d6}) necrotic damage. Unless the target is immune to necrotic damage, the target's Strength score is reduced by {@dice 1d4} each time it is hit by this attack. The target dies if its Strength is reduced to 0. The reduction lasts until the target finishes a short or long rest. If a non-evil humanoid dies from this attack, a {@creature shadow} (see the Monster Manual) rises from the corpse {@dice 1d4} hours later."
 					]
 				}
 			],
@@ -4616,6 +4978,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Immutable Form"
 			],
@@ -4670,6 +5033,7 @@
 				"L",
 				"E"
 			],
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true
 		},
@@ -4701,6 +5065,7 @@
 				"Common",
 				"Halfling"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C",
 				"H"
@@ -4723,6 +5088,10 @@
 					}
 				}
 			},
+			"cr": {
+				"cr": "0",
+				"xp": 0
+			},
 			"action": null,
 			"damageTags": [],
 			"miscTags": [],
@@ -4738,6 +5107,12 @@
 				"name": "Adult Silver Dragon",
 				"source": "MM",
 				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the dragon",
+						"with": "Stalagma",
+						"flags": "i"
+					},
 					"action": {
 						"mode": "replaceArr",
 						"replace": "Breath Weapons {@recharge 5}",
@@ -4775,6 +5150,7 @@
 				"Dwarvish",
 				"Terran"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"D",
 				"DR",
@@ -4803,17 +5179,18 @@
 						"with": "statue",
 						"flags": "i"
 					},
-					"trait": {
+					"bonus": {
 						"mode": "appendArr",
 						"items": {
 							"name": "Magic Theft",
 							"entries": [
-								"As a bonus action, the golem targets one creature it can see within 30 feet of it. The target must succeed on a {@dc 17} Charisma saving throw, or all magic items in its possession are teleported to the bottom of the pit in {@adventure area 31|WDMM|15|31. Hall of Embers}."
+								"The golem targets one creature it can see within 30 feet of it. The target must succeed on a {@dc 17} Charisma saving throw, or all magic items in its possession are teleported to the bottom of the pit in {@adventure area 31|WDMM|15|31. Hall of Embers}."
 							]
 						}
 					}
 				}
 			},
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -4844,6 +5221,7 @@
 				"Infernal",
 				"and Undercommon but can't speak"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"AB",
 				"C",
@@ -4891,6 +5269,7 @@
 				"Common",
 				"Giant"
 			],
+			"tokenCustom": true,
 			"senseTags": [
 				"D"
 			],
@@ -4951,13 +5330,17 @@
 				"N",
 				"E"
 			],
+			"languages": [
+				"Common",
+				"Dwarvish"
+			],
+			"tokenCustom": true,
 			"senseTags": [
 				"D"
 			],
 			"languageTags": [
 				"C",
-				"D",
-				"X"
+				"D"
 			],
 			"damageTags": [
 				"B",
@@ -4994,6 +5377,7 @@
 				"C",
 				"E"
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Amphibious",
 				"Sneak Attack"
@@ -5242,12 +5626,24 @@
 						"name": "Legendary Shadow Dragon",
 						"source": "MM"
 					}
-				]
+				],
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the dragon",
+						"with": "Umbraxakar",
+						"flags": "i"
+					}
+				}
 			},
 			"alignment": [
 				"N",
 				"E"
 			],
+			"legendaryGroup": {
+				"name": "Shadow Dragon (Bronze Dragon)",
+				"source": "MM"
+			},
 			"traitTags": [
 				"Amphibious",
 				"Legendary Resistances",
@@ -5317,6 +5713,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true
 		},
@@ -5367,6 +5764,7 @@
 				"Troglodyte",
 				"Undercommon"
 			],
+			"tokenCustom": true,
 			"senseTags": [
 				"SD"
 			],
@@ -5429,6 +5827,7 @@
 				"Deep Speech",
 				"Undercommon"
 			],
+			"tokenCustom": true,
 			"senseTags": [
 				"B"
 			],
@@ -5439,6 +5838,27 @@
 				"U"
 			],
 			"hasToken": true
+		},
+		{
+			"name": "Vond",
+			"isNpc": true,
+			"isNamedCreature": true,
+			"source": "WDMM",
+			"page": 202,
+			"_copy": {
+				"name": "Githzerai Zerth",
+				"source": "MM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the githzerai",
+						"with": "Vond",
+						"flags": "i"
+					}
+				}
+			},
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Werebat",
@@ -5525,7 +5945,7 @@
 				{
 					"name": "Nimble Escape (Humanoid Form Only)",
 					"entries": [
-						"The werebat can take the Disengage or Hide action as a bonus action on each of its turns."
+						"The werebat can take the {@action Disengage} or {@action Hide} action as a bonus action on each of its turns."
 					]
 				},
 				{
@@ -5545,7 +5965,7 @@
 				{
 					"name": "Bite (Bat or Hybrid Form Only)",
 					"entries": [
-						"{@atk mw} {@hit 5} to hit, reach 5 ft., one creature. {@h}6 ({@damage 1d6 + 3}) piercing damage, and the werebat gains temporary hit points equal to the damage dealt. If the target is a humanoid, it must succeed on a {@dc 10} Constitution saving throw or be cursed with werebat lycanthropy."
+						"{@atk mw} {@hit 5} to hit, reach 5 ft., one creature. {@h}6 ({@damage 1d6 + 3}) piercing damage, and the werebat gains temporary hit points equal to the damage dealt. If the target is a humanoid, it must succeed on a {@dc 10} Constitution saving throw or be cursed with werebat {@variantrule Player Characters as Lycanthropes|MM|lycanthropy}."
 					]
 				},
 				{
@@ -5680,7 +6100,107 @@
 				"E"
 			],
 			"hasToken": true,
-			"hasFluff": true
+			"hasFluff": true,
+			"hasFluffImages": true
+		},
+		{
+			"name": "Xarann A'Daragon",
+			"isNpc": true,
+			"isNamedCreature": true,
+			"source": "WDMM",
+			"page": 145,
+			"_copy": {
+				"name": "Assassin",
+				"source": "MM",
+				"_templates": [
+					{
+						"name": "Drow (Levitate)",
+						"source": "PHB"
+					}
+				],
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the assassin",
+						"with": "Xarann",
+						"flags": "i"
+					},
+					"trait": {
+						"mode": "appendArr",
+						"items": {
+							"name": "Special Equipment",
+							"entries": [
+								"Xarann wears a {@item Piwafwi (Cloak of Elvenkind)|OotA|piwafwi}, a drow-made {@item cloak of elvenkind}. It loses its magic if exposed to sunlight for 1 hour without interruption."
+							]
+						}
+					}
+				}
+			},
+			"alignment": [
+				"N",
+				"E"
+			],
+			"languages": [
+				"Elvish",
+				"Undercommon"
+			],
+			"languageTags": [
+				"E",
+				"U"
+			],
+			"hasToken": true,
+			"hasFluffImages": true
+		},
+		{
+			"name": "Xorta",
+			"isNpc": true,
+			"isNamedCreature": true,
+			"source": "WDMM",
+			"page": 98,
+			"_copy": {
+				"name": "Stone Giant",
+				"source": "MM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the giant",
+						"with": "Xorta",
+						"flags": "i"
+					}
+				}
+			},
+			"hasToken": true,
+			"hasFluffImages": true
+		},
+		{
+			"name": "Yrlakka",
+			"isNpc": true,
+			"isNamedCreature": true,
+			"source": "WDMM",
+			"page": 202,
+			"_copy": {
+				"name": "Githzerai Zerth",
+				"source": "MM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the githzerai",
+						"with": "Yrlakka",
+						"flags": "i"
+					},
+					"trait": {
+						"mode": "appendArr",
+						"items": {
+							"name": "Special Equipment",
+							"entries": [
+								"Yrlakka carries a {@item Potion of Fire Resistance||potion of resistance (fire)} in a tiny crystal vial fastened to a cord around his right ankle, and he has a {@item wand of magic detection} hanging from his belt."
+							]
+						}
+					}
+				}
+			},
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Zalthar Shadowdusk",
@@ -5735,6 +6255,7 @@
 				"Common",
 				"Deep Speech"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"AB",
 				"C",
@@ -5844,7 +6365,7 @@
 				{
 					"name": "Regeneration",
 					"entries": [
-						"Zorak regains 20 hit points at the start of his turn if he has at least 1 hit point and isn't in sunlight or running water. If Zorak takes radiant damage or damage from holy water, this trait doesn't function at the start of Zorak's next turn."
+						"Zorak regains 20 hit points at the start of his turn if he has at least 1 hit point and isn't in sunlight or running water. If Zorak takes radiant damage or damage from {@item Holy Water (Flask)|PHB|holy water}, this trait doesn't function at the start of Zorak's next turn."
 					]
 				},
 				{
@@ -5955,6 +6476,7 @@
 				"name": "Vampire",
 				"source": "MM"
 			},
+			"tokenCustom": true,
 			"attachedItems": [
 				"dwarven thrower|dmg"
 			],
@@ -6028,6 +6550,10 @@
 					}
 				}
 			},
+			"alignment": [
+				"C",
+				"G"
+			],
 			"languages": [
 				"Aquan",
 				"Auran",
@@ -6036,6 +6562,7 @@
 				"Ignan",
 				"Terran"
 			],
+			"tokenCustom": true,
 			"senseTags": [
 				"D"
 			],
@@ -6059,14 +6586,30 @@
 				"name": "Drow House Captain",
 				"source": "MTF",
 				"_mod": {
-					"*": {
-						"mode": "replaceTxt",
-						"replace": "the drow",
-						"with": "Zress",
-						"flags": "i"
-					}
+					"*": [
+						{
+							"mode": "replaceTxt",
+							"replace": "the drow",
+							"with": "Zress",
+							"flags": "i"
+						},
+						{
+							"mode": "replaceTxt",
+							"replace": "\\bhis\\b",
+							"with": "her"
+						}
+					]
 				}
 			},
+			"ac": [
+				{
+					"ac": 18,
+					"from": [
+						"{@item mithral plate armor|dmg}"
+					]
+				}
+			],
+			"tokenCustom": true,
 			"hasToken": true
 		}
 	]

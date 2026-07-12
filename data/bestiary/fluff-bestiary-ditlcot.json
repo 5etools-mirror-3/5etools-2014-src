@@ -19,7 +19,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/DitLCoT/Pech.webp"
-					}
+					},
+					"width": 655,
+					"height": 1000
 				}
 			]
 		}

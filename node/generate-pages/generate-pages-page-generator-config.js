@@ -4,6 +4,7 @@ import {PAGE_GENERATORS_ADVENTURE_BOOK} from "./generate-pages-page-generator-co
 import {PageGeneratorGeneric} from "./generate-pages-page-generator.js";
 import {PAGE_GENERATORS_TABLEPAGE} from "./generate-pages-page-generator-config-tablepage.js";
 import {PAGE_GENERATORS_MANAGER} from "./generate-pages-page-generator-config-manager.js";
+import {PAGE_GENERATORS_SEO_INDEX} from "./generate-pages-page-generator-config-seo.js";
 
 class _PageGeneratorMaps extends PageGeneratorGeneric {
 	_filename = "page/template-page-maps.hbs";
@@ -37,7 +38,6 @@ class _PageGeneratorDmscreen extends PageGeneratorGeneric {
 
 	_scriptsLibAdditional = [
 		"peerjs.js",
-		"jquery.panzoom.js",
 		"lzma.js",
 	];
 
@@ -249,10 +249,6 @@ class _PageGeneratorMakebrew extends PageGeneratorGeneric {
 		"makebrew",
 	];
 
-	_scriptsLibAdditional = [
-		"bootstrap-typeahead.js",
-	];
-
 	_scriptsRenderAdditional = [
 		"render-markdown.js",
 	];
@@ -275,10 +271,6 @@ class _PageGeneratorMakecards extends PageGeneratorGeneric {
 
 	_stylesheets = [
 		"makecards",
-	];
-
-	_scriptsLibAdditional = [
-		"bootstrap-typeahead.js",
 	];
 
 	_scriptsLibAdditionalRemote = [
@@ -353,7 +345,7 @@ class _PageGeneratorRenderdemo extends PageGeneratorGeneric {
 		"ace.js",
 	];
 
-	_scripts = [
+	_scriptsModules = [
 		"renderdemo.js",
 	];
 }
@@ -404,6 +396,7 @@ export const PAGE_GENERATORS = 	[
 	...PAGE_GENERATORS_ADVENTURE_BOOK,
 	...PAGE_GENERATORS_TABLEPAGE,
 	...PAGE_GENERATORS_MANAGER,
+	...PAGE_GENERATORS_SEO_INDEX,
 
 	new _PageGeneratorMaps(),
 	new _PageGeneratorDmscreen(),

@@ -18,7 +18,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MCV1SC/Asteroid Spider.webp"
-					}
+					},
+					"width": 1280,
+					"height": 1011
 				}
 			]
 		},
@@ -43,7 +45,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MCV1SC/Clockwork Horror.webp"
-					}
+					},
+					"width": 1280,
+					"height": 634
 				}
 			]
 		},
@@ -121,7 +125,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MCV1SC/Eldritch Lich.webp"
-					}
+					},
+					"width": 1171,
+					"height": 1609
 				}
 			]
 		},
@@ -155,7 +161,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MCV1SC/Fractine.webp"
-					}
+					},
+					"width": 642,
+					"height": 684
 				}
 			]
 		},
@@ -178,7 +186,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MCV1SC/Gadabout.webp"
-					}
+					},
+					"width": 1171,
+					"height": 944
 				}
 			]
 		},
@@ -208,7 +218,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MCV1SC/Goon Balloon.webp"
-					}
+					},
+					"width": 1276,
+					"height": 985
 				}
 			]
 		},
@@ -231,7 +243,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MCV1SC/Nightmare Beast.webp"
-					}
+					},
+					"width": 1133,
+					"height": 922
 				}
 			]
 		},
@@ -253,7 +267,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MCV1SC/Puppeteer Parasite.webp"
-					}
+					},
+					"width": 540,
+					"height": 1655
 				}
 			]
 		},
@@ -277,7 +293,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MCV1SC/Star Lancer.webp"
-					}
+					},
+					"width": 1280,
+					"height": 958
 				}
 			]
 		},
@@ -301,7 +319,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MCV1SC/Yggdrasti.webp"
-					}
+					},
+					"width": 1251,
+					"height": 955
 				}
 			]
 		}

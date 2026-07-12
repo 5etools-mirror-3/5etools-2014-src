@@ -14,7 +14,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/Ambush Drake.webp"
-					}
+					},
+					"width": 1000,
+					"height": 498
 				}
 			]
 		},
@@ -27,7 +29,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/Azbara Jos.webp"
-					}
+					},
+					"width": 850,
+					"height": 1144
 				}
 			]
 		},
@@ -40,7 +44,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/Blagothkus.webp"
-					}
+					},
+					"width": 690,
+					"height": 1000
 				}
 			]
 		},
@@ -53,7 +59,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/Captain Othelstan.webp"
-					}
+					},
+					"width": 850,
+					"height": 1250
 				}
 			]
 		},
@@ -66,7 +74,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/Dragonclaw.webp"
-					}
+					},
+					"width": 1700,
+					"height": 3045
 				}
 			]
 		},
@@ -79,7 +89,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/Dralmorrer Borngray.webp"
-					}
+					},
+					"width": 878,
+					"height": 1000
 				}
 			]
 		},
@@ -110,7 +122,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/Four-Armed Troll.webp"
-					}
+					},
+					"width": 850,
+					"height": 1054
 				}
 			]
 		},
@@ -123,7 +137,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/Frulam Mondath.webp"
-					}
+					},
+					"width": 850,
+					"height": 1331
 				}
 			]
 		},
@@ -136,7 +152,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/Jamna Gleamsilver.webp"
-					}
+					},
+					"width": 923,
+					"height": 1666
 				}
 			]
 		},
@@ -149,7 +167,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/Langdedrosa Cyanwrath.webp"
-					}
+					},
+					"width": 900,
+					"height": 1000
 				}
 			]
 		},
@@ -162,20 +182,29 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/015-tod-02-04.webp"
-					}
+					},
+					"width": 841,
+					"height": 1000
 				}
 			]
 		},
 		{
 			"name": "Ontharr Frume",
 			"source": "HotDQ",
+			"entries": [
+				"{@b Ideals}: Responsibility, greater good (\"The strong must defend the weak, whatever the cost.\")",
+				"{@b Personality Traits}: Friendly, hot-tempered",
+				"{@b Pledged Resources}: Paladins and healing clerics to support the fight against Tiamat's forces"
+			],
 			"images": [
 				{
 					"type": "image",
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/021-tod-04-02.webp"
-					}
+					},
+					"width": 819,
+					"height": 1000
 				}
 			]
 		},
@@ -188,7 +217,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/Pharblex Spattergoo.webp"
-					}
+					},
+					"width": 812,
+					"height": 1000
 				}
 			]
 		},
@@ -201,7 +232,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/Rath Modar.webp"
-					}
+					},
+					"width": 850,
+					"height": 1089
 				}
 			]
 		},
@@ -214,7 +247,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/Rezmir.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1828
 				}
 			]
 		},
@@ -227,7 +262,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/053-tod-08-05.webp"
-					}
+					},
+					"width": 636,
+					"height": 1000
 				}
 			]
 		},
@@ -240,7 +277,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/HotDQ/Talis the White.webp"
-					}
+					},
+					"width": 850,
+					"height": 1217
 				}
 			]
 		},

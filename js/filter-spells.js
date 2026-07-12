@@ -15,7 +15,7 @@ class VariantClassFilter extends Filter {
 	set parent (multiFilterClasses) { this._parent = multiFilterClasses; }
 
 	handleVariantSplit (isVariantSplit) {
-		this.__$wrpFilter.toggleVe(isVariantSplit);
+		this.__wrpFilter.toggleVe(isVariantSplit);
 	}
 }
 
@@ -33,14 +33,14 @@ class MultiFilterClasses extends MultiFilter {
 	get classFilter_ () { return this._classFilter; }
 	get isVariantSplit () { return this._meta.isVariantSplit; }
 
-	$render (opts) {
-		const $out = super.$render(opts);
+	render (opts) {
+		const out = super.render(opts);
 
 		const hkVariantSplit = () => this._variantClassFilter.handleVariantSplit(this._meta.isVariantSplit);
 		this._addHook("meta", "isVariantSplit", hkVariantSplit);
 		hkVariantSplit();
 
-		return $out;
+		return out;
 	}
 
 	_getHeaderControls_addExtraStateBtns (opts, wrpStateBtnsOuter) {
@@ -58,7 +58,7 @@ class MultiFilterClasses extends MultiFilter {
 
 		e_({
 			tag: "div",
-			clazz: `ve-btn-group w-100 ve-flex-v-center mobile__m-1 mobile__mb-2`,
+			clazz: `ve-btn-group ve-w-100 ve-flex-v-center ve-mobile-sm__m-1 ve-mobile-sm__mb-2`,
 			children: [
 				btnToggleVariantSplit,
 			],
@@ -502,6 +502,7 @@ class PageFilterSpells extends PageFilterBase {
 
 		s._fAreaTags = [...(s.areaTags || [])];
 		if (s.range.type === "line" && !s._fAreaTags.includes("L")) s._fAreaTags.push("L");
+		if (s.range.type === "emanation" && !s._fAreaTags.includes("E")) s._fAreaTags.push("E");
 
 		s._fAffectsCreatureType = s.affectsCreatureType || [...Parser.MON_TYPES];
 	}
@@ -622,10 +623,11 @@ class ModalFilterSpells extends ModalFilterBase {
 			modalTitle: `Spell${opts.isRadio ? "" : "s"}`,
 			pageFilter: new PageFilterSpells(),
 			fnSort: PageFilterSpells.sortSpells,
+			previewButtonHandler: new ListUiPreviewButtonHandlerStatsFluff({page: UrlUtil.PG_SPELLS}),
 		});
 	}
 
-	_$getColumnHeaders () {
+	_getColumnHeaders () {
 		const btnMeta = [
 			{sort: "name", text: "Name", width: "3"},
 			{sort: "level", text: "Level", width: "1-5"},
@@ -635,7 +637,7 @@ class ModalFilterSpells extends ModalFilterBase {
 			{sort: "range", text: "Range", width: "2"},
 			{sort: "source", text: "Source", width: "1"},
 		];
-		return ModalFilterBase._$getFilterColumnHeaders(btnMeta);
+		return ModalFilterBase._getFilterColumnHeaders(btnMeta);
 	}
 
 	async _pInit () {
@@ -653,30 +655,31 @@ class ModalFilterSpells extends ModalFilterBase {
 
 	_getListItem (pageFilter, spell, spI) {
 		const eleRow = document.createElement("div");
-		eleRow.className = "px-0 w-100 ve-flex-col no-shrink";
+		eleRow.className = "ve-px-0 ve-w-100 ve-flex-col ve-no-shrink";
 
 		const hash = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_SPELLS](spell);
 		const source = Parser.sourceJsonToAbv(spell.source);
 		const levelText = PageFilterSpells.getTblLevelStr(spell);
 		const time = PageFilterSpells.getTblTimeStr(spell.time[0]);
 		const school = Parser.spSchoolAndSubschoolsAbvsShort(spell.school, spell.subschools);
+		const schoolClassName = Parser.spSchoolAbvToStyleClass(spell.school);
 		const concentration = spell._isConc ? "×" : "";
 		const range = Parser.spRangeToFull(spell.range, {isDisplaySelfArea: true});
 
-		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst__row-border veapp__list-row no-select lst__wrp-cells">
-			<div class="ve-col-0-5 pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="no-events">` : `<input type="checkbox" class="no-events">`}</div>
+		eleRow.innerHTML = `<div class="ve-w-100 ve-flex-vh-center ve-lst__row-border veapp__list-row ve-no-select ve-lst__wrp-cells">
+			<div class="ve-col-0-5 ve-pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="ve-no-events">` : `<input type="checkbox" class="ve-no-events">`}</div>
 
-			<div class="ve-col-0-5 px-1 ve-flex-vh-center">
-				<div class="ui-list__btn-inline px-2 no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
+			<div class="ve-col-0-5 ve-px-1 ve-flex-vh-center">
+				<div class="ve-ui-list__btn-inline ve-px-2 ve-no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
 			</div>
 
-			<div class="ve-col-3 px-1 ${spell._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${spell._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${spell.name}</div>
-			<div class="ve-col-1-5 px-1 ve-text-center">${levelText}</div>
-			<div class="ve-col-2 px-1 ve-text-center">${time}</div>
-			<div class="ve-col-1 px-1 sp__school-${spell.school} ve-text-center" title="${Parser.spSchoolAndSubschoolsAbvsToFull(spell.school, spell.subschools)}" ${Parser.spSchoolAbvToStyle(spell.school)}>${school}</div>
-			<div class="ve-col-0-5 px-1 ve-text-center" title="Concentration">${concentration}</div>
-			<div class="ve-col-2 px-1 ve-text-right">${range}</div>
-			<div class="ve-col-1 pl-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(spell.source)}" title="${Parser.sourceJsonToFull(spell.source)}">${source}${Parser.sourceJsonToMarkerHtml(spell.source, {isList: true})}</div>
+			<div class="ve-col-3 ve-px-1 ${spell._versionBase_isVersion ? "ve-italic" : ""} ${this._getNameStyle()}">${spell._versionBase_isVersion ? `<span class="ve-px-3"></span>` : ""}${spell.name}</div>
+			<div class="ve-col-1-5 ve-px-1 ve-text-center">${levelText}</div>
+			<div class="ve-col-2 ve-px-1 ve-text-center">${time}</div>
+			<div class="ve-col-1 ve-px-1 ${schoolClassName} ve-text-center" title="${Parser.spSchoolAndSubschoolsAbvsToFull(spell.school, spell.subschools)}" ${Parser.spSchoolAbvToStyle(spell.school)}>${school}</div>
+			<div class="ve-col-0-5 ve-px-1 ve-text-center" title="Concentration">${concentration}</div>
+			<div class="ve-col-2 ve-px-1 ve-text-right">${range}</div>
+			<div class="ve-col-1 ve-pl-1 ve-pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(spell.source)}" title="${Parser.sourceJsonToFull(spell.source)}">${source}${Parser.sourceJsonToMarkerHtml(spell.source, {isList: true})}</div>
 		</div>`;
 
 		const btnShowHidePreview = eleRow.firstElementChild.children[1].firstElementChild;
@@ -704,7 +707,7 @@ class ModalFilterSpells extends ModalFilterBase {
 			},
 		);
 
-		ListUiUtil.bindPreviewButton(UrlUtil.PG_SPELLS, this._allData, listItem, btnShowHidePreview);
+		this._previewButtonHandler.bindPreviewButton({entity: spell, listItem, btnShowHidePreview});
 
 		return listItem;
 	}

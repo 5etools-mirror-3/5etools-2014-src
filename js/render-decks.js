@@ -41,96 +41,95 @@ class RenderDecks {
 
 		const hashDeck = UrlUtil.autoEncodeHash(ent);
 
-		const $rowsCards = ent.cards
+		const rowsCards = ent.cards
 			.map((card, ixCard) => {
 				const ptText = this.getCardTextHtml({card});
 
-				const $btnMarkDrawn = $(`<button class="ve-btn ve-btn-default ve-btn-xs" title="Mark Card as Drawn"><i class="fas fa-fw fa-cards"></i></button>`)
-					.click(async evt => {
+				const btnMarkDrawn = ee`<button class="ve-btn ve-btn-default ve-btn-xs" title="Mark Card as Drawn"><i class="fas fa-fw fa-cards"></i></button>`
+					.onn("click", async evt => {
 						evt.stopPropagation();
 						await cardStateManager.pDrawCard(ent, card);
 					});
 
-				const $btnReplace = $(`<button class="ve-btn ve-btn-default ve-btn-xs" title="Return Card to Deck"><i class="fas fa-arrow-rotate-left"></i></button>`)
-					.click(async evt => {
+				const btnReplace = ee`<button class="ve-btn ve-btn-default ve-btn-xs" title="Return Card to Deck"><i class="fas fa-arrow-rotate-left"></i></button>`
+					.onn("click", async evt => {
 						evt.stopPropagation();
 						await cardStateManager.pReplaceCard(ent, card);
 					});
 
-				const $btnViewer = $(`<button class="ve-btn ve-btn-default ve-btn-xs" title="Open Card Viewer"><span class="glyphicon glyphicon-eye-open"></span></button>`)
-					.click(async evt => {
+				const btnViewer = ee`<button class="ve-btn ve-btn-default ve-btn-xs" title="Open Card Viewer"><span class="glyphicon glyphicon-eye-open"></span></button>`
+					.onn("click", async evt => {
 						evt.stopPropagation();
 						try {
-							$btnViewer.prop("disabled", true);
+							btnViewer.prop("disabled", true);
 							await RenderDecks.pRenderStgCard({deck: ent, card});
 						} finally {
-							$btnViewer.prop("disabled", false);
+							btnViewer.prop("disabled", false);
 						}
 					});
 
-				const $wrpFace = $$`<div class="no-shrink px-1 decks__wrp-card-face relative">
-					<div class="absolute pt-2 pr-2 decks__wrp-btn-show-card">
+				const wrpFace = ee`<div class="ve-no-shrink ve-px-1 decks__wrp-card-face ve-relative">
+					<div class="ve-absolute ve-pt-2 ve-pr-2 decks__wrp-btn-show-card">
 						<div class="ve-btn-group ve-flex-v-center">
-							${$btnMarkDrawn}
-							${$btnReplace}
-							${$btnViewer}
+							${btnMarkDrawn}
+							${btnReplace}
+							${btnViewer}
 						</div>
 					</div>
 					${Renderer.get().setFirstSection(true).render({...card.face, title: card.name, altText: card.name})}
 				</div>`;
 
-				const $imgFace = $wrpFace.find("img");
-				const title = $imgFace.closest(`[title]`).title();
+				const imgFace = wrpFace.find("img");
+				const title = imgFace.closeste(`[title]`).tooltip();
 				const propCardDrawn = cardStateManager.getPropCardDrawn({hashDeck, ixCard});
 				const hkCardDrawn = cardStateManager.addHookBase(propCardDrawn, () => {
 					const isDrawn = !!cardStateManager.get(propCardDrawn);
-					$btnMarkDrawn.prop("disabled", isDrawn);
-					$btnReplace.prop("disabled", !isDrawn);
-					$wrpFace.toggleClass("decks__wrp-card-face--drawn", isDrawn);
-					$imgFace.title(isDrawn ? `${title} (Drawn)` : title);
+					btnMarkDrawn.prop("disabled", isDrawn);
+					btnReplace.prop("disabled", !isDrawn);
+					wrpFace.toggleClass("decks__wrp-card-face--drawn", isDrawn);
+					imgFace.tooltip(isDrawn ? `${title} (Drawn)` : title);
 				});
 				fnsCleanup.push(() => cardStateManager.removeHookBase(propCardDrawn, hkCardDrawn));
 				hkCardDrawn();
 
-				return $$`<div class="ve-flex-v-center decks__wrp-row">
-					${$wrpFace}
-					<div class="ml-2 decks__wrp-card-text w-100">${ptText}</div>
+				return ee`<div class="ve-flex-v-center decks__wrp-row">
+					${wrpFace}
+					<div class="ve-ml-2 decks__wrp-card-text ve-w-100">${ptText}</div>
 				</div>`;
 			});
 
-		const $wrpCardRows = $$`<div class="decks__wrp-card-rows">
-			${$rowsCards}
+		const wrpCardRows = ee`<div class="decks__wrp-card-rows">
+			${rowsCards}
 		</div>`;
 
-		const $ptCards = $$`<div class="ve-flex-col">
-			<h3 class="dnd-font my-0 mb-1 decks__h-cards">Cards</h3>
-			${$wrpCardRows}
+		const ptCards = ee`<div class="ve-flex-col">
+			<h3 class="ve-dnd-font ve-my-0 ve-mb-1 decks__h-cards">Cards</h3>
+			${wrpCardRows}
 		</div>`;
 
 		const hkCardLayout = settingsManager.addHookBase("cardLayout", () => {
 			const mode = settingsManager.get("cardLayout");
-			$wrpCardRows.toggleClass(`decks__wrp-card-rows--list`, false);
-			$wrpCardRows.toggleClass(`decks__wrp-card-rows--grid`, false);
-			$wrpCardRows.toggleClass(`decks__wrp-card-rows--${mode}`);
+			wrpCardRows.toggleClass(`decks__wrp-card-rows--list`, mode === "list");
+			wrpCardRows.toggleClass(`decks__wrp-card-rows--grid`, mode === "grid");
 		});
 		fnsCleanup.push(() => settingsManager.removeHookBase("cardLayout", hkCardLayout));
 		hkCardLayout();
 
-		const $ele = $$`
+		const ele = ee`
 		${Renderer.utils.getBorderTr()}
 		${Renderer.utils.getExcludedTr({entity: ent, dataProp: "deck"})}
 		${Renderer.utils.getNameTr(ent, {page: UrlUtil.PG_DECKS})}
 
 		<tr><td colspan="6">
 			${Renderer.get().setFirstSection(true).render({entries: ent.entries}, 1)}
-			<hr class="hr-3">
-			${$ptCards}
+			<hr class="ve-hr-3">
+			${ptCards}
 		</td></tr>
 
 		${Renderer.utils.getPageTr(ent)}
 		${Renderer.utils.getBorderTr()}`;
 
-		return {$ele, fnsCleanup};
+		return {ele, fnsCleanup};
 	}
 
 	/* -------------------------------------------- */
@@ -143,7 +142,7 @@ class RenderDecks {
 		if (imgBack) {
 			e_({
 				ele: imgBack,
-				clazz: "decks-draw__img-card-back absolute",
+				clazz: "decks-draw__img-card-back ve-absolute",
 			});
 		}
 
@@ -155,12 +154,12 @@ class RenderDecks {
 
 		const dispGlint = e_({
 			tag: "div",
-			clazz: "decks-draw__disp-glint no-events no-select absolute",
+			clazz: "decks-draw__disp-glint ve-no-events ve-no-select ve-absolute",
 		});
 
 		const wrpCard = e_({
 			tag: "div",
-			clazz: "decks-draw__wrp-card relative",
+			clazz: "decks-draw__wrp-card ve-relative",
 			children: [
 				imgBack,
 				imgCard,
@@ -176,8 +175,8 @@ class RenderDecks {
 			],
 		});
 
-		const $wrpCardSway = $$`<div class="decks-draw__wrp-card-sway ve-flex-col no-select relative">${wrpCardFlip}</div>`
-			.click(evt => evt.stopPropagation());
+		const wrpCardSway = ee`<div class="decks-draw__wrp-card-sway ve-flex-col ve-no-select ve-relative">${wrpCardFlip}</div>`
+			.onn("click", evt => evt.stopPropagation());
 
 		const metasSparkles = await [...new Array(8)]
 			.pSerialAwaitMap(async (_, i) => {
@@ -187,7 +186,7 @@ class RenderDecks {
 
 				e_({
 					ele: imgSparkle,
-					clazz: "decks-draw__img-sparkle relative",
+					clazz: "decks-draw__img-sparkle ve-relative",
 				});
 
 				imgSparkle.style.animationDuration = `${4_500 + (Math.random() * 3_000)}ms, ${60_000 + (Math.random() * 60_000)}ms`;
@@ -195,7 +194,7 @@ class RenderDecks {
 
 				const wrpSparkleSway = e_({
 					tag: "div",
-					clazz: "decks-draw__wrp-sparkle-sway ve-flex-col absolute",
+					clazz: "decks-draw__wrp-sparkle-sway ve-flex-col ve-absolute",
 					children: [
 						imgSparkle,
 					],
@@ -213,35 +212,35 @@ class RenderDecks {
 				return {wrpSparkleSway, imgSparkle};
 			});
 
-		const $wrpCardOuter = $$`<div class="ve-flex-col no-select relative">
+		const wrpCardOuter = ee`<div class="ve-flex-col ve-no-select ve-relative">
 			${metasSparkles.map(it => it.wrpSparkleSway)}
-			${$wrpCardSway}
+			${wrpCardSway}
 		</div>`
-			.on("mouseup", evt => {
+			.onn("mouseup", evt => {
 				if (!EventUtil.isMiddleMouse(evt) || !imgBack) return;
 				wrpCardFlip.classList.toggle("decks-draw__wrp-card-flip--flipped");
 			});
 
 		const ptText = RenderDecks.getCardTextHtml({card, deck});
 
-		const $wrpInfo = $$`<div class="stats stats--book decks-draw__wrp-desc mobile__hidden px-2 ve-text-center mb-4 ve-overflow-y-auto">${ptText}</div>`
-			.click(evt => evt.stopPropagation());
+		const wrpInfo = ee`<div class="ve-stats ve-stats--book decks-draw__wrp-desc ve-mobile-sm__hidden ve-px-2 ve-text-center ve-mb-4 ve-overflow-y-auto">${ptText}</div>`
+			.onn("click", evt => evt.stopPropagation());
 
-		Renderer.dice.bindOnclickListener($wrpInfo[0]);
+		Renderer.dice.bindOnclickListener(wrpInfo);
 
-		const $btnFlip = imgBack
-			? $(`<button class="ve-btn ve-btn-default ve-btn-xs px-3" title="Flip Card"><i class="fas fa-rotate"></i> Flip</button>`)
-				.click(evt => {
+		const btnFlip = imgBack
+			? ee`<button class="ve-btn ve-btn-default ve-btn-xs ve-px-3" title="Flip Card"><i class="fas fa-rotate"></i> Flip</button>`
+				.onn("click", evt => {
 					evt.stopPropagation();
 					wrpCardFlip.classList.toggle("decks-draw__wrp-card-flip--flipped");
 				})
 			: null;
 
-		const $wrpRhs = $$`<div class="decks-draw__wrp-rhs ve-flex-col mobile__ml-0">
-			${$wrpInfo}
-			<div class="ve-flex-vh-center mobile__mt-5">${$btnFlip}</div>
+		const wrpRhs = ee`<div class="decks-draw__wrp-rhs ve-flex-col ve-mobile-sm__ml-0">
+			${wrpInfo}
+			<div class="ve-flex-vh-center ve-mobile-sm__mt-5">${btnFlip}</div>
 		</div>`
-			.click(evt => evt.stopPropagation());
+			.onn("click", evt => evt.stopPropagation());
 
 		const onDeviceorientation = evt => {
 			// region Emulate mouse position by projecting orientation angle from a point `depth` behind the screen
@@ -265,18 +264,18 @@ class RenderDecks {
 			this._pRenderStgCard_onMouseMove_mutElements({mouseX, mouseY, wrpCard, dispGlint});
 		};
 
-		const $wrpDrawn = $$`<div class="decks-draw__stg ve-flex-vh-center">
-			<div class="ve-flex-v-center mobile__ve-flex-col">
-				${$wrpCardOuter}
-				${$wrpRhs}
+		const wrpDrawn = ee`<div class="decks-draw__stg ve-flex-vh-center">
+			<div class="ve-flex-v-center ve-mobile-sm__flex-col">
+				${wrpCardOuter}
+				${wrpRhs}
 			</div>
 		</div>`
-			.click(evt => {
+			.onn("click", evt => {
 				evt.stopPropagation();
-				$wrpDrawn.remove();
+				wrpDrawn.remove();
 				window.removeEventListener("deviceorientation", onDeviceorientation);
 			})
-			.mousemove(evt => {
+			.onn("mousemove", evt => {
 				const mouseX = EventUtil.getClientX(evt);
 				const mouseY = EventUtil.getClientY(evt);
 
@@ -290,13 +289,13 @@ class RenderDecks {
 		const {x: mouseX, y: mouseY} = EventUtil.getMousePos();
 		this._pRenderStgCard_onMouseMove_mutElements({mouseX, mouseY, wrpCard, dispGlint});
 
-		$wrpDrawn.appendTo(document.body);
+		wrpDrawn.appendTo(document.body);
 
 		await AnimationUtil.pRecomputeStyles();
 
-		$wrpDrawn.addClass("decks-draw__stg--visible");
+		wrpDrawn.addClass("decks-draw__stg--visible");
 		wrpCard.classList.add("decks-draw__wrp-card--visible");
-		$wrpRhs.addClass("decks-draw__wrp-rhs--visible");
+		wrpRhs.addClass("decks-draw__wrp-rhs--visible");
 		metasSparkles.forEach(it => it.imgSparkle.classList.add("decks-draw__img-sparkle--visible"));
 	}
 

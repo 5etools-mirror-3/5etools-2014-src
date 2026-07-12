@@ -53,7 +53,7 @@
 
 	<script type="text/javascript" src="sw-injector.js"></script>
 
-	<script type="module" src="js/styleswitch.js"></script>
+	<script blocking="render" type="module" src="js/styleswitch.js"></script>
 	<script type="text/javascript" src="js/navigation.js"></script>
 	<script type="module" src="js/browsercheck.js"></script>
 </head>
@@ -68,20 +68,22 @@
 <div class="viewport-wrapper">
 	<div class="cancer__wrp-leaderboard cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__wrp-leaderboard-inner cancer__wrp-interactive"><!--5ETOOLS_AD_LEADERBOARD--></div></div>
 
-	<header class="hidden-xs hidden-sm page__header">
-		<div class="container ve-flex-v-baseline">
-			<h1 class="page__title no-wrap my-0" id="page__title">Statgen</h1>
-			<p class="page__subtitle no-wrap my-0" id="page__subtitle">Change method on the left, refer to method that appears on the right.</p>
-		</div>
-	</header>
+	<div class="ve-flex-col" data-cancer-id="cancer-header">
+		<header class="ve-mobile-sm__hidden page__header">
+			<div class="container ve-flex-v-baseline">
+				<h1 class="page__title ve-no-wrap ve-my-0" id="page__title">Statgen</h1>
+				<p class="page__subtitle ve-no-wrap ve-my-0" id="page__subtitle">Change method on the left, refer to method that appears on the right.</p>
+			</div>
+		</header>
 
-	<nav class="container page__nav" id="navigation">
-		<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
-	</nav>
+		<nav class="container page__nav" id="navigation">
+			<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
+		</nav>
+	</div>
 
-	<div class="container container--main h-100 min-h-0">
-		<div class="ve-flex-col w-100 h-100 pt-2" id="statgen-main">
-			<div class="ve-flex-vh-center initial-message initial-message--large w-100 h-100">Loading...</div>
+	<div class="container container--main ve-h-100 ve-min-h-0" data-cancer-id="cancer-wrapper">
+		<div class="ve-flex-col ve-w-100 ve-h-100 ve-pt-2" id="statgen-main">
+			<div class="ve-flex-vh-center initial-message initial-message--large ve-w-100 ve-h-100">Loading...</div>
 		</div>
 	</div>
 </div>
@@ -89,7 +91,6 @@
 <!--5ETOOLS_SCRIPT_ANCHOR-->
 <!--5ETOOLS_AD_ADHESION-->
 
-<script type="text/javascript" defer src="lib/jquery.js"></script>
 <script type="text/javascript" defer src="js/parser.js"></script>
 <script type="text/javascript" defer src="js/utils.js"></script>
 <script type="text/javascript" defer src="js/utils-ui.js"></script>
@@ -97,7 +98,7 @@
 <script type="module" defer src="js/omnidexer.js"></script>
 <script type="module" src="js/omnisearch.js"></script>
 <script type="module" src="js/filter.js"></script>
-<script type="text/javascript" defer src="js/utils-dataloader.js"></script>
+<script type="module" src="js/utils-dataloader.js"></script>
 <script type="module" src="js/utils-font.js"></script>
 <script type="module" src="js/utils-brew.js"></script>
 <script type="module" src="js/utils-config.js"></script>
@@ -114,7 +115,7 @@
 <script type="module" src="js/shim-esmodules.js"></script>
 <script type="text/javascript" defer src="js/hist.js"></script>
 <script type="module" src="js/statgen.js"></script>
-<script type="text/javascript" defer src="js/list2.js"></script>
+<script type="module" defer src="js/list2.js"></script>
 <script type="text/javascript" defer src="lib/elasticlunr.js"></script>
 <!-- Dice Controls Container -->
 <div id="dice-box"></div>

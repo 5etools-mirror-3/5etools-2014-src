@@ -16,7 +16,9 @@
 						"path": "bestiary/JttRC/109-11-005.afsoun-ghorbani.webp"
 					},
 					"title": "Afsoun Ghorbani, Imprisoned in Crystal",
-					"credit": "Thabiso Mhlaba"
+					"credit": "Thabiso Mhlaba",
+					"width": 440,
+					"height": 850
 				}
 			]
 		},
@@ -30,7 +32,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/080-09-002.amanisha-manivarshi.webp"
 					},
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 548,
+					"height": 850
 				}
 			]
 		},
@@ -45,7 +49,9 @@
 						"path": "bestiary/JttRC/069-08-001.salamander-raiders.webp"
 					},
 					"title": "Salamander raiders ambush Ameyali's caravan on the road near Etizalan",
-					"credit": "Tom Babbey"
+					"credit": "Tom Babbey",
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -60,7 +66,9 @@
 						"path": "bestiary/JttRC/099-11-001.ashen-heir-plans.webp"
 					},
 					"title": "The plans of Ashen Heir anarchists go awry when a purple worm erupts into Three Suns Square",
-					"credit": "Dmitry Burmak"
+					"credit": "Dmitry Burmak",
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -74,7 +82,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/102-11-002.ashen-carpet.webp"
 					},
-					"credit": "Brian Valeza"
+					"credit": "Brian Valeza",
+					"width": 1700,
+					"height": 466
 				}
 			]
 		},
@@ -89,7 +99,9 @@
 						"path": "bestiary/JttRC/110-11-006.atash.webp"
 					},
 					"title": "Atash, Ruler of Akharin Sangar",
-					"credit": "Claudio Pozas"
+					"credit": "Claudio Pozas",
+					"width": 663,
+					"height": 850
 				}
 			]
 		},
@@ -104,7 +116,9 @@
 						"path": "bestiary/JttRC/115-12-002.regent-atiba-pa.webp"
 					},
 					"title": "Regent Atiba-Pa",
-					"credit": "Mia Araujo"
+					"credit": "Mia Araujo",
+					"width": 355,
+					"height": 850
 				}
 			]
 		},
@@ -119,7 +133,9 @@
 						"path": "bestiary/JttRC/021-03-001.enchanted-farmers-attack.webp"
 					},
 					"title": "Enchanted farmers attack Aunt Dellie on the streets of Promise",
-					"credit": "Mia Araujo"
+					"credit": "Mia Araujo",
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -171,7 +187,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/Aurumvorax Den Leader.webp"
 					},
-					"credit": "Brian Valeza"
+					"credit": "Brian Valeza",
+					"width": 991,
+					"height": 1000
 				}
 			]
 		},
@@ -205,7 +223,9 @@
 						"path": "bestiary/JttRC/064-07-004.ambushed-aurumvorax.webp"
 					},
 					"title": "Awa is ambushed by an aurumvorax in the depths of the Goldwarren",
-					"credit": "Vicki Pangestu"
+					"credit": "Vicki Pangestu",
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -220,7 +240,9 @@
 						"path": "bestiary/JttRC/041-05-001.march-of-vice-festivities.webp"
 					},
 					"title": "Prince of Vice, Azra Nir, leads Zinda's annual March of Vice festivities\u2014unaware he's just one target of a killer",
-					"credit": "Ejiwa 'Edge' Ebenebe"
+					"credit": "Ejiwa 'Edge' Ebenebe",
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -242,7 +264,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/Bakunawa.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 843,
+					"height": 1000
 				}
 			]
 		},
@@ -256,7 +280,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/119-12-006.brother-broumane.webp"
 					},
-					"credit": "Andrew Mar"
+					"credit": "Andrew Mar",
+					"width": 638,
+					"height": 850
 				}
 			]
 		},
@@ -283,7 +309,9 @@
 						"path": "bestiary/JttRC/045-05-005.divas-attack.webp"
 					},
 					"title": "Divas attack the crowd at the Thornapple during their March of Vice performance",
-					"credit": "Ejiwa 'Edge' Ebenebe"
+					"credit": "Ejiwa 'Edge' Ebenebe",
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -298,7 +326,9 @@
 						"path": "bestiary/JttRC/045-05-005.divas-attack.webp"
 					},
 					"title": "Divas attack the crowd at the Thornapple during their March of Vice performance",
-					"credit": "Ejiwa 'Edge' Ebenebe"
+					"credit": "Ejiwa 'Edge' Ebenebe",
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -312,7 +342,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/116-12-003.djeneba.webp"
 					},
-					"credit": "Julio Reyna"
+					"credit": "Julio Reyna",
+					"width": 535,
+					"height": 850
 				}
 			]
 		},
@@ -335,7 +367,9 @@
 						"path": "bestiary/JttRC/Dragon Hunter.webp"
 					},
 					"title": "Paolo Maykapal",
-					"credit": "Hinchel Or"
+					"credit": "Hinchel Or",
+					"width": 670,
+					"height": 1000
 				}
 			]
 		},
@@ -349,7 +383,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/081-09-003.dukha-bhatiyali.webp"
 					},
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 472,
+					"height": 850
 				}
 			]
 		},
@@ -364,7 +400,9 @@
 						"path": "bestiary/JttRC/021-03-001.enchanted-farmers-attack.webp"
 					},
 					"title": "Enchanted farmers attack Aunt Dellie on the streets of Promise",
-					"credit": "Mia Araujo"
+					"credit": "Mia Araujo",
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -379,7 +417,9 @@
 						"path": "bestiary/JttRC/009-02-001.tyenmo-rivalry-xungoon.webp"
 					},
 					"title": "The rivalry between the Xungoon and Tyenmo families disrupts the peace in the Dyn Singh Night Market",
-					"credit": "Vicki Pangestu"
+					"credit": "Vicki Pangestu",
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -401,7 +441,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/Haint.webp"
 					},
-					"credit": "Claudio Pozas"
+					"credit": "Claudio Pozas",
+					"width": 523,
+					"height": 1000
 				}
 			]
 		},
@@ -416,7 +458,9 @@
 						"path": "bestiary/JttRC/130-13-004.ancient-jade-statues.webp"
 					},
 					"title": "Ancient jade statues animate to defend the secret ruins beneath Yongjing",
-					"credit": "Julian Kok"
+					"credit": "Julian Kok",
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -443,7 +487,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/043-05-003.kala-mabarin.webp"
 					},
-					"credit": "Kniio"
+					"credit": "Kniio",
+					"width": 374,
+					"height": 850
 				}
 			]
 		},
@@ -458,7 +504,9 @@
 						"path": "bestiary/JttRC/013-02-003.kasem-vi-aroon.webp"
 					},
 					"title": "Kasem and Vi Aroon",
-					"credit": "Zuzanna Wužyk"
+					"credit": "Zuzanna Wužyk",
+					"width": 844,
+					"height": 1700
 				}
 			]
 		},
@@ -473,7 +521,9 @@
 						"path": "bestiary/JttRC/061-07-003.high-priest-kedjou.webp"
 					},
 					"title": "High Priest Kedjou",
-					"credit": "Kniio"
+					"credit": "Kniio",
+					"width": 555,
+					"height": 850
 				}
 			]
 		},
@@ -487,7 +537,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/027-03-005.kianna.webp"
 					},
-					"credit": "Jabari Weathers"
+					"credit": "Jabari Weathers",
+					"width": 509,
+					"height": 850
 				}
 			]
 		},
@@ -502,7 +554,9 @@
 						"path": "bestiary/JttRC/014-02-004.jagged-koi-prawns.webp"
 					},
 					"title": "Jagged Koi Prawns are just one unexpected danger of the games at the Dyn Singh Night market",
-					"credit": "Vicki Pangestu"
+					"credit": "Vicki Pangestu",
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -517,7 +571,9 @@
 						"path": "bestiary/JttRC/051-06-002.magistrate-kun-ahn-jun.webp"
 					},
 					"title": "Magistrate Kun Ahn-Jun",
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 389,
+					"height": 850
 				}
 			]
 		},
@@ -531,7 +587,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/010-02-002.kusa-xungoon.webp"
 					},
-					"credit": "April Prime"
+					"credit": "April Prime",
+					"width": 830,
+					"height": 850
 				}
 			]
 		},
@@ -545,7 +603,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/022-03-002.lady-dre.webp"
 					},
-					"credit": "Jabari Weathers"
+					"credit": "Jabari Weathers",
+					"width": 553,
+					"height": 850
 				}
 			]
 		},
@@ -559,7 +619,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/103-11-003.laleh-ghorbani.webp"
 					},
-					"credit": "Ekaterina Burmak"
+					"credit": "Ekaterina Burmak",
+					"width": 556,
+					"height": 850
 				}
 			]
 		},
@@ -574,7 +636,9 @@
 						"path": "bestiary/JttRC/009-02-001.tyenmo-rivalry-xungoon.webp"
 					},
 					"title": "The rivalry between the Xungoon and Tyenmo families disrupts the peace in the Dyn Singh Night Market",
-					"credit": "Vicki Pangestu"
+					"credit": "Vicki Pangestu",
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -587,7 +651,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/JttRC/125-13-003.lu-zhong-yin.webp"
-					}
+					},
+					"width": 269,
+					"height": 850
 				}
 			]
 		},
@@ -602,7 +668,9 @@
 						"path": "bestiary/JttRC/090-10-002.lungtian.webp"
 					},
 					"title": "Lu Zhong Yin in Their Imperial Ghost Uniform",
-					"credit": "Ryan Alexander Lee"
+					"credit": "Ryan Alexander Lee",
+					"width": 438,
+					"height": 850
 				}
 			]
 		},
@@ -616,7 +684,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/017-02-005.madam-kulp.webp"
 					},
-					"credit": "Zuzanna Wužyk"
+					"credit": "Zuzanna Wužyk",
+					"width": 432,
+					"height": 850
 				}
 			]
 		},
@@ -630,7 +700,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/044-05-004.myx-nargis-ruba.webp"
 					},
-					"credit": "Kniio"
+					"credit": "Kniio",
+					"width": 444,
+					"height": 850
 				}
 			]
 		},
@@ -645,7 +717,9 @@
 						"path": "bestiary/JttRC/106-11-004.navid-the-efreeti.webp"
 					},
 					"title": "Navid the efreeti in his human disguise",
-					"credit": "Thabiso Mhlaba"
+					"credit": "Thabiso Mhlaba",
+					"width": 850,
+					"height": 791
 				}
 			]
 		},
@@ -660,7 +734,9 @@
 						"path": "bestiary/JttRC/135-14-002.yarana-and-nene.webp"
 					},
 					"title": "Yarana and Nene",
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 431,
+					"height": 850
 				}
 			]
 		},
@@ -687,7 +763,9 @@
 						"path": "bestiary/JttRC/089-10-001.storyteller-nimuel.webp"
 					},
 					"title": "The Storyteller Nimuel reveals the chaos caused by a rampaging bakunawa",
-					"credit": "Claudio Pozas"
+					"credit": "Claudio Pozas",
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -701,7 +779,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/070-08-002.ollin.webp"
 					},
-					"credit": "Merlin G. G."
+					"credit": "Merlin G. G.",
+					"width": 370,
+					"height": 850
 				}
 			]
 		},
@@ -715,7 +795,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/030-04-002.paloma.webp"
 					},
-					"credit": "Adrián Ibarra Lugo"
+					"credit": "Adrián Ibarra Lugo",
+					"width": 548,
+					"height": 850
 				}
 			]
 		},
@@ -729,7 +811,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/091-10-003.paolo-maykapal.webp"
 					},
-					"credit": "Hinchel Or"
+					"credit": "Hinchel Or",
+					"width": 569,
+					"height": 850
 				}
 			]
 		},
@@ -751,7 +835,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/Pari.webp"
 					},
-					"credit": "Ekaterina Burmak"
+					"credit": "Ekaterina Burmak",
+					"width": 837,
+					"height": 1000
 				}
 			]
 		},
@@ -766,7 +852,9 @@
 						"path": "bestiary/JttRC/059-07-001.twilight-dune-scorpions.webp"
 					},
 					"title": "Prince Kirina fends off an attack by twilight dune scorpions",
-					"credit": "Brian Valeza"
+					"credit": "Brian Valeza",
+					"width": 1700,
+					"height": 1136
 				}
 			]
 		},
@@ -780,7 +868,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/067-07-005.prince-simon.webp"
 					},
-					"credit": "Kniio"
+					"credit": "Kniio",
+					"width": 543,
+					"height": 850
 				}
 			]
 		},
@@ -815,7 +905,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/Riverine.webp"
 					},
-					"credit": "Claudio Pozas"
+					"credit": "Claudio Pozas",
+					"width": 456,
+					"height": 1000
 				}
 			]
 		},
@@ -830,7 +922,9 @@
 						"path": "bestiary/JttRC/042-05-002.madame-samira-arah.webp"
 					},
 					"title": "Madame Samira Arah",
-					"credit": "Kniio"
+					"credit": "Kniio",
+					"width": 499,
+					"height": 850
 				}
 			]
 		},
@@ -844,7 +938,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/031-04-003.serapio.webp"
 					},
-					"credit": "Adrián Ibarra Lugo"
+					"credit": "Adrián Ibarra Lugo",
+					"width": 570,
+					"height": 850
 				}
 			]
 		},
@@ -859,7 +955,9 @@
 						"path": "bestiary/JttRC/007-01-006.speaker-sholeh.webp"
 					},
 					"title": "Speaker Sholeh",
-					"credit": "Claudio Pozas"
+					"credit": "Claudio Pozas",
+					"width": 272,
+					"height": 850
 				}
 			]
 		},
@@ -883,7 +981,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/Soul Shaker.webp"
 					},
-					"credit": "Tom Babbey"
+					"credit": "Tom Babbey",
+					"width": 775,
+					"height": 1000
 				}
 			]
 		},
@@ -905,7 +1005,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/Tlacatecolo.webp"
 					},
-					"credit": "Brian Valeza"
+					"credit": "Brian Valeza",
+					"width": 816,
+					"height": 1000
 				}
 			]
 		},
@@ -928,7 +1030,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/Tlexolotl.webp"
 					},
-					"credit": "Brian Valeza"
+					"credit": "Brian Valeza",
+					"width": 1000,
+					"height": 989
 				}
 			]
 		},
@@ -942,7 +1046,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/071-08-003.tonalli.webp"
 					},
-					"credit": "Olga Drebas"
+					"credit": "Olga Drebas",
+					"width": 710,
+					"height": 850
 				}
 			]
 		},
@@ -957,7 +1063,9 @@
 						"path": "bestiary/JttRC/023-03-003.proclaimer-tungsten-ward.webp"
 					},
 					"title": "Proclaimer Tungsten Ward",
-					"credit": "Jabari Weathers"
+					"credit": "Jabari Weathers",
+					"width": 528,
+					"height": 850
 				}
 			]
 		},
@@ -972,7 +1080,9 @@
 						"path": "bestiary/JttRC/060-07-002.overseer-uzoma.webp"
 					},
 					"title": "Overseer Uzoma",
-					"credit": "Hinchel Or"
+					"credit": "Hinchel Or",
+					"width": 601,
+					"height": 850
 				}
 			]
 		},
@@ -987,7 +1097,9 @@
 						"path": "bestiary/JttRC/013-02-003.kasem-vi-aroon.webp"
 					},
 					"title": "Kasem and Vi Aroon",
-					"credit": "Zuzanna Wužyk"
+					"credit": "Zuzanna Wužyk",
+					"width": 844,
+					"height": 1700
 				}
 			]
 		},
@@ -1002,7 +1114,9 @@
 						"path": "bestiary/JttRC/124-13-001.grand-secretary-wei-feng-ying.webp"
 					},
 					"title": "Grand Secretary Wei Feng Ying",
-					"credit": "Ryan Alexander Lee"
+					"credit": "Ryan Alexander Lee",
+					"width": 489,
+					"height": 850
 				}
 			]
 		},
@@ -1024,7 +1138,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/Whistler.webp"
 					},
-					"credit": "April Prime"
+					"credit": "April Prime",
+					"width": 585,
+					"height": 1000
 				}
 			]
 		},
@@ -1039,7 +1155,9 @@
 						"path": "bestiary/JttRC/131-13-005.the-white-jade-emperor.webp"
 					},
 					"title": "The White Jade Emperor",
-					"credit": "Ryan Alexander Lee"
+					"credit": "Ryan Alexander Lee",
+					"width": 631,
+					"height": 850
 				}
 			]
 		},
@@ -1062,7 +1180,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/Wynling.webp"
 					},
-					"credit": "Vicki Pangestu"
+					"credit": "Vicki Pangestu",
+					"width": 798,
+					"height": 1000
 				}
 			]
 		},
@@ -1076,7 +1196,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/073-08-005.xocopol.webp"
 					},
-					"credit": "Merlin G. G."
+					"credit": "Merlin G. G.",
+					"width": 467,
+					"height": 850
 				}
 			]
 		},
@@ -1091,7 +1213,9 @@
 						"path": "bestiary/JttRC/135-14-002.yarana-and-nene.webp"
 					},
 					"title": "Yarana and Nene",
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 431,
+					"height": 850
 				}
 			]
 		},
@@ -1105,7 +1229,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/054-06-003.young-gi.webp"
 					},
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 543,
+					"height": 850
 				}
 			]
 		},
@@ -1119,7 +1245,9 @@
 						"type": "internal",
 						"path": "bestiary/JttRC/118-12-005.zisatta.webp"
 					},
-					"credit": "Andrew Mar"
+					"credit": "Andrew Mar",
+					"width": 694,
+					"height": 850
 				}
 			]
 		}

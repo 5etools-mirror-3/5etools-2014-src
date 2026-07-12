@@ -9,6 +9,7 @@ export class BrewUtil2_ extends BrewUtil2Base {
 	_STORAGE_KEY = "HOMEBREW_2_STORAGE";
 	_STORAGE_KEY_META = "HOMEBREW_2_STORAGE_METAS";
 
+	_STORAGE_KEY_RELOAD_MESSAGE = "HOMEBREW_RELOAD_MESSAGE";
 	_STORAGE_KEY_CUSTOM_URL = "HOMEBREW_CUSTOM_REPO_URL";
 	_STORAGE_KEY_MIGRATION_VERSION = "HOMEBREW_2_STORAGE_MIGRATION";
 
@@ -111,12 +112,19 @@ export class BrewUtil2_ extends BrewUtil2Base {
 	async pRemoveEditableBrewEntity (prop, uniqueId) {
 		if (!uniqueId) throw new Error(`A "uniqueId" must be provided!`);
 
+		await this.pRemoveEditableBrewEntities(prop, [uniqueId]);
+	}
+
+	async pRemoveEditableBrewEntities (prop, uniqueIds) {
+		if (!uniqueIds.length) return;
+
 		const brew = await this.pGetOrCreateEditableBrewDoc();
 
 		if (!brew.body?.[prop]?.length) return;
 
 		const nxt = MiscUtil.copyFast(brew);
-		nxt.body[prop] = nxt.body[prop].filter(it => it.uniqueId !== uniqueId);
+		const uniqueIdsSet = new Set(uniqueIds);
+		nxt.body[prop] = nxt.body[prop].filter(it => !uniqueIdsSet.has(it.uniqueId));
 
 		if (nxt.body[prop].length === brew.body[prop]) return; // Silently allow no-op deletes
 

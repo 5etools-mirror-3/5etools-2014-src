@@ -10,6 +10,9 @@
 					"page": 15
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 8,
 			"school": "N",
 			"time": [
@@ -73,6 +76,9 @@
 					"page": 15
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 1,
 			"school": "A",
 			"time": [
@@ -129,6 +135,9 @@
 					"source": "EEPC",
 					"page": 15
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 2,
 			"school": "V",
@@ -187,6 +196,9 @@
 					"page": 15
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 1,
 			"school": "D",
 			"time": [
@@ -242,6 +254,9 @@
 					"source": "EEPC",
 					"page": 15
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 6,
 			"school": "T",
@@ -311,6 +326,9 @@
 					"source": "EEPC",
 					"page": 15
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 1,
 			"school": "T",
@@ -419,6 +437,9 @@
 			"name": "Cause Fear",
 			"source": "XGE",
 			"page": 151,
+			"referenceSources": [
+				"OoW"
+			],
 			"level": 1,
 			"school": "N",
 			"time": [
@@ -491,6 +512,10 @@
 			"name": "Ceremony",
 			"source": "XGE",
 			"page": 151,
+			"referenceSources": [
+				"RtG",
+				"SLW"
+			],
 			"level": 1,
 			"school": "A",
 			"time": [
@@ -734,6 +759,9 @@
 			"name": "Charm Monster",
 			"source": "XGE",
 			"page": 151,
+			"referenceSources": [
+				"LR"
+			],
 			"level": 4,
 			"school": "E",
 			"time": [
@@ -798,6 +826,9 @@
 					"page": 16
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 0,
 			"school": "T",
 			"time": [
@@ -859,6 +890,9 @@
 					"source": "EEPC",
 					"page": 16
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 5,
 			"school": "T",
@@ -935,6 +969,9 @@
 					"source": "EEPC",
 					"page": 16
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 0,
 			"school": "C",
@@ -1362,6 +1399,9 @@
 					"page": 17
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 2,
 			"school": "C",
 			"time": [
@@ -1428,6 +1468,9 @@
 					"page": 17
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 1,
 			"school": "V",
 			"time": [
@@ -1490,6 +1533,9 @@
 					"page": 17
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 2,
 			"school": "T",
 			"time": [
@@ -1540,6 +1586,9 @@
 					"source": "EEPC",
 					"page": 17
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 4,
 			"school": "T",
@@ -1717,6 +1766,9 @@
 					"page": 17
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 3,
 			"school": "T",
 			"time": [
@@ -1875,6 +1927,9 @@
 					"page": 18
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 3,
 			"school": "T",
 			"time": [
@@ -1931,6 +1986,9 @@
 					"source": "EEPC",
 					"page": 18
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 0,
 			"school": "V",
@@ -2076,6 +2134,9 @@
 					"source": "TCE",
 					"page": 50
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 0,
 			"school": "T",
@@ -2259,6 +2320,9 @@
 					"page": 19
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 1,
 			"school": "C",
 			"time": [
@@ -2382,6 +2446,9 @@
 					"source": "EEPC",
 					"page": 19
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 5,
 			"school": "V",
@@ -2555,6 +2622,9 @@
 					"page": 19
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 6,
 			"school": "T",
 			"time": [
@@ -2622,6 +2692,9 @@
 					"source": "EEPC",
 					"page": 19
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 6,
 			"school": "T",
@@ -2693,6 +2766,9 @@
 					"page": 19
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 6,
 			"school": "T",
 			"time": [
@@ -2757,6 +2833,9 @@
 					"source": "EEPC",
 					"page": 20
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 6,
 			"school": "T",
@@ -2946,6 +3025,9 @@
 			"savingThrow": [
 				"wisdom"
 			],
+			"miscTags": [
+				"OBS"
+			],
 			"areaTags": [
 				"S"
 			]
@@ -2959,6 +3041,9 @@
 					"source": "EEPC",
 					"page": 20
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 5,
 			"school": "V",
@@ -3017,6 +3102,9 @@
 					"source": "EEPC",
 					"page": 20
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 0,
 			"school": "T",
@@ -3124,6 +3212,9 @@
 					"page": 20
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 2,
 			"school": "T",
 			"time": [
@@ -3188,6 +3279,9 @@
 					"source": "EEPC",
 					"page": 20
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 3,
 			"school": "V",
@@ -3305,6 +3399,10 @@
 					"page": 12
 				}
 			],
+			"referenceSources": [
+				"AitFR-AVT",
+				"AitFR-FCD"
+			],
 			"level": 8,
 			"school": "C",
 			"time": [
@@ -3420,6 +3518,9 @@
 					"source": "EEPC",
 					"page": 21
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 0,
 			"school": "T",
@@ -3622,6 +3723,9 @@
 					"page": 21
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 6,
 			"school": "A",
 			"time": [
@@ -3726,6 +3830,9 @@
 					"source": "EEPC",
 					"page": 21
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 2,
 			"school": "T",
@@ -3943,6 +4050,9 @@
 					"source": "EGW"
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 0,
 			"school": "T",
 			"time": [
@@ -4093,6 +4203,9 @@
 					"page": 22
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 2,
 			"school": "T",
 			"time": [
@@ -4194,6 +4307,9 @@
 					"source": "EEPC",
 					"page": 22
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 2,
 			"school": "V",
@@ -4379,6 +4495,9 @@
 					"page": 22
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 4,
 			"school": "V",
 			"time": [
@@ -4446,6 +4565,9 @@
 			"name": "Summon Greater Demon",
 			"source": "XGE",
 			"page": 166,
+			"referenceSources": [
+				"IMR"
+			],
 			"level": 4,
 			"school": "C",
 			"time": [
@@ -4506,6 +4628,9 @@
 			"name": "Summon Lesser Demons",
 			"source": "XGE",
 			"page": 167,
+			"referenceSources": [
+				"IMR"
+			],
 			"level": 3,
 			"school": "C",
 			"time": [
@@ -4837,6 +4962,9 @@
 					"page": 22
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 0,
 			"school": "V",
 			"time": [
@@ -4895,6 +5023,9 @@
 					"source": "EEPC",
 					"page": 22
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 3,
 			"school": "C",
@@ -5065,6 +5196,9 @@
 					"page": 22
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 5,
 			"school": "T",
 			"time": [
@@ -5145,6 +5279,9 @@
 					"source": "EEPC",
 					"page": 23
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 4,
 			"school": "V",
@@ -5273,6 +5410,9 @@
 					"page": 23
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 3,
 			"school": "V",
 			"time": [
@@ -5333,6 +5473,9 @@
 					"source": "MOT"
 				}
 			],
+			"referenceSources": [
+				"PotA"
+			],
 			"level": 3,
 			"school": "V",
 			"time": [
@@ -5384,6 +5527,9 @@
 					"source": "EEPC",
 					"page": 23
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 2,
 			"school": "V",
@@ -5442,6 +5588,10 @@
 					"source": "EEPC",
 					"page": 23
 				}
+			],
+			"referenceSources": [
+				"LR",
+				"PotA"
 			],
 			"level": 4,
 			"school": "C",
@@ -5503,6 +5653,9 @@
 					"source": "EEPC",
 					"page": 24
 				}
+			],
+			"referenceSources": [
+				"PotA"
 			],
 			"level": 7,
 			"school": "V",

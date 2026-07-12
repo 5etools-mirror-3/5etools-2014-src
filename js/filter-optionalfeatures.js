@@ -84,6 +84,33 @@ class PageFilterOptionalFeatures extends PageFilterBase {
 		});
 	}
 
+	static _RE_OPTIONALFEATURE_PACT = /^pact of (?:the )?(?<pactName>[^|]+)(?:\|[^|]+)?$/;
+
+	static _mutateForFilters_getPrerequisitesFeaturePact (ent) {
+		if (!ent.prerequisite) return {};
+
+		const out = {prereqPact: [], prereqFeature: []};
+
+		for (const prereq of ent.prerequisite) {
+			if (prereq.pact) out.prereqPact.push(prereq.pact);
+			if (prereq.feature) out.prereqFeature.push(...prereq.feature);
+
+			// Modern pacts are linked `optionalfeatures`; convert to "pact" filter format
+			if (!prereq.optionalfeature) continue;
+
+			for (const uid of prereq.optionalfeature) {
+				const m = this._RE_OPTIONALFEATURE_PACT.exec(uid);
+				if (m) {
+					out.prereqPact.push(m.groups.pactName.toTitleCase());
+					continue;
+				}
+				out.prereqFeature.push(uid.split("|")[0].toTitleCase());
+			}
+		}
+
+		return out;
+	}
+
 	static mutateForFilters (ent) {
 		this._mutateForFilters_commonSources(ent);
 
@@ -91,9 +118,11 @@ class PageFilterOptionalFeatures extends PageFilterBase {
 		ent.featureType = ent.featureType && ent.featureType instanceof Array ? ent.featureType : ent.featureType ? [ent.featureType] : ["OTH"];
 		if (ent.prerequisite) {
 			ent._sPrereq = true;
-			ent._fPrereqPact = ent.prerequisite.filter(it => it.pact).map(it => it.pact);
+			const {prereqPact, prereqFeature} = this._mutateForFilters_getPrerequisitesFeaturePact(ent);
+			ent._fPrereqPact = prereqPact;
+			ent._fPrereqFeature = prereqFeature;
 			ent._fPrereqPatron = ent.prerequisite.filter(it => it.patron).map(it => it.patron);
-			ent._fprereqSpell = ent.prerequisite
+			ent._fPrereqSpell = ent.prerequisite
 				.filter(it => it.spell)
 				.map(prereq => {
 					return (prereq.spell || [])
@@ -116,7 +145,6 @@ class PageFilterOptionalFeatures extends PageFilterBase {
 							return `Any ${ptChoose}`;
 						});
 				});
-			ent._fprereqFeature = ent.prerequisite.filter(it => it.feature).map(it => it.feature);
 			ent._fPrereqLevel = ent.prerequisite.filter(it => it.level).map(PageFilterOptionalFeatures.getLevelFilterItem.bind(PageFilterOptionalFeatures));
 		}
 
@@ -135,8 +163,8 @@ class PageFilterOptionalFeatures extends PageFilterBase {
 		this._typeFilter.addItem(it.featureType);
 		this._pactFilter.addItem(it._fPrereqPact);
 		this._patronFilter.addItem(it._fPrereqPatron);
-		this._spellFilter.addItem(it._fprereqSpell);
-		this._featureFilter.addItem(it._fprereqFeature);
+		this._spellFilter.addItem(it._fPrereqSpell);
+		this._featureFilter.addItem(it._fPrereqFeature);
 		this._miscFilter.addItem(it._fMisc);
 
 		(it._fPrereqLevel || []).forEach(it => {
@@ -162,9 +190,9 @@ class PageFilterOptionalFeatures extends PageFilterBase {
 			[
 				it._fPrereqPact,
 				it._fPrereqPatron,
-				it._fprereqSpell,
+				it._fPrereqSpell,
 				it._fPrereqLevel,
-				it._fprereqFeature,
+				it._fPrereqFeature,
 			],
 			it._fMisc,
 		);
@@ -186,10 +214,11 @@ class ModalFilterOptionalFeatures extends ModalFilterBase {
 			...opts,
 			modalTitle: `Optional Feature${opts.isRadio ? "" : "s"}`,
 			pageFilter: new PageFilterOptionalFeatures(),
+			previewButtonHandler: new ListUiPreviewButtonHandlerStatsFluff({page: UrlUtil.PG_OPT_FEATURES}),
 		});
 	}
 
-	_$getColumnHeaders () {
+	_getColumnHeaders () {
 		const btnMeta = [
 			{sort: "name", text: "Name", width: "3"},
 			{sort: "type", text: "Type", width: "2"},
@@ -197,7 +226,7 @@ class ModalFilterOptionalFeatures extends ModalFilterBase {
 			{sort: "level", text: "Level", width: "1"},
 			{sort: "source", text: "Source", width: "1"},
 		];
-		return ModalFilterBase._$getFilterColumnHeaders(btnMeta);
+		return ModalFilterBase._getFilterColumnHeaders(btnMeta);
 	}
 
 	async _pLoadAllData () {
@@ -210,25 +239,25 @@ class ModalFilterOptionalFeatures extends ModalFilterBase {
 
 	_getListItem (pageFilter, optfeat, ftI) {
 		const eleRow = document.createElement("div");
-		eleRow.className = "px-0 w-100 ve-flex-col no-shrink";
+		eleRow.className = "ve-px-0 ve-w-100 ve-flex-col ve-no-shrink";
 
 		const hash = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_OPT_FEATURES](optfeat);
 		const source = Parser.sourceJsonToAbv(optfeat.source);
 		const prerequisite = Renderer.utils.prerequisite.getHtml(optfeat.prerequisite, {isListMode: true, keyOptions: {level: {isNameOnly: true}}});
 		const level = Renderer.optionalfeature.getListPrerequisiteLevelText(optfeat.prerequisite);
 
-		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst__row-border veapp__list-row no-select lst__wrp-cells">
-			<div class="ve-col-0-5 pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="no-events">` : `<input type="checkbox" class="no-events">`}</div>
+		eleRow.innerHTML = `<div class="ve-w-100 ve-flex-vh-center ve-lst__row-border veapp__list-row ve-no-select ve-lst__wrp-cells">
+			<div class="ve-col-0-5 ve-pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="ve-no-events">` : `<input type="checkbox" class="ve-no-events">`}</div>
 
-			<div class="ve-col-0-5 px-1 ve-flex-vh-center">
-				<div class="ui-list__btn-inline px-2 no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
+			<div class="ve-col-0-5 ve-px-1 ve-flex-vh-center">
+				<div class="ve-ui-list__btn-inline ve-px-2 ve-no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
 			</div>
 
-			<div class="ve-col-3 px-1 ${optfeat._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${optfeat._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${optfeat.name}</div>
-			<span class="ve-col-2 px-1 ve-text-center" title="${optfeat._dFeatureType.join(", ").qq()}">${optfeat._lFeatureType}</span>
-			<span class="ve-col-4 px-1 ve-text-center">${prerequisite}</span>
-			<span class="ve-col-1 px-1 ve-text-center">${level}</span>
-			<div class="ve-col-1 pl-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(optfeat.source)}" title="${Parser.sourceJsonToFull(optfeat.source)}">${source}${Parser.sourceJsonToMarkerHtml(optfeat.source, {isList: true})}</div>
+			<div class="ve-col-3 ve-px-1 ${optfeat._versionBase_isVersion ? "ve-italic" : ""} ${this._getNameStyle()}">${optfeat._versionBase_isVersion ? `<span class="ve-px-3"></span>` : ""}${optfeat.name}</div>
+			<span class="ve-col-2 ve-px-1 ve-text-center" title="${optfeat._dFeatureType.join(", ").qq()}">${optfeat._lFeatureType}</span>
+			<span class="ve-col-4 ve-px-1 ve-text-center">${prerequisite}</span>
+			<span class="ve-col-1 ve-px-1 ve-text-center">${level}</span>
+			<div class="ve-col-1 ve-pl-1 ve-pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(optfeat.source)}" title="${Parser.sourceJsonToFull(optfeat.source)}">${source}${Parser.sourceJsonToMarkerHtml(optfeat.source, {isList: true})}</div>
 		</div>`;
 
 		const btnShowHidePreview = eleRow.firstElementChild.children[1].firstElementChild;
@@ -252,7 +281,7 @@ class ModalFilterOptionalFeatures extends ModalFilterBase {
 			},
 		);
 
-		ListUiUtil.bindPreviewButton(UrlUtil.PG_FEATS, this._allData, listItem, btnShowHidePreview);
+		this._previewButtonHandler.bindPreviewButton({entity: optfeat, listItem, btnShowHidePreview});
 
 		return listItem;
 	}

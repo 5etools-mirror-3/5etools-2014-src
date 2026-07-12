@@ -9,7 +9,7 @@ class PageFilterRaces extends PageFilterBase {
 		lProfs.forEach(lProfGroup => {
 			Object.keys(lProfGroup)
 				.forEach(k => {
-					if (!["choose", "any", "anyStandard", "anyExotic"].includes(k)) outSet.add(k.toTitleCase());
+					if (!["choose", "any", "anyStandard", "anyExotic", "anyRare"].includes(k)) outSet.add(k.toTitleCase());
 					else outSet.add("Choose");
 				});
 		});
@@ -23,15 +23,16 @@ class PageFilterRaces extends PageFilterBase {
 		a = a.item;
 		b = b.item;
 
-		return SortUtil.ascSort(toNum(a), toNum(b));
+		return SortUtil.ascSort(Parser.SIZE_ABVS.indexOf(a), Parser.SIZE_ABVS.indexOf(b));
+	}
 
-		function toNum (size) {
-			switch (size) {
-				case "M": return 0;
-				case "S": return -1;
-				case "V": return 1;
-			}
-		}
+	static getSizeDisplayInfo (size) {
+		size ||= [Parser.SZ_VARIES];
+
+		return {
+			sizeText: size.map(sz => Parser.sizeAbvToFull(sz)).joinConjunct(", ", " or "),
+			sizeShortText: size.map(sz => Parser.sizeAbvToShort(sz)).join("/"),
+		};
 	}
 	// endregion
 
@@ -143,14 +144,14 @@ class PageFilterRaces extends PageFilterBase {
 		if (r.lineage) r._fMisc.push("Lineage");
 
 		const ability = r.ability ? Renderer.getAbilityData(r.ability, {isOnlyShort: true, isCurrentLineage: r.lineage === "VRGR"}) : {asTextShort: "None"};
-		r._slAbility = ability.asTextShort;
+		r._slAbility = ability.asTextShort || VeCt.STR_NONE;
 
 		if (r.age?.mature != null && r.age?.max != null) r._fAge = [r.age.mature, r.age.max];
 		else if (r.age?.mature != null) r._fAge = r.age.mature;
 		else if (r.age?.max != null) r._fAge = r.age.max;
 
-		FilterCommon.mutateForFilters_damageVulnResImmune(r);
-		FilterCommon.mutateForFilters_conditionImmune(r);
+		FilterCommon.mutateForFilters_damageVulnResImmunePlayer(r);
+		FilterCommon.mutateForFilters_conditionImmunePlayer(r);
 	}
 
 	addToFilters (r, isExcluded) {
@@ -242,17 +243,18 @@ class ModalFilterRaces extends ModalFilterBase {
 			...opts,
 			modalTitle: `Race${opts.isRadio ? "" : "s"}`,
 			pageFilter: new PageFilterRaces(),
+			previewButtonHandler: new ListUiPreviewButtonHandlerStatsFluff({page: UrlUtil.PG_RACES}),
 		});
 	}
 
-	_$getColumnHeaders () {
+	_getColumnHeaders () {
 		const btnMeta = [
 			{sort: "name", text: "Name", width: "4"},
 			{sort: "ability", text: "Ability", width: "4"},
 			{sort: "size", text: "Size", width: "2"},
 			{sort: "source", text: "Source", width: "1"},
 		];
-		return ModalFilterBase._$getFilterColumnHeaders(btnMeta);
+		return ModalFilterBase._getFilterColumnHeaders(btnMeta);
 	}
 
 	async _pLoadAllData () {
@@ -265,24 +267,24 @@ class ModalFilterRaces extends ModalFilterBase {
 
 	_getListItem (pageFilter, race, rI) {
 		const eleRow = document.createElement("div");
-		eleRow.className = "px-0 w-100 ve-flex-col no-shrink";
+		eleRow.className = "ve-px-0 ve-w-100 ve-flex-col ve-no-shrink";
 
 		const hash = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_RACES](race);
 		const ability = race.ability ? Renderer.getAbilityData(race.ability) : {asTextShort: "None"};
 		const size = (race.size || [Parser.SZ_VARIES]).map(sz => Parser.sizeAbvToFull(sz)).join("/");
 		const source = Parser.sourceJsonToAbv(race.source);
 
-		eleRow.innerHTML = `<div class="w-100 ve-flex-vh-center lst__row-border veapp__list-row no-select lst__wrp-cells">
-			<div class="ve-col-0-5 pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="no-events">` : `<input type="checkbox" class="no-events">`}</div>
+		eleRow.innerHTML = `<div class="ve-w-100 ve-flex-vh-center ve-lst__row-border veapp__list-row ve-no-select ve-lst__wrp-cells">
+			<div class="ve-col-0-5 ve-pl-0 ve-flex-vh-center">${this._isRadio ? `<input type="radio" name="radio" class="ve-no-events">` : `<input type="checkbox" class="ve-no-events">`}</div>
 
-			<div class="ve-col-0-5 px-1 ve-flex-vh-center">
-				<div class="ui-list__btn-inline px-2 no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
+			<div class="ve-col-0-5 ve-px-1 ve-flex-vh-center">
+				<div class="ve-ui-list__btn-inline ve-px-2 ve-no-select" title="Toggle Preview (SHIFT to Toggle Info Preview)">[+]</div>
 			</div>
 
-			<div class="ve-col-4 px-1 ${race._versionBase_isVersion ? "italic" : ""} ${this._getNameStyle()}">${race._versionBase_isVersion ? `<span class="px-3"></span>` : ""}${race.name}</div>
-			<div class="ve-col-4 px-1">${ability.asTextShort}</div>
-			<div class="ve-col-2 px-1 ve-text-center">${size}</div>
-			<div class="ve-col-1 pl-1 pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(race.source)}" title="${Parser.sourceJsonToFull(race.source)}">${source}${Parser.sourceJsonToMarkerHtml(race.source, {isList: true})}</div>
+			<div class="ve-col-4 ve-px-1 ${race._versionBase_isVersion ? "ve-italic" : ""} ${this._getNameStyle()}">${race._versionBase_isVersion ? `<span class="ve-px-3"></span>` : ""}${race.name}</div>
+			<div class="ve-col-4 ve-px-1">${ability.asTextShort}</div>
+			<div class="ve-col-2 ve-px-1 ve-text-center">${size}</div>
+			<div class="ve-col-1 ve-pl-1 ve-pr-0 ve-flex-h-center ${Parser.sourceJsonToSourceClassname(race.source)}" title="${Parser.sourceJsonToFull(race.source)}">${source}${Parser.sourceJsonToMarkerHtml(race.source, {isList: true})}</div>
 		</div>`;
 
 		const btnShowHidePreview = eleRow.firstElementChild.children[1].firstElementChild;
@@ -307,7 +309,7 @@ class ModalFilterRaces extends ModalFilterBase {
 			},
 		);
 
-		ListUiUtil.bindPreviewButton(UrlUtil.PG_RACES, this._allData, listItem, btnShowHidePreview);
+		this._previewButtonHandler.bindPreviewButton({entity: race, listItem, btnShowHidePreview});
 
 		return listItem;
 	}

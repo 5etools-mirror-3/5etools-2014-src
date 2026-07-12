@@ -125,7 +125,8 @@
 						"tags": [
 							{
 								"tag": "gnome",
-								"prefix": "Deep"
+								"prefix": "Deep",
+								"prefixHidden": true
 							}
 						]
 					},
@@ -317,8 +318,11 @@
 					"type": {
 						"type": "humanoid",
 						"tags": [
-							"drow",
-							"elf"
+							{
+								"tag": "elf",
+								"prefix": "Drow",
+								"prefixHidden": true
+							}
 						]
 					}
 				},
@@ -340,7 +344,10 @@
 					],
 					"languages": {
 						"mode": "appendIfNotExistsArr",
-						"items": "Elvish"
+						"items": [
+							"Elvish",
+							"Undercommon"
+						]
 					},
 					"spellcasting": {
 						"mode": "appendArr",
@@ -384,6 +391,92 @@
 			}
 		},
 		{
+			"name": "Drow (Levitate)",
+			"source": "PHB",
+			"page": 21,
+			"ref": "{@race Elf (Drow)||Drow}",
+			"apply": {
+				"_root": {
+					"size": [
+						"M"
+					],
+					"type": {
+						"type": "humanoid",
+						"tags": [
+							{
+								"tag": "elf",
+								"prefix": "Drow",
+								"prefixHidden": true
+							}
+						]
+					}
+				},
+				"_mod": {
+					"_": [
+						{
+							"mode": "addSenses",
+							"senses": {
+								"type": "darkvision",
+								"range": 120
+							}
+						},
+						{
+							"mode": "addSkills",
+							"skills": {
+								"perception": 1
+							}
+						}
+					],
+					"languages": {
+						"mode": "appendIfNotExistsArr",
+						"items": [
+							"Elvish",
+							"Undercommon"
+						]
+					},
+					"spellcasting": {
+						"mode": "appendArr",
+						"items": [
+							{
+								"name": "Innate Spellcasting",
+								"headerEntries": [
+									"<$title_short_name$>'s innate spellcasting ability is Charisma (spell save {@dc <$spell_dc__cha$>}). <$title_short_name$> can innately cast the following spells, requiring no material components:"
+								],
+								"will": [
+									"{@spell dancing lights}"
+								],
+								"daily": {
+									"1e": [
+										"{@spell darkness}",
+										"{@spell faerie fire}",
+										"{@spell levitate} (self only)"
+									]
+								},
+								"ability": "cha"
+							}
+						]
+					},
+					"trait": {
+						"mode": "appendArr",
+						"items": [
+							{
+								"name": "Fey Ancestry",
+								"entries": [
+									"<$title_short_name$> has advantage on saving throws against being {@condition charmed}, and magic can't put <$short_name$> to sleep."
+								]
+							},
+							{
+								"name": "Sunlight Sensitivity",
+								"entries": [
+									"While in sunlight, <$short_name$> has disadvantage on attack rolls, as well as on Wisdom ({@skill Perception}) checks that rely on sight."
+								]
+							}
+						]
+					}
+				}
+			}
+		},
+		{
 			"name": "Duergar",
 			"source": "MTF",
 			"page": 81,
@@ -398,7 +491,8 @@
 						"tags": [
 							{
 								"tag": "dwarf",
-								"prefix": "Duergar"
+								"prefix": "Duergar",
+								"prefixHidden": true
 							}
 						]
 					},
@@ -435,7 +529,12 @@
 								"entries": [
 									"<$title_short_name$> has advantage on saving throws against poison, and has resistance against poison damage."
 								]
-							},
+							}
+						]
+					},
+					"action": {
+						"mode": "appendArr",
+						"items": [
 							{
 								"name": "Enlarge (Recharges after a Short or Long Rest)",
 								"entries": [
@@ -1181,7 +1280,8 @@
 						"tags": [
 							{
 								"tag": "elf",
-								"prefix": "High"
+								"prefix": "High",
+								"prefixHidden": true
 							}
 						]
 					}
@@ -1235,7 +1335,8 @@
 							"tags": [
 								{
 									"tag": "dwarf",
-									"prefix": "Hill"
+									"prefix": "Hill",
+									"prefixHidden": true
 								}
 							]
 						}
@@ -2324,6 +2425,11 @@
 					"action": [
 						{
 							"mode": "replaceTxt",
+							"replace": "(Acid|Cold|Fire|Lightning|Poison) Breath",
+							"with": "Shadow Breath"
+						},
+						{
+							"mode": "replaceTxt",
 							"replace": "(acid|cold|fire|lightning|poison)",
 							"with": "necrotic"
 						},
@@ -2331,8 +2437,63 @@
 							"mode": "replaceTxt",
 							"replace": "(Acid|Cold|Fire|Lightning|Poison)",
 							"with": "Necrotic"
+						},
+						{
+							"mode": "replaceTxt",
+							"replace": "^(The dragon exhales .* damage on a failed save, or half as much damage on a successful one\\.$)",
+							"with": "$1 A humanoid reduced to 0 hit points by this damage dies, and an undead {@creature shadow} rises from its corpse and acts immediately after the dragon in the initiative count. The {@creature shadow} is under the dragon's control.",
+							"tagInsensitive": true
 						}
 					]
+				}
+			}
+		},
+		{
+			"name": "Lightfoot Halfling",
+			"source": "PHB",
+			"page": 35,
+			"ref": "{@race Halfling (Lightfoot)||Lightfoot Halfling}",
+			"apply": {
+				"_root": {
+					"size": [
+						"S"
+					],
+					"type": {
+						"type": "humanoid",
+						"tags": [
+							{
+								"tag": "halfling",
+								"prefix": "Lightfoot",
+								"prefixHidden": true
+							}
+						]
+					},
+					"speed": {
+						"walk": 25
+					}
+				},
+				"_mod": {
+					"languages": {
+						"mode": "appendIfNotExistsArr",
+						"items": "Halfling"
+					},
+					"trait": {
+						"mode": "appendArr",
+						"items": [
+							{
+								"name": "Halfling Nimbleness",
+								"entries": [
+									"<$title_short_name$> can move through a space of a Medium or larger creature."
+								]
+							},
+							{
+								"name": "Brave",
+								"entries": [
+									"<$title_short_name$> has advantage on saving throws against being {@condition frightened}."
+								]
+							}
+						]
+					}
 				}
 			}
 		},
@@ -2419,6 +2580,9 @@
 		},
 		{
 			"name": "Mountain Dwarf",
+			"alias": [
+				"Shield Dwarf"
+			],
 			"source": "PHB",
 			"page": 18,
 			"ref": "{@race Dwarf (Mountain)||Mountain Dwarf}",
@@ -2432,7 +2596,8 @@
 						"tags": [
 							{
 								"tag": "dwarf",
-								"prefix": "Mountain"
+								"prefix": "Mountain",
+								"prefixHidden": true
 							}
 						]
 					},
@@ -2643,7 +2808,8 @@
 						"tags": [
 							{
 								"tag": "gnome",
-								"prefix": "Rock"
+								"prefix": "Rock",
+								"prefixHidden": true
 							}
 						]
 					},
@@ -2692,7 +2858,8 @@
 							"tags": [
 								{
 									"tag": "dwarf",
-									"prefix": "Shield"
+									"prefix": "Shield",
+									"prefixHidden": true
 								}
 							]
 						}
@@ -2750,6 +2917,9 @@
 		},
 		{
 			"name": "Stout Halfling",
+			"alias": [
+				"Strongheart Halfling"
+			],
 			"source": "PHB",
 			"page": 35,
 			"ref": "{@race Halfling (Stout)||Stout Halfling}",
@@ -2763,7 +2933,8 @@
 						"tags": [
 							{
 								"tag": "halfling",
-								"prefix": "Stout"
+								"prefix": "Stout",
+								"prefixHidden": true
 							}
 						]
 					},
@@ -2772,6 +2943,10 @@
 					}
 				},
 				"_mod": {
+					"resist": {
+						"mode": "appendIfNotExistsArr",
+						"items": "poison"
+					},
 					"languages": {
 						"mode": "appendIfNotExistsArr",
 						"items": "Halfling"
@@ -2790,9 +2965,42 @@
 								"entries": [
 									"<$title_short_name$> has advantage on saving throws against being {@condition frightened}."
 								]
+							},
+							{
+								"name": "Stout Resilience",
+								"entries": [
+									"<$title_short_name$> has advantage on saving throws against poison."
+								]
 							}
 						]
 					}
+				}
+			}
+		},
+		{
+			"name": "Strongheart Halfling",
+			"source": "PHB",
+			"_copy": {
+				"name": "Stout Halfling",
+				"source": "PHB",
+				"_mod": {
+					"_": {
+						"mode": "setProp",
+						"prop": "apply._root.type",
+						"value": {
+							"type": "humanoid",
+							"tags": [
+								{
+									"tag": "halfling",
+									"prefix": "Strongheart",
+									"prefixHidden": true
+								}
+							]
+						}
+					}
+				},
+				"_preserve": {
+					"page": true
 				}
 			}
 		},
@@ -2880,27 +3088,6 @@
 					"languages": {
 						"mode": "appendIfNotExistsArr",
 						"items": "Infernal"
-					},
-					"spellcasting": {
-						"mode": "appendArr",
-						"items": [
-							{
-								"name": "Innate Spellcasting",
-								"headerEntries": [
-									"<$title_short_name$>'s innate spellcasting ability is Charisma (spell save {@dc <$spell_dc__cha$>}). <$title_short_name$> can innately cast the following spells, requiring no material components:"
-								],
-								"will": [
-									"{@spell thaumaturgy}"
-								],
-								"daily": {
-									"1e": [
-										"{@spell darkness}",
-										"{@spell hellish rebuke}"
-									]
-								},
-								"ability": "cha"
-							}
-						]
 					}
 				}
 			}
@@ -3009,7 +3196,8 @@
 						"tags": [
 							{
 								"tag": "elf",
-								"prefix": "Wood"
+								"prefix": "Wood",
+								"prefixHidden": true
 							}
 						]
 					},
@@ -3130,6 +3318,68 @@
 								"name": "Magic Resistance",
 								"entries": [
 									"<$title_short_name$> has advantage on saving throws against spells and other magical effects."
+								]
+							}
+						]
+					}
+				}
+			}
+		}
+	],
+	"legendaryGroupTemplate": [
+		{
+			"name": "Shadow Dragon",
+			"source": "FTD",
+			"page": 142,
+			"ref": "{@legendaryGroup Shadow Dragon|FTD}",
+			"apply": {
+				"_mod": {
+					"lairActions": {
+						"mode": "appendArr",
+						"items": [
+							{
+								"type": "entries",
+								"name": "Additional Lair Action",
+								"entries": [
+									"Shadow dragons have access to the lair actions usable by untransformed dragons of the same kind. The effects of these actions might be cosmetically altered, seeming darker, gloomier, and more subdued. They might also deal necrotic damage instead of other damage types. At your discretion, a legendary (adult or ancient) shadow dragon can use the following additional lair action while in its lair:",
+									{
+										"type": "list",
+										"style": "list-hang-notitle",
+										"items": [
+											{
+												"type": "item",
+												"name": "Banish Light",
+												"entry": "Any nonmagical source of illumination within a 60-foot-radius sphere centered on the dragon is snuffed out, and any spell that creates light within that same area is dispelled."
+											}
+										]
+									}
+								]
+							}
+						]
+					},
+					"regionalEffects": {
+						"mode": "appendArr",
+						"items": [
+							"When a shadow dragon establishes a lair on the Material Plane, the region around the lair takes on some of the characteristics of the Shadowfell, creating one or more of the following effects:",
+							{
+								"type": "list",
+								"style": "list-hang-notitle",
+								"items": [
+									{
+										"type": "item",
+										"name": "Brooding Despair",
+										"entry": "Creatures within 1 mile of the dragon's lair that have an Intelligence score of 5 or higher feel forlorn and hopeless."
+									},
+									{
+										"type": "item",
+										"name": "Dying Light",
+										"entry": "Light is diminished within 6 miles of the dragon's lair, {@quickref Vision and Light|PHB|2||lightly obscuring} the land in gloomy shadows."
+									},
+									{
+										"type": "item",
+										"name": "Gloomy Portals",
+										"entry": "Some caves, caverns, pits, and other places of deep gloom within 1 mile of the dragon's lair form portals to the Shadowfell, allowing creatures from that plane to dwell nearby."
+									}
 								]
 							}
 						]

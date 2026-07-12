@@ -36,12 +36,16 @@ class OmnisearchUi {
 			{
 				iptSearch,
 				wrpSearchInput,
+				wrpSearchFilters,
+				wrpSearchResults,
 				dispSearchOutput,
 				wrpSearchOutput,
 			},
 		) {
 			this.iptSearch = iptSearch;
 			this.wrpSearchInput = wrpSearchInput;
+			this.wrpSearchFilters = wrpSearchFilters;
+			this.wrpSearchResults = wrpSearchResults;
 			this.dispSearchOutput = dispSearchOutput;
 			this.wrpSearchOutput = wrpSearchOutput;
 
@@ -56,6 +60,7 @@ class OmnisearchUi {
 		if (globalThis.IS_VTT) return;
 
 		const rdState = this._render_getElements();
+		this._render_wrpSearchFilters({rdState});
 		this._render_doBindElementListeners({rdState});
 		this._render_doBindScrollHandler({rdState});
 		this._render_doBindBodyListeners({rdState});
@@ -66,7 +71,7 @@ class OmnisearchUi {
 
 		const iptSearch = e_({
 			tag: "input",
-			clazz: "form-control search omni__input",
+			clazz: "ve-form-control search omni__input",
 			placeholder: this._PLACEHOLDER_TEXT,
 			title: `Search Everywhere. Hotkey: F. Disclaimer: unlikely to search everywhere. Use with caution.`,
 			type: "search",
@@ -75,7 +80,7 @@ class OmnisearchUi {
 
 		const btnClearSearch = e_({
 			tag: "span",
-			clazz: "absolute glyphicon glyphicon-remove omni__btn-clear",
+			clazz: "ve-absolute glyphicon glyphicon-remove omni__btn-clear",
 			mousedown: evt => {
 				evt.stopPropagation();
 				evt.preventDefault();
@@ -93,24 +98,25 @@ class OmnisearchUi {
 
 		const wrpSearchInput = e_({
 			tag: "div",
-			clazz: "input-group omni__wrp-input",
+			clazz: "ve-input-group omni__wrp-input ve-flex",
 			children: [
 				iptSearch,
 				btnClearSearch,
-				e_({
-					tag: "div",
-					clazz: "input-group-btn",
-					children: [
-						btnSearchSubmit,
-					],
-				}),
+				btnSearchSubmit,
 			],
 		})
 			.appendTo(eleNavbar);
 
+		const wrpSearchFilters = ee`<div class="ve-flex-h-right ve-flex-v-center ve-mobile-sm__flex-col ve-mobile-sm__flex-ai-start ve-mb-2"></div>`;
+		const wrpSearchResults = ee`<div class="ve-flex-col"></div>`;
+
 		const dispSearchOutput = e_({
 			tag: "div",
 			clazz: "omni__output",
+			children: [
+				wrpSearchFilters,
+				wrpSearchResults,
+			],
 		});
 
 		const wrpSearchOutput = e_({
@@ -126,11 +132,59 @@ class OmnisearchUi {
 		const rdState = new this._RenderState({
 			iptSearch,
 			wrpSearchInput,
+			wrpSearchFilters,
+			wrpSearchResults,
 			dispSearchOutput,
 			wrpSearchOutput,
 		});
 
 		return rdState;
+	}
+
+	static _render_wrpSearchFilters ({rdState}) {
+		const btnCyclePartneredMode = ee`<button class="ve-btn ve-btn-default ve-btn-xs omni__btn-partnered-mode" tabindex="-1"></button>`;
+		OmnisearchUtilsUi.bindBtnCyclePartneredMode({
+			btn: btnCyclePartneredMode,
+			omnisearchState: OmnisearchState,
+			fnDoSearch: this._pDoSearch.bind(this, {rdState}),
+		});
+
+		const [
+			btnToggleBrew,
+			btnToggleUa,
+			btnToggleBlocklisted,
+			btnToggleLegacy,
+			btnToggleSrd,
+		] = OmnisearchConsts.BTN_METAS
+			.map(btnMeta => this._getBtnToggleFilter({rdState, btnMeta}));
+
+		const btnHelp = e_({
+			tag: "button",
+			clazz: "ve-btn ve-btn-default ve-btn-xs ve-ml-2",
+			title: "Help",
+			html: `<span class="glyphicon glyphicon-info-sign"></span>`,
+			click: () => OmnisearchUtilsUi.doShowHelp({isIncludeHotkeys: true}),
+		});
+
+		ee(rdState.wrpSearchFilters)`
+			<div class="ve-flex-v-center ve-mr-2 ve-mobile-sm__mr-0 ve-mobile-sm__mb-2 ve-mobile-sm__w-100 ve-mobile-sm__flex-h-right">
+				<span class="ve-mr-2 ve-italic ve-relative ve-top-1p">Include</span>
+				<div class="ve-btn-group ve-flex-v-center">
+					${btnCyclePartneredMode}
+					${btnToggleBrew}
+					${btnToggleUa}
+				</div>
+			</div>
+
+			<div class="ve-flex-v-center ve-mobile-sm__w-100 ve-mobile-sm__flex-h-right">
+				<div class="ve-btn-group ve-flex-v-center ve-mr-2">
+					${btnToggleBlocklisted}
+					${btnToggleLegacy}
+				</div>
+				${btnToggleSrd}
+				${btnHelp}
+			</div>
+		</div>`;
 	}
 
 	static _render_doBindElementListeners ({rdState}) {
@@ -343,7 +397,7 @@ class OmnisearchUi {
 			.onn("click", () => OmnisearchState[btnMeta.propOmnisearch] = !OmnisearchState[btnMeta.propOmnisearch]);
 
 		OmnisearchState[btnMeta.fnAddHookOmnisearch]((val) => {
-			btn.toggleClass("active", OmnisearchState[btnMeta.propOmnisearch]);
+			btn.toggleClass("ve-active", OmnisearchState[btnMeta.propOmnisearch]);
 			if (val != null) this._pDoSearch({rdState}).then(null);
 		})();
 
@@ -357,43 +411,10 @@ class OmnisearchUi {
 	}
 
 	static _pDoSearch_renderLinks_ ({rdState, results, ixPage}) {
-		const [
-			btnTogglePartnered,
-			btnToggleBrew,
-			btnToggleUa,
-			btnToggleBlocklisted,
-			btnToggleLegacy,
-			btnToggleSrd,
-		] = OmnisearchConsts.BTN_METAS
-			.map(btnMeta => this._getBtnToggleFilter({rdState, btnMeta}));
-
-		rdState.dispSearchOutput.empty();
-
-		const btnHelp = e_({
-			tag: "button",
-			clazz: "ve-btn ve-btn-default ve-btn-xs ml-2",
-			title: "Help",
-			html: `<span class="glyphicon glyphicon-info-sign"></span>`,
-			click: () => OmnisearchUtilsUi.doShowHelp({isIncludeHotkeys: true}),
-		});
-
-		ee(rdState.dispSearchOutput)`<div class="ve-flex-h-right ve-flex-v-center mb-2">
-			<span class="mr-2 italic relative top-1p">Include</span>
-			<div class="ve-btn-group ve-flex-v-center mr-2">
-				${btnTogglePartnered}
-				${btnToggleBrew}
-				${btnToggleUa}
-			</div>
-			<div class="ve-btn-group ve-flex-v-center mr-2">
-				${btnToggleBlocklisted}
-				${btnToggleLegacy}
-			</div>
-			${btnToggleSrd}
-			${btnHelp}
-		</div>`;
+		rdState.wrpSearchResults.empty();
 
 		if (!results.length) {
-			rdState.dispSearchOutput.appends(`<div class="ve-muted"><i>No results found.</i></div>`);
+			rdState.wrpSearchResults.appends(`<div class="ve-muted"><i>No results found.</i></div>`);
 			rdState.wrpSearchOutput.showVe();
 			return {rowMetas: [], results, ixPage};
 		}
@@ -434,21 +455,21 @@ class OmnisearchUi {
 					? ptSourceInner
 					: `<a href="${adventureBookSourceHref}">${ptSourceInner}</a>`;
 
-				ee`<div class="omni__row-result split-v-center stripe-odd">
+				ee`<div class="omni__row-result ve-split-v-center stripe-odd">
 					${lnk}
 					<div class="ve-flex-v-center">
 						${ptSource}
-						${isSrd && category !== Parser.CAT_ID_PAGE ? `<span class="ve-muted omni__disp-srd help-subtle relative" title="Available in the Systems Reference Document (5.1)">[SRD]</span>` : ""}
-						${isSrd52 && category !== Parser.CAT_ID_PAGE ? `<span class="ve-muted omni__disp-srd help-subtle relative" title="Available in the Systems Reference Document (5.2)">[SRD]</span>` : ""}
+						${isSrd && category !== Parser.CAT_ID_PAGE ? `<span class="ve-muted omni__disp-srd ve-help-subtle ve-relative" title="Available in the Systems Reference Document (5.1)">[SRD]</span>` : ""}
+						${isSrd52 && category !== Parser.CAT_ID_PAGE ? `<span class="ve-muted omni__disp-srd ve-help-subtle ve-relative" title="Available in the Systems Reference Document (5.2)">[SRD]</span>` : ""}
 						${Parser.sourceJsonToMarkerHtml(source, {isAddBrackets: true, additionalStyles: "omni__disp-source-marker"})}
-						${ptPage ? `<span class="omni__wrp-page small-caps">${ptPage}</span>` : ""}
+						${ptPage ? `<span class="omni__wrp-page ve-small-caps">${ptPage}</span>` : ""}
 					</div>
-				</div>`.appendTo(rdState.dispSearchOutput);
+				</div>`.appendTo(rdState.wrpSearchResults);
 
 				return {lnk};
 			});
 
-		if (wrpPagination) rdState.dispSearchOutput.appendChild(wrpPagination);
+		if (wrpPagination) rdState.wrpSearchResults.appendChild(wrpPagination);
 
 		rdState.wrpSearchOutput.showVe();
 

@@ -63,7 +63,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Adult Amethyst Dragon.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1220,
+					"height": 1399
 				}
 			]
 		},
@@ -126,7 +128,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Adult Crystal Dragon.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 1000,
+					"height": 637
 				}
 			]
 		},
@@ -163,7 +167,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Adult Deep Dragon.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 860,
+					"height": 1000
 				}
 			]
 		},
@@ -228,7 +234,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Adult Emerald Dragon.webp"
 					},
-					"credit": "Julian Kok"
+					"credit": "Julian Kok",
+					"width": 792,
+					"height": 1000
 				}
 			]
 		},
@@ -266,7 +274,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Adult Moonstone Dragon.webp"
 					},
-					"credit": "Irina Nordsol"
+					"credit": "Irina Nordsol",
+					"width": 1000,
+					"height": 939
 				}
 			]
 		},
@@ -593,7 +603,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Adult Sapphire Dragon.webp"
 					},
-					"credit": "Chris Rallis"
+					"credit": "Chris Rallis",
+					"width": 1700,
+					"height": 813
 				}
 			]
 		},
@@ -656,7 +668,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Adult Topaz Dragon.webp"
 					},
-					"credit": "Alex Stone"
+					"credit": "Alex Stone",
+					"width": 850,
+					"height": 1083
 				}
 			]
 		},
@@ -914,7 +928,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Amethyst Dragon Wyrmling.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1220,
+					"height": 1399
 				}
 			]
 		},
@@ -984,7 +1000,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Ancient Amethyst Dragon.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1220,
+					"height": 1399
 				}
 			]
 		},
@@ -1047,7 +1065,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Ancient Crystal Dragon.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 1000,
+					"height": 637
 				}
 			]
 		},
@@ -1084,7 +1104,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Ancient Deep Dragon.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 860,
+					"height": 1000
 				}
 			]
 		},
@@ -1384,7 +1406,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Ancient Dragon Turtle.webp"
 					},
-					"credit": "David Auden Nash"
+					"credit": "David Auden Nash",
+					"width": 1700,
+					"height": 1103
 				}
 			]
 		},
@@ -1449,7 +1473,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Ancient Emerald Dragon.webp"
 					},
-					"credit": "Julian Kok"
+					"credit": "Julian Kok",
+					"width": 792,
+					"height": 1000
 				}
 			]
 		},
@@ -1487,7 +1513,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Ancient Moonstone Dragon.webp"
 					},
-					"credit": "Irina Nordsol"
+					"credit": "Irina Nordsol",
+					"width": 1000,
+					"height": 939
 				}
 			]
 		},
@@ -1550,7 +1578,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Ancient Sapphire Dragon.webp"
 					},
-					"credit": "Chris Rallis"
+					"credit": "Chris Rallis",
+					"width": 1700,
+					"height": 813
 				}
 			]
 		},
@@ -1575,7 +1605,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Ancient Sea Serpent.webp"
 					},
-					"credit": "Mark Behm"
+					"credit": "Mark Behm",
+					"width": 805,
+					"height": 1000
 				}
 			]
 		},
@@ -1638,7 +1670,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Ancient Topaz Dragon.webp"
 					},
-					"credit": "Alex Stone"
+					"credit": "Alex Stone",
+					"width": 850,
+					"height": 1083
 				}
 			]
 		},
@@ -1661,7 +1695,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Animated Breath.webp"
 					},
-					"credit": "Alex Stone"
+					"credit": "Alex Stone",
+					"width": 1000,
+					"height": 733
 				}
 			]
 		},
@@ -1685,7 +1721,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Aspect of Bahamut.webp"
 					},
-					"credit": "Conceptopolis"
+					"credit": "Conceptopolis",
+					"width": 1000,
+					"height": 732
 				}
 			]
 		},
@@ -1709,7 +1747,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Aspect of Tiamat.webp"
 					},
-					"credit": "Tyler Jacobson"
+					"credit": "Tyler Jacobson",
+					"width": 1000,
+					"height": 799
 				}
 			]
 		},
@@ -2017,7 +2057,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Crystal Dragon Wyrmling.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 1000,
+					"height": 637
 				}
 			]
 		},
@@ -2263,7 +2305,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Deep Dragon Wyrmling.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 860,
+					"height": 1000
 				}
 			]
 		},
@@ -2287,7 +2331,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Dracohydra.webp"
 					},
-					"credit": "Lars Grant-West"
+					"credit": "Lars Grant-West",
+					"width": 753,
+					"height": 1000
 				}
 			]
 		},
@@ -2323,7 +2369,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Draconian Dreadnought.webp"
 					},
-					"credit": "David Sladek"
+					"credit": "David Sladek",
+					"width": 847,
+					"height": 1000
 				}
 			]
 		},
@@ -2359,7 +2407,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Draconian Foot Soldier.webp"
 					},
-					"credit": "David Auden Nash"
+					"credit": "David Auden Nash",
+					"width": 838,
+					"height": 1000
 				}
 			]
 		},
@@ -2395,7 +2445,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Draconian Infiltrator.webp"
 					},
-					"credit": "Mark Behm"
+					"credit": "Mark Behm",
+					"width": 694,
+					"height": 1000
 				}
 			]
 		},
@@ -2432,7 +2484,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Draconian Mage.webp"
 					},
-					"credit": "Clint Cearley"
+					"credit": "Clint Cearley",
+					"width": 1000,
+					"height": 990
 				}
 			]
 		},
@@ -2469,7 +2523,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Draconian Mastermind.webp"
 					},
-					"credit": "Svetlin Velinov"
+					"credit": "Svetlin Velinov",
+					"width": 663,
+					"height": 1000
 				}
 			]
 		},
@@ -2493,7 +2549,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Draconic Shard.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 755,
+					"height": 1000
 				}
 			]
 		},
@@ -2528,7 +2586,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Dragon Blessed.webp"
 					},
-					"credit": "Zuzanna Wužyk"
+					"credit": "Zuzanna Wužyk",
+					"width": 593,
+					"height": 1000
 				}
 			]
 		},
@@ -2563,7 +2623,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Dragon Chosen.webp"
 					},
-					"credit": "Zuzanna Wužyk"
+					"credit": "Zuzanna Wužyk",
+					"width": 717,
+					"height": 1000
 				}
 			]
 		},
@@ -2598,7 +2660,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Dragon Speaker.webp"
 					},
-					"credit": "Zuzanna Wužyk"
+					"credit": "Zuzanna Wužyk",
+					"width": 388,
+					"height": 1000
 				}
 			]
 		},
@@ -2848,7 +2912,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Dragonblood Ooze.webp"
 					},
-					"credit": "Irina Nordsol"
+					"credit": "Irina Nordsol",
+					"width": 1000,
+					"height": 999
 				}
 			]
 		},
@@ -2871,7 +2937,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Dragonbone Golem.webp"
 					},
-					"credit": "David Sladek"
+					"credit": "David Sladek",
+					"width": 853,
+					"height": 1000
 				}
 			]
 		},
@@ -2905,7 +2973,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Dragonborn of Bahamut.webp"
 					},
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 727,
+					"height": 1000
 				}
 			]
 		},
@@ -2940,7 +3010,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Dragonborn of Sardior.webp"
 					},
-					"credit": "Mark Behm"
+					"credit": "Mark Behm",
+					"width": 510,
+					"height": 1000
 				}
 			]
 		},
@@ -2974,7 +3046,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Dragonborn of Tiamat.webp"
 					},
-					"credit": "Sam Keiser"
+					"credit": "Sam Keiser",
+					"width": 635,
+					"height": 1000
 				}
 			]
 		},
@@ -3010,7 +3084,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Dragonflesh Abomination.webp"
 					},
-					"credit": "Andrew Mar"
+					"credit": "Andrew Mar",
+					"width": 853,
+					"height": 1000
 				}
 			]
 		},
@@ -3046,7 +3122,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Dragonflesh Grafter.webp"
 					},
-					"credit": "Andrew Mar"
+					"credit": "Andrew Mar",
+					"width": 767,
+					"height": 1000
 				}
 			]
 		},
@@ -3077,7 +3155,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Dragonnel.webp"
 					},
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 688,
+					"height": 1000
 				}
 			]
 		},
@@ -3111,7 +3191,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Egg Hunter Adult.webp"
 					},
-					"credit": "Irina Nordsol"
+					"credit": "Irina Nordsol",
+					"width": 999,
+					"height": 1000
 				}
 			]
 		},
@@ -3145,7 +3227,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Egg Hunter Hatchling.webp"
 					},
-					"credit": "Irina Nordsol"
+					"credit": "Irina Nordsol",
+					"width": 999,
+					"height": 1000
 				}
 			]
 		},
@@ -3168,7 +3252,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Elder Brain Dragon.webp"
 					},
-					"credit": "Julian Kok"
+					"credit": "Julian Kok",
+					"width": 800,
+					"height": 1000
 				}
 			]
 		},
@@ -3427,7 +3513,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Emerald Dragon Wyrmling.webp"
 					},
-					"credit": "Julian Kok"
+					"credit": "Julian Kok",
+					"width": 792,
+					"height": 1000
 				}
 			]
 		},
@@ -3459,7 +3547,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Eyedrake.webp"
 					},
-					"credit": "Dawn Carlos"
+					"credit": "Dawn Carlos",
+					"width": 799,
+					"height": 1000
 				}
 			]
 		},
@@ -3505,7 +3595,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Gem Stalker.webp"
 					},
-					"credit": "Svetlin Velinov"
+					"credit": "Svetlin Velinov",
+					"width": 1000,
+					"height": 770
 				}
 			]
 		},
@@ -3528,7 +3620,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Ghost Dragon.webp"
 					},
-					"credit": "Andrew Mar"
+					"credit": "Andrew Mar",
+					"width": 828,
+					"height": 1000
 				}
 			]
 		},
@@ -3567,7 +3661,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Hoard Mimic.webp"
 					},
-					"credit": "Sam Keiser"
+					"credit": "Sam Keiser",
+					"width": 819,
+					"height": 1000
 				}
 			]
 		},
@@ -3590,7 +3686,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Hoard Scarab.webp"
 					},
-					"credit": "Clint Cearley"
+					"credit": "Clint Cearley",
+					"width": 820,
+					"height": 1000
 				}
 			]
 		},
@@ -3615,7 +3713,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Hollow Dragon.webp"
 					},
-					"credit": "Svetlin Velinov"
+					"credit": "Svetlin Velinov",
+					"width": 1000,
+					"height": 910
 				}
 			]
 		},
@@ -3638,7 +3738,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Liondrake.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 717,
+					"height": 1000
 				}
 			]
 		},
@@ -3698,7 +3800,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Metallic Peacekeeper.webp"
 					},
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 653,
+					"height": 1000
 				}
 			]
 		},
@@ -3732,7 +3836,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Metallic Warbler.webp"
 					},
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 1000,
+					"height": 1000
 				}
 			]
 		},
@@ -3971,7 +4077,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Moonstone Dragon Wyrmling.webp"
 					},
-					"credit": "Irina Nordsol"
+					"credit": "Irina Nordsol",
+					"width": 1000,
+					"height": 939
 				}
 			]
 		},
@@ -3989,7 +4097,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Red Greatwyrm.webp"
 					},
-					"credit": "Svetlin Velinov"
+					"credit": "Svetlin Velinov",
+					"width": 1700,
+					"height": 1137
 				}
 			]
 		},
@@ -4248,7 +4358,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Sapphire Dragon Wyrmling.webp"
 					},
-					"credit": "Chris Rallis"
+					"credit": "Chris Rallis",
+					"width": 1700,
+					"height": 813
 				}
 			]
 		},
@@ -4266,7 +4378,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Sapphire Greatwyrm.webp"
 					},
-					"credit": "Sam Keiser"
+					"credit": "Sam Keiser",
+					"width": 1700,
+					"height": 1190
 				}
 			]
 		},
@@ -4284,7 +4398,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Silver Greatwyrm.webp"
 					},
-					"credit": "Crystal Sully"
+					"credit": "Crystal Sully",
+					"width": 1700,
+					"height": 1218
 				}
 			]
 		},
@@ -4307,7 +4423,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Swarm of Hoard Scarabs.webp"
 					},
-					"credit": "Clint Cearley"
+					"credit": "Clint Cearley",
+					"width": 820,
+					"height": 1000
 				}
 			]
 		},
@@ -4566,7 +4684,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Topaz Dragon Wyrmling.webp"
 					},
-					"credit": "Alex Stone"
+					"credit": "Alex Stone",
+					"width": 850,
+					"height": 1083
 				}
 			]
 		},
@@ -4840,7 +4960,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Young Amethyst Dragon.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1220,
+					"height": 1399
 				}
 			]
 		},
@@ -5099,7 +5221,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Young Crystal Dragon.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 1000,
+					"height": 637
 				}
 			]
 		},
@@ -5363,7 +5487,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Young Deep Dragon.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 860,
+					"height": 1000
 				}
 			]
 		},
@@ -5875,7 +6001,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Young Emerald Dragon.webp"
 					},
-					"credit": "Julian Kok"
+					"credit": "Julian Kok",
+					"width": 792,
+					"height": 1000
 				}
 			]
 		},
@@ -6114,7 +6242,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Young Moonstone Dragon.webp"
 					},
-					"credit": "Irina Nordsol"
+					"credit": "Irina Nordsol",
+					"width": 1000,
+					"height": 939
 				}
 			]
 		},
@@ -6373,7 +6503,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Young Sapphire Dragon.webp"
 					},
-					"credit": "Chris Rallis"
+					"credit": "Chris Rallis",
+					"width": 1700,
+					"height": 813
 				}
 			]
 		},
@@ -6398,7 +6530,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Young Sea Serpent.webp"
 					},
-					"credit": "Mark Behm"
+					"credit": "Mark Behm",
+					"width": 805,
+					"height": 1000
 				}
 			]
 		},
@@ -6657,7 +6791,9 @@
 						"type": "internal",
 						"path": "bestiary/FTD/Young Topaz Dragon.webp"
 					},
-					"credit": "Alex Stone"
+					"credit": "Alex Stone",
+					"width": 850,
+					"height": 1083
 				}
 			]
 		}

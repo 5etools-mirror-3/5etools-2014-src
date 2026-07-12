@@ -23,31 +23,36 @@
 				overflow: hidden !important;
 			}
 
-			&ve-flex-col {
+			&flex-col {
 				display: flex !important;
 				flex-direction: column !important;
 			}
 
-			&ve-flex-row {
+			&flex-row {
 				display: flex !important;
 				flex-direction: row !important;
 			}
 
-			&ve-flex-col-reverse {
+			&flex-col-reverse {
 				display: flex !important;
 				flex-direction: column-reverse !important;
 			}
 
-			&ve-flex-ai-start {
+			&flex-h-right {
+				display: flex !important;
+				justify-content: flex-end !important;
+			}
+
+			&flex-ai-start {
 				align-items: flex-start !important;
 			}
 
-			&ve-flex-wrap {
+			&flex-wrap {
 				display: flex !important;
 				flex-wrap: wrap !important;
 			}
 
-			&ve-overflow-x-auto {
+			&overflow-x-auto {
 				overflow-x: auto;
 			}
 
@@ -62,6 +67,30 @@
 			&h-initial {
 				height: initial !important;
 			}
+
+			&min-h-initial {
+				min-height: initial !important;
+			}
+
+			// region util-column
+			&col-3 {
+				position: relative;
+				min-height: 1px;
+				width: 25% !important;
+			}
+
+			&col-9 {
+				position: relative;
+				min-height: 1px;
+				width: 75% !important;
+			}
+
+			&col-12 {
+				position: relative;
+				min-height: 1px;
+				width: 100% !important;
+			}
+			// endregion
 
 			// region util-spacing port
 			&m-auto {
@@ -482,15 +511,19 @@
 		}
 	}
 
-	.mobile-lg__ {
+	.ve-mobile-lg__ {
 		@include mix-mobile-styles(vars.$width-screen-lg);
 	}
 
-	.mobile-md__ {
+	.ve-mobile-md__ {
 		@include mix-mobile-styles(vars.$width-screen-md);
 	}
 
-	.mobile__ {
+	.ve-mobile-sm__ {
 		@include mix-mobile-styles(vars.$width-screen-sm);
+	}
+
+	.ve-mobile-xs__ {
+		@include mix-mobile-styles(vars.$width-screen-xs);
 	}
 }

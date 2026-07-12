@@ -214,7 +214,7 @@
 							"items": {
 								"name": "Shortsword",
 								"entries": [
-									"{@atk mw} {@hit 6} to hit, reach 5 ft., one target. {@h}6 ({@damage 1d6 + 3}) piercing damage, and the target must succeed on a {@dc 11} Constitution saving throw or be cursed with wererat lycanthropy."
+									"{@atk mw} {@hit 6} to hit, reach 5 ft., one target. {@h}6 ({@damage 1d6 + 3}) piercing damage, and the target must succeed on a {@dc 11} Constitution saving throw or be cursed with wererat {@variantrule Player Characters as Lycanthropes|MM|lycanthropy}."
 								]
 							}
 						},
@@ -224,7 +224,7 @@
 							"items": {
 								"name": "Light Crossbow",
 								"entries": [
-									"{@atk rw} {@hit 6} to hit, range 80/320 ft., one target. {@h}7 ({@damage 1d8 + 3}) piercing damage, and the target must succeed on a {@dc 11} Constitution saving throw or be cursed with wererat lycanthropy."
+									"{@atk rw} {@hit 6} to hit, range 80/320 ft., one target. {@h}7 ({@damage 1d8 + 3}) piercing damage, and the target must succeed on a {@dc 11} Constitution saving throw or be cursed with wererat {@variantrule Player Characters as Lycanthropes|MM|lycanthropy}."
 								]
 							}
 						}
@@ -245,6 +245,7 @@
 				"Common",
 				"Giant Owl"
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Keen Senses",
 				"Sneak Attack"
@@ -405,6 +406,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"light crossbow|phb"
 			],
@@ -481,6 +483,7 @@
 			"speed": {
 				"walk": 20
 			},
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -513,6 +516,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C",
 				"D",
@@ -559,12 +563,13 @@
 				{
 					"name": "Petrifying Gaze",
 					"entries": [
-						"When a creature that can see the medusa's eyes starts its turn within 30 feet of the medusa, the medusa can force it to make a {@dc 14} Constitution saving throw if the medusa isn't {@condition incapacitated} and can see the creature. If the saving throw fails by 5 or more, the creature is instantly {@condition petrified}. Otherwise, a creature that fails the save begins to turn to metal, wood, or porcelain (the medusa's choice) and is {@condition restrained}. The {@condition restrained} creature must repeat the saving throw at the end of its next turn, becoming {@condition petrified} on a failure or ending the effect on a success. The petrification lasts until the creature is freed by the  {@spell greater restoration} spell or other magic.",
+						"When a creature that can see the medusa's eyes starts its turn within 30 feet of the medusa, the medusa can force it to make a {@dc 14} Constitution saving throw if the medusa isn't {@condition incapacitated} and can see the creature. If the saving throw fails by 5 or more, the creature is instantly {@condition petrified}. Otherwise, a creature that fails the save begins to turn to metal, wood, or porcelain (the medusa's choice) and is {@condition restrained}. The {@condition restrained} creature must repeat the saving throw at the end of its next turn, becoming {@condition petrified} on a failure or ending the effect on a success. The petrification lasts until the creature is freed by the {@spell greater restoration} spell or other magic.",
 						"Unless {@status surprised}, a creature can avert its eyes to avoid the saving throw at the start of its turn. If the creature does so, it can't see the medusa until the start of its next turn, when it can avert its eyes again. If the creature looks at the medusa in the meantime, it must immediately make the save.",
 						"If the medusa sees itself reflected on a polished surface within 30 feet of it and in an area of bright light, the medusa is, due to its curse, affected by its own gaze."
 					]
 				}
 			],
+			"tokenCustom": true,
 			"spellcastingTags": [
 				"I"
 			],
@@ -607,6 +612,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -737,6 +743,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"shortsword|phb"
 			],
@@ -1155,6 +1162,7 @@
 				"Common",
 				"Primordial"
 			],
+			"tokenCustom": true,
 			"languageTags": [
 				"C",
 				"P"
@@ -1274,6 +1282,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"spear|phb"
 			],
@@ -1327,6 +1336,7 @@
 				"exhaustion",
 				"poisoned"
 			],
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -1348,6 +1358,7 @@
 				"exhaustion",
 				"poisoned"
 			],
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -1369,6 +1380,7 @@
 				"exhaustion",
 				"poisoned"
 			],
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -1390,6 +1402,7 @@
 				"exhaustion",
 				"poisoned"
 			],
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -1426,6 +1439,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"damageTags": [
 				"S",
 				"Y"
@@ -1462,6 +1476,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"damageTags": [
 				"B",
 				"F",
@@ -1926,7 +1941,7 @@
 				{
 					"name": "Ink Cloud (Costs 3 Actions)",
 					"entries": [
-						"While underwater, the thessalkraken expels an ink cloud in a 60-foot radius. The cloud spreads around corners, and that area is heavily obscured to creatures other than the thessalkraken. Each creature other than the thessalkraken that ends its turn there must succeed on a {@dc 18} Constitution saving throw, taking 16 ({@damage 3d10}) poison damage on a failed save, or half as much damage on a successful one. A strong current disperses the cloud, which otherwise disappears at the end of the thessalkraken's next turn."
+						"While underwater, the thessalkraken expels an ink cloud in a 60-foot radius. The cloud spreads around corners, and that area is {@quickref Vision and Light||2||heavily obscured} to creatures other than the thessalkraken. Each creature other than the thessalkraken that ends its turn there must succeed on a {@dc 18} Constitution saving throw, taking 16 ({@damage 3d10}) poison damage on a failed save, or half as much damage on a successful one. A strong current disperses the cloud, which otherwise disappears at the end of the thessalkraken's next turn."
 					]
 				}
 			],
@@ -1934,6 +1949,7 @@
 				"name": "Thessalkraken",
 				"source": "IMR"
 			},
+			"tokenCustom": true,
 			"traitTags": [
 				"Amphibious"
 			],
@@ -2003,6 +2019,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"languageTags": [
 				"C",
 				"I",
@@ -2010,9 +2027,6 @@
 			],
 			"damageTagsSpell": [
 				"F"
-			],
-			"spellcastingTags": [
-				"I"
 			],
 			"hasToken": true
 		},
@@ -2089,6 +2103,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Hold Breath"
 			],

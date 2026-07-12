@@ -73,6 +73,13 @@ class _RecursiveSearchStateBase {
 
 	/* -------------------------------------------- */
 
+	_getStacks_mutDataTableName (table) {
+		if (table.name) return;
+
+		const genTablesData = table.data?.genTables || {};
+		if (genTablesData.tableName) table.name = genTablesData.tableName;
+	}
+
 	_getStacks_mutDataAddPage (table) {
 		if (table.page) return;
 
@@ -83,6 +90,16 @@ class _RecursiveSearchStateBase {
 			}
 		}
 	}
+
+	_getStacks_mutDataAddReprintedAs (table) {
+		if (table.reprintedAs) return;
+
+		const genTablesData = table.data?.genTables || {};
+
+		if (genTablesData.reprintedAs) table.reprintedAs = MiscUtil.copyFast(genTablesData.reprintedAs);
+	}
+
+	/* -------------------------------------------- */
 
 	/**
 	 * @abstract
@@ -199,6 +216,7 @@ class _RecursiveSearchStateBase {
 				}
 
 				this._getStacks_mutDataAddPage(tableGroup);
+				this._getStacks_mutDataAddReprintedAs(tableGroup);
 				tableGroup.source = this._getStacks_getTableGroupSource({tableGroup});
 				this._getStacks_mutCleanTableOrGroup(tableGroup);
 
@@ -281,7 +299,9 @@ export class RecursiveSearchStateCorpus extends _RecursiveSearchStateBase {
 
 			tbl.name = this._getAdventureBookTableName(({tbl, genTablesData, cleanSectionNames}));
 
+			this._getStacks_mutDataTableName(tbl);
 			this._getStacks_mutDataAddPage(tbl);
+			this._getStacks_mutDataAddReprintedAs(tbl);
 			tbl.source = this._getStacks_getTableGroupSource();
 			this._getStacks_mutCleanTableOrGroup(tbl);
 		});
@@ -316,7 +336,9 @@ export class RecursiveSearchStateClass extends _RecursiveSearchStateBase {
 			it.basicRules = !!this._cls.basicRules;
 			it.basicRules2024 = !!this._cls.basicRules2024;
 
+			this._getStacks_mutDataTableName(it);
 			this._getStacks_mutDataAddPage(it);
+			this._getStacks_mutDataAddReprintedAs(it);
 			this._getStacks_mutCleanTableOrGroup(it);
 		});
 	}
@@ -350,7 +372,9 @@ export class RecursiveSearchStateSubclass extends _RecursiveSearchStateBase {
 			it.basicRules = !!this._sc.basicRules;
 			it.basicRules2024 = !!this._sc.basicRules2024;
 
+			this._getStacks_mutDataTableName(it);
 			this._getStacks_mutDataAddPage(it);
+			this._getStacks_mutDataAddReprintedAs(it);
 			this._getStacks_mutCleanTableOrGroup(it);
 		});
 	}
@@ -366,7 +390,9 @@ export class RecursiveSearchStateGeneric extends _RecursiveSearchStateBase {
 			it.name = it.caption;
 			it.source = it._tmpMeta.source;
 
+			this._getStacks_mutDataTableName(it);
 			this._getStacks_mutDataAddPage(it);
+			this._getStacks_mutDataAddReprintedAs(it);
 			this._getStacks_mutCleanTableOrGroup(it);
 		});
 	}

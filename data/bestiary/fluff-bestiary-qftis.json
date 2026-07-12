@@ -24,7 +24,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Android.webp"
-					}
+					},
+					"width": 334,
+					"height": 1000
 				}
 			]
 		},
@@ -46,7 +48,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Barkburr.webp"
-					}
+					},
+					"width": 439,
+					"height": 1000
 				}
 			]
 		},
@@ -153,7 +157,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Combat Robot.webp"
-					}
+					},
+					"width": 982,
+					"height": 1000
 				}
 			]
 		},
@@ -187,7 +193,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Derro Apprentice.webp"
-					}
+					},
+					"width": 925,
+					"height": 1000
 				}
 			]
 		},
@@ -221,7 +229,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Derro Raider.webp"
-					}
+					},
+					"width": 662,
+					"height": 1000
 				}
 			]
 		},
@@ -242,7 +252,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Derwyth.webp"
-					}
+					},
+					"width": 1000,
+					"height": 664
 				}
 			]
 		},
@@ -265,7 +277,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Drelnza.webp"
-					}
+					},
+					"width": 749,
+					"height": 1000
 				}
 			]
 		},
@@ -300,7 +314,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Froghemoth Elder.webp"
-					}
+					},
+					"width": 773,
+					"height": 1000
 				}
 			]
 		},
@@ -324,7 +340,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Gibberling.webp"
-					}
+					},
+					"width": 384,
+					"height": 1000
 				}
 			]
 		},
@@ -357,7 +375,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Guardian of Gorm.webp"
-					}
+					},
+					"width": 527,
+					"height": 1000
 				}
 			]
 		},
@@ -411,7 +431,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Horrid Plant.webp"
-					}
+					},
+					"width": 653,
+					"height": 1000
 				}
 			]
 		},
@@ -434,7 +456,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Leprechaun.webp"
-					}
+					},
+					"width": 403,
+					"height": 1000
 				},
 				{
 					"type": "image",
@@ -442,7 +466,9 @@
 						"type": "internal",
 						"path": "bestiary/QftIS/Leprechaun 2.webp"
 					},
-					"credit": "Luca Bancone"
+					"credit": "Luca Bancone",
+					"width": 850,
+					"height": 392
 				}
 			]
 		},
@@ -475,7 +501,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Mage of Usamigaras.webp"
-					}
+					},
+					"width": 478,
+					"height": 1000
 				}
 			]
 		},
@@ -497,7 +525,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Maschin-i-Bozorg.webp"
-					}
+					},
+					"width": 947,
+					"height": 1000
 				}
 			]
 		},
@@ -549,7 +579,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Memory Web.webp"
-					}
+					},
+					"width": 407,
+					"height": 1000
 				}
 			]
 		},
@@ -593,7 +625,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Nafas.webp"
-					}
+					},
+					"width": 773,
+					"height": 1000
 				},
 				{
 					"type": "image",
@@ -601,7 +635,9 @@
 						"type": "internal",
 						"path": "bestiary/QftIS/Nafas's Shamshir.webp"
 					},
-					"credit": "Kevin Glint"
+					"credit": "Kevin Glint",
+					"width": 1700,
+					"height": 686
 				}
 			]
 		},
@@ -624,7 +660,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Nafik.webp"
-					}
+					},
+					"width": 610,
+					"height": 1000
 				}
 			]
 		},
@@ -647,7 +685,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Pech.webp"
-					}
+					},
+					"width": 655,
+					"height": 1000
 				}
 			]
 		},
@@ -669,7 +709,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Sion.webp"
-					}
+					},
+					"width": 630,
+					"height": 1000
 				}
 			]
 		},
@@ -693,7 +735,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Swarm of Gibberlings.webp"
-					}
+					},
+					"width": 384,
+					"height": 1000
 				}
 			]
 		},
@@ -727,7 +771,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/The Gardener.webp"
-					}
+					},
+					"width": 773,
+					"height": 1000
 				}
 			]
 		},
@@ -793,7 +839,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Tower Steward.webp"
-					}
+					},
+					"width": 374,
+					"height": 1000
 				}
 			]
 		},
@@ -822,7 +870,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Vegepygmy.webp"
-					}
+					},
+					"width": 1000,
+					"height": 668
 				}
 			]
 		},
@@ -913,7 +963,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Warrior of Madarua.webp"
-					}
+					},
+					"width": 728,
+					"height": 1000
 				}
 			]
 		},
@@ -972,7 +1024,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Wolf-in-Sheeps-Clothing.webp"
-					}
+					},
+					"width": 377,
+					"height": 1000
 				}
 			]
 		},
@@ -1005,7 +1059,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Worker Robot.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1362
 				}
 			]
 		},
@@ -1041,7 +1097,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/QftIS/Zargon the Returner.webp"
-					}
+					},
+					"width": 1000,
+					"height": 626
 				}
 			]
 		}

@@ -30,7 +30,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/TTP/Decapus.webp"
-					}
+					},
+					"width": 668,
+					"height": 700
 				}
 			]
 		},
@@ -70,7 +72,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/TTP/Geonid.webp"
-					}
+					},
+					"width": 773,
+					"height": 700
 				}
 			]
 		},
@@ -104,7 +108,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/TTP/Topi.webp"
-					}
+					},
+					"width": 779,
+					"height": 700
 				}
 			]
 		},
@@ -138,7 +144,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MM/Plesiosaurus.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1072
 				}
 			]
 		}

@@ -23,7 +23,9 @@
 						"type": "internal",
 						"path": "bestiary/DIP/Anchorite of Talos.webp"
 					},
-					"credit": "Claudio Pozas"
+					"credit": "Claudio Pozas",
+					"width": 1027,
+					"height": 1000
 				}
 			]
 		},
@@ -50,7 +52,9 @@
 						"type": "internal",
 						"path": "bestiary/DIP/Don-Jon Raskin.webp"
 					},
-					"credit": "Olga Drebas"
+					"credit": "Olga Drebas",
+					"width": 800,
+					"height": 1000
 				}
 			]
 		},
@@ -77,7 +81,9 @@
 						"type": "internal",
 						"path": "bestiary/DIP/Falcon the Hunter.webp"
 					},
-					"credit": "Claudio Pozas"
+					"credit": "Claudio Pozas",
+					"width": 935,
+					"height": 1000
 				}
 			]
 		},
@@ -104,7 +110,9 @@
 						"type": "internal",
 						"path": "bestiary/DIP/Gorthok the Thunder Boar.webp"
 					},
-					"credit": "Claudio Pozas"
+					"credit": "Claudio Pozas",
+					"width": 956,
+					"height": 1000
 				}
 			]
 		},
@@ -131,7 +139,9 @@
 						"type": "internal",
 						"path": "bestiary/DIP/Rock Gnome Recluse.webp"
 					},
-					"credit": "Olga Drebas"
+					"credit": "Olga Drebas",
+					"width": 909,
+					"height": 1000
 				}
 			]
 		},
@@ -145,7 +155,9 @@
 						"type": "internal",
 						"path": "bestiary/DIP/Skeletal Riding Horse.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 1592,
+					"height": 1280
 				}
 			]
 		}

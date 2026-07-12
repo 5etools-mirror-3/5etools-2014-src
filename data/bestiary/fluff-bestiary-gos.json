@@ -28,7 +28,9 @@
 						"type": "internal",
 						"path": "bestiary/MOT/Amphisbaena.webp"
 					},
-					"credit": "Alex Horley-Orlandelli"
+					"credit": "Alex Horley-Orlandelli",
+					"width": 1000,
+					"height": 840
 				}
 			]
 		},
@@ -86,7 +88,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/004-01-04.webp"
 					},
-					"credit": "Leesha Hannigan"
+					"credit": "Leesha Hannigan",
+					"width": 665,
+					"height": 1000
 				}
 			]
 		},
@@ -126,7 +130,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Drowned One.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 366,
+					"height": 1000
 				}
 			]
 		},
@@ -166,7 +172,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Drowned One.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 366,
+					"height": 1000
 				}
 			]
 		},
@@ -206,7 +214,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Drowned One.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 366,
+					"height": 1000
 				}
 			]
 		},
@@ -246,7 +256,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Drowned One.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 366,
+					"height": 1000
 				}
 			]
 		},
@@ -344,7 +356,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Juvenile Kraken.webp"
 					},
-					"credit": "Joachim Barrum"
+					"credit": "Joachim Barrum",
+					"width": 730,
+					"height": 1000
 				}
 			]
 		},
@@ -376,7 +390,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Koalinth.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1000,
+					"height": 723
 				}
 			]
 		},
@@ -408,7 +424,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Koalinth Sergeant.webp"
 					},
-					"credit": "Olga Drebas"
+					"credit": "Olga Drebas",
+					"width": 836,
+					"height": 1000
 				}
 			]
 		},
@@ -422,7 +440,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/034-04-04-unholy-shrine-p92.webp"
 					},
-					"credit": "Sam Keiser"
+					"credit": "Sam Keiser",
+					"width": 1000,
+					"height": 618
 				}
 			]
 		},
@@ -520,7 +540,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Lizardfolk Render.webp"
 					},
-					"credit": "Scott Murphy"
+					"credit": "Scott Murphy",
+					"width": 993,
+					"height": 1589
 				}
 			]
 		},
@@ -596,7 +618,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Locathah.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1000,
+					"height": 859
 				}
 			]
 		},
@@ -628,7 +652,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Locathah.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1000,
+					"height": 859
 				}
 			]
 		},
@@ -642,7 +668,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Master Refrum.webp"
 					},
-					"credit": "Joachim Barrum"
+					"credit": "Joachim Barrum",
+					"width": 1000,
+					"height": 1000
 				}
 			]
 		},
@@ -740,7 +768,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Monstrous Peryton.webp"
 					},
-					"credit": "Eric Belisle"
+					"credit": "Eric Belisle",
+					"width": 1000,
+					"height": 686
 				}
 			]
 		},
@@ -772,7 +802,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Mr. Dory.webp"
 					},
-					"credit": "Joachim Barrum"
+					"credit": "Joachim Barrum",
+					"width": 593,
+					"height": 800
 				}
 			]
 		},
@@ -1094,7 +1126,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Sauriv.webp"
 					},
-					"credit": "Olga Drebas"
+					"credit": "Olga Drebas",
+					"width": 818,
+					"height": 1000
 				}
 			]
 		},
@@ -1148,7 +1182,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Skeletal Alchemist.webp"
 					},
-					"credit": "Leesha Hannigan"
+					"credit": "Leesha Hannigan",
+					"width": 784,
+					"height": 1000
 				}
 			]
 		},
@@ -1224,7 +1260,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Skum.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1000,
+					"height": 912
 				}
 			]
 		},
@@ -1256,7 +1294,9 @@
 						"type": "internal",
 						"path": "bestiary/GoS/Thousand Teeth.webp"
 					},
-					"credit": "Leesha Hannigan"
+					"credit": "Leesha Hannigan",
+					"width": 644,
+					"height": 800
 				}
 			]
 		},

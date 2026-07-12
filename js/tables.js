@@ -5,6 +5,7 @@ class TablesSublistManager extends SublistManager {
 		super({
 			sublistListOptions: {
 				sortByInitial: "sortName",
+				fnSort: PageFilterTables.sortTables,
 			},
 		});
 	}
@@ -13,7 +14,7 @@ class TablesSublistManager extends SublistManager {
 		return [
 			new SublistCellTemplate({
 				name: "Name",
-				css: "bold ve-col-12 px-0",
+				css: "ve-bold ve-col-12 ve-px-0",
 				colStyle: "",
 			}),
 		];
@@ -22,17 +23,17 @@ class TablesSublistManager extends SublistManager {
 	pGetSublistItem (it, hash) {
 		const cellsText = [it.name];
 
-		const $ele = $(`<div class="lst__row lst__row--sublist ve-flex-col">
-			<a href="#${hash}" class="lst__row-border lst__row-inner" title="${it.name}">
+		const ele = ee`<div class="ve-lst__row ve-lst__row--sublist ve-flex-col">
+			<a href="#${hash}" class="ve-lst__row-border ve-lst__row-inner" title="${it.name}">
 				${this.constructor._getRowCellsHtml({values: cellsText})}
 			</a>
-		</div>`)
-			.contextmenu(evt => this._handleSublistItemContextMenu(evt, listItem))
-			.click(evt => this._listSub.doSelect(listItem, evt));
+		</div>`
+			.onn("contextmenu", evt => this._handleSublistItemContextMenu(evt, listItem))
+			.onn("click", evt => this._listSub.doSelect(listItem, evt));
 
 		const listItem = new ListItem(
 			hash,
-			$ele,
+			ele,
 			it.name,
 			{
 				hash,
@@ -58,9 +59,18 @@ class TablesPage extends ListPage {
 
 			listOptions: {
 				sortByInitial: "sortName",
+				fnSort: PageFilterTables.sortTables,
 			},
 
 			dataProps: ["table", "tableGroup"],
+
+			bookViewOptions: {
+				nameSingular: "table",
+				namePlural: "tables",
+				pageTitle: "Tables Book View",
+			},
+
+			isPreviewable: true,
 
 			listSyntax: new ListSyntaxTables({fnGetDataList: () => this._dataList}),
 		});
@@ -112,15 +122,20 @@ class TablesPage extends ListPage {
 		this._pageFilter.mutateAndAddToFilters(it, isExcluded);
 
 		const eleLi = document.createElement("div");
-		eleLi.className = `lst__row ve-flex-col ${isExcluded ? "lst__row--blocklisted" : ""}`;
+		eleLi.className = `ve-lst__row ve-flex-col ${isExcluded ? "ve-lst__row--blocklisted" : ""}`;
 
 		const source = Parser.sourceJsonToAbv(it.source);
 		const hash = UrlUtil.autoEncodeHash(it);
 
-		eleLi.innerHTML = `<a href="#${hash}" class="lst__row-border lst__row-inner">
-			<span class="bold ve-col-10 pl-0 pr-1">${it.name}</span>
-			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(it.source)} pl-1 pr-0" title="${Parser.sourceJsonToFull(it.source)}">${source}</span>
-		</a>`;
+		eleLi.innerHTML = `<a href="#${hash}" class="ve-lst__row-border ve-lst__row-inner">
+			<span class="ve-col-0-5 ve-px-0 ve-flex-vh-center ve-lst__btn-toggle-expand ve-self-flex-stretch ve-no-select">[+]</span>
+			<span class="ve-bold ve-col-9-5 ve-px-1">${it.name}</span>
+			<span class="ve-col-2 ve-text-center ${Parser.sourceJsonToSourceClassname(it.source)} ve-pl-1 ve-pr-0" title="${Parser.sourceJsonToFull(it.source)}">${source}</span>
+		</a>
+		<div class="ve-flex ve-hidden ve-relative ve-accordion__wrp-preview">
+			<div class="ve-vr-0 ve-absolute ve-accordion__vr-preview"></div>
+			<div class="ve-flex-col ve-py-3 ve-ml-4 ve-accordion__wrp-preview-inner"></div>
+		</div>`;
 
 		const listItem = new ListItem(
 			tbI,
@@ -144,7 +159,7 @@ class TablesPage extends ListPage {
 	}
 
 	_renderStats_doBuildStatsTab ({ent}) {
-		this._$pgContent.empty().append(RenderTables.$getRenderedTable(ent));
+		this._pgContent.empty().appends(RenderTables.getRenderedTable(ent));
 	}
 }
 

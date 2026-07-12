@@ -36,7 +36,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Adult Time Dragon.webp"
-					}
+					},
+					"width": 364,
+					"height": 1000
 				}
 			]
 		},
@@ -72,7 +74,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Ancient Time Dragon.webp"
-					}
+					},
+					"width": 773,
+					"height": 1000
 				}
 			]
 		},
@@ -93,7 +97,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Athar Null.webp"
-					}
+					},
+					"width": 579,
+					"height": 1000
 				}
 			]
 		},
@@ -128,7 +134,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Aurumach Rilmani.webp"
-					}
+					},
+					"width": 773,
+					"height": 1000
 				}
 			]
 		},
@@ -162,7 +170,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Avoral Guardinal.webp"
-					}
+					},
+					"width": 653,
+					"height": 1000
 				}
 			]
 		},
@@ -197,7 +207,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Baernaloth.webp"
-					}
+					},
+					"width": 364,
+					"height": 1000
 				}
 			]
 		},
@@ -208,7 +220,7 @@
 				{
 					"type": "entries",
 					"entries": [
-						"Hailing from Ysgard, bariaurs are centaur-like Celestials with the lower bodies of goats, humanoid torsos, and curved horns. Some bariaurs sate their wanderlust by exploring their home plane, the Outlands, and the Great Wheel beyond. These bariaur wanderers often serve as guides in the Outlands, assisting visitors by eagerly suggesting gate-town attractions and other points of interest. Throughout their travels, these hardy wanderers absorb ambient planar energies, adapting to the vast and varied terrains of the Outer Planes and frequently taking on aspects of those planes (see \"{@book Planar Influences|MPP|0|Planar Influences} \" in {@book Morte's Planar Parade|MPP})."
+						"Hailing from Ysgard, bariaurs are centaur-like Celestials with the lower bodies of goats, humanoid torsos, and curved horns. Some bariaurs sate their wanderlust by exploring their home plane, the Outlands, and the Great Wheel beyond. These bariaur wanderers often serve as guides in the Outlands, assisting visitors by eagerly suggesting gate-town attractions and other points of interest. Throughout their travels, these hardy wanderers absorb ambient planar energies, adapting to the vast and varied terrains of the Outer Planes and frequently taking on aspects of those planes (see \"{@book Planar Influences|MPP|0|Planar Influences}\" in {@book Morte's Planar Parade|MPP})."
 					]
 				}
 			],
@@ -218,7 +230,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Bariaur Wanderer.webp"
-					}
+					},
+					"width": 879,
+					"height": 1000
 				}
 			]
 		},
@@ -239,7 +253,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Bleak Cabal Void Soother.webp"
-					}
+					},
+					"width": 574,
+					"height": 1000
 				}
 			]
 		},
@@ -260,7 +276,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Cranium Rat Squeaker.webp"
-					}
+					},
+					"width": 850,
+					"height": 1000
 				}
 			]
 		},
@@ -281,7 +299,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Cranium Rat Squeaker Swarm.webp"
-					}
+					},
+					"width": 370,
+					"height": 1000
 				}
 			]
 		},
@@ -317,7 +337,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Cuprilach Rilmani.webp"
-					}
+					},
+					"width": 651,
+					"height": 1000
 				}
 			]
 		},
@@ -340,7 +362,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Dabus.webp"
-					}
+					},
+					"width": 396,
+					"height": 1000
 				}
 			]
 		},
@@ -419,7 +443,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Darkweaver.webp"
-					}
+					},
+					"width": 1000,
+					"height": 601
 				}
 			]
 		},
@@ -451,7 +477,9 @@
 							"href": {
 								"type": "internal",
 								"path": "bestiary/MPP/Decaton Modron.webp"
-							}
+							},
+							"width": 913,
+							"height": 1000
 						}
 					}
 				}
@@ -474,7 +502,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Doomguard Doom Lord.webp"
-					}
+					},
+					"width": 670,
+					"height": 1000
 				}
 			]
 		},
@@ -495,7 +525,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Doomguard Rot Blade.webp"
-					}
+					},
+					"width": 712,
+					"height": 1000
 				}
 			]
 		},
@@ -516,7 +548,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Eater of Knowledge.webp"
-					}
+					},
+					"width": 1000,
+					"height": 701
 				}
 			]
 		},
@@ -550,7 +584,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Equinal Guardinal.webp"
-					}
+					},
+					"width": 613,
+					"height": 1000
 				}
 			]
 		},
@@ -584,7 +620,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Farastu Demodand.webp"
-					}
+					},
+					"width": 823,
+					"height": 1000
 				}
 			]
 		},
@@ -605,7 +643,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Fated Shaker.webp"
-					}
+					},
+					"width": 697,
+					"height": 1000
 				}
 			]
 		},
@@ -640,7 +680,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Ferrumach Rilmani.webp"
-					}
+					},
+					"width": 555,
+					"height": 1000
 				}
 			]
 		},
@@ -661,7 +703,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Fraternity of Order Law Bender.webp"
-					}
+					},
+					"width": 588,
+					"height": 1000
 				}
 			]
 		},
@@ -694,7 +738,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Githzerai Futurist.webp"
-					}
+					},
+					"width": 696,
+					"height": 1000
 				}
 			]
 		},
@@ -716,7 +762,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Githzerai Traveler.webp"
-					}
+					},
+					"width": 741,
+					"height": 1000
 				}
 			]
 		},
@@ -749,7 +797,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Githzerai Uniter.webp"
-					}
+					},
+					"width": 475,
+					"height": 1000
 				}
 			]
 		},
@@ -770,7 +820,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Hands of Havoc Fire Starter.webp"
-					}
+					},
+					"width": 666,
+					"height": 1000
 				}
 			]
 		},
@@ -791,7 +843,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Harmonium Captain.webp"
-					}
+					},
+					"width": 597,
+					"height": 1000
 				}
 			]
 		},
@@ -812,7 +866,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Harmonium Peacekeeper.webp"
-					}
+					},
+					"width": 834,
+					"height": 1000
 				}
 			]
 		},
@@ -833,7 +889,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Heralds of Dust Remnant.webp"
-					}
+					},
+					"width": 675,
+					"height": 1000
 				}
 			]
 		},
@@ -865,7 +923,9 @@
 							"href": {
 								"type": "internal",
 								"path": "bestiary/MPP/Hexton Modron.webp"
-							}
+							},
+							"width": 1000,
+							"height": 394
 						}
 					}
 				}
@@ -901,7 +961,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Hound Archon.webp"
-					}
+					},
+					"width": 692,
+					"height": 1000
 				}
 			]
 		},
@@ -935,7 +997,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Kelubar Demodand.webp"
-					}
+					},
+					"width": 905,
+					"height": 1000
 				}
 			]
 		},
@@ -959,7 +1023,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Kolyarut.webp"
-					}
+					},
+					"width": 1000,
+					"height": 923
 				}
 			]
 		},
@@ -994,7 +1060,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Lantern Archon.webp"
-					}
+					},
+					"width": 842,
+					"height": 1000
 				}
 			]
 		},
@@ -1016,7 +1084,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Maelephant.webp"
-					}
+					},
+					"width": 1000,
+					"height": 667
 				}
 			]
 		},
@@ -1037,7 +1107,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Mercykiller Bloodhound.webp"
-					}
+					},
+					"width": 894,
+					"height": 1000
 				}
 			]
 		},
@@ -1058,7 +1130,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Minds Eye Matter Smith.webp"
-					}
+					},
+					"width": 631,
+					"height": 1000
 				}
 			]
 		},
@@ -1086,7 +1160,9 @@
 						"type": "internal",
 						"path": "bestiary/MPP/Modrons.webp"
 					},
-					"title": "Modrons"
+					"title": "Modrons",
+					"width": 1700,
+					"height": 2200
 				}
 			]
 		},
@@ -1120,7 +1196,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Musteval Guardinal.webp"
-					}
+					},
+					"width": 739,
+					"height": 1000
 				}
 			]
 		},
@@ -1152,7 +1230,9 @@
 							"href": {
 								"type": "internal",
 								"path": "bestiary/MPP/Nonaton Modron.webp"
-							}
+							},
+							"width": 793,
+							"height": 1000
 						}
 					}
 				}
@@ -1186,7 +1266,9 @@
 							"href": {
 								"type": "internal",
 								"path": "bestiary/MPP/Octon Modron.webp"
-							}
+							},
+							"width": 1000,
+							"height": 597
 						}
 					}
 				}
@@ -1211,7 +1293,9 @@
 						"type": "internal",
 						"path": "bestiary/MPP/Planar Incarnate (Celestial Form).webp"
 					},
-					"title": "Planar Incarnate (Celestial Form)"
+					"title": "Planar Incarnate (Celestial Form)",
+					"width": 562,
+					"height": 1000
 				},
 				{
 					"type": "image",
@@ -1219,7 +1303,9 @@
 						"type": "internal",
 						"path": "bestiary/MPP/Planar Incarnate (Fiend Form).webp"
 					},
-					"title": "Planar Incarnate (Fiend Form)"
+					"title": "Planar Incarnate (Fiend Form)",
+					"width": 667,
+					"height": 1000
 				}
 			]
 		},
@@ -1242,7 +1328,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Razorvine Blight.webp"
-					}
+					},
+					"width": 820,
+					"height": 1000
 				}
 			]
 		},
@@ -1274,7 +1362,9 @@
 							"href": {
 								"type": "internal",
 								"path": "bestiary/MPP/Septon Modron.webp"
-							}
+							},
+							"width": 1000,
+							"height": 673
 						}
 					}
 				}
@@ -1310,7 +1400,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Shator Demodand.webp"
-					}
+					},
+					"width": 1000,
+					"height": 668
 				}
 			]
 		},
@@ -1331,7 +1423,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Shemeshka.webp"
-					}
+					},
+					"width": 386,
+					"height": 1000
 				}
 			]
 		},
@@ -1352,7 +1446,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Society of Sensation Muse.webp"
-					}
+					},
+					"width": 918,
+					"height": 1000
 				}
 			]
 		},
@@ -1374,7 +1470,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Sunfly.webp"
-					}
+					},
+					"width": 1000,
+					"height": 713
 				}
 			]
 		},
@@ -1396,7 +1494,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Swarm of Sunflies.webp"
-					}
+					},
+					"width": 378,
+					"height": 1000
 				}
 			]
 		},
@@ -1418,7 +1518,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Time Dragon Wyrmling.webp"
-					}
+					},
+					"width": 1000,
+					"height": 881
 				}
 			]
 		},
@@ -1439,7 +1541,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Transcendent Order Conduit.webp"
-					}
+					},
+					"width": 469,
+					"height": 1000
 				}
 			]
 		},
@@ -1460,7 +1564,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Transcendent Order Instinct.webp"
-					}
+					},
+					"width": 438,
+					"height": 1000
 				}
 			]
 		},
@@ -1481,7 +1587,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Vargouille Reflection.webp"
-					}
+					},
+					"width": 375,
+					"height": 1000
 				}
 			]
 		},
@@ -1516,7 +1624,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/MPP/Warden Archon.webp"
-					}
+					},
+					"width": 755,
+					"height": 1000
 				}
 			]
 		},

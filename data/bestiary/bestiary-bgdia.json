@@ -211,7 +211,7 @@
 				{
 					"name": "Smoke Bomb (1/Day)",
 					"entries": [
-						"Amrik hurls a smoke bomb up to 20 feet away. The bomb explodes on impact, creating a cloud of black smoke that fills a 10-foot-radius sphere. The area within the cloud is heavily obscured. A strong wind disperses the cloud, which otherwise remains until the end of Amrik's next turn."
+						"Amrik hurls a smoke bomb up to 20 feet away. The bomb explodes on impact, creating a cloud of black smoke that fills a 10-foot-radius sphere. The area within the cloud is {@quickref Vision and Light||2||heavily obscured}. A strong wind disperses the cloud, which otherwise remains until the end of Amrik's next turn."
 					]
 				}
 			],
@@ -1001,6 +1001,7 @@
 				"P"
 			],
 			"miscTags": [
+				"AOE",
 				"MW"
 			],
 			"hasToken": true,
@@ -2622,6 +2623,7 @@
 				"I"
 			],
 			"miscTags": [
+				"AOE",
 				"MLW",
 				"MW",
 				"RCH"
@@ -3615,7 +3617,7 @@
 				{
 					"name": "Cunning Action",
 					"entries": [
-						"On each of her turns in combat, Nine-Fingers can use a bonus action to take the Dash, Disengage, or Hide action."
+						"On each of her turns in combat, Nine-Fingers can use a bonus action to take the {@action Dash}, {@action Disengage}, or {@action Hide} action."
 					]
 				},
 				{
@@ -3923,7 +3925,7 @@
 				{
 					"name": "Cunning Action",
 					"entries": [
-						"On each of her turns in combat, Rilsa can use a bonus action to take the Dash, Disengage, or Hide action."
+						"On each of her turns in combat, Rilsa can use a bonus action to take the {@action Dash}, {@action Disengage}, or {@action Hide} action."
 					]
 				},
 				{
@@ -4348,8 +4350,7 @@
 				"P"
 			],
 			"spellcastingTags": [
-				"CW",
-				"I"
+				"CW"
 			],
 			"hasToken": true
 		},
@@ -4606,7 +4607,7 @@
 				{
 					"name": "Goring Rush",
 					"entries": [
-						"Immediately after using the Dash action, Torogar can make one melee attack with his horns."
+						"Immediately after using the {@action Dash} action, Torogar can make one melee attack with his horns."
 					]
 				},
 				{
@@ -4736,6 +4737,10 @@
 			"name": "Tressym",
 			"source": "BGDIA",
 			"page": 241,
+			"referenceSources": [
+				"IMR",
+				"SKT"
+			],
 			"_copy": {
 				"name": "Tressym",
 				"source": "SKT"

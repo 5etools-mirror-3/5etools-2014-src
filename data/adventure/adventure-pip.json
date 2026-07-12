@@ -122,8 +122,8 @@
 							"page": 3,
 							"entries": [
 								"The 20-sided die ({@dice d20}) is the most-used die in D&D. It is rolled whenever a character or a creature tries to do something important.",
-								"Things a character might try to do are listed under \"Attacks\" and \"Skills\" on the character sheets. Next to attacks and skills are number expressions, such as \"+5 to hit.\" This is the number you add to your die roll when your character uses that attack or skill.",
-								"For example, the character sheet for Shalefire Stoutheart lists \"Handaxe\" under \"Attacks,\" with \"+6 to hit\" next to it. If Shalefire wants to attack a monster with their handaxe, the player rolls a {@dice d20}. If the die roll is a 10, the player adds 6 to the die roll for a final attack score of 16.",
+								"Things a character might try to do are listed under \"Attacks\" and \"Skills\" on the character sheets. Next to attacks and skills are number expressions, such as \"{@hit 5} to hit.\" This is the number you add to your die roll when your character uses that attack or skill.",
+								"For example, the character sheet for Shalefire Stoutheart lists \"Handaxe\" under \"Attacks,\" with \"{@hit 6} to hit\" next to it. If Shalefire wants to attack a monster with their handaxe, the player rolls a {@dice d20}. If the die roll is a 10, the player adds 6 to the die roll for a final attack score of 16.",
 								"How does the player know if their roll succeeds or fails? Read on to find out!"
 							],
 							"id": "009"
@@ -418,7 +418,7 @@
 							"type": "insetReadaloud",
 							"page": 5,
 							"entries": [
-								"The character Noorah Eldenfield has a shortbow attack that says \"+5 to hit.\" When Noorah attacks with a shortbow, Noorah's player rolls a {@dice d20} and adds 5 to the number rolled on the die. I'll tell you if that attack hits the monster. If it does, Noorah's shortbow attack also says \"Damage {@dice 1d6 + 3}.\" The player rolls a 6-sided die and adds 3 to determine the damage dealt by the attack."
+								"The character Noorah Eldenfield has a shortbow attack that says \"{@hit 5} to hit.\" When Noorah attacks with a shortbow, Noorah's player rolls a {@dice d20} and adds 5 to the number rolled on the die. I'll tell you if that attack hits the monster. If it does, Noorah's shortbow attack also says \"Damage {@dice 1d6 + 3}.\" The player rolls a 6-sided die and adds 3 to determine the damage dealt by the attack."
 							],
 							"id": "01c"
 						},
@@ -919,7 +919,7 @@
 											"name": "Changing Slides",
 											"page": 11,
 											"entries": [
-												"A character who fails the check jumps onto a slide and quickly reaches dangerous sections of razorsharp ice shards, long drops, ice walls, and other hazards. The character must succeed on a {@dc 15} {@skill Acrobatics} or {@skill Athletics} check to jump to a safer slide to avoid taking damage. A character who doesn't have {@skill Acrobatics} or {@skill Athletics} on their character sheet can still make checks with those skills, but they don't add any modifier to the {@dice d20} roll.",
+												"A character who fails the check jumps onto a slide and quickly reaches dangerous sections of razor-sharp ice shards, long drops, ice walls, and other hazards. The character must succeed on a {@dc 15} {@skill Acrobatics} or {@skill Athletics} check to jump to a safer slide to avoid taking damage. A character who doesn't have {@skill Acrobatics} or {@skill Athletics} on their character sheet can still make checks with those skills, but they don't add any modifier to the {@dice d20} roll.",
 												"If a character fails the check, roll {@dice 1d6}. Tell the player to subtract that number from their character's hit points to represent the damage they take while reaching the bottom of the slide."
 											],
 											"id": "047"

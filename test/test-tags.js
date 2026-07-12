@@ -12,7 +12,6 @@ import "../js/utils-brew.js";
 import "../js/omnidexer.js";
 import * as ut from "../node/util.js";
 import {DataTesterBase, DataTester, ObjectWalker, BraceCheck, EscapeCharacterCheck} from "5etools-utils";
-import {readJsonSync} from "5etools-utils/lib/UtilFs.js";
 import {TagTestUrlLookup} from "./test-tags/test-tags-entity-registry.js";
 import {EntityFileHandlerLoot} from "./test-tags/entity-file/test-tags-entity-file-loot.js";
 import {EntityFileHandlerItems} from "./test-tags/entity-file/test-tags-entity-file-items.js";
@@ -34,11 +33,16 @@ import {EntityFileHandlerSenses} from "./test-tags/entity-file/test-tags-entity-
 import {EntityFileHandlerSkills} from "./test-tags/entity-file/test-tags-entity-file-skills.js";
 import {EntityFileHandlerSpell} from "./test-tags/entity-file/test-tags-entity-file-spell.js";
 import {EntityFileHandlerVariantrule} from "./test-tags/entity-file/test-tags-entity-file-variantrule.js";
+import {EntityFileHandlerSpellList} from "./test-tags/entity-file/test-tags-entity-file-spelllist.js";
+import {EntityFileHandlerHomeCrafts} from "./test-tags/entity-file/test-tags-entity-file-homecraft.js";
+import {PATH_DEFAULT_HOMEBREW_DIR, PATH_DEFAULT_PRERELEASE_DIR} from "./util-test.js";
 
 const program = new Command()
 	.option("--log-similar", `If, when logging a missing link, a list of potentially-similar links should additionally be logged.`)
-	.option("--file-additional <filepath>", `An additional file (e.g. homebrew JSON) to load/check [WIP/unstable].`)
-	.option("--skip-non-additional", `If checking non-additional files (i.e., the "data" directory) should be skipped [WIP/unstable].`)
+	.option("--file-additional <filepath>", `An additional file (e.g. homebrew JSON) to load/check.`)
+	.option("--skip-non-additional", `If checking non-additional files (i.e., the "data" directory) should be skipped.`)
+	.option("--prerelease-root <filepath>", `When loading additional files, nested prerelease dependencies will be loaded against this root`, PATH_DEFAULT_PRERELEASE_DIR)
+	.option("--homebrew-root <filepath>", `When loading additional files, nested homebrew dependencies will be loaded against this root`, PATH_DEFAULT_HOMEBREW_DIR)
 ;
 
 program.parse(process.argv);
@@ -117,7 +121,7 @@ class LinkCheck extends DataTesterBase {
 			const tagNonFluff = Parser.getPropTag(prop.replace(/Fluff$/, ""));
 			const tagFaux = `${tagNonFluff}Fluff`;
 
-			const sourceDefault = Renderer.tag.TAG_LOOKUP[tagNonFluff].defaultSource;
+			const sourceDefault = Renderer.tag.getTagInfo(tagNonFluff, {isRequired: true}).defaultSource;
 			const uid = DataUtil.proxy.getUid(prop, {...obj, source: obj.source || sourceDefault});
 
 			this._checkTagText({original: JSON.stringify(obj), tag: tagFaux, text: uid, filePath, isStatblock: true});
@@ -125,7 +129,7 @@ class LinkCheck extends DataTesterBase {
 			return obj;
 		}
 
-		const sourceDefault = Renderer.tag.TAG_LOOKUP[tag].defaultSource;
+		const sourceDefault = Renderer.tag.getTagInfo(tag, {isRequired: true}).defaultSource;
 		const uid = DataUtil.proxy.getUid(prop, {...obj, source: obj.source || sourceDefault});
 		this._checkTagText({original: JSON.stringify(obj), tag, text: uid, filePath, isStatblock: true});
 
@@ -250,7 +254,7 @@ class StandaloneTagTest extends DataTesterBase {
 
 			const [tag, text] = Renderer.splitFirstSpace(s.slice(1, -1));
 
-			const tagInfo = Renderer.tag.TAG_LOOKUP[tag];
+			const tagInfo = Renderer.tag.getTagInfo(tag);
 			if (!tagInfo) continue;
 
 			if (!tagInfo.isStandalone && !text) {
@@ -365,17 +369,34 @@ class TableDiceTest extends DataTesterBase {
 class AreaCheck extends DataTesterBase {
 	_headerMap = null;
 	_errorSet = new Set();
-	_fileMatcher = /\/(adventure-|book-).*\.json/;
+	_fileMatcherValid = /\/(adventure-|book-).*\.json/;
 
 	registerParsedFileCheckers (parsedJsonChecker) {
 		parsedJsonChecker.registerFileHandler(this);
 	}
 
 	_buildMap (file, data) {
-		this._headerMap = Renderer.adventureBook.getEntryIdLookup(data, false);
+		this._headerMap = Renderer.adventureBook.getEntryIdLookup(data, {isSilent: true});
 	}
 
-	_checkString (str) {
+	_checkStringAreaNotSupported ({file, reason}, str) {
+		str.replace(/{@area ([^}]*)}/g, (...m) => {
+			this._addMessage(`Unexpected @area tag: ${m[0]} in file ${file}${reason ? ` (${reason})` : ""}\n`);
+			return m[0];
+		});
+	}
+
+	_handleObject_areaNotSupported ({file, obj, reason}) {
+		ObjectWalker.walk({
+			obj,
+			filePath: file,
+			primitiveHandlers: {
+				string: this._checkStringAreaNotSupported.bind(this, {file, reason}),
+			},
+		});
+	}
+
+	_checkStringAreaSupported (str) {
 		str.replace(/{@area ([^}]*)}/g, (m0, m1) => {
 			const [, areaId] = m1.split("|");
 			if (!this._headerMap[areaId]) {
@@ -385,29 +406,84 @@ class AreaCheck extends DataTesterBase {
 		});
 	}
 
-	handleFile (file, contents) {
-		if (!this._fileMatcher.test(file)) return;
-
+	_handleArray_areaSupported ({file, obj, corpusPath}) {
 		this._errorSet = new Set();
-		this._buildMap(file, contents.data);
+		this._buildMap(file, obj);
 		ObjectWalker.walk({
-			obj: contents,
+			obj,
 			filePath: file,
 			primitiveHandlers: {
-				string: this._checkString.bind(this),
+				string: this._checkStringAreaSupported.bind(this),
 			},
 		});
 
-		if (this._errorSet.size || this._headerMap.__BAD?.length) this._addMessage(`Errors in ${file}! See below:\n`);
+		if (this._errorSet.size || this._headerMap.__BAD?.length) this._addMessage(`Areas not found in ${file} \`${corpusPath}\`! See below:\n`);
 
 		if (this._errorSet.size) {
 			const toPrint = [...this._errorSet].sort(SortUtil.ascSortLower);
-			toPrint.forEach(tp => this._addMessage(`${tp}\n`));
+			toPrint.forEach(tp => this._addMessage(`\t${tp}\n`));
 		}
 
 		if (this._headerMap.__BAD) {
 			this._headerMap.__BAD.forEach(dupId => this._addMessage(`Duplicate ID: "${dupId}"\n`));
 		}
+	}
+
+	handleFile (file, contents) {
+		const isNonSiteData = !!this._isNonSiteData(file, contents);
+
+		if (!this._fileMatcherValid.test(file) && !isNonSiteData) return this._handleObject_areaNotSupported({file, obj: contents, reason: "not a corpus data file"});
+
+		const propsValid = new Set(isNonSiteData ? ["adventureData", "bookData"] : ["data"]);
+
+		if (!contents || typeof contents !== "object") return this._handleObject_areaNotSupported({file, obj: contents, reason: "root was not an object"});
+		if (contents instanceof Array) return this._handleObject_areaNotSupported({file, obj: contents, reason: "root was not an object"});
+
+		Object.entries(contents)
+			.forEach(([prop, val]) => {
+				if (propsValid.has(prop)) {
+					if (prop === "data") return this._handleArray_areaSupported({file, obj: val, corpusPath: prop});
+					return val
+						.forEach((subVal, i) => this._handleArray_areaSupported({file, obj: subVal.data, corpusPath: `${prop}[${i}]`}));
+				}
+				return this._handleObject_areaNotSupported({file, obj: val, reason: `parent property was "${prop}"`});
+			});
+	}
+}
+
+class EntriesCheck extends DataTesterBase {
+	registerParsedFileCheckers (parsedJsonChecker) {
+		parsedJsonChecker.registerFileHandler(this);
+	}
+
+	handleFile (file, contents) {
+		const errors = [];
+
+		ObjectWalker.walk({
+			obj: contents,
+			filePath: file,
+			primitiveHandlers: {
+				object: (obj) => {
+					if (["entries", "section"].includes(obj.type) || obj.entries) {
+						if (obj.entries?.mode) return obj;
+						if (!obj.entries) return obj;
+						if (!(obj.entries instanceof Array)) return obj;
+
+						if (!obj.entries.length) errors.push(`Empty entries in "${JSON.stringify(obj)}"`);
+						return obj;
+					}
+
+					if (["list"].includes(obj.type)) {
+						if (!obj.items?.length) errors.push(`No items in list "${JSON.stringify(obj)}"`);
+						return obj;
+					}
+
+					return obj;
+				},
+			},
+		});
+
+		if (errors.length) this._addMessage(`Errors in ${file}! See below:\n${errors.map(error => `\t${error}`).join("\n")}`);
 	}
 }
 
@@ -491,21 +567,24 @@ class DuplicateEntityCheck extends DataTesterBase {
 				}
 				break;
 			}
-			case "classFeature": {
+			case "classFeature":
+			case "foundryClassFeature": {
 				if (name != null && source != null) {
 					const key = `${source} :: ${ent.level} :: ${ent.classSource} :: ${ent.className} :: ${name}`;
 					(positions[key] = positions[key] || []).push(keyIx);
 				}
 				break;
 			}
-			case "subclassFeature": {
+			case "subclassFeature":
+			case "foundrySubclassFeature": {
 				if (name != null && source != null) {
 					const key = `${source} :: ${ent.level} :: ${ent.classSource} :: ${ent.className} :: ${ent.subclassSource} :: ${ent.subclassShortName} :: ${name}`;
 					(positions[key] = positions[key] || []).push(keyIx);
 				}
 				break;
 			}
-			case "raceFeature": {
+			case "raceFeature":
+			case "foundryRaceFeature": {
 				if (name != null && source != null) {
 					const key = `${source} :: ${ent.raceSource} :: ${ent.raceName} :: ${name}`;
 					(positions[key] = positions[key] || []).push(keyIx);
@@ -729,39 +808,16 @@ class HasFluffCheck extends DataTesterBase {
 }
 
 class AdventureBookTagCheck extends DataTesterBase {
-	_ADV_BOOK_LOOKUP = {};
-
-	constructor ({fileAdditional}) {
-		super();
-		this._fileAdditional = fileAdditional;
-	}
+	static _TO_CHECK = {};
 
 	registerParsedPrimitiveHandlers (parsedJsonChecker) {
-		const jsonAdditional = this._fileAdditional ? readJsonSync(this._fileAdditional) : null;
-
-		[
-			{
-				path: "./data/adventures.json",
-				prop: "adventure",
-				tag: "adventure",
-			},
-			{
-				path: "./data/books.json",
-				prop: "book",
-				tag: "book",
-			},
-		].forEach(({path, prop, tag}) => {
-			const json = ut.readJson(path);
-			this._ADV_BOOK_LOOKUP[tag] = json[prop].mergeMap(({id}) => ({[id.toLowerCase()]: true}));
-
-			if (!jsonAdditional?.[prop]) return;
-
-			jsonAdditional[prop]
-				.forEach(({id}) => this._ADV_BOOK_LOOKUP[tag][id.toLowerCase()] = true);
-		});
-
 		parsedJsonChecker.addPrimitiveHandler("string", this._checkString.bind(this));
 	}
+
+	static _ALLOWED_SUB_TAGS = new Set([
+		"@i",
+		"@b",
+	]);
 
 	_checkString (str, {filePath}) {
 		const tagSplit = Renderer.splitByTags(str);
@@ -771,16 +827,78 @@ class AdventureBookTagCheck extends DataTesterBase {
 			const s = tagSplit[i];
 
 			if (!s) continue;
-			if (s.startsWith("{@")) {
-				const [tag, text] = Renderer.splitFirstSpace(s.slice(1, -1));
-				if (!["@adventure", "@book"].includes(tag)) continue;
+			if (!s.startsWith("{@")) continue;
 
-				const [, id, chap] = text.toLowerCase().split("|");
-				if (!id) throw new Error(`${tag} tag had ${s} no source!`); // Should never occur
+			const [tag, text] = Renderer.splitFirstSpace(s.slice(1, -1));
+			if (!["@adventure", "@book"].includes(tag)) continue;
 
-				if (!this._ADV_BOOK_LOOKUP[tag.slice(1)][id]) this._addMessage(`Missing link: ${s} in file ${filePath} had unknown "${tag}" ID "${id}"\n`);
+			const prop = tag.slice(1);
 
-				if (chap && Number(chap) < 0) this._addMessage(`Missing link: ${s} in file ${filePath} had unknown "${tag}" chapter "${chap}"\n`);
+			const [displayText, id, chap] = text.toLowerCase().split("|");
+			if (!id) {
+				this._addMessage(`Missing link: ${s} had no corpus ID!\n`);
+				continue;
+			}
+
+			const url = `${DataLoader.getPropPage(prop)}#${UrlUtil.getHashBuilder(prop)({id})}`;
+
+			if (!tagTestUrlLookup.hasUrl(url)) {
+				this._addMessage(`Missing link: ${s} in file ${filePath} had unknown "${tag}" ID "${id}"\n`);
+				continue;
+			}
+
+			if (chap) {
+				if (isNaN(chap) || Number(chap) < 0) {
+					this._addMessage(`Missing link: ${s} in file ${filePath} had unknown "${tag}" chapter "${chap}"\n`);
+					continue;
+				}
+
+				(((this.constructor._TO_CHECK[prop] ||= {})[id] ||= {})[chap] ||= []).push({s, filePath});
+			}
+
+			if (!displayText.includes("{@")) return;
+
+			const tagSplitSub = Renderer.splitByTags(displayText);
+			for (let j = 0; j < len; ++j) {
+				const sSub = tagSplitSub[j];
+
+				if (!sSub) continue;
+				if (!sSub.startsWith("{@")) continue;
+
+				const [tagSub] = Renderer.splitFirstSpace(sSub.slice(1, -1));
+				if (this.constructor._ALLOWED_SUB_TAGS.has(tagSub)) continue;
+
+				this._addMessage(`Link contained sub-tag "${tagSub}": ${s}\n`);
+			}
+		}
+	}
+
+	async pPostRun () {
+		if (!Object.keys(this.constructor._TO_CHECK).length) return;
+
+		for (const [prop, propTo] of Object.entries(this.constructor._TO_CHECK)) {
+			const page = DataLoader.getPropPage(prop);
+
+			for (const [id, idTo] of Object.entries(propTo)) {
+				const data = await DataLoader.pCacheAndGetHash(page, UrlUtil.getHashBuilder(page)({id}));
+				if (!data) {
+					const ptLinks = Object.entries(idTo)
+						.map(([id, arr]) => arr.map(({s, filePath}) => `\t"${s}" in file ${filePath}`));
+					this._addMessage(`Missing link${ptLinks.length === 1 ? "" : "s"}:\n${ptLinks.join("\n")}\n`);
+					continue;
+				}
+
+				const propData = `${prop}Data`;
+				for (const [chapRaw, arr] of Object.entries(idTo)) {
+					const chap = Number(chapRaw);
+					arr
+						.forEach(({s, filePath}) => {
+							if (!data?.[propData]?.data[chap]) {
+								const ptRange = data?.[propData]?.data ? ` (expected 0-${data[propData].data.length - 1})` : "";
+								this._addMessage(`Missing link: ${s} in file ${filePath} had out-of-bounds chapter "${chap}"${ptRange}\n`);
+							}
+						});
+				}
 			}
 		}
 	}
@@ -791,6 +909,10 @@ async function main () {
 	console.time(TIME_TAG);
 
 	ut.patchLoadJson();
+	if (params.fileAdditional) {
+		await PrereleaseUtil.pSetCustomUrl(params.prereleaseRoot);
+		await BrewUtil2.pSetCustomUrl(params.homebrewRoot);
+	}
 
 	await tagTestUrlLookup.pInit();
 
@@ -804,8 +926,9 @@ async function main () {
 		new StripTagTest(),
 		new StandaloneTagTest(),
 		new TableDiceTest(),
-		new AdventureBookTagCheck({fileAdditional: params.fileAdditional}),
+		new AdventureBookTagCheck(),
 		new AreaCheck(),
+		new EntriesCheck(),
 		new EscapeCharacterCheck(),
 		new DuplicateEntityCheck(),
 		new RefTagCheck(),
@@ -830,6 +953,8 @@ async function main () {
 		new EntityFileHandlerSkills(sharedParamsEntityTypeTester),
 		new EntityFileHandlerSpell(sharedParamsEntityTypeTester),
 		new EntityFileHandlerVariantrule(sharedParamsEntityTypeTester),
+		new EntityFileHandlerSpellList(sharedParamsEntityTypeTester),
+		new EntityFileHandlerHomeCrafts(sharedParamsEntityTypeTester),
 
 		new EntityFileHandlerFoundryClass(sharedParamsEntityTypeTester),
 		new EntityFileHandlerFoundrySpells(sharedParamsEntityTypeTester),
@@ -852,6 +977,10 @@ async function main () {
 		await DataTester.pRun(params.fileAdditional, dataTesters);
 	}
 
+	if (params.fileAdditional) {
+		await PrereleaseUtil.pSetCustomUrl(null);
+		await BrewUtil2.pSetCustomUrl(null);
+	}
 	ut.unpatchLoadJson();
 
 	const outMessage = DataTester.getLogReport(dataTesters);
@@ -861,4 +990,8 @@ async function main () {
 	return !outMessage;
 }
 
-export default main();
+const pMain = main();
+
+if (import.meta.main && !(await pMain)) process.exitCode = 1;
+
+export default pMain;

@@ -2,6 +2,7 @@ import {AlignmentUtil} from "./converterutils-utils-alignment.js";
 import {TagCondition, TaggerUtils, TagUtil} from "./converterutils-tags.js";
 import {ConverterConst} from "./converterutils-const.js";
 import {ItemTag} from "./converterutils-entries.js";
+import {VetoolsConfig} from "../utils-config/utils-config-config.js";
 
 export class AcConvert {
 	static tryPostProcessAc ({mon, cbMan, cbErr, styleHint}) {
@@ -785,6 +786,7 @@ export class TraitActionTag {
 
 			"devil's sight": "Devil's Sight",
 			"devil sight": "Devil's Sight",
+			"ethereal sight": "Ethereal Sight",
 
 			"immutable form": "Immutable Form",
 
@@ -797,6 +799,8 @@ export class TraitActionTag {
 			"beast of burden": "Beast of Burden",
 
 			"mimicry": "Mimicry",
+
+			"sure-footed": "Sure-Footed",
 		},
 		_other: {
 			"multiattack": "Multiattack",
@@ -1268,6 +1272,7 @@ export class DamageTypeTag extends _PrimaryLegendarySpellsTaggerBase {
 	//   Note that these names should exclude parenthetical parts (as these are removed before lookup)
 	static _BLOCKLIST_NAMES = new Set([
 		"vampire weaknesses",
+		"sunlight hypersensitivity",
 	]);
 
 	static _init () {
@@ -1527,12 +1532,14 @@ export class MiscTag {
 			subEntry.entries,
 			{
 				string: (str) => {
+					const strStripped = Renderer.stripTags(str);
+
 					// AoE effects
-					str.replace(/\d+-foot[- ](line|cube|cone|emanation|radius|sphere|hemisphere|cylinder)/g, () => this._addTag({tagSet, allowlistTags, tag: "AOE"}));
-					str.replace(/each creature within \d+ feet/gi, () => this._addTag({tagSet, allowlistTags, tag: "AOE"}));
+					strStripped.replace(/\d+-foot[- ](line|cube|cone|emanation|radius|sphere|hemisphere|cylinder)/g, () => this._addTag({tagSet, allowlistTags, tag: "AOE"}));
+					strStripped.replace(/each creature within \d+ feet/gi, () => this._addTag({tagSet, allowlistTags, tag: "AOE"}));
 
 					// Hit point max reduction
-					str.replace(/\bhit point maximum is reduced\b/gi, () => this._addTag({tagSet, allowlistTags, tag: "HPR"}));
+					strStripped.replace(/\bhit point maximum (?:is reduced|decreases?)\b/gi, () => this._addTag({tagSet, allowlistTags, tag: "HPR"}));
 				},
 			},
 		);
@@ -2318,48 +2325,49 @@ export class DragonAgeTag {
 
 export class AttachedItemTag {
 	static _WEAPON_DETAIL_CACHE;
+	static _WEAPON_DETAIL_CACHE_CLASSIC;
 
 	static init ({items}) {
 		this._WEAPON_DETAIL_CACHE ||= {};
+		this._WEAPON_DETAIL_CACHE_CLASSIC ||= {};
 
-		for (const item of items) {
-			const itemTypeAbv = item.type ? DataUtil.itemType.unpackUid(item.type).abbreviation : null;
+		items
+			.forEach(item => {
+				const itemTypeAbv = item.type ? DataUtil.itemType.unpackUid(item.type).abbreviation : null;
 
-			if (itemTypeAbv === Parser.ITM_TYP_ABV__GENERIC_VARIANT) continue;
-			if (![Parser.ITM_TYP_ABV__MELEE_WEAPON, Parser.ITM_TYP_ABV__RANGED_WEAPON].includes(itemTypeAbv)) continue;
+				if (itemTypeAbv === Parser.ITM_TYP_ABV__GENERIC_VARIANT) return;
+				if (![Parser.ITM_TYP_ABV__MELEE_WEAPON, Parser.ITM_TYP_ABV__RANGED_WEAPON].includes(itemTypeAbv)) return;
 
-			const lowName = item.name.toLowerCase();
-			// If there's e.g. a " +1" suffix on the end, make a copy with it as a prefix instead
-			const prefixBonusKey = lowName.replace(/^(.*?)( \+\d+)$/, (...m) => `${m[2].trim()} ${m[1].trim()}`);
-			// And vice-versa
-			const suffixBonusKey = lowName.replace(/^(\+\d+) (.*?)$/, (...m) => `${m[2].trim()} ${m[1].trim()}`);
-			const suffixBonusKeyComma = lowName.replace(/^(\+\d+) (.*?)$/, (...m) => `${m[2].trim()}, ${m[1].trim()}`);
+				const lowName = item.name.toLowerCase();
+				// If there's e.g. a " +1" suffix on the end, make a copy with it as a prefix instead
+				const prefixBonusKey = lowName.replace(/^(.*?)( \+\d+)$/, (...m) => `${m[2].trim()} ${m[1].trim()}`);
+				// And vice-versa
+				const suffixBonusKey = lowName.replace(/^(\+\d+) (.*?)$/, (...m) => `${m[2].trim()} ${m[1].trim()}`);
+				const suffixBonusKeyComma = lowName.replace(/^(\+\d+) (.*?)$/, (...m) => `${m[2].trim()}, ${m[1].trim()}`);
 
-			const itemKeys = [
-				lowName,
-				prefixBonusKey === lowName ? null : prefixBonusKey,
-				suffixBonusKey === lowName ? null : suffixBonusKey,
-				suffixBonusKeyComma === lowName ? null : suffixBonusKeyComma,
-			].filter(Boolean);
+				const itemKeys = [
+					lowName,
+					prefixBonusKey === lowName ? null : prefixBonusKey,
+					suffixBonusKey === lowName ? null : suffixBonusKey,
+					suffixBonusKeyComma === lowName ? null : suffixBonusKeyComma,
+				].filter(Boolean);
 
-			const cpy = MiscUtil.copy(item);
+				const cpy = MiscUtil.copy(item);
 
-			itemKeys.forEach(k => {
-				if (!this._WEAPON_DETAIL_CACHE[k]) {
-					this._WEAPON_DETAIL_CACHE[k] = cpy;
-					return;
-				}
+				itemKeys
+					.forEach(k => {
+						if (!this._WEAPON_DETAIL_CACHE[k]) {
+							this._WEAPON_DETAIL_CACHE[k] = cpy;
+							return;
+						}
 
-				// If there is already something in the cache, prefer DMG + PHB entries, then official sources
-				const existing = this._WEAPON_DETAIL_CACHE[k];
-				if (
-					!(existing.source === Parser.SRC_DMG || existing.source === Parser.SRC_PHB)
-					&& SourceUtil.isNonstandardSource(existing.source)
-				) {
-					this._WEAPON_DETAIL_CACHE[k] = cpy;
-				}
+						// If there is already something in the cache, prefer DMG + PHB entries, then official sources
+						const existing = this._WEAPON_DETAIL_CACHE[k];
+						if (existing.source === Parser.SRC_DMG || existing.source === Parser.SRC_PHB) return;
+						if (SourceUtil.isNonstandardSource(existing.source)) return;
+						this._WEAPON_DETAIL_CACHE[k] = cpy;
+					});
 			});
-		}
 	}
 
 	static _isLikelyWeapon (act) {
@@ -2373,10 +2381,12 @@ export class AttachedItemTag {
 	//   - for creatures with a known "book" source, never use items from a known "adventure" source
 	//   - for creatures with a known "adventure" source, never use items from a *different* "adventure" source
 	//   - for a creature from a known source, never tag items from a more recent known source
-	static tryRun (mon, {cbNotFound = null, isAddOnly = false} = {}) {
+	static tryRun (mon, {cbNotFound = null, isAddOnly = false, styleHint = null} = {}) {
 		if (!this._WEAPON_DETAIL_CACHE) throw new Error(`Attached item cache was not initialized!`);
 
 		if (!mon.action?.length) return;
+
+		styleHint ||= VetoolsConfig.get("styleSwitcher", "style");
 
 		const itemSet = new Set();
 

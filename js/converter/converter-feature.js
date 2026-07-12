@@ -4,6 +4,10 @@ import {AlignmentUtil} from "./converterutils-utils-alignment.js";
 import {ConverterUtils} from "./converterutils-utils.js";
 
 export class ConverterFeatureBase extends ConverterBase {
+	static _RE_FEAT_TYPE = new RegExp(`\\b(?<category>${Object.values(Parser.FEAT_CATEGORY_TO_FULL).join("|")})\\b`);
+
+	/* -------------------------------------------- */
+
 	static _doParse_getInitialState (inText, options) {
 		if (!inText || !inText.trim()) {
 			options.cbWarning("No input!");
@@ -204,6 +208,20 @@ export class ConverterFeatureBase extends ConverterBase {
 				return;
 			}
 
+			const mExclusiveCategory = /^Can't Have Another (?<exclusiveType>.*?) Feat$/i.exec(pt);
+			if (mExclusiveCategory) {
+				const {exclusiveType} = mExclusiveCategory.groups;
+				switch (exclusiveType.toLowerCase().trim()) {
+					case "dragonmark": return pre.exclusiveFeatCategory = ["D"];
+					default: return pre.exclusiveFeatCategory = [exclusiveType];
+				}
+			}
+
+			const mFeatCategory = new RegExp(`^Any ${this._RE_FEAT_TYPE.source}(?: Feat)?`, "i").exec(pt);
+			if (mFeatCategory) {
+				return pre.featCategory = [Parser.featCategoryFromFull(mFeatCategory.groups.category)];
+			}
+
 			const mFeat = /^(?<name>.*?) feat$/i.exec(pt);
 			if (mFeat) {
 				pre.feat ||= [];
@@ -272,6 +290,10 @@ export class ConverterFeatureBase extends ConverterBase {
 	static _PREREQUISITE_TRIE = null;
 
 	static _getPrerequisiteTokens (entPrereqString) {
+		// Pre-clean "Level" formatting
+		entPrereqString = entPrereqString
+			.replace(/(?<=\bLevel \d+\+?)( and )/g, "; ");
+
 		if (this._PREREQUISITE_TRIE == null) {
 			this._PREREQUISITE_TRIE = new Trie();
 			[

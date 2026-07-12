@@ -2,7 +2,7 @@
 	"_meta": {
 		"otherSources": {
 			"monster": {
-				"MM": "HtfT"
+				"MM": "HftT"
 			}
 		}
 	},
@@ -199,6 +199,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"quarterstaff|phb"
 			],
@@ -232,10 +233,8 @@
 			"name": "Thessalhydra",
 			"source": "HftT",
 			"page": 41,
-			"otherSources": [
-				{
-					"source": "IMR"
-				}
+			"referenceSources": [
+				"IMR"
 			],
 			"size": [
 				"H"
@@ -344,6 +343,7 @@
 				"S"
 			],
 			"miscTags": [
+				"AOE",
 				"MW",
 				"RCH"
 			],

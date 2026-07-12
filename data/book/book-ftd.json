@@ -2773,7 +2773,7 @@
 									"id": "0df",
 									"entries": [
 										"Dragons might take on the role of patron, using a fraction of their tremendous wealth to support the arts, groups of freelance adventurers, or important causes. Such dragons' minions might include artists painting frescoes in their lairs, musicians composing chorales for the dragons to enjoy, poets writing odes in praise of their draconic lieges, and adventurers seeking priceless treasures to add to the dragons' hoards. Dragons who spend a lot of time in Humanoid form are often drawn to this role, and their minions might have no idea that their generous patrons are actually dragons.",
-										"If you want to have a dragon act as a patron for a group of adventurers, look to the \"{@book Group Patrons|TCE|16}\" chapter of {@book Tasha's Cauldron of Everything|TCE}. You can use the information there to create a dragon filling this role in your campaign. Dragons naturally fall into the category of \"{@book ancient being|TCE|2|Ancient Being},\" as described in that chapter, but depending on their roles and personalities, they might act more like another kind of patron."
+										"If you want to have a dragon act as a patron for a group of adventurers, look to the \"{@book Group Patrons|TCE|2}\" chapter of {@book Tasha's Cauldron of Everything|TCE}. You can use the information there to create a dragon filling this role in your campaign. Dragons naturally fall into the category of \"{@book ancient being|TCE|2|Ancient Being},\" as described in that chapter, but depending on their roles and personalities, they might act more like another kind of patron."
 									]
 								},
 								{
@@ -3574,7 +3574,7 @@
 									"entries": [
 										"Plant growth creates {@book difficult terrain|PHB|8|Difficult Terrain}, sinkholes appear, and hedge mazes or icy walls limit movement. Additional regional effects in this category include the following examples:",
 										"{@b Exposing Terrain}. The terrain within 6 miles of the lair actively works to foil stealth, giving creatures other than the dragon disadvantage on Dexterity ({@skill Stealth}) checks. Leaves change color to contrast with those trying to hide among them, branches move to reveal creatures, fog clears, and so on.",
-										"{@b Smooth Roads}. Difficult terrain within 12 miles of the dragon's lair is not considered difficult, as undergrowth moves out of a traveler's way, slopes are not as steep as they first appeared, and rough ground levels out under a traveler's feet.",
+										"{@b Smooth Roads}. {@quickref difficult terrain||3} within 12 miles of the dragon's lair is not considered difficult, as undergrowth moves out of a traveler's way, slopes are not as steep as they first appeared, and rough ground levels out under a traveler's feet.",
 										"{@b Wilderness Hazards}. Any of the {@book wilderness hazards|DMG|5|Wilderness Hazards} described in the {@book Dungeon Master's Guide|DMG} might manifest near the dragon's lair."
 									]
 								},
@@ -4606,9 +4606,9 @@
 								"{@book Faerie dragon|FTD|5|Faerie Dragons}",
 								"{@book Gold dragon|FTD|5|Gold Dragons}",
 								"{@book Green dragon|FTD|5|Green Dragons}",
-								"{@book Moonstone dragon |FTD|5|Moonstone Dragons}*",
+								"{@book Moonstone dragon|FTD|5|Moonstone Dragons}*",
 								"{@book Red dragon|FTD|5|Red Dragons}",
-								"{@book Sapphire dragon |FTD|5|Sapphire Dragons}*",
+								"{@book Sapphire dragon|FTD|5|Sapphire Dragons}*",
 								"{@book Shadow dragon|FTD|5|Shadow Dragons}",
 								"{@book Silver dragon|FTD|5|Silver Dragons}",
 								"{@book Topaz dragon|FTD|5|Topaz Dragons}*",
@@ -5038,7 +5038,7 @@
 											"imageType": "map",
 											"grid": {
 												"type": "square",
-												"distance": 10
+												"scale": 2
 											},
 											"title": "Map 5.1: amethyst dragon lair",
 											"width": 4800,
@@ -5056,7 +5056,7 @@
 											"title": "Player Version",
 											"grid": {
 												"type": "square",
-												"distance": 10
+												"scale": 2
 											},
 											"width": 4800,
 											"height": 6000,
@@ -5091,7 +5091,7 @@
 												{
 													"type": "item",
 													"name": "Glowing Crystals",
-													"entry": "Large clusters of glowing amethyst crystals grow out from the walls and ceiling, casting dim light in a 30-foot radius."
+													"entry": "Large clusters of glowing amethyst crystals grow out from the walls and ceiling, casting {@quickref Vision and Light||2||dim light} in a 30-foot radius."
 												},
 												{
 													"type": "item",
@@ -5541,8 +5541,8 @@
 											"imageType": "map",
 											"grid": {
 												"type": "square",
-												"offsetY": -17,
-												"distance": 10
+												"offsetY": -34,
+												"scale": 2
 											},
 											"title": "Map 5.2: black dragon lair",
 											"width": 4800,
@@ -5559,8 +5559,8 @@
 											"imageType": "mapPlayer",
 											"grid": {
 												"type": "square",
-												"offsetY": -15,
-												"distance": 10
+												"offsetY": -30,
+												"scale": 2
 											},
 											"title": "Player Version",
 											"width": 4800,
@@ -6146,7 +6146,7 @@
 											"imageType": "map",
 											"grid": {
 												"type": "square",
-												"distance": 10
+												"scale": 2
 											},
 											"title": "Map 5.3: blue dragon lair",
 											"width": 4800,
@@ -6163,7 +6163,7 @@
 											"imageType": "mapPlayer",
 											"grid": {
 												"type": "square",
-												"distance": 10
+												"scale": 2
 											},
 											"title": "Player Version",
 											"width": 4800,
@@ -6816,7 +6816,7 @@
 												{
 													"type": "item",
 													"name": "Animate Statues",
-													"entry": "The dragon chooses up to three statues in the lair that it can see. Each of these statues briefly animates and attacks one creature within 5 feet of it, with a +7 bonus to hit and dealing 10 ({@dice 3d6}) bludgeoning damage on a hit."
+													"entry": "The dragon chooses up to three statues in the lair that it can see. Each of these statues briefly animates and attacks one creature within 5 feet of it, with a {@hit 7} bonus to hit and dealing 10 ({@dice 3d6}) bludgeoning damage on a hit."
 												},
 												{
 													"type": "item",
@@ -7341,9 +7341,9 @@
 													"grid": {
 														"type": "square",
 														"size": 143,
-														"offsetX": -30,
-														"offsetY": -1,
-														"distance": 10
+														"offsetX": -60,
+														"offsetY": -2,
+														"scale": 2
 													},
 													"title": "Map 5.5: bronze dragon lair",
 													"width": 4800,
@@ -7361,9 +7361,9 @@
 													"grid": {
 														"type": "square",
 														"size": 143,
-														"offsetX": -30,
-														"offsetY": -3,
-														"distance": 10
+														"offsetX": -60,
+														"offsetY": -6,
+														"scale": 2
 													},
 													"title": "Player Version",
 													"width": 4800,
@@ -7900,7 +7900,7 @@
 											"grid": {
 												"type": "square",
 												"size": 99,
-												"distance": 10
+												"scale": 2
 											},
 											"title": "Map 5.6: copper dragon lair",
 											"width": 4800,
@@ -7918,7 +7918,7 @@
 											"grid": {
 												"type": "square",
 												"size": 99,
-												"distance": 10
+												"scale": 2
 											},
 											"title": "Player Version",
 											"width": 4800,
@@ -8005,7 +8005,7 @@
 												{
 													"type": "item",
 													"name": "Starlit Stones",
-													"entry": "Standing stones are common on hilltops within 1 mile of the dragon's lair. The stones shed dim light in a 10-foot radius at night. (If the dragon dies, the stones remain, but they no longer shed light.)"
+													"entry": "Standing stones are common on hilltops within 1 mile of the dragon's lair. The stones shed {@quickref Vision and Light||2||dim light} in a 10-foot radius at night. (If the dragon dies, the stones remain, but they no longer shed light.)"
 												}
 											]
 										}
@@ -8232,22 +8232,22 @@
 									]
 								},
 								{
+									"type": "inset",
+									"name": "Saryndalaghlothtor",
+									"page": 103,
+									"id": "168",
+									"entries": [
+										"The {@creature adult crystal dragon|FTD} Saryndalaghlothtor is known as \"Lady Gemcloak\" and sometimes \"the Axemother,\" thanks to her association with a dwarf clan dwelling in the northern part of Faerûn. She lives closer to civilization than crystal dragons typically do, which delights her because of the close friendships she has formed, but also annoys her as she is forced to deal with hostile fools who mistake her for an evil white dragon.",
+										"Having earned the enmity of the ancient red dragon {@creature Klauth|SKT}, Lady Gemcloak is exploring the possibility of establishing close ties between her dwarf allies and a group of {@creature Azer||azers} on the Elemental Plane of Fire. In the meantime, she's trying to protect her dwarf allies from the schemes of a hostile mining cartel."
+									]
+								},
+								{
 									"type": "entries",
 									"name": "Connected Creatures",
 									"page": 104,
 									"id": "167",
 									"entries": [
 										"Crystal dragons are among the most social and hospitable of dragons. They are equal parts mysterious, contemplative, and mischievous, making it difficult to know what to expect of them.",
-										{
-											"type": "inset",
-											"name": "Saryndalaghlothtor",
-											"page": 103,
-											"id": "168",
-											"entries": [
-												"The {@creature adult crystal dragon|FTD} Saryndalaghlothtor is known as \"Lady Gemcloak\" and sometimes \"the Axemother,\" thanks to her association with a dwarf clan dwelling in the northern part of Faerûn. She lives closer to civilization than crystal dragons typically do, which delights her because of the close friendships she has formed, but also annoys her as she is forced to deal with hostile fools who mistake her for an evil white dragon.",
-												"Having earned the enmity of the ancient red dragon {@creature Klauth|SKT}, Lady Gemcloak is exploring the possibility of establishing close ties between her dwarf allies and a group of {@creature Azer||azers} on the Elemental Plane of Fire. In the meantime, she's trying to protect her dwarf allies from the schemes of a hostile mining cartel."
-											]
-										},
 										{
 											"type": "table",
 											"caption": "Crystal Dragon Wyrmling Connections",
@@ -9956,7 +9956,7 @@
 											"imageType": "map",
 											"grid": {
 												"type": "square",
-												"distance": 10
+												"scale": 2
 											},
 											"title": "Map 5.8: emerald dragon lair",
 											"width": 4800,
@@ -9973,7 +9973,7 @@
 											"imageType": "mapPlayer",
 											"grid": {
 												"type": "square",
-												"distance": 10
+												"scale": 2
 											},
 											"title": "Player Version",
 											"width": 4800,
@@ -10643,7 +10643,7 @@
 										[
 											"{@creature Ancient Gold Dragon||Ancient}",
 											"24",
-											"{@spell bless}, {@spell commune},* {@spell cure wounds}, {@spell geas},* {@spell plane shift} (+16 to hit), {@spell slow}, {@spell suggestion}, {@spell word of recall}, {@spell zone of truth}"
+											"{@spell bless}, {@spell commune},* {@spell cure wounds}, {@spell geas},* {@spell plane shift} ({@hit 16} to hit), {@spell slow}, {@spell suggestion}, {@spell word of recall}, {@spell zone of truth}"
 										]
 									],
 									"footnotes": [
@@ -11497,7 +11497,7 @@
 											"grid": {
 												"type": "square",
 												"size": 150,
-												"distance": 10
+												"scale": 2
 											},
 											"title": "Map 5.10: green dragon lair",
 											"width": 4800,
@@ -11515,7 +11515,7 @@
 											"grid": {
 												"type": "square",
 												"size": 150,
-												"distance": 10
+												"scale": 2
 											},
 											"title": "Player Version",
 											"width": 4800,
@@ -11577,7 +11577,7 @@
 												{
 													"type": "item",
 													"name": "Lashing Root",
-													"entry": "One large root or branch that is part of the lair makes a melee attack roll against a creature within 10 feet of it. It has a +7 bonus to hit and deals 10 ({@dice 3d6}) bludgeoning damage on a hit. If the target is a Medium or smaller creature, it must succeed on a {@dc 15} Strength saving throw or be knocked {@condition prone}."
+													"entry": "One large root or branch that is part of the lair makes a melee attack roll against a creature within 10 feet of it. It has a {@hit 7} bonus to hit and deals 10 ({@dice 3d6}) bludgeoning damage on a hit. If the target is a Medium or smaller creature, it must succeed on a {@dc 15} Strength saving throw or be knocked {@condition prone}."
 												}
 											]
 										}
@@ -12480,8 +12480,8 @@
 											"imageType": "map",
 											"grid": {
 												"type": "square",
-												"offsetX": 38,
-												"distance": 10
+												"offsetX": 76,
+												"scale": 2
 											},
 											"title": "Map 5.11: red dragon lair",
 											"width": 4800,
@@ -12498,8 +12498,8 @@
 											"imageType": "mapPlayer",
 											"grid": {
 												"type": "square",
-												"offsetX": 38,
-												"distance": 10
+												"offsetX": 76,
+												"scale": 2
 											},
 											"title": "Player Version",
 											"width": 4800,
@@ -13026,7 +13026,7 @@
 											"grid": {
 												"type": "square",
 												"size": 75,
-												"distance": 10
+												"scale": 2
 											},
 											"title": "Map 5.12: sapphire dragon lair",
 											"width": 4800,
@@ -13044,7 +13044,7 @@
 											"grid": {
 												"type": "square",
 												"size": 75,
-												"distance": 10
+												"scale": 2
 											},
 											"title": "Player Version",
 											"width": 4800,
@@ -14507,7 +14507,7 @@
 											"grid": {
 												"type": "square",
 												"size": 99,
-												"distance": 10
+												"scale": 2
 											},
 											"title": "Map 5.14: topaz dragon lair",
 											"width": 4800,
@@ -14525,7 +14525,7 @@
 											"grid": {
 												"type": "square",
 												"size": 99,
-												"distance": 10
+												"scale": 2
 											},
 											"title": "Player Version",
 											"width": 4800,
@@ -15025,7 +15025,7 @@
 											"imageType": "map",
 											"grid": {
 												"type": "square",
-												"distance": 10
+												"scale": 2
 											},
 											"title": "Map 5.15: white dragon lair",
 											"width": 4800,
@@ -15042,7 +15042,7 @@
 											"imageType": "mapPlayer",
 											"grid": {
 												"type": "square",
-												"distance": 10
+												"scale": 2
 											},
 											"title": "Player Version",
 											"width": 4800,

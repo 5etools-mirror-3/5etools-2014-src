@@ -11,7 +11,8 @@
 		],
 		"otherSources": {
 			"monster": {
-				"MTF": "OotA"
+				"MTF": "OotA",
+				"MM": "OotA"
 			}
 		}
 	},
@@ -127,7 +128,7 @@
 				"source": "MM",
 				"_templates": [
 					{
-						"name": "Drow",
+						"name": "Drow (Levitate)",
 						"source": "PHB"
 					}
 				],
@@ -140,6 +141,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"traitTags": [
 				"Fey Ancestry",
 				"Sunlight Sensitivity"
@@ -380,7 +382,7 @@
 			"page": 6,
 			"_copy": {
 				"name": "Derro",
-				"source": "MTF",
+				"source": "OotA",
 				"_mod": {
 					"*": {
 						"mode": "replaceTxt",
@@ -428,6 +430,7 @@
 				"darkvision 30 ft.",
 				"tremorsense 60 ft."
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Keen Senses",
 				"Tunneler"
@@ -1155,11 +1158,45 @@
 				"source": "MM",
 				"_templates": [
 					{
-						"name": "Drow",
+						"name": "Drow (Levitate)",
 						"source": "PHB"
 					}
 				]
 			},
+			"alignment": [
+				"N",
+				"E"
+			],
+			"traitTags": [
+				"Fey Ancestry",
+				"Sunlight Sensitivity"
+			],
+			"spellcastingTags": [
+				"CC",
+				"I"
+			],
+			"hasToken": true
+		},
+		{
+			"name": "Drow Assassin",
+			"source": "OotA",
+			"page": 140,
+			"_copy": {
+				"name": "Assassin",
+				"source": "MM",
+				"_templates": [
+					{
+						"name": "Drow (Levitate)",
+						"source": "PHB"
+					}
+				]
+			},
+			"alignment": [
+				"N",
+				"E"
+			],
+			"tokenCredit": "SagaSketchBook",
+			"tokenCustom": true,
 			"traitTags": [
 				"Fey Ancestry",
 				"Sunlight Sensitivity"
@@ -1179,11 +1216,15 @@
 				"source": "MM",
 				"_templates": [
 					{
-						"name": "Drow",
+						"name": "Drow (Levitate)",
 						"source": "PHB"
 					}
 				]
 			},
+			"alignment": [
+				"N",
+				"E"
+			],
 			"traitTags": [
 				"Fey Ancestry",
 				"Sunlight Sensitivity"
@@ -1202,11 +1243,15 @@
 				"source": "MM",
 				"_templates": [
 					{
-						"name": "Drow",
+						"name": "Drow (Levitate)",
 						"source": "PHB"
 					}
 				]
 			},
+			"alignment": [
+				"N",
+				"E"
+			],
 			"traitTags": [
 				"Fey Ancestry",
 				"Sunlight Sensitivity"
@@ -1225,11 +1270,15 @@
 				"source": "MM",
 				"_templates": [
 					{
-						"name": "Drow",
+						"name": "Drow (Levitate)",
 						"source": "PHB"
 					}
 				]
 			},
+			"alignment": [
+				"N",
+				"E"
+			],
 			"traitTags": [
 				"Fey Ancestry",
 				"Sunlight Sensitivity"
@@ -1248,11 +1297,15 @@
 				"source": "MM",
 				"_templates": [
 					{
-						"name": "Drow",
+						"name": "Drow (Levitate)",
 						"source": "PHB"
 					}
 				]
 			},
+			"alignment": [
+				"N",
+				"E"
+			],
 			"traitTags": [
 				"Fey Ancestry",
 				"Sunlight Sensitivity"
@@ -1271,11 +1324,15 @@
 				"source": "MM",
 				"_templates": [
 					{
-						"name": "Drow",
+						"name": "Drow (Levitate)",
 						"source": "PHB"
 					}
 				]
 			},
+			"alignment": [
+				"N",
+				"E"
+			],
 			"traitTags": [
 				"Fey Ancestry",
 				"Sunlight Sensitivity"
@@ -1294,11 +1351,15 @@
 				"source": "MM",
 				"_templates": [
 					{
-						"name": "Drow",
+						"name": "Drow (Levitate)",
 						"source": "PHB"
 					}
 				]
 			},
+			"alignment": [
+				"N",
+				"E"
+			],
 			"traitTags": [
 				"Fey Ancestry",
 				"Keen Senses",
@@ -1384,11 +1445,15 @@
 				"source": "MM",
 				"_templates": [
 					{
-						"name": "Drow",
+						"name": "Drow (Levitate)",
 						"source": "PHB"
 					}
 				]
 			},
+			"alignment": [
+				"N",
+				"E"
+			],
 			"traitTags": [
 				"Fey Ancestry",
 				"Sneak Attack",
@@ -1994,6 +2059,100 @@
 			"hasToken": true
 		},
 		{
+			"name": "Female Steeder",
+			"source": "OotA",
+			"page": 238,
+			"reprintedAs": [
+				"Female Steeder|MTF"
+			],
+			"size": [
+				"L"
+			],
+			"type": "beast",
+			"alignment": [
+				"U"
+			],
+			"ac": [
+				{
+					"ac": 14,
+					"from": [
+						"natural armor"
+					]
+				}
+			],
+			"hp": {
+				"average": 30,
+				"formula": "4d10 + 8"
+			},
+			"speed": {
+				"walk": 30,
+				"climb": 30
+			},
+			"str": 15,
+			"dex": 16,
+			"con": 14,
+			"int": 2,
+			"wis": 10,
+			"cha": 3,
+			"skill": {
+				"stealth": "+7"
+			},
+			"senses": [
+				"darkvision 120 ft."
+			],
+			"passive": 10,
+			"cr": "1",
+			"trait": [
+				{
+					"name": "Spider Climb",
+					"entries": [
+						"The steeder can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+					]
+				},
+				{
+					"name": "Leap",
+					"entries": [
+						"The steeder can expend all its movement on its turn to jump up to 90 feet vertically or horizontally, provided that its speed is at least 30 feet."
+					]
+				}
+			],
+			"action": [
+				{
+					"name": "Bite",
+					"entries": [
+						"{@atk mw} {@hit 5} to hit, reach 5 ft., one creature. {@h}7 ({@damage 1d8 + 3}) piercing damage, and the target must make a {@dc 12} Constitution saving throw, taking 9 ({@damage 2d8}) acid damage on a failed save, or half as much damage on a successful one."
+					]
+				},
+				{
+					"name": "Sticky Leg (Recharges when the Steeder Has No Creatures Grappled)",
+					"entries": [
+						"{@atk mw} {@hit 5} to hit, reach 5 ft., one Medium or smaller creature. {@h}The target is stuck to the steeder's leg and {@condition grappled} until it escapes (escape {@dc 12})."
+					]
+				}
+			],
+			"traitTags": [
+				"Spider Climb"
+			],
+			"senseTags": [
+				"SD"
+			],
+			"damageTags": [
+				"A",
+				"P"
+			],
+			"miscTags": [
+				"MW"
+			],
+			"conditionInflict": [
+				"grappled"
+			],
+			"savingThrowForced": [
+				"constitution"
+			],
+			"hasToken": true,
+			"hasFluff": true
+		},
+		{
 			"name": "Fiendish Giant Spider",
 			"source": "OotA",
 			"page": 97,
@@ -2091,6 +2250,14 @@
 			"speed": {
 				"walk": 25
 			},
+			"languages": [
+				"Gnoll",
+				"Abyssal"
+			],
+			"languageTags": [
+				"AB",
+				"OTH"
+			],
 			"hasToken": true,
 			"hasFluffImages": true
 		},
@@ -2252,6 +2419,38 @@
 			"hasFluffImages": true
 		},
 		{
+			"name": "Glyphic Shroomlight",
+			"isNpc": true,
+			"isNamedCreature": true,
+			"source": "OotA",
+			"page": 103,
+			"_copy": {
+				"name": "Acolyte",
+				"source": "MM",
+				"_templates": [
+					{
+						"name": "Deep Gnome",
+						"source": "DMG"
+					}
+				],
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the veteran",
+						"with": "Glyphic",
+						"flags": "i"
+					}
+				}
+			},
+			"tokenCredit": "Garcia",
+			"tokenCustom": true,
+			"spellcastingTags": [
+				"CC",
+				"I"
+			],
+			"hasToken": true
+		},
+		{
 			"name": "Grazilaxx",
 			"isNpc": true,
 			"isNamedCreature": true,
@@ -2319,7 +2518,8 @@
 				"tags": [
 					{
 						"tag": "human",
-						"prefix": "Damaran"
+						"prefix": "Damaran",
+						"prefixHidden": true
 					}
 				]
 			},
@@ -2420,7 +2620,7 @@
 				{
 					"name": "+1 Flail",
 					"entries": [
-						"{@atk mw} {@hit 5} to hit, reach 5 ft., one target. {@h}7 ({@damage 1d8 + 3}) bludgeoning damage"
+						"{@atk mw} {@hit 5} to hit, reach 5 ft., one target. {@h}7 ({@damage 1d8 + 3}) bludgeoning damage."
 					]
 				}
 			],
@@ -2520,6 +2720,7 @@
 				"Undercommon",
 				"Common"
 			],
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -2897,7 +3098,8 @@
 				"wisdom"
 			],
 			"hasToken": true,
-			"hasFluff": true
+			"hasFluff": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Jade Giant Spider",
@@ -3038,7 +3240,7 @@
 						"items": {
 							"name": "Special Equipment",
 							"entries": [
-								"Khalessa owns a {@item hat of disguise}, which she uses to appear as a female drow while in the company of drow."
+								"Khalessa owns a {@item hat of disguise}, which she uses to appear as a female drow while in the company of drow, and she wears a {@item Piwafwi (Cloak of Elvenkind)|OotA|piwafwi}."
 							]
 						}
 					}
@@ -3046,6 +3248,11 @@
 			},
 			"alignment": [
 				"N"
+			],
+			"languages": [
+				"Common",
+				"Elvish",
+				"Undercommon"
 			],
 			"spellcasting": [
 				{
@@ -3077,14 +3284,8 @@
 			"source": "OotA",
 			"page": 134,
 			"_copy": {
-				"name": "Assassin",
-				"source": "MM",
-				"_templates": [
-					{
-						"name": "Drow",
-						"source": "PHB"
-					}
-				],
+				"name": "Drow Assassin",
+				"source": "OotA",
 				"_mod": {
 					"*": {
 						"mode": "replaceTxt",
@@ -3261,7 +3462,7 @@
 				{
 					"name": "Cunning Action",
 					"entries": [
-						"On each of its turns, the spy can use a bonus action to take the Dash, Disengage, or Hide action."
+						"On each of its turns, the spy can use a bonus action to take the {@action Dash}, {@action Disengage}, or {@action Hide} action."
 					]
 				},
 				{
@@ -3344,39 +3545,33 @@
 									"style": "list-hang-notitle",
 									"items": [
 										{
-											"type": "item",
+											"type": "itemSub",
 											"name": "1. Charm Ray",
-											"style": "italic",
 											"entry": "The targeted creature must succeed on a {@dc 16} Wisdom saving throw or be {@condition charmed} by the beholder for 1 hour, or until the beholder harms the creature."
 										},
 										{
-											"type": "item",
+											"type": "itemSub",
 											"name": "2. Paralyzing Ray",
-											"style": "italic",
 											"entry": "The targeted creature must succeed on a {@dc 16} Constitution saving throw or be {@condition paralyzed} for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 										},
 										{
-											"type": "item",
+											"type": "itemSub",
 											"name": "3. Fear Ray",
-											"style": "italic",
 											"entry": "The targeted creature must succeed on a {@dc 16} Wisdom saving throw or be {@condition frightened} for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 										},
 										{
-											"type": "item",
+											"type": "itemSub",
 											"name": "4. Slowing Ray",
-											"style": "italic",
 											"entry": "The targeted creature must succeed on a {@dc 16} Dexterity saving throw. On a failed save, the target's speed is halved for 1 minute. In addition, the creature can't take reactions, and it can take either an action or a bonus action on its turn, not both. The creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success."
 										},
 										{
-											"type": "item",
+											"type": "itemSub",
 											"name": "5. Enervation Ray",
-											"style": "italic",
 											"entry": "The targeted creature must make a {@dc 16} Constitution saving throw, taking 36 ({@damage 8d8}) necrotic damage on a failed save, or half as much damage on a successful one."
 										},
 										{
-											"type": "item",
+											"type": "itemSub",
 											"name": "6. Telekinetic Ray",
-											"style": "italic",
 											"entries": [
 												"If the target is a creature, it must succeed on a {@dc 16} Strength saving throw or the beholder moves it up to 30 feet in any direction. It is {@condition restrained} by the ray's telekinetic grip until the start of the beholder's next turn or until the beholder is {@condition incapacitated}.",
 												"If the target is an object weighing 300 pounds or less that isn't being worn or carried, it is moved up to 30 feet in any direction. The beholder can also exert fine control on objects with this ray, such as manipulating a simple tool or opening a door or a container."
@@ -3395,6 +3590,100 @@
 				"P"
 			],
 			"hasToken": true
+		},
+		{
+			"name": "Male Steeder",
+			"source": "OotA",
+			"page": 231,
+			"reprintedAs": [
+				"Male Steeder|MTF"
+			],
+			"size": [
+				"M"
+			],
+			"type": "beast",
+			"alignment": [
+				"U"
+			],
+			"ac": [
+				{
+					"ac": 12,
+					"from": [
+						"natural armor"
+					]
+				}
+			],
+			"hp": {
+				"average": 13,
+				"formula": "2d8 + 4"
+			},
+			"speed": {
+				"walk": 30,
+				"climb": 30
+			},
+			"str": 15,
+			"dex": 12,
+			"con": 14,
+			"int": 2,
+			"wis": 10,
+			"cha": 3,
+			"skill": {
+				"stealth": "+5"
+			},
+			"senses": [
+				"darkvision 120 ft."
+			],
+			"passive": 10,
+			"cr": "1/4",
+			"trait": [
+				{
+					"name": "Spider Climb",
+					"entries": [
+						"The steeder can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."
+					]
+				},
+				{
+					"name": "Leap",
+					"entries": [
+						"The steeder can expend all its movement on its turn to jump up to 60 feet vertically or horizontally, provided that its speed is at least 30 feet."
+					]
+				}
+			],
+			"action": [
+				{
+					"name": "Bite",
+					"entries": [
+						"{@atk mw} {@hit 4} to hit, reach 5 ft., one creature. {@h}7 ({@damage 1d8 + 2}) piercing damage, and the target must make a {@dc 12} Constitution saving throw, taking 4 ({@damage 1d8}) acid damage on a failed save, or half as much damage on a successful one."
+					]
+				},
+				{
+					"name": "Sticky Leg (Recharges when the Steeder Has No Creatures Grappled)",
+					"entries": [
+						"{@atk mw} {@hit 4} to hit, reach 5 ft., one Small or Tiny creature. {@h}The target is stuck to the steeder's leg and {@condition grappled} until it escapes (escape {@dc 12})."
+					]
+				}
+			],
+			"traitTags": [
+				"Spider Climb"
+			],
+			"senseTags": [
+				"SD"
+			],
+			"damageTags": [
+				"A",
+				"P"
+			],
+			"miscTags": [
+				"MW"
+			],
+			"conditionInflict": [
+				"grappled"
+			],
+			"savingThrowForced": [
+				"constitution"
+			],
+			"hasToken": true,
+			"hasFluff": true
 		},
 		{
 			"name": "Mev Flintknapper",
@@ -3420,6 +3709,7 @@
 					}
 				}
 			},
+			"tokenCustom": true,
 			"spellcastingTags": [
 				"CC",
 				"I"
@@ -3635,6 +3925,10 @@
 					}
 				}
 			},
+			"alignment": [
+				"N",
+				"E"
+			],
 			"spellcastingTags": [
 				"I"
 			],
@@ -3720,15 +4014,35 @@
 							]
 						}
 					},
-					"action": {
-						"mode": "appendArr",
-						"items": {
-							"name": "Throne Activation",
-							"entries": [
-								"While seated on her throne, Quenthel can use an action on her turn to cast {@spell disintegrate} (save {@dc 19}). A target that fails its saving throw takes {@damage 10d6 + 40} force damage. If this damage reduces the target to 0 hit points, it is disintegrated."
+					"action": [
+						{
+							"mode": "replaceArr",
+							"replace": "Multiattack",
+							"items": {
+								"name": "Multiattack",
+								"entries": [
+									"Quenthel makes three tentacle rod attacks."
+								]
+							}
+						},
+						{
+							"mode": "appendArr",
+							"items": [
+								{
+									"name": "Tentacle Rod",
+									"entries": [
+										"{@atk mw} {@hit 9} to hit, reach 5 ft., one target. {@h}5 ({@damage 1d6 + 2}) piercing damage. If she hits a target with all three tentacles, it must make a {@dc 15} Constitution saving throw. On a failure, the creature's speed is halved, it has disadvantage on Dexterity saving throws, and it can't use reactions for 1 minute. Moreover, on each of its turns, it can take either an action or a bonus action, but not both. At the end of each of its turns, it can repeat the saving throw, ending the effect on itself on a success."
+									]
+								},
+								{
+									"name": "Throne Activation",
+									"entries": [
+										"While seated on her throne, Quenthel can use an action on her turn to cast {@spell disintegrate} (save {@dc 19}). A target that fails its saving throw takes {@damage 10d6 + 40} force damage. If this damage reduces the target to 0 hit points, it is disintegrated."
+									]
+								}
 							]
 						}
-					}
+					]
 				}
 			},
 			"ac": [
@@ -3780,66 +4094,161 @@
 					"name": "Spellcasting",
 					"type": "spellcasting",
 					"headerEntries": [
-						"Quenthel is a 20th-level spellcaster. Her spellcasting ability is Wisdom (save {@dc 20}, {@hit 12} to hit with spell attacks). The drow has the following cleric spells prepared:"
+						"Quenthel is a 20th-level spellcaster. Her spellcasting ability is Wisdom (save {@dc 20}, {@hit 12} to hit with spell attacks). Quenthel can cast any {@filter cleric spell up to 9th level|spells|level=0;1;2;3;4;5;6;7;8;9|class=cleric} at will."
 					],
 					"will": [
-						"Any {@filter cleric spell up to 9th level|spells|level=0;1;2;3;4;5;6;7;8;9|class=cleric}."
+						"aid",
+						"animate dead",
+						"antimagic field",
+						"astral projection",
+						"augury",
+						"aura of life",
+						"aura of purity",
+						"aura of vitality",
+						"bane",
+						"banishment",
+						"beacon of hope",
+						"bestow curse",
+						"blade barrier",
+						"bless",
+						"blindness/deafness",
+						"calm emotions",
+						"ceremony",
+						"clairvoyance",
+						"command",
+						"commune",
+						"conjure celestial",
+						"contagion",
+						"continual flame",
+						"control water",
+						"control weather",
+						"create food and water",
+						"create or destroy water",
+						"create undead",
+						"cure wounds",
+						"dawn",
+						"daylight",
+						"death ward",
+						"detect evil and good",
+						"detect magic",
+						"detect poison and disease",
+						"dispel evil and good",
+						"dispel magic",
+						"divination",
+						"divine word",
+						"earthquake",
+						"enhance ability",
+						"etherealness",
+						"feign death",
+						"find the path",
+						"find traps",
+						"fire storm",
+						"flame strike",
+						"forbiddance",
+						"freedom of movement",
+						"gate",
+						"geas",
+						"gentle repose",
+						"glyph of warding",
+						"greater restoration",
+						"guardian of faith",
+						"guidance",
+						"guiding bolt",
+						"hallow",
+						"harm",
+						"heal",
+						"healing word",
+						"heroes' feast",
+						"hold person",
+						"holy aura",
+						"holy weapon",
+						"inflict wounds",
+						"insect plague",
+						"legend lore",
+						"lesser restoration",
+						"life transference",
+						"light",
+						"locate creature",
+						"locate object",
+						"magic circle",
+						"mass cure wounds",
+						"mass heal",
+						"mass healing word",
+						"meld into stone",
+						"mending",
+						"planar ally",
+						"planar binding",
+						"plane shift",
+						"power word heal",
+						"prayer of healing",
+						"protection from energy",
+						"protection from evil and good",
+						"protection from poison",
+						"purify food and drink",
+						"raise dead",
+						"regenerate",
+						"remove curse",
+						"resistance",
+						"resurrection",
+						"revivify",
+						"sacred flame",
+						"sanctuary",
+						"scrying",
+						"sending",
+						"shield of faith",
+						"silence",
+						"spare the dying",
+						"speak with dead",
+						"spirit guardians",
+						"spirit shroud",
+						"spiritual weapon",
+						"stone shape",
+						"summon celestial",
+						"sunbeam",
+						"sunburst",
+						"symbol",
+						"temple of the gods",
+						"thaumaturgy",
+						"toll the dead",
+						"tongues",
+						"true resurrection",
+						"true seeing",
+						"warding bond",
+						"water walk",
+						"word of radiance",
+						"word of recall",
+						"zone of truth"
 					],
-					"spells": {
-						"0": {
-							"spells": [
-								"{@spell guidance}",
-								"{@spell poison spray}",
-								"{@spell resistance}",
-								"{@spell spare the dying}",
-								"{@spell thaumaturgy}"
-							]
-						},
-						"1": {
-							"slots": 4,
-							"spells": [
-								"{@spell animal friendship}",
-								"{@spell cure wounds}",
-								"{@spell detect poison and disease}",
-								"{@spell ray of sickness}"
-							]
-						},
-						"2": {
-							"slots": 3,
-							"spells": [
-								"{@spell lesser restoration}",
-								"{@spell protection from poison}",
-								"{@spell web}"
-							]
-						},
-						"3": {
-							"slots": 3,
-							"spells": [
-								"{@spell conjure animals} (2 giant spiders)",
-								"{@spell dispel magic}"
-							]
-						},
-						"4": {
-							"slots": 3,
-							"spells": [
-								"{@spell divination}",
-								"{@spell freedom of movement}"
-							]
-						},
-						"5": {
-							"slots": 2,
-							"spells": [
-								"{@spell insect plague}",
-								"{@spell mass cure wounds}"
-							]
-						}
-					},
-					"ability": "wis"
+					"ability": "wis",
+					"hidden": [
+						"will"
+					]
 				}
 			],
+			"tokenCustom": true,
+			"conditionInflictSpell": [
+				"blinded",
+				"charmed",
+				"deafened",
+				"exhaustion",
+				"frightened",
+				"grappled",
+				"incapacitated",
+				"invisible",
+				"paralyzed",
+				"petrified",
+				"poisoned",
+				"prone",
+				"restrained",
+				"stunned",
+				"unconscious"
+			],
 			"savingThrowForcedSpell": [
+				"charisma",
 				"constitution",
 				"dexterity",
+				"intelligence",
+				"strength",
 				"wisdom"
 			],
 			"hasToken": true
@@ -4313,6 +4722,15 @@
 						"replace": "the goblin",
 						"with": "Spiderbait",
 						"flags": "i"
+					},
+					"trait": {
+						"mode": "appendArr",
+						"items": {
+							"name": "Thrill-Seeker",
+							"entries": [
+								"Spiderbait has advantage on checks made to avoid being {@status surprised}."
+							]
+						}
 					}
 				}
 			},
@@ -4362,6 +4780,10 @@
 					}
 				]
 			},
+			"tokenCustom": true,
+			"senseTags": [
+				"SD"
+			],
 			"spellcastingTags": [
 				"I"
 			],
@@ -4650,6 +5072,9 @@
 				"Terran",
 				"Undercommon"
 			],
+			"senseTags": [
+				"SD"
+			],
 			"hasToken": true,
 			"hasFluffImages": true
 		},
@@ -4756,6 +5181,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"attachedItems": [
 				"greatclub|phb"
 			],
@@ -4820,8 +5246,29 @@
 				"Terran",
 				"Undercommon"
 			],
+			"senseTags": [
+				"SD"
+			],
 			"hasToken": true,
 			"hasFluffImages": true
+		},
+		{
+			"name": "Two-Headed Troll",
+			"source": "OotA",
+			"page": 211,
+			"_copy": {
+				"name": "Troll",
+				"source": "MM"
+			},
+			"bonus": [
+				{
+					"name": "Extra Bite",
+					"entries": [
+						"As part of its Multiattack routine, the troll can make a Bite attack."
+					]
+				}
+			],
+			"hasToken": true
 		},
 		{
 			"name": "Vampiric Ixitxachitl",
@@ -4901,7 +5348,8 @@
 				"constitution"
 			],
 			"hasToken": true,
-			"hasFluff": true
+			"hasFluff": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Vampiric Ixitxachitl Cleric",
@@ -5026,7 +5474,8 @@
 				"wisdom"
 			],
 			"hasToken": true,
-			"hasFluff": true
+			"hasFluff": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Veldyskar",
@@ -5067,6 +5516,7 @@
 					}
 				}
 			],
+			"tokenCustom": true,
 			"spellcastingTags": [
 				"I"
 			],
@@ -5181,7 +5631,7 @@
 				"source": "MM",
 				"_templates": [
 					{
-						"name": "Drow",
+						"name": "Drow (Levitate)",
 						"source": "PHB"
 					}
 				],
@@ -5218,6 +5668,7 @@
 				"E"
 			],
 			"cr": "5",
+			"tokenCustom": true,
 			"traitTags": [
 				"Fey Ancestry",
 				"Sunlight Sensitivity"
@@ -5238,7 +5689,7 @@
 				"source": "MM",
 				"_templates": [
 					{
-						"name": "Drow",
+						"name": "Drow (Levitate)",
 						"source": "PHB"
 					}
 				],
@@ -5296,7 +5747,7 @@
 			"page": 29,
 			"_copy": {
 				"name": "Derro Savant",
-				"source": "MTF",
+				"source": "OotA",
 				"_mod": {
 					"*": {
 						"mode": "replaceTxt",
@@ -5341,6 +5792,73 @@
 			"int": 18,
 			"hasToken": true,
 			"hasFluffImages": true
+		},
+		{
+			"name": "Yantha Coaxrock",
+			"isNpc": true,
+			"isNamedCreature": true,
+			"source": "OotA",
+			"page": 138,
+			"_copy": {
+				"name": "Deep Gnome (Svirfneblin)",
+				"source": "MM",
+				"_mod": {
+					"*": {
+						"mode": "replaceTxt",
+						"replace": "the gnome",
+						"with": "Yantha",
+						"flags": "i"
+					}
+				}
+			},
+			"int": 16,
+			"spellcasting": [
+				{
+					"name": "Spellcasting",
+					"type": "spellcasting",
+					"headerEntries": [
+						"Yantha is a 5th-level spellcaster. Her spellcasting ability is Intelligence (spell save {@dc 13}). She has the following wizard spells prepared:"
+					],
+					"spells": {
+						"0": {
+							"spells": [
+								"{@spell dancing lights}",
+								"{@spell friends}",
+								"{@spell mending}",
+								"{@spell prestidigitation}"
+							]
+						},
+						"1": {
+							"slots": 4,
+							"spells": [
+								"{@spell comprehend languages}",
+								"{@spell detect magic}",
+								"{@spell Tenser's floating disk}"
+							]
+						},
+						"2": {
+							"slots": 3,
+							"spells": [
+								"{@spell detect thoughts}",
+								"{@spell hold person}"
+							]
+						},
+						"3": {
+							"slots": 2,
+							"spells": [
+								"{@spell sending}"
+							]
+						}
+					},
+					"ability": "int"
+				}
+			],
+			"tokenCredit": "Paizo",
+			"tokenCustom": true,
+			"spellcastingTags": [
+				"CW"
+			],
+			"hasToken": true
 		},
 		{
 			"name": "Yestabrod",
@@ -5493,7 +6011,7 @@
 				{
 					"name": "Petrifying Gaze",
 					"entries": [
-						"If a creature starts its turn within 15 feet of the basilisk and the two of them can see each other, the basilisk can force the creature to make a {@dc 12} Constitution saving throw if the basilisk isn't {@condition incapacitated}. On a failed save, the creature magically begins to turn to stone and is {@condition restrained}. It must repeat the saving throw at the end of its next turn. On a success, the effect ends. On a failure, the creature is {@condition petrified} until freed by the  {@spell greater restoration} spell or other magic.",
+						"If a creature starts its turn within 15 feet of the basilisk and the two of them can see each other, the basilisk can force the creature to make a {@dc 12} Constitution saving throw if the basilisk isn't {@condition incapacitated}. On a failed save, the creature magically begins to turn to stone and is {@condition restrained}. It must repeat the saving throw at the end of its next turn. On a success, the effect ends. On a failure, the creature is {@condition petrified} until freed by the {@spell greater restoration} spell or other magic.",
 						"A creature that isn't {@status surprised} can avert its eyes to avoid the saving throw at the start of its turn. If it does so, it can't see the basilisk until the start of its next turn, when it can avert its eyes again. If it looks at the basilisk in the meantime, it must immediately make the save.",
 						"If the basilisk sees its reflection within 30 feet of it in bright light, it mistakes itself for a rival and targets itself with its gaze."
 					]
@@ -5574,6 +6092,15 @@
 						"replace": "the goblin",
 						"with": "Yuk Yuk",
 						"flags": "i"
+					},
+					"trait": {
+						"mode": "appendArr",
+						"items": {
+							"name": "Thrill-Seeker",
+							"entries": [
+								"Yuk Yuk has advantage on checks made to avoid being {@status surprised}."
+							]
+						}
 					}
 				}
 			},

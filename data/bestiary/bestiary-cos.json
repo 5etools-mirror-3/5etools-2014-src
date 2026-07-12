@@ -924,6 +924,38 @@
 			"hasFluff": true
 		},
 		{
+			"name": "Cat Skeleton",
+			"source": "CoS",
+			"page": 109,
+			"_copy": {
+				"name": "Cat",
+				"source": "MM",
+				"_templates": [
+					{
+						"name": "Skeleton",
+						"source": "DMG"
+					}
+				],
+				"_mod": {
+					"_": [
+						{
+							"mode": "setProp",
+							"prop": "vulnerable",
+							"value": null
+						},
+						{
+							"mode": "setProp",
+							"prop": "languages",
+							"value": null
+						}
+					]
+				}
+			},
+			"tokenCredit": "BoneTea",
+			"tokenCustom": true,
+			"hasToken": true
+		},
+		{
 			"name": "Clovin Belview",
 			"isNpc": true,
 			"isNamedCreature": true,
@@ -1624,6 +1656,40 @@
 			"hasFluffImages": true
 		},
 		{
+			"name": "Hungry Ghast",
+			"source": "CoS",
+			"page": 192,
+			"_copy": {
+				"name": "Ghast",
+				"source": "MM",
+				"_mod": {
+					"trait": {
+						"mode": "appendArr",
+						"items": {
+							"name": "Spider Climb",
+							"entries": [
+								"The ghast can climb difficult surfaces, including upside down on ceilings, without having to make an ability check."
+							]
+						}
+					}
+				}
+			},
+			"size": [
+				"S"
+			],
+			"alignment": [
+				"L",
+				"G"
+			],
+			"hp": {
+				"average": 7,
+				"formula": "2d6"
+			},
+			"tokenCredit": "Will O'Brien",
+			"tokenCustom": true,
+			"hasToken": true
+		},
+		{
 			"name": "Ireena Kolyana",
 			"isNpc": true,
 			"isNamedCreature": true,
@@ -1812,7 +1878,7 @@
 							{
 								"name": "Fey Ancestry",
 								"entries": [
-									"Kasimir has advantage on saving throws against being {@condition charmed}, and magic can't put the him to sleep."
+									"Kasimir has advantage on saving throws against being {@condition charmed}, and magic can't put him to sleep."
 								]
 							},
 							{
@@ -1830,7 +1896,8 @@
 				"tags": [
 					{
 						"tag": "elf",
-						"prefix": "Dusk"
+						"prefix": "Dusk",
+						"prefixHidden": true
 					}
 				]
 			},
@@ -1985,6 +2052,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"damageTags": [
 				"B",
 				"S"
@@ -2069,7 +2137,8 @@
 				"dexterity",
 				"wisdom"
 			],
-			"hasToken": true
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Lady Lydia Petrovna",
@@ -2113,7 +2182,8 @@
 				"C",
 				"E"
 			],
-			"hasToken": true
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Ludmilla Vilisevic",
@@ -2144,6 +2214,12 @@
 			"_copy": {
 				"name": "Bandit Captain",
 				"source": "MM",
+				"_templates": [
+					{
+						"name": "Vistana",
+						"source": "CoS"
+					}
+				],
 				"_mod": {
 					"*": {
 						"mode": "replaceTxt",
@@ -2711,6 +2787,10 @@
 					}
 				}
 			},
+			"alignment": [
+				"L",
+				"E"
+			],
 			"hasToken": true,
 			"hasFluffImages": true
 		},
@@ -2776,7 +2856,8 @@
 				"tags": [
 					{
 						"tag": "elf",
-						"prefix": "Dusk"
+						"prefix": "Dusk",
+						"prefixHidden": true
 					}
 				]
 			},
@@ -2894,6 +2975,7 @@
 				}
 			],
 			"traitTags": [
+				"Ethereal Sight",
 				"Incorporeal Movement"
 			],
 			"senseTags": [
@@ -3508,10 +3590,7 @@
 			"type": {
 				"type": "humanoid",
 				"tags": [
-					{
-						"tag": "elf",
-						"prefix": "Dusk"
-					}
+					"elf"
 				]
 			},
 			"alignment": [
@@ -3907,7 +3986,7 @@
 				{
 					"name": "Regeneration",
 					"entries": [
-						"Strahd regains 20 hit points at the start of his turn if he has at least 1 hit point and isn't in running water or sunlight. If he takes radiant damage or damage from holy water, this trait doesn't function at the start of his next turn."
+						"Strahd regains 20 hit points at the start of his turn if he has at least 1 hit point and isn't in running water or sunlight. If he takes radiant damage or damage from {@item Holy Water (Flask)|PHB|holy water}, this trait doesn't function at the start of his next turn."
 					]
 				},
 				{
@@ -4541,10 +4620,8 @@
 			"name": "Tree Blight",
 			"source": "CoS",
 			"page": 230,
-			"otherSources": [
-				{
-					"source": "WBtW"
-				}
+			"referenceSources": [
+				"WBtW"
 			],
 			"size": [
 				"H"
@@ -5133,6 +5210,7 @@
 				"average": 7,
 				"formula": "2d6"
 			},
+			"tokenCustom": true,
 			"hasToken": true
 		},
 		{
@@ -5184,6 +5262,10 @@
 					}
 				}
 			},
+			"alignment": [
+				"L",
+				"E"
+			],
 			"senses": [
 				"darkvision 60 ft."
 			],

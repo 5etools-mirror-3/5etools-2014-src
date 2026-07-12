@@ -9,7 +9,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/KKW/109-429.webp"
-					}
+					},
+					"width": 1001,
+					"height": 668
 				}
 			]
 		},
@@ -22,7 +24,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/KKW/Loading Rig.webp"
-					}
+					},
+					"width": 1000,
+					"height": 668
 				}
 			]
 		}

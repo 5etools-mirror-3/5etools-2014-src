@@ -242,10 +242,8 @@
 			"name": "Aurumvorax",
 			"source": "JttRC",
 			"page": 105,
-			"otherSources": [
-				{
-					"source": "QftIS"
-				}
+			"referenceSources": [
+				"QftIS"
 			],
 			"size": [
 				"S"
@@ -346,10 +344,8 @@
 			"name": "Aurumvorax Den Leader",
 			"source": "JttRC",
 			"page": 105,
-			"otherSources": [
-				{
-					"source": "QftIS"
-				}
+			"referenceSources": [
+				"QftIS"
 			],
 			"size": [
 				"M"
@@ -711,6 +707,7 @@
 				"exhaustion",
 				"poisoned"
 			],
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true
 		},
@@ -845,6 +842,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"hasToken": true,
 			"hasFluff": true,
 			"hasFluffImages": true
@@ -1633,6 +1631,7 @@
 			"senses": [
 				"darkvision 60 ft."
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Water Breathing"
 			],
@@ -1709,8 +1708,7 @@
 				"Tletlahtolli"
 			],
 			"spellcastingTags": [
-				"CC",
-				"I"
+				"CC"
 			],
 			"hasToken": true,
 			"hasFluffImages": true

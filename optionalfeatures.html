@@ -15,7 +15,6 @@
 
 	<link rel="stylesheet" href="css/bootstrap.css">
 	<link rel="stylesheet" href="css/main.css">
-	<link rel="stylesheet" href="css/optionalfeatures.css">
 
 	<!-- Favicons -->
 	<link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -52,7 +51,7 @@
 
 	<script type="text/javascript" src="sw-injector.js"></script>
 
-	<script type="module" src="js/styleswitch.js"></script>
+	<script blocking="render" type="module" src="js/styleswitch.js"></script>
 	<script type="text/javascript" src="js/navigation.js"></script>
 	<script type="module" src="js/browsercheck.js"></script>
 </head>
@@ -67,31 +66,33 @@
 <div class="viewport-wrapper">
 	<div class="cancer__wrp-leaderboard cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__wrp-leaderboard-inner cancer__wrp-interactive"><!--5ETOOLS_AD_LEADERBOARD--></div></div>
 
-	<header class="hidden-xs hidden-sm page__header">
-		<div class="container ve-flex-v-baseline">
-			<h1 class="page__title no-wrap my-0" id="page__title">Other Options and Features</h1>
-			<p class="page__subtitle no-wrap my-0" id="page__subtitle">Search by name on the left, click a name to display on the right.</p>
-		</div>
-	</header>
+	<div class="ve-flex-col" data-cancer-id="cancer-header">
+		<header class="ve-mobile-sm__hidden page__header">
+			<div class="container ve-flex-v-baseline">
+				<h1 class="page__title ve-no-wrap ve-my-0" id="page__title">Other Options and Features</h1>
+				<p class="page__subtitle ve-no-wrap ve-my-0" id="page__subtitle">Search by name on the left, click a name to display on the right.</p>
+			</div>
+		</header>
 
-	<nav class="container page__nav" id="navigation">
-		<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
-	</nav>
+		<nav class="container page__nav" id="navigation">
+			<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
+		</nav>
+	</div>
 
-	<div class="view-col-group--cancer h-100 mh-0">
-		<div class="container view-col-wrapper view-col-wrapper--cancer">
+	<div class="view-col-group--cancer ve-h-100 mh-0">
+		<div class="container view-col-wrapper view-col-wrapper--cancer" data-cancer-id="cancer-wrapper">
 			<div class="view-col ve-flex-6" id="listcontainer">
-				<div class="lst__form-top" id="filter-search-group">
-					<div class="w-100 relative">
-						<input type="search" id="lst__search" autocomplete="off" autocapitalize="off" spellcheck="false" class="search form-control lst__search lst__search--no-border-h">
-						<div id="lst__search-glass" class="lst__wrp-search-glass no-events ve-flex-vh-center"><span class="glyphicon glyphicon-search"></span></div>
-						<div class="lst__wrp-search-visible no-events ve-flex-vh-center"></div>
+				<div class="ve-lst__form-top" id="filter-search-group">
+					<div class="ve-w-100 ve-relative">
+						<input type="search" id="lst__search" autocomplete="off" autocapitalize="off" spellcheck="false" class="search ve-form-control ve-lst__search ve-lst__search--no-border-h">
+						<div id="lst__search-glass" class="ve-lst__wrp-search-glass ve-no-events ve-flex-vh-center"><span class="glyphicon glyphicon-search"></span></div>
+						<div class="ve-lst__wrp-search-visible ve-no-events ve-flex-vh-center"></div>
 					</div>
 					<button type="button" class="ve-btn ve-btn-default" id="reset">Reset</button>
 				</div>
 
-				<div id="filtertools" class="input-group input-group--bottom ve-flex no-shrink">
-					<button type="button" class="ve-col-0-3 ve-btn ve-btn-default ve-btn-xs p-0 lst__btn-collapse-all-previews no-select" name="list-toggle-all-previews">[+]</button>
+				<div id="filtertools" class="ve-input-group ve-input-group--bottom ve-flex ve-no-shrink">
+					<button type="button" class="ve-col-0-3 ve-btn ve-btn-default ve-btn-xs ve-p-0 ve-lst__btn-collapse-all-previews ve-no-select" name="list-toggle-all-previews">[+]</button>
 					<button type="button" class="ve-col-3 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
 					<button type="button" class="ve-col-1-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="type">Type</button>
 					<button type="button" class="ve-col-4-7 sort ve-btn ve-btn-default ve-btn-xs" data-sort="prerequisite">Prerequisite</button>
@@ -116,20 +117,20 @@
 					<div id="sublist" class="list"></div>
 				</div>
 
-				<div class="w-100 ve-flex" id="stat-tabs">
-					<div class="ml-auto ve-flex" id="tabs-right"></div>
+				<div class="ve-w-100 ve-flex" id="stat-tabs">
+					<div class="ve-ml-auto ve-flex" id="tabs-right"></div>
 				</div>
 
-				<div id="wrp-pagecontent" class="relative wrp-stats-table">
-					<table id="pagecontent" class="w-100 stats">
+				<div id="wrp-pagecontent" class="ve-relative wrp-stats-table">
+					<table id="pagecontent" class="ve-w-100 ve-stats">
 						<tr><th class="ve-tbl-border" colspan="6"></th></tr>
 						<tr><td colspan="6" class="initial-message initial-message--med">Select an entry from the list to view it here</td></tr>
 						<tr><th class="ve-tbl-border" colspan="6"></th></tr>
 					</table>
 				</div>
 
-				<div class="ve-flex-vh-center mt-2 no-print">
-					<button type="button" class="ve-btn ve-btn-default ve-btn-xs mr-2" id="btn-book">Printer View</button>
+				<div class="ve-flex-vh-center ve-mt-2 no-print">
+					<button type="button" class="ve-btn ve-btn-default ve-btn-xs ve-mr-2" id="btn-book">Printer View</button>
 					<div class="ve-flex-v-center ve-btn-group" id="btngroup-manager">
 						<button type="button" class="ve-btn ve-btn-xs ve-btn-primary" name="manage-content">Manage Content</button>
 						<button type="button" class="ve-btn ve-btn-xs ve-btn-primary" name="manage-prerelease" title="Manage Prerelease Content"><span class="glyphicon glyphicon-wrench"></span></button>
@@ -144,7 +145,6 @@
 <!--5ETOOLS_SCRIPT_ANCHOR-->
 <!--5ETOOLS_AD_ADHESION-->
 
-<script type="text/javascript" defer src="lib/jquery.js"></script>
 <script type="text/javascript" defer src="js/parser.js"></script>
 <script type="text/javascript" defer src="js/utils.js"></script>
 <script type="text/javascript" defer src="js/utils-ui.js"></script>
@@ -152,7 +152,7 @@
 <script type="module" defer src="js/omnidexer.js"></script>
 <script type="module" src="js/omnisearch.js"></script>
 <script type="module" src="js/filter.js"></script>
-<script type="text/javascript" defer src="js/utils-dataloader.js"></script>
+<script type="module" src="js/utils-dataloader.js"></script>
 <script type="module" src="js/utils-font.js"></script>
 <script type="module" src="js/utils-brew.js"></script>
 <script type="module" src="js/utils-config.js"></script>
@@ -170,7 +170,7 @@
 <script type="text/javascript" defer src="js/filter-common.js"></script>
 <script type="text/javascript" defer src="js/filter-optionalfeatures.js"></script>
 <script type="module" src="js/optionalfeatures.js"></script>
-<script type="text/javascript" defer src="js/list2.js"></script>
+<script type="module" defer src="js/list2.js"></script>
 <script type="text/javascript" defer src="lib/elasticlunr.js"></script>
 <!-- Dice Controls Container -->
 <div id="dice-box"></div>

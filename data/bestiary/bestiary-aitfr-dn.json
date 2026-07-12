@@ -82,6 +82,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"traitTags": [
 				"Undead Fortitude"
 			],
@@ -95,8 +96,7 @@
 			"damageTags": [
 				"B",
 				"I",
-				"P",
-				"R"
+				"P"
 			],
 			"miscTags": [
 				"MW",
@@ -187,6 +187,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"actionTags": [
 				"Multiattack",
 				"Parry"
@@ -364,6 +365,7 @@
 				"name": "Kyrilla, Accursed Gorgon",
 				"source": "AitFR-DN"
 			},
+			"tokenCustom": true,
 			"attachedItems": [
 				"longbow|phb"
 			],
@@ -482,6 +484,7 @@
 					]
 				}
 			],
+			"tokenCustom": true,
 			"senseTags": [
 				"D"
 			],

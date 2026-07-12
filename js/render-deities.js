@@ -1,8 +1,8 @@
 "use strict";
 
 class RenderDeities {
-	static $getRenderedDeity (deity) {
-		return $$`
+	static getRenderedDeity (deity) {
+		return ee`
 			${Renderer.utils.getBorderTr()}
 			${Renderer.utils.getExcludedTr({entity: deity, dataProp: "deity"})}
 			${Renderer.utils.getNameTr(deity, {suffix: deity.title ? `, ${deity.title.toTitleCase()}` : "", page: UrlUtil.PG_DEITIES})}
@@ -48,8 +48,8 @@ class RenderDeities {
 
 			${entriesMeta.entriesAttributes.map(entry => `<tr><td colspan="6">${Renderer.get().render(entry)}</td></tr>`).join("")}
 
-			${deity.symbolImg ? `<tr><td colspan="6">${renderer.render({entries: [deity.symbolImg]})}<div class="mb-2"></div></td></tr>` : ""}
-			${renderStack.length ? `<tr><td class="pt-2" colspan="6">${renderStack.join("")}</td></tr>` : ""}
+			${deity.symbolImg ? `<tr><td colspan="6">${renderer.render({entries: [deity.symbolImg]})}<div class="ve-mb-2"></div></td></tr>` : ""}
+			${renderStack.length ? `<tr><td class="ve-pt-2" colspan="6">${renderStack.join("")}</td></tr>` : ""}
 			`;
 	}
 }

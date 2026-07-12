@@ -28,3 +28,6 @@ export const BLOCKLIST_SOURCES_PAGES = new Set([
 	Parser.SRC_SCREEN_SPELLJAMMER,
 	// endregion
 ]);
+
+export const PATH_DEFAULT_PRERELEASE_DIR = "../unearthed-arcana";
+export const PATH_DEFAULT_HOMEBREW_DIR = "../homebrew";

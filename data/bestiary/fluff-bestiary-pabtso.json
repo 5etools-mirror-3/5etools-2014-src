@@ -22,7 +22,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Aberrant Zealot.webp"
-					}
+					},
+					"width": 730,
+					"height": 1000
 				}
 			]
 		},
@@ -35,7 +37,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Ash Zombie.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1121
 				}
 			]
 		},
@@ -62,7 +66,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Ashenwights.webp"
-					}
+					},
+					"width": 850,
+					"height": 848
 				}
 			]
 		},
@@ -87,7 +93,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Chishinix.webp"
-					}
+					},
+					"width": 850,
+					"height": 1548
 				}
 			]
 		},
@@ -119,7 +127,9 @@
 							"href": {
 								"type": "internal",
 								"path": "bestiary/PaBTSO/Cloaker Mutate.webp"
-							}
+							},
+							"width": 1000,
+							"height": 745
 						}
 					}
 				}
@@ -154,7 +164,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Encephalon Cluster.webp"
-					}
+					},
+					"width": 831,
+					"height": 1000
 				}
 			]
 		},
@@ -188,7 +200,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Encephalon Gemmule.webp"
-					}
+					},
+					"width": 894,
+					"height": 1000
 				}
 			]
 		},
@@ -220,7 +234,9 @@
 							"href": {
 								"type": "internal",
 								"path": "bestiary/PaBTSO/Feral Ashenwight.webp"
-							}
+							},
+							"width": 1000,
+							"height": 955
 						}
 					}
 				}
@@ -244,7 +260,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Fiendish Auger.webp"
-					}
+					},
+					"width": 1000,
+					"height": 962
 				}
 			]
 		},
@@ -266,7 +284,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Flesh Meld.webp"
-					}
+					},
+					"width": 738,
+					"height": 1000
 				}
 			]
 		},
@@ -298,7 +318,9 @@
 							"href": {
 								"type": "internal",
 								"path": "bestiary/PaBTSO/Goblin Psi Brawler.webp"
-							}
+							},
+							"width": 724,
+							"height": 1000
 						}
 					}
 				}
@@ -332,7 +354,9 @@
 							"href": {
 								"type": "internal",
 								"path": "bestiary/PaBTSO/Goblin Psi Commander.webp"
-							}
+							},
+							"width": 868,
+							"height": 1000
 						}
 					}
 				}
@@ -347,7 +371,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/GrandlejawandKellikilli.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1129
 				}
 			]
 		},
@@ -360,7 +386,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Grell Psychic.webp"
-					}
+					},
+					"width": 745,
+					"height": 1000
 				}
 			]
 		},
@@ -373,7 +401,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Gundren Rockseeker.webp"
-					}
+					},
+					"width": 850,
+					"height": 1060
 				}
 			]
 		},
@@ -386,7 +416,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Gwyn Oresong.webp"
-					}
+					},
+					"width": 850,
+					"height": 1464
 				}
 			]
 		},
@@ -399,7 +431,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Hashutu.webp"
-					}
+					},
+					"width": 850,
+					"height": 1262
 				}
 			]
 		},
@@ -412,7 +446,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Hjoldak Hollowhelm.webp"
-					}
+					},
+					"width": 850,
+					"height": 783
 				}
 			]
 		},
@@ -425,7 +461,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Honna.webp"
-					}
+					},
+					"width": 850,
+					"height": 1974
 				}
 			]
 		},
@@ -458,7 +496,9 @@
 							"href": {
 								"type": "internal",
 								"path": "bestiary/PaBTSO/Humanoid Mutate.webp"
-							}
+							},
+							"width": 730,
+							"height": 1000
 						}
 					}
 				}
@@ -482,7 +522,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Iarno Glasstaff Albrek.webp"
-					}
+					},
+					"width": 701,
+					"height": 1000
 				}
 			]
 		},
@@ -503,7 +545,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Infected Elder Brain.webp"
-					}
+					},
+					"width": 1000,
+					"height": 668
 				}
 			]
 		},
@@ -516,7 +560,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Infected Townsperson.webp"
-					}
+					},
+					"width": 786,
+					"height": 1000
 				}
 			]
 		},
@@ -538,7 +584,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Intellect Snare.webp"
-					}
+					},
+					"width": 1000,
+					"height": 895
 				}
 			]
 		},
@@ -551,7 +599,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/GrandlejawandKellikilli.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1129
 				}
 			]
 		},
@@ -572,7 +622,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Lowarnizel.webp"
-					}
+					},
+					"width": 856,
+					"height": 1000
 				}
 			]
 		},
@@ -585,7 +637,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Malinia.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1118
 				}
 			]
 		},
@@ -619,7 +673,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Mind Flayer Clairvoyant.webp"
-					}
+					},
+					"width": 669,
+					"height": 1000
 				}
 			]
 		},
@@ -664,7 +720,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Mind Flayer Prophet.webp"
-					}
+					},
+					"width": 786,
+					"height": 1000
 				}
 			]
 		},
@@ -677,7 +735,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Mormesk the Wraith.webp"
-					}
+					},
+					"width": 850,
+					"height": 1398
 				}
 			]
 		},
@@ -708,7 +768,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Mutates.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1128
 				}
 			]
 		},
@@ -730,7 +792,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Nezznar the Spider.webp"
-					}
+					},
+					"width": 1000,
+					"height": 625
 				}
 			]
 		},
@@ -743,7 +807,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Nundro Rockseeker.webp"
-					}
+					},
+					"width": 1700,
+					"height": 2200
 				}
 			]
 		},
@@ -756,7 +822,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/NythalynandYanthdel.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1131
 				}
 			]
 		},
@@ -778,7 +846,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Oculorb.webp"
-					}
+					},
+					"width": 813,
+					"height": 1000
 				}
 			]
 		},
@@ -799,7 +869,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Oshundo the Alhoon.webp"
-					}
+					},
+					"width": 639,
+					"height": 1000
 				}
 			]
 		},
@@ -831,7 +903,9 @@
 							"href": {
 								"type": "internal",
 								"path": "bestiary/PaBTSO/Otyugh Mutate.webp"
-							}
+							},
+							"width": 1000,
+							"height": 814
 						}
 					}
 				}
@@ -866,7 +940,9 @@
 							"href": {
 								"type": "internal",
 								"path": "bestiary/PaBTSO/Psionic Ashenwight.webp"
-							}
+							},
+							"width": 815,
+							"height": 1000
 						}
 					}
 				}
@@ -896,7 +972,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Psionic Goblins.webp"
-					}
+					},
+					"width": 850,
+					"height": 1104
 				}
 			]
 		},
@@ -918,7 +996,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Qunbraxel.webp"
-					}
+					},
+					"width": 865,
+					"height": 1000
 				}
 			]
 		},
@@ -939,7 +1019,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Redbrand Ruffian.webp"
-					}
+					},
+					"width": 1000,
+					"height": 668
 				}
 			]
 		},
@@ -961,7 +1043,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Refraction of Ilvaash.webp"
-					}
+					},
+					"width": 1000,
+					"height": 985
 				}
 			]
 		},
@@ -974,7 +1058,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Rivibiddel.webp"
-					}
+					},
+					"width": 850,
+					"height": 1768
 				}
 			]
 		},
@@ -996,7 +1082,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Ruxithid the Chosen.webp"
-					}
+					},
+					"width": 526,
+					"height": 1000
 				}
 			]
 		},
@@ -1009,7 +1097,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Shalfi Lewin.webp"
-					}
+					},
+					"width": 850,
+					"height": 963
 				}
 			]
 		},
@@ -1030,7 +1120,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Sildar Hallwinter.webp"
-					}
+					},
+					"width": 1000,
+					"height": 997
 				}
 			]
 		},
@@ -1043,7 +1135,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Varakkta.webp"
-					}
+					},
+					"width": 850,
+					"height": 2271
 				}
 			]
 		},
@@ -1056,7 +1150,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Voalsh.webp"
-					}
+					},
+					"width": 850,
+					"height": 1163
 				}
 			]
 		},
@@ -1069,7 +1165,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/NythalynandYanthdel.webp"
-					}
+					},
+					"width": 1700,
+					"height": 1131
 				}
 			]
 		},
@@ -1082,7 +1180,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/PaBTSO/Zeond.webp"
-					}
+					},
+					"width": 850,
+					"height": 1198
 				}
 			]
 		}

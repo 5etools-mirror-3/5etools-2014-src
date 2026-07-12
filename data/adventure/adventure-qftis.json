@@ -169,7 +169,7 @@
 							"page": 7,
 							"id": "00e",
 							"entries": [
-								"The staircase doesn't experience day or night, existing in a perpetual state of twilight. Distant doors, twinkling like stars, provide dim light to the dreamlike realm, as does the staircase itself, which gives off an ambient glow in some stretches."
+								"The staircase doesn't experience day or night, existing in a perpetual state of twilight. Distant doors, twinkling like stars, provide {@quickref Vision and Light||2||dim light} to the dreamlike realm, as does the staircase itself, which gives off an ambient glow in some stretches."
 							]
 						},
 						{
@@ -179,7 +179,7 @@
 							"id": "00f",
 							"entries": [
 								"Endless doors along the staircase connect it to destinations throughout the multiverse. These doors function as {@book planar portals|DMG|2|Planar Portals} (see the {@book Dungeon Master's Guide|DMG}) and are typically closed, though most are unlocked and don't require portal keys to enter.",
-								"Each door on the staircase occupies a landing with at least two staircases connected to it, leading to and from other landings and their respective doors. The doors and their landings are altered by planar magic, taking on characteristics of their destinations. Red light seeps from the seams of a gloomy, jet-black door to the Shadowfell set into a gothic archway; gargoyles perch on its landing, exuding roiling mist from their open mouths. A slippery ramp of deep-blue ice ascends to a frozen portal to the Paraelemental Plane of Ice, while a clammy bridge of basket fungus weaves toward a cavernous door to the Underdark.",
+								"Each door on the staircase occupies a landing with at least two staircases connected to it, leading to and from other landings and their respective doors. The doors and their landings are altered by planar magic, taking on characteristics of their destinations. Red light seeps from the seams of a gloomy, jet-black door to the Shadowfell set into a gothic archway; gargoyles perch on its landing, exuding roiling mist from their open mouths. A slippery ramp of deep-blue ice ascends to a frozen portal to the Para-elemental Plane of Ice, while a clammy bridge of basket fungus weaves toward a cavernous door to the Underdark.",
 								"Landings are frequent along the staircase but vary in distance from one another. Every landing contains at least one door. Travel between landings can take minutes, hours, or days."
 							]
 						},
@@ -239,7 +239,7 @@
 							"id": "015",
 							"entries": [
 								"Areas of the staircase plagued by the Iron Shadow appear cold and lifeless and are shrouded in palls of magical gloom. A creature that enters the gloom for the first time on a turn or starts its turn there must succeed on a {@dc 10} Constitution saving throw or gain 1 level of {@condition exhaustion}. If this effect increases a creature's level of {@condition exhaustion} above 5, the creature becomes a {@creature shadow} under the Iron Shadow's control. Nothing short of a {@spell Wish} spell or divine intervention can reverse this transformation.",
-								"If an area of bright light created by a spell of 3rd level or higher overlaps with an area of gloom, that gloom disappears for 1 hour. Only a {@spell Wish} spell can permanently expunge a patch of the Iron Shadow from the staircase."
+								"If an area of {@quickref Vision and Light||2||bright light} created by a spell of 3rd level or higher overlaps with an area of gloom, that gloom disappears for 1 hour. Only a {@spell Wish} spell can permanently expunge a patch of the Iron Shadow from the staircase."
 							]
 						},
 						{
@@ -1285,10 +1285,9 @@
 											"grid": {
 												"type": "square",
 												"size": 165,
-												"offsetX": 25,
-												"offsetY": 48,
-												"scale": 2,
-												"distance": 10
+												"offsetX": 50,
+												"offsetY": 96,
+												"scale": 4
 											},
 											"mapRegions": [
 												{
@@ -1944,10 +1943,9 @@
 											"grid": {
 												"type": "square",
 												"size": 165,
-												"offsetX": 25,
-												"offsetY": 48,
-												"scale": 2,
-												"distance": 10
+												"offsetX": 50,
+												"offsetY": 96,
+												"scale": 4
 											}
 										}
 									]
@@ -2047,7 +2045,7 @@
 											"page": 21,
 											"id": "049",
 											"entries": [
-												"Four {@creature Stirge||stirges}, their bellies engorged with the corpse's blood, hang asleep from the ceiling. Bright light or any noise louder than a whisper wakes the stirges, causing them to attack. A character attempting to retrieve the gems must succeed on a {@dc 15} Dexterity ({@skill Stealth}) check to avoid waking the stirges."
+												"Four {@creature Stirge||stirges}, their bellies engorged with the corpse's blood, hang asleep from the ceiling. {@quickref Vision and Light||2||Bright light} or any noise louder than a whisper wakes the stirges, causing them to attack. A character attempting to retrieve the gems must succeed on a {@dc 15} Dexterity ({@skill Stealth}) check to avoid waking the stirges."
 											]
 										},
 										{
@@ -2608,7 +2606,7 @@
 											"id": "07c",
 											"entries": [
 												"To be considered for membership, a character must reveal a secret about themself\u2014whether false or true\u2014and make a {@dc 14} Charisma ({@skill Deception} or {@skill Persuasion}) check. Characters who openly display allegiance to another faction in the ziggurat, such as by wearing a mask of Gorm, have disadvantage on this check. Characters who prove they've defeated members of another faction have advantage on this check. On a successful check, Auriga inducts that character into the Mages of Usamigaras. If a character tries to dupe the mages and fails, Auriga remarks that the character is a poor liar.",
-												"The mages give each inductee a set of starry robes, a silvered {@item dagger|PHB}, a silver mask worth 25 gp, and a silver tattoo of a five-pointed star on their right palm. Auriga also tells inductees how to operate the shifting wall in {@area area B21|086|x}. Additionally, if at least one character joins the faction, Auriga gifts the party a {@item Wand of Secrets} from a hidden niche in the altar.",
+												"The mages give each inductee a set of starry robes, a {@item silvered dagger|PHB}, a silver mask worth 25 gp, and a silver tattoo of a five-pointed star on their right palm. Auriga also tells inductees how to operate the shifting wall in {@area area B21|086|x}. Additionally, if at least one character joins the faction, Auriga gifts the party a {@item Wand of Secrets} from a hidden niche in the altar.",
 												"The Mages of Usamigaras and their allies can rest safely here and in area B19 without triggering random encounters."
 											]
 										},
@@ -2628,7 +2626,7 @@
 											"id": "07e",
 											"entries": [
 												"Auriga and their four mages each wear a silver mask of Usamigaras worth 25 gp. Auriga wears a bejeweled silver crown worth 100 gp and carries a {@item Wand of Magic Detection}.",
-												"A character who inspects the altar and succeeds on a {@dc 15} Intelligence ({@skill Investigation}) check finds a hidden compartment. Inside are six more masks, six sets of robes, six silvered {@item Dagger|PHB|daggers}, and a {@item Wand of Secrets}."
+												"A character who inspects the altar and succeeds on a {@dc 15} Intelligence ({@skill Investigation}) check finds a hidden compartment. Inside are six more masks, six sets of robes, six {@item Silvered Dagger|PHB|silvered daggers}, and a {@item Wand of Secrets}."
 											]
 										}
 									]
@@ -3415,10 +3413,9 @@
 											"grid": {
 												"type": "square",
 												"size": 193,
-												"offsetX": 85,
-												"offsetY": -16,
-												"scale": 2,
-												"distance": 10
+												"offsetX": 170,
+												"offsetY": -32,
+												"scale": 4
 											}
 										},
 										{
@@ -3438,10 +3435,9 @@
 											"grid": {
 												"type": "square",
 												"size": 193,
-												"offsetX": 85,
-												"offsetY": -16,
-												"scale": 2,
-												"distance": 10
+												"offsetX": 170,
+												"offsetY": -32,
+												"scale": 4
 											}
 										}
 									]
@@ -3651,7 +3647,7 @@
 											"page": 32,
 											"id": "0b6",
 											"entries": [
-												"Ten jewels set in the coffin are worth 50 gp each. Inside the coffin is a gold-plated set of {@item thieves' tools|PHB} worth 10 gp and two silvered {@item Dagger|PHB|daggers}."
+												"Ten jewels set in the coffin are worth 50 gp each. Inside the coffin is a gold-plated set of {@item thieves' tools|PHB} worth 10 gp and two {@item Silvered Dagger|PHB|silvered daggers}."
 											]
 										}
 									]
@@ -4356,10 +4352,9 @@
 											"grid": {
 												"type": "square",
 												"size": 147,
-												"offsetX": 34,
-												"offsetY": 6,
-												"scale": 2,
-												"distance": 10
+												"offsetX": 68,
+												"offsetY": 12,
+												"scale": 4
 											}
 										},
 										{
@@ -4379,10 +4374,9 @@
 											"grid": {
 												"type": "square",
 												"size": 147,
-												"offsetX": 34,
-												"offsetY": 6,
-												"scale": 2,
-												"distance": 10
+												"offsetX": 68,
+												"offsetY": 12,
+												"scale": 4
 											}
 										}
 									]
@@ -4975,7 +4969,7 @@
 												{
 													"type": "item",
 													"name": "Lighting",
-													"entry": "Bulbous growths cling to walls throughout. Their pulsing, sickly glow provides dim light."
+													"entry": "Bulbous growths cling to walls throughout. Their pulsing, sickly glow provides {@quickref Vision and Light||2||dim light}."
 												},
 												{
 													"type": "item",
@@ -6297,9 +6291,9 @@
 													"grid": {
 														"type": "square",
 														"size": 114,
-														"offsetX": -6,
-														"offsetY": 19,
-														"distance": 10
+														"offsetX": -12,
+														"offsetY": 38,
+														"scale": 2
 													}
 												},
 												{
@@ -6319,9 +6313,9 @@
 													"grid": {
 														"type": "square",
 														"size": 114,
-														"offsetX": -6,
-														"offsetY": 19,
-														"distance": 10
+														"offsetX": -12,
+														"offsetY": 38,
+														"scale": 2
 													}
 												}
 											]
@@ -8359,9 +8353,9 @@
 											"grid": {
 												"type": "square",
 												"size": 167,
-												"offsetX": -42,
-												"offsetY": -47,
-												"distance": 10
+												"offsetX": -84,
+												"offsetY": -94,
+												"scale": 2
 											}
 										},
 										{
@@ -8381,9 +8375,9 @@
 											"grid": {
 												"type": "square",
 												"size": 167,
-												"offsetX": -42,
-												"offsetY": -47,
-												"distance": 10
+												"offsetX": -84,
+												"offsetY": -94,
+												"scale": 2
 											}
 										}
 									]
@@ -8672,7 +8666,7 @@
 											]
 										},
 										"The derro dug this 10-foot-deep ditch to get to the star. Only a broken pickaxe lies at the bottom of the ditch; the star is long gone.",
-										"Characters who survey the surrounding area easily notice two openings lower on the mountainside: a north-facing entrance of worked stone (to {@adventure area {@dice D1}|QftIS|3|D1: Guardroom}) and a west-facing natural cave (to {@adventure area {@dice D2}|QftIS|3|D2: Outer Cave})."
+										"Characters who survey the surrounding area easily notice two openings lower on the mountainside: a north-facing entrance of worked stone (to {@adventure area D1|QftIS|3|D1: Guardroom}) and a west-facing natural cave (to {@adventure area D2|QftIS|3|D2: Outer Cave})."
 									]
 								}
 							]
@@ -9865,10 +9859,9 @@
 											"grid": {
 												"type": "square",
 												"size": 226,
-												"offsetX": 140,
-												"offsetY": 123,
-												"scale": 2,
-												"distance": 10
+												"offsetX": 280,
+												"offsetY": 246,
+												"scale": 4
 											}
 										},
 										{
@@ -9888,10 +9881,9 @@
 											"grid": {
 												"type": "square",
 												"size": 226,
-												"offsetX": 140,
-												"offsetY": 123,
-												"scale": 2,
-												"distance": 10
+												"offsetX": 280,
+												"offsetY": 246,
+												"scale": 4
 											}
 										}
 									]
@@ -9996,7 +9988,7 @@
 												"The walls of this rough-hewn chamber have been painted with broad, jagged lines of black and white. On the west side of the room, fragments of a black marble statue lie shattered on the floor. In the northeast corner of the room, four derro use hammers to clear rubble from a blocked passage. Four zombies accompany them, clawing mindlessly at the rubble."
 											]
 										},
-										"Four {@creature Derro Raider|QftIS|derro raiders} and four {@creature Zombie||zombies} attempt to clear a collapsed passage. They hope to eventually reach a tunnel leading down to the Underdark (see {@adventure area {@dice D10}|QftIS|3|D10. Eastern Tunnel}) blocked by debris.",
+										"Four {@creature Derro Raider|QftIS|derro raiders} and four {@creature Zombie||zombies} attempt to clear a collapsed passage. They hope to eventually reach a tunnel leading down to the Underdark (see {@adventure area D10|QftIS|3|D10. Eastern Tunnel}) blocked by debris.",
 										"The derro attack intruders on sight, eager to rob them. The zombies obey the derro's commands.",
 										{
 											"type": "entries",
@@ -10404,7 +10396,7 @@
 											"page": 60,
 											"id": "1a6",
 											"entries": [
-												"If Aspen trusts the party, she tasks them with a special quest. The derro have been dragging hunter corpses to their lair for an unknown purpose. Recently, the derro also pillaged one of the hunters' most precious trophies: a pair of large golden antlers. (The antlers can be found in {@adventure area {@dice D6}|QftIS|3|D6: Stolen Goods} of the derro lair, which is detailed earlier in this adventure.)",
+												"If Aspen trusts the party, she tasks them with a special quest. The derro have been dragging hunter corpses to their lair for an unknown purpose. Recently, the derro also pillaged one of the hunters' most precious trophies: a pair of large golden antlers. (The antlers can be found in {@adventure area D6|QftIS|3|D6: Stolen Goods} of the derro lair, which is detailed earlier in this adventure.)",
 												"If the characters learn what the derro do with the corpses and return the golden antlers to Therno Lake, Aspen gives the characters her pouch of pearls (see the \"Treasure\" section below)."
 											]
 										},
@@ -11775,10 +11767,9 @@
 											"grid": {
 												"type": "square",
 												"size": 160,
-												"offsetX": -44,
-												"offsetY": 64,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -88,
+												"offsetY": 128,
+												"scale": 6
 											}
 										},
 										{
@@ -11798,10 +11789,9 @@
 											"grid": {
 												"type": "square",
 												"size": 160,
-												"offsetX": -44,
-												"offsetY": 64,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -88,
+												"offsetY": 128,
+												"scale": 6
 											}
 										}
 									]
@@ -14106,10 +14096,9 @@
 											"grid": {
 												"type": "square",
 												"size": 209,
-												"offsetX": 27,
-												"offsetY": 28,
-												"scale": 2,
-												"distance": 10
+												"offsetX": 54,
+												"offsetY": 56,
+												"scale": 4
 											}
 										},
 										{
@@ -14129,10 +14118,9 @@
 											"grid": {
 												"type": "square",
 												"size": 209,
-												"offsetX": 27,
-												"offsetY": 28,
-												"scale": 2,
-												"distance": 10
+												"offsetX": 54,
+												"offsetY": 56,
+												"scale": 4
 											}
 										}
 									]
@@ -14150,7 +14138,7 @@
 												"Leading off from the main valley is a narrow, steep-sided canyon. Warm mist rises from a stream, shrouding the canyon. Within the mist, you hear a creature babbling incessantly."
 											]
 										},
-										"This area is lightly obscured by mist from a piping-hot stream. The noise comes from the gibberling in area F2.",
+										"This area is {@quickref Vision and Light||2||lightly obscured} by mist from a piping-hot stream. The noise comes from the gibberling in area F2.",
 										{
 											"type": "entries",
 											"name": "Steamy Stream",
@@ -15717,10 +15705,9 @@
 											"grid": {
 												"type": "square",
 												"size": 201,
-												"offsetX": -21,
-												"offsetY": 21,
-												"scale": 2,
-												"distance": 10
+												"offsetX": -42,
+												"offsetY": 42,
+												"scale": 4
 											}
 										},
 										{
@@ -15740,10 +15727,9 @@
 											"grid": {
 												"type": "square",
 												"size": 201,
-												"offsetX": -21,
-												"offsetY": 21,
-												"scale": 2,
-												"distance": 10
+												"offsetX": -42,
+												"offsetY": 42,
+												"scale": 4
 											}
 										}
 									]
@@ -15941,7 +15927,7 @@
 											"page": 82,
 											"id": "245",
 											"entries": [
-												"Any bright light in the room refracts through the crystals and fills the chamber with a soft glow and dazzling rainbow patterns."
+												"Any {@quickref Vision and Light||2||bright light} in the room refracts through the crystals and fills the chamber with a soft glow and dazzling rainbow patterns."
 											]
 										},
 										{
@@ -15999,7 +15985,7 @@
 														"{@spell Create or Destroy Water} cast to destroy part of the waterfall destroys a 5-foot-cube of water, which fills in after 1 minute.",
 														"Teleportation bypasses the waterfall as normal.",
 														"A creature under the effect of a {@spell Slow} spell more closely matches the waterfall's altered time and can move through the waterfall as if it were {@book difficult terrain|PHB|8|Difficult Terrain}.",
-														"A successful {@spell Dispel Magic} spell ({@dc 15}) cast on the waterfall causes it to flow normally for 1 minute, during which time creatures can move through the water as if it were difficult terrain."
+														"A successful {@spell Dispel Magic} spell ({@dc 15}) cast on the waterfall causes it to flow normally for 1 minute, during which time creatures can move through the water as if it were {@quickref difficult terrain||3}."
 													]
 												},
 												"At the DM's discretion, other solutions to bypassing the waterfall might exist."
@@ -16166,7 +16152,7 @@
 										{
 											"type": "item",
 											"name": "Lighting",
-											"entry": "The sky above the garden is a perpetual twilight range of orange, red, pink, and yellow hues with no visible sun, moon, or stars. During daylight hours, it emits bright light, but at night, it never reaches full darkness, becoming dim light instead."
+											"entry": "The sky above the garden is a perpetual twilight range of orange, red, pink, and yellow hues with no visible sun, moon, or stars. During daylight hours, it emits {@quickref Vision and Light||2||bright light}, but at night, it never reaches full darkness, becoming {@quickref Vision and Light||2||dim light} instead."
 										},
 										{
 											"type": "item",
@@ -18392,10 +18378,9 @@
 											"grid": {
 												"type": "square",
 												"size": 209,
-												"offsetX": 95,
-												"offsetY": -18,
-												"scale": 3,
-												"distance": 10
+												"offsetX": 190,
+												"offsetY": -36,
+												"scale": 6
 											}
 										},
 										{
@@ -18415,10 +18400,9 @@
 											"grid": {
 												"type": "square",
 												"size": 209,
-												"offsetX": 95,
-												"offsetY": -18,
-												"scale": 3,
-												"distance": 10
+												"offsetX": 190,
+												"offsetY": -36,
+												"scale": 6
 											}
 										}
 									]
@@ -19744,10 +19728,9 @@
 											"grid": {
 												"type": "square",
 												"size": 206,
-												"offsetX": 68,
-												"offsetY": -61,
-												"scale": 3,
-												"distance": 10
+												"offsetX": 136,
+												"offsetY": -122,
+												"scale": 6
 											}
 										},
 										{
@@ -19767,10 +19750,9 @@
 											"grid": {
 												"type": "square",
 												"size": 206,
-												"offsetX": 68,
-												"offsetY": -61,
-												"scale": 3,
-												"distance": 10
+												"offsetX": 136,
+												"offsetY": -122,
+												"scale": 6
 											}
 										}
 									]
@@ -20824,10 +20806,9 @@
 											"grid": {
 												"type": "square",
 												"size": 191,
-												"offsetX": -89,
-												"offsetY": -52,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -178,
+												"offsetY": -104,
+												"scale": 6
 											}
 										},
 										{
@@ -20847,10 +20828,9 @@
 											"grid": {
 												"type": "square",
 												"size": 191,
-												"offsetX": -89,
-												"offsetY": -52,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -178,
+												"offsetY": -104,
+												"scale": 6
 											}
 										}
 									]
@@ -22857,10 +22837,9 @@
 											"grid": {
 												"type": "square",
 												"size": 190,
-												"offsetX": -67,
-												"offsetY": -56,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -134,
+												"offsetY": -112,
+												"scale": 6
 											}
 										},
 										{
@@ -22880,10 +22859,9 @@
 											"grid": {
 												"type": "square",
 												"size": 190,
-												"offsetX": -67,
-												"offsetY": -56,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -134,
+												"offsetY": -112,
+												"scale": 6
 											}
 										}
 									]
@@ -22900,7 +22878,7 @@
 											"id": "35b",
 											"entries": [
 												"You surface in a tumbling, turbulent pool of water within a ten-foot-square shaft that ascends forty feet from the surface of the water. The air is damp, and the walls are covered with slimy green moss.",
-												"Dim light streams from an archway near the top of one side of the shaft. A narrow, roaring waterfall pours from the archway into the pool."
+												"{@quickref Vision and Light||2||Dim light} streams from an archway near the top of one side of the shaft. A narrow, roaring waterfall pours from the archway into the pool."
 											]
 										},
 										"If the party enters this area from the hall ({@area areas P30|35e|x}\u2013{@area P31|360|x}), read or paraphrase the following text:",
@@ -22947,7 +22925,7 @@
 									"page": 118,
 									"id": "360",
 									"entries": [
-										"This long hallway rises steadily toward {@area area P32|362|x}. Bright light shines from the hallway's southern end.",
+										"This long hallway rises steadily toward {@area area P32|362|x}. {@quickref Vision and Light||2||Bright light} shines from the hallway's southern end.",
 										{
 											"type": "entries",
 											"name": "Water of Athis",
@@ -23175,7 +23153,7 @@
 									"page": 119,
 									"id": "377",
 									"entries": [
-										"This room is a long-abandoned kitchen, its counters and cutlery coated in a thick layer of dust. In the center of the room, a heavy wooden block has a cleaver stuck into it. The cleaver, which is made of fine silver, functions as a silvered handaxe."
+										"This room is a long-abandoned kitchen, its counters and cutlery coated in a thick layer of dust. In the center of the room, a heavy wooden block has a cleaver stuck into it. The cleaver, which is made of fine silver, functions as a {@item silvered handaxe|PHB}."
 									]
 								},
 								{
@@ -24731,10 +24709,9 @@
 											"grid": {
 												"type": "square",
 												"size": 225,
-												"offsetX": 36,
-												"offsetY": -55,
-												"scale": 2,
-												"distance": 10
+												"offsetX": 72,
+												"offsetY": -110,
+												"scale": 4
 											}
 										},
 										{
@@ -24754,10 +24731,9 @@
 											"grid": {
 												"type": "square",
 												"size": 225,
-												"offsetX": 36,
-												"offsetY": -55,
-												"scale": 2,
-												"distance": 10
+												"offsetX": 72,
+												"offsetY": -110,
+												"scale": 4
 											}
 										}
 									]
@@ -25221,9 +25197,9 @@
 											"grid": {
 												"type": "square",
 												"size": 87,
-												"offsetX": -10,
-												"offsetY": -36,
-												"distance": 10
+												"offsetX": -20,
+												"offsetY": -72,
+												"scale": 2
 											}
 										},
 										{
@@ -25243,9 +25219,9 @@
 											"grid": {
 												"type": "square",
 												"size": 87,
-												"offsetX": -10,
-												"offsetY": -36,
-												"distance": 10
+												"offsetX": -20,
+												"offsetY": -72,
+												"scale": 2
 											}
 										}
 									]
@@ -30467,10 +30443,9 @@
 											"grid": {
 												"type": "square",
 												"size": 211,
-												"offsetX": 34,
-												"offsetY": -42,
-												"scale": 3,
-												"distance": 10
+												"offsetX": 68,
+												"offsetY": -84,
+												"scale": 6
 											}
 										},
 										{
@@ -30490,10 +30465,9 @@
 											"grid": {
 												"type": "square",
 												"size": 211,
-												"offsetX": 34,
-												"offsetY": -42,
-												"scale": 3,
-												"distance": 10
+												"offsetX": 68,
+												"offsetY": -84,
+												"scale": 6
 											}
 										}
 									]
@@ -30572,7 +30546,7 @@
 												"The walls and floor of this cavern are smeared with blood, and the scent of iron hangs thick in the air."
 											]
 										},
-										"Twenty {@creature Stirge||stirges} hang from the ceiling of this cave. Bright light or any noise louder than a whisper disturbs the stirges, causing them to attack."
+										"Twenty {@creature Stirge||stirges} hang from the ceiling of this cave. {@quickref Vision and Light||2||Bright light} or any noise louder than a whisper disturbs the stirges, causing them to attack."
 									]
 								},
 								{
@@ -30714,7 +30688,7 @@
 												"Bioluminescent fungi, some as tall as six feet, fill this moist cavern. The caps of the mushrooms sprouting from the floor and walls glow with a faint blue light. Pale, dog-sized insects chitter among the fungus."
 											]
 										},
-										"Three ghost-white cave crickets (use the {@creature giant frog} stat block) nibble at the glowing mushrooms in this cave, which radiate dim light. The crickets are indifferent toward the characters.",
+										"Three ghost-white cave crickets (use the {@creature giant frog} stat block) nibble at the glowing mushrooms in this cave, which radiate {@quickref Vision and Light||2||dim light}. The crickets are indifferent toward the characters.",
 										"If the characters disturb the crickets, the insects begin to chirp loudly. The trolls in {@area area L9|40c|x} investigate any loud noises in this area.",
 										{
 											"type": "entries",
@@ -30766,7 +30740,7 @@
 											"page": 138,
 											"id": "40b",
 											"entries": [
-												"The elf corpse carries a silvered rapier and wears {@item Bracers of Defense}."
+												"The elf corpse carries a {@item silvered rapier|PHB} and wears {@item Bracers of Defense}."
 											]
 										}
 									]
@@ -30804,7 +30778,7 @@
 											"page": 139,
 											"id": "40e",
 											"entries": [
-												"Gathered under the trolls' beds is their accumulated loot: 120 gp, 900 sp, four gems worth 50 gp each, wooden dentures set with mother-of-pearl teeth (worth 50 gp), a quiver with twenty silvered arrows, and a {@item Potion of Greater Healing||Potion of Healing (greater)}."
+												"Gathered under the trolls' beds is their accumulated loot: 120 gp, 900 sp, four gems worth 50 gp each, wooden dentures set with mother-of-pearl teeth (worth 50 gp), a quiver with twenty {@item silvered arrow|PHB|silvered arrows}, and a {@item Potion of Greater Healing||Potion of Healing (greater)}."
 											]
 										}
 									]
@@ -30823,7 +30797,7 @@
 											]
 										},
 										"During the day, the ceiling of this corridor is covered in thousands of bats, and a cacophony of chitters and squeaks echoes from above. At night, the bats flood out of the caverns to hunt in the mountains, returning to this area at dawn.",
-										"While the bats are roosting, bright light or any noise louder than a whisper agitates them and sends them into a panic. A number of {@creature Swarm of Bats||swarms of bats} equal to the number of characters in this area descend from the ceiling and attack the source of the disturbance. The swarms extinguish any nonmagical light sources they come within 5 feet of with a flurry of buffeting wings.",
+										"While the bats are roosting, {@quickref Vision and Light||2||bright light} or any noise louder than a whisper agitates them and sends them into a panic. A number of {@creature Swarm of Bats||swarms of bats} equal to the number of characters in this area descend from the ceiling and attack the source of the disturbance. The swarms extinguish any nonmagical light sources they come within 5 feet of with a flurry of buffeting wings.",
 										"Whenever a creature destroys a swarm, a new swarm immediately forms in an unoccupied space within 15 feet of the creature. The new swarm acts on the destroyed swarm's initiative count.",
 										"If the characters extinguish all light sources and cease attacking and making loud noises, the bats settle back into their roosts at the end of the round. They don't pursue creatures beyond the corridor."
 									]
@@ -30913,7 +30887,7 @@
 											]
 										},
 										"The lake teems with blind cave fish and crayfish. These critters are a food source for many of the denizens in the lesser caverns, including predators that dwell within the lake itself. The lake slopes sharply from its shores to a depth of 100 feet.",
-										"Four {@creature Chuul||chuuls} lurk near the lake bed, 90 feet below the surface. They're content to creep along the lightless depths and prey on cave fish unless something else catches their attention. Bright light draws the chuuls to the water's edge, as does any magic in the lake or near its surface, such as the boat from {@area area L13|416|x}. If drawn to the surface, the chuuls attack.",
+										"Four {@creature Chuul||chuuls} lurk near the lake bed, 90 feet below the surface. They're content to creep along the lightless depths and prey on cave fish unless something else catches their attention. {@quickref Vision and Light||2||Bright light} draws the chuuls to the water's edge, as does any magic in the lake or near its surface, such as the boat from {@area area L13|416|x}. If drawn to the surface, the chuuls attack.",
 										{
 											"type": "entries",
 											"name": "L14a: Stone Bridge",
@@ -36573,10 +36547,9 @@
 											"grid": {
 												"type": "square",
 												"size": 193,
-												"offsetX": -40,
-												"offsetY": 95,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -80,
+												"offsetY": 190,
+												"scale": 6
 											}
 										},
 										{
@@ -36596,10 +36569,9 @@
 											"grid": {
 												"type": "square",
 												"size": 193,
-												"offsetX": -40,
-												"offsetY": 95,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -80,
+												"offsetY": 190,
+												"scale": 6
 											}
 										}
 									]
@@ -37632,7 +37604,7 @@
 											"page": 154,
 											"id": "496",
 											"entries": [
-												"Creatures and objects can't have the {@condition invisible} condition while within the lantern's bright light."
+												"Creatures and objects can't have the {@condition invisible} condition while within the lantern's {@quickref Vision and Light||2||bright light}."
 											]
 										},
 										{
@@ -38197,7 +38169,7 @@
 									"id": "4b6",
 									"entries": [
 										"Some parts of the spaceship leak radioactive chemicals used in the vessel's construction. Surfaces covered in radiation give off a neon green glow. Exposure to radiation is dangerous.",
-										"A creature that enters an irradiated area for the first time on a turn or starts its turn there takes 5 ({@dice 1d10}) radiant damage and must make a {@dc 10} Constitution saving throw. On a failed save, the creature gains 1 level of {@condition exhaustion}. While this {@condition exhaustion} persists, the creature emits a green-hued dim light in a 5-foot radius. This light makes it impossible for the creature to benefit from having the {@condition invisible} condition."
+										"A creature that enters an irradiated area for the first time on a turn or starts its turn there takes 5 ({@dice 1d10}) radiant damage and must make a {@dc 10} Constitution saving throw. On a failed save, the creature gains 1 level of {@condition exhaustion}. While this {@condition exhaustion} persists, the creature emits a green-hued {@quickref Vision and Light||2||dim light} in a 5-foot radius. This light makes it impossible for the creature to benefit from having the {@condition invisible} condition."
 									]
 								},
 								{
@@ -40389,10 +40361,9 @@
 											"grid": {
 												"type": "square",
 												"size": 218,
-												"offsetX": -76,
-												"offsetY": 26,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -152,
+												"offsetY": 52,
+												"scale": 6
 											}
 										},
 										{
@@ -40412,10 +40383,9 @@
 											"grid": {
 												"type": "square",
 												"size": 218,
-												"offsetX": -76,
-												"offsetY": 26,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -152,
+												"offsetY": 52,
+												"scale": 6
 											}
 										}
 									]
@@ -42813,10 +42783,9 @@
 											"grid": {
 												"type": "square",
 												"size": 218,
-												"offsetX": -76,
-												"offsetY": 26,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -152,
+												"offsetY": 52,
+												"scale": 6
 											}
 										},
 										{
@@ -42836,10 +42805,9 @@
 											"grid": {
 												"type": "square",
 												"size": 218,
-												"offsetX": -76,
-												"offsetY": 26,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -152,
+												"offsetY": 52,
+												"scale": 6
 											}
 										}
 									]
@@ -42963,7 +42931,7 @@
 											"width": 850,
 											"height": 1179
 										},
-										"Passengers watched films, news, and other broadcasted content in this theater. Ship lighting in this room has been disabled, but the glowing screen fills the room with dim light. The ceiling is 20 feet high.",
+										"Passengers watched films, news, and other broadcasted content in this theater. Ship lighting in this room has been disabled, but the glowing screen fills the room with {@quickref Vision and Light||2||dim light}. The ceiling is 20 feet high.",
 										"Two {@creature Mind Flayer||mind flayers} dwell here. The illithids discovered the ship weeks ago and have been studying its technology ever since, intent on using it to conquer other worlds. Four {@creature Intellect Devourer||intellect devourers} loyal to the mind flayers hide under the first row of seats in the audience. The intellect devourers fiercely defend their creators, who attack intruders on sight.",
 										{
 											"type": "entries",
@@ -43326,7 +43294,7 @@
 											"type": "insetReadaloud",
 											"id": "555",
 											"entries": [
-												"Dim light fills this lounge. It features elegant tables, time-worn couches, and a small stage. A bar with scant bottles of liquor stands along the north wall.",
+												"{@quickref Vision and Light||2||Dim light} fills this lounge. It features elegant tables, time-worn couches, and a small stage. A bar with scant bottles of liquor stands along the north wall.",
 												"A motionless, synthetic humanoid lies pinned under a section of fallen debris in front of the bar."
 											]
 										},
@@ -45452,10 +45420,9 @@
 											"grid": {
 												"type": "square",
 												"size": 218,
-												"offsetX": -76,
-												"offsetY": 26,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -152,
+												"offsetY": 52,
+												"scale": 6
 											}
 										},
 										{
@@ -45475,10 +45442,9 @@
 											"grid": {
 												"type": "square",
 												"size": 218,
-												"offsetX": -76,
-												"offsetY": 26,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -152,
+												"offsetY": 52,
+												"scale": 6
 											}
 										}
 									]
@@ -45562,7 +45528,7 @@
 											]
 										},
 										"Twenty gas bats\u2014bloated, chiropteran plants propelled by embarrassing-sounding emissions\u2014float above this futuristic taproom, where androids and crew once shared drinks together. Each bat uses the {@creature gas spore} stat block, but its size is Tiny.",
-										"The bats ignore most entrants but abhor light. If the characters enter with a source of bright light or activate the room's overhead lights, the bats fly into a fury and attack until the source is extinguished.",
+										"The bats ignore most entrants but abhor light. If the characters enter with a source of {@quickref Vision and Light||2||bright light} or activate the room's overhead lights, the bats fly into a fury and attack until the source is extinguished.",
 										{
 											"type": "entries",
 											"name": "Robo Bar",
@@ -45741,7 +45707,7 @@
 											"page": 184,
 											"id": "574",
 											"entries": [
-												"A school of twenty scintillating fish with gemlike scales inhabits this streamlet and its pool. The fish use the {@creature swarm of quippers} stat block but shed dim light in a 10-foot radius. The fish are indifferent toward the characters unless disturbed, at which point they retreat downstream toward the swamp ({@area area S58|57f|x})."
+												"A school of twenty scintillating fish with gemlike scales inhabits this streamlet and its pool. The fish use the {@creature swarm of quippers} stat block but shed {@quickref Vision and Light||2||dim light} in a 10-foot radius. The fish are indifferent toward the characters unless disturbed, at which point they retreat downstream toward the swamp ({@area area S58|57f|x})."
 											]
 										},
 										{
@@ -46232,10 +46198,9 @@
 											"grid": {
 												"type": "square",
 												"size": 218,
-												"offsetX": -76,
-												"offsetY": 26,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -152,
+												"offsetY": 52,
+												"scale": 6
 											}
 										},
 										{
@@ -46255,10 +46220,9 @@
 											"grid": {
 												"type": "square",
 												"size": 218,
-												"offsetX": -76,
-												"offsetY": 26,
-												"scale": 3,
-												"distance": 10
+												"offsetX": -152,
+												"offsetY": 52,
+												"scale": 6
 											}
 										}
 									]

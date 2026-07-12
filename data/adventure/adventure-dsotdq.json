@@ -4314,7 +4314,7 @@
 									"type": "insetReadaloud",
 									"id": "127",
 									"entries": [
-										"After much laughter and jostling, the mayor, Cudgel, and other spectators walk to a nearby vantage to watch. As they do, the militia takes up its position atop High Hill\u2014the same hill Solamnic troops held centuries ago. They face the mercenaries of the Ironclad Regiment at the base of the hill, arrayed as the forces of Istar once were. Although the event is only a reenactment, a tingle of excitement fills the field. Somewhere on the line, a reenactor hoots and yells, \"Let's send those Istarian rats running!\"",
+										"After much laughter and jostling, the mayor, Cudgel, and other spectators walk to a nearby vantage to watch. As they do, the militia takes up its position atop High Hill\u2014the same hill Solamnic troops held centuries ago. They face the mercenaries of the Ironclad Regiment at the base of the hill, arrayed as the forces of Istar once were. Although the event is only a reenactment, a tingle of excitement fills the field. Somewhere on the line, a re-enactor hoots and yells, \"Let's send those Istarian rats running!\"",
 										"A moment later, a trumpet blast signals the start of the battle. \"For Istar!\" yells the mercenaries' leader, a tall half-ogre among several mounted soldiers. The mock Istarian troops assault the hill. Around you, the Vogler militia charges to meet them."
 									]
 								},
@@ -6828,7 +6828,7 @@
 										],
 										[
 											"3",
-											"A contraption that looks like a big set of teeth tries to bite the character (+3 to hit, {@dice 1d6} bludgeoning damage on a hit)."
+											"A contraption that looks like a big set of teeth tries to bite the character ({@hit 3} to hit, {@dice 1d6} bludgeoning damage on a hit)."
 										],
 										[
 											"4",
@@ -6836,11 +6836,11 @@
 										],
 										[
 											"5",
-											"A device fires a dart filled with glowing green fluid at the character (+4 to hit, 1 piercing damage on a hit). On a hit, the fluid is injected with an ominous hiss\u2014but it proves harmless."
+											"A device fires a dart filled with glowing green fluid at the character ({@hit 4} to hit, 1 piercing damage on a hit). On a hit, the fluid is injected with an ominous hiss\u2014but it proves harmless."
 										],
 										[
 											"6",
-											"A mechanical chicken fires tin eggs at the character (+4 to hit, {@dice 1d4} bludgeoning damage on a hit). On a hit, the egg bursts in an oily mess, and the character has disadvantage on attack rolls until the end of the character's next turn."
+											"A mechanical chicken fires tin eggs at the character ({@hit 4} to hit, {@dice 1d4} bludgeoning damage on a hit). On a hit, the egg bursts in an oily mess, and the character has disadvantage on attack rolls until the end of the character's next turn."
 										]
 									]
 								},
@@ -7277,7 +7277,7 @@
 										{
 											"type": "item",
 											"name": "Light",
-											"entry": "Torches provide bright light throughout the fort, except for {@area area W5|1d5|x}, which is dimly lit."
+											"entry": "Torches provide {@quickref Vision and Light||2||bright light} throughout the fort, except for {@area area W5|1d5|x}, which is dimly lit."
 										},
 										{
 											"type": "item",
@@ -7909,7 +7909,7 @@
 													"type": "item",
 													"name": "Treasure",
 													"page": 92,
-													"entry": "Under each of the sets of bunks is a simple wooden footlocker. Each holds two sets of common clothes and 10 gp. One footlocker also contains a silvered {@item longsword|PHB}, while another contains a {@item holy symbol|PHB} of Takhisis and a key for the gate controls in {@area area W1|1cb|x}."
+													"entry": "Under each of the sets of bunks is a simple wooden footlocker. Each holds two sets of common clothes and 10 gp. One footlocker also contains a {@item silvered longsword|PHB}, while another contains a {@item holy symbol|PHB} of Takhisis and a key for the gate controls in {@area area W1|1cb|x}."
 												}
 											]
 										}
@@ -8139,7 +8139,7 @@
 												{
 													"type": "item",
 													"name": "Stream",
-													"entry": "The chilly stream is 4 feet deep and is {@book difficult terrain|PHB|8|Difficult Terrain}. The crossings aren't difficult terrain."
+													"entry": "The chilly stream is 4 feet deep and is {@book difficult terrain|PHB|8|Difficult Terrain}. The crossings aren't {@quickref difficult terrain||3}."
 												},
 												{
 													"type": "item",
@@ -8725,7 +8725,7 @@
 										{
 											"type": "item",
 											"name": "Cataclysmic Flames",
-											"entry": "Illusory violet flames fill the catacombs with dim light. These flames create no heat and don't harm creatures that touch them."
+											"entry": "Illusory violet flames fill the catacombs with {@quickref Vision and Light||2||dim light}. These flames create no heat and don't harm creatures that touch them."
 										},
 										{
 											"type": "item",
@@ -12372,7 +12372,7 @@
 									"page": 117,
 									"id": "288",
 									"entries": [
-										"At the base of the spire's remains stand a dozen ragged canvas tents in the red and black colors of the Red Dragon Army. Dozens of empty or shattered crates are scattered amid the camp. Nearby, an earthen ramp cuts through the clay and leads to an opening into the ruined spire's foundation. This opening leads to {@adventure area {@dice D1}|DSotDQ|5|D1: Entry Chamber}.",
+										"At the base of the spire's remains stand a dozen ragged canvas tents in the red and black colors of the Red Dragon Army. Dozens of empty or shattered crates are scattered amid the camp. Nearby, an earthen ramp cuts through the clay and leads to an opening into the ruined spire's foundation. This opening leads to {@adventure area D1|DSotDQ|5|D1: Entry Chamber}.",
 										{
 											"type": "entries",
 											"name": "Abandoned Gear",
@@ -13201,7 +13201,7 @@
 											"page": 117,
 											"id": "291",
 											"entries": [
-												"The stairs here descend to {@adventure area {@dice D3}|DSotDQ|5|D3: Lower Chambers}."
+												"The stairs here descend to {@adventure area D3|DSotDQ|5|D3: Lower Chambers}."
 											]
 										}
 									]
@@ -13262,7 +13262,7 @@
 															"page": 118,
 															"id": "299",
 															"entries": [
-																"Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 5 ({@dice 1d4 + 3}) piercing damage plus 7 ({@dice 2d6}) poison damage. If the target is a Humanoid, it must succeed on a {@dc 12} Constitution saving throw or be infected with a disease\u2014a minuscule slaad egg.",
+																"Melee Weapon Attack: {@hit 5} to hit, reach 5 ft., one target. Hit: 5 ({@dice 1d4 + 3}) piercing damage plus 7 ({@dice 2d6}) poison damage. If the target is a Humanoid, it must succeed on a {@dc 12} Constitution saving throw or be infected with a disease\u2014a minuscule slaad egg.",
 																"A Humanoid host can carry only one slaad egg at a time. Over three months, the egg moves to the chest cavity, gestates, and forms a {@creature slaad tadpole}. In the 24-hour period before the tadpole is born, the host feels unwell; its speed is halved; and it has disadvantage on attack rolls, ability checks, and saving throws. At birth, the tadpole chews its way through vital organs and out of the host's chest in 1 round, killing the host in the process.",
 																"If the disease is cured before the tadpole's emergence, the tadpole disintegrates."
 															]
@@ -13277,7 +13277,7 @@
 											"page": 118,
 											"id": "29a",
 											"entries": [
-												"In the northwest corner of the level, stairs descend to {@adventure area {@dice D5}|DSotDQ|5|D5: Spire Depths}."
+												"In the northwest corner of the level, stairs descend to {@adventure area D5|DSotDQ|5|D5: Spire Depths}."
 											]
 										}
 									]
@@ -13389,7 +13389,7 @@
 											"page": 119,
 											"id": "2a4",
 											"entries": [
-												"This enormous orange gem weighs over a ton and sheds dim light for 10 feet. A {@spell detect magic} spell reveals it emanates an aura of transmutation magic. A character who inspects the Spawning Shard and succeeds on a {@dc 18} Intelligence ({@skill Arcana}) check determines the gem's magic can corrupt creatures and turn them into slaadi.",
+												"This enormous orange gem weighs over a ton and sheds {@quickref Vision and Light||2||dim light} for 10 feet. A {@spell detect magic} spell reveals it emanates an aura of transmutation magic. A character who inspects the Spawning Shard and succeeds on a {@dc 18} Intelligence ({@skill Arcana}) check determines the gem's magic can corrupt creatures and turn them into slaadi.",
 												"A creature that touches the gem must succeed on a {@dc 15} Constitution saving throw or become infected with a disease called chaos phage. While infected, the target can't regain hit points, and its hit point maximum is reduced by 10 ({@dice 3d6}) every 24 hours unless the target is cured by magic such as the {@spell lesser restoration} spell. If the disease reduces the target's hit point maximum to 0, the target instantly transforms into a {@creature red slaad} or, if it has the ability to cast spells of 3rd level or higher, a {@creature green slaad}. Only a {@spell wish} spell can reverse the transformation."
 											]
 										},
@@ -13422,7 +13422,7 @@
 									"id": "2a6",
 									"entries": [
 										"Once the characters have investigated area {@dice D5}\u2014and potentially claimed {@creature Virruza|DSotDQ}'s notes\u2014they have all the information about this site {@creature Dalamar|DSotDQ} requires.",
-										"If the characters want to seal the entrance to the Sunward Fortress or otherwise bury the Spawning Shard, the equipment left around the ruins allows them to collapse the ramp leading to {@adventure area {@dice D1}|DSotDQ|5|D1: Entry Chamber} with four hours of effort. Destructive magic hastens this work."
+										"If the characters want to seal the entrance to the Sunward Fortress or otherwise bury the Spawning Shard, the equipment left around the ruins allows them to collapse the ramp leading to {@adventure area D1|DSotDQ|5|D1: Entry Chamber} with four hours of effort. Destructive magic hastens this work."
 									]
 								}
 							]
@@ -14173,7 +14173,7 @@
 									"entries": [
 										"After the anhkolox is defeated, Veriel continues his explanation. To cut Wakenreth off from the Shadowfell, the runes on the portal in area E4 must be restored to their intended order, which Veriel shares with them.",
 										"The runes on the portal can be adjusted only in {@area area E4|2bb|x}. The process takes five minutes and requires a character to make a {@dc 14} Constitution saving throw as Shadowfell energies tug at their life essence. On a failed check, the character takes 17 ({@dice 5d6}) necrotic damage and gains 1 level of {@condition exhaustion}, then the portal closes. On a successful check, the portal closes without harming the character. Either way, the portal's connection with the Shadowfell is severed.",
-										"Once Wakenreth is cut off from the Shadowfell, the supernatural darkness in area E4 fades, the torch sconces throughout the structure shed bright light, and the walls are restored."
+										"Once Wakenreth is cut off from the Shadowfell, the supernatural darkness in area E4 fades, the torch sconces throughout the structure shed {@quickref Vision and Light||2||bright light}, and the walls are restored."
 									]
 								},
 								{
@@ -14368,7 +14368,7 @@
 												{
 													"type": "item",
 													"name": "Lighting",
-													"entry": "Crystals fill the upper level of the cave with {@quickref Vision and Light|PHB|2||dim light}. The lower level opens to the surface, allowing natural bright light in during the daytime."
+													"entry": "Crystals fill the upper level of the cave with {@quickref Vision and Light|PHB|2||dim light}. The lower level opens to the surface, allowing natural {@quickref Vision and Light||2||bright light} in during the daytime."
 												}
 											]
 										}
@@ -15106,7 +15106,7 @@
 											"type": "insetReadaloud",
 											"id": "2d4",
 											"entries": [
-												"Blue crystal formations line the walls and floors of this cavern, so dense in places that they look engulfed in ice. The crystals glow sedately with a dim light."
+												"Blue crystal formations line the walls and floors of this cavern, so dense in places that they look engulfed in ice. The crystals glow sedately with a {@quickref Vision and Light||2||dim light}."
 											]
 										},
 										"Investigation reveals the crystals to be salt, though they have special properties (detailed in \"Bluemaw Cave Features\" above). The draconians in area F3 can be heard faintly from here, grunting and growling at each other in Draconic.",
@@ -16396,7 +16396,7 @@
 											"rows": [
 												[
 													"1\u20134",
-													"A {@creature Dragon Army officer|DSotDQ} (see {@adventure appendix B|DSotDQ|9}) on a dragonnel flies overhead, firing a heavy crossbow at the character closest to the Fray. The attack has a +4 bonus to hit and deals 7 ({@dice 1d10 + 2}) piercing damage plus 5 ({@dice 1d10}) fire damage on a hit."
+													"A {@creature Dragon Army officer|DSotDQ} (see {@adventure appendix B|DSotDQ|9}) on a dragonnel flies overhead, firing a heavy crossbow at the character closest to the Fray. The attack has a {@hit 4} bonus to hit and deals 7 ({@dice 1d10 + 2}) piercing damage plus 5 ({@dice 1d10}) fire damage on a hit."
 												],
 												[
 													"5\u20137",
@@ -18180,7 +18180,7 @@
 												"Murals of dancing people cover the walls, and a small stone stage rises to the west. The lower southwest half of the room is flooded, with the remains of tables, chairs, and a bar barely protruding above the water's surface."
 											]
 										},
-										"Murky water fills this room to a height of 3 feet, making the flooded area difficult terrain for creatures without a swimming speed.",
+										"Murky water fills this room to a height of 3 feet, making the flooded area {@quickref difficult terrain||3} for creatures without a swimming speed.",
 										"A {@creature green slaad} lurks on the stage, drawn to the tunnels by the chaotic magic of the city. If it notices a character, the slaad turns and hisses before using its Hurl Flame action against the character. If a character is in the water, the slaad ignites the flammable liquid (see below). The slaad fights until slain.",
 										{
 											"type": "entries",
@@ -18985,7 +18985,7 @@
 										{
 											"type": "item",
 											"name": "Lighting",
-											"entry": "Torches, candles, and fireplaces shed bright light throughout the mansion's interior."
+											"entry": "Torches, candles, and fireplaces shed {@quickref Vision and Light||2||bright light} throughout the mansion's interior."
 										},
 										{
 											"type": "item",
@@ -19752,7 +19752,7 @@
 										{
 											"type": "item",
 											"name": "Lighting",
-											"entry": "The temple and its grounds are lit by natural light alone. During the day, bright light fills the exterior areas and dim light fills the interior rooms. At night, all areas are in darkness. Area descriptions assume the characters have a light source or some other means of seeing in the dark."
+											"entry": "The temple and its grounds are lit by natural light alone. During the day, {@quickref Vision and Light||2||bright light} fills the exterior areas and {@quickref Vision and Light||2||dim light} fills the interior rooms. At night, all areas are in darkness. Area descriptions assume the characters have a light source or some other means of seeing in the dark."
 										}
 									]
 								}
@@ -20895,7 +20895,7 @@
 											"page": 152,
 											"id": "3a8",
 											"entries": [
-												"As each character enters this area, they gain the distinct impression the dragon sculptures are watching them. Good-aligned characters feel suffused with a warm sense of righteousness. If a character approaches the altar, a column of dim light rises from it.",
+												"As each character enters this area, they gain the distinct impression the dragon sculptures are watching them. Good-aligned characters feel suffused with a warm sense of righteousness. If a character approaches the altar, a column of {@quickref Vision and Light||2||dim light} rises from it.",
 												"If a character places {@creature Sarlamir|DSotDQ}'s lance on the altar in this light, the lance shines with a silvery glow. The rust covering the lance bubbles and leaks a dark liquid that flows away from the altar and disappears. At the same time, the spear lengthens, growing into a whole, newly forged, pike-length {@item dragonlance|FTD} (see {@adventure appendix A|DSotDQ|8}).",
 												"Before a character takes the reforged lance, read the following text:",
 												{
@@ -20966,7 +20966,7 @@
 										{
 											"type": "item",
 											"name": "Lighting",
-											"entry": "Magical lighting embedded in the ceilings fills the Threshold's rooms with bright light."
+											"entry": "Magical lighting embedded in the ceilings fills the Threshold's rooms with {@quickref Vision and Light||2||bright light}."
 										}
 									]
 								}
@@ -22764,7 +22764,7 @@
 												],
 												[
 													"4\u20136",
-													"A stray ballista bolt fires into the grove. Roll any die. On an even roll, the bolt targets a random player character. On an odd roll, the bolt targets a random red dragon. The attack has +6 to hit and deals 16 ({@dice 3d10}) piercing damage on a hit."
+													"A stray ballista bolt fires into the grove. Roll any die. On an even roll, the bolt targets a random player character. On an odd roll, the bolt targets a random red dragon. The attack has {@hit 6} to hit and deals 16 ({@dice 3d10}) piercing damage on a hit."
 												],
 												[
 													"7\u20138",

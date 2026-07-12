@@ -20,7 +20,7 @@ export class SyntaxMetaSource extends _SyntaxMetaBase {
 	}
 
 	_isMatch ({res, resCache}) {
-		return resCache.source != null && this.source === resCache.source;
+		return resCache.source != null && resCache.source.includes(this.source);
 	}
 }
 
@@ -31,7 +31,8 @@ export class SyntaxMetaCategories extends _SyntaxMetaBase {
 	}
 
 	_isMatch ({res, resCache}) {
-		return this.categories.includes(resCache.category);
+		return resCache.category
+			.some(category => this.categories.includes(category));
 	}
 }
 

@@ -101,7 +101,7 @@
 									"page": 236,
 									"id": "85e",
 									"entries": [
-										"Urgon's adventuring equipment consists of a silvered maul; a suit of splint armor sized for a dwarf; bulky, fur-lined clothing sized for a dwarf; a grappling hook; and a hooded lantern."
+										"Urgon's adventuring equipment consists of a {@item silvered maul|PHB}; a suit of splint armor sized for a dwarf; bulky, fur-lined clothing sized for a dwarf; a grappling hook; and a hooded lantern."
 									]
 								},
 								{
@@ -155,7 +155,7 @@
 										"The roof of the cabin is 12 feet high. Climbing up the outside walls requires a successful {@dc 10} Strength ({@skill Athletics}) check.",
 										"The wooden door to the cabin is locked and has AC 15, 18 hit points, and immunity to poison and psychic damage. The lock can be picked with a successful {@dc 12} Dexterity check using thieves' tools, or the door can be forced open with a successful {@dc 15} Strength ({@skill Athletics}) check. Tulgi carries the key that unlocks the door.",
 										"Each of the cabin's four walls has one window, which is shuttered and latched from the inside. A window can be unlatched from outside with a successful {@dc 12} Dexterity check using thieves' tools.",
-										"The inside of the cabin is brightly lit by fires in a brazier and a fireplace, though the smoky haze given off by both makes the interior lightly obscured."
+										"The inside of the cabin is brightly lit by fires in a brazier and a fireplace, though the smoky haze given off by both makes the interior {@quickref Vision and Light||2||lightly obscured}."
 									]
 								},
 								"If the characters knock on the door, Tulgi Lutan (a neutral evil, female mountain dwarf {@creature thug} with a walking speed of 10 feet) calls from the other side, telling them to go away. A character who shouts back through the door and succeeds on a {@dc 12} Charisma ({@skill Deception}, {@skill Intimidation}, or {@skill Persuasion}) check convinces Tulgi to open the door and allow the party inside. Otherwise, she ignores anything the characters say.",
@@ -3013,7 +3013,7 @@
 									"page": 246,
 									"id": "8c3",
 									"entries": [
-										"These stone chests are locked (see \"{@adventure Salsvault Features|FS|0|Salsvault Features}\" at the beginning of this section) and magically trapped. When a creature makes a failed attempt to pick the chest's lock, or attacks or attempts to force the chest open, the chest shoots a beam of cold energy at the creature. The beam is +4 to hit and deals 4 ({@dice 1d8}) cold damage on a hit.",
+										"These stone chests are locked (see \"{@adventure Salsvault Features|FS|0|Salsvault Features}\" at the beginning of this section) and magically trapped. When a creature makes a failed attempt to pick the chest's lock, or attacks or attempts to force the chest open, the chest shoots a beam of cold energy at the creature. The beam is {@hit 4} to hit and deals 4 ({@dice 1d8}) cold damage on a hit.",
 										"A character who searches the exterior of either chest and succeeds on a {@dc 13} Wisdom ({@skill Perception}) check finds an archaic Draconic word for \"ice\" carved in tiny letters near the hinges. With a successful {@dc 10} Intelligence ({@skill Arcana}) check, a character senses that the inscription is connected to a trap. Scratching out the inscription with a tool or a weapon causes the trap to stop functioning on that chest.",
 										"Each chest is packed with fine sand, within which are nestled two vials of frigid woe (see the \"{@adventure Vials of Frigid Woe|FS|0|Vials of Frigid Woe}\" sidebar earlier in this adventure)."
 									]
@@ -3230,7 +3230,7 @@
 									"type": "list",
 									"items": [
 										"Each knife is a Tiny construct with 12 ({@dice 5d4}) hit points and a challenge rating of 1/8 (25 XP).",
-										"Instead of a longsword attack, each knife makes a melee attack (+4 to hit) that deals 3 ({@dice 1d4 + 1}) piercing damage on a hit."
+										"Instead of a longsword attack, each knife makes a melee attack ({@hit 4} to hit) that deals 3 ({@dice 1d4 + 1}) piercing damage on a hit."
 									]
 								},
 								"Old frozen cheese, bread, meat, and produce cover the floor, all well rimed and inedible."

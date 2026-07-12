@@ -154,7 +154,7 @@ export class InitiativeTrackerRowStateBuilderActive extends _InitiativeTrackerRo
 			conditions = null,
 		} = {},
 	) {
-		const isMon = name && source;
+		const isMon = !!(name && source);
 		const mon = await this.pGetScaledCreature({isMon, name, source, scaledCr, scaledSummonSpellLevel, scaledSummonClassLevel});
 		if (isMon && !mon) return null;
 
@@ -162,7 +162,8 @@ export class InitiativeTrackerRowStateBuilderActive extends _InitiativeTrackerRo
 
 		if (isMon) {
 			if (hpCurrent == null && hpMax == null) {
-				hpCurrent = hpMax = await this._roller.pGetOrRollHp(mon, {isRollHp: this._comp._state.isRollHp});
+				hpMax = await this._roller.pGetOrRollHp(mon, {isRollHp: this._comp._state.isRollHp});
+				hpCurrent = this._comp._state_isInvertWoundDirection ? 0 : hpMax;
 			}
 
 			if (initiative == null && this._comp._state.isRollInit) {

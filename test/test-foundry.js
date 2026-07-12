@@ -4,6 +4,7 @@ import "../js/parser.js";
 import "../js/utils.js";
 import "../js/render.js";
 import "../js/render-dice.js";
+import {pInitConsoleOut} from "../node/util-commander.js";
 
 const pLoadData = async (originalFilename, originalPath) => {
 	switch (originalFilename) {
@@ -153,6 +154,12 @@ class TestFoundry {
 		this.doCompareData({prop, foundryData, originalDatas: [variants], errors});
 	}
 
+	static async pTestSpecialBaseItems ({foundryData, originalDatas, errors}) {
+		const variants = await pLoadData("items-base.json", `./data/items-base.json`);
+		const prop = "baseitem";
+		this.doCompareData({prop, foundryData, originalDatas: [variants], errors});
+	}
+
 	static doCompareData ({prop, foundryData, originalDatas, errors}) {
 		foundryData[prop].forEach(it => {
 			const match = originalDatas.first(variants => variants[prop]?.find(og => og.name === it.name && (og?.inherits?.source ?? og.source) === it.source));
@@ -180,19 +187,13 @@ class TestFoundry {
 		},
 
 		ignoresNeverUsed: {
+			[Parser.SRC_PHB]: new Set([
+				// Used in '24 version only
+				"@scale.battle-master.superiority",
+			]),
 			[Parser.SRC_TCE]: new Set([
 				"@scale.artificer.infusions",
 				"@scale.alchemist.elixir",
-			]),
-			[Parser.SRC_XPHB]: new Set([
-				// TODO(Future) utilize these
-				"@scale.druid.wild-shape",
-				"@scale.druid.known-forms",
-				"@scale.ranger.mark",
-
-				"@scale.arcane-trickster.max-prepared",
-				"@scale.eldritch-knight.cantrips",
-				"@scale.eldritch-knight.prepared",
 			]),
 		},
 	};
@@ -295,11 +296,11 @@ class TestFoundry {
 const SPECIAL_PROPS = {
 	"raceFeature": TestFoundry.testSpecialRaceFeatures.bind(TestFoundry),
 	"magicvariant": TestFoundry.pTestSpecialMagicItemVariants.bind(TestFoundry),
+	"baseitem": TestFoundry.pTestSpecialBaseItems.bind(TestFoundry),
 };
 
 async function main () {
-	// Arbitrary initial delay to allow IntelliJ console to properly init(?!)
-	await MiscUtil.pDelay(200);
+	await pInitConsoleOut();
 
 	const errors = [];
 	const scaleValues = {};
@@ -325,4 +326,8 @@ async function main () {
 	return !errors.length;
 }
 
-export default main();
+const pMain = main();
+
+if (import.meta.main && !(await pMain)) process.exitCode = 1;
+
+export default pMain;

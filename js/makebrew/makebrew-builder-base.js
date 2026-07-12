@@ -1,12 +1,198 @@
-import {BuilderUi, PageUiUtil} from "./makebrew-builderui.js";
+import {BuilderUi} from "./makebrew-builderui.js";
 import {VetoolsConfig} from "../utils-config/utils-config-config.js";
 import {SITE_STYLE__CLASSIC, SITE_STYLE_DISPLAY} from "../consts.js";
 import {PropOrder} from "../utils-proporder.js";
 
-class SidemenuRenderCache {
-	constructor ({$lastStageSaved, $lastWrpBtnLoadExisting}) {
-		this.$lastStageSaved = $lastStageSaved;
-		this.$lastWrpBtnLoadExisting = $lastWrpBtnLoadExisting;
+class _ManageExistingEntitiesUi extends BaseComponent {
+	constructor ({parent, entities, doClose}) {
+		super();
+		this._parent = parent;
+		this._entities = entities;
+		this._doClose = doClose;
+
+		this._list = null;
+		this._listSelectClickHandler = null;
+	}
+
+	_getSelectedUniqueIds () {
+		return this._list.items
+			.filter(li => li.data.cbSel.checked)
+			.map(li => li.ix);
+	}
+
+	_getMassContextMenu () {
+		return ContextUtil.getMenu([
+			new ContextUtil.Action(
+				"Download JSON",
+				async () => {
+					await this._parent.pDoHandleClickDownloadJson({uniqueIds: this._getSelectedUniqueIds()});
+				},
+			),
+			new ContextUtil.Action(
+				"Download Markdown",
+				async () => {
+					await this._parent.pDoHandleClickDownloadMarkdown({uniqueIds: this._getSelectedUniqueIds()});
+				},
+			),
+			new ContextUtil.Action(
+				"Delete",
+				async () => {
+					const uniqueIds = this._getSelectedUniqueIds();
+					await this._parent.pHandleClick_deleteUniqueIds(uniqueIds, {isConfirm: true});
+					this._list.removeItemsByFilter(li => uniqueIds.includes(li.ix));
+					this._list.update();
+				},
+			),
+		]);
+	}
+
+	render ({wrp}) {
+		let menuMass;
+		const btnMass = ee`<button class="ve-btn ve-btn-default ve-bbl-0 ve-self-flex-stretch">Mass...</button>`
+			.onn("click", async evt => {
+				menuMass ||= this._getMassContextMenu();
+				await ContextUtil.pOpenMenu(evt, menuMass);
+			});
+
+		const btnReset = ee`<button class="ve-btn ve-btn-default">Reset</button>`;
+
+		const cbAll = ee`<input type="checkbox">`;
+		const wrpRows = ee`<div class="list ve-flex-col ve-w-100 ve-max-h-unset"></div>`;
+		const iptSearch = ee`<input type="search" class="search ve-form-control ve-w-100 ve-lst__search ve-lst__search--no-border-h" placeholder="Search entities...">`;
+		const disp = ee`<div class="ve-lst__wrp-search-visible ve-no-events ve-flex-vh-center"></div>`;
+		const wrpBtnsSort = ee`<div class="filtertools ve-input-group ve-input-group--bottom ve-flex ve-no-shrink">
+			<label class="ve-btn ve-btn-default ve-btn-xs ve-col-1 ve-pl-1 ve-pr-0 ve-flex-vh-center">${cbAll}</label>
+			<button class="ve-col-9-5 sort ve-btn ve-btn-default ve-btn-xs" data-sort="name">Name</button>
+			<button class="ve-col-1-5 ve-btn ve-btn-default ve-btn-xs ve-grow" disabled>&nbsp;</button>
+		</div>`;
+
+		ee(wrp)`
+		<div class="ve-flex-v-stretch ve-input-group ve-input-group--top ve-no-shrink ve-mt-1">
+			${btnMass}
+			<div class="ve-w-100 ve-relative">
+				${iptSearch}
+				<div id="lst__search-glass" class="ve-lst__wrp-search-glass ve-no-events ve-flex-vh-center"><span class="glyphicon glyphicon-search"></span></div>
+				${disp}
+			</div>
+			${btnReset}
+		</div>
+
+		${wrpBtnsSort}
+		${wrpRows}`;
+
+		this._list = new List({
+			iptSearch,
+			wrpList: wrpRows,
+			fnSort: SortUtil.listSort,
+		});
+
+		this._list.on("updated", () => disp.html(`${this._list.visibleItems.length}/${this._list.items.length}`));
+
+		this._listSelectClickHandler = new ListSelectClickHandler({list: this._list});
+		this._listSelectClickHandler.bindSelectAllCheckbox(cbAll);
+
+		SortUtil.initBtnSortHandlers(wrpBtnsSort, this._list);
+
+		this._entities.forEach(ent => {
+			this._addListItem({ent});
+		});
+
+		this._list.init();
+
+		iptSearch.focuse();
+	}
+
+	_addListItem ({ent}) {
+		const btnEdit = ee`<button class="ve-btn ve-btn-xs ve-btn-default" title="Edit"><span class="glyphicon glyphicon-pencil"></span></button>`
+			.onn("click", async evt => {
+				evt.stopPropagation();
+				await this._parent.pHandleClick_editUniqueId(ent.uniqueId, {isConfirmOnUnsaved: true});
+				this._doClose();
+			});
+
+		let menu;
+		const btnContextMenu = ee`<button class="ve-btn ve-btn-xs ve-btn-default" title="More Options"><span class="glyphicon glyphicon-option-vertical"></span></button>`
+			.onn("click", async evt => {
+				evt.stopPropagation();
+				menu ||= this._getListItemContextMenu({ent});
+				await ContextUtil.pOpenMenu(evt, menu);
+			});
+
+		const btnDelete = ee`<button class="ve-btn ve-btn-xs ve-btn-danger" title="Delete"><span class="glyphicon glyphicon-trash"></span></button>`
+			.onn("click", async evt => {
+				evt.stopPropagation();
+				await this._parent.pHandleClick_deleteUniqueId(ent.uniqueId, {isConfirm: true});
+				this._list.removeItem(listItem);
+				this._list.update();
+			});
+
+		const cbSel = ee`<input type="checkbox" class="ve-no-events">`;
+
+		const eleLi = ee`<div class="ve-lst__row ve-flex-col ve-px-0">
+			<label class="ve-lst__row-border ve-lst__row-inner ve-no-select ve-mb-0 ve-flex-v-center">
+				<div class="ve-pl-0 ve-pr-1 ve-col-1 ve-flex-vh-center">${cbSel}</div>
+				<div class="ve-col-9-5 ve-px-1 ve-bold">${ent.name}</div>
+				<div class="ve-col-1-5 ve-flex-vh-center ve-pl-1 ve-pr-0 ve-btn-group">
+					${btnEdit}
+					${btnContextMenu}
+					${btnDelete}
+				</div>
+			</label>
+		</div>`;
+
+		const listItem = new ListItem(
+			ent.uniqueId,
+			eleLi,
+			ent.name,
+			{
+			},
+			{
+				cbSel,
+			},
+		);
+
+		eleLi.addEventListener("click", evt => this._listSelectClickHandler.handleSelectClick(listItem, evt));
+
+		this._list.addItem(listItem);
+	}
+
+	_getListItemContextMenu ({ent}) {
+		return ContextUtil.getMenu([
+			new ContextUtil.Action(
+				"Duplicate",
+				async () => {
+					const entNxt = await this._parent.pHandleClick_duplicateUniqueId(ent.uniqueId);
+					this._addListItem({ent: entNxt});
+					this._list.update();
+				},
+			),
+			null,
+			new ContextUtil.Action(
+				"View JSON",
+				async (evt) => {
+					await this._parent.pHandleClick_viewJsonUniqueId(evt, ent.uniqueId);
+				},
+			),
+			new ContextUtil.Action(
+				"Download JSON",
+				async () => {
+					await this._parent.pHandleClick_downloadJsonUniqueId(ent.uniqueId);
+				},
+			),
+			null,
+			new ContextUtil.Action(
+				"View Markdown",
+				async (evt) => {
+					await this._parent.pHandleClick_viewMarkdownUniqueId(evt, ent.uniqueId);
+				},
+			),
+			new ContextUtil.Action(
+				"Download Markdown",
+				async () => {
+					await this._parent.pHandleClick_downloadMarkdownUniqueId(ent.uniqueId);
+				},
+			),
+		]);
 	}
 }
 
@@ -17,20 +203,10 @@ export class BuilderBase extends ProxyBase {
 		return Promise.all(BuilderBase._BUILDERS.map(b => b.pInit()));
 	}
 
-	/**
-	 * @param opts Options object.
-	 * @param opts.titleSidebarLoadExisting Text for "Load Existing" sidebar button.
-	 * @param opts.titleSidebarDownloadJson Text for "Download JSON" sidebar button.
-	 * @param opts.metaSidebarDownloadMarkdown Meta for a "Download Markdown" sidebar button.
-	 * @param opts.prop Homebrew prop.
-	 */
-	constructor (opts) {
+	constructor ({prop, pFnGetFluff = null}) {
 		super();
-		opts = opts || {};
-		this._titleSidebarLoadExisting = opts.titleSidebarLoadExisting;
-		this._titleSidebarDownloadJson = opts.titleSidebarDownloadJson;
-		this._metaSidebarDownloadMarkdown = opts.metaSidebarDownloadMarkdown;
-		this._prop = opts.prop;
+		this._prop = prop;
+		this._pFnGetFluff = pFnGetFluff;
 
 		BuilderBase._BUILDERS.push(this);
 		TabUiUtil.decorate(this);
@@ -39,32 +215,44 @@ export class BuilderBase extends ProxyBase {
 		this._isInitialLoad = true;
 
 		this._sourcesCache = []; // the JSON sources from the main UI
-		this._$selSource = null;
+		this._selSource = null;
 		this._cbCache = null;
+
+		this._btnHeaderSave = null;
+		this._dispHeaderName = null;
 
 		this.__state = this._getInitialState();
 		this._state = null; // proxy used to access state
 		this.__meta = this._getInitialMetaState(); // meta state
 		this._meta = null; // proxy used to access meta state
 
-		this._$wrpBtnLoadExisting = null;
-		this._$sideMenuStageSaved = null;
-		this._$sideMenuWrpList = null;
-		this._$eles = {}; // Generic internal element storage
+		this._eles = {}; // Generic internal element storage
 		this._compsSource = {};
+
+		this._isLastRenderInputFail = false;
+	}
+
+	setHeaderElements ({btnHeaderSave, dispHeaderName}) {
+		this._btnHeaderSave = btnHeaderSave;
+		this._dispHeaderName = dispHeaderName;
 	}
 
 	_doResetProxies () {
 		this._resetHooks("state");
 		this._resetHooks("meta");
-		this._$eles = {};
+		this._eles = {};
 		this._compsSource = {};
 	}
 
-	doCreateProxies () {
+	_doCreateProxies () {
 		this._doResetProxies();
 		this._state = this._getProxy("state", this.__state);
 		this._meta = this._getProxy("meta", this.__meta);
+	}
+
+	_doBindHeaderElements () {
+		this._addHook("meta", "isModified", () => this._btnHeaderSave.txt(this._meta.isModified ? "Save *" : "Saved"))();
+		this._addHook("meta", "nameOriginal", () => this._dispHeaderName.txt(`Editing "${this._meta.nameOriginal || "?"}"`))();
 	}
 
 	set ui (ui) { this._ui = ui; }
@@ -112,14 +300,13 @@ export class BuilderBase extends ProxyBase {
 			this._state.source = nuSource;
 			this._sourcesCache = MiscUtil.copy(this._ui.allSources);
 
-			const $cache = this._$selSource;
-			this._$selSource = this.$getSourceInput(this._cbCache);
-			$cache.replaceWith(this._$selSource);
+			const cache = this._selSource;
+			this._selSource = this.getSourceInput(this._cbCache);
+			cache.replaceWith(this._selSource);
 		}
 
 		this.renderInput();
 		this.renderOutput();
-		await this.pRenderSideMenu();
 		this.doUiSave();
 	}
 
@@ -130,8 +317,8 @@ export class BuilderBase extends ProxyBase {
 		};
 	}
 
-	$getSourceInput (cb) {
-		return BuilderUi.$getStateIptEnum(
+	getSourceInput (cb) {
+		return BuilderUi.getStateIptEnum(
 			"Source",
 			cb,
 			this._state,
@@ -147,233 +334,150 @@ export class BuilderBase extends ProxyBase {
 		this._ui.doSaveDebounced();
 	}
 
-	async pRenderSideMenu () {
-		// region Detach any sidemenu renders from other builders
-		if (this._ui.sidemenuRenderCache) {
-			if (this._ui.sidemenuRenderCache.$lastStageSaved !== this._$sideMenuStageSaved) this._ui.sidemenuRenderCache.$lastStageSaved.detach();
+	/* -------------------------------------------- */
 
-			if (this._ui.sidemenuRenderCache.$lastWrpBtnLoadExisting !== this._$wrpBtnLoadExisting) this._ui.sidemenuRenderCache.$lastWrpBtnLoadExisting.detach();
-		}
-		// endregion
+	/**
+	 * @param {?Array<string>} uniqueIds
+	 */
+	async pDoHandleClickDownloadMarkdown ({uniqueIds = null} = {}) {
+		const entities = (await this._pGetBrewEntitiesCurrentSource())
+			.filter(ent => uniqueIds == null || uniqueIds.includes(ent.uniqueId));
 
-		// region If this is our first sidemenu render, create elements
-		if (!this._$sideMenuStageSaved) {
-			const $btnLoadExisting = $(`<button class="ve-btn ve-btn-xs ve-btn-default">${this._titleSidebarLoadExisting}</button>`)
-				.click(() => this.pHandleSidebarLoadExistingClick());
-			this._$wrpBtnLoadExisting = $$`<div class="w-100 mb-2">${$btnLoadExisting}</div>`;
-
-			const $btnDownloadJson = $(`<button class="ve-btn ve-btn-default ve-btn-xs mb-2">${this._titleSidebarDownloadJson}</button>`)
-				.click(() => this.pHandleSidebarDownloadJsonClick());
-
-			const $wrpDownloadMarkdown = (() => {
-				if (!this._metaSidebarDownloadMarkdown) return null;
-
-				const $btnDownload = $(`<button class="ve-btn ve-btn-default ve-btn-xs mb-2">${this._metaSidebarDownloadMarkdown.title}</button>`)
-					.click(async () => {
-						const entities = await this._pGetSideMenuBrewEntities();
-						const mdOut = await this._metaSidebarDownloadMarkdown.pFnGetText(entities);
-						DataUtil.userDownloadText(`${DataUtil.getCleanFilename(BrewUtil2.sourceJsonToFull(this._ui.source))}.md`, mdOut);
-					});
-
-				const $btnSettings = $(`<button class="ve-btn ve-btn-default ve-btn-xs mb-2"><span class="glyphicon glyphicon-cog"></span></button>`)
-					.click(() => RendererMarkdown.pShowSettingsModal());
-
-				return $$`<div class="ve-flex-v-center ve-btn-group">${$btnDownload}${$btnSettings}</div>`;
-			})();
-
-			this._$sideMenuWrpList = this._$sideMenuWrpList || $(`<div class="w-100 ve-flex-col">`);
-			this._$sideMenuStageSaved = $$`<div>
-				${PageUiUtil.$getSideMenuDivider().hide()}
-				<div class="ve-flex-v-center">${$btnDownloadJson}</div>
-				${$wrpDownloadMarkdown}
-				${this._$sideMenuWrpList}
-			</div>`;
-		}
-		// endregion
-
-		// Make our sidemenu internal wrapper visible
-		this._$wrpBtnLoadExisting.appendTo(this._ui.$wrpSideMenu);
-		this._$sideMenuStageSaved.appendTo(this._ui.$wrpSideMenu);
-
-		this._ui.sidemenuRenderCache = new SidemenuRenderCache({
-			$lastWrpBtnLoadExisting: this._$wrpBtnLoadExisting,
-			$lastStageSaved: this._$sideMenuStageSaved,
+		const mdOut = await RendererMarkdown.exporting.pGetMarkdownDoc({
+			ents: entities,
+			prop: this._prop,
+			pFnGetFluff: this._pFnGetFluff,
 		});
-
-		await this._pDoUpdateSidemenu();
+		DataUtil.userDownloadText(`${DataUtil.getCleanFilename(BrewUtil2.sourceJsonToFull(this._ui.source))}.md`, mdOut);
 	}
 
-	getOnNavMessage () {
-		if (this._meta.isModified) return "You have unsaved changes! Are you sure you want to leave?";
-		else return null;
-	}
+	/* -------------------------------------------- */
 
-	async _pGetSideMenuBrewEntities () {
+	async _pGetBrewEntitiesCurrentSource () {
 		const brew = await BrewUtil2.pGetOrCreateEditableBrewDoc();
 		return MiscUtil.copy((brew.body[this._prop] || []).filter(entry => entry.source === this._ui.source))
 			.sort((a, b) => SortUtil.ascSort(a.name, b.name));
 	}
 
-	async _pDoUpdateSidemenu () {
-		this._sidemenuListRenderCache = this._sidemenuListRenderCache || {};
+	/* -------------------------------------------- */
 
-		const toList = await this._pGetSideMenuBrewEntities();
-		this._$sideMenuStageSaved.toggleVe(!!toList.length);
+	async pHandleClick_duplicateUniqueId (uniqueId) {
+		const copy = MiscUtil.copy(await BrewUtil2.pGetEditableBrewEntity(this._prop, uniqueId, {isDuplicate: true}));
+		copy.name = StrUtil.getNextDuplicateName(copy.name);
 
-		const metasVisible = new Set();
-		toList.forEach((ent, ix) => {
-			metasVisible.add(ent.uniqueId);
+		await BrewUtil2.pPersistEditableBrewEntity(this._prop, copy);
 
-			if (this._sidemenuListRenderCache[ent.uniqueId]) {
-				const meta = this._sidemenuListRenderCache[ent.uniqueId];
-
-				meta.$row.showVe();
-
-				if (meta.name !== ent.name) {
-					meta.$dispName.text(ent.name);
-					meta.name = ent.name;
-				}
-
-				if (meta.position !== ix) {
-					meta.$row.css("order", ix);
-					meta.position = ix;
-				}
-
-				return;
-			}
-
-			const $btnEdit = $(`<button class="ve-btn ve-btn-xs ve-btn-default mr-2" title="Edit"><span class="glyphicon glyphicon-pencil"></span></button>`)
-				.click(async () => {
-					if (
-						this.getOnNavMessage()
-						&& !await InputUiUtil.pGetUserBoolean({title: "Discard Unsaved Changes", htmlDescription: "You have unsaved changes. Are you sure?", textYes: "Yes", textNo: "Cancel"})
-					) return;
-					await this.pHandleSidebarEditUniqueId(ent.uniqueId);
-				});
-
-			const menu = ContextUtil.getMenu([
-				new ContextUtil.Action(
-					"Duplicate",
-					async () => {
-						const copy = MiscUtil.copy(await BrewUtil2.pGetEditableBrewEntity(this._prop, ent.uniqueId, {isDuplicate: true}));
-						copy.name = StrUtil.getNextDuplicateName(copy.name);
-
-						await BrewUtil2.pPersistEditableBrewEntity(this._prop, copy);
-
-						await this._pDoUpdateSidemenu();
-					},
-				),
-				new ContextUtil.Action(
-					"View JSON",
-					async (evt) => {
-						const out = this._ui._getJsonOutputTemplate();
-
-						out[this._prop] = [
-							PropOrder.getOrdered(
-								DataUtil.cleanJson(MiscUtil.copy(await BrewUtil2.pGetEditableBrewEntity(this._prop, ent.uniqueId))),
-								this._prop,
-							),
-						];
-
-						const $content = Renderer.hover.$getHoverContent_statsCode(this._state);
-
-						Renderer.hover.getShowWindow(
-							$content,
-							Renderer.hover.getWindowPositionFromEvent(evt),
-							{
-								title: `${this._state.name} \u2014 Source Data`,
-								isPermanent: true,
-								isBookContent: true,
-							},
-						);
-					},
-				),
-				new ContextUtil.Action(
-					"Download JSON",
-					async () => {
-						const out = this._ui._getJsonOutputTemplate();
-						const cpy = MiscUtil.copy(await BrewUtil2.pGetEditableBrewEntity(this._prop, ent.uniqueId));
-						out[this._prop] = [DataUtil.cleanJson(cpy)];
-						DataUtil.userDownload(DataUtil.getCleanFilename(cpy.name), out);
-					},
-				),
-				new ContextUtil.Action(
-					"View Markdown",
-					async (evt) => {
-						const entry = MiscUtil.copy(await BrewUtil2.pGetEditableBrewEntity(this._prop, ent.uniqueId));
-						const name = `${entry._displayName || entry.name} \u2014 Markdown`;
-						const mdText = RendererMarkdown.get().render({
-							entries: [
-								{
-									type: "statblockInline",
-									dataType: this._prop,
-									data: entry,
-								},
-							],
-						});
-						const $content = Renderer.hover.$getHoverContent_miscCode(name, mdText);
-
-						Renderer.hover.getShowWindow(
-							$content,
-							Renderer.hover.getWindowPositionFromEvent(evt),
-							{
-								title: name,
-								isPermanent: true,
-								isBookContent: true,
-							},
-						);
-					},
-				),
-				new ContextUtil.Action(
-					"Download Markdown",
-					async () => {
-						const entry = MiscUtil.copy(await BrewUtil2.pGetEditableBrewEntity(this._prop, ent.uniqueId));
-						const mdText = CreatureBuilder._getAsMarkdown(entry).trim();
-						DataUtil.userDownloadText(`${DataUtil.getCleanFilename(entry.name)}.md`, mdText);
-					},
-				),
-			]);
-
-			const $btnBurger = $(`<button class="ve-btn ve-btn-xs ve-btn-default mr-2" title="More Options"><span class="glyphicon glyphicon-option-vertical"></span></button>`)
-				.click(evt => ContextUtil.pOpenMenu(evt, menu));
-
-			const $btnDelete = $(`<button class="ve-btn ve-btn-xs ve-btn-danger" title="Delete"><span class="glyphicon glyphicon-trash"></span></button>`)
-				.click(async () => {
-					if (!await InputUiUtil.pGetUserBoolean({title: "Delete Entity", htmlDescription: "Are you sure?", textYes: "Yes", textNo: "Cancel"})) return;
-
-					if (this._state.uniqueId === ent.uniqueId) this.reset();
-					await BrewUtil2.pRemoveEditableBrewEntity(this._prop, ent.uniqueId);
-					await this._pDoUpdateSidemenu();
-					await this.pDoPostDelete();
-				});
-
-			const $dispName = $$`<span class="py-1">${ent.name}</span>`;
-
-			const $row = $$`<div class="mkbru__sidebar-entry ve-flex-v-center split px-2" style="order: ${ix}">
-			${$dispName}
-			<div class="py-1 no-shrink">${$btnEdit}${$btnBurger}${$btnDelete}</div>
-			</div>`.appendTo(this._$sideMenuWrpList);
-
-			this._sidemenuListRenderCache[ent.uniqueId] = {
-				$dispName,
-				$row,
-				name: ent.name,
-				ix,
-			};
-		});
-
-		Object.entries(this._sidemenuListRenderCache)
-			.filter(([uniqueId]) => !metasVisible.has(uniqueId))
-			.forEach(([, meta]) => meta.$row.hideVe());
+		return copy;
 	}
 
-	async pHandleSidebarEditUniqueId (uniqueId) {
+	async pHandleClick_viewJsonUniqueId (evt, uniqueId) {
+		const out = this._ui._getJsonOutputTemplate();
+
+		out[this._prop] = [
+			PropOrder.getOrdered(
+				DataUtil.cleanJson(MiscUtil.copy(await BrewUtil2.pGetEditableBrewEntity(this._prop, uniqueId))),
+				this._prop,
+			),
+		];
+
+		Renderer.hover.getShowWindow(
+			Renderer.hover.getHoverContent_statsCode(this._state),
+			Renderer.hover.getWindowPositionFromEvent(evt),
+			{
+				title: `${this._state.name} \u2014 Source Data`,
+				isPermanent: true,
+				isBookContent: true,
+			},
+		);
+	}
+
+	async pHandleClick_downloadJsonUniqueId (uniqueId) {
+		const out = this._ui._getJsonOutputTemplate();
+		const cpy = MiscUtil.copy(await BrewUtil2.pGetEditableBrewEntity(this._prop, uniqueId));
+		out[this._prop] = [DataUtil.cleanJson(cpy)];
+		DataUtil.userDownload(DataUtil.getCleanFilename(cpy.name), out);
+	}
+
+	async pHandleClick_viewMarkdownUniqueId (evt, uniqueId) {
+		const entry = MiscUtil.copy(await BrewUtil2.pGetEditableBrewEntity(this._prop, uniqueId));
+		const name = `${entry._displayName || entry.name} \u2014 Markdown`;
+		const mdText = RendererMarkdown.get().render({
+			entries: [
+				{
+					type: "statblockInline",
+					dataType: this._prop,
+					data: entry,
+				},
+			],
+		});
+
+		Renderer.hover.getShowWindow(
+			Renderer.hover.getHoverContent_miscCode(name, mdText),
+			Renderer.hover.getWindowPositionFromEvent(evt),
+			{
+				title: name,
+				isPermanent: true,
+				isBookContent: true,
+			},
+		);
+	}
+
+	async pHandleClick_downloadMarkdownUniqueId (uniqueId) {
+		const entry = MiscUtil.copy(await BrewUtil2.pGetEditableBrewEntity(this._prop, uniqueId));
+		const mdText = this._getAsMarkdown(entry).trim();
+		DataUtil.userDownloadText(`${DataUtil.getCleanFilename(entry.name)}.md`, mdText);
+	}
+
+	async pHandleClick_deleteUniqueId (uniqueId, {isConfirm = false} = {}) {
+		return this.pHandleClick_deleteUniqueIds([uniqueId], {isConfirm});
+	}
+
+	async pHandleClick_deleteUniqueIds (uniqueIds, {isConfirm = false} = {}) {
+		if (!uniqueIds.length) return;
+
+		if (
+			isConfirm
+			&& !await InputUiUtil.pGetUserBoolean({title: `Delete ${uniqueIds.length === 1 ? "" : `${uniqueIds.length} `}Entit${uniqueIds.length === 1 ? "y" : "ies"}`, htmlDescription: `Are you sure?`, textYes: "Yes", textNo: "Cancel"})
+		) return;
+
+		if (uniqueIds.includes(this._state.uniqueId)) this.reset();
+		await BrewUtil2.pRemoveEditableBrewEntities(this._prop, uniqueIds);
+		await this.pDoPostDelete();
+	}
+
+	async pHandleClickEditExisting () {
+		const entities = await this._pGetBrewEntitiesCurrentSource();
+
+		const {eleModalInner, doClose} = UiUtil.getShowModal({
+			title: `${BrewUtil2.sourceJsonToFull(this._state.source)} \u2014 Edit ${Parser.getPropDisplayName(this._prop)}`,
+			isHeight100: true,
+			isUncappedHeight: true,
+			isWidth100: true,
+			zIndex: VeCt.Z_INDEX_BENEATH_HOVER,
+		});
+
+		const manageEntitiesUi = new _ManageExistingEntitiesUi({parent: this, entities, doClose});
+		manageEntitiesUi.render({wrp: eleModalInner});
+	}
+
+	async pHandleClick_editUniqueId (uniqueId, {isConfirmOnUnsaved = false} = {}) {
+		if (
+			isConfirmOnUnsaved
+			&& this._meta.isModified
+			&& !await InputUiUtil.pGetUserBoolean({title: "Discard Unsaved Changes", htmlDescription: "You have unsaved changes. Are you sure?", textYes: "Yes", textNo: "Cancel"})
+		) return;
+
 		const entEditable = await BrewUtil2.pGetEditableBrewEntity(this._prop, uniqueId);
+		if (entEditable._copy) {
+			JqueryUtil.doToast({type: "warning", content: ee`<span>You are attempting to edit a <code>_copy</code>! Saving your changes will overwrite the <code>_copy</code> with a resolved version of the entity.</span>`});
+			await DataUtil[this._prop]?.pMergeCopy([], entEditable, {isSkipMetaMergeCache: true});
+		}
 		this.setStateFromLoaded({
 			s: MiscUtil.copy(entEditable),
 			m: this._getInitialMetaState({
 				isModified: false,
 				isPersisted: false,
+				nameOriginal: entEditable.name,
 			}),
 		});
 		this.renderInput();
@@ -381,35 +485,25 @@ export class BuilderBase extends ProxyBase {
 		this.doUiSave();
 	}
 
-	async pHandleSidebarDownloadJsonClick () {
+	/**
+	 * @param {?Array<string>} uniqueIds
+	 */
+	async pDoHandleClickDownloadJson ({uniqueIds = null} = {}) {
+		const entities = (await this._pGetBrewEntitiesCurrentSource())
+			.filter(ent => uniqueIds == null || uniqueIds.includes(ent.uniqueId));
+
 		const out = this._ui._getJsonOutputTemplate();
-		out[this._prop] = (await this._pGetSideMenuBrewEntities()).map(entry => PropOrder.getOrdered(DataUtil.cleanJson(MiscUtil.copy(entry)), this._prop));
+		out[this._prop] = entities
+			.map(entry => PropOrder.getOrdered(DataUtil.cleanJson(MiscUtil.copy(entry)), this._prop));
 		DataUtil.userDownload(DataUtil.getCleanFilename(BrewUtil2.sourceJsonToFull(this._ui.source)), out);
 	}
 
-	renderInputControls () {
-		const $wrpControls = this._ui.$wrpInputControls.empty();
-
-		const $btnSave = $(`<button class="ve-btn ve-btn-xs ve-btn-default mr-2 mkbru__cnt-save">Save</button>`)
-			.click(() => this._pHandleClick_pSaveBrew())
-			.appendTo($wrpControls);
-		const hkBtnSaveText = () => $btnSave.text(this._meta.isModified ? "Save *" : "Saved");
-		this._addHook("meta", "isModified", hkBtnSaveText);
-		hkBtnSaveText();
-
-		$(`<button class="ve-btn ve-btn-xs ve-btn-default" title="SHIFT to reset additional state (such as whether or not certain attributes are auto-calculated)">New</button>`)
-			.click(async (evt) => {
-				if (!await InputUiUtil.pGetUserBoolean({title: "Reset Builder", htmlDescription: "Are you sure?", textYes: "Yes", textNo: "Cancel"})) return;
-				this.reset({isResetAllMeta: !!evt.shiftKey});
-			})
-			.appendTo($wrpControls);
-	}
-
 	reset ({isResetAllMeta = false} = {}) {
-		const metaNext = this._getInitialMetaState();
+		const stateNext = this._getInitialState();
+		const metaNext = this._getInitialMetaState({nameOriginal: stateNext.name});
 		if (!isResetAllMeta) this._reset_mutNextMetaState({metaNext});
 		this.setStateFromLoaded({
-			s: this._getInitialState(),
+			s: stateNext,
 			m: metaNext,
 		});
 		this.renderInput();
@@ -419,14 +513,13 @@ export class BuilderBase extends ProxyBase {
 
 	_reset_mutNextMetaState ({metaNext}) { /* Implement as required */ }
 
-	async _pHandleClick_pSaveBrew () {
+	async pDoHandleClickSaveBrew () {
 		const source = this._state.source;
 		if (!source) throw new Error(`Current state has no "source"!`);
 
 		const clean = DataUtil.cleanJson(MiscUtil.copy(this.__state), {isDeleteUniqueId: false});
 		if (this._meta.isPersisted) {
 			await BrewUtil2.pPersistEditableBrewEntity(this._prop, clean);
-			await this.pRenderSideMenu();
 		} else {
 			// If we are e.g. editing a copy of a non-editable brew's entity, we need to first convert the parent brew
 			//   to "editable."
@@ -470,9 +563,13 @@ export class BuilderBase extends ProxyBase {
 		}
 
 		this._meta.isModified = false;
+		this._meta.nameOriginal = this._state.name;
 		this.doUiSave();
 		await this.pDoPostSave();
-		await this._pDoUpdateSidemenu();
+	}
+
+	_getAsMarkdown (ent) {
+		return RendererMarkdown.get().render({entries: [{type: "statblockInline", dataType: this._prop, data: ent}]});
 	}
 
 	// TODO use this in creature builder
@@ -480,33 +577,33 @@ export class BuilderBase extends ProxyBase {
 	 * @param doUpdateState
 	 * @param rowArr
 	 * @param row
-	 * @param $wrpRow
+	 * @param wrpRow
 	 * @param title
 	 * @param [opts] Options object.
 	 * @param [opts.isProtectLast]
 	 * @param [opts.isExtraSmall]
 	 * @return {jQuery}
 	 */
-	static $getBtnRemoveRow (doUpdateState, rowArr, row, $wrpRow, title, opts) {
+	static getBtnRemoveRow (doUpdateState, rowArr, row, wrpRow, title, opts) {
 		opts = opts || {};
 
-		return $(`<button class="ve-btn ${opts.isExtraSmall ? "ve-btn-xxs" : "ve-btn-xs"} ve-btn-danger ${opts.isProtectLast ? "mkbru__btn-rm-row" : ""}" title="Remove ${title}"><span class="glyphicon glyphicon-trash"></span></button>`)
-			.click(() => {
+		return ee`<button class="ve-btn ${opts.isExtraSmall ? "ve-btn-xxs" : "ve-btn-xs"} ve-btn-danger ${opts.isProtectLast ? "mkbru__btn-rm-row" : ""}" title="Remove ${title}"><span class="glyphicon glyphicon-trash"></span></button>`
+			.onn("click", () => {
 				rowArr.splice(rowArr.indexOf(row), 1);
-				$wrpRow.empty().remove();
+				wrpRow.empty().remove();
 				doUpdateState();
 			});
 	}
 
-	$getFluffInput (cb) {
-		const [$row, $rowInner] = BuilderUi.getLabelledRowTuple("Flavor Info");
+	getFluffInput (cb) {
+		const [row, rowInner] = BuilderUi.getLabelledRowTuple("Flavor Info");
 
 		const imageRows = [];
 
 		const doUpdateState = () => {
 			const out = {};
 
-			const entries = UiUtil.getTextAsEntries($iptEntries.val());
+			const entries = UiUtil.getTextAsEntries(iptEntries.val());
 			if (entries && entries.length) out.entries = entries;
 
 			const images = imageRows.map(it => it.getState()).filter(Boolean);
@@ -520,66 +617,91 @@ export class BuilderBase extends ProxyBase {
 		};
 
 		const doUpdateOrder = () => {
-			imageRows.forEach(it => it.$ele.detach().appendTo($wrpRows));
+			imageRows.forEach(it => it.ele.detach().appendTo(wrpRows));
 			doUpdateState();
 		};
 
-		const $wrpRowsOuter = $(`<div class="relative"></div>`);
-		const $wrpRows = $(`<div class="ve-flex-col mb-1 mt-n1"></div>`).appendTo($wrpRowsOuter);
+		const wrpRows = ee`<div class="ve-flex-col ve-mb-1 ve-mt-n1"></div>`;
+		const wrpRowsOuter = ee`<div class="ve-relative">${wrpRows}</div>`;
 
-		const rowOptions = {$wrpRowsOuter};
+		const rowOptions = {wrpRowsOuter};
 
-		const $iptEntries = $(`<textarea class="form-control form-control--minimal resize-vertical mb-2"></textarea>`)
-			.change(() => doUpdateState());
+		const iptEntries = ee`<textarea class="ve-form-control form-control--minimal ve-resize-vertical ve-mb-2"></textarea>`
+			.onn("change", () => doUpdateState());
 
-		const $btnAddImage = $(`<button class="ve-btn ve-btn-xs ve-btn-default">Add Image</button>`)
-			.click(async () => {
+		const btnAddImage = ee`<button class="ve-btn ve-btn-xs ve-btn-default">Add Image</button>`
+			.onn("click", async () => {
 				const url = await InputUiUtil.pGetUserString({title: "Enter a URL"});
 				if (!url) return;
-				this.constructor.__$getFluffInput__getImageRow(doUpdateState, doUpdateOrder, rowOptions, imageRows, {href: {url: url}}).$ele.appendTo($wrpRows);
+				this.constructor.__getFluffInput__getImageRow(doUpdateState, doUpdateOrder, rowOptions, imageRows, {href: {url: url}}).ele.appendTo(wrpRows);
 				doUpdateState();
 			});
 
-		$$`<div class="ve-flex-col">
-		${$iptEntries}
-		${$wrpRowsOuter}
-		<div>${$btnAddImage}</div>
-		</div>`.appendTo($rowInner);
+		ee`<div class="ve-flex-col">
+		${iptEntries}
+		${wrpRowsOuter}
+		<div>${btnAddImage}</div>
+		</div>`.appendTo(rowInner);
 
 		if (this._state.fluff) {
-			if (this._state.fluff.entries) $iptEntries.val(UiUtil.getEntriesAsText(this._state.fluff.entries));
-			if (this._state.fluff.images) this._state.fluff.images.forEach(img => this.constructor.__$getFluffInput__getImageRow(doUpdateState, doUpdateOrder, rowOptions, imageRows, img).$ele.appendTo($wrpRows));
+			if (this._state.fluff.entries) iptEntries.val(UiUtil.getEntriesAsText(this._state.fluff.entries));
+			if (this._state.fluff.images) this._state.fluff.images.forEach(img => this.constructor.__getFluffInput__getImageRow(doUpdateState, doUpdateOrder, rowOptions, imageRows, img).ele.appendTo(wrpRows));
 		}
 
-		return $row;
+		return row;
 	}
 
-	static __$getFluffInput__getImageRow (doUpdateState, doUpdateOrder, options, imageRows, image) {
+	static __getFluffInput__getImageRow (doUpdateState, doUpdateOrder, options, imageRows, image) {
 		const out = {};
 
 		const getState = () => {
-			const rawUrl = $iptUrl.val().trim();
-			return rawUrl ? {type: "image", href: {type: "external", url: rawUrl}} : null;
+			const rawUrl = iptUrl.val().trim();
+			if (!rawUrl) return null;
+
+			const rawTitle = iptTitle.val().trim();
+			const rawCredit = iptCredit.val().trim();
+			const rawAltText = iptAltText.val().trim();
+
+			return {
+				type: "image",
+				href: {
+					type: "external",
+					url: rawUrl,
+				},
+				...rawTitle ? {title: rawTitle} : {},
+				...rawCredit ? {credit: rawCredit} : {},
+				...rawAltText ? {altText: rawAltText} : {},
+			};
 		};
 
-		const $iptUrl = $(`<input class="form-control form-control--minimal input-xs mr-2">`)
-			.change(() => doUpdateState());
+		const iptUrl = ee`<input class="ve-form-control form-control--minimal ve-input-xs ve-mr-2">`
+			.onn("change", () => doUpdateState());
+		const iptTitle = ee`<input class="ve-form-control form-control--minimal ve-input-xs ve-mr-2">`
+			.onn("change", () => doUpdateState());
+		const iptCredit = ee`<input class="ve-form-control form-control--minimal ve-input-xs ve-mr-2">`
+			.onn("change", () => doUpdateState());
+		const iptAltText = ee`<input class="ve-form-control form-control--minimal ve-input-xs ve-mr-2">`
+			.onn("change", () => doUpdateState());
+
 		if (image) {
 			const href = ((image || {}).href || {});
-			if (href.url) $iptUrl.val(href.url);
+			if (href.url) iptUrl.val(href.url);
 			else if (href.path) {
-				$iptUrl.val(`${window.location.origin.replace(/\/+$/, "")}/img/${href.path}`);
+				iptUrl.val(`${window.location.origin.replace(/\/+$/, "")}/img/${href.path}`);
 			}
+
+			if (image.title) iptTitle.val(image.title);
+			if (image.credit) iptCredit.val(image.credit);
+			if (image.altText) iptAltText.val(image.altText);
 		}
 
-		const $btnPreview = $(`<button class="ve-btn ve-btn-xs ve-btn-default mr-2" title="Preview Image"><span class="glyphicon glyphicon-fullscreen"></span></button>`)
-			.click((evt) => {
+		const btnPreview = ee`<button class="ve-btn ve-btn-xs ve-btn-default ve-mr-2" title="Preview Image"><span class="glyphicon glyphicon-fullscreen"></span></button>`
+			.onn("click", (evt) => {
 				const toRender = getState();
 				if (!toRender) return JqueryUtil.doToast({content: "Please enter an image URL", type: "warning"});
 
-				const $content = Renderer.hover.$getHoverContent_generic(toRender, {isBookContent: true});
 				Renderer.hover.getShowWindow(
-					$content,
+					Renderer.hover.getHoverContent_generic(toRender, {isBookContent: true}),
 					Renderer.hover.getWindowPositionFromEvent(evt),
 					{
 						isPermanent: true,
@@ -589,18 +711,41 @@ export class BuilderBase extends ProxyBase {
 				);
 			});
 
-		const $btnRemove = $(`<button class="ve-btn ve-btn-xs ve-btn-danger" title="Remove Image"><span class="glyphicon glyphicon-trash"></span></button>`)
-			.click(() => {
+		const btnRemove = ee`<button class="ve-btn ve-btn-xs ve-btn-danger" title="Remove Image"><span class="glyphicon glyphicon-trash"></span></button>`
+			.onn("click", () => {
 				imageRows.splice(imageRows.indexOf(out), 1);
-				out.$ele.empty().remove();
+				out.ele.empty().remove();
 				doUpdateState();
 			});
 
-		const $dragOrder = BuilderUi.$getDragPad(doUpdateOrder, imageRows, out, {
-			$wrpRowsOuter: options.$wrpRowsOuter,
+		const dragOrder = BuilderUi.getDragPad(doUpdateOrder, imageRows, out, {
+			wrpRowsOuter: options.wrpRowsOuter,
 		});
 
-		out.$ele = $$`<div class="ve-flex-v-center py-1 mkbru__wrp-rows--removable">${$iptUrl}${$btnPreview}${$btnRemove}${$dragOrder}</div>`;
+		out.ele = ee`<div class="ve-flex-v-center ve-py-1 mkbru__wrp-rows--removable">
+			<div class="ve-flex-col ve-mr-2 ve-w-100">
+				<label class="ve-flex-v-center ve-mb-2">
+					<span class="ve-w-60p ve-no-shrink ve-mr-2 ve-text-right ve-bold">URL</span>
+					${iptUrl}${btnPreview}
+				</label>
+				<label class="ve-flex-v-center ve-mb-2">
+					<span class="ve-w-60p ve-no-shrink ve-mr-2 ve-text-right">Title</span>
+					${iptTitle}
+				</label>
+				<label class="ve-flex-v-center ve-mb-2">
+					<span class="ve-w-60p ve-no-shrink ve-mr-2 ve-text-right">Credit</span>
+					${iptCredit}
+				</label>
+				<label class="ve-flex-v-center">
+					<span class="ve-w-60p ve-no-shrink ve-mr-2 ve-text-right">Alt Text</span>
+					${iptAltText}
+				</label>
+			</div>
+			
+			<div class="ve-flex-v-center">
+				${btnRemove}${dragOrder}
+			</div>
+		</div>`;
 		out.getState = getState;
 		imageRows.push(out);
 
@@ -608,7 +753,7 @@ export class BuilderBase extends ProxyBase {
 	}
 
 	_getRenderedMarkdownCode () {
-		const mdText = this.constructor._getAsMarkdown(this._state);
+		const mdText = this._getAsMarkdown(this._state);
 		return Renderer.get().render({
 			type: "entries",
 			entries: [
@@ -642,10 +787,11 @@ export class BuilderBase extends ProxyBase {
 		};
 	}
 
-	_getInitialMetaState ({isModified = false, isPersisted = false} = {}) {
+	_getInitialMetaState ({isModified = false, isPersisted = false, nameOriginal = null} = {}) {
 		return {
 			isModified,
 			isPersisted,
+			nameOriginal,
 			styleHint: VetoolsConfig.get("styleSwitcher", "style"),
 		};
 	}
@@ -655,8 +801,8 @@ export class BuilderBase extends ProxyBase {
 	doHandleSourcesAdd () { throw new TypeError(`Unimplemented method!`); }
 	_renderInputImpl () { throw new TypeError(`Unimplemented method!`); }
 	renderOutput () { throw new TypeError(`Unimplemented method!`); }
-	async pHandleSidebarLoadExistingClick () { throw new TypeError(`Unimplemented method!`); }
-	async pHandleSidebarLoadExistingData (entity, opts) { throw new TypeError(`Unimplemented method!`); }
+	async pHandleClickLoadExisting () { throw new TypeError(`Unimplemented method!`); }
+	async pHandleLoadExistingData (entity, opts) { throw new TypeError(`Unimplemented method!`); }
 	async _pInit () {}
 	async pDoPostSave () {}
 	async pDoPostDelete () {}

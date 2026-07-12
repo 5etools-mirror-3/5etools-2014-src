@@ -32,6 +32,16 @@ const settingsGroupStyleSwitcher = new ConfigSettingsGroup({
 		}),
 		new (
 			class extends ConfigSettingExternal {
+				_configId = "styleRollbox";
+				_name = "Dice Roller Position";
+				_help = "The position of the dice roller.";
+				_isRowLabel = true;
+
+				_getEleExternal () { return StyleSwitcher.getSelRollboxPosition(); }
+			}
+		)(),
+		new (
+			class extends ConfigSettingExternal {
 				_configId = "isWideMode";
 				_name = "Wide Mode (Experimental)";
 				_help = "This feature is unsupported. Expect bugs.";
@@ -40,6 +50,20 @@ const settingsGroupStyleSwitcher = new ConfigSettingsGroup({
 				_getEleExternal () { return StyleSwitcher.getCbWide(); }
 			}
 		)(),
+	],
+});
+
+const settingsGroupUi = new ConfigSettingsGroup({
+	groupId: "ui",
+	name: "UI",
+	configSettings: [
+		new ConfigSettingBoolean({
+			configId: "isNotifyUpdates",
+			name: `Show Notification on Update`,
+			help: `If a notification should be shown when a background content update completes, prompting the user to reload and/or view the changelog.`,
+			isRowLabel: true,
+			default: true,
+		}),
 	],
 });
 
@@ -147,6 +171,7 @@ const settingsGroupDice = new ConfigSettingsGroup({
 
 export const SETTINGS_GROUPS = [
 	settingsGroupStyleSwitcher,
+	settingsGroupUi,
 	settingsGroupMarkdown,
 	settingsGroupDice,
 ];

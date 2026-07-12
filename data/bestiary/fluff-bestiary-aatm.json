@@ -57,7 +57,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/AATM/Animated Coffin.webp"
-					}
+					},
+					"width": 1000,
+					"height": 853
 				}
 			]
 		},
@@ -80,7 +82,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/AATM/Factol Skall.webp"
-					}
+					},
+					"width": 750,
+					"height": 1000
 				}
 			]
 		},
@@ -103,7 +107,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/AATM/Heralds of Dust Exorcist.webp"
-					}
+					},
+					"width": 628,
+					"height": 1000
 				}
 			]
 		}

@@ -28,7 +28,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Aartuk Elder.webp"
 					},
-					"credit": "Christopher Burdett"
+					"credit": "Christopher Burdett",
+					"width": 1000,
+					"height": 1060
 				}
 			]
 		},
@@ -55,7 +57,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Aartuk Starhorror.webp"
 					},
-					"credit": "Matt Stewart"
+					"credit": "Matt Stewart",
+					"width": 1000,
+					"height": 921
 				}
 			]
 		},
@@ -82,7 +86,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Aartuk Weedling.webp"
 					},
-					"credit": "Christopher Burdett"
+					"credit": "Christopher Burdett",
+					"width": 1000,
+					"height": 1232
 				}
 			]
 		},
@@ -154,7 +160,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Ancient Lunar Dragon.webp"
 					},
-					"credit": "Svetlin Velinov"
+					"credit": "Svetlin Velinov",
+					"width": 773,
+					"height": 1000
 				}
 			]
 		},
@@ -174,7 +182,9 @@
 									"type": "internal",
 									"path": "bestiary/BAM/Ancient Solar Dragon.webp"
 								},
-								"credit": "Zoltan Boros"
+								"credit": "Zoltan Boros",
+								"width": 773,
+								"height": 1000
 							}
 						]
 					}
@@ -207,7 +217,7 @@
 									"type": "inset",
 									"name": "Astral Elves of Xaryxis",
 									"entries": [
-										"The adventure,{@i Light of Xaryxis}features an amoral astral elf society called the Xaryxian Empire. This empire is based in Xaryxispace, a Wildspace system illuminated by an enormous radiant sun named Xaryxis."
+										"The adventure, {@i Light of Xaryxis}features an amoral astral elf society called the Xaryxian Empire. This empire is based in Xaryxispace, a Wildspace system illuminated by an enormous radiant sun named Xaryxis."
 									]
 								}
 							]
@@ -222,7 +232,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Astral Elf Aristocrat.webp"
 					},
-					"credit": "Randy Vargas"
+					"credit": "Randy Vargas",
+					"width": 982,
+					"height": 1805
 				}
 			]
 		},
@@ -252,7 +264,7 @@
 									"type": "inset",
 									"name": "Astral Elves of Xaryxis",
 									"entries": [
-										"The adventure,{@i Light of Xaryxis}features an amoral astral elf society called the Xaryxian Empire. This empire is based in Xaryxispace, a Wildspace system illuminated by an enormous radiant sun named Xaryxis."
+										"The adventure, {@i Light of Xaryxis}features an amoral astral elf society called the Xaryxian Empire. This empire is based in Xaryxispace, a Wildspace system illuminated by an enormous radiant sun named Xaryxis."
 									]
 								}
 							]
@@ -267,7 +279,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Astral Elf Commander.webp"
 					},
-					"credit": "Julio Reyna"
+					"credit": "Julio Reyna",
+					"width": 1000,
+					"height": 1175
 				}
 			]
 		},
@@ -297,7 +311,7 @@
 									"type": "inset",
 									"name": "Astral Elves of Xaryxis",
 									"entries": [
-										"The adventure,{@i Light of Xaryxis}features an amoral astral elf society called the Xaryxian Empire. This empire is based in Xaryxispace, a Wildspace system illuminated by an enormous radiant sun named Xaryxis."
+										"The adventure, {@i Light of Xaryxis}features an amoral astral elf society called the Xaryxian Empire. This empire is based in Xaryxispace, a Wildspace system illuminated by an enormous radiant sun named Xaryxis."
 									]
 								}
 							]
@@ -312,7 +326,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Astral Elf Honor Guard.webp"
 					},
-					"credit": "Marta Nael"
+					"credit": "Marta Nael",
+					"width": 794,
+					"height": 1439
 				}
 			]
 		},
@@ -342,7 +358,7 @@
 									"type": "inset",
 									"name": "Astral Elves of Xaryxis",
 									"entries": [
-										"The adventure,{@i Light of Xaryxis}features an amoral astral elf society called the Xaryxian Empire. This empire is based in Xaryxispace, a Wildspace system illuminated by an enormous radiant sun named Xaryxis."
+										"The adventure, {@i Light of Xaryxis}features an amoral astral elf society called the Xaryxian Empire. This empire is based in Xaryxispace, a Wildspace system illuminated by an enormous radiant sun named Xaryxis."
 									]
 								}
 							]
@@ -357,7 +373,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Astral Elf Star Priest.webp"
 					},
-					"credit": "Merlin G. G."
+					"credit": "Merlin G. G.",
+					"width": 681,
+					"height": 1467
 				}
 			]
 		},
@@ -387,7 +405,7 @@
 									"type": "inset",
 									"name": "Astral Elves of Xaryxis",
 									"entries": [
-										"The adventure,{@i Light of Xaryxis}features an amoral astral elf society called the Xaryxian Empire. This empire is based in Xaryxispace, a Wildspace system illuminated by an enormous radiant sun named Xaryxis."
+										"The adventure, {@i Light of Xaryxis}features an amoral astral elf society called the Xaryxian Empire. This empire is based in Xaryxispace, a Wildspace system illuminated by an enormous radiant sun named Xaryxis."
 									]
 								}
 							]
@@ -402,7 +420,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Astral Elf Warrior.webp"
 					},
-					"credit": "Zuzanna Wužyk"
+					"credit": "Zuzanna Wužyk",
+					"width": 854,
+					"height": 1457
 				}
 			]
 		},
@@ -426,7 +446,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Autognome.webp"
 					},
-					"credit": "Zuzanna Wužyk"
+					"credit": "Zuzanna Wužyk",
+					"width": 1000,
+					"height": 1267
 				}
 			]
 		},
@@ -450,7 +472,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Brohg.webp"
 					},
-					"credit": "Kai Carpenter"
+					"credit": "Kai Carpenter",
+					"width": 843,
+					"height": 1939
 				}
 			]
 		},
@@ -474,7 +498,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Braxat.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1000,
+					"height": 1165
 				}
 			]
 		},
@@ -497,7 +523,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Brown Scavver.webp"
 					},
-					"credit": "Jessica Nguyen"
+					"credit": "Jessica Nguyen",
+					"width": 897,
+					"height": 448
 				}
 			]
 		},
@@ -526,7 +554,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Chwinga Astronaut.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1700,
+					"height": 1442
 				}
 			]
 		},
@@ -549,7 +579,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Cosmic Horror.webp"
 					},
-					"credit": "Simon Dominic"
+					"credit": "Simon Dominic",
+					"width": 416,
+					"height": 1000
 				}
 			]
 		},
@@ -573,7 +605,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Dohwar.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 1000,
+					"height": 647
 				}
 			]
 		},
@@ -599,7 +633,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Esthetic.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 850,
+					"height": 1256
 				}
 			]
 		},
@@ -623,7 +659,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Eye Monger.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1000,
+					"height": 647
 				}
 			]
 		},
@@ -646,7 +684,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Feyr.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1000,
+					"height": 625
 				}
 			]
 		},
@@ -669,7 +709,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Gaj.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1000,
+					"height": 652
 				}
 			]
 		},
@@ -691,7 +733,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Giant Space Hamster.webp"
 					},
-					"credit": "Zoltan Boros"
+					"credit": "Zoltan Boros",
+					"width": 850,
+					"height": 2352
 				}
 			]
 		},
@@ -725,7 +769,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Giff Shock Trooper.webp"
 					},
-					"credit": "Robson Michel"
+					"credit": "Robson Michel",
+					"width": 967,
+					"height": 1251
 				}
 			]
 		},
@@ -748,7 +794,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Giff Warlord.webp"
 					},
-					"credit": "Robson Michel"
+					"credit": "Robson Michel",
+					"width": 850,
+					"height": 1084
 				}
 			]
 		},
@@ -770,7 +818,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Githyanki Buccaneer.webp"
 					},
-					"credit": "Andrew Mar"
+					"credit": "Andrew Mar",
+					"width": 605,
+					"height": 1017
 				}
 			]
 		},
@@ -793,7 +843,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Githyanki Star Seer.webp"
 					},
-					"credit": "Andrew Mar"
+					"credit": "Andrew Mar",
+					"width": 583,
+					"height": 957
 				}
 			]
 		},
@@ -816,7 +868,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Githyanki Xenomancer.webp"
 					},
-					"credit": "Andrew Mar"
+					"credit": "Andrew Mar",
+					"width": 822,
+					"height": 1048
 				}
 			]
 		},
@@ -838,7 +892,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Gray Scavver.webp"
 					},
-					"credit": "Jessica Nguyen"
+					"credit": "Jessica Nguyen",
+					"width": 546,
+					"height": 190
 				}
 			]
 		},
@@ -860,7 +916,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Hadozee Explorer.webp"
 					},
-					"credit": "Zuzanna Wužyk"
+					"credit": "Zuzanna Wužyk",
+					"width": 595,
+					"height": 1000
 				}
 			]
 		},
@@ -882,7 +940,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Hadozee Shipmate.webp"
 					},
-					"credit": "Claudio Pozas"
+					"credit": "Claudio Pozas",
+					"width": 630,
+					"height": 1000
 				}
 			]
 		},
@@ -904,7 +964,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Hadozee Warrior.webp"
 					},
-					"credit": "David Auden Nash"
+					"credit": "David Auden Nash",
+					"width": 500,
+					"height": 1000
 				}
 			]
 		},
@@ -928,7 +990,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Jammer Leech.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1000,
+					"height": 748
 				}
 			]
 		},
@@ -953,7 +1017,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Kindori.webp"
 					},
-					"credit": "Jessica Nguyen"
+					"credit": "Jessica Nguyen",
+					"width": 1000,
+					"height": 647
 				}
 			]
 		},
@@ -978,7 +1044,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Lunar Dragon Wyrmling.webp"
 					},
-					"credit": "Lars Grant-West"
+					"credit": "Lars Grant-West",
+					"width": 1700,
+					"height": 1300
 				}
 			]
 		},
@@ -1002,7 +1070,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Megapede.webp"
 					},
-					"credit": "Craig J Spearing"
+					"credit": "Craig J Spearing",
+					"width": 1000,
+					"height": 423
 				}
 			]
 		},
@@ -1026,7 +1096,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Mercane.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1000,
+					"height": 647
 				}
 			]
 		},
@@ -1056,7 +1128,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Murder Comet.webp"
 					},
-					"credit": "Titus Lunter"
+					"credit": "Titus Lunter",
+					"width": 1000,
+					"height": 647
 				}
 			]
 		},
@@ -1081,7 +1155,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Neh-thalggu.webp"
 					},
-					"credit": "April Prime"
+					"credit": "April Prime",
+					"width": 1000,
+					"height": 711
 				}
 			]
 		},
@@ -1142,7 +1218,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Night Scavver.webp"
 					},
-					"credit": "Jessica Nguyen"
+					"credit": "Jessica Nguyen",
+					"width": 1251,
+					"height": 463
 				}
 			]
 		},
@@ -1164,7 +1242,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Plasmoid Boss.webp"
 					},
-					"credit": "Cory Trego-Erdner"
+					"credit": "Cory Trego-Erdner",
+					"width": 1000,
+					"height": 986
 				}
 			]
 		},
@@ -1186,7 +1266,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Plasmoid Explorer.webp"
 					},
-					"credit": "Brian Valeza"
+					"credit": "Brian Valeza",
+					"width": 1000,
+					"height": 1167
 				}
 			]
 		},
@@ -1208,7 +1290,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Plasmoid Warrior.webp"
 					},
-					"credit": "Irina Nordsol"
+					"credit": "Irina Nordsol",
+					"width": 1000,
+					"height": 1279
 				}
 			]
 		},
@@ -1233,7 +1317,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Psurlon.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 995,
+					"height": 1292
 				}
 			]
 		},
@@ -1255,7 +1341,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Psurlon Leader.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 1000,
+					"height": 965
 				}
 			]
 		},
@@ -1291,7 +1379,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Reigar.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 1000,
+					"height": 1232
 				},
 				{
 					"type": "image",
@@ -1299,7 +1389,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Reigar-2.webp"
 					},
-					"credit": "Simon Dominic"
+					"credit": "Simon Dominic",
+					"width": 1700,
+					"height": 2200
 				}
 			]
 		},
@@ -1324,7 +1416,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Solar Dragon Eggs.webp"
 					},
-					"credit": "Olga Drebas"
+					"credit": "Olga Drebas",
+					"width": 850,
+					"height": 889
 				}
 			]
 		},
@@ -1344,7 +1438,9 @@
 									"type": "internal",
 									"path": "bestiary/BAM/Solar Dragon Wyrmling.webp"
 								},
-								"credit": "Lars Grant-West"
+								"credit": "Lars Grant-West",
+								"width": 884,
+								"height": 1000
 							}
 						]
 					}
@@ -1371,7 +1467,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Space Clown.webp"
 					},
-					"credit": "Scott Murphy"
+					"credit": "Scott Murphy",
+					"width": 1000,
+					"height": 972
 				}
 			]
 		},
@@ -1393,7 +1491,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Space Eel.webp"
 					},
-					"credit": "Matt Stewart"
+					"credit": "Matt Stewart",
+					"width": 1000,
+					"height": 1281
 				}
 			]
 		},
@@ -1415,7 +1515,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Space Guppy.webp"
 					},
-					"credit": "Alayna Danner"
+					"credit": "Alayna Danner",
+					"width": 1000,
+					"height": 812
 				}
 			]
 		},
@@ -1451,7 +1553,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Space Mollymawk.webp"
 					},
-					"credit": "Olga Drebas"
+					"credit": "Olga Drebas",
+					"width": 1000,
+					"height": 1157
 				}
 			]
 		},
@@ -1474,7 +1578,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Space Swine.webp"
 					},
-					"credit": "Brynn Metheney"
+					"credit": "Brynn Metheney",
+					"width": 1000,
+					"height": 708
 				}
 			]
 		},
@@ -1496,7 +1602,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Ssurran Defiler.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 858,
+					"height": 1000
 				}
 			]
 		},
@@ -1518,7 +1626,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Ssurran Poisoner.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 916,
+					"height": 1000
 				}
 			]
 		},
@@ -1541,7 +1651,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Starlight Apparition.webp"
 					},
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 740,
+					"height": 1782
 				}
 			]
 		},
@@ -1563,7 +1675,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Thri-kreen Gladiator.webp"
 					},
-					"credit": "Cory Trego-Erdner"
+					"credit": "Cory Trego-Erdner",
+					"width": 1000,
+					"height": 1163
 				}
 			]
 		},
@@ -1585,7 +1699,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Thri-kreen Hunter.webp"
 					},
-					"credit": "Brian Valeza"
+					"credit": "Brian Valeza",
+					"width": 850,
+					"height": 1304
 				}
 			]
 		},
@@ -1607,7 +1723,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Thri-kreen Mystic.webp"
 					},
-					"credit": "Claudio Pozas"
+					"credit": "Claudio Pozas",
+					"width": 1000,
+					"height": 823
 				}
 			]
 		},
@@ -1632,7 +1750,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Vampirate.webp"
 					},
-					"credit": "Julio Reyna"
+					"credit": "Julio Reyna",
+					"width": 1000,
+					"height": 1466
 				}
 			]
 		},
@@ -1679,7 +1799,9 @@
 					"href": {
 						"type": "internal",
 						"path": "bestiary/BAM/Void Scavver.webp"
-					}
+					},
+					"width": 1695,
+					"height": 619
 				}
 			]
 		},
@@ -1727,7 +1849,9 @@
 						"type": "internal",
 						"path": "bestiary/BAM/Zodar.webp"
 					},
-					"credit": "Shawn Wood"
+					"credit": "Shawn Wood",
+					"width": 850,
+					"height": 1011
 				}
 			]
 		}

@@ -11,31 +11,30 @@
 {{> "adRhs" }}
 
 <div class="viewport-wrapper">
-	<div class="sidemenu__toggle" style="display: none;">
-		<div class="sidemenu__hotzone"></div>
-		<div class="sidemenu__burger"></div>
-		<div class="sidemenu__burger"></div>
-		<div class="sidemenu__burger"></div>
-		<div class="sidemenu"></div>
-	</div>
-
 	{{> "adLeaderboard" }}
 
 	{{> "navbar" }}
 
 	<div id="page_loading" class="container view-col-wrapper">
-		<div class="h-100 w-100 ve-flex-vh-center"><span class="initial-message initial-message--large">Loading...</span></div>
+		<div class="ve-h-100 ve-w-100 ve-flex-vh-center"><span class="initial-message initial-message--large">Loading...</span></div>
 	</div>
 
-	<div id="page_source" class="container view-col-wrapper" style="display: none"></div>
+	<div id="page_source" class="container view-col-wrapper ve-hidden"></div>
 
-	<div id="page_main" class="container view-col-wrapper" style="display: none">
-		<div class="view-col">
-			<div id="content_input"></div>
-			<div id="content_input_controls" class="ve-text-center"></div>
+	<div id="page_main" class="ve-h-100 ve-flex-col ve-min-h-0 ve-hidden" data-cancer-id="cancer-wrapper">
+		<div class="container ve-h-100 ve-flex-col">
+			<div class="ve-w-100 ve-pt-2 ve-mb-1 ve-pl-7p ve-pr-7p ve-flex-col" id="wrp-settings"></div>
+
+			<hr class="ve-hr-3 ve-w-initial ve-mx-7p">
+
+			<div class="view-col-wrapper">
+				<div class="view-col">
+					<div id="content_input"></div>
+				</div>
+
+				<div class="view-col" id="content_output"></div>
+			</div>
 		</div>
-
-		<div class="view-col" id="content_output"></div>
 	</div>
 </div>
 

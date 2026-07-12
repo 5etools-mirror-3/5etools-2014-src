@@ -107,7 +107,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/006-01-003.dr-cassee-dannell.webp"
 					},
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 850,
+					"height": 1612
 				}
 			]
 		},
@@ -134,7 +136,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/Fragment of Krokulmar.webp"
 					},
-					"credit": "Olivier Bernard"
+					"credit": "Olivier Bernard",
+					"width": 710,
+					"height": 1000
 				}
 			]
 		},
@@ -148,7 +152,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/086-11-004.ignatius-inkblot.webp"
 					},
-					"credit": "Andrew Mar"
+					"credit": "Andrew Mar",
+					"width": 1700,
+					"height": 1090
 				}
 			]
 		},
@@ -162,7 +168,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/104-13-005.jarazoun-the-efreeti.webp"
 					},
-					"credit": "Olivier Bernard"
+					"credit": "Olivier Bernard",
+					"width": 850,
+					"height": 950
 				}
 			]
 		},
@@ -176,7 +184,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/056-07-004.quasit-conspiracy.webp"
 					},
-					"credit": "Kai Carpenter"
+					"credit": "Kai Carpenter",
+					"width": 1700,
+					"height": 1079
 				}
 			]
 		},
@@ -199,7 +209,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/King Jhaeros.webp"
 					},
-					"credit": "David Auden Nash"
+					"credit": "David Auden Nash",
+					"width": 788,
+					"height": 1000
 				}
 			]
 		},
@@ -222,7 +234,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/Markos Delphi.webp"
 					},
-					"credit": "Olivier Bernard"
+					"credit": "Olivier Bernard",
+					"width": 553,
+					"height": 1000
 				}
 			]
 		},
@@ -236,7 +250,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/001-00-002.meera-raheer.webp"
 					},
-					"credit": "Katerina Ladon"
+					"credit": "Katerina Ladon",
+					"width": 850,
+					"height": 1185
 				}
 			]
 		},
@@ -250,7 +266,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/065-08-005.nixylanna-vidorant.webp"
 					},
-					"credit": "Evyn Fong"
+					"credit": "Evyn Fong",
+					"width": 850,
+					"height": 1678
 				}
 			]
 		},
@@ -329,7 +347,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/Prisoner 13.webp"
 					},
-					"credit": "Katerina Ladon"
+					"credit": "Katerina Ladon",
+					"width": 740,
+					"height": 1000
 				},
 				{
 					"type": "image",
@@ -337,7 +357,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/035-p13-006.prisoner-13-closeup.webp"
 					},
-					"credit": "Katerina Ladon"
+					"credit": "Katerina Ladon",
+					"width": 850,
+					"height": 734
 				}
 			]
 		},
@@ -351,7 +373,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/073-09-006.rilagos-ghost.webp"
 					},
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 698,
+					"height": 1590
 				}
 			]
 		},
@@ -377,7 +401,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/Sythian Skalderang.webp"
 					},
-					"credit": "Kai Carpenter"
+					"credit": "Kai Carpenter",
+					"width": 595,
+					"height": 1000
 				}
 			]
 		},
@@ -391,7 +417,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/087-11-005.the-stranger.webp"
 					},
-					"credit": "Olivier Bernard"
+					"credit": "Olivier Bernard",
+					"width": 850,
+					"height": 1025
 				}
 			]
 		},
@@ -414,7 +442,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/Tixie Tockworth.webp"
 					},
-					"credit": "Julian Kok"
+					"credit": "Julian Kok",
+					"width": 624,
+					"height": 1000
 				}
 			]
 		},
@@ -428,7 +458,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/023-03-004.zala-morphius.webp"
 					},
-					"credit": "Irina Nordsol"
+					"credit": "Irina Nordsol",
+					"width": 1700,
+					"height": 1696
 				}
 			]
 		},
@@ -442,7 +474,9 @@
 						"type": "internal",
 						"path": "bestiary/KftGV/096-12-009.trapped-in-space.webp"
 					},
-					"credit": "Nikki Dawes"
+					"credit": "Nikki Dawes",
+					"width": 1700,
+					"height": 1119
 				}
 			]
 		},

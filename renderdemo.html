@@ -52,7 +52,7 @@
 
 	<script type="text/javascript" src="sw-injector.js"></script>
 
-	<script type="module" src="js/styleswitch.js"></script>
+	<script blocking="render" type="module" src="js/styleswitch.js"></script>
 	<script type="text/javascript" src="js/navigation.js"></script>
 	<script type="module" src="js/browsercheck.js"></script>
 </head>
@@ -67,34 +67,44 @@
 <div class="viewport-wrapper">
 	<div class="cancer__wrp-leaderboard cancer__anchor"><div class="cancer__disp-cancer"></div><div class="cancer__wrp-leaderboard-inner cancer__wrp-interactive"><!--5ETOOLS_AD_LEADERBOARD--></div></div>
 
-	<header class="hidden-xs hidden-sm page__header">
-		<div class="container ve-flex-v-baseline">
-			<h1 class="page__title no-wrap my-0" id="page__title">Renderer Demo</h1>
-			<p class="page__subtitle no-wrap my-0" id="page__subtitle">Edit the JSON on the left, and see the results on the right.</p>
-		</div>
-	</header>
+	<div class="ve-flex-col" data-cancer-id="cancer-header">
+		<header class="ve-mobile-sm__hidden page__header">
+			<div class="container ve-flex-v-baseline">
+				<h1 class="page__title ve-no-wrap ve-my-0" id="page__title">Renderer Demo</h1>
+				<p class="page__subtitle ve-no-wrap ve-my-0" id="page__subtitle">Edit the JSON on the left, and see the results on the right.</p>
+			</div>
+		</header>
 
-	<nav class="container page__nav" id="navigation">
-		<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
-	</nav>
+		<nav class="container page__nav" id="navigation">
+			<ul class="nav nav-pills page__nav-inner" id="navbar"></ul>
+		</nav>
+	</div>
 
-	<div class="view-col-wrapper">
+	<div class="view-col-wrapper" data-cancer-id="cancer-wrapper">
 		<div class="view-col no-print" id="wrp-jsoninput">
 			<pre id="jsoninput" class="inputArea ace_editor"></pre>
-			<div class="ve-flex-h-right">
-				<select class="form-control input-sm mr-2" id="demoSelectRenderer">
-					<option value="html">HTML</option>
-					<option value="md">Markdown</option>
-					<option value="cards">RPG Cards</option>
-				</select>
-				<button class="ve-btn ve-btn-default ve-btn-sm mr-2" id="demoRender">Render</button>
-				<button class="ve-btn ve-btn-default ve-btn-sm" id="demoReset">Reset</button>
-				<span id="message"></span>
+
+			<div class="ve-split-v-center">
+				<div>
+					<button class="ve-btn ve-btn-default ve-btn-sm" id="btn-format">Format</button>
+				</div>
+
+				<div class="ve-flex-v-center">
+					<select class="ve-form-control ve-input-sm ve-mr-2" id="sel-renderer">
+						<option value="html">HTML</option>
+						<option value="md">Markdown</option>
+						<option value="cards">RPG Cards</option>
+					</select>
+					<button class="ve-btn ve-btn-default ve-btn-sm ve-mr-2" id="btn-render">Render</button>
+					<button class="ve-btn ve-btn-default ve-btn-sm" id="btn-reset">Reset</button>
+				</div>
 			</div>
 		</div>
 
 		<div id="wrp-output" class="view-col">
-			<table id="pagecontent" class="w-100 stats">
+			<div class="ve-code ve-mb-2 ve-p-2 ve-hidden alert alert-danger" id="message"></div>
+
+			<table id="pagecontent" class="ve-w-100 ve-stats">
 				<!-- populate with JS -->
 			</table>
 		</div>
@@ -104,7 +114,6 @@
 <!--5ETOOLS_SCRIPT_ANCHOR-->
 <!--5ETOOLS_AD_ADHESION-->
 
-<script type="text/javascript" defer src="lib/jquery.js"></script>
 <script type="text/javascript" defer src="lib/ace.js"></script>
 <script type="text/javascript" defer src="js/parser.js"></script>
 <script type="text/javascript" defer src="js/utils.js"></script>
@@ -113,7 +122,7 @@
 <script type="module" defer src="js/omnidexer.js"></script>
 <script type="module" src="js/omnisearch.js"></script>
 <script type="module" src="js/filter.js"></script>
-<script type="text/javascript" defer src="js/utils-dataloader.js"></script>
+<script type="module" src="js/utils-dataloader.js"></script>
 <script type="module" src="js/utils-font.js"></script>
 <script type="module" src="js/utils-brew.js"></script>
 <script type="module" src="js/utils-config.js"></script>
@@ -127,8 +136,8 @@
 <script type="text/javascript" defer src="js/render-card.js"></script>
 <script type="module" src="js/shim-esmodules.js"></script>
 <script type="text/javascript" defer src="js/hist.js"></script>
-<script type="text/javascript" defer src="js/renderdemo.js"></script>
-<script type="text/javascript" defer src="js/list2.js"></script>
+<script type="module" src="js/renderdemo.js"></script>
+<script type="module" defer src="js/list2.js"></script>
 <script type="text/javascript" defer src="lib/elasticlunr.js"></script>
 <!-- Dice Controls Container -->
 <div id="dice-box"></div>

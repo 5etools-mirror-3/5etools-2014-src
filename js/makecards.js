@@ -28,7 +28,7 @@ class MakeCards extends BaseComponent {
 		this._modalFilterFeats = new ModalFilterFeats({namespace: "makecards.feat"});
 		this._modalFilterOptionalFeatures = new ModalFilterOptionalFeatures({namespace: "makecards.optionalfeatures"});
 
-		this._doSaveStateDebounced = MiscUtil.debounce(() => this._pDoSaveState(), 50);
+		this._doSaveStateDebounced = MiscUtil.debounce(() => this._pDoSaveState(), VeCt.DUR_DEBOUNCE_SAVE);
 	}
 
 	async pInit () {
@@ -61,11 +61,11 @@ class MakeCards extends BaseComponent {
 					});
 			});
 
-		ee(wrpConfig)`<h5 class="split-v-center"><div>New Card Defaults</div>${btnResetDefaults}</h5>
-		<div class="ve-flex-v-center bold">
-			<div class="ve-col-4 ve-text-center pr-2">Type</div>
-			<div class="ve-col-4 ve-text-center p-2">Color</div>
-			<div class="ve-col-4 ve-text-center pl-2">Icon</div>
+		ee(wrpConfig)`<h5 class="ve-split-v-center"><div>New Card Defaults</div>${btnResetDefaults}</h5>
+		<div class="ve-flex-v-center ve-bold">
+			<div class="ve-col-4 ve-text-center ve-pr-2">Type</div>
+			<div class="ve-col-4 ve-text-center ve-p-2">Color</div>
+			<div class="ve-col-4 ve-text-center ve-pl-2">Icon</div>
 		</div>`;
 
 		const getColorIconConfigRow = (entityType) => {
@@ -84,10 +84,10 @@ class MakeCards extends BaseComponent {
 			this._addHookBase(kIcon, hkIcon);
 			hkIcon();
 
-			return ee`<div class="ve-flex-v-center stripe-even m-1">
-				<div class="ve-col-4 ve-flex-vh-center pr-2">${entityMeta.searchTitle}</div>
-				<div class="ve-col-4 ve-flex-vh-center p-2">${iptColor}</div>
-				<div class="ve-col-4 ve-flex-vh-center pl-2">${btnChooseIcon}</div>
+			return ee`<div class="ve-flex-v-center stripe-even ve-m-1">
+				<div class="ve-col-4 ve-flex-vh-center ve-pr-2">${entityMeta.searchTitle}</div>
+				<div class="ve-col-4 ve-flex-vh-center ve-p-2">${iptColor}</div>
+				<div class="ve-col-4 ve-flex-vh-center ve-pl-2">${btnChooseIcon}</div>
 			</div>`;
 		};
 
@@ -100,10 +100,10 @@ class MakeCards extends BaseComponent {
 		// region Search bar/add button
 		const menuSearch = ContextUtil.getMenu(this._render_getContextMenuOptions());
 
-		const iptSearch = ee`<input type="search" class="form-control mr-2" placeholder="Search cards...">`;
-		const btnAdd = ee`<button class="ve-btn ve-btn-primary mr-2"><span class="glyphicon glyphicon-plus"></span> Add</button>`
+		const iptSearch = ee`<input type="search" class="ve-form-control ve-mr-2" placeholder="Search cards...">`;
+		const btnAdd = ee`<button class="ve-btn ve-btn-primary ve-mr-2"><span class="glyphicon glyphicon-plus"></span> Add</button>`
 			.onn("click", evt => ContextUtil.pOpenMenu(evt, menuSearch));
-		const btnReset = ee`<button class="ve-btn ve-btn-danger mr-2"><span class="glyphicon glyphicon-trash"></span> Reset</button>`
+		const btnReset = ee`<button class="ve-btn ve-btn-danger ve-mr-2"><span class="glyphicon glyphicon-trash"></span> Reset</button>`
 			.onn("click", async () => {
 				if (!await InputUiUtil.pGetUserBoolean({title: "Reset", htmlDescription: "Are you sure?", textYes: "Yes", textNo: "Cancel"})) return;
 				this._list.removeAllItems();
@@ -126,7 +126,7 @@ class MakeCards extends BaseComponent {
 				});
 				DataUtil.userDownload("rpg-cards", toDownload, {isSkipAdditionalMetadata: true});
 			});
-		ee`<div class="w-100 no-shrink ve-flex-v-center mb-3">${iptSearch}${btnAdd}${btnReset}${btnExport}</div>`.appendTo(wrpContainer);
+		ee`<div class="ve-w-100 ve-no-shrink ve-flex-v-center ve-mb-3">${iptSearch}${btnAdd}${btnReset}${btnExport}</div>`.appendTo(wrpContainer);
 		// endregion
 
 		// region Mass operations bar
@@ -172,7 +172,7 @@ class MakeCards extends BaseComponent {
 
 		const btnMass = ee`<button class="ve-btn ve-btn-xs ve-btn-default" title="Carry out actions on selected cards">Mass...</button>`
 			.onn("click", evt => ContextUtil.pOpenMenu(evt, menuMass));
-		ee`<div class="w-100 no-shrink ve-flex-v-center mb-2">${btnMass}</div>`.appendTo(wrpContainer);
+		ee`<div class="ve-w-100 ve-no-shrink ve-flex-v-center ve-mb-2">${btnMass}</div>`.appendTo(wrpContainer);
 		// endregion
 
 		// region Main content
@@ -182,19 +182,19 @@ class MakeCards extends BaseComponent {
 				const isSel = cbSelAll.prop("checked");
 				this._list.visibleItems.forEach(it => it.data.cbSel.prop("checked", isSel));
 			});
-		ee`<div class="w-100 no-shrink ve-flex-v-center bold">
-			<div class="ve-col-1 mr-2 ve-flex-vh-center">${cbSelAll}</div>
-			<div class="ve-col-3 mr-2 ve-flex-vh-center">Name</div>
-			<div class="ve-col-1-5 mr-2 ve-flex-vh-center">Source</div>
-			<div class="ve-col-1-5 mr-2 ve-flex-vh-center">Type</div>
-			<div class="ve-col-1-1 mr-2 ve-flex-vh-center">Color</div>
-			<div class="ve-col-1-1 mr-2 ve-flex-vh-center">Icon</div>
-			<div class="ve-col-1 mr-2 ve-flex-vh-center">Count</div>
+		ee`<div class="ve-w-100 ve-no-shrink ve-flex-v-center ve-bold">
+			<div class="ve-col-1 ve-mr-2 ve-flex-vh-center">${cbSelAll}</div>
+			<div class="ve-col-3 ve-mr-2 ve-flex-vh-center">Name</div>
+			<div class="ve-col-1-5 ve-mr-2 ve-flex-vh-center">Source</div>
+			<div class="ve-col-1-5 ve-mr-2 ve-flex-vh-center">Type</div>
+			<div class="ve-col-1-1 ve-mr-2 ve-flex-vh-center">Color</div>
+			<div class="ve-col-1-1 ve-mr-2 ve-flex-vh-center">Icon</div>
+			<div class="ve-col-1 ve-mr-2 ve-flex-vh-center">Count</div>
 			<div class="ve-col-1-1 ve-flex-v-center ve-flex-h-right"></div>
 		</div>`.appendTo(wrpContainer);
 
-		const wrpList = ee`<div class="w-100 h-100"></div>`;
-		ee`<div class="ve-flex-col h-100 w-100 ve-overflow-y-auto mt-2 ve-overflow-x-hidden">${wrpList}</div>`.appendTo(wrpContainer);
+		const wrpList = ee`<div class="ve-w-100 ve-h-100"></div>`;
+		ee`<div class="ve-flex-col ve-h-100 ve-w-100 ve-overflow-y-auto ve-mt-2 ve-overflow-x-hidden">${wrpList}</div>`.appendTo(wrpContainer);
 		this._list = new List({iptSearch, wrpList});
 		this._list.init();
 		// endregion
@@ -309,7 +309,7 @@ class MakeCards extends BaseComponent {
 
 		const cbSel = ee`<input type="checkbox">`;
 
-		const iptRgb = ee`<input type="color" class="form-control input-xs form-control--minimal">`
+		const iptRgb = ee`<input type="color" class="ve-form-control ve-input-xs form-control--minimal">`
 			.val(cardMeta.color)
 			.onn("change", () => setColor(iptRgb.val()));
 		const setColor = (rgb) => {
@@ -322,7 +322,7 @@ class MakeCards extends BaseComponent {
 			.css({backgroundImage: `url('${MakeCards._getIconPath(cardMeta.icon)}')`});
 		const btnIcon = ee`<button class="ve-btn ve-btn-default ve-btn-xs cards__btn-choose-icon">${dispIcon}</button>`
 			.onn("click", async () => {
-				const icon = await MakeCards._pGetUserIcon();
+				const icon = await MakeCards._pGetUserIcon(listItem.values.icon);
 				if (icon) setIcon(icon);
 			});
 		const setIcon = (icon) => {
@@ -331,7 +331,7 @@ class MakeCards extends BaseComponent {
 			this._doSaveStateDebounced();
 		};
 
-		const iptCount = ee`<input class="form-control form-control--minimal input-xs ve-text-center">`
+		const iptCount = ee`<input class="ve-form-control form-control--minimal ve-input-xs ve-text-center">`
 			.onn("change", () => {
 				const asNum = UiUtil.strToInt(iptCount.val(), 1, {min: 1, fallbackOnNaN: 1});
 				listItem.values.count = asNum;
@@ -340,7 +340,7 @@ class MakeCards extends BaseComponent {
 			})
 			.val(cardMeta.count);
 
-		const btnCopy = ee`<button class="ve-btn ve-btn-default ve-btn-xs mr-2" title="Copy JSON (SHIFT to view JSON)"><span class="glyphicon glyphicon-copy"></span></button>`
+		const btnCopy = ee`<button class="ve-btn ve-btn-default ve-btn-xs ve-mr-2" title="Copy JSON (SHIFT to view JSON)"><span class="glyphicon glyphicon-copy"></span></button>`
 			.onn("click", async evt => {
 				const entityMeta = MakeCards._AVAILABLE_TYPES[listItem.values.entityType];
 				const toCopy = {
@@ -354,13 +354,8 @@ class MakeCards extends BaseComponent {
 				};
 
 				if (evt.shiftKey) {
-					// eslint-disable-next-line vet-jquery/jquery
-					const content = Renderer.hover.$getHoverContent_statsCode(toCopy)[0];
-
 					Renderer.hover.getShowWindow(
-
-						// eslint-disable-next-line vet-jquery/jquery
-						$(content),
+						Renderer.hover.getHoverContent_statsCode(toCopy),
 						Renderer.hover.getWindowPositionFromEvent(evt),
 						{
 							title: `Card Data \u2014 ${listItem.name}`,
@@ -370,7 +365,7 @@ class MakeCards extends BaseComponent {
 					);
 				} else {
 					await MiscUtil.pCopyTextToClipboard(JSON.stringify(toCopy, null, 2));
-					JqueryUtil.showCopiedEffect(btnCopy, "Copied JSON!");
+					JqueryUtil.showCopiedEffect(btnCopy, {text: "Copied JSON!"});
 				}
 			});
 		const btnDelete = ee`<button class="ve-btn ve-btn-danger ve-btn-xs" title="Remove"><span class="glyphicon glyphicon-trash"></span></button>`
@@ -380,14 +375,14 @@ class MakeCards extends BaseComponent {
 				this._doSaveStateDebounced();
 			});
 
-		const ele = ee`<label class="ve-flex-v-center my-1 w-100 lst__row lst__row-border lst__row-inner">
-			<div class="ve-col-1 mr-2 ve-flex-vh-center">${cbSel}</div>
-			<div class="ve-col-3 mr-2 ve-flex-v-center">${Renderer.get().render(`{@${Parser.getPropTag(cardMeta.entityType)} ${DataUtil.proxy.getUid(loaded.__prop, loaded, {isMaintainCase: true})}}`)}</div>
-			<div class="ve-col-1-5 mr-2 ve-flex-vh-center ${Parser.sourceJsonToSourceClassname(loaded.source)}" title="${Parser.sourceJsonToFull(loaded.source)}">${Parser.sourceJsonToAbv(loaded.source)}</div>
-			<div class="ve-col-1-5 mr-2 ve-flex-vh-center">${Parser.getPropDisplayName(cardMeta.entityType)}</div>
-			<div class="ve-col-1-1 mr-2 ve-flex-vh-center">${iptRgb}</div>
-			<div class="ve-col-1-1 mr-2 ve-flex-vh-center">${btnIcon}</div>
-			<div class="ve-col-1 mr-2 ve-flex-vh-center">${iptCount}</div>
+		const ele = ee`<label class="ve-flex-v-center ve-my-1 ve-w-100 ve-lst__row ve-lst__row-border ve-lst__row-inner">
+			<div class="ve-col-1 ve-mr-2 ve-flex-vh-center">${cbSel}</div>
+			<div class="ve-col-3 ve-mr-2 ve-flex-v-center">${Renderer.get().render(`{@${Parser.getPropTag(cardMeta.entityType)} ${DataUtil.proxy.getUid(loaded.__prop, loaded, {isMaintainCase: true})}}`)}</div>
+			<div class="ve-col-1-5 ve-mr-2 ve-flex-vh-center ${Parser.sourceJsonToSourceClassname(loaded.source)}" title="${Parser.sourceJsonToFull(loaded.source)}">${Parser.sourceJsonToAbv(loaded.source)}</div>
+			<div class="ve-col-1-5 ve-mr-2 ve-flex-vh-center">${Parser.getPropDisplayName(cardMeta.entityType)}</div>
+			<div class="ve-col-1-1 ve-mr-2 ve-flex-vh-center">${iptRgb}</div>
+			<div class="ve-col-1-1 ve-mr-2 ve-flex-vh-center">${btnIcon}</div>
+			<div class="ve-col-1 ve-mr-2 ve-flex-vh-center">${iptCount}</div>
 			<div class="ve-col-1-1 ve-flex-v-center ve-flex-h-right">${btnCopy}${btnDelete}</div>
 		</label>`;
 
@@ -453,7 +448,7 @@ class MakeCards extends BaseComponent {
 		} = Renderer.monster.getSubEntries(mon, {renderer});
 
 		return [
-			this._ct_subtitle(Renderer.monster.getTypeAlignmentPart(mon)),
+			this._ct_subtitle(Renderer.monster.getTypeAlignmentPart(mon, {renderer})),
 			this._ct_rule(),
 			this._ct_property("Armor class", this._ct_htmlToText(Parser.acToFull(mon.ac))),
 			this._ct_property("Hit points", this._ct_htmlToText(Renderer.monster.getRenderedHp(mon.hp))),
@@ -507,7 +502,7 @@ class MakeCards extends BaseComponent {
 			this._ct_property("Casting Time", Parser.spTimeListToFull(sp.time, sp.meta)),
 			this._ct_property("Range", Parser.spRangeToFull(sp.range)),
 			this._ct_property("Components", Parser.spComponentsToFull(sp.components, sp.level, {isPlainText: true})),
-			this._ct_property("Duration", Parser.spDurationToFull(sp.duration)),
+			this._ct_property("Duration", Parser.spDurationToFull(sp.duration, {isPlainText: true})),
 			this._ct_rule(),
 			...this._ct_renderEntries(sp.entries, 2),
 			...(higherLevel || []),
@@ -517,7 +512,7 @@ class MakeCards extends BaseComponent {
 	static _getCardContents_item (item) {
 		MakeCards.utils.enhanceItemAlt(item);
 
-		const [typeRarityText, subTypeText, tierText] = Renderer.item.getTypeRarityAndAttunementText(item);
+		const {typeRarityHtml, subTypeHtml, tierHtml} = Renderer.item.getTypeRarityAndAttunementHtmlParts(item);
 		const [ptDamage, ptProperties] = Renderer.item.getRenderedDamageAndProperties(item);
 		const ptMastery = Renderer.item.getRenderedMastery(item, {isSkipPrefix: true});
 		const ptWeight = Parser.itemWeightToFull(item);
@@ -535,12 +530,12 @@ class MakeCards extends BaseComponent {
 		}
 
 		return [
-			typeRarityText ? this._ct_htmlToText(this._ct_subtitle(typeRarityText.uppercaseFirst())) : null,
+			typeRarityHtml ? this._ct_htmlToText(this._ct_subtitle(typeRarityHtml)) : null,
 			ptDamageCt ? this._ct_property(ptDamageCt.startsWith("AC") ? "Armor Class" : "Damage", ptDamageCt) : null,
 			ptPropertiesCt ? this._ct_property("Properties", ptPropertiesCt.uppercaseFirst()) : null,
 			ptMastery ? this._ct_property("Mastery", ptMastery) : null,
-			subTypeText ? this._ct_property("Type", subTypeText.uppercaseFirst()) : null,
-			tierText ? this._ct_property("Tier", tierText.uppercaseFirst()) : null,
+			subTypeHtml ? this._ct_property("Type", subTypeHtml) : null,
+			tierHtml ? this._ct_property("Tier", tierHtml) : null,
 			ptWeight ? this._ct_property("Weight", ptWeight) : null,
 			ptValue ? this._ct_property("Value", ptValue) : null,
 			itemEntries.length ? this._ct_rule() : null,
@@ -627,42 +622,67 @@ class MakeCards extends BaseComponent {
 
 	static _pGetUserIcon (initialVal) {
 		return new Promise(resolve => {
-			const iptStr = ee`<input class="form-control mb-2">`
-				.onn("keydown", async evt => {
-					// prevent double-binding the return key if we have autocomplete enabled
-					await MiscUtil.pDelay(17); // arbitrary delay to allow dropdown to render (~1000/60, i.e. 1 60 FPS frame)
-					if (eleModalInner.find(`.typeahead.ve-dropdown-menu:is(:visible)`)) return;
-					if (evt.key === "Enter") doClose(true);
-					evt.stopPropagation();
-				});
+			const comp = BaseComponent.fromObject({
+				selectedIcon: initialVal || null,
+				searchTerm: "",
+			});
 
-			if (initialVal) iptStr.val(initialVal);
+			const btnMetas = icon_names
+				.reduce((accum, iconName) => {
+					const btn = ee`<button class="ve-btn ve-btn-default ve-m-2 ve-no-grow ve-self-flex-start">
+						<img src="${MakeCards._getIconPath(iconName)}" title="${iconName}" loading="lazy" class="ve-w-50p ve-h-50p">
+					</button>`
+						.onn("click", () => {
+							comp._state.selectedIcon = iconName;
+						});
 
-			// eslint-disable-next-line vet-jquery/jquery
-			$(iptStr).typeahead({
-				source: icon_names,
-				items: "16",
-				fnGetItemPrefix: (iconName) => {
-					return `<span class="cards__disp-typeahead-icon mr-2" style="background-image: url('${MakeCards._getIconPath(iconName)}')"></span> `;
-				},
+					comp._addHookBase("selectedIcon", () => {
+						btn.toggleClass("ve-active", comp._state.selectedIcon === iconName);
+					})();
+
+					accum[iconName] = {btn};
+
+					return accum;
+				}, {});
+
+			comp._addHookBase("searchTerm", () => {
+				Object.entries(btnMetas)
+					.forEach(([iconName, btnMeta]) => {
+						btnMeta.btn.toggleVe(iconName.includes(comp._state.searchTerm) || iconName === comp._state.selectedIcon);
+					});
+			});
+
+			const iptSearch = ee`<input class="ve-form-control ve-mb-2">`;
+
+			UiUtil.bindTypingEnd({
+				ipt: iptSearch,
+				fnKeyup: () => comp._state.searchTerm = iptSearch.val().trim().toLowerCase(),
 			});
 
 			const btnOk = ee`<button class="ve-btn ve-btn-default">Confirm</button>`
 				.onn("click", () => doClose(true));
+
 			const {eleModalInner, doClose} = UiUtil.getShowModal({
-				title: "Enter Icon",
-				isMinHeight0: true,
+				title: "Select Icon",
 				cbClose: (isDataEntered) => {
 					if (!isDataEntered) return resolve(null);
-					const raw = iptStr.val();
-					if (!raw.trim()) return resolve(null);
-					else return resolve(raw);
+					if (!comp._state.selectedIcon) return resolve(null);
+					else return resolve(comp._state.selectedIcon);
 				},
+				isHeight100: true,
+				isMaxWidth640p: true,
 			});
-			iptStr.appendTo(eleModalInner);
-			ee`<div class="ve-flex-vh-center">${btnOk}</div>`.appendTo(eleModalInner);
-			iptStr.focus();
-			iptStr.select();
+
+			ee(eleModalInner)`
+				<div>${iptSearch}</div>
+				<div class="ve-overflow-y-auto ve-flex ve-flex-wrap ve-w-100 ve-min-h-0 ve-h-100 ve-py-1 ve-bb-1p ve-mb-1 ve-smooth-scroll">
+					${Object.values(btnMetas).map(({btn}) => btn)}
+				</div>
+				<div class="ve-flex-vh-center">${btnOk}</div>
+			`;
+
+			iptSearch.focus();
+			iptSearch.select();
 		});
 	}
 
@@ -746,8 +766,8 @@ MakeCards._AVAILABLE_TYPES = {
 		pFnSearch: SearchWidget.pGetUserItemSearch,
 		fnGetContents: MakeCards._getCardContents_item.bind(MakeCards),
 		fnGetTags: (item) => {
-			const [typeListText] = Renderer.item.getHtmlAndTextTypes(item);
-			return ["item", Parser.sourceJsonToAbv(item.source), ...typeListText];
+			const {textTypes} = Renderer.item.getRenderableTypeEntriesMeta(item);
+			return ["item", Parser.sourceJsonToAbv(item.source), ...textTypes];
 		},
 	},
 	spell: {

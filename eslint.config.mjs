@@ -1,7 +1,7 @@
 import js from "@eslint/js";
 import globals from "globals";
 import {CONFIG_IGNORES} from "./test/eslint/eslint-config.js";
-import pluginVetJquery from "./test/eslint/plugin-jquery.js";
+import pluginVetJquery from "5etools-utils/eslint";
 
 export default [
 	js.configs.recommended,
@@ -168,7 +168,7 @@ export default [
 			"padded-blocks": ["error", {"blocks": "never", "switches": "never", "classes": "never"}],
 			"prefer-promise-reject-errors": "error",
 			"rest-spread-spacing": ["error", "never"],
-			"semi": ["warn", "always"],
+			"semi": ["error", "always"],
 			"semi-spacing": ["error", {"before": false, "after": true}],
 			"space-before-blocks": ["error", "always"],
 			"space-before-function-paren": ["error", "always"],
@@ -199,6 +199,7 @@ export default [
 			"quotes": ["error", "double", {"allowTemplateLiterals": true}],
 			"no-var": "error",
 			"no-constant-binary-expression": "error",
+			"no-useless-assignment": "off",
 		},
 	},
 	CONFIG_IGNORES,
