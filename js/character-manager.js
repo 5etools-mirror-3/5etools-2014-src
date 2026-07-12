@@ -676,7 +676,7 @@ class CharacterP2P {
 			console.error("CharacterP2P: Failed to connect to Cloudflare:", error);
 			this._scheduleReconnect();
 		}
-	
+
 		// Auto-initialize character indexing site-wide. This triggers a background
 		// load of character summaries so other pages can access basic character info
 		// without requiring the user to visit `characters.html`. Uses lazy loading
@@ -770,13 +770,13 @@ class CharacterP2P {
 		switch (data.type) {
 			// P2P user join/leave messages no longer used in server-centric model
 
-		case "CHARACTER_UPDATED":
-		case "CHARACTER_CREATED":
-			if (typeof CharacterManager !== "undefined" && data.characterId) {
-				CharacterManager._applyRemoteBroadcast(data)
-					.catch(err => console.error("CharacterP2P: Failed to apply remote broadcast:", err));
-			}
-			break;
+			case "CHARACTER_UPDATED":
+			case "CHARACTER_CREATED":
+				if (typeof CharacterManager !== "undefined" && data.characterId) {
+					CharacterManager._applyRemoteBroadcast(data)
+						.catch(err => console.error("CharacterP2P: Failed to apply remote broadcast:", err));
+				}
+				break;
 
 			case "CHARACTER_DELETED":
 				// Server notifies us of character deletion - remove from local cache
@@ -812,18 +812,18 @@ class CharacterP2P {
 	 * @param {Object} updatedCharacter - The updated character data
 	 * @param {string} characterId - The character ID
 	 */
-	static _updateUIComponentsWithCharacter(updatedCharacter, characterId) {
+	static _updateUIComponentsWithCharacter (updatedCharacter, characterId) {
 		// Skip character editor updates - user should manually refresh if needed
-		if (window.location.pathname.includes('charactereditor.html')) {
+		if (window.location.pathname.includes("charactereditor.html")) {
 			console.log(`CharacterP2P: ⏭️ Skipping character editor update - user is editing manually`);
 			// Character editor gets no automatic updates to avoid interrupting manual editing
 			// User can use the refresh button if they want to see updates
 		}
-		
+
 		// Update characters.html page if currently displaying this character
-		if (window.location.pathname.includes('characters.html')) {
+		if (window.location.pathname.includes("characters.html")) {
 			try {
-				if (typeof window.charactersPage !== 'undefined' && window.charactersPage._currentCharacter) {
+				if (typeof window.charactersPage !== "undefined" && window.charactersPage._currentCharacter) {
 					if (window.charactersPage._currentCharacter.id === characterId) {
 						// Update the current character reference and re-render
 						window.charactersPage._currentCharacter = updatedCharacter;
@@ -832,24 +832,24 @@ class CharacterP2P {
 					}
 				}
 			} catch (e) {
-				console.warn('Failed to update characters page display:', e);
+				console.warn("Failed to update characters page display:", e);
 			}
 		}
-		
+
 		// Update any other pages/components that might display characters
 		try {
 			// Dispatch a global event that any component can listen to
-			if (typeof window.dispatchEvent === 'function') {
-				window.dispatchEvent(new CustomEvent('characterUpdatedGlobally', {
-					detail: { 
-						character: updatedCharacter, 
+			if (typeof window.dispatchEvent === "function") {
+				window.dispatchEvent(new CustomEvent("characterUpdatedGlobally", {
+					detail: {
+						character: updatedCharacter,
 						characterId: characterId,
-						updateType: 'websocket_broadcast_with_data'
-					}
+						updateType: "websocket_broadcast_with_data",
+					},
 				}));
 			}
 		} catch (e) {
-			console.warn('Failed to dispatch global character update event:', e);
+			console.warn("Failed to dispatch global character update event:", e);
 		}
 	}
 
@@ -1023,8 +1023,6 @@ try {
 	// ignore in non-browser contexts
 }
 
-
-
 class CharacterManager {
 	static _instance = null;
 	static _characters = new Map(); // Map<id, character> for fast lookups
@@ -1066,25 +1064,25 @@ class CharacterManager {
 	 */
 	static _extractCharacterSummary (character) {
 		if (!character || !character.name) return null;
-		
+
 		// If character has already been processed for display, use those fields
 		// Otherwise, fallback to raw extraction
 		const characterClass = character._fClass || this._extractClassFromRaw(character);
 		const characterRace = character._fRace || this._extractRaceFromRaw(character);
 		const characterLevel = character._fLevel || this._extractLevelFromRaw(character);
 		const characterBackground = character._fBackground || this._extractBackgroundFromRaw(character);
-		
+
 		return {
 			id: character.id || this._generateCompositeId(character.name, character.source),
 			name: character.name,
 			source: character.source || "Unknown",
 			_fClass: characterClass,
-			_fRace: characterRace, 
+			_fRace: characterRace,
 			_fLevel: characterLevel,
 			_fBackground: characterBackground,
 			updatedAt: character._serverUpdatedAt || character._lastModified || character._localVersion || Date.now(),
 			_serverUpdatedAt: character._serverUpdatedAt || null,
-			_isLocallyModified: character._isLocallyModified || false
+			_isLocallyModified: character._isLocallyModified || false,
 		};
 	}
 
@@ -1093,29 +1091,29 @@ class CharacterManager {
 	 */
 	static _extractClassFromRaw (character) {
 		if (!character.class) return "Unknown";
-		
+
 		if (Array.isArray(character.class) && character.class.length > 0) {
 			// Find highest level class or first class
 			const primaryClass = character.class.reduce((prev, current) => {
 				return (current.level || 1) > (prev.level || 1) ? current : prev;
 			}, character.class[0]);
 			return primaryClass.name || "Unknown";
-		} else if (typeof character.class === 'string') {
+		} else if (typeof character.class === "string") {
 			return character.class;
 		}
-		
+
 		return "Unknown";
 	}
 
 	static _extractRaceFromRaw (character) {
 		if (!character.race) return "Unknown";
-		
-		if (typeof character.race === 'string') {
+
+		if (typeof character.race === "string") {
 			return character.race;
 		} else if (character.race.name) {
 			return character.race.name;
 		}
-		
+
 		return "Unknown";
 	}
 
@@ -1130,13 +1128,13 @@ class CharacterManager {
 
 	static _extractBackgroundFromRaw (character) {
 		if (!character.background) return null;
-		
-		if (typeof character.background === 'string') {
+
+		if (typeof character.background === "string") {
 			return character.background;
 		} else if (character.background.name) {
 			return character.background.name;
 		}
-		
+
 		return null;
 	}
 
@@ -1148,13 +1146,13 @@ class CharacterManager {
 		try {
 			const stored = localStorage.getItem(this._SUMMARIES_CACHE_KEY);
 			if (!stored) return { summaries: [], timestamp: 0 };
-			
+
 			const data = JSON.parse(stored);
 			if (!data || !Array.isArray(data.summaries)) return { summaries: [], timestamp: 0 };
-			
+
 			return {
 				summaries: data.summaries,
-				timestamp: data.timestamp || 0
+				timestamp: data.timestamp || 0,
 			};
 		} catch (e) {
 			console.warn("CharacterManager: Failed to load summaries from cache:", e);
@@ -1170,7 +1168,7 @@ class CharacterManager {
 		try {
 			const data = {
 				summaries: summaries || [],
-				timestamp: Date.now()
+				timestamp: Date.now(),
 			};
 			localStorage.setItem(this._SUMMARIES_CACHE_KEY, JSON.stringify(data));
 		} catch (e) {
@@ -1237,26 +1235,26 @@ class CharacterManager {
 			// Remove from in-memory caches
 			this._characters.delete(characterId);
 			this._blobCache.delete(characterId);
-			
+
 			// Remove from array cache
 			const arrayIndex = this._charactersArray.findIndex(c => c && c.id === characterId);
 			if (arrayIndex >= 0) {
 				this._charactersArray.splice(arrayIndex, 1);
 			}
-			
+
 			// Remove from localStorage
 			const stored = this._loadFromLocalStorage();
 			const filtered = stored.filter(c => c && c.id !== characterId);
 			this._saveToLocalStorage(filtered);
-			
+
 			// Remove from summary cache
 			const { summaries } = this._loadSummariesFromCache();
 			const filteredSummaries = summaries.filter(s => s.id !== characterId);
 			this._saveSummariesToCache(filteredSummaries);
-			
+
 			// Notify listeners
 			this._notifyListeners();
-			
+
 			console.log(`CharacterManager: Removed character ${characterId} from all caches`);
 		} catch (e) {
 			console.warn(`CharacterManager: Failed to remove character ${characterId} from cache:`, e);
@@ -1463,24 +1461,24 @@ class CharacterManager {
 			}
 		}
 	}
-	
+
 	/**
 	 * Force complete refresh of character by clearing all cached data
 	 * @param {string} characterId - Character ID to completely refresh
 	 */
 	static forceCompleteRefresh (characterId) {
 		console.log(`CharacterManager: Force complete refresh for ${characterId}`);
-		
+
 		// Remove from in-memory caches
 		this._characters.delete(characterId);
 		this._blobCache.delete(characterId);
-		
+
 		// Remove from array cache
 		const arrayIndex = this._charactersArray.findIndex(c => c && c.id === characterId);
 		if (arrayIndex >= 0) {
 			this._charactersArray.splice(arrayIndex, 1);
 		}
-		
+
 		// Remove from localStorage
 		try {
 			const stored = this._loadFromLocalStorage();
@@ -1489,10 +1487,10 @@ class CharacterManager {
 		} catch (e) {
 			console.warn(`CharacterManager: Error removing ${characterId} from localStorage:`, e);
 		}
-		
+
 		// Clear summary cache to force rebuild
 		this._clearSummariesCache();
-		
+
 		// Clear DataLoader cache
 		if (typeof DataLoader !== "undefined") {
 			try {
@@ -1506,7 +1504,7 @@ class CharacterManager {
 				console.warn("CharacterManager: Error updating DataLoader cache:", e);
 			}
 		}
-		
+
 		console.log(`CharacterManager: Complete refresh cache cleared for ${characterId}`);
 	}
 
@@ -1553,8 +1551,6 @@ class CharacterManager {
 		}
 	}
 
-
-
 	/**
 	 * Register a listener for character data changes
 	 * @param {Function} callback - Called when characters are loaded/updated
@@ -1597,7 +1593,7 @@ class CharacterManager {
 			if (!forceRefresh) {
 				const { summaries, timestamp } = this._loadSummariesFromCache();
 				const age = Date.now() - timestamp;
-				
+
 				if (summaries.length > 0 && age < this._SUMMARIES_CACHE_TTL) {
 					console.log(`CharacterManager: Using cached summaries (age: ${Math.round(age / 60000)} minutes)`);
 					// Apply source filter if requested
@@ -1609,11 +1605,11 @@ class CharacterManager {
 				}
 			}
 
-			console.log(`CharacterManager: Loading character summaries from server${forceRefresh ? ' (forced)' : ''}`);
+			console.log(`CharacterManager: Loading character summaries from server${forceRefresh ? " (forced)" : ""}`);
 
 			// Get blob list from server (this handles caching and purging internally)
 			const blobs = await this._getBlobList(null, forceRefresh); // Always get full list for proper deletion detection
-			
+
 			if (!blobs || blobs.length === 0) {
 				console.log("CharacterManager: No character blobs available, using any cached summaries");
 				const { summaries } = this._loadSummariesFromCache();
@@ -1626,7 +1622,7 @@ class CharacterManager {
 			const summaries = [];
 			const fullCharacters = this._loadFromLocalStorage();
 			const fullCharMap = new Map();
-			
+
 			// Index full characters by ID for quick lookup
 			for (const char of fullCharacters) {
 				if (char && char.id) {
@@ -1636,7 +1632,7 @@ class CharacterManager {
 
 			for (const blob of blobs) {
 				const fullChar = fullCharMap.get(blob.id);
-				
+
 				if (fullChar) {
 					// We have full character data - extract accurate summary
 					const summary = this._extractCharacterSummary(fullChar);
@@ -1645,43 +1641,43 @@ class CharacterManager {
 					// Only have blob metadata - create summary from available API data
 					// Use metadata from API response if available, otherwise extract from blob ID
 					let name, source;
-					
+
 					if (blob.character_name && blob.owner) {
 						// Use API-provided metadata (preferred)
 						name = blob.character_name;
 						source = blob.owner;
 					} else {
 						// Fallback to extracting from blob ID (format: name-source)
-						const parts = blob.id.split('-');
-						source = parts.length > 1 ? parts[parts.length - 1] : 'Unknown';
-						name = parts.length > 1 ? parts.slice(0, -1).join('-') : blob.id;
+						const parts = blob.id.split("-");
+						source = parts.length > 1 ? parts[parts.length - 1] : "Unknown";
+						name = parts.length > 1 ? parts.slice(0, -1).join("-") : blob.id;
 					}
-					
+
 					summaries.push({
 						id: blob.id,
 						name: name,
 						source: source,
-						_fClass: blob.class || 'Unknown', // Use API metadata if available
-						_fRace: blob.race || 'Unknown',   // Use API metadata if available  
-						_fLevel: blob.level || 0,        // Use API metadata if available
+						_fClass: blob.class || "Unknown", // Use API metadata if available
+						_fRace: blob.race || "Unknown", // Use API metadata if available
+						_fLevel: blob.level || 0, // Use API metadata if available
 						_fBackground: blob.background || null, // Use API metadata if available
 						updatedAt: blob.uploadedAt ? new Date(blob.uploadedAt).getTime() : Date.now(),
-						_isLocallyModified: false
+						_isLocallyModified: false,
 					});
 				}
 			}
 
 			// Cache the summaries
 			this._saveSummariesToCache(summaries);
-			
+
 			console.log(`CharacterManager: Loaded ${summaries.length} character summaries`);
-			
+
 			// Apply source filter if requested
 			if (sources) {
 				const sourceList = Array.isArray(sources) ? sources : [sources];
 				return summaries.filter(s => sourceList.includes(s.source));
 			}
-			
+
 			return summaries;
 		} catch (error) {
 			console.error("CharacterManager: Error loading character summaries:", error);
@@ -1710,14 +1706,14 @@ class CharacterManager {
 			// First, load from localStorage to get any locally modified characters
 			const localStorageCharacters = this._loadFromLocalStorage();
 			const localCharMap = new Map();
-			
+
 			// Create a map of localStorage characters by ID for fast lookup
 			for (const character of localStorageCharacters) {
 				if (character && character.id) {
 					localCharMap.set(character.id, character);
 				}
 			}
-			
+
 			console.log(`CharacterManager: Found ${localStorageCharacters.length} characters in localStorage`);
 
 			// Try to get the blob list, but don't fail if server is unavailable
@@ -1734,7 +1730,7 @@ class CharacterManager {
 			if (blobs && blobs.length >= 0 && localStorageCharacters.length > 0) {
 				const serverCharacterIds = new Set(blobs.map(blob => blob.id));
 				const charactersToDelete = [];
-				
+
 				for (const localChar of localStorageCharacters) {
 					if (localChar && localChar.id && !serverCharacterIds.has(localChar.id)) {
 						// If this character has local unsaved changes, keep it.
@@ -1749,32 +1745,32 @@ class CharacterManager {
 						charactersToDelete.push(localChar.id);
 					}
 				}
-				
+
 				// Remove deleted characters from local storage and in-memory cache
 				if (charactersToDelete.length > 0) {
 					console.log(`CharacterManager: Removing ${charactersToDelete.length} deleted characters:`, charactersToDelete);
-					
+
 					// Remove from localStorage
-					const updatedLocalStorage = localStorageCharacters.filter(char => 
-						!char || !char.id || !charactersToDelete.includes(char.id)
+					const updatedLocalStorage = localStorageCharacters.filter(char =>
+						!char || !char.id || !charactersToDelete.includes(char.id),
 					);
 					this._saveToLocalStorage(updatedLocalStorage);
-					
+
 					// Remove from in-memory caches
 					for (const charId of charactersToDelete) {
 						this._characters.delete(charId);
 						this._blobCache.delete(charId);
-						
+
 						// Remove from array
 						const arrayIndex = this._charactersArray.findIndex(c => c && c.id === charId);
 						if (arrayIndex >= 0) {
 							this._charactersArray.splice(arrayIndex, 1);
 						}
 					}
-					
+
 					// Update localStorageCharacters array for the rest of this function
 					localStorageCharacters.splice(0, localStorageCharacters.length, ...updatedLocalStorage);
-					
+
 					// Update localCharMap
 					localCharMap.clear();
 					for (const character of updatedLocalStorage) {
@@ -1782,7 +1778,7 @@ class CharacterManager {
 							localCharMap.set(character.id, character);
 						}
 					}
-					
+
 					// Broadcast the deletions to other tabs
 					for (const charId of charactersToDelete) {
 						this._broadcastSync("CHARACTER_DELETED", { characterId: charId });
@@ -1800,8 +1796,6 @@ class CharacterManager {
 					return [];
 				}
 			}
-			
-
 
 			// Determine which characters we need to fetch based on localStorage staleness
 			const charactersToFetch = [];
@@ -1816,11 +1810,11 @@ class CharacterManager {
 				const cached = this._blobCache.get(blob.id);
 				const existingCharacter = this._characters.get(blob.id);
 				const localStorageCharacter = localCharMap.get(blob.id);
-				
+
 				// PRIMARY SOURCE: localStorage data (always prefer if exists and not extremely stale)
 				if (localStorageCharacter) {
 					const localAge = now - (localStorageCharacter._lastModified || localStorageCharacter._localVersion || 0);
-					
+
 					// ALWAYS use localStorage if it's locally modified (user has made edits)
 					if (localStorageCharacter._isLocallyModified) {
 						console.log(`CharacterManager: Using locally modified character: ${localStorageCharacter.name}`);
@@ -1841,24 +1835,24 @@ class CharacterManager {
 						cachedCharacters.push(localStorageCharacter);
 						continue;
 					}
-					
+
 					// Even if localStorage is stale, prefer it over server if server data isn't significantly newer
 					const serverTimestamp = blob.uploadedAt ? new Date(blob.uploadedAt).getTime() : 0;
 					const localTimestamp = localStorageCharacter._lastModified || localStorageCharacter._localVersion || 0;
-					
+
 					// If server timestamp isn't significantly newer (>1 hour), stick with localStorage
 					if (!serverTimestamp || (localTimestamp > 0 && (serverTimestamp - localTimestamp) < 60 * 60 * 1000)) {
 						cachedCharacters.push(localStorageCharacter);
 						continue;
 					}
 				}
-				
+
 				// SECONDARY SOURCE: In-memory character with local modifications (shouldn't happen but safety net)
 				if (existingCharacter && existingCharacter._isLocallyModified) {
 					cachedCharacters.push(existingCharacter);
 					continue;
 				}
-				
+
 				// TERTIARY SOURCE: Blob cache if still fresh (avoid unnecessary network requests)
 				if (cached && cached.character && (now - (cached.lastFetched || 0)) < STALENESS_THRESHOLD) {
 					cachedCharacters.push(cached.character);
@@ -1955,7 +1949,7 @@ class CharacterManager {
 			// Split the characters into localStorage vs remote-fetched
 			const localChars = [];
 			const remoteChars = [];
-			
+
 			for (const char of cachedCharacters) {
 				if (localStorageCharacters.some(ls => ls.id === char.id)) {
 					localChars.push(char);
@@ -1963,18 +1957,16 @@ class CharacterManager {
 					remoteChars.push(char);
 				}
 			}
-			
+
 			// Add fetched characters (all remote)
 			remoteChars.push(...fetchedCharacters);
-			
+
 			// Process remote characters FIRST (so localStorage can override)
 			const remoteProcessed = remoteChars.length > 0 ? this._processAndStoreCharacters(remoteChars, true) : [];
-			
+
 			// Process localStorage characters LAST (preserves _isLocallyModified flags and takes final precedence)
 			const localProcessed = localChars.length > 0 ? this._processAndStoreCharacters(localChars, false) : [];
-			
 
-			
 			// Return combined results
 			return [...remoteProcessed, ...localProcessed];
 		} catch (error) {
@@ -2014,7 +2006,7 @@ class CharacterManager {
 					// Malformed cache, fall through to fetch
 				}
 			}
-			
+
 			// If we have localStorage characters but no blob list cache, only return
 			// synthetic blobs when we're offline. When online, prefer fetching the
 			// authoritative server list (unless 'force' is specified).
@@ -2031,10 +2023,10 @@ class CharacterManager {
 				const sourcesParam = sources.map(s => `sources=${encodeURIComponent(s)}`).join("&");
 				url += `&${sourcesParam}`;
 			}
-			
+
 			// Add timestamp for cache busting when forcing refresh
 			if (force) {
-				const separator = url.includes('?') ? '&' : '?';
+				const separator = url.includes("?") ? "&" : "?";
 				url += `${separator}t=${Date.now()}`;
 			}
 
@@ -2131,9 +2123,9 @@ class CharacterManager {
 				// Otherwise preserve locally-modified items
 				return !c._isLocallyModified;
 			}).map(c => c.id);
-				if (!toRemove.length) return;
+			if (!toRemove.length) return;
 			console.log(`CharacterManager: Purging ${toRemove.length} local character(s) not found on server`);
-			
+
 			// Also purge from summary cache
 			const { summaries, timestamp } = this._loadSummariesFromCache();
 			const updatedSummaries = summaries.filter(s => !toRemove.includes(s.id));
@@ -2141,7 +2133,7 @@ class CharacterManager {
 				this._saveSummariesToCache(updatedSummaries);
 				console.log(`CharacterManager: Purged ${summaries.length - updatedSummaries.length} summaries`);
 			}
-			
+
 			for (const id of toRemove) {
 				try {
 					// If the character is already in-memory, use existing removal path
@@ -2240,7 +2232,7 @@ class CharacterManager {
 			if (!character.id) {
 				character.id = this._generateCompositeId(character.name, character.source);
 			}
-			
+
 			// Check for existing local modifications
 			const existingCharacter = this._characters.get(character.id);
 			if (existingCharacter && existingCharacter._isLocallyModified && isFromRemote) {
@@ -2254,10 +2246,10 @@ class CharacterManager {
 			// If this is localStorage data and we already have the character in memory, be careful
 			if (!isFromRemote && existingCharacter) {
 				// This is localStorage data - it should take precedence if it's locally modified or newer
-				const shouldUseLocalStorage = character._isLocallyModified || 
-					(character._localVersion && character._localVersion > (existingCharacter._localVersion || 0)) ||
-					(character._lastModified && character._lastModified > (existingCharacter._lastModified || 0));
-					
+				const shouldUseLocalStorage = character._isLocallyModified
+					|| (character._localVersion && character._localVersion > (existingCharacter._localVersion || 0))
+					|| (character._lastModified && character._lastModified > (existingCharacter._lastModified || 0));
+
 				if (!shouldUseLocalStorage) {
 					// Skip this localStorage character if the in-memory one is newer/better
 					console.log(`CharacterManager: Skipping older localStorage data for ${character.name}`);
@@ -2270,7 +2262,7 @@ class CharacterManager {
 
 			// Process character for display
 			const processedCharacter = this._processCharacterForDisplay(character);
-			
+
 			// Handle version tracking and local modification flags
 			if (isFromRemote) {
 				// Prefer server clocks; never invent Date.now() as remote version
@@ -2304,9 +2296,9 @@ class CharacterManager {
 
 			// Upsert into the map (replace/update existing or add new)
 			this._characters.set(character.id, processedCharacter);
-			
+
 			// Debug logging for specific character issues (simplified)
-			if (character.name && character.name.toLowerCase().includes('garurt') && character._isLocallyModified) {
+			if (character.name && character.name.toLowerCase().includes("garurt") && character._isLocallyModified) {
 				console.log(`CharacterManager: Processing locally modified ${character.name}`);
 			}
 
@@ -2456,7 +2448,7 @@ class CharacterManager {
 			const apiUrl = `${API_BASE_URL}/characters/get?id=${encodeURIComponent(id)}`;
 			const response = await fetch(apiUrl, {
 				signal: controller.signal,
-				headers: { 'Cache-Control': 'no-cache' },
+				headers: { "Cache-Control": "no-cache" },
 			});
 
 			if (!response.ok) {
@@ -2524,9 +2516,9 @@ class CharacterManager {
 			console.log(`CharacterManager: Successfully loaded full character: ${processed.name}`);
 			return processed;
 		} catch (error) {
-			if (error.name === 'AbortError') {
+			if (error.name === "AbortError") {
 				throw new Error("Request timed out. Please check your internet connection and try again.");
-			} else if (error.name === 'TypeError' && String(error.message || '').includes('Failed to fetch')) {
+			} else if (error.name === "TypeError" && String(error.message || "").includes("Failed to fetch")) {
 				throw new Error("Network error. Please check your internet connection.");
 			}
 			console.error(`CharacterManager: Error fetching character ${id}:`, error);
@@ -2543,7 +2535,7 @@ class CharacterManager {
 	 */
 	static _isCharacterStub (character) {
 		if (!character) return true;
-		
+
 		// A stub typically only has id, name, source, updatedAt, and _f* fields
 		// A full character has class, race, background, abilities, etc.
 		return !character.class && !character.race && !character.background && !character.abilities;
@@ -2557,13 +2549,13 @@ class CharacterManager {
 	 */
 	static getCharacterById (id) {
 		const character = this._characters.get(id) || null;
-		
+
 		// If we have a character but it's just a stub, return null so caller uses ensureFullCharacter()
 		if (character && this._isCharacterStub(character)) {
 			console.warn(`CharacterManager: Character ${id} is a stub, use ensureFullCharacter() instead`);
 			return null;
 		}
-		
+
 		return character;
 	}
 
@@ -2591,7 +2583,7 @@ class CharacterManager {
 		// Handle version tracking for local vs remote changes
 		const now = Date.now();
 		const existingCharacter = this._characters.get(character.id);
-		
+
 		if (isFromRemote) {
 			// Stamp server time if provided on the incoming object
 			if (character._serverUpdatedAt) {
@@ -2644,17 +2636,17 @@ class CharacterManager {
 					character._isLocallyModified = true;
 				}
 			}
-			
+
 			// Only add to offline queue if we're offline AND it's actually a local modification
 			if (!navigator.onLine && character._isLocallyModified) {
-				this._addToOfflineQueue('update', character);
+				this._addToOfflineQueue("update", character);
 			}
 		}
 
 		const processed = this._processCharacterForDisplay(character);
 
-	// Update or add to map
-	const existingIndex = this._charactersArray.findIndex(c => c.id === character.id);
+		// Update or add to map
+		const existingIndex = this._charactersArray.findIndex(c => c.id === character.id);
 		if (existingIndex >= 0) {
 			// Update existing
 			this._charactersArray[existingIndex] = processed;
@@ -2779,11 +2771,11 @@ class CharacterManager {
 			id: Date.now() + Math.random(), // Simple unique ID
 			operation,
 			data: { ...data },
-			timestamp: Date.now()
+			timestamp: Date.now(),
 		};
-		
+
 		this._offlineQueue.push(queueItem);
-		
+
 		// Persist to localStorage
 		try {
 			localStorage.setItem(this._OFFLINE_QUEUE_KEY, JSON.stringify(this._offlineQueue));
@@ -2797,30 +2789,30 @@ class CharacterManager {
 	 */
 	static async _processOfflineQueue () {
 		if (this._offlineQueue.length === 0) return;
-		
+
 		console.log(`CharacterManager: Processing ${this._offlineQueue.length} offline operations`);
-		
+
 		const failures = [];
-		
+
 		for (const item of this._offlineQueue) {
 			try {
 				switch (item.operation) {
-					case 'create':
-					case 'update':
-						await this.saveCharacter(item.data, item.operation === 'update');
+					case "create":
+					case "update":
+						await this.saveCharacter(item.data, item.operation === "update");
 						break;
-					case 'delete':
+					case "delete":
 						await this.pDeleteCharacter(item.data?.id || item.data?.characterId, item.data);
 						break;
 					default:
-						console.warn('Unknown offline operation:', item.operation);
+						console.warn("Unknown offline operation:", item.operation);
 				}
 			} catch (e) {
 				console.warn(`CharacterManager: Failed to process offline operation ${item.id}:`, e);
 				failures.push(item);
 			}
 		}
-		
+
 		// Keep failed operations for retry
 		this._offlineQueue = failures;
 		try {
@@ -2828,7 +2820,7 @@ class CharacterManager {
 		} catch (e) {
 			console.warn("CharacterManager: Failed to update offline queue:", e);
 		}
-		
+
 		if (failures.length === 0) {
 			console.log("CharacterManager: All offline operations processed successfully");
 		} else {
@@ -2844,7 +2836,7 @@ class CharacterManager {
 	static _notifyConflict (localCharacter, remoteCharacter) {
 		// TODO: Show conflict resolution UI
 		console.warn(`Conflict for character ${localCharacter.name}: Local changes preserved, remote changes available`);
-		
+
 		// For now, just log the conflict
 		if (typeof JqueryUtil !== "undefined" && JqueryUtil.showCopiedEffect) {
 			// Show a temporary notification if the utility is available
@@ -2934,8 +2926,8 @@ class CharacterManager {
 			before: {
 				hp: character.hp,
 				_isLocallyModified: character._isLocallyModified,
-				_localVersion: character._localVersion
-			}
+				_localVersion: character._localVersion,
+			},
 		});
 
 		// Mark as locally modified with version tracking
@@ -2946,11 +2938,11 @@ class CharacterManager {
 
 		// Apply updates
 		Object.assign(character, updates);
-		
+
 		console.log(`CharacterManager: After quick edit for ${character.name}:`, {
 			hp: character.hp,
 			_isLocallyModified: character._isLocallyModified,
-			_localVersion: character._localVersion
+			_localVersion: character._localVersion,
 		});
 
 		// Update in array as well
@@ -2962,10 +2954,10 @@ class CharacterManager {
 			this._charactersArray[arrayIndex]._lastModified = now;
 			this._charactersArray[arrayIndex]._isLocallyModified = true;
 		}
-		
+
 		// Add to offline queue if we're offline
 		if (!navigator.onLine) {
-			this._addToOfflineQueue('update', character);
+			this._addToOfflineQueue("update", character);
 		}
 
 		// Update DataLoader cache
@@ -2999,24 +2991,24 @@ class CharacterManager {
 	 * Save quick edit changes to server to trigger WebSocket broadcast
 	 * @param {Object} character - Character with updates
 	 */
-	static async _saveQuickEditToServer(character, opts = {}) {
+	static async _saveQuickEditToServer (character, opts = {}) {
 		try {
 			console.log(`CharacterManager: Saving quick edit to server for ${character.name}`);
-			
+
 			// Use the same session key as main save path
 			let sessionToken = null;
 			try {
-				sessionToken = localStorage.getItem('sessionToken');
+				sessionToken = localStorage.getItem("sessionToken");
 			} catch (e) {
-				console.warn('Could not get session token:', e);
+				console.warn("Could not get session token:", e);
 			}
-			
+
 			if (!sessionToken) {
-				console.log('No session token available - attempting anonymous quick edit save');
+				console.log("No session token available - attempting anonymous quick edit save");
 			}
-			
+
 			const apiUrl = `${API_BASE_URL}/characters/save`;
-			
+
 			const characterData = {
 				...character,
 				_isLocallyModified: undefined,
@@ -3031,28 +3023,28 @@ class CharacterManager {
 				_fBackground: undefined,
 				__prop: undefined,
 			};
-			
+
 			const requestBody = {
 				characterData: characterData,
 				characterId: character.id,
 				isEdit: true,
 				baseUpdatedAt: character._serverUpdatedAt || null,
 			};
-			
+
 			const headers = {
-				'Content-Type': 'application/json',
+				"Content-Type": "application/json",
 			};
-			if (sessionToken) headers['X-Session-Token'] = sessionToken;
+			if (sessionToken) headers["X-Session-Token"] = sessionToken;
 
 			const response = await fetch(apiUrl, {
-				method: 'POST',
+				method: "POST",
 				headers,
-				body: JSON.stringify(requestBody)
+				body: JSON.stringify(requestBody),
 			});
-			
+
 			if (response.status === 409) {
 				const conflict = await response.json().catch(() => ({}));
-				console.warn('CharacterManager: Quick edit conflict — adopting server state if newer');
+				console.warn("CharacterManager: Quick edit conflict — adopting server state if newer");
 				const serverTs = this._toTimestampMs(conflict.updatedAt);
 				const localTs = this._getLocalEffectiveTs(character);
 				if (!opts.isConflictRetry && localTs > serverTs && conflict.updatedAt) {
@@ -3070,12 +3062,12 @@ class CharacterManager {
 
 			if (!response.ok) {
 				const errorData = await response.json().catch(() => ({}));
-				throw new Error(`Server save failed: ${response.status} - ${errorData.error || 'Unknown error'}`);
+				throw new Error(`Server save failed: ${response.status} - ${errorData.error || "Unknown error"}`);
 			}
-			
+
 			const result = await response.json();
 			console.log(`CharacterManager: Quick edit saved to server successfully:`, result);
-			
+
 			// Clear the local modification flags since it's now synced
 			character._isLocallyModified = false;
 			if (result.updatedAt) {
@@ -3083,13 +3075,12 @@ class CharacterManager {
 			}
 			this._updateLocalStorageCache(character);
 			character._localVersion = undefined;
-			
 		} catch (error) {
 			console.error(`CharacterManager: Error saving quick edit to server:`, error);
 			// Don't throw - we want quick edits to work even if server save fails
 		}
 	}
-	
+
 	/**
 	 * Update HP for a character (most common quick edit)
 	 * @param {string} characterId - Character ID
@@ -3146,8 +3137,6 @@ class CharacterManager {
 					});
 				}
 			}
-
-
 		} catch (e) {
 			console.warn("CharacterManager: Error during cache invalidation:", e);
 		}
@@ -3195,16 +3184,16 @@ class CharacterManager {
 			}
 
 			const mergedArray = Array.from(mergedMap.values());
-			
+
 			// Save with proper error handling
 			this._saveToLocalStorage(mergedArray);
-			
+
 			// Update blob cache with fresh timestamp so loading logic knows this is current
 			if (character && character.id) {
 				const existingBlobCache = this._blobCache.get(character.id);
 				this._blobCache.set(character.id, {
-					blob: existingBlobCache?.blob || { 
-						id: character.id, 
+					blob: existingBlobCache?.blob || {
+						id: character.id,
 						url: `localStorage://${character.id}`,
 						lastModified: Date.now(),
 					},
@@ -3212,11 +3201,9 @@ class CharacterManager {
 					lastFetched: Date.now(), // Mark as fresh
 				});
 			}
-			
+
 			// Force cache invalidation to ensure UI shows updated data
 			this._invalidateAllCaches();
-			
-
 		} catch (e) {
 			console.warn("CharacterManager: Error merging character into localStorage cache:", e);
 		}
@@ -3330,7 +3317,7 @@ class CharacterManager {
 	}
 
 	/**
-	 * Force-fetch the server blob list and character summaries, purging any local characters 
+	 * Force-fetch the server blob list and character summaries, purging any local characters
 	 * not present on the server. Public convenience method intended for UI actions like a manual "Refresh" button.
 	 * @returns {Promise<Array>} Refreshed character summaries
 	 */
@@ -3346,7 +3333,6 @@ class CharacterManager {
 			throw e;
 		}
 	}
-
 
 	/**
 	 * Similar to _invalidateAllCaches but DO NOT remove the blob list cache.
@@ -3380,7 +3366,6 @@ class CharacterManager {
 			console.warn("CharacterManager: Error during cache invalidation (keep list):", e);
 		}
 	}
-
 
 	/**
 	 * Start a daily recheck of the `/characters/list` endpoint to ensure
@@ -3471,8 +3456,8 @@ class CharacterManager {
 	 */
 	static canEditCharacter (characterOrSource) {
 		try {
-			const sessionToken = localStorage.getItem('sessionToken');
-			const currentUserData = localStorage.getItem('currentUser');
+			const sessionToken = localStorage.getItem("sessionToken");
+			const currentUserData = localStorage.getItem("currentUser");
 
 			if (!sessionToken || !currentUserData) {
 				return false;
@@ -3538,9 +3523,9 @@ class CharacterManager {
 
 		try {
 			// Get session token for authentication
-			const sessionToken = localStorage.getItem('sessionToken');
+			const sessionToken = localStorage.getItem("sessionToken");
 			if (!sessionToken) {
-				console.error('CharacterManager: No session token found');
+				console.error("CharacterManager: No session token found");
 				return false;
 			}
 
@@ -3552,9 +3537,9 @@ class CharacterManager {
 
 			const response = await fetch(`${API_BASE_URL}/characters/save`, {
 				method: "POST",
-				headers: { 
+				headers: {
 					"Content-Type": "application/json",
-					"X-Session-Token": sessionToken
+					"X-Session-Token": sessionToken,
 				},
 				body: JSON.stringify({
 					characterData: characterData,
@@ -3577,7 +3562,7 @@ class CharacterManager {
 				characterData._isLocallyModified = false;
 				this._applyServerTimestamp(characterData, serverUpdatedAt);
 				this._clearTombstone(characterData.name, characterData.source, resolvedId);
-				
+
 				// Drop stale alias IDs (composite vs name-userId)
 				if (previousId && previousId !== resolvedId) {
 					this.removeCharacter(previousId);
@@ -3665,9 +3650,9 @@ class CharacterManager {
 	 * @returns {Promise<boolean>} Success status
 	 */
 	static async pDeleteCharacter (characterId, characterHint = null) {
-		const sessionToken = localStorage.getItem('sessionToken');
+		const sessionToken = localStorage.getItem("sessionToken");
 		if (!sessionToken) {
-			console.error('CharacterManager: No session token found');
+			console.error("CharacterManager: No session token found");
 			return false;
 		}
 
@@ -4215,7 +4200,7 @@ class CharacterManager {
 					if (character && character.id) {
 						// Update full character cache if exists
 						this.addOrUpdateCharacter(character, true);
-						
+
 						// Update summary cache with accurate data from full character
 						const summary = this._extractCharacterSummary(character);
 						if (summary) {
@@ -4235,7 +4220,7 @@ class CharacterManager {
 					if (characterId) {
 						// Remove from both full and summary caches
 						this.removeCharacter(characterId);
-						
+
 						// Also remove from summary cache
 						const { summaries } = this._loadSummariesFromCache();
 						const updatedSummaries = summaries.filter(s => s.id !== characterId);
@@ -4243,7 +4228,7 @@ class CharacterManager {
 							this._saveSummariesToCache(updatedSummaries);
 							console.log(`CharacterManager: Removed ${characterId} from summary cache via WebSocket`);
 						}
-						
+
 						// Character deletions might indicate server state changes, so invalidate list cache
 						console.log("CharacterManager: Character deletion detected via WebSocket, invalidating list cache");
 						this._invalidateBlobListCache();

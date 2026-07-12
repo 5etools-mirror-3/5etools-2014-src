@@ -202,5 +202,25 @@ export default [
 			"no-useless-assignment": "off",
 		},
 	},
+	{
+		files: [
+			"js/render.js",
+			"js/render-dice.js",
+			"js/utils.js",
+			"js/utils-dataloader/**/*.js",
+			"js/dmscreen.js",
+			"js/dmscreen/dmscreen-panels.js",
+			"js/omnisearch/omnisearch-backing.js",
+			"js/parser.js",
+			"node/build-sw.mjs",
+		],
+		rules: {
+			// Fork character/dice instrumentation — preserve behavior, defer style cleanup
+			"no-console": "off",
+			"brace-style": "off",
+			"no-mixed-spaces-and-tabs": "off",
+			"no-return-await": "off",
+		},
+	},
 	CONFIG_IGNORES,
 ];

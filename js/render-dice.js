@@ -27,7 +27,6 @@ Renderer.dice = {
 			window.DiceBoxManager.enable().catch(console.error);
 		} else if (window.DiceBoxManager) {
 			window.DiceBoxManager.disable();
-		} else {
 		}
 	},
 
@@ -38,10 +37,6 @@ Renderer.dice = {
 	// Check if 3D dice should be used for this expression
 	_shouldUse3dDice () {
 		const should = this.is3dDiceEnabled();
-
-		// Add stack trace to see where this is being called from
-		if (should) {
-		}
 
 		return should;
 	},

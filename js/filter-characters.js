@@ -14,7 +14,7 @@ class PageFilterCharacters extends PageFilterBase {
 
 	static mutateForFilters (character) {
 		if (!character) return; // Defensive: skip if undefined/null
-		
+
 		// Only compute race if we don't already have it (preserve API metadata)
 		if (!character._fRace) {
 			character._fRace = character.race?.name || "Unknown";
@@ -35,7 +35,7 @@ class PageFilterCharacters extends PageFilterBase {
 				character._fClass = "Unknown";
 			}
 		}
-		
+
 		// Only compute class simple if we don't already have it
 		if (!character._fClassSimple) {
 			if (character.class && Array.isArray(character.class)) {

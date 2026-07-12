@@ -8782,33 +8782,33 @@ Renderer.character = class {
 	static _dataCache = {
 		races: null,
 		backgrounds: null,
-		classes: null
+		classes: null,
 	};
 
 	/**
 	 * Load and cache data from JSON files
 	 */
-	static async _loadData(dataType) {
+	static async _loadData (dataType) {
 		if (this._dataCache[dataType]) return this._dataCache[dataType];
-		
+
 		try {
 			let url;
 			switch (dataType) {
-				case 'races':
+				case "races":
 					url = `${Renderer.get().baseUrl}data/races.json`;
 					break;
-				case 'backgrounds':
+				case "backgrounds":
 					url = `${Renderer.get().baseUrl}data/backgrounds.json`;
 					break;
-				case 'classes':
+				case "classes": {
 					// Classes are split across multiple files
 					const classFiles = [
-						'class-artificer', 'class-barbarian', 'class-bard', 'class-cleric',
-						'class-druid', 'class-fighter', 'class-monk', 'class-paladin',
-						'class-ranger', 'class-rogue', 'class-sorcerer', 'class-warlock',
-						'class-wizard'
+						"class-artificer", "class-barbarian", "class-bard", "class-cleric",
+						"class-druid", "class-fighter", "class-monk", "class-paladin",
+						"class-ranger", "class-rogue", "class-sorcerer", "class-warlock",
+						"class-wizard",
 					];
-					const classData = { class: [] };
+					const classData = {class: []};
 					for (const fileName of classFiles) {
 						try {
 							const response = await fetch(`${Renderer.get().baseUrl}data/class/${fileName}.json`);
@@ -8824,87 +8824,88 @@ Renderer.character = class {
 					}
 					this._dataCache[dataType] = classData;
 					return classData;
+				}
 				default:
 					throw new Error(`Unknown data type: ${dataType}`);
 			}
-			
+
 			const response = await fetch(url);
 			if (!response.ok) {
 				throw new Error(`HTTP ${response.status}: ${response.statusText}`);
 			}
-			
+
 			const data = await response.json();
 			this._dataCache[dataType] = data;
 			return data;
 		} catch (error) {
 			console.error(`Failed to load ${dataType} data:`, error);
 			// Return empty data structure to prevent crashes
-			return dataType === 'classes' ? { class: [] } : { [dataType.slice(0, -1)]: [] };
+			return dataType === "classes" ? { class: [] } : { [dataType.slice(0, -1)]: [] };
 		}
 	}
 
 	/**
 	 * Get race data by name and source
 	 */
-	static async getRaceData(raceName, source = null) {
-		const data = await this._loadData('races');
-		return data.race?.find(race => 
-			race.name === raceName && (!source || race.source === source)
+	static async getRaceData (raceName, source = null) {
+		const data = await this._loadData("races");
+		return data.race?.find(race =>
+			race.name === raceName && (!source || race.source === source),
 		);
 	}
 
 	/**
 	 * Get background data by name and source
 	 */
-	static async getBackgroundData(backgroundName, source = null) {
-		const data = await this._loadData('backgrounds');
-		return data.background?.find(bg => 
-			bg.name === backgroundName && (!source || bg.source === source)
+	static async getBackgroundData (backgroundName, source = null) {
+		const data = await this._loadData("backgrounds");
+		return data.background?.find(bg =>
+			bg.name === backgroundName && (!source || bg.source === source),
 		);
 	}
 
 	/**
 	 * Get class data by name and source
 	 */
-	static async getClassData(className, source = null) {
-		const data = await this._loadData('classes');
-		return data.class?.find(cls => 
-			cls.name === className && (!source || cls.source === source)
+	static async getClassData (className, source = null) {
+		const data = await this._loadData("classes");
+		return data.class?.find(cls =>
+			cls.name === className && (!source || cls.source === source),
 		);
 	}
 
 	/**
 	 * Extract skill proficiencies from race data
 	 */
-	static _extractRaceSkillProficiencies(raceData) {
+	static _extractRaceSkillProficiencies (raceData) {
 		const skills = [];
-		
+
 		if (!raceData?.entries) return skills;
-		
+
 		// Look for skill proficiencies in race entries
 		const extractFromEntries = (entries) => {
 			for (const entry of entries) {
 				if (entry.skillProficiencies) {
 					for (const skillProf of entry.skillProficiencies) {
 						Object.keys(skillProf).forEach(skill => {
-							if (skillProf[skill] === true && skill !== 'choose') {
+							if (skillProf[skill] === true && skill !== "choose") {
 								skills.push(skill);
 							}
 						});
 					}
 				}
-				
+
 				// Check for known racial skill bonuses
 				if (entry.name === "Keen Senses" || entry.name?.includes("Keen Senses")) {
 					skills.push("perception");
 				}
-				
+
 				if (entry.entries) {
 					extractFromEntries(entry.entries);
 				}
 			}
 		};
-		
+
 		extractFromEntries(raceData.entries);
 		return skills;
 	}
@@ -8912,25 +8913,24 @@ Renderer.character = class {
 	/**
 	 * Extract natural armor data from race
 	 */
-	static _extractRaceNaturalArmor(raceData, dexMod, conMod) {
+	static _extractRaceNaturalArmor (raceData, dexMod, conMod) {
 		if (!raceData?.entries) return null;
-		
+
 		const raceName = raceData.name.toLowerCase();
-		
+
 		// Check race entries for natural armor
 		const checkEntries = (entries) => {
 			for (const entry of entries) {
 				if (entry.name && entry.entries) {
 					const entryName = entry.name.toLowerCase();
 					const entryText = entry.entries.join(" ").toLowerCase();
-					
+
 					// Look for natural armor patterns
-					if (entryName.includes("natural armor") || 
-						entryName.includes("shell") || 
-						entryName.includes("hide") ||
-						entryText.includes("natural armor") ||
-						entryText.includes("base ac")) {
-						
+					if (entryName.includes("natural armor")
+						|| entryName.includes("shell")
+						|| entryName.includes("hide")
+						|| entryText.includes("natural armor")
+						|| entryText.includes("base ac")) {
 						// Extract AC value from text
 						const acMatch = entryText.match(/(?:ac|armor class)\s*(?:of\s*)?(\d+)/i);
 						if (acMatch) {
@@ -8938,57 +8938,57 @@ Renderer.character = class {
 							return {
 								value: baseAc + (entryText.includes("dex") ? dexMod : 0) + (entryText.includes("con") ? conMod : 0),
 								source: `${raceData.name} ${entry.name}`,
-								type: entryName
+								type: entryName,
 							};
 						}
 					}
 				}
-				
+
 				if (entry.entries) {
 					const result = checkEntries(entry.entries);
 					if (result) return result;
 				}
 			}
 		};
-		
+
 		return checkEntries(raceData.entries);
 	}
 
 	/**
 	 * Get race bonuses from data files
 	 */
-	static async _getRaceBonus(character) {
+	static async _getRaceBonus (character) {
 		const race = character.race;
 		if (!race?.name) return { skills: [], naturalArmor: null, resistances: [] };
-		
+
 		const raceData = await this.getRaceData(race.name, race.source);
 		if (!raceData) return { skills: [], naturalArmor: null, resistances: [] };
-		
+
 		const dexMod = Parser.getAbilityModNumber(character.dex);
 		const conMod = Parser.getAbilityModNumber(character.con);
-		
+
 		return {
 			skills: this._extractRaceSkillProficiencies(raceData),
 			naturalArmor: this._extractRaceNaturalArmor(raceData, dexMod, conMod),
 			resistances: raceData.resist || [],
-			speedBonus: raceData.speed || {}
+			speedBonus: raceData.speed || {},
 		};
 	}
 
 	/**
-	 * Get background features from data files  
+	 * Get background features from data files
 	 */
-	static async _getBackgroundFeatures(character) {
+	static async _getBackgroundFeatures (character) {
 		const background = character.background;
 		if (!background?.name) return { skills: [], tools: [], languages: [] };
-		
+
 		const bgData = await this.getBackgroundData(background.name, background.source);
 		if (!bgData) return { skills: [], tools: [], languages: [] };
-		
+
 		const skills = [];
 		const tools = [];
 		const languages = [];
-		
+
 		// Extract skill proficiencies
 		if (bgData.skillProficiencies) {
 			for (const skillProf of bgData.skillProficiencies) {
@@ -8999,7 +8999,7 @@ Renderer.character = class {
 				});
 			}
 		}
-		
+
 		// Extract tool proficiencies
 		if (bgData.toolProficiencies) {
 			for (const toolProf of bgData.toolProficiencies) {
@@ -9010,7 +9010,7 @@ Renderer.character = class {
 				});
 			}
 		}
-		
+
 		// Extract language proficiencies
 		if (bgData.languageProficiencies) {
 			for (const langProf of bgData.languageProficiencies) {
@@ -9025,18 +9025,18 @@ Renderer.character = class {
 				}
 			}
 		}
-		
+
 		return { skills, tools, languages };
 	}
 
 	/**
 	 * Calculate spellcasting from class data
 	 */
-	static async _calculateSpellcasting(character) {
+	static async _calculateSpellcasting (character) {
 		if (!character.class || !Array.isArray(character.class)) {
 			return { dc: null, attackBonus: null, ability: null };
 		}
-		
+
 		// Find the primary spellcasting class
 		let spellcastingClass = null;
 		for (const cls of character.class) {
@@ -9046,21 +9046,21 @@ Renderer.character = class {
 				break;
 			}
 		}
-		
+
 		if (!spellcastingClass) return { dc: null, attackBonus: null, ability: null };
-		
+
 		const ability = spellcastingClass.data.spellcastingAbility;
 		const abilityScore = character[ability] || 10;
 		const abilityMod = Parser.getAbilityModNumber(abilityScore);
-		const profBonus = parseInt(character.proficiencyBonus?.replace('+', '')) || 2;
-		
+		const profBonus = parseInt(character.proficiencyBonus?.replace("+", "")) || 2;
+
 		const dc = 8 + profBonus + abilityMod;
 		const attackBonus = profBonus + abilityMod;
-		
+
 		return {
 			dc,
 			attackBonus: attackBonus >= 0 ? `+${attackBonus}` : `${attackBonus}`,
-			ability: ability.charAt(0).toUpperCase() + ability.slice(1)
+			ability: ability.charAt(0).toUpperCase() + ability.slice(1),
 		};
 	}
 	/**
@@ -9119,9 +9119,9 @@ Renderer.character = class {
 				"Tortle": 17,
 				"Warforged": 11 + dexMod,
 				"Loxodon": 12 + conMod,
-				"Centaur": 10 + dexMod // Same as unarmored but explicitly natural
+				"Centaur": 10 + dexMod, // Same as unarmored but explicitly natural
 			};
-			
+
 			if (naturalArmorRaces[character.race.name]) {
 				const naturalAC = naturalArmorRaces[character.race.name];
 				const baseAC = 10 + dexMod;
@@ -9134,18 +9134,18 @@ Renderer.character = class {
 		// Check for common armor if items/equipment are listed
 		let bestArmorAC = { ac: 10 + dexMod, source: "Unarmored" };
 		let hasShield = false;
-		
+
 		// Look for armor in various possible locations
 		const armorSources = [
 			character.item || [],
 			character.items || [],
-			...(character.entries || []).filter(e => e.name === "Items" || e.name === "Equipment").flatMap(e => e.entries || [])
+			...(character.entries || []).filter(e => e.name === "Items" || e.name === "Equipment").flatMap(e => e.entries || []),
 		];
 
 		for (const items of armorSources) {
 			if (Array.isArray(items)) {
 				for (const item of items) {
-					const itemName = typeof item === 'string' ? item : item.name || '';
+					const itemName = typeof item === "string" ? item : item.name || "";
 					const armorAC = this._getArmorAC(itemName, dexMod);
 					if (armorAC) {
 						if (armorAC.isShield) {
@@ -9161,7 +9161,7 @@ Renderer.character = class {
 		// Add shield bonus if present
 		if (hasShield) {
 			bestArmorAC.ac += 2;
-			bestArmorAC.source = bestArmorAC.source + ", Shield";
+			bestArmorAC.source = `${bestArmorAC.source}, Shield`;
 		}
 
 		return bestArmorAC;
@@ -9174,55 +9174,55 @@ Renderer.character = class {
 	 * @returns {Object|null} AC data or null if not armor
 	 */
 	static _getArmorAC (itemName, dexMod) {
-		if (!itemName || typeof itemName !== 'string') return null;
-		
-		const item = itemName.toLowerCase().replace(/[{}@|]/g, ''); // Clean 5etools tags
-		
+		if (!itemName || typeof itemName !== "string") return null;
+
+		const item = itemName.toLowerCase().replace(/[{}@|]/g, ""); // Clean 5etools tags
+
 		// Light Armor (AC = base + Dex mod)
-		if (item.includes('leather armor') || item.includes('padded armor')) {
+		if (item.includes("leather armor") || item.includes("padded armor")) {
 			return { ac: 11 + dexMod, source: "Leather Armor" };
 		}
-		if (item.includes('studded leather')) {
+		if (item.includes("studded leather")) {
 			return { ac: 12 + dexMod, source: "Studded Leather" };
 		}
-		
+
 		// Medium Armor (AC = base + Dex mod, max 2)
 		const mediumDexMod = Math.min(dexMod, 2);
-		if (item.includes('hide armor')) {
+		if (item.includes("hide armor")) {
 			return { ac: 12 + mediumDexMod, source: "Hide Armor" };
 		}
-		if (item.includes('chain shirt')) {
+		if (item.includes("chain shirt")) {
 			return { ac: 13 + mediumDexMod, source: "Chain Shirt" };
 		}
-		if (item.includes('scale mail')) {
+		if (item.includes("scale mail")) {
 			return { ac: 14 + mediumDexMod, source: "Scale Mail" };
 		}
-		if (item.includes('breastplate')) {
+		if (item.includes("breastplate")) {
 			return { ac: 14 + mediumDexMod, source: "Breastplate" };
 		}
-		if (item.includes('half plate')) {
+		if (item.includes("half plate")) {
 			return { ac: 15 + mediumDexMod, source: "Half Plate" };
 		}
-		
+
 		// Heavy Armor (AC = base, no Dex)
-		if (item.includes('ring mail')) {
+		if (item.includes("ring mail")) {
 			return { ac: 14, source: "Ring Mail" };
 		}
-		if (item.includes('chain mail')) {
+		if (item.includes("chain mail")) {
 			return { ac: 16, source: "Chain Mail" };
 		}
-		if (item.includes('splint armor') || item.includes('splint')) {
+		if (item.includes("splint armor") || item.includes("splint")) {
 			return { ac: 17, source: "Splint Armor" };
 		}
-		if (item.includes('plate armor') || item.includes('plate')) {
+		if (item.includes("plate armor") || item.includes("plate")) {
 			return { ac: 18, source: "Plate Armor" };
 		}
-		
+
 		// Shields (+2 AC)
-		if (item.includes('shield')) {
+		if (item.includes("shield")) {
 			return { ac: 2, source: "Shield", isShield: true };
 		}
-		
+
 		return null;
 	}
 
@@ -9238,13 +9238,13 @@ Renderer.character = class {
 		const dexMod = Parser.getAbilityModNumber(character.dex);
 		const conMod = Parser.getAbilityModNumber(character.con);
 		const wisMod = Parser.getAbilityModNumber(character.wis);
-		
+
 		// Check for equipped armor
-		const equippedArmor = (character.item || []).find(item => 
-			item.equipped && item.type && 
-			["LA", "MA", "HA", "S"].includes(item.type)
+		const equippedArmor = (character.item || []).find(item =>
+			item.equipped && item.type
+			&& ["LA", "MA", "HA", "S"].includes(item.type),
 		);
-		
+
 		let baseAC = 10; // Default AC
 		let acSources = ["Base AC (10)"];
 		let acDetails = {
@@ -9252,9 +9252,9 @@ Renderer.character = class {
 			hasShield: false,
 			hasNaturalArmor: false,
 			hasUnarmoredDefense: false,
-			dexterityModifier: dexMod
+			dexterityModifier: dexMod,
 		};
-		
+
 		// Get race-based natural armor from data files
 		try {
 			const raceBonus = await this._getRaceBonusFiltered(character, "ac");
@@ -9267,11 +9267,11 @@ Renderer.character = class {
 		} catch (error) {
 			console.warn("Failed to get race AC bonus:", error);
 		}
-		
+
 		// Class-based Unarmored Defense
 		const barbarianLevels = this._getClassLevels(classes, "Barbarian");
 		const monkLevels = this._getClassLevels(classes, "Monk");
-		
+
 		if (barbarianLevels > 0 && !equippedArmor) {
 			const unarmoredAC = 10 + dexMod + conMod;
 			if (unarmoredAC > baseAC) {
@@ -9282,7 +9282,7 @@ Renderer.character = class {
 				acDetails.constitutionModifier = conMod;
 			}
 		}
-		
+
 		if (monkLevels > 0 && !equippedArmor) {
 			const unarmoredAC = 10 + dexMod + wisMod;
 			if (unarmoredAC > baseAC) {
@@ -9293,13 +9293,13 @@ Renderer.character = class {
 				acDetails.wisdomModifier = wisMod;
 			}
 		}
-		
+
 		// Draconic Resilience (Sorcerer)
 		const sorcererLevels = this._getClassLevels(classes, "Sorcerer");
 		if (sorcererLevels > 0 && !equippedArmor) {
-			const isDraconic = classes.some(cls => 
-				cls.name === "Sorcerer" && 
-				cls.subclass && cls.subclass.name === "Draconic Bloodline"
+			const isDraconic = classes.some(cls =>
+				cls.name === "Sorcerer"
+				&& cls.subclass && cls.subclass.name === "Draconic Bloodline",
 			);
 			if (isDraconic) {
 				const draconicAC = 13 + dexMod;
@@ -9311,10 +9311,10 @@ Renderer.character = class {
 				}
 			}
 		}
-		
+
 		// Shield bonus
-		const shield = (character.item || []).find(item => 
-			item.equipped && item.type === "S"
+		const shield = (character.item || []).find(item =>
+			item.equipped && item.type === "S",
 		);
 		if (shield) {
 			const shieldBonus = shield.ac || 2;
@@ -9323,14 +9323,14 @@ Renderer.character = class {
 			acDetails.hasShield = true;
 			acDetails.shieldBonus = shieldBonus;
 		}
-		
+
 		return {
 			total: baseAC,
 			sources: acSources,
-			details: acDetails
+			details: acDetails,
 		};
 	}
-	
+
 	/**
 	 * Get detailed natural armor information for races
 	 */
@@ -9340,37 +9340,37 @@ Renderer.character = class {
 				return {
 					value: 13 + dexMod,
 					source: `Dragonborn Natural Armor (13 + Dex = ${13 + dexMod})`,
-					type: "scales"
+					type: "scales",
 				};
 			case "lizardfolk":
 				return {
 					value: 13 + dexMod,
 					source: `Lizardfolk Natural Armor (13 + Dex = ${13 + dexMod})`,
-					type: "scales"
+					type: "scales",
 				};
 			case "tortle":
 				return {
 					value: 17,
 					source: "Tortle Shell (AC 17)",
-					type: "shell"
+					type: "shell",
 				};
 			case "warforged":
 				return {
 					value: 11 + dexMod,
 					source: `Warforged Integrated Protection (11 + Dex = ${11 + dexMod})`,
-					type: "composite plating"
+					type: "composite plating",
 				};
 			case "loxodon":
 				return {
 					value: 12 + conMod,
 					source: `Loxodon Natural Armor (12 + Con = ${12 + conMod})`,
-					type: "thick hide"
+					type: "thick hide",
 				};
 			default:
 				return {
 					value: 10 + dexMod,
 					source: `Base AC (10 + Dex = ${10 + dexMod})`,
-					type: "none"
+					type: "none",
 				};
 		}
 	}
@@ -9392,33 +9392,33 @@ Renderer.character = class {
 	static async _getSkillProficiencyAsync (character, skill) {
 		let isProficient = false;
 		let baseBonus = 0;
-		
+
 		// Get base ability modifier
 		const abilityScore = character[skill.ability] || 10;
 		const abilityMod = Parser.getAbilityModifier(abilityScore);
 		const abilityModValue = typeof abilityMod === "number" ? abilityMod : parseInt(abilityMod) || 0;
-		
+
 		// Get proficiency bonus from character
 		let profBonus = 0;
 		if (character.proficiencyBonus) {
-			const profBonusStr = character.proficiencyBonus.toString().replace('+', '');
+			const profBonusStr = character.proficiencyBonus.toString().replace("+", "");
 			profBonus = parseInt(profBonusStr) || 0;
 		}
 
 		const skillKey = skill.key || skill.name.toLowerCase().replace(/\s+/g, "_");
-		
+
 		// Check if proficient from various sources
 		let sourcesOfProficiency = [];
-		
+
 		// 1. Character skillProficiencies array (explicit)
 		if (character.skillProficiencies && Array.isArray(character.skillProficiencies)) {
-			if (character.skillProficiencies.includes(skillKey) || 
-			    character.skillProficiencies.includes(skill.name.toLowerCase().replace(/\s+/g, "_"))) {
+			if (character.skillProficiencies.includes(skillKey)
+			    || character.skillProficiencies.includes(skill.name.toLowerCase().replace(/\s+/g, "_"))) {
 				isProficient = true;
 				sourcesOfProficiency.push("Character");
 			}
 		}
-		
+
 		// 2. Race bonuses from data files
 		try {
 			const raceBonus = await this._getRaceBonusFiltered(character, "skills");
@@ -9429,7 +9429,7 @@ Renderer.character = class {
 		} catch (error) {
 			// Silently handle - race bonuses are optional
 		}
-		
+
 		// 3. Background bonuses from data files
 		try {
 			const backgroundFeatures = await this._getBackgroundFeatures(character);
@@ -9440,25 +9440,25 @@ Renderer.character = class {
 		} catch (error) {
 			// Silently handle - background bonuses are optional
 		}
-		
+
 		// Set base bonus based on proficiency
 		if (isProficient) {
 			baseBonus = abilityModValue + profBonus;
 		} else {
 			baseBonus = abilityModValue;
 		}
-		
+
 		// Apply class skill bonuses (Jack of All Trades, Expertise, etc.)
 		const classBonus = this._getClassSkillBonus(character, skill, isProficient, profBonus, abilityModValue);
 		const finalBonus = baseBonus + classBonus.bonus;
-		
+
 		return {
 			isProficient: isProficient || classBonus.jackOfAllTrades,
 			bonus: finalBonus >= 0 ? `+${finalBonus}` : `${finalBonus}`,
 			expertise: classBonus.expertise,
 			jackOfAllTrades: classBonus.jackOfAllTrades,
 			sources: sourcesOfProficiency,
-			classFeatures: classBonus.features || []
+			classFeatures: classBonus.features || [],
 		};
 	}
 
@@ -9468,16 +9468,16 @@ Renderer.character = class {
 	static _getSkillProficiencySync (character, skill) {
 		let isProficient = false;
 		let baseBonus = 0;
-		
+
 		// Get base ability modifier
 		const abilityScore = character[skill.ability] || 10;
 		const abilityMod = Parser.getAbilityModifier(abilityScore);
 		const abilityModValue = typeof abilityMod === "number" ? abilityMod : parseInt(abilityMod) || 0;
-		
+
 		// Get proficiency bonus from character
 		let profBonus = 0;
 		if (character.proficiencyBonus) {
-			const profBonusStr = character.proficiencyBonus.toString().replace('+', '');
+			const profBonusStr = character.proficiencyBonus.toString().replace("+", "");
 			profBonus = parseInt(profBonusStr) || 0;
 		}
 
@@ -9485,19 +9485,19 @@ Renderer.character = class {
 		if (character.skillProficiencies && Array.isArray(character.skillProficiencies)) {
 			// Create multiple possible skill keys to check for different naming conventions:
 			// 1. "sleight of hand" (spaces - from Parser.SKILL_TO_ATB_ABV)
-			// 2. "sleightofhand" (no spaces - common in arrays)  
+			// 2. "sleightofhand" (no spaces - common in arrays)
 			// 3. "sleight_of_hand" (underscores - also used in some arrays)
 			const skillName = skill.name.toLowerCase();
-			const skillKey = skill.key || skillName.replace(/\s+/g, '');
-			const skillKeyUnderscore = skillName.replace(/\s+/g, '_');
-			
+			const skillKey = skill.key || skillName.replace(/\s+/g, "");
+			const skillKeyUnderscore = skillName.replace(/\s+/g, "_");
+
 			isProficient = character.skillProficiencies.some(profSkill => {
 				const profSkillLower = profSkill.toLowerCase();
-				return profSkillLower === skillName ||        // "sleight of hand"
-				       profSkillLower === skillKey ||         // "sleightofhand"
-				       profSkillLower === skillKeyUnderscore; // "sleight_of_hand"
+				return profSkillLower === skillName // "sleight of hand"
+				       || profSkillLower === skillKey // "sleightofhand"
+				       || profSkillLower === skillKeyUnderscore; // "sleight_of_hand"
 			});
-			
+
 			if (isProficient) {
 				baseBonus = abilityModValue + profBonus;
 			} else {
@@ -9509,7 +9509,7 @@ Renderer.character = class {
 			const skillBonus = character.skill[skill.key]
 				|| character.skill[skill.name.toLowerCase().replace(/\s+/g, "")]
 				|| character.skill[skill.name.toLowerCase()];
-			
+
 			if (skillBonus !== undefined) {
 				isProficient = true;
 				baseBonus = typeof skillBonus === "string" ? parseInt(skillBonus) || abilityModValue : skillBonus;
@@ -9524,7 +9524,7 @@ Renderer.character = class {
 
 		// Apply class-specific bonuses (Jack of All Trades, Expertise, etc.)
 		const classBonus = Renderer.character._getClassSkillBonus(character, skill.name, baseBonus, isProficient);
-		
+
 		return {
 			isProficient: isProficient || classBonus.jackOfAllTrades, // Jack of All Trades counts as a form of proficiency
 			bonus: classBonus.bonus >= 0 ? `+${classBonus.bonus}` : `${classBonus.bonus}`,
@@ -9547,25 +9547,25 @@ Renderer.character = class {
 	 */
 	static async _getRaceBonusFiltered (character, calculationType) {
 		if (!character.race || !character.race.name) return {};
-		
+
 		try {
 			// Call the actual implementation that loads race data
 			const race = character.race;
 			if (!race?.name) return {};
-			
+
 			const raceData = await this.getRaceData(race.name, race.source);
 			if (!raceData) return {};
-			
+
 			const dexMod = Parser.getAbilityModNumber(character.dex);
 			const conMod = Parser.getAbilityModNumber(character.con);
-			
+
 			const raceBonus = {
 				skills: this._extractRaceSkillProficiencies(raceData),
 				naturalArmor: this._extractRaceNaturalArmor(raceData, dexMod, conMod),
 				resistances: raceData.resist || [],
-				speedBonus: raceData.speed || {}
+				speedBonus: raceData.speed || {},
 			};
-			
+
 			switch (calculationType) {
 				case "skills":
 					return { skills: raceBonus.skills };
@@ -9585,47 +9585,6 @@ Renderer.character = class {
 	}
 
 	/**
-	 * Get background-specific features (data-driven version)
-	 * @param {Object} character - The character data object
-	 * @returns {Promise<Object>} Background features
-	 */
-	static async _getBackgroundFeatures (character) {
-		if (!character.background || !character.background.name) return {};
-		
-		try {
-			return await Renderer.character._getBackgroundFeatures(character);
-		} catch (error) {
-			console.warn("Failed to get background features:", error);
-			return {};
-		}
-	}
-
-	/**
-	 * Calculate spell save DC and attack bonus based on class data (data-driven version)
-	 * @param {Object} character - The character data object
-	 * @returns {Promise<Object>} Spell save DC and attack bonus
-	 */
-	static async _calculateSpellcasting (character) {
-		if (!character.class || !Array.isArray(character.class)) return {};
-		
-		// If already calculated and in character data, use existing values
-		if (character.spells && (character.spells.dc || character.spells.attackBonus)) {
-			return {
-				dc: character.spells.dc,
-				attackBonus: character.spells.attackBonus,
-				ability: character.spells.ability || character.spells.spellcastingAbility,
-			};
-		}
-		
-		try {
-			return await Renderer.character._calculateSpellcasting(character);
-		} catch (error) {
-			console.warn("Failed to calculate spellcasting:", error);
-			return {};
-		}
-	}
-
-	/**
 	 * Get class-specific skill bonuses and features
 	 * @param {Object} character - The character data object
 	 * @param {string} skillName - Name of the skill
@@ -9633,13 +9592,13 @@ Renderer.character = class {
 	 */
 	static _getClassSkillFeatures (character, skillName) {
 		if (!character.class || !Array.isArray(character.class)) return {};
-		
+
 		let features = {};
-		
+
 		for (const cls of character.class) {
 			const className = cls.name.toLowerCase();
 			const level = cls.level || 1;
-			
+
 			switch (className) {
 				case "ranger":
 					// Natural Explorer: double proficiency for Survival in favored terrain
@@ -9655,7 +9614,7 @@ Renderer.character = class {
 					break;
 			}
 		}
-		
+
 		return features;
 	}
 	static _formatSkillName (skillName, isProficient, proficiencyType = "none") {
@@ -9778,16 +9737,16 @@ Renderer.character = class {
 		const wisScore = character.wis || 10;
 		const wisMod = Parser.getAbilityModifier(wisScore);
 		const wisModValue = typeof wisMod === "number" ? wisMod : parseInt(wisMod) || 0;
-		
+
 		// Use the skill proficiency system to calculate perception modifier
 		const perceptionSkillDef = { key: "perception", name: "Perception", ability: "wis" };
 		const { isProficient, bonus } = Renderer.character._getSkillProficiency(character, perceptionSkillDef);
-		
+
 		let perceptionMod = wisModValue;
 		if (isProficient && bonus !== undefined) {
 			perceptionMod = typeof bonus === "string" ? parseInt(bonus) || wisModValue : bonus;
 		}
-		
+
 		const passivePerception = 10 + perceptionMod;
 		combatStats.push(`<strong>Passive Perception</strong>: ${passivePerception}`);
 
@@ -10038,7 +9997,7 @@ Renderer.character = class {
 							rollableModifier,
 						];
 					}),
-					style: "table--skills-compact"
+					style: "table--skills-compact",
 				},
 			],
 		};
@@ -10057,7 +10016,7 @@ Renderer.character = class {
 							const score = character[ab] || 10;
 							const baseModifier = Parser.getAbilityModifier(score);
 							const baseModValue = typeof baseModifier === "number" ? baseModifier : parseInt(baseModifier) || 0;
-							
+
 							let finalModifier = baseModValue;
 							let isProficient = false;
 
@@ -10068,7 +10027,7 @@ Renderer.character = class {
 									// Get proficiency bonus from character
 									let profBonus = 0;
 									if (character.proficiencyBonus) {
-										const profBonusStr = character.proficiencyBonus.toString().replace('+', '');
+										const profBonusStr = character.proficiencyBonus.toString().replace("+", "");
 										profBonus = parseInt(profBonusStr) || 0;
 									}
 									finalModifier = baseModValue + profBonus;
@@ -10372,7 +10331,7 @@ Renderer.character = class {
 	static bindListenersCompact (character, ele) {
 		// Handle lazy loading for stub characters
 		Renderer.character._bindLazyLoading(character, ele);
-		
+
 		// Bind dice listeners to the element
 		if (ele) {
 			// Handle both jQuery objects and plain DOM elements
@@ -10858,11 +10817,11 @@ Renderer.character = class {
 	}
 
 	// Get skill definitions with ability mappings
-	static _getSkillDefinitions() {
+	static _getSkillDefinitions () {
 		return Object.keys(Parser.SKILL_TO_ATB_ABV).map(skillName => ({
 			name: skillName,
 			key: skillName.toLowerCase().replace(/\s+/g, ""),
-			ability: Parser.SKILL_TO_ATB_ABV[skillName]
+			ability: Parser.SKILL_TO_ATB_ABV[skillName],
 		}));
 	}
 
@@ -10877,17 +10836,17 @@ Renderer.character = class {
 		const classes = character.class || [];
 		let profBonus = 0;
 		if (character.proficiencyBonus) {
-			const profBonusStr = character.proficiencyBonus.toString().replace('+', '');
+			const profBonusStr = character.proficiencyBonus.toString().replace("+", "");
 			profBonus = parseInt(profBonusStr) || 0;
 		}
 
 		// Get skill definition to find ability score
 		const skillKey = skillName.toLowerCase().replace(/\s+/g, "");
-		const skillDef = Renderer.character._getSkillDefinitions().find(s => 
-			s.name.toLowerCase().replace(/\s+/g, "") === skillKey ||
-			s.key === skillKey
+		const skillDef = Renderer.character._getSkillDefinitions().find(s =>
+			s.name.toLowerCase().replace(/\s+/g, "") === skillKey
+			|| s.key === skillKey,
 		);
-		
+
 		// Calculate base ability modifier
 		let abilityMod = 0;
 		if (skillDef && skillDef.ability) {
@@ -10912,17 +10871,17 @@ Renderer.character = class {
 			if (character.expertise && Array.isArray(character.expertise)) {
 				// Create multiple possible skill keys to match against different formats
 				const skillNameLower = skillName.toLowerCase();
-				const skillKeyNoSpaces = skillNameLower.replace(/\s+/g, '');
-				const skillKeyUnderscores = skillNameLower.replace(/\s+/g, '_');
-				
+				const skillKeyNoSpaces = skillNameLower.replace(/\s+/g, "");
+				const skillKeyUnderscores = skillNameLower.replace(/\s+/g, "_");
+
 				const hasExpertise = character.expertise.some(expertSkill => {
 					const expertSkillLower = expertSkill.toLowerCase();
-					return expertSkillLower === skillNameLower ||      // "sleight of hand"
-					       expertSkillLower === skillKeyNoSpaces ||    // "sleightofhand"
-					       expertSkillLower === skillKeyUnderscores || // "sleight_of_hand"
-					       expertSkillLower === skillDef?.key;         // fallback to skill definition key
+					return expertSkillLower === skillNameLower // "sleight of hand"
+					       || expertSkillLower === skillKeyNoSpaces // "sleightofhand"
+					       || expertSkillLower === skillKeyUnderscores // "sleight_of_hand"
+					       || expertSkillLower === skillDef?.key; // fallback to skill definition key
 				});
-				
+
 				if (hasExpertise && isProficient) {
 					result.bonus = abilityMod + (profBonus * 2);
 					result.expertise = true;
@@ -10931,7 +10890,7 @@ Renderer.character = class {
 			// Fallback: Class-specific expertise rules
 			else if (isProficient) {
 				let hasExpertise = false;
-				
+
 				// Rogue: Expertise at level 1 and 6
 				if (className === "rogue" && level >= 1) {
 					// Check if this skill is commonly chosen for rogue expertise
@@ -10940,7 +10899,7 @@ Renderer.character = class {
 						hasExpertise = true;
 					}
 				}
-				
+
 				// Bard: Expertise at level 3 and 10
 				if (className === "bard" && level >= 3) {
 					// Check if this skill is commonly chosen for bard expertise
@@ -10949,7 +10908,7 @@ Renderer.character = class {
 						hasExpertise = true;
 					}
 				}
-				
+
 				if (hasExpertise) {
 					result.bonus = abilityMod + (profBonus * 2);
 					result.expertise = true;
@@ -11297,24 +11256,24 @@ Renderer.character = class {
 	 */
 	static _isCharacterStub (character) {
 		if (!character) return true;
-		
+
 		// A character is considered a stub if it's missing key properties that full characters should have
 		// Check for explicit stub marker first
 		if (character.__isStub === true) return true;
-		
+
 		// Check for essential properties that full characters should have
 		// If a character only has basic metadata (id, name, source, _f* fields) but lacks
 		// core character properties, it's likely a stub
 		const hasBasicInfo = character.name && character.source;
 		const hasFullCharacterData = (
-			character.class || 
-			character.race || 
-			character.background || 
-			character.abilities ||
-			character.hp ||
-			character.str !== undefined
+			character.class
+			|| character.race
+			|| character.background
+			|| character.abilities
+			|| character.hp
+			|| character.str !== undefined
 		);
-		
+
 		return hasBasicInfo && !hasFullCharacterData;
 	}
 
@@ -11326,15 +11285,15 @@ Renderer.character = class {
 	 */
 	static _getStubPlaceholder (character, {isStatic = false} = {}) {
 		const characterId = character.id || `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, "");
-		
+
 		// Use metadata if available, otherwise show loading state
 		const level = character._fLevel || "?";
 		const race = character._fRace || "Loading...";
 		const cls = character._fClass || "Loading...";
 		const background = character._fBackground || "";
-		
+
 		const backgroundText = background ? `, ${background}` : "";
-		
+
 		return `
 			${Renderer.utils.getExcludedTr({entity: character, dataProp: "character", page: UrlUtil.PG_CHARACTERS})}
 			${Renderer.utils.getNameTr(character, {page: UrlUtil.PG_CHARACTERS})}
@@ -11355,15 +11314,15 @@ Renderer.character = class {
 	 */
 	static _bindLazyLoading (character, ele) {
 		if (!ele || !Renderer.character._isCharacterStub(character)) return;
-		
+
 		// Handle both jQuery objects and plain DOM elements
 		const domElement = ele.jquery ? ele[0] : ele;
 		if (!domElement) return;
-		
+
 		const characterId = character.id || `${character.name}_${character.source}`.replace(/[^a-zA-Z0-9]/g, "");
 		const stubElement = domElement.querySelector(`[data-character-stub="${characterId}"]`);
 		if (!stubElement) return;
-		
+
 		// Trigger lazy loading immediately on DOM ready
 		setTimeout(async () => {
 			try {
@@ -11373,12 +11332,12 @@ Renderer.character = class {
 					if (fullCharacter && !Renderer.character._isCharacterStub(fullCharacter)) {
 						// Re-render with full character data
 						const newContent = Renderer.character.getCompactRenderedString(fullCharacter);
-						
+
 						// Replace the entire character table content
-						const parentTable = stubElement.closest('table');
+						const parentTable = stubElement.closest("table");
 						if (parentTable) {
 							parentTable.innerHTML = newContent;
-							
+
 							// Re-bind listeners for the new content
 							Renderer.character.bindListenersCompact(fullCharacter, parentTable);
 						}
@@ -17562,7 +17521,6 @@ Renderer.hover = class {
 
 		// Set up character update listener for hover windows
 		Renderer.hover._initCharacterUpdateListener();
-
 	}
 
 	static _initCharacterUpdateListener () {
@@ -17735,14 +17693,14 @@ Renderer.hover = class {
 					const possibleIds = [
 						hash, // Direct hash (e.g., "garurt_sam")
 						hash.toLowerCase(), // Lowercase version
-						hash.replace('_', ''), // Without underscore
-						hash.replace('_', '').toLowerCase(), // Without underscore, lowercase
+						hash.replace("_", ""), // Without underscore
+						hash.replace("_", "").toLowerCase(), // Without underscore, lowercase
 						source, // Just the source part
 						source.toLowerCase(), // Source lowercase
-						`${source}_${hash.split('_')[0]}`, // Reconstructed ID
-						`${source.toLowerCase()}_${hash.split('_')[0].toLowerCase()}`, // Reconstructed ID lowercase
-						hash.split('_')[0], // Just the character name part
-						hash.split('_')[0].toLowerCase() // Character name lowercase
+						`${source}_${hash.split("_")[0]}`, // Reconstructed ID
+						`${source.toLowerCase()}_${hash.split("_")[0].toLowerCase()}`, // Reconstructed ID lowercase
+						hash.split("_")[0], // Just the character name part
+						hash.split("_")[0].toLowerCase(), // Character name lowercase
 					];
 					console.debug(`Render.hover: Trying character IDs:`, possibleIds);
 
@@ -17766,11 +17724,11 @@ Renderer.hover = class {
 					if (!toRender) {
 						try {
 							const allCharacters = characterManager.loadCharacterSummaries();
-							const characterName = hash.split('_')[0];
-							const matchingChar = allCharacters.find(char => 
-								char.name.toLowerCase() === characterName.toLowerCase() ||
-								char.id === hash ||
-								char.id === characterName
+							const characterName = hash.split("_")[0];
+							const matchingChar = allCharacters.find(char =>
+								char.name.toLowerCase() === characterName.toLowerCase()
+								|| char.id === hash
+								|| char.id === characterName,
 							);
 							if (matchingChar) {
 								toRender = characterManager.getCharacterById(matchingChar.id) || matchingChar;
@@ -17790,15 +17748,15 @@ Renderer.hover = class {
 						console.warn("DataLoader failed for character:", dataLoaderError);
 						// Create a placeholder character object
 						toRender = {
-							name: hash.split('_')[0] || "Unknown Character",
+							name: hash.split("_")[0] || "Unknown Character",
 							id: hash,
 							source: source,
 							_isPlaceholder: true,
 							entries: [
 								"This character could not be loaded from either CharacterManager or DataLoader.",
 								"The character may not exist or there may be a data loading issue.",
-								`Requested: page="${page}", source="${source}", hash="${hash}"`
-							]
+								`Requested: page="${page}", source="${source}", hash="${hash}"`,
+							],
 						};
 						console.log("Created placeholder character (DataLoader fallback):", toRender);
 					}
@@ -17811,25 +17769,25 @@ Renderer.hover = class {
 					console.warn("DataLoader also failed:", dataLoaderError);
 					// Create a placeholder character object to prevent the error
 					toRender = {
-						name: hash.split('_')[0] || "Unknown Character",
+						name: hash.split("_")[0] || "Unknown Character",
 						id: hash,
 						source: source,
 						_isPlaceholder: true,
 						entries: [
 							"This character could not be loaded. The character data may not be available or there may be a loading error.",
-							`Attempted to load: page="${page}", source="${source}", hash="${hash}"`
-						]
+							`Attempted to load: page="${page}", source="${source}", hash="${hash}"`,
+						],
 					};
 					console.log("Created placeholder character:", toRender);
 				}
 			}
-		console.debug(`Render.hover: Final toRender for character page:`, toRender);
-			
+			console.debug(`Render.hover: Final toRender for character page:`, toRender);
+
 			// Special handling for character verification - create placeholder if null
 			if (!toRender) {
 				console.warn(`Character loading failed completely for: page="${page}" source="${source}" hash="${hash}" - creating placeholder`);
 				toRender = {
-					name: hash.split('_')[0] || "Unknown Character",
+					name: hash.split("_")[0] || "Unknown Character",
 					id: hash,
 					source: source,
 					_isPlaceholder: true,
@@ -17837,19 +17795,21 @@ Renderer.hover = class {
 						"⚠️ Character Loading Error",
 						"This character could not be loaded from localStorage.",
 						"The character may have been deleted, moved, or there may be a data corruption issue.",
-						{"type": "inset", "name": "Debug Info", "entries": [
-							`Page: ${page}`,
-							`Source: ${source}`, 
-							`Hash: ${hash}`,
-							`PreloadId: ${preloadId}`,
-							`CustomHashId: ${customHashId}`,
-							`IsFluff: ${meta.isFluff}`
-						]}
-					]
+						{"type": "inset",
+							"name": "Debug Info",
+							"entries": [
+								`Page: ${page}`,
+								`Source: ${source}`,
+								`Hash: ${hash}`,
+								`PreloadId: ${preloadId}`,
+								`CustomHashId: ${customHashId}`,
+								`IsFluff: ${meta.isFluff}`,
+							]},
+					],
 				};
 				console.log("Created final placeholder character for hover:", toRender);
 			}
-			
+
 			this._pHandleLinkMouseOver_doVerifyToRender({toRender, page, source, hash, preloadId, customHashId, isFluff: meta.isFluff});
 		} else if (preloadId != null) { // FIXME(Future) remove in favor of `customHashId`
 			switch (page) {

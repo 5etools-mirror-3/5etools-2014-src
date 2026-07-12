@@ -120,13 +120,13 @@ const workboxRuntimeBuildResult = await injectManifest({
 				url,
 				// Use a simple hash of the URL as revision for external images
 				// This ensures they get cached but can be updated if needed
-				encodeURIComponent(url).slice(-8) // Use last 8 chars of encoded URL as revision
+				encodeURIComponent(url).slice(-8), // Use last 8 chars of encoded URL as revision
 			]);
 
 			return {
-				manifest: [...processedManifest, ...externalImageEntries]
+				manifest: [...processedManifest, ...externalImageEntries],
 			};
-		}
+		},
 	],
 });
 

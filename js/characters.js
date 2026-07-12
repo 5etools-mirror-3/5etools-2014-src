@@ -120,7 +120,7 @@ class CharactersPage extends ListPageMultiSource {
 
 		const hash = UrlUtil.autoEncodeHash(character);
 		const source = Parser.sourceJsonToAbv(character.source || "");
-		
+
 		const raceText = character._fRace || "Unknown";
 		const classText = character._fClass || "Unknown";
 		const level = character._fLevel || 1;
@@ -164,30 +164,30 @@ class CharactersPage extends ListPageMultiSource {
 		let summaries = [];
 		let attempts = 0;
 		const maxAttempts = 3;
-		
+
 		while (attempts < maxAttempts) {
 			attempts++;
 			try {
 				const forceRefresh = attempts === 1; // Only force refresh on first attempt
 				summaries = await CharacterManager.loadCharacterSummaries(null, forceRefresh);
-				
+
 				// Defensive: filter out any falsy/undefined entries
 				summaries = (summaries || []).filter(c => c);
-				
-			// Temporarily accept any summaries for debugging metadata issues
-			if (summaries.length >= 0) {
-				console.log(`🛫 Loaded ${summaries.length} character summaries`);
-				if (summaries.length > 0) {
-					console.log('First summary keys and metadata:', {
-						name: summaries[0].name,
-						_fRace: summaries[0]._fRace,
-						_fClass: summaries[0]._fClass,
-						_fLevel: summaries[0]._fLevel,
-						allKeys: Object.keys(summaries[0])
-					});
+
+				// Temporarily accept any summaries for debugging metadata issues
+				if (summaries.length >= 0) {
+					console.log(`🛫 Loaded ${summaries.length} character summaries`);
+					if (summaries.length > 0) {
+						console.log("First summary keys and metadata:", {
+							name: summaries[0].name,
+							_fRace: summaries[0]._fRace,
+							_fClass: summaries[0]._fClass,
+							_fLevel: summaries[0]._fLevel,
+							allKeys: Object.keys(summaries[0]),
+						});
+					}
+					break;
 				}
-				break;
-			}
 			} catch (e) {
 				console.warn(`Attempt ${attempts} failed to load character summaries:`, e);
 				if (attempts < maxAttempts) {
@@ -196,7 +196,7 @@ class CharactersPage extends ListPageMultiSource {
 				}
 			}
 		}
-		
+
 		// Process and display the summaries
 		if (summaries.length > 0) {
 			// Process characters for display to ensure _fRace, _fClass, etc. are set
@@ -204,29 +204,29 @@ class CharactersPage extends ListPageMultiSource {
 				this._processCharacterForDisplay(char);
 				return char;
 			});
-			
-		// Format for 5etools compatibility - summaries work like full characters for list display
-		const formattedData = { character: processedSummaries };
-		this._addData(formattedData);
-		
-		// Set up listener AFTER initial data load to prevent immediate clearing
-		setTimeout(() => {
-			this._setupCharacterListener();
-		}, 200); // Small delay to ensure data is settled
-		
-		// Ensure URL fragment handling after data is loaded (fixes cold load navigation)
-		// Use a small delay to allow the list to fully render before processing hash
-		setTimeout(() => {
-			if (window.location.hash) {
+
+			// Format for 5etools compatibility - summaries work like full characters for list display
+			const formattedData = { character: processedSummaries };
+			this._addData(formattedData);
+
+			// Set up listener AFTER initial data load to prevent immediate clearing
+			setTimeout(() => {
+				this._setupCharacterListener();
+			}, 200); // Small delay to ensure data is settled
+
+			// Ensure URL fragment handling after data is loaded (fixes cold load navigation)
+			// Use a small delay to allow the list to fully render before processing hash
+			setTimeout(() => {
+				if (window.location.hash) {
 				// Trigger hash processing by simulating hashchange or dispatching to the router
-				if (this._handleHashChange) {
-					this._handleHashChange();
-				} else {
+					if (this._handleHashChange) {
+						this._handleHashChange();
+					} else {
 						// Fallback: dispatch hashchange event
-						window.dispatchEvent(new HashChangeEvent('hashchange'));
+						window.dispatchEvent(new HashChangeEvent("hashchange"));
+					}
 				}
-			}
-		}, 100);
+			}, 100);
 		} else {
 			console.log("No character summaries to display");
 		}
@@ -240,43 +240,43 @@ class CharactersPage extends ListPageMultiSource {
 			console.warn("Failed to preload spell data for character page:", e);
 		}
 	}
-	
-	_setupCharacterListener() {
+
+	_setupCharacterListener () {
 		// Set up listener for character updates (handles both summaries and full characters)
 		CharacterManager.addListener((characters) => {
 			// Defensive: remove falsy entries
 			characters = (characters || []).filter(c => c);
-			
+
 			// Be intelligent about when to update the list
 			// Only update if:
 			// 1. List is empty (initial load)
 			// 2. Multiple characters changed (bulk update)
 			// 3. Character count mismatch (characters added/removed)
-			const shouldUpdateList = !this._list || 
-				this._dataList.length === 0 || 
-				characters.length !== this._dataList.length ||
-				characters.length > 1;
-			
+			const shouldUpdateList = !this._list
+				|| this._dataList.length === 0
+				|| characters.length !== this._dataList.length
+				|| characters.length > 1;
+
 			if (!shouldUpdateList) {
 				// Still handle individual character display updates
 				if (this._currentCharacter && characters.length === 1) {
 					const updatedChar = characters[0];
 					const currentId = CharacterManager._generateCompositeId(this._currentCharacter.name, this._currentCharacter.source);
 					const updatedId = CharacterManager._generateCompositeId(updatedChar.name, updatedChar.source);
-					
+
 					if (currentId === updatedId) {
 						this._currentCharacter = updatedChar;
-						
+
 						if (globalThis._CHARACTER_EDIT_DATA) {
 							globalThis._CHARACTER_EDIT_DATA[currentId] = updatedChar;
 						}
-						
+
 						this._renderStats_doBuildStatsTab({ent: updatedChar});
 					}
 				}
 				return;
 			}
-			
+
 			if (this._list) {
 				// Always get ALL character summaries to ensure we don't lose characters from the display
 				// This prevents the issue where saving one character removes others from the list
@@ -287,7 +287,7 @@ class CharactersPage extends ListPageMultiSource {
 							this._processCharacterForDisplay(char);
 							return char;
 						});
-						
+
 						const formattedData = { character: processedSummaries };
 						// Merge updates without clearing the list to avoid flicker or disappearing list
 						this._updateDataList(formattedData);
@@ -303,7 +303,7 @@ class CharactersPage extends ListPageMultiSource {
 							this._processCharacterForDisplay(char);
 							return char;
 						});
-						
+
 						const formattedData = { character: processedCharacters };
 						this._updateDataList(formattedData);
 					} catch (fallbackError) {
@@ -315,7 +315,7 @@ class CharactersPage extends ListPageMultiSource {
 		});
 
 		// Listen for WebSocket character update events
-		window.addEventListener('characterUpdatedGlobally', (event) => {
+		window.addEventListener("characterUpdatedGlobally", (event) => {
 			const { character, characterId } = event.detail || {};
 			if (!character) return;
 
@@ -342,9 +342,9 @@ class CharactersPage extends ListPageMultiSource {
 			}
 		});
 
-		window.addEventListener('characterUpdated', (event) => {
+		window.addEventListener("characterUpdated", (event) => {
 			// Legacy alias — forward to global handler path
-			window.dispatchEvent(new CustomEvent('characterUpdatedGlobally', { detail: event.detail }));
+			window.dispatchEvent(new CustomEvent("characterUpdatedGlobally", { detail: event.detail }));
 		});
 	}
 
@@ -378,7 +378,7 @@ class CharactersPage extends ListPageMultiSource {
 		if (character.background && !character._fBackground) {
 			character._fBackground = character.background.name;
 		}
-		
+
 		// Ensure we have fallback values for display if the full object processing didn't work
 		// and we don't have the summary data either (edge case protection)
 		if (!character._fRace) {
@@ -421,17 +421,17 @@ class CharactersPage extends ListPageMultiSource {
 			});
 		}
 	}
-	
+
 	/**
 	 * Smoothly update the data list without clearing everything (prevents flickering)
 	 * @param {Object} newData - New data to merge into the list
 	 */
-	_updateDataList(newData) {
+	_updateDataList (newData) {
 		if (!newData.character || !Array.isArray(newData.character)) {
-			console.warn('_updateDataList: Invalid data provided');
+			console.warn("_updateDataList: Invalid data provided");
 			return;
 		}
-		
+
 		// Create a map of existing characters by ID for fast lookup
 		const existingCharMap = new Map();
 		this._dataList.forEach((char, index) => {
@@ -439,16 +439,16 @@ class CharactersPage extends ListPageMultiSource {
 				existingCharMap.set(char.id, { char, index });
 			}
 		});
-		
+
 		// Process new characters
 		const newCharacters = newData.character;
 		const updatedIds = new Set();
-		
+
 		for (const newChar of newCharacters) {
 			if (!newChar || !newChar.id) continue;
-			
+
 			updatedIds.add(newChar.id);
-			
+
 			if (existingCharMap.has(newChar.id)) {
 				// Update existing character
 				const { index } = existingCharMap.get(newChar.id);
@@ -458,7 +458,7 @@ class CharactersPage extends ListPageMultiSource {
 				this._dataList.push(newChar);
 			}
 		}
-		
+
 		// Remove characters that are no longer in the new data
 		for (let i = this._dataList.length - 1; i >= 0; i--) {
 			const char = this._dataList[i];
@@ -466,18 +466,18 @@ class CharactersPage extends ListPageMultiSource {
 				this._dataList.splice(i, 1);
 			}
 		}
-		
+
 		// Update the list display
 		if (this._list) {
 			this._list.update();
 		}
-		
+
 		// Update DataLoader cache
 		DataLoader._pCache_addToCache({
 			allDataMerged: newData,
 			propAllowlist: new Set(["character"]),
 		});
-		
+
 		console.log(`_updateDataList: Smoothly updated character list with ${newCharacters.length} characters`);
 	}
 
@@ -491,11 +491,11 @@ class CharactersPage extends ListPageMultiSource {
 			}),
 		];
 	}
-	
+
 	_renderStats_doBuildJsonTab ({ent}) {
 		const $btnCopyJson = $(`<button class="ve-btn ve-btn-default ve-btn-xs" title="Copy JSON (SHIFT for Pretty)"><span class="glyphicon glyphicon-copy"></span></button>`)
 			.click(async evt => {
-				const json = evt.shiftKey 
+				const json = evt.shiftKey
 					? JSON.stringify(ent, null, "\t")
 					: JSON.stringify(ent);
 				await MiscUtil.pCopyTextToClipboard(json);
@@ -520,10 +520,10 @@ class CharactersPage extends ListPageMultiSource {
 			</tr>
 			<tr><th class="ve-tbl-border" colspan="6"></th></tr>
 		`);
-		
+
 		// Re-bind the button click handler since we replaced the HTML
-		this._$pgContent.find('button').click(async evt => {
-			const json = evt.shiftKey 
+		this._$pgContent.find("button").click(async evt => {
+			const json = evt.shiftKey
 				? JSON.stringify(ent, null, "\t")
 				: JSON.stringify(ent);
 			await MiscUtil.pCopyTextToClipboard(json);
@@ -534,7 +534,7 @@ class CharactersPage extends ListPageMultiSource {
 	async _renderStats_doBuildStatsTab ({ent}) {
 		// Check if this is a summary (has only basic fields) or a full character
 		const isSummary = ent && !ent.class && !ent.race && !ent.background;
-		
+
 		if (isSummary) {
 			// Show loading state while we fetch the full character
 			this._$pgContent.empty().html(`
@@ -553,13 +553,13 @@ class CharactersPage extends ListPageMultiSource {
 						<tr><th class="ve-tbl-border" colspan="6"></th></tr>
 						<tr><td colspan="6" class="ve-text-center p-3 text-danger">
 							<i class="fas fa-exclamation-triangle"></i> Failed to load character details.
-							${!navigator.onLine ? ' (You are offline - this character is not available)' : ''}
+							${!navigator.onLine ? " (You are offline - this character is not available)" : ""}
 						</td></tr>
 						<tr><th class="ve-tbl-border" colspan="6"></th></tr>
 					`);
 					return;
 				}
-				
+
 				// Now render with the full character
 				await this._renderStats_doBuildStatsTab({ent: fullCharacter});
 				return;
@@ -568,7 +568,7 @@ class CharactersPage extends ListPageMultiSource {
 				this._$pgContent.empty().html(`
 					<tr><th class="ve-tbl-border" colspan="6"></th></tr>
 					<tr><td colspan="6" class="ve-text-center p-3 text-danger">
-						<i class="fas fa-exclamation-triangle"></i> Error loading character: ${error.message || 'Unknown error'}
+						<i class="fas fa-exclamation-triangle"></i> Error loading character: ${error.message || "Unknown error"}
 					</td></tr>
 					<tr><th class="ve-tbl-border" colspan="6"></th></tr>
 				`);
@@ -699,7 +699,7 @@ window.addEventListener("load", () => {
 			// Double-check access before allowing edit
 			if (!charactersPage._canEditCharacter(character)) {
 				// Check if user is authenticated at all
-				const sessionToken = localStorage.getItem('sessionToken');
+				const sessionToken = localStorage.getItem("sessionToken");
 				if (!sessionToken) {
 					alert("You need to be logged in to edit characters. Please visit the Login page to authenticate.");
 				} else {
@@ -724,43 +724,43 @@ window.addEventListener("load", () => {
 			$btn.prop("disabled", true).addClass("ve-btn-loading");
 
 			console.log(`🔄 FULL CACHE CLEAR: Clearing ALL character data from local storage`);
-			
+
 			// STEP 1: Clear ALL character caches completely
 			try {
 				// Clear CharacterManager's localStorage cache
-				if (typeof CharacterManager._STORAGE_KEY !== 'undefined') {
+				if (typeof CharacterManager._STORAGE_KEY !== "undefined") {
 					localStorage.removeItem(CharacterManager._STORAGE_KEY);
-					console.log('✅ Cleared CharacterManager localStorage cache');
+					console.log("✅ Cleared CharacterManager localStorage cache");
 				}
-				
-				// Clear CharacterManager's summaries cache  
-				if (typeof CharacterManager._SUMMARIES_CACHE_KEY !== 'undefined') {
+
+				// Clear CharacterManager's summaries cache
+				if (typeof CharacterManager._SUMMARIES_CACHE_KEY !== "undefined") {
 					localStorage.removeItem(CharacterManager._SUMMARIES_CACHE_KEY);
-					console.log('✅ Cleared CharacterManager summaries cache');
+					console.log("✅ Cleared CharacterManager summaries cache");
 				}
-				
+
 				// Clear CharacterManager's memory caches
-				if (typeof CharacterManager._characters !== 'undefined') {
+				if (typeof CharacterManager._characters !== "undefined") {
 					CharacterManager._characters.clear();
-					console.log('✅ Cleared CharacterManager memory cache');
+					console.log("✅ Cleared CharacterManager memory cache");
 				}
-				
-				if (typeof CharacterManager._charactersArray !== 'undefined') {
+
+				if (typeof CharacterManager._charactersArray !== "undefined") {
 					CharacterManager._charactersArray.length = 0;
-					console.log('✅ Cleared CharacterManager array cache');
+					console.log("✅ Cleared CharacterManager array cache");
 				}
-				
+
 				// Force clear summaries cache using CharacterManager method
-				if (typeof CharacterManager._clearSummariesCache === 'function') {
+				if (typeof CharacterManager._clearSummariesCache === "function") {
 					CharacterManager._clearSummariesCache();
-					console.log('✅ Called CharacterManager._clearSummariesCache()');
+					console.log("✅ Called CharacterManager._clearSummariesCache()");
 				}
-				
+
 				// Clear any other character-related localStorage keys
 				const keysToRemove = [];
 				for (let i = 0; i < localStorage.length; i++) {
 					const key = localStorage.key(i);
-					if (key && (key.includes('character') || key.includes('Character'))) {
+					if (key && (key.includes("character") || key.includes("Character"))) {
 						keysToRemove.push(key);
 					}
 				}
@@ -768,28 +768,27 @@ window.addEventListener("load", () => {
 					localStorage.removeItem(key);
 					console.log(`✅ Cleared additional character-related key: ${key}`);
 				});
-				
 			} catch (clearError) {
-				console.error('Error clearing caches:', clearError);
+				console.error("Error clearing caches:", clearError);
 			}
 
 			// STEP 2: If a character is currently displayed, refresh it from server
 			if (charactersPage._currentCharacter) {
-				const currentCharacterId = charactersPage._currentCharacter.id || 
-					CharacterManager._generateCompositeId(charactersPage._currentCharacter.name, charactersPage._currentCharacter.source);
-				
+				const currentCharacterId = charactersPage._currentCharacter.id
+					|| CharacterManager._generateCompositeId(charactersPage._currentCharacter.name, charactersPage._currentCharacter.source);
+
 				console.log(`🔄 Refreshing currently displayed character: ${currentCharacterId}`);
-				
+
 				// Reload the character from server (cache is already cleared)
 				try {
 					const refreshedCharacter = await CharacterManager.ensureFullCharacter(currentCharacterId);
 					if (refreshedCharacter) {
 						// Update the current character reference
 						charactersPage._currentCharacter = refreshedCharacter;
-						
+
 						// Re-render the character display
 						charactersPage._renderStats_doBuildStatsTab({ent: refreshedCharacter});
-						
+
 						console.log(`✅ Successfully refreshed character: ${refreshedCharacter.name}`);
 					} else {
 						console.warn(`❌ Failed to refresh character: ${currentCharacterId}`);
@@ -798,7 +797,7 @@ window.addEventListener("load", () => {
 					console.error(`❌ Error refreshing current character:`, refreshError);
 				}
 			}
-			
+
 			// STEP 3: Force refresh summaries from server (cache is already cleared)
 			const summaries = await CharacterManager.loadCharacterSummaries(null, true);
 

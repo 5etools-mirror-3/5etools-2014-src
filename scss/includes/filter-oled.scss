@@ -24,14 +24,14 @@
 
 			&:hover {
 				background: vars-oled.$rgb-bg--alt-oled;
-				box-shadow: 0 0 5px rgba(51, 221, 255, 0.5);
+				box-shadow: 0 0 5px rgb(51 221 255 / 50%);
 			}
 
 			&.fltr__btn--active {
 				background: vars-oled.$rgb-link-blue--oled;
 				border-color: vars-oled.$rgb-link-blue--oled;
 				color: vars-oled.$rgb-font--oled;
-				box-shadow: 0 0 8px rgba(51, 221, 255, 0.8);
+				box-shadow: 0 0 8px rgb(51 221 255 / 80%);
 			}
 		}
 
@@ -43,7 +43,7 @@
 
 			&:focus {
 				border-color: vars-oled.$rgb-link-blue--oled;
-				box-shadow: 0 0 8px rgba(51, 221, 255, 0.6);
+				box-shadow: 0 0 8px rgb(51 221 255 / 60%);
 			}
 
 			&::placeholder {
@@ -59,13 +59,13 @@
 
 			&:hover {
 				background: vars-oled.$rgb-bg--oled;
-				box-shadow: 0 0 4px rgba(51, 255, 85, 0.5);
+				box-shadow: 0 0 4px rgb(51 255 85 / 50%);
 			}
 
 			&.fltr__pill--active {
 				background: vars-oled.$rgb-btn-success-green--oled;
 				color: vars-oled.$rgb-font--oled;
-				box-shadow: 0 0 6px rgba(51, 255, 85, 0.8);
+				box-shadow: 0 0 6px rgb(51 255 85 / 80%);
 			}
 		}
 

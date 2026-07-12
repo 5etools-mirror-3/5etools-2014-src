@@ -425,7 +425,7 @@ class Board {
 				const charForUrl = {
 					name: summary.name,
 					source: summary.source,
-					id: summary.id
+					id: summary.id,
 				};
 
 				const doc = {
@@ -1315,27 +1315,27 @@ class Panel {
 				.then(async (character) => {
 					if (!character) {
 					// Try alternative hash formats if direct lookup fails
-					try {
+						try {
 						// Check if we can find by character ID in cached characters
-						const byId = CharacterManager.getCharacterById(decodedHash);
-						if (byId) {
-							character = byId;
-						} else {
+							const byId = CharacterManager.getCharacterById(decodedHash);
+							if (byId) {
+								character = byId;
+							} else {
 							// Try reading summaries to find the right ID
-							const summaries = await CharacterManager.loadCharacterSummaries();
-							const summary = summaries.find(s => {
-								if (s.id === decodedHash) return true;
-								try {
-									return CharacterManager._generateCompositeId(s.name, s.source) === decodedHash;
-								} catch (e) { return false; }
-							});
-							if (summary) {
-								character = await CharacterManager.ensureFullCharacter(summary.id);
+								const summaries = await CharacterManager.loadCharacterSummaries();
+								const summary = summaries.find(s => {
+									if (s.id === decodedHash) return true;
+									try {
+										return CharacterManager._generateCompositeId(s.name, s.source) === decodedHash;
+									} catch (e) { return false; }
+								});
+								if (summary) {
+									character = await CharacterManager.ensureFullCharacter(summary.id);
+								}
 							}
+						} catch (e) {
+							console.warn("Failed to find character using alternative lookup:", e);
 						}
-					} catch (e) {
-						console.warn("Failed to find character using alternative lookup:", e);
-					}
 					}
 
 					if (!character) {

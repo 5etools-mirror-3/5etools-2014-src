@@ -10,7 +10,7 @@
 
 			&:focus {
 				border-color: vars-oled.$rgb-link-blue--oled;
-				box-shadow: 0 0 8px 0 rgba(51, 221, 255, 0.6);
+				box-shadow: 0 0 8px 0 rgb(51 221 255 / 60%);
 			}
 		}
 

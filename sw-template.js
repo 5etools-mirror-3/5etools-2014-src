@@ -164,29 +164,29 @@ class RevisionCacheFirst extends Strategy {
 		// undefined is returned if we don't have a cache response for the key
 		if (cacheResponse !== undefined) return cacheResponse;
 
-	// we need to fetch the request from the network and store it with revision for next time
-	console.log(`Fetching URL "${url}" over the network for RevisionFirstCache`);
-	try {
+		// we need to fetch the request from the network and store it with revision for next time
+		console.log(`Fetching URL "${url}" over the network for RevisionFirstCache`);
+		try {
 		// Use appropriate fetch options based on URL origin
-		let fetchOptions;
-		if (url.startsWith('https://5e.tools') || url.startsWith('http://5e.tools')) {
+			let fetchOptions;
+			if (url.startsWith("https://5e.tools") || url.startsWith("http://5e.tools")) {
 			// External URL - use no-cors mode to bypass CORS restrictions
-			fetchOptions = {mode: 'no-cors', credentials: 'omit'};
-		} else {
+				fetchOptions = {mode: "no-cors", credentials: "omit"};
+			} else {
 			// Same-origin URL - use normal fetch options
-			fetchOptions = this.constructor._FETCH_OPTIONS_VET;
+				fetchOptions = this.constructor._FETCH_OPTIONS_VET;
+			}
+
+			const fetchResponse = await handler.fetch(request, fetchOptions);
+			// no await because it can happen later
+			handler.cachePut(cacheKey, fetchResponse.clone());
+			return fetchResponse;
+		} catch (e) {
+		// no await because it can happen later
+			offlineAlert(url);
+			// empty response, we can't get the file
+			return new Response();
 		}
-		
-		const fetchResponse = await handler.fetch(request, fetchOptions);
-		// no await because it can happen later
-		handler.cachePut(cacheKey, fetchResponse.clone());
-		return fetchResponse;
-	} catch (e) {
-		// no await because it can happen later
-		offlineAlert(url);
-		// empty response, we can't get the file
-		return new Response();
-	}
 	}
 
 	/**
@@ -255,11 +255,11 @@ class RevisionCacheFirst extends Strategy {
 		console.log(`Found ${validCacheKeys.length} valid cache keys`);
 
 		const routeRegex = data.payload.routeRegex;
-	/**
+		/**
 	 * These are the keys which have not been cached yet AND match the regex for routes
 	 * External URLs are already properly formatted in the runtime manifest
 	 */
-	const routesToCache = validCacheKeys.filter((key) => (isTooManyKeys || !currentCacheKeys.has(key)) && routeRegex.test(key));
+		const routesToCache = validCacheKeys.filter((key) => (isTooManyKeys || !currentCacheKeys.has(key)) && routeRegex.test(key));
 		console.log(`Found ${routesToCache.length} routes to cache`);
 
 		const fetchTotal = routesToCache.length;
@@ -310,24 +310,24 @@ class RevisionCacheFirst extends Strategy {
 					continue;
 				}
 
-	try {
-			// Use appropriate fetch options based on URL origin
-			let fetchOptions;
-			if (fetchUrl.startsWith('https://5e.tools') || fetchUrl.startsWith('http://5e.tools')) {
-				// External URL - use no-cors mode to bypass CORS restrictions
-				fetchOptions = {mode: 'no-cors', credentials: 'omit'};
-			} else {
-				// Same-origin URL - use normal fetch options
-				fetchOptions = this.constructor._FETCH_OPTIONS_VET;
-			}
-			
-			const response = await fetch(fetchUrl, fetchOptions);
-			// this await could be omitted to further speed up fetching at risk of failure during error
-			await cache.put(cacheKey, response);
-			console.log(`Cached: ${fetchUrl}`);
-		} catch (error) {
-			console.warn(`Failed to cache ${fetchUrl}:`, error);
-		}
+				try {
+					// Use appropriate fetch options based on URL origin
+					let fetchOptions;
+					if (fetchUrl.startsWith("https://5e.tools") || fetchUrl.startsWith("http://5e.tools")) {
+						// External URL - use no-cors mode to bypass CORS restrictions
+						fetchOptions = {mode: "no-cors", credentials: "omit"};
+					} else {
+						// Same-origin URL - use normal fetch options
+						fetchOptions = this.constructor._FETCH_OPTIONS_VET;
+					}
+
+					const response = await fetch(fetchUrl, fetchOptions);
+					// this await could be omitted to further speed up fetching at risk of failure during error
+					await cache.put(cacheKey, response);
+					console.log(`Cached: ${fetchUrl}`);
+				} catch (error) {
+					console.warn(`Failed to cache ${fetchUrl}:`, error);
+				}
 				fetched++;
 				postProgress({frozenFetched: fetched});
 			}
@@ -363,7 +363,7 @@ const runtimeManifest = new Map(self.__WB_RUNTIME_MANIFEST.map(
 		revision,
 	]) => {
 		// If route is already a full URL (external image), use as-is
-		if (route.startsWith('https://') || route.startsWith('http://')) {
+		if (route.startsWith("https://") || route.startsWith("http://")) {
 			return [route, revision];
 		}
 		// Otherwise normalize relative routes against the service worker origin
@@ -371,7 +371,7 @@ const runtimeManifest = new Map(self.__WB_RUNTIME_MANIFEST.map(
 		// double-slashes when `route` already begins with a '/'. This ensures
 		// the keys match `request.url` values used elsewhere.
 		return [new URL(route, self.location.origin).href, revision];
-	}
+	},
 ));
 
 const revisionCacheFirst = new RevisionCacheFirst();
@@ -403,25 +403,25 @@ registerRoute(
 		plugins: [
 			// Keep 5e.tools images longer since they're more stable
 			new ExpirationPlugin({
-				maxAgeSeconds: 30 /* days */ * 24 * 60 * 60, 
-				maxEntries: 1000, 
-				purgeOnQuotaError: true
+				maxAgeSeconds: 30 /* days */ * 24 * 60 * 60,
+				maxEntries: 1000,
+				purgeOnQuotaError: true,
 			}),
 			// Custom plugin to handle CORS for external images
 			{
 				requestWillFetch: async ({request}) => {
 					// For 5e.tools images, use no-cors mode
-					if (request.url.includes('5e.tools')) {
+					if (request.url.includes("5e.tools")) {
 						return new Request(request.url, {
-							mode: 'no-cors',
-							credentials: 'omit'
+							mode: "no-cors",
+							credentials: "omit",
 						});
 					}
 					return request;
-				}
-			}
+				},
+			},
 		],
-	})
+	}),
 );
 
 /*
@@ -435,9 +435,9 @@ registerRoute(
 		plugins: [
 			// this is a safeguard against an utterly massive cache - these numbers may need tweaking
 			new ExpirationPlugin({
-				maxAgeSeconds: 7 /* days */ * 24 * 60 * 60, 
-				maxEntries: 500, 
-				purgeOnQuotaError: true
+				maxAgeSeconds: 7 /* days */ * 24 * 60 * 60,
+				maxEntries: 500,
+				purgeOnQuotaError: true,
 			}),
 			// Custom plugin to handle CORS for external images
 			{
@@ -446,15 +446,15 @@ registerRoute(
 					const url = new URL(request.url);
 					if (url.origin !== self.location.origin) {
 						return new Request(request.url, {
-							mode: 'no-cors',
-							credentials: 'omit'
+							mode: "no-cors",
+							credentials: "omit",
 						});
 					}
 					return request;
-				}
-			}
+				},
+			},
 		],
-	})
+	}),
 );
 
 addEventListener("install", () => {

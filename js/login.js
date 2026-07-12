@@ -75,7 +75,7 @@ class UserAuthManager {
 
 			const result = await response.json();
 			if (result.success) {
-				const sessionToken = response.headers.get('X-Session-Token');
+				const sessionToken = response.headers.get("X-Session-Token");
 				if (sessionToken) {
 					this.setSessionToken(sessionToken);
 					this.setCurrentUser(result.user);
@@ -101,7 +101,7 @@ class UserAuthManager {
 
 			const result = await response.json();
 			if (result.success) {
-				const sessionToken = response.headers.get('X-Session-Token');
+				const sessionToken = response.headers.get("X-Session-Token");
 				if (sessionToken) {
 					this.setSessionToken(sessionToken);
 					this.setCurrentUser(result.user);
@@ -358,7 +358,7 @@ class UserManager {
 			`;
 		} else {
 			// User is not logged in
-			listDiv.innerHTML = '<p class="text-muted"><em>Please log in or create an account to manage characters</em></p>';
+			listDiv.innerHTML = "<p class=\"text-muted\"><em>Please log in or create an account to manage characters</em></p>";
 		}
 	}
 
@@ -384,7 +384,7 @@ class UserManager {
 		}
 	}
 
-			// Character generation UI removed; per-source Create Character links are used instead.
+	// Character generation UI removed; per-source Create Character links are used instead.
 
 	escapeHtml (unsafe) {
 		return unsafe

@@ -7333,7 +7333,7 @@ globalThis.DataUtil = class {
 							_fClass: summary._fClass,
 							_fRace: summary._fRace,
 							_fLevel: summary._fLevel,
-							__prop: "character"
+							__prop: "character",
 						}));
 						return {character: characters};
 					}

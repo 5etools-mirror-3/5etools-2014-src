@@ -335,7 +335,7 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 			$content.html(`<div class="p-2 ve-text-center">
 				<i class="fas fa-spinner fa-spin"></i> Loading character...
 			</div>`);
-			
+
 			currentCharacterId = characterId;
 
 			try {
@@ -343,7 +343,7 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 				const character = await CharacterManager.ensureFullCharacter(characterId);
 				if (character) {
 					console.log(`DM Screen Character Panel: Loaded full character ${character.name}, ID: ${characterId}`);
-					
+
 					// Register character for editing in global registry
 					if (!globalThis._CHARACTER_EDIT_DATA) globalThis._CHARACTER_EDIT_DATA = {};
 					globalThis._CHARACTER_EDIT_DATA[characterId] = character;
@@ -358,13 +358,13 @@ export class PanelContentManager_Characters extends _PanelContentManager {
 				} else {
 					$content.html(`<div class="p-2 text-danger">
 						<i class="fas fa-exclamation-triangle"></i> Character not found or failed to load
-						${!navigator.onLine ? ' (you are offline)' : ''}
+						${!navigator.onLine ? " (you are offline)" : ""}
 					</div>`);
 				}
 			} catch (error) {
 				console.warn("Failed to load character:", error);
 				$content.html(`<div class="p-2 text-danger">
-					<i class="fas fa-exclamation-triangle"></i> Error: ${error.message || 'Failed to load character'}
+					<i class="fas fa-exclamation-triangle"></i> Error: ${error.message || "Failed to load character"}
 				</div>`);
 				currentCharacterId = null;
 			}

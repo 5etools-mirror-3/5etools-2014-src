@@ -30,5 +30,23 @@ export const CONFIG_IGNORES = {
 		"scratch/*",
 		"trash/*",
 		"trash_in/*",
+
+		// Fork-only Node/API surfaces (Cloudflare workers, Vercel-style handlers)
+		"api/*",
+		"cloudflare-worker/*",
+
+		// Fork feature islands with historical lint debt (synced separately from upstream style)
+		"js/character-manager.js",
+		"js/character-spell-manager.js",
+		"js/charactereditor.js",
+		"js/characters.js",
+		"js/filter-characters.js",
+		"js/render-characters.js",
+		"js/dice-box-manager.js",
+		"js/dice-config.js",
+		"js/login.js",
+		"js/img-config.js",
+		"sw-template.js",
+		"node/generate-image-urls.mjs",
 	],
 };
