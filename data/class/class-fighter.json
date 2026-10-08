@@ -2347,13 +2347,13 @@
 						},
 						{
 							"type": "refOptionalfeature",
-							"optionalfeature": "Hill Rune|TCE",
-							"name": "Hill Rune (7th Level or Higher)"
+							"name": "Hill Rune (7th Level or Higher)",
+							"optionalfeature": "Hill Rune|TCE"
 						},
 						{
 							"type": "refOptionalfeature",
-							"optionalfeature": "Storm Rune|TCE",
-							"name": "Storm Rune (7th Level or Higher)"
+							"name": "Storm Rune (7th Level or Higher)",
+							"optionalfeature": "Storm Rune|TCE"
 						}
 					]
 				}

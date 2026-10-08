@@ -22,8 +22,8 @@ export class PageFilterBase {
 		return val === "Reprinted";
 	}
 
-	constructor (opts) {
-		opts = opts || {};
+	constructor (opts = null) {
+		opts ||= {};
 		this._sourceFilter = new SourceFilter(opts.sourceFilterOpts);
 		this._filterBox = null;
 		this._miscFilter = null;

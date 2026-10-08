@@ -10,8 +10,10 @@
 			"source": "PHB",
 			"entries": [
 				{
-					"name": "Bard",
 					"type": "section",
+					"name": "Bard",
+					"source": "PHB",
+					"page": 51,
 					"entries": [
 						"Humming as she traces her fingers over an ancient monument in a long-forgotten ruin, a half-elf in rugged leathers finds knowledge springing into her mind, conjured forth by the magic of her song\u2014knowledge of the people who constructed the monument and the mythic saga it depicts.",
 						"A stern human warrior bangs his sword rhythmically against his scale mail, setting the tempo for his war chant and exhorting his companions to bravery and heroism. The magic of his song fortifies and emboldens them.",
@@ -48,12 +50,12 @@
 								}
 							]
 						}
-					],
-					"source": "PHB",
-					"page": 51
+					]
 				},
 				{
 					"type": "section",
+					"source": "XGE",
+					"page": 12,
 					"entries": [
 						{
 							"type": "quote",
@@ -337,9 +339,7 @@
 								}
 							]
 						}
-					],
-					"source": "XGE",
-					"page": 12
+					]
 				}
 			],
 			"images": [

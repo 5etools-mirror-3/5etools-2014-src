@@ -81,10 +81,10 @@
 						"type": "internal",
 						"path": "backgrounds/AAG/Astral Drifter.webp"
 					},
-					"title": "Plasmoid Astral Drifter",
-					"credit": "Olivier Bernard",
 					"width": 850,
-					"height": 899
+					"height": 899,
+					"title": "Plasmoid Astral Drifter",
+					"credit": "Olivier Bernard"
 				}
 			]
 		},
@@ -112,9 +112,9 @@
 						"type": "internal",
 						"path": "backgrounds/MOT/Athlete.webp"
 					},
-					"credit": "Noah Bradley",
 					"width": 400,
-					"height": 976
+					"height": 976,
+					"credit": "Noah Bradley"
 				}
 			]
 		},
@@ -430,9 +430,9 @@
 						"type": "internal",
 						"path": "backgrounds/AI/celebrity-adventurers-scion.webp"
 					},
-					"credit": "Kris Straub",
 					"width": 1545,
-					"height": 1000
+					"height": 1000,
+					"credit": "Kris Straub"
 				}
 			]
 		},
@@ -800,9 +800,9 @@
 						"type": "internal",
 						"path": "backgrounds/WBtW/Feylost.webp"
 					},
-					"credit": "Clint Cearley",
 					"width": 850,
-					"height": 1643
+					"height": 1643,
+					"credit": "Clint Cearley"
 				}
 			]
 		},
@@ -870,9 +870,9 @@
 						"type": "internal",
 						"path": "backgrounds/SatO/Gate Warden.webp"
 					},
-					"credit": "Robson Michel",
 					"width": 850,
-					"height": 2399
+					"height": 2399,
+					"credit": "Robson Michel"
 				}
 			]
 		},
@@ -890,10 +890,10 @@
 						"type": "internal",
 						"path": "backgrounds/BGG/Giant Foundling.webp"
 					},
-					"title": "A giant foundling is used to a larger world",
-					"credit": "Kai Carpenter",
 					"width": 1700,
-					"height": 1087
+					"height": 1087,
+					"title": "A giant foundling is used to a larger world",
+					"credit": "Kai Carpenter"
 				}
 			]
 		},
@@ -982,9 +982,9 @@
 						"type": "internal",
 						"path": "backgrounds/EGW/Grinner.webp"
 					},
-					"credit": "Dan Bittencourt",
 					"width": 543,
-					"height": 1000
+					"height": 1000,
+					"credit": "Dan Bittencourt"
 				}
 			]
 		},
@@ -1045,9 +1045,9 @@
 						"type": "internal",
 						"path": "backgrounds/VRGR/Haunted One.webp"
 					},
-					"credit": "Wayne England",
 					"width": 850,
-					"height": 1220
+					"height": 1220,
+					"credit": "Wayne England"
 				}
 			]
 		},
@@ -1126,10 +1126,10 @@
 						"type": "internal",
 						"path": "backgrounds/PSA/Initiate.webp"
 					},
-					"title": "Unwavering Initiate",
-					"credit": "Greg Opalinski",
 					"width": 630,
-					"height": 1650
+					"height": 1650,
+					"title": "Unwavering Initiate",
+					"credit": "Greg Opalinski"
 				},
 				{
 					"type": "image",
@@ -1137,10 +1137,10 @@
 						"type": "internal",
 						"path": "backgrounds/PSA/Initiate2.webp"
 					},
-					"title": "Gust Walker",
-					"credit": "Jason Rainville",
 					"width": 631,
-					"height": 816
+					"height": 816,
+					"title": "Gust Walker",
+					"credit": "Jason Rainville"
 				}
 			]
 		},
@@ -1210,10 +1210,10 @@
 						"type": "internal",
 						"path": "backgrounds/PSI/Inquisitor.webp"
 					},
-					"title": "Moorland Inquisitor",
-					"credit": "David Palumbo",
 					"width": 617,
-					"height": 919
+					"height": 919,
+					"title": "Moorland Inquisitor",
+					"credit": "David Palumbo"
 				}
 			]
 		},
@@ -1240,9 +1240,9 @@
 						"type": "internal",
 						"path": "backgrounds/VRGR/Investigator.webp"
 					},
-					"credit": "Zuzanna Wužyk",
 					"width": 850,
-					"height": 1104
+					"height": 1104,
+					"credit": "Zuzanna Wužyk"
 				}
 			]
 		},
@@ -1276,9 +1276,9 @@
 						"type": "internal",
 						"path": "backgrounds/DSotDQ/Knight of Solamnia.webp"
 					},
-					"credit": "Ekaterina Burmak",
 					"width": 850,
-					"height": 1282
+					"height": 1282,
+					"credit": "Ekaterina Burmak"
 				}
 			]
 		},
@@ -1367,10 +1367,10 @@
 						"type": "internal",
 						"path": "backgrounds/DSotDQ/Mage of High Sorcery.webp"
 					},
-					"title": "Mages of High Sorcery of the Orders of the Black, Red, and White Robes",
-					"credit": "Linda Lithén",
 					"width": 1700,
-					"height": 1223
+					"height": 1223,
+					"title": "Mages of High Sorcery of the Orders of the Black, Red, and White Robes",
+					"credit": "Linda Lithén"
 				}
 			]
 		},
@@ -1537,9 +1537,9 @@
 						"type": "internal",
 						"path": "backgrounds/AI/plaintiff-coin.webp"
 					},
-					"credit": "Kris Straub",
 					"width": 1545,
-					"height": 1000
+					"height": 1000,
+					"credit": "Kris Straub"
 				}
 			]
 		},
@@ -1556,9 +1556,9 @@
 						"type": "internal",
 						"path": "backgrounds/SatO/Planar Philosopher.webp"
 					},
-					"credit": "Robson Michel",
 					"width": 750,
-					"height": 2167
+					"height": 2167,
+					"credit": "Robson Michel"
 				}
 			]
 		},
@@ -1575,10 +1575,10 @@
 						"type": "internal",
 						"path": "backgrounds/SCC/Prismari Student.webp"
 					},
-					"title": "An advanced Prismari student artfully harnesses fire",
-					"credit": "Sean Sevestre",
 					"width": 1700,
-					"height": 1330
+					"height": 1330,
+					"title": "An advanced Prismari student artfully harnesses fire",
+					"credit": "Sean Sevestre"
 				}
 			]
 		},
@@ -1595,10 +1595,10 @@
 						"type": "internal",
 						"path": "backgrounds/SCC/Quandrix Student.webp"
 					},
-					"title": "A Quandrix student magically gazes into the intricate patterns of nature",
-					"credit": "Cristi Balanescu",
 					"width": 1700,
-					"height": 1295
+					"height": 1295,
+					"title": "A Quandrix student magically gazes into the intricate patterns of nature",
+					"credit": "Cristi Balanescu"
 				}
 			]
 		},
@@ -1652,9 +1652,9 @@
 						"type": "internal",
 						"path": "backgrounds/BMT/Rewarded.webp"
 					},
-					"credit": "Brian Valeza",
 					"width": 850,
-					"height": 2328
+					"height": 2328,
+					"credit": "Brian Valeza"
 				}
 			]
 		},
@@ -1690,9 +1690,9 @@
 						"type": "internal",
 						"path": "backgrounds/BMT/Ruined.webp"
 					},
-					"credit": "Brian Valeza",
 					"width": 850,
-					"height": 1260
+					"height": 1260,
+					"credit": "Brian Valeza"
 				}
 			]
 		},
@@ -1717,10 +1717,10 @@
 						"type": "internal",
 						"path": "backgrounds/BGG/Rune Carver.webp"
 					},
-					"title": "Orc Rune Carver",
-					"credit": "Nikki Dawes",
 					"width": 850,
-					"height": 1218
+					"height": 1218,
+					"title": "Orc Rune Carver",
+					"credit": "Nikki Dawes"
 				}
 			]
 		},
@@ -2054,10 +2054,10 @@
 						"type": "internal",
 						"path": "backgrounds/PSA/Vizier.webp"
 					},
-					"title": "Shadowstorm Vizier",
-					"credit": "Yongjae Choi",
 					"width": 1281,
-					"height": 898
+					"height": 898,
+					"title": "Shadowstorm Vizier",
+					"credit": "Yongjae Choi"
 				}
 			]
 		},
@@ -2172,9 +2172,9 @@
 						"type": "internal",
 						"path": "backgrounds/EGW/Volstrucker Agent.webp"
 					},
-					"credit": "Jessica Mahon",
 					"width": 583,
-					"height": 1000
+					"height": 1000,
+					"credit": "Jessica Mahon"
 				}
 			]
 		},
@@ -2221,10 +2221,10 @@
 						"type": "internal",
 						"path": "backgrounds/AAG/Wildspacer.webp"
 					},
-					"title": "Githyanki Wildspacer",
-					"credit": "Suzanne Helmigh",
 					"width": 401,
-					"height": 850
+					"height": 850,
+					"title": "Githyanki Wildspacer",
+					"credit": "Suzanne Helmigh"
 				}
 			]
 		},
@@ -2242,9 +2242,9 @@
 						"type": "internal",
 						"path": "backgrounds/WBtW/Witchlight Hand.webp"
 					},
-					"credit": "Andrew Mar",
 					"width": 850,
-					"height": 1109
+					"height": 1109,
+					"credit": "Andrew Mar"
 				}
 			]
 		},

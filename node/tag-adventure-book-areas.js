@@ -111,14 +111,12 @@ getCliJsonFiles(
 
 		console.log(`\tTagging "${path}"...`);
 
-		if (json.data) {
-			new AreaTagger(json).run();
-		} else {
-			(json.adventureData || [])
-				.forEach(corpus => new AreaTagger(corpus).run());
-			(json.bookData || [])
-				.forEach(corpus => new AreaTagger(corpus).run());
-		}
+		["adventureData", "bookData"]
+			.forEach(prop => {
+				const data = json[prop];
+				if (!data?.length) return;
+				data.forEach(corpus => new AreaTagger(corpus).run());
+			});
 
 		writeJsonSync(path, json, {isClean: true});
 

@@ -921,7 +921,7 @@ class ClassesPage extends MixinComponentGlobalState(MixinBaseComponent(MixinProx
 
 		const lnk = veT`<a href="#${hash}" class="ve-lst__row-border ve-lst__row-inner">
 			<span class="ve-bold ve-col-8 ve-pl-0 ve-pr-1">${cls.name}</span>
-			<span class="ve-col-4 ve-pl-0 ve-pr-1 ve-text-center ${Parser.sourceJsonToSourceClassname(cls.source)} ve-pr-0" title="${Parser.sourceJsonToFull(cls.source)}">${source}</span>
+			<span class="ve-col-4 ve-pl-0 ve-pr-1 ve-text-center ${Parser.sourceJsonToSourceClassname(cls.source)} ve-pr-0" title="${Parser.sourceJsonToFull(cls.source).qq()}">${source.qq()}</span>
 		</a>`;
 
 		const ele = veT`<li class="ve-lst__row ve-flex-col ${isExcluded ? "ve-lst__row--blocklisted" : ""}">${lnk}</li>`;
@@ -1830,8 +1830,8 @@ class ClassesPage extends MixinComponentGlobalState(MixinBaseComponent(MixinProx
 
 		if (this._state[stateKey] == null) this._state[stateKey] = false;
 
-		const dispName = veT`<div title="${ClassesPage.getBtnTitleSubclass(sc)}"></div>`;
-		const dispSource = veT`<div class="ve-ml-1" title="${Parser.sourceJsonToFull(sc.source)}">(${Parser.sourceJsonToAbv(sc.source)})</div>`;
+		const dispName = veT`<div title="${ClassesPage.getBtnTitleSubclass(sc).qq()}"></div>`;
+		const dispSource = veT`<div class="ve-ml-1" title="${Parser.sourceJsonToFull(sc.source).qq()}">(${Parser.sourceJsonToAbv(sc.source).qq()})</div>`;
 		const hkSourcesVisible = () => {
 			dispName.vee.txt(this._state.isShowScSources ? ClassesPage.getBaseShortName(sc) : sc.shortName);
 			dispSource.vee.toggle(!!this._state.isShowScSources);
@@ -2608,7 +2608,7 @@ ClassesPage.SubclassComparisonBookView = class extends BookModeViewBase {
 		const {stg, fnCleanup} = this._getSelectSubclassesMeta();
 		this._fnsCleanup.push(fnCleanup);
 
-		return veT`<div class="ve-h-100 ve-w-100 ve-flex-vh-center ve-no-shrink no-print">
+		return veT`<div class="ve-h-100 ve-w-100 ve-flex-vh-center ve-no-shrink ve-print__hidden">
 			${stg}
 		</div>`;
 	}
@@ -2775,7 +2775,7 @@ ClassesPage.ClassBookView = class extends BookModeViewBase {
 		const styleHint = VetoolsConfig.get("styleSwitcher", "style");
 
 		// Top bar
-		const pnlMenu = veT`<div class="cls-bkmv__wrp-tabs ve-flex-h-center no-print"></div>`.vee.appendTo(wrpContent);
+		const pnlMenu = veT`<div class="cls-bkmv__wrp-tabs ve-flex-h-center ve-print__hidden"></div>`.vee.appendTo(wrpContent);
 
 		// Main panel
 		const tblBook = veT`<table class="ve-w-100 ve-stats ve-stats--book ve-stats--book-large ve-stats--bkmv"></div>`;
@@ -2873,7 +2873,7 @@ ClassesPage.ClassBookView = class extends BookModeViewBase {
 				const activeClassName = UtilClassesPage.getSubclassDisplayClassButton({displayType: UtilClassesPage.getSubclassDisplayType(cls, sc)});
 				const stateKey = UrlUtil.getStateKeySubclass(sc);
 
-				const btnToggleSc = veT`<span class="cls-bkmv__btn-tab ${sc.isReprinted ? "cls__btn-sc--reprinted" : ""}" title="${ClassesPage.getBtnTitleSubclass(sc)}">${name}</span>`
+				const btnToggleSc = veT`<span class="cls-bkmv__btn-tab ${sc.isReprinted ? "cls__btn-sc--reprinted" : ""}" title="${ClassesPage.getBtnTitleSubclass(sc).qq()}">${name.qq()}</span>`
 					.vee.onn("click", () => this._parent.set(stateKey, !this._parent.get(stateKey)));
 				const isVisible = this._pageFilter.isSubclassVisible(filterValues, cls, sc);
 				if (!isVisible) btnToggleSc.vee.hide();

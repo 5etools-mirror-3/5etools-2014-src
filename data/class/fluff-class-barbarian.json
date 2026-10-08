@@ -10,8 +10,10 @@
 			"source": "PHB",
 			"entries": [
 				{
-					"name": "Barbarian",
 					"type": "section",
+					"name": "Barbarian",
+					"source": "PHB",
+					"page": 46,
 					"entries": [
 						"A tall human tribesman strides through a blizzard, draped in fur and hefting his axe. He laughs as he charges toward the frost giant who dared poach his people's elk herd.",
 						"A half-orc snarls at the latest challenger to her authority over their savage tribe, ready to break his neck with her bare hands as she did to the last six rivals.",
@@ -49,12 +51,12 @@
 								}
 							]
 						}
-					],
-					"source": "PHB",
-					"page": 46
+					]
 				},
 				{
 					"type": "section",
+					"source": "XGE",
+					"page": 8,
 					"entries": [
 						{
 							"type": "quote",
@@ -303,9 +305,7 @@
 								}
 							]
 						}
-					],
-					"source": "XGE",
-					"page": 8
+					]
 				}
 			],
 			"images": [

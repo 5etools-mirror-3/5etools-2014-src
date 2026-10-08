@@ -1519,13 +1519,13 @@
 					"entries": [
 						{
 							"type": "refOptionalfeature",
-							"optionalfeature": "Breath of Winter",
-							"name": "Breath of Winter (17th Level Required)"
+							"name": "Breath of Winter (17th Level Required)",
+							"optionalfeature": "Breath of Winter"
 						},
 						{
 							"type": "refOptionalfeature",
-							"optionalfeature": "Clench of the North Wind",
-							"name": "Clench of the North Wind (6th Level Required)"
+							"name": "Clench of the North Wind (6th Level Required)",
+							"optionalfeature": "Clench of the North Wind"
 						},
 						{
 							"type": "refOptionalfeature",
@@ -1536,8 +1536,8 @@
 						},
 						{
 							"type": "refOptionalfeature",
-							"optionalfeature": "Eternal Mountain Defense",
-							"name": "Eternal Mountain Defense (17th Level Required)"
+							"name": "Eternal Mountain Defense (17th Level Required)",
+							"optionalfeature": "Eternal Mountain Defense"
 						},
 						{
 							"type": "refOptionalfeature",
@@ -1553,28 +1553,28 @@
 						},
 						{
 							"type": "refOptionalfeature",
-							"optionalfeature": "Flames of the Phoenix",
-							"name": "Flames of the Phoenix (11th Level Required)"
+							"name": "Flames of the Phoenix (11th Level Required)",
+							"optionalfeature": "Flames of the Phoenix"
 						},
 						{
 							"type": "refOptionalfeature",
-							"optionalfeature": "Gong of the Summit",
-							"name": "Gong of the Summit (6th Level Required)"
+							"name": "Gong of the Summit (6th Level Required)",
+							"optionalfeature": "Gong of the Summit"
 						},
 						{
 							"type": "refOptionalfeature",
-							"optionalfeature": "Mist Stance",
-							"name": "Mist Stance (11th Level Required)"
+							"name": "Mist Stance (11th Level Required)",
+							"optionalfeature": "Mist Stance"
 						},
 						{
 							"type": "refOptionalfeature",
-							"optionalfeature": "Ride the Wind",
-							"name": "Ride the Wind (11th Level Required)"
+							"name": "Ride the Wind (11th Level Required)",
+							"optionalfeature": "Ride the Wind"
 						},
 						{
 							"type": "refOptionalfeature",
-							"optionalfeature": "River of Hungry Flame",
-							"name": "River of Hungry Flame (17th Level Required)"
+							"name": "River of Hungry Flame (17th Level Required)",
+							"optionalfeature": "River of Hungry Flame"
 						},
 						{
 							"type": "refOptionalfeature",
@@ -1594,8 +1594,8 @@
 						},
 						{
 							"type": "refOptionalfeature",
-							"optionalfeature": "Wave of Rolling Earth",
-							"name": "Wave of Rolling Earth (17th Level Required)"
+							"name": "Wave of Rolling Earth (17th Level Required)",
+							"optionalfeature": "Wave of Rolling Earth"
 						}
 					]
 				}

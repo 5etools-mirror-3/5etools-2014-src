@@ -39,9 +39,9 @@
 						"type": "internal",
 						"path": "items/BGG/Adze of Annam.webp"
 					},
-					"credit": "Isabel Gibney",
 					"width": 817,
-					"height": 1000
+					"height": 1000,
+					"credit": "Isabel Gibney"
 				}
 			]
 		},
@@ -55,9 +55,9 @@
 						"type": "internal",
 						"path": "items/MOT/Akmon, Hammer of Purphoros.webp"
 					},
-					"credit": "Yeong-Hao Han",
 					"width": 1000,
-					"height": 949
+					"height": 949,
+					"credit": "Yeong-Hao Han"
 				}
 			]
 		},
@@ -116,9 +116,9 @@
 						"type": "internal",
 						"path": "items/EGW/Amulet of the Drunkard.webp"
 					},
-					"credit": "Olga Drebas",
 					"width": 475,
-					"height": 1000
+					"height": 1000,
+					"credit": "Olga Drebas"
 				}
 			]
 		},
@@ -132,9 +132,9 @@
 						"type": "internal",
 						"path": "items/CoA/Amulet of the Inferno.webp"
 					},
-					"credit": "Aaron Sims",
 					"width": 706,
-					"height": 399
+					"height": 399,
+					"credit": "Aaron Sims"
 				}
 			]
 		},
@@ -186,9 +186,9 @@
 						"type": "internal",
 						"path": "items/DMG/Apparatus of Kwalish.webp"
 					},
-					"credit": "Aaron Hübrich",
 					"width": 1000,
-					"height": 631
+					"height": 631,
+					"credit": "Aaron Hübrich"
 				}
 			]
 		},
@@ -217,10 +217,10 @@
 						"type": "internal",
 						"path": "items/DMG/Armor of Cold Resistance.webp"
 					},
-					"title": "Armor of resistance (Leather Armor), Armor of invulnerability (Plate Armor)",
-					"credit": "Conceptopolis",
 					"width": 850,
-					"height": 1165
+					"height": 1165,
+					"title": "Armor of resistance (Leather Armor), Armor of invulnerability (Plate Armor)",
+					"credit": "Conceptopolis"
 				}
 			]
 		},
@@ -309,9 +309,9 @@
 						"type": "internal",
 						"path": "items/TCE/Atlas of Endless Horizons.webp"
 					},
-					"credit": "Andrew Mar",
 					"width": 852,
-					"height": 1000
+					"height": 1000,
+					"credit": "Andrew Mar"
 				}
 			]
 		},
@@ -355,9 +355,9 @@
 						"type": "internal",
 						"path": "items/GGR/Azorius Guild Signet.webp"
 					},
-					"credit": "Raoul Vitale",
 					"width": 640,
-					"height": 462
+					"height": 462,
+					"credit": "Raoul Vitale"
 				}
 			]
 		},
@@ -371,9 +371,9 @@
 						"type": "internal",
 						"path": "items/GGR/Azorius Keyrune.webp"
 					},
-					"credit": "Daniel Ljunggren",
 					"width": 620,
-					"height": 453
+					"height": 453,
+					"credit": "Daniel Ljunggren"
 				}
 			]
 		},
@@ -387,9 +387,9 @@
 						"type": "internal",
 						"path": "items/TCE/Baba Yaga's Mortar and Pestle.webp"
 					},
-					"credit": "Irina Nordsol",
 					"width": 800,
-					"height": 1045
+					"height": 1045,
+					"credit": "Irina Nordsol"
 				}
 			]
 		},
@@ -463,9 +463,9 @@
 						"type": "internal",
 						"path": "items/DMG/Bag of Tricks.webp"
 					},
-					"credit": "Conceptopolis",
 					"width": 315,
-					"height": 315
+					"height": 315,
+					"credit": "Conceptopolis"
 				}
 			]
 		},
@@ -479,9 +479,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/03-balance.webp"
 					},
-					"credit": "Francesca Resta",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Francesca Resta"
 				}
 			]
 		},
@@ -570,9 +570,9 @@
 						"type": "internal",
 						"path": "items/DMG/Berserker Axe.webp"
 					},
-					"title": "Berserker axe (Battleaxe)",
 					"width": 541,
-					"height": 900
+					"height": 900,
+					"title": "Berserker axe (Battleaxe)"
 				}
 			]
 		},
@@ -586,9 +586,9 @@
 						"type": "internal",
 						"path": "items/BGG/Bigbys Beneficent Bracelet.webp"
 					},
-					"credit": "Isabel Gibney",
 					"width": 680,
-					"height": 1000
+					"height": 1000,
+					"credit": "Isabel Gibney"
 				}
 			]
 		},
@@ -647,9 +647,9 @@
 						"type": "internal",
 						"path": "items/DMG/Book of Vile Darkness.webp"
 					},
-					"credit": "Conceptopolis",
 					"width": 760,
-					"height": 1000
+					"height": 1000,
+					"credit": "Conceptopolis"
 				}
 			]
 		},
@@ -671,9 +671,9 @@
 						"type": "internal",
 						"path": "items/DMG/Boots of Elvenkind.webp"
 					},
-					"credit": "Conceptopolis",
 					"width": 850,
-					"height": 645
+					"height": 645,
+					"credit": "Conceptopolis"
 				}
 			]
 		},
@@ -732,9 +732,9 @@
 						"type": "internal",
 						"path": "items/GGR/Boros Guild Signet.webp"
 					},
-					"credit": "Mike Sass",
 					"width": 640,
-					"height": 468
+					"height": 468,
+					"credit": "Mike Sass"
 				}
 			]
 		},
@@ -748,9 +748,9 @@
 						"type": "internal",
 						"path": "items/GGR/Boros Keyrune.webp"
 					},
-					"credit": "Daniel Ljunggren",
 					"width": 640,
-					"height": 468
+					"height": 468,
+					"credit": "Daniel Ljunggren"
 				}
 			]
 		},
@@ -869,9 +869,9 @@
 						"type": "internal",
 						"path": "items/EGW/Butcher's Bib.webp"
 					},
-					"credit": "Olga Drebas",
 					"width": 520,
-					"height": 1000
+					"height": 1000,
+					"credit": "Olga Drebas"
 				}
 			]
 		},
@@ -915,9 +915,9 @@
 						"type": "internal",
 						"path": "items/AI/cartographers-map-case.webp"
 					},
-					"credit": "Chris Walton",
 					"width": 1164,
-					"height": 1000
+					"height": 1000,
+					"credit": "Chris Walton"
 				}
 			]
 		},
@@ -931,9 +931,9 @@
 						"type": "internal",
 						"path": "items/TCE/Cauldron of Rebirth.webp"
 					},
-					"credit": "Zuzanna Wužyk",
 					"width": 677,
-					"height": 1000
+					"height": 1000,
+					"credit": "Zuzanna Wužyk"
 				}
 			]
 		},
@@ -962,9 +962,9 @@
 						"type": "internal",
 						"path": "items/VEoR/Chime of Exile.webp"
 					},
-					"credit": "Irina Nordsol",
 					"width": 507,
-					"height": 1000
+					"height": 1000,
+					"credit": "Irina Nordsol"
 				}
 			]
 		},
@@ -1053,9 +1053,9 @@
 						"type": "internal",
 						"path": "items/XGE/Cloak of Many Fashions.webp"
 					},
-					"credit": "Brian Valeza",
 					"width": 850,
-					"height": 1151
+					"height": 1151,
+					"credit": "Brian Valeza"
 				}
 			]
 		},
@@ -1099,9 +1099,9 @@
 						"type": "internal",
 						"path": "items/AI/coin-of-decisionry.webp"
 					},
-					"credit": "Chris Walton",
 					"width": 1218,
-					"height": 1000
+					"height": 1000,
+					"credit": "Chris Walton"
 				}
 			]
 		},
@@ -1115,9 +1115,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/12-comet.webp"
 					},
-					"credit": "Vallez Gax",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Vallez Gax"
 				}
 			]
 		},
@@ -1154,9 +1154,9 @@
 						"type": "internal",
 						"path": "items/KftGV/Constantoris Portrait.webp"
 					},
-					"credit": "Nikki Dawes",
 					"width": 788,
-					"height": 1000
+					"height": 1000,
+					"credit": "Nikki Dawes"
 				}
 			]
 		},
@@ -1185,9 +1185,9 @@
 						"type": "internal",
 						"path": "items/TCE/Crook of Rao.webp"
 					},
-					"credit": "Robson Michel",
 					"width": 582,
-					"height": 1000
+					"height": 1000,
+					"credit": "Robson Michel"
 				}
 			]
 		},
@@ -1201,9 +1201,9 @@
 						"type": "internal",
 						"path": "items/VEoR/Crown of Lies.webp"
 					},
-					"credit": "Lauren Walsh",
 					"width": 1000,
-					"height": 919
+					"height": 919,
+					"credit": "Lauren Walsh"
 				}
 			]
 		},
@@ -1232,9 +1232,9 @@
 						"type": "internal",
 						"path": "items/TCE/Crystalline Chronicle.webp"
 					},
-					"credit": "Irina Nordsol",
 					"width": 765,
-					"height": 1000
+					"height": 1000,
+					"credit": "Irina Nordsol"
 				}
 			]
 		},
@@ -1308,9 +1308,9 @@
 						"type": "internal",
 						"path": "items/DMG/Dancing Sword.webp"
 					},
-					"title": "Dancing Sword (Longsword)",
 					"width": 850,
-					"height": 444
+					"height": 444,
+					"title": "Dancing Sword (Longsword)"
 				}
 			]
 		},
@@ -1324,9 +1324,9 @@
 						"type": "internal",
 						"path": "items/EGW/Danoth's Visor.webp"
 					},
-					"credit": "Irina Nordsol",
 					"width": 1000,
-					"height": 318
+					"height": 318,
+					"credit": "Irina Nordsol"
 				}
 			]
 		},
@@ -1469,9 +1469,9 @@
 						"type": "internal",
 						"path": "items/DMG/Defender.webp"
 					},
-					"title": "Defender (Greatsword)",
 					"width": 297,
-					"height": 1000
+					"height": 1000,
+					"title": "Defender (Greatsword)"
 				}
 			]
 		},
@@ -1485,9 +1485,9 @@
 						"type": "internal",
 						"path": "items/MOT/Dekella, Bident of Thassa.webp"
 					},
-					"credit": "Yeong-Hao Han",
 					"width": 1000,
-					"height": 738
+					"height": 738,
+					"credit": "Yeong-Hao Han"
 				}
 			]
 		},
@@ -1501,9 +1501,9 @@
 						"type": "internal",
 						"path": "items/DMG/Demon Armor.webp"
 					},
-					"title": "Demon Armor (Plate Armor)",
 					"width": 458,
-					"height": 1000
+					"height": 1000,
+					"title": "Demon Armor (Plate Armor)"
 				}
 			]
 		},
@@ -1532,9 +1532,9 @@
 						"type": "internal",
 						"path": "items/TCE/Demonomicon of Iggwilv.webp"
 					},
-					"credit": "David Sladek",
 					"width": 831,
-					"height": 1000
+					"height": 1000,
+					"credit": "David Sladek"
 				}
 			]
 		},
@@ -1548,9 +1548,9 @@
 						"type": "internal",
 						"path": "items/TCE/Devotee's Censer.webp"
 					},
-					"credit": "Irina Nordsol",
 					"width": 792,
-					"height": 1000
+					"height": 1000,
+					"credit": "Irina Nordsol"
 				}
 			]
 		},
@@ -1579,9 +1579,9 @@
 						"type": "internal",
 						"path": "items/GGR/Dimir Guild Signet.webp"
 					},
-					"credit": "Raoul Vitale",
 					"width": 640,
-					"height": 458
+					"height": 458,
+					"credit": "Raoul Vitale"
 				}
 			]
 		},
@@ -1595,9 +1595,9 @@
 						"type": "internal",
 						"path": "items/GGR/Dimir Keyrune.webp"
 					},
-					"credit": "Daniel Ljunggren",
 					"width": 640,
-					"height": 468
+					"height": 468,
+					"credit": "Daniel Ljunggren"
 				}
 			]
 		},
@@ -1611,10 +1611,10 @@
 						"type": "internal",
 						"path": "adventure/VEoR/070-04-004.docent.webp"
 					},
-					"title": "A Docent",
-					"credit": "CoupleofKooks",
 					"width": 850,
-					"height": 1338
+					"height": 1338,
+					"title": "A Docent",
+					"credit": "CoupleofKooks"
 				}
 			]
 		},
@@ -1628,9 +1628,9 @@
 						"type": "internal",
 						"path": "items/AI/documancy-satchel.webp"
 					},
-					"credit": "Chris Walton",
 					"width": 934,
-					"height": 1000
+					"height": 1000,
+					"credit": "Chris Walton"
 				}
 			]
 		},
@@ -1644,9 +1644,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/17-donjon.webp"
 					},
-					"credit": "Jim Zaccaria",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Jim Zaccaria"
 				}
 			]
 		},
@@ -1707,9 +1707,9 @@
 						"type": "internal",
 						"path": "items/DMG/Dragon Slayer.webp"
 					},
-					"title": "Dragon Slayer (Greatsword)",
 					"width": 751,
-					"height": 1000
+					"height": 1000,
+					"title": "Dragon Slayer (Greatsword)"
 				}
 			]
 		},
@@ -1723,10 +1723,10 @@
 						"type": "internal",
 						"path": "items/FTD/Dragonlance.webp"
 					},
-					"title": "By Paladine's might, a dragonlance is restored",
-					"credit": "Irina Nordsol",
 					"width": 1700,
-					"height": 1123
+					"height": 1123,
+					"title": "By Paladine's might, a dragonlance is restored",
+					"credit": "Irina Nordsol"
 				}
 			]
 		},
@@ -1770,9 +1770,9 @@
 						"type": "internal",
 						"path": "items/XGE/Dread Helm.webp"
 					},
-					"credit": "Daarken",
 					"width": 850,
-					"height": 1254
+					"height": 1254,
+					"credit": "Daarken"
 				}
 			]
 		},
@@ -1816,9 +1816,9 @@
 						"type": "internal",
 						"path": "items/EGW/Duskcrusher.webp"
 					},
-					"credit": "Olga Drebas",
 					"width": 582,
-					"height": 1000
+					"height": 1000,
+					"credit": "Olga Drebas"
 				}
 			]
 		},
@@ -1892,9 +1892,9 @@
 						"type": "internal",
 						"path": "items/CRCotN/Earring of Message.webp"
 					},
-					"credit": "CoupleOfKooks",
 					"width": 608,
-					"height": 850
+					"height": 850,
+					"credit": "CoupleOfKooks"
 				}
 			]
 		},
@@ -1983,9 +1983,9 @@
 						"type": "internal",
 						"path": "items/MOT/Ephixis, Bow of Nylea.webp"
 					},
-					"credit": "Yeong-Hao Han",
 					"width": 1000,
-					"height": 1058
+					"height": 1058,
+					"credit": "Yeong-Hao Han"
 				}
 			]
 		},
@@ -1999,9 +1999,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/22-euryale.webp"
 					},
-					"credit": "Tinnel Lovitt",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Tinnel Lovitt"
 				}
 			]
 		},
@@ -2098,9 +2098,9 @@
 						"type": "internal",
 						"path": "items/TCE/Far Realm Shard.webp"
 					},
-					"credit": "Christopher Burdett",
 					"width": 547,
-					"height": 926
+					"height": 926,
+					"credit": "Christopher Burdett"
 				}
 			]
 		},
@@ -2114,9 +2114,9 @@
 						"type": "internal",
 						"path": "items/DSotDQ/Fargab.webp"
 					},
-					"credit": "Kent Davis",
 					"width": 850,
-					"height": 986
+					"height": 986,
+					"credit": "Kent Davis"
 				}
 			]
 		},
@@ -2145,9 +2145,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/08-fates.webp"
 					},
-					"credit": "Tinnel Lovitt",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Tinnel Lovitt"
 				}
 			]
 		},
@@ -2161,9 +2161,9 @@
 						"type": "internal",
 						"path": "items/TCE/Feywild Shard.webp"
 					},
-					"credit": "Christopher Burdett",
 					"width": 507,
-					"height": 955
+					"height": 955,
+					"credit": "Christopher Burdett"
 				}
 			]
 		},
@@ -2177,9 +2177,9 @@
 						"type": "internal",
 						"path": "items/WBtW/Feywild Trinket.webp"
 					},
-					"credit": "Claudio Pozas",
 					"width": 850,
-					"height": 1085
+					"height": 1085,
+					"credit": "Claudio Pozas"
 				}
 			]
 		},
@@ -2193,9 +2193,9 @@
 						"type": "internal",
 						"path": "items/DMG/Figurine of Wondrous Power.webp"
 					},
-					"credit": "Conceptopolis",
 					"width": 1700,
-					"height": 904
+					"height": 904,
+					"credit": "Conceptopolis"
 				}
 			]
 		},
@@ -2299,9 +2299,9 @@
 						"type": "internal",
 						"path": "items/AAG/Fish Suit.webp"
 					},
-					"credit": "Olga Drebas",
 					"width": 850,
-					"height": 924
+					"height": 924,
+					"credit": "Olga Drebas"
 				}
 			]
 		},
@@ -2315,9 +2315,9 @@
 						"type": "internal",
 						"path": "items/DMG/Flame Tongue.webp"
 					},
-					"title": "Flame Tongue (Longsword)",
 					"width": 692,
-					"height": 1000
+					"height": 1000,
+					"title": "Flame Tongue (Longsword)"
 				}
 			]
 		},
@@ -2331,9 +2331,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/20-flames.webp"
 					},
-					"credit": "Harry Conway",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Harry Conway"
 				}
 			]
 		},
@@ -2347,9 +2347,9 @@
 						"type": "internal",
 						"path": "items/MOT/Flying Chariot.webp"
 					},
-					"credit": "Ryan Alexander Lee",
 					"width": 1500,
-					"height": 1098
+					"height": 1098,
+					"credit": "Ryan Alexander Lee"
 				}
 			]
 		},
@@ -2378,9 +2378,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/01-fool.webp"
 					},
-					"credit": "Harry Conway",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Harry Conway"
 				}
 			]
 		},
@@ -2394,9 +2394,9 @@
 						"type": "internal",
 						"path": "items/DMG/Frost Brand.webp"
 					},
-					"title": "Frost Brand (Scimitar)",
 					"width": 541,
-					"height": 1000
+					"height": 1000,
+					"title": "Frost Brand (Scimitar)"
 				}
 			]
 		},
@@ -2410,9 +2410,9 @@
 						"type": "internal",
 						"path": "items/TCE/Fulminating Treatise.webp"
 					},
-					"credit": "Kieran Yanner",
 					"width": 898,
-					"height": 1000
+					"height": 1000,
+					"credit": "Kieran Yanner"
 				}
 			]
 		},
@@ -2426,9 +2426,9 @@
 						"type": "internal",
 						"path": "items/DMG/Gauntlets of Ogre Power.webp"
 					},
-					"credit": "Conceptopolis",
 					"width": 850,
-					"height": 742
+					"height": 742,
+					"credit": "Conceptopolis"
 				}
 			]
 		},
@@ -2442,9 +2442,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/05-gem.webp"
 					},
-					"credit": "Tinnel Lovitt",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Tinnel Lovitt"
 				}
 			]
 		},
@@ -2563,9 +2563,9 @@
 						"type": "internal",
 						"path": "items/GGR/Golgari Guild Signet.webp"
 					},
-					"credit": "Greg Hildebrandt",
 					"width": 640,
-					"height": 461
+					"height": 461,
+					"credit": "Greg Hildebrandt"
 				}
 			]
 		},
@@ -2579,9 +2579,9 @@
 						"type": "internal",
 						"path": "items/GGR/Golgari Keyrune.webp"
 					},
-					"credit": "Daniel Ljunggren",
 					"width": 315,
-					"height": 230
+					"height": 230,
+					"credit": "Daniel Ljunggren"
 				}
 			]
 		},
@@ -2610,9 +2610,9 @@
 						"type": "internal",
 						"path": "items/EGW/Grimoire Infinitus.webp"
 					},
-					"credit": "Irina Nordsol",
 					"width": 1000,
-					"height": 948
+					"height": 948,
+					"credit": "Irina Nordsol"
 				}
 			]
 		},
@@ -2650,9 +2650,9 @@
 						"type": "internal",
 						"path": "items/EGW/Grovelthrash.webp"
 					},
-					"credit": "Irina Nordsol",
 					"width": 475,
-					"height": 997
+					"height": 997,
+					"credit": "Irina Nordsol"
 				}
 			]
 		},
@@ -2690,9 +2690,9 @@
 						"type": "internal",
 						"path": "items/GGR/Gruul Guild Signet.webp"
 					},
-					"credit": "Efrem Palacios",
 					"width": 640,
-					"height": 498
+					"height": 498,
+					"credit": "Efrem Palacios"
 				}
 			]
 		},
@@ -2706,9 +2706,9 @@
 						"type": "internal",
 						"path": "items/GGR/Gruul Keyrune.webp"
 					},
-					"credit": "Daniel Ljunggren",
 					"width": 640,
-					"height": 468
+					"height": 468,
+					"credit": "Daniel Ljunggren"
 				}
 			]
 		},
@@ -2767,9 +2767,9 @@
 						"type": "internal",
 						"path": "items/JttRC/Hammock of Worlds.webp"
 					},
-					"credit": "Olga Drebas",
 					"width": 896,
-					"height": 1000
+					"height": 1000,
+					"credit": "Olga Drebas"
 				}
 			]
 		},
@@ -2896,9 +2896,9 @@
 						"type": "internal",
 						"path": "items/BGG/Helm of Perfect Potential.webp"
 					},
-					"credit": "Isabel Gibney",
 					"width": 680,
-					"height": 1000
+					"height": 1000,
+					"credit": "Isabel Gibney"
 				}
 			]
 		},
@@ -2972,9 +2972,9 @@
 						"type": "internal",
 						"path": "items/DMG/Holy Avenger.webp"
 					},
-					"title": "Holy Avenger (Greatsword)",
 					"width": 624,
-					"height": 1000
+					"height": 1000,
+					"title": "Holy Avenger (Greatsword)"
 				}
 			]
 		},
@@ -3003,9 +3003,9 @@
 						"type": "internal",
 						"path": "items/DSotDQ/Hoopak.webp"
 					},
-					"credit": "Crystal Sully",
 					"width": 850,
-					"height": 1164
+					"height": 1164,
+					"credit": "Crystal Sully"
 				}
 			]
 		},
@@ -3094,9 +3094,9 @@
 						"type": "internal",
 						"path": "items/WBtW/Iggwilvs Cauldron.webp"
 					},
-					"credit": "Olga Drebas",
 					"width": 850,
-					"height": 1053
+					"height": 1053,
+					"credit": "Olga Drebas"
 				},
 				{
 					"type": "image",
@@ -3104,9 +3104,9 @@
 						"type": "internal",
 						"path": "items/WBtW/Iggwilvs Cauldron (Iron).webp"
 					},
-					"credit": "Olga Drebas",
 					"width": 850,
-					"height": 1053
+					"height": 1053,
+					"credit": "Olga Drebas"
 				}
 			]
 		},
@@ -3135,9 +3135,9 @@
 						"type": "internal",
 						"path": "items/GGR/Illusionist's Bracers.webp"
 					},
-					"credit": "Svetlin Velinov",
 					"width": 620,
-					"height": 400
+					"height": 400,
+					"credit": "Svetlin Velinov"
 				}
 			]
 		},
@@ -3166,9 +3166,9 @@
 						"type": "internal",
 						"path": "items/EGW/Infiltrator's Key.webp"
 					},
-					"credit": "Irina Nordsol",
 					"width": 885,
-					"height": 834
+					"height": 834,
+					"credit": "Irina Nordsol"
 				}
 			]
 		},
@@ -3221,9 +3221,9 @@
 						"type": "internal",
 						"path": "items/DMG/Instrument of the Bards, Canaith Mandolin.webp"
 					},
-					"credit": "Conceptopolis",
 					"width": 474,
-					"height": 1000
+					"height": 1000,
+					"credit": "Conceptopolis"
 				}
 			]
 		},
@@ -3484,9 +3484,9 @@
 						"type": "internal",
 						"path": "items/GGR/Izzet Guild Signet.webp"
 					},
-					"credit": "Raoul Vitale",
 					"width": 640,
-					"height": 461
+					"height": 461,
+					"credit": "Raoul Vitale"
 				}
 			]
 		},
@@ -3500,9 +3500,9 @@
 						"type": "internal",
 						"path": "items/GGR/Izzet Keyrune.webp"
 					},
-					"credit": "Daniel Ljunggren",
 					"width": 620,
-					"height": 453
+					"height": 453,
+					"credit": "Daniel Ljunggren"
 				}
 			]
 		},
@@ -3531,9 +3531,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/14-jester.webp"
 					},
-					"credit": "Harry Conway",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Harry Conway"
 				}
 			]
 		},
@@ -3562,9 +3562,9 @@
 						"type": "internal",
 						"path": "items/CRCotN/Jewel of Three Prayers.webp"
 					},
-					"credit": "CoupleOfKooks",
 					"width": 1750,
-					"height": 1110
+					"height": 1110,
+					"credit": "CoupleOfKooks"
 				}
 			]
 		},
@@ -3602,9 +3602,9 @@
 						"type": "internal",
 						"path": "items/DSotDQ/Kagonesti Forest Shroud.webp"
 					},
-					"credit": "Caio E Santos",
 					"width": 850,
-					"height": 1020
+					"height": 1020,
+					"credit": "Caio E Santos"
 				}
 			]
 		},
@@ -3633,9 +3633,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/02-key.webp"
 					},
-					"credit": "Tinnel Lovitt",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Tinnel Lovitt"
 				}
 			]
 		},
@@ -3649,9 +3649,9 @@
 						"type": "internal",
 						"path": "items/MOT/Khrusor, Spear of Heliod.webp"
 					},
-					"credit": "Yeong-Hao Han",
 					"width": 1000,
-					"height": 800
+					"height": 800,
+					"credit": "Yeong-Hao Han"
 				}
 			]
 		},
@@ -3665,9 +3665,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/09-knight.webp"
 					},
-					"credit": "Vallez Gax",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Vallez Gax"
 				}
 			]
 		},
@@ -3696,9 +3696,9 @@
 						"type": "internal",
 						"path": "items/EGW/Lash of Shadows.webp"
 					},
-					"credit": "Irina Nordsol",
 					"width": 779,
-					"height": 869
+					"height": 869,
+					"credit": "Irina Nordsol"
 				}
 			]
 		},
@@ -3744,9 +3744,9 @@
 						"type": "internal",
 						"path": "items/AI/living-loot-satchel.webp"
 					},
-					"credit": "Chris Walton",
 					"width": 904,
-					"height": 1000
+					"height": 1000,
+					"credit": "Chris Walton"
 				}
 			]
 		},
@@ -3775,9 +3775,9 @@
 						"type": "internal",
 						"path": "items/TCE/Luba's Tarokka of Souls.webp"
 					},
-					"credit": "Claudio Pozas",
 					"width": 955,
-					"height": 1000
+					"height": 1000,
+					"credit": "Claudio Pozas"
 				}
 			]
 		},
@@ -3791,9 +3791,9 @@
 						"type": "internal",
 						"path": "items/DMG/Luck Blade.webp"
 					},
-					"title": "Luck Blade (Shortsword)",
 					"width": 767,
-					"height": 1000
+					"height": 1000,
+					"title": "Luck Blade (Shortsword)"
 				}
 			]
 		},
@@ -3822,9 +3822,9 @@
 						"type": "internal",
 						"path": "items/EGW/Luxon Beacon.webp"
 					},
-					"credit": "Olga Drebas",
 					"width": 1000,
-					"height": 803
+					"height": 803,
+					"credit": "Olga Drebas"
 				}
 			]
 		},
@@ -3883,9 +3883,9 @@
 						"type": "internal",
 						"path": "items/EGW/Mace of the Black Crown.webp"
 					},
-					"credit": "Irina Nordsol",
 					"width": 230,
-					"height": 1000
+					"height": 1000,
+					"credit": "Irina Nordsol"
 				}
 			]
 		},
@@ -4073,9 +4073,9 @@
 						"type": "internal",
 						"path": "items/MOT/Mastix, Whip of Erebos.webp"
 					},
-					"credit": "Yeong-Hao Han",
 					"width": 1000,
-					"height": 1000
+					"height": 1000,
+					"credit": "Yeong-Hao Han"
 				}
 			]
 		},
@@ -4104,9 +4104,9 @@
 						"type": "internal",
 						"path": "items/CRCotN/Medal of the Maze.webp"
 					},
-					"credit": "CoupleOfKooks",
 					"width": 695,
-					"height": 850
+					"height": 850,
+					"credit": "CoupleOfKooks"
 				}
 			]
 		},
@@ -4135,9 +4135,9 @@
 						"type": "internal",
 						"path": "items/TCE/Mighty Servant of Leuk-o.webp"
 					},
-					"credit": "David Sladek",
 					"width": 915,
-					"height": 1000
+					"height": 1000,
+					"credit": "David Sladek"
 				}
 			]
 		},
@@ -4151,9 +4151,9 @@
 						"type": "internal",
 						"path": "items/SatO/Mimir.webp"
 					},
-					"credit": "CoupleOfKooks",
 					"width": 772,
-					"height": 1000
+					"height": 1000,
+					"credit": "CoupleOfKooks"
 				}
 			]
 		},
@@ -4268,9 +4268,9 @@
 						"type": "internal",
 						"path": "items/GGR/Mizzium Apparatus.webp"
 					},
-					"credit": "Terese Nielsen",
 					"width": 315,
-					"height": 223
+					"height": 223,
+					"credit": "Terese Nielsen"
 				}
 			]
 		},
@@ -4284,9 +4284,9 @@
 						"type": "internal",
 						"path": "items/GGR/Moodmark Paint.webp"
 					},
-					"credit": "Scott Murphy",
 					"width": 315,
-					"height": 230
+					"height": 230,
+					"credit": "Scott Murphy"
 				}
 			]
 		},
@@ -4300,9 +4300,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/11-moon.webp"
 					},
-					"credit": "Vallez Gax",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Vallez Gax"
 				}
 			]
 		},
@@ -4316,9 +4316,9 @@
 						"type": "internal",
 						"path": "items/DMG/Moonblade.webp"
 					},
-					"title": "Moonblade (Longsword)",
 					"width": 1000,
-					"height": 517
+					"height": 517,
+					"title": "Moonblade (Longsword)"
 				}
 			]
 		},
@@ -4347,9 +4347,9 @@
 						"type": "internal",
 						"path": "items/DSotDQ/Narycrash.webp"
 					},
-					"credit": "Kent Davis",
 					"width": 850,
-					"height": 936
+					"height": 936,
+					"credit": "Kent Davis"
 				}
 			]
 		},
@@ -4363,9 +4363,9 @@
 						"type": "internal",
 						"path": "items/TCE/Nature's Mantle.webp"
 					},
-					"credit": "Brian Valeza",
 					"width": 698,
-					"height": 1000
+					"height": 1000,
+					"credit": "Brian Valeza"
 				}
 			]
 		},
@@ -4447,9 +4447,9 @@
 						"type": "internal",
 						"path": "items/DMG/Nine Lives Stealer.webp"
 					},
-					"title": "Nine Lives Stealer (Greatsword)",
 					"width": 1700,
-					"height": 394
+					"height": 394,
+					"title": "Nine Lives Stealer (Greatsword)"
 				}
 			]
 		},
@@ -4493,9 +4493,9 @@
 						"type": "internal",
 						"path": "items/AI/occultant-abacus.webp"
 					},
-					"credit": "Chris Walton",
 					"width": 858,
-					"height": 1000
+					"height": 1000,
+					"credit": "Chris Walton"
 				}
 			]
 		},
@@ -4509,9 +4509,9 @@
 						"type": "internal",
 						"path": "items/XGE/Orb of Direction.webp"
 					},
-					"credit": "Irina Nordsol",
 					"width": 850,
-					"height": 1081
+					"height": 1081,
+					"credit": "Irina Nordsol"
 				}
 			]
 		},
@@ -4540,9 +4540,9 @@
 						"type": "internal",
 						"path": "items/CM/Orcus Figurine.webp"
 					},
-					"credit": "Christopher Burdett",
 					"width": 850,
-					"height": 1544
+					"height": 1544,
+					"credit": "Christopher Burdett"
 				}
 			]
 		},
@@ -4556,9 +4556,9 @@
 						"type": "internal",
 						"path": "items/WBtW/Ornithopter of Flying.webp"
 					},
-					"credit": "Matt Stewart",
 					"width": 850,
-					"height": 1133
+					"height": 1133,
+					"credit": "Matt Stewart"
 				}
 			]
 		},
@@ -4572,9 +4572,9 @@
 						"type": "internal",
 						"path": "items/AI/Orrery of the Wanderer.webp"
 					},
-					"credit": "Nicholas Kay",
 					"width": 792,
-					"height": 1000
+					"height": 1000,
+					"credit": "Nicholas Kay"
 				}
 			]
 		},
@@ -4588,9 +4588,9 @@
 						"type": "internal",
 						"path": "items/GGR/Orzhov Guild Signet.webp"
 					},
-					"credit": "Martina Pilcerova",
 					"width": 640,
-					"height": 461
+					"height": 461,
+					"credit": "Martina Pilcerova"
 				}
 			]
 		},
@@ -4604,9 +4604,9 @@
 						"type": "internal",
 						"path": "items/GGR/Orzhov Keyrune.webp"
 					},
-					"credit": "Daniel Ljunggren",
 					"width": 600,
-					"height": 439
+					"height": 439,
+					"credit": "Daniel Ljunggren"
 				}
 			]
 		},
@@ -4643,9 +4643,9 @@
 						"type": "internal",
 						"path": "items/GGR/Pariah's Shield.webp"
 					},
-					"credit": "Doug Chaffee",
 					"width": 417,
-					"height": 305
+					"height": 305,
+					"credit": "Doug Chaffee"
 				}
 			]
 		},
@@ -4659,9 +4659,9 @@
 						"type": "internal",
 						"path": "items/GGR/Peregrine Mask.webp"
 					},
-					"credit": "Edward P. Beard, Jr.",
 					"width": 616,
-					"height": 452
+					"height": 452,
+					"credit": "Edward P. Beard, Jr."
 				}
 			]
 		},
@@ -4705,9 +4705,9 @@
 						"type": "internal",
 						"path": "items/XGE/Pipe of Smoke Monsters.webp"
 					},
-					"credit": "David René Christensen",
 					"width": 850,
-					"height": 964
+					"height": 964,
+					"credit": "David René Christensen"
 				}
 			]
 		},
@@ -4781,9 +4781,9 @@
 						"type": "internal",
 						"path": "items/XGE/Pole of Collapsing.webp"
 					},
-					"credit": "Paul Scott Canavan",
 					"width": 850,
-					"height": 2044
+					"height": 2044,
+					"credit": "Paul Scott Canavan"
 				}
 			]
 		},
@@ -4797,9 +4797,9 @@
 						"type": "internal",
 						"path": "items/SatO/Portal Compass.webp"
 					},
-					"credit": "CoupleOfKooks",
 					"width": 782,
-					"height": 1000
+					"height": 1000,
+					"credit": "CoupleOfKooks"
 				}
 			]
 		},
@@ -4828,9 +4828,9 @@
 						"type": "internal",
 						"path": "items/DMG/Potion of Water Breathing.webp"
 					},
-					"credit": "CoupleOfKooks",
 					"width": 539,
-					"height": 850
+					"height": 850,
+					"credit": "CoupleOfKooks"
 				}
 			]
 		},
@@ -4844,9 +4844,9 @@
 						"type": "internal",
 						"path": "items/BGG/Prehistoric Figurines of Wondrous Power.webp"
 					},
-					"credit": "Olga Drebas",
 					"width": 1000,
-					"height": 634
+					"height": 634,
+					"credit": "Olga Drebas"
 				}
 			]
 		},
@@ -4892,9 +4892,9 @@
 						"type": "internal",
 						"path": "items/TCE/Prosthetic Limb.webp"
 					},
-					"credit": "Ben Wootten",
 					"width": 674,
-					"height": 1000
+					"height": 1000,
+					"credit": "Ben Wootten"
 				}
 			]
 		},
@@ -4923,9 +4923,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/04-puzzle.webp"
 					},
-					"credit": "Tinnel Lovitt",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Tinnel Lovitt"
 				}
 			]
 		},
@@ -4939,9 +4939,9 @@
 						"type": "internal",
 						"path": "items/GGR/Pyroconverger.webp"
 					},
-					"credit": "Jack Wang",
 					"width": 620,
-					"height": 400
+					"height": 400,
+					"credit": "Jack Wang"
 				}
 			]
 		},
@@ -4955,9 +4955,9 @@
 						"type": "internal",
 						"path": "items/MOT/Pyxis of Pandemonium.webp"
 					},
-					"credit": "David Palumbo",
 					"width": 1500,
-					"height": 1081
+					"height": 1081,
+					"credit": "David Palumbo"
 				}
 			]
 		},
@@ -4971,10 +4971,10 @@
 						"type": "internal",
 						"path": "items/DMG/Quaal's Feather Token.webp"
 					},
-					"title": "Quaal's Feather Tokens (Whip, Anchor, Bird, Swan Boat, Fan, Tree)",
-					"credit": "Conceptopolis",
 					"width": 2024,
-					"height": 966
+					"height": 966,
+					"title": "Quaal's Feather Tokens (Whip, Anchor, Bird, Swan Boat, Fan, Tree)",
+					"credit": "Conceptopolis"
 				}
 			]
 		},
@@ -5078,9 +5078,9 @@
 						"type": "internal",
 						"path": "items/DMG/Quiver of Ehlonna.webp"
 					},
-					"credit": "Conceptopolis",
 					"width": 889,
-					"height": 1700
+					"height": 1700,
+					"credit": "Conceptopolis"
 				}
 			]
 		},
@@ -5094,9 +5094,9 @@
 						"type": "internal",
 						"path": "items/GGR/Rakdos Guild Signet.webp"
 					},
-					"credit": "Martina Pilcerova",
 					"width": 640,
-					"height": 448
+					"height": 448,
+					"credit": "Martina Pilcerova"
 				}
 			]
 		},
@@ -5110,9 +5110,9 @@
 						"type": "internal",
 						"path": "items/GGR/Rakdos Keyrune.webp"
 					},
-					"credit": "Daniel Ljunggren",
 					"width": 620,
-					"height": 453
+					"height": 453,
+					"credit": "Daniel Ljunggren"
 				}
 			]
 		},
@@ -5126,9 +5126,9 @@
 						"type": "internal",
 						"path": "items/GGR/Rakdos Riteknife.webp"
 					},
-					"credit": "Jim Nelson",
 					"width": 640,
-					"height": 466
+					"height": 466,
+					"credit": "Jim Nelson"
 				}
 			]
 		},
@@ -5142,9 +5142,9 @@
 						"type": "internal",
 						"path": "items/CoA/Ranseur of Torture.webp"
 					},
-					"credit": "Aaron Sims",
 					"width": 1568,
-					"height": 450
+					"height": 450,
+					"credit": "Aaron Sims"
 				}
 			]
 		},
@@ -5293,9 +5293,9 @@
 						"type": "internal",
 						"path": "items/EGW/Ring of Obscuring.webp"
 					},
-					"credit": "Olga Drebas",
 					"width": 586,
-					"height": 672
+					"height": 672,
+					"credit": "Olga Drebas"
 				}
 			]
 		},
@@ -5309,9 +5309,9 @@
 						"type": "internal",
 						"path": "items/DMG/Ring of Protection.webp"
 					},
-					"credit": "Conceptopolis",
 					"width": 490,
-					"height": 600
+					"height": 600,
+					"credit": "Conceptopolis"
 				}
 			]
 		},
@@ -5325,9 +5325,9 @@
 						"type": "internal",
 						"path": "items/CRCotN/Ring of Red Fury.webp"
 					},
-					"credit": "CoupleOfKooks",
 					"width": 250,
-					"height": 249
+					"height": 249,
+					"credit": "CoupleOfKooks"
 				}
 			]
 		},
@@ -5664,9 +5664,9 @@
 						"type": "internal",
 						"path": "items/VEoR/Rod of Seven Parts.webp"
 					},
-					"credit": "CoupleofKooks",
 					"width": 315,
-					"height": 1000
+					"height": 1000,
+					"credit": "CoupleofKooks"
 				},
 				{
 					"type": "image",
@@ -5674,10 +5674,10 @@
 						"type": "internal",
 						"path": "items/VEoR/Rod of Seven Parts Piece.webp"
 					},
-					"title": "A piece of the Rod of Seven Parts",
-					"credit": "CoupleofKooks",
 					"width": 850,
-					"height": 1151
+					"height": 1151,
+					"title": "A piece of the Rod of Seven Parts",
+					"credit": "CoupleofKooks"
 				}
 			]
 		},
@@ -5691,9 +5691,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/06-rogue.webp"
 					},
-					"credit": "Harry Conway",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Harry Conway"
 				}
 			]
 		},
@@ -5722,10 +5722,10 @@
 						"type": "internal",
 						"path": "items/CoA/Ruby Rod of Asmodeus and Scourge of Shadow.webp"
 					},
-					"title": "Scourge of Shadow (left) and Ruby Rod of Asmodeus (right)",
-					"credit": "Aaron Sims",
 					"width": 943,
-					"height": 1211
+					"height": 1211,
+					"title": "Scourge of Shadow (left) and Ruby Rod of Asmodeus (right)",
+					"credit": "Aaron Sims"
 				}
 			]
 		},
@@ -5739,9 +5739,9 @@
 						"type": "internal",
 						"path": "items/CRCotN/Ruidium Shield.webp"
 					},
-					"credit": "CoupleOfKooks",
 					"width": 721,
-					"height": 1132
+					"height": 1132,
+					"credit": "CoupleOfKooks"
 				}
 			]
 		},
@@ -5755,10 +5755,10 @@
 						"type": "internal",
 						"path": "items/CRCotN/Ruidium Weapon.webp"
 					},
-					"title": "Ruidium Battleaxe",
-					"credit": "CoupleOfKooks",
 					"width": 611,
-					"height": 1132
+					"height": 1132,
+					"title": "Ruidium Battleaxe",
+					"credit": "CoupleOfKooks"
 				}
 			]
 		},
@@ -5772,9 +5772,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/16-ruin.webp"
 					},
-					"credit": "Andrea Sipl",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Andrea Sipl"
 				}
 			]
 		},
@@ -5788,9 +5788,9 @@
 						"type": "internal",
 						"path": "items/EGW/Ruin's Wake.webp"
 					},
-					"credit": "Irina Nordsol",
 					"width": 1700,
-					"height": 103
+					"height": 103,
+					"credit": "Irina Nordsol"
 				}
 			]
 		},
@@ -5828,9 +5828,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/07-sage.webp"
 					},
-					"credit": "Joanna Barnum",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Joanna Barnum"
 				}
 			]
 		},
@@ -5874,10 +5874,10 @@
 						"type": "internal",
 						"path": "items/CoA/Ruby Rod of Asmodeus and Scourge of Shadow.webp"
 					},
-					"title": "Scourge of Shadow (left) and Ruby Rod of Asmodeus (right)",
-					"credit": "Aaron Sims",
 					"width": 943,
-					"height": 1211
+					"height": 1211,
+					"title": "Scourge of Shadow (left) and Ruby Rod of Asmodeus (right)",
+					"credit": "Aaron Sims"
 				}
 			]
 		},
@@ -5891,9 +5891,9 @@
 						"type": "internal",
 						"path": "items/GGR/Selesnya Guild Signet.webp"
 					},
-					"credit": "Raoul Vitale",
 					"width": 640,
-					"height": 459
+					"height": 459,
+					"credit": "Raoul Vitale"
 				}
 			]
 		},
@@ -5907,9 +5907,9 @@
 						"type": "internal",
 						"path": "items/GGR/Selesnya Keyrune.webp"
 					},
-					"credit": "Daniel Ljunggren",
 					"width": 620,
-					"height": 453
+					"height": 453,
+					"credit": "Daniel Ljunggren"
 				}
 			]
 		},
@@ -5923,9 +5923,9 @@
 						"type": "internal",
 						"path": "items/AI/sending-stone.webp"
 					},
-					"credit": "Chris Walton",
 					"width": 916,
-					"height": 1000
+					"height": 1000,
+					"credit": "Chris Walton"
 				}
 			]
 		},
@@ -5954,9 +5954,9 @@
 						"type": "internal",
 						"path": "items/TCE/Shadowfell Shard.webp"
 					},
-					"credit": "Christopher Burdett",
 					"width": 494,
-					"height": 918
+					"height": 918,
+					"credit": "Christopher Burdett"
 				}
 			]
 		},
@@ -5970,9 +5970,9 @@
 						"type": "internal",
 						"path": "items/KftGV/Shard of Xeluan.webp"
 					},
-					"credit": "Nikki Dawes",
 					"width": 730,
-					"height": 1000
+					"height": 1000,
+					"credit": "Nikki Dawes"
 				}
 			]
 		},
@@ -5986,9 +5986,9 @@
 						"type": "internal",
 						"path": "items/KftGV/Shard Solitaire.webp"
 					},
-					"credit": "Nikki Dawes",
 					"width": 714,
-					"height": 1000
+					"height": 1000,
+					"credit": "Nikki Dawes"
 				}
 			]
 		},
@@ -6132,9 +6132,9 @@
 						"type": "internal",
 						"path": "items/GGR/Simic Guild Signet.webp"
 					},
-					"credit": "Mike Sass",
 					"width": 640,
-					"height": 468
+					"height": 468,
+					"credit": "Mike Sass"
 				}
 			]
 		},
@@ -6148,9 +6148,9 @@
 						"type": "internal",
 						"path": "items/GGR/Simic Keyrune.webp"
 					},
-					"credit": "Daniel Ljunggren",
 					"width": 474,
-					"height": 346
+					"height": 346,
+					"credit": "Daniel Ljunggren"
 				}
 			]
 		},
@@ -6164,9 +6164,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/19-skull.webp"
 					},
-					"credit": "Alex Dos Diaz",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Alex Dos Diaz"
 				}
 			]
 		},
@@ -6180,9 +6180,9 @@
 						"type": "internal",
 						"path": "items/GGR/Skyblinder Staff.webp"
 					},
-					"credit": "Mark Winters",
 					"width": 315,
-					"height": 221
+					"height": 221,
+					"credit": "Mark Winters"
 				}
 			]
 		},
@@ -6219,9 +6219,9 @@
 						"type": "internal",
 						"path": "items/WBtW/Snicker-Snack.webp"
 					},
-					"credit": "Filip Burburan",
 					"width": 850,
-					"height": 1558
+					"height": 1558,
+					"credit": "Filip Burburan"
 				}
 			]
 		},
@@ -6265,9 +6265,9 @@
 						"type": "internal",
 						"path": "items/EGW/Spell Bottle.webp"
 					},
-					"credit": "Olga Drebas",
 					"width": 614,
-					"height": 1000
+					"height": 1000,
+					"credit": "Olga Drebas"
 				}
 			]
 		},
@@ -6305,10 +6305,10 @@
 						"type": "internal",
 						"path": "items/AAG/Spelljamming Helms.webp"
 					},
-					"title": "Three Examples of a Spelljamming Helm",
-					"credit": "Robson Michel",
 					"width": 1700,
-					"height": 903
+					"height": 903,
+					"title": "Three Examples of a Spelljamming Helm",
+					"credit": "Robson Michel"
 				}
 			]
 		},
@@ -6532,9 +6532,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/13-star.webp"
 					},
-					"credit": "Vallez Gax",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Vallez Gax"
 				}
 			]
 		},
@@ -6548,9 +6548,9 @@
 						"type": "internal",
 						"path": "items/WBtW/Steel.webp"
 					},
-					"credit": "Daarken",
 					"width": 577,
-					"height": 1000
+					"height": 1000,
+					"credit": "Daarken"
 				}
 			]
 		},
@@ -6639,9 +6639,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/10-sun.webp"
 					},
-					"credit": "Vallez Gax",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Vallez Gax"
 				}
 			]
 		},
@@ -6655,9 +6655,9 @@
 						"type": "internal",
 						"path": "items/GGR/Sunforger.webp"
 					},
-					"credit": "Darrell Riche",
 					"width": 626,
-					"height": 457
+					"height": 457,
+					"credit": "Darrell Riche"
 				}
 			]
 		},
@@ -6701,9 +6701,9 @@
 						"type": "internal",
 						"path": "items/DMG/Sword of Life Stealing.webp"
 					},
-					"title": "Sword of Life Stealing (Longsword)",
 					"width": 637,
-					"height": 1000
+					"height": 1000,
+					"title": "Sword of Life Stealing (Longsword)"
 				}
 			]
 		},
@@ -6717,9 +6717,9 @@
 						"type": "internal",
 						"path": "items/DMG/Sword of Sharpness.webp"
 					},
-					"title": "Sword of Sharpness (Greatsword)",
 					"width": 654,
-					"height": 1000
+					"height": 1000,
+					"title": "Sword of Sharpness (Greatsword)"
 				}
 			]
 		},
@@ -6733,9 +6733,9 @@
 						"type": "internal",
 						"path": "items/GGR/Sword of the Paruns.webp"
 					},
-					"credit": "Greg Hildebrandt",
 					"width": 421,
-					"height": 308
+					"height": 308,
+					"credit": "Greg Hildebrandt"
 				}
 			]
 		},
@@ -6824,9 +6824,9 @@
 						"type": "internal",
 						"path": "items/XGE/Talking Doll.webp"
 					},
-					"credit": "Matt Stewart",
 					"width": 850,
-					"height": 1471
+					"height": 1471,
+					"credit": "Matt Stewart"
 				}
 			]
 		},
@@ -6840,9 +6840,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/21-talons.webp"
 					},
-					"credit": "Abigail Larson",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Abigail Larson"
 				}
 			]
 		},
@@ -6871,10 +6871,10 @@
 						"type": "internal",
 						"path": "items/QftIS/Technology.webp"
 					},
-					"title": "Left (Top to Bottom): Needler Pistol, Paralysis Pistol, Bandolier of Grenades. Middle: Antigravity Belt. Right (Top to Bottom): Laser Pistol, Robot Controller, Laser Rifle",
-					"credit": "Dave Melvin",
 					"width": 1700,
-					"height": 1053
+					"height": 1053,
+					"title": "Left (Top to Bottom): Needler Pistol, Paralysis Pistol, Bandolier of Grenades. Middle: Antigravity Belt. Right (Top to Bottom): Laser Pistol, Robot Controller, Laser Rifle",
+					"credit": "Dave Melvin"
 				}
 			]
 		},
@@ -6888,9 +6888,9 @@
 						"type": "internal",
 						"path": "items/TCE/Teeth of Dahlver-Nar.webp"
 					},
-					"credit": "Crystal Sully",
 					"width": 833,
-					"height": 1000
+					"height": 1000,
+					"credit": "Crystal Sully"
 				}
 			]
 		},
@@ -6979,9 +6979,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/15-throne.webp"
 					},
-					"credit": "Andrea Sipl",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Andrea Sipl"
 				}
 			]
 		},
@@ -6995,9 +6995,9 @@
 						"type": "internal",
 						"path": "items/BGG/Thunderbuss.webp"
 					},
-					"credit": "Isabel Gibney",
 					"width": 890,
-					"height": 1000
+					"height": 1000,
+					"credit": "Isabel Gibney"
 				}
 			]
 		},
@@ -7101,9 +7101,9 @@
 						"type": "internal",
 						"path": "items/AI/travel-alchemical-kit.webp"
 					},
-					"credit": "Chris Walton",
 					"width": 1070,
-					"height": 1000
+					"height": 1000,
+					"credit": "Chris Walton"
 				}
 			]
 		},
@@ -7132,9 +7132,9 @@
 						"type": "internal",
 						"path": "items/AI/Trinket.webp"
 					},
-					"credit": "Kris Straub",
 					"width": 1000,
-					"height": 1000
+					"height": 1000,
+					"credit": "Kris Straub"
 				},
 				{
 					"type": "image",
@@ -7142,9 +7142,9 @@
 						"type": "internal",
 						"path": "items/AI/Trinket-2.webp"
 					},
-					"credit": "Kris Straub",
 					"width": 1000,
-					"height": 1000
+					"height": 1000,
+					"credit": "Kris Straub"
 				},
 				{
 					"type": "image",
@@ -7152,9 +7152,9 @@
 						"type": "internal",
 						"path": "items/AI/Trinket-3.webp"
 					},
-					"credit": "Kris Straub",
 					"width": 1000,
-					"height": 1000
+					"height": 1000,
+					"credit": "Kris Straub"
 				}
 			]
 		},
@@ -7213,9 +7213,9 @@
 						"type": "internal",
 						"path": "items/DMG/Vicious Weapon.webp"
 					},
-					"title": "Vicious Weapon (Rapier)",
 					"width": 335,
-					"height": 850
+					"height": 850,
+					"title": "Vicious Weapon (Rapier)"
 				}
 			]
 		},
@@ -7229,9 +7229,9 @@
 						"type": "internal",
 						"path": "decks/BMT/Deck of Many Things/18-void.webp"
 					},
-					"credit": "Alex Dos Diaz",
 					"width": 850,
-					"height": 1552
+					"height": 1552,
+					"credit": "Alex Dos Diaz"
 				}
 			]
 		},
@@ -7245,9 +7245,9 @@
 						"type": "internal",
 						"path": "items/DMG/Vorpal Sword.webp"
 					},
-					"title": "Vorpal Sword (Longsword)",
 					"width": 245,
-					"height": 1000
+					"height": 1000,
+					"title": "Vorpal Sword (Longsword)"
 				}
 			]
 		},
@@ -7351,9 +7351,9 @@
 						"type": "internal",
 						"path": "items/DMG/Wand of Magic Missiles.webp"
 					},
-					"credit": "Conceptopolis",
 					"width": 800,
-					"height": 450
+					"height": 450,
+					"credit": "Conceptopolis"
 				}
 			]
 		},
@@ -7502,9 +7502,9 @@
 						"type": "internal",
 						"path": "items/DMG/Weapon of Warning.webp"
 					},
-					"title": "Weapon of Warning (Trident)",
 					"width": 137,
-					"height": 1000
+					"height": 1000,
+					"title": "Weapon of Warning (Trident)"
 				}
 			]
 		},
@@ -7548,9 +7548,9 @@
 						"type": "internal",
 						"path": "items/AI/whisper-jar.webp"
 					},
-					"credit": "Chris Walton",
 					"width": 988,
-					"height": 1000
+					"height": 1000,
+					"credit": "Chris Walton"
 				}
 			]
 		},
@@ -7594,9 +7594,9 @@
 						"type": "internal",
 						"path": "items/DMG/Winged Boots.webp"
 					},
-					"credit": "Conceptopolis",
 					"width": 777,
-					"height": 600
+					"height": 600,
+					"credit": "Conceptopolis"
 				}
 			]
 		},
@@ -7625,9 +7625,9 @@
 						"type": "internal",
 						"path": "items/WBtW/Witchlight Vane.webp"
 					},
-					"credit": "Nikki Dawes",
 					"width": 461,
-					"height": 1000
+					"height": 1000,
+					"credit": "Nikki Dawes"
 				}
 			]
 		},
@@ -7641,9 +7641,9 @@
 						"type": "internal",
 						"path": "items/EGW/Wreath of the Prism.webp"
 					},
-					"credit": "Irina Nordsol",
 					"width": 1000,
-					"height": 809
+					"height": 809,
+					"credit": "Irina Nordsol"
 				}
 			]
 		},
@@ -7681,9 +7681,9 @@
 						"type": "internal",
 						"path": "items/CoA/Wrought-Iron Tower.webp"
 					},
-					"credit": "Aaron Sims",
 					"width": 1517,
-					"height": 574
+					"height": 574,
+					"credit": "Aaron Sims"
 				}
 			]
 		},

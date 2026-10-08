@@ -10,8 +10,10 @@
 			"source": "PHB",
 			"entries": [
 				{
-					"name": "Rogue",
 					"type": "section",
+					"name": "Rogue",
+					"source": "PHB",
+					"page": 94,
 					"entries": [
 						"Signaling for her companions to wait, a halfling creeps forward through the dungeon hall. She presses an ear to the door, then pulls out a set of tools and picks the lock in the blink of an eye. Then she disappears into the shadows as her fighter friend moves forward to kick the door open.",
 						"A human lurks in the shadows of an alley while his accomplice prepares for her part in the ambush. When their target\u2014a notorious slaver\u2014passes the alleyway, the accomplice cries out, the slaver comes to investigate, and the assassin's blade cuts his throat before he can make a sound.",
@@ -48,12 +50,12 @@
 								}
 							]
 						}
-					],
-					"page": 94,
-					"source": "PHB"
+					]
 				},
 				{
 					"type": "section",
+					"source": "XGE",
+					"page": 44,
 					"entries": [
 						{
 							"type": "quote",
@@ -303,9 +305,7 @@
 								}
 							]
 						}
-					],
-					"page": 44,
-					"source": "XGE"
+					]
 				}
 			],
 			"images": [

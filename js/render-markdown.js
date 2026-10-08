@@ -425,7 +425,8 @@ class RendererMarkdown extends Renderer {
 
 	_renderAbilityGeneric (entry, textStack, meta, options) {
 		this._renderPrefix(entry, textStack, meta, options);
-		textStack[0] += `${entry.name ? `**${entry.name}**  = ` : ""}${entry.text}${entry.attributes ? ` ${Parser.attrChooseToFull(entry.attributes)}` : ""}`;
+		// TODO(MIGRATION)
+		textStack[0] += `${entry.name ? `**${entry.name}**  = ` : ""}${entry.entry ?? entry.text}${entry.attributes ? ` ${Parser.attrChooseToFull(entry.attributes)}` : ""}`;
 		this._renderSuffix(entry, textStack, meta, options);
 	}
 	// endregion
@@ -455,7 +456,8 @@ class RendererMarkdown extends Renderer {
 
 	_renderLink (entry, textStack, meta, options) {
 		const href = this._renderLink_getHref(entry);
-		textStack[0] += `[${href}](${this.render(entry.text)})`;
+		// TODO(MIGRATION)
+		textStack[0] += `[${href}](${this.render(entry.entry ?? entry.text)})`;
 	}
 
 	_renderActions (entry, textStack, meta, options) {
@@ -529,18 +531,22 @@ class RendererMarkdown extends Renderer {
 	 * inline data passed to this method is assumed to be complete, i.e., require no further loading or mutating.
 	 */
 	_renderStatblockInline (entry, textStack, meta, options) {
-		const fnGetRenderCompact = RendererMarkdown.hover.getFnRenderCompact(entry.dataType);
+		// TODO(MIGRATION)
+		const statblockType = entry.statblockType ?? entry.dataType;
+		const statblockData = entry.statblockData ?? entry.data;
+
+		const fnGetRenderCompact = RendererMarkdown.hover.getFnRenderCompact(statblockType);
 
 		if (!fnGetRenderCompact) {
 			this._renderPrefix(entry, textStack, meta, options);
-			textStack[0] += `**Cannot render "${entry.type}"\u2014unknown type "${entry.dataType}"!**\n`;
+			textStack[0] += `**Cannot render "${entry.type}"\u2014unknown statblock type "${statblockType}"!**\n`;
 			this._renderSuffix(entry, textStack, meta, options);
 			return;
 		}
 
 		this._renderPrefix(entry, textStack, meta, options);
 		// Pass `entry` here to allow e.g. `legendaryGroup` to be included when rendering creatures
-		textStack[0] += fnGetRenderCompact(entry.data, {...entry, meta});
+		textStack[0] += fnGetRenderCompact(statblockData, {...entry, meta});
 		this._renderSuffix(entry, textStack, meta, options);
 	}
 
@@ -857,7 +863,7 @@ RendererMarkdown.exporting = class {
 	static async pGetMarkdownDoc ({ents, prop, pFnGetFluff = null}) {
 		const asEntries = (await Promise.all(ents
 			.map(async (ent, i) => {
-				const monEntry = ({type: "statblockInline", dataType: prop, data: ent});
+				const monEntry = ({type: "statblockInline", statblockType: prop, statblockData: ent});
 
 				const fluff = pFnGetFluff ? await pFnGetFluff(ent) : null;
 

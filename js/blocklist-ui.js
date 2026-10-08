@@ -571,7 +571,7 @@ class BlocklistUi {
 				});
 
 		const ele = veT`<div class="${this._addListItem_getItemStyles()}">
-			<span class="ve-col-4 ve-text-center">${sourceFull}</span>
+			<span class="ve-col-4 ve-text-center">${sourceFull.qq()}</span>
 			<span class="ve-col-2 ve-text-center">${display.displayCategory}</span>
 			<span class="ve-col-5 ve-text-center">${displayName}</span>
 			<span class="ve-col-1 ve-text-center">${btnRemove}</span>

@@ -48,7 +48,7 @@ class _GroupHeaderManager {
 		this._btnHeader = veT`<div class="ve-lst__item-group-header ve-mt-3 ve-split-v-center ve-py-1 ve-no-select ve-clickable" title="SHIFT to Toggle All">
 			<div class="ve-split-v-center ve-w-100 ve-min-w-0 ve-mr-2">
 				<div class="ve-bold">${ent.name}</div>
-				<div class="${Parser.sourceJsonToSourceClassname(ent.source)}" title="${Parser.sourceJsonToFull(ent.source).qq()}">${Parser.sourceJsonToAbv(ent.source)}</div>
+				<div class="${Parser.sourceJsonToSourceClassname(ent.source)}" title="${Parser.sourceJsonToFull(ent.source).qq()}">${Parser.sourceJsonToAbv(ent.source).qq()}</div>
 			</div>
 			${this._dispShowHide}
 		</div>`

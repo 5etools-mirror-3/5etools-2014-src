@@ -151,7 +151,7 @@ class SpellPageBookView extends ListPageBookView {
 	}
 
 	_renderSpell ({stack, sp}) {
-		stack.push(`<div class="bkmv__wrp-item ve-inline-block print__ve-block print__my-2"><table class="ve-w-100 ve-stats ve-stats--book ve-stats--bkmv"><tbody>`);
+		stack.push(`<div class="bkmv__wrp-item ve-inline-block ve-print__block ve-print__my-2"><table class="ve-w-100 ve-stats ve-stats--book ve-stats--bkmv"><tbody>`);
 		stack.push(Renderer.spell.getCompactRenderedString(sp));
 		stack.push(`</tbody></table></div>`);
 	}
@@ -163,7 +163,7 @@ class SpellPageBookView extends ListPageBookView {
 			const atLvl = this._bookViewToShow.filter(({entity}) => entity.level === i);
 			if (atLvl.length) {
 				stack.push(`<div class="bkmv__no-breaks">`);
-				stack.push(`<div class="bkmv__spacer-name ve-flex-v-center ve-no-shrink no-print ve-pl-2">${Parser.spLevelToFullLevelText(i)}</div>`);
+				stack.push(`<div class="bkmv__spacer-name ve-flex-v-center ve-no-shrink ve-print__hidden ve-pl-2">${Parser.spLevelToFullLevelText(i)}</div>`);
 				atLvl.forEach(({entity}) => this._renderSpell({stack, sp: entity}));
 				isAnyEntityRendered = true;
 				stack.push(`</div>`);

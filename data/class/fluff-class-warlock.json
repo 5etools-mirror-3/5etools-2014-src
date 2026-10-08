@@ -5,8 +5,10 @@
 			"source": "PHB",
 			"entries": [
 				{
-					"name": "Warlock",
 					"type": "section",
+					"name": "Warlock",
+					"source": "PHB",
+					"page": 105,
 					"entries": [
 						"With a pseudodragon curled on his shoulder, a young elf in golden robes smiles warmly, weaving a magical charm into his honeyed words and bending the palace sentinel to his will.",
 						"As flames spring to life in her hands, a wizened human whispers the secret name of her demonic patron, infusing her spell with fiendish magic.",
@@ -46,12 +48,12 @@
 								}
 							]
 						}
-					],
-					"page": 105,
-					"source": "PHB"
+					]
 				},
 				{
 					"type": "section",
+					"source": "XGE",
+					"page": 53,
 					"entries": [
 						{
 							"type": "quote",
@@ -268,9 +270,7 @@
 								}
 							]
 						}
-					],
-					"page": 53,
-					"source": "XGE"
+					]
 				}
 			],
 			"images": [

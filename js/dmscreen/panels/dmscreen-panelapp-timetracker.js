@@ -1422,7 +1422,7 @@ class TimeTrackerRoot_Clock_Weather extends TimeTrackerComponent {
 						// load the first on its own, to avoid racing to fill the cache
 						const first = await DataLoader.pCacheAndGet(UrlUtil.PG_TRAPS_HAZARDS, Parser.SRC_DMG, hashes[0]);
 						const others = await Promise.all(hashes.slice(1).map(hash => DataLoader.pCacheAndGet(UrlUtil.PG_TRAPS_HAZARDS, Parser.SRC_DMG, hash)));
-						const allEntries = [first, ...others].map(it => ({type: "statblockInline", dataType: "hazard", data: MiscUtil.copy(it)}));
+						const allEntries = [first, ...others].map(it => ({type: "statblockInline", statblockType: "hazard", statblockData: MiscUtil.copy(it)}));
 						const toShow = {
 							type: "entries",
 							entries: allEntries,
@@ -2311,7 +2311,7 @@ class TimeTrackerRoot_Calendar extends TimeTrackerComponent {
 						this._parent.triggerMapUpdate("encounters");
 					});
 
-				const btnSendToFoundry = veT`<button title="Send to Foundry" class="no-print ve-btn ve-btn-default ve-btn-xs ve-mr-2"><span class="glyphicon glyphicon-send"></span></button>`
+				const btnSendToFoundry = veT`<button title="Send to Foundry" class="ve-print__hidden ve-btn ve-btn-default ve-btn-xs ve-mr-2"><span class="glyphicon glyphicon-send"></span></button>`
 					.vee.onn("click", async () => {
 						const encounterActorName = await InputUiUtil.pGetUserString({title: "Encounter Actor Name", isSkippable: true});
 

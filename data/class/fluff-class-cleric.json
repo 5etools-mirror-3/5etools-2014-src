@@ -5,8 +5,10 @@
 			"source": "PHB",
 			"entries": [
 				{
-					"name": "Cleric",
 					"type": "section",
+					"name": "Cleric",
+					"source": "PHB",
+					"page": 56,
 					"entries": [
 						"Arms and eyes upraised toward the sun and a prayer on his lips, an elf begins to glow with an inner light that spills out to heal his battle-worn companions.",
 						"Chanting a song of glory, a dwarf swings his axe in wide swaths to cut through the ranks of orcs arrayed against him, shouting praise to the gods with every foe's fall.",
@@ -45,12 +47,12 @@
 								}
 							]
 						}
-					],
-					"source": "PHB",
-					"page": 56
+					]
 				},
 				{
 					"type": "section",
+					"source": "XGE",
+					"page": 17,
 					"entries": [
 						{
 							"type": "quote",
@@ -306,9 +308,7 @@
 								}
 							]
 						}
-					],
-					"source": "XGE",
-					"page": 17
+					]
 				}
 			],
 			"images": [

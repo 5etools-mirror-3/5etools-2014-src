@@ -440,7 +440,7 @@ class AreaCheck extends DataTesterBase {
 
 		if (!this._fileMatcherValid.test(file) && !isNonSiteData) return this._handleObject_areaNotSupported({file, obj: contents, reason: "not a corpus data file"});
 
-		const propsValid = new Set(isNonSiteData ? ["adventureData", "bookData"] : ["data"]);
+		const propsValid = new Set(["adventureData", "bookData"]);
 
 		if (!contents || typeof contents !== "object") return this._handleObject_areaNotSupported({file, obj: contents, reason: "root was not an object"});
 		if (contents instanceof Array) return this._handleObject_areaNotSupported({file, obj: contents, reason: "root was not an object"});
@@ -448,7 +448,6 @@ class AreaCheck extends DataTesterBase {
 		Object.entries(contents)
 			.forEach(([prop, val]) => {
 				if (propsValid.has(prop)) {
-					if (prop === "data") return this._handleArray_areaSupported({file, obj: val, corpusPath: prop});
 					return val
 						.forEach((subVal, i) => this._handleArray_areaSupported({file, obj: subVal.data, corpusPath: `${prop}[${i}]`}));
 				}

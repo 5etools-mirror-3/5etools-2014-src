@@ -10,10 +10,10 @@
 						"type": "internal",
 						"path": "traps/BMT/Balance and Ruin.webp"
 					},
-					"title": "Diagram 4.5: Balance and Ruin",
-					"credit": "Mike Schley",
 					"width": 850,
-					"height": 1186
+					"height": 1186,
+					"title": "Diagram 4.5: Balance and Ruin",
+					"credit": "Mike Schley"
 				}
 			]
 		},
@@ -27,9 +27,9 @@
 						"type": "internal",
 						"path": "traps/VRGR/Faceless Malice.webp"
 					},
-					"title": "The faceless malice haunted trap claims a victim",
 					"width": 850,
 					"height": 1253,
+					"title": "The faceless malice haunted trap claims a victim",
 					"credit": "Irina Nordsol"
 				}
 			]
@@ -44,10 +44,10 @@
 						"type": "internal",
 						"path": "traps/BMT/Surface of the Sun.webp"
 					},
-					"title": "Diagram 4.6: Surface of the Sun",
-					"credit": "Mike Schley",
 					"width": 850,
-					"height": 1189
+					"height": 1189,
+					"title": "Diagram 4.6: Surface of the Sun",
+					"credit": "Mike Schley"
 				}
 			]
 		},
@@ -61,10 +61,10 @@
 						"type": "internal",
 						"path": "traps/BMT/Test of the Empty Moon.webp"
 					},
-					"title": "Diagram 4.7: Test of the Empty Moon",
-					"credit": "Mike Schley",
 					"width": 850,
-					"height": 1188
+					"height": 1188,
+					"title": "Diagram 4.7: Test of the Empty Moon",
+					"credit": "Mike Schley"
 				}
 			]
 		}

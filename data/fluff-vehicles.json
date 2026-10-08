@@ -10,9 +10,9 @@
 						"type": "internal",
 						"path": "items/DMG/Apparatus of Kwalish.webp"
 					},
-					"credit": "Aaron Hübrich",
 					"width": 1000,
-					"height": 631
+					"height": 631,
+					"credit": "Aaron Hübrich"
 				}
 			]
 		},
@@ -97,9 +97,9 @@
 						"type": "internal",
 						"path": "vehicles/AI/battle-balloon.webp"
 					},
-					"credit": "Kim Van Deun",
 					"width": 1501,
-					"height": 1000
+					"height": 1000,
+					"credit": "Kim Van Deun"
 				}
 			]
 		},
@@ -117,20 +117,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Bombard.webp"
 					},
-					"credit": "Ned Rogers",
 					"width": 1700,
-					"height": 1135
+					"height": 1135,
+					"credit": "Ned Rogers"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Bombard Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Bombard Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 150,
@@ -138,8 +138,8 @@
 						"offsetY": 9,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Bombard Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -147,12 +147,9 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Bombard Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 150,
@@ -160,8 +157,11 @@
 						"offsetY": 9,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		},
@@ -180,28 +180,28 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Damselfly Ship.webp"
 					},
-					"credit": "Kent Davis",
 					"width": 1700,
-					"height": 1135
+					"height": 1135,
+					"credit": "Kent Davis"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Damselfly Ship Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Damselfly Ship Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 78,
 						"offsetX": -22,
 						"offsetY": 17
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Damselfly Ship Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -209,20 +209,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Damselfly Ship Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 78,
 						"offsetX": -22,
 						"offsetY": 17
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		},
@@ -297,20 +297,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Flying Fish Ship.webp"
 					},
-					"credit": "David Rene Christensen",
 					"width": 1700,
-					"height": 1135
+					"height": 1135,
+					"credit": "David Rene Christensen"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Flying Fish Ship Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Flying Fish Ship Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 141,
@@ -318,8 +318,8 @@
 						"offsetY": -16,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Flying Fish Ship Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -327,12 +327,9 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Flying Fish Ship Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 141,
@@ -340,8 +337,11 @@
 						"offsetY": -16,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		},
@@ -483,17 +483,17 @@
 						"type": "internal",
 						"path": "vehicles/GoS/galley-ship.webp"
 					},
-					"title": "Galley Ship",
+					"width": 2100,
+					"height": 2850,
 					"imageType": "map",
-					"credit": "Mike Schley",
 					"grid": {
 						"type": "square",
 						"size": 83,
 						"offsetX": 15,
 						"offsetY": 13
 					},
-					"width": 2100,
-					"height": 2850
+					"title": "Galley Ship",
+					"credit": "Mike Schley"
 				}
 			]
 		},
@@ -510,20 +510,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Hammerhead Ship.webp"
 					},
-					"credit": "Ralph Horsley",
 					"width": 1700,
-					"height": 1135
+					"height": 1135,
+					"credit": "Ralph Horsley"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Hammerhead Ship Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Hammerhead Ship Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 120,
@@ -531,8 +531,8 @@
 						"offsetY": 23,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Hammerhead Ship Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -540,12 +540,9 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Hammerhead Ship Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 120,
@@ -553,8 +550,11 @@
 						"offsetY": 23,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		},
@@ -656,9 +656,9 @@
 						"type": "internal",
 						"path": "vehicles/GoS/smaller-ships.webp"
 					},
-					"title": "Smaller Ships",
+					"width": 2063,
+					"height": 1425,
 					"imageType": "map",
-					"credit": "Mike Schley",
 					"grid": {
 						"type": "square",
 						"size": 151,
@@ -666,8 +666,8 @@
 						"offsetY": 65,
 						"scale": 2
 					},
-					"width": 2063,
-					"height": 1425
+					"title": "Smaller Ships",
+					"credit": "Mike Schley"
 				}
 			]
 		},
@@ -686,20 +686,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Lamprey Ship.webp"
 					},
-					"credit": "Kent Davis",
 					"width": 1700,
-					"height": 1135
+					"height": 1135,
+					"credit": "Kent Davis"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Lamprey Ship Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Lamprey Ship Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 184,
@@ -707,8 +707,8 @@
 						"offsetY": 21,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Lamprey Ship Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -716,12 +716,9 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Lamprey Ship Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 184,
@@ -729,8 +726,11 @@
 						"offsetY": 21,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		},
@@ -750,28 +750,28 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Living Ship.webp"
 					},
-					"credit": "Alfven Ato",
 					"width": 1700,
-					"height": 1099
+					"height": 1099,
+					"credit": "Alfven Ato"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Living Ship Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Living Ship Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 66,
 						"offsetX": 34,
 						"offsetY": 33
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Living Ship Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -779,20 +779,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Living Ship Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 66,
 						"offsetX": 34,
 						"offsetY": 33
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		},
@@ -879,9 +879,9 @@
 						"type": "internal",
 						"path": "vehicles/GoS/smaller-ships.webp"
 					},
-					"title": "Smaller Ships",
+					"width": 2063,
+					"height": 1425,
 					"imageType": "map",
-					"credit": "Mike Schley",
 					"grid": {
 						"type": "square",
 						"size": 151,
@@ -889,8 +889,8 @@
 						"offsetY": 65,
 						"scale": 2
 					},
-					"width": 2063,
-					"height": 1425
+					"title": "Smaller Ships",
+					"credit": "Mike Schley"
 				}
 			]
 		},
@@ -925,9 +925,9 @@
 						"type": "internal",
 						"path": "vehicles/AI/mechanical-beholder.webp"
 					},
-					"credit": "Chris Walton",
 					"width": 841,
-					"height": 1000
+					"height": 1000,
+					"credit": "Chris Walton"
 				}
 			]
 		},
@@ -945,28 +945,28 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Nautiloid.webp"
 					},
-					"credit": "Kent Davis",
 					"width": 1700,
-					"height": 1012
+					"height": 1012,
+					"credit": "Kent Davis"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Nautiloid Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Nautiloid Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 138,
 						"offsetY": -24,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Nautiloid Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -974,20 +974,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Nautiloid Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 138,
 						"offsetY": -24,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		},
@@ -1006,28 +1006,28 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Nightspider.webp"
 					},
-					"credit": "Jessica Nguyen",
 					"width": 1700,
-					"height": 1135
+					"height": 1135,
+					"credit": "Jessica Nguyen"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Nightspider Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Nightspider Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 120,
 						"offsetY": -24,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Nightspider Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -1035,20 +1035,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Nightspider Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 120,
 						"offsetY": -24,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		},
@@ -1295,9 +1295,9 @@
 						"type": "internal",
 						"path": "vehicles/GoS/sailing-ship.webp"
 					},
-					"title": "Sailing Ship",
+					"width": 2100,
+					"height": 2850,
 					"imageType": "map",
-					"credit": "Mike Schley",
 					"grid": {
 						"type": "square",
 						"size": 157,
@@ -1305,8 +1305,8 @@
 						"offsetY": -16,
 						"scale": 2
 					},
-					"width": 2100,
-					"height": 2850
+					"title": "Sailing Ship",
+					"credit": "Mike Schley"
 				}
 			]
 		},
@@ -1351,28 +1351,28 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Scorpion Ship.webp"
 					},
-					"credit": "David Rene Christensen",
 					"width": 1700,
-					"height": 1136
+					"height": 1136,
+					"credit": "David Rene Christensen"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Scorpion Ship Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Scorpion Ship Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 79,
 						"offsetX": -10,
 						"offsetY": 28
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Scorpion Ship Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -1380,20 +1380,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Scorpion Ship Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 79,
 						"offsetX": -10,
 						"offsetY": 28
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		},
@@ -1411,20 +1411,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Shrike Ship.webp"
 					},
-					"credit": "Olly Lawson",
 					"width": 1700,
-					"height": 1099
+					"height": 1099,
+					"credit": "Olly Lawson"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Shrike Ship Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Shrike Ship Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 172,
@@ -1432,8 +1432,8 @@
 						"offsetY": 86,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Shrike Ship Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -1441,12 +1441,9 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Shrike Ship Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 172,
@@ -1454,8 +1451,11 @@
 						"offsetY": 86,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		},
@@ -1472,20 +1472,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Space Galleon.webp"
 					},
-					"credit": "David Rene Christensen",
 					"width": 1700,
-					"height": 1135
+					"height": 1135,
+					"credit": "David Rene Christensen"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Space Galleon Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Space Galleon Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 158,
@@ -1493,8 +1493,8 @@
 						"offsetY": -14,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Space Galleon Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -1502,12 +1502,9 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Space Galleon Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 158,
@@ -1515,8 +1512,11 @@
 						"offsetY": -14,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		},
@@ -1534,20 +1534,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Squid Ship.webp"
 					},
-					"credit": "Katerina Ladon",
 					"width": 1700,
-					"height": 1136
+					"height": 1136,
+					"credit": "Katerina Ladon"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Squid Ship Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Squid Ship Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 161,
@@ -1555,8 +1555,8 @@
 						"offsetY": 66,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Squid Ship Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -1564,12 +1564,9 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Squid Ship Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 161,
@@ -1577,8 +1574,11 @@
 						"offsetY": 66,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		},
@@ -1596,20 +1596,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Star Moth.webp"
 					},
-					"credit": "Bruce Brenneise",
 					"width": 1700,
-					"height": 1099
+					"height": 1099,
+					"credit": "Bruce Brenneise"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Star Moth Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Star Moth Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 176,
@@ -1617,8 +1617,8 @@
 						"offsetY": -28,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Star Moth Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -1626,12 +1626,9 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Star Moth Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 176,
@@ -1639,8 +1636,11 @@
 						"offsetY": -28,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		},
@@ -1686,20 +1686,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Turtle Ship.webp"
 					},
-					"credit": "Alfven Ato",
 					"width": 1700,
-					"height": 1135
+					"height": 1135,
+					"credit": "Alfven Ato"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Turtle Ship Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Turtle Ship Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 192,
@@ -1707,8 +1707,8 @@
 						"offsetY": -58,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Turtle Ship Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -1716,12 +1716,9 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Turtle Ship Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 192,
@@ -1729,8 +1726,11 @@
 						"offsetY": -58,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		},
@@ -1749,20 +1749,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Tyrant Ship.webp"
 					},
-					"credit": "Olly Lawson",
 					"width": 1700,
-					"height": 1135
+					"height": 1135,
+					"credit": "Olly Lawson"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Tyrant Ship Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Tyrant Ship Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 122,
@@ -1770,8 +1770,8 @@
 						"offsetY": -9,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Tyrant Ship Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -1779,12 +1779,9 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Tyrant Ship Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 122,
@@ -1792,8 +1789,11 @@
 						"offsetY": -9,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		},
@@ -2035,17 +2035,17 @@
 						"type": "internal",
 						"path": "vehicles/GoS/warship.webp"
 					},
-					"title": "Warship",
+					"width": 2100,
+					"height": 2850,
 					"imageType": "map",
-					"credit": "Mike Schley",
 					"grid": {
 						"type": "square",
 						"size": 78,
 						"offsetX": 37,
 						"offsetY": 19
 					},
-					"width": 2100,
-					"height": 2850
+					"title": "Warship",
+					"credit": "Mike Schley"
 				}
 			]
 		},
@@ -2063,20 +2063,20 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Wasp Ship.webp"
 					},
-					"credit": "Olly Lawson",
 					"width": 1700,
-					"height": 1135
+					"height": 1135,
+					"credit": "Olly Lawson"
 				},
 				{
 					"type": "image",
+					"id": "000",
 					"href": {
 						"type": "internal",
 						"path": "vehicles/AAG/Wasp Ship Map.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "map",
-					"id": "000",
-					"title": "Wasp Ship Deck Plans",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 162,
@@ -2084,8 +2084,8 @@
 						"offsetY": 71,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Wasp Ship Deck Plans",
+					"credit": "Dyson Logos"
 				},
 				{
 					"type": "image",
@@ -2093,12 +2093,9 @@
 						"type": "internal",
 						"path": "vehicles/AAG/Wasp Ship Map Player Version.webp"
 					},
+					"width": 1700,
+					"height": 2200,
 					"imageType": "mapPlayer",
-					"mapParent": {
-						"id": "000"
-					},
-					"title": "Unlabeled Version",
-					"credit": "Dyson Logos",
 					"grid": {
 						"type": "square",
 						"size": 162,
@@ -2106,8 +2103,11 @@
 						"offsetY": 71,
 						"scale": 3
 					},
-					"width": 1700,
-					"height": 2200
+					"title": "Unlabeled Version",
+					"credit": "Dyson Logos",
+					"mapParent": {
+						"id": "000"
+					}
 				}
 			]
 		}

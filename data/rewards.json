@@ -1797,8 +1797,8 @@
 				"The doll is a Tiny construct. Destroying the doll causes the child's soul within it to become trapped in {@adventure the Soulmonger|ToA|5|The Soulmonger}.",
 				{
 					"type": "statblockInline",
-					"dataType": "object",
-					"data": {
+					"statblockType": "object",
+					"statblockData": {
 						"name": "Clay No-Face",
 						"isNpc": true,
 						"source": "ToA",
@@ -2761,8 +2761,8 @@
 				"The doll is a Tiny construct. Destroying the doll causes the child's soul within it to become trapped in {@adventure the Soulmonger|ToA|5|The Soulmonger}.",
 				{
 					"type": "statblockInline",
-					"dataType": "object",
-					"data": {
+					"statblockType": "object",
+					"statblockData": {
 						"name": "Joho",
 						"isNpc": true,
 						"source": "ToA",
@@ -3646,8 +3646,8 @@
 				"The doll is a Tiny construct. Destroying the doll causes the child's soul within it to become trapped in {@adventure the Soulmonger|ToA|5|The Soulmonger}.",
 				{
 					"type": "statblockInline",
-					"dataType": "object",
-					"data": {
+					"statblockType": "object",
+					"statblockData": {
 						"name": "Strawbundle",
 						"isNpc": true,
 						"source": "ToA",

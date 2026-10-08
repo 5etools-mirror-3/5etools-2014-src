@@ -5,8 +5,10 @@
 			"source": "PHB",
 			"entries": [
 				{
-					"name": "Druid",
 					"type": "section",
+					"name": "Druid",
+					"source": "PHB",
+					"page": 64,
 					"entries": [
 						"Holding high a gnarled staff wreathed with holly, an elf summons the fury of the storm and calls down explosive bolts of lightning to smite the torch-carrying orcs who threaten her forest.",
 						"Crouching out of sight on a high tree branch in the form of a leopard, a human peers out of the jungle at the strange construction of a temple of Evil Elemental Air, keeping a close eye on the cultists' activities.",
@@ -62,12 +64,12 @@
 								"The druids of Eberron hold animistic beliefs completely unconnected to the Sovereign Host, the Dark Six, or any of the other religions of the world. They believe that every living thing and every natural phenomenon\u2014sun, moon, wind, fire, and the world itself\u2014has a spirit. Their spells, then, are a means to communicate with and command these spirits. Different druidic sects, though, hold different philosophies about the proper relationship of these spirits to each other and to the forces of civilization. The Ashbound, for example, believe that arcane magic is an abomination against nature, the Children of Winter venerate the forces of death, and the Gatekeepers preserve ancient traditions meant to protect the world from the incursion of aberrations."
 							]
 						}
-					],
-					"source": "PHB",
-					"page": 64
+					]
 				},
 				{
 					"type": "section",
+					"source": "XGE",
+					"page": 21,
 					"entries": [
 						{
 							"type": "quote",
@@ -1417,9 +1419,7 @@
 								}
 							]
 						}
-					],
-					"source": "XGE",
-					"page": 21
+					]
 				}
 			],
 			"images": [

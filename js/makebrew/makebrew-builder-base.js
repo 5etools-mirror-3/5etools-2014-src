@@ -404,8 +404,8 @@ export class BuilderBase extends ProxyBase {
 			entries: [
 				{
 					type: "statblockInline",
-					dataType: this._prop,
-					data: entry,
+					statblockType: this._prop,
+					statblockData: entry,
 				},
 			],
 		});
@@ -568,7 +568,7 @@ export class BuilderBase extends ProxyBase {
 	}
 
 	_getAsMarkdown (ent) {
-		return RendererMarkdown.get().render({entries: [{type: "statblockInline", dataType: this._prop, data: ent}]});
+		return RendererMarkdown.get().render({entries: [{type: "statblockInline", statblockType: this._prop, statblockData: ent}]});
 	}
 
 	// TODO use this in creature builder

@@ -39,9 +39,9 @@
 						"type": "internal",
 						"path": "feats/TCE/Eldritch Adept.webp"
 					},
-					"credit": "Brian Valeza",
 					"width": 800,
-					"height": 1214
+					"height": 1214,
+					"credit": "Brian Valeza"
 				}
 			]
 		},
@@ -70,10 +70,10 @@
 						"type": "internal",
 						"path": "feats/DSotDQ/Mage of High Sorcery.webp"
 					},
-					"title": "Mages of High Sorcery of the Orders of the Black, Red, and White Robes",
-					"credit": "Linda Lithén",
 					"width": 1700,
-					"height": 1223
+					"height": 1223,
+					"title": "Mages of High Sorcery of the Orders of the Black, Red, and White Robes",
+					"credit": "Linda Lithén"
 				}
 			]
 		},
@@ -102,10 +102,10 @@
 						"type": "internal",
 						"path": "feats/SatO/Planar Wanderer.webp"
 					},
-					"title": "A planar cartographer on a Lower Plane asks a pit fiend for directions",
-					"credit": "Michele Giorgi",
 					"width": 850,
-					"height": 1981
+					"height": 1981,
+					"title": "A planar cartographer on a Lower Plane asks a pit fiend for directions",
+					"credit": "Michele Giorgi"
 				}
 			]
 		},
@@ -134,10 +134,10 @@
 						"type": "internal",
 						"path": "feats/PSK/Servo Crafting.webp"
 					},
-					"title": "Servo",
-					"credit": "Igor Kieryluk",
 					"width": 739,
-					"height": 985
+					"height": 985,
+					"title": "Servo",
+					"credit": "Igor Kieryluk"
 				}
 			]
 		},
@@ -151,10 +151,10 @@
 						"type": "internal",
 						"path": "feats/TCE/Telepathic.webp"
 					},
-					"title": "Astride a unicorn, a telepathic bard inspires her wizard companion.",
-					"credit": "Zoltan Boros",
 					"width": 1200,
-					"height": 802
+					"height": 802,
+					"title": "Astride a unicorn, a telepathic bard inspires her wizard companion.",
+					"credit": "Zoltan Boros"
 				}
 			]
 		}

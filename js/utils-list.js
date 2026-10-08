@@ -712,7 +712,7 @@ class SaveManager extends BaseComponent {
 			cbOnUpload,
 		},
 	) {
-		const wrp = veT`<div class="ve-pt-2 ve-flex-col no-print"></div>`;
+		const wrp = veT`<div class="ve-pt-2 ve-flex-col ve-print__hidden"></div>`;
 
 		const renderableCollectionSummary = new SaveManager._RenderableCollectionSaves_Summary(
 			{

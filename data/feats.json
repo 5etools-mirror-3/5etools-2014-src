@@ -629,13 +629,13 @@
 								{
 									"type": "table",
 									"caption": "Chaotic Flares",
-									"colStyles": [
-										"col-2 text-center",
-										"col-10"
-									],
 									"colLabels": [
 										"d4",
 										"Flare"
+									],
+									"colStyles": [
+										"col-2 text-center",
+										"col-10"
 									],
 									"rows": [
 										[
@@ -3231,13 +3231,13 @@
 								"Each time you gain a level, you can replace one of the runes you know with another one from the Rune Spells table.",
 								{
 									"type": "table",
-									"colStyles": [
-										"col-2",
-										"col-10"
-									],
 									"colLabels": [
 										"Rune",
 										"Spell"
+									],
+									"colStyles": [
+										"col-2",
+										"col-10"
 									],
 									"rows": [
 										[
@@ -3413,15 +3413,15 @@
 				"Your connection to an Outer Plane infuses you with the energy there. Choose a type of plane listed in the Planar Infusion table. Your choice gives you resistance to a damage type and the ability to cast a cantrip, as specified in the table. You can cast this cantrip without material components, and your spellcasting ability for it is Intelligence, Wisdom, or Charisma (choose when you select this feat).",
 				{
 					"type": "table",
-					"colStyles": [
-						"col-4",
-						"col-4",
-						"col-4"
-					],
 					"colLabels": [
 						"Plane",
 						"Damage Resistance",
 						"Cantrip"
+					],
+					"colStyles": [
+						"col-4",
+						"col-4",
+						"col-4"
 					],
 					"rows": [
 						[

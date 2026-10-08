@@ -1,29 +1,33 @@
 import {ArrayKey, IgnoredKey, ObjectKey, ObjectOrArrayKey} from "./utils-proporder-models.js";
-import {PROPS_FOUNDRY_DATA_INLINE} from "../foundry/foundry-consts.js";
+import {PROPORDER_FOUNDRY_ACTIVITIES, PROPORDER_FOUNDRY_DATA_INLINE, PROPORDER_FOUNDRY_EFFECTS} from "./utils-proporder-config-foundry.js";
 import {getFnRootPropListSort} from "./utils-proporder-sort.js";
-import {PROPORDER_ENTRY_DATA_OBJECT, PROPORDER_FOUNDRY_ACTIVITIES, PROPORDER_FOUNDRY_EFFECTS} from "./utils-proporder-config-shared.js";
+import {getGenericMetadataPropOrder, PROPORDER_ENTRY_DATA_OBJECT} from "./utils-proporder-config-shared.js";
+import {EntryPropOrder} from "./utils-proporder-config-entries.js";
+import {getAbilityArrayKey, getClassRequirementsObjectKey, getClassTableGroupsArrayKey, getExternalSourcesArrayKey, getSkillSaveObjectKey, getVehiclePartArrayKey} from "./utils-proporder-config-util.js";
 
-const getGenericMetadataPropOrder = ({
-	propsPostNameAdditional = ["alias"],
-	propsPostSourceAdditional = [],
-} = {}) => [
-	"name",
-	...propsPostNameAdditional,
+const getFluffObjectKey = () => (
+	new ObjectKey(
+		"fluff",
+		{
+			order: [
+				EntryPropOrder.getArrayKey("entries"),
+				EntryPropOrder.getArrayKey("images"),
 
-	"source",
-	...propsPostSourceAdditional,
-	"page",
-
-	"srd",
-	"srd52",
-	"basicRules",
-	"basicRules2024",
-	"additionalSources",
-	"otherSources",
-	new ArrayKey("referenceSources", {fnSort: SortUtil.ascSortLower}),
-	"isReprinted",
-	"reprintedAs",
-];
+				...[
+					"monsterFluff",
+					"raceFluff",
+					"itemFluff",
+					"subclassFluff",
+				]
+					.map(prop => [
+						`_${prop}`,
+						`_append${prop.uppercaseFirst()}`,
+					])
+					.flat(),
+			],
+		},
+	)
+);
 
 const getFoundryGeneric = ({propsMatchAdditional = [], isFeature = false} = {}) => {
 	const proporder = [
@@ -44,18 +48,22 @@ const getFoundryGeneric = ({propsMatchAdditional = [], isFeature = false} = {}) 
 		PROPORDER_FOUNDRY_EFFECTS,
 		"flags",
 		"img",
-		"advice",
 
+		EntryPropOrder.getObjectKey("advice"),
 		...(
 			isFeature
 				? [
-					"entries",
+					EntryPropOrder.getArrayKey("entries"),
 
 					new ObjectKey("entryData", {
 						fnGetOrder: () => PROPORDER_ENTRY_DATA_OBJECT,
 					}),
 
 					"advancement",
+
+					"isIgnored",
+					"ignoreSrdActivities",
+					"ignoreSrdEffects",
 				]
 				: []
 		),
@@ -158,12 +166,20 @@ const PROPORDER_MONSTER = [
 	"_isCopy",
 	ObjectKey.getCopyKey({fnGetModOrder: () => PROPORDER_MONSTER__COPY_MOD}),
 
+	// region `vehicle` use
+	"vehicleType",
+	// endregion
+
 	"level",
 	"size",
 	"sizeNote",
 	"type",
 	"alignment",
 	"alignmentPrefix",
+
+	// region `vehicle` use
+	"terrain",
+	// endregion
 
 	"ac",
 	"hp",
@@ -179,8 +195,8 @@ const PROPORDER_MONSTER = [
 	"wis",
 	"cha",
 
-	"save",
-	"skill",
+	getSkillSaveObjectKey("save"),
+	getSkillSaveObjectKey("skill"),
 	"tool",
 	"senses",
 	"passive",
@@ -197,7 +213,8 @@ const PROPORDER_MONSTER = [
 		fnGetOrder: () => [
 			"name",
 			"type",
-			"headerEntries",
+
+			EntryPropOrder.getArrayKey("headerEntries"),
 
 			"constant",
 			"will",
@@ -215,7 +232,7 @@ const PROPORDER_MONSTER = [
 
 			"spells",
 
-			"footerEntries",
+			EntryPropOrder.getArrayKey("footerEntries"),
 
 			"chargesItem",
 
@@ -224,25 +241,27 @@ const PROPORDER_MONSTER = [
 			"hidden",
 		],
 	}),
-	"trait",
+	EntryPropOrder.getArrayKey("trait"),
 	"actionNote",
-	"actionHeader",
-	"action",
+	EntryPropOrder.getArrayKey("actionHeader"),
+	EntryPropOrder.getArrayKey("action"),
 	"bonusNote",
-	"bonusHeader",
-	"bonus",
+	EntryPropOrder.getArrayKey("bonusHeader"),
+	EntryPropOrder.getArrayKey("bonus"),
 	"reactionNote",
-	"reactionHeader",
-	"reaction",
-	"legendaryHeader",
+	EntryPropOrder.getArrayKey("reactionHeader"),
+	EntryPropOrder.getArrayKey("reaction"),
+	EntryPropOrder.getArrayKey("legendaryHeader"),
 	"legendaryActions",
 	"legendaryActionsLair",
-	"legendary",
-	"mythicHeader",
-	"mythic",
+	EntryPropOrder.getArrayKey("legendary"),
+	EntryPropOrder.getArrayKey("mythicHeader"),
+	EntryPropOrder.getArrayKey("mythic"),
 	"legendaryGroup",
-	"variant",
-	"footer",
+	EntryPropOrder.getArrayKey("variant"),
+	EntryPropOrder.getArrayKey("footer"),
+
+	getExternalSourcesArrayKey(),
 
 	"environment",
 	"treasure",
@@ -257,8 +276,6 @@ const PROPORDER_MONSTER = [
 	"tokenCustom",
 	"tokenHref3d",
 	"soundClip",
-
-	...PROPS_FOUNDRY_DATA_INLINE,
 
 	"altArt",
 
@@ -283,16 +300,16 @@ const PROPORDER_MONSTER = [
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 
 	new ArrayKey("_versions", {
 		fnGetOrder: () => [
 			"name",
 			"source",
 			"_templates",
-			new ObjectKey("_mod", {
-				fnGetOrder: () => PROPORDER_MONSTER__COPY_MOD,
-			}),
+			ObjectKey.getCopyModKey({fnGetModOrder: () => PROPORDER_MONSTER__COPY_MOD}),
 			"_preserve",
 			"_abstract",
 			"_implementations",
@@ -304,17 +321,7 @@ const PROPORDER_MONSTER = [
 const PROPORDER_MONSTER__COPY_MOD = [
 	"*",
 	"_",
-	...PROPORDER_MONSTER
-		.map(it => {
-			if (typeof it === "string") return it;
-
-			if (it instanceof ArrayKey) {
-				if (it.key === "spellcasting") return it.key;
-				return it;
-			}
-
-			return it;
-		}),
+	...PROPORDER_MONSTER,
 ];
 const PROPORDER_MONSTER_TEMPLATE = [
 	...getGenericMetadataPropOrder(),
@@ -334,9 +341,7 @@ const PROPORDER_MONSTER_TEMPLATE = [
 			new ObjectKey("_root", {
 				order: PROPORDER_MONSTER,
 			}),
-			new ObjectKey("_mod", {
-				fnGetOrder: () => PROPORDER_MONSTER__COPY_MOD,
-			}),
+			ObjectKey.getCopyModKey({fnGetModOrder: () => PROPORDER_MONSTER__COPY_MOD}),
 		],
 	}),
 ];
@@ -348,22 +353,24 @@ const PROPORDER_MONSTER_TEMPLATE__COPY_MOD = [
 const PROPORDER_MAKE_BREW_CREATURE_TRAIT = [
 	...getGenericMetadataPropOrder(),
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 ];
 const PROPORDER_MAKE_BREW_CREATURE_ACTION = [
 	...getGenericMetadataPropOrder(),
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 ];
 const PROPORDER_FOUNDRY_MONSTER = [
 	...getGenericMetadataPropOrder(),
 
 	"system",
 	"prototypeToken",
+	PROPORDER_FOUNDRY_ACTIVITIES,
 	PROPORDER_FOUNDRY_EFFECTS,
 	"flags",
 	"img",
-	"advice",
+
+	EntryPropOrder.getObjectKey("advice"),
 
 	"migrationVersion",
 ];
@@ -373,8 +380,8 @@ const PROPORDER_GENERIC_FLUFF = [
 
 	"_copy",
 
-	"entries",
-	"images",
+	EntryPropOrder.getArrayKey("entries"),
+	EntryPropOrder.getArrayKey("images"),
 ];
 const PROPORDER_ROLL20_SPELL = [
 	...getGenericMetadataPropOrder(),
@@ -422,8 +429,8 @@ const PROPORDER_SPELL = [
 	"duration",
 	"meta",
 
-	"entries",
-	"entriesHigherLevel",
+	EntryPropOrder.getArrayKey("entries"),
+	EntryPropOrder.getArrayKey("entriesHigherLevel"),
 
 	"scalingLevelDice",
 
@@ -459,9 +466,9 @@ const PROPORDER_SPELL = [
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 
 	new ArrayKey("roll20Spell", {
 		fnGetOrder: () => PROPORDER_ROLL20_SPELL,
@@ -489,9 +496,13 @@ const PROPORDER_ACTION = [
 
 	"time",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"seeAlsoAction",
+
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const _PROPORDER_CORPUS_CONTENTS = new ArrayKey(
 	"contents",
@@ -543,7 +554,7 @@ const PROPORDER_ADVENTURE = [
 const PROPORDER_ADVENTURE_DATA = [
 	...getGenericMetadataPropOrder({propsPostNameAdditional: ["alias", "id"]}),
 
-	"data",
+	EntryPropOrder.getArrayKey("data"),
 ];
 const PROPORDER_BOOK = [
 	...getGenericMetadataPropOrder({
@@ -565,7 +576,7 @@ const PROPORDER_BOOK = [
 const PROPORDER_BOOK_DATA = [
 	...getGenericMetadataPropOrder({propsPostNameAdditional: ["alias", "id"]}),
 
-	"data",
+	EntryPropOrder.getArrayKey("data"),
 ];
 const PROPORDER_BACKGROUND = [
 	...getGenericMetadataPropOrder(),
@@ -575,7 +586,7 @@ const PROPORDER_BACKGROUND = [
 	ObjectKey.getCopyKey({fnGetModOrder: () => PROPORDER_BACKGROUND__COPY_MOD}),
 
 	"prerequisite",
-	"ability",
+	getAbilityArrayKey(),
 
 	"feats",
 
@@ -598,14 +609,14 @@ const PROPORDER_BACKGROUND = [
 
 	"fromFeature",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_BACKGROUND__COPY_MOD = [
 	"*",
@@ -624,18 +635,16 @@ const PROPORDER_LEGENDARY_GROUP = [
 
 	ObjectKey.getCopyKey({fnGetModOrder: () => PROPORDER_LEGENDARY_GROUP__COPY_MOD}),
 
-	"lairActions",
-	"regionalEffects",
-	"mythicEncounter",
+	EntryPropOrder.getArrayKey("lairActions"),
+	EntryPropOrder.getArrayKey("regionalEffects"),
+	EntryPropOrder.getArrayKey("mythicEncounter"),
 
 	new ArrayKey("_versions", {
 		fnGetOrder: () => [
 			"name",
 			"source",
 			"_templates",
-			new ObjectKey("_mod", {
-				fnGetOrder: () => PROPORDER_LEGENDARY_GROUP__COPY_MOD,
-			}),
+			ObjectKey.getCopyModKey({fnGetModOrder: () => PROPORDER_LEGENDARY_GROUP__COPY_MOD}),
 			"_preserve",
 			"_abstract",
 			"_implementations",
@@ -661,9 +670,7 @@ const PROPORDER_LEGENDARY_GROUP_TEMPLATE = [
 			new ObjectKey("_root", {
 				order: PROPORDER_LEGENDARY_GROUP,
 			}),
-			new ObjectKey("_mod", {
-				fnGetOrder: () => PROPORDER_LEGENDARY_GROUP__COPY_MOD,
-			}),
+			ObjectKey.getCopyModKey({fnGetModOrder: () => PROPORDER_LEGENDARY_GROUP__COPY_MOD}),
 		],
 	}),
 ];
@@ -692,7 +699,7 @@ const PROPORDER_CLASS = [
 
 	ObjectKey.getCopyKey({fnGetModOrder: () => PROPORDER_CLASS__COPY_MOD}),
 
-	"requirements",
+	getClassRequirementsObjectKey(),
 	"primaryAbility",
 	"hd",
 	"proficiency",
@@ -722,20 +729,20 @@ const PROPORDER_CLASS = [
 			"default",
 			"goldAlternative",
 			"defaultData",
-			"entries",
+			EntryPropOrder.getArrayKey("entries"),
 		],
 	}),
 
 	new ObjectKey("multiclassing", {
 		order: [
-			"requirements",
+			getClassRequirementsObjectKey(),
 			"requirementsSpecial",
 			new ObjectKey("proficienciesGained", {order: _PROPORDER_CLASS_PROFICIENCIES}),
-			"entries",
+			EntryPropOrder.getArrayKey("entries"),
 		],
 	}),
 
-	"classTableGroups",
+	getClassTableGroupsArrayKey("classTableGroups"),
 
 	"classFeatures",
 
@@ -744,9 +751,9 @@ const PROPORDER_CLASS = [
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_CLASS__COPY_MOD = [
 	"*",
@@ -761,7 +768,6 @@ const PROPORDER_FOUNDRY_CLASS = [
 	PROPORDER_FOUNDRY_EFFECTS,
 	"flags",
 	"img",
-	"advice",
 
 	"advancement",
 	"chooseSystem",
@@ -771,6 +777,11 @@ const PROPORDER_FOUNDRY_CLASS = [
 	"ignoreSrdActivities",
 	"ignoreSrdEffects",
 	"actorTokenMod",
+
+	EntryPropOrder.getObjectKey("advice"),
+	EntryPropOrder.getArrayKey("entries"),
+
+	new ObjectKey("subEntities", {fnGetOrder: () => PROPORDER_ROOT}),
 
 	"migrationVersion",
 ];
@@ -790,9 +801,7 @@ const PROPORDER_SUBCLASS = [
 			"source",
 			"className",
 			"classSource",
-			new ObjectKey("_mod", {
-				fnGetOrder: () => PROPORDER_SUBCLASS__COPY_MOD,
-			}),
+			ObjectKey.getCopyModKey({fnGetModOrder: () => PROPORDER_SUBCLASS__COPY_MOD}),
 			"_preserve",
 		],
 	}),
@@ -816,15 +825,15 @@ const PROPORDER_SUBCLASS = [
 	"featProgression",
 	"optionalfeatureProgression",
 
-	"subclassTableGroups",
+	getClassTableGroupsArrayKey("subclassTableGroups"),
 	"subclassFeatures",
 
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_SUBCLASS__COPY_MOD = [
 	"*",
@@ -839,8 +848,8 @@ const PROPORDER_SUBCLASS_FLUFF = [
 
 	"_copy",
 
-	"entries",
-	"images",
+	EntryPropOrder.getArrayKey("entries"),
+	EntryPropOrder.getArrayKey("images"),
 ];
 const PROPORDER_FOUNDRY_SUBCLASS = [
 	...getGenericMetadataPropOrder({
@@ -854,7 +863,6 @@ const PROPORDER_FOUNDRY_SUBCLASS = [
 	PROPORDER_FOUNDRY_EFFECTS,
 	"flags",
 	"img",
-	"advice",
 
 	"advancement",
 	"chooseSystem",
@@ -864,6 +872,11 @@ const PROPORDER_FOUNDRY_SUBCLASS = [
 	"ignoreSrdActivities",
 	"ignoreSrdEffects",
 	"actorTokenMod",
+
+	EntryPropOrder.getObjectKey("advice"),
+	EntryPropOrder.getArrayKey("entries"),
+
+	new ObjectKey("subEntities", {fnGetOrder: () => PROPORDER_ROOT}),
 
 	"migrationVersion",
 ];
@@ -881,9 +894,7 @@ const PROPORDER_CLASS_FEATURE = [
 			"className",
 			"classSource",
 			"level",
-			new ObjectKey("_mod", {
-				fnGetOrder: () => PROPORDER_CLASS_FEATURE__COPY_MOD,
-			}),
+			ObjectKey.getCopyModKey({fnGetModOrder: () => PROPORDER_CLASS_FEATURE__COPY_MOD}),
 			"_preserve",
 		],
 	}),
@@ -897,9 +908,11 @@ const PROPORDER_CLASS_FEATURE = [
 
 	"consumes",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_CLASS_FEATURE__COPY_MOD = [
 	"*",
@@ -924,9 +937,7 @@ const PROPORDER_SUBCLASS_FEATURE = [
 			"subclassShortName",
 			"subclassSource",
 			"level",
-			new ObjectKey("_mod", {
-				fnGetOrder: () => PROPORDER_SUBCLASS_FEATURE__COPY_MOD,
-			}),
+			ObjectKey.getCopyModKey({fnGetModOrder: () => PROPORDER_SUBCLASS_FEATURE__COPY_MOD}),
 			"_preserve",
 		],
 	}),
@@ -942,9 +953,11 @@ const PROPORDER_SUBCLASS_FEATURE = [
 
 	"consumes",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_SUBCLASS_FEATURE__COPY_MOD = [
 	"*",
@@ -961,9 +974,9 @@ const PROPORDER_FOUNDRY_CLASS_FEATURE = [
 	PROPORDER_FOUNDRY_EFFECTS,
 	"flags",
 	"img",
-	"advice",
 
-	"entries",
+	EntryPropOrder.getObjectKey("advice"),
+	EntryPropOrder.getArrayKey("entries"),
 
 	new ObjectKey("entryData", {
 		fnGetOrder: () => PROPORDER_ENTRY_DATA_OBJECT,
@@ -1000,9 +1013,9 @@ const PROPORDER_FOUNDRY_SUBCLASS_FEATURE = [
 	PROPORDER_FOUNDRY_EFFECTS,
 	"flags",
 	"img",
-	"advice",
 
-	"entries",
+	EntryPropOrder.getObjectKey("advice"),
+	EntryPropOrder.getArrayKey("entries"),
 
 	new ObjectKey("entryData", {
 		fnGetOrder: () => PROPORDER_ENTRY_DATA_OBJECT,
@@ -1033,12 +1046,14 @@ const PROPORDER_LANGUAGE = [
 
 	"fonts",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_LANGUAGE_SCRIPT = [
 	...getGenericMetadataPropOrder(),
@@ -1067,14 +1082,14 @@ const PROPORDER_CONDITION = [
 
 	"color",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_DISEASE = [
 	...getGenericMetadataPropOrder(),
@@ -1083,26 +1098,28 @@ const PROPORDER_DISEASE = [
 
 	"color",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_STATUS = [
 	...getGenericMetadataPropOrder(),
 
 	"color",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_CULT = [
 	...getGenericMetadataPropOrder(),
@@ -1113,20 +1130,34 @@ const PROPORDER_CULT = [
 	"cultists",
 	"signatureSpells",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
+
+	"hasFluff",
+	"hasFluffImages",
+
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_BOON = [
 	...getGenericMetadataPropOrder(),
 
 	"type",
 
-	"ability",
+	EntryPropOrder.getObjectKey("abilityEntry"),
 
 	"goal",
 	"cultists",
-	"signatureSpells",
+	new ObjectKey("signatureSpells", {order: [EntryPropOrder.getObjectKey("entry")]}),
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
+
+	"hasFluff",
+	"hasFluffImages",
+
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_DEITY = [
 	...getGenericMetadataPropOrder({
@@ -1138,9 +1169,7 @@ const PROPORDER_DEITY = [
 			"name",
 			"source",
 			"pantheon",
-			new ObjectKey("_mod", {
-				fnGetOrder: () => PROPORDER_DEITY__COPY_MOD,
-			}),
+			ObjectKey.getCopyModKey({fnGetModOrder: () => PROPORDER_DEITY__COPY_MOD}),
 			"_preserve",
 		],
 	}),
@@ -1159,7 +1188,7 @@ const PROPORDER_DEITY = [
 	"worshipers",
 	"plane",
 	"symbol",
-	"symbolImg",
+	EntryPropOrder.getObjectKey("symbolImg"),
 	"favoredWeapons",
 
 	"piety",
@@ -1168,9 +1197,11 @@ const PROPORDER_DEITY = [
 		fnGetOrder: obj => Object.keys(obj).sort(SortUtil.ascSortLower),
 	}),
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_DEITY__COPY_MOD = [
 	"*",
@@ -1189,7 +1220,7 @@ const PROPORDER_FEAT = [
 	"repeatableNote",
 	"repeatableHidden",
 
-	"ability",
+	getAbilityArrayKey(),
 
 	new ArrayKey("traitTags", {fnSort: SortUtil.ascSortLower}),
 	"skillProficiencies",
@@ -1214,22 +1245,20 @@ const PROPORDER_FEAT = [
 	"featProgression",
 	"optionalfeatureProgression",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 
 	new ArrayKey("_versions", {
 		fnGetOrder: () => [
 			"name",
 			"source",
-			new ObjectKey("_mod", {
-				fnGetOrder: () => PROPORDER_FEAT__COPY_MOD,
-			}),
+			ObjectKey.getCopyModKey({fnGetModOrder: () => PROPORDER_FEAT__COPY_MOD}),
 			"_preserve",
 			"_abstract",
 			"_implementations",
@@ -1282,18 +1311,22 @@ const PROPORDER_VEHICLE = [
 	"conditionImmune",
 
 	"hull",
-	"control",
-	"movement",
-	"weapon",
-	"station",
-	"other",
+	getVehiclePartArrayKey("control"),
+	getVehiclePartArrayKey("movement"),
+	getVehiclePartArrayKey("weapon"),
+	getVehiclePartArrayKey("station"),
+	getVehiclePartArrayKey("other"),
 
-	"entries",
-	"trait",
+	EntryPropOrder.getArrayKey("entries"),
+	EntryPropOrder.getArrayKey("trait"),
 	"actionThresholds",
-	"action",
-	"actionStation",
-	"reaction",
+	EntryPropOrder.getArrayKey("actionHeader"),
+	EntryPropOrder.getArrayKey("action"),
+	EntryPropOrder.getArrayKey("actionEntries"),
+	EntryPropOrder.getArrayKey("actionStation"),
+	EntryPropOrder.getArrayKey("reaction"),
+
+	getExternalSourcesArrayKey(),
 
 	"tokenUrl",
 	"token",
@@ -1306,9 +1339,9 @@ const PROPORDER_VEHICLE = [
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_VEHICLE_UPGRADE = [
 	...getGenericMetadataPropOrder(),
@@ -1317,18 +1350,10 @@ const PROPORDER_VEHICLE_UPGRADE = [
 
 	"cost",
 
-	"entries",
-];
-const PROPORDER_RACE_FLUFF = [
-	...getGenericMetadataPropOrder(),
+	EntryPropOrder.getArrayKey("entries"),
 
-	"uncommon",
-	"monstrous",
-
-	"_copy",
-
-	"entries",
-	"images",
+	"hasFluff",
+	"hasFluffImages",
 ];
 const PROPORDER_ITEM = [
 	...getGenericMetadataPropOrder({
@@ -1473,8 +1498,8 @@ const PROPORDER_ITEM = [
 	"weapon",
 
 	"hasRefs",
-	"entries",
-	"additionalEntries",
+	EntryPropOrder.getArrayKey("entries"),
+	EntryPropOrder.getArrayKey("additionalEntries"),
 	"items",
 	"itemsHidden",
 
@@ -1530,9 +1555,9 @@ const PROPORDER_ITEM = [
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_ITEM__COPY_MOD = [
 	"*",
@@ -1555,7 +1580,7 @@ const PROPORDER_MAGICVARIANT = [
 
 	"ammo",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	new ObjectKey("inherits", {
 		order: PROPORDER_ITEM,
@@ -1564,7 +1589,9 @@ const PROPORDER_MAGICVARIANT = [
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_MAGICVARIANT__COPY_MOD = [
 	"*",
@@ -1578,7 +1605,7 @@ const PROPORDER_ITEM_MASTERY = [
 
 	"prerequisite",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 ];
 const PROPORDER_ITEM_PROPERTY = [
 	...getGenericMetadataPropOrder({
@@ -1595,8 +1622,8 @@ const PROPORDER_ITEM_PROPERTY = [
 
 	"template",
 
-	"entries",
-	"entriesTemplate",
+	EntryPropOrder.getArrayKey("entries"),
+	EntryPropOrder.getArrayKey("entriesTemplate"),
 ];
 const PROPORDER_ITEM_PROPERTY__COPY_MOD = [
 	"*",
@@ -1621,8 +1648,8 @@ const PROPORDER_ITEM_TYPE = [
 
 	"template",
 
-	"entries",
-	"entriesTemplate",
+	EntryPropOrder.getArrayKey("entries"),
+	EntryPropOrder.getArrayKey("entriesTemplate"),
 ];
 const PROPORDER_ITEM_TYPE__COPY_MOD = [
 	"*",
@@ -1637,21 +1664,35 @@ const PROPORDER_ITEM_TYPE_ADDITIONAL_ENTRIES = [
 
 	"appliesTo",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 ];
 const PROPORDER_ITEM_ENTRY = [
 	...getGenericMetadataPropOrder(),
 
-	"entriesTemplate",
+	EntryPropOrder.getArrayKey("entriesTemplate"),
 ];
 const PROPORDER_OBJECT = [
 	...getGenericMetadataPropOrder({
 		propsPostNameAdditional: ["alias", "isNpc"],
 	}),
 
+	// region `vehicle` use
+	"vehicleType",
+	// endregion
+
 	"size",
 	"objectType",
 	"creatureType",
+
+	// region `vehicle` use
+	"dimensions",
+
+	"terrain",
+
+	"capCrew",
+	"capPassenger",
+	"capCargo",
+	// endregion
 
 	"ac",
 	"hp",
@@ -1671,8 +1712,8 @@ const PROPORDER_OBJECT = [
 	"vulnerable",
 	"conditionImmune",
 
-	"entries",
-	"actionEntries",
+	EntryPropOrder.getArrayKey("entries"),
+	EntryPropOrder.getArrayKey("actionEntries"),
 
 	"tokenUrl",
 	"token",
@@ -1687,9 +1728,9 @@ const PROPORDER_OBJECT = [
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_OPTIONALFEATURE = [
 	...getGenericMetadataPropOrder(),
@@ -1726,14 +1767,14 @@ const PROPORDER_OPTIONALFEATURE = [
 
 	"consumes",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_OPTIONALFEATURE__COPY_MOD = [
 	"*",
@@ -1746,11 +1787,47 @@ const PROPORDER_PSIONIC = [
 	"type",
 	"order",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"focus",
-	"modes",
+
+	new ArrayKey(
+		"modes",
+		{
+			order: [
+				"name",
+
+				"cost",
+				"concentration",
+
+				EntryPropOrder.getArrayKey("entries"),
+
+				new ArrayKey(
+					"submodes",
+					{
+						order: [
+							"name",
+
+							"cost",
+
+							EntryPropOrder.getArrayKey("entries"),
+						],
+					},
+				),
+			],
+		},
+	),
+
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
+const PROPORDER_FOUNDRY_PSIONIC_DISCIPLINE_ACTIVE = getFoundryGeneric({
+	propsMatchAdditional: [
+		"psionicName",
+		"psionicSource",
+	],
+});
 const PROPORDER_REWARD = [
 	...getGenericMetadataPropOrder(),
 
@@ -1758,18 +1835,20 @@ const PROPORDER_REWARD = [
 
 	"rarity",
 
+	EntryPropOrder.getObjectKey("abilityEntry"),
+
 	"additionalSpells",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"seeAlsoFacility",
 
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_VARIANTRULE = [
 	...getGenericMetadataPropOrder(),
@@ -1777,9 +1856,11 @@ const PROPORDER_VARIANTRULE = [
 	"ruleType",
 
 	"type",
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_RACE_SUBRACE = [
 	"edition",
@@ -1800,7 +1881,7 @@ const PROPORDER_RACE_SUBRACE = [
 
 	new ArrayKey("size", {fnSort: SortUtil.ascSortSize}),
 	"speed",
-	"ability",
+	getAbilityArrayKey(),
 
 	"heightAndWeight",
 	"age",
@@ -1829,21 +1910,21 @@ const PROPORDER_RACE_SUBRACE = [
 
 	"additionalSpells",
 
-	"abilityEntry",
-	"creatureTypesEntry",
-	"sizeEntry",
-	"speedEntry",
+	EntryPropOrder.getObjectKey("abilityEntry"),
+	EntryPropOrder.getObjectKey("creatureTypesEntry"),
+	EntryPropOrder.getObjectKey("sizeEntry"),
+	EntryPropOrder.getObjectKey("speedEntry"),
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"overwrite",
 
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
 
-	...PROPS_FOUNDRY_DATA_INLINE,
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 
 	new ArrayKey("_versions", {
 		fnGetOrder: () => [
@@ -1851,9 +1932,7 @@ const PROPORDER_RACE_SUBRACE = [
 			"source",
 			"raceName",
 			"raceSource",
-			new ObjectKey("_mod", {
-				fnGetOrder: () => PROPORDER_RACE__COPY_MOD,
-			}),
+			ObjectKey.getCopyModKey({fnGetModOrder: () => PROPORDER_RACE__COPY_MOD}),
 			"_preserve",
 			"_abstract",
 			"_implementations",
@@ -1893,24 +1972,26 @@ const PROPORDER_TABLE = [
 
 	"caption",
 
-	"colLabels",
-	"colLabelRows",
+	EntryPropOrder.getArrayKey("colLabels"),
+	EntryPropOrder.getArrayKey("colLabelRows"),
 	"colStyles",
 
-	"rowLabels",
+	EntryPropOrder.getArrayKey("rowLabels"),
 
-	"intro",
-	"rows",
+	EntryPropOrder.getArrayKey("intro"),
+	EntryPropOrder.getArrayKey("rows"),
 	new ArrayKey("tables", {
 		fnGetOrder: () => PROPORDER_TABLE,
 	}),
-	"outro",
-	"footnotes",
+	EntryPropOrder.getArrayKey("outro"),
+	EntryPropOrder.getArrayKey("footnotes"),
 
 	"isNameGenerator",
 	"isStriped",
 
 	"parentEntity",
+
+	"data",
 ];
 const PROPORDER_TRAP = [
 	...getGenericMetadataPropOrder(),
@@ -1921,26 +2002,28 @@ const PROPORDER_TRAP = [
 
 	"hauntBonus",
 
-	"effect",
+	EntryPropOrder.getArrayKey("effect"),
 
-	"trigger",
+	EntryPropOrder.getArrayKey("trigger"),
 	"duration",
 
 	"initiative",
-	"initiativeNote",
+	EntryPropOrder.getObjectKey("initiativeNote"),
 
-	"eActive",
-	"eDynamic",
-	"eConstant",
+	EntryPropOrder.getArrayKey("eActive"),
+	EntryPropOrder.getArrayKey("eDynamic"),
+	EntryPropOrder.getArrayKey("eConstant"),
 
-	"countermeasures",
+	EntryPropOrder.getArrayKey("countermeasures"),
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_HAZARD = [
 	...getGenericMetadataPropOrder(),
@@ -1949,12 +2032,14 @@ const PROPORDER_HAZARD = [
 
 	"rating",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_RECIPE = [
 	...getGenericMetadataPropOrder(),
@@ -1966,21 +2051,33 @@ const PROPORDER_RECIPE = [
 	"allergenGroups",
 
 	"time",
-	"makes",
-	"serves",
-	"ingredients",
-	"equipment",
-	"instructions",
-	"noteCook",
+	EntryPropOrder.getObjectKey("makes"),
+	new ObjectKey(
+		"serves",
+		{
+			order: [
+				"exact",
+
+				"min",
+				"max",
+
+				EntryPropOrder.getObjectKey("note"),
+			],
+		},
+	),
+	EntryPropOrder.getArrayKey("ingredients"),
+	EntryPropOrder.getArrayKey("equipment"),
+	EntryPropOrder.getArrayKey("instructions"),
+	EntryPropOrder.getArrayKey("noteCook"),
 
 	new ArrayKey("miscTags", {fnSort: SortUtil.ascSortLower}),
-
-	"fluff",
 
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_CROCHET_PATTERN = [
 	...getGenericMetadataPropOrder(),
@@ -1988,28 +2085,51 @@ const PROPORDER_CROCHET_PATTERN = [
 	"designers",
 	"level",
 	"patternType",
-	"size",
-	"sizeNote",
-	"yarn",
-	"hooks",
-	"notions",
-	"gauge",
-	"abbreviations",
-	"stitches",
-	"notes",
-	"finishing",
+	new ArrayKey("size", {
+		order: [
+			"name",
 
-	"instructions",
+			new ObjectKey(
+				"height",
+				{
+					order: [
+						"mm",
+						EntryPropOrder.getObjectKey("entry"),
+					],
+				},
+			),
+			new ObjectKey(
+				"width",
+				{
+					order: [
+						"mm",
+						EntryPropOrder.getObjectKey("entry"),
+					],
+				},
+			),
+		],
+	}),
+	"sizeNote",
+	EntryPropOrder.getArrayKey("yarn"),
+	"hooks",
+	EntryPropOrder.getArrayKey("notions"),
+	EntryPropOrder.getArrayKey("gauge"),
+	EntryPropOrder.getArrayKey("abbreviations"),
+	EntryPropOrder.getArrayKey("stitches"),
+	EntryPropOrder.getArrayKey("notes"),
+	EntryPropOrder.getArrayKey("finishing"),
+
+	EntryPropOrder.getArrayKey("instructions"),
 
 	"seeAlsoCreature",
 	"seeAlsoItem",
 
-	"fluff",
-
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_CHAROPTION = [
 	...getGenericMetadataPropOrder(),
@@ -2018,38 +2138,40 @@ const PROPORDER_CHAROPTION = [
 
 	"optionType",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
+
+	...PROPORDER_FOUNDRY_DATA_INLINE,
 ];
 const PROPORDER_SKILL = [
 	...getGenericMetadataPropOrder(),
 
 	"ability",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 ];
 const PROPORDER_SENSE = [
 	...getGenericMetadataPropOrder(),
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 ];
 const PROPORDER_DECK_SPREAD_POSITION = [
 	"name",
 
 	"suits",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"outcomes",
 ];
 const PROPORDER_DECK_SPREAD = [
 	...getGenericMetadataPropOrder(),
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"seeAlsoAdventureHeader",
 	"seeAlsoBookHeader",
@@ -2063,9 +2185,9 @@ const PROPORDER_DECK = [
 	ObjectKey.getCopyKey({fnGetModOrder: () => PROPORDER_DECK__COPY_MOD}),
 
 	"cards",
-	"back",
+	EntryPropOrder.getObjectKey("back"),
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	new ArrayKey("spreads", {fnGetOrder: () => PROPORDER_DECK_SPREAD}),
 
@@ -2086,10 +2208,10 @@ const PROPORDER_CARD = [
 	"value",
 	"valueName",
 
-	"face",
-	"back",
+	EntryPropOrder.getObjectKey("face"),
+	EntryPropOrder.getObjectKey("back"),
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 ];
 
 const PROPORDER_ENCOUNTER = [
@@ -2109,9 +2231,21 @@ const PROPORDER_ENCOUNTER = [
 
 			"diceExpression",
 			"rollAttitude",
-			"table",
 
-			"footnotes",
+			new ArrayKey(
+				"table",
+				{
+					order: [
+						"min",
+						"max",
+
+						EntryPropOrder.getObjectKey("result"),
+						EntryPropOrder.getObjectKey("resultAttitude"),
+					],
+				},
+			),
+
+			EntryPropOrder.getArrayKey("footnotes"),
 		],
 		fnSort: SortUtil.ascSortEncounter,
 	}),
@@ -2120,7 +2254,7 @@ const PROPORDER_ENCOUNTER = [
 const PROPORDER_CITATION = [
 	...getGenericMetadataPropOrder(),
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 ];
 
 const PROPORDER_FOUNDRY_MAP = [
@@ -2143,12 +2277,12 @@ const PROPORDER_FACILITY = [
 	"hirelings",
 	"orders",
 
-	"entries",
+	EntryPropOrder.getArrayKey("entries"),
 
 	"hasFluff",
 	"hasFluffImages",
 
-	"fluff",
+	getFluffObjectKey(),
 ];
 
 const PROPORDER_CONVERTER_SAMPLE = [
@@ -2162,6 +2296,12 @@ const PROPORDER_ENCOUNTER_SHAPE = [
 	...getGenericMetadataPropOrder(),
 
 	"shapeTemplate",
+];
+
+const PROPORDER_RENDERDEMO = [
+	...getGenericMetadataPropOrder(),
+
+	EntryPropOrder.getObjectKey("entry"),
 ];
 
 export const PROPORDER_PROP_TO_LIST = {
@@ -2189,7 +2329,7 @@ export const PROPORDER_PROP_TO_LIST = {
 	"languageFluff": PROPORDER_GENERIC_FLUFF,
 	"vehicleFluff": PROPORDER_GENERIC_FLUFF,
 	"objectFluff": PROPORDER_GENERIC_FLUFF,
-	"raceFluff": PROPORDER_RACE_FLUFF,
+	"raceFluff": PROPORDER_GENERIC_FLUFF,
 	"rewardFluff": PROPORDER_GENERIC_FLUFF,
 	"trapFluff": PROPORDER_GENERIC_FLUFF,
 	"hazardFluff": PROPORDER_GENERIC_FLUFF,
@@ -2250,6 +2390,8 @@ export const PROPORDER_PROP_TO_LIST = {
 	"foundryOptionalfeature": PROPORDER_FOUNDRY_GENERIC_FEATURE,
 	"psionic": PROPORDER_PSIONIC,
 	"foundryPsionic": PROPORDER_FOUNDRY_GENERIC_FEATURE,
+	"foundryPsionicDisciplineFocus": PROPORDER_FOUNDRY_GENERIC_FEATURE,
+	"foundryPsionicDisciplineActive": PROPORDER_FOUNDRY_PSIONIC_DISCIPLINE_ACTIVE,
 	"reward": PROPORDER_REWARD,
 	"foundryReward": PROPORDER_FOUNDRY_GENERIC_FEATURE,
 	"variantrule": PROPORDER_VARIANTRULE,
@@ -2278,6 +2420,7 @@ export const PROPORDER_PROP_TO_LIST = {
 	"encounterShape": PROPORDER_ENCOUNTER_SHAPE,
 	"crochetPattern": PROPORDER_CROCHET_PATTERN,
 	"crochetPatternFluff": PROPORDER_GENERIC_FLUFF,
+	"renderdemo": PROPORDER_RENDERDEMO,
 };
 
 export const PROPORDER_ROOT = [
@@ -2308,6 +2451,7 @@ export const PROPORDER_ROOT = [
 
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "background"),
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "backgroundFeature"),
+	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "foundryBackgroundFeature"),
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "backgroundFluff"),
 
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "race"),
@@ -2315,7 +2459,6 @@ export const PROPORDER_ROOT = [
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "foundryRace"),
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "foundryRaceFeature"),
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "raceFluff"),
-	new IgnoredKey("raceFluffMeta"),
 
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "feat"),
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "foundryFeat"),
@@ -2374,11 +2517,24 @@ export const PROPORDER_ROOT = [
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "legendaryGroup"),
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "legendaryGroupTemplate"),
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "foundryMonsterAction"),
+	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "foundryMonsterBonus"),
+	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "foundryMonsterReaction"),
+	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "foundryMonsterTrait"),
+	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "foundryMonsterLegendary"),
+	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "foundryMonsterMythic"),
 
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "object"),
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "objectFluff"),
 
-	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "vehicle"),
+	ArrayKey.getRootKeyCustom("vehicle", {
+		fnGetOrder: obj => {
+			switch (obj.vehicleType) {
+				case "CREATURE": return PROPORDER_MONSTER;
+				case "OBJECT": return PROPORDER_OBJECT;
+				default: return PROPORDER_VEHICLE;
+			}
+		},
+	}),
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "vehicleUpgrade"),
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "foundryVehicleUpgrade"),
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "vehicleFluff"),
@@ -2430,8 +2586,8 @@ export const PROPORDER_ROOT = [
 
 	// region Legacy content
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "psionic"),
-	new IgnoredKey("psionicDisciplineFocus"),
-	new IgnoredKey("psionicDisciplineActive"),
+	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "foundryPsionicDisciplineFocus"),
+	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "foundryPsionicDisciplineActive"),
 	// endregion
 
 	// region Tooling
@@ -2440,6 +2596,7 @@ export const PROPORDER_ROOT = [
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "encounterShape"),
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "converterSample"),
 	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "monsterfeatures"),
+	ArrayKey.getRootKey(PROPORDER_PROP_TO_LIST, "renderdemo"),
 	// endregion
 
 	// region Roll20-specific

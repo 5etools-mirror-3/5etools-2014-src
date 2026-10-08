@@ -2,7 +2,7 @@
 
 // in deployment, `IS_DEPLOYED = "<version number>";` should be set below.
 globalThis.IS_DEPLOYED = undefined;
-globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.220.1"/* 5ETOOLS_VERSION__CLOSE */;
+globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.221.0"/* 5ETOOLS_VERSION__CLOSE */;
 globalThis.DEPLOYED_IMG_ROOT = undefined;
 // for the roll20 script to set
 globalThis.IS_VTT = false;
@@ -3537,6 +3537,7 @@ globalThis.UrlUtil = class {
 	static CAT_TO_PAGE = {};
 	static CAT_TO_HOVER_PAGE = {};
 	static PAGE_TO_PROPS = {};
+	static _PAGE_TO_PROPS_CORPUS = {};
 	static PROP_TO_PAGE = {};
 
 	static PG_BESTIARY = "bestiary.html";
@@ -3644,6 +3645,13 @@ globalThis.UrlUtil = class {
 
 	/* -------------------------------------------- */
 
+	static getPagePropsCorpus (propOrPage) {
+		if (!Object.hasOwn(this._PAGE_TO_PROPS_CORPUS, propOrPage)) throw new Error(`No hash corpus props available for "${propOrPage}"!`);
+		return this._PAGE_TO_PROPS_CORPUS[propOrPage];
+	}
+
+	/* -------------------------------------------- */
+
 	/**
 	 * @param hash
 	 * @param {?string} page
@@ -3703,23 +3711,19 @@ globalThis.UrlUtil = class {
 
 		const [id] = parts;
 
-		for (const {prop, contentsUrl} of [
-			{
-				prop: "adventure",
-				contentsUrl: `${Renderer.get().baseUrl}data/adventures.json`,
-			},
-			{
-				prop: "book",
-				contentsUrl: `${Renderer.get().baseUrl}data/books.json`,
-			},
-		]) {
-			const contents = await DataUtil.loadJSON(contentsUrl);
+		const {propHead} = UrlUtil.getPagePropsCorpus(page);
+		const contents = await DataUtil.loadJSON(`${Renderer.get().baseUrl}data/${propHead}s.json`);
+		const ent = contents[propHead].find(corpus => corpus.id.toLowerCase() === id);
+		if (ent) return {name: ent.name, source: ent.source, id: ent.id};
 
-			const ent = contents[prop].find(it => it.id.toLowerCase() === id);
+		const brewUtils = [globalThis.PrereleaseUtil, globalThis.BrewUtil2].filter(Boolean);
+		for (const brewUtil of brewUtils) {
+			const brew = await brewUtil.pGetBrewProcessed();
+			const ent = (brew[propHead] || []).find(corpus => corpus.id.toLowerCase() === id);
 			if (ent) return {name: ent.name, source: ent.source, id: ent.id};
 		}
 
-		for (const brewUtil of [PrereleaseUtil, BrewUtil2]) {
+		for (const brewUtil of brewUtils) {
 			const urlRoot = await brewUtil.pGetCustomUrl();
 			const idsIndex = await brewUtil.pLoadAdventureBookIdsIndex(urlRoot);
 			if (idsIndex[id]) return idsIndex[id];
@@ -4004,6 +4008,7 @@ UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_CREATURE_FEATURES] = UrlUtil.URL_TO_HASH_
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_VEHICLE_FEATURES] = UrlUtil.URL_TO_HASH_GENERIC;
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_OBJECT_FEATURES] = UrlUtil.URL_TO_HASH_GENERIC;
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_TRAP_FEATURES] = UrlUtil.URL_TO_HASH_GENERIC;
+UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_DEMO_RENDER] = UrlUtil.URL_TO_HASH_GENERIC;
 UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_QUICKREF] = ({name, ixChapter, ixHeader}) => {
 	const hashParts = ["bookref-quick", ixChapter, UrlUtil.encodeForHash(name.toLowerCase())];
 	if (ixHeader) hashParts.push(ixHeader);
@@ -4049,6 +4054,7 @@ UrlUtil.URL_TO_HASH_BUILDER["charoption"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.
 UrlUtil.URL_TO_HASH_BUILDER["recipe"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_RECIPES];
 UrlUtil.URL_TO_HASH_BUILDER["crochetPattern"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_HOMECRAFTS];
 UrlUtil.URL_TO_HASH_BUILDER["deck"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_DECKS];
+UrlUtil.URL_TO_HASH_BUILDER["renderdemo"] = UrlUtil.URL_TO_HASH_BUILDER[UrlUtil.PG_DEMO_RENDER];
 
 UrlUtil.URL_TO_HASH_BUILDER["subclass"] = it => {
 	return Hist.util.getCleanHash(
@@ -4261,6 +4267,16 @@ UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_OPT_FEATURES] = ["optionalfeature"];
 UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_REWARDS] = ["reward"];
 UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_TRAPS_HAZARDS] = ["trap", "hazard"];
 UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_VARIANTRULES] = ["variantrule"];
+UrlUtil.PAGE_TO_PROPS[UrlUtil.PG_DEMO_RENDER] = ["renderdemo"];
+
+UrlUtil._PAGE_TO_PROPS_CORPUS[UrlUtil.PG_ADVENTURE] = {propHead: "adventure", propBody: "adventureData"};
+UrlUtil._PAGE_TO_PROPS_CORPUS[UrlUtil.PG_ADVENTURES] = UrlUtil._PAGE_TO_PROPS_CORPUS[UrlUtil.PG_ADVENTURE];
+UrlUtil._PAGE_TO_PROPS_CORPUS["adventure"] = UrlUtil._PAGE_TO_PROPS_CORPUS[UrlUtil.PG_ADVENTURE];
+UrlUtil._PAGE_TO_PROPS_CORPUS["adventureData"] = UrlUtil._PAGE_TO_PROPS_CORPUS[UrlUtil.PG_ADVENTURE];
+UrlUtil._PAGE_TO_PROPS_CORPUS[UrlUtil.PG_BOOK] = {propHead: "book", propBody: "bookData"};
+UrlUtil._PAGE_TO_PROPS_CORPUS[UrlUtil.PG_BOOKS] = UrlUtil._PAGE_TO_PROPS_CORPUS[UrlUtil.PG_BOOK];
+UrlUtil._PAGE_TO_PROPS_CORPUS["book"] = UrlUtil._PAGE_TO_PROPS_CORPUS[UrlUtil.PG_BOOK];
+UrlUtil._PAGE_TO_PROPS_CORPUS["bookData"] = UrlUtil._PAGE_TO_PROPS_CORPUS[UrlUtil.PG_BOOK];
 
 UrlUtil.PROP_TO_PAGE["spell"] = UrlUtil.PG_SPELLS;
 UrlUtil.PROP_TO_PAGE["item"] = UrlUtil.PG_ITEMS;
@@ -7204,36 +7220,6 @@ globalThis.DataUtil = class {
 	static raceFluff = class extends _DataUtilPropConfigSingleSource {
 		static _PAGE = UrlUtil.PG_RACES;
 		static _FILENAME = "fluff-races.json";
-
-		// N.b.: intentionally not applied to homebrew/prerelease content
-		static _getApplyUncommonMonstrous (data) {
-			data = MiscUtil.copyFast(data);
-			data.raceFluff
-				.forEach(raceFluff => {
-					if (raceFluff.uncommon) {
-						raceFluff.entries = raceFluff.entries || [];
-						raceFluff.entries.push(MiscUtil.copyFast(data.raceFluffMeta.uncommon));
-						delete raceFluff.uncommon;
-					}
-
-					if (raceFluff.monstrous) {
-						raceFluff.entries = raceFluff.entries || [];
-						raceFluff.entries.push(MiscUtil.copyFast(data.raceFluffMeta.monstrous));
-						delete raceFluff.monstrous;
-					}
-				});
-			return data;
-		}
-
-		static async loadJSON () {
-			const data = await super.loadJSON();
-			return this._getApplyUncommonMonstrous(data);
-		}
-
-		static async loadUnmergedJSON () {
-			const data = await super.loadUnmergedJSON();
-			return this._getApplyUncommonMonstrous(data);
-		}
 	};
 
 	static raceFeature = class extends _DataUtilPropConfig {
@@ -7603,6 +7589,9 @@ globalThis.DataUtil = class {
 		static _PAGE = "subclassFluff";
 		static _DIR = "class";
 		static _PROP = "subclassFluff";
+
+		static unpackUid (uid, opts) { return DataUtil.subclass.unpackUid(uid, opts); }
+		static getUid (ent, opts) { return DataUtil.subclass.getUid(ent, opts); }
 	};
 
 	static deity = class extends _DataUtilPropConfigSingleSource {
@@ -7794,6 +7783,13 @@ globalThis.DataUtil = class {
 				displayText,
 			};
 		}
+	};
+
+	static card = class extends _DataUtilPropConfig {
+		static _PAGE = "card";
+
+		static getUid (ent, opts) { return DataUtil.deck.getUidCard(ent, opts); }
+		static unpackUid (uid, opts) { return DataUtil.deck.unpackUidCard(uid, opts); }
 	};
 
 	static reward = class extends _DataUtilPropConfigSingleSource {
@@ -9063,7 +9059,7 @@ class BookModeViewBase {
 	/* -------------------------------------------- */
 
 	async _pGetWrpControls ({wrpContent}) {
-		const wrp = veT`<div class="ve-w-100 ve-flex-col ve-no-shrink no-print"></div>`;
+		const wrp = veT`<div class="ve-w-100 ve-flex-col ve-no-shrink ve-print__hidden"></div>`;
 
 		if (!this._hasPrintColumns) return {wrp};
 
@@ -9144,8 +9140,8 @@ class BookModeViewBase {
 
 		if (this._wrpBook) this._wrpBook.remove();
 
-		this._wrpBook = veT`<div class="bkmv print__h-initial ve-flex-col print__ve-block">
-			<div class="bkmv__spacer-name no-print ve-split-v-center ve-no-shrink no-print">${this._getWindowHeaderLhs()}${this._getBtnWindowClose()}</div>
+		this._wrpBook = veT`<div class="bkmv ve-print__h-initial ve-flex-col ve-print__block">
+			<div class="bkmv__spacer-name ve-print__hidden ve-split-v-center ve-no-shrink ve-print__hidden">${this._getWindowHeaderLhs()}${this._getBtnWindowClose()}</div>
 			${(await this._pGetWrpControls({wrpContent})).wrp}
 			${wrpContentOuter}
 		</div>`
@@ -9153,9 +9149,9 @@ class BookModeViewBase {
 	}
 
 	async _pGetContentElementMetas () {
-		const wrpContent = veT`<div class="bkmv__scroller ve-smooth-scroll ve-overflow-y-auto print__overflow-visible ${this._isColumns ? "bkmv__wrp" : "ve-flex-col"} ve-w-100 ve-min-h-0"></div>`;
+		const wrpContent = veT`<div class="bkmv__scroller ve-smooth-scroll ve-overflow-y-auto ve-print__overflow-visible ${this._isColumns ? "bkmv__wrp" : "ve-flex-col"} ve-w-100 ve-min-h-0"></div>`;
 
-		const wrpContentOuter = veT`<div class="ve-h-100 print__h-initial ve-w-100 ve-min-h-0 ve-flex-col print__ve-block">${wrpContent}</div>`;
+		const wrpContentOuter = veT`<div class="ve-h-100 ve-print__h-initial ve-w-100 ve-min-h-0 ve-flex-col ve-print__block">${wrpContent}</div>`;
 
 		const out = {
 			wrpContentOuter,

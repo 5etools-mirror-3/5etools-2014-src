@@ -728,6 +728,7 @@ export class CreatureBuilder extends BuilderBase {
 		// CORE
 		this.__getAbilityScoreInput(cb).vee.appendTo(coreTab.wrpTab);
 		this.__getSaveInput(cb).vee.appendTo(coreTab.wrpTab);
+		this.__getInitiativeInput(cb).vee.appendTo(coreTab.wrpTab);
 		this.__getSkillInput(cb).vee.appendTo(coreTab.wrpTab);
 		this.__getPassivePerceptionInput(cb).vee.appendTo(coreTab.wrpTab);
 
@@ -1968,6 +1969,106 @@ export class CreatureBuilder extends BuilderBase {
 
 		Object.keys(Parser.SKILL_TO_ATB_ABV).sort(SortUtil.ascSort).forEach(skill => getRow(skill.toTitleCase(), skill).vee.appendTo(rowInner));
 
+		return row;
+	}
+
+	__getInitiativeInput (cb) {
+		const [row, rowInner] = BuilderUi.getLabelledRowTuple("Initiative", {isMarked: true});
+
+		const initInitialObj = typeof this._state.initiative === "number"
+			? {initiative: this._state.initiative}
+			: (this._state.initiative || {});
+		const comp = BaseComponent.fromObject({
+			mode: this._state.initiative == null
+				? "implicit"
+				: initInitialObj.initiative != null
+					? "custom"
+					: "basic",
+			proficiency: initInitialObj.proficiency ?? null,
+			initiative: initInitialObj.initiative ?? null,
+			advantageMode: initInitialObj.advantageMode ?? null,
+		});
+
+		const doUpdateState = () => {
+			if (comp._state.mode === "implicit") {
+				delete this._state.initiative;
+				cb();
+				return;
+			}
+
+			const out = {};
+			if (comp._state.mode === "basic") {
+				if (comp._state.proficiency != null) out.proficiency = comp._state.proficiency;
+			} else if (comp._state.initiative != null) {
+				out.initiative = comp._state.initiative;
+			}
+
+			if (comp._state.advantageMode != null) out.advantageMode = comp._state.advantageMode;
+
+			if (comp._state.mode === "custom" && out.initiative != null && Object.keys(out).length === 1) this._state.initiative = out.initiative;
+			else if (Object.keys(out).length) this._state.initiative = out;
+			else delete this._state.initiative;
+
+			cb();
+		};
+
+		const selMode = ComponentUiUtil.getSelEnum(
+			comp,
+			"mode",
+			{
+				values: ["implicit", "basic", "custom"],
+				fnDisplay: it => ({
+					implicit: "Implicit",
+					basic: "Basic Initiative",
+					custom: "Custom Initiative",
+				})[it],
+			},
+		);
+		const selProficiency = ComponentUiUtil.getSelEnum(
+			comp,
+			"proficiency",
+			{
+				values: [1, 2],
+				isAllowNull: true,
+				displayNullAs: "None",
+				fnDisplay: it => it === 1 ? "Proficient" : "Expertise",
+			},
+		);
+
+		const getSelAdvantageMode = () => ComponentUiUtil.getSelEnum(
+			comp,
+			"advantageMode",
+			{
+				values: ["adv", "dis"],
+				isAllowNull: true,
+				displayNullAs: "None",
+				fnDisplay: it => it === "adv" ? "Advantage" : "Disadvantage",
+			},
+		);
+
+		const selAdvantageModeBasic = getSelAdvantageMode();
+		const selAdvantageModeCustom = getSelAdvantageMode();
+
+		const stgBasic = veT`<div class="ve-flex-col ve-mt-2">
+			<div class="ve-flex-v-center ve-mb-2"><span class="ve-mr-2 mkbru__sub-name--33">Proficiency</span>${selProficiency}</div>
+			<div class="ve-flex-v-center"><span class="ve-mr-2 mkbru__sub-name--33">Advantage Mode</span>${selAdvantageModeBasic}</div>
+		</div>`
+			.vee.toggle(comp._state.mode === "basic");
+
+		const iptInitiative = ComponentUiUtil.getIptInt(comp, "initiative", 0, {isAllowNull: true});
+		const stgCustom = veT`<div class="ve-flex-col ve-mt-2">
+			<div class="ve-flex-v-center ve-mb-2"><span class="ve-mr-2 mkbru__sub-name--33">Initiative</span>${iptInitiative}</div>
+			<div class="ve-flex-v-center"><span class="ve-mr-2 mkbru__sub-name--33">Advantage Mode</span>${selAdvantageModeCustom}</div>
+		</div>`
+			.vee.toggle(comp._state.mode === "custom");
+
+		comp._addHookAll("state", () => {
+			stgBasic.vee.toggle(comp._state.mode === "basic");
+			stgCustom.vee.toggle(comp._state.mode === "custom");
+			doUpdateState();
+		});
+
+		veT`<div>${selMode}${stgBasic}${stgCustom}</div>`.vee.appendTo(rowInner);
 		return row;
 	}
 

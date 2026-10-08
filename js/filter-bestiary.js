@@ -492,10 +492,13 @@ class PageFilterBestiary extends PageFilterBase {
 	static _getEquipmentList (mon) {
 		if (mon.gear) {
 			return mon.gear
-				.map(ref => (ref.item || ref).toLowerCase());
+				.map(ref => DataUtil.proxy.unpackUid("item", ref.item || ref, "item", {isLower: true}).name);
 		}
 
-		const itemSet = new Set(mon.attachedItems || []);
+		const itemSet = new Set(
+			(mon.attachedItems || [])
+				.map(ref => DataUtil.proxy.unpackUid("item", ref.item || ref, "item", {isLower: true}).name),
+		);
 
 		const walker = this._getInitWalker();
 
