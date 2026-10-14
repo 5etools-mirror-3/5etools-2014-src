@@ -2,7 +2,7 @@
 
 // in deployment, `IS_DEPLOYED = "<version number>";` should be set below.
 globalThis.IS_DEPLOYED = undefined;
-globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.221.0"/* 5ETOOLS_VERSION__CLOSE */;
+globalThis.VERSION_NUMBER = /* 5ETOOLS_VERSION__OPEN */"1.221.1"/* 5ETOOLS_VERSION__CLOSE */;
 globalThis.DEPLOYED_IMG_ROOT = undefined;
 // for the roll20 script to set
 globalThis.IS_VTT = false;
@@ -9596,15 +9596,20 @@ globalThis.EditorUtil = class {
 
 		additionalOpts = additionalOpts || {};
 
-		const editor = ace.edit(eleOrId);
-		editor.setOptions({
+		const opts = {
 			theme: EditorUtil.getTheme(),
 			wrap: true,
 			showPrintMargin: false,
 			tabSize: 2,
 			useWorker: false,
 			...additionalOpts,
-		});
+		};
+
+		// Preload theme to avoid "white flash" in dark mode
+		await new Promise(resolve => ace.config.loadModule(["theme", opts.theme], resolve));
+
+		const editor = ace.edit(eleOrId);
+		editor.setOptions(opts);
 
 		if (additionalOpts.mode === "ace/mode/json") {
 			// Escape backslashes when pasting JSON, unless CTRL+SHIFT are pressed

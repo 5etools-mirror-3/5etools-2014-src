@@ -3261,5 +3261,10 @@
 		"date": "2026-10-08",
 		"title": "Delicious Leftovers",
 		"txt": "- Added _Heroes' Feast: Legends of the Table_ content (thanks @ Lyra)\n- Added \"Enable Light Theme on Copy/Save\" button to \"Export as Image\" list page modal, allowing the functionality to be used on mobile\n- Fixed Bestiary page \"Equipment\" filter showing junk source text\n- Fixed DM Screen Dynamic Map Viewer crashing with infinite-recursion error\n- Fixed \"Table View\" crash when opened with no entities pinned\n- Fixed various minor print styling issues\n- (Brew) Added `entries` support to JSON prettifier\n- (Brew) Added \"Initiative\" section to Creature Homebrew Builder\n- (Brew) Added support for more `@*Fluff` tags\n- (Brew) Reworked Renderer Demo page to support multiple samples; improve error handling\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.221.1",
+		"date": "2026-10-14",
+		"txt": "- Added Markdown export support for embedded statblocks to Adventure/Book pages\n- (Brew) Added schema validation to Renderer Demo input (thanks @ Lyra for the prototype)\n- (Brew) Improved Race Text Converter `\"resist\"` handling\n- (Brew) Fixed Text Converter and Renderer Demo \"white flash\" on initial load\n- (Brew) Fixed JSON prettifier attempting to run on blocklisted directories\n- (Fixed typos/added tags)"
 	}
 ]
