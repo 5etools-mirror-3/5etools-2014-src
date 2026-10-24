@@ -1755,6 +1755,8 @@ Parser.SP_MISC_TAG_TO_FULL = {
 	"ADV": "Grants Advantage",
 	"PIR": "Permanent If Repeated",
 	"BO": "Burns Objects",
+	"WLT": "Targets Willing Creatures",
+	"ALT": "Targets Allies",
 };
 Parser.spMiscTagToFull = function (type) {
 	return Parser._parse_aToB(Parser.SP_MISC_TAG_TO_FULL, type);
@@ -4183,6 +4185,7 @@ Parser.TAG_TO_PROPS = {
 	"table": ["table", "tableGroup"],
 	"vehupgrade": ["vehicleUpgrade"],
 	"item": ["item", "baseitem", "itemGroup", "magicvariant"],
+	"legroup": ["legendaryGroup"],
 };
 Parser.getTagProps = function (tag) {
 	if (Parser.TAG_TO_PROPS[tag]) return Parser.TAG_TO_PROPS[tag];
@@ -4190,6 +4193,7 @@ Parser.getTagProps = function (tag) {
 };
 
 Parser.PROP_TO_DISPLAY_NAME = {
+	"monster": "Creature",
 	"variantrule": "Variant Rule",
 	"optionalfeature": "Option/Feature",
 	"magicvariant": "Magic Item Variant",

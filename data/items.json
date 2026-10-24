@@ -18117,6 +18117,7 @@
 			"source": "DMG",
 			"page": 172,
 			"srd": true,
+			"baseItem": "studded leather armor|phb",
 			"type": "LA",
 			"tier": "major",
 			"rarity": "rare",

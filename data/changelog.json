@@ -3266,5 +3266,10 @@
 		"ver": "1.221.1",
 		"date": "2026-10-14",
 		"txt": "- Added Markdown export support for embedded statblocks to Adventure/Book pages\n- (Brew) Added schema validation to Renderer Demo input (thanks @ Lyra for the prototype)\n- (Brew) Improved Race Text Converter `\"resist\"` handling\n- (Brew) Fixed Text Converter and Renderer Demo \"white flash\" on initial load\n- (Brew) Fixed JSON prettifier attempting to run on blocklisted directories\n- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.221.2",
+		"date": "2026-10-24",
+		"txt": "- Added flyout hover window to Omnisearch results when navigating by keyboard, on sufficiently wide screens\n- Added \"Targets Willing Creatures\" and \"Targets Allies\" filters to Spells page\n- Fixed Optional Features page \"Prerequisite\" failing to apply spells filter, and improved rendering of spell choice filter items\n- (Brew) Added keyboard shortcut for Renderer Demo \"Format\" button\n- (Brew) Added \"JSON (All)\" button to Homebrew Builder, which downloads a JSON containing all entity types for the currently-active source (rather than the old \"JSON [(Mode)]\" button, which downloads for currently-selected source _and active mode_ only)\n- (Brew) Fixed crash when attempting to render legendary group embeds\n- (Fixed typos/added tags)"
 	}
 ]

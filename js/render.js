@@ -15537,11 +15537,33 @@ Renderer.generic = class {
 
 Renderer.hover = class {
 	static LinkMeta = class {
-		constructor () {
-			this.isHovered = false;
+		constructor ({mode = "hover"}) {
+			this.mode = mode;
+
+			this.doReset();
+		}
+
+		doReset () {
+			this.isAttended = false;
+
 			this.isLoading = false;
+			this.isDelayed = false;
 			this.isPermanent = false;
+
 			this.windowMeta = null;
+
+			this._tmpEvt = null;
+		}
+
+		isHeldOpen ({mode = null} = {}) {
+			if (mode != null && this.mode !== mode) return false;
+			return this.isAttended || this.isPermanent;
+		}
+
+		getPopTempEvt ({evtDefault = null} = {}) {
+			const evt = this._tmpEvt || evtDefault;
+			this._tmpEvt = null;
+			return evt;
 		}
 	};
 
@@ -15596,6 +15618,8 @@ Renderer.hover = class {
 		]);
 	}
 
+	/* -------------------------------------------- */
+
 	static cleanTempWindows () {
 		for (const [key, meta] of Renderer.hover._eleCache.entries()) {
 			// If this is an element-less "permanent" show (i.e. a "predefined" window) which has been closed
@@ -15610,7 +15634,9 @@ Renderer.hover = class {
 				continue;
 			}
 
-			if (!meta.isPermanent && meta.isHovered && meta.windowMeta) {
+			if (meta.mode !== "hover") continue;
+
+			if (!meta.isPermanent && meta.isAttended && meta.windowMeta) {
 				// Check if any elements have failed to clear their hovering status on mouse move
 				const bounds = key.getBoundingClientRect();
 				if (EventUtil._mouseX < bounds.x
@@ -15623,29 +15649,41 @@ Renderer.hover = class {
 		}
 	}
 
+	/* -------------------------------------------- */
+
 	static _doCloseAllWindows ({hoverIdBlocklist = null} = {}) {
 		Object.entries(Renderer.hover._WINDOW_METAS)
 			.filter(([hoverId, meta]) => hoverIdBlocklist == null || !hoverIdBlocklist.has(Number(hoverId)))
 			.forEach(([, meta]) => meta.doClose());
 	}
 
-	static _getSetMeta (key) {
-		if (!Renderer.hover._eleCache.has(key)) Renderer.hover._eleCache.set(key, new Renderer.hover.LinkMeta());
+	/* -------------------------------------------- */
+
+	static _getSetMeta ({key, mode}) {
+		if (!Renderer.hover._eleCache.has(key)) Renderer.hover._eleCache.set(key, new Renderer.hover.LinkMeta({mode}));
 		return Renderer.hover._eleCache.get(key);
 	}
 
-	static _handleGenericMouseOverStart ({evt, ele, opts}) {
+	static _handleGenericShowStart ({ele, mode, isPermanent = false}) {
 		Renderer.hover.cleanTempWindows();
 
-		const meta = Renderer.hover._getSetMeta(ele);
-		if (meta.isHovered || meta.isLoading) return; // Another hover is already in progress
+		const meta = Renderer.hover._getSetMeta({key: ele, mode});
+
+		// Another handler has this element
+		if (meta.isHeldOpen()) return null;
+		if (meta.isLoading && meta.mode !== mode) return null;
+
+		meta.mode = mode;
+		meta.isAttended = true;
+
+		// (Re-entering refreshes attendance without starting another load)
+		if (meta.isLoading) return null;
+
+		meta.isLoading = true;
+		meta.isPermanent ||= isPermanent;
 
 		// Set the cursor to a waiting spinner
 		ele.style.cursor = "progress";
-
-		meta.isHovered = true;
-		meta.isLoading = true;
-		meta.isPermanent = evt.shiftKey || opts?.isForceOpenPermanent || false;
 
 		return meta;
 	}
@@ -15653,7 +15691,7 @@ Renderer.hover = class {
 	static _doPredefinedShowStart ({entryId}) {
 		Renderer.hover.cleanTempWindows();
 
-		const meta = Renderer.hover._getSetMeta(entryId);
+		const meta = Renderer.hover._getSetMeta({key: entryId});
 
 		meta.isPermanent = true;
 
@@ -15699,19 +15737,92 @@ Renderer.hover = class {
 
 	// (Baked into render strings)
 	static async pHandleLinkMouseOver (evt, ele, opts) {
-		Renderer.hover._doInit();
+		this._doInit();
 
-		const linkData = Renderer.hover._pHandleLinkMouseOver_getLinkData({ele, opts});
-		let {page, source, hash} = linkData;
-		const {preloadId, customHashId, isFauxPage} = linkData;
-
-		let meta = Renderer.hover._handleGenericMouseOverStart({evt, ele, opts});
+		const meta = this._handleGenericShowStart({
+			ele,
+			mode: "hover",
+			isPermanent: !!evt.shiftKey || !!opts?.isForceOpenPermanent,
+		});
 		if (meta == null) return;
 
-		if (EventUtil.isCtrlMetaKey(evt)) meta.isFluff = true;
+		const contentInfo = await this._pGetLinkContentInfo({
+			ele,
+			opts,
+			isFluff: EventUtil.isCtrlMetaKey(evt),
+		});
+		meta.isLoading = false;
 
-		let toRender;
-		if (preloadId != null) { // FIXME(Future) remove in favor of `customHashId`
+		if (opts?.isDelay) {
+			meta.isDelayed = true;
+			ele.style.cursor = "help";
+			await MiscUtil.pDelay(1100);
+			meta.isDelayed = false;
+		}
+
+		ele.style.cursor = "";
+
+		if (!meta.isHeldOpen({mode: "hover"})) return;
+
+		const position = this.getWindowPositionFromEvent(meta.getPopTempEvt({evtDefault: evt}), {isPreventFlicker: !meta.isPermanent});
+
+		this._doShowContent({
+			meta,
+			contentInfo,
+			position,
+			win: evt.view?.window,
+		});
+	}
+
+	static _pHandleLinkFocus_isActiveFocus ({ele}) {
+		return ele.ownerDocument.activeElement === ele;
+	}
+
+	static async pHandleLinkFocus (evt, ele, opts) {
+		this._doInit();
+
+		const meta = this._handleGenericShowStart({
+			ele,
+			mode: "focus",
+		});
+		if (meta == null) return;
+
+		const contentInfo = await this._pGetLinkContentInfo({
+			ele,
+			opts,
+			isFluff: false,
+		});
+		meta.isLoading = false;
+
+		ele.style.cursor = "";
+
+		if (!this._pHandleLinkFocus_isActiveFocus({ele})) return;
+
+		if (!meta.isHeldOpen({mode: "focus"})) return;
+
+		const {left, top} = ele.getBoundingClientRect();
+		const position = opts?.position ?? this.getWindowPositionExactVisibleBottom(left, top, {evt});
+
+		this._doShowContent({
+			meta,
+			contentInfo,
+			position,
+			win: evt.view?.window,
+		});
+	}
+
+	/* -------------------------------------------- */
+
+	static _pGetLinkContentInfo_doVerifyToRender ({toRender, page, source, hash, preloadId, customHashId, isFluff}) {
+		if (toRender) return;
+		throw new Error(`Failed to load renderable content for: page="${page}" source="${source}" hash="${hash}" preloadId="${preloadId}" customHashId="${customHashId}" isFluff="${isFluff}"`);
+	}
+
+	static async _pGetLinkContentInfo_pGetToRender ({isFluff, page, source, hash, preloadId, customHashId}) {
+		// FIXME(Future) remove in favor of `customHashId`
+		if (preloadId != null) {
+			let toRender;
+
 			switch (page) {
 				case UrlUtil.PG_BESTIARY: {
 					const {_scaledCr: scaledCr, _scaledSpellSummonLevel: scaledSpellSummonLevel, _scaledClassSummonLevel: scaledClassSummonLevel} = Renderer.monster.getUnpackedCustomHashId(preloadId);
@@ -15726,42 +15837,53 @@ Renderer.hover = class {
 					}
 					break;
 				}
+
+				default: throw new Error("Unimplemented!");
 			}
-			this._pHandleLinkMouseOver_doVerifyToRender({toRender, page, source, hash, preloadId, customHashId, isFluff: meta.isFluff});
-		} else if (customHashId) {
-			toRender = await DataLoader.pCacheAndGet(page, source, hash);
-			toRender = await Renderer.hover.pApplyCustomHashId(page, toRender, customHashId);
-			this._pHandleLinkMouseOver_doVerifyToRender({toRender, page, source, hash, preloadId, customHashId, isFluff: meta.isFluff});
-		} else if (meta.isFluff) {
+
+			this._pGetLinkContentInfo_doVerifyToRender({toRender, page, source, hash, preloadId, customHashId, isFluff});
+			return toRender;
+		}
+
+		if (customHashId) {
+			const ent = await DataLoader.pCacheAndGet(page, source, hash);
+			const toRender = await Renderer.hover.pApplyCustomHashId(page, ent, customHashId);
+			this._pGetLinkContentInfo_doVerifyToRender({toRender, page, source, hash, preloadId, customHashId, isFluff});
+			return toRender;
+		}
+
+		if (isFluff) {
 			const entity = await DataLoader.pCacheAndGet(page, source, hash);
-			if (entity) toRender = await Renderer.utils.pGetProxyFluff({entity});
-		} else {
-			toRender = await DataLoader.pCacheAndGet(page, source, hash);
-			this._pHandleLinkMouseOver_doVerifyToRender({toRender, page, source, hash, preloadId, customHashId, isFluff: meta.isFluff});
+			if (!entity) return null;
+			// (Note that we don't verify, as no-fluff is valid)
+			return Renderer.utils.pGetProxyFluff({entity});
 		}
 
-		meta.isLoading = false;
+		const toRender = await DataLoader.pCacheAndGet(page, source, hash);
+		this._pGetLinkContentInfo_doVerifyToRender({toRender, page, source, hash, preloadId, customHashId, isFluff});
+		return toRender;
+	}
 
-		if (opts?.isDelay) {
-			meta.isDelayed = true;
-			ele.style.cursor = "help";
-			await MiscUtil.pDelay(1100);
-			meta.isDelayed = false;
+	static async _pGetLinkContentInfo ({ele, opts, isFluff}) {
+		const linkData = Renderer.hover._pGetLinkContentInfo_getLinkData({ele, opts});
+		let {page, source, hash} = linkData;
+		const {preloadId, customHashId, isFauxPage, isAllowRedirect} = linkData;
+
+		const toRender = await this._pGetLinkContentInfo_pGetToRender({isFluff, page, source, hash, preloadId, customHashId});
+
+		return {page, source, hash, isFauxPage, isFluff, toRender};
+	}
+
+	/* -------------------------------------------- */
+
+	static _doShowContent ({meta, contentInfo, position, win}) {
+		if (meta.windowMeta) {
+			meta.windowMeta.setPosition(position);
+			return;
 		}
 
-		// Reset cursor
-		ele.style.cursor = "";
-
-		// Check if we're still hovering the entity
-		if (!meta || (!meta.isHovered && !meta.isPermanent)) return;
-
-		const tmpEvt = meta._tmpEvt;
-		delete meta._tmpEvt;
-
-		// TODO(Future) avoid rendering e.g. creature scaling controls if `win?._IS_POPOUT`
-		const win = (evt.view || {}).window;
-
-		const eleContent = meta.isFluff
+		const {page, source, hash, isFauxPage, isFluff, toRender} = contentInfo;
+		const eleContent = isFluff
 			? Renderer.hover.getHoverContent_fluff(page, toRender)
 			: Renderer.hover.getHoverContent_stats(page, toRender);
 
@@ -15772,32 +15894,27 @@ Renderer.hover = class {
 			hash,
 		};
 
-		if (meta.windowMeta && !meta.isPermanent) {
-			meta.windowMeta.doClose();
-			meta.windowMeta = null;
-		}
-
 		meta.windowMeta = Renderer.hover.getShowWindow(
 			eleContent,
-			Renderer.hover.getWindowPositionFromEvent(tmpEvt || evt, {isPreventFlicker: !meta.isPermanent}),
+			position,
 			{
 				title: toRender?.name || "",
 				isPermanent: meta.isPermanent,
 				pageUrl: isFauxPage ? null : `${Renderer.get().baseUrl}${page}#${hash}`,
-				cbClose: () => meta.isHovered = meta.isPermanent = meta.isLoading = meta.isFluff = false,
+				cbClose: () => meta.doReset(),
 				isBookContent: Renderer.hover.isBookContentStyledPage(page),
 				compactReferenceData,
 				sourceData: toRender,
 			},
 		);
 
-		if (!meta.isFluff && !win?._IS_POPOUT) {
+		if (!isFluff && !win?._IS_POPOUT) {
 			const fnBind = Renderer.hover.getFnBindListenersCompact(page);
 			if (fnBind && toRender) fnBind(toRender, eleContent);
 		}
 	}
 
-	static _pHandleLinkMouseOver_getLinkData ({ele, opts}) {
+	static _pGetLinkContentInfo_getLinkData ({ele, opts}) {
 		if (opts?.isSpecifiedLinkData) {
 			return {
 				page: opts.page,
@@ -15812,18 +15929,13 @@ Renderer.hover = class {
 		return Renderer.hover.getLinkElementData(ele);
 	}
 
-	static _pHandleLinkMouseOver_doVerifyToRender ({toRender, page, source, hash, preloadId, customHashId, isFluff}) {
-		if (toRender) return;
-		throw new Error(`Failed to load renderable content for: page="${page}" source="${source}" hash="${hash}" preloadId="${preloadId}" customHashId="${customHashId}" isFluff="${isFluff}"`);
-	}
-
 	// (Baked into render strings)
 	static handleInlineMouseOver (evt, ele, entry, opts) {
 		Renderer.hover._doInit();
 
 		entry = entry || JSON.parse(ele.getAttribute("data-vet-entry"));
 
-		let meta = Renderer.hover._handleGenericMouseOverStart({evt, ele});
+		let meta = Renderer.hover._handleGenericShowStart({ele, mode: "hover", isPermanent: !!evt.shiftKey});
 		if (meta == null) return;
 
 		meta.isLoading = false;
@@ -15832,10 +15944,7 @@ Renderer.hover = class {
 		ele.style.cursor = "";
 
 		// Check if we're still hovering the entity
-		if (!meta || (!meta.isHovered && !meta.isPermanent)) return;
-
-		const tmpEvt = meta._tmpEvt;
-		delete meta._tmpEvt;
+		if (!meta.isHeldOpen({mode: "hover"})) return;
 
 		const win = (evt.view || {}).window;
 
@@ -15846,16 +15955,30 @@ Renderer.hover = class {
 
 		meta.windowMeta = Renderer.hover.getShowWindow(
 			Renderer.hover.getHoverContent_generic(entry, opts),
-			Renderer.hover.getWindowPositionFromEvent(tmpEvt || evt, {isPreventFlicker: !meta.isPermanent}),
+			Renderer.hover.getWindowPositionFromEvent(meta.getPopTempEvt({evtDefault: evt}), {isPreventFlicker: !meta.isPermanent}),
 			{
 				title: entry?.name || "",
 				isPermanent: meta.isPermanent,
 				pageUrl: null,
-				cbClose: () => meta.isHovered = meta.isPermanent = meta.isLoading = false,
+				cbClose: () => meta.doReset(),
 				isBookContent: true,
 				sourceData: entry,
 			},
 		);
+	}
+
+	static _handleLinkLeave (ele, meta, {mode}) {
+		if (meta.mode !== mode) return;
+
+		meta.isAttended = false;
+
+		if (meta.isHeldOpen()) return;
+
+		ele.style.cursor = "";
+
+		if (!meta.windowMeta) return;
+		meta.windowMeta.doClose();
+		meta.windowMeta = null;
 	}
 
 	// (Baked into render strings)
@@ -15864,7 +15987,7 @@ Renderer.hover = class {
 
 		// Early-exit -- Plutonium binds this as a global `mouseout`, so avoid
 		//   handling any element which we are not explicitly tracking.
-		if (!meta) return;
+		if (!meta || meta.mode !== "hover") return;
 
 		ele.style.cursor = "";
 
@@ -15872,21 +15995,27 @@ Renderer.hover = class {
 
 		if (evt.shiftKey) {
 			meta.isPermanent = true;
-			meta.windowMeta.setIsPermanent(true);
+			meta.windowMeta?.setIsPermanent(true);
 			return;
 		}
 
-		meta.isHovered = false;
-		if (meta.windowMeta) {
-			meta.windowMeta.doClose();
-			meta.windowMeta = null;
-		}
+		Renderer.hover._handleLinkLeave(ele, meta, {mode: "hover"});
+	}
+
+	static handleLinkBlur (evt, ele) {
+		const meta = Renderer.hover._eleCache.get(ele);
+		if (!meta) return;
+
+		Renderer.hover._handleLinkLeave(ele, meta, {mode: "focus"});
 	}
 
 	// (Baked into render strings)
 	static handleLinkMouseMove (evt, ele) {
 		const meta = Renderer.hover._eleCache.get(ele);
-		if (!meta || meta.isPermanent) return;
+
+		if (!meta || meta.mode !== "hover") return;
+
+		if (meta.isPermanent) return;
 
 		// If loading has finished, but we're not displaying the element yet (e.g. because it has been delayed)
 		if (meta.isDelayed) {
@@ -15916,7 +16045,7 @@ Renderer.hover = class {
 	static handlePredefinedMouseOver (evt, ele, entryId, opts) {
 		opts = opts || {};
 
-		const meta = Renderer.hover._handleGenericMouseOverStart({evt, ele});
+		const meta = Renderer.hover._handleGenericShowStart({ele, mode: "hover", isPermanent: !!evt.shiftKey});
 		if (meta == null) return;
 
 		Renderer.hover.cleanTempWindows();
@@ -15925,7 +16054,7 @@ Renderer.hover = class {
 
 		meta.isLoading = false;
 		// Check if we're still hovering the entity
-		if (!meta.isHovered && !meta.isPermanent) return;
+		if (!meta.isHeldOpen({mode: "hover"})) return;
 
 		meta.windowMeta = Renderer.hover.getShowWindow(
 			Renderer.hover.getHoverContent_generic(toRender, opts),
@@ -15933,7 +16062,7 @@ Renderer.hover = class {
 			{
 				title: toRender.data && toRender.data.hoverTitle != null ? toRender.data.hoverTitle : toRender.name,
 				isPermanent: meta.isPermanent,
-				cbClose: () => meta.isHovered = meta.isPermanent = meta.isLoading = false,
+				cbClose: () => meta.doReset(),
 				sourceData: toRender,
 			},
 		);
@@ -16000,7 +16129,7 @@ Renderer.hover = class {
 			{
 				title: toRender.data && toRender.data.hoverTitle != null ? toRender.data.hoverTitle : toRender.name,
 				isPermanent: meta.isPermanent,
-				cbClose: () => meta.isHovered = meta.isPermanent = meta.isLoading = false,
+				cbClose: () => meta.doReset(),
 				sourceData: toRender,
 			},
 		);
@@ -16041,18 +16170,35 @@ Renderer.hover = class {
 		};
 	}
 
-	static getWindowPositionExact (x, y, evt = null) {
+	/**
+	 * @param x
+	 * @param y
+	 * @param [opts]
+	 * @param {?Event} [opts.evt]
+	 * @param {?number} [opts.offsetX]
+	 * @param {?number} [opts.offsetY]
+	 */
+	static getWindowPositionExact (x, y, {evt = null, offsetX = null, offsetY = null} = {}) {
 		return {
 			window: evt?.view?.window || window,
 			mode: "exact",
 			x,
 			y,
+			offsetX,
+			offsetY,
 		};
 	}
 
-	static getWindowPositionExactVisibleBottom (x, y, evt = null) {
+	static getWindowPositionExactRight (x, y, {evt = null, offsetX = null} = {}) {
 		return {
-			...Renderer.hover.getWindowPositionExact(x, y, evt),
+			...Renderer.hover.getWindowPositionExact(x, y, {evt, offsetX}),
+			mode: "exactRight",
+		};
+	}
+
+	static getWindowPositionExactVisibleBottom (x, y, {evt = null, offsetX = null, offsetY = null} = {}) {
+		return {
+			...Renderer.hover.getWindowPositionExact(x, y, {evt, offsetX, offsetY}),
 			mode: "exactVisibleBottom",
 		};
 	}
@@ -16315,7 +16461,7 @@ Renderer.hover = class {
 
 			if (drag.type !== this._DRAG_TYP_MOVE) {
 				wrpContent.vee.css("max-height", "");
-				eleHov.vee.css("max-width", "");
+				eleHov.vee.css({"max-width": ""});
 			}
 			Renderer.hover._getShowWindow_adjustPosition({eleHov, wrpContent, position, eventChannel});
 
@@ -16525,10 +16671,7 @@ Renderer.hover = class {
 		if (evt.button === 0) evt.preventDefault();
 
 		hoverWindow.zIndex = Renderer.hover._getNextZIndex(hoverId);
-		eleHov.vee.css({
-			"z-index": hoverWindow.zIndex,
-			"animation": "initial",
-		});
+		eleHov.vee.css({"z-index": hoverWindow.zIndex});
 		drag.type = type;
 		drag.startX = EventUtil.getClientX(evt);
 		drag.startY = EventUtil.getClientY(evt);
@@ -16542,7 +16685,7 @@ Renderer.hover = class {
 				...(isResizeOnlyWidth ? {} : {"height": `${drag.baseHeight}px`}),
 				"max-height": "initial",
 			});
-			eleHov.vee.css("max-width", "initial");
+			eleHov.vee.css({"max-width": "initial"});
 		}
 	}
 
@@ -16556,7 +16699,7 @@ Renderer.hover = class {
 	static _getShowWindow_handleNorthDrag ({wrpContent, eleHov, drag, evt}) {
 		const diffY = Math.max(drag.startY - EventUtil.getClientY(evt), 80 - drag.baseHeight); // prevent <80 height, as this will cause the box to move downwards
 		wrpContent.vee.css("height", `${drag.baseHeight + diffY}px`);
-		eleHov.vee.css("top", `${drag.baseTop - diffY}px`);
+		eleHov.vee.css({"top": `${drag.baseTop - diffY}px`});
 		drag.startY = EventUtil.getClientY(evt);
 		drag.baseHeight = wrpContent.vee.outerHeight();
 		drag.baseTop = parseFloat(eleHov.vee.css("top").slice(0, -2));
@@ -16564,7 +16707,7 @@ Renderer.hover = class {
 
 	static _getShowWindow_handleEastDrag ({wrpContent, eleHov, drag, evt}) {
 		const diffX = drag.startX - EventUtil.getClientX(evt);
-		eleHov.vee.css("width", `${drag.baseWidth - diffX}px`);
+		eleHov.vee.css({"width": `${drag.baseWidth - diffX}px`});
 		drag.startX = EventUtil.getClientX(evt);
 		drag.baseWidth = parseFloat(eleHov.vee.css("width").slice(0, -2));
 	}
@@ -16612,11 +16755,11 @@ Renderer.hover = class {
 			case "autoFromElement": {
 				const bcr = eleHov.getBoundingClientRect();
 
-				if (positionNxt.isFromBottom) eleHov.vee.css("top", `${positionNxt.bcr.top - (bcr.height + 10)}px`);
-				else eleHov.vee.css("top", `${positionNxt.bcr.top + positionNxt.bcr.height + 10}px`);
+				if (positionNxt.isFromBottom) eleHov.vee.css({"top": `${positionNxt.bcr.top - (bcr.height + 10)}px`});
+				else eleHov.vee.css({"top": `${positionNxt.bcr.top + positionNxt.bcr.height + 10}px`});
 
-				if (positionNxt.isFromRight) eleHov.vee.css("left", `${(positionNxt.clientX || positionNxt.bcr.left) - (bcr.width + 10)}px`);
-				else eleHov.vee.css("left", `${(positionNxt.clientX || (positionNxt.bcr.left + positionNxt.bcr.width)) + 10}px`);
+				if (positionNxt.isFromRight) eleHov.vee.css({"left": `${(positionNxt.clientX || positionNxt.bcr.left) - (bcr.width + 10)}px`});
+				else eleHov.vee.css({"left": `${(positionNxt.clientX || (positionNxt.bcr.left + positionNxt.bcr.width)) + 10}px`});
 
 				// region Sync position info when updating
 				if (position !== positionNxt) {
@@ -16629,18 +16772,29 @@ Renderer.hover = class {
 
 				break;
 			}
-			case "exact": {
+			case "exact":
+			case "exactRight": {
+				const offsetX = (
+					positionNxt.mode === "exactRight"
+						? -eleHov.getBoundingClientRect().width
+						: 0
+				)
+					+ (positionNxt.offsetX || 0);
+				const offsetY = positionNxt.offsetY || 0;
+
 				eleHov.vee.css({
-					"left": `${positionNxt.x}px`,
-					"top": `${positionNxt.y}px`,
+					"left": `${positionNxt.x + offsetX}px`,
+					"top": `${positionNxt.y + offsetY}px`,
 				});
 				break;
 			}
 			case "exactVisibleBottom": {
+				const offsetX = positionNxt.offsetX || 0;
+				const offsetY = positionNxt.offsetY || 0;
+
 				eleHov.vee.css({
-					"left": `${positionNxt.x}px`,
-					"top": `${positionNxt.y}px`,
-					"animation": "initial", // Briefly remove the animation so we can calculate the height
+					"left": `${positionNxt.x + offsetX}px`,
+					"top": `${positionNxt.y + offsetY}px`,
 				});
 
 				let yPos = positionNxt.y;
@@ -16649,10 +16803,7 @@ Renderer.hover = class {
 				const height = position.window.innerHeight;
 				if (posBottom > height) {
 					yPos = position.window.innerHeight - winHeight;
-					eleHov.vee.css({
-						"top": `${yPos}px`,
-						"animation": "",
-					});
+					eleHov.vee.css({"top": `${yPos}px`});
 				}
 
 				break;
@@ -16998,13 +17149,30 @@ Renderer.hover = class {
 		}
 	}
 
-	static isSmallScreen (evt) {
+	/* -------------------------------------------- */
+
+	static _isSizedScreen ({evt, minWidth = null, maxWidth = null}) {
 		if (typeof window === "undefined") return false;
+
+		if (minWidth == null && maxWidth == null) throw new Error(`At least one of "minWidth" and "maxWidth" must be specified!`);
 
 		evt = evt || {};
 		const win = (evt.view || {}).window || window;
-		return win.innerWidth <= 768;
+
+		if (maxWidth != null && win.innerWidth > maxWidth) return false;
+		if (minWidth != null && win.innerWidth < minWidth) return false;
+		return true;
 	}
+
+	static isSmallScreen (evt) {
+		return this._isSizedScreen({evt, maxWidth: 768});
+	}
+
+	static isMinLargeScreen (evt) {
+		return this._isSizedScreen({evt, minWidth: 1200});
+	}
+
+	/* -------------------------------------------- */
 
 	/**
 	 * @param page
