@@ -29,8 +29,12 @@
 				],
 				"lootTables": [
 					"Magic Item Table B"
+				],
+				"miscTags": [
+					"CNS"
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "+1 Armor",
@@ -57,7 +61,8 @@
 				"entries": [
 					"You have a {=bonusAc} bonus to AC while wearing this armor."
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "+1 Shield (*)",
@@ -82,7 +87,8 @@
 				"entries": [
 					"While holding this shield, you have a {=bonusAc} bonus to AC. This bonus is in addition to the shield's normal bonus to AC."
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "+1 Weapon",
@@ -122,7 +128,8 @@
 				"lootTables": [
 					"Magic Item Table F"
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "+1 Weapon (no damage)",
@@ -169,8 +176,12 @@
 				],
 				"lootTables": [
 					"Magic Item Table C"
+				],
+				"miscTags": [
+					"CNS"
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "+2 Armor",
@@ -196,7 +207,8 @@
 				"entries": [
 					"You have a {=bonusAc} bonus to AC while wearing this armor."
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "+2 Shield (*)",
@@ -221,7 +233,8 @@
 				"entries": [
 					"While holding this shield, you have a {=bonusAc} bonus to AC. This bonus is in addition to the shield's normal bonus to AC."
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "+2 Weapon",
@@ -253,7 +266,8 @@
 				"lootTables": [
 					"Magic Item Table G"
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "+2 Weapon (no damage)",
@@ -300,8 +314,12 @@
 				],
 				"lootTables": [
 					"Magic Item Table D"
+				],
+				"miscTags": [
+					"CNS"
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "+3 Armor",
@@ -348,7 +366,8 @@
 				"entries": [
 					"While holding this shield, you have a {=bonusAc} bonus to AC. This bonus is in addition to the shield's normal bonus to AC."
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "+3 Weapon",
@@ -376,7 +395,8 @@
 				"lootTables": [
 					"Magic Item Table H"
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "+3 Weapon (no damage)",
@@ -486,7 +506,8 @@
 				"entries": [
 					"This suit of armor is reinforced with adamantine, one of the hardest substances in existence. While you're wearing it, any critical hit against you becomes a normal hit."
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "Adamantine Weapon",
@@ -998,6 +1019,9 @@
 				"entries": [
 					"{=baseName/at} {=baseName/l} of slaying is a magic weapon meant to slay a particular kind of creature. Some are more focused than others; for example, there are both {@i {=baseName/l}s of dragon slaying} and {@i {=baseName/l}s of blue dragon slaying}. If a creature belonging to the type, race, or group associated with {=baseName/a} {=baseName/l} of slaying takes damage from the {=baseName/l}, the creature must make a {@dc 17} Constitution saving throw, taking an extra {@damage 6d10} piercing damage on a failed save, or half as much extra damage on a successful one.",
 					"Once {=baseName/a} {=baseName/l} of slaying deals its extra damage to a creature, it becomes a nonmagical {=baseName/l}."
+				],
+				"miscTags": [
+					"CNS"
 				]
 			},
 			"hasFluffImages": true
@@ -1554,6 +1578,9 @@
 				"rarity": "uncommon",
 				"entries": [
 					"This leech has been dried and imbued with a mote of animating magic. If you hit a creature with a ranged attack roll using this ammunition, the leech springs to life and sinks its teeth into the target, dealing {@damage 1d4} piercing damage at the start of each of the target's turns. If the leech deals at least 10 damage or the target dies, the leech falls off. A creature, including the target, can use its action to detach the leech. Once a leech is no longer attached to its target, the leech dies and is no longer magical."
+				],
+				"miscTags": [
+					"CNS"
 				]
 			}
 		},
@@ -2527,7 +2554,8 @@
 				"lootTables": [
 					"Magic Item Table B"
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "Mizzium Armor",
@@ -3478,7 +3506,8 @@
 				"lootTables": [
 					"Magic Item Table F"
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "Sword of Wounding",
@@ -3503,7 +3532,8 @@
 				"lootTables": [
 					"Magic Item Table G"
 				]
-			}
+			},
+			"hasFluffImages": true
 		},
 		{
 			"name": "Vicious +1 Weapon",

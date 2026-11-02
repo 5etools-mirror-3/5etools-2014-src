@@ -222,7 +222,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table F"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "+1 Wand of the War Mage",
@@ -257,7 +258,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table F"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "+1 Wraps of Unarmed Prowess",
@@ -486,7 +488,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table G"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "+2 Wand of the War Mage",
@@ -512,7 +515,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table G"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "+2 Wraps of Unarmed Prowess",
@@ -737,7 +741,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table H"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "+3 Wand of the War Mage",
@@ -763,7 +768,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table H"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "+3 Wraps of Unarmed Prowess",
@@ -2436,7 +2442,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table G"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Ascendant Dragon Vessel",
@@ -3166,6 +3173,9 @@
 			"lootTables": [
 				"Magic Item Table C"
 			],
+			"miscTags": [
+				"CNS"
+			],
 			"hasFluffImages": true
 		},
 		{
@@ -3256,6 +3266,7 @@
 			"srd": true,
 			"referenceSources": [
 				"CoS",
+				"IDRotF",
 				"QftIS",
 				"SCC-CK",
 				"SKT"
@@ -4105,7 +4116,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Bead of Nourishment",
@@ -4384,7 +4396,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table H"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Belt of Hill Giant Strength",
@@ -4411,7 +4424,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table G"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Belt of Stone Giant Strength",
@@ -6095,7 +6109,8 @@
 			},
 			"lootTables": [
 				"Magic Item Table G"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Boots of Speed",
@@ -7278,7 +7293,8 @@
 			"entries": [
 				"You can speak the carpet's command word as an action to make the carpet hover and fly. It moves according to your spoken directions, provided that you are within 30 feet of it.",
 				"A 3 ft. × 5 ft. carpet can carry up to 200 lb. at a fly speed of 80 feet. A carpet can carry up to twice this weight, but it flies at half speed if it carries more than its normal capacity."
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Carpet of Flying, 4 ft. × 6 ft.",
@@ -7294,7 +7310,8 @@
 			"entries": [
 				"You can speak the carpet's command word as an action to make the carpet hover and fly. It moves according to your spoken directions, provided that you are within 30 feet of it.",
 				"A 4 ft. × 6 ft. carpet can carry up to 400 lb. at a fly speed of 60 feet. A carpet can carry up to twice this weight, but it flies at half speed if it carries more than its normal capacity."
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Carpet of Flying, 5 ft. × 7 ft.",
@@ -7307,7 +7324,8 @@
 			"entries": [
 				"You can speak the carpet's command word as an action to make the carpet hover and fly. It moves according to your spoken directions, provided that you are within 30 feet of it.",
 				"A 5 ft. × 7 ft. carpet can carry up to 600 lb. at a fly speed of 40 feet. A carpet can carry up to twice this weight, but it flies at half speed if it carries more than its normal capacity."
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Carpet of Flying, 6 ft. × 9 ft.",
@@ -7320,7 +7338,8 @@
 			"entries": [
 				"You can speak the carpet's command word as an action to make the carpet hover and fly. It moves according to your spoken directions, provided that you are within 30 feet of it.",
 				"A 6 ft. × 9 ft. carpet can carry up to 800 lb. at a fly speed of 30 feet. A carpet can carry up to twice this weight, but it flies at half speed if it carries more than its normal capacity."
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Carriage",
@@ -7776,6 +7795,9 @@
 			"lootTables": [
 				"Magic Item Table C"
 			],
+			"miscTags": [
+				"CNS"
+			],
 			"hasFluffImages": true
 		},
 		{
@@ -8100,7 +8122,8 @@
 			},
 			"lootTables": [
 				"Magic Item Table H"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Cloak of Billowing",
@@ -8266,7 +8289,8 @@
 			},
 			"lootTables": [
 				"Magic Item Table G"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Cloak of the Manta Ray",
@@ -9207,7 +9231,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table H"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Crystal Ball of Mind Reading",
@@ -10419,7 +10444,11 @@
 			],
 			"seeAlsoDeck": [
 				"deck of illusions"
-			]
+			],
+			"miscTags": [
+				"CNS"
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Deck of Many More Things",
@@ -14372,7 +14401,11 @@
 			],
 			"lootTables": [
 				"Magic Item Table B"
-			]
+			],
+			"miscTags": [
+				"CNS"
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Dust of Sneezing and Choking",
@@ -14395,6 +14428,9 @@
 			],
 			"lootTables": [
 				"Magic Item Table B"
+			],
+			"miscTags": [
+				"CNS"
 			],
 			"hasFluffImages": true
 		},
@@ -14679,6 +14715,9 @@
 			},
 			"lootTables": [
 				"Magic Item Table H"
+			],
+			"miscTags": [
+				"CNS"
 			],
 			"hasFluffImages": true
 		},
@@ -15008,7 +15047,10 @@
 						"conjure elemental"
 					]
 				}
-			}
+			},
+			"miscTags": [
+				"CNS"
+			]
 		},
 		{
 			"name": "Elemental Gem, Emerald",
@@ -15034,7 +15076,10 @@
 						"conjure elemental"
 					]
 				}
-			}
+			},
+			"miscTags": [
+				"CNS"
+			]
 		},
 		{
 			"name": "Elemental Gem, Red Corundum",
@@ -15056,7 +15101,10 @@
 						"conjure elemental"
 					]
 				}
-			}
+			},
+			"miscTags": [
+				"CNS"
+			]
 		},
 		{
 			"name": "Elemental Gem, Yellow Diamond",
@@ -15081,7 +15129,10 @@
 						"conjure elemental"
 					]
 				}
-			}
+			},
+			"miscTags": [
+				"CNS"
+			]
 		},
 		{
 			"name": "Elephant",
@@ -15120,7 +15171,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Elven Chain",
@@ -15904,7 +15956,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table C"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Eyes of the Eagle",
@@ -16748,7 +16801,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table G"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Figurine of Wondrous Power, Ebony Fly",
@@ -16919,7 +16973,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table G"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Figurine of Wondrous Power, Serpentine Owl",
@@ -16980,7 +17035,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table F"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Finder's Goggles",
@@ -17942,6 +17998,9 @@
 			"lootTables": [
 				"Magic Item Table F"
 			],
+			"miscTags": [
+				"CNS"
+			],
 			"hasFluffImages": true
 		},
 		{
@@ -18129,7 +18188,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table G"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Glass Bottle",
@@ -18204,7 +18264,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table F"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Gloves of Thievery",
@@ -21187,7 +21248,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table H"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Horn of Valhalla, Iron",
@@ -21235,7 +21297,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table G"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Horned Ring",
@@ -21691,7 +21754,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table D"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Horseshoes of Speed",
@@ -21710,7 +21774,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table C"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Hourglass",
@@ -24228,6 +24293,9 @@
 			"lootTables": [
 				"Magic Item Table B"
 			],
+			"miscTags": [
+				"CNS"
+			],
 			"hasFluffImages": true
 		},
 		{
@@ -26606,6 +26674,9 @@
 				"This tome contains information and incantations necessary to make a particular type of golem. The DM chooses the type or determines it randomly. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes {@damage 6d6} psychic damage.",
 				"To create a {@creature clay golem}, you must spend 30 days, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay 65,000 gp to purchase supplies. Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
 			],
+			"miscTags": [
+				"CNS"
+			],
 			"hasFluffImages": true
 		},
 		{
@@ -26648,7 +26719,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table H"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Manual of Iron Golems",
@@ -26666,6 +26738,9 @@
 			"entries": [
 				"This tome contains information and incantations necessary to make a particular type of golem. The DM chooses the type or determines it randomly. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes {@damage 6d6} psychic damage.",
 				"To create an {@creature iron golem}, you must spend 120 days, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay 100,000 gp to purchase supplies. Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+			],
+			"miscTags": [
+				"CNS"
 			],
 			"hasFluffImages": true
 		},
@@ -26709,6 +26784,9 @@
 			"entries": [
 				"This tome contains information and incantations necessary to make a particular type of golem. The DM chooses the type or determines it randomly. To decipher and use the manual, you must be a spellcaster with at least two 5th-level spell slots. A creature that can't use a manual of golems and attempts to read it takes {@damage 6d6} psychic damage.",
 				"To create a {@creature stone golem}, you must spend 90 days, working without interruption with the manual at hand and resting no more than 8 hours per day. You must also pay 80,000 gp to purchase supplies. Once you finish creating the golem, the book is consumed in eldritch flames. The golem becomes animate when the ashes of the manual are sprinkled on it. It is under your control, and it understands and obeys your spoken commands."
+			],
+			"miscTags": [
+				"CNS"
 			],
 			"hasFluffImages": true
 		},
@@ -28524,6 +28602,9 @@
 			"lootTables": [
 				"Magic Item Table C"
 			],
+			"miscTags": [
+				"CNS"
+			],
 			"hasFluffImages": true
 		},
 		{
@@ -28967,6 +29048,9 @@
 			"lootTables": [
 				"Magic Item Table D"
 			],
+			"miscTags": [
+				"CNS"
+			],
 			"hasFluffImages": true
 		},
 		{
@@ -29204,7 +29288,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Oil of Sharpness",
@@ -29231,7 +29316,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Oil of Slipperiness",
@@ -29263,7 +29349,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Oil of Taggit",
@@ -30320,7 +30407,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table F"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Pearl of Undead Detection",
@@ -30512,7 +30600,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table G"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Periapt of Wound Closure",
@@ -30603,7 +30692,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Piercer",
@@ -30943,7 +31033,8 @@
 			},
 			"lootTables": [
 				"Magic Item Table I"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Plate of Knight's Fellowship",
@@ -31373,6 +31464,7 @@
 			"page": 188,
 			"srd": true,
 			"referenceSources": [
+				"IDRotF",
 				"LRDT",
 				"OoW",
 				"WDMM"
@@ -31435,7 +31527,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Aqueous Form",
@@ -31505,7 +31598,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Climbing",
@@ -31569,7 +31663,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Cold Resistance",
@@ -31641,7 +31736,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Dragon's Majesty",
@@ -31718,6 +31814,7 @@
 			"page": 188,
 			"srd": true,
 			"referenceSources": [
+				"IDRotF",
 				"JttRC",
 				"KftGV",
 				"PotA",
@@ -31781,13 +31878,17 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Force Resistance",
 			"source": "DMG",
 			"page": 188,
 			"srd": true,
+			"referenceSources": [
+				"IDRotF"
+			],
 			"type": "P",
 			"resist": [
 				"force"
@@ -31831,7 +31932,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Gaseous Form",
@@ -31868,7 +31970,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Giant Size",
@@ -31969,7 +32072,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Healing",
@@ -32093,7 +32197,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Hill Giant Strength",
@@ -32127,7 +32232,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Invisibility",
@@ -32211,7 +32317,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Lightning Resistance",
@@ -32262,7 +32369,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Maximum Power",
@@ -32361,7 +32469,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Necrotic Resistance",
@@ -32423,7 +32532,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Poison Resistance",
@@ -32564,7 +32674,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Stone Giant Strength",
@@ -32592,7 +32703,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Storm Giant Strength",
@@ -32657,7 +32769,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Supreme Healing",
@@ -32688,7 +32801,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Thunder Resistance",
@@ -33650,6 +33764,9 @@
 					]
 				}
 			],
+			"miscTags": [
+				"CNS"
+			],
 			"hasFluffImages": true
 		},
 		{
@@ -33669,6 +33786,9 @@
 						"You can use an action to touch the token to a body of water at least 60 feet in diameter. The token disappears, and a 50-foot-long, 20-foot-wide boat shaped like a swan takes its place. The boat is self-propelled and moves across water at a speed of 6 miles per hour. You can use an action while on the boat to command it to move or to turn up to 90 degrees. The boat can carry up to thirty-two Medium or smaller creatures. A Large creature counts as four Medium creatures, while a Huge creature counts as nine. The boat remains for 24 hours and then disappears. You can dismiss the boat as an action."
 					]
 				}
+			],
+			"miscTags": [
+				"CNS"
 			],
 			"hasFluffImages": true
 		},
@@ -33714,6 +33834,9 @@
 						"As a bonus action on your turn, you can direct the whip to fly up to 20 feet and repeat the attack against a creature within 10 feet of it. The whip disappears after 1 hour, when you use an action to dismiss it, or when you are {@condition incapacitated} or die."
 					]
 				}
+			],
+			"miscTags": [
+				"CNS"
 			],
 			"hasFluffImages": true
 		},
@@ -34873,7 +34996,8 @@
 			},
 			"lootTables": [
 				"Magic Item Table F"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Ring of Lightning Resistance",
@@ -35312,7 +35436,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table B"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Ring of Telekinesis",
@@ -35755,7 +35880,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table H"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Robe of Serpents",
@@ -36088,7 +36214,8 @@
 			},
 			"lootTables": [
 				"Magic Item Table H"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Rod of Hellish Flames",
@@ -36306,7 +36433,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table H"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Rod of Seven Parts",
@@ -36537,7 +36665,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table B"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Rope of Entanglement",
@@ -37145,7 +37274,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table B"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Saddlebags",
@@ -37657,7 +37787,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table H"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Scissors of Shadow Snipping",
@@ -38274,7 +38405,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table F"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Serpent Scale Armor",
@@ -39887,6 +40019,9 @@
 						]
 					]
 				}
+			],
+			"miscTags": [
+				"CNS"
 			]
 		},
 		{
@@ -41327,9 +41462,6 @@
 			],
 			"lootTables": [
 				"Magic Item Table I"
-			],
-			"miscTags": [
-				"CNS"
 			]
 		},
 		{
@@ -42258,7 +42390,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table H"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Staff of Swarming Insects",
@@ -52071,7 +52204,8 @@
 			],
 			"lootTables": [
 				"Magic Item Table G"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Artisan's Tools",
@@ -52470,6 +52604,9 @@
 			},
 			"lootTables": [
 				"Magic Item Table B"
+			],
+			"miscTags": [
+				"CNS"
 			],
 			"hasFluffImages": true
 		},
@@ -53214,6 +53351,9 @@
 			"lootTables": [
 				"Magic Item Table H"
 			],
+			"miscTags": [
+				"CNS"
+			],
 			"hasFluffImages": true
 		},
 		{
@@ -53372,7 +53512,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potion of Healing (*)",
@@ -53450,7 +53591,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Potions of Healing",
@@ -53466,7 +53608,8 @@
 			],
 			"miscTags": [
 				"CNS"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Prehistoric Figurine of Wondrous Power",
@@ -53551,6 +53694,9 @@
 			"lootTables": [
 				"Magic Item Table C"
 			],
+			"miscTags": [
+				"CNS"
+			],
 			"hasFluffImages": true
 		},
 		{
@@ -53567,7 +53713,8 @@
 				"Ring of Earth Elemental Command",
 				"Ring of Fire Elemental Command",
 				"Ring of Water Elemental Command"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Ring of Resistance",
@@ -53683,7 +53830,8 @@
 				"+1 Rod of the Pact Keeper",
 				"+2 Rod of the Pact Keeper",
 				"+3 Rod of the Pact Keeper"
-			]
+			],
+			"hasFluffImages": true
 		},
 		{
 			"name": "Ruin's Wake",

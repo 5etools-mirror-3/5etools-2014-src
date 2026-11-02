@@ -6,12 +6,125 @@
 	},
 	"itemFluff": [
 		{
+			"name": "+1 Ammunition",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/+1 Ammunition.webp"
+					},
+					"width": 818,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "+1 Armor",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/+1 Armor.webp"
+					},
+					"width": 555,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "+1 Fate Dealer's Deck",
 			"source": "BMT",
 			"_copy": {
 				"name": "Fate Dealer's Deck",
 				"source": "BMT"
 			}
+		},
+		{
+			"name": "+1 Rod of the Pact Keeper",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Rod of the Pact Keeper.webp"
+					},
+					"width": 699,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "+1 Shield (*)",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/+1 Shield.webp"
+					},
+					"width": 256,
+					"height": 256
+				}
+			]
+		},
+		{
+			"name": "+1 Wand of the War Mage",
+			"source": "DMG",
+			"_copy": {
+				"name": "Wand of the War Mage",
+				"source": "DMG"
+			}
+		},
+		{
+			"name": "+1 Weapon",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/+1 Weapon.webp"
+					},
+					"width": 320,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "+2 Ammunition",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/+2 Ammunition.webp"
+					},
+					"width": 1000,
+					"height": 964
+				}
+			]
+		},
+		{
+			"name": "+2 Armor",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/+2 Armor.webp"
+					},
+					"width": 783,
+					"height": 1000
+				}
+			]
 		},
 		{
 			"name": "+2 Fate Dealer's Deck",
@@ -22,12 +135,148 @@
 			}
 		},
 		{
+			"name": "+2 Rod of the Pact Keeper",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/+2 Rod of the Pact Keeper.webp"
+					},
+					"width": 1000,
+					"height": 926
+				}
+			]
+		},
+		{
+			"name": "+2 Shield (*)",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/+2 Shield.webp"
+					},
+					"width": 670,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "+2 Wand of the War Mage",
+			"source": "DMG",
+			"_copy": {
+				"name": "Wand of the War Mage",
+				"source": "DMG"
+			}
+		},
+		{
+			"name": "+2 Weapon",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/+2 Weapon.webp"
+					},
+					"width": 782,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "+3 Ammunition",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/+3 Ammunition.webp"
+					},
+					"width": 784,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "+3 Fate Dealer's Deck",
 			"source": "BMT",
 			"_copy": {
 				"name": "Fate Dealer's Deck",
 				"source": "BMT"
 			}
+		},
+		{
+			"name": "+3 Rod of the Pact Keeper",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/+3 Rod of the Pact Keeper.webp"
+					},
+					"width": 674,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "+3 Shield (*)",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/+3 Shield.webp"
+					},
+					"width": 1000,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "+3 Wand of the War Mage",
+			"source": "DMG",
+			"_copy": {
+				"name": "Wand of the War Mage",
+				"source": "DMG"
+			}
+		},
+		{
+			"name": "+3 Weapon",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/+3 Weapon.webp"
+					},
+					"width": 792,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Adamantine Armor",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Adamantine Armor.webp"
+					},
+					"width": 718,
+					"height": 1000
+				}
+			]
 		},
 		{
 			"name": "Adze of Annam",
@@ -285,6 +534,21 @@
 			]
 		},
 		{
+			"name": "Armor of Vulnerability",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Armor of Vulnerability.webp"
+					},
+					"width": 776,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Arrow of Slaying (*)",
 			"source": "DMG",
 			"images": [
@@ -296,6 +560,21 @@
 					},
 					"width": 1000,
 					"height": 986
+				}
+			]
+		},
+		{
+			"name": "Arrow-Catching Shield",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Arrow-Catching Shield.webp"
+					},
+					"width": 508,
+					"height": 1000
 				}
 			]
 		},
@@ -418,8 +697,8 @@
 						"type": "internal",
 						"path": "items/DMG/Bag of Beans.webp"
 					},
-					"width": 315,
-					"height": 315
+					"width": 1000,
+					"height": 788
 				}
 			]
 		},
@@ -501,6 +780,21 @@
 			]
 		},
 		{
+			"name": "Bead of Force",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Bead of Force.webp"
+					},
+					"width": 891,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Belt of Dwarvenkind",
 			"source": "DMG",
 			"images": [
@@ -516,6 +810,21 @@
 			]
 		},
 		{
+			"name": "Belt of Frost Giant Strength",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Belt of Frost Giant Strength.webp"
+					},
+					"width": 1000,
+					"height": 809
+				}
+			]
+		},
+		{
 			"name": "Belt of Giant Strength",
 			"source": "DMG",
 			"images": [
@@ -527,6 +836,21 @@
 					},
 					"width": 604,
 					"height": 850
+				}
+			]
+		},
+		{
+			"name": "Belt of Hill Giant Strength",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Belt of Hill Giant Strength.webp"
+					},
+					"width": 1000,
+					"height": 640
 				}
 			]
 		},
@@ -674,6 +998,21 @@
 					"width": 850,
 					"height": 645,
 					"credit": "Conceptopolis"
+				}
+			]
+		},
+		{
+			"name": "Boots of Levitation",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Boots of Levitation.webp"
+					},
+					"width": 488,
+					"height": 1000
 				}
 			]
 		},
@@ -906,6 +1245,53 @@
 			]
 		},
 		{
+			"name": "Carpet of Flying",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Carpet of Flying.webp"
+					},
+					"width": 1000,
+					"height": 733
+				}
+			]
+		},
+		{
+			"name": "Carpet of Flying, 3 ft. × 5 ft.",
+			"source": "DMG",
+			"_copy": {
+				"name": "Carpet of Flying",
+				"source": "DMG"
+			}
+		},
+		{
+			"name": "Carpet of Flying, 4 ft. × 6 ft.",
+			"source": "DMG",
+			"_copy": {
+				"name": "Carpet of Flying",
+				"source": "DMG"
+			}
+		},
+		{
+			"name": "Carpet of Flying, 5 ft. × 7 ft.",
+			"source": "DMG",
+			"_copy": {
+				"name": "Carpet of Flying",
+				"source": "DMG"
+			}
+		},
+		{
+			"name": "Carpet of Flying, 6 ft. × 9 ft.",
+			"source": "DMG",
+			"_copy": {
+				"name": "Carpet of Flying",
+				"source": "DMG"
+			}
+		},
+		{
 			"name": "Cartographer's Map Case",
 			"source": "AI",
 			"images": [
@@ -999,6 +1385,21 @@
 			]
 		},
 		{
+			"name": "Cloak of Arachnida",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Cloak of Arachnida.webp"
+					},
+					"width": 782,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Cloak of Displacement",
 			"source": "DMG",
 			"images": [
@@ -1071,6 +1472,21 @@
 					},
 					"width": 444,
 					"height": 850
+				}
+			]
+		},
+		{
+			"name": "Cloak of the Bat",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Cloak of the Bat.webp"
+					},
+					"width": 867,
+					"height": 1000
 				}
 			]
 		},
@@ -1219,6 +1635,21 @@
 					},
 					"width": 1000,
 					"height": 984
+				}
+			]
+		},
+		{
+			"name": "Crystal Ball",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Crystal Ball.webp"
+					},
+					"width": 933,
+					"height": 1000
 				}
 			]
 		},
@@ -1410,6 +1841,21 @@
 						"path": "items/BMT/Deck of Dimensions.webp"
 					},
 					"width": 695,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Deck of Illusions",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Deck of Illusions.webp"
+					},
+					"width": 883,
 					"height": 1000
 				}
 			]
@@ -1838,6 +2284,21 @@
 			]
 		},
 		{
+			"name": "Dust of Dryness",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Dust of Dryness.webp"
+					},
+					"width": 1000,
+					"height": 655
+				}
+			]
+		},
+		{
 			"name": "Dust of Sneezing and Choking",
 			"source": "DMG",
 			"images": [
@@ -1959,6 +2420,21 @@
 			]
 		},
 		{
+			"name": "Elixir of Health",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Elixir of Health.webp"
+					},
+					"width": 438,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Elven Chain",
 			"source": "DMG",
 			"images": [
@@ -2055,7 +2531,23 @@
 			"source": "DMG",
 			"_copy": {
 				"name": "Eye and Hand of Vecna",
-				"source": "DMG"
+				"source": "DMG",
+				"_mod": {
+					"images": {
+						"mode": "appendArr",
+						"items": [
+							{
+								"type": "image",
+								"href": {
+									"type": "internal",
+									"path": "items/DMG/Eye of Vecna.webp"
+								},
+								"width": 618,
+								"height": 1000
+							}
+						]
+					}
+				}
 			}
 		},
 		{
@@ -2070,6 +2562,21 @@
 					},
 					"width": 1000,
 					"height": 860
+				}
+			]
+		},
+		{
+			"name": "Eyes of Minute Seeing",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Eyes of Minute Seeing.webp"
+					},
+					"width": 791,
+					"height": 1000
 				}
 			]
 		},
@@ -2200,6 +2707,21 @@
 			]
 		},
 		{
+			"name": "Figurine of Wondrous Power, Bronze Griffon",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Figurine of Wondrous Power, Bronze Griffon.webp"
+					},
+					"width": 917,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Figurine of Wondrous Power, Ebony Fly",
 			"source": "DMG",
 			"images": [
@@ -2275,6 +2797,21 @@
 			]
 		},
 		{
+			"name": "Figurine of Wondrous Power, Onyx Dog",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Figurine of Wondrous Power, Onyx Dog.webp"
+					},
+					"width": 767,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Figurine of Wondrous Power, Serpentine Owl",
 			"source": "DMG",
 			"images": [
@@ -2285,6 +2822,21 @@
 						"path": "items/DMG/Figurine of Wondrous Power (Serpentine Owl).webp"
 					},
 					"width": 613,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Figurine of Wondrous Power, Silver Raven",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Figurine of Wondrous Power, Silver Raven.webp"
+					},
+					"width": 700,
 					"height": 1000
 				}
 			]
@@ -2509,6 +3061,21 @@
 			]
 		},
 		{
+			"name": "Glamoured Studded Leather",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Glamoured Studded Leather.webp"
+					},
+					"width": 912,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Gloves of Missile Snaring",
 			"source": "DMG",
 			"images": [
@@ -2519,6 +3086,21 @@
 						"path": "items/DMG/Gloves of Missile Snaring.webp"
 					},
 					"width": 978,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Gloves of Swimming and Climbing",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Gloves of Swimming and Climbing.webp"
+					},
+					"width": 859,
 					"height": 1000
 				}
 			]
@@ -2778,7 +3360,23 @@
 			"source": "DMG",
 			"_copy": {
 				"name": "Eye and Hand of Vecna",
-				"source": "DMG"
+				"source": "DMG",
+				"_mod": {
+					"images": {
+						"mode": "appendArr",
+						"items": [
+							{
+								"type": "image",
+								"href": {
+									"type": "internal",
+									"path": "items/DMG/Hand of Vecna.webp"
+								},
+								"width": 852,
+								"height": 1000
+							}
+						]
+					}
+				}
 			}
 		},
 		{
@@ -3055,6 +3653,66 @@
 			]
 		},
 		{
+			"name": "Horn of Valhalla, Bronze",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Horn of Valhalla, Bronze.webp"
+					},
+					"width": 1000,
+					"height": 797
+				}
+			]
+		},
+		{
+			"name": "Horn of Valhalla, Silver",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Horn of Valhalla, Silver.webp"
+					},
+					"width": 1000,
+					"height": 797
+				}
+			]
+		},
+		{
+			"name": "Horseshoes of a Zephyr",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Horseshoes of a Zephyr.webp"
+					},
+					"width": 906,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Horseshoes of Speed",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Horseshoes of Speed.webp"
+					},
+					"width": 1000,
+					"height": 823
+				}
+			]
+		},
+		{
 			"name": "Icewind Dale Trinket",
 			"source": "IDRotF",
 			"images": [
@@ -3313,41 +3971,80 @@
 						"path": "items/DMG/Ioun Stone.webp"
 					},
 					"width": 1700,
-					"height": 627
+					"height": 627,
+					"title": "Ioun Stones"
+				},
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Ioun Stone 1.webp"
+					},
+					"width": 1000,
+					"height": 620,
+					"title": "Ioun Stones ({@item Ioun Stone, Absorption|DMG|Absorption}, {@item Ioun Stone, Awareness|DMG|Awareness}, {@item Ioun Stone, Fortitude|DMG|Fortitude}, {@item Ioun Stone, Insight|DMG|Insight}, {@item Ioun Stone, Leadership|DMG|Leadership}, {@item Ioun Stone, Intellect|DMG|Intellect})"
 				}
 			]
 		},
 		{
 			"name": "Ioun Stone, Absorption",
 			"source": "DMG",
-			"_copy": {
-				"name": "Ioun Stone",
-				"source": "DMG"
-			}
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Ioun Stone, Absorption.webp"
+					},
+					"width": 1000,
+					"height": 688
+				}
+			]
 		},
 		{
 			"name": "Ioun Stone, Agility",
 			"source": "DMG",
-			"_copy": {
-				"name": "Ioun Stone",
-				"source": "DMG"
-			}
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Ioun Stone, Agility.webp"
+					},
+					"width": 1000,
+					"height": 1000
+				}
+			]
 		},
 		{
 			"name": "Ioun Stone, Awareness",
 			"source": "DMG",
-			"_copy": {
-				"name": "Ioun Stone",
-				"source": "DMG"
-			}
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Ioun Stone, Awareness.webp"
+					},
+					"width": 1000,
+					"height": 943
+				}
+			]
 		},
 		{
 			"name": "Ioun Stone, Fortitude",
 			"source": "DMG",
-			"_copy": {
-				"name": "Ioun Stone",
-				"source": "DMG"
-			}
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Ioun Stone, Fortitude.webp"
+					},
+					"width": 1000,
+					"height": 721
+				}
+			]
 		},
 		{
 			"name": "Ioun Stone, Greater Absorption",
@@ -3360,18 +4057,32 @@
 		{
 			"name": "Ioun Stone, Insight",
 			"source": "DMG",
-			"_copy": {
-				"name": "Ioun Stone",
-				"source": "DMG"
-			}
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Ioun Stone, Insight.webp"
+					},
+					"width": 1000,
+					"height": 1000
+				}
+			]
 		},
 		{
 			"name": "Ioun Stone, Intellect",
 			"source": "DMG",
-			"_copy": {
-				"name": "Ioun Stone",
-				"source": "DMG"
-			}
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Ioun Stone, Intellect.webp"
+					},
+					"width": 1000,
+					"height": 1000
+				}
+			]
 		},
 		{
 			"name": "Ioun Stone, Leadership",
@@ -3392,10 +4103,17 @@
 		{
 			"name": "Ioun Stone, Protection",
 			"source": "DMG",
-			"_copy": {
-				"name": "Ioun Stone",
-				"source": "DMG"
-			}
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Ioun Stone, Protection.webp"
+					},
+					"width": 1000,
+					"height": 631
+				}
+			]
 		},
 		{
 			"name": "Ioun Stone, Regeneration",
@@ -3408,26 +4126,47 @@
 		{
 			"name": "Ioun Stone, Reserve",
 			"source": "DMG",
-			"_copy": {
-				"name": "Ioun Stone",
-				"source": "DMG"
-			}
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Ioun Stone, Reserve.webp"
+					},
+					"width": 1000,
+					"height": 818
+				}
+			]
 		},
 		{
 			"name": "Ioun Stone, Strength",
 			"source": "DMG",
-			"_copy": {
-				"name": "Ioun Stone",
-				"source": "DMG"
-			}
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Ioun Stone, Strength.webp"
+					},
+					"width": 1000,
+					"height": 643
+				}
+			]
 		},
 		{
 			"name": "Ioun Stone, Sustenance",
 			"source": "DMG",
-			"_copy": {
-				"name": "Ioun Stone",
-				"source": "DMG"
-			}
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Ioun Stone, Sustenance.webp"
+					},
+					"width": 1000,
+					"height": 721
+				}
+			]
 		},
 		{
 			"name": "Iron Bands of Bilarro",
@@ -3838,8 +4577,8 @@
 						"type": "internal",
 						"path": "items/DMG/Mace of Disruption.webp"
 					},
-					"width": 315,
-					"height": 315
+					"width": 1000,
+					"height": 1000
 				}
 			]
 		},
@@ -3970,6 +4709,21 @@
 					},
 					"width": 850,
 					"height": 471
+				}
+			]
+		},
+		{
+			"name": "Manual of Gainful Exercise",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Manual of Gainful Exercise.webp"
+					},
+					"width": 999,
+					"height": 1000
 				}
 			]
 		},
@@ -4259,6 +5013,21 @@
 			]
 		},
 		{
+			"name": "Mithral Armor",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Mithral Armor.webp"
+					},
+					"width": 602,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Mizzium Apparatus",
 			"source": "GGR",
 			"images": [
@@ -4500,6 +5269,51 @@
 			]
 		},
 		{
+			"name": "Oil of Etherealness",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Oil of Etherealness.webp"
+					},
+					"width": 879,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Oil of Sharpness",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Oil of Sharpness.webp"
+					},
+					"width": 1000,
+					"height": 981
+				}
+			]
+		},
+		{
+			"name": "Oil of Slipperiness",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Oil of Slipperiness.webp"
+					},
+					"width": 556,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Orb of Direction",
 			"source": "XGE",
 			"images": [
@@ -4650,6 +5464,21 @@
 			]
 		},
 		{
+			"name": "Pearl of Power",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Pearl of Power.webp"
+					},
+					"width": 767,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Peregrine Mask",
 			"source": "GGR",
 			"images": [
@@ -4681,6 +5510,21 @@
 			]
 		},
 		{
+			"name": "Periapt of Proof against Poison",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Periapt of Proof against Poison.webp"
+					},
+					"width": 899,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Periapt of Wound Closure",
 			"source": "DMG",
 			"images": [
@@ -4691,6 +5535,21 @@
 						"path": "items/DMG/Periapt of Wound Closure.webp"
 					},
 					"width": 686,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Philter of Love",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Philter of Love.webp"
+					},
+					"width": 712,
 					"height": 1000
 				}
 			]
@@ -4757,6 +5616,21 @@
 			]
 		},
 		{
+			"name": "Plate Armor of Etherealness",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Plate Armor of Etherealness.webp"
+					},
+					"width": 774,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Platinum (pp)",
 			"source": "PHB",
 			"images": [
@@ -4804,6 +5678,231 @@
 			]
 		},
 		{
+			"name": "Potion of Animal Friendship",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Animal Friendship.webp"
+					},
+					"width": 398,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Clairvoyance",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Clairvoyance.webp"
+					},
+					"width": 586,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Cloud Giant Strength",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Cloud Giant Strength.webp"
+					},
+					"width": 727,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Diminution",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Diminution.webp"
+					},
+					"width": 1000,
+					"height": 722
+				}
+			]
+		},
+		{
+			"name": "Potion of Flying",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Flying.webp"
+					},
+					"width": 511,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Frost Giant Strength",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Frost Giant Strength.webp"
+					},
+					"width": 1000,
+					"height": 722
+				}
+			]
+		},
+		{
+			"name": "Potion of Gaseous Form",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Gaseous Form.webp"
+					},
+					"width": 699,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Giant Strength",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Giant Strength.webp"
+					},
+					"width": 539,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Growth",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Growth.webp"
+					},
+					"width": 791,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Heroism",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Heroism.webp"
+					},
+					"width": 810,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Hill Giant Strength",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Hill Giant Strength.webp"
+					},
+					"width": 693,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Invulnerability",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Invulnerability.webp"
+					},
+					"width": 773,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Longevity",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Longevity.webp"
+					},
+					"width": 582,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Mind Reading",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Mind Reading.webp"
+					},
+					"width": 582,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Poison",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Poison.webp"
+					},
+					"width": 569,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Potion of Polychromy",
 			"source": "DitLCoT",
 			"images": [
@@ -4819,6 +5918,81 @@
 			]
 		},
 		{
+			"name": "Potion of Resistance",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Resistance.webp"
+					},
+					"width": 450,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Speed",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Speed.webp"
+					},
+					"width": 616,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Stone Giant Strength",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Stone Giant Strength.webp"
+					},
+					"width": 288,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Superior Healing",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Superior Healing.webp"
+					},
+					"width": 580,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Potion of Supreme Healing",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potion of Supreme Healing.webp"
+					},
+					"width": 550,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Potion of Water Breathing",
 			"source": "DMG",
 			"images": [
@@ -4828,9 +6002,24 @@
 						"type": "internal",
 						"path": "items/DMG/Potion of Water Breathing.webp"
 					},
-					"width": 539,
-					"height": 850,
+					"width": 639,
+					"height": 1000,
 					"credit": "CoupleOfKooks"
+				}
+			]
+		},
+		{
+			"name": "Potions of Healing",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Potions of Healing.webp"
+					},
+					"width": 433,
+					"height": 1000
 				}
 			]
 		},
@@ -4975,6 +6164,15 @@
 					"height": 966,
 					"title": "Quaal's Feather Tokens (Whip, Anchor, Bird, Swan Boat, Fan, Tree)",
 					"credit": "Conceptopolis"
+				},
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Quaal's Feather Token 1.webp"
+					},
+					"width": 953,
+					"height": 1000
 				}
 			]
 		},
@@ -5209,6 +6407,21 @@
 			]
 		},
 		{
+			"name": "Ring of Elemental Command",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Ring of Elemental Command.webp"
+					},
+					"width": 684,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Ring of Evasion",
 			"source": "DMG",
 			"images": [
@@ -5264,6 +6477,21 @@
 						"path": "items/DMG/Ring of Invisibility.webp"
 					},
 					"width": 757,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Ring of Jumping",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Ring of Jumping.webp"
+					},
+					"width": 727,
 					"height": 1000
 				}
 			]
@@ -5407,6 +6635,21 @@
 			]
 		},
 		{
+			"name": "Ring of Swimming",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Ring of Swimming.webp"
+					},
+					"width": 1000,
+					"height": 848
+				}
+			]
+		},
+		{
 			"name": "Ring of Telekinesis",
 			"source": "DMG",
 			"images": [
@@ -5476,8 +6719,8 @@
 						"type": "internal",
 						"path": "items/DMG/Ring of Warmth.webp"
 					},
-					"width": 850,
-					"height": 1179
+					"width": 723,
+					"height": 1000
 				}
 			]
 		},
@@ -5537,6 +6780,21 @@
 						"path": "items/DMG/Robe of Eyes.webp"
 					},
 					"width": 414,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Robe of Scintillating Colors",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Robe of Scintillating Colors.webp"
+					},
+					"width": 616,
 					"height": 1000
 				}
 			]
@@ -5610,6 +6868,21 @@
 			]
 		},
 		{
+			"name": "Rod of Alertness",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Rod of Alertness.webp"
+					},
+					"width": 813,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Rod of Lordly Might",
 			"source": "DMG",
 			"images": [
@@ -5655,6 +6928,21 @@
 			]
 		},
 		{
+			"name": "Rod of Security",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Rod of Security.webp"
+					},
+					"width": 584,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Rod of Seven Parts",
 			"source": "VEoR",
 			"images": [
@@ -5682,6 +6970,21 @@
 			]
 		},
 		{
+			"name": "Rod of the Pact Keeper",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Rod of the Pact Keeper.webp"
+					},
+					"width": 699,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Rogue Card",
 			"source": "BMT",
 			"images": [
@@ -5694,6 +6997,21 @@
 					"width": 850,
 					"height": 1552,
 					"credit": "Harry Conway"
+				}
+			]
+		},
+		{
+			"name": "Rope of Climbing",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Rope of Climbing.webp"
+					},
+					"width": 905,
+					"height": 1000
 				}
 			]
 		},
@@ -5819,6 +7137,21 @@
 			}
 		},
 		{
+			"name": "Saddle of the Cavalier",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Saddle of the Cavalier.webp"
+					},
+					"width": 687,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Sage Card",
 			"source": "BMT",
 			"images": [
@@ -5860,6 +7193,21 @@
 						"path": "items/DMG/Scarab of Protection.webp"
 					},
 					"width": 719,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Scimitar of Speed",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Scimitar of Speed.webp"
+					},
+					"width": 804,
 					"height": 1000
 				}
 			]
@@ -5941,6 +7289,21 @@
 					},
 					"width": 315,
 					"height": 315
+				}
+			]
+		},
+		{
+			"name": "Sentinel Shield",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Sentinel Shield.webp"
+					},
+					"width": 932,
+					"height": 1000
 				}
 			]
 		},
@@ -6418,6 +7781,21 @@
 			]
 		},
 		{
+			"name": "Staff of Striking",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Staff of Striking.webp"
+					},
+					"width": 761,
+					"height": 1000
+				}
+			]
+		},
+		{
 			"name": "Staff of Swarming Insects",
 			"source": "DMG",
 			"images": [
@@ -6750,6 +8128,36 @@
 						"path": "items/BMT/Sword of the Planes.webp"
 					},
 					"width": 325,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Sword of Vengeance",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Sword of Vengeance.webp"
+					},
+					"width": 734,
+					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Sword of Wounding",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Sword of Wounding.webp"
+					},
+					"width": 818,
 					"height": 1000
 				}
 			]
@@ -7216,6 +8624,16 @@
 					"width": 335,
 					"height": 850,
 					"title": "Vicious Weapon (Rapier)"
+				},
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Vicious Weapon 1.webp"
+					},
+					"width": 618,
+					"height": 1000,
+					"title": "Vicious Weapon (Morningstar)"
 				}
 			]
 		},
@@ -7351,8 +8769,8 @@
 						"type": "internal",
 						"path": "items/DMG/Wand of Magic Missiles.webp"
 					},
-					"width": 800,
-					"height": 450,
+					"width": 730,
+					"height": 505,
 					"credit": "Conceptopolis"
 				}
 			]
@@ -7414,6 +8832,21 @@
 					},
 					"width": 228,
 					"height": 1000
+				}
+			]
+		},
+		{
+			"name": "Wand of the War Mage",
+			"source": "DMG",
+			"images": [
+				{
+					"type": "image",
+					"href": {
+						"type": "internal",
+						"path": "items/DMG/Wand of the War Mage.webp"
+					},
+					"width": 855,
+					"height": 607
 				}
 			]
 		},
@@ -7594,8 +9027,8 @@
 						"type": "internal",
 						"path": "items/DMG/Winged Boots.webp"
 					},
-					"width": 777,
-					"height": 600,
+					"width": 1000,
+					"height": 746,
 					"credit": "Conceptopolis"
 				}
 			]

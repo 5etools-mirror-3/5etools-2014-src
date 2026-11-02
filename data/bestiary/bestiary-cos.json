@@ -3792,7 +3792,8 @@
 				"dexterity",
 				"wisdom"
 			],
-			"hasToken": true
+			"hasToken": true,
+			"hasFluffImages": true
 		},
 		{
 			"name": "Stella Wachter",

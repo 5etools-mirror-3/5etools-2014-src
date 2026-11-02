@@ -2075,6 +2075,8 @@ Parser.ENVIRONMENT__PLANAR_LIMBO = "planar, limbo";
 Parser.ENVIRONMENT__PLANAR_MECHANUS = "planar, mechanus";
 Parser.ENVIRONMENT__PLANAR_OUTLANDS = "planar, outlands";
 
+Parser.ENVIRONMENT__PLANAR_TWISTING_NETHER = "planar, twisting nether";
+
 Parser.ENVIRONMENT__GROUP_PLANAR = "planar";
 Parser.ENVIRONMENT__GROUP_PLANAR_TRANSITIVE = "planar, transitive";
 Parser.ENVIRONMENT__GROUP_PLANAR_ELEMENTAL = "planar, elemental";
@@ -2179,6 +2181,8 @@ Parser.ENVIRONMENT_DISPLAY_NAMES = {
 	[Parser.ENVIRONMENT__PLANAR_MECHANUS]: "Planar (Mechanus)",
 
 	[Parser.ENVIRONMENT__PLANAR_OUTLANDS]: "Planar (Outlands)",
+
+	[Parser.ENVIRONMENT__PLANAR_TWISTING_NETHER]: "Planar (Twisting Nether)",
 
 	[Parser.ENVIRONMENT__GROUP_PLANAR_TRANSITIVE]: "Planar (Transitive Planes)",
 	[Parser.ENVIRONMENT__GROUP_PLANAR_ELEMENTAL]: "Planar (Elemental Planes)",
