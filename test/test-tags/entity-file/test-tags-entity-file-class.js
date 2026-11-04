@@ -160,11 +160,20 @@ export class EntityFileHandlerClass extends EntityFileHandlerBase {
 		});
 	}
 
+	_pDoTestEntity_class_includeSubclassesFrom ({filePath, fileState, ent, prop, propPrefixed}) {
+		(ent.includeSubclassesFrom || []).forEach(uid => {
+			const {name, source} = DataUtil.generic.unpackUid(uid, "class");
+			this._doCheckClassRef({logIdentOriginal: "includeSubclassesFrom", uidOriginal: uid, filePath, name, source});
+		});
+	}
+
 	async _pDoTestEntity_class ({filePath, fileState, ent, prop, propPrefixed}) {
 		this._pDoTestEntity_class_featureLinks({filePath, fileState, ent, prop, propPrefixed});
+		this._pDoTestEntity_class_includeSubclassesFrom({filePath, fileState, ent, prop, propPrefixed});
 
 		this._testAdditionalSpells(filePath, ent);
 		this._testReprintedAs(filePath, ent, "class");
+		this._testReskinOf(filePath, ent, "class");
 		this._testSrd(filePath, ent);
 		this._testStartingEquipment(filePath, ent, {propDotPath: "startingEquipment.defaultData"});
 	}

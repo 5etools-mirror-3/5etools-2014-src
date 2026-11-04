@@ -9,8 +9,9 @@ export class EntryCoalesceEntryLists {
 	 * @param stats
 	 * @param prop
 	 * @param {"classic" | null} styleHint
+	 * @param {?function} isPossibleHangingListItem Optional additional filtering function
 	 */
-	static mutCoalesce (stats, prop, {styleHint = null} = {}) {
+	static mutCoalesce (stats, prop, {styleHint = null, isPossibleHangingListItem = null} = {}) {
 		if (!stats[prop]) return;
 
 		styleHint ||= VetoolsConfig.get("styleSwitcher", "style");

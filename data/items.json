@@ -52071,7 +52071,8 @@
 				"Psychic Absorbing Tattoo|TCE",
 				"Radiant Absorbing Tattoo|TCE",
 				"Thunder Absorbing Tattoo|TCE"
-			]
+			],
+			"itemsHidden": true
 		},
 		{
 			"name": "Arcane Focus",
@@ -52177,6 +52178,7 @@
 				"Armor of Radiant Resistance",
 				"Armor of Thunder Resistance"
 			],
+			"itemsHidden": true,
 			"hasFluffImages": true
 		},
 		{
@@ -52390,7 +52392,8 @@
 				"Green Chromatic Rose|WBtW",
 				"Red Chromatic Rose|WBtW",
 				"White Chromatic Rose|WBtW"
-			]
+			],
+			"itemsHidden": true
 		},
 		{
 			"name": "Crystal Ball (Legendary Version)",
@@ -52710,6 +52713,7 @@
 				"Eye of Vecna|DMG",
 				"Hand of Vecna|DMG"
 			],
+			"itemsHidden": true,
 			"attachedSpells": {
 				"charges": {
 					"1": [
@@ -53049,7 +53053,8 @@
 				"Imbued Wood (Risian Pine)|ERLW",
 				"Imbued Wood (Shavarran Birch)|ERLW",
 				"Imbued Wood (Xorian Wenge)|ERLW"
-			]
+			],
+			"itemsHidden": true
 		},
 		{
 			"name": "Infiltrator's Key",
@@ -53491,7 +53496,8 @@
 				"Orb of Shielding (Risian Shale)|ERLW",
 				"Orb of Shielding (Shavarran Chert)|ERLW",
 				"Orb of Shielding (Xorian Marble)|ERLW"
-			]
+			],
+			"itemsHidden": true
 		},
 		{
 			"name": "Potion of Giant Strength",
@@ -53691,6 +53697,7 @@
 				"Quaal's Feather Token, Tree",
 				"Quaal's Feather Token, Whip"
 			],
+			"itemsHidden": true,
 			"lootTables": [
 				"Magic Item Table C"
 			],
@@ -53807,6 +53814,7 @@
 				"Ring of Radiant Resistance",
 				"Ring of Thunder Resistance"
 			],
+			"itemsHidden": true,
 			"lootTables": [
 				"Magic Item Table G"
 			],
@@ -53933,6 +53941,7 @@
 				"Sage's Signet (Songbird)|BMT",
 				"Sage's Signet (Wolf)|BMT"
 			],
+			"itemsHidden": true,
 			"attachedSpells": {
 				"daily": {
 					"1e": [
@@ -54065,6 +54074,7 @@
 				"Shard Solitaire (Rainbow Pearl)|KftGV",
 				"Shard Solitaire (Ruby)|KftGV"
 			],
+			"itemsHidden": true,
 			"attachedSpells": {
 				"charges": {
 					"1": [
@@ -54409,6 +54419,7 @@
 				"True-Ice Shards (Rapier)|CoA",
 				"True-Ice Shards (Dagger)|CoA"
 			],
+			"itemsHidden": true,
 			"attachedSpells": {
 				"will": [
 					"detect thoughts",

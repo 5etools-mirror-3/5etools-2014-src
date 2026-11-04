@@ -34854,7 +34854,19 @@
 						"Arriving in Barovia",
 						"Death House",
 						{
+							"header": "D1a\u2013D1b: Portico and Antechamber",
+							"depth": 1
+						},
+						{
+							"header": "D2a\u2013D2b: Main Hall and Cloakroom",
+							"depth": 1
+						},
+						{
 							"header": "D3: Den of Wolves",
+							"depth": 1
+						},
+						{
+							"header": "D4a\u2013D4b: Kitchen and Pantry",
 							"depth": 1
 						},
 						{
@@ -34863,6 +34875,10 @@
 						},
 						{
 							"header": "D6: Upper Hall",
+							"depth": 1
+						},
+						{
+							"header": "D7a\u2013D7b: Servants' Room and Closet",
 							"depth": 1
 						},
 						{
@@ -34882,11 +34898,19 @@
 							"depth": 1
 						},
 						{
+							"header": "D12a\u2013D12c: Master Suite",
+							"depth": 1
+						},
+						{
 							"header": "D13: Bathroom",
 							"depth": 1
 						},
 						{
 							"header": "D14: Storage Room",
+							"depth": 1
+						},
+						{
+							"header": "D15a\u2013D15c: Nursemaid's Suite",
 							"depth": 1
 						},
 						{
@@ -34915,6 +34939,10 @@
 						},
 						{
 							"header": "D22: Dungeon Level Access",
+							"depth": 1
+						},
+						{
+							"header": "D23c\u2013D23f: Family Crypts",
 							"depth": 1
 						},
 						{

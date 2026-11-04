@@ -174,6 +174,7 @@ const PROPORDER_MONSTER = [
 	"size",
 	"sizeNote",
 	"type",
+	"typeNote",
 	"alignment",
 	"alignmentPrefix",
 
@@ -697,6 +698,7 @@ const PROPORDER_CLASS = [
 	"edition",
 
 	"isSidekick",
+	"isHero",
 	"classGroup",
 
 	ObjectKey.getCopyKey({fnGetModOrder: () => PROPORDER_CLASS__COPY_MOD}),
@@ -751,6 +753,7 @@ const PROPORDER_CLASS = [
 
 	"classFeatures",
 
+	"includeSubclassesFrom",
 	"subclassTitle",
 
 	"hasFluff",

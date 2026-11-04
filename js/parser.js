@@ -2075,6 +2075,7 @@ Parser.ENVIRONMENT__PLANAR_LIMBO = "planar, limbo";
 Parser.ENVIRONMENT__PLANAR_MECHANUS = "planar, mechanus";
 Parser.ENVIRONMENT__PLANAR_OUTLANDS = "planar, outlands";
 
+Parser.ENVIRONMENT__PLANAR_EMERALD_DREAM = "planar, emerald dream";
 Parser.ENVIRONMENT__PLANAR_TWISTING_NETHER = "planar, twisting nether";
 
 Parser.ENVIRONMENT__GROUP_PLANAR = "planar";
@@ -2182,6 +2183,7 @@ Parser.ENVIRONMENT_DISPLAY_NAMES = {
 
 	[Parser.ENVIRONMENT__PLANAR_OUTLANDS]: "Planar (Outlands)",
 
+	[Parser.ENVIRONMENT__PLANAR_EMERALD_DREAM]: "Planar (Emerald Dream)",
 	[Parser.ENVIRONMENT__PLANAR_TWISTING_NETHER]: "Planar (Twisting Nether)",
 
 	[Parser.ENVIRONMENT__GROUP_PLANAR_TRANSITIVE]: "Planar (Transitive Planes)",
@@ -2926,7 +2928,10 @@ Parser.TP_MONSTROSITY = "monstrosity";
 Parser.TP_OOZE = "ooze";
 Parser.TP_PLANT = "plant";
 Parser.TP_UNDEAD = "undead";
-Parser.MON_TYPES = [Parser.TP_ABERRATION, Parser.TP_BEAST, Parser.TP_CELESTIAL, Parser.TP_CONSTRUCT, Parser.TP_DRAGON, Parser.TP_ELEMENTAL, Parser.TP_FEY, Parser.TP_FIEND, Parser.TP_GIANT, Parser.TP_HUMANOID, Parser.TP_MONSTROSITY, Parser.TP_OOZE, Parser.TP_PLANT, Parser.TP_UNDEAD];
+Parser.TP_VEHICLE = "vehicle";
+Parser.TP_SPECIAL = "special";
+Parser.MON_TYPES = [Parser.TP_ABERRATION, Parser.TP_BEAST, Parser.TP_CELESTIAL, Parser.TP_CONSTRUCT, Parser.TP_DRAGON, Parser.TP_ELEMENTAL, Parser.TP_FEY, Parser.TP_FIEND, Parser.TP_GIANT, Parser.TP_HUMANOID, Parser.TP_MONSTROSITY, Parser.TP_OOZE, Parser.TP_PLANT, Parser.TP_UNDEAD, Parser.TP_VEHICLE, Parser.TP_SPECIAL];
+Parser.MON_TYPES_STANDARD = Parser.MON_TYPES.filter(it => ![Parser.TP_VEHICLE, Parser.TP_SPECIAL].includes(it));
 Parser.MON_TYPE_TO_PLURAL = {};
 Parser.MON_TYPE_TO_PLURAL[Parser.TP_ABERRATION] = "aberrations";
 Parser.MON_TYPE_TO_PLURAL[Parser.TP_BEAST] = "beasts";
@@ -2942,6 +2947,8 @@ Parser.MON_TYPE_TO_PLURAL[Parser.TP_MONSTROSITY] = "monstrosities";
 Parser.MON_TYPE_TO_PLURAL[Parser.TP_OOZE] = "oozes";
 Parser.MON_TYPE_TO_PLURAL[Parser.TP_PLANT] = "plants";
 Parser.MON_TYPE_TO_PLURAL[Parser.TP_UNDEAD] = "undead";
+Parser.MON_TYPE_TO_PLURAL[Parser.TP_VEHICLE] = "vehicles";
+Parser.MON_TYPE_TO_PLURAL[Parser.TP_SPECIAL] = "special";
 
 Parser.SZ_FINE = "F";
 Parser.SZ_DIMINUTIVE = "D";
