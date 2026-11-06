@@ -9,6 +9,7 @@ export class PageFilterBase {
 		//   - "Deselect Prerelease Content Sources by Default"
 		//   - "Deselect Homebrew Sources by Default"
 		return PageFilterBase.defaultSourceSelFnStandardPartnered(val)
+			|| SourceUtil.getFilterGroup(val) === SourceUtil.FILTER_GROUP_UNIVERSES_BEYOND
 			|| SourceUtil.getFilterGroup(val) === SourceUtil.FILTER_GROUP_PRERELEASE
 			|| SourceUtil.getFilterGroup(val) === SourceUtil.FILTER_GROUP_HOMEBREW;
 	}
@@ -126,6 +127,10 @@ export class PageFilterBase {
 			});
 	}
 
+	static isReskin (ent) {
+		return !!ent.reskinOf?.length;
+	}
+
 	static getListAliases (ent) {
 		return (ent.alias || []).map(it => `"${it}"`).join(",");
 	}
@@ -159,6 +164,7 @@ export class PageFilterBase {
 		if (this._hasSoundClip(ent)) ent._fMisc.push("Has Pronunciation Audio");
 
 		if (this.isReprinted(ent)) ent._fMisc.push("Reprinted");
+		if (this.isReskin(ent)) ent._fMisc.push("Reskin");
 
 		if (ent.tokenCustom) ent._fMisc.push("Has Custom/Unofficial Token");
 		if (ent.tokenCredit) ent._fMisc.push("Has Token Credit");

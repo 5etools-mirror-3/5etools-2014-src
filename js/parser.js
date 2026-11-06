@@ -4017,6 +4017,11 @@ Parser.SOURCES_NON_FR = new Set([
 	Parser.SRC_LRDT,
 ]);
 
+Parser.SOURCES_UNIVERSES_BEYOND = new Set([
+	Parser.SRC_WoW,
+	Parser.SRC_ICC,
+]);
+
 // endregion
 Parser.SOURCES_AVAILABLE_DOCS_BOOK = {};
 [
