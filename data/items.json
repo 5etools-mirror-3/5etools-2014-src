@@ -2485,7 +2485,7 @@
 							"type": "item",
 							"name": "Chromatic",
 							"entries": [
-								"Whenever you use a spell slot to cast a spell that deals acid, cold, fire, lightning, or poison damage, roll a {@dice d6}, and you gain a bonus equal to the number rolled to one of the spell's damage rolls."
+								"Whenever you use a spell slot to cast a spell that deals acid, cold, fire, lightning, or poison damage, roll a {@damage d6}, and you gain a bonus equal to the number rolled to one of the spell's damage rolls."
 							]
 						},
 						{
@@ -5281,7 +5281,7 @@
 			"rarity": "none",
 			"entries": [
 				"This volatile alchemical powder comes in a small pouch. When ignited by an open flame or a fuse, the powder explodes. Each creature within 5 feet of the exploding pouch must make a {@dc 13} Dexterity saving throw, taking {@damage 3d6} bludgeoning damage on a failed save, or half as much damage on a successful one.",
-				"A character can bind multiple pouches of blasting powder together so they explode at the same time. Each additional pouch increases the damage by {@dice 1d6} (maximum of {@dice 10d6}) and the blast radius by 5 feet (maximum of 20 feet)."
+				"A character can bind multiple pouches of blasting powder together so they explode at the same time. Each additional pouch increases the damage by {@damage 1d6} (maximum of {@damage 10d6}) and the blast radius by 5 feet (maximum of 20 feet)."
 			]
 		},
 		{
@@ -12989,7 +12989,7 @@
 			"bonusAc": "+1",
 			"stealth": true,
 			"entries": [
-				"While wearing this armor, you gain a +1 bonus to AC, and you can understand and speak Abyssal. In addition, the armor's clawed gauntlets turn unarmed strikes with your hands into magic weapons that deal slashing damage, with a +1 bonus to attack and damage rolls and a damage die of {@dice 1d8}.",
+				"While wearing this armor, you gain a +1 bonus to AC, and you can understand and speak Abyssal. In addition, the armor's clawed gauntlets turn unarmed strikes with your hands into magic weapons that deal slashing damage, with a +1 bonus to attack and damage rolls and a damage die of {@damage 1d8}.",
 				{
 					"type": "entries",
 					"name": "Curse",
@@ -19839,7 +19839,7 @@
 					"type": "entries",
 					"name": "Increased Potency",
 					"entries": [
-						"While you are attuned to this weapon, its bonus on attack and damage rolls increases to +2, and a hit deals an extra {@damage 2d6} necrotic damage (instead of {@dice 1d6})."
+						"While you are attuned to this weapon, its bonus on attack and damage rolls increases to +2, and a hit deals an extra {@damage 2d6} necrotic damage (instead of {@damage 1d6})."
 					]
 				},
 				{
@@ -25116,7 +25116,7 @@
 					"type": "entries",
 					"name": "Invoking the Rune",
 					"entries": [
-						"When you make an attack with the whip and hit, you can use your reaction to invoke the whip's rune. Doing so increases the extra fire damage dealt by the whip to {@dice 2d6}.",
+						"When you make an attack with the whip and hit, you can use your reaction to invoke the whip's rune. Doing so increases the extra fire damage dealt by the whip to {@damage 2d6}.",
 						"Once the rune has been invoked, it can't be invoked again until the next dawn."
 					]
 				}
@@ -26383,7 +26383,7 @@
 								{
 									"type": "list",
 									"items": [
-										"The weapon's bonus to attack and damage rolls increases to +2, and the extra fire damage dealt by the weapon when it is ignited increases to {@dice 2d6}.",
+										"The weapon's bonus to attack and damage rolls increases to +2, and the extra fire damage dealt by the weapon when it is ignited increases to {@damage 2d6}.",
 										"The weapon's Summon Devil feature can also be used to summon a {@creature bearded devil}.",
 										"You have resistance to poison damage while holding this weapon."
 									]
@@ -26489,7 +26489,7 @@
 								{
 									"type": "list",
 									"items": [
-										"The weapon's bonus to attack and damage rolls increases to +3, and the extra fire damage dealt by the weapon when it is ignited increases to {@dice 3d6}. Fire damage dealt by the mace ignores resistance to fire damage.",
+										"The weapon's bonus to attack and damage rolls increases to +3, and the extra fire damage dealt by the weapon when it is ignited increases to {@damage 3d6}. Fire damage dealt by the mace ignores resistance to fire damage.",
 										"The weapon's Summon Devil feature can also be used to summon a {@creature barbed devil}.",
 										"You have resistance to fire damage while you hold this weapon."
 									]
@@ -30175,7 +30175,7 @@
 			"dmg1": "2d6",
 			"dmgType": "P",
 			"entries": [
-				"This unique weapon can be used only by a Medium or larger creature that has a Strength of 18 or higher. The bow shoots oversized arrows that deal piercing damage equal to {@dice 2d6} + the wielder's Strength modifier."
+				"This unique weapon can be used only by a Medium or larger creature that has a Strength of 18 or higher. The bow shoots oversized arrows that deal piercing damage equal to {@damage 2d6} + the wielder's Strength modifier."
 			],
 			"ammoType": "arrow|phb"
 		},
@@ -31981,7 +31981,7 @@
 			"rarity": "legendary",
 			"entries": [
 				"When you drink this potion, you become Huge for 24 hours if you are Medium or smaller, otherwise the potion does nothing. For that duration, your Strength becomes 25, if it isn't already higher, and your hit point maximum is doubled (your current hit points are doubled when you drink the potion). In addition, the reach of your melee attacks increases by 5 feet.",
-				"Everything you are carrying and wearing also increases in size for the duration. When rolling damage for weapons enlarged in this manner, roll three times the normal number of dice; for example, an enlarged longsword would deal {@damage 3d8} slashing damage (instead of {@dice 1d8}), or {@damage 3d10} slashing damage (instead of {@dice 1d10}) when used with two hands.",
+				"Everything you are carrying and wearing also increases in size for the duration. When rolling damage for weapons enlarged in this manner, roll three times the normal number of dice; for example, an enlarged longsword would deal {@damage 3d8} slashing damage (instead of {@damage 1d8}), or {@damage 3d10} slashing damage (instead of {@damage 1d10}) when used with two hands.",
 				"When the effect ends, any hit points you have above your hit point maximum become temporary hit points. This potion is a pale white liquid made from the tongue of a giant clam, with a pungent aroma akin to that of rotting algae. It tastes sweet, however, when consumed."
 			],
 			"miscTags": [
@@ -34183,7 +34183,7 @@
 					"type": "entries",
 					"name": "Execution",
 					"entries": [
-						"If a creature with less than its full hit points is hit by this pike, the Ranseur of Torture deals {@dice 1d10} additional piercing damage. If a creature is killed by the pike, their soul is sent to Phlegethos and can be restored only through casting a {@spell Wish} spell on the victim."
+						"If a creature with less than its full hit points is hit by this pike, the Ranseur of Torture deals {@damage 1d10} additional piercing damage. If a creature is killed by the pike, their soul is sent to Phlegethos and can be restored only through casting a {@spell Wish} spell on the victim."
 					]
 				},
 				{
@@ -40191,7 +40191,7 @@
 			"wondrous": true,
 			"entries": [
 				"Smokepowder is a magical explosive chiefly used to propel a bullet out of the barrel of a firearm. It is stored in airtight wooden kegs or tiny, waterproof leather packets. A packet contains enough smokepowder for five shots, and a keg holds enough smokepowder for five hundred shots.",
-				"If smokepowder is set on fire, dropped, or otherwise handled roughly, it explodes and deals fire damage to each creature or object within 20 feet of it: {@dice 1d6} for a packet, {@dice 9d6} for a keg. A successful {@dc 12} Dexterity saving throw halves the damage.",
+				"If smokepowder is set on fire, dropped, or otherwise handled roughly, it explodes and deals fire damage to each creature or object within 20 feet of it: {@damage 1d6} for a packet, {@damage 9d6} for a keg. A successful {@dc 12} Dexterity saving throw halves the damage.",
 				"Casting {@spell dispel magic} on smokepowder renders it permanently inert."
 			]
 		},
@@ -41594,7 +41594,7 @@
 							"type": "item",
 							"name": "Doom Foretold",
 							"entries": [
-								"As an action, you can expend 2 charges to target a creature within 30 feet of yourself and invoke that creature's doom. While the target is on the same plane of existence as you, you can sense the direction to its location, and you know the direction of its movement if it's in motion. Additionally, once per turn when you deal damage to the doomed creature, you can roll {@dice 1d6} and add the number rolled to the damage roll. These benefits persist for 1 hour or until you target another creature with this effect."
+								"As an action, you can expend 2 charges to target a creature within 30 feet of yourself and invoke that creature's doom. While the target is on the same plane of existence as you, you can sense the direction to its location, and you know the direction of its movement if it's in motion. Additionally, once per turn when you deal damage to the doomed creature, you can roll {@damage 1d6} and add the number rolled to the damage roll. These benefits persist for 1 hour or until you target another creature with this effect."
 							]
 						},
 						{
@@ -43208,7 +43208,7 @@
 							"type": "item",
 							"name": "Chromatic",
 							"entries": [
-								"Whenever you use a spell slot to cast a spell that deals acid, cold, fire, lightning, or poison damage, roll a {@dice d6}, and you gain a bonus equal to the number rolled to one of the spell's damage rolls."
+								"Whenever you use a spell slot to cast a spell that deals acid, cold, fire, lightning, or poison damage, roll a {@damage d6}, and you gain a bonus equal to the number rolled to one of the spell's damage rolls."
 							]
 						},
 						{
@@ -43653,7 +43653,7 @@
 									"type": "list",
 									"items": [
 										"Your Strength score becomes 23 if it isn't already 23 or higher.",
-										"Your Storm Avatar's lightning strike deals {@damage 4d6} lightning damage (instead of {@dice 3d6}).",
+										"Your Storm Avatar's lightning strike deals {@damage 4d6} lightning damage (instead of {@damage 3d6}).",
 										"While transformed into a Storm Avatar, you gain a flying speed of 30 feet and can hover."
 									]
 								}
@@ -43725,7 +43725,7 @@
 									"type": "list",
 									"items": [
 										"Your Strength score becomes 25 if it isn't already 25 or higher.",
-										"Your Storm Avatar's lightning strike deals {@damage 5d6} lightning damage (instead of {@dice 3d6}).",
+										"Your Storm Avatar's lightning strike deals {@damage 5d6} lightning damage (instead of {@damage 3d6}).",
 										"You can cast the {@spell control weather} spell from the girdle. This property can't be used again until the next dawn."
 									]
 								}
@@ -48921,7 +48921,7 @@
 									"type": "list",
 									"items": [
 										"You gain a climbing speed equal to your walking speed.",
-										"Your teeth become razor-sharp natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal piercing damage equal to {@dice 1d6} + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike. You can make this attack as a bonus action. When you bite a creature and deal damage to it, the creature must succeed on a {@dc 17} Constitution saving throw or be {@condition poisoned} for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the condition on itself on a success.",
+										"Your teeth become razor-sharp natural weapons, which you can use to make unarmed strikes. If you hit with them, you deal piercing damage equal to {@damage 1d6} + your Strength modifier, instead of the bludgeoning damage normal for an unarmed strike. You can make this attack as a bonus action. When you bite a creature and deal damage to it, the creature must succeed on a {@dc 17} Constitution saving throw or be {@condition poisoned} for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the condition on itself on a success.",
 										"When you cast the {@spell polymorph} spell using the Verminshroud, you can transform into a {@creature giant scorpion}."
 									]
 								}
@@ -49191,7 +49191,7 @@
 							"type": "item",
 							"name": "Chromatic",
 							"entries": [
-								"Whenever you use a spell slot to cast a spell that deals acid, cold, fire, lightning, or poison damage, roll a {@dice d6}, and you gain a bonus equal to the number rolled to one of the spell's damage rolls."
+								"Whenever you use a spell slot to cast a spell that deals acid, cold, fire, lightning, or poison damage, roll a {@damage d6}, and you gain a bonus equal to the number rolled to one of the spell's damage rolls."
 							]
 						},
 						{
