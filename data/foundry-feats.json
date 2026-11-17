@@ -28,7 +28,7 @@
 						{
 							"key": "system.attributes.ac.bonus",
 							"mode": "ADD",
-							"value": "+ 1"
+							"value": "1"
 						}
 					]
 				}
@@ -89,7 +89,7 @@
 						{
 							"key": "system.attributes.movement.walk",
 							"mode": "ADD",
-							"value": "+ 10"
+							"value": "10"
 						}
 					]
 				}
@@ -124,7 +124,7 @@
 						{
 							"key": "system.attributes.movement.walk",
 							"mode": "ADD",
-							"value": "+ 5"
+							"value": "5"
 						}
 					]
 				}
@@ -159,7 +159,7 @@
 						{
 							"key": "system.attributes.hp.bonuses.overall",
 							"mode": "ADD",
-							"value": "+(2 * @details.level)"
+							"value": "(2 * @details.level)"
 						}
 					]
 				}

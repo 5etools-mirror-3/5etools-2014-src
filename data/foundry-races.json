@@ -33,7 +33,7 @@
 						{
 							"key": "system.attributes.ac.bonus",
 							"mode": "ADD",
-							"value": "+ 1"
+							"value": "1"
 						}
 					]
 				}
@@ -2163,7 +2163,7 @@
 						{
 							"key": "system.attributes.hp.bonuses.level",
 							"mode": "ADD",
-							"value": "+ 1"
+							"value": "1"
 						}
 					]
 				}
@@ -2234,7 +2234,7 @@
 						{
 							"key": "system.attributes.init.total",
 							"mode": "ADD",
-							"value": "+ @attributes.prof"
+							"value": "@attributes.prof"
 						}
 					]
 				}
@@ -2320,7 +2320,7 @@
 						{
 							"key": "system.attributes.ac.bonus",
 							"mode": "ADD",
-							"value": "+ 1"
+							"value": "1"
 						}
 					]
 				}
@@ -2340,7 +2340,7 @@
 						{
 							"key": "system.attributes.ac.bonus",
 							"mode": "ADD",
-							"value": "+ 3"
+							"value": "3"
 						}
 					]
 				}
@@ -2360,7 +2360,7 @@
 						{
 							"key": "system.attributes.ac.bonus",
 							"mode": "ADD",
-							"value": "+ 1"
+							"value": "1"
 						}
 					]
 				}
@@ -2497,7 +2497,7 @@
 						{
 							"key": "system.attributes.ac.bonus",
 							"mode": "ADD",
-							"value": "+ 4"
+							"value": "4"
 						}
 					]
 				}
@@ -2518,7 +2518,7 @@
 						{
 							"key": "system.attributes.ac.bonus",
 							"mode": "ADD",
-							"value": "+ 1"
+							"value": "1"
 						}
 					]
 				}
