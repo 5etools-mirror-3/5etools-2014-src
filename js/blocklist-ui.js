@@ -21,29 +21,26 @@ class BlocklistUtil {
 		"bookData",
 	]);
 
-	static _BASIC_FILES = [
-		"actions.json",
-		"adventures.json",
-		"backgrounds.json",
-		"books.json",
-		"cultsboons.json",
-		"charcreationoptions.json",
-		"conditionsdiseases.json",
-		"deities.json",
-		"feats.json",
-		"items-base.json",
-		"magicvariants.json",
-		"items.json",
-		"objects.json",
-		"optionalfeatures.json",
-		"psionics.json",
-		"recipes.json",
-		"rewards.json",
-		"trapshazards.json",
-		"variantrules.json",
-		"vehicles.json",
-		"decks.json",
-		"languages.json",
+	static _BASIC_PROPS = [
+		"adventure",
+		"book",
+		"action",
+		"background",
+		"cult",
+		"charoption",
+		"condition",
+		"deity",
+		"feat",
+		"object",
+		"optionalfeature",
+		"psionic",
+		"recipe",
+		"reward",
+		"trap",
+		"variantrule",
+		"vehicle",
+		"deck",
+		"language",
 	];
 
 	static async pLoadData (
@@ -69,7 +66,10 @@ class BlocklistUtil {
 		this._addData(out, MiscUtil.copy(await DataUtil.race.loadJSON({isAddBaseRaces: true})));
 
 		(
-			await Promise.all(this._BASIC_FILES.map(url => DataUtil.loadJSON(`${Renderer.get().baseUrl}data/${url}`)))
+			await Promise.all([
+				DataUtil.item.loadRawJSON(),
+				...this._BASIC_PROPS.map(prop => DataUtil[prop].loadJSON()),
+			])
 		)
 			.forEach(json => this._addData(out, MiscUtil.copyFast(json)));
 

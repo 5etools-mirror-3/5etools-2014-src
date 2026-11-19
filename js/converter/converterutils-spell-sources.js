@@ -352,13 +352,13 @@ class _AdditionalSpellSourceRaces extends _AdditionalSpellSource {
 }
 
 class _AdditionalSpellSourceFile extends _AdditionalSpellSource {
-	constructor ({file, ...rest} = {}) {
+	constructor ({propLoader, ...rest} = {}) {
 		super({...rest});
-		this._file = file;
+		this._propLoader = propLoader;
 	}
 
 	async _pLoadData () {
-		return DataUtil.loadJSON(`./data/${this._file}`);
+		return DataUtil[this._propLoader].loadJSON();
 	}
 
 	_getPropPath (ent) { return [ent.__prop, ...this._getPropPath_nameSource(ent)]; }
@@ -369,7 +369,7 @@ class _AdditionalSpellSourceBackgrounds extends _AdditionalSpellSourceFile {
 		super({
 			...rest,
 			props: ["background"],
-			file: "backgrounds.json",
+			propLoader: "background",
 		});
 	}
 }
@@ -379,7 +379,7 @@ class _AdditionalSpellSourceCharCreationOptions extends _AdditionalSpellSourceFi
 		super({
 			...rest,
 			props: ["charoption"],
-			file: "charcreationoptions.json",
+			propLoader: "charoption",
 		});
 	}
 }
@@ -389,7 +389,7 @@ class _AdditionalSpellSourceFeats extends _AdditionalSpellSourceFile {
 		super({
 			...rest,
 			props: ["feat"],
-			file: "feats.json",
+			propLoader: "feat",
 		});
 	}
 }
@@ -399,7 +399,7 @@ class _AdditionalSpellSourceOptionalFeatures extends _AdditionalSpellSourceFile 
 		super({
 			...rest,
 			props: ["optionalfeature"],
-			file: "optionalfeatures.json",
+			propLoader: "optionalfeature",
 		});
 	}
 
@@ -413,7 +413,7 @@ class _AdditionalSpellSourceRewards extends _AdditionalSpellSourceFile {
 		super({
 			...rest,
 			props: ["reward"],
-			file: "rewards.json",
+			propLoader: "reward",
 		});
 	}
 }
