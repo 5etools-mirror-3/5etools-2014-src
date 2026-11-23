@@ -10501,7 +10501,7 @@ Renderer.monster = class {
 	/* -------------------------------------------- */
 
 	static getLegendaryActionIntro (mon, {renderer = Renderer.get(), isUseDisplayName = false, styleHint = null} = {}) {
-		return renderer.render(Renderer.monster.getLegendaryActionIntroEntry(mon, {isUseDisplayName}));
+		return renderer.render(Renderer.monster.getLegendaryActionIntroEntry(mon, {isUseDisplayName, styleHint}));
 	}
 
 	static getLegendaryActionIntroEntry (mon, {isUseDisplayName = false, styleHint = null} = {}) {
@@ -10516,9 +10516,10 @@ Renderer.monster = class {
 		const legendaryNameTitle = Renderer.monster.getShortName(mon, {isTitleCase: true, isUseDisplayName});
 		const proPossessive = Renderer.monster.getPronounPossessive(mon);
 
+		const legendaryActionsLairCondition = mon.legendaryActionsLairCondition || `in ${proPossessive} lair`;
 		return {
 			entries: [
-				`${legendaryNameTitle} can take ${legendaryActions} legendary action${legendaryActions > 1 ? "s" : ""}${legendaryActionsLair !== legendaryActions ? ` (or ${legendaryActionsLair} when in ${proPossessive} lair)` : ""}, choosing from the options below. Only one legendary action can be used at a time and only at the end of another creature's turn. ${legendaryNameTitle} regains spent legendary actions at the start of ${proPossessive} turn.`,
+				`${legendaryNameTitle} can take ${legendaryActions} legendary action${legendaryActions > 1 ? "s" : ""}${legendaryActionsLair !== legendaryActions ? ` (or ${legendaryActionsLair} when ${legendaryActionsLairCondition})` : ""}, choosing from the options below. Only one legendary action can be used at a time and only at the end of another creature's turn. ${legendaryNameTitle} regains spent legendary actions at the start of ${proPossessive} turn.`,
 			],
 		};
 	}

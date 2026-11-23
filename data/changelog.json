@@ -3301,5 +3301,10 @@
 		"ver": "1.221.8",
 		"date": "2026-11-19",
 		"txt": "- (Fixed typos/added tags)"
+	},
+	{
+		"ver": "1.221.9",
+		"date": "2026-11-23",
+		"txt": "- Fixed Adventure/Book pages navigating to wrong search result in full-text mode\n- (Brew) Added support for non-standard creature lair types\n- (Fixed typos/added tags)"
 	}
 ]
